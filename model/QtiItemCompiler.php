@@ -35,6 +35,7 @@ use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
 
 /**
  * The QTI Item Compiler
@@ -237,6 +238,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);
+        $replacementList = array();
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
                 foreach (self::$BLACKLIST as $blacklist) {
@@ -246,26 +248,39 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 }
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
-                $fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
-                $replacement = $mediaAsset->getMediaIdentifier();
-                if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
-                    $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
-                    if(isset($fileInfo['filePath'])){
-                        $filename = $fileInfo['filePath'];
-                        if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
-                            $replacement = ltrim($filename,'/');
-                        }
-                    } else {
-                        $replacement = uniqid();
-                    }
-                    $publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
-
+                $basename = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
+                $replacement = $basename;
+                $count = 0;
+                while (in_array($replacement, $replacementList)) {
+                    $dot = strrpos($basename, '.');
+                    $replacement = $dot !== false
+                        ? substr($basename, 0, $dot).'_'.$count.substr($basename, $dot)
+                        : $basename.$count;
+                    $count++;
                 }
-                $xml = str_replace($assetUrl, $replacement, $xml);
+                $replacementList[$assetUrl] = $replacement;
+                $fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
+                $publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
+                
             }
         }
         
-        $qtiParser = new Parser($xml);
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        if ($dom->loadXML($xml) === true) {
+        
+            $xpath = new \DOMXPath($dom);
+            $attributeNodes = $xpath->query('//@*');
+            unset($xpath);
+            foreach ($attributeNodes as $node) {
+                if (isset($replacementList[$node->value])) {
+                    $node->value = $replacementList[$node->value];
+                }
+            }
+        } else {
+            throw new \taoItems_models_classes_CompilationFailedException('Unable to load XML');
+        }
+
+        $qtiParser = new Parser($dom->saveXML());
         $assetRetrievedQtiItem =  $qtiParser->load();
         
          //loadxinclude
