@@ -135,7 +135,9 @@ define([
             });
 
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
-
+            
+            widget.$responseForm.trigger('initResponseForm');
+            
             formElement.initWidget(widget.$responseForm);
         },
         isCorrectDefined : function(widget){
