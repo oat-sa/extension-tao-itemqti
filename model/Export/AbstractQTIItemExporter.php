@@ -24,6 +24,8 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -73,21 +75,23 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             try{
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
-                $link = $mediaAsset->getMediaIdentifier();
-                $stream = $mediaSource->getFileStream($link);
-                $baseName = $mediaSource->getBaseName($link);
-                $replacement = $baseName;
-                $count = 0;
-                while (in_array($replacement, $replacementList)) {
-                    $dot = strrpos($baseName, '.');
-                    $replacement = $dot !== false
-                    ? substr($baseName, 0, $dot).'_'.$count.substr($baseName, $dot)
-                        : $baseName.$count;
-                    $count++;
-                }
+                if(!$mediaSource instanceof HttpSource){
+                    $link = $mediaAsset->getMediaIdentifier();
+                    $stream = $mediaSource->getFileStream($link);
+                    $baseName = ($mediaSource instanceof LocalItemSource)? $link : 'assets/'.$mediaSource->getBaseName($link);
+                    $replacement = $baseName;
+                    $count = 0;
+                    while (in_array($replacement, $replacementList)) {
+                        $dot = strrpos($baseName, '.');
+                        $replacement = $dot !== false
+                        ? substr($baseName, 0, $dot).'_'.$count.substr($baseName, $dot)
+                            : $baseName.$count;
+                        $count++;
+                    }
 
-                $replacementList[$assetUrl] = $replacement;
-                $this->addFile($stream, $basePath.'/'.$baseName);
+                    $replacementList[$assetUrl] = $replacement;
+                    $this->addFile($stream, $basePath.'/'.$baseName);
+                }
             } catch(\tao_models_classes_FileNotFoundException $e){
                 $replacementList[$assetUrl] = '';
                 $report->setMessage('Missing resource for ' . $assetUrl);
