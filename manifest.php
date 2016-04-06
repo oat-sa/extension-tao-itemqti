@@ -29,7 +29,7 @@ return array(
     'version' => '2.20.0',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
-	    'taoItems' => '>=2.6',
+	    'taoItems' => '>=2.12',
 		'tao'	   => '>=2.17'
 	),
 	'models' => array(
