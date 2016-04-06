@@ -36,6 +36,7 @@ use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
+use GuzzleHttp\Psr7\Stream;
 
 /**
  * The QTI Item Compiler
@@ -84,19 +85,10 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             $report->setMessage(__('Item "%s" is not available in any language', $item->getLabel()));
         }
         foreach ($langs as $compilationLanguage) {
-            $publicLangDir = $this->getLanguageCompilationPath($publicDirectory, $compilationLanguage);
-            if (!is_dir($publicLangDir)) {
-                if (!@mkdir($publicLangDir)) {
-                    common_Logger::e('Could not create directory ' . $publicLangDir, 'COMPILER');
-                    return $this->fail(
-                        __('Could not create language specific directory for item \'%s\'', $item->getLabel())
-                    );
-                }
-            }
 
             $privateLangDir = $this->getLanguageCompilationPath($privateDirectory, $compilationLanguage);
             if (!is_dir($privateLangDir)) {
-                if (!@mkdir($privateLangDir)) {
+                if (!@mkdir($privateLangDir, 0700, true)) {
                     common_Logger::e('Could not create directory ' . $privateLangDir, 'COMPILER');
                     return $this->fail(
                         __('Could not create language specific directory for item \'%s\'', $item->getLabel())
@@ -163,11 +155,6 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      */
     protected function deployQtiItem(core_kernel_classes_Resource $item, $language, $publicDirectory, $privateFolder)
     {
-
-        $publicLangDir = $this->getLanguageCompilationPath($publicDirectory, $language);
-//        start debugging here
-        common_Logger::d('destination original ' . $publicLangDir . ' ' . $privateFolder);
-
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
 
@@ -181,10 +168,10 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
         $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
         if (\tao_helpers_Mode::is('production')) {
-            tao_helpers_File::copy($assetPath . 'qtiLoader.min.js', $publicLangDir . 'qtiLoader.min.js', false);
+            $publicDirectory->writeStream($language.'/qtiLoader.min.js', new Stream(fopen($assetPath . 'qtiLoader.min.js','r')));
         } else {
-            tao_helpers_File::copy($assetPath . 'qtiLoader.js', $publicLangDir . 'qtiLoader.js', false);
-            tao_helpers_File::copy($assetLibPath . 'require.js', $publicLangDir . 'require.js', false);
+            $publicDirectory->writeStream($language.'/qtiLoader.js', new Stream(fopen($assetPath . 'qtiLoader.js','r')));
+            $publicDirectory->writeStream($language.'/require.js', new Stream(fopen($assetLibPath . 'require.js','r')));
         }
 
         // retrieve the media assets
@@ -201,7 +188,10 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             
             //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
             // write index.html
-            file_put_contents($publicLangDir . 'index.html', $xhtml);
+            $stream = fopen('php://temp', 'r+');
+            fwrite($stream, $xhtml);
+            fseek($stream, 0);
+            $publicDirectory->writeStream($language.'/index.html', new Stream($stream));
     
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
