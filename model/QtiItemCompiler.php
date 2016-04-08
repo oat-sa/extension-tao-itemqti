@@ -85,19 +85,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             $report->setMessage(__('Item "%s" is not available in any language', $item->getLabel()));
         }
         foreach ($langs as $compilationLanguage) {
-
-            $privateLangDir = $this->getLanguageCompilationPath($privateDirectory, $compilationLanguage);
-            if (!is_dir($privateLangDir)) {
-                if (!@mkdir($privateLangDir, 0700, true)) {
-                    common_Logger::e('Could not create directory ' . $privateLangDir, 'COMPILER');
-                    return $this->fail(
-                        __('Could not create language specific directory for item \'%s\'', $item->getLabel())
-                    );
-                }
-            }
-
-
-            $langReport = $this->deployQtiItem($item, $compilationLanguage, $publicDirectory, $privateLangDir);
+            $langReport = $this->deployQtiItem($item, $compilationLanguage, $publicDirectory, $privateDirectory);
             $report->add($langReport);
             if ($langReport->getType() == common_report_Report::TYPE_ERROR) {
                 $report->setType(common_report_Report::TYPE_ERROR);
@@ -150,17 +138,17 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      * @param core_kernel_classes_Resource $item
      * @param string $language
      * @param \tao_models_classes_service_StorageDirectory $publicDirectory
-     * @param string $privateFolder
+     * @param \tao_models_classes_service_StorageDirectory $privateDirectory
      * @return common_report_Report
      */
-    protected function deployQtiItem(core_kernel_classes_Resource $item, $language, $publicDirectory, $privateFolder)
+    protected function deployQtiItem(core_kernel_classes_Resource $item, $language, $publicDirectory, $privateDirectory)
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
 
         //copy item.xml file to private directory
         $itemFolder = $itemService->getItemFolder($item, $language);
-        tao_helpers_File::copy($itemFolder . 'qti.xml', $privateFolder . 'qti.xml', false);
+        $privateDirectory->writeStream($language.'/qti.xml', new Stream(fopen($itemFolder.'qti.xml' ,'r')));
 
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -180,8 +168,11 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
-            $serializedVariableElements = json_encode($variableElements);
-            file_put_contents($privateFolder . 'variableElements.json', $serializedVariableElements);
+            $stream = fopen('php://temp', 'r+');
+            fwrite($stream, json_encode($variableElements));
+            fseek($stream, 0);
+            $privateDirectory->writeStream($language.'/variableElements.json', new Stream($stream));
+            fclose($stream);
             
             // render item based on the modified QtiItem
             $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
