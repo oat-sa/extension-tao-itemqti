@@ -116,6 +116,7 @@ define([
             dropdownAutoWidth: true,
             placeholder: $selectBox.attr('placeholder'),
             minimumResultsForSearch: -1,
+            width: '100%',
             formatResult: formatOption,
             formatSelection: formatOption
         }).on('change', function() {
@@ -141,7 +142,7 @@ define([
         
         /**
         * Exposed methods
-        * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
+        * @type {{getSelectedChoices: choiceSelector.getSelectedChoices}}
         */
         var choiceSelector = {
             getSelectedChoices : function() {
