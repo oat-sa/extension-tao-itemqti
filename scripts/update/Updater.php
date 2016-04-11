@@ -316,6 +316,8 @@ class Updater extends \common_ext_ExtensionUpdater
             
             $this->setVersion('2.20.0');
         }
+
+        $this->skip('2.20.0', '2.21.0');
     }
 
 }
