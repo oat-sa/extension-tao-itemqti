@@ -168,21 +168,19 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
-            $stream = fopen('php://temp', 'r+');
-            fwrite($stream, json_encode($variableElements));
-            fseek($stream, 0);
-            $privateDirectory->writeStream($language.'/variableElements.json', new Stream($stream));
-            fclose($stream);
+
+            $stream = \GuzzleHttp\Psr7\stream_for(json_encode($variableElements));
+            $privateDirectory->writeStream($language.'/variableElements.json', $stream);
+            $stream->close();
             
             // render item based on the modified QtiItem
             $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
             
             //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
             // write index.html
-            $stream = fopen('php://temp', 'r+');
-            fwrite($stream, $xhtml);
-            fseek($stream, 0);
-            $publicDirectory->writeStream($language.'/index.html', new Stream($stream));
+            $stream = \GuzzleHttp\Psr7\stream_for($xhtml);
+            $publicDirectory->writeStream($language.'/index.html', $stream);
+            $stream->close();
     
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
