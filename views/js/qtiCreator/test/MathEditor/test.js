@@ -38,11 +38,7 @@ function($, MathEditor, mathJax) {
                     display: data.display
                 });
 
-            if (typeof mathJax === 'undefined') {
-                assert.ok(false, 'MathJax is not available');
-                QUnit.start();
-
-            } else {
+            if (isMathJaxAvailable()) {
                 mathEditor.setTex(data.input);
                 mathEditor.renderFromTex();
 
@@ -60,6 +56,7 @@ function($, MathEditor, mathJax) {
 
     QUnit.module('Matheditor MathML rendering');
 
+
     var texWithSpecialChars = [
         { title: 'lower than', input: 'w < y' },
         { title: 'lower than equal', input: 'x \\leq y' },
@@ -76,15 +73,10 @@ function($, MathEditor, mathJax) {
 
                 mathEditor = new MathEditor({
                     buffer: $buffer,
-                    target: $target,
-                    display: data.display
+                    target: $target
                 });
 
-            if (typeof mathJax === 'undefined') {
-                assert.ok(false, 'MathJax is not available');
-                QUnit.start();
-
-            } else {
+            if (isMathJaxAvailable()) {
                 mathEditor.setTex(data.input);
                 mathEditor.renderFromTex();
 
@@ -101,6 +93,7 @@ function($, MathEditor, mathJax) {
             }
         });
 
+
     var mathMLWithComments = [
         { title: 'plain comment', input: '<mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mi>x</mi><mo>&#x2264;<!-- ≤ --></mo><mi>w</mi></mrow></mstyle>'},
         { title: 'html-encoded comment', input: '<mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mi>x</mi><mo>&#x2264;&lt;!-- ≤ --&gt;</mo><mi>w</mi></mrow></mstyle>'}
@@ -116,15 +109,10 @@ function($, MathEditor, mathJax) {
 
                 mathEditor = new MathEditor({
                     buffer: $buffer,
-                    target: $target,
-                    display: data.display
+                    target: $target
                 });
 
-            if (typeof mathJax === 'undefined') {
-                assert.ok(false, 'MathJax is not available');
-                QUnit.start();
-
-            } else {
+            if (isMathJaxAvailable()) {
                 mathEditor.setMathML(data.input);
                 mathEditor.renderFromMathML();
 
@@ -144,6 +132,55 @@ function($, MathEditor, mathJax) {
     function doesntContainsComments(string) {
         return string.match(/<!--.*?-->/) === null && string.match(/&lt;!--.*?--&gt;/) === null;
     }
+
+
+    var mathMLWithSpecialChars = [
+        { title: 'inferior',
+            input: '<mstyle><mrow><mi>x</mi><mo><</mo><mi>y</mi></mrow></mstyle>',
+            output: '<mstyle><mrow><mi>x</mi><mo>&lt;</mo><mi>y</mi></mrow></mstyle>' },
+        { title: 'superior',
+            input: '<mstyle><mrow><mi>x</mi><mo>></mo><mi>y</mi></mrow></mstyle>',
+            output: '<mstyle><mrow><mi>x</mi><mo>&gt;</mo><mi>y</mi></mrow></mstyle>' },
+        { title: 'both',
+            input: '<mstyle><mrow><mi>x</mi><mo>></mo><mi>y</mi><mo><</mo><mi>y</mi></mrow></mstyle>',
+            output: '<mstyle><mrow><mi>x</mi><mo>&gt;</mo><mi>y</mi><mo>&lt;</mo><mi>y</mi></mrow></mstyle>' }
+    ];
+
+    QUnit
+        .cases(mathMLWithSpecialChars)
+        .asyncTest('MathML rendering encodes special chars', 1, function test(data, assert) {
+            var mathjaxRenderingDelayMs = 750,
+
+                $buffer = $('.mj-buffer'),
+                $target = $('.mj-target'),
+
+                mathEditor = new MathEditor({
+                    buffer: $buffer,
+                    target: $target
+                });
+
+            if (isMathJaxAvailable()) {
+                mathEditor.setMathML(data.input);
+                mathEditor.renderFromMathML();
+
+                setTimeout(function checkMathJaxOutput() {
+                    assert.strictEqual(mathEditor.mathML, data.output);
+
+                    QUnit.start();
+                }, mathjaxRenderingDelayMs);
+            }
+        });
+
+    function isMathJaxAvailable() {
+        if (typeof mathJax === 'undefined') {
+            QUnit.assert.ok(false, 'MathJax is not available');
+            QUnit.start();
+
+            return false;
+        }
+        return true;
+    }
+
 });
 
 

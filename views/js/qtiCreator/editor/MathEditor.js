@@ -86,9 +86,16 @@ define([
             jaxQueue.Push(
                 ["Typeset", MathJax.Hub, this.$buffer[0]],
                 function(){
+                    var $script = _this.$buffer.find('script');
+
                     _this.processing = false;
 
                     args.target.html(_this.$buffer.html());
+
+                    if ($script.length){
+                        _this.mathML = _stripMathTags($script.html());
+                    }
+
                     _this.$buffer.empty();
                 }
             );
@@ -159,8 +166,8 @@ define([
         };
 
         var _stripComments = function(mathMLstr) {
-            mathMLstr = mathMLstr.replace(/<!--.*?-->/, '');
-            mathMLstr = mathMLstr.replace(/&lt;!--.*?--&gt;/, '');
+            mathMLstr = mathMLstr.replace(/<!--.*?-->/g, '');
+            mathMLstr = mathMLstr.replace(/&lt;!--.*?--&gt;/g, '');
 
             return mathMLstr;
         };
