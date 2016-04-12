@@ -58,6 +58,92 @@ function($, MathEditor, mathJax) {
             }
         });
 
+    QUnit.module('Matheditor MathML rendering');
+
+    var texWithSpecialChars = [
+        { title: 'lower than', input: 'w < y' },
+        { title: 'lower than equal', input: 'x \\leq y' },
+        { title: 'times', input: 'x * y' }
+    ];
+
+    QUnit
+        .cases(texWithSpecialChars)
+        .asyncTest('Latex to MathML conversion strips MathJax-generated comments', 2, function test(data, assert) {
+            var mathjaxRenderingDelayMs = 750,
+
+                $buffer = $('.mj-buffer'),
+                $target = $('.mj-target'),
+
+                mathEditor = new MathEditor({
+                    buffer: $buffer,
+                    target: $target,
+                    display: data.display
+                });
+
+            if (typeof mathJax === 'undefined') {
+                assert.ok(false, 'MathJax is not available');
+                QUnit.start();
+
+            } else {
+                mathEditor.setTex(data.input);
+                mathEditor.renderFromTex();
+
+                setTimeout(function checkMathJaxOutput() {
+                    assert.ok(doesntContainsComments(mathEditor.mathML),
+                        'Error in MathEditor.mathML, expected striped comments in ' + data.input +
+                        ' but got: ' + mathEditor.mathML);
+                    assert.ok(doesntContainsComments($target.html()),
+                        'Error in MathML output, expected striped comments in ' + data.input +
+                        ' but got: ' + $target.html());
+
+                    QUnit.start();
+                }, mathjaxRenderingDelayMs);
+            }
+        });
+
+    var mathMLWithComments = [
+        { title: 'plain comment', input: '<mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mi>x</mi><mo>&#x2264;<!-- ≤ --></mo><mi>w</mi></mrow></mstyle>'},
+        { title: 'html-encoded comment', input: '<mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mi>x</mi><mo>&#x2264;&lt;!-- ≤ --&gt;</mo><mi>w</mi></mrow></mstyle>'}
+    ];
+
+    QUnit
+        .cases(mathMLWithComments)
+        .asyncTest('MathML rendering strips comments', 2, function test(data, assert) {
+            var mathjaxRenderingDelayMs = 750,
+
+                $buffer = $('.mj-buffer'),
+                $target = $('.mj-target'),
+
+                mathEditor = new MathEditor({
+                    buffer: $buffer,
+                    target: $target,
+                    display: data.display
+                });
+
+            if (typeof mathJax === 'undefined') {
+                assert.ok(false, 'MathJax is not available');
+                QUnit.start();
+
+            } else {
+                mathEditor.setMathML(data.input);
+                mathEditor.renderFromMathML();
+
+                setTimeout(function checkMathJaxOutput() {
+                    assert.ok(doesntContainsComments(mathEditor.mathML),
+                        'Error in MathEditor.mathML, expected striped comments in ' + data.input +
+                        ' but got: ' + mathEditor.mathML);
+                    assert.ok(doesntContainsComments($target.html()),
+                        'Error in MathML output, expected striped comments in ' + data.input +
+                        ' but got: ' + $target.html());
+
+                    QUnit.start();
+                }, mathjaxRenderingDelayMs);
+            }
+        });
+
+    function doesntContainsComments(string) {
+        return string.match(/<!--.*?-->/) === null && string.match(/&lt;!--.*?--&gt;/) === null;
+    }
 });
 
 
