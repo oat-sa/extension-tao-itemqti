@@ -55,6 +55,15 @@ define([
         var filesize = file.size;
         var filetype = file.type;
 
+        if (!validateFileType(file, interaction)) {
+            instructionMgr.removeInstructions(interaction);
+            instructionMgr.appendInstruction(interaction, __('Wrong type of file.'), function () {
+                this.setLevel('error');
+            });
+            instructionMgr.validateInstructions(interaction);
+            return;
+        }
+
         $container.find('.file-name').empty()
             .append(filename);
 
@@ -163,6 +172,21 @@ define([
         reader.readAsDataURL(file);
 
     };
+
+    /**
+     * Validate type of selected file
+     * @param file
+     * @param interaction
+     * @returns {boolean}
+     */
+    var validateFileType = function validateFileType (file, interaction) {
+        var expectedType = interaction.attr('type'),
+            result = true;
+        if (expectedType) {
+            result = expectedType === file.type;
+        }
+        return result;
+    }
 
     var _resetGui = function (interaction) {
         var $container = containerHelper.get(interaction);
