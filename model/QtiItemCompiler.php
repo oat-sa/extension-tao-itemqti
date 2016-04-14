@@ -179,7 +179,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
             // write index.html
             $stream = \GuzzleHttp\Psr7\stream_for($xhtml);
-            $publicDirectory->writeStream($language.'/index.html', $stream);
+            $publicDirectory->writeStream($language.'/index.html', $stream, 'text/html');
             $stream->close();
     
             return new common_report_Report(
