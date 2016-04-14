@@ -41,7 +41,7 @@ define([
         constraints: {
             minOperand: -1,
             maxOperand: -1,
-            cardinality: ['single'],
+            cardinality: ['single', 'multiple'],
             baseType: ['identifier', 'boolean', 'integer', 'float', 'string', 'point', 'pair', 'directedPair', 'duration', 'file', 'uri', 'intOrIdentifier']
         },
 
