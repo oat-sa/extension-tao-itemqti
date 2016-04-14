@@ -29,12 +29,13 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCreator/helper/uploadMime',
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
     'ui/waitForMedia',
     'filereader'
-], function ($, _, __, context, tpl, containerHelper, instructionMgr) {
+], function ($, _, __, context, tpl, containerHelper, instructionMgr, uploadHelper) {
     'use strict';
 
     //FIXME this response is global to the app, it must be linked to the interaction!
@@ -57,7 +58,10 @@ define([
 
         if (!validateFileType(file, interaction)) {
             instructionMgr.removeInstructions(interaction);
-            instructionMgr.appendInstruction(interaction, __('Wrong type of file.'), function () {
+            var expectedType = _.find(uploadHelper.getMimeTypes(), {mime : interaction.attr('type')}),
+                message = __('Wrong type of file. Expected %s', expectedType ? expectedType.label : interaction.attr('type'));
+
+            instructionMgr.appendInstruction(interaction, message, function () {
                 this.setLevel('error');
             });
             instructionMgr.validateInstructions(interaction);
@@ -351,9 +355,11 @@ define([
      * in tao/views/js/ui/previewer.js
      */
     var getCustomData = function (interaction, data) {
-        return _.merge(data || {}, {
-            isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0
+        var data = _.merge(data || {}, {
+            isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0,
+            accept : interaction.attr('type') || undefined
         });
+        return data;
     };
 
     return {
