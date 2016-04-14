@@ -29,13 +29,12 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCreator/helper/uploadMime',
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
     'ui/waitForMedia',
     'filereader'
-], function ($, _, __, context, tpl, containerHelper, instructionMgr, uploadHelper) {
+], function ($, _, __, context, tpl, containerHelper, instructionMgr) {
     'use strict';
 
     //FIXME this response is global to the app, it must be linked to the interaction!
@@ -58,9 +57,7 @@ define([
 
         if (!validateFileType(file, interaction)) {
             instructionMgr.removeInstructions(interaction);
-            var expectedType = _.find(uploadHelper.getMimeTypes(), {mime : interaction.attr('type')}),
-                message = __('Wrong type of file. Expected %s', expectedType ? expectedType.label : interaction.attr('type'));
-
+            var message = __('Wrong type of file. Expected %s', interaction.attr('type'));
             instructionMgr.appendInstruction(interaction, message, function () {
                 this.setLevel('error');
             });
