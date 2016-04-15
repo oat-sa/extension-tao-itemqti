@@ -94,6 +94,7 @@ define([
 
                 var currentExpression,
                     currentProcessor,
+
                     result;
 
                 var baseExpression = expression.qtiClass;
@@ -116,18 +117,21 @@ define([
                         pushSubExpressions(currentExpression);
 
                     } else if (isMarked(currentExpression)){
+
                         // Operator, second pass. Process it.
                         currentProcessor = processorFactory(currentExpression, state, popOperands(currentExpression));
                         result = currentProcessor.process();
 
-                        if (currentExpression.qtiClass !== baseExpression) {
-                            operands.push(result);
-                        }
+                        //add the result to the operand stack
+                        operands.push(result);
+
                     } else {
+
                         // Simple expression, process it.
                         currentProcessor = processorFactory(currentExpression, state);
                         result = currentProcessor.process();
 
+                        //add the result to the operand stack
                         operands.push(result);
                     }
                 }

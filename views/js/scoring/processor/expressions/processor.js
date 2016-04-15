@@ -67,6 +67,7 @@ define([
         processor.expression    = expression;
         processor.preProcessor  = preProcessorFactory(state);
         processor.state         = state;
+        processor.name          = name;
 
         //validate operators
         if(processor.operands && processor.constraints){
