@@ -183,7 +183,7 @@ define([
      * @param interaction
      * @returns {boolean}
      */
-    var validateFileType = function validateFileType (file, interaction) {
+    function validateFileType (file, interaction) {
         var expectedType = interaction.attr('type'),
             result = true;
         if (expectedType) {
@@ -254,8 +254,6 @@ define([
     };
 
     var resetResponse = function (interaction) {
-
-        var $container = containerHelper.get(interaction);
         _resetGui(interaction);
     };
 
@@ -354,8 +352,8 @@ define([
      * This way we could cover a lot more types. How could this be matched with the preview templates
      * in tao/views/js/ui/previewer.js
      */
-    var getCustomData = function (interaction, data) {
-        var data = _.merge(data || {}, {
+    function getCustomData (interaction, data) {
+        data = _.merge(data || {}, {
             isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0,
             accept : interaction.attr('type') || undefined
         });
