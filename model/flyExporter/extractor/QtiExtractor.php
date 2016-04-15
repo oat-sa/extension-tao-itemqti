@@ -405,6 +405,17 @@ class QtiExtractor implements Extractor
     }
 
     /**
+     * Callback to retrieve interaction response identifier
+     *
+     * @param $interaction
+     * @return mixed
+     */
+    public function getReponseIdentifier($interaction)
+    {
+        return $interaction['responseIdentifier'];
+    }
+
+    /**
      * Get human readable declaration class
      * @return string
      */
