@@ -410,7 +410,7 @@ class QtiExtractor implements Extractor
      * @param $interaction
      * @return mixed
      */
-    public function getReponseIdentifier($interaction)
+    public function getResponseIdentifier($interaction)
     {
         return $interaction['responseIdentifier'];
     }
