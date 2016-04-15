@@ -323,12 +323,16 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('2.21.0')) {
             $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
             $columns = $simpleExporter->getOption('columns');
-            $columns['responseIdentifier'] = array (
+            $responseIdentifier['responseIdentifier'] = array (
                 'extractor' => 'QtiExtractor',
                 'parameters' => array (
                     'callback' => 'getResponseIdentifier',
                 )
             );
+
+            $offset = array_search('BR', array_keys($columns));
+            $columns = array_slice($columns, 0, $offset, true) + $responseIdentifier + array_slice($columns, $offset, NULL, true);
+
             $simpleExporter->setOption('columns', $columns);
             $simpleExporter->setServiceManager($this->getServiceManager());
             $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
