@@ -71,7 +71,7 @@ define([
 
         this.itemUri = config.uri;
 
-        this.initUiComponents();
+        //this.initUiComponents();
 
         this.initTextWidgets(function(){
 

@@ -297,7 +297,7 @@ use oat\tao\helpers\Template;
 <script>
 requirejs.config({
    config: {
-       'taoQtiItem/controller/creator/main' : <?= json_encode(get_data('config')) ?>
-   } 
+       'taoQtiItem/controller/creator/index' : <?= json_encode(get_data('config')) ?>
+   }
 });
 </script>

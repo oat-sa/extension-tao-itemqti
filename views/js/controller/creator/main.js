@@ -114,25 +114,26 @@ define([
 
     return {
         /**
-         *
          * @param {object} _config (baseUrl, uri, lang)
          */
         start : function(_config){
-            
-            var config, 
+
+            var config,
                 configProperties,
                 //references to useful dom element
                 $doc = $(document),
                 $editorScope = $('#item-editor-scope'),
                 $itemContainer = $('#item-editor-scroll-inner'),
                 $propertySidebar = $('#item-editor-item-widget-bar');
-            
+
             //first all, start loading bar
-            loadingBar.start();
-            
+            //loadingBar.start();
+
             //init config
             config = _.merge({}, _config || {},  module.config() || {});
-            
+
+            console.log(config);
+
             //reinitialize the renderer:
             creatorRenderer.get(true, config);
 
@@ -211,7 +212,6 @@ define([
                         item.data('uri', configProperties.uri);
 
                         callback(null, item);
-
                     });
                 }
             ], function(err, res){
@@ -226,6 +226,7 @@ define([
                 if(config.properties['multi-column']){
                     _initializeElementAdder(item, configProperties.dom.getItemPanel(), interactionHooks);
                 }
+
 
                 //load creator renderer
                 creatorRenderer
@@ -251,7 +252,7 @@ define([
                                 }
                             });
 
-                            editor.initGui(widget, configProperties);
+                            //editor.initGui(widget, configProperties);
                             panel.initSidebarAccordion($propertySidebar);
                             panel.initFormVisibilityListener();
 

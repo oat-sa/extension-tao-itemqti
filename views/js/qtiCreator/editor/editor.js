@@ -29,6 +29,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
+
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
     // item related
@@ -246,8 +247,7 @@ define([
         var $itemEditorPanel = $('#item-editor-panel');
         var $itemSidebars = $('.item-editor-sidebar');
         var $contentPanel = $('#panel-authoring');
-        var /*$searchBar,
-            searchBarHeight,*/
+        var
             footerTop,
             contentWrapperTop,
             remainingHeight;
@@ -255,9 +255,6 @@ define([
         if (!$contentPanel.length || !$itemEditorPanel.length) {
             return;
         }
-
-        //$searchBar = $contentPanel.find('.search-action-bar');
-        //searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
 
         footerTop = (function() {
             var $footer = $('body > footer'),
@@ -270,16 +267,16 @@ define([
         contentWrapperTop = $contentPanel.offset().top;
         remainingHeight = footerTop - contentWrapperTop - $('.item-editor-action-bar').outerHeight();
 
-
         // in the item editor the action bars are constructed slightly differently
         $itemEditorPanel.find('#item-editor-scroll-outer').css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
         $itemSidebars.css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
     };
 
-    return {
-        initGui : initGui,
-        initPreview: initPreview
-    };
+    //return {
+        //initGui : initGui,
+        //initPreview: initPreview
+    //};
+
 
 });
 
