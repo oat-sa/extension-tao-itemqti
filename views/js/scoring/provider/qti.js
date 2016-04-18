@@ -267,7 +267,7 @@ define([
                 });
 
             } else {
-                errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
+                errorHandler.throw('scoring', new Error('The item ' + itemData.identifier + ' has not responseProcessing'));
                 done(stateToPci(state));
             }
 
