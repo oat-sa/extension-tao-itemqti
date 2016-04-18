@@ -317,9 +317,8 @@ class QtiExtractor implements Extractor
         $first = strpos($value, '>')+1;
         $last = strrpos($value, '<')-$first;
         $value = substr($value, $first, $last);
-        $value = strval($value);
-
-        return $value;
+        $value = str_replace('"', "'", $value);
+        return trim($value);
     }
 
     /**
@@ -334,7 +333,7 @@ class QtiExtractor implements Extractor
         $return = [];
         if (isset($interaction['responses'])) {
             foreach ($interaction['responses'] as $response) {
-                $allResponses = explode(' ', $response);
+                $allResponses = explode(' ', trim($response));
                 $returnResponse = [];
 
                 foreach ($allResponses as $partialResponse) {
@@ -348,7 +347,9 @@ class QtiExtractor implements Extractor
                     }
                     */
                 }
-                $return[] = implode(' ', $returnResponse);
+                if (!empty($returnResponse)) {
+                    $return[] = implode(' - ', $returnResponse);
+                }
             }
         }
         if (isset($params['delimiter'])) {
