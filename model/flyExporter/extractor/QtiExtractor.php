@@ -263,10 +263,12 @@ class QtiExtractor implements Extractor
                 $interaction['responseIdentifier'] = $interactionNode->item($i)->getAttribute('responseIdentifier');
                 $rightAnswer = $this->xpath->query('./qti:responseDeclaration[@identifier="' . $interaction['responseIdentifier'] . '"]');
                 if ($rightAnswer->length > 0) {
-                    $answers = trim($rightAnswer->item(0)->textContent);
+                    $answers = $rightAnswer->item(0)->textContent;
                     if (!empty($answers)) {
                         foreach(explode(PHP_EOL, $answers) as $answer) {
-                            $interaction['responses'][] = trim($answer);
+                            if (trim($answer)!=='') {
+                                $interaction['responses'][] = $answer;
+                            }
                         }
                     }
                 }
@@ -284,7 +286,8 @@ class QtiExtractor implements Extractor
                 if (!empty($choiceNode) && $choiceNode->length > 0) {
                     for($j=0 ; $j < $choiceNode->length ; $j++) {
                         $identifier = $choiceNode->item($j)->getAttribute('identifier');
-                        $value = preg_replace('/\s+/', '', $choiceNode->item($j)->nodeValue);
+                        $value = $this->sanitizeNodeToValue($this->dom->saveHtml($choiceNode->item($j)));
+
                         //Image
                         if ($value==='') {
                             $imgNode = $this->xpath->query('./qti:img/@src', $choiceNode->item($j));
@@ -300,6 +303,23 @@ class QtiExtractor implements Extractor
             }
         }
         return $this;
+    }
+
+    /**
+     * Remove first and last xml tag from string
+     * Transform variable to string value
+     *
+     * @param $value
+     * @return string
+     */
+    protected function sanitizeNodeToValue($value)
+    {
+        $first = strpos($value, '>')+1;
+        $last = strrpos($value, '<')-$first;
+        $value = substr($value, $first, $last);
+        $value = strval($value);
+
+        return $value;
     }
 
     /**
