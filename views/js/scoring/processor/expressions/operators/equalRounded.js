@@ -59,7 +59,8 @@ define([
          */
         process : function(){
 
-            var roundingMode = this.expression.attributes.roundingMode;
+            var attributes   = this.expression.attributes || {};
+            var roundingMode = attributes.roundingMode || 'significantFigures';
             var roundingEngine = _.isFunction(this.engines[roundingMode]) ? this.engines[roundingMode] : this.engines.significantFigures;
             var figures = this.preProcessor.parseValue(this.expression.attributes.figures, 'integerOrVariableRef');
 
