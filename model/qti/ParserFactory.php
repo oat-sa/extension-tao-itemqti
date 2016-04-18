@@ -577,7 +577,7 @@ class ParserFactory
     }
     
     protected function buildApipAccessibility(DOMElement $data){
-        $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']", $data);
+        $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']|*[name(.) = 'apip:apipAccessibility']", $data);
         if($ApipNodes->length > 0){
             common_Logger::i('is APIP item', array('QTI', 'TAOITEMS'));
             $apipNode = $ApipNodes->item(0);
