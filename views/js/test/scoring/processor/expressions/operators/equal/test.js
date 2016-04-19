@@ -21,6 +21,29 @@ define([
         }
     });
 
+   QUnit.test('Default values', function(assert){
+        QUnit.expect(1);
+
+        var result = {
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : true
+        };
+        equalProcessor.expression = {};
+        equalProcessor.operands   = [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '1'
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : '1'
+        }];
+
+        equalProcessor.preProcessor = preProcessorFactory({});
+        assert.deepEqual(equalProcessor.process(), result, 'The equal is correct');
+    });
+
     QUnit.asyncTest('Fails if no tolerance is given when mode is relative', function(assert){
         QUnit.expect(1);
 
