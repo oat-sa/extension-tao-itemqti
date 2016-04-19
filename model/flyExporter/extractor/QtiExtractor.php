@@ -156,7 +156,6 @@ class QtiExtractor implements Extractor
         }
         $this->data = $line;
         $this->columns = $this->interactions = [];
-
         return $this;
     }
 
@@ -330,26 +329,25 @@ class QtiExtractor implements Extractor
      */
     public function getRightAnswer($interaction, $params)
     {
-        $return = [];
+        $return = ['BR_identifier' => [], 'BR_label'=>[]];
         if (isset($interaction['responses'])) {
             foreach ($interaction['responses'] as $response) {
                 $allResponses = explode(' ', trim($response));
-                $returnResponse = [];
+                $returnLabel = [];
+                $returnIdentifier = [];
 
                 foreach ($allResponses as $partialResponse) {
-                    $returnResponse[] = $partialResponse;
-                    /*
                     if (isset($interaction['choices'][$partialResponse])
                         && $interaction['choices'][$partialResponse]!=='') {
-                        $returnResponse[] = $interaction['choices'][$partialResponse];
+                        $returnLabel[] = $interaction['choices'][$partialResponse];
                     } else {
-                        $returnResponse[] = $partialResponse;
+                        $returnLabel[] = '';
                     }
-                    */
+                    $returnIdentifier[] = $partialResponse;
                 }
-                if (!empty($returnResponse)) {
-                    $return[] = implode(' - ', $returnResponse);
-                }
+
+                $return['BR_identifier'][] = implode(' ', $returnIdentifier);
+                $return['BR_label'][] = implode(' ', $returnLabel);
             }
         }
         if (isset($params['delimiter'])) {
@@ -357,7 +355,11 @@ class QtiExtractor implements Extractor
         } else {
             $delimiter = self::DEFAULT_PROPERTY_DELIMITER;
         }
-        return implode($delimiter, $return);
+
+        $return['BR_identifier'] = implode($delimiter, $return['BR_identifier']);
+        $return['BR_label'] = implode($delimiter, $return['BR_label']);
+
+        return $return;
     }
 
     /**
@@ -388,18 +390,14 @@ class QtiExtractor implements Extractor
         if (isset($interaction['choices'])) {
             $i = 1;
             foreach ($interaction['choices'] as $identifier => $choice) {
-
-                if ($choice!=='') {
-                    $return['choice_' . $i] = $choice;
-                } else {
-                    $return['choice_' . $i] = $identifier;
-                }
-
+                $return['choice_identifier_' . $i] = $identifier;
+                $return['choice_label_' . $i] = ($choice) ?: '';
                 $i++;
             }
             if ($this->headerChoice > count($return)) {
                 while ($this->headerChoice > count($return)) {
-                    $return['choice_' . $i] = '';
+                    $return['choice_identifier_' . $i] = '';
+                    $return['choice_label_' . $i] = '';
                     $i++;
                 }
             } else {
