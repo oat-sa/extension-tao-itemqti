@@ -46,7 +46,7 @@ define([
                 { "mime" : "application/msword", "label" : __("Microsoft Word") },
                 { "mime" : "application/vnd.ms-excel", "label" : __("Microsoft Excel") },
                 { "mime" : "application/vnd.ms-powerpoint", "label" : __("Microsoft Powerpoint") }
-            ]
+            ];
         }
     };
 
