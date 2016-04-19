@@ -318,6 +318,24 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('2.20.0', '2.21.0');
-    }
 
+        if ($this->isVersion('2.21.0')) {
+            $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $columns = $simpleExporter->getOption('columns');
+            $columns['BR'] = array (
+                'extractor' => 'QtiExtractor',
+                'parameters' => array(
+                    'callback' => 'getRightAnswer',
+                    'callbackParameters' => array(
+                        'delimiter' => '|',
+                    ),
+                    'valuesAsColumns' => true
+                )
+            );
+            $simpleExporter->setOption('columns', $columns);
+            $simpleExporter->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
+            $this->setVersion('2.22.0');
+        }
+    }
 }
