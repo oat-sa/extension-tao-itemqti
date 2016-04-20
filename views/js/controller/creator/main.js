@@ -132,7 +132,6 @@ define([
             //init config
             config = _.merge({}, _config || {},  module.config() || {});
 
-            console.log(config);
 
             //reinitialize the renderer:
             creatorRenderer.get(true, config);

@@ -24,8 +24,9 @@ define([
     'ui/feedback',
     'layout/loading-bar',
     'taoQtiItem/qtiCreator/itemCreator',
-    'taoQtiItem/qtiCreator/editor/areaBroker'
-], function($, _, module, Promise, feedback, loadingBar, itemCreatorFactory, areaBrokerFactory){
+    'taoQtiItem/qtiCreator/editor/areaBroker',
+    'taoQtiItem/qtiCreator/plugins/loader'
+], function($, _, module, Promise, feedback, loadingBar, itemCreatorFactory, areaBrokerFactory, pluginLoader){
     'use strict';
 
     /**
@@ -53,27 +54,26 @@ define([
             //TODO move module config away from controllers
             var config = module.config();
 
+            var reportError = function reportError(err){
+                loadingBar.stop();
+                window.console.error(err);
+                feedback().error(err.message);
+            };
 
-            itemCreatorFactory(config, loadAreaBroker())
-                .on('error', function(err){
-                    feedback().error(err.message);
-                })
-                .on('init', function(){
+            loadingBar.start();
 
-                    feedback().info('init');
+            pluginLoader.load().then(function(){
 
-                })
-                .on('render', function(){
-
-                    feedback().info('render');
-                })
-
-                .init();
-
-
+                itemCreatorFactory(config, loadAreaBroker(), pluginLoader.getPlugins())
+                    .on('error', reportError)
+                    .on('render', function(){
+                        loadingBar.stop();
+                    })
+                    .init();
+            })
+            .catch(reportError);
 
         }
-
     };
 
     return indexController;

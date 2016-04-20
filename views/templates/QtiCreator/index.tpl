@@ -17,12 +17,6 @@ use oat\tao\helpers\Template;
 <div class="item-editor-sidebar-wrapper left-bar">
     <div class="action-bar plain content-action-bar horizontal-action-bar">
         <ul class="action-group plain clearfix authoring-back-box item-editor-menu">
-            <li id="authoringBack" class="btn-info small">
-            <span class="li-inner">
-                <span class="icon-left"></span>
-                <?= __('Manage Items') ?>
-            </span>
-            </li>
         </ul>
     </div>
     <form class="item-editor-sidebar" id="item-editor-interaction-bar" autocomplete="off"></form>
@@ -32,7 +26,7 @@ use oat\tao\helpers\Template;
 <main id="item-editor-panel" class="clearfix">
     <div class="item-editor-action-bar action-bar plain content-action-bar horizontal-action-bar">
         <ul class="plain item-editor-menu action-group">
-
+        <!--
             <li id="save-trigger" class="btn-info small">
             <span class="li-inner">
                 <span class="icon-save"></span>
@@ -50,7 +44,7 @@ use oat\tao\helpers\Template;
                 <span class="icon-print"></span>
                 <?= __('Print') ?>
             </span>
-            </li>
+            </li>-->
         </ul>
         <div id="item-editor-label" class="truncate action-group"></div>
     </div>

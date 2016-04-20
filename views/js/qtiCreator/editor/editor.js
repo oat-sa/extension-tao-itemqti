@@ -86,6 +86,8 @@ define([
      * Limit the size of the editor panel. This addresses an issue in which a
      * too large image would expand the editor panel to accommodate for the size
      * of the image.
+     *
+     * TODO replace this by flexboxes
      */
     function limitItemPanelWidth () {
         var itemEditorPanel = document.getElementById('item-editor-panel'),
@@ -241,6 +243,7 @@ define([
 
     /**
      * Update the height of the authoring tool
+     * TODO replace this by flexboxes
      * @private
      */
     var updateHeight = function updateHeight(){

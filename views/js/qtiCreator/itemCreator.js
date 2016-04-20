@@ -17,6 +17,7 @@
  *
  */
 define([
+    'jquery',
     'lodash',
     'module',
     'core/eventifier',
@@ -29,14 +30,23 @@ define([
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/interactionsPanel',
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
+    'taoQtiItem/qtiCreator/editor/editorSizer',
+    'taoQtiItem/qtiCreator/model/helper/event',
 
-], function(_, module, eventifier, Promise,
+], function($, _, module, eventifier, Promise,
             ciRegistry, icRegistry, itemLoader,
             creatorRenderer, commonRenderer, xincludeRenderer,
-            interactionPanel, propertiesPanel){
-
+            interactionPanel, propertiesPanel, editorSizer,
+            eventHelper){
     'use strict';
 
+
+    /**
+     * Register QTI portable elements
+     * @param {Object} registry
+     * @param {Array} elements - the elements to register
+     * @returns {Promise}
+     */
     var register = function register(registry, elements){
         if(!_.isArray(elements) || elements.length <= 0){
             return Promise.resolve();
@@ -50,6 +60,12 @@ define([
         });
     };
 
+    /**
+     * Load an item
+     * @param {String} uri - the item URI
+     * @param {String} label - the item label
+     * @returns {Promise} that resolve with the loaded item model
+     */
     var loadItem = function loadItem(uri, label){
         return new Promise(function(resolve, reject){
             itemLoader.loadItem({uri : uri, label : label}, function(item){
@@ -61,7 +77,9 @@ define([
                 //$editorScope.data('item', item);
 
                 //fires event itemloaded
-                //$doc.trigger('itemloaded.qticreator', [item]);
+                //
+                //?? seems unused
+                //$(document).trigger('itemloaded.qticreator', [item]);
 
                 //set useful data :
                 item.data('uri', uri);
@@ -70,39 +88,74 @@ define([
         });
     };
 
-    var itemCreatorFactory = function itemCreatorFactory(config, areaBroker){
+    var itemCreatorFactory = function itemCreatorFactory(config, areaBroker, pluginFactories){
 
-        //TODO check config
+        var itemCreator;
+        var plugins = {};
 
-        var itemCreator = eventifier({
+        /**
+         * Run a method in all plugins
+         *
+         * @param {String} method - the method to run
+         * @returns {Promise} once that resolve when all plugins are done
+         */
+        var pluginRun =  function pluginRun(method){
+            var execStack = [];
 
+            _.forEach(plugins, function (plugin){
+                if(_.isFunction(plugin[method])){
+                    execStack.push(plugin[method]());
+                }
+            });
 
+            return Promise.all(execStack);
+        };
+
+        if(!_.isPlainObject(config)){
+            throw new TypeError('The item creator configuration is required');
+        }
+        if(!config.properties || _.isEmpty(config.properties.uri) || _.isEmpty(config.properties.label) || _.isEmpty(config.properties.baseUrl)){
+            throw new TypeError('The creator configuration must contains the required properties triples: uri, label and baseUrl');
+        }
+        if(!areaBroker){
+            throw new TypeError('Without an areaBroker there are no chance to see something you know');
+        }
+
+        itemCreator = eventifier({
 
             init: function init(){
                 var self = this;
 
+                //instantiate the plugins first
+                _.forEach(pluginFactories, function(pluginFactory, pluginName){
+                    var plugin = pluginFactory(self, areaBroker);
+                    plugins[plugin.getName()] = plugin;
+                });
 
-
+                //performs the loadings in parrallel
                 Promise.all([
                     register(ciRegistry, config.interactions),
                     register(icRegistry, config.infoControls),
                     loadItem(config.properties.uri, config.properties.label)
                 ]).then(function(results){
-                    var customInterations,
-                        infoControls;
 
                     if(_.isArray(results) && results.length === 3){
 
-                        //initialize the interaction panel
-                        interactionPanel(areaBroker.getInteractionPanelArea(), results[0] || {});
-
-                        infoControls      = results[1];
-                        if(_.isObject(results[2])){
-                            self.trigger('init', results[2]);
-                            self.render(results[2]);
-                        } else {
+                        self.customInterations = results[0] || {};
+                        self.infoControls      = results[1] || {};
+                        if(! _.isObject(results[2])){
                             self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
+                            return;
                         }
+
+                        self.item = results[2];
+
+                        //initialize all the plugins
+                        return pluginRun('init').then(function(){
+                            self.trigger('init', self.item);
+                            self.render();
+                        });
+
                     }
                 }).catch(function(err){
                     self.trigger('error', err);
@@ -110,8 +163,9 @@ define([
             },
 
 
-            render : function render(item){
+            render : function render(){
                 var self = this;
+                var item = this.getItem();
 
                 if(!item || !_.isFunction(item.getUsedClasses)){
                     return this.trigger('error', new Error('We need an item to render.'));
@@ -145,8 +199,11 @@ define([
                                 }
                             });
 
+                            //initialize the panels
+                            interactionPanel(areaBroker.getInteractionPanelArea(), self.customInterations);
                             propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
 
+                            editorSizer();
                             //editor.initGui(widget, configProperties);
 
 
@@ -154,18 +211,31 @@ define([
                             //$editorScope.data('widget', item);
 
                             //fires event itemloaded
+                            //
+                            //
+                            //?? seems unused
                             //$doc.trigger('widgetloaded.qticreator', [widget]);
 
                             //init event listeners:
-                            //event.initElementToWidgetListeners();
-                            //
-                            self.trigger('render');
+                            eventHelper.initElementToWidgetListeners();
+
+                            return pluginRun('render').then(function(){
+                                self.trigger('render');
+                            });
                         })
                         .catch(function(err){
                             self.trigger('error', err);
                         });
 
                     }, item.getUsedClasses());
+            },
+
+            destroy : function destroy(){
+
+            },
+
+            getItem : function getItem(){
+                return this.item;
             }
         });
 

@@ -152,9 +152,9 @@ img.dragging.ui-draggable-dragging {
     .action-bar {
         position: relative;
         z-index: 15;
-        .action-group {
-            display:none;
-        }
+        /*.action-group {*/
+            /*display:none;*/
+        /*}*/
     }
 }
 
@@ -186,7 +186,7 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
-#authoringBack {
+.back-action {
     span {
         position: relative;
         top: -1px;
