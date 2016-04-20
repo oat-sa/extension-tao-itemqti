@@ -74,7 +74,7 @@ define([
                 baseType : 'boolean'
             };
 
-            var attributes          = this.expression.attributes;
+            var attributes          = this.expression.attributes || {};
             var toleranceMode       = attributes.toleranceMode || 'exact';
             var engine              = this.engines[toleranceMode];
             var tolerance           = attributes.tolerance ? attributes.tolerance.toString().split(' ') : [];

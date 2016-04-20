@@ -29,12 +29,13 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCommonRenderer/helpers/uploadMime',
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
     'ui/waitForMedia',
     'filereader'
-], function ($, _, __, context, tpl, containerHelper, instructionMgr) {
+], function ($, _, __, context, tpl, containerHelper, instructionMgr, uploadHelper) {
     'use strict';
 
     //FIXME this response is global to the app, it must be linked to the interaction!
@@ -54,6 +55,18 @@ define([
         var filename = file.name;
         var filesize = file.size;
         var filetype = file.type;
+
+        if (!validateFileType(file, interaction)) {
+            instructionMgr.removeInstructions(interaction);
+            var expectedType = _.find(uploadHelper.getMimeTypes(), {mime : interaction.attr('type')}),
+                message = __('Wrong type of file. Expected %s', expectedType ? expectedType.label : interaction.attr('type'));
+
+            instructionMgr.appendInstruction(interaction, message, function () {
+                this.setLevel('error');
+            });
+            instructionMgr.validateInstructions(interaction);
+            return;
+        }
 
         $container.find('.file-name').empty()
             .append(filename);
@@ -164,6 +177,21 @@ define([
 
     };
 
+    /**
+     * Validate type of selected file
+     * @param file
+     * @param interaction
+     * @returns {boolean}
+     */
+    function validateFileType (file, interaction) {
+        var expectedType = interaction.attr('type'),
+            result = true;
+        if (expectedType) {
+            result = expectedType === file.type;
+        }
+        return result;
+    }
+
     var _resetGui = function (interaction) {
         var $container = containerHelper.get(interaction);
         $container.find('.file-name').text(__('No file selected'));
@@ -226,8 +254,6 @@ define([
     };
 
     var resetResponse = function (interaction) {
-
-        var $container = containerHelper.get(interaction);
         _resetGui(interaction);
     };
 
@@ -326,10 +352,12 @@ define([
      * This way we could cover a lot more types. How could this be matched with the preview templates
      * in tao/views/js/ui/previewer.js
      */
-    var getCustomData = function (interaction, data) {
-        return _.merge(data || {}, {
-            isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0
+    function getCustomData (interaction, data) {
+        data = _.merge(data || {}, {
+            isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0,
+            accept : interaction.attr('type') || undefined
         });
+        return data;
     };
 
     return {

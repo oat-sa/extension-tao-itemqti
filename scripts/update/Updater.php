@@ -22,6 +22,11 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\taoQtiItem\install\scripts\addValidationSettings;
+use oat\taoQtiItem\install\scripts\createExportDirectory;
+use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
+use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
+use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
+use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -253,13 +258,66 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.2');
         }
 
-		if($this->isVersion('2.17.2')){
-			$this->setVersion('2.17.3');
-		}
-        
-        if($this->isVersion('2.17.3')){
-			$this->setVersion('2.18.0');
-		}
+		$this->skip('2.17.2', '2.19.0');
+
+        if ($this->isVersion('2.19.0')) {
+
+            if (!$this->getServiceManager()->has(SimpleExporter::SERVICE_ID)) {
+                $service = new ItemExporter(array(
+                    'fileSystem' => 'taoQtiItem',
+                    'fileLocation' => 'export' . DIRECTORY_SEPARATOR . 'export.csv',
+                    'extractors' => array (
+                        'OntologyExtractor' => new OntologyExtractor(),
+                        'QtiExtractor' => new QtiExtractor()
+                    ),
+                    'columns' => array (
+                        'label' => array (
+                            'extractor' => 'OntologyExtractor',
+                            'parameters' => array (
+                                'property' => RDFS_LABEL
+                            )
+                        ),
+                        'type' => array (
+                            'extractor' => 'QtiExtractor',
+                            'parameters' => array (
+                                'callback' => 'getInteractionType'
+                            )
+                        ),
+                        'nb choice' => array (
+                            'extractor' => 'QtiExtractor',
+                            'parameters' => array (
+                                'callback' => 'getNumberOfChoices'
+                            )
+                        ),
+                        'BR' => array (
+                            'extractor' => 'QtiExtractor',
+                            'parameters' => array (
+                                'callback' => 'getRightAnswer',
+                                'callbackParameters' => array(
+                                    'delimiter' => '|'
+                                )
+                            )
+                        ),
+                        'choiceInteraction' => array (
+                            'extractor' => 'QtiExtractor',
+                            'parameters' => array (
+                                'callback' => 'getChoices',
+                                'valuesAsColumns' => true,
+                            )
+                        ),
+                    )
+                ));
+                $service->setServiceManager($this->getServiceManager());
+                $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
+
+                $createExportDirectoryScript = new createExportDirectory();
+                $createExportDirectoryScript([]);
+            }
+            
+            $this->setVersion('2.20.0');
+        }
+
+        $this->skip('2.20.0', '2.22.0');
     }
 
 }

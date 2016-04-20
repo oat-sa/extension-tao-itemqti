@@ -153,41 +153,6 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
-    public function testFileParsingQti2p0(){
-        $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        $qtiv2p1xsd = $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd';
-
-        foreach(glob(dirname(__FILE__).'/samples/xml/qtiv2p0/*.xml') as $file){
-
-            $qtiParser = new Parser($file);
-            $qtiParser->validate($qtiv2p1xsd);
-            if(!$qtiParser->isValid()){
-                echo $qtiParser->displayErrors();
-            }
-
-            $this->assertTrue($qtiParser->isValid());
-
-            $item = $qtiParser->load();
-
-            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-
-            //test if content has been exported
-            $qti = $item->toXML();
-            $this->assertFalse(empty($qti));
-
-            //test if it's a valid QTI file
-            $tmpFile = $this->createFile('', uniqid('qti_', true).'.xml');
-            file_put_contents($tmpFile, $qti);
-            $this->assertTrue(file_exists($tmpFile));
-
-            $parserValidator = new Parser($tmpFile);
-            $parserValidator->validate();
-            if(!$parserValidator->isValid()){
-                $this->fail($parserValidator->displayErrors());
-            }
-        }
-    }
-
     public function testFileParsingApipv1p0(){
 
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();

@@ -23,7 +23,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/helper/uploadMime',
+    'taoQtiItem/qtiCommonRenderer/helpers/uploadMime',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/upload'
 ], function(_, __, stateFactory, Question, formElement, uploadHelper, formTpl){
 
