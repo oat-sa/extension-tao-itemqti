@@ -33,8 +33,7 @@ define([
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
-    'ui/waitForMedia',
-    'filereader'
+    'ui/waitForMedia'
 ], function ($, _, __, context, tpl, containerHelper, instructionMgr, uploadHelper) {
     'use strict';
 
