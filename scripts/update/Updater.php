@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
@@ -318,6 +319,26 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('2.20.0', '2.22.0');
+
+        if ($this->isVersion('2.22.0')) {
+            $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $columns = $simpleExporter->getOption('columns');
+            $responseIdentifier['responseIdentifier'] = array (
+                'extractor' => 'QtiExtractor',
+                'parameters' => array (
+                    'callback' => 'getResponseIdentifier',
+                )
+            );
+
+            $offset = array_search('BR', array_keys($columns));
+            $columns = array_slice($columns, 0, $offset, true) + $responseIdentifier + array_slice($columns, $offset, NULL, true);
+
+            $simpleExporter->setOption('columns', $columns);
+            $simpleExporter->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
+
+            $this->setVersion('2.23.0');
+        }
     }
 
 }
