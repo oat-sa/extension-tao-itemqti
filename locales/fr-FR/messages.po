@@ -567,7 +567,7 @@ msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
-msgstr ""
+msgstr "laisser vide"
 
 msgid "left"
 msgstr ""
@@ -961,7 +961,7 @@ msgid "Select a "
 msgstr ""
 
 msgid "select a choice"
-msgstr ""
+msgstr "choisissez une option"
 
 msgid "Select a choice from a drop-down list."
 msgstr ""
