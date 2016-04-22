@@ -318,9 +318,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.20.0');
         }
 
-        $this->skip('2.20.0', '2.21.0');
+        $this->skip('2.20.0', '2.22.0');
 
-        if ($this->isVersion('2.21.0')) {
+        if ($this->isVersion('2.22.0')) {
             $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
             $columns = $simpleExporter->getOption('columns');
             $responseIdentifier['responseIdentifier'] = array (
@@ -337,7 +337,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $simpleExporter->setServiceManager($this->getServiceManager());
             $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
 
-            $this->setVersion('2.22.0');
+            $this->setVersion('2.23.0');
         }
     }
 
