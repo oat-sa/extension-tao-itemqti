@@ -42,6 +42,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     const CSV_DELIMITER = ',';
 
     /**
+     * Defautl csv enclosure
+     */
+    const CSV_ENCLOSURE = '"';
+
+    /**
      * Default property delimiter
      */
     const DEFAULT_PROPERTY_DELIMITER = '|';
@@ -236,13 +241,13 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
 
         $output = $contents = [];
 
-        $contents[] = implode(self::CSV_DELIMITER, $this->headers);
+        $contents[] = self::CSV_ENCLOSURE . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers) . self::CSV_ENCLOSURE;
 
         foreach ($data as $item) {
             foreach ($item as $line) {
                 foreach ($this->headers as $index => $value) {
                     if (isset($line[$value]) && $line[$value]!=='') {
-                        $output[$value] = '"' . $line[$value] . '"';
+                        $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
                         unset($line[$value]);
                     } else {
                         $output[$value] = '';
@@ -251,7 +256,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
                 $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
             }
         }
-        $this->filesystem->update($this->filelocation, implode("\n", $contents));
+        $this->filesystem->update($this->filelocation, chr(239) . chr(187) . chr(191) . implode("\n", $contents));
     }
 
     /**
@@ -271,7 +276,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             $this->filesystem->delete($filename);
         }
 
-        if ($resource = fopen('temp', 'w')===false) {
+        if (($resource = fopen('temp', 'w'))===false) {
             throw new \Exception('Unable to create csv file.');
         }
 
