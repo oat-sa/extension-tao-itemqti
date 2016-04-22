@@ -21,6 +21,7 @@ define([
     'i18n',
     'jquery',
     'helpers',
+    'core/promise',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/item/states/states',
     'taoQtiItem/qtiItem/core/Element',
@@ -39,6 +40,7 @@ define([
     __,
     $,
     helpers,
+    Promise,
     Widget,
     states,
     Element,
@@ -91,13 +93,23 @@ define([
         this.$container = this.$original;
     };
 
+    /**
+     * Save the item by sending the XML in a POST request to the server
+     *TODO saving mechanism should be indenpendant, ie. moved into the itemCreator, in order to configure endpoint, etc.
+     *
+     * @returns {Promise} that wraps the request
+     */
     ItemWidget.save = function(){
-        return $.ajax({
-            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem', {uri : this.itemUri}),
-            type : 'POST',
-            contentType : 'text/xml',
-            dataType : 'json',
-            data : xmlRenderer.render(this.element)
+        var self = this;
+        return new Promise(function(resolve){
+            $.ajax({
+                url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem', {uri : self.itemUri}),
+                type : 'POST',
+                contentType : 'text/xml',
+                dataType : 'json',
+                data : xmlRenderer.render(self.element)
+            })
+            .done(resolve);
         });
     };
 
@@ -109,7 +121,7 @@ define([
             $previewBtn = $('.preview-trigger');
 
         //init save button:
-        $saveBtn.on('click', function(e){
+      /*  $saveBtn.on('click', function(e){
 
             var $saveButton = $(this);
 
@@ -153,7 +165,7 @@ define([
                 });
             });
 
-        });
+        });*/
 
         $previewBtn.on('click', function(){
             itemEditor.initPreview(_widget);

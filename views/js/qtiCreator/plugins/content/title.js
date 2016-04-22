@@ -1,3 +1,4 @@
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,21 +17,28 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
 define([
-    'core/pluginLoader',
-    'taoQtiItem/qtiCreator/plugins/navigation/back',
-    'taoQtiItem/qtiCreator/plugins/menu/save',
-    'taoQtiItem/qtiCreator/plugins/menu/preview',
-    'taoQtiItem/qtiCreator/plugins/menu/print',
-    'taoQtiItem/qtiCreator/plugins/content/title'
-], function(pluginLoader, back, save, preview, print, title){
+    'jquery',
+    'i18n',
+    'core/plugin'
+], function($, __, pluginFactory){
     'use strict';
 
-    /**
-     * Instantiate the plugin loader with all the required plugins configured
-     */
-    return pluginLoader({
-        navigation : [back],
-        menu       : [save, preview, print],
-        content    : [title]
+    return pluginFactory({
+        name : 'title',
+
+        init : function init(){
+            var config = this.getHost().getConfig();
+
+            this.title = config.properties.label;
+        },
+
+        render : function render(){
+
+
+            //attach the element to the title area
+            this.getAreaBroker()
+                .getTitleArea()
+                .text(this.title);
+        }
     });
 });

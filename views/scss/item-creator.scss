@@ -186,18 +186,6 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
-.back-action {
-    span {
-        position: relative;
-        top: -1px;
-        &.icon-left {
-            @include font-size(20);
-            top: 3px;
-            padding-right: 6px;
-        }
-    }
-}
-
 
 // hide all sections on right sidebar
 .sidebar-right-section-box {

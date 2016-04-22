@@ -19,6 +19,7 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'module',
     'core/eventifier',
     'core/promise',
@@ -32,12 +33,13 @@ define([
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/editor/editorSizer',
     'taoQtiItem/qtiCreator/model/helper/event',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
 
-], function($, _, module, eventifier, Promise,
+], function($, _, __, module, eventifier, Promise,
             ciRegistry, icRegistry, itemLoader,
             creatorRenderer, commonRenderer, xincludeRenderer,
             interactionPanel, propertiesPanel, editorSizer,
-            eventHelper){
+            eventHelper, styleEditor){
     'use strict';
 
 
@@ -130,6 +132,23 @@ define([
                 _.forEach(pluginFactories, function(pluginFactory, pluginName){
                     var plugin = pluginFactory(self, areaBroker);
                     plugins[plugin.getName()] = plugin;
+                });
+
+
+                //bind behavior events
+                this.on('save', function(){
+                    var item = this.getItem();
+                    var itemWidget = item.data('widget');
+
+                    Promise.all([
+                        itemWidget.save(),
+                        styleEditor.save()
+                    ]).then(function(){
+                        self.trigger('success', __('Your item has been saved'));
+                        self.trigger('saved');
+                    }).catch(function(err){
+                        self.trigger('error', err);
+                    });
                 });
 
                 //performs the loadings in parrallel
@@ -236,7 +255,12 @@ define([
 
             getItem : function getItem(){
                 return this.item;
+            },
+
+            getConfig : function getConfig(){
+                return config;
             }
+
         });
 
 

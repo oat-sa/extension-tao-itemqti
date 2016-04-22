@@ -43,6 +43,7 @@ define([
         'menu',
         'menuLeft',
         'menuRight',
+        'title',
         'interactionPanel',
         'itemPanel',
         'propertyPanel',

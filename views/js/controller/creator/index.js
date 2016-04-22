@@ -39,6 +39,7 @@ define([
             'menu':              $('.item-editor-action-bar .item-editor-menu', $container),
             'menuLeft':          $('.left-bar .item-editor-menu', $container),
             'menuRight':         $('.right-bar .item-editor-menu', $container),
+            'title':             $('#item-editor-label', $container),
             'interactionPanel':  $('#item-editor-interaction-bar', $container),
             'propertyPanel':     $('#item-editor-item-widget-bar', $container),
             'itemPanel':         $('#item-editor-scroll-inner', $container),
@@ -66,6 +67,9 @@ define([
 
                 itemCreatorFactory(config, loadAreaBroker(), pluginLoader.getPlugins())
                     .on('error', reportError)
+                    .on('success', function(message){
+                        feedback().success(message);
+                    })
                     .on('render', function(){
                         loadingBar.stop();
                     })
