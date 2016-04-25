@@ -53,11 +53,12 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
         ),
         'BR' => array (
             'extractor' => 'QtiExtractor',
-            'parameters' => array (
+            'parameters' => array(
                 'callback' => 'getRightAnswer',
                 'callbackParameters' => array(
-                    'delimiter' => '|'
-                )
+                    'delimiter' => '|',
+                ),
+                'valuesAsColumns' => true
             )
         ),
         'choiceInteraction' => array (
