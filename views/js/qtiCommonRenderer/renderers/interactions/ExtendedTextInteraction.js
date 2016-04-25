@@ -386,9 +386,8 @@ define([
                 var limitHandler = function limitHandler(e){
                     var keyCode = e && e.data ? e.data.keyCode : e.which ;
                     if ( (!_.contains(ignoreKeyCodes, keyCode) ) &&
-                         (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode)) ||
-                         (maxLength && self.getCharsCount() >= maxLength)){
-
+                         (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
+                         (maxLength && self.getCharsCount() >= maxLength))){
                         if (e.cancel){
                             e.cancel();
                         } else {
