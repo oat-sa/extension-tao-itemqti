@@ -45,6 +45,12 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
                 'callback' => 'getNumberOfChoices'
             )
         ),
+        'responseIdentifier' => array (
+            'extractor' => 'QtiExtractor',
+            'parameters' => array (
+                'callback' => 'getResponseIdentifier',
+            )
+        ),
         'BR' => array (
             'extractor' => 'QtiExtractor',
             'parameters' => array (
