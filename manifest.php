@@ -26,10 +26,11 @@ return array(
     'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '2.18.0',
+    'version' => '2.24.0',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
-	    'taoItems' => '>=2.6'
+	    'taoItems' => '>=2.13',
+		'tao'	   => '>=2.17'
 	),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -48,7 +49,8 @@ return array(
 			dirname(__FILE__).'/install/local/addPortableContexts.php',
 			dirname(__FILE__).'/install/scripts/addPortableSharedLibraries.php',
 			dirname(__FILE__).'/install/scripts/setQtiRunnerConfig.php',
-			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings'
+			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
+			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
 		)
 	),
 	'local'	=> array(

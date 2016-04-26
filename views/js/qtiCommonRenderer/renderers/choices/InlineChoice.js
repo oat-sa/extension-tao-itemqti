@@ -22,14 +22,19 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/inlineChoice',
     'taoQtiItem/qtiCommonRenderer/helpers/container'
-], function(tpl, containerHelper){
+], function(_, tpl, containerHelper){
     'use strict';
 
     return {
         qtiClass : 'inlineChoice',
         getContainer : containerHelper.get,
-        template : tpl
+        template : tpl,
+        getData : function getData(choice, data){
+            data.body = _.unescape(data.body);
+            return data;
+        }
     };
 });

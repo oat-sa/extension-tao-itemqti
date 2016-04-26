@@ -41,6 +41,8 @@ define([
          validate: function validate(processor, operands){
 
             var size = 0;
+            var name = processor.name;
+
             var minOperand  = processor.constraints.minOperand;
             var maxOperand  = processor.constraints.maxOperand;
 
@@ -50,6 +52,7 @@ define([
 
             var hasWrongCardinality = function hasWrongCardinality(operand){
                 return !_.contains(processor.constraints.cardinality, operand.cardinality);
+
             };
 
             if(!_.isArray(operands)){

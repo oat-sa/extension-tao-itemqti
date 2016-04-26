@@ -26,7 +26,7 @@ define([
     _.extend(methods, editable);
     _.extend(methods, {
         afterCreate : function(){
-            this.body('Lorem ipsum dolor sit amet, consectetur adipisicing ...');
+            this.body('<p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>');
         },
         beforeRemove : function(){
             _.each(this.getComposingElements(), function(element){

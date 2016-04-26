@@ -79,12 +79,8 @@ define([
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
                 defineCorrect = answerStateHelper.defineCorrect(response);
 
-            if(!template){
-                if(rp.processingType === 'custom'){
-                    template = 'CUSTOM';
-                }else{
-                    throw 'invalid response template';
-                }
+            if(!template || rp.processingType === 'custom'){
+                template = 'CUSTOM';
             }
 
             widget.$responseForm.html(responseFormTpl({
@@ -139,7 +135,9 @@ define([
             });
 
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
-
+            
+            widget.$responseForm.trigger('initResponseForm');
+            
             formElement.initWidget(widget.$responseForm);
         },
         isCorrectDefined : function(widget){

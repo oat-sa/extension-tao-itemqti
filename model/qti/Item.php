@@ -536,7 +536,11 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         }
 
         $variables['namespaces'] = $this->getNamespaces();
-        $variables['schemaLocations'] = $this->getSchemaLocations();
+        $schemaLocations = '';
+        foreach($this->getSchemaLocations() as $uri => $url){
+            $schemaLocations .= $uri.' '.$url.' ';
+        }
+        $variables['schemaLocations'] = trim($schemaLocations);
         $nsXsi = $this->getNamespace('http://www.w3.org/2001/XMLSchema-instance');
         $variables['xsi'] = $nsXsi ? $nsXsi.':' : 'xsi:';
         

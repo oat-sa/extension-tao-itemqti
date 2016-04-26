@@ -22,8 +22,9 @@ define([
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/helper/container',
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackPreviewButton',
-    'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton'
-], function (_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn){
+    'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton',
+    'iframeNotifier'
+], function (_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn, iframeNotifier){
     'use strict';
 
     /**
@@ -39,25 +40,18 @@ define([
      */
     function showFeedbacks(item, loader, renderer, itemSession, onCloseCallback, onShowCallback){
         
-        var interactionsDisplayInfo = {};
+        var interactionsDisplayInfo = getInteractionsDisplayInfo(item);
         var messages = {};
         var renderedFeebacks = [];
         var renderingQueue = [];
         var $itemContainer = item.getContainer();
         var $itemBody = $itemContainer.children('.qti-itemBody');
         
-        _.each(item.getComposingElements(), function (element){
-            var responseIdentifier;
-            if(element.is('interaction')){
-                responseIdentifier = element.attr('responseIdentifier');
-                interactionsDisplayInfo[responseIdentifier] = extractDisplayInfo(element);
-            }
-        });
-
         _.each(item.modalFeedbacks, function (feedback){
 
-            var feedbackIds, message, $container, comparedOutcome, _currentMessageGroupId;
+            var feedbackIds, message, $container, comparedOutcome, _currentMessageGroupId, interactionInfo;
             var outcomeIdentifier = feedback.attr('outcomeIdentifier');
+            var order = -1;
 
             //verify if the feedback should be displayed
             if(itemSession[outcomeIdentifier]){
@@ -71,9 +65,11 @@ define([
                 //which group of feedbacks (interaction related) the feedback belongs to ?
                 message = getFeedbackMessageSignature(feedback);
                 comparedOutcome = containerHelper.getEncodedData(feedback, 'relatedOutcome');
-                if(comparedOutcome && interactionsDisplayInfo[comparedOutcome]){
-                    $container = interactionsDisplayInfo[comparedOutcome].displayContainer;
-                    _currentMessageGroupId = interactionsDisplayInfo[comparedOutcome].messageGroupId;
+                interactionInfo = _.find(interactionsDisplayInfo, {responseIdentifier : comparedOutcome});
+                if(comparedOutcome && interactionInfo){
+                    $container = interactionInfo.displayContainer;
+                    _currentMessageGroupId = interactionInfo.messageGroupId;
+                    order = interactionInfo.order;
                 }else{
                     $container = $itemBody;
                     _currentMessageGroupId = '__item__';
@@ -91,15 +87,17 @@ define([
                 //ok, display feedback
                 renderingQueue.push({
                     feedback : feedback,
-                    $container : $container
+                    $container : $container,
+                    order : order
                 });
-
             }
         });
 
 
         if(renderingQueue.length){
-
+            
+            renderingQueue = _.sortBy(renderingQueue, 'order');
+            
             //process rendering queue
             _.each(renderingQueue, function (renderingToken){
                 renderModalFeedback(renderingToken.feedback, loader, renderer, renderingToken.$container, $itemContainer, function (renderingData){
@@ -107,6 +105,8 @@ define([
                     renderedFeebacks.push(renderingData);
                     if(renderedFeebacks.length === renderingQueue.length){
                         //rendering processing queue completed
+                        iframeNotifier.parent('itemcontentchange');
+                        
                         //if an optional "on show modal" callback has been provided, execute it
                         if(_.isFunction(onShowCallback)){
                             onShowCallback();
@@ -114,7 +114,7 @@ define([
                     }
                 });
             });
-
+            
             //if any feedback is displayed, replace the controls by a "ok" button
             replaceControl(renderedFeebacks, $itemContainer, onCloseCallback);
         }
@@ -134,7 +134,7 @@ define([
         var $interactionContainer = interaction.getContainer();
         var responseIdentifier = interaction.attr('responseIdentifier');
         var messageGroupId, $displayContainer;
-
+        
         if(interaction.is('inlineInteraction')){
             $displayContainer = $interactionContainer.closest('[class*=" col-"], [class^="col-"]');
             messageGroupId = $displayContainer.attr('data-messageGroupId');
@@ -152,10 +152,48 @@ define([
             responseIdentifier : responseIdentifier,
             interactionContainer : $interactionContainer,
             displayContainer : $displayContainer,
-            messageGroupId : messageGroupId
+            messageGroupId : messageGroupId,
+            order : -1
         };
     }
-
+    
+    /**
+     * Get interaction display information sorted in the order of appearance within the item
+     * 
+     * @param {Object} item
+     * @returns {Array}
+     */
+    function getInteractionsDisplayInfo(item){
+        
+        var interactionsDisplayInfo = [];
+        var $itemContainer = item.getContainer();
+        var interactionOrder = 0;
+        
+        //extract all interction related information needed to display their
+        _.each(item.getComposingElements(), function (element){
+            var responseIdentifier;
+            if(element.is('interaction')){
+                responseIdentifier = element.attr('responseIdentifier');
+                interactionsDisplayInfo.push(extractDisplayInfo(element));
+            }
+        });
+        
+        //sort interactionsDisplayInfo on the item level
+        $itemContainer.find('.qti-interaction').each(function(){
+            var interactionContainer = this;
+            _.each(interactionsDisplayInfo, function(_interactionInfo){
+                if(_interactionInfo.interactionContainer[0] === interactionContainer){
+                    _interactionInfo.order = interactionOrder;
+                    return false;
+                }
+            });
+            interactionOrder++;
+        });
+        interactionsDisplayInfo = _.sortBy(interactionsDisplayInfo, 'order');
+        
+        return interactionsDisplayInfo;
+    }
+    
     /**
      * Render a modal feedback into a given container, scoped within an item container
      * 

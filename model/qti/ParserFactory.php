@@ -550,7 +550,9 @@ class ParserFactory
         $namespaces = [];
         foreach($this->queryXPath('namespace::*') as $node){
             $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
-            $namespaces[$name] = $node->nodeValue;
+            if($name !== 'xml'){//always removed the implicit xml namespace
+                $namespaces[$name] = $node->nodeValue;
+            }
         }
         ksort($namespaces);
         foreach($namespaces as $name => $uri){
@@ -743,7 +745,8 @@ class ParserFactory
         if($myChoice instanceof ContainerChoice){
             $this->parseContainerStatic($data, $myChoice->getBody());
         }elseif($myChoice instanceof TextVariableChoice){
-            $myChoice->setContent($data->nodeValue);
+            //use getBodyData() instead of $data->nodeValue() to preserve xml entities
+            $myChoice->setContent($this->getBodyData($data));
         }elseif($myChoice instanceof GapImg){
             //extract the media object tag
             $objectNodes = $this->queryXPath("*[name(.)='object']", $data);

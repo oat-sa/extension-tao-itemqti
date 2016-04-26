@@ -24,6 +24,8 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -66,31 +68,53 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $content = $this->getItemService()->getItemContent($this->getItem());
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
-        
+
+        $replacementList = array();
         // get the local resources and add them
         foreach ($this->getAssets($this->getItem(), $lang) as $assetUrl) {
             try{
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
-                if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
-                    $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                    $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
-                    $filename = $fileInfo['filePath'];
-                    $replacement = $mediaAsset->getMediaIdentifier();
-                    if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
-                        $replacement = $filename;
+                if(!$mediaSource instanceof HttpSource){
+                    $link = $mediaAsset->getMediaIdentifier();
+                    $stream = $mediaSource->getFileStream($link);
+                    $baseName = ($mediaSource instanceof LocalItemSource)? $link : 'assets/'.$mediaSource->getBaseName($link);
+                    $replacement = $baseName;
+                    $count = 0;
+                    while (in_array($replacement, $replacementList)) {
+                        $dot = strrpos($baseName, '.');
+                        $replacement = $dot !== false
+                        ? substr($baseName, 0, $dot).'_'.$count.substr($baseName, $dot)
+                            : $baseName.$count;
+                        $count++;
                     }
-                    $destPath = ltrim($filename,'/');
-                    if (file_exists($srcPath)) {
-                        $this->addFile($srcPath, $basePath. '/'.$destPath);
-                        $content = str_replace($assetUrl, $replacement, $content);
-                    }
+
+                    $replacementList[$assetUrl] = $replacement;
+                    $this->addFile($stream, $basePath.'/'.$baseName);
                 }
             } catch(\tao_models_classes_FileNotFoundException $e){
-                $content = str_replace($assetUrl, '', $content);
+                $replacementList[$assetUrl] = '';
                 $report->setMessage('Missing resource for ' . $assetUrl);
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
+        }
+
+        $xml = \taoItems_models_classes_ItemsService::singleton()->getItemContent($this->getItem());
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        if ($dom->loadXML($xml) === true) {
+            $xpath = new \DOMXPath($dom);
+            $attributeNodes = $xpath->query('//@*');
+            unset($xpath);
+            foreach ($attributeNodes as $node) {
+                if (isset($replacementList[$node->value])) {
+                    $node->value = $replacementList[$node->value];
+                }
+            }
+        } else {
+            throw new ExportException($this->getItem()->getLabel(), 'Unable to load XML');
+        }
+        if(($content = $dom->saveXML()) === false){
+            throw new ExportException($this->getItem()->getLabel(), 'Unable to save XML');
         }
         
         if ($asApip === true) {
