@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Thie example adapted from the PET Handbook, copyright University of Cambridge ESOL Examinations -->
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+                xmlns:m="http://www.w3.org/1998/Math/MathML"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+                identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="false">
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <itemBody>
+        <p>Look at the text in the picture.</p>
+        <p>
+            <img src="images/sign.png" alt="NEVER LEAVE LUGGAGE UNATTENDED"/>
+        </p>
+        <m:math display="block">
+            <semantics>
+                <mtable>
+                    <mtr>
+                        <mtd columnalign="right">
+                            <mrow>
+                                <mi>sin</mi>
+                                <mfenced close=")" open="(">
+                                    <mi>B</mi>
+                                </mfenced>
+                            </mrow>
+                        </mtd>
+                        <mtd columnalign="center">
+                            <mo>=</mo>
+                        </mtd>
+                        <mtd columnalign="left">
+                            <mfrac>
+                                <mi>b</mi>
+                                <mi>a</mi>
+                            </mfrac>
+                        </mtd>
+                    </mtr>
+                    <mtr>
+                        <mtd columnalign="right">
+                            <mi>b</mi>
+                        </mtd>
+                        <mtd columnalign="center">
+                            <mo>=</mo>
+                        </mtd>
+                        <mtd columnalign="left">
+                            <mi>a</mi>
+                            <mrow>
+                                <mi>sin</mi>
+                                <mfenced close=")" open="(">
+                                    <mi>B</mi>
+                                </mfenced>
+                            </mrow>
+                        </mtd>
+                    </mtr>
+                    <mtr>
+                        <mtd columnalign="right">
+                            <mi>b</mi>
+                        </mtd>
+                        <mtd columnalign="center">
+                            <mo>=</mo>
+                        </mtd>
+                        <mtd columnalign="left">
+                            <mrow>
+                                <mi>ia</mi>
+                                <mo>&#xd7;</mo>
+                                <mi>sin</mi>
+                                <mfenced close=")" open="(">
+                                    <mi>iB</mi>
+                                </mfenced>
+                            </mrow>
+                        </mtd>
+                    </mtr>
+                    <mtr>
+                        <mtd columnalign="right"/>
+                        <mtd columnalign="center">
+                            <mo>=</mo>
+                        </mtd>
+                        <mtd columnalign="left">
+                            <mi>fAns</mi>
+                        </mtd>
+                    </mtr>
+                </mtable>
+                <annotation encoding="SnuggleTeX">\begin{eqnarray*}
+                    \\sin(B)&amp;=&amp;\frac{b}{a}\\
+                    b&amp;=&amp;a\sin(B)\\
+                    &amp;=&amp;\qv{ia}\times\sin(\qv{iB})
+                    &amp;=&amp;\qv{fAns} \end{eqnarray*}</annotation>
+            </semantics>
+        </m:math>
+    </itemBody>
+    <responseProcessing
+            template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+</assessmentItem>
