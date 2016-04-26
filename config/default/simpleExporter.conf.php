@@ -45,13 +45,20 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
                 'callback' => 'getNumberOfChoices'
             )
         ),
-        'BR' => array (
+        'responseIdentifier' => array (
             'extractor' => 'QtiExtractor',
             'parameters' => array (
+                'callback' => 'getResponseIdentifier',
+            )
+        ),
+        'BR' => array (
+            'extractor' => 'QtiExtractor',
+            'parameters' => array(
                 'callback' => 'getRightAnswer',
                 'callbackParameters' => array(
-                    'delimiter' => '|'
-                )
+                    'delimiter' => '|',
+                ),
+                'valuesAsColumns' => true
             )
         ),
         'choiceInteraction' => array (
