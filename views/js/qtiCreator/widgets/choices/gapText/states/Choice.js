@@ -58,7 +58,7 @@ define([
         $editable.on('keyup.qti-widget', _.throttle(function(){
 
             //update model
-            _widget.element.val($(this).text());
+            _widget.element.val(_.escape($(this).text()));
 
         }, 200)).on('keypress.qti-widget', function(e){
 
