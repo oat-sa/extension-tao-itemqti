@@ -33,8 +33,7 @@ define([
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
-    'ui/waitForMedia',
-    'filereader'
+    'ui/waitForMedia'
 ], function ($, _, __, context, tpl, containerHelper, instructionMgr, uploadHelper) {
     'use strict';
 
@@ -229,21 +228,10 @@ define([
 
         $container.find('.progressbar').progressbar();
 
-        if (window.File && window.FileReader && window.FileList) {
-            // Yep ! :D
-            $input.bind('change', changeListener);
+        if (!window.FileReader) {
+            throw new Error('FileReader API not supported! Please use a compliant browser!');
         }
-        else {
-            // Nope... :/
-            $input.fileReader({
-                id: 'fileReaderSWFObject',
-                //FIXME this is not going to work outside of TAO
-                filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
-                callback: function () {
-                    $input.bind('change', changeListener);
-                }
-            });
-        }
+        $input.bind('change', changeListener);
 
         // IE Specific hack, prevents button to slightly move on click
         $input.bind('mousedown', function (e) {
