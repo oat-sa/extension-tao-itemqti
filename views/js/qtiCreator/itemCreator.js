@@ -75,13 +75,10 @@ define([
                     reject(new Error('Unable to load the item'));
                 }
 
-                //set reference to item object
-                //$editorScope.data('item', item);
-
                 //fires event itemloaded
                 //
                 //?? seems unused
-                //$(document).trigger('itemloaded.qticreator', [item]);
+                $(document).trigger('itemloaded.qticreator', [item]);
 
                 //set useful data :
                 item.data('uri', uri);
@@ -194,6 +191,8 @@ define([
                 commonRenderer.setOption('baseUrl', config.properties.baseUrl);
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
 
+                interactionPanel(areaBroker.getInteractionPanelArea(), self.customInterations);
+
                 creatorRenderer
                     .get(true, config)
                     .setOptions(config.properties)
@@ -211,6 +210,9 @@ define([
                          .all(item.postRender(_.clone(config.properties)))
                          .then(function(){
 
+                            //set reference to item widget object
+                            areaBroker.getContainer().data('widget', item);
+
                             widget = item.data('widget');
                             _.each(item.getComposingElements(), function(element){
                                 if(element.qtiClass === 'include'){
@@ -218,22 +220,10 @@ define([
                                 }
                             });
 
-                            //initialize the panels
-                            interactionPanel(areaBroker.getInteractionPanelArea(), self.customInterations);
                             propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
 
+
                             editorSizer();
-                            //editor.initGui(widget, configProperties);
-
-
-                            //set reference to item widget object
-                            //$editorScope.data('widget', item);
-
-                            //fires event itemloaded
-                            //
-                            //
-                            //?? seems unused
-                            //$doc.trigger('widgetloaded.qticreator', [widget]);
 
                             //init event listeners:
                             eventHelper.initElementToWidgetListeners();
