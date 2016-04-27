@@ -23,14 +23,14 @@
  */
 define([
     'lodash',
-    'context',
     'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiCustomInteractionContext',
-    'taoQtiItem/qtiItem/helper/util'
-], function(_, context, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util){
+    'taoQtiItem/qtiItem/helper/util',
+    'qtiItemPci/pciRegistry'
+], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, pciRegistry){
     'use strict';
 
     /**
@@ -63,7 +63,7 @@ define([
 
         return pci;
     };
-
+    
     /**
      * Execute javascript codes to bring the interaction to life.
      * At this point, the html markup must already be ready in the document.
@@ -82,7 +82,6 @@ define([
 
         options = options || {};
         return new Promise(function(resolve, reject){
-            var runtimeLocation;
             var state              = {}; //@todo pass state and response to renderer here:
             var localRequireConfig = { paths : {} };
             var response           = { base : null};
@@ -92,25 +91,45 @@ define([
             var config             = _.clone(interaction.properties); //pass a clone instead
             var $dom               = containerHelper.get(interaction).children();
             var entryPoint         = interaction.entryPoint.replace(/\.js$/, '');   //ensure it's an AMD module
-
+            var assetManager       = self.getAssetManager();
+            
             //update config with runtime paths
-            if(runtimeLocations && runtimeLocations[typeIdentifier]){
-                runtimeLocation = runtimeLocations[typeIdentifier];
-            } else{
-                runtimeLocation = self.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
-            }
+//            if(runtimeLocations && runtimeLocations[typeIdentifier]){
+//                runtimeLocation = runtimeLocations[typeIdentifier];
+//            } else{
+//                runtimeLocation = self.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
+//            }
+            var runtimeLocation = assetManager.resolveBy('portableElementLocation', typeIdentifier);
             if(runtimeLocation){
                 localRequireConfig.paths[typeIdentifier] = runtimeLocation;
                 require.config(localRequireConfig);
+            }else{
+                throw 'portable element runtime location not found';
             }
-
+            
+            var runtime = pciRegistry.getRuntime(typeIdentifier);
+            
             //load the entrypoint
-            require([entryPoint], function(){
+            var requireEntries = [runtime.hook.replace(/\.js$/, '')];
+            
+            //load stylesheets
+            _.each(runtime.stylesheets, function(stylesheet){
+                requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
+            });
+            
+            //load the entrypoint
+            require(requireEntries, function(){
 
                 var pci = _getPci(interaction);
+                var pciAssetManager = {
+                    resolve : function resolve(url){
+                        return assetManager.resolveBy('portableElementLocation', url);
+                    }
+                };
+                
                 if(pci){
                     //call pci initialize() to render the pci
-                    pci.initialize(id, $dom[0], config);
+                    pci.initialize(id, $dom[0], config, pciAssetManager);
                     //restore context (state + response)
                     pci.setSerializedState(state);
                     pci.setResponse(response);

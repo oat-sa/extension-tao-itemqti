@@ -22,7 +22,8 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(_, context, themes, assetManagerFactory, assetStrategies){
+    'qtiItemPci/pciRegistry'
+], function(_, context, themes, assetManagerFactory, assetStrategies, pciRegistry){
     'use strict';
 
     var itemThemes = themes.get('items');
@@ -32,8 +33,16 @@ define([
     var portableAssetStrategy = {
         name : 'portableElementLocation',
         handle : function handlePortableElementLocation(url){
-            if(url.source === url.relative){
-                return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
+            if(url.file === url.path){
+                return pciRegistry.getRuntimeLocation(url.file);
+            }else if(url.source === url.relative){
+                return url.relative.replace(/^(\.\/)?([a-z_0-9]+)\/(.*)/i, function(fullmatch, $1, typeIdentifier, relPath){
+                    var runtimeLocation = pciRegistry.getRuntimeLocation(typeIdentifier);
+                    if(runtimeLocation){
+                        return runtimeLocation + '/' + relPath;
+                    }
+                    return fullmatch;
+                });
             }
         }
     };
