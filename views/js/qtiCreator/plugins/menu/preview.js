@@ -19,10 +19,12 @@
 define([
     'jquery',
     'i18n',
+    'helpers',
     'core/plugin',
     'ui/hider',
+    'taoItems/preview/preview',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
-], function($, __, pluginFactory, hider, buttonTpl){
+], function($, __, helpers, pluginFactory, hider, preview, buttonTpl){
     'use strict';
 
     return pluginFactory({
@@ -32,6 +34,9 @@ define([
          * Initialize the plugin (called during runner's init)
          */
         init : function init(){
+
+            var item = this.getHost().getItem();
+
             this.$element = $(buttonTpl({
                 icon: 'preview',
                 title: __('Preview the item'),
@@ -39,6 +44,8 @@ define([
                 cssClass: 'preview-trigger'
             })).on('click', function previewHandler(e){
                 e.preventDefault();
+                preview.init(helpers._url('index', 'QtiPreview', 'taoQtiItem', { uri : item.data('uri') }));
+                preview.show();
             });
             this.hide();
         },
