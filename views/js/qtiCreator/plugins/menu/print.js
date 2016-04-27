@@ -25,6 +25,17 @@ define([
 ], function($, __, pluginFactory, hider, buttonTpl){
     'use strict';
 
+    /**
+     * Spread a css class to an element's parents and theirs siblings
+     * @param {jQueryElement} $container - the target
+     * @param {String} cssClass - the class to spread
+     */
+    var spreadClass = function spreadClass($container, cssClass) {
+        $container.parents().each(function initHideOnPrint() {
+            $(this).siblings().addClass(cssClass);
+        });
+    };
+
     return pluginFactory({
         name : 'print',
 
@@ -32,6 +43,10 @@ define([
          * Initialize the plugin (called during runner's init)
          */
         init : function init(){
+
+            //spread the "no item prin" class an every element above the item panel
+            spreadClass(this.getAreaBroker().getItemPanelArea(), 'item-no-print');
+
             this.$element = $(buttonTpl({
                 icon: 'print',
                 title: __('Print the item'),
@@ -39,7 +54,9 @@ define([
                 cssClass: 'print-trigger'
             })).on('click', function printHandler(e){
                 e.preventDefault();
+                window.print();
             });
+
             this.hide();
         },
 
