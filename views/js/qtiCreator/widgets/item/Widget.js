@@ -32,7 +32,6 @@ define([
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'taoQtiItem/qtiCreator/editor/editor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
 ], function(
@@ -51,7 +50,6 @@ define([
     devTools,
     TextWidget,
     styleEditor,
-    itemEditor,
     genericFeedbackPopup
     ){
 
@@ -167,9 +165,9 @@ define([
 
         });*/
 
-        $previewBtn.on('click', function(){
-            itemEditor.initPreview(_widget);
-        });
+        //$previewBtn.on('click', function(){
+            //itemEditor.initPreview(_widget);
+        //});
 
         //listen to invalid states:
         _widget.on('metaChange', function(data){
