@@ -21,7 +21,7 @@ define([
     });
 
     QUnit.asyncTest('renders correctly', function(assert){
-        QUnit.expect(12);
+        QUnit.expect(13);
 
         var $container = $('#' + fixtureContainerId);
 
@@ -45,7 +45,8 @@ define([
                 assert.equal($container.find('.qti-mediaInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
                 assert.equal($container.find('.qti-mediaInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
                 assert.equal($container.find('.qti-mediaInteraction video').length, 1, 'the interaction contains a video tag');
-                assert.equal($container.find('.qti-mediaInteraction video').attr('src'), sampleUrl, 'the interaction has proper file attached');
+                assert.equal($container.find('.qti-mediaInteraction video source').length, 1, 'the interaction contains a video source tag');
+                assert.equal($container.find('.qti-mediaInteraction video source').attr('src'), sampleUrl, 'the interaction has proper file attached');
 
                 //check DOM data
                 assert.equal($container.children('.qti-item').data('identifier'), 'i1429259831305858', 'the .qti-item node has the right identifier');

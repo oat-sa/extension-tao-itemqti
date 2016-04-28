@@ -87,6 +87,14 @@ class ParserFactory
         $this->xpath = new DOMXPath($data);
     }
 
+    /**
+     * @param \oat\taoQtiItem\model\qti\Item $item
+     */
+    public function setItem(Item $item)
+    {
+        $this->item = $item;
+    }
+
     public function load(){
 
         $item = null;
@@ -386,7 +394,7 @@ class ParserFactory
         return $options;
     }
 
-    protected function findNamespace($nsFragment){
+    public function findNamespace($nsFragment){
         $returnValue = '';
 
         if(is_null($this->item)){
@@ -414,21 +422,25 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function recursivelyFindNamespace($element, $nsFragment) {
+    private function recursivelyFindNamespace($element, $nsFragment)
+    {
+        if (strpos($this->data->saveXML(), $nsFragment) === false) {
+            return '';
+        }
 
         $returnValue = '';
 
         foreach ($element->childNodes as $child) {
 
             if($child->nodeType === XML_ELEMENT_NODE) {
-                    foreach($this->queryXPath('namespace::*', $child) as $node){
-                        $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
-                        $uri = $node->nodeValue;
-                        if(strpos($uri, $nsFragment) > 0){
-                            $returnValue = $name;
-                            break;
-                        }
+                foreach($this->queryXPath('namespace::*', $child) as $node){
+                    $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+                    $uri = $node->nodeValue;
+                    if(strpos($uri, $nsFragment) > 0){
+                        $returnValue = $name;
+                        break;
                     }
+                }
                 $value = $this->recursivelyFindNamespace($child, $nsFragment);
                 if($value !== ''){
                     $returnValue = $value;
@@ -464,7 +476,7 @@ class ParserFactory
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
-                
+
         //load xml ns and schema locations
         $this->loadNamespaces();
         $this->loadSchemaLocations($data);
@@ -579,7 +591,7 @@ class ParserFactory
     }
     
     protected function buildApipAccessibility(DOMElement $data){
-        $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']", $data);
+        $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']|*[name(.) = 'apip:apipAccessibility']", $data);
         if($ApipNodes->length > 0){
             common_Logger::i('is APIP item', array('QTI', 'TAOITEMS'));
             $apipNode = $ApipNodes->item(0);
