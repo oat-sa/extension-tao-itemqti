@@ -115,6 +115,9 @@ define([
                         iframeNotifier.parent('itemcontentchange');
 
                         // set the focus on the first feedback if needed
+                        // TODO: this is heavily related to the old TestRunner, with the ugly iframes.
+                        // To make this working, a search is made accross parent frames.
+                        // When the InlineFeedbacks will be ported to the new TestRunner, a strong improvement will be needed!
                         if (firstFeedback) {
                             autoscroll(firstFeedback);
                         }
