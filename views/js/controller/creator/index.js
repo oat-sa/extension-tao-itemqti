@@ -36,9 +36,9 @@ define([
     var loadAreaBroker = function loadAreaBroker(){
         var $container = $('#item-editor-scope');
         return areaBrokerFactory($container, {
-            'menu':              $('.item-editor-action-bar .item-editor-menu', $container),
-            'menuLeft':          $('.left-bar .item-editor-menu', $container),
-            'menuRight':         $('.right-bar .item-editor-menu', $container),
+            'menu':              $('.menu', $container),
+            'menuLeft':          $('.menu-left', $container),
+            'menuRight':         $('.menu-right', $container),
             'title':             $('#item-editor-label', $container),
             'interactionPanel':  $('#item-editor-interaction-bar', $container),
             'propertyPanel':     $('#item-editor-item-widget-bar', $container),

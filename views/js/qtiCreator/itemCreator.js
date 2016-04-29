@@ -31,15 +31,13 @@ define([
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/interactionsPanel',
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
-    'taoQtiItem/qtiCreator/editor/editorSizer',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
 
 ], function($, _, __, module, eventifier, Promise,
             ciRegistry, icRegistry, itemLoader,
             creatorRenderer, commonRenderer, xincludeRenderer,
-            interactionPanel, propertiesPanel, editorSizer,
-            eventHelper, styleEditor){
+            interactionPanel, propertiesPanel, eventHelper, styleEditor){
     'use strict';
 
 
@@ -133,7 +131,8 @@ define([
 
 
                 //bind behavior events
-                this.on('save', function(){
+                this
+                .on('save', function(){
                     var item = this.getItem();
                     var itemWidget = item.data('widget');
 
@@ -187,11 +186,21 @@ define([
                     return this.trigger('error', new Error('We need an item to render.'));
                 }
 
+
+
+
                 //configure commonRenderer for the preview
                 commonRenderer.setOption('baseUrl', config.properties.baseUrl);
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
 
                 interactionPanel(areaBroker.getInteractionPanelArea(), self.customInterations);
+
+                //the renderers' widgets do not handle async yet, so we rely on this event
+                $(document).on('ready.qti-widget', function(e, elt){
+                    if(elt.element.qtiClass === 'assessmentItem'){
+                        self.trigger('ready');
+                    }
+                });
 
                 creatorRenderer
                     .get(true, config)
@@ -221,9 +230,6 @@ define([
                             });
 
                             propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
-
-
-                            editorSizer();
 
                             //init event listeners:
                             eventHelper.initElementToWidgetListeners();
