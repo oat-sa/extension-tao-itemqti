@@ -43,6 +43,9 @@ define([
          * Initialize the plugin (called during runner's init)
          */
         init : function init(){
+            var self = this;
+
+            var itemCreator = this.getHost();
 
             //spread the "no item prin" class an every element above the item panel
             spreadClass(this.getAreaBroker().getItemPanelArea(), 'item-no-print');
@@ -58,6 +61,11 @@ define([
             });
 
             this.hide();
+            this.disable();
+
+            itemCreator.on('ready', function(){
+                self.enable();
+            });
         },
 
         render : function render(){

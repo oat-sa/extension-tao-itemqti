@@ -58,7 +58,7 @@ define([
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
-
+        var self = this;
         this.registerStates(states);
 
         Widget.initCreator.call(this);
@@ -73,15 +73,19 @@ define([
 
         //this.initUiComponents();
 
-        this.initTextWidgets(function(){
+        return new Promise(function(resolve){
+            self.initTextWidgets(function(){
 
-            //when the text widgets are ready:
-            this.initGridEditor();
+                //when the text widgets are ready:
+                this.initGridEditor();
 
-            //active debugger
-            this.debug({
-                state : false,
-                xml : false
+                //active debugger
+                this.debug({
+                    state : false,
+                    xml : false
+                });
+
+                resolve();
             });
         });
     };

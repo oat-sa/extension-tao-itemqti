@@ -19,9 +19,10 @@
 define([
     'lodash',
     'jquery',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator'
-], function(_, $, Element, invalidator){
+], function(_, $, Promise, Element, invalidator){
     'use strict';
 
     var _pushState = function(widget, stateName){
@@ -49,6 +50,7 @@ define([
          * @returns {Object} The initialized widget
          */
         init : function(element, $original, $form, options){
+            var self = this;
             if(element instanceof Element){
 
                 options = options || {};
@@ -80,20 +82,20 @@ define([
                     }
                 });
                 this.options = options;
-                this.initCreator(options);
+                Promise.resolve(this.initCreator(options)).then(function(){
+                    //init state after creator init
+                    if(options.state){
+                        self.changeState(options.state);
+                    }else{
+                        self.changeState('sleep');
+                    }
 
-                //init state after creator init
-                if(options.state){
-                    this.changeState(options.state);
-                }else{
-                    this.changeState('sleep');
-                }
-
-                //communicate the widget readiness
-                if(_.isFunction(options.ready)){
-                    options.ready.call(this, this);
-                }
-                this.$container.trigger('ready.qti-widget', [this]);
+                    //communicate the widget readiness
+                    if(_.isFunction(options.ready)){
+                        options.ready.call(self, self);
+                    }
+                    self.$container.trigger('ready.qti-widget', [self]);
+                });
 
             }else{
                 throw new Error('element is not a QTI Element');

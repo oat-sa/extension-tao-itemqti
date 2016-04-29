@@ -47,8 +47,9 @@ define([
             });
 
             this.hide();
+            this.disable();
 
-            itemCreator.on('saved', function(){
+            itemCreator.on('ready saved', function(){
                 self.enable();
             });
         },
@@ -58,7 +59,6 @@ define([
             //attach the element to the menu area
             var $container = this.getAreaBroker().getMenuArea();
             $container.append(this.$element);
-            //this.disable();
             this.show();
 
         },
