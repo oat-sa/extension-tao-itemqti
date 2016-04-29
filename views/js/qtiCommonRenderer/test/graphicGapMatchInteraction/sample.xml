@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p1_v1p0.xsd " identifier="EL3173" title="3173" label="" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.1.0-sprint15">
+    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
+        <correctResponse>
+            <value><![CDATA[d_frostcovered b_reactionbeak]]></value>
+            <value><![CDATA[d_insulated b_reactionbody]]></value>
+            <value><![CDATA[d_frostcovered b_reactioneyes]]></value>
+            <value><![CDATA[d_nearly b_reactionfeet]]></value>
+            <value><![CDATA[d_loses b_resultsbeak]]></value>
+            <value><![CDATA[d_keeps b_resultsbody]]></value>
+            <value><![CDATA[d_loses b_resultseyes]]></value>
+            <value><![CDATA[d_keeps b_resultsfeet]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="2" normalMinimum="0">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="pairCorrect" cardinality="single" baseType="float" interpretation="noprocess">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="allCorrect" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>4</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="SCORE_FULL" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>2</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <itemBody>
+        <div class="row">
+            <div class="stem">
+                <p>How do the parts of the chickadee’s body react in extreme cold?</p>
+                <p>Fill out the table by dragging <b>reactions</b> and <b>results</b> from the list and dropping them into the table. Each reaction and result may be dragged more than once. Fill out the table completely.</p>
+            </div>
+            <div class="interaction center">
+                <graphicGapMatchInteraction responseIdentifier="RESPONSE" class="sourcechoices-width-440">
+                    <object data="assets/3173_1.svgz" type="image/svgz" width="380" height="166"/>
+                    <gapImg identifier="d_frostcovered" fixed="false" matchGroup="orange" matchMax="0">
+                        <object data="assets/3173_1_d_frostcovered.svgz" type="image/svgz" width="134" height="26"/>
+                    </gapImg>
+                    <gapImg identifier="d_insulated" fixed="false" matchGroup="orange" matchMax="0">
+                        <object data="assets/3173_1_d_insulated.svgz" type="image/svgz" width="134" height="26"/>
+                    </gapImg>
+                    <gapImg identifier="d_nearly" fixed="false" matchGroup="orange" matchMax="0">
+                        <object data="assets/3173_1_d_nearly.svgz" type="image/svgz" width="134" height="26"/>
+                    </gapImg>
+                    <gapImg identifier="d_loses" fixed="false" matchGroup="blue" matchMax="0">
+                        <object data="assets/3173_1_d_loses.svgz" type="image/svgz" width="130" height="26"/>
+                    </gapImg>
+                    <gapImg identifier="d_keeps" fixed="false" matchGroup="blue" matchMax="0">
+                        <object data="assets/3173_1_d_keeps.svgz" type="image/svgz" width="130" height="26"/>
+                    </gapImg>
+                    <associableHotspot identifier="b_reactionbeak" fixed="false" matchMax="1" matchMin="0" coords="108,50,242,76" matchGroup="orange" shape="rect"/>
+                    <associableHotspot identifier="b_reactionbody" fixed="false" matchMax="1" matchMin="0" coords="108,78,242,104" matchGroup="orange" shape="rect"/>
+                    <associableHotspot identifier="b_reactioneyes" fixed="false" matchMax="1" matchMin="0" coords="108,106,242,132" matchGroup="orange" shape="rect"/>
+                    <associableHotspot identifier="b_reactionfeet" fixed="false" matchMax="1" matchMin="0" coords="108,135,242,161" matchGroup="orange" shape="rect"/>
+                    <associableHotspot identifier="b_resultsbeak" fixed="false" matchMax="1" matchMin="0" coords="245,50,377,76" matchGroup="blue" shape="rect"/>
+                    <associableHotspot identifier="b_resultsbody" fixed="false" matchMax="1" matchMin="0" coords="245,78,377,104" matchGroup="blue" shape="rect"/>
+                    <associableHotspot identifier="b_resultseyes" fixed="false" matchMax="1" matchMin="0" coords="245,106,377,132" matchGroup="blue" shape="rect"/>
+                    <associableHotspot identifier="b_resultsfeet" fixed="false" matchMax="1" matchMin="0" coords="245,135,377,161" matchGroup="blue" shape="rect"/>
+                </graphicGapMatchInteraction>
+            </div>
+
+        </div>
+    </itemBody>
+    <responseProcessing template="Paired">
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <and>
+                        <member>
+                            <baseValue baseType="directedPair">d_frostcovered b_reactionbeak</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                        <member>
+                            <baseValue baseType="directedPair">d_loses b_resultsbeak</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                    </and>
+                </or>
+                <setOutcomeValue identifier="pairCorrect">
+                    <sum>
+                        <variable identifier="pairCorrect"/>
+                        <baseValue baseType="float">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <and>
+                        <member>
+                            <baseValue baseType="directedPair">d_insulated b_reactionbody</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                        <member>
+                            <baseValue baseType="directedPair">d_keeps b_resultsbody</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                    </and>
+                </or>
+                <setOutcomeValue identifier="pairCorrect">
+                    <sum>
+                        <variable identifier="pairCorrect"/>
+                        <baseValue baseType="float">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <and>
+                        <member>
+                            <baseValue baseType="directedPair">d_frostcovered b_reactioneyes</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                        <member>
+                            <baseValue baseType="directedPair">d_loses b_resultseyes</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                    </and>
+                </or>
+                <setOutcomeValue identifier="pairCorrect">
+                    <sum>
+                        <variable identifier="pairCorrect"/>
+                        <baseValue baseType="float">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <and>
+                        <member>
+                            <baseValue baseType="directedPair">d_nearly b_reactionfeet</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                        <member>
+                            <baseValue baseType="directedPair">d_keeps b_resultsfeet</baseValue>
+                            <variable identifier="RESPONSE"/>
+                        </member>
+                    </and>
+                </or>
+                <setOutcomeValue identifier="pairCorrect">
+                    <sum>
+                        <variable identifier="pairCorrect"/>
+                        <baseValue baseType="float">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <!--Give full score in case of correct response.-->
+            <responseIf>
+                <equal toleranceMode="exact">
+                    <variable identifier="pairCorrect"/>
+                    <default identifier="allCorrect"/>
+                </equal>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">2</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElseIf>
+                <gte>
+                    <variable identifier="pairCorrect"/>
+                    <divide>
+                        <default identifier="allCorrect"/>
+                        <baseValue baseType="float">2</baseValue>
+                    </divide>
+                </gte>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">1</baseValue>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElse>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">0</baseValue>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+    </responseProcessing>
+    <apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"/>
+</assessmentItem>

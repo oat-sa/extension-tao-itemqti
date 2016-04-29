@@ -28,8 +28,9 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/gapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'OAT/interact'
+], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse, interact){
     'use strict';
 
     /**
@@ -106,6 +107,7 @@ define([
         var $choiceArea = $container.find('.choice-area'),
             $flowContainer = $container.find('.qti-flow-container'),
             $activeChoice = null;
+        var $choiceRemover = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
 
         var _getChoice = function(serial){
             return $choiceArea.find('[data-serial=' + serial + ']');
@@ -136,35 +138,227 @@ define([
             return ($activeChoice && $activeChoice.hasClass('filled'));
         };
 
-        $container.on('mousedown.commonRenderer', function(e){
+        // $container.on('click.commonRenderer', function(e){
+        interact($container.selector).on("tap", function(e) {
+            e.stopPropagation();
             _resetSelection();
         });
 
-        $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
 
+
+
+
+
+
+
+
+
+        /// ==================================
+        /// START INTERACT
+        /// ==================================
+
+
+        // drag choice
+        //todo Change selector to scope on the interaction
+        interact('.choice-area .qti-choice')
+          .draggable({
+              inertia: false,
+              autoScroll: true,
+              restrict: {
+                  restriction: ".qti-interaction",
+                  endOnly: false,
+                  elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+              },
+              onstart: function(e) {
+                  console.log("CHOICE : start drag");
+                  var $target = $(e.target);
+                  handleChoiceSelectEvent($target);
+              },
+              // call this function on every dragmove event
+              onmove: dragMoveListener,
+              onend: function (event) {
+                  // move back the element
+                  var target = event.target;
+                  target.style.webkitTransform =
+                    target.style.transform =
+                      'translate(0px, 0px)';
+
+                  target.setAttribute('data-x', 0);
+                  target.setAttribute('data-y', 0);
+              }
+          });
+
+        // drag choice on target
+        //todo Change selector to scope on the interaction
+        interact('.qti-flow-container .gapmatch-content.filled')
+          .draggable({
+              inertia: false,
+              autoScroll: true,
+              restrict: {
+                  restriction: ".qti-interaction",
+                  endOnly: false,
+                  elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+              },
+              onstart: function(e) {
+                  console.log("TARGET : start drag");
+                  var $target = $(e.target);
+                  handleTargetSelectEvent($target);
+                  
+                  // $target.css("background", "none");
+              },
+              // call this function on every dragmove event
+              onmove: dragMoveListener,
+              onend: function (event) {
+                  // move back the element
+                  var $target = $(event.target);
+                  // move back the element
+                  var target = event.target;
+                  target.style.webkitTransform =
+                    target.style.transform =
+                      'translate(0px, 0px)';
+
+                  target.setAttribute('data-x', 0);
+                  target.setAttribute('data-y', 0);
+                  console.log("TARGET DRAG END ");
+                  if ($activeChoice) {
+                      _unsetChoice($activeChoice);
+                      _resetSelection();
+                  }
+              }
+          }).preventDefault(true);
+
+        function dragMoveListener (event) {
+            var target = event.target,
+              
+            // keep the dragged position in the data-x/data-y attributes
+              x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+              y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+            console.log("dragging!");
+
+            // translate the element
+            target.style.webkitTransform =
+              target.style.transform =
+                'translate(' + x + 'px, ' + y + 'px)';
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+        }
+
+        // drop
+        interact('.qti-flow-container .gapmatch-content').dropzone({
+            // only accept elements matching this CSS selector
+            //accept: '#yes-drop',
+            // Require a 75% element overlap for a drop to be possible
+            overlap: 0.15,
+
+            // listen for drop related events:
+            /* */
+            ondropactivate: function (event) {
+                // add active dropzone feedback
+                console.log("ondropactivate : "+ JSON.stringify(event.relatedTarget));
+                // event.target.classList.add('drop-active');
+
+            },
+            ondragenter: function (event) {
+                console.log("ondragenter !");
+                var draggableElement = event.relatedTarget,
+                  dropzoneElement = event.target;
+
+                // feedback the possibility of a drop
+                $(event.target).css("border-color", "red");
+            },
+            ondragleave: function (event) {
+                console.log("ondragleave !");
+                $(event.target).css("border-color", "inherit");
+                // $(event.target).css("background", "orange");
+            },
+            /* */
+            ondrop: function (e) {
+                console.log("dropped !");
+                console.log("TARGET DROP START");
+                var $target = $(e.target);
+                // e.stopPropagation();
+                handleTargetEvent($target);
+                // e.preventDefault();
+            /* */
+            },
+            ondropdeactivate: function (event) {
+                console.log("ondropdeactivate !");
+                // $(event.target).css("background", "green");
+            /* */
+            }
+        });
+
+        /// ==================================
+        /// END INTERACT
+        /// ==================================
+
+
+
+
+
+
+
+
+        var choiceSelector = $choiceArea.selector + " .qti-choice";
+
+        interact(choiceSelector).on("tap", function (e) {
+        // $(choiceSelector).on('click.commonRenderer', function(e){
+        // $choiceArea.on('click.commonRenderer', '>li', function(e){
+            console.log("CHOICE : start clic");
+            var $target = $(e.currentTarget);
             e.stopPropagation();
+            handleChoiceSelectEvent($target);
+            e.preventDefault();
+        });
 
-            if ( ($activeChoice && $(this).hasClass('active')) || $(this).hasClass('deactivated') ) {
-                e.preventDefault();
+        // $flowContainer.on('click.commonRenderer', '.gapmatch-content', function(e){
+        interact($flowContainer.selector + " .gapmatch-content").on("tap", function(e) {
+            console.log("TARGET : start clic, preparing handleTArgetEvent");
+            var $target = $(e.currentTarget);
+            e.stopPropagation();
+            handleTargetEvent($target);
+            e.preventDefault();
+
+        });
+
+        interact('.remove-choice').on('tap', function (e) {
+            e.stopPropagation();
+            _unsetChoice($activeChoice);
+            _resetSelection();
+            e.preventDefault();
+        });
+        
+        function handleChoiceSelectEvent($target) {
+            if (($activeChoice && $target.hasClass('active')) || $target.hasClass('deactivated')) {
                 return;
             }
-
             _resetSelection();
 
-            $activeChoice = $(this).addClass('active');
+            $activeChoice = $target.addClass('active');
             $flowContainer.find('.gapmatch-content').addClass('empty');
-        });
+        }
 
-        $flowContainer.on('mousedown.commonRenderer', '.gapmatch-content', function(e){
+        function handleTargetSelectEvent($target) {
+            // if (($activeChoice && $target.hasClass('active')) || $target.hasClass('deactivated')) {
+            //     return;
+            // }
+            // _resetSelection();
 
-            e.stopPropagation();
-
+            $activeChoice = $target.addClass('active');
+            $flowContainer.find('.gapmatch-content').addClass('empty');
+        }
+        function handleTargetEvent($target) {
             if(_isInsertionMode()){
 
-                var $target = $(this),
-                    choiceSerial = $activeChoice.data('serial'),
-                    targetSerial = $target.data('serial');
-                    
+                // debugger;
+                console.log('TARGET : HANDLE EVENT (DROP OR CLIC) = _isInsertionMode // inserting a choice in an empty target');
+
+                var choiceSerial = $activeChoice.data('serial'),
+                  targetSerial = $target.data('serial');
+
                 if(targetSerial !== choiceSerial){
 
                     //set choices:
@@ -181,10 +375,11 @@ define([
 
             }else if(_isModeEditing()){
 
+                console.log('TARGET : HANDLE EVENT (DROP OR CLIC) = _isModeEditing // clicking on a filled target');
+
                 //editing mode:
-                var $target = $(this),
-                    targetSerial = $target.data('serial'),
-                    choiceSerial = $activeChoice.data('serial');
+                var targetSerial = $target.data('serial'),
+                  choiceSerial = $activeChoice.data('serial');
 
                 if(targetSerial !== choiceSerial){
                     _unsetChoice($activeChoice);
@@ -198,40 +393,37 @@ define([
 
                 _resetSelection();
 
-            }else if($(this).data('serial') && $(this).hasClass('filled')){
+            }else if($target.data('serial') && $target.hasClass('filled')){
 
-                //selecting a choice in editing mode:
-                var serial = $(this).data('serial');
+                console.log('TARGET : HANDLE EVENT (DROP OR CLIC) = showing remove feature');
 
-                $activeChoice = $(this);
+                var serial = $target.data('serial');
+
+                $activeChoice = $target;
                 $activeChoice.addClass('active');
+                
+                // debugger;
 
                 $flowContainer.find('>li>div').filter(function(){
-                    return $(this).data('serial') !== serial;
+                    return $target.data('serial') !== serial;
                 }).addClass('empty');
 
                 $choiceArea.find('>li:not(.deactivated)').filter(function(){
-                    return $(this).data('serial') !== serial;
+                    return $target.data('serial') !== serial;
                 }).addClass('empty');
 
                 //append trash bin:
-                var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
-                $bin.on('mousedown', function(e){
-                    e.stopPropagation();
-                    _unsetChoice($activeChoice);
-                    _resetSelection();
-                });
-                $(this).append($bin);
+                $target.append($choiceRemover);
             }
-
-        });
+        }
+        
     };
 
     var resetResponse = function(interaction){
         var $container = containerHelper.get(interaction);
 
         //restore selected choices:
-        $('.gapmatch-content .active', $container).trigger('mousedown.commonRenderer');
+        $('.gapmatch-content .active', $container).trigger('click.commonRenderer');
         $('.gapmatch-content', $container).each(function(){
             unsetChoice(interaction, $(this));
         });
