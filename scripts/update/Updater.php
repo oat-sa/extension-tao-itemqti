@@ -358,5 +358,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
             $this->setVersion('2.24.0');
         }
+
+        $this->skip('2.24.0', '2.25.0');
+	
     }
 }
