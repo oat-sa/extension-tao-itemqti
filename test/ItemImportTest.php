@@ -232,13 +232,15 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
         $this->assertTrue(isset($data['children']));
         $children = $data['children'];
-        $this->assertEquals(2, count($children));
+        $this->assertEquals(3, count($children));
+        
+        $check = array('/images/','/style/');
 
         $file = null;
         $dir = null;
         foreach ($children as $child) {
             if (isset($child['path'])) {
-                $dir = $child;
+               $this->assertContains($child['path'],$check);
             }
             if (isset($child['name'])) {
                 $file = $child;
@@ -248,9 +250,6 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertEquals("qti.xml", $file['name']);
         $this->assertContains("/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
-
-        $this->assertEquals("/images/", $dir['path']);
-        $this->assertEquals("/images/", $dir['parent']);
 
 
         return $item;
