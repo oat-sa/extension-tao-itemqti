@@ -145,14 +145,6 @@ define([
         });
 
 
-
-
-
-
-
-
-
-
         /// ==================================
         /// START INTERACT
         /// ==================================
@@ -297,12 +289,8 @@ define([
 
 
 
-
-
-
-
-
         var choiceSelector = $choiceArea.selector + " .qti-choice";
+        console.log("listener selector " + choiceSelector);
 
         interact(choiceSelector).on("tap", function (e) {
         // $(choiceSelector).on('click.commonRenderer', function(e){
@@ -330,6 +318,14 @@ define([
             _resetSelection();
             e.preventDefault();
         });
+
+        function handleClickOnChoice(e) {
+            console.log("CHOICE : start clic");
+            var $target = $(e.currentTarget);
+            e.stopPropagation();
+            handleChoiceSelectEvent($target);
+            e.preventDefault();
+        }
         
         function handleChoiceSelectEvent($target) {
             if (($activeChoice && $target.hasClass('active')) || $target.hasClass('deactivated')) {
@@ -497,10 +493,10 @@ define([
         var $container = containerHelper.get(interaction);
 
         //remove event
-        $(document).off('.commonRenderer');
-        $container.off('.commonRenderer');
-        $container.find('.choice-area').off('.commonRenderer');
-        $container.find('.qti-flow-container').off('.commonRenderer');
+        interact($container.selector).unset();
+        interact($container.find('.choice-area').selector + " .qti-choice").unset();
+        interact($container.find('.choice-area').selector + " .gapmatch-content").unset();
+        interact('.remove-choice').unset();
 
         //restore selection
         $container.find('.gapmatch-content').empty();

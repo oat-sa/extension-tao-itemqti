@@ -2,7 +2,7 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
-    'json!taoQtiItem/test/samples/json/tao-item.json',
+    'json!taoQtiItem/test/samples/json/tao-item.json'
 ], function($, _, qtiItemRunner, gapMatchData){
     'use strict';
 
@@ -18,7 +18,22 @@ define([
         }
     });
 
-
+    function clickOn(element) {
+        var mousedown = new MouseEvent("mousedown", {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+        element.dispatchEvent(mousedown);
+    
+        var mouseup = new MouseEvent("mouseup", {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+        element.dispatchEvent(mouseup);
+    }
+/* */
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(30);
 
@@ -92,7 +107,7 @@ define([
                 assert.ok( ! $at.hasClass('active'), 'The choice is not active');
                 assert.ok( ! $gap.hasClass('empty'), 'The gap is not highlighted');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
 
@@ -125,10 +140,10 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
-                    $gap.trigger('mousedown');
+                   clickOn($gap.get(0));
                 }, 10);
             })
             .on('statechange', function(state){
@@ -199,10 +214,10 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
-                    $gap.trigger('mousedown');
+                    clickOn($gap.get(0));
 
                     _.delay(function(){
                         assert.deepEqual(self.getState(), {'RESPONSE': { response : { list : { directedPair : [] } } } }, 'Click does not trigger response once destroyed');
@@ -234,10 +249,10 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
-                    $gap.trigger('mousedown');
+                    clickOn($gap.get(0));
 
                     _.delay(function(){
 
@@ -307,7 +322,64 @@ define([
             .init()
             .render($container);
     });
+/* */
+/* * /
+    function dragTo(element, destination) {
+        var mousedown = new MouseEvent("mousedown", {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        element.dispatchEvent(mousedown);
+        
+        
+        var mouseup = new MouseEvent("mouseup", {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        element.dispatchEvent(mouseup);
+        
+        var dragStart = new CustomEvent("dragstart");
+        element.dispatchEvent(dragStart);
+    }
+    
+    QUnit.asyncTest('drag and drop', function(assert){
+        // QUnit.expect(9);
 
+        var $container = $('#' + fixtureContainerId);
+
+        runner = qtiItemRunner('qti', gapMatchData)
+            .on('render', function(){
+                assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
+                assert.equal($container.find('.qti-gapMatchInteraction .qti-choice').length, 16, 'the interaction has 16 choices including gaps');
+
+                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
+                assert.equal($at.length, 1, 'the Authoring tool choice exists');
+
+                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
+                assert.equal($gap.length, 1, 'the gap exists');
+
+                dragTo($at.get(0), $gap.get(0));
+                // _.delay(function(){
+                //     clickOn($gap.get(0));
+                // }, 10);
+
+
+                // todo move on statechange
+                QUnit.start();
+
+            })
+            .on('statechange', function(state){
+                assert.ok(typeof state === 'object', 'The state is an object');
+                assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
+                assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['Text_1', 'Gap_6'] ] } } }, 'The pair CR is selected');
+
+            })
+            .init()
+            .render($container);
+    });
+*/
     module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
