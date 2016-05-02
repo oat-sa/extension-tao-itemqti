@@ -93,58 +93,56 @@ define([
             var entryPoint         = interaction.entryPoint.replace(/\.js$/, '');   //ensure it's an AMD module
             var assetManager       = self.getAssetManager();
             
-            //update config with runtime paths
-//            if(runtimeLocations && runtimeLocations[typeIdentifier]){
-//                runtimeLocation = runtimeLocations[typeIdentifier];
-//            } else{
-//                runtimeLocation = self.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
-//            }
-            var runtimeLocation = assetManager.resolveBy('portableElementLocation', typeIdentifier);
-            if(runtimeLocation){
-                localRequireConfig.paths[typeIdentifier] = runtimeLocation;
-                require.config(localRequireConfig);
-            }else{
-                throw 'portable element runtime location not found';
-            }
-            
-            var runtime = pciRegistry.getRuntime(typeIdentifier);
-            
-            //load the entrypoint
-            var requireEntries = [runtime.hook.replace(/\.js$/, '')];
-            
-            //load stylesheets
-            _.each(runtime.stylesheets, function(stylesheet){
-                requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
-            });
-            
-            //load the entrypoint
-            require(requireEntries, function(){
-
-                var pci = _getPci(interaction);
-                var pciAssetManager = {
-                    resolve : function resolve(url){
-                        return assetManager.resolveBy('portableElementLocation', url);
-                    }
-                };
+            pciRegistry.load(function(){
                 
-                if(pci){
-                    //call pci initialize() to render the pci
-                    pci.initialize(id, $dom[0], config, pciAssetManager);
-                    //restore context (state + response)
-                    pci.setSerializedState(state);
-                    pci.setResponse(response);
-
-                    //forward internal PCI event responseChange
-                    interaction.onPci('responseChange', function(){
-                        containerHelper.triggerResponseChangeEvent(interaction);
-                    });
-
-                    return resolve();
+                var runtimeLocation = assetManager.resolveBy('portableElementLocation', typeIdentifier);
+                if(runtimeLocation){
+                    localRequireConfig.paths[typeIdentifier] = runtimeLocation;
+                    require.config(localRequireConfig);
+                }else{
+                    throw 'portable element runtime location not found';
                 }
+                
+                var runtime = pciRegistry.getRuntime(typeIdentifier);
+            
+                //load the entrypoint
+                var requireEntries = [runtime.hook.replace(/\.js$/, '')];
 
-                return reject('Unable to initiliaze pci : ' + id);
+                //load stylesheets
+                _.each(runtime.stylesheets, function(stylesheet){
+                    requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
+                });
 
-            }, reject);
+                //load the entrypoint
+                require(requireEntries, function(){
+
+                    var pci = _getPci(interaction);
+                    var pciAssetManager = {
+                        resolve : function resolve(url){
+                            return assetManager.resolveBy('portableElementLocation', url);
+                        }
+                    };
+
+                    if(pci){
+                        //call pci initialize() to render the pci
+                        pci.initialize(id, $dom[0], config, pciAssetManager);
+                        //restore context (state + response)
+                        pci.setSerializedState(state);
+                        pci.setResponse(response);
+
+                        //forward internal PCI event responseChange
+                        interaction.onPci('responseChange', function(){
+                            containerHelper.triggerResponseChangeEvent(interaction);
+                        });
+
+                        return resolve();
+                    }
+
+                    return reject('Unable to initiliaze pci : ' + id);
+
+                }, reject);
+                
+            });
         });
     };
 
