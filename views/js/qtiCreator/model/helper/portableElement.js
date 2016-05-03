@@ -94,6 +94,8 @@ define([
                 //add required resource
                 //@todo need afterCreate() to return a promise
                 var _this = this;
+                
+                //remove this
                 registry.addRequiredResources(typeId, item.data('uri'), function(res){
                     if(res.success){
                         $(document).trigger('resourceadded.qti-creator', [typeId, res.resources, _this]);
