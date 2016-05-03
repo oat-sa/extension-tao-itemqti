@@ -27,6 +27,13 @@
         }
     }
     .choice-area {
+        .qti-choice {
+            z-index: 1;
+            &.dragged {
+                background: whiten($info, .91) !important;
+            }
+        }
+
         .deactivated {
             cursor: default;
             opacity: 0.2;
