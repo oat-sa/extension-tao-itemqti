@@ -106,7 +106,11 @@ define([
         var $container = containerHelper.get(interaction);
         var $choiceArea = $container.find('.choice-area');
         var $flowContainer = $container.find('.qti-flow-container');
+
         var $activeChoice = null;
+
+        var isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
+
         var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
 
         var choiceSelector = $choiceArea.selector + " .qti-choice";
@@ -146,9 +150,7 @@ define([
 
         // Drag & drop handlers
 
-        var enableDragAndDrop = true;
-
-        if (enableDragAndDrop) {
+        if (isDragAndDropEnabled) {
             var draggableOptions = {
                 inertia: false,
                 autoScroll: true,
@@ -253,9 +255,9 @@ define([
             e.preventDefault();
         });
 
-        
+
         // Common handlers
-        
+
         function _handleChoiceSelect($target) {
             if (($activeChoice && $target.hasClass('active')) || $target.hasClass('deactivated')) {
                 return;
@@ -270,10 +272,10 @@ define([
             $activeChoice = $target;
             $(gapSelector).addClass('active');
         }
-        
+
         function _handleGapSelect($target) {
             var choiceSerial, targetSerial;
-            
+
             if(_isInsertionMode()){
                 choiceSerial = $activeChoice.data('serial');
                 targetSerial = $target.data('serial');
@@ -313,7 +315,7 @@ define([
 
                 $activeChoice = $target;
                 $activeChoice.addClass('active');
-                
+
                 $flowContainer.find('>li>div').filter(function(){
                     return $target.data('serial') !== serial;
                 }).addClass('empty');
@@ -326,7 +328,6 @@ define([
                 $target.append($bin);
             }
         }
-        
     };
 
     var resetResponse = function(interaction){
