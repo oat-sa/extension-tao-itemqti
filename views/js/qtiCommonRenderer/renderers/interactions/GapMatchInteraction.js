@@ -177,10 +177,14 @@ define([
             // makes filled gaps draggables
             interact(filledGapSelector).draggable(_.assign({}, draggableOptions, {
                 onstart: function (e) {
-                    _handleFilledGapSelect($(e.target));
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+                    _handleFilledGapSelect($target);
                 },
                 onmove: _moveItem,
                 onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass("dragged");
                     _restoreOriginalPosition(e);
                     if ($activeChoice) {
                         _unsetChoice($activeChoice);

@@ -25,6 +25,9 @@
         &.filled {
             top: 0 !important;
         }
+        &.dragged {
+            z-index: 1;
+        }
     }
     .choice-area {
         .qti-choice {
