@@ -16,6 +16,12 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * This plugin prints the item.
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'i18n',
@@ -36,11 +42,16 @@ define([
         });
     };
 
+    /**
+     * Returns the configured plugin
+     * @returns {Function} the plugin
+     */
     return pluginFactory({
+
         name : 'print',
 
         /**
-         * Initialize the plugin (called during runner's init)
+         * Initialize the plugin (called during itemCreator's init)
          */
         init : function init(){
             var self = this;
@@ -48,6 +59,7 @@ define([
             var itemCreator = this.getHost();
 
             //spread the "no item prin" class an every element above the item panel
+            //FIXME this is a weird way, especially because the css class stays after the print...
             spreadClass(this.getAreaBroker().getItemPanelArea(), 'item-no-print');
 
             this.$element = $(buttonTpl({
@@ -77,7 +89,7 @@ define([
         },
 
         /**
-         * Called during the runner's destroy phase
+         * Called during the itemCreator's destroy phase
          */
         destroy : function destroy (){
             this.$element.remove();

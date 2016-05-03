@@ -16,6 +16,12 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * This plugin add a "plus" button below each content block to add content more easily.
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'core/plugin',
@@ -25,13 +31,22 @@ define([
 ], function(_, pluginFactory, blockAdder, qtiElements, ciRegistry){
     'use strict';
 
+    /**
+     * Returns the configured plugin
+     * @returns {Function} the plugin
+     */
     return pluginFactory({
+
         name : 'blockAdder',
 
+        /**
+         * Hook to the host's init
+         */
         init : function init(){
 
-            var customInterations = this.getHost().getCustomInteractions();
-            var interactions = qtiElements.getAvailableAuthoringElements();
+            // load the custom interations from the registry
+            var customInterations = this.getHost().getCustomInteractions() || [];
+            var interactions = qtiElements.getAvailableAuthoringElements() || {};
 
             _.forEach(customInterations, function(interactionModel){
                 var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
@@ -42,9 +57,13 @@ define([
             this.interations = interactions;
         },
 
+        /**
+         * Hook to the host's render
+         */
         render : function render(){
             var item = this.getHost().getItem();
 
+            //set up the block adder
             blockAdder.create(
                 this.getHost().getItem(),
                 this.getAreaBroker().getItemPanelArea(),

@@ -16,6 +16,12 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * This plugin displays the item label (from
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'i18n',
@@ -23,22 +29,36 @@ define([
 ], function($, __, pluginFactory){
     'use strict';
 
+    /**
+     * Returns the configured plugin
+     * @returns {Function} the plugin
+     */
     return pluginFactory({
+
         name : 'title',
 
+        /**
+         * Hook to the host's init
+         */
         init : function init(){
             var config = this.getHost().getConfig();
 
-            this.title = config.properties.label;
+            if(config && config.properties && config.properties.label){
+                this.title = config.properties.label;
+            }
         },
 
+        /**
+         * Hook to the host's render
+         */
         render : function render(){
 
-
-            //attach the element to the title area
-            this.getAreaBroker()
-                .getTitleArea()
-                .text(this.title);
+            if(this.title){
+                //attach the element to the title area
+                this.getAreaBroker()
+                    .getTitleArea()
+                    .text(this.title);
+            }
         }
     });
 });

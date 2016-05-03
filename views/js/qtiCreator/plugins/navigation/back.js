@@ -16,6 +16,13 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * This plugin adds a "back" button that does a History.go(-1)
+ * (like your browser's back button).
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'i18n',
@@ -26,11 +33,16 @@ define([
 ], function($, __, pluginFactory, hider, history, buttonTpl){
     'use strict';
 
+    /**
+     * Returns the configured plugin
+     * @returns {Function} the plugin
+     */
     return pluginFactory({
+
         name : 'back',
 
         /**
-         * Initialize the plugin (called during runner's init)
+         * Initialize the plugin (called during itemCreator's init)
          */
         init : function init(){
             this.$element = $(buttonTpl({
@@ -47,6 +59,9 @@ define([
             this.hide();
         },
 
+        /**
+         * Called during the itemCreator's render phase
+         */
         render : function render(){
 
             //attach the element to the menu area
@@ -56,7 +71,7 @@ define([
         },
 
         /**
-         * Called during the runner's destroy phase
+         * Called during the itemCreator's destroy phase
          */
         destroy : function destroy (){
             this.$element.remove();

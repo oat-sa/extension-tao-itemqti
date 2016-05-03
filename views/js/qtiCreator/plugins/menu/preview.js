@@ -16,6 +16,14 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * This plugin displays add the preview button and launch it.
+ * It also provides a mechanism that ask to save
+ * the item before the preview (if the item has changed - should).
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'i18n',
@@ -29,11 +37,16 @@ define([
 ], function($, __, helpers, pluginFactory, hider, preview, itemSerializer, dialogConfirm, buttonTpl){
     'use strict';
 
+    /**
+     * Returns the configured plugin
+     * @returns {Function} the plugin
+     */
     return pluginFactory({
+
         name : 'preview',
 
         /**
-         * Initialize the plugin (called during runner's init)
+         * Initialize the plugin (called during itemCreator's init)
          */
         init : function init(){
 
@@ -43,23 +56,22 @@ define([
             var needSave  = !!item.data('new');
             var itemData;
 
+            //wrap the preview opening
+            //TODO move away the URLs !!!
             var openPreview = function openPreview(){
                 preview.init(helpers._url('index', 'QtiPreview', 'taoQtiItem', { uri : item.data('uri') }));
                 preview.show();
             };
 
-
+            //creates the preview button
             this.$element = $(buttonTpl({
                 icon: 'preview',
                 title: __('Preview the item'),
                 text : __('Preview'),
                 cssClass: 'preview-trigger'
             })).on('click', function previewHandler(e){
-
-
                 e.preventDefault();
                 self.disable();
-
 
                 if(!needSave){
                     if(itemData !== itemSerializer.serialize(itemCreator.getItem())){
@@ -94,10 +106,10 @@ define([
                 self.enable();
             });
 
+            //we need to save before preview of style has changed (because style content is not part of the item model)
             $(document)
                 .off('stylechange.qti-creator')
                 .on('stylechange.qti-creator', function (event, detail) {
-                    //we need to save before preview of style has changed (because style content is not part of the item model)
                     needSave = !detail || !detail.initializing;
                 });
 
@@ -112,7 +124,7 @@ define([
         },
 
         /**
-         * Called during the runner's destroy phase
+         * Called during the itemCreator's destroy phase
          */
         destroy : function destroy (){
             this.$element.remove();

@@ -15,6 +15,13 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
+
+/**
+ * The plugin loader with the "required" plugins
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'core/pluginLoader',
     'taoQtiItem/qtiCreator/plugins/menu/save',
