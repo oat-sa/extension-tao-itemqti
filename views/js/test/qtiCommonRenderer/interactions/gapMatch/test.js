@@ -19,19 +19,13 @@ define([
     });
 
     function clickOn(element) {
-        var mousedown = new MouseEvent("mousedown", {
-          bubbles: true,
-          cancelable: true,
-          view: window
-        });
-        element.dispatchEvent(mousedown);
-    
-        var mouseup = new MouseEvent("mouseup", {
-          bubbles: true,
-          cancelable: true,
-          view: window
-        });
-        element.dispatchEvent(mouseup);
+        var eventOptions = {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        };
+        element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
     }
 /* */
     QUnit.asyncTest('renders correclty', function(assert){
@@ -232,7 +226,7 @@ define([
     });
 
     QUnit.asyncTest('resets the response', function(assert){
-        QUnit.expect(8);
+        QUnit.expect(10);
 
         var $container = $('#' + fixtureContainerId);
 
@@ -259,16 +253,23 @@ define([
                         assert.ok($gap.hasClass('filled'), 'The gap is now filled');
                         assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
 
-                        //call destroy manually
-                        var interaction = self._item.getInteractions()[0];
-                        interaction.renderer.resetResponse(interaction);
+                        clickOn($gap.get(0));
 
-                        _.delay(function(){
+                        _.delay(function() {
+                            assert.ok($gap.hasClass('active'), 'The gap is now active');
 
-                            assert.ok( ! $gap.hasClass('filled'), 'The gap is not filled anymore');
-                            assert.equal($gap.text(), '', 'The gap is now empty');
+                            //call destroy manually
+                            var interaction = self._item.getInteractions()[0];
+                            interaction.renderer.resetResponse(interaction);
 
-                            QUnit.start();
+                            _.delay(function(){
+
+                                assert.ok( ! $gap.hasClass('filled'), 'The gap is not filled anymore');
+                                assert.ok(! $gap.hasClass('active'), 'The gap is not active anymore');
+                                assert.equal($gap.text(), '', 'The gap is now empty');
+
+                                QUnit.start();
+                            }, 100);
                         }, 100);
                     }, 100);
                 }, 100);

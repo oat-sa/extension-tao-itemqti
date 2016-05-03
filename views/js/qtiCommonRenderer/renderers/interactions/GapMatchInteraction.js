@@ -320,8 +320,7 @@ define([
     var resetResponse = function(interaction){
         var $container = containerHelper.get(interaction);
 
-        //restore selected choices:
-        $('.gapmatch-content .active', $container).trigger('click.commonRenderer'); // todo change !!!
+        $('.gapmatch-content.active', $container).removeClass('active');
         $('.gapmatch-content', $container).each(function(){
             unsetChoice(interaction, $(this));
         });
