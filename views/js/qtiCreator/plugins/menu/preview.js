@@ -42,12 +42,11 @@ define([
             var item = itemCreator.getItem();
             var needSave  = !!item.data('new');
             var itemData;
+
             var openPreview = function openPreview(){
                 preview.init(helpers._url('index', 'QtiPreview', 'taoQtiItem', { uri : item.data('uri') }));
                 preview.show();
             };
-
-
 
 
             this.$element = $(buttonTpl({
@@ -89,10 +88,18 @@ define([
             this.hide();
             this.disable();
 
+            //the item is modified by the creator, so we serialize it once ready, only
             itemCreator.on('ready', function(){
                 itemData = itemSerializer.serialize(item);
                 self.enable();
             });
+
+            $(document)
+                .off('stylechange.qti-creator')
+                .on('stylechange.qti-creator', function (event, detail) {
+                    //we need to save before preview of style has changed (because style content is not part of the item model)
+                    needSave = !detail || !detail.initializing;
+                });
 
         },
 

@@ -16,6 +16,12 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  *
  */
+
+/**
+ * This module let's you set up the interaction panel
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',

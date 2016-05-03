@@ -30,7 +30,6 @@ define(function(){
         },
         'QtiCreator' : {
             'actions' : {
-                //'index' : 'controller/creator/main'
                 'index' : 'controller/creator/index'
             }
         }

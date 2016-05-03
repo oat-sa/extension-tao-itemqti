@@ -21,15 +21,16 @@ define([
     'taoQtiItem/qtiCreator/plugins/menu/save',
     'taoQtiItem/qtiCreator/plugins/menu/preview',
     'taoQtiItem/qtiCreator/plugins/menu/print',
-    'taoQtiItem/qtiCreator/plugins/content/title'
-], function(pluginLoader, back, save, preview, print, title){
+    'taoQtiItem/qtiCreator/plugins/content/title',
+    'taoQtiItem/qtiCreator/plugins/content/blockAdder'
+], function(pluginLoader, back, save, preview, print, title, blockAdder){
     'use strict';
 
     /**
      * Instantiate the plugin loader with all the required plugins configured
      */
     return pluginLoader({
-        navigation : [back],
+        navigation : [],
         menu       : [save, preview, print],
         content    : [title]
     });

@@ -16,6 +16,13 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  *
  */
+
+
+/**
+ * creator/index controller
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -49,34 +56,51 @@ define([
         });
     };
 
+    /**
+     * The creator's controller
+     */
     var indexController = {
 
+        /**
+         * The entrypoint
+         */
         start : function start(){
+
             //TODO move module config away from controllers
             var config = module.config();
 
+            /**
+             * Report errors
+             * @param {Error} err - the error to report
+             */
             var reportError = function reportError(err){
                 loadingBar.stop();
                 window.console.error(err);
-                feedback().error(err.message);
+                if(err instanceof Error){
+                    feedback().error(err.message);
+                }
             };
 
             loadingBar.start();
 
+            //load the plugins
             pluginLoader.load().then(function(){
 
+                //build a new item creator
                 itemCreatorFactory(config, loadAreaBroker(), pluginLoader.getPlugins())
                     .on('error', reportError)
                     .on('success', function(message){
                         feedback().success(message);
                     })
-                    .on('render', function(){
+                    .on('init', function(){
+                        this.render();
+                    })
+                    .on('ready', function(){
                         loadingBar.stop();
                     })
                     .init();
             })
             .catch(reportError);
-
         }
     };
 

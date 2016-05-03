@@ -16,6 +16,16 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  *
  */
+
+/**
+ * The item creator factory let's you create (guess what...)
+ *
+ * The item creator is "unfinished" because all parts aren't yet independants and the loading is anarhic,
+ * however the item creator does a 1st job of wrapping the item creator's bootstrap.
+ *
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -73,11 +83,6 @@ define([
                     reject(new Error('Unable to load the item'));
                 }
 
-                //fires event itemloaded
-                //
-                //?? seems unused
-                $(document).trigger('itemloaded.qticreator', [item]);
-
                 //set useful data :
                 item.data('uri', uri);
                 resolve(item);
@@ -85,6 +90,19 @@ define([
         });
     };
 
+    /**
+     * Build a new Item Creator
+     * @param {Object} config - the creator's configuration
+     * @param {String} config.properties.uri - the URI of the item to load (properties structure is kept as legacy)
+     * @param {String} config.properties.label - the label of the item to load (properties structure is kept as legacy)
+     * @param {String} config.properties.baseUrl - the base URL used to resolve assets
+     * @param {String[]} [config.interactions] - the list of additional interactions to load (PCI)
+     * @param {String[]} [config.infoControls] - the list of info controls to load (PIC)
+     * @param {areaBroker} areaBroker - a mapped areaBroker
+     * @param {Function[]} pluginFactories - the plugin's factory, ready to be instantiated
+     * @returns {itemCreator} an event emitter object, with the usual lifecycle
+     * @throws {TypeError}
+     */
     var itemCreatorFactory = function itemCreatorFactory(config, areaBroker, pluginFactories){
 
         var itemCreator;
@@ -108,6 +126,7 @@ define([
             return Promise.all(execStack);
         };
 
+        //validate parameters
         if(!_.isPlainObject(config)){
             throw new TypeError('The item creator configuration is required');
         }
@@ -118,8 +137,21 @@ define([
             throw new TypeError('Without an areaBroker there are no chance to see something you know');
         }
 
+        //factor the new itemCreator
         itemCreator = eventifier({
 
+        //lifecycle
+
+            /**
+             * Initialize the item creator:
+             *  - set up the registries for portable elements
+             *  - load the item
+             *  - instantiate and initialize the plugins
+             *
+             * @returns {itemCreator} chains
+             * @fires itemCreator#init - once initialized
+             * @fires itemCreator#error - if something went wrong
+             */
             init: function init(){
                 var self = this;
 
@@ -130,12 +162,12 @@ define([
                 });
 
 
-                //bind behavior events
-                this
-                .on('save', function(){
+                //listen for save events
+                this.on('save', function(){
                     var item = this.getItem();
                     var itemWidget = item.data('widget');
 
+                    //do the save
                     Promise.all([
                         itemWidget.save(),
                         styleEditor.save()
@@ -167,8 +199,12 @@ define([
 
                         //initialize all the plugins
                         return pluginRun('init').then(function(){
+
+                            /**
+                             * @event itemCreator#init the initialization is done
+                             * @param {Object} item - the loaded item
+                             */
                             self.trigger('init', self.item);
-                            self.render();
                         });
 
                     }
@@ -177,7 +213,15 @@ define([
                 });
             },
 
-
+            /**
+             * Renders the creator
+             * Because of the actual structure, it also intialize some components (panels, toolbars, etc.).
+             *
+             * @returns {itemCreator} chains
+             * @fires itemCreator#render - once everything is in place
+             * @fires itemCreator#ready - once the creator's components' are ready (not yet reliable)
+             * @fires itemCreator#error - if something went wrong
+             */
             render : function render(){
                 var self = this;
                 var item = this.getItem();
@@ -186,16 +230,14 @@ define([
                     return this.trigger('error', new Error('We need an item to render.'));
                 }
 
-
-
-
                 //configure commonRenderer for the preview
                 commonRenderer.setOption('baseUrl', config.properties.baseUrl);
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
 
-                interactionPanel(areaBroker.getInteractionPanelArea(), self.customInterations);
+                interactionPanel(areaBroker.getInteractionPanelArea(), this.getCustomInteractions());
 
                 //the renderers' widgets do not handle async yet, so we rely on this event
+                //TODO ready should be triggered once every renderer's widget is done (ie. promisify everything)
                 $(document).on('ready.qti-widget', function(e, elt){
                     if(elt.element.qtiClass === 'assessmentItem'){
                         self.trigger('ready');
@@ -243,18 +285,53 @@ define([
                         });
 
                     }, item.getUsedClasses());
+
+                return this;
             },
 
+            /**
+             * Clean up everything and destroy the item creator
+             *
+             * @returns {itemCreator} chains
+             */
             destroy : function destroy(){
-
+                //not yet implemented
+                return this;
             },
 
+
+        //accessors
+
+            /**
+             * Give an access to the loaded item
+             * @returns {Object} the item
+             */
             getItem : function getItem(){
                 return this.item;
             },
 
+            /**
+             * Give an access to the config
+             * @returns {Object} the config
+             */
             getConfig : function getConfig(){
                 return config;
+            },
+
+            /**
+             * Give an access to the loaded additional interactinos
+             * @returns {Object[]} the interations
+             */
+            getCustomInteractions : function getCustomInteractions(){
+                return this.customInterations || {};
+            },
+
+            /**
+             * Give an access to the loaded info controls
+             * @returns {Object[]} the infos controls
+             */
+            getInfoControls : function getInfoControls(){
+                return this.infoControls || {};
             }
 
         });
