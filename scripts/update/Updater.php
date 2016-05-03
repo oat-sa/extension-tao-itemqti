@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
@@ -33,6 +32,7 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 
 /**
  * 
@@ -360,6 +360,14 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('2.24.0', '2.25.0');
+
+        if ($this->isVersion('2.25.0')) {
+
+            $registry = QtiCreatorClientConfigRegistry::getRegistry();
+            $registry->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
+
+            $this->setVersion('2.26.0');
+        }
 	
     }
 }
