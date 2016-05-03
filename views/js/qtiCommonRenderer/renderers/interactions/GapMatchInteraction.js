@@ -143,30 +143,12 @@ define([
             return ($activeChoice && $activeChoice.hasClass('filled'));
         };
 
-        
+
         // Drag & drop handlers
-        var enableDragAndDrop = false;
+
+        var enableDragAndDrop = true;
 
         if (enableDragAndDrop) {
-
-            var moveItem = function moveItem(e) {
-                var target = e.target,
-
-                    x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx,
-                    y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
-
-                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-                target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);
-            };
-
-            var restoreOriginalPosition = function restoreOriginalPosition(e) {
-                var target = e.target;
-                target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)';
-                target.setAttribute('data-x', 0);
-                target.setAttribute('data-y', 0);
-            };
-
             var draggableOptions = {
                 inertia: false,
                 autoScroll: true,
@@ -180,46 +162,57 @@ define([
             // makes choices draggables
             interact(choiceSelector).draggable(_.assign({}, draggableOptions, {
                 onstart: function (e) {
-                    handleChoiceSelect($(e.target));
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+                    _handleChoiceSelect($target);
                 },
-                onmove: moveItem,
-                onend: restoreOriginalPosition
-            }));
+                onmove: _moveItem,
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass("dragged");
+                    _restoreOriginalPosition(e);
+                }
+            })).styleCursor(false);
 
             // makes filled gaps draggables
             interact(filledGapSelector).draggable(_.assign({}, draggableOptions, {
                 onstart: function (e) {
-                    handleFilledGapSelect($(e.target));
+                    _handleFilledGapSelect($(e.target));
                 },
-                onmove: moveItem,
+                onmove: _moveItem,
                 onend: function (e) {
-                    restoreOriginalPosition(e);
+                    _restoreOriginalPosition(e);
                     if ($activeChoice) {
                         _unsetChoice($activeChoice);
                         _resetSelection();
                     }
                 }
-            }));
+            })).styleCursor(false);
 
             // makes gaps droppables
             interact(gapSelector).dropzone({
                 overlap: 0.15,
-                ondropactivate: function (e) {
-                    // add active dropzone feedback
-                },
-                ondragenter: function (e) {
-                    // var draggableElement = e.relatedTarget,
-                    //   dropzoneElement = e.target;
-                    // feedback the possibility of a drop
-                },
-                ondragleave: function (e) {
-                },
                 ondrop: function (e) {
-                    handleGapSelect($(e.target));
-                },
-                ondropdeactivate: function (e) {
+                    _handleGapSelect($(e.target));
                 }
             });
+        }
+
+        function _moveItem(e) {
+            var target = e.target,
+                x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx,
+                y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
+
+            target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+        }
+
+        function _restoreOriginalPosition(e) {
+            var target = e.target;
+            target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)';
+            target.setAttribute('data-x', 0);
+            target.setAttribute('data-y', 0);
         }
 
         // Point & click handlers
@@ -231,13 +224,13 @@ define([
 
         interact(choiceSelector).on('tap', function (e) {
             e.stopPropagation();
-            handleChoiceSelect($(e.currentTarget));
+            _handleChoiceSelect($(e.currentTarget));
             e.preventDefault();
         });
 
         interact(gapSelector).on('tap', function(e) {
             e.stopPropagation();
-            handleGapSelect($(e.currentTarget));
+            _handleGapSelect($(e.currentTarget));
             e.preventDefault();
         });
 
@@ -251,7 +244,7 @@ define([
         
         // Common handlers
         
-        function handleChoiceSelect($target) {
+        function _handleChoiceSelect($target) {
             if (($activeChoice && $target.hasClass('active')) || $target.hasClass('deactivated')) {
                 return;
             }
@@ -261,12 +254,12 @@ define([
             $(gapSelector).addClass('empty');
         }
 
-        function handleFilledGapSelect($target) {
+        function _handleFilledGapSelect($target) {
             $activeChoice = $target;
             $(gapSelector).addClass('empty'); // todo rename to active !
         }
         
-        function handleGapSelect($target) {
+        function _handleGapSelect($target) {
             var choiceSerial, targetSerial;
             
             if(_isInsertionMode()){
