@@ -83,6 +83,12 @@ define([
 
             loadingBar.start();
 
+            if (config && config.plugins) {
+                _.forEach(config.plugins, function (plugin) {
+                    pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                });
+            }
+
             //load the plugins
             pluginLoader.load().then(function(){
 

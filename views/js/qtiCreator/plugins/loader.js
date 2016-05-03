@@ -17,21 +17,18 @@
  */
 define([
     'core/pluginLoader',
-    'taoQtiItem/qtiCreator/plugins/navigation/back',
     'taoQtiItem/qtiCreator/plugins/menu/save',
     'taoQtiItem/qtiCreator/plugins/menu/preview',
     'taoQtiItem/qtiCreator/plugins/menu/print',
     'taoQtiItem/qtiCreator/plugins/content/title',
-    'taoQtiItem/qtiCreator/plugins/content/blockAdder'
-], function(pluginLoader, back, save, preview, print, title, blockAdder){
+], function(pluginLoader, save, preview, print, title){
     'use strict';
 
     /**
      * Instantiate the plugin loader with all the required plugins configured
      */
     return pluginLoader({
-        navigation : [],
         menu       : [save, preview, print],
-        content    : [title]
+        content    : [title],
     });
 });
