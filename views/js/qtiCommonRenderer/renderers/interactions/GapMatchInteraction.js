@@ -226,6 +226,7 @@ define([
             $target.attr('data-y', 0);
         }
 
+
         // Point & click handlers
 
         interact($container.selector).on('tap', function(e) {
@@ -267,7 +268,7 @@ define([
 
         function _handleFilledGapSelect($target) {
             $activeChoice = $target;
-            $(gapSelector).addClass('empty'); // todo rename to active !
+            $(gapSelector).addClass('active');
         }
         
         function _handleGapSelect($target) {
