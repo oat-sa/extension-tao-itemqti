@@ -107,10 +107,12 @@ define([
         var $choiceArea = $container.find('.choice-area');
         var $flowContainer = $container.find('.qti-flow-container');
         var $activeChoice = null;
-        var $choiceRemover = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
+        var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
+
         var choiceSelector = $choiceArea.selector + " .qti-choice";
         var gapSelector = $flowContainer.selector + " .gapmatch-content";
         var filledGapSelector = gapSelector + ".filled";
+        var binSelector = $container.selector + " .remove-choice";
 
         var _getChoice = function(serial){
             return $choiceArea.find('[data-serial=' + serial + ']');
@@ -141,101 +143,105 @@ define([
             return ($activeChoice && $activeChoice.hasClass('filled'));
         };
 
-        // drag & drop handlers
         
-        var draggableOptions = {
-            inertia: false,
-            autoScroll: true,
-            restrict: {
-                restriction: ".qti-interaction",
-                endOnly: false,
-                elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-            }
-        };
-        
-        // makes choices draggables
-        interact(choiceSelector).draggable(_.assign({}, draggableOptions, {
-            onstart: function(e) {
-                handleChoiceSelect($(e.target)); 
-            },
-            onmove: moveItem,
-            onend: restoreOriginalPosition
-        }));
+        // Drag & drop handlers
+        var enableDragAndDrop = false;
 
-        // makes filled gaps draggables
-        interact(filledGapSelector).draggable(_.assign({}, draggableOptions, {
-            onstart: function(e) {
-                handleFilledGapSelect($(e.target)); 
-            },
-            onmove: moveItem,
-            onend: function (e) {
-                restoreOriginalPosition(e);
-                if ($activeChoice) {
-                    _unsetChoice($activeChoice);
-                    _resetSelection();
+        if (enableDragAndDrop) {
+
+            var moveItem = function moveItem(e) {
+                var target = e.target,
+
+                    x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx,
+                    y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
+
+                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+            };
+
+            var restoreOriginalPosition = function restoreOriginalPosition(e) {
+                var target = e.target;
+                target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)';
+                target.setAttribute('data-x', 0);
+                target.setAttribute('data-y', 0);
+            };
+
+            var draggableOptions = {
+                inertia: false,
+                autoScroll: true,
+                restrict: {
+                    restriction: ".qti-interaction",
+                    endOnly: false,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 }
-            }
-        }));
+            };
 
-        function moveItem(e) {
-            var target = e.target,
-              
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx,
-            y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
+            // makes choices draggables
+            interact(choiceSelector).draggable(_.assign({}, draggableOptions, {
+                onstart: function (e) {
+                    handleChoiceSelect($(e.target));
+                },
+                onmove: moveItem,
+                onend: restoreOriginalPosition
+            }));
 
-            target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
+            // makes filled gaps draggables
+            interact(filledGapSelector).draggable(_.assign({}, draggableOptions, {
+                onstart: function (e) {
+                    handleFilledGapSelect($(e.target));
+                },
+                onmove: moveItem,
+                onend: function (e) {
+                    restoreOriginalPosition(e);
+                    if ($activeChoice) {
+                        _unsetChoice($activeChoice);
+                        _resetSelection();
+                    }
+                }
+            }));
+
+            // makes gaps droppables
+            interact(gapSelector).dropzone({
+                overlap: 0.15,
+                ondropactivate: function (e) {
+                    // add active dropzone feedback
+                },
+                ondragenter: function (e) {
+                    // var draggableElement = e.relatedTarget,
+                    //   dropzoneElement = e.target;
+                    // feedback the possibility of a drop
+                },
+                ondragleave: function (e) {
+                },
+                ondrop: function (e) {
+                    handleGapSelect($(e.target));
+                },
+                ondropdeactivate: function (e) {
+                }
+            });
         }
 
-        function restoreOriginalPosition(e) {
-            var target = e.target;
-            target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)';
-            target.setAttribute('data-x', 0);
-            target.setAttribute('data-y', 0);
-        }
+        // Point & click handlers
 
-        // makes gaps droppables
-        interact(gapSelector).dropzone({
-            overlap: 0.15,
-            ondropactivate: function (e) {
-                // add active dropzone feedback
-            },
-            ondragenter: function (e) {
-                // var draggableElement = e.relatedTarget,
-                //   dropzoneElement = e.target;
-                // feedback the possibility of a drop
-            },
-            ondragleave: function (e) {
-            },
-            ondrop: function (e) {
-                handleGapSelect($(e.target));
-            },
-            ondropdeactivate: function (e) {
-            }
-        });
-
-        
-        // point & click handlers
-
-        interact($container.selector).on("tap", function(e) {
+        interact($container.selector).on('tap', function(e) {
             e.stopPropagation();
             _resetSelection();
         });
 
-        interact(choiceSelector).on("tap", function (e) {
+        interact(choiceSelector).on('tap', function (e) {
             e.stopPropagation();
             handleChoiceSelect($(e.currentTarget));
             e.preventDefault();
         });
 
-        interact(gapSelector).on("tap", function(e) {
+        interact(gapSelector).on('tap', function(e) {
             e.stopPropagation();
             handleGapSelect($(e.currentTarget));
             e.preventDefault();
         });
 
-        interact('.remove-choice').on('tap', function (e) {
+        interact(binSelector).on('tap', function (e) {
             e.stopPropagation();
             _unsetChoice($activeChoice);
             _resetSelection();
@@ -312,7 +318,7 @@ define([
                 }).addClass('empty');
 
                 //append trash bin:
-                $target.append($choiceRemover);
+                $target.append($bin);
             }
         }
         
@@ -322,7 +328,7 @@ define([
         var $container = containerHelper.get(interaction);
 
         //restore selected choices:
-        $('.gapmatch-content .active', $container).trigger('click.commonRenderer');
+        $('.gapmatch-content .active', $container).trigger('click.commonRenderer'); // todo change !!!
         $('.gapmatch-content', $container).each(function(){
             unsetChoice(interaction, $(this));
         });
@@ -398,8 +404,8 @@ define([
         //remove event
         interact($container.selector).unset();
         interact($container.find('.choice-area').selector + " .qti-choice").unset();
-        interact($container.find('.choice-area').selector + " .gapmatch-content").unset();
-        interact('.remove-choice').unset();
+        interact($container.find('.qti-flow-container').selector + " .gapmatch-content").unset();
+        interact($container.find('.remove-choice').selector).unset();
 
         //restore selection
         $container.find('.gapmatch-content').empty();
