@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\models;
+namespace oat\taoQtiItem\model;
 
 use oat\tao\model\ClientLibConfigRegistry;
 
@@ -69,6 +69,7 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
         }
 
         $plugins[] = [
+            'name' => $name,
             'module' => $module,
             'category' => $category,
             'position' => $position,
@@ -100,6 +101,7 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
         $plugins = $config['plugins'];
 
         $plugin = [
+            'name' => $name,
             'module' => $module,
             'category' => $category,
             'position' => $position,

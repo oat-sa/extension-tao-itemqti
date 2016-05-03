@@ -32,7 +32,7 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
-use oat\taoQtiItem\models\QtiCreatorClientConfigRegistry;
+use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 
 /**
  * 
