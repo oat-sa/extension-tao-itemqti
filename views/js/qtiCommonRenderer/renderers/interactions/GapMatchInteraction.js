@@ -170,7 +170,8 @@ define([
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
-                    _restoreOriginalPosition(e);
+
+                    _restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
 
@@ -185,7 +186,9 @@ define([
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
-                    _restoreOriginalPosition(e);
+
+                    _restoreOriginalPosition($target);
+
                     if ($activeChoice) {
                         _unsetChoice($activeChoice);
                         _resetSelection();
@@ -203,20 +206,24 @@ define([
         }
 
         function _moveItem(e) {
-            var target = e.target,
-                x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx,
-                y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
+            var $target = $(e.target),
+                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+                transform = 'translate(' + x + 'px, ' + y + 'px)';
 
-            target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
+            $target.css("webkitTransform", transform);
+            $target.css("transform", transform);
+            $target.attr('data-x', x);
+            $target.attr('data-y', y);
         }
 
-        function _restoreOriginalPosition(e) {
-            var target = e.target;
-            target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)';
-            target.setAttribute('data-x', 0);
-            target.setAttribute('data-y', 0);
+        function _restoreOriginalPosition($target) {
+            var transform = 'translate(0px, 0px)';
+
+            $target.css("webkitTransform", transform);
+            $target.css("transform", transform);
+            $target.attr('data-x', 0);
+            $target.attr('data-y', 0);
         }
 
         // Point & click handlers
