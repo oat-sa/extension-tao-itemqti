@@ -34,10 +34,10 @@ define([
         name : 'portableElementLocation',
         handle : function handlePortableElementLocation(url){
             if(url.file === url.path){
-                return pciRegistry.getRuntimeLocation(url.file);
+                return pciRegistry.getBaseUrl(url.file);
             }else if(url.source === url.relative){
                 return url.relative.replace(/^(\.\/)?([a-z_0-9]+)\/(.*)/i, function(fullmatch, $1, typeIdentifier, relPath){
-                    var runtimeLocation = pciRegistry.getRuntimeLocation(typeIdentifier);
+                    var runtimeLocation = pciRegistry.getBaseUrl(typeIdentifier);
                     if(runtimeLocation){
                         return runtimeLocation + '/' + relPath;
                     }
