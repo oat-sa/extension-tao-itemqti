@@ -29,9 +29,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'OAT/interact'
-], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
+], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
     'use strict';
 
     /**
@@ -124,112 +123,6 @@ define([
      * @param {jQueryElement} $orderList - the list than contains the orderers
      */
     var _renderGapList = function _renderGapList(interaction, $gapList){
-
-
-
-
-
-
-
-        /// ==================================
-        /// START INTERACT
-        /// ==================================
-
-/* */
-        //todo wrong selector !!! (unscoped)
-
-        interact('.block-listing.horizontal.source .qti-choice')
-          .draggable({
-              inertia: true,
-              autoScroll: true,
-              restrict: {
-                  restriction: ".qti-interaction",
-                  endOnly: false,
-                  elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-              },
-              // call this function on every dragmove event
-              onmove: dragMoveListener,
-              // call this function on every dragend event
-              onend: function (event) {
-                  // move back the element
-                  var target = event.target;
-                  target.style.webkitTransform =
-                    target.style.transform =
-                      'translate(0px, 0px)';
-
-                  target.setAttribute('data-x', 0);
-                  target.setAttribute('data-y', 0);
-              }
-          });
-
-        function dragMoveListener (event) {
-            var target = event.target,
-
-            // keep the dragged position in the data-x/data-y attributes
-              x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-              y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-            console.log("dragging!");
-
-            // translate the element
-            target.style.webkitTransform =
-              target.style.transform =
-                'translate(' + x + 'px, ' + y + 'px)';
-
-            // update the posiion attributes
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
-        }
-/*
-        // enable draggables to be dropped into this
-        interact('.qti-flow-container .gapmatch-content').dropzone({
-            // only accept elements matching this CSS selector
-            //accept: '#yes-drop',
-            // Require a 75% element overlap for a drop to be possible
-            overlap: 0.75,
-
-            // listen for drop related events:
-            ondropactivate: function (event) {
-                // add active dropzone feedback
-                console.log("ondropactivate : "+ JSON.stringify(event.target));
-                event.target.classList.add('drop-active');
-            },
-            ondragenter: function (event) {
-                console.log("ondragenter !");
-                var draggableElement = event.relatedTarget,
-                  dropzoneElement = event.target;
-
-                // feedback the possibility of a drop
-                dropzoneElement.classList.add('drop-target');
-                draggableElement.classList.add('can-drop');
-                draggableElement.textContent = 'Dragged in';
-            },
-            ondragleave: function (event) {
-                console.log("ondragleave !");
-                // remove the drop feedback style
-                event.target.classList.remove('drop-target');
-                event.relatedTarget.classList.remove('can-drop');
-                event.relatedTarget.textContent = 'Dragged out';
-            },
-            ondrop: function (event) {
-                console.log("dropped !");
-            },
-            ondropdeactivate: function (event) {
-                console.log("ondropdeactivate !");
-                // remove active dropzone feedback
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove('drop-target');
-            }
-        });
-
-/* */
-
-        /// ==================================
-        /// END INTERACT
-        /// ==================================
-
-
-
 
         //activate the gap filling
         $gapList.children('li').click(function onClickGapImg (e){
