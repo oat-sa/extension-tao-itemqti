@@ -51,6 +51,7 @@ return array(
 			dirname(__FILE__).'/install/scripts/setQtiRunnerConfig.php',
 			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
+			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig'
 		)
 	),
 	'local'	=> array(
