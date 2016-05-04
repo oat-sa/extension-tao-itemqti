@@ -21,6 +21,7 @@ define([
     'i18n',
     'jquery',
     'helpers',
+    'core/promise',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/item/states/states',
     'taoQtiItem/qtiItem/core/Element',
@@ -31,7 +32,6 @@ define([
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'taoQtiItem/qtiCreator/editor/editor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
 ], function(
@@ -39,6 +39,7 @@ define([
     __,
     $,
     helpers,
+    Promise,
     Widget,
     states,
     Element,
@@ -49,7 +50,6 @@ define([
     devTools,
     TextWidget,
     styleEditor,
-    itemEditor,
     genericFeedbackPopup
     ){
 
@@ -58,7 +58,7 @@ define([
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
-
+        var self = this;
         this.registerStates(states);
 
         Widget.initCreator.call(this);
@@ -71,17 +71,21 @@ define([
 
         this.itemUri = config.uri;
 
-        this.initUiComponents();
+        //this.initUiComponents();
 
-        this.initTextWidgets(function(){
+        return new Promise(function(resolve){
+            self.initTextWidgets(function(){
 
-            //when the text widgets are ready:
-            this.initGridEditor();
+                //when the text widgets are ready:
+                this.initGridEditor();
 
-            //active debugger
-            this.debug({
-                state : false,
-                xml : false
+                //active debugger
+                this.debug({
+                    state : false,
+                    xml : false
+                });
+
+                resolve();
             });
         });
     };
@@ -91,13 +95,23 @@ define([
         this.$container = this.$original;
     };
 
+    /**
+     * Save the item by sending the XML in a POST request to the server
+     *TODO saving mechanism should be indenpendant, ie. moved into the itemCreator, in order to configure endpoint, etc.
+     *
+     * @returns {Promise} that wraps the request
+     */
     ItemWidget.save = function(){
-        return $.ajax({
-            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem', {uri : this.itemUri}),
-            type : 'POST',
-            contentType : 'text/xml',
-            dataType : 'json',
-            data : xmlRenderer.render(this.element)
+        var self = this;
+        return new Promise(function(resolve){
+            $.ajax({
+                url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem', {uri : self.itemUri}),
+                type : 'POST',
+                contentType : 'text/xml',
+                dataType : 'json',
+                data : xmlRenderer.render(self.element)
+            })
+            .done(resolve);
         });
     };
 
@@ -109,7 +123,7 @@ define([
             $previewBtn = $('.preview-trigger');
 
         //init save button:
-        $saveBtn.on('click', function(e){
+      /*  $saveBtn.on('click', function(e){
 
             var $saveButton = $(this);
 
@@ -153,11 +167,11 @@ define([
                 });
             });
 
-        });
+        });*/
 
-        $previewBtn.on('click', function(){
-            itemEditor.initPreview(_widget);
-        });
+        //$previewBtn.on('click', function(){
+            //itemEditor.initPreview(_widget);
+        //});
 
         //listen to invalid states:
         _widget.on('metaChange', function(data){

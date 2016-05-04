@@ -338,7 +338,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
 
             $this->setVersion('2.23.0');
-        }
+    }
 
         if ($this->isVersion('2.23.0')) {
             $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
@@ -368,6 +368,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('2.26.0');
         }
+        $this->skip('2.26.0', '2.27.0');
 	
     }
 }
