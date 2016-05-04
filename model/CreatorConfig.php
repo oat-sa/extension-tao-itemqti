@@ -61,9 +61,9 @@ Class CreatorConfig extends Config
      * @param string $name - the plugin name
      */
     public function removePlugin($name){
-        foreach($this->plugins as $plugin => $i){
+        foreach($this->plugins as $key => $plugin){
             if($plugin['name'] == $name){
-                unset($this->plugins[$i]);
+                $this->plugins[$i]['exclude'] = true;
             }
         }
     }
