@@ -32,6 +32,7 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 
 /**
  * 
@@ -316,8 +317,59 @@ class Updater extends \common_ext_ExtensionUpdater
             
             $this->setVersion('2.20.0');
         }
+	
+	$this->skip('2.20.0', '2.22.0');
 
-        $this->skip('2.20.0', '2.27.0');
+        if ($this->isVersion('2.22.0')) {
+            $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $columns = $simpleExporter->getOption('columns');
+            $responseIdentifier['responseIdentifier'] = array (
+                'extractor' => 'QtiExtractor',
+                'parameters' => array (
+                    'callback' => 'getResponseIdentifier',
+                )
+            );
+
+            $offset = array_search('BR', array_keys($columns));
+            $columns = array_slice($columns, 0, $offset, true) + $responseIdentifier + array_slice($columns, $offset, NULL, true);
+
+            $simpleExporter->setOption('columns', $columns);
+            $simpleExporter->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
+
+            $this->setVersion('2.23.0');
+        }
+
+        if ($this->isVersion('2.23.0')) {
+            $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $columns = $simpleExporter->getOption('columns');
+            $columns['BR'] = array (
+                'extractor' => 'QtiExtractor',
+                'parameters' => array(
+                    'callback' => 'getRightAnswer',
+                    'callbackParameters' => array(
+                        'delimiter' => '|',
+                    ),
+                    'valuesAsColumns' => true
+                )
+            );
+            $simpleExporter->setOption('columns', $columns);
+            $simpleExporter->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
+            $this->setVersion('2.24.0');
+        }
+
+        $this->skip('2.24.0', '2.25.0');
+
+        if ($this->isVersion('2.25.0')) {
+
+            $registry = QtiCreatorClientConfigRegistry::getRegistry();
+            $registry->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
+
+            $this->setVersion('2.26.0');
+        }
+
+        $this->skip('2.26.0', '2.27.0');
     }
 
 }
