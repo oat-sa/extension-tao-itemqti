@@ -82,10 +82,8 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
     /**
      * @param $name
      * @param $module
-     * @param $category
-     * @param null $position
      */
-    public function removePlugin($name, $module, $category, $position = null)
+    public function removePlugin($name, $module)
     {
         $config = [];
         $registry = self::getRegistry();
@@ -99,17 +97,11 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
         }
 
         $plugins = $config['plugins'];
-
-        $plugin = [
-            'name' => $name,
-            'module' => $module,
-            'category' => $category,
-            'position' => $position,
-        ];
-
-        $key = array_search($plugin, $plugins);
-        if (is_numeric($key)) {
-            unset($plugins[$key]);
+        foreach($plugins as $key => $plugin){
+            if( (isset($name) && $plugin['name'] == $name) ||
+                (isset($module) && $plugin['module'] == $module)){
+               $plugins[$key]['exclude'] = true;
+            }
         }
 
         $config['plugins'] = $plugins;
