@@ -83,20 +83,19 @@ define([
                 });
                 this.options = options;
                 Promise.resolve(this.initCreator(options)).then(function(){
-                    //init state after creator init
-                    if(options.state){
-                        self.changeState(options.state);
-                    }else{
-                        self.changeState('sleep');
-                    }
-
                     //communicate the widget readiness
-                    if(_.isFunction(options.ready)){
-                        options.ready.call(self, self);
+                    if(_.isFunction(self.options.ready)){
+                        self.options.ready.call(self, self);
                     }
                     self.$container.trigger('ready.qti-widget', [self]);
                 });
 
+                //init state after creator init
+                if(this.options.state){
+                    this.changeState(this.options.state);
+                }else{
+                    this.changeState('sleep');
+                }
             }else{
                 throw new Error('element is not a QTI Element');
             }
