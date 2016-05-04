@@ -86,10 +86,12 @@ define([
             //load plugins dynamically
             if (config && config.plugins) {
                 _.forEach(config.plugins, function (plugin) {
-                    if(plugin && plugin.module === false && plugin.name){
-                        pluginLoader.remove(plugin.name);
-                    } else {
-                        pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                    if(plugin && plugin.module){
+                        if(plugin.exclude){
+                            pluginLoader.remove(plugin.module);
+                        } else {
+                            pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                        }
                     }
                 });
             }
