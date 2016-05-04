@@ -231,6 +231,12 @@ class QtiCreator extends tao_actions_CommonModule
         ));
         $config->setProperty('baseUrl', $url);
 
+        //map the multi column config to the plugin
+        //TODO migrate the config 
+        if($config->getProperty('multi-column') == true){
+            $config->addPlugin('blockAdder', 'taoQtiItem/qtiCreator/plugins/content/blockAdder', 'content');
+        }
+
         $mediaSourcesUrl = tao_helpers_Uri::url(
             'getMediaSources',
             'QtiCreator',

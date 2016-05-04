@@ -83,9 +83,14 @@ define([
 
             loadingBar.start();
 
+            //load plugins dynamically
             if (config && config.plugins) {
                 _.forEach(config.plugins, function (plugin) {
-                    pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                    if(plugin && plugin.module === false && plugin.name){
+                        pluginLoader.remove(plugin.name);
+                    } else {
+                        pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                    }
                 });
             }
 
