@@ -369,5 +369,11 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.26.0');
         }
 	
+        if ($this->isVersion('2.26.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class));
+            $this->setVersion('2.27.0');
+        }
     }
 }
