@@ -35,6 +35,9 @@ use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
+use oat\taoQtiItem\controller\QtiPreview;
+use oat\taoQtiItem\controller\QtiCreator;
+use oat\taoQtiItem\controller\QtiCssAuthoring;
 
 /**
  * 
