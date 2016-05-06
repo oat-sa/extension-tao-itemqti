@@ -11,7 +11,6 @@
     </correctResponse>
   </responseDeclaration>
   <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE"/>
-  <stylesheet href="style/custom/tao-user-styles.css" title="" type="text/css" media="all"/>
   <itemBody>
     <div class="grid-row">
       <div class="col-12">
