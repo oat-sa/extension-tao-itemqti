@@ -150,7 +150,7 @@ define([
 
         // Drag & drop handlers
 
-        if (true || isDragAndDropEnabled) {
+        if (isDragAndDropEnabled) {
             var draggableOptions = {
                 inertia: false,
                 autoScroll: true,
