@@ -70,7 +70,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         
         $this->assertTrue(isset($data['children']));
         $children = $data['children'];
-        $this->assertEquals(2, count($children));
+        $this->assertEquals(3, count($children));
         
         $file = null;
         $dir = null;
