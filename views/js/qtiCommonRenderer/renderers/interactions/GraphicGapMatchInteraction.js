@@ -29,8 +29,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'OAT/interact'
+], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
     'use strict';
 
     /**
@@ -107,11 +108,12 @@ define([
         })
         .data('max', choice.attr('matchMax') )
         .data('matching', [])
-        .click(function onClickShape(){
+        ;
 
+        interact(rElement.node).on('tap', function onClickShape(){
             // check if can make the shape selectable on click
-            if(_isMatchable(this) && this.selectable === true){
-                _selectShape(interaction, this);
+            if(_isMatchable(rElement) && rElement.selectable === true){
+                _selectShape(interaction, rElement);
             }
         });
     };
@@ -125,22 +127,74 @@ define([
     var _renderGapList = function _renderGapList(interaction, $gapList){
 
         //activate the gap filling
-        $gapList.children('li').click(function onClickGapImg (e){
+        var choiceSelector = $gapList.selector + ' li';
+        // $gapList.children('li').click(function onClickGapImg (e){
+        interact(choiceSelector).on('tap', function onClickGapImg(e) {
+            e.stopPropagation();
             e.preventDefault();
-            var $elt = $(this);
+            var $elt = $(e.currentTarget);
+            // var $elt = $(this);
             if(!$elt.hasClass('disabled')){
 
-                //toggle tha active state of the gap images
+                //toggle the active state of the gap images
                 if($elt.hasClass('active')){
                     $elt.removeClass('active');
                     _shapesUnSelectable(interaction);
                 } else {
                     $gapList.children('li').removeClass('active');
                     $elt.addClass('active');
+                    console.log("setting active");
                     _shapesSelectable(interaction);
                 }
             }
         });
+
+
+        // ============
+        // DRAG & DROP
+        // ============
+/*
+
+        // make it draggable
+        var draggableOptions = {
+            inertia: false,
+            autoScroll: true,
+            restrict: {
+                restriction: ".qti-interaction",
+                endOnly: false,
+                elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+            }
+        };
+
+        // makes choices draggables
+        interact($gapList.children('li').get(0)).draggable(_.assign({}, draggableOptions, {
+            onstart: function (e) {
+                var $target = $(e.target);
+                // $target.addClass("dragged");
+                // _handleChoiceSelect($target);
+            },
+            onmove: _moveItem,
+            onend: function (e) {
+                var $target = $(e.target);
+                // $target.removeClass("dragged");
+                //
+                // _restoreOriginalPosition($target);
+            }
+        })).styleCursor(false);
+
+
+        function _moveItem(e) {
+            var $target = $(e.target),
+                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+                transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+            $target.css("webkitTransform", transform);
+            $target.css("transform", transform);
+            $target.attr('data-x', x);
+            $target.attr('data-y', y);
+        }
+*/
     };
 
     /**
@@ -152,8 +206,10 @@ define([
         var $container = containerHelper.get(interaction);
         var $gapImages = $('ul > li', $container);
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
+
         if(image){
-            image.click(function(){
+            // image.click(function(){
+            interact(image.node).on('tap', function() {
                 _shapesUnSelectable(interaction);
                 $gapImages.removeClass('active');
             });
@@ -241,8 +297,11 @@ define([
                 })
                 .data('identifier', id)
                 .toFront()
-                .unclick()
-                .click(function(e){
+                ;
+
+                // .unclick()
+                // .click(function(e){
+                interact(gapFiller.node).unset().on('tap', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     if($gapList.find('.active').length > 0){

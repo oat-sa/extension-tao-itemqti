@@ -46,7 +46,7 @@ define([
             }
         }
     });
-/* */
+/* * /
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(20);
 
@@ -110,7 +110,8 @@ define([
                 assert.ok( ! $at.hasClass('active'), 'The choice is not active');
                 assert.strictEqual( $gap.attr('stroke'), '#8d949e', 'The gap is not highlighted');
 
-                $at.trigger('click');
+                // $at.trigger('click');
+                clickOn($at.get(0));
 
                 _.delay(function(){
 
@@ -118,7 +119,7 @@ define([
                     assert.strictEqual( $gap.attr('stroke'), '#3e7da7', 'The gap is now highlighted');
 
                     QUnit.start();
-                }, 500); // todo too long!!!
+                }, 1000); // todo too long!!!
             })
             .assets(strategies)
             .init()
@@ -316,8 +317,10 @@ define([
                 var $gap = $('.main-image-box rect', $container).eq(5);
 
 
-                $at.trigger('click');
+                // $at.trigger('click');
+                // clickOn($at.get(0));
 
+                /*
                 _.delay(function () {
                     var gap = $gap.get(0);
                     gap.dispatchEvent(new CustomEvent("click"));
@@ -325,6 +328,7 @@ define([
                             QUnit.start();
                         }, 500);
                 }, 500);
+                */
             })
             .assets(strategies)
             .init()
