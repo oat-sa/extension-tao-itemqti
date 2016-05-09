@@ -142,17 +142,18 @@ define([
      * @returns {jQuery|null}
      */
     function getQtiContainer() {
-        var parent = window.parent;
+        var me = window;
         var $container = null;
         var max = 10;
-        while (parent && max--) {
-            if (parent.$) {
-                $container = parent.$('#qti-content');
+
+        while (me && me.__knownParent__ && max--) {
+            me = me.parent;
+            if (me && me.$) {
+                $container = me.$('#qti-content');
                 if ($container.length) {
                     return $container;
                 }
             }
-            parent = parent.parent
         }
         return null;
     }
