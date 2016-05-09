@@ -625,6 +625,19 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $itemData = $this->toArray(true, $filtered);
         unset($itemData['responseProcessing']);
 
+        /* BT Customization START */
+        if($this->apipAccessibility != '') {
+            $itemData["audioPlaylist"] = $this->getAudioPlayListFromApipAccessibility();
+            if (!$itemData["audioPlaylist"]) {
+                common_Logger::i("Item doesn't have apipAccessibility node to parse audioPlayList");
+            }
+        }
+        else {
+            $itemData["audioPlaylist"] = false;
+            common_Logger::i("Item doesn't have apipAccessibility node to parse audioPlayList");
+        }
+        /* BT Customization END */
+
         return array('core' => $itemData, 'variable' => $filtered);
     }
 
@@ -639,4 +652,62 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         return $returnValue;
     }
 
+    // BT Customization Start
+    /**
+     * Get audio play list from apipaccessibility node
+     *
+     * @access private
+     * @author Mahmoud Kasdi, <mahmoud.kasdi@breaktech.com>
+     * @param
+     * 			String apipAccessibility
+     * @return array
+     */
+    private function getAudioPlayListFromApipAccessibility() {
+        $returnValue = array();
+        $audioList = array();
+        $inclusionList = array();
+        $xmlDoc = simplexml_load_string($this->apipAccessibility);
+        if (isset($xmlDoc->inclusionOrder)) {
+            foreach ($xmlDoc->inclusionOrder->children() as $inclusion) {
+                foreach ($inclusion->elementOrder as $child) {
+                    $inclusionList[$inclusion->getName()][] = (string)$child->attributes()->identifierRef;
+                }
+            }
+        }
+        else {
+            return false;
+        }
+        if (isset($xmlDoc->accessibilityInfo)) {
+            foreach ($xmlDoc->accessibilityInfo->children() as $node) {
+                if (isset($node->relatedElementInfo->spoken->audioFileInfo)) {
+                    $contentLinkIdentifier = (string)$node->relatedElementInfo->spoken->audioFileInfo->attributes()->contentLinkIdentifier;
+                }
+                else {
+                    $contentLinkIdentifier = null;
+                }
+
+                if (isset($node->relatedElementInfo->spoken->audioFileInfo->fileHref)) {
+                    $fileHref = (string)$node->relatedElementInfo->spoken->audioFileInfo->fileHref;
+                }
+                else {
+                    $href = null;
+                }
+
+                if (isset($node->relatedElementInfo->spoken->spokenText)) {
+                    $text =  (string)$node->relatedElementInfo->spoken->spokenText;
+                }
+                else {
+                    $text = null;
+                }
+                $audioList [(string)$node->attributes()->identifier] = array("text" => $text, "fileHref" => $fileHref, "contentLinkIdentifier" => $contentLinkIdentifier);
+            }
+        }
+        else {
+            return false;
+        }
+        $returnValue["inclusionList"] = $inclusionList;
+        $returnValue["audioList"] = $audioList;
+        return $returnValue;
+    }
+    // BT Customization End
 }
