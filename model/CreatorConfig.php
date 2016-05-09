@@ -32,6 +32,7 @@ Class CreatorConfig extends Config
 
     protected $interactions = array();
     protected $infoControls = array();
+    protected $plugins      = array();
 
     public function addInteraction($interactionFile){
         $this->interactions[] = $interactionFile;
@@ -39,6 +40,32 @@ Class CreatorConfig extends Config
 
     public function addInfoControl($infoControl){
         $this->infoControls[] = $infoControl;
+    }
+
+    /**
+     * Add a plugin to the configuration
+     * @param string $name - the plugin name
+     * @param string $module - the plugin AMD module
+     * @param string $category - the plugin category
+     */
+    public function addPlugin($name, $module, $category){
+        $this->plugins[] = array(
+            'name' => $name,
+            'module' => $module,
+            'category' => $category
+        );
+    }
+
+    /**
+     * Remove a plugin from the configuration
+     * @param string $name - the plugin name
+     */
+    public function removePlugin($name){
+        foreach($this->plugins as $key => $plugin){
+            if($plugin['name'] == $name){
+                $this->plugins[$key]['exclude'] = true;
+            }
+        }
     }
 
     public function toArray(){
@@ -56,8 +83,8 @@ Class CreatorConfig extends Config
         }
 
         return array(
-            'properties' => $this->properties,
-            'uiHooks' => $this->uiHooks,
+            'properties'   => $this->properties,
+            'plugins'      => $this->plugins,
             'interactions' => $interactions,
             'infoControls' => $infoControls
         );
@@ -91,5 +118,4 @@ Class CreatorConfig extends Config
             throw new \common_Exception('cannot prepare hook because of missing property in config : "uri" ');
         }
     }
-
 }

@@ -22,6 +22,7 @@
  */
 define(['jquery', 'lodash', 'i18n'], function($, _, __){
     "use strict";
+
     var QtiElements = {};
 
     QtiElements.classes = {
@@ -135,10 +136,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
         var classes = QtiElements.getAllowedContainers(qtiClass);
         var jqSelector = '';
         for(var i in classes){
-            if(classes[i].qti){
-                //qti element:
-
-            }else{
+            if(!classes[i].qti){
                 //html element:
                 jqSelector += classes[i] + ', ';
             }
@@ -152,11 +150,11 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
     };
 
     QtiElements.getAllowedContainers = function(qtiClass){
-
+        var ret;
         if(QtiElements.cache.containable[qtiClass]){
-            var ret = QtiElements.cache.containable[qtiClass];
+            ret = QtiElements.cache.containable[qtiClass];
         }else{
-            var ret = [];
+            ret = [];
             var parents = QtiElements.getParentClasses(qtiClass, true);
             for(var aClass in QtiElements.classes){
                 var model = QtiElements.classes[aClass];
@@ -231,11 +229,11 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
     };
 
     QtiElements.getParentClasses = function(qtiClass, recursive){
-
+        var ret;
         if(recursive && QtiElements.cache.parents[qtiClass]){
-            var ret = QtiElements.cache.parents[qtiClass];
+            ret = QtiElements.cache.parents[qtiClass];
         }else{
-            var ret = [];
+            ret = [];
             if(QtiElements.classes[qtiClass]){
                 ret = QtiElements.classes[qtiClass].parents;
                 if(recursive){
@@ -252,12 +250,12 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
     };
 
     QtiElements.getChildClasses = function(qtiClass, recursive, type){
-
+        var ret;
         var cacheType = type ? type : 'all';
         if(recursive && QtiElements.cache.children[qtiClass] && QtiElements.cache.children[qtiClass][cacheType]){
-            var ret = QtiElements.cache.children[qtiClass][cacheType];
+            ret = QtiElements.cache.children[qtiClass][cacheType];
         }else{
-            var ret = [];
+            ret = [];
             for(var aClass in QtiElements.classes){
                 var model = QtiElements.classes[aClass];
                 if(_.indexOf(model.parents, qtiClass) >= 0){
