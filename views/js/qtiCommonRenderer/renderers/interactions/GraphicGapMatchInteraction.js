@@ -90,7 +90,7 @@ define([
 
 
     /**
-     * Render a choice inside the paper.
+     * Render a choice (= hotspot) inside the paper.
      * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
      *
      * @private
@@ -107,8 +107,7 @@ define([
             hover : false
         })
         .data('max', choice.attr('matchMax') )
-        .data('matching', [])
-        ;
+        .data('matching', []);
 
         interact(rElement.node).on('tap', function onClickShape(){
             // check if can make the shape selectable on click
@@ -119,23 +118,21 @@ define([
     };
 
     /**
-     * Render the list of gap choices
+     * Render the list of gap fillers
      * @private
      * @param {Object} interaction
      * @param {jQueryElement} $orderList - the list than contains the orderers
      */
     var _renderGapList = function _renderGapList(interaction, $gapList){
 
-        //activate the gap filling
-        var choiceSelector = $gapList.selector + ' li';
-        // $gapList.children('li').click(function onClickGapImg (e){
-        interact(choiceSelector).on('tap', function onClickGapImg(e) {
+        var gapFillersSelector = $gapList.selector + ' li';
+        interact(gapFillersSelector).on('tap', function onClickGapImg(e) {
             e.stopPropagation();
             e.preventDefault();
-            var $elt = $(e.currentTarget);
-            // var $elt = $(this);
-            if(!$elt.hasClass('disabled')){
 
+            var $elt = $(e.currentTarget);
+
+            if(!$elt.hasClass('disabled')){
                 //toggle the active state of the gap images
                 if($elt.hasClass('active')){
                     $elt.removeClass('active');
@@ -143,7 +140,6 @@ define([
                 } else {
                     $gapList.children('li').removeClass('active');
                     $elt.addClass('active');
-                    console.log("setting active");
                     _shapesSelectable(interaction);
                 }
             }
@@ -205,11 +201,9 @@ define([
     var _paperUnSelect = function _paperUnSelect(interaction){
         var $container = containerHelper.get(interaction);
         var $gapImages = $('ul > li', $container);
-        var image = interaction.paper.getById('bg-image-' + interaction.serial);
-
-        if(image){
-            // image.click(function(){
-            interact(image.node).on('tap', function() {
+        var bgImage = interaction.paper.getById('bg-image-' + interaction.serial);
+        if(bgImage){
+            interact(bgImage.node).on('tap', function() {
                 _shapesUnSelectable(interaction);
                 $gapImages.removeClass('active');
             });
@@ -278,6 +272,7 @@ define([
                 'top'       : shapeOffset.top - boxOffset.top,
                 'left'      : shapeOffset.left - boxOffset.left
             }, 400, function animationEnd(){
+                var gapFillerImage;
 
                 $clone.remove();
 
@@ -296,22 +291,24 @@ define([
                     shadow  : true
                 })
                 .data('identifier', id)
-                .toFront()
-                ;
+                .toFront();
 
-                // .unclick()
-                // .click(function(e){
-                interact(gapFiller.node).unset().on('tap', function (e) {
+                gapFillerImage = gapFiller[2].node;
+                interact(gapFillerImage).on('tap', function (e) {
+                    var target = e.currentTarget;
+                    var rElement = interaction.paper.getById(target.raphaelid);
+
                     e.preventDefault();
                     e.stopPropagation();
+
+                    // adding a new gapfiller on the hotspot by simulating a click on the underlying shape...
                     if($gapList.find('.active').length > 0){
+                        _tapOn(element.node);
 
-                        //simulate a click on the shape
-                        graphic.trigger(element, 'click');
-
+                    // ... or removing the existing gapfiller
                     } else {
                         //update the element matching array
-                        element.data('matching', _.without(element.data('matching') || [], this.data('identifier')));
+                        element.data('matching', _.without(element.data('matching') || [], rElement.data('identifier')));
 
                         //delete interaction.gapFillers[interaction.gapFillers.indexOf(gapFiller)];
                         interaction.gapFillers = _.without(interaction.gapFillers, gapFiller);
@@ -416,6 +413,21 @@ define([
     };
 
     /**
+     * simulate a "tap" event that triggers InteractJs listeners
+     * @private
+     * @param {HTMLElement} domElement
+     */
+    var _tapOn = function _tapOn(domElement) {
+        var eventOptions = {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        };
+        domElement.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        domElement.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+    };
+
+    /**
      * Set the response to the rendered interaction.
      *
      * The response format follows the IMS PCI recommendation :
@@ -471,12 +483,10 @@ define([
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
-        var $container = containerHelper.get(interaction);
-
         _shapesUnSelectable(interaction);
 
         _.forEach(interaction.gapFillers, function(gapFiller){
-            graphic.trigger(gapFiller.items[0], 'click');
+            _tapOn(gapFiller.items[2][0]); // this refers to the gapFiller image
         });
     };
 
@@ -517,6 +527,10 @@ define([
             $('.main-image-box', $container).empty().removeAttr('style');
             $('.image-editor', $container).removeAttr('style');
             $('ul', $container).empty();
+
+            // todo make sure all handlers are removed
+            interact($container.find('ul.source li').selector).unset(); // gapfillers
+            interact($container.find('.main-image-box rect').selector).unset(); // choices/hotspot
         }
         //remove all references to a cache container
         containerHelper.reset(interaction);
