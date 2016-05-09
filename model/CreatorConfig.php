@@ -83,10 +83,10 @@ Class CreatorConfig extends Config
         }
 
         return array(
-            'properties'   => $this->properties,
-            'plugins'      => $this->plugins,
-            'interactions' => $interactions,
-            'infoControls' => $infoControls
+            'properties'     => $this->properties,
+            'contextPlugins' => $this->plugins,
+            'interactions'   => $interactions,
+            'infoControls'   => $infoControls
         );
     }
 
