@@ -1,3 +1,5 @@
+// todo change gap & choice terminology to match the one in the graphic gap match interaction
+// (which is the opposite of the one in the gap match interaction...)
 define([
     'jquery',
     'lodash',
@@ -36,7 +38,9 @@ define([
     }
 
     function clickOnRaphael(element) {
-        element.dispatchEvent(new CustomEvent("click"));
+        if (element) {
+            element.dispatchEvent(new CustomEvent("click"));
+        }
     }
 
     module('Graphic GapMatch Interaction', {
@@ -46,7 +50,8 @@ define([
             }
         }
     });
-/* * /
+
+    /* */
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(20);
 
@@ -88,30 +93,23 @@ define([
             .render($container);
     });
 
+    /* */
     QUnit.asyncTest('enables to activate a choice', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(5);
 
         var $container = $('#' + fixtureContainerId);
-
         assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
-                assert.equal($container.find('.qti-interaction.qti-graphicGapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-graphicGapMatchInteraction');
-                assert.equal($container.find('.qti-graphicGapMatchInteraction .qti-choice').length, 6, 'the interaction has 16 choices including gaps');
-
                 var $at = $('.qti-choice[data-identifier="gapimg_1"]', $container);
-                assert.equal($at.length, 1, 'the taoSubjects choice exists');
-
                 var $gap = $('.main-image-box rect', $container).eq(5);
-                assert.equal($gap.length, 1, 'the gap exists');
 
                 assert.ok( ! $at.hasClass('active'), 'The choice is not active');
                 assert.strictEqual( $gap.attr('stroke'), '#8d949e', 'The gap is not highlighted');
 
-                // $at.trigger('click');
-                clickOn($at.get(0));
+                $at.trigger('click');
+                // clickOn($at.get(0));
 
                 _.delay(function(){
 
@@ -119,13 +117,14 @@ define([
                     assert.strictEqual( $gap.attr('stroke'), '#3e7da7', 'The gap is now highlighted');
 
                     QUnit.start();
-                }, 1000); // todo too long!!!
+                }, 1000); // todo too long!!! time to change the color...
             })
             .assets(strategies)
             .init()
             .render($container);
     });
 
+    /* */
     QUnit.asyncTest('enables to fill a gap with a choice', function(assert){
         QUnit.expect(9);
 
@@ -163,53 +162,124 @@ define([
             .render($container);
     });
 
-    // todo make this work !
-/*
-    QUnit.asyncTest('set the default response', function(assert){
-        QUnit.expect(9);
+    /* */
+    QUnit.asyncTest('enables to fill a gap with two choices', function(assert){
+        QUnit.expect(2);
 
+        var stateChangeCounter = 0;
         var $container = $('#' + fixtureContainerId);
-
         assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', gapMatchData)
-            .on('render', function(){
-
-                assert.equal($container.find('.qti-interaction.qti-graphicGapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-graphicGapMatchInteraction');
-                assert.equal($container.find('.qti-graphicGapMatchInteraction .qti-choice').length, 6, 'the interaction has 6 choices including gaps');
-
+            .on('render', function() {
                 var $at = $('.qti-choice[data-identifier="gapimg_1"]', $container);
-                assert.equal($at.length, 1, 'the taoSubjects choice exists');
-
+                var $at2 = $('.qti-choice[data-identifier="gapimg_3"]', $container);
                 var $gap = $('.main-image-box rect', $container).eq(5);
-                assert.equal($gap.length, 1, 'the gap exists');
 
-                assert.ok( ! $gap.hasClass('filled'), 'The gap is not filled');
+                $at.trigger('click');
+                _.delay(function () {
+                    clickOnRaphael($gap.get(0));
 
-                  this.setState({ RESPONSE : { response : { list  : { directedPair : [ ['Text_1', 'Gap_6'] ] } } } });
+                    _.delay(function () {
+                        $at2.trigger('click');
 
-                _.delay(function(){
-                    assert.ok($gap.hasClass('filled'), 'The gap is now filled');
-                    assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
+                        _.delay(function () {
+                            // we click on the first image, but the interaction should redirect the click to the shape
+                            var $atClone = $container.find('.main-image-box image', $container).eq(1);
+                            clickOnRaphael($atClone.get(0));
 
-                    QUnit.start();
+                        }, 410); // we need to wait for the animation to end in order for the click event to be bound
+                    }, 10);
                 }, 10);
+            })
+            .on('statechange', function(state){
+                stateChangeCounter++;
+                if (stateChangeCounter === 2) {
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'], ['associablehotspot_6', 'gapimg_3'] ] } } }, 'The 2 pairs are selected');
+                    QUnit.start();
+                }
+
             })
             .assets(strategies)
             .init()
             .render($container);
     });
 
-    /* * /
+    /* */
+    QUnit.asyncTest('enables to remove a choice', function(assert){
+        QUnit.expect(4);
 
-     QUnit.asyncTest('destroys', function(assert){
-        QUnit.expect(5);
+        var stateChangeCounter = 0;
+        var $container = $('#' + fixtureContainerId);
+        assert.equal($container.length, 1, 'the item container exists');
+
+        runner = qtiItemRunner('qti', gapMatchData)
+            .on('render', function() {
+                var $at = $('.qti-choice[data-identifier="gapimg_1"]', $container);
+                var $gap = $('.main-image-box rect', $container).eq(5);
+
+                $at.trigger('click');
+
+                _.delay(function () {
+                    clickOnRaphael($gap.get(0));
+
+                    _.delay(function () {
+                        var $atClone = $container.find('.main-image-box image', $container).eq(1);
+                        clickOnRaphael($atClone.get(0));
+
+                         assert.equal($container.find('.main-image-box image', $container).length, 1,
+                             'there is no filled gap');
+
+                    }, 410); // todo shortens this? tricky, cause the event handler is bound at the end of the animation...
+                }, 10);
+            })
+            .on('statechange', function(state){
+                stateChangeCounter++;
+                if (stateChangeCounter === 1) {
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'] ] } } }, 'The pair is selected');
+                } else if (stateChangeCounter === 2) {
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [] } } }, 'Response is empty');
+                    QUnit.start();
+                }
+            })
+            .assets(strategies)
+            .init()
+            .render($container);
+    });
+
+    /* */
+    QUnit.asyncTest('set the default response', function(assert){
+        QUnit.expect(2);
 
         var $container = $('#' + fixtureContainerId);
 
         assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
+
+        runner = qtiItemRunner('qti', gapMatchData)
+            .on('render', function(){
+                var $at = $('.qti-choice[data-identifier="gapimg_1"]', $container);
+                var choiceImgSrc = $at.find('img').attr('src');
+
+                this.setState({ RESPONSE : { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'] ] } } } });
+
+                _.delay(function(){
+                    var $choiceClone = $container.find('.main-image-box image', $container).eq(1);
+                    assert.equal($choiceClone.attr('href'), choiceImgSrc, 'state has been restored');
+
+                    QUnit.start();
+                }, 410);
+            })
+            .assets(strategies)
+            .init()
+            .render($container);
+    });
+
+    /* */
+    QUnit.asyncTest('destroys', function(assert){
+        QUnit.expect(2);
+
+        var $container = $('#' + fixtureContainerId);
+        assert.equal($container.length, 1, 'the item container exists');
 
         qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
@@ -219,22 +289,19 @@ define([
                 var interaction = this._item.getInteractions()[0];
                 interaction.renderer.destroy(interaction);
 
-                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
-                assert.equal($at.length, 1, 'the Authoring tool choice exists');
+                var $at = $('.qti-choice[data-identifier="gapimg_1"]', $container);
+                var $gap = $('.main-image-box rect', $container).eq(5);
 
-                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
-                assert.equal($gap.length, 1, 'the gap exists');
+                $at.trigger('click');
 
-                clickOn($at.get(0));
-
-                _.delay(function(){
-                    clickOn($gap.get(0));
+                _.delay(function () {
+                    clickOnRaphael($gap.get(0));
 
                     _.delay(function(){
                         assert.deepEqual(self.getState(), {'RESPONSE': { response : { list : { directedPair : [] } } } }, 'Click does not trigger response once destroyed');
-
                         QUnit.start();
-                    }, 100);
+
+                    }, 10);
                 }, 10);
 
             })
@@ -243,53 +310,49 @@ define([
             .render($container);
     });
 
+    /* */
+
     QUnit.asyncTest('resets the response', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(3);
 
         var $container = $('#' + fixtureContainerId);
-
         assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
                 var self = this;
 
-                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
-                assert.equal($at.length, 1, 'the Authoring tool choice exists');
+                var $at = $('.qti-choice[data-identifier="gapimg_1"]', $container);
+                var atImgSrc = $at.find('img').attr('src');
+                var $gap = $('.main-image-box rect', $container).eq(5);
 
-                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
-                assert.equal($gap.length, 1, 'the gap exists');
+                $at.trigger('click');
 
-                clickOn($at.get(0));
-
-                _.delay(function(){
-                    clickOn($gap.get(0));
+                _.delay(function () {
+                    clickOnRaphael($gap.get(0));
 
                     _.delay(function(){
 
-                        assert.ok($gap.hasClass('filled'), 'The gap is now filled');
-                        assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
+                        var $gapFiller = $container.find('.main-image-box image', $container).eq(1);
+                        assert.equal($gapFiller.attr('href'), atImgSrc, 'state has been restored');
 
                         clickOn($gap.get(0));
 
                         _.delay(function() {
-                            assert.ok($gap.hasClass('active'), 'The gap is now active');
-
-                            //call destroy manually
+                            // reset response manually
                             var interaction = self._item.getInteractions()[0];
                             interaction.renderer.resetResponse(interaction);
 
-                            _.delay(function(){
+                            // todo use interaction to retrieve gapFillers in other tests
 
-                                assert.ok( ! $gap.hasClass('filled'), 'The gap is not filled anymore');
-                                assert.ok(! $gap.hasClass('active'), 'The gap is not active anymore');
-                                assert.equal($gap.text(), '', 'The gap is now empty');
+                            _.delay(function(){
+                                assert.equal($container.find('.main-image-box image', $container).length, 1,
+                                    'there is no filled gap');
 
                                 QUnit.start();
                             }, 100);
                         }, 100);
-                    }, 100);
+                    }, 410);
                 }, 100);
             })
             .assets(strategies)
@@ -297,7 +360,7 @@ define([
             .render($container);
     });
 
-/* */
+/* * /
     module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
@@ -328,11 +391,12 @@ define([
                             QUnit.start();
                         }, 500);
                 }, 500);
-                */
+                * /
             })
             .assets(strategies)
             .init()
             .render($container);
     });
+/* */
 });
 
