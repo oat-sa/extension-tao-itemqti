@@ -33,6 +33,11 @@ use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\taoQtiItem\controller\QtiPreview;
+use oat\taoQtiItem\controller\QtiCreator;
+use oat\taoQtiItem\controller\QtiCssAuthoring;
 
 /**
  * 
@@ -369,7 +374,12 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.26.0');
         }
 
-        $this->skip('2.26.0', '2.27.0');
+        if ($this->isVersion('2.26.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class));
+            $this->setVersion('2.27.0');
+        }
     }
 
 }
