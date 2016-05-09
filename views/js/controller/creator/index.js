@@ -84,16 +84,25 @@ define([
             loadingBar.start();
 
             //load plugins dynamically
-            if (config && config.plugins) {
-                _.forEach(config.plugins, function (plugin) {
-                    if(plugin && plugin.module){
-                        if(plugin.exclude){
-                            pluginLoader.remove(plugin.module);
-                        } else {
+            if (config) {
+                if(config.plugins){
+                    _.forEach(config.plugins, function (plugin) {
+                        if(plugin && plugin.module){
                             pluginLoader.add(plugin.module, plugin.category, plugin.position);
                         }
-                    }
-                });
+                    });
+                }
+                if(config.contextPlugins){
+                    _.forEach(config.contextPlugins, function (plugin) {
+                        if(plugin && plugin.module){
+                            if(plugin.exclude){
+                                pluginLoader.remove(plugin.module);
+                            } else {
+                                pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                            }
+                        }
+                    });
+                }
             }
 
             //load the plugins

@@ -115,4 +115,23 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
         $config['plugins'] = $plugins;
         $registry->set(self::CREATOR, $config);
     }
+
+    /**
+     * Quick access to the plugins
+     * @return array the registered plugins
+     */
+    public function getPlugins(){
+        $config = [];
+        $registry = self::getRegistry();
+
+        if ($registry->isRegistered(self::CREATOR)) {
+            $config = $registry->get(self::CREATOR);
+        }
+
+        if (!isset($config['plugins'])) {
+            return [];
+        }
+
+        return $config['plugins'];
+    }
 }

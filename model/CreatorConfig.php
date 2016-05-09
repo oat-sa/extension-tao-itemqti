@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\model;
 
 use oat\taoQtiItem\model\Config;
+use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 
 /**
  * Interface defining required method for a plugin
@@ -83,10 +84,10 @@ Class CreatorConfig extends Config
         }
 
         return array(
-            'properties'   => $this->properties,
-            'plugins'      => $this->plugins,
-            'interactions' => $interactions,
-            'infoControls' => $infoControls
+            'properties'     => $this->properties,
+            'contextPlugins' => $this->plugins,
+            'interactions'   => $interactions,
+            'infoControls'   => $infoControls
         );
     }
 
@@ -98,6 +99,10 @@ Class CreatorConfig extends Config
         foreach($this->infoControls as $infoControl){
             $this->prepare($infoControl);
         }
+
+        //as the config overrides the plugins, we get the list from the registry
+        $registry = QtiCreatorClientConfigRegistry::getRegistry();
+        $this->plugins = $registry->getPlugins();
     }
 
     protected function prepare($hook){
