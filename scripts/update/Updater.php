@@ -380,6 +380,8 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class));
             $this->setVersion('2.27.0');
         }
+        
+        $this->skip('2.27.0', '2.28.0');
     }
 
 }
