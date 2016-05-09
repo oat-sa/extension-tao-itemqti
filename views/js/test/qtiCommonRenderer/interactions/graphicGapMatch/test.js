@@ -1,5 +1,3 @@
-// todo change gap & choice terminology to match the one in the graphic gap match interaction
-// (which is the opposite of the one in the gap match interaction...)
 define([
     'jquery',
     'lodash',
@@ -156,7 +154,7 @@ define([
 
     /* */
     QUnit.asyncTest('enables to fill a hotspot with two gap fillers', function(assert){
-        QUnit.expect(2);
+        QUnit.expect(3);
 
         var stateChangeCounter = 0;
         var $container = $('#' + fixtureContainerId);
@@ -164,6 +162,7 @@ define([
 
         runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function() {
+                var self = this;
                 var $gapFiller = $('.qti-choice[data-identifier="gapimg_1"]', $container);
                 var $gapFiller2 = $('.qti-choice[data-identifier="gapimg_3"]', $container);
                 var $hotspot = $('.main-image-box rect', $container).eq(5);
@@ -180,8 +179,6 @@ define([
                             var $gapFillerOnHotspot = $container.find('.main-image-box image', $container).eq(1);
                             clickOnRaphael($gapFillerOnHotspot.get(0));
 
-                            // todo assert something !!!
-
                         }, 410); // we need to wait for the animation to end in order for the click event to be bound
                     }, 10);
                 }, 10);
@@ -189,7 +186,13 @@ define([
             .on('statechange', function(state){
                 stateChangeCounter++;
                 if (stateChangeCounter === 2) {
-                    assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'], ['associablehotspot_6', 'gapimg_3'] ] } } }, 'The 2 pairs are selected');
+                    var interaction = this._item.getInteractions()[0];
+                    assert.equal(interaction.gapFillers.length, 2, 'there are two filled gaps');
+
+                    assert.deepEqual(
+                        state.RESPONSE,
+                        { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'], ['associablehotspot_6', 'gapimg_3'] ] } } },
+                        'The 2 pairs are selected');
                     QUnit.start();
                 }
 
@@ -222,7 +225,7 @@ define([
                         clickOnRaphael($atClone.get(0));
 
                          assert.equal($container.find('.main-image-box image', $container).length, 1,
-                             'there is no filled gap');
+                             'there are no filled gaps');
 
                     }, 410); // we need to wait for the animation to end in order for the click event to be bound
                 }, 10);
@@ -336,8 +339,6 @@ define([
                             // reset response manually
                             var interaction = self._item.getInteractions()[0];
                             interaction.renderer.resetResponse(interaction);
-
-                            // todo use interaction to retrieve gapFillers in other tests
 
                             _.delay(function(){
                                 assert.equal($container.find('.main-image-box image', $container).length, 1,
