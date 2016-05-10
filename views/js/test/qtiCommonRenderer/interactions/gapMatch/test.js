@@ -2,8 +2,9 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
+    'core/mouseEvent',
     'json!taoQtiItem/test/samples/json/tao-item.json'
-], function($, _, qtiItemRunner, gapMatchData){
+], function($, _, qtiItemRunner, triggerMouseEvent, gapMatchData){
     'use strict';
 
     var runner;
@@ -24,8 +25,8 @@ define([
             cancelable: true,
             view: window
         };
-        element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
-        element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+        triggerMouseEvent(element, 'mousedown', eventOptions);
+        triggerMouseEvent(element, 'mouseup', eventOptions);
     }
 
     QUnit.asyncTest('renders correclty', function(assert){

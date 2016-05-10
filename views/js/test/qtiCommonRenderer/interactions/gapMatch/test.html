@@ -19,6 +19,17 @@
             //load the config
             require(['/tao/ClientConfig/config'], function(){
 
+                require.config({
+                    config : {
+                        context : {
+                            'root_url' : '/'
+                        }
+                    },
+                    paths : {
+                        'OAT/interact': '../../../taoQtiItem/views/js/portableSharedLibraries/OAT/interact'
+                    }
+                });
+
                 //load the test
                 require(['taoQtiItem/test/qtiCommonRenderer/interactions/gapMatch/test'], function(){
 
