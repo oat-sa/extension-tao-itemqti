@@ -34,6 +34,9 @@ define([
 ], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
     'use strict';
 
+    // todo move this to render() and pass it to handlers?
+    var isDragAndDropEnabled;
+
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
@@ -43,6 +46,10 @@ define([
      */
     var render = function render(interaction){
         var self = this;
+
+        // todo change this !
+        // isDragAndDropEnabled = this.getOption("enableDragAndDrop").graphicGapMatch;
+        isDragAndDropEnabled = true;
 
         return new Promise(function(resolve, reject){
 
@@ -126,71 +133,40 @@ define([
     var _renderGapList = function _renderGapList(interaction, $gapList){
 
         var gapFillersSelector = $gapList.selector + ' li';
+
         interact(gapFillersSelector).on('tap', function onClickGapImg(e) {
             e.stopPropagation();
             e.preventDefault();
+            toggleActiveGapState($(e.currentTarget));
+        });
 
-            var $elt = $(e.currentTarget);
+        if (isDragAndDropEnabled) {
+            interact(gapFillersSelector).draggable(_.assign({}, draggableOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    toggleActiveGapState($target);
+                },
+                onmove: _moveItem,
+                onend: function (e) {
+                    var $target = $(e.target);
+                    toggleActiveGapState($target);
+                    _restoreOriginalPosition($target);
+                }
+            })).styleCursor(false);
+        }
 
-            if(!$elt.hasClass('disabled')){
-                //toggle the active state of the gap images
-                if($elt.hasClass('active')){
-                    $elt.removeClass('active');
+        function toggleActiveGapState($target) {
+            if(!$target.hasClass('disabled')){
+                if($target.hasClass('active')){
+                    $target.removeClass('active');
                     _shapesUnSelectable(interaction);
                 } else {
                     $gapList.children('li').removeClass('active');
-                    $elt.addClass('active');
+                    $target.addClass('active');
                     _shapesSelectable(interaction);
                 }
             }
-        });
-
-
-        // ============
-        // DRAG & DROP
-        // ============
-/*
-
-        // make it draggable
-        var draggableOptions = {
-            inertia: false,
-            autoScroll: true,
-            restrict: {
-                restriction: ".qti-interaction",
-                endOnly: false,
-                elementRect: {top: 0, left: 0, bottom: 1, right: 1}
-            }
-        };
-
-        // makes choices draggables
-        interact($gapList.children('li').get(0)).draggable(_.assign({}, draggableOptions, {
-            onstart: function (e) {
-                var $target = $(e.target);
-                // $target.addClass("dragged");
-                // _handleChoiceSelect($target);
-            },
-            onmove: _moveItem,
-            onend: function (e) {
-                var $target = $(e.target);
-                // $target.removeClass("dragged");
-                //
-                // _restoreOriginalPosition($target);
-            }
-        })).styleCursor(false);
-
-
-        function _moveItem(e) {
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
         }
-*/
     };
 
     /**
@@ -313,7 +289,6 @@ define([
                         //delete interaction.gapFillers[interaction.gapFillers.indexOf(gapFiller)];
                         interaction.gapFillers = _.without(interaction.gapFillers, gapFiller);
 
-                        //and remove the filler
                         gapFiller.remove();
 
                         containerHelper.triggerResponseChangeEvent(interaction);
@@ -328,7 +303,7 @@ define([
     };
 
     /**
-     * Makes the shapes selectable (at least thos who can still accept matches)
+     * Makes the shapes selectable (at least those who can still accept matches)
      * @private
      * @param {Object} interaction
      */
@@ -375,6 +350,39 @@ define([
         });
     };
 
+    var draggableOptions = {
+        inertia: false,
+        autoScroll: true,
+        restrict: {
+            restriction: ".qti-interaction",
+            endOnly: false,
+            elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+        }
+    };
+
+    // todo add jsDoc
+    function _moveItem(e) {
+        var $target = $(e.target),
+            x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+            y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+            transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+        $target.css("webkitTransform", transform);
+        $target.css("transform", transform);
+        $target.attr('data-x', x);
+        $target.attr('data-y', y);
+    }
+
+    // todo add jsDoc
+    function _restoreOriginalPosition($target) {
+        var transform = 'translate(0px, 0px)';
+
+        $target.css("webkitTransform", transform);
+        $target.css("transform", transform);
+        $target.attr('data-x', 0);
+        $target.attr('data-y', 0);
+    }
+
     /**
      * Check if a shape can accept matches
      * @private
@@ -390,6 +398,21 @@ define([
             matchable = (matchMax === 0 || matchMax > matching.length);
         }
         return matchable;
+    };
+
+    /**
+     * simulate a "tap" event that triggers InteractJs listeners
+     * @private
+     * @param {HTMLElement} domElement
+     */
+    var _tapOn = function _tapOn(domElement) {
+        var eventOptions = {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        };
+        domElement.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        domElement.dispatchEvent(new MouseEvent("mouseup", eventOptions));
     };
 
     /**
@@ -410,21 +433,6 @@ define([
             }
        });
        return pairs;
-    };
-
-    /**
-     * simulate a "tap" event that triggers InteractJs listeners
-     * @private
-     * @param {HTMLElement} domElement
-     */
-    var _tapOn = function _tapOn(domElement) {
-        var eventOptions = {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        };
-        domElement.dispatchEvent(new MouseEvent("mousedown", eventOptions));
-        domElement.dispatchEvent(new MouseEvent("mouseup", eventOptions));
     };
 
     /**
