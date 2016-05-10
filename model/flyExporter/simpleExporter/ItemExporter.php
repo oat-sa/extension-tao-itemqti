@@ -210,10 +210,18 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
                         $interactionData = $values;
                     }
 
-                    if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) == array_keys($interactionData)) {
+                    // If identifier is different from previous
+                    // OR header are the same
+                    // -> create new line
+                    if ((isset($interactionData['responseIdentifier'])
+                            && isset($data[0]['responseIdentifier'])
+                            && $interactionData['responseIdentifier'] != $data[0]['responseIdentifier'])
+                        || (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) == array_keys($interactionData))
+                    ) {
                         $line = array_intersect_key($data[0], array_flip($this->headers));
                         $data[] = array_merge($line, $interactionData);
                     } else {
+                        //Merge new line if exists
                         $data[0] = array_merge($data[0], $interactionData);
                     }
 
