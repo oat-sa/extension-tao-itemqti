@@ -43,20 +43,22 @@ define([
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
      *
      * @param {object} interaction
+     * @return {Promise}
      */
     var render = function render(interaction){
         var self = this;
-
-        isDragAndDropEnabled = this.getOption("enableDragAndDrop").graphicGapMatch;
 
         return new Promise(function(resolve, reject){
 
             var $container = containerHelper.get(interaction);
             var $gapList = $('ul.source', $container);
-            var $imageBox  = $('.main-image-box', $container);
             var background = interaction.object.attributes;
 
             interaction.gapFillers = [];
+
+            if (self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").graphicGapMatch) {
+                isDragAndDropEnabled = self.getOption("enableDragAndDrop").graphicGapMatch;
+            }
 
             $container
                 .off('resized.qti-widget.resolve')
@@ -113,7 +115,7 @@ define([
         .data('max', choice.attr('matchMax') )
         .data('matching', []);
 
-        interact(rElement.node).on('tap', function onClickShape(e){
+        interact(rElement.node).on('tap', function onClickShape(){
             handleShapeSelect();
         });
 
@@ -151,7 +153,7 @@ define([
         });
 
         if (isDragAndDropEnabled) {
-            var draggableOptions = {
+            var dragOptions = {
                 inertia: false,
                 autoScroll: true,
                 restrict: {
@@ -161,7 +163,7 @@ define([
                 }
             };
 
-            interact(gapFillersSelector).draggable(_.assign({}, draggableOptions, {
+            interact(gapFillersSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
                     toggleActiveGapState($target);
@@ -169,7 +171,7 @@ define([
                 onmove: _moveItem,
                 onend: function (e) {
                     var $target = $(e.target);
-                    var dropOccured = ($gapList.find('.active:first').length === 0);
+                    var dropOccured = ($gapList.find('.active').length === 0);
                     if (! dropOccured) {
                         toggleActiveGapState($target);
                     }
@@ -248,16 +250,16 @@ define([
             matching,
             currentCount;
 
-        if(typeof trackResponse === 'undefined'){
-            trackResponse = true;
-        }
-
         //lookup for the active element
         var $container = containerHelper.get(interaction);
         var $gapList = $('ul', $container);
         var $active = $gapList.find('.active:first');
         var $imageBox = $('.main-image-box', $container);
         var boxOffset   = $imageBox.offset();
+
+        if(typeof trackResponse === 'undefined'){
+            trackResponse = true;
+        }
 
         if($active.length){
 
@@ -575,7 +577,6 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
         var state =  {};
         var response =  interaction.getResponse();
 

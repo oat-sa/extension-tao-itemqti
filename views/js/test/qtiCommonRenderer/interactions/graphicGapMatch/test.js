@@ -27,12 +27,12 @@ define([
     }];
 
     function tapOn(element) {
+        var eventOptions = {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        };
         if (element) {
-            var eventOptions = {
-                bubbles: true,
-                cancelable: true,
-                view: window
-            };
             triggerMouseEvent(element, 'mousedown', eventOptions);
             triggerMouseEvent(element, 'mouseup', eventOptions);
         }

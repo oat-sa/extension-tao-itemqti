@@ -64,7 +64,7 @@ define([
         containerHelper.triggerResponseChangeEvent(interaction);
     };
 
-    var unsetChoice = function(interaction, $choice, animate){
+    var unsetChoice = function(interaction, $choice){
 
         var serial = $choice.data('serial');
         var $container = containerHelper.get(interaction);
@@ -109,7 +109,8 @@ define([
 
         var $activeChoice = null;
 
-        var isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
+        var isDragAndDropEnabled;
+        var dragOptions;
 
         var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
 
@@ -150,8 +151,12 @@ define([
 
         // Drag & drop handlers
 
+        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
+            isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
+        }
+
         if (isDragAndDropEnabled) {
-            var draggableOptions = {
+            dragOptions = {
                 inertia: false,
                 autoScroll: true,
                 restrict: {
@@ -162,7 +167,7 @@ define([
             };
 
             // makes choices draggables
-            interact(choiceSelector).draggable(_.assign({}, draggableOptions, {
+            interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
                     $target.addClass("dragged");
@@ -178,7 +183,7 @@ define([
             })).styleCursor(false);
 
             // makes filled gaps draggables
-            interact(filledGapSelector).draggable(_.assign({}, draggableOptions, {
+            interact(filledGapSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
                     $target.addClass("dragged");
@@ -311,17 +316,17 @@ define([
                 _resetSelection();
 
             }else if($target.data('serial') && $target.hasClass('filled')){
-                var serial = $target.data('serial');
+                targetSerial = $target.data('serial');
 
                 $activeChoice = $target;
                 $activeChoice.addClass('active');
 
                 $flowContainer.find('>li>div').filter(function(){
-                    return $target.data('serial') !== serial;
+                    return $target.data('serial') !== targetSerial;
                 }).addClass('empty');
 
                 $choiceArea.find('>li:not(.deactivated)').filter(function(){
-                    return $target.data('serial') !== serial;
+                    return $target.data('serial') !== targetSerial;
                 }).addClass('empty');
 
                 //append trash bin:
