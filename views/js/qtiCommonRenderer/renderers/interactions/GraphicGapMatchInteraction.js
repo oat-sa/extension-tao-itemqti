@@ -34,7 +34,6 @@ define([
 ], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
     'use strict';
 
-    // todo move this to render() and pass it to handlers?
     var isDragAndDropEnabled;
 
     /**
@@ -47,9 +46,7 @@ define([
     var render = function render(interaction){
         var self = this;
 
-        // todo change this !
-        // isDragAndDropEnabled = this.getOption("enableDragAndDrop").graphicGapMatch;
-        isDragAndDropEnabled = true;
+        isDragAndDropEnabled = this.getOption("enableDragAndDrop").graphicGapMatch;
 
         return new Promise(function(resolve, reject){
 
@@ -154,6 +151,16 @@ define([
         });
 
         if (isDragAndDropEnabled) {
+            var draggableOptions = {
+                inertia: false,
+                autoScroll: true,
+                restrict: {
+                    restriction: ".qti-interaction",
+                    endOnly: false,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                }
+            };
+
             interact(gapFillersSelector).draggable(_.assign({}, draggableOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
@@ -182,6 +189,27 @@ define([
                     _shapesSelectable(interaction);
                 }
             }
+        }
+
+        function _moveItem(e) {
+            var $target = $(e.target),
+                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+                transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+            $target.css("webkitTransform", transform);
+            $target.css("transform", transform);
+            $target.attr('data-x', x);
+            $target.attr('data-y', y);
+        }
+
+        function _restoreOriginalPosition($target) {
+            var transform = 'translate(0px, 0px)';
+
+            $target.css("webkitTransform", transform);
+            $target.css("transform", transform);
+            $target.attr('data-x', 0);
+            $target.attr('data-y', 0);
         }
     };
 
@@ -367,39 +395,6 @@ define([
         });
     };
 
-    var draggableOptions = {
-        inertia: false,
-        autoScroll: true,
-        restrict: {
-            restriction: ".qti-interaction",
-            endOnly: false,
-            elementRect: {top: 0, left: 0, bottom: 1, right: 1}
-        }
-    };
-
-    // todo add jsDoc
-    function _moveItem(e) {
-        var $target = $(e.target),
-            x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-            y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-            transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-        $target.css("webkitTransform", transform);
-        $target.css("transform", transform);
-        $target.attr('data-x', x);
-        $target.attr('data-y', y);
-    }
-
-    // todo add jsDoc
-    function _restoreOriginalPosition($target) {
-        var transform = 'translate(0px, 0px)';
-
-        $target.css("webkitTransform", transform);
-        $target.css("transform", transform);
-        $target.attr('data-x', 0);
-        $target.attr('data-y', 0);
-    }
-
     /**
      * Check if a shape can accept matches
      * @private
@@ -553,7 +548,6 @@ define([
             $('.image-editor', $container).removeAttr('style');
             $('ul', $container).empty();
 
-            // todo make sure all handlers are removed
             interact($container.find('ul.source li').selector).unset(); // gapfillers
             interact($container.find('.main-image-box rect').selector).unset(); // choices/hotspot
         }
