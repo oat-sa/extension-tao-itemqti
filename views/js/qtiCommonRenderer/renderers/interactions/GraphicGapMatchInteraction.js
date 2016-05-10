@@ -25,13 +25,14 @@ define([
     'lodash',
     'i18n',
     'core/promise',
+    'core/mouseEvent',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicGapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'OAT/interact'
-], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
+], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
     'use strict';
 
     var isDragAndDropEnabled;
@@ -98,7 +99,6 @@ define([
      * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
      *
      * @private
-     * @param {Paper} paper - the raphael paper to add the choices to
      * @param {Object} interaction
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
@@ -138,7 +138,7 @@ define([
      * Render the list of gap fillers
      * @private
      * @param {Object} interaction
-     * @param {jQueryElement} $orderList - the list than contains the orderers
+     * @param {jQueryElement} $gapList - the list than contains the orderers
      */
     var _renderGapList = function _renderGapList(interaction, $gapList){
 
@@ -423,8 +423,8 @@ define([
             cancelable: true,
             view: window
         };
-        domElement.dispatchEvent(new MouseEvent("mousedown", eventOptions));
-        domElement.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+        triggerMouseEvent(domElement, 'mousedown', eventOptions);
+        triggerMouseEvent(domElement, 'mouseup', eventOptions);
     };
 
     /**
@@ -500,7 +500,6 @@ define([
      * Special value: the empty object value {} resets the interaction responses
      *
      * @param {object} interaction
-     * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
         _shapesUnSelectable(interaction);
@@ -525,8 +524,7 @@ define([
      */
     var getResponse = function(interaction){
         var raw = _getRawResponse(interaction);
-        var response =  pciResponse.serialize(_getRawResponse(interaction), interaction);
-        return response;
+        return pciResponse.serialize(raw, interaction);
     };
 
     /**

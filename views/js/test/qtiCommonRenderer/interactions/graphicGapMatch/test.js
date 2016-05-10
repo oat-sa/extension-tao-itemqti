@@ -2,8 +2,9 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
+    'core/mouseEvent',
     'json!taoQtiItem/test/qtiCommonRenderer/interactions/graphicGapMatch/sample.json'
-], function($, _, qtiItemRunner, gapMatchData){
+], function($, _, qtiItemRunner, triggerMouseEvent, gapMatchData){
     'use strict';
 
     var runner;
@@ -32,8 +33,8 @@ define([
                 cancelable: true,
                 view: window
             };
-            element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
-            element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+            triggerMouseEvent(element, 'mousedown', eventOptions);
+            triggerMouseEvent(element, 'mouseup', eventOptions);
         }
     }
 
@@ -46,7 +47,7 @@ define([
     });
 
     /* */
-    QUnit.asyncTest('renders correclty', function(assert){
+    QUnit.asyncTest('renders correctly', function(assert){
         QUnit.expect(20);
 
         var $container = $('#' + fixtureContainerId);
@@ -110,7 +111,7 @@ define([
                     assert.notStrictEqual($hotspot.attr('stroke'), borderColorInactive, 'The hotspot is now highlighted');
 
                     QUnit.start();
-                }, 100); // safety delay for the border color to start changing, could be shortened by removing the animation
+                }, 200); // safety delay for the border color to start changing, could be shortened by removing the animation
             })
             .assets(strategies)
             .init()
