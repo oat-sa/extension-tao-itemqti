@@ -116,12 +116,25 @@ define([
         .data('max', choice.attr('matchMax') )
         .data('matching', []);
 
-        interact(rElement.node).on('tap', function onClickShape(){
+        interact(rElement.node).on('tap', function onClickShape(e){
+            handleShapeSelect();
+        });
+
+        if (isDragAndDropEnabled) {
+            interact(rElement.node).dropzone({
+                overlap: 0.15,
+                ondrop: function () {
+                    handleShapeSelect();
+                }
+            });
+        }
+
+        function handleShapeSelect() {
             // check if can make the shape selectable on click
             if(_isMatchable(rElement) && rElement.selectable === true){
                 _selectShape(interaction, rElement);
             }
-        });
+        }
     };
 
     /**
@@ -149,7 +162,10 @@ define([
                 onmove: _moveItem,
                 onend: function (e) {
                     var $target = $(e.target);
-                    toggleActiveGapState($target);
+                    var dropOccured = ($gapList.find('.active:first').length === 0);
+                    if (! dropOccured) {
+                        toggleActiveGapState($target);
+                    }
                     _restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
@@ -185,8 +201,9 @@ define([
             });
         }
     };
+
     /**
-     * Select a shape (a gap image must be active)
+     * Select a shape (= hotspot) (a gap image must be active)
      * @private
      * @param {Object} interaction
      * @param {Raphael.Element} element - the selected shape
@@ -247,7 +264,7 @@ define([
             $clone.animate({
                 'top'       : shapeOffset.top - boxOffset.top,
                 'left'      : shapeOffset.left - boxOffset.left
-            }, 400, function animationEnd(){
+            }, 200, function animationEnd(){
                 var gapFillerImage;
 
                 $clone.remove();

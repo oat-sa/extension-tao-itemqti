@@ -175,7 +175,7 @@ define([
                             tapOn($gapFillerOnHotspot.get(0));
 
                         }, 10);
-                    }, 410); // we need to wait for the animation to end in order for the click event to be bound
+                    }, 210); // we need to wait for the animation to end in order for the click event to be bound
                 }, 10);
             })
             .on('statechange', function(state){
@@ -227,7 +227,7 @@ define([
                              1, // this is the canvas image
                              'there are no filled gaps');
 
-                    }, 410); // we need to wait for the animation to end in order for the click event to be bound
+                    }, 210); // we need to wait for the animation to end in order for the click event to be bound
                 }, 10);
             })
             .on('statechange', function(state){
@@ -264,7 +264,7 @@ define([
                     assert.equal($gapFillerOnHotspot.attr('href'), gapFillerImgSrc, 'state has been restored');
 
                     QUnit.start();
-                }, 410);
+                }, 210);
             })
             .assets(strategies)
             .init()
@@ -349,7 +349,7 @@ define([
                                 QUnit.start();
                             }, 100);
                         }, 100);
-                    }, 410);
+                    }, 210);
                 }, 100);
             })
             .assets(strategies)
