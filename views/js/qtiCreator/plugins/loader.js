@@ -13,25 +13,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
 
-//@see http://forge.taotesting.com/projects/tao/wiki/Front_js
-define(function(){
+
+/**
+ * The plugin loader with the "required" plugins
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
+define([
+    'core/pluginLoader',
+    'taoQtiItem/qtiCreator/plugins/menu/save',
+    'taoQtiItem/qtiCreator/plugins/menu/preview',
+    'taoQtiItem/qtiCreator/plugins/menu/print',
+    'taoQtiItem/qtiCreator/plugins/content/title',
+], function(pluginLoader, save, preview, print, title){
     'use strict';
 
-    return {
-        'QtiPreview' : {
-            'actions' : {
-                'index' : 'taoItems/controller/preview/itemRunner'
-            }
-        },
-        'QtiCreator' : {
-            'actions' : {
-                'index' : 'controller/creator/index'
-            }
-        }
-    };
+    /**
+     * Instantiate the plugin loader with all the required plugins configured
+     */
+    return pluginLoader({
+        menu       : [save, preview, print],
+        content    : [title],
+    });
 });

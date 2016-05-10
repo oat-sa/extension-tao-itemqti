@@ -182,8 +182,14 @@ class ImportService extends tao_models_classes_GenerisService
 
                 $eStrs = array();
                 foreach ($qtiManifestParser->getErrors() as $libXmlError) {
-                    $eStrs[] = __('XML error at line %1$d "%2$s".', $libXmlError['line'],
-                        str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
+                    if(isset($libXmlError['line'])){
+                        $error = __('XML error at line %1$d "%2$s".', $libXmlError['line'],
+                            str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
+                    } else{
+                        $error = __('XML error "%1$s".',str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
+                    }
+                    $eStrs[] = $error;
+
                 }
 
                 // Add sub-report.
