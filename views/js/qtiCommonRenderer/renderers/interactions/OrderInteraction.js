@@ -25,12 +25,13 @@ define([
     'lodash',
     'jquery',
     'i18n',
+    'core/mouseEvent',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'OAT/interact'
-], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse, interact){
+], function(_, $, __, triggerMouseEvent, tpl, containerHelper, instructionMgr, pciResponse, interact){
     'use strict';
 
     /**
@@ -85,19 +86,21 @@ define([
             _resetControls();
         };
 
-        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
-            isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
+        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {
+            isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
         // todo remove this (begin)
         } else {
             isDragAndDropEnabled = true;
         // todo remove this (end)
         }
 
-        $container.on('mousedown.commonRenderer', function(e){
+        interact($container.selector).on('tap', function resetSelection() {
             _resetSelection();
         });
 
-        $choiceArea.on('mousedown.commonRenderer', '>li:not(.deactivated)', function(e){
+        var choiceSelector = $choiceArea.selector + ' >li:not(.deactivated)';
+        interact(choiceSelector).on('tap', function addChoiceToSelection(e) {
+            var $target = $(e.currentTarget);
 
             e.stopPropagation();
 
@@ -109,27 +112,27 @@ define([
             }, 150);
 
             //move choice to the result list:
-            $resultArea.append($(this));
+            $resultArea.append($target);
             containerHelper.triggerResponseChangeEvent(interaction);
 
             //update constraints :
             instructionMgr.validateInstructions(interaction);
         });
 
-        $resultArea.on('mousedown.commonRenderer', '>li', function(e){
+        var resultSelector = $resultArea.selector + ' >li';
+        interact(resultSelector).on('tap', function toggleResultSelection(e) {
+            var $target = $(e.currentTarget);
 
             e.stopPropagation();
 
-            var $choice = $(this);
-            if($choice.hasClass('active')){
+            if($target.hasClass('active')){
                 _resetSelection();
             }else{
-                _setSelection($(this));
+                _setSelection($target);
             }
         });
 
-        $iconRemove.on('mousedown.commonRenderer', function(e){
-
+        interact($iconRemove.selector).on('tap', function removeChoice(e) {
             e.stopPropagation();
 
             if($activeChoice){
@@ -145,22 +148,22 @@ define([
             _resetSelection();
         });
 
-        $iconBefore.on('mousedown.commonRenderer', function(e){
+        interact($iconBefore.selector).on('tap', function moveResultBefore(e) {
+            var $prev = $activeChoice.prev();
 
             e.stopPropagation();
 
-            var $prev = $activeChoice.prev();
             if($prev.length){
                 $prev.before($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
             }
         });
 
-        $iconAfter.on('mousedown.commonRenderer', function(e){
+        interact($iconAfter.selector).on('tap', function moveResultAfter(e) {
+            var $next = $activeChoice.next();
 
             e.stopPropagation();
 
-            var $next = $activeChoice.next();
             if($next.length){
                 $next.after($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
@@ -193,8 +196,8 @@ define([
         var $container = containerHelper.get(interaction);
         var $choiceArea = $('.choice-area', $container),
             $resultArea = $('.result-area', $container),
-            min = parseInt(interaction.attr('minChoices')),
-            max = parseInt(interaction.attr('maxChoices'));
+            min = parseInt(interaction.attr('minChoices'), 10),
+            max = parseInt(interaction.attr('maxChoices'), 10);
 
         if(min){
             instructionMgr.appendInstruction(interaction, __('You must use at least %d choices', min), function(){
@@ -217,12 +220,12 @@ define([
                 }
             });
 
-            $choiceArea.on('mousedown.commonRenderer', '>li.deactivated', function(){
-                var $choice = $(this);
-                $choice.addClass('brd-error');
+            interact($choiceArea.selector + ' >li.deactivated').on('tap', function(e) {
+                var $target = $(e.currentTarget);
+                $target.addClass('brd-error');
                 instructionMax.setLevel('warning', 2000);
                 setTimeout(function(){
-                    $choice.removeClass('brd-error');
+                    $target.removeClass('brd-error');
                 }, 150);
             });
         }
@@ -235,7 +238,15 @@ define([
         var $choiceArea = $('.choice-area', $container).append($('.result-area>li', $container));
         var $choices = $choiceArea.children('.qti-choice');
 
-        $container.find('.qti-choice.active').mousedown();
+        $container.find('.qti-choice.active').each(function deactivateChoice() {
+            var eventOptions = {
+                bubbles: true,
+                cancelable: true,
+                view: window
+            };
+            triggerMouseEvent(this, 'mousedown', eventOptions);
+            triggerMouseEvent(this, 'mouseup', eventOptions);
+        });
 
         $choices.detach().sort(function(choice1, choice2){
             return (_.indexOf(initialOrder, $(choice1).data('serial')) > _.indexOf(initialOrder, $(choice2).data('serial')));
@@ -327,16 +338,16 @@ define([
 
         //first, remove all events
         var selectors = [
-            '.choice-area',
-            '.result-area',
+            '.choice-area >li:not(.deactivated)',
+            '.result-area >li',
             '.icon-add-to-selection',
             '.icon-remove-from-selection',
             '.icon-move-before',
             '.icon-move-after'
         ];
-        $container.find(selectors.join(',')).andSelf().off('.commonRenderer');
-
-        $(document).off('.commonRenderer');
+        selectors.forEach(function unbindInteractEvents(selector) {
+            interact($container.find(selector).selector).unset();
+        });
 
         $container.find('.order-interaction-area').removeAttr('style');
 

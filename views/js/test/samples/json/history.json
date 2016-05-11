@@ -22,7 +22,8 @@
                 "attributes": {
                     "responseIdentifier": "RESPONSE",
                     "shuffle": false,
-                    "id": "interaction"
+                    "id": "interaction",
+                    "maxChoices": 4
                 },
                 "choices": {
                     "choice_simplechoice_547481ffc8ede696148422": {
