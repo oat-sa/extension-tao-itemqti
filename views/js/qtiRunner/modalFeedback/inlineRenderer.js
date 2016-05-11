@@ -108,6 +108,10 @@ define([
                         firstFeedback = $(renderingData.dom);
                     }
 
+                    $('img', renderingData.dom).on('load', function() {
+                        iframeNotifier.parent('itemcontentchange');
+                    });
+
                     //record rendered feedback for later reference
                     renderedFeebacks.push(renderingData);
                     if(renderedFeebacks.length === renderingQueue.length){
