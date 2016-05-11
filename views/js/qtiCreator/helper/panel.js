@@ -319,7 +319,7 @@ define([
         sections.each(function(){
             $(this).find(heading).trigger('click', {preserveOthers : preserveOthers, forceState : state});
         });
-    }
+    };
 
     /**
      * Close specific sections

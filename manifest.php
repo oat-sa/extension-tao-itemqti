@@ -17,6 +17,9 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+use oat\taoQtiItem\controller\QtiPreview;
+use oat\taoQtiItem\controller\QtiCreator;
+use oat\taoQtiItem\controller\QtiCssAuthoring;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -26,10 +29,10 @@ return array(
     'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '2.23.0',
+    'version' => '2.28.0',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
-	    'taoItems' => '>=2.13',
+	    'taoItems' => '>=2.15',
 		'tao'	   => '>=2.17'
 	),
 	'models' => array(
@@ -51,6 +54,7 @@ return array(
 			dirname(__FILE__).'/install/scripts/setQtiRunnerConfig.php',
 			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
+			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig'
 		)
 	),
 	'local'	=> array(
@@ -66,8 +70,10 @@ return array(
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole', array('ext'=>'taoQtiItem')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiItemRunner')),
-        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemsManagerRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiCreator')),
-        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemsManagerRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiPreview'))
+        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class)
+        
     ),    
 	'constants' => array(
 		# views directory

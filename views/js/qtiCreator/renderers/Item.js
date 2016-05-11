@@ -52,7 +52,7 @@ define([
         options.state = 'active';//the item widget never sleeps ! <- this sounds very scary!
         options.renderer = this;
 
-        Widget.build(
+        return Widget.build(
             item,
             $itemContainer,
             this.getOption('itemOptionForm'),

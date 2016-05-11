@@ -1,3 +1,4 @@
+<?php
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,25 +14,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  *
  */
 
-//@see http://forge.taotesting.com/projects/tao/wiki/Front_js
-define(function(){
-    'use strict';
+namespace oat\taoQtiItem\scripts\install;
 
-    return {
-        'QtiPreview' : {
-            'actions' : {
-                'index' : 'taoItems/controller/preview/itemRunner'
-            }
-        },
-        'QtiCreator' : {
-            'actions' : {
-                'index' : 'controller/creator/index'
-            }
-        }
-    };
-});
+use common_ext_action_InstallAction;
+use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
+
+class SetQtiCreatorConfig extends common_ext_action_InstallAction
+{
+    public function __invoke($params)
+    {
+        $registry = QtiCreatorClientConfigRegistry::getRegistry();
+        $registry->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
+
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Qti Creator\'s Plugins settings added to Tao Qti Item extension');
+    }
+}

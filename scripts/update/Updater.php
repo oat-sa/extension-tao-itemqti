@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
@@ -33,6 +32,12 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\taoQtiItem\controller\QtiPreview;
+use oat\taoQtiItem\controller\QtiCreator;
+use oat\taoQtiItem\controller\QtiCssAuthoring;
 
 /**
  * 
@@ -317,8 +322,8 @@ class Updater extends \common_ext_ExtensionUpdater
             
             $this->setVersion('2.20.0');
         }
-
-        $this->skip('2.20.0', '2.22.0');
+	
+	$this->skip('2.20.0', '2.22.0');
 
         if ($this->isVersion('2.22.0')) {
             $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
@@ -339,6 +344,44 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('2.23.0');
         }
+
+        if ($this->isVersion('2.23.0')) {
+            $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $columns = $simpleExporter->getOption('columns');
+            $columns['BR'] = array (
+                'extractor' => 'QtiExtractor',
+                'parameters' => array(
+                    'callback' => 'getRightAnswer',
+                    'callbackParameters' => array(
+                        'delimiter' => '|',
+                    ),
+                    'valuesAsColumns' => true
+                )
+            );
+            $simpleExporter->setOption('columns', $columns);
+            $simpleExporter->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $simpleExporter);
+            $this->setVersion('2.24.0');
+        }
+
+        $this->skip('2.24.0', '2.25.0');
+
+        if ($this->isVersion('2.25.0')) {
+
+            $registry = QtiCreatorClientConfigRegistry::getRegistry();
+            $registry->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
+
+            $this->setVersion('2.26.0');
+        }
+
+        if ($this->isVersion('2.26.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class));
+            $this->setVersion('2.27.0');
+        }
+        
+        $this->skip('2.27.0', '2.28.0');
     }
 
 }

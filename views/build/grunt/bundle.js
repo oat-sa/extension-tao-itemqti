@@ -45,7 +45,7 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'taoQtiItem/controller/routes',
                 include : ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
-                exclude : ['mathJax', 'mediaElement'].concat(libs)
+                exclude : ['mathJax'].concat(libs)
             }]
         }
     };
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
                 include: runtimeLibs,
-                exclude : ['json!i18ntr/messages.json', 'mathJax', 'mediaElement', 'ckeditor'],
+                exclude : ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'],
             }]
         }
     };
