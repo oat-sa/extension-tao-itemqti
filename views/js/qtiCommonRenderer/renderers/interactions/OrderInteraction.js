@@ -28,8 +28,9 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'OAT/interact'
+], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse, interact){
     'use strict';
 
     /**
@@ -48,7 +49,10 @@ define([
             $iconRemove = $container.find('.icon-remove-from-selection'),
             $iconBefore = $container.find('.icon-move-before'),
             $iconAfter = $container.find('.icon-move-after'),
-            $activeChoice = null;
+            $activeChoice = null,
+
+            isDragAndDropEnabled,
+            dragOptions;
 
         var _activeControls = function(){
             $iconAdd.addClass('inactive');
@@ -80,6 +84,14 @@ define([
             }
             _resetControls();
         };
+
+        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
+            isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
+        // todo remove this (begin)
+        } else {
+            isDragAndDropEnabled = true;
+        // todo remove this (end)
+        }
 
         $container.on('mousedown.commonRenderer', function(e){
             _resetSelection();
