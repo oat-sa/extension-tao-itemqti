@@ -52,6 +52,9 @@ define([
             $iconAfter = $container.find('.icon-move-after'),
             $activeChoice = null,
 
+            choiceSelector = $choiceArea.selector + ' >li:not(.deactivated)',
+            resultSelector = $resultArea.selector + ' >li',
+
             isDragAndDropEnabled,
             dragOptions;
 
@@ -98,7 +101,6 @@ define([
             _resetSelection();
         });
 
-        var choiceSelector = $choiceArea.selector + ' >li:not(.deactivated)';
         interact(choiceSelector).on('tap', function addChoiceToSelection(e) {
             var $target = $(e.currentTarget);
 
@@ -119,7 +121,6 @@ define([
             instructionMgr.validateInstructions(interaction);
         });
 
-        var resultSelector = $resultArea.selector + ' >li';
         interact(resultSelector).on('tap', function toggleResultSelection(e) {
             var $target = $(e.currentTarget);
 
