@@ -20,8 +20,6 @@
 
 namespace oat\taoQtiItem\model;
 
-use oat\taoQtiItem\model\Config;
-use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 
 /**
  * Interface defining required method for a plugin
@@ -34,6 +32,31 @@ Class CreatorConfig extends Config
     protected $interactions = array();
     protected $infoControls = array();
     protected $plugins      = array();
+    // hard coded urls for using by item creator
+    // place into the properties with 'Url' postfix
+    protected $controlEndpoints = array(
+        'entry' => 'itemQtiCreator/qtiCreator',
+        'itemData' => 'taoQtiItem/QtiCreator/getItemData',
+        'loadCss' => 'taoQtiItem/QtiCssAuthoring/load',
+        
+        'saveItem' => 'taoQtiItem/QtiCreator/saveItem',
+        'saveCss' => 'taoQtiItem/QtiCssAuthoring/save',
+        
+        'portableElementAddResources' => 'taoQtiItem/PortableElement/addRequiredResources',
+        
+        'mediaSources' => 'taoQtiItem/QtiCreator/getMediaSources',
+        'getFiles' => 'taoItems/ItemContent/files',
+        'fileAccess' => 'taoQtiItem/QtiCreator/getFile',
+        
+        'fileExists' => 'taoItems/ItemContent/fileExists',
+        'fileUpload' => 'taoItems/ItemContent/upload',
+        'fileDownload' => 'taoItems/ItemContent/download',
+        'fileDelete' => 'taoItems/ItemContent/delete',
+        
+        'preview' => 'taoQtiItem/QtiPreview/index',
+        'previewRender' => 'taoQtiItem/QtiPreview/render',
+        'previewSubmit' => 'taoQtiItem/QtiPreview/submitResponses',
+    );
 
     public function addInteraction($interactionFile){
         $this->interactions[] = $interactionFile;
@@ -87,7 +110,7 @@ Class CreatorConfig extends Config
             'properties'     => $this->properties,
             'contextPlugins' => $this->plugins,
             'interactions'   => $interactions,
-            'infoControls'   => $infoControls
+            'infoControls'   => $infoControls,
         );
     }
 
@@ -98,6 +121,9 @@ Class CreatorConfig extends Config
         }
         foreach($this->infoControls as $infoControl){
             $this->prepare($infoControl);
+        }
+        foreach ($this->controlEndpoints as $key => $controlEndpoint) {
+            $this->setProperty($key . 'Url', \tao_helpers_Uri::getRootUrl() . $controlEndpoint);
         }
 
         //as the config overrides the plugins, we get the list from the registry
