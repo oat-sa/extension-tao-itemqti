@@ -58,21 +58,21 @@ define([
             isDragAndDropEnabled,
             dragOptions;
 
-        var _activeControls = function(){
+        var _activeControls = function _activeControls(){
             $iconAdd.addClass('inactive');
             $iconRemove.removeClass('inactive').addClass('active');
             $iconBefore.removeClass('inactive').addClass('active');
             $iconAfter.removeClass('inactive').addClass('active');
         };
 
-        var _resetControls = function(){
+        var _resetControls = function _resetControls(){
             $iconAdd.removeClass('inactive');
             $iconRemove.removeClass('active').addClass('inactive');
             $iconBefore.removeClass('active').addClass('inactive');
             $iconAfter.removeClass('active').addClass('inactive');
         };
 
-        var _setSelection = function($choice){
+        var _setSelection = function _setSelection($choice){
             if($activeChoice){
                 $activeChoice.removeClass('active');
             }
@@ -81,7 +81,7 @@ define([
             _activeControls();
         };
 
-        var _resetSelection = function(){
+        var _resetSelection = function _resetSelection(){
             if($activeChoice){
                 $activeChoice.removeClass('active');
                 $activeChoice = null;
@@ -89,23 +89,7 @@ define([
             _resetControls();
         };
 
-        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {
-            isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
-        // todo remove this (begin)
-        } else {
-            isDragAndDropEnabled = true;
-        // todo remove this (end)
-        }
-
-        interact($container.selector).on('tap', function resetSelection() {
-            _resetSelection();
-        });
-
-        interact(choiceSelector).on('tap', function addChoiceToSelection(e) {
-            var $target = $(e.currentTarget);
-
-            e.stopPropagation();
-
+        var _addChoiceToSelection = function _addChoiceToSelection($target) {
             _resetSelection();
 
             $iconAdd.addClass('triggered');
@@ -119,23 +103,17 @@ define([
 
             //update constraints :
             instructionMgr.validateInstructions(interaction);
-        });
+        };
 
-        interact(resultSelector).on('tap', function toggleResultSelection(e) {
-            var $target = $(e.currentTarget);
-
-            e.stopPropagation();
-
+        var _toggleResultSelection = function _toggleResultSelection($target) {
             if($target.hasClass('active')){
                 _resetSelection();
             }else{
                 _setSelection($target);
             }
-        });
+        };
 
-        interact($iconRemove.selector).on('tap', function removeChoice(e) {
-            e.stopPropagation();
-
+        var _removeChoice = function _removeChoice() {
             if($activeChoice){
 
                 //restore choice back to choice list
@@ -147,30 +125,78 @@ define([
             }
 
             _resetSelection();
-        });
+        };
 
-        interact($iconBefore.selector).on('tap', function moveResultBefore(e) {
+        var _moveResultBefore = function _moveResultBefore() {
             var $prev = $activeChoice.prev();
-
-            e.stopPropagation();
 
             if($prev.length){
                 $prev.before($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
             }
-        });
+        };
 
-        interact($iconAfter.selector).on('tap', function moveResultAfter(e) {
+        var _moveResultAfter = function _moveResultAfter() {
             var $next = $activeChoice.next();
-
-            e.stopPropagation();
 
             if($next.length){
                 $next.after($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
             }
+        };
+
+
+        // Point & click handlers
+
+        interact($container.selector).on('tap', function () {
+            _resetSelection();
         });
 
+        interact(choiceSelector).on('tap', function (e) {
+            var $target = $(e.currentTarget);
+            e.stopPropagation();
+            _addChoiceToSelection($target);
+        });
+
+        interact(resultSelector).on('tap', function (e) {
+            var $target = $(e.currentTarget);
+            e.stopPropagation();
+            _toggleResultSelection($target);
+
+        });
+
+        interact($iconRemove.selector).on('tap', function (e) {
+            e.stopPropagation();
+            _removeChoice();
+        });
+
+        interact($iconBefore.selector).on('tap', function (e) {
+            e.stopPropagation();
+            _moveResultBefore();
+        });
+
+        interact($iconAfter.selector).on('tap', function (e) {
+            e.stopPropagation();
+            _moveResultAfter();
+        });
+
+
+        // Drag & drop handlers
+
+        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {
+            isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
+            // todo remove this (begin)
+        } else {
+            isDragAndDropEnabled = true;
+            // todo remove this (end)
+        }
+
+        if (isDragAndDropEnabled) {
+            // interact...
+        }
+        
+        // rendering init
+        
         _setInstructions(interaction);
 
         //bind event listener in case the attributes change dynamically on runtime
