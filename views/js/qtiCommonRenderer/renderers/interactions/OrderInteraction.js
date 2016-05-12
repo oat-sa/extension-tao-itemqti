@@ -56,7 +56,8 @@ define([
             resultSelector = $resultArea.selector + ' >li',
 
             isDragAndDropEnabled,
-            dragOptions;
+            dragOptions,
+            $dropzoneElement;
 
         var _activeControls = function _activeControls(){
             $iconAdd.addClass('inactive');
@@ -162,7 +163,6 @@ define([
             var $target = $(e.currentTarget);
             e.stopPropagation();
             _toggleResultSelection($target);
-
         });
 
         interact($iconRemove.selector).on('tap', function (e) {
@@ -192,11 +192,161 @@ define([
         }
 
         if (isDragAndDropEnabled) {
-            // interact...
+            $dropzoneElement = $('<li>', {'class' : 'dropzone qti-choice'});
+            $('<div>', {'class': 'qti-block'}).appendTo($dropzoneElement);
+            
+            dragOptions = {
+                inertia: false,
+                autoScroll: true,
+                restrict: {
+                    restriction: ".qti-interaction",
+                    endOnly: false,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                }
+            };
+
+            // makes choices draggables
+            interact(choiceSelector).draggable(_.assign({}, dragOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+                },
+                onmove: function (e) {
+                    _moveItem(e);
+                    if (_isDropzoneVisible()) {
+                        _adjustDropzonePosition(e);
+                    }
+
+                },
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass("dragged");
+                    // todo is this ok ?!
+                    // _restoreOriginalPosition($target);
+                }
+            })).styleCursor(false);
+
+            // makes result draggables
+            // todo remove selected result from list flow
+            interact(resultSelector).draggable(_.assign({}, dragOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+                    // _handleFilledGapSelect($target);
+                    console.log("dragging a result");
+                },
+                onmove: _moveItem,
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass("dragged");
+                    // todo check if drop occured
+                    // _restoreOriginalPosition($target);
+                    //
+                    // if ($activeChoice) {
+                    //     _unsetChoice($activeChoice);
+                    //     _resetSelection();
+                    // }
+                }
+            })).styleCursor(false);
+
+            // makes result area hoverables
+            interact($resultArea.selector).dropzone({
+                overlap: 0.6,
+                ondragenter: function (e) {
+                    $resultArea.append($dropzoneElement);
+                    var $dropzone = $('.dropzone');
+                    var $dragged = $(e.relatedTarget);
+                    // $dropzone.css('height', $(e.relatedTarget).height() + 'px');
+                    $dropzone.height($dragged.height());
+                    $dropzone.find('div').text($dragged.text());
+                },
+                ondrop: function (e) {
+                    console.log('dropping on result area');
+                    $dropzoneElement.remove();
+                    _addChoiceToSelection($(e.relatedTarget)); // todo add index for choice position
+                    _restoreOriginalPosition($(e.relatedTarget));
+                    // todo drop it where the dropzone is !
+                },
+                ondragleave: function (e) {
+                    $dropzoneElement.remove();
+                }
+            });
+
+            // todo scope all dnd selector
+            /*
+            // makes dropzone droppable
+            interact('.dropzone').dropzone({
+                overlap: 0.15,
+                ondragenter: function(e) {
+                    var $target = $(e.target);
+                    $target.css('background', '#eee');
+                },
+                ondrop: function (e) {
+                    console.log('dropping on dropzone!');
+                    $dropzoneElement.remove();
+                    _addChoiceToSelection($(e.relatedTarget));
+                    _restoreOriginalPosition($(e.relatedTarget));
+                    // todo remove drag handler ?
+                },
+                ondragleave: function(e) {
+                    var $target = $(e.target);
+                    $target.css('background', '#fff');
+                }
+            });
+            */
+        }
+
+        function _isDropzoneVisible() {
+            return $.contains($container.get(0), $dropzoneElement.get(0));
+        }
+
+        // todo remove the "escalator" effect
+        function _adjustDropzonePosition(e) {
+            var $choice = $(e.target),
+                choiceTop = $choice.offset().top,
+                choiceBottom = choiceTop + $choice.height(),
+                $prevResult = $dropzoneElement.prev('.qti-choice'),
+                $nextResult = $dropzoneElement.next('.qti-choice'),
+                prevMiddleY,
+                nextMiddleY;
+
+            if ($prevResult.length > 0) {
+                prevMiddleY = $prevResult.offset().top + $prevResult.height() / 2;
+                if (choiceTop < prevMiddleY) {
+                    $prevResult.before($dropzoneElement);
+                }
+            }
+            if ($nextResult.length > 0) {
+                nextMiddleY = $nextResult.offset().top + $nextResult.height() / 2;
+                if (choiceBottom > nextMiddleY) {
+                    $nextResult.after($dropzoneElement);
+                }
+            }
+        }
+
+        function _moveItem(e) {
+            var $target = $(e.target),
+                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+                transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+            $target.css("webkitTransform", transform);
+            $target.css("transform", transform);
+            $target.attr('data-x', x);
+            $target.attr('data-y', y);
+        }
+
+        function _restoreOriginalPosition($target) {
+            var transform = 'translate(0px, 0px)';
+
+            $target.css("webkitTransform", transform);
+            $target.css("transform", transform);
+            $target.attr('data-x', 0);
+            $target.attr('data-y', 0);
         }
         
         // rendering init
-        
+
         _setInstructions(interaction);
 
         //bind event listener in case the attributes change dynamically on runtime
