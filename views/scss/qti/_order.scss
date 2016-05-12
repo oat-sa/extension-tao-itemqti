@@ -87,4 +87,19 @@
             }
         }
     }
+    .choice-area {
+        & > li {
+            &.dragged {
+                z-index: 1;
+                list-style: none;
+            }
+        }
+    }
+    .result-area {
+        & > li {
+            &.dropzone {
+                color: mix(#fff, $textColor, 75%);
+            }
+        }
+    }
 }
