@@ -21,9 +21,8 @@ define([
     'taoQtiItem/qtiCreator/renderers/Renderer',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-    'helpers',
     'util/dom'
-], function($, _, Renderer, assetManagerFactory, assetStrategies, helpers, dom){
+], function($, _, Renderer, assetManagerFactory, assetStrategies, dom){
     "use strict";
 
     //configure and instanciate once only:
@@ -84,11 +83,11 @@ define([
                     modalFeedbackOptionForm : $('#item-editor-modal-feedback-property-bar .panel'),
                     mediaManager : {
                         appendContainer : '#mediaManager',
-                        browseUrl : helpers._url('files', 'ItemContent', 'taoItems'),
-                        uploadUrl : helpers._url('upload', 'ItemContent', 'taoItems'),
-                        deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
-                        downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
-                        fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
+                        browseUrl : config.properties.getFilesUrl,
+                        uploadUrl : config.properties.fileUploadUrl,
+                        deleteUrl : config.properties.fileDeleteUrl,
+                        downloadUrl : config.properties.fileDownloadUrl,
+                        fileExistsUrl : config.properties.fileExistsUrl,
                         mediaSourcesUrl : config.properties.mediaSourcesUrl
                     },
                     interactions : _extractInteractionsConfig(config)

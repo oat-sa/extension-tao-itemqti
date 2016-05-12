@@ -74,11 +74,13 @@ define([
      * Load an item
      * @param {String} uri - the item URI
      * @param {String} label - the item label
+     * @param {String} itemDataUrl - the data url
+     * 
      * @returns {Promise} that resolve with the loaded item model
      */
-    var loadItem = function loadItem(uri, label){
+    var loadItem = function loadItem(uri, label, itemDataUrl){
         return new Promise(function(resolve, reject){
-            itemLoader.loadItem({uri : uri, label : label}, function(item){
+            itemLoader.loadItem({uri : uri, label : label, itemDataUrl: itemDataUrl}, function(item){
                 if(!item){
                     reject(new Error('Unable to load the item'));
                 }
@@ -183,7 +185,7 @@ define([
                 Promise.all([
                     register(ciRegistry, config.interactions),
                     register(icRegistry, config.infoControls),
-                    loadItem(config.properties.uri, config.properties.label)
+                    loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
                 ]).then(function(results){
 
                     if(_.isArray(results) && results.length === 3){

@@ -27,14 +27,13 @@
 define([
     'jquery',
     'i18n',
-    'helpers',
     'core/plugin',
     'ui/hider',
     'taoItems/preview/preview',
     'taoQtiItem/qtiCreator/helper/itemSerializer',
     'ui/dialog/confirm',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
-], function($, __, helpers, pluginFactory, hider, preview, itemSerializer, dialogConfirm, buttonTpl){
+], function($, __, pluginFactory, hider, preview, itemSerializer, dialogConfirm, buttonTpl){
     'use strict';
 
     /**
@@ -59,7 +58,7 @@ define([
             //wrap the preview opening
             //TODO move away the URLs !!!
             var openPreview = function openPreview(){
-                preview.init(helpers._url('index', 'QtiPreview', 'taoQtiItem', { uri : item.data('uri') }));
+                preview.init(itemCreator.getConfig().properties.previewUrl + '?uri=' + encodeURIComponent(item.data('uri')));
                 preview.show();
             };
 
