@@ -90,8 +90,9 @@
     .choice-area {
         & > li {
             &.dragged {
-                z-index: 1;
+                background: whiten($info, .95) !important;
                 list-style: none;
+                z-index: 1;
             }
         }
     }
