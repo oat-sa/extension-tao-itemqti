@@ -21,7 +21,7 @@ define([
     'context',
     'ui/themes',
     'taoItems/assets/manager',
-    'taoItems/assets/strategies',
+    'taoItems/assets/strategies'
 ], function(_, context, themes, assetManagerFactory, assetStrategies){
     'use strict';
 
