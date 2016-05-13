@@ -10,11 +10,10 @@ define([
     _.extend(methods, editableInteraction);
     _.extend(methods, {
         getDefaultAttributes: function() {
-            // The QTI uploadInteraction has a unique
-            // attribute 'type', which can be empty.
-            return {
-                'type': ''
-            };
+            // The QTI uploadInteraction has a option
+            // attribute 'type'
+            // https://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10350
+            return {};
         },
         
         afterCreate: function() {
