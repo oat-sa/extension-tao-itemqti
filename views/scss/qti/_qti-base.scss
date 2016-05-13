@@ -100,6 +100,8 @@ $mainContainer : '.qti-item';
             border-width : 1px;
             padding:10px 10px 15px;
             background: $infoBgColor;
+            position: relative;
+            z-index: 100002;
             &.positive{
                 background: $successBgColor;
             }
