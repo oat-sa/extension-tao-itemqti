@@ -56,7 +56,7 @@
     },
     "minimum-stability" : "dev",
     "require": {
-        "oat-sa/lib-tao-qti" : "~0.1.0",
+        "oat-sa/lib-tao-qti" : "dev-php7_support",
         "oat-sa/oatbox-extension-installer": "dev-master"
     },
     "autoload" : {
