@@ -355,7 +355,7 @@ class ImportService extends tao_models_classes_GenerisService
         }
 
         // cleanup
-        tao_helpers_File::delTree($folder);
+        //tao_helpers_File::delTree($folder);
 
         return $report;
     }
@@ -433,8 +433,9 @@ class ImportService extends tao_models_classes_GenerisService
                 $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
 
                 $itemAssetManager = new AssetManager();
+                $itemAssetManager->setItemContent($itemService->getItemContent($rdfItem));
                 $itemAssetManager
-                    ->setItemContent($itemService->getItemContent($rdfItem))
+                    /** Shared stimulus */
                     ->loadAssetHandler(
                         new ItemMediaResolver($rdfItem, ''),
                         array(
@@ -443,12 +444,14 @@ class ImportService extends tao_models_classes_GenerisService
                             MediaAssetHandler::ASSET_HANDLER_PARENT_PATH => $rdfItem->getLabel()
                         )
                     )
+                    /** Local */
                     ->loadAssetHandler(
                         new LocalItemSource(array('item' => $rdfItem))
-                    )
+                    );
+
+                $itemAssetManager
                     ->importAuxiliaryFiles($qtiItemResource, $qtiItemResource->getAuxiliaryFiles(), $folder)
-                    ->importDependencyFiles($qtiItemResource, $qtiItemResource->getDependencies(), $folder, $dependencies)
-                ;
+                    ->importDependencyFiles($qtiItemResource, $qtiItemResource->getDependencies(), $folder, $dependencies);
 
                 $itemService->setItemContent($rdfItem, $itemAssetManager->getItemContent());
 

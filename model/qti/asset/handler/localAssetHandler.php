@@ -23,13 +23,13 @@ class LocalAssetHandler extends AssetHandler
     {
         // store locally, in a safe directory
         $safePath = '';
-        if (dirname($absolutePath) !== '.') {
-            $safePath = str_replace('../', '', dirname($absolutePath)) . '/';
+        if (dirname($relativePath) !== '.') {
+            $safePath = str_replace('../', '', dirname($relativePath)) . '/';
         }
-        \common_Logger::i($relativePath);
-        \common_Logger::i(basename($relativePath));
+        \common_Logger::i($absolutePath);
+        \common_Logger::i(basename($absolutePath));
         \common_Logger::i($safePath);
-        $info = $this->itemSource->add($relativePath, basename($relativePath), $safePath);
+        $info = $this->itemSource->add($absolutePath, basename($absolutePath), $safePath);
         \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' copied.');
         return $info;
     }

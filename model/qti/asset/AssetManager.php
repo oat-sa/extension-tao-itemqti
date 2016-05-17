@@ -25,16 +25,13 @@ use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\asset\handler\AssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
-use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
 
 class AssetManager
 {
     protected $assetHandlers;
-    /** @var  Item */
-    protected $model;
+
     protected $itemContent = '';
-    protected $sharedFiles;
 
     public function loadAssetHandler($itemSource, array $parameters = array())
     {
@@ -120,6 +117,7 @@ class AssetManager
                     $this->itemContent = str_replace($relativePath, $info['uri'], $this->itemContent);
                 }
 
+                //Break chain of asset handler, first applicable is taken
                 return;
             }
         }

@@ -8,7 +8,6 @@
 
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
-
 use oat\tao\helpers\FileUploadException;
 use oat\tao\model\media\MediaManagement;
 use oat\tao\model\media\MediaService;
@@ -17,7 +16,6 @@ use oat\taoMediaManager\model\SharedStimulusImporter;
 use oat\taoMediaManager\model\SharedStimulusPackageImporter;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\parser\ValidationException;
 
 class MediaAssetHandler extends AssetHandler
 {
