@@ -40,6 +40,8 @@ use oat\taoMediaManager\model\SharedStimulusPackageImporter;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\qti\asset\AssetManager;
+use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
@@ -383,31 +385,27 @@ class ImportService extends tao_models_classes_GenerisService
         array $metadataInjectors = array(),
         array $metadataGuardians = array(),
         array $metadataClassLookups = array(),
-        array &$sharedFiles = array()
+        array $sharedFiles = array()
     ) {
 
         try {
             //load the information about resources in the manifest
 
             $itemService = taoItems_models_classes_ItemsService::singleton();
-            $qtiService = Service::singleton();
 
             $sources = MediaService::singleton()->getWritableSources();
             $sharedStorage = array_shift($sources);
 
             try {
-
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
 
                 // Use the guardians to check whether or not the item has to be imported.
                 foreach ($metadataGuardians as $guardian) {
-
                     if (isset($metadataValues[$resourceIdentifier]) === true) {
                         if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
                             \common_Logger::i("Resource '${resourceIdentifier}' is already stored in the database and will not be imported.");
                             $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier);
                             $report = common_report_Report::createInfo($msg, $guard);
-
                             // Simply do not import again.
                             return $report;
                         }
@@ -428,118 +426,31 @@ class ImportService extends tao_models_classes_GenerisService
 
                 $qtiFile = $folder . helpers_File::urlToPath($qtiItemResource->getFile());
 
+                common_Logger::i('file :: ' . $qtiItemResource->getFile());
+
+
                 $qtiModel = $this->createQtiItemModel($qtiFile);
                 $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
-                $name = $rdfItem->getLabel();
-                $itemContent = $itemService->getItemContent($rdfItem);
 
-                $xincluded = array();
-                foreach ($qtiModel->getBody()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xincludeEle) {
-                    $xincluded[] = $xincludeEle->attr('href');
-                    \common_Logger::i("Xinclude component found in resource '${resourceIdentifier}' with href '" . $xincludeEle->attr('href') . "'.");
-                }
+                $itemAssetManager = new AssetManager();
+                $itemAssetManager
+                    ->setItemContent($itemService->getItemContent($rdfItem))
+                    ->loadAssetHandler(
+                        new ItemMediaResolver($rdfItem, ''),
+                        array(
+                            MediaAssetHandler::ASSET_HANDLER_QTI_MODEL => $qtiModel,
+                            MediaAssetHandler::ASSET_HANDLER_SHARED_FILES => $sharedFiles,
+                            MediaAssetHandler::ASSET_HANDLER_PARENT_PATH => $rdfItem->getLabel()
+                        )
+                    )
+                    ->loadAssetHandler(
+                        new LocalItemSource(array('item' => $rdfItem))
+                    )
+                    ->importAuxiliaryFiles($qtiItemResource, $qtiItemResource->getAuxiliaryFiles(), $folder)
+                    ->importDependencyFiles($qtiItemResource, $qtiItemResource->getDependencies(), $folder, $dependencies)
+                ;
 
-                $local = new LocalItemSource(array('item' => $rdfItem));
-
-                foreach ($qtiItemResource->getAuxiliaryFiles() as $auxResource) {
-                    // file on FS
-                    $auxFile = $folder . str_replace('/', DIRECTORY_SEPARATOR, $auxResource);
-
-                    // rel path in item
-                    $auxPath = str_replace(DIRECTORY_SEPARATOR, '/', helpers_File::getRelPath($qtiFile, $auxFile));
-
-                    if (!empty($sharedStorage) && in_array($auxPath, $xincluded)) {
-                        $md5 = md5_file($auxFile);
-                        if (isset($sharedFiles[$md5])) {
-                            $info = $sharedFiles[$md5];
-                            \common_Logger::i('Auxiliary file \'' . $auxPath . '\' linked to shared storage.');
-                        } else {
-                            // TODO cleanup sharedstimulus import/export
-                            // move to taoQti item or library
-
-                            // validate the shared stimulus
-                            SharedStimulusImporter::isValidSharedStimulus($auxFile);
-                            // embed assets in the shared stimulus
-                            $newXmlFile = SharedStimulusPackageImporter::embedAssets($auxFile);
-                            $info = $sharedStorage->add($newXmlFile, basename($auxFile), $name);
-                            if (method_exists($sharedStorage, 'forceMimeType')) {
-                                // add() does not return link, so we need to parse it
-                                $resolver = new ItemMediaResolver($rdfItem, '');
-                                $asset = $resolver->resolve($info['uri']);
-                                $sharedStorage->forceMimeType($asset->getMediaIdentifier(), 'application/qti+xml');
-                            }
-                            $sharedFiles[$md5] = $info;
-                            \common_Logger::i('Auxiliary file \'' . $auxPath . '\' added to shared storage.');
-                        }
-                    } else {
-                        // store locally, in a safe directory
-                        $safePath = '';
-                        if (dirname($auxPath) !== '.') {
-                            $safePath = str_replace('../', '', dirname($auxPath)) . '/';
-                        }
-                        $info = $local->add($auxFile, basename($auxFile), $safePath);
-                        \common_Logger::i('Auxiliary file \'' . $auxPath . '\' copied.');
-                    }
-
-                    // replace uri if changed
-                    if ($auxPath != ltrim($info['uri'], '/')) {
-                        $itemContent = str_replace($auxPath, $info['uri'], $itemContent);
-                    }
-                }
-
-                foreach ($qtiItemResource->getDependencies() as $dependency) {
-                    // file on FS
-                    if (isset($dependencies[$dependency])) {
-                        $auxFile = $dependencies[$dependency]->getFile();
-
-                        $auxFile = $folder . str_replace('/', DIRECTORY_SEPARATOR, $auxFile);
-
-                        // rel path in item
-                        $auxPath = str_replace(DIRECTORY_SEPARATOR, '/', helpers_File::getRelPath($qtiFile, $auxFile));
-
-                        if (!empty($sharedStorage) && in_array($auxPath, $xincluded)) {
-                            $md5 = md5_file($auxFile);
-                            if (isset($sharedFiles[$md5])) {
-                                $info = $sharedFiles[$md5];
-                                \common_Logger::i('Auxiliary file \'' . $auxPath . '\' linked to shared storage.');
-                            } else {
-                                // TODO cleanup sharedstimulus import/export
-                                // move to taoQti item or library
-
-                                // validate the shared stimulus
-                                SharedStimulusImporter::isValidSharedStimulus($auxFile);
-                                // embed assets in the shared stimulus
-                                $newXmlFile = SharedStimulusPackageImporter::embedAssets($auxFile);
-                                $info = $sharedStorage->add($newXmlFile, basename($auxFile), $name);
-                                if (method_exists($sharedStorage, 'forceMimeType')) {
-                                    // add() does not return link, so we need to parse it
-                                    $resolver = new ItemMediaResolver($rdfItem, '');
-                                    $asset = $resolver->resolve($info['uri']);
-                                    $sharedStorage->forceMimeType($asset->getMediaIdentifier(), 'application/qti+xml');
-                                }
-                                $sharedFiles[$md5] = $info;
-                                \common_Logger::i('Auxiliary file \'' . $auxPath . '\' added to shared storage.');
-                            }
-                        } else {
-                            // store locally, in a safe directory
-                            $safePath = '';
-                            if (dirname($auxPath) !== '.') {
-                                $safePath = str_replace('../', '', dirname($auxPath)) . '/';
-                            }
-                            $info = $local->add($auxFile, basename($auxFile), $safePath);
-                            \common_Logger::i('Auxiliary file \'' . $auxPath . '\' copied.');
-                        }
-
-                        // replace uri if changed
-                        if ($auxPath != ltrim($info['uri'], '/')) {
-                            $itemContent = str_replace($auxPath, $info['uri'], $itemContent);
-                        }
-
-
-                    }
-                }
-
-                $itemService->setItemContent($rdfItem, $itemContent);
+                $itemService->setItemContent($rdfItem, $itemAssetManager->getItemContent());
 
                 // Finally, import metadata.
                 $this->importItemMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
