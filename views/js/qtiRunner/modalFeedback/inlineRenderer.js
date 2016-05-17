@@ -108,6 +108,10 @@ define([
                         firstFeedback = $(renderingData.dom);
                     }
 
+                    $('img', renderingData.dom).on('load', function() {
+                        iframeNotifier.parent('itemcontentchange');
+                    });
+
                     //record rendered feedback for later reference
                     renderedFeebacks.push(renderingData);
                     if(renderedFeebacks.length === renderingQueue.length){
@@ -142,17 +146,18 @@ define([
      * @returns {jQuery|null}
      */
     function getQtiContainer() {
-        var parent = window.parent;
+        var me = window;
         var $container = null;
         var max = 10;
-        while (parent && max--) {
-            if (parent.$) {
-                $container = parent.$('#qti-content');
+
+        while (me && me.__knownParent__ && max--) {
+            me = me.parent;
+            if (me && me.$) {
+                $container = me.$('#qti-content');
                 if ($container.length) {
                     return $container;
                 }
             }
-            parent = parent.parent
         }
         return null;
     }
