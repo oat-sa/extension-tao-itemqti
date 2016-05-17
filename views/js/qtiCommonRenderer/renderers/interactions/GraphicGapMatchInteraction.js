@@ -122,8 +122,15 @@ define([
         if (isDragAndDropEnabled) {
             interact(rElement.node).dropzone({
                 overlap: 0.15,
+                ondragenter: function(e) {
+                    graphic.setStyle(rElement, 'hover');
+                },
                 ondrop: function () {
+                    graphic.setStyle(rElement, 'selectable');
                     handleShapeSelect();
+                },
+                ondragleave: function(e) {
+                    graphic.setStyle(rElement, 'selectable');
                 }
             });
         }
@@ -166,15 +173,12 @@ define([
             interact(gapFillersSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
-                    toggleActiveGapState($target);
+                    _setActiveGapState($target);
                 },
                 onmove: _moveItem,
                 onend: function (e) {
                     var $target = $(e.target);
-                    var dropOccured = ($gapList.find('.active').length === 0);
-                    if (! dropOccured) {
-                        toggleActiveGapState($target);
-                    }
+                    _setInactiveGapState($target);
                     _restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
@@ -183,14 +187,22 @@ define([
         function toggleActiveGapState($target) {
             if(!$target.hasClass('disabled')){
                 if($target.hasClass('active')){
-                    $target.removeClass('active');
-                    _shapesUnSelectable(interaction);
+                    _setInactiveGapState($target);
                 } else {
-                    $gapList.children('li').removeClass('active');
-                    $target.addClass('active');
-                    _shapesSelectable(interaction);
+                    _setActiveGapState($target);
                 }
             }
+        }
+
+        function _setActiveGapState($target) {
+            $gapList.children('li').removeClass('active');
+            $target.addClass('active');
+            _shapesSelectable(interaction);
+        }
+
+        function _setInactiveGapState($target) {
+            $target.removeClass('active');
+            _shapesUnSelectable(interaction);
         }
 
         function _moveItem(e) {
@@ -363,7 +375,8 @@ define([
             var element = interaction.paper.getById(choice.serial);
             if(_isMatchable(element)){
                 element.selectable = true;
-                graphic.updateElementState(element, 'selectable', tooltip);
+                graphic.setStyle(element, 'selectable');
+                graphic.updateTitle(element, tooltip);
             }
         });
 
@@ -385,7 +398,8 @@ define([
             var element = interaction.paper.getById(choice.serial);
             if(element){
                 element.selectable = false;
-                graphic.updateElementState(element, 'basic', __('Select an image first'));
+                graphic.setStyle(element, 'basic');
+                graphic.updateTitle(element, __('Select an image first'));
             }
         });
 
