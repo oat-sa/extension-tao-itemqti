@@ -423,6 +423,21 @@ define([
                     $target.removeClass('brd-error');
                 }, 150);
             });
+
+            // we don't check for isDragAndDropEnabled on purpose, as this binding is not to allow dragging,
+            // but only to provide feedback in case of a drag action for an inactive choice
+            interact($choiceArea.selector + ' >li.deactivated').draggable({
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass('brd-error');
+                    instructionMax.setLevel('warning');
+                },
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass('brd-error');
+                    instructionMax.setLevel('info');
+                }
+            }).styleCursor(false);
         }
     };
 
