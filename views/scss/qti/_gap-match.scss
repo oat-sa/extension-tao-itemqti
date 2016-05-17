@@ -28,12 +28,21 @@
         &.dragged {
             z-index: 1;
         }
+        &.empty.droppable {
+            border-style: solid !important;
+        }
+        &.droppable {
+            background: whiten($info, .75) !important;
+        }
     }
     .choice-area {
         .qti-choice {
-            z-index: 1;
             &.dragged {
+                z-index: 1;
                 background: whiten($info, .91) !important;
+            }
+            &.dragged.droppable {
+                background: whiten($info, .75) !important;
             }
         }
 

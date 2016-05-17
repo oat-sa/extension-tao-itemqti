@@ -206,8 +206,28 @@ define([
             // makes gaps droppables
             interact(gapSelector).dropzone({
                 overlap: 0.15,
+                ondragenter: function(e) {
+                    var $target = $(e.target),
+                        $dragged = $(e.relatedTarget);
+
+                    $target.addClass('droppable');
+                    $dragged.addClass('droppable');
+                },
                 ondrop: function (e) {
+                    var $target = $(e.target),
+                        $dragged = $(e.relatedTarget);
+
+                    $target.removeClass('droppable');
+                    $dragged.removeClass('droppable');
+
                     _handleGapSelect($(e.target));
+                },
+                ondragleave: function(e) {
+                    var $target = $(e.target),
+                        $dragged = $(e.relatedTarget);
+
+                    $target.removeClass('droppable');
+                    $dragged.removeClass('droppable');
                 }
             });
         }
