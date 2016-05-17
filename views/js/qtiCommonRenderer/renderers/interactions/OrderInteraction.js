@@ -213,7 +213,6 @@ define([
             };
 
             // makes choices draggables
-            // todo add drag listener on inactive choice to highlight the warning message
             interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     // todo move to drag container ?
@@ -243,10 +242,8 @@ define([
                     _setSelection($target);
 
                     // move dragged result to drag container
-                    // todo correct position
                     $dragContainer.show();
                     $dragContainer.width($resultArea.width());
-                    // $dragContainer.offset({ top: 0, left: 0 });
                     $dragContainer.offset($target.offset());
                     $dragContainer.append($target);
                 },
@@ -358,7 +355,6 @@ define([
 
             $target.css('webkitTransform', transform);
             $target.css('transform', transform);
-            $target.css('top', '0');
             $target.attr('data-x', 0);
             $target.attr('data-y', 0);
         }
