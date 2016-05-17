@@ -57,7 +57,8 @@ define([
 
             isDragAndDropEnabled,
             dragOptions,
-            $dropzoneElement;
+            $dropzoneElement,
+            $dragContainer = $container.find('.drag-container');
 
         var _activeControls = function _activeControls(){
             $iconAdd.addClass('inactive');
@@ -79,7 +80,6 @@ define([
             }
             $activeChoice = $choice;
             $activeChoice.addClass('active');
-            _activeControls();
         };
 
         var _resetSelection = function _resetSelection(){
@@ -90,7 +90,8 @@ define([
             _resetControls();
         };
 
-        var _addChoiceToSelection = function _addChoiceToSelection($target) {
+        var _addChoiceToSelection = function _addChoiceToSelection($target, position) {
+            var $results = $(resultSelector);
             _resetSelection();
 
             $iconAdd.addClass('triggered');
@@ -99,7 +100,12 @@ define([
             }, 150);
 
             //move choice to the result list:
-            $resultArea.append($target);
+            if (typeof(position) !== 'undefined' && position < $results.length) {
+                $results.eq(position).before($target);
+            } else {
+                $resultArea.append($target);
+            }
+
             containerHelper.triggerResponseChangeEvent(interaction);
 
             //update constraints :
@@ -111,6 +117,7 @@ define([
                 _resetSelection();
             }else{
                 _setSelection($target);
+                _activeControls();
             }
         };
 
@@ -194,7 +201,7 @@ define([
         if (isDragAndDropEnabled) {
             $dropzoneElement = $('<li>', {'class' : 'dropzone qti-choice'});
             $('<div>', {'class': 'qti-block'}).appendTo($dropzoneElement);
-            
+
             dragOptions = {
                 inertia: false,
                 autoScroll: true,
@@ -206,102 +213,112 @@ define([
             };
 
             // makes choices draggables
+            // todo add drag listener on inactive choice to highlight the warning message
             interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
+                    // todo move to drag container ?
                     var $target = $(e.target);
                     $target.addClass("dragged");
                 },
                 onmove: function (e) {
-                    _moveItem(e);
+                    var $target = $(e.target);
+                    _moveItem(e, $target);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition(e);
                     }
-
                 },
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
-                    // todo is this ok ?!
-                    // _restoreOriginalPosition($target);
+                    _restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
 
             // makes result draggables
-            // todo remove selected result from list flow
             interact(resultSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
                     $target.addClass("dragged");
-                    // _handleFilledGapSelect($target);
-                    console.log("dragging a result");
+
+                    _setSelection($target);
+
+                    // move dragged result to drag container
+                    // todo correct position
+                    $dragContainer.show();
+                    $dragContainer.width($resultArea.width());
+                    // $dragContainer.offset({ top: 0, left: 0 });
+                    $dragContainer.offset($target.offset());
+                    $dragContainer.append($target);
                 },
-                onmove: _moveItem,
+                onmove: function (e) {
+                    _moveItem(e, $dragContainer);
+                    if (_isDropzoneVisible()) {
+                        _adjustDropzonePosition(e);
+                    }
+                },
                 onend: function (e) {
-                    var $target = $(e.target);
+                    var $target = $(e.target),
+                        hasBeenDroppedInResultArea = ($target.parent === $resultArea);
+
                     $target.removeClass("dragged");
-                    // todo check if drop occured
-                    // _restoreOriginalPosition($target);
-                    //
-                    // if ($activeChoice) {
-                    //     _unsetChoice($activeChoice);
-                    //     _resetSelection();
-                    // }
+                    $dragContainer.hide();
+
+                    if (! hasBeenDroppedInResultArea) {
+                        _removeChoice();
+                    }
+                    _restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
 
-            // makes result area hoverables
+            // makes result area droppable
             interact($resultArea.selector).dropzone({
                 overlap: 0.6,
                 ondragenter: function (e) {
-                    $resultArea.append($dropzoneElement);
-                    var $dropzone = $('.dropzone');
                     var $dragged = $(e.relatedTarget);
-                    // $dropzone.css('height', $(e.relatedTarget).height() + 'px');
-                    $dropzone.height($dragged.height());
-                    $dropzone.find('div').text($dragged.text());
+                    _addDropzoneToPosition($dragged); // todo
                 },
                 ondrop: function (e) {
-                    console.log('dropping on result area');
+                    var $dragged = $(e.relatedTarget),
+                        dropzoneIndex = $(resultSelector).index($dropzoneElement);
+
                     $dropzoneElement.remove();
-                    _addChoiceToSelection($(e.relatedTarget)); // todo add index for choice position
-                    _restoreOriginalPosition($(e.relatedTarget));
-                    // todo drop it where the dropzone is !
+
+                    _addChoiceToSelection($dragged, dropzoneIndex);
+                    _restoreOriginalPosition($dragged);
                 },
-                ondragleave: function (e) {
+                ondragleave: function () {
                     $dropzoneElement.remove();
                 }
             });
 
             // todo scope all dnd selector
+        }
+
+        // todo remove the "escalator" effect
+        function _addDropzoneToPosition($draggedElement) {
             /*
-            // makes dropzone droppable
-            interact('.dropzone').dropzone({
-                overlap: 0.15,
-                ondragenter: function(e) {
-                    var $target = $(e.target);
-                    $target.css('background', '#eee');
-                },
-                ondrop: function (e) {
-                    console.log('dropping on dropzone!');
-                    $dropzoneElement.remove();
-                    _addChoiceToSelection($(e.relatedTarget));
-                    _restoreOriginalPosition($(e.relatedTarget));
-                    // todo remove drag handler ?
-                },
-                ondragleave: function(e) {
-                    var $target = $(e.target);
-                    $target.css('background', '#fff');
-                }
-            });
+            var $results = $resultArea.find('li');
+            if ($results.length > 0) {
+                var draggedIndex = $results.index($draggedElement);
+                $results.eq(draggedIndex).after($dropzoneElement);
+            } else {
+                $resultArea.append($dropzoneElement);
+            }
             */
+            var $dropzone;
+
+            $resultArea.append($dropzoneElement);
+
+            $dropzone = $('.dropzone');
+            $dropzone.height($draggedElement.height());
+            $dropzone.find('div').text($draggedElement.text());
         }
 
         function _isDropzoneVisible() {
             return $.contains($container.get(0), $dropzoneElement.get(0));
         }
 
-        // todo remove the "escalator" effect
-        function _adjustDropzonePosition(e) {
+        function _adjustDropzonePosition(e) { // todo pass target instead of event ?
             var $choice = $(e.target),
                 choiceTop = $choice.offset().top,
                 choiceBottom = choiceTop + $choice.height(),
@@ -324,14 +341,14 @@ define([
             }
         }
 
-        function _moveItem(e) {
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+        function _moveItem(e, $target) {
+            var x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
                 y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
                 transform = 'translate(' + x + 'px, ' + y + 'px)';
 
             $target.css("webkitTransform", transform);
             $target.css("transform", transform);
+
             $target.attr('data-x', x);
             $target.attr('data-y', y);
         }
@@ -339,12 +356,13 @@ define([
         function _restoreOriginalPosition($target) {
             var transform = 'translate(0px, 0px)';
 
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
+            $target.css('webkitTransform', transform);
+            $target.css('transform', transform);
+            $target.css('top', '0');
             $target.attr('data-x', 0);
             $target.attr('data-y', 0);
         }
-        
+
         // rendering init
 
         _setInstructions(interaction);
@@ -415,6 +433,7 @@ define([
         var $choiceArea = $('.choice-area', $container).append($('.result-area>li', $container));
         var $choices = $choiceArea.children('.qti-choice');
 
+        // todo use interact helper to trigger tap
         $container.find('.qti-choice.active').each(function deactivateChoice() {
             var eventOptions = {
                 bubbles: true,
@@ -525,6 +544,8 @@ define([
         selectors.forEach(function unbindInteractEvents(selector) {
             interact($container.find(selector).selector).unset();
         });
+
+        // todo restore unbinding for .commonRenderer events (see attributes changes)
 
         $container.find('.order-interaction-area').removeAttr('style');
 

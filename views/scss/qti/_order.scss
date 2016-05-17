@@ -87,20 +87,29 @@
             }
         }
     }
-    .choice-area {
-        & > li {
-            &.dragged {
-                background: whiten($info, .95) !important;
-                list-style: none;
-                z-index: 1;
-            }
+    li {
+        &.dragged {
+            background: whiten($info, .95) !important;
+            list-style: none;
+            z-index: 1;
         }
     }
     .result-area {
+        position: relative;
         & > li {
             &.dropzone {
                 color: mix(#fff, $textColor, 75%);
             }
+            &.dragged {
+                position: absolute;
+            }
         }
+    }
+    .drag-container {
+        position: absolute;
+        display: none;
+        padding: 0;
+        margin: 0;
+        z-index: 1;
     }
 }
