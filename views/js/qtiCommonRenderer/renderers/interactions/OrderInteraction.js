@@ -192,10 +192,6 @@ define([
 
         if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
-            // todo remove this (begin)
-        } else {
-            isDragAndDropEnabled = true;
-            // todo remove this (end)
         }
 
         if (isDragAndDropEnabled) {

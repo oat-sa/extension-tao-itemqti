@@ -112,7 +112,8 @@ define([
             themes : itemThemes,
             enableDragAndDrop: {
                 gapMatch: !!module.config().gapMatchDragAndDrop,
-                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop
+                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop,
+                order: !!module.config().orderDragAndDrop
             }
         }
     };
