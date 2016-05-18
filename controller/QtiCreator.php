@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\controller;
 
 use common_exception_Error;
 use core_kernel_classes_Resource;
+use oat\taoMediaManager\helpers\SharedStimulus;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
@@ -237,6 +238,11 @@ class QtiCreator extends tao_actions_CommonModule
             $resolver = new ItemMediaResolver($item, $lang);
             $asset = $resolver->resolve($path);
             $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
+            $fileInfo = $asset->getMediaSource()->getFileInfo($asset->getMediaIdentifier());
+            if($fileInfo['mime'] === 'application/qti+xml'){
+                //xinclude, try to get embedded files
+                $filePath = SharedStimulus::embeddedAsset($filePath);
+            }
             \tao_helpers_Http::returnFile($filePath);
         } else {
             throw new common_exception_Error('invalid item preview file path');
