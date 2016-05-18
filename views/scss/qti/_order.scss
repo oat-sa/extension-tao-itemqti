@@ -98,7 +98,8 @@
         position: relative;
         & > li {
             &.dropzone {
-                color: mix(#fff, $textColor, 75%);
+                border: 1px $uiClickableHoverBg dashed !important;
+                background: whiten($info, .75) !important;
             }
             &.dragged {
                 position: absolute;
