@@ -223,7 +223,7 @@ define([
                     var $target = $(e.target);
                     _moveItem(e, $target);
                     if (_isDropzoneVisible()) {
-                        _adjustDropzonePosition(e);
+                        _adjustDropzonePosition($target);
                     }
                 },
                 onend: function (e) {
@@ -248,9 +248,10 @@ define([
                     $dragContainer.append($target);
                 },
                 onmove: function (e) {
+                    var $target = $(e.target);
                     _moveItem(e, $dragContainer);
                     if (_isDropzoneVisible()) {
-                        _adjustDropzonePosition(e);
+                        _adjustDropzonePosition($target);
                     }
                 },
                 onend: function (e) {
@@ -272,7 +273,7 @@ define([
                 overlap: 0.6,
                 ondragenter: function (e) {
                     var $dragged = $(e.relatedTarget);
-                    _addDropzoneToPosition($dragged); // todo
+                    _insertDropzone($dragged); // todo
                 },
                 ondrop: function (e) {
                     var $dragged = $(e.relatedTarget),
@@ -291,34 +292,44 @@ define([
             // todo scope all dnd selector
         }
 
-        // todo remove the "escalator" effect
-        function _addDropzoneToPosition($draggedElement) {
-            /*
-            var $results = $resultArea.find('li');
-            if ($results.length > 0) {
-                var draggedIndex = $results.index($draggedElement);
-                $results.eq(draggedIndex).after($dropzoneElement);
+        function _insertDropzone($dragged) {
+            var draggedMiddleY = $dragged.offset().top + $dragged.height() / 2,
+                previousMiddleY = 0,
+                insertPosition,
+                $dropzone;
+
+            // look for position where to insert dropzone
+            $(resultSelector).each(function(index) {
+                var currentMiddleY = $(this).offset().top + $(this).height() / 2;
+
+                if (draggedMiddleY > previousMiddleY && draggedMiddleY < currentMiddleY) {
+                    insertPosition = index;
+                    return false;
+                }
+                previousMiddleY = currentMiddleY;
+            });
+
+            // append dropzone to DOM
+            if (typeof(insertPosition) !== 'undefined') {
+                $(resultSelector).eq(insertPosition).before($dropzoneElement);
             } else {
+                // no index found, we just append to the end
                 $resultArea.append($dropzoneElement);
             }
-            */
-            var $dropzone;
 
-            $resultArea.append($dropzoneElement);
-
+            // style dropzone
             $dropzone = $('.dropzone');
-            $dropzone.height($draggedElement.height());
-            $dropzone.find('div').text($draggedElement.text());
+            $dropzone.height($dragged.height());
+            $dropzone.find('div').text($dragged.text());
         }
 
         function _isDropzoneVisible() {
             return $.contains($container.get(0), $dropzoneElement.get(0));
         }
 
-        function _adjustDropzonePosition(e) { // todo pass target instead of event ?
-            var $choice = $(e.target),
-                choiceTop = $choice.offset().top,
-                choiceBottom = choiceTop + $choice.height(),
+        function _adjustDropzonePosition($dragged) { // todo pass target instead of event ?
+            var draggedTop = $dragged.offset().top,
+                draggedBottom = draggedTop + $dragged.height(),
                 $prevResult = $dropzoneElement.prev('.qti-choice'),
                 $nextResult = $dropzoneElement.next('.qti-choice'),
                 prevMiddleY,
@@ -326,18 +337,19 @@ define([
 
             if ($prevResult.length > 0) {
                 prevMiddleY = $prevResult.offset().top + $prevResult.height() / 2;
-                if (choiceTop < prevMiddleY) {
+                if (draggedTop < prevMiddleY) {
                     $prevResult.before($dropzoneElement);
                 }
             }
             if ($nextResult.length > 0) {
                 nextMiddleY = $nextResult.offset().top + $nextResult.height() / 2;
-                if (choiceBottom > nextMiddleY) {
+                if (draggedBottom > nextMiddleY) {
                     $nextResult.after($dropzoneElement);
                 }
             }
         }
 
+        // todo don't pass event object
         function _moveItem(e, $target) {
             var x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
                 y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
@@ -444,7 +456,7 @@ define([
         var $choiceArea = $('.choice-area', $container).append($('.result-area>li', $container));
         var $choices = $choiceArea.children('.qti-choice');
 
-        // todo use interact helper to trigger tap
+        // todo factor out and use interact helper to trigger tap
         $container.find('.qti-choice.active').each(function deactivateChoice() {
             var eventOptions = {
                 bubbles: true,
