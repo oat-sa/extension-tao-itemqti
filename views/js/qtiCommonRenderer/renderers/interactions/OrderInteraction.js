@@ -215,13 +215,12 @@ define([
             // makes choices draggables
             interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
-                    // todo move to drag container ?
                     var $target = $(e.target);
                     $target.addClass("dragged");
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    _moveItem(e, $target);
+                    _moveItem($target, e.dx, e.dy);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }
@@ -249,7 +248,7 @@ define([
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    _moveItem(e, $dragContainer);
+                    _moveItem($dragContainer, e.dx, e.dy);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }
@@ -273,7 +272,7 @@ define([
                 overlap: 0.6,
                 ondragenter: function (e) {
                     var $dragged = $(e.relatedTarget);
-                    _insertDropzone($dragged); // todo
+                    _insertDropzone($dragged);
                 },
                 ondrop: function (e) {
                     var $dragged = $(e.relatedTarget),
@@ -290,6 +289,10 @@ define([
             });
 
             // todo scope all dnd selector
+        }
+
+        function _isDropzoneVisible() {
+            return $.contains($container.get(0), $dropzoneElement.get(0));
         }
 
         function _insertDropzone($dragged) {
@@ -323,11 +326,7 @@ define([
             $dropzone.find('div').text($dragged.text());
         }
 
-        function _isDropzoneVisible() {
-            return $.contains($container.get(0), $dropzoneElement.get(0));
-        }
-
-        function _adjustDropzonePosition($dragged) { // todo pass target instead of event ?
+        function _adjustDropzonePosition($dragged) {
             var draggedTop = $dragged.offset().top,
                 draggedBottom = draggedTop + $dragged.height(),
                 $prevResult = $dropzoneElement.prev('.qti-choice'),
@@ -349,10 +348,9 @@ define([
             }
         }
 
-        // todo don't pass event object
-        function _moveItem(e, $target) {
-            var x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+        function _moveItem($target, dx, dy) {
+            var x = (parseFloat($target.attr('data-x')) || 0) + dx,
+                y = (parseFloat($target.attr('data-y')) || 0) + dy,
                 transform = 'translate(' + x + 'px, ' + y + 'px)';
 
             $target.css("webkitTransform", transform);
@@ -433,7 +431,7 @@ define([
             });
 
             // we don't check for isDragAndDropEnabled on purpose, as this binding is not to allow dragging,
-            // but only to provide feedback in case of a drag action for an inactive choice
+            // but only to provide feedback in case of a drag action on an inactive choice
             interact($choiceArea.selector + ' >li.deactivated').draggable({
                 onstart: function (e) {
                     var $target = $(e.target);
@@ -568,7 +566,7 @@ define([
             interact($container.find(selector).selector).unset();
         });
 
-        // todo restore unbinding for .commonRenderer events (see attributes changes)
+        $(document).off('.commonRenderer');
 
         $container.find('.order-interaction-area').removeAttr('style');
 
