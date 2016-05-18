@@ -21,6 +21,7 @@ define([
     'i18n',
     'jquery',
     'core/promise',
+    'util/url',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/item/states/states',
     'taoQtiItem/qtiItem/core/Element',
@@ -38,6 +39,7 @@ define([
     __,
     $,
     Promise,
+    urlUtil,
     Widget,
     states,
     Element,
@@ -55,8 +57,6 @@ define([
 
     var ItemWidget = Widget.clone();
 
-    var globalConfig;
-    
     ItemWidget.initCreator = function(config){
         var self = this;
         this.registerStates(states);
@@ -66,8 +66,8 @@ define([
         if(!config || !config.uri){
             throw new Error('missing required config parameter uri in item widget initialization');
         }
-        
-        globalConfig = config;
+
+        this.saveItemUrl = config.saveItemUrl;
         
         this.renderer = config.renderer;
 
@@ -107,7 +107,7 @@ define([
         var self = this;
         return new Promise(function(resolve){
             $.ajax({
-                url : globalConfig.saveItemUrl + '?uri=' + encodeURIComponent(self.itemUri),
+                url : urlUtil.build(self.saveItemUrl, {uri: self.itemUri}),
                 type : 'POST',
                 contentType : 'text/xml',
                 dataType : 'json',
