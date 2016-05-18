@@ -32,30 +32,30 @@ Class CreatorConfig extends Config
     protected $interactions = array();
     protected $infoControls = array();
     protected $plugins      = array();
+
     // hard coded urls for using by item creator
-    // place into the properties with 'Url' postfix
     protected $controlEndpoints = array(
-        'entry' => 'itemQtiCreator/qtiCreator',
-        'itemData' => 'taoQtiItem/QtiCreator/getItemData',
-        'loadCss' => 'taoQtiItem/QtiCssAuthoring/load',
+        'entryUrl' => 'itemQtiCreator/qtiCreator',
+        'itemDataUrl' => 'taoQtiItem/QtiCreator/getItemData',
+        'loadCssUrl' => 'taoQtiItem/QtiCssAuthoring/load',
         
-        'saveItem' => 'taoQtiItem/QtiCreator/saveItem',
-        'saveCss' => 'taoQtiItem/QtiCssAuthoring/save',
+        'saveItemUrl' => 'taoQtiItem/QtiCreator/saveItem',
+        'saveCssUrl' => 'taoQtiItem/QtiCssAuthoring/save',
         
-        'portableElementAddResources' => 'taoQtiItem/PortableElement/addRequiredResources',
+        'portableElementAddResourcesUrl' => 'taoQtiItem/PortableElement/addRequiredResources',
         
-        'mediaSources' => 'taoQtiItem/QtiCreator/getMediaSources',
-        'getFiles' => 'taoItems/ItemContent/files',
-        'fileAccess' => 'taoQtiItem/QtiCreator/getFile',
+        'mediaSourcesUrl' => 'taoQtiItem/QtiCreator/getMediaSources',
+        'getFilesUrl' => 'taoItems/ItemContent/files',
+        'fileAccessUrl' => 'taoQtiItem/QtiCreator/getFile',
         
-        'fileExists' => 'taoItems/ItemContent/fileExists',
-        'fileUpload' => 'taoItems/ItemContent/upload',
-        'fileDownload' => 'taoItems/ItemContent/download',
-        'fileDelete' => 'taoItems/ItemContent/delete',
+        'fileExistsUrl' => 'taoItems/ItemContent/fileExists',
+        'fileUploadUrl' => 'taoItems/ItemContent/upload',
+        'fileDownloadUrl' => 'taoItems/ItemContent/download',
+        'fileDeleteUrl' => 'taoItems/ItemContent/delete',
         
-        'preview' => 'taoQtiItem/QtiPreview/index',
-        'previewRender' => 'taoQtiItem/QtiPreview/render',
-        'previewSubmit' => 'taoQtiItem/QtiPreview/submitResponses',
+        'previewUrl' => 'taoQtiItem/QtiPreview/index',
+        'previewRenderUrl' => 'taoQtiItem/QtiPreview/render',
+        'previewSubmitUrl' => 'taoQtiItem/QtiPreview/submitResponses',
     );
 
     public function addInteraction($interactionFile){
@@ -123,7 +123,7 @@ Class CreatorConfig extends Config
             $this->prepare($infoControl);
         }
         foreach ($this->controlEndpoints as $key => $controlEndpoint) {
-            $this->setProperty($key . 'Url', \tao_helpers_Uri::getRootUrl() . $controlEndpoint);
+            $this->setProperty($key, \tao_helpers_Uri::getRootUrl() . $controlEndpoint);
         }
 
         //as the config overrides the plugins, we get the list from the registry
