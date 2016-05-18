@@ -2,8 +2,9 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
-    'json!taoQtiItem/test/samples/json/tao-item.json',
-], function($, _, qtiItemRunner, gapMatchData){
+    'core/mouseEvent',
+    'json!taoQtiItem/test/samples/json/tao-item.json'
+], function($, _, qtiItemRunner, triggerMouseEvent, gapMatchData){
     'use strict';
 
     var runner;
@@ -18,6 +19,15 @@ define([
         }
     });
 
+    function clickOn(element) {
+        var eventOptions = {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        };
+        triggerMouseEvent(element, 'mousedown', eventOptions);
+        triggerMouseEvent(element, 'mouseup', eventOptions);
+    }
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(30);
@@ -92,7 +102,7 @@ define([
                 assert.ok( ! $at.hasClass('active'), 'The choice is not active');
                 assert.ok( ! $gap.hasClass('empty'), 'The gap is not highlighted');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
 
@@ -125,10 +135,10 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
-                    $gap.trigger('mousedown');
+                   clickOn($gap.get(0));
                 }, 10);
             })
             .on('statechange', function(state){
@@ -199,10 +209,10 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
-                    $gap.trigger('mousedown');
+                    clickOn($gap.get(0));
 
                     _.delay(function(){
                         assert.deepEqual(self.getState(), {'RESPONSE': { response : { list : { directedPair : [] } } } }, 'Click does not trigger response once destroyed');
@@ -217,7 +227,7 @@ define([
     });
 
     QUnit.asyncTest('resets the response', function(assert){
-        QUnit.expect(8);
+        QUnit.expect(10);
 
         var $container = $('#' + fixtureContainerId);
 
@@ -234,26 +244,33 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                $at.trigger('mousedown');
+                clickOn($at.get(0));
 
                 _.delay(function(){
-                    $gap.trigger('mousedown');
+                    clickOn($gap.get(0));
 
                     _.delay(function(){
 
                         assert.ok($gap.hasClass('filled'), 'The gap is now filled');
                         assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
 
-                        //call destroy manually
-                        var interaction = self._item.getInteractions()[0];
-                        interaction.renderer.resetResponse(interaction);
+                        clickOn($gap.get(0));
 
-                        _.delay(function(){
+                        _.delay(function() {
+                            assert.ok($gap.hasClass('active'), 'The gap is now active');
 
-                            assert.ok( ! $gap.hasClass('filled'), 'The gap is not filled anymore');
-                            assert.equal($gap.text(), '', 'The gap is now empty');
+                            //call destroy manually
+                            var interaction = self._item.getInteractions()[0];
+                            interaction.renderer.resetResponse(interaction);
 
-                            QUnit.start();
+                            _.delay(function(){
+
+                                assert.ok( ! $gap.hasClass('filled'), 'The gap is not filled anymore');
+                                assert.ok(! $gap.hasClass('active'), 'The gap is not active anymore');
+                                assert.equal($gap.text(), '', 'The gap is now empty');
+
+                                QUnit.start();
+                            }, 100);
                         }, 100);
                     }, 100);
                 }, 100);
