@@ -18,13 +18,17 @@
 
 namespace oat\taoQtiItem\controller;
 
+use \Request;
+
 /**
  * End point of Rest item API
  *
  * @author Absar Gilani, absar.gilani6@gmail.com
  */
-class RestItems extends \tao_actions_CommonRestModule
+class RestItems extends \tao_actions_RestController
 {
+    const RESTITEM_PACKAGE_NAME = 'qtiPackage';
+
     /**
      * Accepted archive types
      *
@@ -38,90 +42,86 @@ class RestItems extends \tao_actions_CommonRestModule
     );
 
     /**
-     * RestItems constructor.
-     * Create CrudItemsService
+     * @return ItemRestImportService
      */
-    public function __construct()
+    public function getItemRestImportService()
     {
-        parent::__construct();
-       $this->service = CrudItemsService::singleton();
-	}
-
-	/**
-	 * Optionnaly a specific rest controller may declare
-	 * aliases for parameters used for the rest communication
-	 */
-    protected function getParametersAliases()
-    {
-	    return array_merge(parent::getParametersAliases(), array(
-            "model" => TAO_ITEM_CLASS,
-            "qtiPackage",
-	    ));
-	}
+        if (!$this->service) {
+            $this->service = new ItemRestImportService();
+        }
+        return $this->service;
+    }
 
     /**
-     * Optionnal Requirements for parameters to be sent on every service
-     * Rename file with original name
-     *
-     * @param $file
-     * @return \common_report_Report
+     * Only import method is available, so index return failure response
      */
-    protected function importQtiPackage($file)
+    public function index()
     {
+        $this->returnFailure(new \common_exception_NotImplemented('This API does not support this call.'));
+    }
+
+    /**
+     * Import file entry point by using $this->service
+     * Check POST method & get valid uploaded file
+     */
+    public function import()
+    {
+        try {
+            // Check if it's post method
+            if ($this->getRequestMethod()!=Request::HTTP_POST) {
+                throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
+            }
+
+            // Get valid package parameter
+            $package = $this->getUploadedPackage();
+
+            // Call service to import package
+            $report = $this->getItemRestImportService()->importQtiItem($package);
+
+            if ($report->getType()==\common_report_Report::TYPE_ERROR) {
+                throw new \common_Exception('Error during item importing: ' . $report->getMessage());
+            }
+
+            $finalReport = [];
+            /** @var \common_report_Report $report */
+            foreach ($report as $subReport) {
+                $finalReport[] = $subReport->getData()->getUri();
+            }
+            $this->returnSuccess(array('Items' => $finalReport));
+
+        } catch (\Exception $e) {
+            \common_Logger::w($e->getMessage());
+            $this->returnFailure($e);
+        }
+    }
+
+    /**
+     * Return a valid uploaded file
+     *
+     * @return string
+     * @throws \common_Exception
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws \common_exception_NotAcceptable
+     * @throws \oat\tao\helpers\FileUploadException
+     */
+    protected function getUploadedPackage()
+    {
+        if (!$this->hasRequestParameter(self::RESTITEM_PACKAGE_NAME)) {
+            throw new \common_exception_MissingParameter(self::RESTITEM_PACKAGE_NAME, __CLASS__);
+        }
+
+        $file = \tao_helpers_Http::getUploadedFile(self::RESTITEM_PACKAGE_NAME);
+
+        if (!in_array($file['type'], self::$accepted_types)) {
+            throw new \common_exception_NotAcceptable('Uploaded file has to be a valid archive.');
+        }
+
         $pathinfo = pathinfo($file['tmp_name']);
         $destination = $pathinfo['dirname'] . DIRECTORY_SEPARATOR . $file['name'];
         \tao_helpers_File::move($file['tmp_name'], $destination);
 
-        if (!in_array($file['type'], self::$accepted_types)) {
-            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("Incorrect File Type"));
-        }
-
-        return $this->service->importQtiItem($destination);
-    }
-
-    /**
-     * You may use either the alias or the uri, if the parameter identifier
-     * is set it will become mandatory for the method/operation in $key
-     * Default Parameters Requirments are applied
-     * type by default is not required and the root class type is applied
-     *
-     * @return array
-     */
-    protected function getParametersRequirements()
-    {
-	    return array(
-            "post" => array(
-                "qtiPackage"
-            )
-	    );
-	}
-
-    /**
-     * Post method handler, create an item from uploaded item package or from array
-     *
-     * @throws \common_exception_Error
-     * @throws \common_exception_MissingParameter
-     * @throws \oat\tao\helpers\FileUploadException
-     */
-    protected function post()
-    {  
-        $parameters = $this->getParameters();
-
-        if (!isset($parameters['qtiPackage'])) {
-            $data = $this->service->createFromArray($parameters);
-            $this->returnSuccess($data);
-        }
-        $data = $this->importQtiPackage(\tao_helpers_Http::getUploadedFile('qtiPackage'));
-        if ($data->getType() === \common_report_Report::TYPE_ERROR) {
-            throw new \common_exception_Error($data->getMessage());
-        }
-
-        $finalReport = [];
-        /** @var \common_report_Report $report */
-        foreach ($data as $report) {
-            $finalReport[] = $report->getMessage();
-        }
-        $this->returnSuccess(array('Items created' => $finalReport));
+        return $destination;
     }
 }
 
