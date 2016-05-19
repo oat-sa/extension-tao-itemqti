@@ -31,8 +31,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'interact'
-], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
+    'interact',
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact, interactUtils){
     'use strict';
 
     var isDragAndDropEnabled;
@@ -338,7 +339,7 @@ define([
 
                     // adding a new gapfiller on the hotspot by simulating a click on the underlying shape...
                     if($gapList.find('.active').length > 0){
-                        _tapOn(element.node);
+                        interactUtils.tapOn(element.node);
 
                     // ... or removing the existing gapfiller
                     } else {
@@ -429,21 +430,6 @@ define([
     };
 
     /**
-     * simulate a "tap" event that triggers InteractJs listeners
-     * @private
-     * @param {HTMLElement} domElement
-     */
-    var _tapOn = function _tapOn(domElement) {
-        var eventOptions = {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        };
-        triggerMouseEvent(domElement, 'mousedown', eventOptions);
-        triggerMouseEvent(domElement, 'mouseup', eventOptions);
-    };
-
-    /**
      * Get the responses from the interaction
      * @private
      * @param {Object} interaction
@@ -521,7 +507,7 @@ define([
         _shapesUnSelectable(interaction);
 
         _.forEach(interaction.gapFillers, function(gapFiller){
-            _tapOn(gapFiller.items[2][0]); // this refers to the gapFiller image
+            interactUtils.tapOn(gapFiller.items[2][0]); // this refers to the gapFiller image
         });
     };
 
