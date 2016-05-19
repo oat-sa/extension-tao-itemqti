@@ -35,7 +35,6 @@ Class CreatorConfig extends Config
 
     // hard coded urls for using by item creator
     protected $controlEndpoints = array(
-        'entryUrl' => 'itemQtiCreator/qtiCreator',
         'itemDataUrl' => 'taoQtiItem/QtiCreator/getItemData',
         'loadCssUrl' => 'taoQtiItem/QtiCssAuthoring/load',
         
