@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\model;
 
 use oat\taoQtiItem\model\Config;
+use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 
 /**
  * Interface defining required method for a plugin
@@ -32,6 +33,7 @@ Class CreatorConfig extends Config
 
     protected $interactions = array();
     protected $infoControls = array();
+    protected $plugins      = array();
 
     public function addInteraction($interactionFile){
         $this->interactions[] = $interactionFile;
@@ -39,6 +41,32 @@ Class CreatorConfig extends Config
 
     public function addInfoControl($infoControl){
         $this->infoControls[] = $infoControl;
+    }
+
+    /**
+     * Add a plugin to the configuration
+     * @param string $name - the plugin name
+     * @param string $module - the plugin AMD module
+     * @param string $category - the plugin category
+     */
+    public function addPlugin($name, $module, $category){
+        $this->plugins[] = array(
+            'name' => $name,
+            'module' => $module,
+            'category' => $category
+        );
+    }
+
+    /**
+     * Remove a plugin from the configuration
+     * @param string $name - the plugin name
+     */
+    public function removePlugin($name){
+        foreach($this->plugins as $key => $plugin){
+            if($plugin['name'] == $name){
+                $this->plugins[$key]['exclude'] = true;
+            }
+        }
     }
 
     public function toArray(){
@@ -56,10 +84,10 @@ Class CreatorConfig extends Config
         }
 
         return array(
-            'properties' => $this->properties,
-            'uiHooks' => $this->uiHooks,
-            'interactions' => $interactions,
-            'infoControls' => $infoControls
+            'properties'     => $this->properties,
+            'contextPlugins' => $this->plugins,
+            'interactions'   => $interactions,
+            'infoControls'   => $infoControls
         );
     }
 
@@ -71,6 +99,10 @@ Class CreatorConfig extends Config
         foreach($this->infoControls as $infoControl){
             $this->prepare($infoControl);
         }
+
+        //as the config overrides the plugins, we get the list from the registry
+        $registry = QtiCreatorClientConfigRegistry::getRegistry();
+        $this->plugins = $registry->getPlugins();
     }
 
     protected function prepare($hook){
@@ -91,5 +123,4 @@ Class CreatorConfig extends Config
             throw new \common_Exception('cannot prepare hook because of missing property in config : "uri" ');
         }
     }
-
 }
