@@ -56,7 +56,7 @@ define([
 
             interaction.gapFillers = [];
 
-            if (self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").graphicGapMatch) {
+            if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").graphicGapMatch) {
                 isDragAndDropEnabled = self.getOption("enableDragAndDrop").graphicGapMatch;
             }
 

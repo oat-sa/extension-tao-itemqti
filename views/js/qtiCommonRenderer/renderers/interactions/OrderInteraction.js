@@ -190,7 +190,7 @@ define([
 
         // Drag & drop handlers
 
-        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {
+        if (this.getOption && this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
         }
 

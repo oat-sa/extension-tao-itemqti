@@ -151,7 +151,7 @@ define([
 
         // Drag & drop handlers
 
-        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
+        if (this.getOption && this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
         }
 
