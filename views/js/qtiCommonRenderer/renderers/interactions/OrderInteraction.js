@@ -30,8 +30,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'interact'
-], function(_, $, __, triggerMouseEvent, tpl, containerHelper, instructionMgr, pciResponse, interact){
+    'interact',
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+], function(_, $, __, triggerMouseEvent, tpl, containerHelper, instructionMgr, pciResponse, interact, interactUtils){
     'use strict';
 
     /**
@@ -450,15 +451,8 @@ define([
         var $choiceArea = $('.choice-area', $container).append($('.result-area>li', $container));
         var $choices = $choiceArea.children('.qti-choice');
 
-        // todo factor out and use interact helper to trigger tap
         $container.find('.qti-choice.active').each(function deactivateChoice() {
-            var eventOptions = {
-                bubbles: true,
-                cancelable: true,
-                view: window
-            };
-            triggerMouseEvent(this, 'mousedown', eventOptions);
-            triggerMouseEvent(this, 'mouseup', eventOptions);
+            interactUtils.tapOn(this);
         });
 
         $choices.detach().sort(function(choice1, choice2){
