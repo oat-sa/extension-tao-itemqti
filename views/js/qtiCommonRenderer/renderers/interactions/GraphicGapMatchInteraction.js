@@ -176,11 +176,13 @@ define([
                     var $target = $(e.target);
                     _setActiveGapState($target);
                 },
-                onmove: _moveItem,
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
                 onend: function (e) {
                     var $target = $(e.target);
                     _setInactiveGapState($target);
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
         }
@@ -204,27 +206,6 @@ define([
         function _setInactiveGapState($target) {
             $target.removeClass('active');
             _shapesUnSelectable(interaction);
-        }
-
-        function _moveItem(e) {
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        function _restoreOriginalPosition($target) {
-            var transform = 'translate(0px, 0px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', 0);
-            $target.attr('data-y', 0);
         }
     };
 

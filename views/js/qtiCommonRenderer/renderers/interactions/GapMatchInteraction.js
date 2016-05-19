@@ -29,8 +29,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'interact'
-], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse, interact){
+    'interact',
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse, interact, interactUtils){
     'use strict';
 
     /**
@@ -173,12 +174,14 @@ define([
                     $target.addClass("dragged");
                     _handleChoiceSelect($target);
                 },
-                onmove: _moveItem,
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
 
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
 
@@ -189,12 +192,14 @@ define([
                     $target.addClass("dragged");
                     _handleFilledGapSelect($target);
                 },
-                onmove: _moveItem,
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
 
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
 
                     if ($activeChoice) {
                         _unsetChoice($activeChoice);
@@ -230,27 +235,6 @@ define([
                     $dragged.removeClass('droppable');
                 }
             });
-        }
-
-        function _moveItem(e) {
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        function _restoreOriginalPosition($target) {
-            var transform = 'translate(0px, 0px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', 0);
-            $target.attr('data-y', 0);
         }
 
 
