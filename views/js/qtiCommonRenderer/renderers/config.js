@@ -22,7 +22,8 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(_, context, themes, assetManagerFactory, assetStrategies){
+    'module'
+], function(_, context, themes, assetManagerFactory, assetStrategies, module){
     'use strict';
 
     var itemThemes = themes.get('items');
@@ -108,7 +109,11 @@ define([
         locations: locations,
         options:   {
             assetManager: assetManager,
-            themes : itemThemes
+            themes : itemThemes,
+            enableDragAndDrop: {
+                gapMatch: !!module.config().gapMatchDragAndDrop,
+                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop
+            }
         }
     };
 });
