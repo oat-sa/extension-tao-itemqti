@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use oat\taoMediaManager\helpers\SharedStimulus;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -68,34 +69,44 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
         
         // get the local resources and add them
-        foreach ($this->getAssets($this->getItem(), $lang) as $assetUrl) {
-            try{
-                $mediaAsset = $resolver->resolve($assetUrl);
-                $mediaSource = $mediaAsset->getMediaSource();
-                if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
-                    $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                    $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
-                    $replacement = $mediaAsset->getMediaIdentifier();
+        foreach ($this->getAssets($this->getItem(), $lang) as $type => $assets) {
+            foreach($assets as $assetUrl){
+                try{
+                    $mediaAsset = $resolver->resolve($assetUrl);
+                    $mediaSource = $mediaAsset->getMediaSource();
+                    if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
+                        $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
+                        $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+                        $replacement = $mediaAsset->getMediaIdentifier();
 
-                    if(isset($fileInfo['filePath'])){
-                        $filename = $fileInfo['filePath'];
-                        if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
-                            $replacement = $filename;
+                        if(isset($fileInfo['filePath'])){
+                            $filename = $fileInfo['filePath'];
+                            if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
+                                $replacement = $filename;
+                            }
+                            $destPath = ltrim($filename,'/');
+                        } else {
+                            $destPath = $replacement = basename($srcPath);
                         }
-                        $destPath = ltrim($filename,'/');
-                    } else {
-                        $destPath = $replacement = basename($srcPath);
+                        if (file_exists($srcPath)) {
+                            if($type === 'xinclude'){
+                                //try to get embedded assets of shared stimulus
+                                $files = SharedStimulus::prepareExportedFile($srcPath, $resolver);
+                                foreach($files as $dest => $src){
+                                    $this->addFile($src, $basePath. '/'.$dest);
+                                }
 
+                            }
+
+                            $this->addFile($srcPath, $basePath. '/'.$destPath);
+                            $content = str_replace($assetUrl, $replacement, $content);
+                        }
                     }
-                    if (file_exists($srcPath)) {
-                        $this->addFile($srcPath, $basePath. '/'.$destPath);
-                        $content = str_replace($assetUrl, $replacement, $content);
-                    }
+                } catch(\tao_models_classes_FileNotFoundException $e){
+                    $content = str_replace($assetUrl, '', $content);
+                    $report->setMessage('Missing resource for ' . $assetUrl);
+                    $report->setType(\common_report_Report::TYPE_ERROR);
                 }
-            } catch(\tao_models_classes_FileNotFoundException $e){
-                $content = str_replace($assetUrl, '', $content);
-                $report->setMessage('Missing resource for ' . $assetUrl);
-                $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
         
@@ -146,7 +157,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                         continue(2);
                     }
                 }
-                $returnValue[] = $assetUrl;
+                $returnValue[$type][] = $assetUrl;
             }
         }
         return $returnValue;
