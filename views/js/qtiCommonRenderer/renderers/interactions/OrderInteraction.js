@@ -217,7 +217,7 @@ define([
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    _moveItem($target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }
@@ -225,7 +225,7 @@ define([
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
 
@@ -245,7 +245,7 @@ define([
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    _moveItem($dragContainer, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }
@@ -260,7 +260,7 @@ define([
                     if (! hasBeenDroppedInResultArea) {
                         _removeChoice();
                     }
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
                 }
             })).styleCursor(false);
 
@@ -278,7 +278,7 @@ define([
                     $dropzoneElement.remove();
 
                     _addChoiceToSelection($dragged, dropzoneIndex);
-                    _restoreOriginalPosition($dragged);
+                    interactUtils.restoreOriginalPosition($dragged);
                 },
                 ondragleave: function () {
                     $dropzoneElement.remove();
@@ -343,27 +343,6 @@ define([
                     $nextResult.after($dropzoneElement);
                 }
             }
-        }
-
-        function _moveItem($target, dx, dy) {
-            var x = (parseFloat($target.attr('data-x')) || 0) + dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        function _restoreOriginalPosition($target) {
-            var transform = 'translate(0px, 0px)';
-
-            $target.css('webkitTransform', transform);
-            $target.css('transform', transform);
-            $target.attr('data-x', 0);
-            $target.attr('data-y', 0);
         }
 
         // rendering init

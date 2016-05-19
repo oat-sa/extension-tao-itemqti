@@ -52,21 +52,37 @@ define([
             }
         },
 
-        // todo make this jQuery independant
         /**
          * This should be bound to the onmove event of a draggable element
          * @param {HtmlElement|jQueryElement} element
+         * @param {integer} dx event.dx value
+         * @param {integer} dy event.dy value
          */
         moveElement: function moveElement(element, dx, dy) {
-            var x = (parseFloat($target.attr('data-x')) || 0) + dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + dy,
+            var domElement = (element instanceof $) ? element.get(0) : element,
+                x = (parseFloat(domElement.getAttribute('data-x')) || 0) + dx,
+                y = (parseFloat(domElement.getAttribute('data-y')) || 0) + dy,
                 transform = 'translate(' + x + 'px, ' + y + 'px)';
 
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
+            domElement.setAttribute('style', 'webkitTransform:' + transform);
+            domElement.setAttribute('style', 'transform:' + transform);
 
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
+            domElement.setAttribute('data-x', x);
+            domElement.setAttribute('data-y', y);
+        },
+
+        /**
+         * This can be bound to the onend event of a draggable element, for example
+         * @param {HtmlElement|jQueryElement} element
+         */
+        restoreOriginalPosition: function restoreOriginalPosition(element) {
+            var domElement = (element instanceof $) ? element.get(0) : element;
+
+            domElement.setAttribute('style', 'webkitTransform: translate(0px, 0px)');
+            domElement.setAttribute('style', 'transform: translate(0px, 0px)');
+
+            domElement.setAttribute('data-x', 0);
+            domElement.setAttribute('data-y', 0);
         }
 
     };
