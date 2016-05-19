@@ -25,9 +25,9 @@ use \Request;
  *
  * @author Absar Gilani, absar.gilani6@gmail.com
  */
-class RestItems extends \tao_actions_RestController
+class RestQtiItem extends \tao_actions_RestController
 {
-    const RESTITEM_PACKAGE_NAME = 'qtiPackage';
+    const RESTITEM_PACKAGE_NAME = 'content';
 
     /**
      * Accepted archive types
