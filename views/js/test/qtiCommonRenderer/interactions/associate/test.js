@@ -230,6 +230,203 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('enables to replace a choice', function(assert){
+        QUnit.expect(10);
+
+        var $container = $('#' + fixtureContainerId);
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        qtiItemRunner('qti', associateData)
+            .on('render', function(){
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+
+                var $target1 = $('.result-area li:first-child .lft', $container);
+
+                // Set Choice
+                $antonio.trigger('mousedown');
+
+                _.delay(function(){
+                    $target1.trigger('mousedown');
+
+                    _.delay(function(){
+                        assert.ok($antonio.hasClass('deactivated'), 'Antonio is deactivated');
+                        assert.equal($antonio.innerText, $target1.innerText, 'Antonio has been added to the result area');
+                        assert.ok(! $capulet.hasClass('deactivated'), 'Capulet is not deactivated');
+
+                        // Replace by bringing another choice to the same target
+                        $capulet.trigger('mousedown');
+
+                        _.delay(function(){
+                            $target1.trigger('mousedown');
+
+                            _.delay(function() {
+                                assert.equal($capulet.innerText, $target1.innerText, 'Capulet has replaced Antonio in the result area');
+                                assert.ok(! $antonio.hasClass('deactivated'), 'Antonio is not deactivated anymore');
+                                assert.ok($capulet.hasClass('deactivated'), 'Capulet is now deactivated');
+
+                                // Replace by bringing the target to another choice
+                                $target1.trigger('mousedown');
+
+                                _.delay(function() {
+                                    $antonio.trigger('mousedown');
+
+                                    assert.ok($antonio.hasClass('deactivated'), 'Antonio is deactivated');
+                                    assert.equal($antonio.innerText, $target1.innerText, 'Antonio has been added to the result area');
+                                    assert.ok(! $capulet.hasClass('deactivated'), 'Capulet is not deactivated');
+
+                                    QUnit.start();
+                                }, 10);
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('enables to switch pairs', function(assert){
+        QUnit.expect(4);
+
+        var $container = $('#' + fixtureContainerId),
+            stateChangeCounter = 0;
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        qtiItemRunner('qti', associateData)
+            .on('render', function(){
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+                var $lysander = $('.qti-choice[data-identifier="L"]', $container);
+                var $montague = $('.qti-choice[data-identifier="M"]', $container);
+
+                var $target1 = $('.result-area li:first-child .lft', $container);
+                var $target2 = $('.result-area li:first-child .rgt', $container);
+                var $target3 = $('.result-area li:last-child .lft', $container);
+                var $target4 = $('.result-area li:last-child .rgt', $container);
+
+                // set first pair
+                $antonio.trigger('mousedown');
+
+                _.delay(function(){
+                    $target1.trigger('mousedown');
+
+                    _.delay(function(){
+                        $capulet.trigger('mousedown');
+
+                        _.delay(function(){
+                            $target2.trigger('mousedown');
+
+                            // set second pair
+                            _.delay(function(){
+                                $lysander.trigger('mousedown');
+
+                                _.delay(function(){
+                                    $target3.trigger('mousedown');
+
+                                    _.delay(function(){
+                                        $montague.trigger('mousedown');
+
+                                        _.delay(function(){
+                                            $target4.trigger('mousedown');
+
+                                            // switch pair
+                                            _.delay(function(){
+                                                $target2.trigger('mousedown');
+
+                                                _.delay(function(){
+                                                    $target4.trigger('mousedown');
+
+                                                }, 10);
+                                            }, 10);
+                                        }, 10);
+                                    }, 10);
+                                }, 10);
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+
+            })
+            .on('statechange', function(state){
+                stateChangeCounter++;
+
+                if (stateChangeCounter === 1) {
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [ ['A', 'C'] ] } }, 'The pair is in the response');
+                } else if (stateChangeCounter === 2) {
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [ ['A', 'C'], ['L', 'M'] ] } }, 'The second pair is in the response');
+                } else if (stateChangeCounter === 4) {
+                    assert.deepEqual(state.RESPONSE.response, {list: {pair: [['A', 'M'], ['L', 'C']]}}, 'The pairs have been switched');
+                    QUnit.start();
+                }
+
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('enables remove a choice', function(assert){
+        QUnit.expect(5);
+
+        var $container = $('#' + fixtureContainerId),
+            stateChangeCounter = 0;
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        qtiItemRunner('qti', associateData)
+            .on('render', function(){
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+
+                var $target1 = $('.result-area li:first-child .lft', $container);
+                var $target2 = $('.result-area li:first-child .rgt', $container);
+
+                $antonio.trigger('mousedown');
+
+                _.delay(function(){
+                    $target1.trigger('mousedown');
+
+                    _.delay(function(){
+                        $capulet.trigger('mousedown');
+
+                        _.delay(function(){
+                            $target2.trigger('mousedown');
+
+                            // remove antonio!
+                            _.delay(function(){
+                                $target1.trigger('mousedown');
+
+                                _.delay(function(){
+                                    var $removeChoice = $('.remove-choice');
+                                    $removeChoice.trigger('mousedown');
+
+                                }, 10);
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+
+            })
+            .on('statechange', function(state){
+                stateChangeCounter++;
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+
+                if (stateChangeCounter === 1) {
+                    assert.ok($antonio.hasClass('deactivated'), 'Antonio is deactivated');
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [ ['A', 'C'] ] } }, 'The pair is in the response');
+                } else if (stateChangeCounter === 2) {
+                    assert.ok(! $antonio.hasClass('deactivated'), 'Antonio can be selected');
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [] } }, 'The choice has been removed');
+                    QUnit.start();
+                }
+
+            })
+            .init()
+            .render($container);
+    });
+
     QUnit.asyncTest('set the default response', function(assert){
         QUnit.expect(17);
 
@@ -431,8 +628,12 @@ define([
 
                 QUnit.start();
             })
+            .on('statechange', function(state) {
+                document.getElementById('display-response').textContent = JSON.stringify(state);
+            })
             .init()
             .render($container);
     });
+
 });
 

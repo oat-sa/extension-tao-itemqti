@@ -31,8 +31,10 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
-], function ($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
+    'interact',
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+], function ($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, sizeAdapter, interact, interactUtils) {
 
     'use strict';
 
@@ -281,7 +283,6 @@ define([
                     _resetSelection();
                     interaction.swapping = false;
                 }else{
-
                     if($(this).hasClass('active')){
                         _resetSelection();
                     }else{
