@@ -191,7 +191,7 @@ define([
             };
 
             // makes choices draggables
-            interact(choiceSelector, { context: document }).draggable(_.assign({}, dragOptions, {
+            interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
                     $target.addClass("dragged");
