@@ -135,18 +135,14 @@ class RestQtiItem extends \tao_actions_RestController
                 throw new \common_exception_NotImplemented('Only post method is accepted to create empty item.');
             }
 
-            $label = $comment = '';
+            $label = '';
 
             if (!$this->hasRequestParameter('label')) {
                 $label = $this->getRequestParameter('label');
             }
 
-            if (!$this->hasRequestParameter('comment')) {
-                $comment = $this->getRequestParameter('comment');
-            }
-
             // Call service to import package
-            $uri = $this->getItemRestImportService()->createQtiItem($label, $comment);
+            $uri = $this->getItemRestImportService()->createQtiItem($label);
 
             $this->returnSuccess($uri);
 

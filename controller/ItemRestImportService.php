@@ -76,15 +76,14 @@ class ItemRestImportService
 	}
 
 	/**
-	 * Create an empty item with optional $label & $comment
+	 * Create an empty item with optional $label
 	 *
 	 * @param string $label
-	 * @param string $comment
 	 * @return string
 	 */
-	public function createQtiItem($label = '', $comment = '')
+	public function createQtiItem($label = '')
 	{
-		$resource = $this->itemClass->createInstance($label, $comment);
+		$resource = $this->itemClass->createInstance($label);
 		return $resource->getUri();
 	}
 }
