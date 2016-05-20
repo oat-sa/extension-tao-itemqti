@@ -51,7 +51,6 @@ class ItemRestImportService
     /**
      * Import uploaded zip through ImportService
 	 *
-     * @author Rashid Mumtaz & Absar - PCG Team - {absar.gilani6@gmail.com & rashid.mumtaz372@gmail.com}
      * @param $uploadedFile
      * @return \common_report_Report
      */
@@ -76,4 +75,16 @@ class ItemRestImportService
 		return $report;
 	}
 
+	/**
+	 * Create an empty item with optional $label & $comment
+	 *
+	 * @param string $label
+	 * @param string $comment
+	 * @return string
+	 */
+	public function createEmptyItem($label = '', $comment = '')
+	{
+		$resource = $this->itemClass->createInstance($label, $comment);
+		return $resource->getUri();
+	}
 }

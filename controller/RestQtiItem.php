@@ -102,7 +102,7 @@ class RestQtiItem extends \tao_actions_RestController
      * @throws \common_Exception
      * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
-     * @throws \common_exception_NotAcceptable
+     * @throws \common_exception_BadRequest
      * @throws \oat\tao\helpers\FileUploadException
      */
     protected function getUploadedPackage()
@@ -114,7 +114,7 @@ class RestQtiItem extends \tao_actions_RestController
         $file = \tao_helpers_Http::getUploadedFile(self::RESTITEM_PACKAGE_NAME);
 
         if (!in_array($file['type'], self::$accepted_types)) {
-            throw new \common_exception_NotAcceptable('Uploaded file has to be a valid archive.');
+            throw new \common_exception_BadRequest('Uploaded file has to be a valid archive.');
         }
 
         $pathinfo = pathinfo($file['tmp_name']);
@@ -122,6 +122,38 @@ class RestQtiItem extends \tao_actions_RestController
         \tao_helpers_File::move($file['tmp_name'], $destination);
 
         return $destination;
+    }
+
+    /**
+     * Create an empty item
+     */
+    public function createEmptyItem()
+    {
+        try {
+            // Check if it's post method
+            if ($this->getRequestMethod()!=Request::HTTP_POST) {
+                throw new \common_exception_NotImplemented('Only post method is accepted to create empty item.');
+            }
+
+            $label = $comment = '';
+
+            if (!$this->hasRequestParameter('label')) {
+                $label = $this->getRequestParameter('label');
+            }
+
+            if (!$this->hasRequestParameter('comment')) {
+                $comment = $this->getRequestParameter('comment');
+            }
+
+            // Call service to import package
+            $uri = $this->getItemRestImportService()->createEmptyItem($label, $comment);
+
+            $this->returnSuccess($uri);
+
+        } catch (\Exception $e) {
+            \common_Logger::w($e->getMessage());
+            $this->returnFailure($e);
+        }
     }
 }
 
