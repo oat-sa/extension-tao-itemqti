@@ -20,6 +20,8 @@ namespace oat\taoQtiItem\controller;
 
 use \Request;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\ItemModel;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * End point of Rest item API
@@ -28,6 +30,8 @@ use oat\taoQtiItem\model\qti\ImportService;
  */
 class RestQtiItem extends \tao_actions_RestController
 {
+    use OntologyAwareTrait;
+    
     const RESTITEM_PACKAGE_NAME = 'content';
 
     /**
@@ -49,7 +53,7 @@ class RestQtiItem extends \tao_actions_RestController
      */
     protected function getDestinationClass()
     {
-        return new \core_kernel_classes_Class(TAO_ITEM_CLASS);
+        return $this->getClass(TAO_ITEM_CLASS);
     }
 
     /**
@@ -74,33 +78,28 @@ class RestQtiItem extends \tao_actions_RestController
 
             // Get valid package parameter
             $package = $this->getUploadedPackage();
-
+            
             // Call service to import package
             \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
-            try {
-                $report = ImportService::singleton()->importQTIPACKFile($package, $this->getDestinationClass());
-            } catch (ExtractException $e) {
-                $report = \common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
-            } catch (ParsingException $e) {
-                $report = \common_report_Report::createFailure(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.'));
-            } catch (\Exception $e) {
-                $report = \common_report_Report::createFailure(__("An unexpected error occured during the import of the IMS QTI Item Package."));
-            }
-            
+            $report = ImportService::singleton()->importQTIPACKFile($package, $this->getDestinationClass());
             \helpers_TimeOutHelper::reset();
+            
             \tao_helpers_File::remove($package);
-
-            if ($report->getType()==\common_report_Report::TYPE_ERROR) {
-                throw new \common_Exception('Error during item importing: ' . $report->getMessage());
+            if ($report->getType() == \common_report_Report::TYPE_ERROR) {
+                $this->returnFailure(new \common_Exception(__("An unexpected error occured during the import of the IMS QTI Item Package.")));
+            } else {
+        
+                $itemIds = [];
+                /** @var \common_report_Report $report */
+                foreach ($report as $subReport) {
+                    $itemIds[] = $subReport->getData()->getUri();
+                }
+                $this->returnSuccess(array('items' => $itemIds));
             }
-
-            $itemIds = [];
-            /** @var \common_report_Report $report */
-            foreach ($report as $subReport) {
-                $itemIds[] = $subReport->getData()->getUri();
-            }
-            $this->returnSuccess(array('items' => $itemIds));
-
+        } catch (ExtractException $e) {
+            $this->returnFailure(new \common_Exception(__('The ZIP archive containing the IMS QTI Item cannot be extracted.')));
+        } catch (ParsingException $e) {
+            $this->returnFailure(new \common_Exception(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.')));
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
@@ -149,6 +148,10 @@ class RestQtiItem extends \tao_actions_RestController
             $label = $this->hasRequestParameter('label') ? $this->getRequestParameter('label') : '';
             // Call service to import package
             $item = $this->getDestinationClass()->createInstance($label);
+            
+            //set the QTI type
+            $itemService = \taoItems_models_classes_ItemsService::singleton();
+            $itemService->setItemModel($item, $this->getResource(ItemModel::MODEL_URI));
 
             $this->returnSuccess($item->getUri());
 
