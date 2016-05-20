@@ -19,6 +19,7 @@
 namespace oat\taoQtiItem\controller;
 
 use \Request;
+use oat\taoQtiItem\model\qti\ImportService;
 
 /**
  * End point of Rest item API
@@ -42,14 +43,13 @@ class RestQtiItem extends \tao_actions_RestController
     );
 
     /**
-     * @return ItemRestImportService
+     * Class items will be created in
+     * 
+     * @return \core_kernel_classes_Class
      */
-    protected function getItemRestImportService()
+    protected function getDestinationClass()
     {
-        if (!$this->service) {
-            $this->service = new ItemRestImportService();
-        }
-        return $this->service;
+        return new \core_kernel_classes_Class(TAO_ITEM_CLASS);
     }
 
     /**
@@ -76,7 +76,19 @@ class RestQtiItem extends \tao_actions_RestController
             $package = $this->getUploadedPackage();
 
             // Call service to import package
-            $report = $this->getItemRestImportService()->importQtiItem($package);
+            \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
+            try {
+                $report = ImportService::singleton()->importQTIPACKFile($package, $this->getDestinationClass());
+            } catch (ExtractException $e) {
+                $report = \common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
+            } catch (ParsingException $e) {
+                $report = \common_report_Report::createFailure(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.'));
+            } catch (\Exception $e) {
+                $report = \common_report_Report::createFailure(__("An unexpected error occured during the import of the IMS QTI Item Package."));
+            }
+            
+            \helpers_TimeOutHelper::reset();
+            \tao_helpers_File::remove($package);
 
             if ($report->getType()==\common_report_Report::TYPE_ERROR) {
                 throw new \common_Exception('Error during item importing: ' . $report->getMessage());
@@ -90,7 +102,6 @@ class RestQtiItem extends \tao_actions_RestController
             $this->returnSuccess(array('items' => $itemIds));
 
         } catch (\Exception $e) {
-            \common_Logger::w($e->getMessage());
             $this->returnFailure($e);
         }
     }
@@ -135,19 +146,13 @@ class RestQtiItem extends \tao_actions_RestController
                 throw new \common_exception_NotImplemented('Only post method is accepted to create empty item.');
             }
 
-            $label = '';
-
-            if (!$this->hasRequestParameter('label')) {
-                $label = $this->getRequestParameter('label');
-            }
-
+            $label = $this->hasRequestParameter('label') ? $this->getRequestParameter('label') : '';
             // Call service to import package
-            $uri = $this->getItemRestImportService()->createQtiItem($label);
+            $item = $this->getDestinationClass()->createInstance($label);
 
-            $this->returnSuccess($uri);
+            $this->returnSuccess($item->getUri());
 
         } catch (\Exception $e) {
-            \common_Logger::w($e->getMessage());
             $this->returnFailure($e);
         }
     }
