@@ -44,7 +44,7 @@ class RestQtiItem extends \tao_actions_RestController
     /**
      * @return ItemRestImportService
      */
-    public function getItemRestImportService()
+    protected function getItemRestImportService()
     {
         if (!$this->service) {
             $this->service = new ItemRestImportService();
@@ -82,12 +82,12 @@ class RestQtiItem extends \tao_actions_RestController
                 throw new \common_Exception('Error during item importing: ' . $report->getMessage());
             }
 
-            $finalReport = [];
+            $itemIds = [];
             /** @var \common_report_Report $report */
             foreach ($report as $subReport) {
-                $finalReport[] = $subReport->getData()->getUri();
+                $itemIds[] = $subReport->getData()->getUri();
             }
-            $this->returnSuccess(array('Items' => $finalReport));
+            $this->returnSuccess(array('items' => $itemIds));
 
         } catch (\Exception $e) {
             \common_Logger::w($e->getMessage());
@@ -127,7 +127,7 @@ class RestQtiItem extends \tao_actions_RestController
     /**
      * Create an empty item
      */
-    public function createEmptyItem()
+    public function createQtiItem()
     {
         try {
             // Check if it's post method
@@ -146,7 +146,7 @@ class RestQtiItem extends \tao_actions_RestController
             }
 
             // Call service to import package
-            $uri = $this->getItemRestImportService()->createEmptyItem($label, $comment);
+            $uri = $this->getItemRestImportService()->createQtiItem($label, $comment);
 
             $this->returnSuccess($uri);
 

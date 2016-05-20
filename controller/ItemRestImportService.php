@@ -82,7 +82,7 @@ class ItemRestImportService
 	 * @param string $comment
 	 * @return string
 	 */
-	public function createEmptyItem($label = '', $comment = '')
+	public function createQtiItem($label = '', $comment = '')
 	{
 		$resource = $this->itemClass->createInstance($label, $comment);
 		return $resource->getUri();
