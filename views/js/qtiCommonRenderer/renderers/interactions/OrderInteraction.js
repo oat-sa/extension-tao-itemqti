@@ -95,11 +95,6 @@ define([
             var $results = $(resultSelector);
             _resetSelection();
 
-            $iconAdd.addClass('triggered');
-            setTimeout(function(){
-                $iconAdd.removeClass('triggered');
-            }, 150);
-
             //move choice to the result list:
             if (typeof(position) !== 'undefined' && position < $results.length) {
                 $results.eq(position).before($target);
@@ -164,6 +159,12 @@ define([
         interact(choiceSelector).on('tap', function (e) {
             var $target = $(e.currentTarget);
             e.stopPropagation();
+
+            $iconAdd.addClass('triggered');
+            setTimeout(function(){
+                $iconAdd.removeClass('triggered');
+            }, 150);
+
             _addChoiceToSelection($target);
         });
 
@@ -195,6 +196,26 @@ define([
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
         }
 
+        // Chrome/Safari ugly fix: manually drop element when the mouse leaves the test runner iframe
+        function _iFrameDragFix(draggableSelector, target) {
+            $('body').on('mouseleave.commonRenderer', function () {
+                if (_isDropzoneVisible()) {
+                    interact($resultArea.selector).fire({
+                        type: 'drop',
+                        target: $dropzoneElement.eq(0),
+                        relatedTarget: target
+                    });
+                }
+                interact(draggableSelector).fire({
+                    type: 'dragend',
+                    target: target
+                });
+                interact.stop();
+
+                $('body').off('mouseleave.commonRenderer');
+            });
+        }
+
         if (isDragAndDropEnabled) {
             $dropzoneElement = $('<li>', {'class' : 'dropzone qti-choice'});
             $('<div>', {'class': 'qti-block'}).appendTo($dropzoneElement);
@@ -214,6 +235,8 @@ define([
                 onstart: function (e) {
                     var $target = $(e.target);
                     $target.addClass("dragged");
+
+                    _iFrameDragFix(choiceSelector, e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
@@ -242,6 +265,8 @@ define([
                     $dragContainer.width($resultArea.width());
                     $dragContainer.offset($target.offset());
                     $dragContainer.append($target);
+
+                    _iFrameDragFix(resultSelector, e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
@@ -285,7 +310,7 @@ define([
                 }
             });
 
-            // todo scope all dnd selector
+        // todo make sure all dnd selector are scoped
         }
 
         function _isDropzoneVisible() {

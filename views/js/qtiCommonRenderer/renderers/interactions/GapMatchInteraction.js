@@ -156,6 +156,26 @@ define([
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
         }
 
+        // Chrome/Safari ugly fix: manually drop element when the mouse leaves the test runner iframe
+        function _iFrameDragFix(draggableSelector, target) {
+            $('body').on('mouseleave.commonRenderer', function () {
+                if (_isDropzoneVisible()) {
+                    interact(gapSelector).fire({
+                        type: 'drop',
+                        target: $dropzoneElement.eq(0),
+                        relatedTarget: target
+                    });
+                }
+                interact(draggableSelector).fire({
+                    type: 'dragend',
+                    target: target
+                });
+                interact.stop();
+
+                $('body').off('mouseleave.commonRenderer');
+            });
+        }
+
         if (isDragAndDropEnabled) {
             dragOptions = {
                 inertia: false,
@@ -173,6 +193,8 @@ define([
                     var $target = $(e.target);
                     $target.addClass("dragged");
                     _handleChoiceSelect($target);
+
+                    _iFrameDragFix(choiceSelector, e.target);
                 },
                 onmove: function (e) {
                     interactUtils.moveElement(e.target, e.dx, e.dy);
@@ -191,6 +213,8 @@ define([
                     var $target = $(e.target);
                     $target.addClass("dragged");
                     _handleFilledGapSelect($target);
+
+                    _iFrameDragFix(filledGapSelector, e.target);
                 },
                 onmove: function (e) {
                     interactUtils.moveElement(e.target, e.dx, e.dy);
