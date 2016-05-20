@@ -25,24 +25,29 @@
 define([
     'jquery',
     'lodash',
-    'helpers',
     'i18n',
     'urlParser',
     'core/promise',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'jquery.fileDownload'
-], function ($, _, helpers, __, UrlParser, Promise, cssTpl) {
+], function ($, _, __, UrlParser, Promise, cssTpl) {
     'use strict';
 
     var itemConfig;
 
+    /**
+     * qtiItemCreator config provided from QtiCreator
+     * used for generation of the ajax uri
+     */
+    var globalConfig;
+    
     /**
      * generate Ajax URI
      * @param action
      * @returns {*}
      */
     var _getUri = function(action) {
-        return helpers._url(action, 'QtiCssAuthoring', 'taoQtiItem');
+        return globalConfig[action + 'CssUrl'];
     };
 
     /**
@@ -388,6 +393,7 @@ define([
          */
         var init = function(item, config) {
 
+            globalConfig = config;
             // promise
             currentItem = item;
 
