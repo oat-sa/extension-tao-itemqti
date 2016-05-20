@@ -196,9 +196,8 @@ define([
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
         }
 
-        
-
-        // Chrome/Safari ugly fix: manually drop element when the mouse leaves the test runner iframe
+        // Chrome/Safari ugly fix: manually drop element when the mouse leaves the item runner iframe
+        // should be removed when the old test runner is discarded
         function _iFrameDragFix(draggableSelector, target) {
             $('body').on('mouseleave.commonRenderer', function () {
                 if (_isDropzoneVisible()) {
@@ -213,9 +212,10 @@ define([
                     target: target
                 });
                 interact.stop();
-
-                $('body').off('mouseleave.commonRenderer');
             });
+        }
+        function _iFrameDragFixOff() {
+            $('body').off('mouseleave.commonRenderer');
         }
 
         if (isDragAndDropEnabled) {
@@ -251,6 +251,8 @@ define([
                     var $target = $(e.target);
                     $target.removeClass("dragged");
                     interactUtils.restoreOriginalPosition($target);
+
+                    _iFrameDragFixOff();
                 }
             })).styleCursor(false);
 
@@ -288,6 +290,8 @@ define([
                         _removeChoice();
                     }
                     interactUtils.restoreOriginalPosition($target);
+
+                    _iFrameDragFixOff();
                 }
             })).styleCursor(false);
 
@@ -311,8 +315,6 @@ define([
                     $dropzoneElement.remove();
                 }
             });
-
-        // todo make sure all dnd selector are scoped
         }
 
         function _isDropzoneVisible() {

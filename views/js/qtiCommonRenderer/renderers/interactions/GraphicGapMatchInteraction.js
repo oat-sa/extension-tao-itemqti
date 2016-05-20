@@ -36,7 +36,11 @@ define([
 ], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact, interactUtils){
     'use strict';
 
-    var isDragAndDropEnabled;
+    var isDragAndDropEnabled,
+        // this represents the state for the active droppable zone
+        // we need it only to access the active dropzone in the iFrameFix
+        // should be removed when the old test runner is discarded
+        activeDrop = null;
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -123,15 +127,18 @@ define([
         if (isDragAndDropEnabled) {
             interact(rElement.node).dropzone({
                 overlap: 0.15,
-                ondragenter: function(e) {
+                ondragenter: function() {
                     graphic.setStyle(rElement, 'hover');
+                    activeDrop = rElement.node;
                 },
                 ondrop: function () {
                     graphic.setStyle(rElement, 'selectable');
                     handleShapeSelect();
+                    activeDrop = null;
                 },
-                ondragleave: function(e) {
+                ondragleave: function() {
                     graphic.setStyle(rElement, 'selectable');
+                    activeDrop = null;
                 }
             });
         }
@@ -143,6 +150,28 @@ define([
             }
         }
     };
+
+    // Chrome/Safari ugly fix: manually drop element when the mouse leaves the item runner iframe
+    // should be removed when the old test runner is discarded
+    function _iFrameDragFix(draggableSelector, target) {
+        $('body').on('mouseleave.commonRenderer', function () {
+            if (activeDrop) {
+                interact(activeDrop).fire({
+                    type: 'drop',
+                    target: activeDrop,
+                    relatedTarget: target
+                });
+            }
+            interact(draggableSelector).fire({
+                type: 'dragend',
+                target: target
+            });
+            interact.stop();
+        });
+    }
+    function _iFrameDragFixOff() {
+        $('body').off('mouseleave.commonRenderer');
+    }
 
     /**
      * Render the list of gap fillers
@@ -175,6 +204,8 @@ define([
                 onstart: function (e) {
                     var $target = $(e.target);
                     _setActiveGapState($target);
+
+                    _iFrameDragFix(gapFillersSelector, e.target);
                 },
                 onmove: function (e) {
                     interactUtils.moveElement(e.target, e.dx, e.dy);
@@ -183,6 +214,8 @@ define([
                     var $target = $(e.target);
                     _setInactiveGapState($target);
                     interactUtils.restoreOriginalPosition($target);
+
+                    _iFrameDragFixOff();
                 }
             })).styleCursor(false);
         }
