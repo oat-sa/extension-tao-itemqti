@@ -196,6 +196,8 @@ define([
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
         }
 
+        
+
         // Chrome/Safari ugly fix: manually drop element when the mouse leaves the test runner iframe
         function _iFrameDragFix(draggableSelector, target) {
             $('body').on('mouseleave.commonRenderer', function () {
