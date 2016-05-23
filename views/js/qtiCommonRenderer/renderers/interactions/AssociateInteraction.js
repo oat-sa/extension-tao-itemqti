@@ -223,6 +223,9 @@ define([
             var $resultArea = $container.find('.result-area');
             var $activeChoice = null;
 
+            var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
+            var binSelector = $container.selector + " .remove-choice";
+
             var _getChoice = function(serial){
                 return $choiceArea.find('[data-serial=' + serial + ']');
             };
@@ -262,15 +265,15 @@ define([
 
             renderEmptyPairs(interaction);
 
-            $container.on('mousedown.commonRenderer', function(e){
+            interact($container.selector).on('tap', function() {
                 _resetSelection();
             });
 
-            $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
-
+            interact($choiceArea.selector + ' >li').on('tap', function(e) {
+                var $target = $(e.currentTarget);
                 e.stopPropagation();
 
-                if($(this).hasClass('deactivated')){
+                if($target.hasClass('deactivated')){
                     e.preventDefault();
                     return;
                 }
@@ -279,26 +282,27 @@ define([
                     //swapping:
                     interaction.swapping = true;
                     _unsetChoice($activeChoice);
-                    _setChoice($(this), $activeChoice);
+                    _setChoice($target, $activeChoice);
                     _resetSelection();
                     interaction.swapping = false;
                 }else{
-                    if($(this).hasClass('active')){
+                    if($target.hasClass('active')){
                         _resetSelection();
+
                     }else{
                         _resetSelection();
 
                         //activate it:
-                        $activeChoice = $(this);
-                        $(this).addClass('active');
+                        $activeChoice = $target;
+                        $target.addClass('active');
                         $resultArea.find('>li>.target').addClass('empty');
                     }
                 }
-
+                e.preventDefault();
             });
 
-            $resultArea.on('mousedown.commonRenderer', '>li>div', function(e){
-                var $target,
+            interact($resultArea.selector + ' >li>div').on('tap', function(e) {
+                var $target = $(e.currentTarget),
                     choiceSerial,
                     targetSerial;
 
@@ -306,7 +310,6 @@ define([
 
                 if(_isInsertionMode()){
 
-                    $target = $(this);
                     choiceSerial = $activeChoice.data('serial');
                     targetSerial = $target.data('serial');
 
@@ -332,7 +335,6 @@ define([
                 }else if(_isModeEditing()){
 
                     //editing mode:
-                    $target = $(this);
                     choiceSerial = $activeChoice.data('serial');
                     targetSerial = $target.data('serial');
 
@@ -356,12 +358,12 @@ define([
 
                     _resetSelection();
 
-                }else if($(this).data('serial')){
+                }else if($target.data('serial')){
 
                     //selecting a choice in editing mode:
-                    var serial = $(this).data('serial');
+                    var serial = $target.data('serial');
 
-                    $activeChoice = $(this);
+                    $activeChoice = $target;
                     $activeChoice.addClass('active');
 
                     $resultArea.find('>li>.target').filter(function(){
@@ -373,15 +375,16 @@ define([
                     }).addClass('empty');
 
                     //append trash bin:
-                    var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
-                    $bin.on('mousedown', function(e){
-                        e.stopPropagation();
-                        _unsetChoice($activeChoice);
-                        _resetSelection();
-                    });
-                    $(this).append($bin);
+                    $target.append($bin);
                 }
+                e.preventDefault();
+            });
 
+            interact(binSelector).on('tap', function (e) {
+                e.stopPropagation();
+                _unsetChoice($activeChoice);
+                _resetSelection();
+                e.preventDefault();
             });
 
             if(!interaction.responseMappingMode){
@@ -397,8 +400,8 @@ define([
 
     var _setInstructions = function(interaction){
 
-        var min = parseInt(interaction.attr('minAssociations')),
-            max = parseInt(interaction.attr('maxAssociations'));
+        var min = parseInt(interaction.attr('minAssociations'), 10),
+            max = parseInt(interaction.attr('maxAssociations'), 10);
 
         //infinite association:
         if(min === 0){
@@ -426,7 +429,9 @@ define([
         var $container = containerHelper.get(interaction);
 
         //destroy selected choice:
-        $container.find('.result-area .active').mousedown();
+        $container.find('.result-area .active').each(function () {
+           interactUtils.tapOn(this);
+        });
 
         $('.result-area>li>div', $container).each(function(){
             unsetChoice(interaction, $(this), false, false);
@@ -519,8 +524,10 @@ define([
         var $container = containerHelper.get(interaction);
 
         //remove event
-        $(document).off('.commonRenderer');
-        $container.find('.choice-area, .result-area').andSelf().off('.commonRenderer');
+        interact($container.selector).unset();
+        interact($container.find('.choice-area').selector + ' >li').unset();
+        interact($container.find('.result-area').selector + ' >li>div').unset();
+        interact($container.find('.remove-choice').selector).unset();
 
         //remove instructions
         instructionMgr.removeInstructions(interaction);
