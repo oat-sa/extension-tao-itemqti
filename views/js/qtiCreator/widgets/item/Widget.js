@@ -20,8 +20,8 @@ define([
     'lodash',
     'i18n',
     'jquery',
-    'helpers',
     'core/promise',
+    'util/url',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/item/states/states',
     'taoQtiItem/qtiItem/core/Element',
@@ -38,8 +38,8 @@ define([
     _,
     __,
     $,
-    helpers,
     Promise,
+    urlUtil,
     Widget,
     states,
     Element,
@@ -67,6 +67,8 @@ define([
             throw new Error('missing required config parameter uri in item widget initialization');
         }
 
+        this.saveItemUrl = config.saveItemUrl;
+        
         this.renderer = config.renderer;
 
         this.itemUri = config.uri;
@@ -105,7 +107,7 @@ define([
         var self = this;
         return new Promise(function(resolve){
             $.ajax({
-                url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem', {uri : self.itemUri}),
+                url : urlUtil.build(self.saveItemUrl, {uri: self.itemUri}),
                 type : 'POST',
                 contentType : 'text/xml',
                 dataType : 'json',

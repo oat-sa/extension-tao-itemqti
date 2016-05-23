@@ -17,11 +17,10 @@
  */
 define([
     'jquery',
-    'helpers',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses'
-], function($, helpers, Loader, Item, qtiClasses){
+], function($, Loader, Item, qtiClasses){
     "use strict";
     var _generateIdentifier = function(uri){
         var pos = uri.lastIndexOf('#');
@@ -33,7 +32,7 @@ define([
 
             if(config.uri){
                 $.ajax({
-                    url : helpers._url('getItemData', 'QtiCreator', 'taoQtiItem'),
+                    url : config.itemDataUrl,
                     dataType : 'json',
                     data : {
                         uri : config.uri
