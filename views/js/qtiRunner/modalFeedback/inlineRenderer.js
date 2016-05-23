@@ -84,7 +84,7 @@ define([
                 }else{
                     messages[_currentMessageGroupId].push(message);
                 }
-
+                
                 //ok, display feedback
                 renderingQueue.push({
                     feedback : feedback,
@@ -98,7 +98,10 @@ define([
         if(renderingQueue.length){
 
             renderingQueue = _.sortBy(renderingQueue, 'order');
-
+            
+            //clear previously displayed feedbacks
+            clearModalFeedbacks($itemContainer);
+            
             //process rendering queue
             _.each(renderingQueue, function (renderingToken){
                 renderModalFeedback(renderingToken.feedback, loader, renderer, renderingToken.$container, $itemContainer, function (renderingData){
@@ -254,7 +257,16 @@ define([
 
         return interactionsDisplayInfo;
     }
-
+    
+    /**
+     * Remove previously displayed feedbacks contained in the given container element
+     * 
+     * @param {JQuery} $itemContainer
+     */
+    function clearModalFeedbacks($itemContainer){
+        $itemContainer.find('.qti-modalFeedback').remove();
+    }
+    
     /**
      * Render a modal feedback into a given container, scoped within an item container
      *
@@ -272,17 +284,11 @@ define([
         //load (potential) new qti classes used in the modal feedback (e.g. math, img)
         renderer.load(function (){
 
-            var $modalFeedback = $itemContainer.find('#' + feedback.getSerial());
-            if(!$modalFeedback.length){
-                //render the modal feedback
-                $modalFeedback = $(feedback.render({
-                    inline : true
-                }));
-                $container.append($modalFeedback);
-            }else{
-                //already rendered, just show it
-                $modalFeedback.show();
-            }
+            //render the modal feedback
+            var $modalFeedback = $(feedback.render({
+                inline : true
+            }));
+            $container.append($modalFeedback);
 
             renderedCallback({
                 identifier : feedback.id(),
