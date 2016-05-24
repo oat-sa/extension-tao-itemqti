@@ -263,18 +263,8 @@ define([
                 return ($activeChoice && !$activeChoice.data('identifier'));
             };
 
-            renderEmptyPairs(interaction);
-
-            interact($container.selector).on('tap', function() {
-                _resetSelection();
-            });
-
-            interact($choiceArea.selector + ' >li').on('tap', function(e) {
-                var $target = $(e.currentTarget);
-                e.stopPropagation();
-
+            var _handleChoiceActivate = function($target) {
                 if($target.hasClass('deactivated')){
-                    e.preventDefault();
                     return;
                 }
 
@@ -298,19 +288,16 @@ define([
                         $resultArea.find('>li>.target').addClass('empty');
                     }
                 }
-                e.preventDefault();
-            });
+            };
 
-            interact($resultArea.selector + ' >li>div').on('tap', function(e) {
-                var $target = $(e.currentTarget),
-                    choiceSerial,
+            var _handleResultActivate = function($target) {
+                var choiceSerial,
                     targetSerial;
-
-                e.stopPropagation();
 
                 if(_isInsertionMode()){
 
                     choiceSerial = $activeChoice.data('serial');
+                    // todo: move this in var declaration ?
                     targetSerial = $target.data('serial');
 
                     if(targetSerial !== choiceSerial){
@@ -361,22 +348,42 @@ define([
                 }else if($target.data('serial')){
 
                     //selecting a choice in editing mode:
-                    var serial = $target.data('serial');
+                    targetSerial = $target.data('serial');
 
                     $activeChoice = $target;
                     $activeChoice.addClass('active');
 
                     $resultArea.find('>li>.target').filter(function(){
-                        return $(this).data('serial') !== serial;
+                        return $(this).data('serial') !== targetSerial;
                     }).addClass('empty');
 
                     $choiceArea.find('>li:not(.deactivated)').filter(function(){
-                        return $(this).data('serial') !== serial;
+                        return $(this).data('serial') !== targetSerial;
                     }).addClass('empty');
 
                     //append trash bin:
                     $target.append($bin);
                 }
+            };
+
+
+            // Point & click handlers
+
+            interact($container.selector).on('tap', function() {
+                _resetSelection();
+            });
+
+            interact($choiceArea.selector + ' >li').on('tap', function(e) {
+                var $target = $(e.currentTarget);
+                e.stopPropagation();
+                _handleChoiceActivate($target);
+                e.preventDefault();
+            });
+
+            interact($resultArea.selector + ' >li>div').on('tap', function(e) {
+                var $target = $(e.currentTarget);
+                e.stopPropagation();
+                _handleResultActivate($target);
                 e.preventDefault();
             });
 
@@ -390,6 +397,15 @@ define([
             if(!interaction.responseMappingMode){
                 _setInstructions(interaction);
             }
+
+
+            // Drag & drop handlers
+
+            
+
+            // interaction init
+
+            renderEmptyPairs(interaction);
 
             sizeAdapter.adaptSize($('.result-area .target, .choice-area .qti-choice', $container));
 
