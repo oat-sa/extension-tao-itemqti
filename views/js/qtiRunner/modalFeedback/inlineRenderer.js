@@ -19,14 +19,18 @@
 define([
     'lodash',
     'jquery',
+    'context',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/helper/container',
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackPreviewButton',
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton',
-    'iframeNotifier'
-], function (_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn, iframeNotifier){
+    'iframeNotifier',
+    'core/promise'
+], function (_, $, context, pci, containerHelper, previewOkBtn, deliveryOkBtn, iframeNotifier, Promise){
     'use strict';
-
+    
+    var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
+    
     /**
      * Main function for the module. It loads and render the feedbacks accodring to the given itemSession variables
      *
@@ -288,12 +292,31 @@ define([
             var $modalFeedback = $(feedback.render({
                 inline : true
             }));
+            var done = function done(){
+                renderedCallback({
+                    identifier : feedback.id(),
+                    serial : feedback.getSerial(),
+                    dom : $modalFeedback
+                });
+            };
             $container.append($modalFeedback);
-
-            renderedCallback({
-                identifier : feedback.id(),
-                serial : feedback.getSerial(),
-                dom : $modalFeedback
+            
+            // Race between postRendering and timeout
+            // postRendering waits for everything to be resolved or one reject
+            Promise.race([
+                Promise.all(_.map(feedback.getComposingElements(), function(elt){
+                    //render also internal elements, such as math or img
+                    return elt.postRender({}, '', renderer);
+                })),
+                new Promise(function(resolve, reject){
+                    _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
+                })
+            ])
+            .then(done)
+            .catch(function(err){
+                //in case of postRendering issue, we are also done
+                done();
+                throw new Error('Error in post rendering : ' + err);
             });
 
         }, loader.getLoadedClasses());
