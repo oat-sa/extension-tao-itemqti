@@ -64,8 +64,8 @@ define([
                 y = (parseFloat(domElement.getAttribute('data-y')) || 0) + dy,
                 transform = 'translate(' + x + 'px, ' + y + 'px)';
 
-            domElement.setAttribute('style', 'webkitTransform:' + transform);
-            domElement.setAttribute('style', 'transform:' + transform);
+            domElement.style.webkitTransform = transform;
+            domElement.style.transform = transform;
 
             domElement.setAttribute('data-x', x);
             domElement.setAttribute('data-y', y);
@@ -78,8 +78,8 @@ define([
         restoreOriginalPosition: function restoreOriginalPosition(element) {
             var domElement = (element instanceof $) ? element.get(0) : element;
 
-            domElement.setAttribute('style', 'webkitTransform: translate(0px, 0px)');
-            domElement.setAttribute('style', 'transform: translate(0px, 0px)');
+            domElement.style.webkitTransform = 'translate(0px, 0px)';
+            domElement.style.transform = 'translate(0px, 0px)';
 
             domElement.setAttribute('data-x', 0);
             domElement.setAttribute('data-y', 0);
