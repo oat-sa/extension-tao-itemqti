@@ -573,6 +573,9 @@ define([
             .on('statechange', function(state) {
                 document.getElementById('display-response').textContent = JSON.stringify(state);
             })
+            .on('error', function(error) {
+                console.log(error);
+            })
             .init()
             .render($container);
     });

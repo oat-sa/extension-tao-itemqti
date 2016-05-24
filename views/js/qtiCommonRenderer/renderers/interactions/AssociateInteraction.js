@@ -216,14 +216,23 @@ define([
      */
     var render = function(interaction){
 
+        var self = this;
+
         return new Promise(function(resolve, reject){
 
             var $container = containerHelper.get(interaction);
             var $choiceArea = $container.find('.choice-area');
             var $resultArea = $container.find('.result-area');
+
             var $activeChoice = null;
 
+            var isDragAndDropEnabled;
+            var dragOptions;
+
             var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
+
+            var choiceSelector = $choiceArea.selector + ' >li';
+            var resultSelector = $resultArea.selector + ' >li>div';
             var binSelector = $container.selector + " .remove-choice";
 
             var _getChoice = function(serial){
@@ -276,18 +285,23 @@ define([
                     _resetSelection();
                     interaction.swapping = false;
                 }else{
+                    if($target.hasClass('deactivated')){
+                        return;
+                    }
                     if($target.hasClass('active')){
                         _resetSelection();
 
                     }else{
                         _resetSelection();
-
-                        //activate it:
-                        $activeChoice = $target;
-                        $target.addClass('active');
-                        $resultArea.find('>li>.target').addClass('empty');
+                        _activateChoice($target);
                     }
                 }
+            };
+
+            var _activateChoice = function($choice) {
+                $activeChoice = $choice;
+                $choice.addClass('active');
+                $resultArea.find('>li>.target').addClass('empty');
             };
 
             var _handleResultActivate = function($target) {
@@ -347,24 +361,28 @@ define([
 
                 }else if($target.data('serial')){
 
-                    //selecting a choice in editing mode:
-                    targetSerial = $target.data('serial');
-
-                    $activeChoice = $target;
-                    $activeChoice.addClass('active');
-
-                    $resultArea.find('>li>.target').filter(function(){
-                        return $(this).data('serial') !== targetSerial;
-                    }).addClass('empty');
-
-                    $choiceArea.find('>li:not(.deactivated)').filter(function(){
-                        return $(this).data('serial') !== targetSerial;
-                    }).addClass('empty');
+                    _activateResult($target);
 
                     //append trash bin:
                     $target.append($bin);
                 }
             };
+
+            var _activateResult = function ($target) {
+                var targetSerial = $target.data('serial');
+
+                $activeChoice = $target;
+                $activeChoice.addClass('active');
+
+                $resultArea.find('>li>.target').filter(function(){
+                    return $(this).data('serial') !== targetSerial;
+                }).addClass('empty');
+
+                $choiceArea.find('>li:not(.deactivated)').filter(function(){
+                    return $(this).data('serial') !== targetSerial;
+                }).addClass('empty');
+            };
+
 
 
             // Point & click handlers
@@ -401,7 +419,92 @@ define([
 
             // Drag & drop handlers
 
-            
+            if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
+                isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
+            }
+
+            if (isDragAndDropEnabled) {
+                dragOptions = {
+                    inertia: false,
+                    autoScroll: true,
+                    restrict: {
+                        restriction: ".qti-interaction",
+                        endOnly: false,
+                        elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                    }
+                };
+
+                // makes choices draggables
+                interact(choiceSelector + ':not(.deactivated)').draggable(_.assign({}, dragOptions, {
+                    onstart: function (e) {
+                        var $target = $(e.target);
+                        $target.addClass("dragged");
+                        _activateChoice($target);
+                    },
+                    onmove: function (e) {
+                        interactUtils.moveElement(e.target, e.dx, e.dy);
+                    },
+                    onend: function (e) {
+                        var $target = $(e.target);
+                        $target.removeClass("dragged");
+                        _resetSelection();
+                        interactUtils.restoreOriginalPosition($target);
+                    }
+                })).styleCursor(false);
+
+                // makes results draggables
+                interact(resultSelector + '.filled').draggable(_.assign({}, dragOptions, {
+                    onstart: function (e) {
+                        var $target = $(e.target);
+                        $target.addClass("dragged");
+                        _activateResult($target);
+                    },
+                    onmove: function (e) {
+                        interactUtils.moveElement(e.target, e.dx, e.dy);
+                    },
+                    onend: function (e) {
+                        var $target = $(e.target);
+                        $target.removeClass("dragged");
+
+                        interactUtils.restoreOriginalPosition($target);
+
+                        // if ($activeChoice) {
+                        //     _unsetChoice($activeChoice);
+                        //     _resetSelection();
+                        // }
+                    }
+                })).styleCursor(false);
+
+                // makes gaps droppables
+                interact(resultSelector).dropzone({
+                    overlap: 0.15,
+                    ondragenter: function(e) {
+                        var $target = $(e.target),
+                            $dragged = $(e.relatedTarget);
+                        console.log('dragMe!!!');
+                        // $target.addClass('droppable');
+                        // $dragged.addClass('droppable');
+                    },
+                    ondrop: function (e) {
+                        var $target = $(e.target),
+                            $dragged = $(e.relatedTarget);
+
+                        // $target.removeClass('droppable');
+                        // $dragged.removeClass('droppable');
+                        console.log('dragged!!!');
+                        _handleResultActivate($target);
+                    },
+                    ondragleave: function(e) {
+                        var $target = $(e.target),
+                            $dragged = $(e.relatedTarget);
+
+                        // $target.removeClass('droppable');
+                        // $dragged.removeClass('droppable');
+                    }
+                });
+            }
+
+
 
             // interaction init
 
