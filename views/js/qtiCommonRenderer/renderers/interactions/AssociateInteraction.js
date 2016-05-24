@@ -319,12 +319,10 @@ define([
                         if($target.hasClass('filled')){
                             interaction.swapping = true;//hack to prevent deleting empty pair in infinite association mode
                         }
-
                         //set choices:
                         if(targetSerial){
                             _unsetChoice($target);
                         }
-
                         _setChoice($activeChoice, $target);
 
                         //always reset swapping mode after the choice is set
@@ -382,7 +380,6 @@ define([
                     return $(this).data('serial') !== targetSerial;
                 }).addClass('empty');
             };
-
 
 
             // Point & click handlers
@@ -478,22 +475,22 @@ define([
                     }
                 })).styleCursor(false);
 
-                // makes gaps droppables
+                // makes hotspots droppables
                 interact(resultSelector).dropzone({
                     overlap: 0.15,
                     ondragenter: function(e) {
                         var $target = $(e.target),
                             $dragged = $(e.relatedTarget);
 
-                        // $target.addClass('droppable');
-                        // $dragged.addClass('droppable');
+                        $target.addClass('droppable');
+                        $dragged.addClass('droppable');
                     },
                     ondrop: function (e) {
                         var $target = $(e.target),
                             $dragged = $(e.relatedTarget);
 
-                        // $target.removeClass('droppable');
-                        // $dragged.removeClass('droppable');
+                        $target.removeClass('droppable');
+                        $dragged.removeClass('droppable');
 
                         _handleResultActivate($target);
                     },
@@ -501,12 +498,39 @@ define([
                         var $target = $(e.target),
                             $dragged = $(e.relatedTarget);
 
-                        // $target.removeClass('droppable');
-                        // $dragged.removeClass('droppable');
+                        $target.removeClass('droppable');
+                        $dragged.removeClass('droppable');
+                    }
+                });
+
+                // makes available choices droppables
+                interact(choiceSelector + '.empty').dropzone({
+                    overlap: 0.15,
+                    ondragenter: function(e) {
+                        var $target = $(e.target),
+                            $dragged = $(e.relatedTarget);
+
+                        $target.addClass('droppable');
+                        $dragged.addClass('droppable');
+                    },
+                    ondrop: function (e) {
+                        var $target = $(e.target),
+                            $dragged = $(e.relatedTarget);
+
+                        $target.removeClass('droppable');
+                        $dragged.removeClass('droppable');
+
+                        _handleChoiceActivate($target);
+                    },
+                    ondragleave: function(e) {
+                        var $target = $(e.target),
+                            $dragged = $(e.relatedTarget);
+
+                        $target.removeClass('droppable');
+                        $dragged.removeClass('droppable');
                     }
                 });
             }
-
 
 
             // interaction init

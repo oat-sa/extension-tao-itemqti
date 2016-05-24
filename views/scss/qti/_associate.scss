@@ -24,6 +24,14 @@
                     display: flex;
                 }
             }
+            &.dragged {
+                z-index: 5;
+                background: whiten($info, .91) !important;
+            }
+            &.droppable,
+            &.dragged.droppable {
+                background: whiten($info, .75) !important;
+            }
         }
     }
     .result-area {
@@ -75,6 +83,14 @@
                 }
                 &:first-child {
                     float: left
+                }
+                &.dragged {
+                    z-index: 5;
+                    background: whiten($info, .91) !important;
+                }
+                &.droppable,
+                &.dragged.droppable {
+                    background: whiten($info, .75) !important;
                 }
             }
             &.removing > div{
