@@ -292,13 +292,13 @@ define([
                         _resetSelection();
 
                     }else{
-                        _resetSelection();
                         _activateChoice($target);
                     }
                 }
             };
 
             var _activateChoice = function($choice) {
+                _resetSelection();
                 $activeChoice = $choice;
                 $choice.addClass('active');
                 $resultArea.find('>li>.target').addClass('empty');
@@ -419,6 +419,8 @@ define([
 
             // Drag & drop handlers
 
+            // todo: add iframe fix
+
             if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
                 isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
             }
@@ -457,6 +459,7 @@ define([
                     onstart: function (e) {
                         var $target = $(e.target);
                         $target.addClass("dragged");
+                        _resetSelection();
                         _activateResult($target);
                     },
                     onmove: function (e) {
@@ -468,10 +471,10 @@ define([
 
                         interactUtils.restoreOriginalPosition($target);
 
-                        // if ($activeChoice) {
-                        //     _unsetChoice($activeChoice);
-                        //     _resetSelection();
-                        // }
+                        if ($activeChoice) {
+                            _unsetChoice($activeChoice);
+                        }
+                        _resetSelection();
                     }
                 })).styleCursor(false);
 
@@ -481,7 +484,7 @@ define([
                     ondragenter: function(e) {
                         var $target = $(e.target),
                             $dragged = $(e.relatedTarget);
-                        console.log('dragMe!!!');
+
                         // $target.addClass('droppable');
                         // $dragged.addClass('droppable');
                     },
@@ -491,7 +494,7 @@ define([
 
                         // $target.removeClass('droppable');
                         // $dragged.removeClass('droppable');
-                        console.log('dragged!!!');
+
                         _handleResultActivate($target);
                     },
                     ondragleave: function(e) {
