@@ -40,9 +40,9 @@ define([
         render : function(modalFeedback, data){
 
             data = data || {};
-
+            
             var $modal = containerHelper.get(modalFeedback);
-
+            
             $modal.waitForMedia(function(){
 
                 //when we are sure that media is loaded:
