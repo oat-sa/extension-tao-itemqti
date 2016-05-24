@@ -228,6 +228,7 @@ define([
 
             var isDragAndDropEnabled;
             var dragOptions;
+            var dropOptions;
 
             var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
 
@@ -306,13 +307,11 @@ define([
 
             var _handleResultActivate = function($target) {
                 var choiceSerial,
-                    targetSerial;
+                    targetSerial = $target.data('serial');
 
                 if(_isInsertionMode()){
 
                     choiceSerial = $activeChoice.data('serial');
-                    // todo: move this in var declaration ?
-                    targetSerial = $target.data('serial');
 
                     if(targetSerial !== choiceSerial){
 
@@ -333,9 +332,7 @@ define([
 
                 }else if(_isModeEditing()){
 
-                    //editing mode:
                     choiceSerial = $activeChoice.data('serial');
-                    targetSerial = $target.data('serial');
 
                     if(targetSerial !== choiceSerial){
 
@@ -357,11 +354,8 @@ define([
 
                     _resetSelection();
 
-                }else if($target.data('serial')){
-
+                }else if(targetSerial){
                     _activateResult($target);
-
-                    //append trash bin:
                     $target.append($bin);
                 }
             };
@@ -434,7 +428,7 @@ define([
                 };
 
                 // makes choices draggables
-                interact(choiceSelector + ':not(.deactivated)').draggable(_.assign({}, dragOptions, {
+                interact(choiceSelector + ':not(.deactivated)').draggable(_.defaults({
                     onstart: function (e) {
                         var $target = $(e.target);
                         $target.addClass("dragged");
@@ -449,10 +443,10 @@ define([
                         _resetSelection();
                         interactUtils.restoreOriginalPosition($target);
                     }
-                })).styleCursor(false);
+                }, dragOptions)).styleCursor(false);
 
                 // makes results draggables
-                interact(resultSelector + '.filled').draggable(_.assign({}, dragOptions, {
+                interact(resultSelector + '.filled').draggable(_.defaults({
                     onstart: function (e) {
                         var $target = $(e.target);
                         $target.addClass("dragged");
@@ -473,63 +467,36 @@ define([
                         }
                         _resetSelection();
                     }
-                })).styleCursor(false);
+                }, dragOptions)).styleCursor(false);
+
+
+                dropOptions = {
+                    overlap: 0.15,
+                    ondragenter: function(e) {
+                        $(e.target).addClass('droppable');
+                        $(e.relatedTarget).addClass('droppable');
+                    },
+                    ondragleave: function(e) {
+                        $(e.target).removeClass('droppable');
+                        $(e.relatedTarget).removeClass('droppable');
+                    }
+                };
 
                 // makes hotspots droppables
-                interact(resultSelector).dropzone({
-                    overlap: 0.15,
-                    ondragenter: function(e) {
-                        var $target = $(e.target),
-                            $dragged = $(e.relatedTarget);
-
-                        $target.addClass('droppable');
-                        $dragged.addClass('droppable');
-                    },
+                interact(resultSelector).dropzone(_.defaults({
                     ondrop: function (e) {
-                        var $target = $(e.target),
-                            $dragged = $(e.relatedTarget);
-
-                        $target.removeClass('droppable');
-                        $dragged.removeClass('droppable');
-
-                        _handleResultActivate($target);
-                    },
-                    ondragleave: function(e) {
-                        var $target = $(e.target),
-                            $dragged = $(e.relatedTarget);
-
-                        $target.removeClass('droppable');
-                        $dragged.removeClass('droppable');
+                        this.ondragleave(e);
+                        _handleResultActivate($(e.target));
                     }
-                });
+                }, dropOptions));
 
                 // makes available choices droppables
-                interact(choiceSelector + '.empty').dropzone({
-                    overlap: 0.15,
-                    ondragenter: function(e) {
-                        var $target = $(e.target),
-                            $dragged = $(e.relatedTarget);
-
-                        $target.addClass('droppable');
-                        $dragged.addClass('droppable');
-                    },
+                interact(choiceSelector + '.empty').dropzone(_.defaults({
                     ondrop: function (e) {
-                        var $target = $(e.target),
-                            $dragged = $(e.relatedTarget);
-
-                        $target.removeClass('droppable');
-                        $dragged.removeClass('droppable');
-
-                        _handleChoiceActivate($target);
-                    },
-                    ondragleave: function(e) {
-                        var $target = $(e.target),
-                            $dragged = $(e.relatedTarget);
-
-                        $target.removeClass('droppable');
-                        $dragged.removeClass('droppable');
+                        this.ondragleave(e);
+                        _handleChoiceActivate($(e.target));
                     }
-                });
+                }, dropOptions));
             }
 
 

@@ -87,6 +87,7 @@
                 &.dragged {
                     z-index: 5;
                     background: whiten($info, .91) !important;
+                    outline: 0;
                 }
                 &.droppable,
                 &.dragged.droppable {
