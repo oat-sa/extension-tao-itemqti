@@ -286,10 +286,6 @@ define([
                     _resetSelection();
                     interaction.swapping = false;
                 }else{
-                    //todo: remove this
-                    if($target.hasClass('deactivated')){
-                        return;
-                    }
                     if($target.hasClass('active')){
                         _resetSelection();
 
