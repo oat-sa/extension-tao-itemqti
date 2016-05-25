@@ -247,25 +247,19 @@ define([
                         $dragged = $(e.relatedTarget);
 
                     $activeDrop = $target;
-                    $target.addClass('droppable');
+                    $target.addClass('dropzone');
                     $dragged.addClass('droppable');
                 },
                 ondrop: function (e) {
-                    var $target = $(e.target),
-                        $dragged = $(e.relatedTarget);
-
-                    $target.removeClass('droppable');
-                    $dragged.removeClass('droppable');
-
                     _handleGapSelect($(e.target));
 
-                    $activeDrop = null;
+                    this.ondragleave(e);
                 },
                 ondragleave: function(e) {
                     var $target = $(e.target),
                         $dragged = $(e.relatedTarget);
 
-                    $target.removeClass('droppable');
+                    $target.removeClass('dropzone');
                     $dragged.removeClass('droppable');
 
                     $activeDrop = null;

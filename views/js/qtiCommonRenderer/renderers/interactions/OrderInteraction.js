@@ -301,18 +301,23 @@ define([
                 ondragenter: function (e) {
                     var $dragged = $(e.relatedTarget);
                     _insertDropzone($dragged);
+                    $dragged.addClass('droppable');
                 },
                 ondrop: function (e) {
                     var $dragged = $(e.relatedTarget),
                         dropzoneIndex = $(resultSelector).index($dropzoneElement);
 
-                    $dropzoneElement.remove();
+                    //todo: position bug when dragging a single result
+
+                    this.ondragleave(e);
 
                     _addChoiceToSelection($dragged, dropzoneIndex);
                     interactUtils.restoreOriginalPosition($dragged);
                 },
-                ondragleave: function () {
+                ondragleave: function (e) {
+                    var $dragged = $(e.relatedTarget);
                     $dropzoneElement.remove();
+                    $dragged.removeClass('droppable');
                 }
             });
         }

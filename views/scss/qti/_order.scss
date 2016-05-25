@@ -89,21 +89,8 @@
     }
     li {
         &.dragged {
-            background: whiten($info, .95) !important;
+            border-color: whiten($info, .2) !important;
             list-style: none;
-            z-index: 1;
-        }
-    }
-    .result-area {
-        position: relative;
-        & > li {
-            &.dropzone {
-                border: 1px $uiClickableHoverBg dashed !important;
-                background: whiten($info, .75) !important;
-            }
-            &.dragged {
-                position: absolute;
-            }
         }
     }
     .drag-container {
