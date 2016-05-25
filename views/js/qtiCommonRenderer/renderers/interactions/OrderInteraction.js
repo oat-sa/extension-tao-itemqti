@@ -307,8 +307,6 @@ define([
                     var $dragged = $(e.relatedTarget),
                         dropzoneIndex = $(resultSelector).index($dropzoneElement);
 
-                    //todo: position bug when dragging a single result
-
                     this.ondragleave(e);
 
                     _addChoiceToSelection($dragged, dropzoneIndex);
