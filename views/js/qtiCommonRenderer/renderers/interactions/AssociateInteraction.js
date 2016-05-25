@@ -286,6 +286,7 @@ define([
                     _resetSelection();
                     interaction.swapping = false;
                 }else{
+                    //todo: remove this
                     if($target.hasClass('deactivated')){
                         return;
                     }
@@ -410,10 +411,39 @@ define([
 
             // Drag & drop handlers
 
-            // todo: add iframe fix
-
             if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
                 isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
+            }
+
+            // Chrome/Safari ugly fix: manually drop element when the mouse leaves the item runner iframe
+            // should be removed when the old test runner is discarded
+            function _iFrameDragFix(draggableSelector, target) {
+                $('body').on('mouseleave.commonRenderer', function () {
+                    var $activeDrop = $(resultSelector + '.dropzone');
+                    if ($activeDrop.length) {
+                        interact(resultSelector).fire({
+                            type: 'drop',
+                            target: $activeDrop.eq(0),
+                            relatedTarget: target
+                        });
+                    }
+                    $activeDrop = $(choiceSelector + '.dropzone');
+                    if ($activeDrop.length) {
+                        interact(choiceSelector + '.empty').fire({
+                            type: 'drop',
+                            target: $activeDrop.eq(0),
+                            relatedTarget: target
+                        });
+                    }
+                    interact(draggableSelector).fire({
+                        type: 'dragend',
+                        target: target
+                    });
+                    interact.stop();
+                });
+            }
+            function _iFrameDragFixOff() {
+                $('body').off('mouseleave.commonRenderer');
             }
 
             if (isDragAndDropEnabled) {
@@ -433,6 +463,7 @@ define([
                         var $target = $(e.target);
                         $target.addClass("dragged");
                         _activateChoice($target);
+                        _iFrameDragFix(choiceSelector + ':not(.deactivated)', e.target);
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx, e.dy);
@@ -442,6 +473,7 @@ define([
                         $target.removeClass("dragged");
                         _resetSelection();
                         interactUtils.restoreOriginalPosition($target);
+                        _iFrameDragFixOff();
                     }
                 }, dragOptions)).styleCursor(false);
 
@@ -452,6 +484,7 @@ define([
                         $target.addClass("dragged");
                         _resetSelection();
                         _activateResult($target);
+                        _iFrameDragFix(resultSelector + '.filled', e.target);
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx, e.dy);
@@ -466,6 +499,7 @@ define([
                             _unsetChoice($activeChoice);
                         }
                         _resetSelection();
+                        _iFrameDragFixOff();
                     }
                 }, dragOptions)).styleCursor(false);
 
@@ -473,11 +507,11 @@ define([
                 dropOptions = {
                     overlap: 0.15,
                     ondragenter: function(e) {
-                        $(e.target).addClass('droppable');
+                        $(e.target).addClass('dropzone');
                         $(e.relatedTarget).addClass('droppable');
                     },
                     ondragleave: function(e) {
-                        $(e.target).removeClass('droppable');
+                        $(e.target).removeClass('dropzone');
                         $(e.relatedTarget).removeClass('droppable');
                     }
                 };
