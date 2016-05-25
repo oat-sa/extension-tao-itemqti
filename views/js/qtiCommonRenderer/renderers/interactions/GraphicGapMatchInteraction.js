@@ -31,11 +31,16 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'interact'
-], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact){
+    'interact',
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact, interactUtils){
     'use strict';
 
-    var isDragAndDropEnabled;
+    var isDragAndDropEnabled,
+        // this represents the state for the active droppable zone
+        // we need it only to access the active dropzone in the iFrameFix
+        // should be removed when the old test runner is discarded
+        activeDrop = null;
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -56,7 +61,7 @@ define([
 
             interaction.gapFillers = [];
 
-            if (self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").graphicGapMatch) {
+            if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").graphicGapMatch) {
                 isDragAndDropEnabled = self.getOption("enableDragAndDrop").graphicGapMatch;
             }
 
@@ -122,15 +127,18 @@ define([
         if (isDragAndDropEnabled) {
             interact(rElement.node).dropzone({
                 overlap: 0.15,
-                ondragenter: function(e) {
+                ondragenter: function() {
                     graphic.setStyle(rElement, 'hover');
+                    activeDrop = rElement.node;
                 },
                 ondrop: function () {
                     graphic.setStyle(rElement, 'selectable');
                     handleShapeSelect();
+                    activeDrop = null;
                 },
-                ondragleave: function(e) {
+                ondragleave: function() {
                     graphic.setStyle(rElement, 'selectable');
+                    activeDrop = null;
                 }
             });
         }
@@ -142,6 +150,28 @@ define([
             }
         }
     };
+
+    // Chrome/Safari ugly fix: manually drop element when the mouse leaves the item runner iframe
+    // should be removed when the old test runner is discarded
+    function _iFrameDragFix(draggableSelector, target) {
+        $('body').on('mouseleave.commonRenderer', function () {
+            if (activeDrop) {
+                interact(activeDrop).fire({
+                    type: 'drop',
+                    target: activeDrop,
+                    relatedTarget: target
+                });
+            }
+            interact(draggableSelector).fire({
+                type: 'dragend',
+                target: target
+            });
+            interact.stop();
+        });
+    }
+    function _iFrameDragFixOff() {
+        $('body').off('mouseleave.commonRenderer');
+    }
 
     /**
      * Render the list of gap fillers
@@ -174,12 +204,18 @@ define([
                 onstart: function (e) {
                     var $target = $(e.target);
                     _setActiveGapState($target);
+
+                    _iFrameDragFix(gapFillersSelector, e.target);
                 },
-                onmove: _moveItem,
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
                 onend: function (e) {
                     var $target = $(e.target);
                     _setInactiveGapState($target);
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
+
+                    _iFrameDragFixOff();
                 }
             })).styleCursor(false);
         }
@@ -203,27 +239,6 @@ define([
         function _setInactiveGapState($target) {
             $target.removeClass('active');
             _shapesUnSelectable(interaction);
-        }
-
-        function _moveItem(e) {
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        function _restoreOriginalPosition($target) {
-            var transform = 'translate(0px, 0px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', 0);
-            $target.attr('data-y', 0);
         }
     };
 
@@ -338,7 +353,7 @@ define([
 
                     // adding a new gapfiller on the hotspot by simulating a click on the underlying shape...
                     if($gapList.find('.active').length > 0){
-                        _tapOn(element.node);
+                        interactUtils.tapOn(element.node);
 
                     // ... or removing the existing gapfiller
                     } else {
@@ -429,21 +444,6 @@ define([
     };
 
     /**
-     * simulate a "tap" event that triggers InteractJs listeners
-     * @private
-     * @param {HTMLElement} domElement
-     */
-    var _tapOn = function _tapOn(domElement) {
-        var eventOptions = {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        };
-        triggerMouseEvent(domElement, 'mousedown', eventOptions);
-        triggerMouseEvent(domElement, 'mouseup', eventOptions);
-    };
-
-    /**
      * Get the responses from the interaction
      * @private
      * @param {Object} interaction
@@ -521,7 +521,7 @@ define([
         _shapesUnSelectable(interaction);
 
         _.forEach(interaction.gapFillers, function(gapFiller){
-            _tapOn(gapFiller.items[2][0]); // this refers to the gapFiller image
+            interactUtils.tapOn(gapFiller.items[2][0]); // this refers to the gapFiller image
         });
     };
 

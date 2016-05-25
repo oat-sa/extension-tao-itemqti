@@ -29,8 +29,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'interact'
-], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse, interact){
+    'interact',
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse, interact, interactUtils){
     'use strict';
 
     /**
@@ -108,6 +109,7 @@ define([
         var $flowContainer = $container.find('.qti-flow-container');
 
         var $activeChoice = null;
+        var $activeDrop = null;
 
         var isDragAndDropEnabled;
         var dragOptions;
@@ -151,8 +153,30 @@ define([
 
         // Drag & drop handlers
 
-        if (this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
+        if (this.getOption && this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
+        }
+
+        // Chrome/Safari ugly fix: manually drop element when the mouse leaves the item runner iframe
+        // should be removed when the old test runner is discarded
+        function _iFrameDragFix(draggableSelector, target) {
+            $('body').on('mouseleave.commonRenderer', function () {
+                if ($activeDrop) {
+                    interact(gapSelector).fire({
+                        type: 'drop',
+                        target: $activeDrop.eq(0),
+                        relatedTarget: target
+                    });
+                }
+                interact(draggableSelector).fire({
+                    type: 'dragend',
+                    target: target
+                });
+                interact.stop();
+            });
+        }
+        function _iFrameDragFixOff() {
+            $('body').off('mouseleave.commonRenderer');
         }
 
         if (isDragAndDropEnabled) {
@@ -172,13 +196,19 @@ define([
                     var $target = $(e.target);
                     $target.addClass("dragged");
                     _handleChoiceSelect($target);
+
+                    _iFrameDragFix(choiceSelector, e.target);
                 },
-                onmove: _moveItem,
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
 
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
+
+                    _iFrameDragFixOff();
                 }
             })).styleCursor(false);
 
@@ -188,18 +218,24 @@ define([
                     var $target = $(e.target);
                     $target.addClass("dragged");
                     _handleFilledGapSelect($target);
+
+                    _iFrameDragFix(filledGapSelector, e.target);
                 },
-                onmove: _moveItem,
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
                 onend: function (e) {
                     var $target = $(e.target);
                     $target.removeClass("dragged");
 
-                    _restoreOriginalPosition($target);
+                    interactUtils.restoreOriginalPosition($target);
 
                     if ($activeChoice) {
                         _unsetChoice($activeChoice);
                         _resetSelection();
                     }
+
+                    _iFrameDragFixOff();
                 }
             })).styleCursor(false);
 
@@ -210,6 +246,7 @@ define([
                     var $target = $(e.target),
                         $dragged = $(e.relatedTarget);
 
+                    $activeDrop = $target;
                     $target.addClass('droppable');
                     $dragged.addClass('droppable');
                 },
@@ -221,6 +258,8 @@ define([
                     $dragged.removeClass('droppable');
 
                     _handleGapSelect($(e.target));
+
+                    $activeDrop = null;
                 },
                 ondragleave: function(e) {
                     var $target = $(e.target),
@@ -228,29 +267,10 @@ define([
 
                     $target.removeClass('droppable');
                     $dragged.removeClass('droppable');
+
+                    $activeDrop = null;
                 }
             });
-        }
-
-        function _moveItem(e) {
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        function _restoreOriginalPosition($target) {
-            var transform = 'translate(0px, 0px)';
-
-            $target.css("webkitTransform", transform);
-            $target.css("transform", transform);
-            $target.attr('data-x', 0);
-            $target.attr('data-y', 0);
         }
 
 

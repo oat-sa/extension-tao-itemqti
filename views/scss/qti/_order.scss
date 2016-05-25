@@ -87,4 +87,30 @@
             }
         }
     }
+    li {
+        &.dragged {
+            background: whiten($info, .95) !important;
+            list-style: none;
+            z-index: 1;
+        }
+    }
+    .result-area {
+        position: relative;
+        & > li {
+            &.dropzone {
+                border: 1px $uiClickableHoverBg dashed !important;
+                background: whiten($info, .75) !important;
+            }
+            &.dragged {
+                position: absolute;
+            }
+        }
+    }
+    .drag-container {
+        position: absolute;
+        display: none;
+        padding: 0;
+        margin: 0;
+        z-index: 1;
+    }
 }

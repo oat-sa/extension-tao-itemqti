@@ -3,8 +3,9 @@ define([
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'core/mouseEvent',
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils',
     'json!taoQtiItem/test/samples/json/tao-item.json'
-], function($, _, qtiItemRunner, triggerMouseEvent, gapMatchData){
+], function($, _, qtiItemRunner, triggerMouseEvent, interactUtils, gapMatchData){
     'use strict';
 
     var runner;
@@ -18,16 +19,6 @@ define([
             }
         }
     });
-
-    function clickOn(element) {
-        var eventOptions = {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        };
-        triggerMouseEvent(element, 'mousedown', eventOptions);
-        triggerMouseEvent(element, 'mouseup', eventOptions);
-    }
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(30);
@@ -102,9 +93,7 @@ define([
                 assert.ok( ! $at.hasClass('active'), 'The choice is not active');
                 assert.ok( ! $gap.hasClass('empty'), 'The gap is not highlighted');
 
-                clickOn($at.get(0));
-
-                _.delay(function(){
+                interactUtils.tapOn($at, function(){
 
                     assert.ok($at.hasClass('active'), 'The choice is now active');
                     assert.ok($gap.hasClass('empty'), 'The gap is now highlighted');
@@ -135,10 +124,8 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                clickOn($at.get(0));
-
-                _.delay(function(){
-                   clickOn($gap.get(0));
+                interactUtils.tapOn($at, function(){
+                    interactUtils.tapOn($gap);
                 }, 10);
             })
             .on('statechange', function(state){
@@ -209,12 +196,9 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                clickOn($at.get(0));
+                interactUtils.tapOn($at, function(){
 
-                _.delay(function(){
-                    clickOn($gap.get(0));
-
-                    _.delay(function(){
+                    interactUtils.tapOn($gap, function(){
                         assert.deepEqual(self.getState(), {'RESPONSE': { response : { list : { directedPair : [] } } } }, 'Click does not trigger response once destroyed');
 
                         QUnit.start();
@@ -244,19 +228,14 @@ define([
                 var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
-                clickOn($at.get(0));
+                interactUtils.tapOn($at, function(){
 
-                _.delay(function(){
-                    clickOn($gap.get(0));
-
-                    _.delay(function(){
+                    interactUtils.tapOn($gap, function(){
 
                         assert.ok($gap.hasClass('filled'), 'The gap is now filled');
                         assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
 
-                        clickOn($gap.get(0));
-
-                        _.delay(function() {
+                        interactUtils.tapOn($gap, function() {
                             assert.ok($gap.hasClass('active'), 'The gap is now active');
 
                             //call destroy manually
