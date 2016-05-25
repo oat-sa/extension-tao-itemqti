@@ -3,13 +3,13 @@ define([
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/rivals.json',
-], function($, _, qtiItemRunner, associateData){
+    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+], function($, _, qtiItemRunner, associateData, interactUtils){
     'use strict';
 
     var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
-
 
     module('Associate Interaction', {
         teardown : function(){
@@ -82,16 +82,11 @@ define([
                 assert.ok( ! $antonio.hasClass('active'), 'The choice is not active');
                 assert.ok( ! $target.hasClass('empty'), 'The target is not highlighted');
 
-                $antonio.trigger('mousedown');
-
-                _.delay(function(){
-
+                interactUtils.tapOn($antonio, function(){
                     assert.ok( $antonio.hasClass('active'), 'The choice is active');
                     assert.ok( $target.hasClass('empty'), 'The target is highlighted');
 
-                    _.delay(function(){
-                        $antonio.trigger('mousedown');
-
+                    interactUtils.tapOn($antonio, function(){
                         assert.ok( ! $antonio.hasClass('active'), 'The choice is not active anymore');
                         assert.ok( ! $target.hasClass('empty'), 'The target is not highlighted anymore');
 
@@ -128,16 +123,10 @@ define([
                 var $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
 
-                $antonio.trigger('mousedown');
-
-                _.delay(function(){
-                    $target1.trigger('mousedown');
-
-                    _.delay(function(){
-                        $capulet.trigger('mousedown');
-
-                        _.delay(function(){
-                            $target2.trigger('mousedown');
+                interactUtils.tapOn($antonio, function(){
+                    interactUtils.tapOn($target1, function(){
+                        interactUtils.tapOn($capulet, function(){
+                            interactUtils.tapOn($target2);
                         }, 10);
                     }, 10);
                 }, 10);
@@ -199,22 +188,15 @@ define([
                 var $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
 
-                $prospero.trigger('mousedown');
-
-                _.delay(function(){
-                    $target1.trigger('mousedown');
-
-                    _.delay(function(){
+                interactUtils.tapOn($prospero, function(){
+                    interactUtils.tapOn($target1, function(){
                         assert.ok($target1.hasClass('filled'), 'the target is filled');
                         assert.equal($target1.text(), 'Prospero', 'the target contains the choice text');
                         assert.ok( ! $prospero.hasClass('deactivated'), 'the P choice is still not deactivated');
 
-                        $prospero.trigger('mousedown');
+                        interactUtils.tapOn($prospero, function(){
 
-                        _.delay(function(){
-                            $target2.trigger('mousedown');
-
-                            _.delay(function(){
+                            interactUtils.tapOn($target2, function(){
                                 assert.ok($target2.hasClass('filled'), 'the target is filled');
                                 assert.equal($target2.text(), 'Prospero', 'the target contains the choice text');
                                 assert.ok($prospero.hasClass('deactivated'), 'the P choice is now deactivated');
@@ -230,6 +212,168 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('enables to replace a choice', function(assert){
+        QUnit.expect(10);
+
+        var $container = $('#' + fixtureContainerId);
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        qtiItemRunner('qti', associateData)
+            .on('render', function(){
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+
+                var $target1 = $('.result-area li:first-child .lft', $container);
+
+                // Set Choice
+                interactUtils.tapOn($antonio, function(){
+                    interactUtils.tapOn($target1, function(){
+                        assert.ok($antonio.hasClass('deactivated'), 'Antonio is deactivated');
+                        assert.equal($antonio.innerText, $target1.innerText, 'Antonio has been added to the result area');
+                        assert.ok(! $capulet.hasClass('deactivated'), 'Capulet is not deactivated');
+
+                        // Replace by bringing another choice to the same target
+                        interactUtils.tapOn($capulet, function(){
+                            interactUtils.tapOn($target1, function() {
+                                assert.equal($capulet.innerText, $target1.innerText, 'Capulet has replaced Antonio in the result area');
+                                assert.ok(! $antonio.hasClass('deactivated'), 'Antonio is not deactivated anymore');
+                                assert.ok($capulet.hasClass('deactivated'), 'Capulet is now deactivated');
+
+                                // Replace by bringing the target to another choice
+                                interactUtils.tapOn($target1, function() {
+                                    interactUtils.tapOn($antonio, function() {
+                                        assert.ok($antonio.hasClass('deactivated'), 'Antonio is deactivated');
+                                        assert.equal($antonio.innerText, $target1.innerText, 'Antonio has been added to the result area');
+                                        assert.ok(! $capulet.hasClass('deactivated'), 'Capulet is not deactivated');
+
+                                        QUnit.start();
+                                    }, 10);
+                                }, 10);
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('enables to switch pairs', function(assert){
+        QUnit.expect(4);
+
+        var $container = $('#' + fixtureContainerId),
+            stateChangeCounter = 0;
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        qtiItemRunner('qti', associateData)
+            .on('render', function(){
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+                var $lysander = $('.qti-choice[data-identifier="L"]', $container);
+                var $montague = $('.qti-choice[data-identifier="M"]', $container);
+
+                var $target1 = $('.result-area li:first-child .lft', $container);
+                var $target2 = $('.result-area li:first-child .rgt', $container);
+                var $target3 = $('.result-area li:last-child .lft', $container);
+                var $target4 = $('.result-area li:last-child .rgt', $container);
+
+                // set first pair
+                interactUtils.tapOn($antonio, function(){
+                    interactUtils.tapOn($target1, function(){
+                        interactUtils.tapOn($capulet, function(){
+                            interactUtils.tapOn($target2, function(){
+
+                                // set second pair
+                                interactUtils.tapOn($lysander, function(){
+                                    interactUtils.tapOn($target3, function(){
+                                        interactUtils.tapOn($montague, function(){
+                                            interactUtils.tapOn($target4, function(){
+
+                                                // switch pair
+                                                interactUtils.tapOn($target2, function(){
+                                                    interactUtils.tapOn($target4);
+
+                                                }, 10);
+                                            }, 10);
+                                        }, 10);
+                                    }, 10);
+                                }, 10);
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+
+            })
+            .on('statechange', function(state){
+                stateChangeCounter++;
+
+                if (stateChangeCounter === 1) {
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [ ['A', 'C'] ] } }, 'The pair is in the response');
+                } else if (stateChangeCounter === 2) {
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [ ['A', 'C'], ['L', 'M'] ] } }, 'The second pair is in the response');
+                } else if (stateChangeCounter === 4) {
+                    assert.deepEqual(state.RESPONSE.response, {list: {pair: [['A', 'M'], ['L', 'C']]}}, 'The pairs have been switched');
+                    QUnit.start();
+                }
+
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('enables remove a choice', function(assert){
+        QUnit.expect(5);
+
+        var $container = $('#' + fixtureContainerId),
+            stateChangeCounter = 0;
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        qtiItemRunner('qti', associateData)
+            .on('render', function(){
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+
+                var $target1 = $('.result-area li:first-child .lft', $container);
+                var $target2 = $('.result-area li:first-child .rgt', $container);
+
+                interactUtils.tapOn($antonio, function(){
+                    interactUtils.tapOn($target1, function(){
+                        interactUtils.tapOn($capulet, function(){
+                            interactUtils.tapOn($target2, function(){
+
+                                // remove antonio!
+                                interactUtils.tapOn($target1, function(){
+                                    var $removeChoice = $('.remove-choice');
+                                    interactUtils.tapOn($removeChoice);
+
+                                }, 10);
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+
+            })
+            .on('statechange', function(state){
+                stateChangeCounter++;
+                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+
+                if (stateChangeCounter === 1) {
+                    assert.ok($antonio.hasClass('deactivated'), 'Antonio is deactivated');
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [ ['A', 'C'] ] } }, 'The pair is in the response');
+                } else if (stateChangeCounter === 2) {
+                    assert.ok(! $antonio.hasClass('deactivated'), 'Antonio can be selected');
+                    assert.deepEqual(state.RESPONSE.response, { list : { pair : [] } }, 'The choice has been removed');
+                    QUnit.start();
+                }
+
+            })
+            .init()
+            .render($container);
+    });
+
     QUnit.asyncTest('set the default response', function(assert){
         QUnit.expect(17);
 
@@ -239,6 +383,9 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         qtiItemRunner('qti', associateData)
+            .on('error', function(e) {
+                console.log(e);
+            })
             .on('render', function(){
 
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains an associate interaction .qti-associateInteraction');
@@ -296,9 +443,7 @@ define([
                 var $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 assert.equal($antonio.length, 1, 'the A choice exists');
 
-                $antonio.trigger('mousedown');
-
-                _.delay(function(){
+                interactUtils.tapOn($antonio, function(){
 
                     assert.deepEqual(self.getState(), {RESPONSE: { response :  {  list : { pair : [] }  } } }, 'Click does not trigger response once destroyed');
 
@@ -333,36 +478,30 @@ define([
                 var $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
 
-                $antonio.trigger('mousedown');
+                interactUtils.tapOn($antonio, function(){
+                    interactUtils.tapOn($target1, function(){
+                        interactUtils.tapOn($capulet, function(){
+                            interactUtils.tapOn($target2, function() {
 
-                _.delay(function(){
-                    $target1.trigger('mousedown');
+                                assert.ok($antonio.hasClass('deactivated'), 'the A choice is deactivated');
+                                assert.ok($capulet.hasClass('deactivated'), 'the C choice is deactivated');
+                                assert.ok($target1.hasClass('filled'), 'the target is filled');
+                                assert.ok($target2.hasClass('filled'), 'the target is filled');
 
-                    _.delay(function(){
-                        $capulet.trigger('mousedown');
+                                //call reset Response manually
+                                var interaction = self._item.getInteractions()[0];
+                                interaction.renderer.resetResponse(interaction);
 
-                        _.delay(function(){
-                            $target2.trigger('mousedown');
+                                _.delay(function(){
 
-                            assert.ok($antonio.hasClass('deactivated'), 'the A choice is deactivated');
-                            assert.ok($capulet.hasClass('deactivated'), 'the C choice is deactivated');
-                            assert.ok($target1.hasClass('filled'), 'the target is filled');
-                            assert.ok($target2.hasClass('filled'), 'the target is filled');
+                                    assert.ok( ! $antonio.hasClass('deactivated'), 'the A choice is not deactivated anymore');
+                                    assert.ok( ! $capulet.hasClass('deactivated'), 'the C choice is not deactivated anymore');
+                                    assert.ok( ! $target1.hasClass('filled'), 'the target is not filled anymore');
+                                    assert.ok( ! $target2.hasClass('filled'), 'the target is not filled anymore');
 
-                            //call reset Response manually
-                            var interaction = self._item.getInteractions()[0];
-                            interaction.renderer.resetResponse(interaction);
-
-                            _.delay(function(){
-
-                                assert.ok( ! $antonio.hasClass('deactivated'), 'the A choice is not deactivated anymore');
-                                assert.ok( ! $capulet.hasClass('deactivated'), 'the C choice is not deactivated anymore');
-                                assert.ok( ! $target1.hasClass('filled'), 'the target is not filled anymore');
-                                assert.ok( ! $target2.hasClass('filled'), 'the target is not filled anymore');
-
-                                QUnit.start();
-                            }, 100);
-
+                                    QUnit.start();
+                                }, 100);
+                            }, 10);
                         }, 10);
                     }, 10);
                 }, 10);
@@ -431,8 +570,15 @@ define([
 
                 QUnit.start();
             })
+            .on('statechange', function(state) {
+                document.getElementById('display-response').textContent = JSON.stringify(state);
+            })
+            .on('error', function(error) {
+                console.log(error);
+            })
             .init()
             .render($container);
     });
+
 });
 
