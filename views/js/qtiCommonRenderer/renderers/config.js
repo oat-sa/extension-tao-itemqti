@@ -22,8 +22,8 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-    'module'
-], function(_, context, themes, assetManagerFactory, assetStrategies, module){
+    'qtiItemPci/pciRegistry'
+], function(_, context, themes, assetManagerFactory, assetStrategies, pciRegistry){
     'use strict';
 
     var itemThemes = themes.get('items');
