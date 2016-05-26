@@ -59,7 +59,9 @@ define([
             isDragAndDropEnabled,
             dragOptions,
             $dropzoneElement,
-            $dragContainer = $container.find('.drag-container');
+            $dragContainer = $container.find('.drag-container'),
+
+            orientation = (interaction.attr('orientation')) ? interaction.attr('orientation') : 'vertical';
 
         var _activeControls = function _activeControls(){
             $iconAdd.addClass('inactive');
@@ -266,8 +268,12 @@ define([
 
                     // move dragged result to drag container
                     $dragContainer.show();
-                    $dragContainer.width($resultArea.width());
                     $dragContainer.offset($target.offset());
+                    if (orientation === 'horizontal') {
+                        $dragContainer.width($(e.currentTarget).width());
+                    } else {
+                        $dragContainer.width($target.parent().width());
+                    }
                     $dragContainer.append($target);
 
                     _iFrameDragFix(resultSelector, e.target);
@@ -297,7 +303,7 @@ define([
 
             // makes result area droppable
             interact($resultArea.selector).dropzone({
-                overlap: 0.6,
+                overlap: 0.5,
                 ondragenter: function (e) {
                     var $dragged = $(e.relatedTarget);
                     _insertDropzone($dragged);
@@ -325,20 +331,31 @@ define([
         }
 
         function _insertDropzone($dragged) {
-            var draggedMiddleY = $dragged.offset().top + $dragged.height() / 2,
-                previousMiddleY = 0,
+            var draggedMiddle = _getMiddleOf($dragged),
+                previousMiddle = {
+                    x: 0,
+                    y: 0
+                },
                 insertPosition,
                 $dropzone;
 
             // look for position where to insert dropzone
             $(resultSelector).each(function(index) {
-                var currentMiddleY = $(this).offset().top + $(this).height() / 2;
+                var currentMiddle = _getMiddleOf($(this));
 
-                if (draggedMiddleY > previousMiddleY && draggedMiddleY < currentMiddleY) {
-                    insertPosition = index;
-                    return false;
+                if (orientation !== 'horizontal') {
+                    if (draggedMiddle.y > previousMiddle.y && draggedMiddle.y < currentMiddle.y) {
+                        insertPosition = index;
+                        return false;
+                    }
+                    previousMiddle.y = currentMiddle.y;
+                } else {
+                    if (draggedMiddle.x > previousMiddle.x && draggedMiddle.x < currentMiddle.x) {
+                        insertPosition = index;
+                        return false;
+                    }
+                    previousMiddle.x = currentMiddle.x;
                 }
-                previousMiddleY = currentMiddleY;
             });
 
             // append dropzone to DOM
@@ -356,25 +373,34 @@ define([
         }
 
         function _adjustDropzonePosition($dragged) {
-            var draggedTop = $dragged.offset().top,
-                draggedBottom = draggedTop + $dragged.height(),
+            var draggedBox = $dragged.get(0).getBoundingClientRect(),
                 $prevResult = $dropzoneElement.prev('.qti-choice'),
                 $nextResult = $dropzoneElement.next('.qti-choice'),
-                prevMiddleY,
-                nextMiddleY;
+                prevMiddle = ($prevResult.length > 0) ? _getMiddleOf($prevResult) : false,
+                nextMiddle = ($nextResult.length > 0) ? _getMiddleOf($nextResult) : false;
 
-            if ($prevResult.length > 0) {
-                prevMiddleY = $prevResult.offset().top + $prevResult.height() / 2;
-                if (draggedTop < prevMiddleY) {
+            if (orientation !== 'horizontal') {
+                if (prevMiddle && draggedBox.top < prevMiddle.y) {
                     $prevResult.before($dropzoneElement);
                 }
-            }
-            if ($nextResult.length > 0) {
-                nextMiddleY = $nextResult.offset().top + $nextResult.height() / 2;
-                if (draggedBottom > nextMiddleY) {
+                if (nextMiddle && draggedBox.bottom > nextMiddle.y) {
+                    $nextResult.after($dropzoneElement);
+                }
+            } else {
+                if (prevMiddle && draggedBox.left < prevMiddle.x) {
+                    $prevResult.before($dropzoneElement);
+                }
+                if (nextMiddle && draggedBox.right > nextMiddle.x) {
                     $nextResult.after($dropzoneElement);
                 }
             }
+        }
+
+        function _getMiddleOf($element) {
+            return {
+                x: $element.offset().left + $element.width() / 2,
+                y: $element.offset().top + $element.height() / 2
+            };
         }
 
         // rendering init
