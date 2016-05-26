@@ -33,6 +33,17 @@ class AssetManager
 
     protected $itemContent = '';
 
+    protected $source;
+
+    /**
+     * Load an asset handler associated to the given items source
+     * ItemSource is transmit to handler by constructor
+     *
+     * @param $itemSource
+     * @param array $parameters
+     * @return $this
+     * @throws \common_Exception
+     */
     public function loadAssetHandler($itemSource, array $parameters = array())
     {
         switch (get_class($itemSource)) {
@@ -52,43 +63,74 @@ class AssetManager
         return $this;
     }
 
+    /**
+     * Get item content
+     *
+     * @return string
+     */
     public function getItemContent()
     {
         return $this->itemContent;
     }
 
+    /**
+     * Set item content
+     *
+     * @param $itemContent
+     * @return $this
+     */
     public function setItemContent($itemContent)
     {
         $this->itemContent = $itemContent;
         return $this;
     }
 
-
-    public function importAuxiliaryFiles(QtiResource $qtiItemResource, array $auxiliaryFiles, $folder)
+    /**
+     * Get source
+     *
+     * @return mixed
+     * @throws \common_Exception
+     */
+    public function getSource()
     {
-        $qtiFile = $folder . \helpers_File::urlToPath($qtiItemResource->getFile());
+        if (!$this->source) {
+            throw new \common_Exception('No source folder set to assetManager when loading auxiliary files & dependencies.');
+        }
+        return $this->source;
+    }
+
+    /**
+     * Set source
+     *
+     * @param $source
+     * @return $this
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    public function importAuxiliaryFiles(QtiResource $qtiItemResource, array $auxiliaryFiles)
+    {
+        $qtiFile = $this->getSource() . \helpers_File::urlToPath($qtiItemResource->getFile());
 
         foreach ($auxiliaryFiles as $auxiliaryFile) {
 
             //auxFile
-            $absolutePath = $folder . str_replace('/', DIRECTORY_SEPARATOR, $auxiliaryFile);
+            $absolutePath = $this->getSource() . str_replace('/', DIRECTORY_SEPARATOR, $auxiliaryFile);
 
             //auxPath
             $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
-
-            \common_Logger::i('$auxiliaryFile :: ' . $auxiliaryFile);
-            \common_Logger::i('$absolutePath :: ' . $absolutePath);
-            \common_Logger::i('$qtiFile :: ' . $qtiFile);
-            \common_Logger::i('$relativePath :: ' . $relativePath);
 
             $this->importAsset($absolutePath, $relativePath);
         }
         return $this;
     }
 
-    public function importDependencyFiles(QtiResource $qtiItemResource, array $dependenciesFiles, $folder, $dependencies)
+    public function importDependencyFiles(QtiResource $qtiItemResource, array $dependenciesFiles, $dependencies)
     {
-        $qtiFile = $folder . \helpers_File::urlToPath($qtiItemResource->getFile());
+        $qtiFile = $this->getSource() . \helpers_File::urlToPath($qtiItemResource->getFile());
 
         foreach ($dependenciesFiles as $dependenciesFile) {
 
@@ -97,7 +139,7 @@ class AssetManager
             }
 
             $absolutePath = $dependencies[$dependenciesFile]->getFile();
-            $absolutePath = $folder . str_replace('/', DIRECTORY_SEPARATOR, $absolutePath);
+            $absolutePath = $this->getSource() . str_replace('/', DIRECTORY_SEPARATOR, $absolutePath);
 
             $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
 
@@ -114,13 +156,14 @@ class AssetManager
                 $info = $assetHandler->handle($absolutePath, $relativePath);
 
                 if ($relativePath != ltrim($info['uri'], '/')) {
-                    $this->itemContent = str_replace($relativePath, $info['uri'], $this->itemContent);
+                    $this->setItemContent(str_replace($relativePath, $info['uri'], $this->getItemContent()));
                 }
 
                 //Break chain of asset handler, first applicable is taken
                 return;
             }
         }
+        throw new \common_Exception('Unable to import auxiliary & dependency files. No asset handler applicable to file : ' . $relativePath);
     }
 
 }

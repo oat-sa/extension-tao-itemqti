@@ -434,7 +434,22 @@ class ImportService extends tao_models_classes_GenerisService
 
                 $itemAssetManager = new AssetManager();
                 $itemAssetManager->setItemContent($itemService->getItemContent($rdfItem));
+                $itemAssetManager->setSource($folder);
+
+                /**
+                 * Load asset handler following priority handler defined by you
+                 * The first applicable will be used to import assets
+                 */
                 $itemAssetManager
+                    /** PCI */
+//                    ->loadAssetHandler(
+//                        new PciItemSource($rdfItem, ''),
+//                        array(
+//                            MediaAssetHandler::ASSET_HANDLER_QTI_MODEL => $qtiModel,
+//                            MediaAssetHandler::ASSET_HANDLER_SHARED_FILES => $sharedFiles,
+//                            MediaAssetHandler::ASSET_HANDLER_PARENT_PATH => $rdfItem->getLabel()
+//                        )
+//                    )
                     /** Shared stimulus */
                     ->loadAssetHandler(
                         new ItemMediaResolver($rdfItem, ''),
@@ -450,8 +465,8 @@ class ImportService extends tao_models_classes_GenerisService
                     );
 
                 $itemAssetManager
-                    ->importAuxiliaryFiles($qtiItemResource, $qtiItemResource->getAuxiliaryFiles(), $folder)
-                    ->importDependencyFiles($qtiItemResource, $qtiItemResource->getDependencies(), $folder, $dependencies);
+                    ->importAuxiliaryFiles($qtiItemResource, $qtiItemResource->getAuxiliaryFiles())
+                    ->importDependencyFiles($qtiItemResource, $qtiItemResource->getDependencies(), $dependencies);
 
                 $itemService->setItemContent($rdfItem, $itemAssetManager->getItemContent());
 
