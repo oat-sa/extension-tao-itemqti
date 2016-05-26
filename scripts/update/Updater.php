@@ -213,7 +213,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->setVersion($currentVersion);
-        $this->skip('2.12.9', '2.12.15');
+        $this->skip('2.12.9', '2.12.16');
     }
 
 }
