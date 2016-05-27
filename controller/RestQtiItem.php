@@ -22,6 +22,8 @@ use \Request;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoQtiItem\model\qti\exception\ExtractException;
+use oat\taoQtiItem\model\qti\exception\ParsingException;
 
 /**
  * End point of Rest item API
@@ -90,7 +92,7 @@ class RestQtiItem extends \tao_actions_RestController
             } else {
         
                 $itemIds = [];
-                /** @var \common_report_Report $report */
+                /** @var \common_report_Report $subReport */
                 foreach ($report as $subReport) {
                     $itemIds[] = $subReport->getData()->getUri();
                 }
