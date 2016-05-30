@@ -318,6 +318,18 @@ define([
                     $dragged.removeClass('droppable');
                 }
             });
+/* */
+            // provides visual feedback for dropping into choice area (behaviour is implement in draggable handlers)
+            interact($choiceArea.selector).dropzone({
+                overlap: 0.5,
+                ondragenter: function() {
+                    $choiceArea.addClass('dropzone');
+                },
+                ondragleave: function() {
+                    $choiceArea.removeClass('dropzone');
+                }
+            });
+/* */
         }
 
         function _isDropzoneVisible() {
@@ -351,7 +363,6 @@ define([
                     previousMiddle.x = currentMiddle.x;
                 }
             });
-
             // append dropzone to DOM
             if (typeof(insertPosition) !== 'undefined') {
                 $(resultSelector).eq(insertPosition).before($dropzoneElement);
@@ -361,9 +372,8 @@ define([
             }
 
             // style dropzone
-            $dropzone = $('.dropzone');
-            $dropzone.height($dragged.height());
-            $dropzone.find('div').text($dragged.text());
+            $dropzoneElement.height($dragged.height());
+            $dropzoneElement.find('div').text($dragged.text());
         }
 
         function _adjustDropzonePosition($dragged) {
@@ -374,26 +384,27 @@ define([
                 nextMiddle = ($nextResult.length > 0) ? _getMiddleOf($nextResult) : false;
 
             if (orientation !== 'horizontal') {
-                if (prevMiddle && draggedBox.top < prevMiddle.y) {
+                if (prevMiddle && (draggedBox.top < prevMiddle.y)) {
                     $prevResult.before($dropzoneElement);
                 }
-                if (nextMiddle && draggedBox.bottom > nextMiddle.y) {
+                if (nextMiddle && (draggedBox.bottom > nextMiddle.y)) {
                     $nextResult.after($dropzoneElement);
                 }
             } else {
-                if (prevMiddle && draggedBox.left < prevMiddle.x) {
+                if (prevMiddle && (draggedBox.left < prevMiddle.x)) {
                     $prevResult.before($dropzoneElement);
                 }
-                if (nextMiddle && draggedBox.right > nextMiddle.x) {
+                if (nextMiddle && (draggedBox.right > nextMiddle.x)) {
                     $nextResult.after($dropzoneElement);
                 }
             }
         }
 
         function _getMiddleOf($element) {
+            var elementBox = $element.get(0).getBoundingClientRect();
             return {
-                x: $element.offset().left + $element.width() / 2,
-                y: $element.offset().top + $element.height() / 2
+                x: elementBox.left + elementBox.width / 2,
+                y: elementBox.top + elementBox.height / 2
             };
         }
 
