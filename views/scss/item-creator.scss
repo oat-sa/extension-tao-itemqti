@@ -1,6 +1,9 @@
 @import "inc/bootstrap";
 @import "inc/farbtastic";
 
+//colors used accross the item creator
+$itemCreatorSideBarBgColor: mix(#fff, $grey, 85%);
+
 
 // tmp solution, needs to be done in sts
 .sts-toolcontainer {
@@ -173,7 +176,7 @@ img.dragging.ui-draggable-dragging {
 #item-editor-wrapper {
     margin: 0;
     position: relative;
-    background-color: mix(#fff, $grey, 85%);
+    background-color: $itemCreatorSideBarBgColor;
     height: 100%;
     @include flex-container();
 
@@ -190,27 +193,6 @@ img.dragging.ui-draggable-dragging {
     select {
         min-width: 0 !important;
         width: auto !important
-    }
-}
-
-#item-editor-label {
-    width: 30%;
-    position: absolute;
-    // must be _below_ actions
-    z-index: 5;
-    left: 35%;
-    color: white(.9);
-    top: 9px;
-    text-shadow: 1px 1px 0 blacken($info, .2);
-}
-
-
-@media (max-width: 1280px) {
-    #item-editor-label {
-        text-align: right;
-        width: 40%;
-        left: auto;
-        right: 20px;
     }
 }
 
@@ -670,6 +652,19 @@ img.dragging.ui-draggable-dragging {
     @include simple-flex-box(auto);
     overflow: auto;
 
+    //item title/label
+    & > h1 {
+        width: 100%;
+        background-color: $itemCreatorSideBarBgColor;
+        text-align: center;
+        @include font-size(15);
+        line-height: 32px;
+        height: 32px;
+        padding: 0 10px;
+        margin: 0;
+        border-bottom: solid 1px $uiGeneralContentBorder;
+    }
+
     &.has-item {
         #item-editor-scroll-outer {
             background-image: none;
@@ -698,7 +693,6 @@ img.dragging.ui-draggable-dragging {
 }
 
 #item-editor-scroll-outer {
-    border-top: 1px white solid;
     background-image: url(data:image/gif;base64,R0lGODlhKwALAPEAAN3d3TMzM4mJiTMzMyH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAKwALAAACMoSOCMuW2diD88UKG95W88uF4DaGWFmhZid93pq+pwxnLUnXh8ou+sSz+T64oCAyTBUAACH5BAkKAAAALAAAAAArAAsAAAI9xI4IyyAPYWOxmoTHrHzzmGHe94xkmJifyqFKQ0pwLLgHa82xrekkDrIBZRQab1jyfY7KTtPimixiUsevAAAh+QQJCgAAACwAAAAAKwALAAACPYSOCMswD2FjqZpqW9xv4g8KE7d54XmMpNSgqLoOpgvC60xjNonnyc7p+VKamKw1zDCMR8rp8pksYlKorgAAIfkECQoAAAAsAAAAACsACwAAAkCEjgjLltnYmJS6Bxt+sfq5ZUyoNJ9HHlEqdCfFrqn7DrE2m7Wdj/2y45FkQ13t5itKdshFExC8YCLOEBX6AhQAADsAAAAAAAAAAAA=);
     background-position: center 250px;
     background-repeat: no-repeat;
