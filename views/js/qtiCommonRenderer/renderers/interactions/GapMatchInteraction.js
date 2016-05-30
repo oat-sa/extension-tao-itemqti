@@ -157,10 +157,8 @@ define([
             isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
         }
 
-        // Chrome/Safari ugly fix: manually drop element when the mouse leaves the item runner iframe
-        // should be removed when the old test runner is discarded
         function _iFrameDragFix(draggableSelector, target) {
-            $('body').on('mouseleave.commonRenderer', function () {
+            interactUtils.iFrameDragFixOn(function () {
                 if ($activeDrop) {
                     interact(gapSelector).fire({
                         type: 'drop',
@@ -172,11 +170,7 @@ define([
                     type: 'dragend',
                     target: target
                 });
-                interact.stop();
             });
-        }
-        function _iFrameDragFixOff() {
-            $('body').off('mouseleave.commonRenderer');
         }
 
         if (isDragAndDropEnabled) {
@@ -207,8 +201,7 @@ define([
                     $target.removeClass("dragged");
 
                     interactUtils.restoreOriginalPosition($target);
-
-                    _iFrameDragFixOff();
+                    interactUtils.iFrameDragFixOff();
                 }
             })).styleCursor(false);
 
@@ -234,8 +227,7 @@ define([
                         _unsetChoice($activeChoice);
                         _resetSelection();
                     }
-
-                    _iFrameDragFixOff();
+                    interactUtils.iFrameDragFixOff();
                 }
             })).styleCursor(false);
 
