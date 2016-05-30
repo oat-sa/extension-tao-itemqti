@@ -75,7 +75,7 @@ define([
      * @param {String} uri - the item URI
      * @param {String} label - the item label
      * @param {String} itemDataUrl - the data url
-     * 
+     *
      * @returns {Promise} that resolve with the loaded item model
      */
     var loadItem = function loadItem(uri, label, itemDataUrl){
@@ -164,8 +164,14 @@ define([
                 });
 
 
-                //listen for save events
-                this.on('save', function(){
+                /**
+                 * Save the item on "save" event
+                 * @event itemCreator#save
+                 * @param {Boolean} [silent] - true to not trigger the success feedback
+                 * @fires itemCreator#saved once the save is done
+                 * @fires itemCreator#error
+                 */
+                this.on('save', function(silent){
                     var item = this.getItem();
                     var itemWidget = item.data('widget');
 
@@ -174,7 +180,10 @@ define([
                         itemWidget.save(),
                         styleEditor.save()
                     ]).then(function(){
-                        self.trigger('success', __('Your item has been saved'));
+                        if(!silent){
+                            self.trigger('success', __('Your item has been saved'));
+                        }
+
                         self.trigger('saved');
                     }).catch(function(err){
                         self.trigger('error', err);
