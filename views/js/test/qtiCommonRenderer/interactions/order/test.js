@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'core/mouseEvent',
-    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils',
+    'ui/interactUtils',
     'json!taoQtiItem/test/samples/json/history.json'
 ], function($, _, qtiItemRunner, triggerMouseEvent, interactUtils, orderData){
     'use strict';

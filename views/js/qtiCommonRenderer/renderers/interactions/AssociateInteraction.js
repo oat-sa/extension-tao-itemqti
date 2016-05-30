@@ -33,7 +33,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'interact',
-    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+    'ui/interactUtils'
 ], function ($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, sizeAdapter, interact, interactUtils) {
 
     'use strict';

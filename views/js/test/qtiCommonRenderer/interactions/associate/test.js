@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/rivals.json',
-    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+    'ui/interactUtils'
 ], function($, _, qtiItemRunner, associateData, interactUtils){
     'use strict';
 

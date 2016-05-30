@@ -32,7 +32,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'interact',
-    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+    'ui/interactUtils'
 ], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact, interactUtils){
     'use strict';
 

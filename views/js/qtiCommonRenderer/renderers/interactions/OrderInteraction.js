@@ -31,7 +31,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'interact',
-    'taoQtiItem/qtiCommonRenderer/helpers/interactUtils'
+    'ui/interactUtils'
 ], function(_, $, __, triggerMouseEvent, tpl, containerHelper, instructionMgr, pciResponse, interact, interactUtils){
     'use strict';
 
