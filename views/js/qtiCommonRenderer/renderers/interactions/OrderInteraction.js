@@ -318,18 +318,6 @@ define([
                     $dragged.removeClass('droppable');
                 }
             });
-/* */
-            // provides visual feedback for dropping into choice area (behaviour is implement in draggable handlers)
-            interact($choiceArea.selector).dropzone({
-                overlap: 0.5,
-                ondragenter: function() {
-                    $choiceArea.addClass('dropzone');
-                },
-                ondragleave: function() {
-                    $choiceArea.removeClass('dropzone');
-                }
-            });
-/* */
         }
 
         function _isDropzoneVisible() {
