@@ -2,8 +2,10 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
+    'core/mouseEvent',
+    'ui/interactUtils',
     'json!taoQtiItem/test/samples/json/history.json'
-], function($, _, qtiItemRunner, orderData){
+], function($, _, qtiItemRunner, triggerMouseEvent, interactUtils, orderData){
     'use strict';
 
     var runner;
@@ -18,7 +20,7 @@ define([
         }
     });
 
-    QUnit.asyncTest('renders correclty', function(assert){
+    QUnit.asyncTest('renders correctly', function(assert){
         QUnit.expect(18);
 
         var $container = $('#' + fixtureContainerId);
@@ -66,13 +68,14 @@ define([
 
         runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
+                var $prehistory = $('.qti-choice[data-identifier="Prehistory"]', $container);
+
                 assert.equal($container.find('.qti-interaction.qti-orderInteraction').length, 1, 'the container contains a choice interaction .qti-orderInteraction');
                 assert.equal($container.find('.qti-orderInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
 
-                var $prehistory = $('.qti-choice[data-identifier="Prehistory"]', $container);
                 assert.equal($prehistory.length, 1, 'the Prehistory choice exists');
 
-                $prehistory.trigger('mousedown');
+                interactUtils.tapOn($prehistory);
             })
             .on('statechange', function(state){
 
@@ -83,6 +86,43 @@ define([
                 assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
                 assert.deepEqual(state.RESPONSE, { response : { list  : { identifier : ['Prehistory'] } } }, 'The Prehistory response is selected');
                 QUnit.start();
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('enables to remove a choice', function(assert){
+        QUnit.expect(7);
+
+        var $container = $('#' + fixtureContainerId);
+        var changes = 0;
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        runner = qtiItemRunner('qti', orderData)
+            .on('render', function(){
+                var $prehistory = $('.qti-choice[data-identifier="Prehistory"]', $container);
+
+                interactUtils.tapOn($prehistory, function(){
+                    interactUtils.tapOn($prehistory, function(){
+                        var $removeChoice = $('.icon-remove-from-selection', $container);
+                        interactUtils.tapOn($removeChoice);
+                    }, 100);
+                }, 100);
+            })
+            .on('statechange', function(state){
+                changes++;
+                if (changes === 1) {
+                    assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 4, 'the choice list contains now 4 choices');
+                    assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 1, 'the result list contains now 1 choice');
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { identifier : ['Prehistory'] } } }, 'The Prehistory response is selected');
+                } else if (changes === 2) {
+                    assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 5, 'the choice list contains now 5 choices');
+                    assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 0, 'the result list contains now 0 choice');
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { identifier : [] } } }, 'The Prehistory response has been removed from selection');
+
+                    QUnit.start();
+                }
             })
             .init()
             .render($container);
@@ -108,29 +148,26 @@ define([
                 var $antiquity = $('.qti-choice[data-identifier="Antiquity"]', $container);
                 assert.equal($antiquity.length, 1, 'the Antiquity choice exists');
 
-                $prehistory.trigger('mousedown');
-
-                _.delay(function(){
-                    $antiquity.trigger('mousedown');
-
-                    _.delay(function(){
+                interactUtils.tapOn($prehistory, function(){
+                    interactUtils.tapOn($antiquity, function(){
                         assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 3, 'the choice list contains now 3 choices');
                         assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 2, 'the result list contains now 2 choice');
-                        $antiquity.trigger('mousedown');
 
-                        _.delay(function(){
-
+                        interactUtils.tapOn($antiquity,function(){
                             assert.ok($antiquity.hasClass('active'), 'The antiquity choice is now active');
 
-                            $('.icon-move-before').trigger('mousedown');
+                            interactUtils.tapOn($('.icon-move-before'));
                         }, 10);
                     }, 10);
                 }, 10);
             })
             .on('statechange', function(state){
-                if(++changes === 3){
-                    assert.ok(typeof state === 'object', 'The state is an object');
-                    assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
+                changes++;
+                if (changes === 1) {
+                    assert.deepEqual(state.RESPONSE, {response: {list: {identifier: ['Prehistory']}}}, 'The response is ok');
+                } else if (changes === 2) {
+                    assert.deepEqual(state.RESPONSE, {response: {list: {identifier: ['Prehistory', 'Antiquity']}}}, 'The response is ok');
+                } else if (changes === 3) {
                     assert.deepEqual(state.RESPONSE, { response : { list  : { identifier : ['Antiquity', 'Prehistory'] } } }, 'The response follows the reordering');
                     QUnit.start();
                 }
@@ -186,9 +223,7 @@ define([
                 var $prehistory = $('.qti-choice[data-identifier="Prehistory"]', $container);
                 assert.equal($prehistory.length, 1, 'the Prehistory choice exists');
 
-                $prehistory.trigger('mousedown');
-
-                _.delay(function(){
+                interactUtils.tapOn($prehistory, function(){
 
                     assert.deepEqual(self.getState(), {'RESPONSE': { response : { list : { identifier : [] } } } }, 'Click does not trigger response once destroyed');
 
@@ -200,7 +235,7 @@ define([
     });
 
     QUnit.asyncTest('resets the response', function(assert){
-        QUnit.expect(9);
+        QUnit.expect(11);
 
         var $container = $('#' + fixtureContainerId);
 
@@ -217,22 +252,24 @@ define([
                 var $prehistory = $('.qti-choice[data-identifier="Prehistory"]', $container);
                 assert.equal($prehistory.length, 1, 'the Prehistory choice exists');
 
-                $prehistory.trigger('mousedown');
+                interactUtils.tapOn($prehistory, function(){
+                    interactUtils.tapOn($prehistory, function(){
+                        assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 4, 'the choice list contains now 4 choices');
+                        assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 1, 'the result list contains now 1 choice');
+                        assert.ok($prehistory.hasClass('active'), 'the Prehistory choice is active');
 
-                _.delay(function(){
-                    assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 4, 'the choice list contains now 4 choices');
-                    assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 1, 'the result list contains now 1 choice');
+                        //call resetResponse manually
+                        var interaction = self._item.getInteractions()[0];
+                        interaction.renderer.resetResponse(interaction);
 
-                    //call destroy manually
-                    var interaction = self._item.getInteractions()[0];
-                    interaction.renderer.resetResponse(interaction);
+                        _.delay(function(){
 
-                    _.delay(function(){
+                            assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 5, 'the choice list contains all choices');
+                            assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 0, 'the result list contains no choices anymore');
+                            assert.ok(! $prehistory.hasClass('active'), 'the Prehistory choice is not active');
 
-                        assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 5, 'the choice list contains all choices');
-                        assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 0, 'the result list contains no choices anymore');
-
-                        QUnit.start();
+                            QUnit.start();
+                        }, 100);
                     }, 100);
                 }, 100);
             })
@@ -298,6 +335,9 @@ define([
                 assert.equal($container.find('.qti-orderInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
 
                 QUnit.start();
+            })
+            .on('statechange', function(state) {
+                document.getElementById('display-response').textContent = JSON.stringify(state);
             })
             .init()
             .render($container);

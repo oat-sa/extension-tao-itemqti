@@ -391,6 +391,12 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('2.29.0', '2.30.1');
+
+        if($this->isVersion('2.30.1')) {
+            $setDragAndDropConfig = new SetDragAndDropConfig();
+            $setDragAndDropConfig([]);
+            $this->setVersion('2.31.0');
+        }
     }
 
 }
