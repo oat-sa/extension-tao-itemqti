@@ -4,7 +4,7 @@
     {{~#if defaultValue.length}}
     <defaultValue>
         {{~#each defaultValue}}
-        <value>{{.}}</value>
+        <value><![CDATA[{{{.}}}]]></value>
         {{/each}}
     </defaultValue>
     {{/if}}

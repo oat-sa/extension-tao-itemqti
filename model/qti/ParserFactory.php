@@ -803,6 +803,23 @@ class ParserFactory
         }
         $myResponse->setCorrectResponses($responses);
 
+        //set the correct responses
+        $defaultValueNodes = $data->xpath("*[name(.) = 'defaultValue']");
+        $defaultValues = array();
+        foreach($defaultValueNodes as $defaultValueNode){
+            foreach($defaultValueNode->value as $value){
+                $default = (string) $value;
+                $defaultValue = new Value();
+                foreach($value->attributes() as $attrName => $attrValue){
+                    $defaultValue->setAttribute($attrName, strval($attrValue));
+                }
+                $defaultValue->setValue(htmlentities($default));
+                $defaultValues[] = $defaultValue;
+            }
+            break;
+        }
+        $myResponse->setDefaultValue($defaultValues);
+
         //set the mapping if defined
         $mappingNodes = $data->xpath("*[name(.) = 'mapping']");
         foreach($mappingNodes as $mappingNode){
