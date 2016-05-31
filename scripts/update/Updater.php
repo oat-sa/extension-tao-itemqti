@@ -397,6 +397,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $setDragAndDropConfig([]);
             $this->setVersion('2.31.0');
         }
+
+        $this->skip('2.31.0', '2.31.1');
     }
 
 }
