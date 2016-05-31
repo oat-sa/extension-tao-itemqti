@@ -95,16 +95,17 @@ define([
             
             pciRegistry.load(function(){
                 
-                var runtimeLocation = assetManager.resolveBy('portableElementLocation', typeIdentifier);
-                if(runtimeLocation){
-                    localRequireConfig.paths[typeIdentifier] = runtimeLocation;
-                    require.config(localRequireConfig);
-                }else{
-                    throw 'portable element runtime location not found';
-                }
+                //move this into the pci registry directly ?
+//                var runtimeLocation = pciRegistry.getBaseUrl(typeIdentifier);
+//                if(runtimeLocation){
+//                    localRequireConfig.paths[typeIdentifier] = runtimeLocation;
+//                    require.config(localRequireConfig);
+//                }else{
+//                    throw 'portable element runtime location not found';
+//                }
                 
                 var runtime = pciRegistry.getRuntime(typeIdentifier);
-            
+                
                 //load the entrypoint
                 var requireEntries = [runtime.hook.replace(/\.js$/, '')];
 

@@ -36,6 +36,7 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'qtiItemPci/pciRegistry',
     'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder'
 ], function(
     $,
@@ -57,6 +58,7 @@ define([
     interactionsToolbar,
     ciRegistry,
     icRegistry,
+    pciRegistry,
     blockAdder
     ){
     'use strict';
@@ -66,9 +68,9 @@ define([
     function _getAuthoringElements(interactionModels){
 
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
-
-        _.each(interactionModels, function(interactionModel){
-            var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
+        
+        _.forIn(pciRegistry.getAllVersions(), function(versions, typeId){
+            var data = pciRegistry.getAuthoringData(typeId);
             if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                 toolbarInteractions[data.qtiClass] = data;
             }else{
@@ -179,18 +181,24 @@ define([
             _initializeHooks(_.union(config.uiHooks, config.hooks), configProperties);
 
             async.parallel([
+                function(callback){
+                    pciRegistry.loadCreators(function(){
+                        callback(null, true);
+                    });
+                },
                 //register custom interactions
                 function(callback){
                     ciRegistry.register(config.interactions);
                     ciRegistry.loadAll(function(hooks){
-                        callback(null, hooks);
+                        console.log('hooks', hooks);
+                        callback(null, []);
                     });
                 },
                 //register info controls
                 function(callback){
                     icRegistry.register(config.infoControls);
                     icRegistry.loadAll(function(hooks){
-                        callback(null, hooks);
+                        callback(null, []);
                     });
                 },
                 //load item
@@ -217,9 +225,9 @@ define([
             ], function(err, res){
 
                 //get results from paralleled ajax calls:
-                var interactionHooks = res[0],
-                    infoControlHooks = res[1],
-                    item = res[2];
+                var interactionHooks = res[1],
+                    infoControlHooks = res[2],
+                    item = res[3];
 
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);

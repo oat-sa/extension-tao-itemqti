@@ -160,13 +160,8 @@ class PortableCustomInteraction extends CustomInteraction
             }else{
                 $this->setTypeIdentifier($typeIdentifier);
             }
-            
-            $entryPoint = $pciNodes->item(0)->getAttribute('hook');
-            if(empty($entryPoint)){
-                throw new QtiModelException('the entry point of the pci is missing');
-            }else{
-                $this->setEntryPoint($entryPoint);
-            }
+            //the hook is optional here, since the hook is registered internally in TAO and correctly filled 
+            $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);

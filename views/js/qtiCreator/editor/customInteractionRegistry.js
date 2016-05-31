@@ -31,7 +31,7 @@ define([
             qtiClass : 'customInteraction.' + manifest.typeIdentifier, //custom interaction is block type
             tags : _.union(['Custom Interactions'], manifest.tags)
         };
-    }
+    };
 
     return registry;
 });

@@ -87,7 +87,8 @@ define([
 
                 var typeId = this.typeIdentifier,
                     creator = registry.getCreator(typeId),
-                    manifest = registry.getManifest(typeId),
+//                    manifest = registry.getManifest(typeId),
+                    manifest = creator.manifest,
                     item = this.getRelatedItem(),
                     response;
 
@@ -96,13 +97,13 @@ define([
                 var _this = this;
                 
                 //remove this
-                registry.addRequiredResources(typeId, item.data('uri'), function(res){
-                    if(res.success){
-                        $(document).trigger('resourceadded.qti-creator', [typeId, res.resources, _this]);
-                    }else{
-                        throw 'resource addition failed';
-                    }
-                });
+//                registry.addRequiredResources(typeId, item.data('uri'), function(res){
+//                    if(res.success){
+//                        $(document).trigger('resourceadded.qti-creator', [typeId, res.resources, _this]);
+//                    }else{
+//                        throw 'resource addition failed';
+//                    }
+//                });
 
                 //set default markup (for initial rendering)
                 creator.getMarkupTemplate();
@@ -111,21 +112,21 @@ define([
                 this.properties = creator.getDefaultProperties();
 
                 //set hook entry point
-                this.entryPoint = addNamespaceDirectory(typeId, manifest.entryPoint);
-
-                //set libs
-                if(_.isArray(manifest.libraries)){
-                    this.libraries = addNamespaceDirectory(typeId, manifest.libraries);
-                }
-
-                if(_.isArray(manifest.css)){
-                    this.css = addNamespaceDirectory(typeId, manifest.css);
-                    _.each(this.css, function(css){
-                        if(!item.stylesheetExists(css)){
-                            item.createStyleSheet(css);
-                        }
-                    });
-                }
+//                this.entryPoint = addNamespaceDirectory(typeId, manifest.entryPoint);
+//
+//                //set libs
+//                if(_.isArray(manifest.libraries)){
+//                    this.libraries = addNamespaceDirectory(typeId, manifest.libraries);
+//                }
+//
+//                if(_.isArray(manifest.css)){
+//                    this.css = addNamespaceDirectory(typeId, manifest.css);
+//                    _.each(this.css, function(css){
+//                        if(!item.stylesheetExists(css)){
+//                            item.createStyleSheet(css);
+//                        }
+//                    });
+//                }
 
                 //@todo fix this !
                 if(manifest.response){//for custom interaciton only
