@@ -70,13 +70,13 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         
         $this->assertTrue(isset($data['children']));
         $children = $data['children'];
-        $this->assertEquals(2, count($children));
-        
+        $this->assertEquals(3, count($children));
+        $check = array('/images/','/style/');
         $file = null;
         $dir = null;
         foreach ($children as $child) {
             if (isset($child['path'])) {
-                $dir = $child;
+                $this->assertContains($child['path'],$check);
             }
             if (isset($child['name'])) {
                 $file = $child;
@@ -86,8 +86,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $this->assertEquals("qti.xml", $file['name']);
         $this->assertTrue(strpos($file['mime'], '/xml') !== false); //can be 'application/xml' or 'text/xml'
         $this->assertTrue($file['size'] > 0);
-        
-        $this->assertEquals("/images/", $dir['path']);
+
         
         taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
         $this->assertFalse($item->exists());

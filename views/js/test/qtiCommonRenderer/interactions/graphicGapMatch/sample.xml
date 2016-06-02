@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i1462375832429680" title="dragdrop 1" adaptive="false" timeDependent="false">
+  <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE">
+    <correctResponse>
+      <value><![CDATA[associablehotspot_1 gapimg_5]]></value>
+      <value><![CDATA[associablehotspot_2 gapimg_6]]></value>
+      <value><![CDATA[associablehotspot_3 gapimg_3]]></value>
+      <value><![CDATA[associablehotspot_4 gapimg_2]]></value>
+      <value><![CDATA[associablehotspot_5 gapimg_1]]></value>
+      <value><![CDATA[associablehotspot_6 gapimg_4]]></value>
+    </correctResponse>
+  </responseDeclaration>
+  <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE"/>
+  <itemBody>
+    <div class="grid-row">
+      <div class="col-12">
+        <graphicGapMatchInteraction class="responsive" responseIdentifier="RESPONSE">
+          <prompt>
+            <p>Please draw the TAO architecture</p>
+          </prompt>
+          <object width="500" height="375" type="image/png" data="assets/7d245069572a15b9d3c36.png"/>
+          <gapImg matchMax="0" identifier="gapimg_1">
+            <object data="assets/95062a73572a15ceea28b.png" type="image/png" width="142" height="58"/>
+          </gapImg>
+          <gapImg matchMin="1" matchMax="1" identifier="gapimg_2">
+            <object data="assets/c4d94866572a15cf0a9ed.png" type="image/png" width="140" height="58"/>
+          </gapImg>
+          <gapImg matchMin="1" matchMax="1" identifier="gapimg_3">
+            <object data="assets/8a76ca47572a15cf2e375.png" type="image/png" width="142" height="58"/>
+          </gapImg>
+          <gapImg matchMin="1" matchMax="1" identifier="gapimg_4">
+            <object data="assets/b1826119572a15cfb23fc.png" type="image/png" width="141" height="58"/>
+          </gapImg>
+          <gapImg matchMin="1" matchMax="1" identifier="gapimg_5">
+            <object data="assets/40362ca9572a15d02fe64.png" type="image/png" width="131" height="51"/>
+          </gapImg>
+          <gapImg matchMin="1" matchMax="1" identifier="gapimg_6">
+            <object data="assets/c416ff4b572a15d03d8cc.png" type="image/png" width="133" height="51"/>
+          </gapImg>
+          <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="5,324,111,361" identifier="associablehotspot_1"/>
+          <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="147,324,273,359" identifier="associablehotspot_2"/>
+          <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="355,95,497,148" identifier="associablehotspot_3"/>
+          <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="355,156,498,213" identifier="associablehotspot_4"/>
+          <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="356,219,500,270" identifier="associablehotspot_5"/>
+          <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="354,275,499,324" identifier="associablehotspot_6"/>
+        </graphicGapMatchInteraction>
+      </div>
+    </div>
+  </itemBody>
+  <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+</assessmentItem>

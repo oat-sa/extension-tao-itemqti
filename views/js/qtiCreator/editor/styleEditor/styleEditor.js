@@ -25,30 +25,29 @@
 define([
     'jquery',
     'lodash',
-    'helpers',
     'i18n',
     'urlParser',
+    'core/promise',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'jquery.fileDownload'
-], function (
-    $,
-    _,
-    helpers,
-    __,
-    UrlParser,
-    cssTpl
-    ) {
+], function ($, _, __, UrlParser, Promise, cssTpl) {
     'use strict';
 
     var itemConfig;
 
+    /**
+     * qtiItemCreator config provided from QtiCreator
+     * used for generation of the ajax uri
+     */
+    var globalConfig;
+    
     /**
      * generate Ajax URI
      * @param action
      * @returns {*}
      */
     var _getUri = function(action) {
-        return helpers._url(action, 'QtiCssAuthoring', 'taoQtiItem');
+        return globalConfig[action + 'CssUrl'];
     };
 
     /**
@@ -93,6 +92,14 @@ define([
             },
             customStylesheet = '';
 
+        /**
+         * Delete all custom styles
+         */
+        var erase = function() {
+            style = {};
+            $styleElem.text('');
+            return false;
+        };
 
         /**
          * Create CSS and add it to DOM
@@ -181,29 +188,37 @@ define([
             $(document).trigger('stylechange.qti-creator');
         };
 
-
         /**
-         * Delete all custom styles
+         * Has the class been initialized
+         *
+         * @returns {boolean}
          */
-        var erase = function() {
-            style = {};
-            $styleElem.text('');
-            return false;
+        var verifyInit = function verifyInit() {
+            if(!itemConfig) {
+                throw new Error('Missing itemConfig, did you call styleEditor.init()?');
+            }
+            return true;
         };
 
         /**
          * Save the resulting CSS to a file
+         *TODO saving mechanism should be indenpendant, ie. moved into the itemCreator, in order to configure endpoint, etc.
+
+         * @returns {Promise}
          */
-        var save = function () {
-            verifyInit();
-            return $.post(_getUri('save'), _.extend({}, itemConfig,
-                {
+        var save = function save () {
+            return new Promise(function (resolve, reject){
+                verifyInit();
+                $.post(_getUri('save'), _.extend({}, itemConfig,{
                     cssJson: JSON.stringify(style),
                     stylesheetUri: customStylesheet.attr('href')
-                }
-            ));
+                }))
+                .done(resolve)
+                .fail(function(xhr, status, err){
+                    reject(err);
+                });
+            });
         };
-
 
         /**
          * Download CSS as file
@@ -217,19 +232,6 @@ define([
                 httpMethod: 'POST',
                 data: _.extend({}, itemConfig, { stylesheetUri: uri })
             });
-        };
-
-
-        /**
-         * Has the class been initialized
-         *
-         * @returns {boolean}
-         */
-        var verifyInit = function() {
-            if(!itemConfig) {
-                throw new Error('Missing itemConfig, did you call styleEditor.init()?');
-            }
-            return true;
         };
 
         /**
@@ -391,6 +393,7 @@ define([
          */
         var init = function(item, config) {
 
+            globalConfig = config;
             // promise
             currentItem = item;
 

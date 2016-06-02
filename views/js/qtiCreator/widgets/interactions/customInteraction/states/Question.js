@@ -29,7 +29,13 @@ define([
                 $colorPicker = $container.find('.color-picker'),
                 $colorPickerInput = $container.find('.color-picker-input'),
                 $input = $colorTrigger.siblings('input[type="hidden"]'),
-                color = $input.val();
+                color = $input.val(),
+                $itemEditorWidgetBar = $('#item-editor-item-widget-bar');
+
+            $container.css({
+                right : $itemEditorWidgetBar.width() + 2, 
+                top : $colorTrigger.offset().top - ($container.width() / 2) - $itemEditorWidgetBar.offset().top
+            });
 
             // Init the color picker
             $colorPicker.farbtastic('.color-picker-input', $context);

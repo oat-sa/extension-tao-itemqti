@@ -13,6 +13,7 @@ define([
     'json!taoQtiItem/test/samples/json/customrp/order.json',
     'json!taoQtiItem/test/samples/json/es6.json',
     'json!taoQtiItem/test/samples/json/pluto.json',
+    'json!taoQtiItem/test/samples/json/customrp/andAnd.json',
 ], function(_, scorer, qtiScoringProvider,
         singleCorrectData,
         multipleCorrectData,
@@ -24,7 +25,8 @@ define([
         customChoiceSingleData,
         orderData,
         multipleResponseCorrectData,
-        embedConditionsData
+        embedConditionsData,
+        andAndData
 ){
     'use strict';
 
@@ -98,9 +100,10 @@ define([
     });
 
     QUnit.asyncTest('No responseProcessing', function(assert){
-        QUnit.expect(2);
+        QUnit.expect(3);
 
         var noRPItemData = _.cloneDeep(singleCorrectData);
+        assert.equal(noRPItemData.identifier, 'space-shuttle-30-years-of-adventure', 'The item has the expected identifier');
         delete noRPItemData.responseProcessing;
 
         scorer.register('qti', qtiScoringProvider);
@@ -108,7 +111,7 @@ define([
         scorer('qti')
             .on('error', function(err){
                 assert.ok(err instanceof Error, 'Got an Error');
-                assert.equal(err.message, 'The given item has not responseProcessing', 'The error is about responseProcessing');
+                assert.equal(err.message, 'The item space-shuttle-30-years-of-adventure has not responseProcessing', 'The error is about responseProcessing');
                 QUnit.start();
             })
             .process({}, noRPItemData);
@@ -396,6 +399,26 @@ define([
         },
         outcomes : {
             SCORE : { base : { 'float' : 0 } }
+        }
+     }, {
+        title   : 'nested and incorrect',
+        item    : andAndData.data,
+        resp    : {
+            RESPONSE   : { base : { float: 1.234 } },
+            RESPONSE_2 : { base : { float: 42 }  },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 0 } }
+        }
+     }, {
+        title   : 'nested and correct',
+        item    : andAndData.data,
+        resp    : {
+            RESPONSE   : { base : { float: 1234 } },
+            RESPONSE_2 : { base : { float: 42 }  },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } }
         }
     }];
 

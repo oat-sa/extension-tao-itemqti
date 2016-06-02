@@ -20,12 +20,11 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'i18n',
-    'helpers',
     'lodash',
     'taoQtiItem/qtiCreator/model/Stylesheet',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'ui/resourcemgr'
-], function ($, styleEditor, __, helpers, _, Stylesheet, genericFeedbackPopup) {
+], function ($, styleEditor, __, _, Stylesheet, genericFeedbackPopup) {
     'use strict';
 
     var $doc = $(document);
@@ -68,11 +67,11 @@ define([
                     appendContainer: '#mediaManager',
                     path: '/',
                     root: 'local',
-                    browseUrl: helpers._url('files', 'ItemContent', 'taoItems'),
-                    uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
-                    deleteUrl: helpers._url('delete', 'ItemContent', 'taoItems'),
-                    downloadUrl: helpers._url('download', 'ItemContent', 'taoItems'),
-                    fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
+                    browseUrl: itemConfig.getFilesUrl,
+                    uploadUrl: itemConfig.fileUploadUrl,
+                    deleteUrl: itemConfig.fileDeleteUrl,
+                    downloadUrl: itemConfig.fileDownloadUrl,
+                    fileExistsUrl : itemConfig.fileExistsUrl,
                     params: {
                         uri: itemConfig.uri,
                         lang: itemConfig.lang,
