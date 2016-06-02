@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiItem/core/Element',
-    'tooltipster'
+    'ui/tooltip'
 ], function($, _, formElement, Element){
 
     var _scoreTooltipContent = {
@@ -56,7 +56,6 @@ define([
 
         //set float (used for score)
         setScore : function($scoreInput, options){
-
             options = _.defaults(options || {}, {
                 required : false,
                 empty : function(){
@@ -69,12 +68,21 @@ define([
                 tooltipContent : _scoreTooltipContent
             });
 
-            if(!$scoreInput.hasClass('tooltipstered')){
-                $scoreInput.tooltipster({
-                    theme : 'tao-error-tooltip',
-                    content : options.tooltipContent.invalid,
-                    delay : 350,
-                    trigger : 'custom'
+            if($scoreInput.data('hasqtip') === undefined){
+                $scoreInput.qtip({
+                    show: {
+                        event : 'custom'
+                    },
+                    hide: {
+                        event : 'custom'
+                    },
+                    theme : 'error',
+                    position: {
+                        container: $scoreInput.parent()
+                    },
+                    content: {
+                        text: ''
+                    }
                 });
             }
 
@@ -85,20 +93,20 @@ define([
             if(value === ''){
                 if(options.required){
                     //missing required score value!
-                    $scoreInput.tooltipster('content', options.tooltipContent.required);
-                    $scoreInput.tooltipster('show');
+                    $scoreInput.qtip('set', 'content.text', options.tooltipContent.required);
+                    $scoreInput.qtip('show');
                 }else{
-                    $scoreInput.tooltipster('hide');
+                    $scoreInput.qtip('hide');
                     options.empty(key);
                 }
             }else if(!isNaN(score)){
                 //is a correct number
-                $scoreInput.tooltipster('hide');
+                $scoreInput.qtip('hide');
                 options.set(key, score);
             }else{
                 //invalid input!
-                $scoreInput.tooltipster('content', options.tooltipContent.invalid);
-                $scoreInput.tooltipster('show');
+                $scoreInput.qtip('set', 'content.text', options.tooltipContent.invalid);
+                $scoreInput.qtip('show');
             }
 
         }

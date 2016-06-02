@@ -9,7 +9,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
     'i18n',
-    'mathJax'
+    'mathJax',
+    'ui/tooltip'
 ], function($, stateFactory, Active, MathEditor, popup, formTpl, formElement, inlineHelper, _, __, mathJax){
 
     var _throttle = 300;
@@ -199,12 +200,12 @@ define([
             $panels.mathml.show();
             if($fields.latex.val()){
                 //show a warning here, stating that the content in LaTeX will be removed
-                if(!$fields.mathml.hasClass('tooltipstered')){
+                if(!$fields.mathml.data('qtip')){
                     _createWarningTooltip($fields.mathml);
                 }
-                $fields.mathml.tooltipster('show');
+                $fields.mathml.qtip('show');
                 $editMode.off('change.editMode').one('change.editMode', function(){
-                    $fields.mathml.tooltipster('hide');
+                    $fields.mathml.qtip('hide');
                 });
             }
         }
@@ -216,19 +217,25 @@ define([
         var $content = $('<span>')
             .html(__('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.'));
 
-        $mathField.tooltipster({
-            theme : 'tao-warning-tooltip',
-            content : $content,
-            delay : 200,
-            trigger : 'custom'
+        $mathField.qtip({
+            theme : 'error',
+            show: {
+                event : 'custom'
+            },
+            hide: {
+                event : 'custom'
+            },
+            content: {
+                text: $content
+            }
         });
 
         $mathField.on('focus.mathwarning', function(){
-            $mathField.tooltipster('hide');
+            $mathField.qtip('hide');
         });
 
         setTimeout(function(){
-            $mathField.tooltipster('hide');
+            $mathField.qtip('hide');
         }, 3000);
     };
 

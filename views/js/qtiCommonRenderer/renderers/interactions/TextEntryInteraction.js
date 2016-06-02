@@ -31,6 +31,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'util/locale',
     'polyfill/placeholders',
+     'ui/tooltip'
     'tooltipster'
 ], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, locale){
     'use strict';
@@ -56,11 +57,17 @@ define([
         //checking if there's a pattern mask for the input
         if(attributes.patternMask){
             //set up the tooltip plugin for the input
-            $el.tooltipster({
-                theme: 'tao-error-tooltip',
-                content: __('This is not a valid answer'),
-                delay: 350,
-                trigger: 'custom'
+            $el.qtip({
+                theme : 'error',
+                show : {
+                    event : 'custom'
+                },
+                hide : {
+                    event : 'custom'
+                },
+                content: {
+                    text: __('This is not a valid answer')
+                }
             });
         }
 
@@ -75,10 +82,9 @@ define([
             if(attributes.patternMask){
                 regex = new RegExp('^' + attributes.patternMask + '$');
                  if(regex.test($el.val())){
-                    $el.tooltipster('hide').removeClass('invalid');
+                    $el.removeClass('invalid').qtip('hide');
                 } else {
-                    
-                    $el.tooltipster('show').addClass('invalid');//adding the class invalid prevent the invalid response to be submitted
+                    $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
                 }
             }
             containerHelper.triggerResponseChangeEvent(interaction);
@@ -86,7 +92,7 @@ define([
         }, 600)).on('keydown.commonRenderer', function(){
             //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
             if(attributes.patternMask){
-                $el.tooltipster('hide');
+                $el.qtip('hide');
             }
         });
     };
