@@ -7,7 +7,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
-    'ui/resourcemgr'
+    'ui/resourcemgr',
+    'ui/tooltip'
 ], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer){
 
     var IncludeStateActive = stateFactory.extend(Active, function(){

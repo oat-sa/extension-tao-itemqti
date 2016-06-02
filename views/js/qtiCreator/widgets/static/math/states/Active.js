@@ -9,7 +9,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
     'i18n',
-    'mathJax'
+    'mathJax',
+    'ui/tooltip'
 ], function($, stateFactory, Active, MathEditor, popup, formTpl, formElement, inlineHelper, _, __, mathJax){
 
     var _throttle = 300;

@@ -11,7 +11,8 @@ define([
     'util/image',
     'ui/mediasizer',
     'ui/resourcemgr',
-    'nouislider'
+    'nouislider',
+    'ui/tooltip'
 ], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
