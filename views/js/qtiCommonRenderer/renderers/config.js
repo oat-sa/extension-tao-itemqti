@@ -22,8 +22,9 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-    'qtiItemPci/pciRegistry'
-], function(_, context, themes, assetManagerFactory, assetStrategies, pciRegistry){
+    'qtiItemPci/pciRegistry',
+    'qtiItemPci/pciProvider'
+], function(_, context, themes, assetManagerFactory, assetStrategies, pciRegistry, pciProvider){
     'use strict';
 
     var itemThemes = themes.get('items');
@@ -111,7 +112,9 @@ define([
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     };
-
+    
+    pciRegistry.addProvider(pciProvider);
+    
     return {
         name:'commonRenderer',
         locations: locations,

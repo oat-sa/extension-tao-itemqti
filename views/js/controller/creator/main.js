@@ -31,12 +31,12 @@ define([
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for read-only element : preview + xinclude
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
-    // css editor related
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'taoQtiItem/qtiCreator/editor/infoControlRegistry',
     'qtiItemPci/pciRegistry',
+    'qtiItemPci/pciProvider',
     'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder'
 ], function(
     $,
@@ -59,6 +59,7 @@ define([
     ciRegistry,
     icRegistry,
     pciRegistry,
+    pciProvider,
     blockAdder
     ){
     'use strict';
@@ -182,7 +183,7 @@ define([
 
             async.parallel([
                 function(callback){
-                    pciRegistry.loadCreators(function(){
+                    pciRegistry.addProvider(pciProvider).loadCreators(function(){
                         callback(null, true);
                     });
                 },
@@ -190,7 +191,6 @@ define([
                 function(callback){
                     ciRegistry.register(config.interactions);
                     ciRegistry.loadAll(function(hooks){
-                        console.log('hooks', hooks);
                         callback(null, []);
                     });
                 },
@@ -230,6 +230,7 @@ define([
                     item = res[3];
 
                 //init interaction sidebar
+                //@todo make them idempotent
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
                 if(config.properties['multi-column']){
                     _initializeElementAdder(item, configProperties.dom.getItemPanel(), interactionHooks);

@@ -8,7 +8,7 @@ define([
     "use strict";
     var methods = {};
     _.extend(methods, editable);
-    _.extend(methods, portableElement.getDefaultMethods(icRegistry));
+    _.extend(methods, portableElement.getDefaultMethods(icRegistry));//@todo to be adapted with new icRegistry
     _.extend(methods, {
         getDefaultMarkupTemplateData : function(){
             return {};

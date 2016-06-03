@@ -83,26 +83,14 @@ define([
         options = options || {};
         return new Promise(function(resolve, reject){
             var state              = {}; //@todo pass state and response to renderer here:
-            var localRequireConfig = { paths : {} };
             var response           = { base : null};
             var id                 = interaction.attr('responseIdentifier');
             var typeIdentifier     = interaction.typeIdentifier;
-            var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : self.getOption('runtimeLocations');
             var config             = _.clone(interaction.properties); //pass a clone instead
             var $dom               = containerHelper.get(interaction).children();
-            var entryPoint         = interaction.entryPoint.replace(/\.js$/, '');   //ensure it's an AMD module
             var assetManager       = self.getAssetManager();
             
-            pciRegistry.load(function(){
-                
-                //move this into the pci registry directly ?
-//                var runtimeLocation = pciRegistry.getBaseUrl(typeIdentifier);
-//                if(runtimeLocation){
-//                    localRequireConfig.paths[typeIdentifier] = runtimeLocation;
-//                    require.config(localRequireConfig);
-//                }else{
-//                    throw 'portable element runtime location not found';
-//                }
+            pciRegistry.loadRuntimes(function(){
                 
                 var runtime = pciRegistry.getRuntime(typeIdentifier);
                 
