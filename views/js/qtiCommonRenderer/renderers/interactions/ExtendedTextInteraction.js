@@ -377,8 +377,8 @@ define([
                     38, // arrow up
                     39, // arrow right
                     40, // arrow down
-                    65, // home
-                    69, // end
+                    35, // home
+                    36, // end
 
                     // ckeditor specific:
                     1114177, // home
