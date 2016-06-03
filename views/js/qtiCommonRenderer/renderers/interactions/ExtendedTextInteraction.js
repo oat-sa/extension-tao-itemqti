@@ -80,7 +80,7 @@ define([
                         reject('Unable to instantiate ckEditor');
                     }
 
-                    editor.on('loaded', function(){
+                    editor.on('instanceReady', function(){
                         //it seems there's still something done after loaded, so resolved must be defered
                         _.delay(resolve, 300);
                     });
@@ -370,16 +370,39 @@ define([
 
                 var ignoreKeyCodes = [
                     8, // backspace
-                    222832, // Shift + backspace in ckEditor
-                    1114120, // Ctrl + backspace in ckEditor
-                    1114177, // Ctrl + a in ckEditor
-                    1114202, // Ctrl + z in ckEditor
-                    1114200, // Ctrl + x in ckEditor
+                    16, // shift
+                    17, // control
+                    46, // delete
+                    37, // arrow left
+                    38, // arrow up
+                    39, // arrow right
+                    40, // arrow down
+                    35, // home
+                    36, // end
+
+                    // ckeditor specific:
+                    1114177, // home
+                    3342401, // Shift + home
+                    1114181, // end
+                    3342405, // Shift + end
+
+                    2228232, // Shift + backspace
+                    2228261, // Shift + arrow left
+                    4456485, // Alt   + arrow left
+                    2228262, // Shift + arrow up
+                    2228263, // Shift + arrow right
+                    4456487, // Alt   + arrow right
+                    2228264, // Shift + arrow down
+
+                    1114120, // Ctrl + backspace
+                    1114177, // Ctrl + a
+                    1114202, // Ctrl + z
+                    1114200  // Ctrl + x
                 ];
                 var triggerKeyCodes = [
                     32, // space
                     13, // enter
-                    2228237, // shift + enter in ckEditor
+                    2228237 // shift + enter in ckEditor
                 ];
 
 
@@ -395,7 +418,7 @@ define([
                             e.preventDefault();
                             e.stopImmediatePropagation();
                         }
-                        return setText(interaction, _getTextareaValue(interaction, true));
+                        return false;
                     }
                     _.defer(function(){
                         self.updateCounter();
@@ -655,7 +678,6 @@ define([
 
     var setText = function(interaction, text) {
         var limiter = inputLimiter(interaction);
-
         if ( _getFormat(interaction) === 'xhtml') {
             try{
             _getCKEditor(interaction).setData(text, function(){
