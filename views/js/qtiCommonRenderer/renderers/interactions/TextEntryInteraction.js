@@ -31,8 +31,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'util/locale',
     'polyfill/placeholders',
-     'ui/tooltip'
-    'tooltipster'
+    'ui/tooltip'
 ], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, locale){
     'use strict';
 
