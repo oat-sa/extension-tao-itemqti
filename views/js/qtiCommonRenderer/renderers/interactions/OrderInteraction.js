@@ -25,11 +25,14 @@ define([
     'lodash',
     'jquery',
     'i18n',
+    'core/mouseEvent',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'interact',
+    'ui/interactUtils'
+], function(_, $, __, triggerMouseEvent, tpl, containerHelper, instructionMgr, pciResponse, interact, interactUtils){
     'use strict';
 
     /**
@@ -48,32 +51,41 @@ define([
             $iconRemove = $container.find('.icon-remove-from-selection'),
             $iconBefore = $container.find('.icon-move-before'),
             $iconAfter = $container.find('.icon-move-after'),
-            $activeChoice = null;
+            $activeChoice = null,
 
-        var _activeControls = function(){
+            choiceSelector = $choiceArea.selector + ' >li:not(.deactivated)',
+            resultSelector = $resultArea.selector + ' >li',
+
+            isDragAndDropEnabled,
+            dragOptions,
+            $dropzoneElement,
+            $dragContainer = $container.find('.drag-container'),
+
+            orientation = (interaction.attr('orientation')) ? interaction.attr('orientation') : 'vertical';
+
+        var _activeControls = function _activeControls(){
             $iconAdd.addClass('inactive');
             $iconRemove.removeClass('inactive').addClass('active');
             $iconBefore.removeClass('inactive').addClass('active');
             $iconAfter.removeClass('inactive').addClass('active');
         };
 
-        var _resetControls = function(){
+        var _resetControls = function _resetControls(){
             $iconAdd.removeClass('inactive');
             $iconRemove.removeClass('active').addClass('inactive');
             $iconBefore.removeClass('active').addClass('inactive');
             $iconAfter.removeClass('active').addClass('inactive');
         };
 
-        var _setSelection = function($choice){
+        var _setSelection = function _setSelection($choice){
             if($activeChoice){
                 $activeChoice.removeClass('active');
             }
             $activeChoice = $choice;
             $activeChoice.addClass('active');
-            _activeControls();
         };
 
-        var _resetSelection = function(){
+        var _resetSelection = function _resetSelection(){
             if($activeChoice){
                 $activeChoice.removeClass('active');
                 $activeChoice = null;
@@ -81,45 +93,33 @@ define([
             _resetControls();
         };
 
-        $container.on('mousedown.commonRenderer', function(e){
+        var _addChoiceToSelection = function _addChoiceToSelection($target, position) {
+            var $results = $(resultSelector);
             _resetSelection();
-        });
-
-        $choiceArea.on('mousedown.commonRenderer', '>li:not(.deactivated)', function(e){
-
-            e.stopPropagation();
-
-            _resetSelection();
-
-            $iconAdd.addClass('triggered');
-            setTimeout(function(){
-                $iconAdd.removeClass('triggered');
-            }, 150);
 
             //move choice to the result list:
-            $resultArea.append($(this));
+            if (typeof(position) !== 'undefined' && position < $results.length) {
+                $results.eq(position).before($target);
+            } else {
+                $resultArea.append($target);
+            }
+
             containerHelper.triggerResponseChangeEvent(interaction);
 
             //update constraints :
             instructionMgr.validateInstructions(interaction);
-        });
+        };
 
-        $resultArea.on('mousedown.commonRenderer', '>li', function(e){
-
-            e.stopPropagation();
-
-            var $choice = $(this);
-            if($choice.hasClass('active')){
+        var _toggleResultSelection = function _toggleResultSelection($target) {
+            if($target.hasClass('active')){
                 _resetSelection();
             }else{
-                _setSelection($(this));
+                _setSelection($target);
+                _activeControls();
             }
-        });
+        };
 
-        $iconRemove.on('mousedown.commonRenderer', function(e){
-
-            e.stopPropagation();
-
+        var _removeChoice = function _removeChoice() {
             if($activeChoice){
 
                 //restore choice back to choice list
@@ -131,29 +131,272 @@ define([
             }
 
             _resetSelection();
-        });
+        };
 
-        $iconBefore.on('mousedown.commonRenderer', function(e){
-
-            e.stopPropagation();
-
+        var _moveResultBefore = function _moveResultBefore() {
             var $prev = $activeChoice.prev();
+
             if($prev.length){
                 $prev.before($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
             }
-        });
+        };
 
-        $iconAfter.on('mousedown.commonRenderer', function(e){
-
-            e.stopPropagation();
-
+        var _moveResultAfter = function _moveResultAfter() {
             var $next = $activeChoice.next();
+
             if($next.length){
                 $next.after($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
             }
+        };
+
+
+        // Point & click handlers
+
+        interact($container.selector).on('tap', function () {
+            _resetSelection();
         });
+
+        interact(choiceSelector).on('tap', function (e) {
+            var $target = $(e.currentTarget);
+            e.stopPropagation();
+
+            $iconAdd.addClass('triggered');
+            setTimeout(function(){
+                $iconAdd.removeClass('triggered');
+            }, 150);
+
+            _addChoiceToSelection($target);
+        });
+
+        interact(resultSelector).on('tap', function (e) {
+            var $target = $(e.currentTarget);
+            e.stopPropagation();
+            _toggleResultSelection($target);
+        });
+
+        interact($iconRemove.selector).on('tap', function (e) {
+            e.stopPropagation();
+            _removeChoice();
+        });
+
+        interact($iconBefore.selector).on('tap', function (e) {
+            e.stopPropagation();
+            _moveResultBefore();
+        });
+
+        interact($iconAfter.selector).on('tap', function (e) {
+            e.stopPropagation();
+            _moveResultAfter();
+        });
+
+
+        // Drag & drop handlers
+
+        if (this.getOption && this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {
+            isDragAndDropEnabled = this.getOption("enableDragAndDrop").order;
+        }
+
+        function _iFrameDragFix(draggableSelector, target) {
+            interactUtils.iFrameDragFixOn(function () {
+                if (_isDropzoneVisible()) {
+                    interact($resultArea.selector).fire({
+                        type: 'drop',
+                        target: $dropzoneElement.eq(0),
+                        relatedTarget: target
+                    });
+                }
+                interact(draggableSelector).fire({
+                    type: 'dragend',
+                    target: target
+                });
+            });
+        }
+
+        if (isDragAndDropEnabled) {
+            $dropzoneElement = $('<li>', {'class' : 'dropzone qti-choice'});
+            $('<div>', {'class': 'qti-block'}).appendTo($dropzoneElement);
+
+            dragOptions = {
+                inertia: false,
+                autoScroll: true,
+                restrict: {
+                    restriction: ".qti-interaction",
+                    endOnly: false,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                }
+            };
+
+            // makes choices draggables
+            interact(choiceSelector).draggable(_.assign({}, dragOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+
+                    _iFrameDragFix(choiceSelector, e.target);
+                },
+                onmove: function (e) {
+                    var $target = $(e.target);
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    if (_isDropzoneVisible()) {
+                        _adjustDropzonePosition($target);
+                    }
+                },
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass("dragged");
+
+                    interactUtils.restoreOriginalPosition($target);
+                    interactUtils.iFrameDragFixOff();
+                }
+            })).styleCursor(false);
+
+            // makes result draggables
+            interact(resultSelector).draggable(_.assign({}, dragOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+
+                    _setSelection($target);
+
+                    // move dragged result to drag container
+                    $dragContainer.show();
+                    $dragContainer.offset($target.offset());
+                    if (orientation === 'horizontal') {
+                        $dragContainer.width($(e.currentTarget).width());
+                    } else {
+                        $dragContainer.width($target.parent().width());
+                    }
+                    $dragContainer.append($target);
+
+                    _iFrameDragFix(resultSelector, e.target);
+                },
+                onmove: function (e) {
+                    var $target = $(e.target);
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    if (_isDropzoneVisible()) {
+                        _adjustDropzonePosition($target);
+                    }
+                },
+                onend: function (e) {
+                    var $target = $(e.target),
+                        hasBeenDroppedInResultArea = ($target.parent === $resultArea);
+
+                    $target.removeClass("dragged");
+                    $dragContainer.hide();
+
+                    if (! hasBeenDroppedInResultArea) {
+                        _removeChoice();
+                    }
+
+                    interactUtils.restoreOriginalPosition($target);
+                    interactUtils.iFrameDragFixOff();
+                }
+            })).styleCursor(false);
+
+            // makes result area droppable
+            interact($resultArea.selector).dropzone({
+                overlap: 0.5,
+                ondragenter: function (e) {
+                    var $dragged = $(e.relatedTarget);
+                    _insertDropzone($dragged);
+                    $dragged.addClass('droppable');
+                },
+                ondrop: function (e) {
+                    var $dragged = $(e.relatedTarget),
+                        dropzoneIndex = $(resultSelector).index($dropzoneElement);
+
+                    this.ondragleave(e);
+
+                    _addChoiceToSelection($dragged, dropzoneIndex);
+                    interactUtils.restoreOriginalPosition($dragged);
+                },
+                ondragleave: function (e) {
+                    var $dragged = $(e.relatedTarget);
+                    $dropzoneElement.remove();
+                    $dragged.removeClass('droppable');
+                }
+            });
+        }
+
+        function _isDropzoneVisible() {
+            return $.contains($container.get(0), $dropzoneElement.get(0));
+        }
+
+        function _insertDropzone($dragged) {
+            var draggedMiddle = _getMiddleOf($dragged),
+                previousMiddle = {
+                    x: 0,
+                    y: 0
+                },
+                insertPosition,
+                $dropzone;
+
+            // look for position where to insert dropzone
+            $(resultSelector).each(function(index) {
+                var currentMiddle = _getMiddleOf($(this));
+
+                if (orientation !== 'horizontal') {
+                    if (draggedMiddle.y > previousMiddle.y && draggedMiddle.y < currentMiddle.y) {
+                        insertPosition = index;
+                        return false;
+                    }
+                    previousMiddle.y = currentMiddle.y;
+                } else {
+                    if (draggedMiddle.x > previousMiddle.x && draggedMiddle.x < currentMiddle.x) {
+                        insertPosition = index;
+                        return false;
+                    }
+                    previousMiddle.x = currentMiddle.x;
+                }
+            });
+            // append dropzone to DOM
+            if (typeof(insertPosition) !== 'undefined') {
+                $(resultSelector).eq(insertPosition).before($dropzoneElement);
+            } else {
+                // no index found, we just append to the end
+                $resultArea.append($dropzoneElement);
+            }
+
+            // style dropzone
+            $dropzoneElement.height($dragged.height());
+            $dropzoneElement.find('div').text($dragged.text());
+        }
+
+        function _adjustDropzonePosition($dragged) {
+            var draggedBox = $dragged.get(0).getBoundingClientRect(),
+                $prevResult = $dropzoneElement.prev('.qti-choice'),
+                $nextResult = $dropzoneElement.next('.qti-choice'),
+                prevMiddle = ($prevResult.length > 0) ? _getMiddleOf($prevResult) : false,
+                nextMiddle = ($nextResult.length > 0) ? _getMiddleOf($nextResult) : false;
+
+            if (orientation !== 'horizontal') {
+                if (prevMiddle && (draggedBox.top < prevMiddle.y)) {
+                    $prevResult.before($dropzoneElement);
+                }
+                if (nextMiddle && (draggedBox.bottom > nextMiddle.y)) {
+                    $nextResult.after($dropzoneElement);
+                }
+            } else {
+                if (prevMiddle && (draggedBox.left < prevMiddle.x)) {
+                    $prevResult.before($dropzoneElement);
+                }
+                if (nextMiddle && (draggedBox.right > nextMiddle.x)) {
+                    $nextResult.after($dropzoneElement);
+                }
+            }
+        }
+
+        function _getMiddleOf($element) {
+            var elementBox = $element.get(0).getBoundingClientRect();
+            return {
+                x: elementBox.left + elementBox.width / 2,
+                y: elementBox.top + elementBox.height / 2
+            };
+        }
+
+        // rendering init
 
         _setInstructions(interaction);
 
@@ -181,8 +424,8 @@ define([
         var $container = containerHelper.get(interaction);
         var $choiceArea = $('.choice-area', $container),
             $resultArea = $('.result-area', $container),
-            min = parseInt(interaction.attr('minChoices')),
-            max = parseInt(interaction.attr('maxChoices'));
+            min = parseInt(interaction.attr('minChoices'), 10),
+            max = parseInt(interaction.attr('maxChoices'), 10);
 
         if(min){
             instructionMgr.appendInstruction(interaction, __('You must use at least %d choices', min), function(){
@@ -205,14 +448,29 @@ define([
                 }
             });
 
-            $choiceArea.on('mousedown.commonRenderer', '>li.deactivated', function(){
-                var $choice = $(this);
-                $choice.addClass('brd-error');
+            interact($choiceArea.selector + ' >li.deactivated').on('tap', function(e) {
+                var $target = $(e.currentTarget);
+                $target.addClass('brd-error');
                 instructionMax.setLevel('warning', 2000);
                 setTimeout(function(){
-                    $choice.removeClass('brd-error');
+                    $target.removeClass('brd-error');
                 }, 150);
             });
+
+            // we don't check for isDragAndDropEnabled on purpose, as this binding is not to allow dragging,
+            // but only to provide feedback in case of a drag action on an inactive choice
+            interact($choiceArea.selector + ' >li.deactivated').draggable({
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass('brd-error');
+                    instructionMax.setLevel('warning');
+                },
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass('brd-error');
+                    instructionMax.setLevel('info');
+                }
+            }).styleCursor(false);
         }
     };
 
@@ -223,7 +481,9 @@ define([
         var $choiceArea = $('.choice-area', $container).append($('.result-area>li', $container));
         var $choices = $choiceArea.children('.qti-choice');
 
-        $container.find('.qti-choice.active').mousedown();
+        $container.find('.qti-choice.active').each(function deactivateChoice() {
+            interactUtils.tapOn(this);
+        });
 
         $choices.detach().sort(function(choice1, choice2){
             return (_.indexOf(initialOrder, $(choice1).data('serial')) > _.indexOf(initialOrder, $(choice2).data('serial')));
@@ -315,14 +575,16 @@ define([
 
         //first, remove all events
         var selectors = [
-            '.choice-area',
-            '.result-area',
+            '.choice-area >li:not(.deactivated)',
+            '.result-area >li',
             '.icon-add-to-selection',
             '.icon-remove-from-selection',
             '.icon-move-before',
             '.icon-move-after'
         ];
-        $container.find(selectors.join(',')).andSelf().off('.commonRenderer');
+        selectors.forEach(function unbindInteractEvents(selector) {
+            interact($container.find(selector).selector).unset();
+        });
 
         $(document).off('.commonRenderer');
 

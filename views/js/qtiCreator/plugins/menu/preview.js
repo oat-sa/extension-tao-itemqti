@@ -59,7 +59,9 @@ define([
             //wrap the preview opening
             //TODO move away the URLs !!!
             var openPreview = function openPreview(){
-                preview.init(urlUtil.build(itemCreator.getConfig().properties.previewUrl, {uri: item.data('uri')}));
+                preview.init(urlUtil.build(itemCreator.getConfig().properties.previewUrl, {
+                    uri: item.data('uri')
+                }));
                 preview.show();
             };
 
@@ -84,9 +86,16 @@ define([
                         needSave = false;
                         itemData  = itemSerializer.serialize(itemCreator.getItem());
 
-                        itemCreator.trigger('save');
+                        //save, wait for saved and open the preview
+                        itemCreator.on('saved.preview', function(){
+                            this.off('saved.preview');
+                            openPreview();
 
-                        openPreview();
+                        })
+                        //trigger a slient save
+                        .trigger('save', true);
+
+
                         self.enable();
                     }, function refuse(){
                         self.enable();
@@ -112,7 +121,6 @@ define([
                 .on('stylechange.qti-creator', function (event, detail) {
                     needSave = !detail || !detail.initializing;
                 });
-
         },
 
         render : function render(){

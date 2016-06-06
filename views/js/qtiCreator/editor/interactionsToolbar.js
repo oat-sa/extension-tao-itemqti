@@ -6,7 +6,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
-    'ui/tooltipster'
+    'ui/tooltip'
 ], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     "use strict";
     /**
@@ -183,12 +183,11 @@ define([
         $inlineInteractionsPanel.on('mouseenter', '.sub-group-cover', function(){
 
             timer = setTimeout(function(){
-                $tooltip.find('[data-tooltip]').tooltipster('show');
+                $tooltip.find('[data-tooltip]').qtip('show');
             }, 300);
 
         }).on('mouseleave', '.sub-group-cover', function(){
-
-            $tooltip.find('[data-tooltip]').tooltipster('hide');
+            $tooltip.find('[data-tooltip]').qtip('hide');
             clearTimeout(timer);
         });
     }
