@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    'use strict';
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -24,6 +25,7 @@ module.exports = function(grunt) {
         'taoQtiItem' : root + '/taoQtiItem/views/js',
         'taoQtiItemCss' :  root + '/taoQtiItem/views/css',
         'taoItems' : root + '/taoItems/views/js',
+        'taoItemsCss' :  root + '/taoItems/views/css',
         'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
         'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
     };
