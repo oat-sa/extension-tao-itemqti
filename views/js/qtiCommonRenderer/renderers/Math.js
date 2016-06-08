@@ -43,7 +43,8 @@ define([
                     if(!window.MathJax){
                         window.MathJax = MathJax;
                     }
-
+                    //reset the cached container selection to enable re-rendering
+                    containerHelper.reset(math);
                     _.defer(function(){ //defer execution fix some rendering issue in chrome
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, containerHelper.get(math).parent()[0]]);
 
