@@ -305,7 +305,7 @@ define([
             Promise.race([
                 Promise.all(_.map(feedback.getComposingElements(), function(elt){
                     //render also internal elements, such as math or img
-                    return elt.postRender({}, '', renderer);
+                    return elt.postRender({}, '', renderer).pop();
                 })),
                 new Promise(function(resolve, reject){
                     _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
