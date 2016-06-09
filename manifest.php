@@ -29,7 +29,7 @@ return array(
     'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '2.28.3',
+    'version' => '2.28.4',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
 	    'taoItems' => '>=2.15',
