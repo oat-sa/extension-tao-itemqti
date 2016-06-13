@@ -84,7 +84,7 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         print_r($usage); 
     }
     
-    public function testSetRemoveBodyStyles(){
+    public function testAddRemoveBodyStyles(){
         $styleService = StyleService::singleton();
         
         $itemA = reset($this->items);
@@ -92,7 +92,7 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $styles = $styleService->getBodyStyles($itemA);
         $this->assertEquals(2, count(array_intersect(['customerA-theme1', 'customerA-theme2'], $styles)));
         
-        $styleService->setBodyStyles(['AAA', 'BBB'], $itemA);
+        $styleService->addBodyStyles(['AAA', 'BBB'], $itemA);
         
         $styles = $styleService->getBodyStyles($itemA);
         $this->assertEquals(4, count(array_intersect(['customerA-theme1', 'customerA-theme2', 'AAA', 'BBB'], $styles)));
@@ -103,7 +103,7 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(3, count(array_intersect(['customerA-theme1', 'customerA-theme2', 'BBB'], $styles)));
     }
     
-    public function testSetRemoveClassBodyStyles(){
+    public function testAddRemoveClassBodyStyles(){
         $styleService = StyleService::singleton();
         
         //check that all items have some styles intially
@@ -120,7 +120,7 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
             $this->assertEquals(0, count($styles));
         }
         
-        $styleService->setClassBodyStyles(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $this->itemClass);
+        $styleService->addClassBodyStyles(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $this->itemClass);
         
         //check that all styles have set again
         foreach($this->items as $item){

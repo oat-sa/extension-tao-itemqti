@@ -81,7 +81,7 @@ class StyleService extends tao_models_classes_Service
         }
     }
 
-    public function setBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
+    public function addBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
         if(is_null($itemContent)){
             throw new \common_Exception('cannot find valid qti item content');
@@ -89,7 +89,10 @@ class StyleService extends tao_models_classes_Service
             $classAttr = (string) $itemContent->itemBody['class'];
             foreach($styleNames as $styleName){
                 if(!empty($styleName) && preg_match(self::STYLE_NAME_PATTERN, $styleName)){
-                    $classAttr .= ' x-tao-style-'.$styleName;
+                    $newClass = 'x-tao-style-'.$styleName;
+                    if(strpos($classAttr, $styleName) === false){
+                        $classAttr .= ' '.$newClass;
+                    }
                 }else{
                     throw new \common_Exception('invalid style name');
                 }
@@ -126,29 +129,31 @@ class StyleService extends tao_models_classes_Service
         $i = 0;
         foreach($items as $item){
             if($this->isQtiItem($item)){
-                $styles = $this->getBodyStyles($item);
-                $usages[$item->getUri()] = $styles;
-                if($i){
-                    $intersect = array_intersect($styles, $intersect);
-                }else{
-                    $intersect = $styles;
-                }
-                $union = array_unique(array_merge($styles, $union));
-                $i++;
+                try{
+                    $styles = $this->getBodyStyles($item);
+                    $usages[$item->getUri()] = $styles;
+                    if($i){
+                        $intersect = array_intersect($styles, $intersect);
+                    }else{
+                        $intersect = $styles;
+                    }
+                    $union = array_unique(array_merge($styles, $union));
+                    $i++;
+                }catch(\common_Exception $e){}
             }
         }
         return [
-            'union' => $union,
-            'intersect' => $intersect,
-            'partial' => array_diff($union, $intersect)
+            'all' => $union,
+            'checked' => $intersect,
+            'indeterminate' => array_values(array_diff($union, $intersect))
         ];
     }
 
-    public function setClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass){
+    public function addClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass){
         $items = $itemClass->getInstances(true);
         foreach($items as $item){
             if($this->isQtiItem($item)){
-                $this->setBodyStyles($styleNames, $item);
+                $this->addBodyStyles($styleNames, $item);
             }
         }
     }
