@@ -21,7 +21,7 @@
 namespace oat\taoQtiItem\test\style;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\qti\StyleService;
+use oat\taoQtiItem\model\style\StyleService;
 use oat\taoQtiItem\model\ItemModel;
 
 class StyleServiceTest extends TaoPhpUnitTestRunner

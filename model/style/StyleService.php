@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\qti;
+namespace oat\taoQtiItem\model\style;
 
 use \tao_models_classes_Service;
 use \core_kernel_classes_Class;

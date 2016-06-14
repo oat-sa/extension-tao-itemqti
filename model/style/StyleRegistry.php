@@ -74,13 +74,10 @@ class StyleRegistry extends AbstractRegistry
      */
     public function register($id, $styleData)
     {
-        common_Logger::d('aaa');
         if (self::getRegistry()->isRegistered($id)) {
             common_Logger::w('Style already registered');
         }
-        common_Logger::d('ssss');
         if($this->isValidStyleData($styleData)){
-            common_Logger::d('ggggggggg');
             self::getRegistry()->set($id, $styleData);
         }else{
             common_Logger::w('Invalid style data format');
