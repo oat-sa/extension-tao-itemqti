@@ -29,15 +29,24 @@ use SimpleXMLElement;
 
 class StyleService extends tao_models_classes_Service
 {
-
+    
+    /**
+     * The regex pattern of valid style names
+     */
     const STYLE_NAME_PATTERN = '([a-zA-Z0-9_-]*)';
-
+    
+    /**
+     * Check if the resource in argument is a valid qti item
+     * @param core_kernel_classes_Resource $itemResource
+     * @return boolean
+     */
     private function isQtiItem(core_kernel_classes_Resource $itemResource){
         $itemService = taoItems_models_classes_ItemsService::singleton();
         return $itemService->hasItemModel($itemResource, [ItemModel::MODEL_URI]);
     }
 
     /**
+     * Get the item content for a qti item resource
      * 
      * @param core_kernel_classes_Resource $itemResource
      * @param string $langCode
@@ -55,6 +64,7 @@ class StyleService extends tao_models_classes_Service
     }
 
     /**
+     * Set the item content for a qti item resource
      * 
      * @param core_kernel_classes_Resource $itemResource
      * @param string $langCode
@@ -67,7 +77,15 @@ class StyleService extends tao_models_classes_Service
         }
         return false;
     }
-
+    
+    /**
+     * Get the array of body style classes set to the itemBody of a qti item
+     * 
+     * @param core_kernel_classes_Resource $itemResource
+     * @param string $langCode
+     * @return array
+     * @throws \common_Exception
+     */
     public function getBodyStyles(core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
         if(is_null($itemContent)){
@@ -80,7 +98,15 @@ class StyleService extends tao_models_classes_Service
             }
         }
     }
-
+    
+    /**
+     * Add an array of body style classes to the itemBody of a qti item
+     * 
+     * @param core_kernel_classes_Resource $itemResource
+     * @param string $langCode
+     * @return array
+     * @throws \common_Exception
+     */
     public function addBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
         if(is_null($itemContent)){
@@ -101,7 +127,15 @@ class StyleService extends tao_models_classes_Service
             $this->setItemContent($itemContent, $itemResource);
         }
     }
-
+    
+    /**
+     * Remove an array of body style classes set to the itemBody of a qti item
+     * 
+     * @param array $styleNames
+     * @param core_kernel_classes_Resource $itemResource
+     * @param string $langCode
+     * @throws \common_Exception
+     */
     public function removeBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
         if(is_null($itemContent)){
@@ -120,7 +154,14 @@ class StyleService extends tao_models_classes_Service
             $this->setItemContent($itemContent, $itemResource);
         }
     }
-
+    
+    /**
+     * Get an array that give the style usage within an tao item subclasses.
+     * It only takes into account qti item with a no-empty content
+     * 
+     * @param core_kernel_classes_Class $itemClass
+     * @return array
+     */
     public function getClassBodyStyles(core_kernel_classes_Class $itemClass){
         $usages = [];
         $union = [];
@@ -148,18 +189,32 @@ class StyleService extends tao_models_classes_Service
             'indeterminate' => array_values(array_diff($union, $intersect))
         ];
     }
-
-    public function addClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass){
-        $items = $itemClass->getInstances(true);
+    
+    /**
+     * Add an array of body style classes to the itemBody of all qti items in given class
+     * 
+     * @param array $styleNames
+     * @param core_kernel_classes_Class $itemClass
+     * @param boolean $recursive
+     */
+    public function addClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass, $recursive = true){
+        $items = $itemClass->getInstances($recursive);
         foreach($items as $item){
             if($this->isQtiItem($item)){
                 $this->addBodyStyles($styleNames, $item);
             }
         }
     }
-
-    public function removeClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass){
-        $items = $itemClass->getInstances(true);
+    
+    /**
+     * Remove  an array of body style classes from the itemBody of all qti items in given class
+     * 
+     * @param array $styleNames
+     * @param core_kernel_classes_Class $itemClass
+     * @param boolean $recursive
+     */
+    public function removeClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass, $recursive = true){
+        $items = $itemClass->getInstances($recursive);
         foreach($items as $item){
             if($this->isQtiItem($item)){
                 $this->removeBodyStyles($styleNames, $item);

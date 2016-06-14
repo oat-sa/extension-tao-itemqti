@@ -81,7 +81,15 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $styleService = StyleService::singleton();
         
         $usage = $styleService->getClassBodyStyles($this->itemClass);
-        print_r($usage); 
+        $this->assertTrue(is_array($usage));
+        
+        $this->assertTrue(isset($usage['all']) && is_array($usage['all']));
+        $this->assertTrue(isset($usage['checked']) && is_array($usage['checked']));
+        $this->assertTrue(isset($usage['indeterminate']) && is_array($usage['indeterminate']));
+        
+        $this->assertEquals(3, count(array_intersect(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $usage['all'])));
+        $this->assertEquals(1, count(array_intersect(['customerA-theme1'], $usage['checked'])));
+        $this->assertEquals(2, count(array_intersect(['customerA-theme2', 'customerA-theme3'], $usage['indeterminate'])));
     }
     
     public function testAddRemoveBodyStyles(){
