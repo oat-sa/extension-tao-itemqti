@@ -49,6 +49,7 @@ class StyleRegistry extends AbstractRegistry
     }
 
     /**
+     * Get all styles available from the registry
      * 
      * @return array
      */
@@ -61,10 +62,15 @@ class StyleRegistry extends AbstractRegistry
         return $styles;
     }
     
+    /**
+     * Check if the array contains sufficient style data
+     * 
+     * @param array $data
+     * @return boolean
+     */
     public function isValidStyleData($data){
         return isset($data['label']) && !empty($data['label']);
     }
-
 
     /**
      * Register a style
