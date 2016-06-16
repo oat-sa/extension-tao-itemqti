@@ -109,9 +109,7 @@ class StyleService extends tao_models_classes_Service
      */
     public function addBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
-        if(is_null($itemContent)){
-            throw new \common_Exception('cannot find valid qti item content');
-        }else{
+        if(!is_null($itemContent)){
             $classAttr = (string) $itemContent->itemBody['class'];
             foreach($styleNames as $styleName){
                 if(!empty($styleName) && preg_match(self::STYLE_NAME_PATTERN, $styleName)){
@@ -138,9 +136,7 @@ class StyleService extends tao_models_classes_Service
      */
     public function removeBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
-        if(is_null($itemContent)){
-            throw new \common_Exception('cannot find valid qti item content');
-        }else{
+        if(!is_null($itemContent)){
             $classAttr = (string) $itemContent->itemBody['class'];
             foreach($styleNames as $styleName){
                 if(!empty($styleName) && preg_match(self::STYLE_NAME_PATTERN, $styleName)){
