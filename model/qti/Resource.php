@@ -153,6 +153,16 @@ class Resource
     }
 
     /**
+     * Get all valid item types
+     *
+     * @return array
+     */
+    public static function getItemTypes()
+    {
+        return self::$itemTypes;
+    }
+
+    /**
      * Get the identifier of the resource.
      *
      * @return string
