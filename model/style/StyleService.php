@@ -104,12 +104,12 @@ class StyleService extends tao_models_classes_Service
      * 
      * @param core_kernel_classes_Resource $itemResource
      * @param string $langCode
-     * @return array
+     * @return boolean
      * @throws \common_Exception
      */
     public function addBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
-        if(!is_null($itemContent)){
+        if(!is_null($itemContent) && !empty($styleNames)){
             $classAttr = (string) $itemContent->itemBody['class'];
             foreach($styleNames as $styleName){
                 if(!empty($styleName) && preg_match(self::STYLE_NAME_PATTERN, $styleName)){
@@ -122,8 +122,9 @@ class StyleService extends tao_models_classes_Service
                 }
             }
             $itemContent->itemBody['class'] = trim($classAttr);
-            $this->setItemContent($itemContent, $itemResource);
+            return $this->setItemContent($itemContent, $itemResource);
         }
+        return false;
     }
     
     /**
@@ -136,7 +137,7 @@ class StyleService extends tao_models_classes_Service
      */
     public function removeBodyStyles($styleNames, core_kernel_classes_Resource $itemResource, $langCode = ''){
         $itemContent = $this->getItemContent($itemResource, $langCode);
-        if(!is_null($itemContent)){
+        if(!is_null($itemContent) && !empty($styleNames)){
             $classAttr = (string) $itemContent->itemBody['class'];
             foreach($styleNames as $styleName){
                 if(!empty($styleName) && preg_match(self::STYLE_NAME_PATTERN, $styleName)){
@@ -147,8 +148,9 @@ class StyleService extends tao_models_classes_Service
                 }
             }
             $itemContent->itemBody['class'] = trim($classAttr);
-            $this->setItemContent($itemContent, $itemResource);
+            return $this->setItemContent($itemContent, $itemResource);
         }
+        return false;
     }
     
     /**
@@ -194,12 +196,16 @@ class StyleService extends tao_models_classes_Service
      * @param boolean $recursive
      */
     public function addClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass, $recursive = true){
+        $updatedItems = [];
         $items = $itemClass->getInstances($recursive);
         foreach($items as $item){
             if($this->isQtiItem($item)){
-                $this->addBodyStyles($styleNames, $item);
+                if($this->addBodyStyles($styleNames, $item)){
+                    $updatedItems[] = $item;
+                }
             }
         }
+        return $updatedItems;
     }
     
     /**
@@ -210,12 +216,16 @@ class StyleService extends tao_models_classes_Service
      * @param boolean $recursive
      */
     public function removeClassBodyStyles($styleNames, core_kernel_classes_Class $itemClass, $recursive = true){
+        $updatedItems = [];
         $items = $itemClass->getInstances($recursive);
         foreach($items as $item){
             if($this->isQtiItem($item)){
-                $this->removeBodyStyles($styleNames, $item);
+                if($this->removeBodyStyles($styleNames, $item)){
+                    $updatedItems[] = $item;
+                }
             }
         }
+        return $updatedItems;
     }
 
 }
