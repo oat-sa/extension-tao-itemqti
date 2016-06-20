@@ -1,0 +1,280 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "QTI item creation API"
+    },
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "paths": {
+        "/TaoQtiItems/taoQtiItem/import/": {
+            "post": {
+                "description": "Import QTI item entry point from uploaded package\nCheck POST method & get valid uploaded file\n",
+                "parameters": [
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "file attachemnt zip format supported",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response return file path",
+                        "examples": {
+                            "application/json": {
+                                "success": true,
+                                "data": {
+                                    "id": "tao/import/file/package.zip"
+                                },
+                                "version": "3.1.0"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request if you send invalid parameters",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "errorCode": {
+                                    "type": "integer",
+                                    "description": "error code"
+                                },
+                                "errorMsg": {
+                                    "type": "string",
+                                    "description": "error description"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Supplied credentials are not valid"
+                    },
+                    "500": {
+                        "description": "Internal error (should not occur)",
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "errorCode": {
+                                    "type": "integer",
+                                    "description": "error code"
+                                },
+                                "errorMsg": {
+                                    "type": "string",
+                                    "description": "error description"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "not implemented if you call this API with GET method",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 501,
+                                "errorMsg": "Only post method is accepted to import Qti package.",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "errorCode": {
+                                    "type": "integer",
+                                    "description": "error code"
+                                },
+                                "errorMsg": {
+                                    "type": "string",
+                                    "description": "error description"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/TaoQtiItems/taoQtiItem/createQtiItem/": {
+            "post": {
+                "description": "Create an empty QTI item\n",
+                "parameters": [
+                    {
+                        "name": "label",
+                        "in": "formData",
+                        "description": "Item Label",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "examples": {
+                            "application/json": {
+                                "success": true,
+                                "data": {
+                                    "id": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
+                                },
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "true on success"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "description": "item uri"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request if you send invalid parameters",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "errorCode": {
+                                    "type": "integer",
+                                    "description": "error code"
+                                },
+                                "errorMsg": {
+                                    "type": "string",
+                                    "description": "error description"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Supplied credentials are not valid"
+                    },
+                    "500": {
+                        "description": "Internal error (should not occur)",
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "errorCode": {
+                                    "type": "integer",
+                                    "description": "error code"
+                                },
+                                "errorMsg": {
+                                    "type": "string",
+                                    "description": "error description"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "not implemented if you call this API with GET method",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 501,
+                                "errorMsg": "Only post method is accepted to import Qti package.",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "errorCode": {
+                                    "type": "integer",
+                                    "description": "error code"
+                                },
+                                "errorMsg": {
+                                    "type": "string",
+                                    "description": "error description"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "taoQtiItem on Github",
+        "url": "https://github.com/oat-sa/extension-tao-itemqti"
+    }
+}
