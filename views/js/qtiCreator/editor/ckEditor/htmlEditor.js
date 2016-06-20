@@ -162,33 +162,13 @@ define([
                         editor = e.editor;
                     
                     /**
-                     * changed callback
-                     * @param {Object} editor - ckeditor instance
-                     */
-                    function changed(editor){
-
-                        _detectWidgetDeletion($editable, widgets, editor);
-
-                        //callback:
-                        if(_.isFunction(options.change)){
-                            options.change.call(editor, _htmlEncode(editor.getData()));
-                        }
-
-                    }
-
-                    /**
                      * Markup change callback
                      */
                     function markupChanged(){
-
-                        //callbacks:
-                        if(_.isFunction(options.markupChange)){
-                            options.markupChange.call($editable);
-                        }
+                        _detectWidgetDeletion($editable, widgets, editor);
                         if(_.isFunction(options.change)){
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
-
                     }
 
                     //fix ck editor combo box display issue
@@ -197,10 +177,6 @@ define([
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
                     $editable.data('editor-options', options);
-
-                    $editable.on('change', function(){
-                        changed(editor);
-                    });
 
                     editor.on('change', function(){
                         markupChanged(editor);
@@ -360,6 +336,7 @@ define([
         _.each(widgets, function(w){
 
             if(!w.element.data('removed')){
+                console.log(w);
                 var $widget = _findWidgetContainer($container, w.serial);
                 if(!$widget.length){
                     deleted.push(w);
