@@ -5,13 +5,22 @@
         "title": "QTI item creation API"
     },
     "schemes": [
-        "http",
-        "https"
+        "https",
+        "http"
+    ],
+    "tags": [
+        {
+            "name": "item",
+            "description": "Operations about items"
+        }
     ],
     "paths": {
         "/taoQtiItem/RestQtiItem/import/": {
             "post": {
                 "description": "Import QTI item entry point from uploaded package\nCheck POST method & get valid uploaded file\n",
+                "tags": [
+                    "item"
+                ],
                 "parameters": [
                     {
                         "name": "content",
@@ -71,7 +80,7 @@
                         }
                     },
                     "400": {
-                        "description": "bad request if you send invalid parameters",
+                        "description": "Bad request if you send invalid parameters",
                         "examples": {
                             "application/json": {
                                 "success": false,
@@ -85,10 +94,10 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized Supplied credentials are not valid"
+                        "description": "Unauthorized"
                     },
                     "403": {
-                        "description": "user isn't authorized to access to this resource"
+                        "description": "User isn't authorized to access to this functionality"
                     },
                     "500": {
                         "description": "Internal error (should not occur)",
@@ -124,6 +133,9 @@
         "/taoQtiItem/RestQtiItem/createQtiItem/": {
             "post": {
                 "description": "Create an empty QTI item\n",
+                "tags": [
+                    "item"
+                ],
                 "parameters": [
                     {
                         "name": "label",
@@ -169,7 +181,7 @@
                         }
                     },
                     "400": {
-                        "description": "bad request if you send invalid parameters",
+                        "description": "Bad request if you send invalid parameters",
                         "examples": {
                             "application/json": {
                                 "success": false,
@@ -183,10 +195,10 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized Supplied credentials are not valid"
+                        "description": "Unauthorized"
                     },
                     "403": {
-                        "description": "user isn't authorized to access to this resource"
+                        "description": "User isn't authorized to access to this functionality"
                     },
                     "500": {
                         "description": "Internal error (should not occur)",
@@ -235,7 +247,8 @@
                
                                 "success": {
                                     "type": "boolean",
-                                    "description": "false on failure"
+                                    "description": "false on failure",
+                                    "default" : false
                                 },
                                 "version": {
                                     "type": "string",
