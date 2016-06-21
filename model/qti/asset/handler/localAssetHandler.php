@@ -47,7 +47,7 @@ class LocalAssetHandler extends AssetHandler
         }
 
         $info = $this->itemSource->add($absolutePath, basename($absolutePath), $safePath);
-        \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' copied.');
+        \common_Logger::i('Asset file \'' . $absolutePath . '\' copied.');
         return $info;
     }
 }

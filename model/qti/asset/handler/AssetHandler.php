@@ -35,4 +35,9 @@ abstract class AssetHandler
             $this->set($key, $parameter);
         }
     }
+
+    public function getParameters()
+    {
+        return $this->attributes;
+    }
 }

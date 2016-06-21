@@ -29,10 +29,21 @@ use oat\taoQtiItem\model\qti\Resource as QtiResource;
 
 class AssetManager
 {
+    /**
+     * @var array of AssetHandler
+     */
     protected $assetHandlers;
 
+    /**
+     * Content of the item
+     * @var array
+     */
     protected $itemContent = '';
 
+    /**
+     * Location of extracted zip package
+     * @var string
+     */
     protected $source;
 
     /**
@@ -42,7 +53,7 @@ class AssetManager
      * @param $itemSource
      * @param array $parameters
      * @return $this
-     * @throws \common_Exception
+     * @throws AssetManagerException
      */
     public function loadAssetHandler($itemSource, array $parameters = array())
     {
@@ -54,7 +65,7 @@ class AssetManager
                 $assetHandler = new MediaAssetHandler($itemSource);
                 break;
             default:
-                throw new \common_Exception('Item source "' . get_class($itemSource) . '" is not supported by AssetManager');
+                throw new AssetManagerException('Item source "' . get_class($itemSource) . '" is not supported by AssetManager');
         }
 
         $assetHandler->setParameters($parameters);
@@ -89,12 +100,12 @@ class AssetManager
      * Get source
      *
      * @return mixed
-     * @throws \common_Exception
+     * @throws AssetManagerException
      */
     public function getSource()
     {
         if (!$this->source) {
-            throw new \common_Exception('No source folder set to assetManager when loading auxiliary files & dependencies.');
+            throw new AssetManagerException('No source folder set to assetManager when loading auxiliary files & dependencies.');
         }
         return $this->source;
     }
@@ -111,41 +122,61 @@ class AssetManager
         return $this;
     }
 
-    public function importAuxiliaryFiles(QtiResource $qtiItemResource, array $auxiliaryFiles)
+    /**
+     *
+     * @param QtiResource $qtiItemResource
+     * @return $this
+     * @throws \common_Exception
+     */
+    public function importAuxiliaryFiles(QtiResource $qtiItemResource)
     {
         $qtiFile = $this->getSource() . \helpers_File::urlToPath($qtiItemResource->getFile());
-
-        foreach ($auxiliaryFiles as $auxiliaryFile) {
-
-            //auxFile
-            $absolutePath = $this->getSource() . str_replace('/', DIRECTORY_SEPARATOR, $auxiliaryFile);
-
-            //auxPath
-            $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
-
-            $this->importAsset($absolutePath, $relativePath);
+        foreach ($qtiItemResource->getAuxiliaryFiles() as $auxiliaryFile) {
+            $absolutePath = $this->getAbsolutePath($auxiliaryFile);
+            $relativePath = $this->getRelativePath($qtiFile, $absolutePath);
+            try {
+                $this->importAsset($absolutePath, $relativePath);
+            } catch(\common_Exception $e) {
+                throw new AssetManagerException (
+                    'Error occurs during auxiliary assets handling for item: ' . $qtiItemResource->getIdentifier() . ', assetFile: ' . $relativePath,
+                    0, $e
+                );
+            }
         }
         return $this;
     }
 
-    public function importDependencyFiles(QtiResource $qtiItemResource, array $dependenciesFiles, $dependencies)
+    public function importDependencyFiles(QtiResource $qtiItemResource, $dependencies)
     {
         $qtiFile = $this->getSource() . \helpers_File::urlToPath($qtiItemResource->getFile());
-
-        foreach ($dependenciesFiles as $dependenciesFile) {
-
+        foreach ($qtiItemResource->getDependencies() as $dependenciesFile) {
             if (!isset($dependencies[$dependenciesFile])) {
                 continue;
             }
-
-            $absolutePath = $dependencies[$dependenciesFile]->getFile();
-            $absolutePath = $this->getSource() . str_replace('/', DIRECTORY_SEPARATOR, $absolutePath);
-
-            $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
-
-            $this->importAsset($absolutePath, $relativePath);
+            $absolutePath = $this->getAbsolutePath($dependencies[$dependenciesFile]->getFile());
+            var_dump($absolutePath);
+            $relativePath = $this->getRelativePath($qtiFile, $absolutePath);
+            try {
+                echo '+1';
+                $this->importAsset($absolutePath, $relativePath);
+            } catch(\common_Exception $e) {
+                throw new AssetManagerException(
+                    'Error occurs during dependency assets handling for item: ' . $qtiItemResource->getIdentifier() . ', assetFile: ' . $relativePath,
+                    0, $e
+                );
+            }
         }
         return $this;
+    }
+
+    protected function getAbsolutePath($file)
+    {
+        return $this->getSource() . str_replace('/', DIRECTORY_SEPARATOR, $file);
+    }
+
+    protected function getRelativePath($qtiFile, $absolutePath)
+    {
+        return str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
     }
 
     protected function importAsset($absolutePath, $relativePath)
@@ -163,7 +194,7 @@ class AssetManager
                 return;
             }
         }
-        throw new \common_Exception('Unable to import auxiliary & dependency files. No asset handler applicable to file : ' . $relativePath);
+        throw new AssetManagerException('Unable to import auxiliary & dependency files. No asset handler applicable to file : ' . $relativePath);
     }
 
 }

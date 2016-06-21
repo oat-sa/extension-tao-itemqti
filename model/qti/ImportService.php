@@ -465,8 +465,8 @@ class ImportService extends tao_models_classes_GenerisService
                     );
 
                 $itemAssetManager
-                    ->importAuxiliaryFiles($qtiItemResource, $qtiItemResource->getAuxiliaryFiles())
-                    ->importDependencyFiles($qtiItemResource, $qtiItemResource->getDependencies(), $dependencies);
+                    ->importAuxiliaryFiles($qtiItemResource)
+                    ->importDependencyFiles($qtiItemResource, $dependencies);
 
                 $itemService->setItemContent($rdfItem, $itemAssetManager->getItemContent());
 
