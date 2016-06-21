@@ -70,7 +70,7 @@ define([
                 }
             });
 
-            //textWrapper.unwrap($pseudoContainer);
+            textWrapper.unwrap($pseudoContainer);
 
             container.body(contentHelper.getContent($pseudoContainer));
 

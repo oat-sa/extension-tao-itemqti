@@ -50,9 +50,12 @@ define(['jquery'], function($){
 
     function unwrapSelection($editable){
 
+        var $wrapper = $editable.find('#selection-wrapper');
+
         $editable.trigger('beforeunwrap');
 
-        $editable.find('#selection-wrapper').replaceWith(function(){
+        $wrapper.find('[data-role]').remove();
+        $wrapper.replaceWith(function(){
             return $(this).html();
         });
 
