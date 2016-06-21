@@ -28,6 +28,10 @@
                            "title": "response",
                             "format": "json",
                             "type": "object",
+                            "required": [
+                                "success",
+                                "version"
+                            ],
                             "properties": {
                                 "success": {
                                     "type": "boolean",
@@ -77,26 +81,7 @@
                             }
                         },
                         "schema": {
-                            "title": "response",
-                            "format": "json",
-                            "type": "object",
-                            "properties": {
-                                "success": {
-                                    "type": "boolean",
-                                    "description": "false on failure"
-                                },
-                                "version": {
-                                    "type": "string"
-                                },
-                                "errorCode": {
-                                    "type": "integer",
-                                    "description": "error code"
-                                },
-                                "errorMsg": {
-                                    "type": "string",
-                                    "description": "error description"
-                                }
-                            }
+                             "$ref" : "#/definitions/errorModel"
                         }
                     },
                     "401": {
@@ -116,26 +101,7 @@
                             }
                         },
                         "schema": {
-                            "title": "response",
-                            "format": "json",
-                            "type": "object",
-                            "properties": {
-                                "success": {
-                                    "type": "boolean",
-                                    "description": "false on failure"
-                                },
-                                "version": {
-                                    "type": "string"
-                                },
-                                "errorCode": {
-                                    "type": "integer",
-                                    "description": "error code"
-                                },
-                                "errorMsg": {
-                                    "type": "string",
-                                    "description": "error description"
-                                }
-                            }
+                             "$ref" : "#/definitions/errorModel"
                         }
                     },
                     "501": {
@@ -149,26 +115,7 @@
                             }
                         },
                         "schema": {
-                            "title": "response",
-                            "format": "json",
-                            "type": "object",
-                            "properties": {
-                                "success": {
-                                    "type": "boolean",
-                                    "description": "false on failure"
-                                },
-                                "version": {
-                                    "type": "string"
-                                },
-                                "errorCode": {
-                                    "type": "integer",
-                                    "description": "error code"
-                                },
-                                "errorMsg": {
-                                    "type": "string",
-                                    "description": "error description"
-                                }
-                            }
+                             "$ref" : "#/definitions/errorModel"
                         }
                     }
                 }
@@ -201,6 +148,11 @@
                             "title": "response",
                             "format": "json",
                             "type": "object",
+                            "required": [
+                                "success",
+                                "version",
+                                "data"
+                            ],
                             "properties": {
                                 "success": {
                                     "type": "boolean",
@@ -227,26 +179,7 @@
                             }
                         },
                         "schema": {
-                            "title": "response",
-                            "format": "json",
-                            "type": "object",
-                            "properties": {
-                                "success": {
-                                    "type": "boolean",
-                                    "description": "false on failure"
-                                },
-                                "version": {
-                                    "type": "string"
-                                },
-                                "errorCode": {
-                                    "type": "integer",
-                                    "description": "error code"
-                                },
-                                "errorMsg": {
-                                    "type": "string",
-                                    "description": "error description"
-                                }
-                            }
+                             "$ref" : "#/definitions/errorModel"
                         }
                     },
                     "401": {
@@ -266,26 +199,7 @@
                             }
                         },
                         "schema": {
-                            "title": "response",
-                            "format": "json",
-                            "type": "object",
-                            "properties": {
-                                "success": {
-                                    "type": "boolean",
-                                    "description": "false on failure"
-                                },
-                                "version": {
-                                    "type": "string"
-                                },
-                                "errorCode": {
-                                    "type": "integer",
-                                    "description": "error code"
-                                },
-                                "errorMsg": {
-                                    "type": "string",
-                                    "description": "error description"
-                                }
-                            }
+                             "$ref" : "#/definitions/errorModel"
                         }
                     },
                     "501": {
@@ -299,16 +213,33 @@
                             }
                         },
                         "schema": {
-                            "title": "response",
-                            "format": "json",
-                            "type": "object",
-                            "properties": {
+                             "$ref" : "#/definitions/errorModel"
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    "definitions": {
+        "errorModel" : {
+            "type": "object",
+            "description": "contain error",
+            "required": [
+              "success",
+              "version",
+              "errorCode",
+              "errorMsg"
+            ],
+            "properties": {
+               
                                 "success": {
                                     "type": "boolean",
                                     "description": "false on failure"
                                 },
                                 "version": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description" : "tao version"
                                 },
                                 "errorCode": {
                                     "type": "integer",
@@ -318,15 +249,9 @@
                                     "type": "string",
                                     "description": "error description"
                                 }
-                            }
-                        }
-                    }
-                }
+                            
             }
-        }
-    },
-
-    "definitions": {
+        },
         "data" : {
             "type": "object",
             "description": "output user data, it appear if success value is true",
