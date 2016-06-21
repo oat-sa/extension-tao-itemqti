@@ -7,7 +7,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
-    'ui/resourcemgr'
+    'ui/resourcemgr',
+    'ui/tooltip'
 ], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer){
 
     var IncludeStateActive = stateFactory.extend(Active, function(){
@@ -81,8 +82,8 @@ define([
                 },
                 open : function(){
                     //hide tooltip if displayed
-                    if($href.hasClass('tooltipstered')){
-                        $href.blur().tooltipster('hide');
+                    if($href.data('qtip')){
+                        $href.blur().qtip('hide');
                     }
                 },
                 close : function(){

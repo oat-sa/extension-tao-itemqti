@@ -111,8 +111,10 @@ define([
             assetManager: assetManager,
             themes : itemThemes,
             enableDragAndDrop: {
+                associate: !!module.config().associateDragAndDrop,
                 gapMatch: !!module.config().gapMatchDragAndDrop,
-                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop
+                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop,
+                order: !!module.config().orderDragAndDrop
             }
         }
     };

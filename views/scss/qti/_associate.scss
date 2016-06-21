@@ -76,6 +76,16 @@
                 &:first-child {
                     float: left
                 }
+                &.dragged, &.dragged:hover { // :hover is to override .active:hover
+                    @extend %dragged;
+                    outline: 0;
+                }
+                &.droppable, &.droppable:hover { // :hover is to override .active:hover
+                    @extend %droppable;
+                }
+                &.dropzone {
+                    @extend %dropzone;
+                }
             }
             &.removing > div{
                 background-color:#eee;
