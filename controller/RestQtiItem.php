@@ -166,11 +166,30 @@ class RestQtiItem extends \tao_actions_RestController
      * @author christophe GARCIA <christopheg@taotesting.com>
      */
     public function export() {
-         if ($this->getRequestMethod()!=Request::HTTP_GET) {
-                throw new \common_exception_NotImplemented('Only post method is accepted to create empty item.');
+        try {
+            if ($this->getRequestMethod()!=Request::HTTP_GET) {
+                    throw new \common_exception_NotImplemented('Only GET method is accepted to create empty item.');
             }
-        
-        
+            
+            if(!$this->hasRequestParameter('id')) {
+                return $this->returnFailure(new common_exception_MissingParameter('required parameter `id` is missing'));
+             
+            } 
+            
+            $id = $this->getRequestParameters();
+            $handler = new tao_models_classes_export_RdfExporter();
+            $exporter = new oat\taoQtiItem\model\Export\QtiPackageExportHandler();
+            
+            $formData = [
+                'id'  => $id,
+                'class' => $id
+                ]; 
+            
+            $formFactory = new tao_actions_form_Export($handler, $exporter->getExportForm($id), $formData);
+            var_dump($formFactory);
+        } catch (\Exception $e) {
+            $this->returnFailure($e);
+        }
     }
 }
 
