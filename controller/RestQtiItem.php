@@ -161,6 +161,17 @@ class RestQtiItem extends \tao_actions_RestController
             $this->returnFailure($e);
         }
     }
+    
+    /**
+     * @author christophe GARCIA <christopheg@taotesting.com>
+     */
+    public function export() {
+         if ($this->getRequestMethod()!=Request::HTTP_GET) {
+                throw new \common_exception_NotImplemented('Only post method is accepted to create empty item.');
+            }
+        
+        
+    }
 }
 
 		    
