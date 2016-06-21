@@ -31,13 +31,22 @@
                             "properties": {
                                 "success": {
                                     "type": "boolean",
-                                    "description": "false on failure"
+                                    "description": "false on failure, true on success"
                                 },
                                 "version": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "tao version"
                                 },
                                 "data": {
                                     "$ref" : "#/definitions/data"
+                                },
+                                "errorCode": {
+                                    "type": "string",
+                                    "description" :  "error code. it appear if success value is false"
+                                },
+                                "errorMsg" : {
+                                    "type": "string",
+                                    "description" :  "error description. it appear if success value is false"
                                 }
                             } 
                             
@@ -320,7 +329,7 @@
     "definitions": {
         "data" : {
             "type": "object",
-            "description": "output user data",
+            "description": "output user data, it appear if success value is true",
             "properties": {
                 "items": {
                    "type": "array",
