@@ -161,16 +161,6 @@ define([
                     var widgets = {},
                         editor = e.editor;
                     
-                    /**
-                     * Markup change callback
-                     */
-                    function markupChanged(){
-                        _detectWidgetDeletion($editable, widgets, editor);
-                        if(_.isFunction(options.change)){
-                            options.change.call(editor, _htmlEncode(editor.getData()));
-                        }
-                    }
-
                     //fix ck editor combo box display issue
                     $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
@@ -178,9 +168,12 @@ define([
                     $editable.data('editor', editor);
                     $editable.data('editor-options', options);
 
-                    editor.on('change', function(){
-                        markupChanged(editor);
-                    });
+                    editor.on('change', _.debounce(function markupChanged(){
+                        _detectWidgetDeletion($editable, widgets, editor);
+                        if(_.isFunction(options.change)){
+                            options.change.call(editor, _htmlEncode(editor.getData()));
+                        }
+                    }, 100));
 
                     if(options.data && options.data.container){
 
@@ -332,11 +325,11 @@ define([
     function _detectWidgetDeletion($container, widgets, editor){
 
         var deleted = [];
+        var container = $container.data('qti-container');
 
         _.each(widgets, function(w){
 
             if(!w.element.data('removed')){
-                console.log(w);
                 var $widget = _findWidgetContainer($container, w.serial);
                 if(!$widget.length){
                     deleted.push(w);
@@ -346,18 +339,32 @@ define([
         });
 
         if(deleted.length){
-
+            var undoCmd = editor.getCommand( 'undo');
             var $messageBox = deletingHelper.createInfoBox(deleted);
+
             $messageBox.on('confirm.deleting', function(){
 
                 _.each(deleted, function(w){
                     w.element.remove();
                     w.destroy();
                 });
+
+                editor.resetUndo();
+
             }).on('undo.deleting', function(){
 
                 editor.undoManager.undo();
+
+                _rebuildWidgets(container, $container, {
+                    restoreState : true
+                });
             });
+
+            if (undoCmd){
+                undoCmd.on('afterUndo', function(){
+                    $messageBox.find('a.undo').click();
+                });
+            }
 
         }
     }
