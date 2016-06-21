@@ -102,35 +102,12 @@
                     "500": {
                         "description": "Internal error (should not occur)"
                         
-                    }
+                    },
                     
-                }
-                 
-            },
-            "get" : {
-                "tags": [
-                    "item"
-                ],
-                "responses": {
-                    "501": {
-                        "description": "not implemented if you call this API with GET method",
-                        "examples": {
-                            "application/json": {
-                                "success": false,
-                                "errorCode": 501,
-                                "errorMsg": "Only post method is accepted to import Qti package.",
-                                "version": "3.1.0"
-                            }
-                        },
-                        "schema": {
-                             "$ref" : "#/definitions/errorModel"
-                        }
-                    }
                 }
             }
         },
         "/taoQtiItem/RestQtiItem/createQtiItem/": {
-          
             "post": {
                 "description": "Create an empty QTI item\n",
                 "tags": [
@@ -203,14 +180,7 @@
                     "500": {
                         "description": "Internal error (should not occur)"
                        
-                    }
-                }
-            },
-             "get" : {
-                 "tags": [
-                    "item"
-                ],
-                "responses": {
+                    },
                     "501": {
                         "description": "not implemented if you call this API with GET method",
                         "examples": {
