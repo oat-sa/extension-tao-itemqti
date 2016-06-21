@@ -102,7 +102,7 @@
                     "500": {
                         "description": "Internal error (should not occur)"
                         
-                    },
+                    }
                     
                 }
             }
