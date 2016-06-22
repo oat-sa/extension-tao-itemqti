@@ -24,6 +24,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 
 /**
  * End point of Rest item API
@@ -163,6 +164,7 @@ class RestQtiItem extends \tao_actions_RestController
     }
     
     /**
+     * render item rdf xml
      * @author christophe GARCIA <christopheg@taotesting.com>
      */
     public function export() {
@@ -176,18 +178,34 @@ class RestQtiItem extends \tao_actions_RestController
              
             } 
             
-            $id = $this->getRequestParameters();
-            $handler = new tao_models_classes_export_RdfExporter();
-            $exporter = new oat\taoQtiItem\model\Export\QtiPackageExportHandler();
+            $id = $this->getRequestParameter('id');
+            $class = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
             
-            $formData = [
-                'id'  => $id,
-                'class' => $id
-                ]; 
+            $item = new \core_kernel_classes_Resource($id);
             
-            $formFactory = new tao_actions_form_Export($handler, $exporter->getExportForm($id), $formData);
-            var_dump($formFactory);
-        } catch (\Exception $e) {
+            $path = \tao_helpers_Export::getExportFile();
+            $itemService = \taoItems_models_classes_ItemsService::singleton();
+            
+            $tmpZip = new \ZipArchive();
+            $tmpZip->open($path , \ZipArchive::CREATE);
+            
+            if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
+                $exporter = new QTIPackedItemExporter( $item , $tmpZip);
+                $exporter->export(array('apip' => false));
+
+                $exporter->getZip()->close();
+                $content = file_get_contents($path);
+
+                header("Content-Type: application/zip" , 200);
+                header("Content-Length: " . strlen($content) , 200);
+
+                echo $content;
+
+                return;
+            } else {
+                $this->returnFailure(new \common_exception_InvalidArgumentType('invalid item id'));
+            }
+            } catch (\Exception $e) {
             $this->returnFailure($e);
         }
     }
