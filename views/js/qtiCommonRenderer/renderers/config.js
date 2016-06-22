@@ -22,8 +22,8 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-    'qtiItemPci/pciRegistry'
-], function(_, context, themes, assetManagerFactory, assetStrategies, pciRegistry){
+    'module'
+], function(_, context, themes, assetManagerFactory, assetStrategies, module){
     'use strict';
 
     var itemThemes = themes.get('items');
@@ -111,8 +111,10 @@ define([
             assetManager: assetManager,
             themes : itemThemes,
             enableDragAndDrop: {
+                associate: !!module.config().associateDragAndDrop,
                 gapMatch: !!module.config().gapMatchDragAndDrop,
-                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop
+                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop,
+                order: !!module.config().orderDragAndDrop
             }
         }
     };

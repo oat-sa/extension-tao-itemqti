@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+	xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:m="http://www.w3.org/1998/Math/MathML" 
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+    identifier="i14653905052903128a" title="Item 13" adaptive="false" timeDependent="false">
+	<responseDeclaration baseType="identifier" cardinality="multiple" identifier="RESPONSE" />
+	<outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE" />
+	<itemBody class="x-tao-style-customerA-theme1 x-tao-style-customerA-theme2">
+		<div class="grid-row">
+			<div class="col-12">
+				<choiceInteraction shuffle="false" maxChoices="0" minChoices="0" orientation="vertical" responseIdentifier="RESPONSE">
+					<prompt  />
+					<simpleChoice fixed="false" showHide="show" identifier="choice_1">choice #1</simpleChoice>
+					<simpleChoice fixed="false" showHide="show" identifier="choice_2">choice #2</simpleChoice>
+					<simpleChoice fixed="false" showHide="show" identifier="choice_3">choice #3</simpleChoice>
+				</choiceInteraction>
+			</div>
+		</div>
+	</itemBody>
+	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+</assessmentItem>

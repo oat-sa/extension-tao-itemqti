@@ -246,7 +246,7 @@ define([
                 assert.ok( typeof $('.qti-extendedTextInteraction', $container).data('editor') === 'string', 'The interaction has the editor instance name');
 
 
-                QUnit.start();
+                _.delay(QUnit.start, 10);
             })
             .init()
             .render($container);
@@ -280,7 +280,7 @@ define([
                 assert.deepEqual(this.getState(), {'RESPONSE': { response : { base  : { string : response } } } }, 'the response state is equal to the loaded response');
                 assert.equal(editor.getData(), response, 'the editor displays the loaded response');
 
-                QUnit.start();
+                _.delay(QUnit.start, 10);
             })
             .init()
             .render($container);
@@ -311,9 +311,13 @@ define([
                 assert.deepEqual(self.getState(), {'RESPONSE': { response : response } }, 'the response state is equal to the loaded response');
 
                 //ck set the text with a little delay
-                assert.equal($('.qti-extendedTextInteraction iframe.cke_wysiwyg_frame', $container).contents().find('body').text(), 'test', 'the state text is inserted');
+                _.delay(function() {
+                    assert.equal($('.qti-extendedTextInteraction iframe.cke_wysiwyg_frame', $container).contents().find('body').text(), 'test', 'the state text is inserted');
 
-                QUnit.start();
+                    _.delay(function() {
+                        QUnit.start();
+                    }, 10);
+                }, 10);
             })
             .init()
             .render($container);
@@ -355,7 +359,7 @@ define([
                     assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : '' } } } }, 'The response is cleared');
                     assert.equal(editor.getData(), '', 'the editor is cleared');
 
-                    QUnit.start();
+                    _.delay(QUnit.start, 10);
                 }, 10);
             })
             .init()
@@ -396,7 +400,7 @@ define([
                         assert.equal($container.find('.qti-extendedTextInteraction .instruction-container').children().length, 0, 'there is no instructions anymore');
                         assert.ok(typeof ckEditor.instances[editorName] === 'undefined', 'the editor instance is not available anymore');
 
-                        QUnit.start();
+                        _.delay(QUnit.start, 10);
 
                     }, 10);
                 }, 10);
@@ -404,5 +408,27 @@ define([
             .init()
             .render($container);
     });
+
+    QUnit.module('Visual Test');
+
+    QUnit.asyncTest('Display and play', function(assert){
+        QUnit.expect(1);
+
+        var $container = $('#outside-container');
+
+        assert.equal($container.length, 1, 'the item container exists');
+
+        runner = qtiItemRunner('qti', itemDataXhtml)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
+            .on('render', function(){
+                QUnit.start();
+            })
+            .init()
+            .render($container);
+    });
+
 });
 

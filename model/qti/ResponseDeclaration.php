@@ -121,6 +121,14 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         }
         $protectedData['correctResponses'] = $correctResponses;
 
+        $defaultValues = $this->getDefaultValue();
+        if (is_array($defaultValues)) {
+            foreach ($defaultValues as $defaultValuesKey => $defaultValue) {
+                $defaultValues[$defaultValuesKey] = (string) $defaultValue;
+            }
+        }
+        $protectedData['defaultValue'] = $defaultValues;
+
         //add mapping attributes
         $mappingAttributes = array('defaultValue' => $this->mappingDefaultValue);
         if(is_array($this->getAttributeValue('mapping'))){
@@ -146,6 +154,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 
         $variables = parent::getTemplateQtiVariables();
         $variables['correctResponses'] = $this->getCorrectResponses();
+        $variables['defaultValue'] = $this->getDefaultValue();
 
         $variables['mapping'] = $this->mapping;
         $variables['areaMapping'] = $this->areaMapping;

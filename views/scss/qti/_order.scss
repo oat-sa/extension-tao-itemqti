@@ -87,4 +87,17 @@
             }
         }
     }
+    li {
+        &.dragged {
+            border-color: whiten($info, .2) !important;
+            list-style: none;
+        }
+    }
+    .drag-container {
+        position: absolute;
+        display: none;
+        padding: 0;
+        margin: 0;
+        z-index: 1;
+    }
 }
