@@ -48,7 +48,19 @@ class RestQtiItem extends \tao_actions_RestController
         'multipart/x-zip',
         'application/x-compressed'
     );
-
+    
+    protected function getAcceptableMimeTypes()
+    {
+        return 
+            [
+                "application/json", 
+                "text/xml", 
+                "application/xml", 
+                "application/rdf+xml" , 
+                "application/zip",
+            ];
+    }
+    
     /**
      * Class items will be created in
      * 
@@ -195,10 +207,7 @@ class RestQtiItem extends \tao_actions_RestController
                 $exporter->getZip()->close();
                 $content = file_get_contents($path);
 
-                header("Content-Type: application/zip" , 200);
-                header("Content-Length: " . strlen($content) , 200);
-
-                echo $content;
+                \tao_helpers_Http::returnFile($path);
 
                 return;
             } else {
