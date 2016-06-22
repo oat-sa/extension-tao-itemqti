@@ -38,7 +38,7 @@ class RestQtiItem extends \tao_actions_RestController
     const RESTITEM_PACKAGE_NAME = 'content';
 
     /**
-     * Accepted archive types
+     * Accepted archive types for imported package
      *
      * @var array
      */
@@ -49,6 +49,9 @@ class RestQtiItem extends \tao_actions_RestController
         'application/x-compressed'
     );
     
+    /**
+     * @inherit
+     */
     protected function getAcceptableMimeTypes()
     {
         return 
@@ -57,7 +60,7 @@ class RestQtiItem extends \tao_actions_RestController
                 "text/xml", 
                 "application/xml", 
                 "application/rdf+xml" , 
-                "application/zip",
+                "application/zip", 
             ];
     }
     
