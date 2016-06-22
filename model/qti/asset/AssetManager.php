@@ -123,10 +123,11 @@ class AssetManager
     }
 
     /**
+     * Import auxiliaryFile e.q. css, js...
      *
      * @param QtiResource $qtiItemResource
      * @return $this
-     * @throws \common_Exception
+     * @throws AssetManagerException
      */
     public function importAuxiliaryFiles(QtiResource $qtiItemResource)
     {
@@ -137,8 +138,9 @@ class AssetManager
             try {
                 $this->importAsset($absolutePath, $relativePath);
             } catch(\common_Exception $e) {
-                throw new AssetManagerException (
-                    'Error occurs during auxiliary assets handling for item: ' . $qtiItemResource->getIdentifier() . ', assetFile: ' . $relativePath,
+                throw new AssetManagerException(
+                    'Error occurs during auxiliary assets handling for item: ' . $qtiItemResource->getIdentifier()
+                    . ', assetFile: ' . $relativePath,
                     0, $e
                 );
             }
@@ -146,6 +148,14 @@ class AssetManager
         return $this;
     }
 
+    /**
+     * Import dependencies files
+     *
+     * @param QtiResource $qtiItemResource
+     * @param $dependencies
+     * @return $this
+     * @throws AssetManagerException
+     */
     public function importDependencyFiles(QtiResource $qtiItemResource, $dependencies)
     {
         $qtiFile = $this->getSource() . \helpers_File::urlToPath($qtiItemResource->getFile());
@@ -154,14 +164,13 @@ class AssetManager
                 continue;
             }
             $absolutePath = $this->getAbsolutePath($dependencies[$dependenciesFile]->getFile());
-            var_dump($absolutePath);
             $relativePath = $this->getRelativePath($qtiFile, $absolutePath);
             try {
-                echo '+1';
                 $this->importAsset($absolutePath, $relativePath);
             } catch(\common_Exception $e) {
                 throw new AssetManagerException(
-                    'Error occurs during dependency assets handling for item: ' . $qtiItemResource->getIdentifier() . ', assetFile: ' . $relativePath,
+                    'Error occurs during dependency assets handling for item: ' . $qtiItemResource->getIdentifier()
+                    . ', assetFile: ' . $relativePath,
                     0, $e
                 );
             }
@@ -169,16 +178,39 @@ class AssetManager
         return $this;
     }
 
+    /**
+     * Return the location of file as absolute path
+     *
+     * @param $file
+     * @return string
+     * @throws AssetManagerException
+     */
     protected function getAbsolutePath($file)
     {
         return $this->getSource() . str_replace('/', DIRECTORY_SEPARATOR, $file);
     }
 
+    /**
+     * Return the location of file as relative path in package
+     *
+     * @param $qtiFile
+     * @param $absolutePath
+     * @return mixed
+     */
     protected function getRelativePath($qtiFile, $absolutePath)
     {
         return str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
     }
 
+    /**
+     * Loop each assetHandlers populated by loadAssetHandler()
+     * The first applicable return info about file handling processing
+     * and break chain.
+     *
+     * @param $absolutePath
+     * @param $relativePath
+     * @throws AssetManagerException
+     */
     protected function importAsset($absolutePath, $relativePath)
     {
         /** @var AssetHandler $assetHandler */

@@ -25,6 +25,7 @@ use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\AssetManagerException;
+use oat\taoQtiItem\model\qti\asset\handler\AssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
@@ -220,7 +221,6 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         if (!$source) {
             $this->setExpectedException(AssetManagerException::class);
         } else {
-            var_dump($this->returnValueMap($expectedCalls));
             $assetManagerMock
                 ->expects($this->exactly($expectedImportCallCount))
                 ->method('importAsset')
@@ -251,11 +251,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
             ->expects($this->any())
             ->method('getFile')
             ->willReturn('path4');
-//        $sample = clone $mock;
-//        $mock3 = $sample
-//            ->expects($this->once())
-//            ->method('getFile')
-//            ->willReturn('path3');
+
         return [
             [
                 '/source/fixture/', 'qti/file/fixture.txt', ['path1', 'path2', 'path3'],
@@ -268,4 +264,101 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         ];
     }
 
+    /**
+     * @dataProvider importAssetProvider
+     */
+    public function testImportAsset($assetHandlers, $absPath, $relPath, $exception=null, $uri=null)
+    {
+        $reflectionClass = new \ReflectionClass(AssetManager::class);
+
+        $reflectionProperty = $reflectionClass->getProperty('assetHandlers');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($this->instance, $assetHandlers);
+
+        $reflectionClass = new \ReflectionClass(AssetManager::class);
+        $reflectionMethod = $reflectionClass->getMethod('importAsset');
+        $reflectionMethod->setAccessible(true);
+
+        if ($exception) {
+            $this->setExpectedException($exception);
+        }
+
+        if ($uri) {
+            $this->instance->setItemContent($relPath . '/polop.txt');
+        }
+
+        $reflectionMethod->invokeArgs($this->instance, [$absPath, $relPath]);
+
+        if ($uri) {
+            $this->assertEquals($uri . '/polop.txt', $this->instance->getItemContent());
+        }
+    }
+
+    public function importAssetProvider()
+    {
+        return [
+            [
+                [
+                    $this->getAssetHandler('fail', 'failure/path'),
+                    $this->getAssetHandler('fail', 'failure/path')
+                ],
+                'other/path', 'failure/path', AssetManagerException::class
+            ],
+            [
+                [
+                    $this->getAssetHandler('fail', 'success/path'),
+                    $this->getAssetHandler('success', 'success/path', 'other/path')
+                ],
+                'other/path', 'success/path'
+            ],
+            [
+                [
+                    $this->getAssetHandler('fail', 'success/path'),
+                    $this->getAssetHandler('success', 'success/path', 'other/path', 'polop/way'),
+                    $this->getAssetHandler('never')
+                ],
+                'other/path', 'success/path', null, 'polop/way'
+            ]
+        ];
+    }
+
+    protected function getAssetHandler($type='success', $relPath='pathFixture', $absPath='pathFixture', $uri='polop')
+    {
+        $mock = $this->getMockBuilder(LocalAssetHandler::class)
+            ->setConstructorArgs(array(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))))
+            ->setMethods(array('isApplicable', 'handle'))
+            ->getMock();
+
+        if ($type == 'success') {
+            $mock->expects($this->once())
+                ->method('isApplicable')
+                ->with($relPath)
+                ->will($this->returnValue(true));
+
+            $mock->expects($this->once())
+                ->method('handle')
+                ->with($absPath, $relPath)
+                ->will($this->returnValue(array('uri'=> $uri)));
+        }
+
+        if ($type == 'fail') {
+            $mock->expects($this->once())
+                ->method('isApplicable')
+                ->with($relPath)
+                ->will($this->returnValue(false));
+
+            $mock->expects($this->never())
+                ->method('handle');
+        }
+
+        if ($type == 'never') {
+            $mock->expects($this->never())
+                ->method('isApplicable');
+
+            $mock->expects($this->never())
+                ->method('handle');
+        }
+
+        return $mock;
+    }
 }
