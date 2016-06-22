@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\model\qti;
 
 use common_exception_Error;
 use common_exception_UserReadableException;
-use common_ext_ExtensionsManager;
 use common_Logger;
 use common_report_Report;
 use core_kernel_classes_Class;
@@ -32,11 +31,8 @@ use core_kernel_versioning_Repository;
 use DOMDocument;
 use Exception;
 use helpers_File;
-use oat\tao\model\media\MediaService;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
-use oat\taoMediaManager\model\SharedStimulusImporter;
-use oat\taoMediaManager\model\SharedStimulusPackageImporter;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoQtiItem\model\ItemModel;
@@ -392,9 +388,6 @@ class ImportService extends tao_models_classes_GenerisService
             //load the information about resources in the manifest
 
             $itemService = taoItems_models_classes_ItemsService::singleton();
-
-            $sources = MediaService::singleton()->getWritableSources();
-            $sharedStorage = array_shift($sources);
 
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
