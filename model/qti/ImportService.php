@@ -355,7 +355,7 @@ class ImportService extends tao_models_classes_GenerisService
         }
 
         // cleanup
-        //tao_helpers_File::delTree($folder);
+        tao_helpers_File::delTree($folder);
 
         return $report;
     }

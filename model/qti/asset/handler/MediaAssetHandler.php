@@ -41,6 +41,12 @@ class MediaAssetHandler extends AssetHandler
     const ASSET_HANDLER_SHARED_FILES = 'sharedFiles';
     const ASSET_HANDLER_PARENT_PATH = 'parentPath';
 
+    /**
+     * MediaAssetHandler constructor.
+     * Retrieve hared storage
+     *
+     * @param mixed $itemSource
+     */
     public function __construct($itemSource)
     {
         $sources = MediaService::singleton()->getWritableSources();
@@ -49,6 +55,13 @@ class MediaAssetHandler extends AssetHandler
         return $this;
     }
 
+    /**
+     * Check if current file.xml is shared stimulus
+     *
+     * @param $relativePath
+     * @return bool
+     * @throws FileUploadException
+     */
     public function isApplicable($relativePath)
     {
         $xincluded = array();
@@ -62,6 +75,14 @@ class MediaAssetHandler extends AssetHandler
         return (!empty($this->sharedStorage) && in_array($relativePath, $xincluded));
     }
 
+    /**
+     * Handle the process to manage shared stimulus files
+     *
+     * @param $absolutePath
+     * @param $relativePath
+     * @return array
+     * @throws \qtism\data\storage\xml\XmlStorageException
+     */
     public function handle($absolutePath, $relativePath)
     {
         $sharedFiles = $this->getSharedFiles();
