@@ -29,6 +29,13 @@ class LocalAssetHandler extends AssetHandler
      */
     protected $itemSource;
 
+    /**
+     * LocalAssetHandler constructor.
+     * Set $itemSource
+     *
+     * @param mixed $itemSource
+     * @throws \common_Exception If itemSource is not a LocalItemSource
+     */
     public function __construct($itemSource)
     {
         if (!$itemSource instanceof LocalItemSource) {
@@ -38,6 +45,15 @@ class LocalAssetHandler extends AssetHandler
         return $this;
     }
 
+    /**
+     * Handle the process to add file from $itemSource->add()
+     *
+     * @param $absolutePath
+     * @param $relativePath
+     * @return array
+     * @throws \common_Exception
+     * @throws \common_exception_Error
+     */
     public function handle($absolutePath, $relativePath)
     {
         // store locally, in a safe directory
