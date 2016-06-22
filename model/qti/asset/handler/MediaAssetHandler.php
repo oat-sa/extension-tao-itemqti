@@ -93,8 +93,8 @@ class MediaAssetHandler extends AssetHandler
             return $sharedFiles[$md5];
         }
 
-        SharedStimulusImporter::isValidSharedStimulus($relativePath);
-        $newXmlFile = SharedStimulusPackageImporter::embedAssets($relativePath);
+        SharedStimulusImporter::isValidSharedStimulus($absolutePath);
+        $newXmlFile = SharedStimulusPackageImporter::embedAssets($absolutePath);
         $itemContent = $this->sharedStorage->add($newXmlFile, basename($relativePath), $this->get(self::ASSET_HANDLER_PARENT_PATH));
 
         if (method_exists($this->sharedStorage, 'forceMimeType')) {
