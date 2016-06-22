@@ -358,6 +358,8 @@ define([
                 _rebuildWidgets(container, $container, {
                     restoreState : true
                 });
+
+                _shieldInnerContent($container, container.data('widget'));
             });
 
             if (undoCmd){
