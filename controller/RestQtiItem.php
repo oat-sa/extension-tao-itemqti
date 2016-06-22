@@ -170,7 +170,7 @@ class RestQtiItem extends \tao_actions_RestController
     public function export() {
         try {
             if ($this->getRequestMethod()!=Request::HTTP_GET) {
-                    throw new \common_exception_NotImplemented('Only GET method is accepted to create empty item.');
+                    throw new \common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
             }
             
             if(!$this->hasRequestParameter('id')) {
@@ -179,7 +179,6 @@ class RestQtiItem extends \tao_actions_RestController
             } 
             
             $id = $this->getRequestParameter('id');
-            $class = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
             
             $item = new \core_kernel_classes_Resource($id);
             
