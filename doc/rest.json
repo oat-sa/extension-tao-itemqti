@@ -68,6 +68,20 @@
                     "403": {
                         "description": "User isn't authorized to access to this functionality"
                     },
+                    "404": {
+                        "description": "Bad request if you send invalid parameters",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "required parameter `id` is missing",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref" : "#/definitions/errorModel"
+                        }
+                    },
                     "500": {
                         "description": "Internal error (should not occur)"
                        
