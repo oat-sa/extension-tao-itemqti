@@ -24,6 +24,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 
 /**
  * End point of Rest item API
@@ -37,7 +38,7 @@ class RestQtiItem extends \tao_actions_RestController
     const RESTITEM_PACKAGE_NAME = 'content';
 
     /**
-     * Accepted archive types
+     * Accepted archive types for imported package
      *
      * @var array
      */
@@ -47,7 +48,22 @@ class RestQtiItem extends \tao_actions_RestController
         'multipart/x-zip',
         'application/x-compressed'
     );
-
+    
+    /**
+     * @inherit
+     */
+    protected function getAcceptableMimeTypes()
+    {
+        return 
+            [
+                "application/json", 
+                "text/xml", 
+                "application/xml", 
+                "application/rdf+xml" , 
+                "application/zip", 
+            ];
+    }
+    
     /**
      * Class items will be created in
      * 
@@ -157,6 +173,49 @@ class RestQtiItem extends \tao_actions_RestController
             $this->returnSuccess($item->getUri());
 
         } catch (\Exception $e) {
+            $this->returnFailure($e);
+        }
+    }
+    
+    /**
+     * render item rdf xml
+     * @author christophe GARCIA <christopheg@taotesting.com>
+     */
+    public function export() {
+        try {
+            if ($this->getRequestMethod()!=Request::HTTP_GET) {
+                    throw new \common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
+            }
+            
+            if(!$this->hasRequestParameter('id')) {
+                return $this->returnFailure(new \common_exception_MissingParameter('required parameter `id` is missing'));
+             
+            } 
+            
+            $id = $this->getRequestParameter('id');
+            
+            $item = new \core_kernel_classes_Resource($id);
+            
+            $path = \tao_helpers_Export::getExportFile();
+            $itemService = \taoItems_models_classes_ItemsService::singleton();
+            
+            $tmpZip = new \ZipArchive();
+            $tmpZip->open($path , \ZipArchive::CREATE);
+            
+            if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
+                $exporter = new QTIPackedItemExporter( $item , $tmpZip);
+                $exporter->export(array('apip' => false));
+
+                $exporter->getZip()->close();
+                $content = file_get_contents($path);
+
+                \tao_helpers_Http::returnFile($path);
+
+                return;
+            } else {
+                $this->returnFailure(new \common_exception_NotFound('invalid item id'));
+            }
+            } catch (\Exception $e) {
             $this->returnFailure($e);
         }
     }
