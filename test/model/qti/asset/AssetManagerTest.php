@@ -50,7 +50,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider loadAssetHandlerProvider
      */
-    public function testLoadAssetHandler($itemSource, $parameters, $expected, $exception)
+    public function testLoadAssetHandler($itemSource, $parameters, $expected, $exception=false)
     {
         if ($exception) {
             $this->setExpectedException($exception);
@@ -77,9 +77,10 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function loadAssetHandlerProvider()
     {
         return [
-            [new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture')), ['polop' => 'polop'], LocalAssetHandler::class, false],
-            [new ItemMediaResolver('itemFixture', 'langFixture'), null, MediaAssetHandler::class, false],
+            [new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture')), ['polop' => 'polop'], LocalAssetHandler::class],
+            [new ItemMediaResolver('itemFixture', 'langFixture'), null, MediaAssetHandler::class],
             [new \stdClass(), null, null, AssetManagerException::class],
+            [new LocalAssetHandler(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))), ['polop' => 'polop'], LocalAssetHandler::class],
         ];
     }
 

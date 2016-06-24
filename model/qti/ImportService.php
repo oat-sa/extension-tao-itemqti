@@ -31,6 +31,7 @@ use core_kernel_versioning_Repository;
 use DOMDocument;
 use Exception;
 use helpers_File;
+use oat\qtiItemPci\model\PciItemSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
@@ -434,15 +435,6 @@ class ImportService extends tao_models_classes_GenerisService
                  * The first applicable will be used to import assets
                  */
                 $itemAssetManager
-                    /** PCI */
-//                    ->loadAssetHandler(
-//                        new PciItemSource($rdfItem, ''),
-//                        array(
-//                            MediaAssetHandler::ASSET_HANDLER_QTI_MODEL => $qtiModel,
-//                            MediaAssetHandler::ASSET_HANDLER_SHARED_FILES => $sharedFiles,
-//                            MediaAssetHandler::ASSET_HANDLER_PARENT_PATH => $rdfItem->getLabel()
-//                        )
-//                    )
                     /** Shared stimulus */
                     ->loadAssetHandler(
                         new ItemMediaResolver($rdfItem, ''),

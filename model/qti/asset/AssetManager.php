@@ -65,6 +65,10 @@ class AssetManager
                 $assetHandler = new MediaAssetHandler($itemSource);
                 break;
             default:
+                if ($itemSource instanceof AssetHandler) {
+                    $assetHandler = $itemSource;
+                    break;
+                }
                 throw new AssetManagerException('Item source "' . get_class($itemSource) . '" is not supported by AssetManager');
         }
 

@@ -48,6 +48,7 @@ abstract class AssetHandler
 
     /**
      * Process to manage a file of asset
+     * Return an array of fileinfo
      *
      * @param $absolutePath
      * @param $relativePath
