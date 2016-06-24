@@ -38,6 +38,7 @@ use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\PciAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -434,6 +435,11 @@ class ImportService extends tao_models_classes_GenerisService
                  * Load asset handler following priority handler defined by you
                  * The first applicable will be used to import assets
                  */
+
+                /** Pci handler */
+                $pciHandler = new PciAssetHandler();
+                $pciHandler->setQtiModel($qtiModel);
+                $itemAssetManager->loadAssetHandler($pciHandler);
 
                 /** Shared stimulus handler */
                 $sharedStimulusHandler = new SharedStimulusAssetHandler();
