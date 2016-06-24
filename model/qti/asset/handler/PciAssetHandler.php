@@ -57,6 +57,7 @@ class PciAssetHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
+        $this->pciItemSource->setQtiModel($this->getQtiModel());
         return $this->pciItemSource->importPciFile($absolutePath, $relativePath);
     }
 
@@ -70,10 +71,12 @@ class PciAssetHandler implements AssetHandler
 
     /**
      * @param mixed $qtiModel
+     * @return $this
      */
     public function setQtiModel($qtiModel)
     {
         $this->qtiModel = $qtiModel;
+        return $this;
     }
 
 
