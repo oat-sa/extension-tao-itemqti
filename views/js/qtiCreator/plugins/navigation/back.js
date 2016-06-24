@@ -28,7 +28,7 @@ define([
     'i18n',
     'core/plugin',
     'ui/hider',
-    'history',
+    'html5-history-api',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
 ], function($, __, pluginFactory, hider, history, buttonTpl){
     'use strict';
