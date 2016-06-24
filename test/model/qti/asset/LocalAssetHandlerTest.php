@@ -27,36 +27,6 @@ use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 class LocalAssetHandlerTest extends TaoPhpUnitTestRunner
 {
     /**
-     * @dataProvider testConstructorProvider
-     */
-    public function testConstructor($parameter, $exception=null)
-    {
-        if ($exception) {
-            $this->setExpectedException($exception);
-        }
-
-        $localAssetHandlerFixture = new LocalAssetHandler($parameter);
-
-        if (!$exception) {
-            $reflectionClass = new \ReflectionClass(LocalAssetHandler::class);
-            $reflectionProperty = $reflectionClass->getProperty('itemSource');
-            $reflectionProperty->setAccessible(true);
-            $itemSource = $reflectionProperty->getValue($localAssetHandlerFixture);
-
-            $this->assertEquals($parameter, $itemSource);
-        }
-    }
-
-    public function testConstructorProvider()
-    {
-        return [
-            ['polop', \common_Exception::class],
-            [new \stdClass(), \common_Exception::class],
-            [new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))]
-        ];
-    }
-
-    /**
      * @dataProvider testHandleProvider
      */
     public function testHandle($absolutePath, $relativePath, $safePath)
@@ -87,5 +57,13 @@ class LocalAssetHandlerTest extends TaoPhpUnitTestRunner
             ['absoluteFixture', '../polop/test.txt', 'polop/'],
             ['absoluteFixture', '../polop/path/test.txt', 'polop/path/'],
         ];
+    }
+
+    public function testGetSetItemSource()
+    {
+        $itemSourceFixture= new LocalItemSource(array('lang' => 'en', 'item' => 'polop'));
+        $localAssetHandler = new LocalAssetHandler();
+        $this->assertInstanceOf(LocalAssetHandler::class, $localAssetHandler->setItemSource($itemSourceFixture));
+        $this->assertEquals($itemSourceFixture, $localAssetHandler->getItemSource());
     }
 }

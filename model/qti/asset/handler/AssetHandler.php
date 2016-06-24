@@ -20,31 +20,15 @@
 
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
-abstract class AssetHandler
+interface AssetHandler
 {
-    /**
-     * @var array
-     */
-    protected $attributes;
-
-    /**
-     * AssetHandler constructor.
-     * $itemSource is the abstraction to manage file object
-     *
-     * @param $itemSource mixed
-     */
-    public abstract function __construct($itemSource);
-
     /**
      * Given a relative path to a file, Handler should be able to know if file is applicable for them
      *
      * @param $relativePath
      * @return bool
      */
-    public function isApplicable($relativePath)
-    {
-        return true;
-    }
+    public function isApplicable($relativePath);
 
     /**
      * Process to manage a file of asset
@@ -54,54 +38,5 @@ abstract class AssetHandler
      * @param $relativePath
      * @return mixed
      */
-    public abstract function handle($absolutePath, $relativePath);
-
-    /**
-     * Setter of $attributes key
-     *
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function set($key, $value)
-    {
-        $this->attributes[$key] = $value;
-        return $this;
-    }
-
-    /**
-     * Getter of $attributes key
-     *
-     * @param $key
-     * @return bool
-     */
-    public function get($key)
-    {
-        if (!isset($this->attributes[$key])) {
-            return false;
-        }
-        return $this->attributes[$key];
-    }
-
-    /**
-     * Setter of $attributes array
-     *
-     * @param array $parameters
-     * @return $this
-     */
-    public function setParameters(array $parameters)
-    {
-        foreach ($parameters as $key => $parameter) {
-            $this->set($key, $parameter);
-        }
-        return $this;
-    }
-
-    /**
-     * Getter of $attributes array
-     */
-    public function getParameters()
-    {
-        return $this->attributes;
-    }
+    public function handle($absolutePath, $relativePath);
 }

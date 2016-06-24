@@ -22,7 +22,7 @@ namespace oat\taoQtiItem\model\qti\asset\handler;
 
 use oat\taoItems\model\media\LocalItemSource;
 
-class LocalAssetHandler extends AssetHandler
+class LocalAssetHandler implements AssetHandler
 {
     /**
      * @var LocalItemSource
@@ -30,19 +30,15 @@ class LocalAssetHandler extends AssetHandler
     protected $itemSource;
 
     /**
-     * LocalAssetHandler constructor.
-     * Set $itemSource
+     * Always return true, local source is the last fallback
      *
-     * @param mixed $itemSource
-     * @throws \common_Exception If itemSource is not a LocalItemSource
+     * @param $relativePath
+     * @throws \common_Exception
+     * @return bool
      */
-    public function __construct($itemSource)
+    public function isApplicable($relativePath)
     {
-        if (!$itemSource instanceof LocalItemSource) {
-            throw new \common_Exception('LocalAssetHandler expects item source to be a valid LocalItemSource');
-        }
-        $this->itemSource = $itemSource;
-        return $this;
+        return true;
     }
 
     /**
@@ -56,6 +52,10 @@ class LocalAssetHandler extends AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
+        if (!$this->itemSource) {
+            throw new \common_Exception('Missing required parameter: item source');
+        }
+
         // store locally, in a safe directory
         $safePath = '';
         if (dirname($relativePath) !== '.') {
@@ -65,5 +65,25 @@ class LocalAssetHandler extends AssetHandler
         $info = $this->itemSource->add($absolutePath, basename($absolutePath), $safePath);
         \common_Logger::i('Asset file \'' . $absolutePath . '\' copied.');
         return $info;
+    }
+
+    /**
+     * Getter of $itemSource
+     * @return LocalItemSource
+     */
+    public function getItemSource()
+    {
+        return $this->itemSource;
+    }
+
+    /**
+     * Setter of itemSource
+     * @param LocalItemSource $itemSource
+     * @return $this
+     */
+    public function setItemSource(LocalItemSource $itemSource)
+    {
+        $this->itemSource = $itemSource;
+        return $this;
     }
 }

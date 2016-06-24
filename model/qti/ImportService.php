@@ -31,14 +31,14 @@ use core_kernel_versioning_Repository;
 use DOMDocument;
 use Exception;
 use helpers_File;
-use oat\qtiItemPci\model\PciItemSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
-use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
@@ -434,20 +434,20 @@ class ImportService extends tao_models_classes_GenerisService
                  * Load asset handler following priority handler defined by you
                  * The first applicable will be used to import assets
                  */
-                $itemAssetManager
-                    /** Shared stimulus */
-                    ->loadAssetHandler(
-                        new ItemMediaResolver($rdfItem, ''),
-                        array(
-                            MediaAssetHandler::ASSET_HANDLER_QTI_MODEL => $qtiModel,
-                            MediaAssetHandler::ASSET_HANDLER_SHARED_FILES => $sharedFiles,
-                            MediaAssetHandler::ASSET_HANDLER_PARENT_PATH => $rdfItem->getLabel()
-                        )
-                    )
-                    /** Local */
-                    ->loadAssetHandler(
-                        new LocalItemSource(array('item' => $rdfItem))
-                    );
+
+                /** Shared stimulus handler */
+                $sharedStimulusHandler = new SharedStimulusAssetHandler();
+                $sharedStimulusHandler
+                    ->setQtiModel($qtiModel)
+                    ->setItemSource(new ItemMediaResolver($rdfItem, ''))
+                    ->setSharedFiles($sharedFiles)
+                    ->setParentPath($rdfItem->getLabel());
+                $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
+
+                /** Local storage handler */
+                $localHandler = new LocalAssetHandler();
+                $localHandler->setItemSource(new LocalItemSource(array('item' => $rdfItem)));
+                $itemAssetManager->loadAssetHandler($localHandler);
 
                 $itemAssetManager
                     ->importAuxiliaryFiles($qtiItemResource)

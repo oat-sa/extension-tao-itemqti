@@ -29,7 +29,7 @@ use oat\taoMediaManager\model\SharedStimulusPackageImporter;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\Item;
 
-class MediaAssetHandler extends AssetHandler
+class SharedStimulusAssetHandler implements AssetHandler
 {
     /** @var  ItemMediaResolver */
     protected $itemSource;
@@ -37,21 +37,19 @@ class MediaAssetHandler extends AssetHandler
     /** @var MediaManagement */
     protected $sharedStorage;
 
-    const ASSET_HANDLER_QTI_MODEL = 'qtiModel';
-    const ASSET_HANDLER_SHARED_FILES = 'sharedFiles';
-    const ASSET_HANDLER_PARENT_PATH = 'parentPath';
+    protected $qtiModel;
+    protected $sharedFiles = [];
+    protected $parentPath;
 
     /**
      * MediaAssetHandler constructor.
-     * Retrieve hared storage
+     * Retrieve shared storage
      *
-     * @param mixed $itemSource
      */
-    public function __construct($itemSource)
+    public function __construct()
     {
         $sources = MediaService::singleton()->getWritableSources();
         $this->sharedStorage = array_shift($sources);
-        $this->itemSource = $itemSource;
         return $this;
     }
 
@@ -95,7 +93,7 @@ class MediaAssetHandler extends AssetHandler
 
         SharedStimulusImporter::isValidSharedStimulus($absolutePath);
         $newXmlFile = SharedStimulusPackageImporter::embedAssets($absolutePath);
-        $itemContent = $this->sharedStorage->add($newXmlFile, basename($relativePath), $this->get(self::ASSET_HANDLER_PARENT_PATH));
+        $itemContent = $this->sharedStorage->add($newXmlFile, basename($relativePath), $this->parentPath);
 
         if (method_exists($this->sharedStorage, 'forceMimeType')) {
             $asset = $this->itemSource->resolve($itemContent['uri']);
@@ -116,25 +114,38 @@ class MediaAssetHandler extends AssetHandler
      */
     protected function getQtiModel()
     {
-        $qtiModel = $this->get(self::ASSET_HANDLER_QTI_MODEL);
-        if ($qtiModel instanceof Item) {
-            return $qtiModel;
+        if ($this->qtiModel) {
+            return $this->qtiModel;
         }
         throw new FileUploadException('Unable to found a valid Qti File.');
     }
 
     /**
-     * Return shared files if exist, else empty array
+     * Setter of qtiModel
+     *
+     * @param $qtiModel
+     * @return $this
+     */
+    public function setQtiModel($qtiModel)
+    {
+        $this->qtiModel = $qtiModel;
+        return $this;
+    }
+
+    /**
+     * Return shared files
      *
      * @return array
      */
     public function getSharedFiles()
     {
-        $sharedFiles = $this->get(self::ASSET_HANDLER_SHARED_FILES);
-        if ($sharedFiles) {
-            return $sharedFiles;
-        }
-        return array();
+        return $this->sharedFiles;
+    }
+
+    public function setSharedFiles($sharedFiles)
+    {
+        $this->sharedFiles = $sharedFiles;
+        return $this;
     }
 
     /**
@@ -147,11 +158,44 @@ class MediaAssetHandler extends AssetHandler
     public function addSharedFile($key, $value)
     {
         $sharedFiles = $this->getSharedFiles();
-        if ($sharedFiles) {
-            $sharedFiles[$key] = $value;
-            $this->set(self::ASSET_HANDLER_SHARED_FILES, $sharedFiles);
-        }
+        $sharedFiles[$key] = $value;
+        $this->setSharedFiles($sharedFiles);
         return $this;
     }
 
+    /**
+     * @return ItemMediaResolver
+     */
+    public function getItemSource()
+    {
+        return $this->itemSource;
+    }
+
+    /**
+     * @param ItemMediaResolver $itemSource
+     * @return $this
+     */
+    public function setItemSource($itemSource)
+    {
+        $this->itemSource = $itemSource;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParentPath()
+    {
+        return $this->parentPath;
+    }
+
+    /**
+     * @param mixed $parentPath
+     * @return $this
+     */
+    public function setParentPath($parentPath)
+    {
+        $this->parentPath = $parentPath;
+        return $this;
+    }
 }

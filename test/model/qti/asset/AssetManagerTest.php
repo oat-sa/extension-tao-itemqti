@@ -21,12 +21,11 @@
 namespace oat\taoQtiItem\test\model\qti\asset;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\AssetManagerException;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
-use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
 use Prophecy\Argument;
 
@@ -50,17 +49,14 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider loadAssetHandlerProvider
      */
-    public function testLoadAssetHandler($itemSource, $parameters, $expected, $exception=false)
+    public function testLoadAssetHandler($itemSource, $expected, $exception=false)
     {
         if ($exception) {
             $this->setExpectedException($exception);
         }
 
-        if ($parameters) {
-            $this->assertInstanceOf(AssetManager::class, $this->instance->loadAssetHandler($itemSource, $parameters));
-        } else {
-            $this->assertInstanceOf(AssetManager::class, $this->instance->loadAssetHandler($itemSource));
-        }
+        $this->assertInstanceOf(AssetManager::class, $this->instance->loadAssetHandler($itemSource));
+
 
         if (!$exception) {
             $reflectionClass = new \ReflectionClass(AssetManager::class);
@@ -68,19 +64,15 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
             $reflectionProperty->setAccessible(true);
             $assetHandlers = $reflectionProperty->getValue($this->instance);
             $this->assertInstanceOf($expected, reset($assetHandlers));
-            if ($parameters) {
-                $this->assertEquals($parameters, reset($assetHandlers)->getParameters());
-            }
         }
     }
 
     public function loadAssetHandlerProvider()
     {
         return [
-            [new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture')), ['polop' => 'polop'], LocalAssetHandler::class],
-            [new ItemMediaResolver('itemFixture', 'langFixture'), null, MediaAssetHandler::class],
-            [new \stdClass(), null, null, AssetManagerException::class],
-            [new LocalAssetHandler(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))), ['polop' => 'polop'], LocalAssetHandler::class],
+            [new SharedStimulusAssetHandler(), SharedStimulusAssetHandler::class],
+            [new \stdClass(), null, AssetManagerException::class],
+            [new LocalAssetHandler(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))), LocalAssetHandler::class],
         ];
     }
 
@@ -325,7 +317,6 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     protected function getAssetHandler($type='success', $relPath='pathFixture', $absPath='pathFixture', $uri='polop')
     {
         $mock = $this->getMockBuilder(LocalAssetHandler::class)
-            ->setConstructorArgs(array(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))))
             ->setMethods(array('isApplicable', 'handle'))
             ->getMock();
 

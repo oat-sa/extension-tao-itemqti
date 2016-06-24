@@ -47,34 +47,18 @@ class AssetManager
     protected $source;
 
     /**
-     * Load an asset handler associated to the given items source
-     * ItemSource is transmit to handler by constructor
+     * Load an asset handler associated
      *
-     * @param $itemSource
-     * @param array $parameters
+     * @param $assetHandler
      * @return $this
      * @throws AssetManagerException
      */
-    public function loadAssetHandler($itemSource, array $parameters = array())
+    public function loadAssetHandler($assetHandler)
     {
-        switch (get_class($itemSource)) {
-            case LocalItemSource::class:
-                $assetHandler = new LocalAssetHandler($itemSource);
-                break;
-            case ItemMediaResolver::class:
-                $assetHandler = new MediaAssetHandler($itemSource);
-                break;
-            default:
-                if ($itemSource instanceof AssetHandler) {
-                    $assetHandler = $itemSource;
-                    break;
-                }
-                throw new AssetManagerException('Item source "' . get_class($itemSource) . '" is not supported by AssetManager');
+        if (!$assetHandler instanceof AssetHandler) {
+            throw new AssetManagerException('Asset handler "' . get_class($assetHandler) . '" is not supported by AssetManager');
         }
-
-        $assetHandler->setParameters($parameters);
         $this->assetHandlers[] = $assetHandler;
-
         return $this;
     }
 
