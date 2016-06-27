@@ -87,10 +87,9 @@ class RestQtiItem extends \tao_actions_RestController
             \helpers_TimeOutHelper::reset();
             
             \tao_helpers_File::remove($package);
-            if ($report->getType() == \common_report_Report::TYPE_ERROR) {
+            if ($report->getType() !== \common_report_Report::TYPE_SUCCESS) {
                 $this->returnFailure(new \common_Exception(__("An unexpected error occured during the import of the IMS QTI Item Package.")));
             } else {
-        
                 $itemIds = [];
                 /** @var \common_report_Report $subReport */
                 foreach ($report as $subReport) {
