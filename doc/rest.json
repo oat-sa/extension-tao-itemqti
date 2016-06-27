@@ -1,14 +1,21 @@
-{
+
+        
+        {
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
         "title": "QTI item creation API"
     },
     "schemes": [
+<<<<<<< HEAD
 
         "http",
         "https"
 
+=======
+        "http",
+        "https"
+>>>>>>> develop
     ],
     "tags": [
         {
@@ -54,7 +61,11 @@
                             "application/json": {
                                 "success": false,
                                 "errorCode": 0,
+<<<<<<< HEAD
                                 "errorMsg": "required parameter `id` is missing",
+=======
+                                "errorMsg": "invalid item id",
+>>>>>>> develop
                                 "version": "3.1.0"
                             }
                         },
@@ -69,13 +80,21 @@
                         "description": "User isn't authorized to access to this functionality"
                     },
                     "404": {
+<<<<<<< HEAD
                         "description": "item can't be found",
 
+=======
+                        "description": "Item can't be found",
+>>>>>>> develop
                         "examples": {
                             "application/json": {
                                 "success": false,
                                 "errorCode": 0,
+<<<<<<< HEAD
                                 "errorMsg": "item can't be found",
+=======
+                                "errorMsg": "Item can't be found",
+>>>>>>> develop
                                 "version": "3.1.0"
                             }
                         },
@@ -166,6 +185,7 @@
                         },
                         "schema": {
                              "$ref" : "#/definitions/errorModel"
+<<<<<<< HEAD
                         }
                     },
                     "401": {
@@ -186,12 +206,18 @@
                         },
                         "schema": {
                             "$ref": "#/definitions/errorModel"
+=======
+>>>>>>> develop
                         }
                     },
                     "500": {
                         "description": "Internal error (should not occur)"
 
                     }
+<<<<<<< HEAD
+=======
+                    
+>>>>>>> develop
                 }
             }
         },
