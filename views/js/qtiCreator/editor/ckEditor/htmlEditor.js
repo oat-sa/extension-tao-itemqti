@@ -184,11 +184,8 @@ define([
                         widgets = _rebuildWidgets(options.data.container, $editable, {
                             restoreState : true
                         });
-
                         if(options.shieldInnerContent){
                             _shieldInnerContent($editable, options.data.widget);
-                        }else if(options.passthroughInnerContent){
-                            _passthroughInnerContent($editable);
                         }
                     }
 
@@ -409,21 +406,6 @@ define([
                 innerWidget = $widget.data('widget');
                 _activateInnerWidget(containerWidget, innerWidget);
             });
-        });
-
-    }
-
-    /**
-     * Allow the inner widgets to be selected
-     *
-     * @param {JQuery} $container
-     * @returns {undefined}
-     */
-    function _passthroughInnerContent($container){
-
-        $container.find('.widget-box').each(function(){
-            //just add the shield for visual consistency
-            addShield($(this));
         });
 
     }
