@@ -26,14 +26,14 @@ $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARA
 
 return array(
 	'name' => 'taoQtiItem',
-    'label' => 'QTI item model',
+        'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
-    'license' => 'GPL-2.0',
-    'version' => '2.34.0',
+        'license' => 'GPL-2.0',
+        'version' => '2.35.0',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
 	    'taoItems' => '>=2.15',
-		'tao'	   => '>=3.5.0'
+	    'tao'      => '>=4.3.0'
 	),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAOItem.rdf'
