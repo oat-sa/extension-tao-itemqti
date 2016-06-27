@@ -19,7 +19,6 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
 
             if(e.ctrlKey || e.metaKey){
                 if(e.keyCode == 90){//z-key
-                    console.log('ctrl Z');
                     undo($messageBox);
                 }
                 e.preventDefault();
