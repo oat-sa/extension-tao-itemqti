@@ -68,6 +68,20 @@
                     "403": {
                         "description": "User isn't authorized to access to this functionality"
                     },
+                    "404": {
+                        "description": "Item not found",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "Unknow item id http://tao.local/mytao.rdf#xxxxxxxxxxxxx ",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref" : "#/definitions/errorModel"
+                        }
+                    },
                     "500": {
                         "description": "Internal error (should not occur)"
                        

@@ -179,10 +179,11 @@ class RestQtiItem extends \tao_actions_RestController
     }
     
     /**
-     * render item rdf xml
+     * render an item as a Qti zip package
      * @author christophe GARCIA <christopheg@taotesting.com>
      */
     public function export() {
+        
         try {
             if ($this->getRequestMethod()!=Request::HTTP_GET) {
                     throw new \common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
@@ -195,28 +196,29 @@ class RestQtiItem extends \tao_actions_RestController
             
             $id = $this->getRequestParameter('id');
             
-            $item = new \core_kernel_classes_Resource($id);
-            
-            $path = \tao_helpers_Export::getExportFile();
+            $item = new \core_kernel_classes_Resource($id); 
+
             $itemService = \taoItems_models_classes_ItemsService::singleton();
-            
-            $tmpZip = new \ZipArchive();
-            $tmpZip->open($path , \ZipArchive::CREATE);
-            
+
             if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
+                
+                $path = \tao_helpers_Export::getExportFile();
+                $tmpZip = new \ZipArchive();
+                $tmpZip->open($path , \ZipArchive::CREATE);
+                
                 $exporter = new QTIPackedItemExporter( $item , $tmpZip);
                 $exporter->export(array('apip' => false));
 
                 $exporter->getZip()->close();
-                $content = file_get_contents($path);
 
                 \tao_helpers_Http::returnFile($path);
 
                 return;
             } else {
-                $this->returnFailure(new \common_exception_InvalidArgumentType('invalid item id'));
+                $this->returnFailure(new \common_exception_NotFound('item can\'t be found'));
             }
-            } catch (\Exception $e) {
+        } catch (\Exception $e) {
+      
             $this->returnFailure($e);
         }
     }
