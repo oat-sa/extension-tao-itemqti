@@ -178,7 +178,7 @@ class RestQtiItem extends \tao_actions_RestController
     }
     
     /**
-     * render item rdf xml
+     * render item exported as Qti zip package
      * @author christophe GARCIA <christopheg@taotesting.com>
      */
     public function export() {
@@ -188,8 +188,7 @@ class RestQtiItem extends \tao_actions_RestController
             }
             
             if(!$this->hasRequestParameter('id')) {
-                return $this->returnFailure(new \common_exception_MissingParameter('required parameter `id` is missing'));
-             
+                $this->returnFailure(new \common_exception_MissingParameter('required parameter `id` is missing'));
             } 
             
             $id = $this->getRequestParameter('id');
@@ -207,7 +206,6 @@ class RestQtiItem extends \tao_actions_RestController
                 $exporter->export(array('apip' => false));
 
                 $exporter->getZip()->close();
-                $content = file_get_contents($path);
 
                 \tao_helpers_Http::returnFile($path);
 
