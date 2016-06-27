@@ -168,6 +168,7 @@ define([
                     $editable.data('editor', editor);
                     $editable.data('editor-options', options);
 
+                    //need to debounce the callback to prevent the changes made by undo to trigger the event change twice
                     editor.on('change', _.debounce(function markupChanged(){
                         _detectWidgetDeletion($editable, widgets, editor);
                         if(_.isFunction(options.change)){
