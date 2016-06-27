@@ -75,7 +75,7 @@
                             "application/json": {
                                 "success": false,
                                 "errorCode": 0,
-                                "errorMsg": "required parameter `id` is missing",
+                                "errorMsg": "item can't be found",
                                 "version": "3.1.0"
                             }
                         },
