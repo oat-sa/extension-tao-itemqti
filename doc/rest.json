@@ -1,14 +1,14 @@
-
-        
-        {
+{
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
         "title": "QTI item creation API"
     },
     "schemes": [
+
         "http",
         "https"
+
     ],
     "tags": [
         {
@@ -54,7 +54,7 @@
                             "application/json": {
                                 "success": false,
                                 "errorCode": 0,
-                                "errorMsg": "invalid item id",
+                                "errorMsg": "required parameter `id` is missing",
                                 "version": "3.1.0"
                             }
                         },
@@ -69,12 +69,13 @@
                         "description": "User isn't authorized to access to this functionality"
                     },
                     "404": {
-                        "description": "Item not found",
+                        "description": "item can't be found",
+
                         "examples": {
                             "application/json": {
                                 "success": false,
                                 "errorCode": 0,
-                                "errorMsg": "Unknow item id http://tao.local/mytao.rdf#xxxxxxxxxxxxx ",
+                                "errorMsg": "required parameter `id` is missing",
                                 "version": "3.1.0"
                             }
                         },
@@ -173,11 +174,24 @@
                     "403": {
                         "description": "User isn't authorized to access to this functionality"
                     },
+                    "404": {
+                        "description": "Item not found",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "Unknow item id http://tao.local/mytao.rdf#xxxxxxxxxxxxx ",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    },
                     "500": {
                         "description": "Internal error (should not occur)"
-                        
+
                     }
-                    
                 }
             }
         },
