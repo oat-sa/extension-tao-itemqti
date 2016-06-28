@@ -14,11 +14,6 @@ use oat\taoQtiItem\model\qti\Item;
 class PortableAssetHandler implements AssetHandler
 {
     /**
-     * @var Item
-     */
-    protected $qtiModel;
-
-    /**
      * @var PciItemSource
      */
     protected $pciItemSource;
@@ -65,7 +60,7 @@ class PortableAssetHandler implements AssetHandler
      */
     public function getQtiModel()
     {
-        return $this->qtiModel;
+        return  $this->pciItemSource->getQtiModel();
     }
 
     /**
@@ -74,12 +69,18 @@ class PortableAssetHandler implements AssetHandler
      */
     public function setQtiModel(Item $item)
     {
-        $this->qtiModel = $item;
         $this->pciItemSource->setQtiModel($item);
         return $this;
     }
 
-    public function finalize(){
+    public function finalize()
+    {
         $this->pciItemSource->importPortableElements();
+    }
+
+    public function setSource($path)
+    {
+        $this->pciItemSource->setSource(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+        return $this;
     }
 }

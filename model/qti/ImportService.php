@@ -438,7 +438,10 @@ class ImportService extends tao_models_classes_GenerisService
 
                 /** Pci handler */
                 $pciHandler = new PortableAssetHandler();
-                $pciHandler->setQtiModel($qtiModel);
+                $pciHandler
+                    ->setQtiModel($qtiModel)
+                    ->setSource(dirname($qtiFile));
+
                 $itemAssetManager->loadAssetHandler($pciHandler);
 
                 /** Shared stimulus handler */
