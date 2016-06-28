@@ -22,10 +22,10 @@ namespace oat\taoQtiItem\test\model\qti\asset;
 
 use oat\qtiItemPci\model\PciItemSource;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\qti\asset\handler\PciAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\Item;
 
-class PciAssetHandlerTest extends TaoPhpUnitTestRunner
+class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
 {
     /**
      * @var PciAssetHandler
@@ -34,7 +34,7 @@ class PciAssetHandlerTest extends TaoPhpUnitTestRunner
 
     public function setUp()
     {
-        $this->instance = new PciAssetHandler();
+        $this->instance = new PortableAssetHandler();
     }
 
     public function tearDown()

@@ -11,7 +11,7 @@ namespace oat\taoQtiItem\model\qti\asset\handler;
 use oat\qtiItemPci\model\PciItemSource;
 use oat\taoQtiItem\model\qti\Item;
 
-class PciAssetHandler implements AssetHandler
+class PortableAssetHandler implements AssetHandler
 {
     /**
      * @var Item
@@ -40,8 +40,8 @@ class PciAssetHandler implements AssetHandler
      */
     public function isApplicable($relativePath)
     {
-        if ($this->pciItemSource->isPci($this->getQtiModel())
-            && $this->pciItemSource->isPciAsset($relativePath)
+        if ($this->pciItemSource->hasPortableElement()
+            && $this->pciItemSource->isPortableElementAsset($relativePath)
         ) {
             return true;
         }
@@ -57,8 +57,7 @@ class PciAssetHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
-        $this->pciItemSource->setQtiModel($this->getQtiModel());
-        return $this->pciItemSource->importPciFile($absolutePath, $relativePath);
+        return $this->pciItemSource->importPortableElementFile($absolutePath, $relativePath);
     }
 
     /**
@@ -70,14 +69,17 @@ class PciAssetHandler implements AssetHandler
     }
 
     /**
-     * @param mixed $qtiModel
+     * @param Item $item
      * @return $this
      */
-    public function setQtiModel($qtiModel)
+    public function setQtiModel(Item $item)
     {
-        $this->qtiModel = $qtiModel;
+        $this->qtiModel = $item;
+        $this->pciItemSource->setQtiModel($item);
         return $this;
     }
 
-
+    public function finalize(){
+        $this->pciItemSource->importPortableElements();
+    }
 }
