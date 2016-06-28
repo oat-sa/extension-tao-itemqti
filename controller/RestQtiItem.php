@@ -24,6 +24,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 
 /**
  * End point of Rest item API
@@ -47,7 +48,22 @@ class RestQtiItem extends \tao_actions_RestController
         'multipart/x-zip',
         'application/x-compressed'
     );
-
+    
+    /**
+     * @inherit
+     */
+    protected function getAcceptableMimeTypes()
+    {
+        return 
+            [
+                "application/json", 
+                "text/xml", 
+                "application/xml", 
+                "application/rdf+xml" , 
+                "application/zip", 
+            ];
+    }
+    
     /**
      * Class items will be created in
      * 
@@ -157,6 +173,53 @@ class RestQtiItem extends \tao_actions_RestController
             $this->returnSuccess($item->getUri());
 
         } catch (\Exception $e) {
+            $this->returnFailure($e);
+        }
+    }
+    
+    /**
+     * render an item as a Qti zip package
+     * @author christophe GARCIA <christopheg@taotesting.com>
+     */
+    public function export() {
+        
+        try {
+            if ($this->getRequestMethod()!=Request::HTTP_GET) {
+                    throw new \common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
+            }
+            
+            if(!$this->hasRequestParameter('id')) {
+                $this->returnFailure(new \common_exception_MissingParameter('required parameter `id` is missing'));
+            } 
+            
+            $id = $this->getRequestParameter('id');
+            
+            $item = new \core_kernel_classes_Resource($id); 
+
+            $itemService = \taoItems_models_classes_ItemsService::singleton();
+
+            if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
+                
+                $path = \tao_helpers_Export::getExportFile();
+                $tmpZip = new \ZipArchive();
+                $tmpZip->open($path , \ZipArchive::CREATE);
+                
+                $exporter = new QTIPackedItemExporter( $item , $tmpZip);
+                $exporter->export(array('apip' => false));
+
+                $exporter->getZip()->close();
+
+                header('Content-Type: application/zip');
+                \tao_helpers_Http::returnFile($path, false);
+
+                return;
+            } else {
+
+                $this->returnFailure(new \common_exception_NotFound('item can\'t be found'));
+
+            }
+        } catch (\Exception $e) {
+      
             $this->returnFailure($e);
         }
     }
