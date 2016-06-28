@@ -19,7 +19,7 @@
     "paths": {
       "/taoQtiItem/RestQtiItem/export/": {
             "get": {
-                "description": "Exports an existing QTI item as a QTI 2.1 package",
+                "description": "Exports an existing QTI Item as a QTI 2.1 package",
                 "tags": [
                     "item"
                 ],
