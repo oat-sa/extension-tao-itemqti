@@ -19,7 +19,7 @@
     "paths": {
       "/taoQtiItem/RestQtiItem/export/": {
             "get": {
-                "description": "export an empty QTI item",
+                "description": "export a QTI Item as zip package",
                 "tags": [
                     "item"
                 ],
