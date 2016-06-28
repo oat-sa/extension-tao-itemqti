@@ -4,7 +4,7 @@
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
-        "title": "QTI item creation API"
+        "title": "QTI item API"
     },
     "schemes": [
         "http",
@@ -19,7 +19,7 @@
     "paths": {
       "/taoQtiItem/RestQtiItem/export/": {
             "get": {
-                "description": "export an empty QTI item",
+                "description": "Exports an existing QTI item as a QTI 2.1 package",
                 "tags": [
                     "item"
                 ],
@@ -32,7 +32,7 @@
                     {
                         "name": "id",
                         "in": "query",
-                        "description": "Item id on uri format",
+                        "description": "Item id in URI format",
                         "required": true,
                         "type": "string",
                         "format": "string"
@@ -69,7 +69,7 @@
                         "description": "User isn't authorized to access to this functionality"
                     },
                     "404": {
-                        "description": "Item can't be found",
+                        "description": "Item not found",
                         "examples": {
                             "application/json": {
                                 "success": false,
