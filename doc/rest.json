@@ -1,0 +1,312 @@
+
+        
+        {
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "QTI item creation API"
+    },
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "tags": [
+        {
+            "name": "item",
+            "description": "Operations about items"
+        }
+    ],
+    "paths": {
+      "/taoQtiItem/RestQtiItem/export/": {
+            "get": {
+                "description": "export an empty QTI item",
+                "tags": [
+                    "item"
+                ],
+                "produces": [
+                    
+                            "application/json",
+                            "application/zip"
+                        ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Item id on uri format",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response return QTI zip package content",
+                        "schema": {
+                          "type": "file",
+                          "format": "application/zip"
+                        }
+                        
+                    },
+                     "400": {
+                        "description": "Bad request if you send invalid parameters",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "required parameter `id` is missing",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                             "$ref" : "#/definitions/errorModel"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "User isn't authorized to access to this functionality"
+                    },
+                    "404": {
+                        "description": "Item can't be found",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "Item can't be found",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref" : "#/definitions/errorModel"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error (should not occur)"
+                       
+                    }
+                }
+            }
+        },
+        "/taoQtiItem/RestQtiItem/import/": {
+            "post": {
+                "description": "Import QTI item entry point from uploaded package Check POST method & get valid uploaded file",
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "file attachemnt zip format supported",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                           "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "required": [
+                                "success",
+                                "version"
+                            ],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure, true on success"
+                                },
+                                "version": {
+                                    "type": "string",
+                                    "description": "tao version"
+                                },
+                                "data": {
+                                    "$ref" : "#/definitions/data"
+                                },
+                                "errorCode": {
+                                    "type": "string",
+                                    "description" :  "error code. it appear if success value is false"
+                                },
+                                "errorMsg" : {
+                                    "type": "string",
+                                    "description" :  "error description. it appear if success value is false"
+                                }
+                            } 
+                            
+                        },
+                        "examples": {
+                            "application/json": {
+                                "success": true,
+                                "data": {
+                                    "items": [
+                                        "http://tao.local/mytao.rdf#xxxxxxxxxxxxx1",
+                                        "http://tao.local/mytao.rdf#xxxxxxxxxxxxx2",
+                                        "http://tao.local/mytao.rdf#xxxxxxxxxxxxx3",
+                                        "http://tao.local/mytao.rdf#xxxxxxxxxxxxx4"
+                                        ]
+                                },
+                                "version": "3.1.0"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request if you send invalid parameters",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                             "$ref" : "#/definitions/errorModel"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "User isn't authorized to access to this functionality"
+                    
+                    },
+                    "500": {
+                        "description": "Internal error (should not occur)"
+
+                    }
+                }
+            }
+        },
+        "/taoQtiItem/RestQtiItem/createQtiItem/": {
+            "post": {
+                "description": "Create an empty QTI item",
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "name": "label",
+                        "in": "formData",
+                        "description": "Item Label",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "examples": {
+                            "application/json": {
+                                "success": true,
+                                "data": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "required": [
+                                "success",
+                                "version",
+                                "data"
+                            ],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "true on success"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "description": "item uri"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request if you send invalid parameters",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                             "$ref" : "#/definitions/errorModel"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "User isn't authorized to access to this functionality"
+                    },
+                    "500": {
+                        "description": "Internal error (should not occur)"
+                       
+                    }
+                }
+            }
+        }
+    },
+
+    "definitions": {
+        "errorModel" : {
+            "type": "object",
+            "description": "contain error",
+            "required": [
+              "success",
+              "version",
+              "errorCode",
+              "errorMsg"
+            ],
+            "properties": {
+               
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "false on failure",
+                                    "default" : false
+                                },
+                                "version": {
+                                    "type": "string",
+                                    "description" : "tao version"
+                                },
+                                "errorCode": {
+                                    "type": "integer",
+                                    "description": "error code"
+                                },
+                                "errorMsg": {
+                                    "type": "string",
+                                    "description": "error description"
+                                }
+                            
+            }
+        },
+        "data" : {
+            "type": "object",
+            "description": "output user data, it appear if success value is true",
+            "properties": {
+                "items": {
+                   "type": "array",
+                   "items": {
+                      "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "taoQtiItem on Github",
+        "url": "https://github.com/oat-sa/extension-tao-itemqti"
+    }
+}
