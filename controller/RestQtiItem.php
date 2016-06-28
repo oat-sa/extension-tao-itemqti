@@ -209,7 +209,8 @@ class RestQtiItem extends \tao_actions_RestController
 
                 $exporter->getZip()->close();
 
-                \tao_helpers_Http::returnFile($path);
+                header('Content-Type: application/zip');
+                \tao_helpers_Http::returnFile($path, false);
 
                 return;
             } else {
