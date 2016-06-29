@@ -23,7 +23,7 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
+    'qtiItemPci/pciRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
 ], function(_, Renderer, ciRegistry, commonRenderer){
     'use strict';
@@ -37,11 +37,11 @@ define([
     CreatorCustomInteraction.render = function render(interaction, options){
 
         var widget;
-        var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier);
+        var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier).module;
         var renderOptions = {
             runtimeLocations : {}
         };
-        renderOptions.runtimeLocations[interaction.typeIdentifier] = ciRegistry.getBaseUrl(interaction.typeIdentifier);
+        //renderOptions.runtimeLocations[interaction.typeIdentifier] = ciRegistry.getBaseUrl(interaction.typeIdentifier);
 
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), interaction, renderOptions);

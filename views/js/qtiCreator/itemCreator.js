@@ -33,7 +33,7 @@ define([
     'module',
     'core/eventifier',
     'core/promise',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
+    'qtiItemPci/pciRegistry',
     'taoQtiItem/qtiCreator/editor/infoControlRegistry',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -42,12 +42,12 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsPanel',
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
-
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'qtiItemPci/pciProvider'
 ], function($, _, __, module, eventifier, Promise,
             ciRegistry, icRegistry, itemLoader,
             creatorRenderer, commonRenderer, xincludeRenderer,
-            interactionPanel, propertiesPanel, eventHelper, styleEditor){
+            interactionPanel, propertiesPanel, eventHelper, styleEditor, pciProvider){
     'use strict';
 
 
@@ -91,6 +91,14 @@ define([
             });
         });
     };
+
+    var loadPortableElements = function loadPortableElements(){
+        return new Promise(function(resolve){
+            ciRegistry.addProvider(pciProvider).loadCreators(function(){
+                return resolve();
+            });
+        });
+    }
 
     /**
      * Build a new Item Creator
@@ -190,23 +198,20 @@ define([
                     });
                 });
 
-                //performs the loadings in parrallel
+                //performs the loadings in parallel
                 Promise.all([
-                    register(ciRegistry, config.interactions),
-                    register(icRegistry, config.infoControls),
+                    loadPortableElements(),
                     loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
                 ]).then(function(results){
 
-                    if(_.isArray(results) && results.length === 3){
+                    console.log(results);
+                    if(_.isArray(results) && results.length === 2){
 
-                        self.customInterations = results[0] || {};
-                        self.infoControls      = results[1] || {};
-                        if(! _.isObject(results[2])){
+                        if(! _.isObject(results[1])){
                             self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
                             return;
                         }
-
-                        self.item = results[2];
+                        self.item = results[1];
 
                         //initialize all the plugins
                         return pluginRun('init').then(function(){
@@ -245,7 +250,7 @@ define([
                 commonRenderer.setOption('baseUrl', config.properties.baseUrl);
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
 
-                interactionPanel(areaBroker.getInteractionPanelArea(), this.getCustomInteractions());
+                interactionPanel(areaBroker.getInteractionPanelArea());
 
                 //the renderers' widgets do not handle async yet, so we rely on this event
                 //TODO ready should be triggered once every renderer's widget is done (ie. promisify everything)
@@ -327,22 +332,6 @@ define([
              */
             getConfig : function getConfig(){
                 return config;
-            },
-
-            /**
-             * Give an access to the loaded additional interactinos
-             * @returns {Object[]} the interations
-             */
-            getCustomInteractions : function getCustomInteractions(){
-                return this.customInterations || {};
-            },
-
-            /**
-             * Give an access to the loaded info controls
-             * @returns {Object[]} the infos controls
-             */
-            getInfoControls : function getInfoControls(){
-                return this.infoControls || {};
             }
 
         });

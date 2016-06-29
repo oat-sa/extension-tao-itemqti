@@ -2,12 +2,11 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltip'
-], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+], function($, _, __, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     "use strict";
     /**
      * String to identify a custom interaction from the authoring data
@@ -99,7 +98,7 @@ define([
                 iconFont : /^icon-/.test(interactionAuthoringData.icon),
                 icon : interactionAuthoringData.icon,
                 short : interactionAuthoringData.short,
-                dev : (_customInteractionTag === groupLabel) && ciRegistry.isDev(interactionAuthoringData.qtiClass.replace('customInteraction.', ''))
+                dev : false
             };
 
         if(subGroupId && _subgroups[subGroupId]){

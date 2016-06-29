@@ -27,8 +27,8 @@ define([
     'core/plugin',
     'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry'
-], function(_, pluginFactory, blockAdder, qtiElements, ciRegistry){
+    'qtiItemPci/pciRegistry'
+], function(_, pluginFactory, blockAdder, qtiElements, pciRegistry){
     'use strict';
 
     /**
@@ -44,16 +44,15 @@ define([
          */
         init : function init(){
 
-            // load the custom interations from the registry
-            var customInterations = this.getHost().getCustomInteractions() || [];
             var interactions = qtiElements.getAvailableAuthoringElements() || {};
 
-            _.forEach(customInterations, function(interactionModel){
-                var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
-                if(data.tags){
+            _.forIn(pciRegistry.getAllVersions(), function(versions, typeId){
+                var data = pciRegistry.getAuthoringData(typeId);
+                if(data && data.tags){
                     interactions[data.qtiClass] = data;
                 }
             });
+
             this.interations = interactions;
         },
 
@@ -61,7 +60,6 @@ define([
          * Hook to the host's render
          */
         render : function render(){
-            var item = this.getHost().getItem();
 
             //set up the block adder
             blockAdder.create(
