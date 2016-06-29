@@ -456,7 +456,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $itemService->setItemContent($rdfItem, $itemAssetManager->getItemContent());
 
                 // Finally, import metadata.
-                $this->importItemMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
+                $this->importResourceMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
 
                 // And Apip if wanted
                 if ($extractApip) {
@@ -521,7 +521,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @param oat\taoQtiItem\model\qti\metadata\MetadataInjector[] $ontologyInjectors Implementations of MetadataInjector that will take care to inject the metadata values in the appropriate Ontology Resource Properties.
      * @throws oat\taoQtiItem\model\qti\metadata\MetadataInjectionException If an error occurs while importing the metadata.
      */
-    public function importItemMetadata(
+    public function importResourceMetadata(
         array $metadataValues,
         Resource $qtiResource,
         core_kernel_classes_Resource $resource,
