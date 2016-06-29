@@ -38,6 +38,7 @@ use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -435,6 +436,14 @@ class ImportService extends tao_models_classes_GenerisService
                  * The first applicable will be used to import assets
                  */
 
+                /** Pci handler */
+                $pciHandler = new PortableAssetHandler();
+                $pciHandler
+                    ->setQtiModel($qtiModel)
+                    ->setSource(dirname($qtiFile));
+
+                $itemAssetManager->loadAssetHandler($pciHandler);
+
                 /** Shared stimulus handler */
                 $sharedStimulusHandler = new SharedStimulusAssetHandler();
                 $sharedStimulusHandler
@@ -452,6 +461,10 @@ class ImportService extends tao_models_classes_GenerisService
                 $itemAssetManager
                     ->importAuxiliaryFiles($qtiItemResource)
                     ->importDependencyFiles($qtiItemResource, $dependencies);
+
+                //@todo replace by a global importAuxiliaryFiles->finalize() ? this will allow implementing rollback potentially ?
+                $pciHandler->finalize();
+                \common_Logger::d('***** '.print_r($pciHandler, true));
 
                 $itemService->setItemContent($rdfItem, $itemAssetManager->getItemContent());
 
