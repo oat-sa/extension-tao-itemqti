@@ -22,8 +22,10 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-    'module'
-], function(_, context, themes, assetManagerFactory, assetStrategies, module){
+    'module',
+    'qtiItemPci/pciRegistry',
+    'qtiItemPci/pciProvider'
+], function(_, context, themes, assetManagerFactory, assetStrategies, module, pciRegistry, pciProvider){
     'use strict';
 
     var itemThemes = themes.get('items');
@@ -33,8 +35,16 @@ define([
     var portableAssetStrategy = {
         name : 'portableElementLocation',
         handle : function handlePortableElementLocation(url){
-            if(url.source === url.relative){
-                return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
+            if(url.file === url.path){
+                return pciRegistry.getBaseUrl(url.file);
+            }else if(url.source === url.relative){
+                return url.relative.replace(/^(\.\/)?([a-z_0-9]+)\/(.*)/i, function(fullmatch, $1, typeIdentifier, relPath){
+                    var runtimeLocation = pciRegistry.getBaseUrl(typeIdentifier);
+                    if(runtimeLocation){
+                        return runtimeLocation + '/' + relPath;
+                    }
+                    return fullmatch;
+                });
             }
         }
     };
@@ -103,7 +113,9 @@ define([
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     };
-
+    
+    pciRegistry.addProvider(pciProvider);
+    
     return {
         name:'commonRenderer',
         locations: locations,

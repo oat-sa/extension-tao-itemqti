@@ -230,15 +230,6 @@ class AssetParser
         $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
         $xmls = array();
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
-            $entryPoint = $element->getEntryPoint();
-            $fileName = substr($entryPoint, -3) != '.js' ? $entryPoint.'.js' : $entryPoint;
-            $this->addAsset('js', $fileName);
-            foreach($element->getLibraries() as $lib){
-                if ($this->getGetSharedLibraries() || !ClientLibRegistry::getRegistry()->isRegistered($lib)) {
-                    $fileName = substr($lib, -3) != '.js' ? $lib.'.js' : $lib;
-                    $this->addAsset('js', $fileName);
-                }
-            }
             $xmls = $this->getXmlProperties($element->getProperties());
         }
 
