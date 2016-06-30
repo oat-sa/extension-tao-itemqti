@@ -36,6 +36,8 @@ use \core_kernel_versioning_Repository;
 use \Exception;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
+use League\Flysystem\File;
+use League\Flysystem\FileExistsException;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the
@@ -46,6 +48,7 @@ use oat\taoItems\model\media\ItemMediaResolver;
  */
 class Service extends tao_models_classes_Service
 {
+    const QTI_ITEM_FILE = 'qti.xml';
 
     /**
      * Load a QTI_Item from an, RDF Item using the itemContent property of the
@@ -108,30 +111,22 @@ class Service extends tao_models_classes_Service
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Item qtiItem
      * @param  Resource rdfItem
-     * @param  string commitMessage
-     * @param  Repository fileSource
      * @return boolean
      */
-    public function saveDataItemToRdfItem(Item $qtiItem, core_kernel_classes_Resource $rdfItem, $commitMessage = '', core_kernel_versioning_Repository $fileSource = null)
+    public function saveDataItemToRdfItem(Item $qtiItem, core_kernel_classes_Resource $rdfItem)
     {
-        $returnValue = (bool) false;
-
-        if (!is_null($rdfItem) && !is_null($qtiItem)) {
-
-            $itemService = taoItems_models_classes_ItemsService::singleton();
-
-            //check if the item is QTI item
-            if ($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))) {
-
-                //set the current data lang in the item content to keep the integrity
-                $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
-
-                //get the QTI xml
-                $returnValue = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);
-            }
+        //set the current data lang in the item content to keep the integrity
+        $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+        
+        $dir = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
+        $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
+        $success = false;
+        try {
+            $success = $file->write($qtiItem->toXML());
+        } catch (FileExistsException $s) {
+            $success = $file->update($qtiItem->toXML());
         }
-
-        return (bool) $returnValue;
+        return $success;
     }
 
     /**
