@@ -8,23 +8,23 @@
 
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
-use oat\qtiItemPci\model\PciItemSource;
+use oat\qtiItemPci\model\common\parser\PortableElementItemParser;
 use oat\taoQtiItem\model\qti\Item;
 
 class PortableAssetHandler implements AssetHandler
 {
     /**
-     * @var PciItemSource
+     * @var PortableElementItemParser
      */
-    protected $pciItemSource;
+    protected $portableItemParser;
 
     /**
      * PciAssetHandler constructor.
-     * Set PciItemSource
+     * Set PortableElementItemParser
      */
     public function __construct()
     {
-        $this->pciItemSource = new PciItemSource();
+        $this->portableItemParser = new PortableElementItemParser();
     }
 
     /**
@@ -35,8 +35,8 @@ class PortableAssetHandler implements AssetHandler
      */
     public function isApplicable($relativePath)
     {
-        if ($this->pciItemSource->hasPortableElement()
-            && $this->pciItemSource->isPortableElementAsset($relativePath)
+        if ($this->portableItemParser->hasPortableElement()
+            && $this->portableItemParser->isPortableElementAsset($relativePath)
         ) {
             return true;
         }
@@ -52,7 +52,7 @@ class PortableAssetHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
-        return $this->pciItemSource->importPortableElementFile($absolutePath, $relativePath);
+        return $this->portableItemParser->importPortableElementFile($absolutePath, $relativePath);
     }
 
     /**
@@ -60,7 +60,7 @@ class PortableAssetHandler implements AssetHandler
      */
     public function getQtiModel()
     {
-        return  $this->pciItemSource->getQtiModel();
+        return  $this->portableItemParser->getQtiModel();
     }
 
     /**
@@ -69,18 +69,18 @@ class PortableAssetHandler implements AssetHandler
      */
     public function setQtiModel(Item $item)
     {
-        $this->pciItemSource->setQtiModel($item);
+        $this->portableItemParser->setQtiModel($item);
         return $this;
     }
 
     public function finalize()
     {
-        $this->pciItemSource->importPortableElements();
+        $this->portableItemParser->importPortableElements();
     }
 
     public function setSource($path)
     {
-        $this->pciItemSource->setSource(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+        $this->portableItemParser->setSource(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
         return $this;
     }
 }

@@ -51,7 +51,7 @@ class PortableCustomInteraction extends CustomInteraction
     protected $mediaFiles = array();
     protected $typeIdentifier = '';
     protected $entryPoint = '';
-    protected $version = '0';
+    protected $version = '0.0.0';
     
     public function setTypeIdentifier($typeIdentifier){
         $this->typeIdentifier = $typeIdentifier;
