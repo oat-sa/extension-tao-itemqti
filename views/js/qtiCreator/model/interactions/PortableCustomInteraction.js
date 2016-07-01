@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiCreator/model/helper/portableElement',
-    'qtiItemPci/pciRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'taoQtiItem/qtiItem/core/interactions/CustomInteraction'
 ], function(_, editable, editableInteraction, portableElement, ciRegistry, Interaction){
     "use strict";

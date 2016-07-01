@@ -120,6 +120,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         self.trigger('error', err);
                     });
                 }
+
+                return this;
             },
             loadCreators : function loadCreators(callback, reload){
 
@@ -159,7 +161,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 }, reload);
 
+                return this;
             }
         }));
-    };
+    }
 });

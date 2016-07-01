@@ -23,7 +23,7 @@ define([
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
     'module',
-    'qtiItemPci/pciRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'qtiItemPci/pciProvider'
 ], function(_, context, themes, assetManagerFactory, assetStrategies, module, pciRegistry, pciProvider){
     'use strict';
