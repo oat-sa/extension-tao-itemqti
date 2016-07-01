@@ -198,6 +198,7 @@ define([
                 onstart: function (e) {
                     var $target = $(e.target);
                     _setActiveGapState($target);
+                    $target.addClass('dragged');
 
                     _iFrameDragFix(gapFillersSelector, e.target);
                 },
@@ -207,6 +208,7 @@ define([
                 onend: function (e) {
                     var $target = $(e.target);
                     _setInactiveGapState($target);
+                    $target.removeClass('dragged');
                     interactUtils.restoreOriginalPosition($target);
                     interactUtils.iFrameDragFixOff();
                 }
