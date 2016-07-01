@@ -18,6 +18,7 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
         $('body').on('mousedown.deleting keydown.deleting', function(e){
 
             if(e.ctrlKey || e.metaKey){
+                //trigger undo callback if the standard keyboard shortcut ctrl+z is triggered
                 if(e.keyCode == 90){//z-key
                     undo($messageBox);
                 }

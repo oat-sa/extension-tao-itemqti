@@ -353,6 +353,7 @@ define([
 
                 editor.undoManager.undo();
 
+                //need to rebuild the inner widgets in case the undo restored some qti elements
                 _rebuildWidgets(container, $container, {
                     restoreState : true
                 });
@@ -361,6 +362,7 @@ define([
             });
 
             if (undoCmd){
+                //catch ckeditor's undo event to trigger the same behaviour as the undo action dialog
                 undoCmd.on('afterUndo', function(){
                     $messageBox.find('a.undo').click();
                 });
