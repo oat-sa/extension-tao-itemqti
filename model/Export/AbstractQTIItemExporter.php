@@ -26,6 +26,8 @@ use DOMDocument;
 use DOMXPath;
 use oat\qtiItemPci\model\common\parser\PortableElementSource;
 use oat\qtiItemPci\model\common\resolver\PortableElementResolver;
+use oat\qtiItemPci\model\pci\model\PciModel;
+use oat\qtiItemPci\model\pic\model\PicModel;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\exception\ExportException;
@@ -80,8 +82,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $resolver = new ItemMediaResolver($this->getItem(), $lang);
                 \common_Logger::i(print_r($this->getItem()));
                 $mediaAsset = $resolver->resolve($assetUrl);
-                if ($key == 'portableElement') {
-                    $mediaAsset->setMediaSource(new PortableElementSource());
+                if ($key == 'portableElement:pci') {
+                    $itemSource = new PortableElementSource();
+                    $itemSource->setModel(new PciModel());
+                    $mediaAsset->setMediaSource($itemSource);
+                } elseif ($key == 'portableElement:pic') {
+                    $itemSource = new PortableElementSource();
+                    $itemSource->setModel(new PicModel());
+                    $mediaAsset->setMediaSource($itemSource);
                 }
                 $mediaSource = $mediaAsset->getMediaSource();
 
@@ -90,7 +98,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $link = $mediaAsset->getMediaIdentifier();
                     \common_Logger::i(' -> ' . $link . ' <-');
                     $stream = $mediaSource->getFileStream($link);
-                    $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
+                    if ($mediaSource instanceof LocalItemSource || $mediaSource instanceof PortableElementSource) {
+                        $baseName = $link;
+                    } else {
+                        $baseName = 'assets/' . $mediaSource->getBaseName($link);
+                    }
+//                    $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
                     $replacement = $baseName;
                     $count = 0;
                     while (in_array($replacement, $replacementList)) {

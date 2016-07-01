@@ -23,6 +23,9 @@ namespace oat\taoQtiItem\model\qti;
 
 use oat\oatbox\service\ServiceManager;
 use oat\qtiItemPci\model\common\PortableElementFactory;
+use oat\qtiItemPci\model\pci\model\PciModel;
+use oat\qtiItemPci\model\pic\model\PicModel;
+use oat\qtiItemPci\model\PortableElementRegistry;
 use oat\qtiItemPci\model\PortableElementService;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
@@ -228,6 +231,13 @@ class AssetParser
         $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
         $xmls = array();
         if ($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl) {
+
+            if ($element instanceof PortableCustomInteraction) {
+                $model = new PciModel();
+            } else {
+                $model = new PicModel();
+            }
+            $service = ServiceManager::getServiceManager()->get(PortableElementService::class);
             $service = new PortableElementService();
             $service->setServiceLocator(ServiceManager::getServiceManager());
             $portableElement = $service->getPciByIdentifier($element->getTypeIdentifier());
@@ -237,7 +247,7 @@ class AssetParser
             $baseUrl = $service->getPortableElementBaseUrl($portableElement);
             foreach ($files as $file) {
                 \common_Logger::i(' )))) ' . $baseUrl . $file);
-                $this->addAsset('portableElement', $baseUrl . $file);
+                $this->addAsset('portableElement:pci', $baseUrl . $file);
 //                $this->assets['portableElement'][] = $file;
             }
         }
