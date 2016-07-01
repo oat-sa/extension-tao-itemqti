@@ -85,7 +85,7 @@ class SharedStimulusAssetHandler implements AssetHandler
     {
         $sharedFiles = $this->getSharedFiles();
 
-        $md5 = md5_file($relativePath);
+        $md5 = md5_file($absolutePath);
         if (isset($sharedFiles[$md5])) {
             \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' linked to shared storage.');
             return $sharedFiles[$md5];

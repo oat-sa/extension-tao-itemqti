@@ -132,8 +132,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $qtiItemDoc->formatOutput = true;
             $qtiItemDoc->loadXML($content);
             
-            // Let's merge QTI and APIP Accessibility!
-            Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
+            // Retrieve APIP related assets...
             $content = $qtiItemDoc->saveXML();
             $fileHrefElts = $qtiItemDoc->getElementsByTagName('fileHref');
             for ($i = 0; $i < $fileHrefElts->length; $i++) {
