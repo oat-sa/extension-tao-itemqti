@@ -19,11 +19,22 @@
  * 
  */
 $correctResponses = get_data('correctResponses');
+$defaultValues = get_data('defaultValue');
 $mapping = get_data('mapping');
 $areaMapping = get_data('areaMapping');
 ?>
 <responseDeclaration <?=get_data('attributes')?><?php if(!$correctResponses && !$mapping && !$areaMapping):?>/>
 <?php else:?>>
+    <?php if(is_array($defaultValues) && count($defaultValues) > 0):?>
+	<defaultValue>
+	    <?php foreach($defaultValues as $value):?>
+	        <?php /** @var oat\taoQtiItem\model\qti\Value $value*/ ?>
+	        <?php if ($value->getValue() !== ''): ?>
+	        <value<?php foreach($value->getAttributeValues() as $attrName => $attrValue):?> <?=$attrName?>="<?=$attrValue?>"<?php endforeach;?>><![CDATA[<?= $value ?>]]></value>
+	        <?php endif; ?>
+	    <?php endforeach?>
+	</defaultValue>
+    <?php endif?>
     <?php if(is_array($correctResponses) && count($correctResponses) > 0):?>
 	<correctResponse>
 	    <?php foreach($correctResponses as $value):?>

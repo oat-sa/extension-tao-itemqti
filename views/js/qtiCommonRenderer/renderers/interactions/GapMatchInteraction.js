@@ -28,8 +28,10 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/gapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'interact',
+    'ui/interactUtils'
+], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse, interact, interactUtils){
     'use strict';
 
     /**
@@ -63,7 +65,7 @@ define([
         containerHelper.triggerResponseChangeEvent(interaction);
     };
 
-    var unsetChoice = function(interaction, $choice, animate){
+    var unsetChoice = function(interaction, $choice){
 
         var serial = $choice.data('serial');
         var $container = containerHelper.get(interaction);
@@ -103,9 +105,21 @@ define([
     var render = function(interaction){
 
         var $container = containerHelper.get(interaction);
-        var $choiceArea = $container.find('.choice-area'),
-            $flowContainer = $container.find('.qti-flow-container'),
-            $activeChoice = null;
+        var $choiceArea = $container.find('.choice-area');
+        var $flowContainer = $container.find('.qti-flow-container');
+
+        var $activeChoice = null;
+        var $activeDrop = null;
+
+        var isDragAndDropEnabled;
+        var dragOptions;
+
+        var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
+
+        var choiceSelector = $choiceArea.selector + " .qti-choice";
+        var gapSelector = $flowContainer.selector + " .gapmatch-content";
+        var filledGapSelector = gapSelector + ".filled";
+        var binSelector = $container.selector + " .remove-choice";
 
         var _getChoice = function(serial){
             return $choiceArea.find('[data-serial=' + serial + ']');
@@ -136,35 +150,167 @@ define([
             return ($activeChoice && $activeChoice.hasClass('filled'));
         };
 
-        $container.on('mousedown.commonRenderer', function(e){
+
+        // Drag & drop handlers
+
+        if (this.getOption && this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").gapMatch) {
+            isDragAndDropEnabled = this.getOption("enableDragAndDrop").gapMatch;
+        }
+
+        function _iFrameDragFix(draggableSelector, target) {
+            interactUtils.iFrameDragFixOn(function () {
+                if ($activeDrop) {
+                    interact(gapSelector).fire({
+                        type: 'drop',
+                        target: $activeDrop.eq(0),
+                        relatedTarget: target
+                    });
+                }
+                interact(draggableSelector).fire({
+                    type: 'dragend',
+                    target: target
+                });
+            });
+        }
+
+        if (isDragAndDropEnabled) {
+            dragOptions = {
+                inertia: false,
+                autoScroll: true,
+                restrict: {
+                    restriction: ".qti-interaction",
+                    endOnly: false,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                }
+            };
+
+            // makes choices draggables
+            interact(choiceSelector).draggable(_.assign({}, dragOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+                    _handleChoiceSelect($target);
+
+                    _iFrameDragFix(choiceSelector, e.target);
+                },
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass("dragged");
+
+                    interactUtils.restoreOriginalPosition($target);
+                    interactUtils.iFrameDragFixOff();
+                }
+            })).styleCursor(false);
+
+            // makes filled gaps draggables
+            interact(filledGapSelector).draggable(_.assign({}, dragOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    $target.addClass("dragged");
+                    _handleFilledGapSelect($target);
+
+                    _iFrameDragFix(filledGapSelector, e.target);
+                },
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
+                onend: function (e) {
+                    var $target = $(e.target);
+                    $target.removeClass("dragged");
+
+                    interactUtils.restoreOriginalPosition($target);
+
+                    if ($activeChoice) {
+                        _unsetChoice($activeChoice);
+                        _resetSelection();
+                    }
+                    interactUtils.iFrameDragFixOff();
+                }
+            })).styleCursor(false);
+
+            // makes gaps droppables
+            interact(gapSelector).dropzone({
+                overlap: 0.15,
+                ondragenter: function(e) {
+                    var $target = $(e.target),
+                        $dragged = $(e.relatedTarget);
+
+                    $activeDrop = $target;
+                    $target.addClass('dropzone');
+                    $dragged.addClass('droppable');
+                },
+                ondrop: function (e) {
+                    _handleGapSelect($(e.target));
+
+                    this.ondragleave(e);
+                },
+                ondragleave: function(e) {
+                    var $target = $(e.target),
+                        $dragged = $(e.relatedTarget);
+
+                    $target.removeClass('dropzone');
+                    $dragged.removeClass('droppable');
+
+                    $activeDrop = null;
+                }
+            });
+        }
+
+
+        // Point & click handlers
+
+        interact($container.selector).on('tap', function(e) {
+            e.stopPropagation();
             _resetSelection();
         });
 
-        $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
-
+        interact(choiceSelector).on('tap', function (e) {
             e.stopPropagation();
+            _handleChoiceSelect($(e.currentTarget));
+            e.preventDefault();
+        });
 
-            if ( ($activeChoice && $(this).hasClass('active')) || $(this).hasClass('deactivated') ) {
-                e.preventDefault();
+        interact(gapSelector).on('tap', function(e) {
+            e.stopPropagation();
+            _handleGapSelect($(e.currentTarget));
+            e.preventDefault();
+        });
+
+        interact(binSelector).on('tap', function (e) {
+            e.stopPropagation();
+            _unsetChoice($activeChoice);
+            _resetSelection();
+            e.preventDefault();
+        });
+
+
+        // Common handlers
+
+        function _handleChoiceSelect($target) {
+            if (($activeChoice && $target.hasClass('active')) || $target.hasClass('deactivated')) {
                 return;
             }
-
             _resetSelection();
 
-            $activeChoice = $(this).addClass('active');
-            $flowContainer.find('.gapmatch-content').addClass('empty');
-        });
+            $activeChoice = $target.addClass('active');
+            $(gapSelector).addClass('empty');
+        }
 
-        $flowContainer.on('mousedown.commonRenderer', '.gapmatch-content', function(e){
+        function _handleFilledGapSelect($target) {
+            $activeChoice = $target;
+            $(gapSelector).addClass('active');
+        }
 
-            e.stopPropagation();
+        function _handleGapSelect($target) {
+            var choiceSerial, targetSerial;
 
             if(_isInsertionMode()){
+                choiceSerial = $activeChoice.data('serial');
+                targetSerial = $target.data('serial');
 
-                var $target = $(this),
-                    choiceSerial = $activeChoice.data('serial'),
-                    targetSerial = $target.data('serial');
-                    
                 if(targetSerial !== choiceSerial){
 
                     //set choices:
@@ -180,11 +326,8 @@ define([
                 $activeChoice = null;
 
             }else if(_isModeEditing()){
-
-                //editing mode:
-                var $target = $(this),
-                    targetSerial = $target.data('serial'),
-                    choiceSerial = $activeChoice.data('serial');
+                choiceSerial = $activeChoice.data('serial');
+                targetSerial = $target.data('serial');
 
                 if(targetSerial !== choiceSerial){
                     _unsetChoice($activeChoice);
@@ -198,40 +341,30 @@ define([
 
                 _resetSelection();
 
-            }else if($(this).data('serial') && $(this).hasClass('filled')){
+            }else if($target.data('serial') && $target.hasClass('filled')){
+                targetSerial = $target.data('serial');
 
-                //selecting a choice in editing mode:
-                var serial = $(this).data('serial');
-
-                $activeChoice = $(this);
+                $activeChoice = $target;
                 $activeChoice.addClass('active');
 
                 $flowContainer.find('>li>div').filter(function(){
-                    return $(this).data('serial') !== serial;
+                    return $target.data('serial') !== targetSerial;
                 }).addClass('empty');
 
                 $choiceArea.find('>li:not(.deactivated)').filter(function(){
-                    return $(this).data('serial') !== serial;
+                    return $target.data('serial') !== targetSerial;
                 }).addClass('empty');
 
                 //append trash bin:
-                var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
-                $bin.on('mousedown', function(e){
-                    e.stopPropagation();
-                    _unsetChoice($activeChoice);
-                    _resetSelection();
-                });
-                $(this).append($bin);
+                $target.append($bin);
             }
-
-        });
+        }
     };
 
     var resetResponse = function(interaction){
         var $container = containerHelper.get(interaction);
 
-        //restore selected choices:
-        $('.gapmatch-content .active', $container).trigger('mousedown.commonRenderer');
+        $('.gapmatch-content.active', $container).removeClass('active');
         $('.gapmatch-content', $container).each(function(){
             unsetChoice(interaction, $(this));
         });
@@ -305,10 +438,10 @@ define([
         var $container = containerHelper.get(interaction);
 
         //remove event
-        $(document).off('.commonRenderer');
-        $container.off('.commonRenderer');
-        $container.find('.choice-area').off('.commonRenderer');
-        $container.find('.qti-flow-container').off('.commonRenderer');
+        interact($container.selector).unset();
+        interact($container.find('.choice-area').selector + " .qti-choice").unset();
+        interact($container.find('.qti-flow-container').selector + " .gapmatch-content").unset();
+        interact($container.find('.remove-choice').selector).unset();
 
         //restore selection
         $container.find('.gapmatch-content').empty();

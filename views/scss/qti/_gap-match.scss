@@ -25,6 +25,15 @@
         &.filled {
             top: 0 !important;
         }
+        &.dragged, &.dragged:hover {
+            @extend %dragged;
+        }
+        &.droppable, &.droppable:hover {
+            @extend %droppable;
+        }
+        &.dropzone {
+            @extend %dropzone;
+        }
     }
     .choice-area {
         .deactivated {

@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    'use strict';
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -24,6 +25,7 @@ module.exports = function(grunt) {
         'taoQtiItem' : root + '/taoQtiItem/views/js',
         'taoQtiItemCss' :  root + '/taoQtiItem/views/css',
         'taoItems' : root + '/taoItems/views/js',
+        'taoItemsCss' :  root + '/taoItems/views/css',
         'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
         'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
     };
@@ -45,7 +47,7 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'taoQtiItem/controller/routes',
                 include : ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
-                exclude : ['mathJax', 'mediaElement'].concat(libs)
+                exclude : ['mathJax'].concat(libs)
             }]
         }
     };
@@ -62,7 +64,7 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
                 include: runtimeLibs,
-                exclude : ['json!i18ntr/messages.json', 'mathJax', 'mediaElement', 'ckeditor'],
+                exclude : ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'],
             }]
         }
     };
