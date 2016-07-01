@@ -238,8 +238,14 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                     $count++;
                 }
                 $replacementList[$assetUrl] = $replacement;
-                $fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
-                $publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
+                $tmpfile = $mediaSource->download($mediaAsset->getMediaIdentifier());
+                $fh = fopen($tmpfile, 'r');
+                $publicDirectory->write($lang.'/'.$replacement, $fh);
+                fclose($fh);
+                unlink($tmpfile);
+                
+                //$fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
+                //$publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
                 
             }
         }
