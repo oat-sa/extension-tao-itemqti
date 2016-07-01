@@ -38,6 +38,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
 use League\Flysystem\File;
 use League\Flysystem\FileExistsException;
+use League\Flysystem\FileNotFoundException;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the
@@ -72,9 +73,8 @@ class Service extends tao_models_classes_Service
             $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
 
             //get the QTI xml
-            $itemContent = $file->read();
-
-            if (!empty($itemContent)) {
+            try {
+                $itemContent = $file->read();
                 //Parse it and build the QTI_Data_Item
                 $qtiParser = new Parser($itemContent);
                 $returnValue = $qtiParser->load();
@@ -93,7 +93,7 @@ class Service extends tao_models_classes_Service
                 if (!$returnValue->getAttributeValue('xml:lang')) {
                     $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
                 }
-            } else {
+            } catch (FileNotFoundException $e) {
                 // fail silently, since file might not have been created yet
                 // $returnValue is then NULL.
                 common_Logger::d('item('.$item->getUri().') is empty, newly created?');
