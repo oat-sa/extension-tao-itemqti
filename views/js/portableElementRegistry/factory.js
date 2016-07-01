@@ -13,10 +13,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technlogies SA;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'core/promise', 'core/eventifier', 'taoQtiItem/qtiCreator/helper/qtiElements'], function (_, Promise, eventifier, qtiElements){
+define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, eventifier){
     'use strict';
 
     var _requirejs = window.require;
@@ -25,23 +25,21 @@ define(['lodash', 'core/promise', 'core/eventifier', 'taoQtiItem/qtiCreator/help
 
         var _loaded = false;
         var _providers = [];
-        var _registry = [];
-
-        function _get(typeIdentifier, version){
-
-            if(_registry[typeIdentifier]){
-                //check version
-                if(version){
-                    return _.find(_registry[typeIdentifier], version);
-                }else{
-                    //latest
-                    return _.last(_registry[typeIdentifier]);
-                }
-            }
-        }
 
         return eventifier(_.defaults(methods || {}, {
             _registry : {},
+            get : function get(typeIdentifier, version){
+
+                if(this._registry[typeIdentifier]){
+                    //check version
+                    if(version){
+                        return _.find(this._registry[typeIdentifier], version);
+                    }else{
+                        //latest
+                        return _.last(this._registry[typeIdentifier]);
+                    }
+                }
+            },
             addProvider : function addProvider(provider){
                 if(provider && _.isFunction(provider.load)){
                     _providers.push(provider);
@@ -50,45 +48,32 @@ define(['lodash', 'core/promise', 'core/eventifier', 'taoQtiItem/qtiCreator/help
             },
             getAllVersions : function getAllVersions(){
                 var all = {};
-                _.forIn(_registry, function (versions, id){
+                _.forIn(this._registry, function (versions, id){
                     all[id] = _.map(versions, 'version');
                 });
                 return all;
             },
             getRuntime : function getRuntime(typeIdentifier, version){
-                var pci = _get(typeIdentifier, version);
+                var pci = this.get(typeIdentifier, version);
                 if(pci){
                     return _.assign(pci.runtime, {baseUrl : pci.baseUrl});
                 }else{
-                    throw 'no pci found';
+                    this.trigger('error', 'no portable element runtime found' , typeIdentifier, version);
                 }
             },
             getCreator : function getCreator(typeIdentifier, version){
-                var pci = _get(typeIdentifier, version);
+                var pci = this.get(typeIdentifier, version);
                 if(pci && pci.creator){
                     return _.assign(pci.creator, {
                         baseUrl : pci.baseUrl,
                         response : pci.response
                     });
                 }else{
-                    throw 'no pci found';
-                }
-            },
-            getAuthoringData : function getAuthoringData(typeIdentifier, version){
-                var pciModel = _get(typeIdentifier, version);
-                if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon){
-                    return {
-                        label : pciModel.label, //currently no translation available
-                        icon : pciModel.creator.icon.replace(new RegExp('^' + typeIdentifier + '\/'), pciModel.baseUrl),
-                        short : pciModel.short,
-                        description : pciModel.description,
-                        qtiClass : 'customInteraction.' + pciModel.typeIdentifier, //custom interaction is block type
-                        tags : _.union(['Custom Interactions'], pciModel.tags)
-                    };
+                    this.trigger('error', 'no portable element creator found' , typeIdentifier, version);
                 }
             },
             getBaseUrl : function getBaseUrl(typeIdentifier, version){
-                var runtime = _get(typeIdentifier, version);
+                var runtime = this.get(typeIdentifier, version);
                 if(runtime){
                     return runtime.baseUrl;
                 }
@@ -114,12 +99,12 @@ define(['lodash', 'core/promise', 'core/eventifier', 'taoQtiItem/qtiCreator/help
                         var requireConfigAliases = {};
 
                         //update registry
-                        _registry = _.reduce(results, function (acc, _pcis){
+                        self._registry = _.reduce(results, function (acc, _pcis){
                             return _.merge(acc, _pcis);
                         }, {});
 
-                        //preconfiguring the pci's code baseUrl
-                        _.forIn(_registry, function (versions, typeIdentifier){
+                        //pre-configuring the baseUrl of the portable element's source
+                        _.forIn(self._registry, function (versions, typeIdentifier){
                             //currently use latest runtime path
                             requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
                         });
@@ -142,8 +127,8 @@ define(['lodash', 'core/promise', 'core/eventifier', 'taoQtiItem/qtiCreator/help
                 this.loadRuntimes(function (){
                     var requiredCreators = [];
 
-                    _.forIn(_registry, function (versions, typeIdentifier){
-                        var pciModel = _get(typeIdentifier);//currently use the latest version only
+                    _.forIn(self._registry, function (versions, typeIdentifier){
+                        var pciModel = self.get(typeIdentifier);//currently use the latest version only
                         if(pciModel.creator && pciModel.creator.hook){
                             requiredCreators.push(pciModel.creator.hook.replace(/\.js$/, ''));
                         }
@@ -155,12 +140,12 @@ define(['lodash', 'core/promise', 'core/eventifier', 'taoQtiItem/qtiCreator/help
                             var creators = {};
                             _.each(arguments, function (creatorHook){
                                 var id = creatorHook.getTypeIdentifier();
-                                var pciModel = _get(id);
-                                var i = _.findIndex(_registry[id], {version : pciModel.version});
+                                var pciModel = self.get(id);
+                                var i = _.findIndex(self._registry[id], {version : pciModel.version});
                                 if(i < 0){
-                                    throw 'no creator found for id/version ' + id + '/' + pciModel.version;
+                                    self.trigger('error', 'no creator found for id/version ' + id + '/' + pciModel.version);
                                 }else{
-                                    _registry[id][i].creator.module = creatorHook;
+                                    self._registry[id][i].creator.module = creatorHook;
                                     creators[id] = creatorHook;
                                 }
                             });
@@ -168,7 +153,7 @@ define(['lodash', 'core/promise', 'core/eventifier', 'taoQtiItem/qtiCreator/help
                             callback(creators);
                         });
                     }else{
-                        self.trigger('creatorsloaded', creators);
+                        self.trigger('creatorsloaded', {});
                         callback({});
                     }
 

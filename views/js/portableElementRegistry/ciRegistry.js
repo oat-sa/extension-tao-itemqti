@@ -26,7 +26,7 @@ define([
     //singleton
     return portableElementRegistry({
         getAuthoringData : function getAuthoringData(typeIdentifier, version){
-            var pciModel = _get(typeIdentifier, version);
+            var pciModel = this.get(typeIdentifier, version);
             if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon){
                 return {
                     label : pciModel.label, //currently no translation available
@@ -37,7 +37,7 @@ define([
                     tags : _.union(['Custom Interactions'], pciModel.tags)
                 };
             }
-        },
+        }
     }).on('creatorsloaded', function(creators){
         _.each(creators, function(creator){
             qtiElements.classes['customInteraction.' + creator.getTypeIdentifier()] = {parents : ['customInteraction'], qti : true};
