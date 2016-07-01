@@ -37,6 +37,7 @@ use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
 use GuzzleHttp\Psr7\Stream;
+use League\Flysystem\File;
 
 /**
  * The QTI Item Compiler
@@ -147,8 +148,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiService = Service::singleton();
 
         //copy item.xml file to private directory
-        $itemFolder = $itemService->getItemFolder($item, $language);
-        $privateDirectory->writeStream($language.'/qti.xml', new Stream(fopen($itemFolder.'qti.xml' ,'r')));
+        $itemDir = $itemService->getItemDirectory($item, $language);
+        $sourceItem = new File($itemDir->getFileSystem(), $itemDir->getPath().DIRECTORY_SEPARATOR.'qti.xml');
+        $privateDirectory->write($language.'/qti.xml', $sourceItem->readStream());
 
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -156,10 +158,10 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
         $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
         if (\tao_helpers_Mode::is('production')) {
-            $publicDirectory->writeStream($language.'/qtiLoader.min.js', new Stream(fopen($assetPath . 'qtiLoader.min.js','r')));
+            $publicDirectory->write($language.'/qtiLoader.min.js', fopen($assetPath . 'qtiLoader.min.js','r'));
         } else {
-            $publicDirectory->writeStream($language.'/qtiLoader.js', new Stream(fopen($assetPath . 'qtiLoader.js','r')));
-            $publicDirectory->writeStream($language.'/require.js', new Stream(fopen($assetLibPath . 'require.js','r')));
+            $publicDirectory->write($language.'/qtiLoader.js', fopen($assetPath . 'qtiLoader.js','r'));
+            $publicDirectory->write($language.'/require.js', fopen($assetLibPath . 'require.js','r'));
         }
 
         // retrieve the media assets
@@ -209,9 +211,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      */
     protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $publicDirectory)
     {
-        $xml = taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
-        $qtiParser = new Parser($xml);
-        $qtiItem  = $qtiParser->load();
+        $qtiItem  = Service::singleton()->getDataItemByRdfItem($item, $lang);
         
         $assetParser = new AssetParser($qtiItem);
         $assetParser->setGetSharedLibraries(false);
@@ -245,7 +245,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         }
         
         $dom = new \DOMDocument('1.0', 'UTF-8');
-        if ($dom->loadXML($xml) === true) {
+        if ($dom->loadXML($qtiItem->toXml()) === true) {
         
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
