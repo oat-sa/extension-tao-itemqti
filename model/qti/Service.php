@@ -68,9 +68,11 @@ class Service extends tao_models_classes_Service
 
         //check if the item is QTI item
         if ($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
+            $dir = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item);
+            $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
 
             //get the QTI xml
-            $itemContent = $itemService->getItemContent($item, $langCode);
+            $itemContent = $file->read();
 
             if (!empty($itemContent)) {
                 //Parse it and build the QTI_Data_Item
