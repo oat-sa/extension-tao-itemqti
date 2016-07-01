@@ -259,7 +259,6 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                         $destPath = $replacement = basename($srcPath);
                     }
                     tao_helpers_File::copy($srcPath,$destination.$destPath,false);
-
                 }
                 $xml = str_replace($assetUrl, $replacement, $xml);
             }

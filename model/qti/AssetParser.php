@@ -21,16 +21,14 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Item;
+use oat\oatbox\service\ServiceManager;
+use oat\qtiItemPci\model\common\PortableElementFactory;
+use oat\qtiItemPci\model\PortableElementService;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
-use oat\taoQtiItem\model\qti\Element;
-use oat\taoQtiItem\model\qti\StyleSheet;
-use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use \SimpleXMLElement;
-use oat\tao\model\ClientLibRegistry;
 
 /**
  * Parse and Extract all assets of an item.
@@ -229,8 +227,19 @@ class AssetParser
         $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
         $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
         $xmls = array();
-        if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
-            $xmls = $this->getXmlProperties($element->getProperties());
+        if ($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl) {
+            $service = new PortableElementService();
+            $service->setServiceLocator(ServiceManager::getServiceManager());
+            $portableElement = $service->getPciByIdentifier($element->getTypeIdentifier());
+            $validator = PortableElementFactory::getValidator($portableElement);
+            $files = $validator->getRequiredAssets();
+
+            $baseUrl = $service->getPortableElementBaseUrl($portableElement);
+            foreach ($files as $file) {
+                \common_Logger::i(' )))) ' . $baseUrl . $file);
+                $this->addAsset('portableElement', $baseUrl . $file);
+//                $this->assets['portableElement'][] = $file;
+            }
         }
 
         //parse and extract assets from markup using XPATH

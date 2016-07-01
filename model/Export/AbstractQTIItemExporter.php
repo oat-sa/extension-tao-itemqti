@@ -24,6 +24,8 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use oat\qtiItemPci\model\common\parser\PortableElementSource;
+use oat\qtiItemPci\model\common\resolver\PortableElementResolver;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\exception\ExportException;
@@ -67,30 +69,41 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $content = $this->getItemService()->getItemContent($this->getItem());
-        $resolver = new ItemMediaResolver($this->getItem(), $lang);
+
 
         $replacementList = array();
         // get the local resources and add them
-        foreach ($this->getAssets($this->getItem(), $lang) as $assetUrl) {
+        foreach ($this->getAssets($this->getItem(), $lang) as $key => $assetUrl) {
+
+
             try{
+                $resolver = new ItemMediaResolver($this->getItem(), $lang);
+                \common_Logger::i(print_r($this->getItem()));
                 $mediaAsset = $resolver->resolve($assetUrl);
+                if ($key == 'portableElement') {
+                    $mediaAsset->setMediaSource(new PortableElementSource());
+                }
                 $mediaSource = $mediaAsset->getMediaSource();
-                if(!$mediaSource instanceof HttpSource){
+
+                if (!$mediaSource instanceof HttpSource) {
+
                     $link = $mediaAsset->getMediaIdentifier();
+                    \common_Logger::i(' -> ' . $link . ' <-');
                     $stream = $mediaSource->getFileStream($link);
-                    $baseName = ($mediaSource instanceof LocalItemSource)? $link : 'assets/'.$mediaSource->getBaseName($link);
+                    $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
                     $replacement = $baseName;
                     $count = 0;
                     while (in_array($replacement, $replacementList)) {
                         $dot = strrpos($baseName, '.');
                         $replacement = $dot !== false
-                        ? substr($baseName, 0, $dot).'_'.$count.substr($baseName, $dot)
-                            : $baseName.$count;
+                            ? substr($baseName, 0, $dot) . '_' . $count . substr($baseName, $dot)
+                            : $baseName . $count;
                         $count++;
                     }
 
                     $replacementList[$assetUrl] = $replacement;
-                    $this->addFile($stream, $basePath.'/'.$baseName);
+                    $this->addFile($stream, $basePath . '/' . $baseName);
+
                 }
             } catch(\tao_models_classes_FileNotFoundException $e){
                 $replacementList[$assetUrl] = '';
@@ -104,12 +117,25 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
-            unset($xpath);
+
             foreach ($attributeNodes as $node) {
+//                \common_Logger::i(' - - - - - - ' . $node->value);
+//                \common_Logger::i(' - - - - - - ' . $replacementList[$node->value]);
                 if (isset($replacementList[$node->value])) {
                     $node->value = $replacementList[$node->value];
                 }
             }
+
+            $attributeNodes = $xpath->query('//portableCustomInteraction/resources/libraries');
+            unset($xpath);
+            foreach ($attributeNodes as $node) {
+                \common_Logger::i(' - - - - - - ' . $node->value);
+                \common_Logger::i(' - - - - - - ' . $replacementList[$node->value]);
+                if (isset($replacementList[$node->value])) {
+//                    $node->value = $replacementList[$node->value];
+                }
+            }
+            unset($xpath);
         } else {
             throw new ExportException($this->getItem()->getLabel(), 'Unable to load XML');
         }

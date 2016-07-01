@@ -508,7 +508,7 @@ class ImportService extends tao_models_classes_GenerisService
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     __("An unknown error occured while importing the IMS QTI Package."));
-                common_Logger::e($e->getMessage());
+                common_Logger::e(print_r($e->getTrace(), true));
             }
         } catch (ValidationException $ve) {
             $validationReport = \common_report_Report::createFailure("The IMS Manifest file could not be validated");
