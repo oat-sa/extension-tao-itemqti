@@ -113,7 +113,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @throws \common_Exception
      * @return core_kernel_classes_Resource
      */
-    protected function createRdfItem(core_kernel_classes_Class $itemClass, $qtiModel)
+    protected function createRdfItem(core_kernel_classes_Class $itemClass, Item $qtiModel)
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
@@ -389,7 +389,8 @@ class ImportService extends tao_models_classes_GenerisService
             //load the information about resources in the manifest
 
             $itemService = taoItems_models_classes_ItemsService::singleton();
-
+            $qtiService = Service::singleton();
+            
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
 
@@ -427,7 +428,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
 
                 $itemAssetManager = new AssetManager();
-                $itemAssetManager->setItemContent($itemService->getItemContent($rdfItem));
+                $itemAssetManager->setItemContent($qtiModel->toXML());
                 $itemAssetManager->setSource($folder);
 
                 /**
@@ -453,7 +454,8 @@ class ImportService extends tao_models_classes_GenerisService
                     ->importAuxiliaryFiles($qtiItemResource)
                     ->importDependencyFiles($qtiItemResource, $dependencies);
 
-                $itemService->setItemContent($rdfItem, $itemAssetManager->getItemContent());
+                $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
+                $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
                 // Finally, import metadata.
                 $this->importResourceMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
