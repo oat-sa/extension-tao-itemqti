@@ -204,7 +204,6 @@ define([
                     loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
                 ]).then(function(results){
 
-                    console.log(results);
                     if(_.isArray(results) && results.length === 2){
 
                         if(! _.isObject(results[1])){
