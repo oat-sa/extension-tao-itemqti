@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\apip;
 use oat\taoQtiItem\helpers\Apip;
 use \tao_models_classes_Service;
 use \taoItems_models_classes_ItemsService;
+use League\Flysystem\File;
 
 /**
  * 
@@ -37,28 +38,33 @@ class ApipService extends tao_models_classes_Service
         
         if (($apipContent = Apip::extractApipAccessibility($originalDoc)) !== null) {
             // Call ApipService to store the data separately.
-            $finalLocation = $itemService->getItemFolder($item) . 'apip.xml';
-            file_put_contents($finalLocation, $apipContent->saveXML());
+            $dir = $itemService->getItemDirectory($item);
+            $file = new File($dir->getFilesystem(), $dir->getPath().DIRECTORY_SEPARATOR.'apip.xml');
+            $file->write($apipContent->saveXML());
             
-            \common_Logger::i("APIP content stored at '${finalLocation}'.");
+            \common_Logger::i("APIP content stored for '".$item->getUri()."'.");
         }
     }
-    
+
+    /**
+     * Return Apip data for item, null if no data found
+     * 
+     * @param \core_kernel_classes_Resource $item
+     * @return \DOMDocument|NULL
+     */
     public function getApipAccessibilityContent(\core_kernel_classes_Resource $item)
     {
-        $apipContent = null;
-        
         $itemService = taoItems_models_classes_ItemsService::singleton();
-        $finalLocation = $itemService->getItemFolder($item) . 'apip.xml';
-        
-        if (is_readable($finalLocation) === true) {
+        $dir = $itemService->getItemDirectory($item);
+        $file = new File($dir->getFilesystem(), $dir->getPath().DIRECTORY_SEPARATOR.'apip.xml');
+        if ($file->exists()) {
             $apipContent = new \DOMDocument('1.0', 'UTF-8');
-            $apipContent->load($finalLocation);
-            
-            \common_Logger::i("APIP content retrieved at '${finalLocation}'.");
+            $apipContent->loadXML($file->read());
+            \common_Logger::i("APIP content retrieved for '".$item->getUri()."'.");
+            return $apipContent;
+        } else {
+            return null;
         }
-        
-        return $apipContent;
     }
     
     public function getDefaultApipAccessibilityContent(\core_kernel_classes_Resource $item)

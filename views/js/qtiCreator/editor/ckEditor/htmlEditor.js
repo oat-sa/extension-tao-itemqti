@@ -161,36 +161,6 @@ define([
                     var widgets = {},
                         editor = e.editor;
                     
-                    /**
-                     * changed callback
-                     * @param {Object} editor - ckeditor instance
-                     */
-                    function changed(editor){
-
-                        _detectWidgetDeletion($editable, widgets, editor);
-
-                        //callback:
-                        if(_.isFunction(options.change)){
-                            options.change.call(editor, _htmlEncode(editor.getData()));
-                        }
-
-                    }
-
-                    /**
-                     * Markup change callback
-                     */
-                    function markupChanged(){
-
-                        //callbacks:
-                        if(_.isFunction(options.markupChange)){
-                            options.markupChange.call($editable);
-                        }
-                        if(_.isFunction(options.change)){
-                            options.change.call(editor, _htmlEncode(editor.getData()));
-                        }
-
-                    }
-
                     //fix ck editor combo box display issue
                     $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
@@ -198,13 +168,13 @@ define([
                     $editable.data('editor', editor);
                     $editable.data('editor-options', options);
 
-                    $editable.on('change', function(){
-                        changed(editor);
-                    });
-
-                    editor.on('change', function(){
-                        markupChanged(editor);
-                    });
+                    //need to debounce the callback to prevent the changes made by undo to trigger the event change twice
+                    editor.on('change', _.debounce(function markupChanged(){
+                        _detectWidgetDeletion($editable, widgets, editor);
+                        if(_.isFunction(options.change)){
+                            options.change.call(editor, _htmlEncode(editor.getData()));
+                        }
+                    }, 100));
 
                     if(options.data && options.data.container){
 
@@ -215,11 +185,8 @@ define([
                         widgets = _rebuildWidgets(options.data.container, $editable, {
                             restoreState : true
                         });
-
                         if(options.shieldInnerContent){
                             _shieldInnerContent($editable, options.data.widget);
-                        }else if(options.passthroughInnerContent){
-                            _passthroughInnerContent($editable);
                         }
                     }
 
@@ -356,6 +323,7 @@ define([
     function _detectWidgetDeletion($container, widgets, editor){
 
         var deleted = [];
+        var container = $container.data('qti-container');
 
         _.each(widgets, function(w){
 
@@ -369,18 +337,36 @@ define([
         });
 
         if(deleted.length){
-
+            var undoCmd = editor.getCommand( 'undo');
             var $messageBox = deletingHelper.createInfoBox(deleted);
+
             $messageBox.on('confirm.deleting', function(){
 
                 _.each(deleted, function(w){
                     w.element.remove();
                     w.destroy();
                 });
+
+                editor.resetUndo();
+
             }).on('undo.deleting', function(){
 
                 editor.undoManager.undo();
+
+                //need to rebuild the inner widgets in case the undo restored some qti elements
+                _rebuildWidgets(container, $container, {
+                    restoreState : true
+                });
+
+                _shieldInnerContent($container, container.data('widget'));
             });
+
+            if (undoCmd){
+                //catch ckeditor's undo event to trigger the same behaviour as the undo action dialog
+                undoCmd.on('afterUndo', function(){
+                    $messageBox.find('a.undo').click();
+                });
+            }
 
         }
     }
@@ -423,21 +409,6 @@ define([
                 innerWidget = $widget.data('widget');
                 _activateInnerWidget(containerWidget, innerWidget);
             });
-        });
-
-    }
-
-    /**
-     * Allow the inner widgets to be selected
-     *
-     * @param {JQuery} $container
-     * @returns {undefined}
-     */
-    function _passthroughInnerContent($container){
-
-        $container.find('.widget-box').each(function(){
-            //just add the shield for visual consistency
-            addShield($(this));
         });
 
     }
