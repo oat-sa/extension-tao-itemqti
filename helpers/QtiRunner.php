@@ -76,20 +76,19 @@ class QtiRunner
     }
 
     /**
-     * Get the absolute path to the compilation folder described by $directory.
+     * Get the flysystem path to the compilation folder described by $directory.
      * 
-     * @param tao_models_classes_service_StorageDirectory $director The root directory resource where the item is stored.
-     * @return string The local path to the private folder with a trailing directory separator.
+     * @param tao_models_classes_service_StorageDirectory $directory The root directory resource where the item is stored.
+     * @return string The flysystem path to the private folder with a trailing directory separator.
      */
-    public static function getPrivateFolderPath(tao_models_classes_service_StorageDirectory $directory) {
+    public static function getPrivatePathByLanguage(tao_models_classes_service_StorageDirectory $directory) {
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
-        $basepath = $directory->getPath();
-        
-        if (!file_exists($basepath . $lang) && file_exists($basepath . DEFAULT_LANG)) {
+
+        if (!$directory->has($lang) && $directory->has(DEFAULT_LANG)) {
             $lang = DEFAULT_LANG;
         }
         
-        return $basepath . $lang . DIRECTORY_SEPARATOR;
+        return $lang . DIRECTORY_SEPARATOR;
     }
     
     /**
@@ -99,10 +98,13 @@ class QtiRunner
      * @param tao_models_classes_service_StorageDirectory $directory
      * @return array A JSON decoded array.
      */
-    public static function getContentVariableElements(tao_models_classes_service_StorageDirectory $directory) {
-        $jsonFile = self::getPrivateFolderPath($directory) . 'variableElements.json';
-        $elements = file_get_contents($jsonFile);
-        return json_decode($elements, true);
+    public static function getContentVariableElements(tao_models_classes_service_StorageDirectory $directory)
+    {
+        $jsonFile = self::getPrivatePathByLanguage($directory) . 'variableElements.json';
+        $stream = $directory->readStream($jsonFile);
+        $data = $stream->getContents();
+        $stream->close();
+        return json_decode($data, true);
     }
     
     /**

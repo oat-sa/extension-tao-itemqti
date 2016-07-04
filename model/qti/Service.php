@@ -59,50 +59,63 @@ class Service extends tao_models_classes_Service
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource item
      * @throws \common_Exception If $item is not representing an item with a QTI item model.
-     * @return oat\taoQtiItem\model\qti\Item An item as a business object.
+     * @return Item An item as a business object.
      */
     public function getDataItemByRdfItem(core_kernel_classes_Resource $item, $langCode = '', $resolveXInclude = false)
     {
-        
         $returnValue = null;
-        $itemService = taoItems_models_classes_ItemsService::singleton();
-
-        //check if the item is QTI item
-        if ($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
-            $dir = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item);
-            $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
-
-            //get the QTI xml
-            try {
-                $itemContent = $file->read();
-                //Parse it and build the QTI_Data_Item
-                $qtiParser = new Parser($itemContent);
-                $returnValue = $qtiParser->load();
-                
-                if($resolveXInclude && !empty($langCode)){
-                    try{
-                        //loadxinclude
-                        $resolver = new ItemMediaResolver($item, $langCode);
-                        $xincludeLoader = new XIncludeLoader($returnValue, $resolver);
-                        $xincludeLoader->load(true);
-                    } catch(XIncludeException $exception){
-                        common_Logger::e($exception->getMessage());
-                    }
-                }
+        
+        try {
+            //Parse it and build the QTI_Data_Item
+            $qtiParser = new Parser($this->getXmlByRdfItem($item, $langCode));
+            $returnValue = $qtiParser->load();
             
-                if (!$returnValue->getAttributeValue('xml:lang')) {
-                    $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+            if($resolveXInclude && !empty($langCode)){
+                try{
+                    //loadxinclude
+                    $resolver = new ItemMediaResolver($item, $langCode);
+                    $xincludeLoader = new XIncludeLoader($returnValue, $resolver);
+                    $xincludeLoader->load(true);
+                } catch(XIncludeException $exception){
+                    common_Logger::e($exception->getMessage());
                 }
-            } catch (FileNotFoundException $e) {
-                // fail silently, since file might not have been created yet
-                // $returnValue is then NULL.
-                common_Logger::d('item('.$item->getUri().') is empty, newly created?');
             }
-        } else {
-            throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
+        
+            if (!$returnValue->getAttributeValue('xml:lang')) {
+                $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+            }
+        } catch (FileNotFoundException $e) {
+            // fail silently, since file might not have been created yet
+            // $returnValue is then NULL.
+            common_Logger::d('item('.$item->getUri().') is empty, newly created?');
         }
         
         return $returnValue;
+    }
+    
+    /**
+     * Load the XML of the QTI item
+     * 
+     * @param core_kernel_classes_Resource $item
+     * @param string $langCode
+     * @param string $resolveXInclude
+     * @throws common_Exception
+     * @throws FileNotFoundException
+     * @return string
+     */
+    public function getXmlByRdfItem(core_kernel_classes_Resource $item, $langCode = '')
+    {
+        $returnValue = null;
+        $itemService = taoItems_models_classes_ItemsService::singleton();
+        
+        //check if the item is QTI item
+        if (!$itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
+            throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
+        }
+        
+        $dir = $itemService->getItemDirectory($item);
+        $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
+        return $file->read();
     }
 
     /**
