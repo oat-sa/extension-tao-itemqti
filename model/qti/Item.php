@@ -571,10 +571,11 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
+     * @param boolean $validate (optional) Validate the XML output against QTI Specification (XML Schema). Default is false.
      * @return string
      * @throws exception\QtiModelException
      */
-    public function toXML(){
+    public function toXML($validate = false){
 
         $returnValue = '';
 
@@ -590,7 +591,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $returnValue = $dom->saveXML();
 
             //in debug mode, systematically check if the save QTI is standard compliant
-            if(DEBUG_MODE){
+            if($validate){
                 $parserValidator = new Parser($returnValue);
                 $parserValidator->validate();
                 if(!$parserValidator->isValid()){
