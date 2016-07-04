@@ -198,7 +198,8 @@ img.dragging.ui-draggable-dragging {
     position: absolute;
     // must be _below_ actions
     z-index: 5;
-    left: 35%;
+    right: 20px;
+    text-align: right;
     color: white(.9);
     top: 9px;
     text-shadow: 1px 1px 0 blacken($info, .2);
