@@ -57,7 +57,8 @@ define([
                 //attach the element to the title area
                 this.getAreaBroker()
                     .getTitleArea()
-                    .text(this.title);
+                    .text(this.title)
+                    .attr('title', this.title);
             }
         }
     });
