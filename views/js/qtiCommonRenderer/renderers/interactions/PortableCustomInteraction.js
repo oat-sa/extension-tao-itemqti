@@ -29,7 +29,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util',
-    'qtiItemPci/pciRegistry'
+    'taoQtiItem/portableElementRegistry/ciRegistry'
 ], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, pciRegistry){
     'use strict';
 

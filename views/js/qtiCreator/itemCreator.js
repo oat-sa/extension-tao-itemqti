@@ -33,7 +33,7 @@ define([
     'module',
     'core/eventifier',
     'core/promise',
-    'qtiItemPci/pciRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'taoQtiItem/qtiCreator/editor/infoControlRegistry',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -93,9 +93,11 @@ define([
     };
 
     var loadPortableElements = function loadPortableElements(){
-        return new Promise(function(resolve){
+        return new Promise(function(resolve, reject){
             ciRegistry.addProvider(pciProvider).loadCreators(function(){
                 return resolve();
+            }).on('error', function(err){
+                reject(new Error(err));
             });
         });
     }

@@ -27,7 +27,7 @@ define([
     'core/plugin',
     'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'qtiItemPci/pciRegistry'
+    'taoQtiItem/portableElementRegistry/ciRegistry'
 ], function(_, pluginFactory, blockAdder, qtiElements, pciRegistry){
     'use strict';
 

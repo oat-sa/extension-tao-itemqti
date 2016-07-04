@@ -27,7 +27,7 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'qtiItemPci/pciRegistry'
+    'taoQtiItem/portableElementRegistry/ciRegistry'
 ], function(_, interactionsToolbar, panel, qtiElements, pciRegistry){
     'use strict';
 
