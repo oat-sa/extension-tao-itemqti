@@ -25,7 +25,6 @@ use oat\oatbox\service\ServiceManager;
 use oat\qtiItemPci\model\common\PortableElementFactory;
 use oat\qtiItemPci\model\pci\model\PciModel;
 use oat\qtiItemPci\model\pic\model\PicModel;
-use oat\qtiItemPci\model\PortableElementRegistry;
 use oat\qtiItemPci\model\PortableElementService;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
@@ -67,6 +66,12 @@ class AssetParser
     private $getXinclude = true;
 
     /**
+     * Set mode - if parser have to find portable element
+     * @var bool
+     */
+    private $getCustomElement = true;
+
+    /**
      * Set mode - if parser have to find all external entries ( like url, require etc )
      * @var bool
      */
@@ -97,7 +102,9 @@ class AssetParser
             $this->extractImg($element);
             $this->extractObject($element);
             $this->extractStyleSheet($element);
-            $this->extractCustomElement($element);
+            if($this->getGetCustomElement()){
+                $this->extractCustomElement($element);
+            }
             if($this->getGetXinclude()){
                 $this->extractXinclude($element);
             }
@@ -164,6 +171,15 @@ class AssetParser
         }
     }
 
+    public function extractPortableAssetLinks()
+    {
+        foreach ($this->item->getComposingElements() as $element) {
+            $this->extractCustomElement($element);
+        }
+        \common_Logger::i(print_r($this->assets, true));
+        return $this->assets;
+    }
+
     /**
      * Lookup and extract assets from a custom element (CustomInteraction, PCI, PIC)
      * @param Element $element the element itself or a container of the target element
@@ -226,10 +242,9 @@ class AssetParser
      */
     private function loadCustomElementAssets(Element $element)
     {
+        $service = new PortableElementService();
+        $service->setServiceLocator(ServiceManager::getServiceManager());
 
-        $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
-        $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
-        $xmls = array();
         if ($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl) {
 
             if ($element instanceof PortableCustomInteraction) {
@@ -237,23 +252,21 @@ class AssetParser
             } else {
                 $model = new PicModel();
             }
-            $service = ServiceManager::getServiceManager()->get(PortableElementService::class);
-            $service = new PortableElementService();
-            $service->setServiceLocator(ServiceManager::getServiceManager());
-            $portableElement = $service->getPciByIdentifier($element->getTypeIdentifier());
-            $validator = PortableElementFactory::getValidator($portableElement);
-            $files = $validator->getRequiredAssets();
 
-            $baseUrl = $service->getPortableElementBaseUrl($portableElement);
+            $model->setTypeIdentifier($element->getTypeIdentifier());
+            $portableElement = $service->hydrateModel($model);
+
+            $validator = PortableElementFactory::getValidator($portableElement);
+            $files = $validator->getRequiredAssets('runtime');
+            \common_Logger::i(print_r($files, true));
             foreach ($files as $file) {
-                \common_Logger::i(' )))) ' . $baseUrl . $file);
-                $this->addAsset('portableElement:pci', $baseUrl . $file);
-//                $this->assets['portableElement'][] = $file;
+                $this->addAsset($model->getTypeIdentifier(), $file);
             }
         }
 
         //parse and extract assets from markup using XPATH
-        if($element instanceof CustomInteraction || $element instanceof InfoControl){
+        if ($element instanceof CustomInteraction || $element instanceof InfoControl) {
+            $xmls = array();
             // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
             $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);
@@ -362,6 +375,23 @@ class AssetParser
     {
         return $this->getXinclude;
     }
+
+    /**
+     * @param boolean $getCustomElement
+     */
+    public function setGetCustomElement($getCustomElement)
+    {
+        $this->getCustomElement = $getCustomElement;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getGetCustomElement()
+    {
+        return $this->getCustomElement;
+    }
+
 
     /**
      * @return boolean
