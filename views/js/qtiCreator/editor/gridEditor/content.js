@@ -1,8 +1,9 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiCreator/editor/gridEditor/resizable'
-], function($, _, resizable){
+    'taoQtiItem/qtiCreator/editor/gridEditor/resizable',
+    'taoQtiItem/qtiCreator/widgets/helpers/textWrapper'
+], function($, _, resizable, textWrapper){
     "use strict";
     var contentHelper = {};
 
@@ -68,6 +69,8 @@ define([
                     return false;//breaks jquery each loop
                 }
             });
+
+            textWrapper.unwrap($pseudoContainer);
 
             container.body(contentHelper.getContent($pseudoContainer));
 
