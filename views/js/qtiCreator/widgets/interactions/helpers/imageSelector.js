@@ -24,7 +24,8 @@ define([
     'i18n',
     'util/image',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
-    'ui/resourcemgr'
+    'ui/resourcemgr',
+    'ui/tooltip'
 ], function($, _, __, imageUtil, resourceManager){
 
     'use strict';
@@ -62,8 +63,8 @@ define([
                 .on('open', function(){
                     $src.trigger('open.'+_ns);
                     //hide tooltip if displayed
-                    if($src.hasClass('tooltipstered')){
-                        $src.blur().tooltipster('hide');
+                    if($src.data('qtip')){
+                        $src.blur().qtip('hide');
                     }
                 })
                 .on('close', function(){

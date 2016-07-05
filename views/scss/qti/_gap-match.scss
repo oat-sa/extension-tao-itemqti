@@ -25,27 +25,17 @@
         &.filled {
             top: 0 !important;
         }
-        &.dragged {
-            z-index: 1;
+        &.dragged, &.dragged:hover {
+            @extend %dragged;
         }
-        &.empty.droppable {
-            border-style: solid !important;
+        &.droppable, &.droppable:hover {
+            @extend %droppable;
         }
-        &.droppable {
-            background: whiten($info, .75) !important;
+        &.dropzone {
+            @extend %dropzone;
         }
     }
     .choice-area {
-        .qti-choice {
-            &.dragged {
-                z-index: 1;
-                background: whiten($info, .91) !important;
-            }
-            &.dragged.droppable {
-                background: whiten($info, .75) !important;
-            }
-        }
-
         .deactivated {
             cursor: default;
             opacity: 0.2;

@@ -22,7 +22,8 @@
                 "attributes": {
                     "responseIdentifier": "RESPONSE",
                     "shuffle": false,
-                    "id": "interaction"
+                    "id": "interaction",
+                    "maxChoices": 4
                 },
                 "choices": {
                     "choice_simplechoice_547481ffc8ede696148422": {
@@ -72,7 +73,7 @@
                         },
                         "body": {
                             "serial": "container_containerstatic_547481ffc9088868830591",
-                            "body": "Middle Ages",
+                            "body": "Middle Ages :  : In the history of Europe, the Middle Ages or medieval period lasted from the 5th to the 15th century. It began with the fall of the Western Roman Empire and merged into the Renaissance and the Age of Discovery. The Middle Ages is the middle period of the three traditional divisions of Western history: classical antiquity, the medieval period, and the modern period. The medieval period is itself subdivided into the Early, High, and Late Middle Ages.",
                             "elements": [],
                             "debug": {
                                 "relatedItem": "item_547481ffc7445711059654"

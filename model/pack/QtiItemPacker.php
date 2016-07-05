@@ -31,6 +31,7 @@ use \InvalidArgumentException;
 use \common_Exception;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoQtiItem\model\qti\Service;
 
 /**
  * This class pack a QTI Item. Packing instead of compiling, aims
@@ -66,10 +67,8 @@ class QtiItemPacker extends ItemPacker
     {
         $itemPack = null;
 
-        $path = $this->getPath($item, $lang);
-
         //use the QtiParser to transform the QTI XML into an assoc array representation
-        $content = $this->getItemContent($path);
+        $content = Service::singleton()->getXmlByRdfItem($item, $lang);
         //load content
         $qtiParser = new QtiParser($content);
         //validate it
@@ -106,8 +105,7 @@ class QtiItemPacker extends ItemPacker
 
             $itemPack->setAssetEncoders($this->getAssetEncoders());
 
-            $path = $this->getPath($item, $lang);
-            $assetParser = new AssetParser($qtiItem, $path);
+            $assetParser = new AssetParser($qtiItem);
             $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
             $assetParser->setGetXinclude(!$this->replaceXinclude);
 

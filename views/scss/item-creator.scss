@@ -333,6 +333,13 @@ img.dragging.ui-draggable-dragging {
                     }
                 }
             }
+            &.subpanel {
+                @include simple-border();
+                background-color:white(.8);
+                padding:8px;
+                margin: 5px 0;
+                @include font-size(13);
+            }
         }
     }
 
@@ -654,15 +661,19 @@ img.dragging.ui-draggable-dragging {
 
     //item title/label
     & > h1 {
+        position : absolute;
         width: 100%;
-        background-color: $itemCreatorSideBarBgColor;
+        background-color: rgba(mix(#fff, $websiteBorder, 70%), .7);
         text-align: center;
         @include font-size(15);
         line-height: 32px;
         height: 32px;
         padding: 0 10px;
         margin: 0;
-        border-bottom: solid 1px $uiGeneralContentBorder;
+        border-top: 1px solid white;
+        border-bottom: 1px solid mix(#fff, $websiteBorder, 75%);
+        //border-style: solid;
+        //border-color: white;
     }
 
     &.has-item {
@@ -689,7 +700,7 @@ img.dragging.ui-draggable-dragging {
 }
 
 #item-editor-scroll-inner {
-    padding: 20px 60px;
+    padding: 80px 60px 20px;
 }
 
 #item-editor-scroll-outer {

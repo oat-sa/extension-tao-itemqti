@@ -23,7 +23,7 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'util/dom',
     'ui/incrementer',
-    'ui/tooltipster',
+    'ui/tooltip',
     'ui/selecter',
     'ui/inplacer',
     'ui/groupvalidator',
@@ -241,29 +241,26 @@ define([
 
     };
 
-    var _validationCallback = function _validationCallback(valid, results){
+    var _validationCallback = function _validationCallback(valid, results, validatorOptions){
 
         var $input = $(this),
             rule;
 
         if(dom.contains($input)){
 
-            _createTooltip($input);
-
-            $input.tooltipster('hide');
+            _createTooltip($input, validatorOptions);
 
             if(!valid){
-
                 //invalid input!
                 rule = _.where(results, {type : 'failure'})[0];
-                if(rule && rule.data.message){
-                    $input.tooltipster('content', rule.data.message);
-                    if(!$('#mediaManager').children('.opened').length){
-                        //only show it when the file manager is hidden
-                        $input.tooltipster('show');
-                    }
+                if(rule && rule.data.message && !$('#mediaManager').children('.opened').length){
+                    $input.qtip('set', 'content.text', rule.data.message);
+                    //only show it when the file manager is hidden
+                    $input.qtip('show');
                 }
 
+            } else {
+                $input.qtip('hide');
             }
 
         }
@@ -272,13 +269,22 @@ define([
 
     };
 
-    var _createTooltip = function($input){
-        if(!$input.hasClass('tooltipstered')){
-            $input.tooltipster({
-                theme : 'tao-error-tooltip',
-                content : '',
-                delay : 350,
-                trigger : 'custom'
+    var _createTooltip = function($input, validatorOptions){
+        if(!$input.data('qtip')){
+            $input.qtip({
+                show: {
+                    event : 'custom'
+                },
+                hide: {
+                    event : 'custom'
+                },
+                theme : 'error',
+                position: {
+                    container: validatorOptions.$container
+                },
+                content: {
+                    text: ''
+                }
             });
         }
     };

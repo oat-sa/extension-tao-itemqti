@@ -11,7 +11,8 @@ define([
     'util/image',
     'ui/mediasizer',
     'ui/resourcemgr',
-    'nouislider'
+    'nouislider',
+    'ui/tooltip'
 ], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
@@ -272,8 +273,8 @@ define([
                 },
                 open : function(){
                     //hide tooltip if displayed
-                    if($src.hasClass('tooltipstered')){
-                        $src.blur().tooltipster('hide');
+                    if($src.data('qtip')){
+                        $src.blur().qtip('hide');
                     }
                 },
                 close : function(){

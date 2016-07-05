@@ -6,7 +6,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
-    'ui/resourcemgr'
+    'ui/resourcemgr',
+    'ui/tooltip'
 ], function($, _, __, stateFactory, Question, formElement, formTpl){
 
     var initQuestionState = function initQuestionState(){
@@ -148,8 +149,8 @@ define([
                 },
                 open : function(){
                     //hide tooltip if displayed
-                    if($src.hasClass('tooltipstered')){
-                        $src.blur().tooltipster('hide');
+                    if($src.data('qtip')){
+                        $src.blur().qtip('hide');
                     }
                 },
                 close : function(){
