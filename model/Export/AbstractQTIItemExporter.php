@@ -117,32 +117,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             throw new ExportException($this->getItem()->getLabel(), 'Unable to save XML');
         }
         
-        if ($asApip === true) {
-            // 1. let's merge qti.xml and apip.xml.
-            // 2. retrieve apip related assets.
-            $apipService = ApipService::singleton();
-            $apipContentDoc = $apipService->getApipAccessibilityContent($this->getItem());
-            
-            if ($apipContentDoc === null) {
-                \common_Logger::i("No APIP accessibility content found for item '" . $this->getItem()->getUri() . "', default inserted.");
-                $apipContentDoc = $apipService->getDefaultApipAccessibilityContent($this->getItem());
-            }
-            
-            $qtiItemDoc = new DOMDocument('1.0', 'UTF-8');
-            $qtiItemDoc->formatOutput = true;
-            $qtiItemDoc->loadXML($content);
-            
-            // Retrieve APIP related assets...
-            $content = $qtiItemDoc->saveXML();
-            $fileHrefElts = $qtiItemDoc->getElementsByTagName('fileHref');
-            for ($i = 0; $i < $fileHrefElts->length; $i++) {
-                $fileHrefElt = $fileHrefElts->item($i);
-                $destPath = $basePath . '/' . $fileHrefElt->nodeValue;
-                $sourcePath = $this->getItemLocation() . $fileHrefElt->nodeValue;
-                $this->addFile($sourcePath, $destPath);
-            }
-        }
-        
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
 

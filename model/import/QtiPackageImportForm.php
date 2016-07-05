@@ -75,7 +75,7 @@ class QtiPackageImportForm
     {
     	//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add a zip file containing QTI items"));
+		$fileElt->setDescription(__("Add a ZIP file containing QTI/APIP items"));
     	if(isset($_POST['import_sent_qti'])){
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		}
@@ -93,7 +93,7 @@ class QtiPackageImportForm
 		$rollbackElt->setDescription(__('Rollback on...'));
 		$this->form->addElement($rollbackElt);
 		
-		$this->form->createGroup('file', __('Import a QTI 2.X Package'), array('source', 'rollback'));
+		$this->form->createGroup('file', __('Import a QTI/APIP Content Package'), array('source', 'rollback'));
 		
 		
 		$qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');

@@ -45,7 +45,7 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
      * @see tao_models_classes_export_ExportHandler::getLabel()
      */
     public function getLabel() {
-    	return __('APIP Package 1.0');
+    	return __('APIP Content Package');
     }
     
     /**

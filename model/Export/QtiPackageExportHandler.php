@@ -47,7 +47,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
      * @see tao_models_classes_export_ExportHandler::getLabel()
      */
     public function getLabel() {
-    	return __('QTI Package 2.1');
+    	return __('QTI Content Package');
     }
     
     /**
