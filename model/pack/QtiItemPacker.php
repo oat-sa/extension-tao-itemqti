@@ -110,7 +110,7 @@ class QtiItemPacker extends ItemPacker
             $assetParser->setGetXinclude(!$this->replaceXinclude);
 
             foreach ($assetParser->extract($itemPack) as $type => $assets) {
-                $itemPack->setAssets($type, $assets, $path);
+                $itemPack->setAssets($type, $assets);
             }
         } catch (common_Exception $e) {
             throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
