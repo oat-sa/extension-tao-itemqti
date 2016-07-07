@@ -16,31 +16,23 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define([
-    'lodash',
-    'taoQtiItem/portableElementRegistry/factory',
-    'taoQtiItem/qtiCreator/helper/qtiElements'
-], function (_, portableElementRegistry, qtiElements){
+define(['lodash', 'taoQtiItem/portableElementRegistry/factory/ciRegistry', 'module'], function (_, ciRegistry, module){
     'use strict';
 
-    //singleton
-    return portableElementRegistry({
-        getAuthoringData : function getAuthoringData(typeIdentifier, version){
-            var pciModel = this.get(typeIdentifier, version);
-            if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon){
-                return {
-                    label : pciModel.label, //currently no translation available
-                    icon : pciModel.creator.icon.replace(new RegExp('^' + typeIdentifier + '\/'), pciModel.baseUrl),
-                    short : pciModel.short,
-                    description : pciModel.description,
-                    qtiClass : 'customInteraction.' + pciModel.typeIdentifier, //custom interaction is block type
-                    tags : _.union(['Custom Interactions'], pciModel.tags)
-                };
-            }
+    //create an unique configurable instance of ciRegistry
+    var registry = ciRegistry();
+    var providers = [];
+    var config = module.config();
+
+    if(config && config.providers){
+        providers = config.providers;
+    }
+
+    _.each(providers, function(provider){
+        if(provider.name && provider.module){
+            registry.registerProvider(provider.module);
         }
-    }).on('creatorsloaded', function(creators){
-        _.each(creators, function(creator){
-            qtiElements.classes['customInteraction.' + creator.getTypeIdentifier()] = {parents : ['customInteraction'], qti : true};
-        });
     });
+
+    return registry;
 });

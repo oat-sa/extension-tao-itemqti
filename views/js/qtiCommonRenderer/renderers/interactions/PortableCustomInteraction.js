@@ -30,7 +30,7 @@ define([
     'qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/portableElementRegistry/ciRegistry'
-], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, pciRegistry){
+], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
     'use strict';
 
     /**
@@ -89,10 +89,10 @@ define([
             var config             = _.clone(interaction.properties); //pass a clone instead
             var $dom               = containerHelper.get(interaction).children();
             var assetManager       = self.getAssetManager();
-            
-            pciRegistry.loadRuntimes(function(){
+
+            ciRegistry.loadRuntimes(function(){
                 
-                var runtime = pciRegistry.getRuntime(typeIdentifier);
+                var runtime = ciRegistry.getRuntime(typeIdentifier);
                 
                 //load the entrypoint
                 var requireEntries = [runtime.hook.replace(/\.js$/, '')];

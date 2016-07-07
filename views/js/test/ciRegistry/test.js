@@ -2,7 +2,7 @@ define([
     'jquery',
     'lodash',
     'context',
-    'taoQtiItem/portableElementRegistry/ciRegistry',
+    'taoQtiItem/portableElementRegistry/factory/ciRegistry',
     'taoQtiItem/test/ciRegistry/data/testProvider',
     'taoQtiItem/qtiCreator/helper/qtiElements'
 ], function($, _, context, ciRegistry, testProvider, qtiElements){
@@ -11,7 +11,7 @@ define([
 
     var testReviewApi = [
         {name : 'get', title : 'get'},
-        {name : 'addProvider', title : 'addProvider'},
+        {name : 'registerProvider', title : 'registerProvider'},
         {name : 'getAllVersions', title : 'getAllVersions'},
         {name : 'getRuntime', title : 'getRuntime'},
         {name : 'getCreator', title : 'getCreator'},
@@ -24,30 +24,28 @@ define([
     QUnit
         .cases(testReviewApi)
         .test('instance API ', function (data, assert){
-            assert.equal(typeof ciRegistry[data.name], 'function', 'The registry exposes a "' + data.title + '" function');
+            var registry = ciRegistry();
+            assert.equal(typeof registry[data.name], 'function', 'The registry exposes a "' + data.title + '" function');
         });
 
     QUnit.asyncTest('load creator', function(assert){
 
-        ciRegistry.addProvider(testProvider).loadCreators(function(creators){
-
-            console.log(arguments, ciRegistry.getAuthoringData('samplePci'));
-
+        ciRegistry().on('creatorsloaded', function(){
+            assert.ok(qtiElements.isBlock('customInteraction.samplePci'), 'sample ci loaded into model');
+            QUnit.start();
+        }).registerProvider('taoQtiItem/test/ciRegistry/data/testProvider').loadCreators(function(creators){
             assert.ok(_.isPlainObject(creators), 'creators loaded');
             assert.ok(_.isObject(creators.samplePci), 'sample ci creator loaded');
-
-            assert.ok(qtiElements.isBlock('customInteraction.samplePci'), 'sample ci loaded into model');
-
-            QUnit.start();
         });
 
     });
 
     QUnit.asyncTest('getAuthoringData', function(assert){
 
-        ciRegistry.addProvider(testProvider).loadCreators(function(){
+        ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider').loadCreators(function(){
 
-            var authoringData = ciRegistry.getAuthoringData('samplePci');
+            var authoringData = this.getAuthoringData('samplePci');
+
             assert.ok(_.isPlainObject(authoringData), 'authoring data is an object');
             assert.equal(authoringData.label, 'Sample Pci', 'label ok');
             assert.equal(authoringData.qtiClass, 'customInteraction.samplePci', 'qti class ok');
@@ -60,13 +58,11 @@ define([
 
     QUnit.asyncTest('error handling', function(assert){
 
-        ciRegistry.on('error', function(message, id, version){
+        ciRegistry().on('error', function(message, id, version){
             assert.equal(id, 'inexistingCustomInteraction', 'correct error catched');
             assert.equal(version, '1.0.0', 'correct error catched');
             QUnit.start();
-        });
-
-        ciRegistry.getCreator('inexistingCustomInteraction', '1.0.0');
+        }).getCreator('inexistingCustomInteraction', '1.0.0');
     });
 
 });

@@ -24,7 +24,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
     return function portableElementRegistry(methods){
 
         var _loaded = false;
-        var _providers = [];
+        var __providers = {};
 
         return eventifier(_.defaults(methods || {}, {
             _registry : {},
@@ -40,11 +40,28 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     }
                 }
             },
-            addProvider : function addProvider(provider){
-                if(provider && _.isFunction(provider.load)){
-                    _providers.push(provider);
-                }
+            registerProvider : function registerProvider(moduleName){
+                __providers[moduleName] = null;
                 return this;
+            },
+            loadProviders : function loadProviders(callback){
+                var self = this;
+                var providerLoadingStack = [];
+                _.forIn(__providers, function(provider, id){
+                    if(provider === null){
+                        providerLoadingStack.push(id);
+                    }
+                });
+                _requirejs(providerLoadingStack, function(){
+                    _.each([].slice.call(arguments), function(provider){
+                        if(provider && _.isFunction(provider.load)){
+                            __providers[providerLoadingStack.shift()] = provider;
+                    console.log(provider);
+                        }
+                    });
+                    callback();
+                    self.trigger('providersloaded');
+                });
             },
             getAllVersions : function getAllVersions(){
                 var all = {};
@@ -85,39 +102,43 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 var loadStack = [];
 
                 if(_loaded && !reload){
-                    callback();
-                    self.trigger('runtimesloaded');
+                    callback.call(this);
+                    this.trigger('runtimesloaded');
                 }else{
+                    this.loadProviders(function(){
 
-                    _.each(_providers, function (provider){
-                        loadStack.push(provider.load());
-                    });
-
-                    //performs the loadings in parallel
-                    Promise.all(loadStack).then(function (results){
-
-                        var requireConfigAliases = {};
-
-                        //update registry
-                        self._registry = _.reduce(results, function (acc, _pcis){
-                            return _.merge(acc, _pcis);
-                        }, {});
-
-                        //pre-configuring the baseUrl of the portable element's source
-                        _.forIn(self._registry, function (versions, typeIdentifier){
-                            //currently use latest runtime path
-                            requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
+                        _.each(__providers, function (provider){
+                            if(provider){//check that the provider is loaded
+                                loadStack.push(provider.load());
+                            }
                         });
-                        _requirejs.config({paths : requireConfigAliases});
 
-                        _loaded = true;
+                        //performs the loadings in parallel
+                        Promise.all(loadStack).then(function (results){
 
-                        callback();
-                        self.trigger('runtimesloaded');
+                            var requireConfigAliases = {};
 
-                    }).catch(function (err){
+                            //update registry
+                            self._registry = _.reduce(results, function (acc, _pcis){
+                                return _.merge(acc, _pcis);
+                            }, {});
 
-                        self.trigger('error', err);
+                            //pre-configuring the baseUrl of the portable element's source
+                            _.forIn(self._registry, function (versions, typeIdentifier){
+                                //currently use latest runtime path
+                                requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
+                            });
+                            _requirejs.config({paths : requireConfigAliases});
+
+                            _loaded = true;
+
+                            callback.call(self);
+                            self.trigger('runtimesloaded');
+
+                        }).catch(function (err){
+
+                            self.trigger('error', err);
+                        });
                     });
                 }
 
@@ -151,12 +172,14 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     creators[id] = creatorHook;
                                 }
                             });
+
+                            callback.call(self, creators);
                             self.trigger('creatorsloaded', creators);
-                            callback(creators);
                         });
                     }else{
+
+                        callback.call(self, {});
                         self.trigger('creatorsloaded', {});
-                        callback({});
                     }
 
                 }, reload);

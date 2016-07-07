@@ -23,23 +23,22 @@ define([
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
     'module',
-    'taoQtiItem/portableElementRegistry/ciRegistry',
-    'qtiItemPci/pciProvider'
-], function(_, context, themes, assetManagerFactory, assetStrategies, module, pciRegistry, pciProvider){
+    'taoQtiItem/portableElementRegistry/ciRegistry'
+], function(_, context, themes, assetManagerFactory, assetStrategies, module, ciRegistry){
     'use strict';
 
     var itemThemes = themes.get('items');
 
-    //stratgy to resolve portable info control and portable interactions paths.
+    //strategy to resolve portable info control and portable interactions paths.
     //It should never be reached in the stack the ususal way and should be called only using resolveBy.
     var portableAssetStrategy = {
         name : 'portableElementLocation',
         handle : function handlePortableElementLocation(url){
             if(url.file === url.path){
-                return pciRegistry.getBaseUrl(url.file);
+                return ciRegistry.getBaseUrl(url.file);
             }else if(url.source === url.relative){
                 return url.relative.replace(/^(\.\/)?([a-z_0-9]+)\/(.*)/i, function(fullmatch, $1, typeIdentifier, relPath){
-                    var runtimeLocation = pciRegistry.getBaseUrl(typeIdentifier);
+                    var runtimeLocation = ciRegistry.getBaseUrl(typeIdentifier);
                     if(runtimeLocation){
                         return runtimeLocation + '/' + relPath;
                     }
@@ -113,9 +112,7 @@ define([
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     };
-    
-    pciRegistry.addProvider(pciProvider);
-    
+
     return {
         name:'commonRenderer',
         locations: locations,
