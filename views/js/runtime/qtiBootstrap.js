@@ -61,29 +61,37 @@ define([
 
                     qtiRunner.renderItem(undefined, function() {
 
+                        //userModules loading
+                        //if any user modules are bound to this module configuration
+                        //then we use these rather than the ones bound to the new item runner
+                        var config = module.config();
+                        if (config && config.userModules && _.isArray(config.userModules) && config.userModules.length > 0) {
+                            userModules.setUserModules(config.userModules);
+                        }
                         userModules.load()
-                        .then(function() {
-                           //exec user scripts
-                            if (_.isArray(runnerContext.userScripts)) {
-                                require(runnerContext.userScripts, function() {
-                                    _.forEach(arguments, function(dependency) {
-                                        if (_.isFunction(dependency.exec)) {
-                                            dependency.exec.call(null, runnerContext.userVars);
-                                        }
+                            .then(function() {
+
+                                //exec user scripts
+                                if (_.isArray(runnerContext.userScripts)) {
+                                    require(runnerContext.userScripts, function() {
+                                        _.forEach(arguments, function(dependency) {
+                                            if (_.isFunction(dependency.exec)) {
+                                                dependency.exec.call(null, runnerContext.userVars);
+                                            }
+                                        });
                                     });
+                                }
+
+                                iframeNotifier.parent('itemloaded');
+
+                                //IE9/10 loose the iframe focus, so we force getting it back.
+                                _.defer(function(){
+                                    window.focus();
                                 });
-                            }
-
-                            iframeNotifier.parent('itemloaded');
-
-                            //IE9/10 loose the iframe focus, so we force getting it back.
-                            _.defer(function(){
-                                window.focus();
+                            })
+                            .catch(function(err) {
+                                throw new Error('error', 'Error in user modules : ' + err.message);
                             });
-                        })
-                        .catch(function(err) {
-                            throw new Error('error', 'Error in user modules : ' + err.message);
-                        });
 
                     });
                 });

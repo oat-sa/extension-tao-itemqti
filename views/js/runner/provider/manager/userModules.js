@@ -24,21 +24,15 @@ define([
 ], function (_, module) {
     'use strict';
 
-    var userModules;
+    var userModules = [],
+        config = module.config();
 
-    function getUserModules(moduleConfig) {
-        var config = moduleConfig.config();
-
-        if (config && config.userModules && _.isArray(config.userModules)) {
-            return config.userModules;
-        }
-        return [];
+    if (config && config.userModules && _.isArray(config.userModules)) {
+        userModules = config.userModules;
     }
 
     return {
         load: function load() {
-            userModules = getUserModules(module);
-
             return new Promise(function(resolve) {
                 require(userModules, function () {
                     _.forEach(arguments, function (dependency) {
@@ -52,11 +46,11 @@ define([
         },
 
         /**
-         * Allow mocking of requireJS's module - shouldn't be used for anything else than unit testing
-         * @param {Object} moduleMock
+         * allows overriding of requireJS's module. Used to maintain backwards compatibility and for unit testing
+         * @param {Array} newUserModules - should contain modules path to load as strings
          */
-        _setModule: function _setModule(moduleMock) {
-            module = moduleMock;
+        setUserModules: function setUserModules(newUserModules) {
+            userModules = newUserModules;
         }
     };
 });

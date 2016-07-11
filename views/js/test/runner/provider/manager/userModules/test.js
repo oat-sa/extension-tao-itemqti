@@ -35,22 +35,8 @@ define([
         assert.ok(typeof userModules === 'object', 'The module expose an object');
     });
 
-    /**
-     * @param {Array} userModules
-     */
-    function getModuleMock(userModules) {
-        return {
-            config: function config() {
-                return {
-                    userModules: userModules
-                };
-            }
-        };
-    }
-
     QUnit.asyncTest('loader should require user modules defined in config', function(assert) {
-        var moduleMock = getModuleMock(['taoQtiItem/test/runner/provider/manager/userModules/data/userModule1']);
-        userModules._setModule(moduleMock);
+        userModules.setUserModules(['taoQtiItem/test/runner/provider/manager/userModules/data/userModule1']);
 
         QUnit.expect(3);
 
@@ -69,8 +55,7 @@ define([
 
     QUnit.asyncTest('loader should be called by itemRunner', function(assert) {
         var $container = $('#qunit-fixture');
-        var moduleMock = getModuleMock(['taoQtiItem/test/runner/provider/manager/userModules/data/userModule2']);
-        userModules._setModule(moduleMock);
+        userModules.setUserModules(['taoQtiItem/test/runner/provider/manager/userModules/data/userModule2']);
 
         QUnit.expect(3);
 
@@ -90,8 +75,7 @@ define([
     });
 
     QUnit.asyncTest('loader should work if no modules are defined', function(assert) {
-        var moduleMock = getModuleMock(undefined);
-        userModules._setModule(moduleMock);
+        userModules.setUserModules([]);
 
         QUnit.expect(1);
 
