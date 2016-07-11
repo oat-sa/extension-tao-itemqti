@@ -47,8 +47,11 @@ class PortableCustomInteraction extends CustomInteraction
     
     protected $properties = array();
     protected $libraries = array();
+    protected $stylesheets = array();
+    protected $mediaFiles = array();
     protected $typeIdentifier = '';
     protected $entryPoint = '';
+    protected $version = '0.0.0';
     
     public function setTypeIdentifier($typeIdentifier){
         $this->typeIdentifier = $typeIdentifier;
@@ -69,7 +72,27 @@ class PortableCustomInteraction extends CustomInteraction
     public function getProperties(){
         return $this->properties;
     }
-
+    
+    public function getStylesheets(){
+        return $this->stylesheets;
+    }
+    
+    public function setStylesheets($stylesheets){
+        $this->stylesheets = $stylesheets;
+    }
+    
+    public function getMediaFiles(){
+        return $this->mediaFiles;
+    }
+    
+    public function setMediaFiles($mediaFiles){
+        $this->mediaFiles = $mediaFiles;
+    }
+    
+    public function getVersion(){
+        return $this->version;
+    }
+    
     public function setProperties($properties){
         if(is_array($properties)){
             $this->properties = $properties;
@@ -137,13 +160,8 @@ class PortableCustomInteraction extends CustomInteraction
             }else{
                 $this->setTypeIdentifier($typeIdentifier);
             }
-            
-            $entryPoint = $pciNodes->item(0)->getAttribute('hook');
-            if(empty($entryPoint)){
-                throw new QtiModelException('the entry point of the pci is missing');
-            }else{
-                $this->setEntryPoint($entryPoint);
-            }
+            //the hook is optional here, since the hook is registered internally in TAO and correctly filled 
+            $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
@@ -152,6 +170,20 @@ class PortableCustomInteraction extends CustomInteraction
             $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
+
+        $stylesheetNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'stylesheets', 'link'), $data, $ns);
+        $stylesheets = array();
+        foreach($stylesheetNodes as $styleNode){
+            $stylesheets[] = $styleNode->getAttribute('href');
+        }
+        $this->setStylesheets($stylesheets);
+
+        $mediaNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'mediaFiles', 'file'), $data, $ns);
+        $media = array();
+        foreach($mediaNodes as $mediaNode){
+            $media[] = $mediaNode->getAttribute('src');
+        }
+        $this->setMediaFiles($media);
 
         $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $ns);
         if($propertyNodes->length){
@@ -163,6 +195,11 @@ class PortableCustomInteraction extends CustomInteraction
         if($markupNodes->length){
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);
+        }
+        
+        //until versionning is not supported in the standard, we are using a special property for this
+        if(isset($this->properties['__version__'])){
+            $this->version = $this->properties['__version__'];
         }
         
     }

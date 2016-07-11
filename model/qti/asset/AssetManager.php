@@ -20,10 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\asset;
 
-use oat\taoItems\model\media\ItemMediaResolver;
-use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\asset\handler\AssetHandler;
-use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
 

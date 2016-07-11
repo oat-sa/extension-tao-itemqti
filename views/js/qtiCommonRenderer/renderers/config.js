@@ -22,19 +22,28 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-    'module'
-], function(_, context, themes, assetManagerFactory, assetStrategies, module){
+    'module',
+    'taoQtiItem/portableElementRegistry/ciRegistry'
+], function(_, context, themes, assetManagerFactory, assetStrategies, module, ciRegistry){
     'use strict';
 
     var itemThemes = themes.get('items');
 
-    //stratgy to resolve portable info control and portable interactions paths.
+    //strategy to resolve portable info control and portable interactions paths.
     //It should never be reached in the stack the ususal way and should be called only using resolveBy.
     var portableAssetStrategy = {
         name : 'portableElementLocation',
         handle : function handlePortableElementLocation(url){
-            if(url.source === url.relative){
-                return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
+            if(url.file === url.path){
+                return ciRegistry.getBaseUrl(url.file);
+            }else if(url.source === url.relative){
+                return url.relative.replace(/^(\.\/)?([a-z_0-9]+)\/(.*)/i, function(fullmatch, $1, typeIdentifier, relPath){
+                    var runtimeLocation = ciRegistry.getBaseUrl(typeIdentifier);
+                    if(runtimeLocation){
+                        return runtimeLocation + '/' + relPath;
+                    }
+                    return fullmatch;
+                });
             }
         }
     };

@@ -216,6 +216,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $assetParser = new AssetParser($qtiItem);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
+        $assetParser->setGetCustomElement(false);
         $resolver = new ItemMediaResolver($item, $lang);
         $replacementList = array();
         foreach($assetParser->extract() as $type => $assets) {
@@ -227,6 +228,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 }
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
+
                 $basename = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
                 $replacement = $basename;
                 $count = 0;

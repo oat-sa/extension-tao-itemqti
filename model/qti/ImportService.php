@@ -38,6 +38,7 @@ use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -436,6 +437,14 @@ class ImportService extends tao_models_classes_GenerisService
                  * The first applicable will be used to import assets
                  */
 
+                /** Pci handler */
+                $pciHandler = new PortableAssetHandler();
+                $pciHandler
+                    ->setQtiModel($qtiModel)
+                    ->setSource(dirname($qtiFile));
+
+                $itemAssetManager->loadAssetHandler($pciHandler);
+
                 /** Shared stimulus handler */
                 $sharedStimulusHandler = new SharedStimulusAssetHandler();
                 $sharedStimulusHandler
@@ -453,6 +462,8 @@ class ImportService extends tao_models_classes_GenerisService
                 $itemAssetManager
                     ->importAuxiliaryFiles($qtiItemResource)
                     ->importDependencyFiles($qtiItemResource, $dependencies);
+
+                $pciHandler->finalize();
 
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
@@ -497,7 +508,7 @@ class ImportService extends tao_models_classes_GenerisService
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     __("An unknown error occured while importing the IMS QTI Package."));
-                common_Logger::e($e->getMessage());
+                common_Logger::e(print_r($e->getTrace(), true));
             }
         } catch (ValidationException $ve) {
             $validationReport = \common_report_Report::createFailure("The IMS Manifest file could not be validated");

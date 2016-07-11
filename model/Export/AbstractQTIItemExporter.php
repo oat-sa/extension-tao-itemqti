@@ -24,9 +24,16 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use oat\oatbox\service\ServiceManager;
+use oat\qtiItemPci\model\common\parser\PortableElementSource;
+use oat\qtiItemPci\model\common\parser\PortableElementResolver;
+use oat\qtiItemPci\model\pci\model\PciModel;
+use oat\qtiItemPci\model\PortableElementService;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\exception\ExportException;
+use Psr\Http\Message\StreamInterface;
+use Slim\Http\Stream;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\apip\ApipService;
@@ -67,30 +74,44 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $content = $this->getItemService()->getItemContent($this->getItem());
-        $resolver = new ItemMediaResolver($this->getItem(), $lang);
 
         $replacementList = array();
         // get the local resources and add them
-        foreach ($this->getAssets($this->getItem(), $lang) as $assetUrl) {
+
+
+        $portableAssets = $this->getPortableElementAssets($this->getItem(), $lang);
+        $service = new PortableElementService();
+        $service->setServiceLocator(ServiceManager::getServiceManager());
+
+        \common_Logger::i(print_r($portableAssets, true));
+        foreach ($portableAssets as $typeIdentifier => $assets) {
+            $model = $service->getPciByIdentifier($typeIdentifier);
+            $baseUrl = $basePath . DIRECTORY_SEPARATOR . $model->getTypeIdentifier();
+            foreach ($assets as $url) {
+                try {
+                    $stream = $service->getFileStream($model, $url);
+                    $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
+                    \common_Logger::i('File copied: "' . $url . '" for portable element ' . $model->getTypeIdentifier());
+                } catch (\tao_models_classes_FileNotFoundException $e) {
+                    \common_Logger::i($e->getMessage());
+                    $report->setMessage('Missing resource for ' . $url);
+                    $report->setType(\common_report_Report::TYPE_ERROR);
+                }
+            }
+        }
+
+        $assets = $this->getAssets($this->getItem(), $lang);
+        foreach ($assets as $assetUrl) {
             try{
+                $resolver = new ItemMediaResolver($this->getItem(), $lang);
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
-                if(!$mediaSource instanceof HttpSource){
+                if (!$mediaSource instanceof HttpSource) {
                     $link = $mediaAsset->getMediaIdentifier();
                     $stream = $mediaSource->getFileStream($link);
-                    $baseName = ($mediaSource instanceof LocalItemSource)? $link : 'assets/'.$mediaSource->getBaseName($link);
-                    $replacement = $baseName;
-                    $count = 0;
-                    while (in_array($replacement, $replacementList)) {
-                        $dot = strrpos($baseName, '.');
-                        $replacement = $dot !== false
-                        ? substr($baseName, 0, $dot).'_'.$count.substr($baseName, $dot)
-                            : $baseName.$count;
-                        $count++;
-                    }
-
+                    $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
+                    $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
                     $replacementList[$assetUrl] = $replacement;
-                    $this->addFile($stream, $basePath.'/'.$baseName);
                 }
             } catch(\tao_models_classes_FileNotFoundException $e){
                 $replacementList[$assetUrl] = '';
@@ -104,12 +125,21 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
+
+            foreach ($attributeNodes as $node) {
+                if (isset($replacementList[$node->value])) {
+                    $node->value = $replacementList[$node->value];
+                }
+            }
+
+            $attributeNodes = $xpath->query('//portableCustomInteraction/resources/libraries');
             unset($xpath);
             foreach ($attributeNodes as $node) {
                 if (isset($replacementList[$node->value])) {
                     $node->value = $replacementList[$node->value];
                 }
             }
+            unset($xpath);
         } else {
             throw new ExportException($this->getItem()->getLabel(), 'Unable to load XML');
         }
@@ -149,12 +179,31 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return $report;
 
     }
-    
+
+    public function copyAssetFile(StreamInterface $stream, $basePath, $baseName, &$replacementList)
+    {
+        $replacement = $baseName;
+        $count = 0;
+        while (in_array($replacement, $replacementList)) {
+            $dot = strrpos($baseName, '.');
+            $replacement = $dot !== false
+                ? substr($baseName, 0, $dot) . '_' . $count . substr($baseName, $dot)
+                : $baseName . $count;
+            $count++;
+        }
+
+        // To check if replacement is to replace basename ???
+        $this->addFile($stream, $basePath . '/' . $baseName);
+        $stream->close();
+        return $replacement;
+    }
+
     protected function getAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
         $assetParser = new AssetParser($qtiItem);
         $assetParser->setGetSharedLibraries(false);
+        $assetParser->setGetCustomElement(false);
         $returnValue = array();
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
@@ -167,5 +216,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             }
         }
         return $returnValue;
+    }
+
+    protected function getPortableElementAssets(\core_kernel_classes_Resource $item, $lang)
+    {
+        $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
+        $assetParser = new AssetParser($qtiItem);
+        return $assetParser->extractPortableAssetLinks();
     }
 }

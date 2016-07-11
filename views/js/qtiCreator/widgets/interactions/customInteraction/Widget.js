@@ -1,6 +1,6 @@
 define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'lodash'
 ], function(Widget, ciRegistry, _){
 
@@ -15,8 +15,8 @@ define([
 
     CustomInteractionWidget.createToolbar = function(options){
 
-        var creator = ciRegistry.get(this.element.typeIdentifier);
-        options = _.defaults(options || {}, {title : creator.manifest.label});
+        var creator = ciRegistry.getAuthoringData(this.element.typeIdentifier);
+        options = _.defaults(options || {}, {title : creator.label});
 
         return Widget.createToolbar.call(this, options);
     };
