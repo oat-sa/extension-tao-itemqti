@@ -176,7 +176,6 @@ class AssetParser
         foreach ($this->item->getComposingElements() as $element) {
             $this->extractCustomElement($element);
         }
-        \common_Logger::i(print_r($this->assets, true));
         return $this->assets;
     }
 
@@ -258,7 +257,7 @@ class AssetParser
 
             $validator = PortableElementFactory::getValidator($portableElement);
             $files = $validator->getRequiredAssets('runtime');
-            \common_Logger::i(print_r($files, true));
+
             foreach ($files as $file) {
                 $this->addAsset($model->getTypeIdentifier(), $file);
             }

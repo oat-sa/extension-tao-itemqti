@@ -25,19 +25,14 @@ use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
 use oat\oatbox\service\ServiceManager;
-use oat\qtiItemPci\model\common\parser\PortableElementSource;
-use oat\qtiItemPci\model\common\parser\PortableElementResolver;
-use oat\qtiItemPci\model\pci\model\PciModel;
 use oat\qtiItemPci\model\PortableElementService;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use Psr\Http\Message\StreamInterface;
-use Slim\Http\Stream;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\apip\ApipService;
-use oat\taoQtiItem\helpers\Apip;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
@@ -83,12 +78,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
-        \common_Logger::i(print_r($portableAssets, true));
         foreach ($portableAssets as $typeIdentifier => $assets) {
             $model = $service->getPciByIdentifier($typeIdentifier);
             $baseUrl = $basePath . DIRECTORY_SEPARATOR . $model->getTypeIdentifier();
             foreach ($assets as $url) {
                 try {
+                    // Skip shared libraries into portable element
+                    if (strpos($url, './') !== 0) {
+                        \common_Logger::i('Shared libraries skipped : ' . $url);
+                        continue;
+                    }
                     $stream = $service->getFileStream($model, $url);
                     $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
                     \common_Logger::i('File copied: "' . $url . '" for portable element ' . $model->getTypeIdentifier());
@@ -106,6 +105,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $resolver = new ItemMediaResolver($this->getItem(), $lang);
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
+
                 if (!$mediaSource instanceof HttpSource) {
                     $link = $mediaAsset->getMediaIdentifier();
                     $stream = $mediaSource->getFileStream($link);
@@ -135,6 +135,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $attributeNodes = $xpath->query('//portableCustomInteraction/resources/libraries');
             unset($xpath);
             foreach ($attributeNodes as $node) {
+                \common_Logger::i($node->value);
                 if (isset($replacementList[$node->value])) {
                     $node->value = $replacementList[$node->value];
                 }
