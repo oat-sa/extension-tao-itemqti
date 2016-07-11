@@ -20,8 +20,9 @@
  */
 define([
     'lodash',
-    'module'
-], function (_, module) {
+    'module',
+    'core/Promise'
+], function (_, module, Promise) {
     'use strict';
 
     var userModules = [],
