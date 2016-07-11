@@ -19,10 +19,9 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'jquery',
     'lodash',
     'module'
-], function ($, _, module) {
+], function (_, module) {
     'use strict';
 
     var userModules;
