@@ -33,7 +33,7 @@ define([
     'module',
     'core/eventifier',
     'core/promise',
-    'qtiItemPci/pciRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'taoQtiItem/qtiCreator/editor/infoControlRegistry',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -42,33 +42,11 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsPanel',
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'qtiItemPci/pciProvider'
-], function($, _, __, module, eventifier, Promise,
-            ciRegistry, icRegistry, itemLoader,
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
+], function($, _, __, module, eventifier, Promise, ciRegistry, icRegistry, itemLoader,
             creatorRenderer, commonRenderer, xincludeRenderer,
-            interactionPanel, propertiesPanel, eventHelper, styleEditor, pciProvider){
+            interactionPanel, propertiesPanel, eventHelper, styleEditor){
     'use strict';
-
-
-    /**
-     * Register QTI portable elements
-     * @param {Object} registry
-     * @param {Array} elements - the elements to register
-     * @returns {Promise}
-     */
-    var register = function register(registry, elements){
-        if(!_.isArray(elements) || elements.length <= 0){
-            return Promise.resolve();
-        }
-        return new Promise(function(resolve){
-            if(registry && _.isFunction(registry.register)){
-                registry.register(elements);
-                return registry.loadAll(resolve);
-            }
-            return resolve();
-        });
-    };
 
     /**
      * Load an item
@@ -92,10 +70,12 @@ define([
         });
     };
 
-    var loadPortableElements = function loadPortableElements(){
-        return new Promise(function(resolve){
-            ciRegistry.addProvider(pciProvider).loadCreators(function(){
+    var loadCustomInteractions = function loadCustomInteractions(){
+        return new Promise(function(resolve, reject){
+            ciRegistry.loadCreators(function(){
                 return resolve();
+            }).on('error', function(err){
+                reject(new Error(err));
             });
         });
     }
@@ -171,7 +151,6 @@ define([
                     plugins[plugin.getName()] = plugin;
                 });
 
-
                 /**
                  * Save the item on "save" event
                  * @event itemCreator#save
@@ -200,17 +179,18 @@ define([
 
                 //performs the loadings in parallel
                 Promise.all([
-                    loadPortableElements(),
+                    loadCustomInteractions(),
+                    loadCustomInteractions(),
                     loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
                 ]).then(function(results){
 
-                    if(_.isArray(results) && results.length === 2){
+                    if(_.isArray(results) && results.length === 3){
 
-                        if(! _.isObject(results[1])){
+                        if(! _.isObject(results[2])){
                             self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
                             return;
                         }
-                        self.item = results[1];
+                        self.item = results[2];
 
                         //initialize all the plugins
                         return pluginRun('init').then(function(){
@@ -248,7 +228,6 @@ define([
                 //configure commonRenderer for the preview
                 commonRenderer.setOption('baseUrl', config.properties.baseUrl);
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
-
                 interactionPanel(areaBroker.getInteractionPanelArea());
 
                 //the renderers' widgets do not handle async yet, so we rely on this event
@@ -314,8 +293,7 @@ define([
                 return this;
             },
 
-
-        //accessors
+            //accessors
 
             /**
              * Give an access to the loaded item

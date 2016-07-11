@@ -23,7 +23,7 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
-    'qtiItemPci/pciRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
 ], function(_, Renderer, ciRegistry, commonRenderer){
     'use strict';

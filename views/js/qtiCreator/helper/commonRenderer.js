@@ -45,6 +45,9 @@ define([
         get : function(){
             return _renderer;
         },
+        getOption : function(name){
+            return _renderer.getOption(name);
+        },
         setOption : function(name, value){
             return _renderer.setOption(name, value);
         },

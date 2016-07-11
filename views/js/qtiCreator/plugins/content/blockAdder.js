@@ -27,8 +27,8 @@ define([
     'core/plugin',
     'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'qtiItemPci/pciRegistry'
-], function(_, pluginFactory, blockAdder, qtiElements, pciRegistry){
+    'taoQtiItem/portableElementRegistry/ciRegistry'
+], function(_, pluginFactory, blockAdder, qtiElements, ciRegistry){
     'use strict';
 
     /**
@@ -46,8 +46,8 @@ define([
 
             var interactions = qtiElements.getAvailableAuthoringElements() || {};
 
-            _.forIn(pciRegistry.getAllVersions(), function(versions, typeId){
-                var data = pciRegistry.getAuthoringData(typeId);
+            _.forIn(ciRegistry.getAllVersions(), function(versions, typeId){
+                var data = ciRegistry.getAuthoringData(typeId);
                 if(data && data.tags){
                     interactions[data.qtiClass] = data;
                 }

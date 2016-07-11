@@ -1,6 +1,6 @@
 define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
-    'qtiItemPci/pciRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'lodash'
 ], function(Widget, ciRegistry, _){
 

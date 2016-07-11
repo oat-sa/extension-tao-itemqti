@@ -27,8 +27,8 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'qtiItemPci/pciRegistry'
-], function(_, interactionsToolbar, panel, qtiElements, pciRegistry){
+    'taoQtiItem/portableElementRegistry/ciRegistry'
+], function(_, interactionsToolbar, panel, qtiElements, ciRegistry){
     'use strict';
 
     /**
@@ -39,8 +39,8 @@ define([
 
         var interactions = qtiElements.getAvailableAuthoringElements();
 
-        _.forIn(pciRegistry.getAllVersions(), function(versions, typeId){
-            var data = pciRegistry.getAuthoringData(typeId);
+        _.forIn(ciRegistry.getAllVersions(), function(versions, typeId){
+            var data = ciRegistry.getAuthoringData(typeId);
             if(data && data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                 interactions[data.qtiClass] = data;
             }
