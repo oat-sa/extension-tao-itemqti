@@ -21,10 +21,8 @@
  */
 define([
     'jquery',
-    'taoQtiItem/runner/provider/manager/userModules',
-    'taoQtiItem/runner/qtiItemRunner',
-    'json!taoQtiItem/test/runner/provider/manager/userModules/data/qti.json'
-], function($, userModules, qtiItemRunner, itemData){
+    'taoQtiItem/runner/provider/manager/userModules'
+], function($, userModules){
     'use strict';
 
     QUnit.module('userModules');
@@ -50,7 +48,7 @@ define([
                 QUnit.start();
             });
     });
-/
+
     QUnit.asyncTest('loader should work if no modules are defined', function(assert) {
         QUnit.expect(1);
 
