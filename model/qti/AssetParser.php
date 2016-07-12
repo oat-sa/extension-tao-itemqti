@@ -22,10 +22,10 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\oatbox\service\ServiceManager;
-use oat\qtiItemPci\model\common\PortableElementFactory;
-use oat\qtiItemPci\model\pci\model\PciModel;
-use oat\qtiItemPci\model\pic\model\PicModel;
-use oat\qtiItemPci\model\PortableElementService;
+use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
+use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
+use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
@@ -171,10 +171,18 @@ class AssetParser
         }
     }
 
-    public function extractPortableAssetLinks()
+    public function extractPortableAssetLinks($type)
     {
+        if (in_array($type, array('pci','pic'))) {
+            return [];
+        }
+
         foreach ($this->item->getComposingElements() as $element) {
-            $this->extractCustomElement($element);
+            if ($type == 'pci') {
+                $this->getPortableCustomInteraction($element);
+            } else {
+                $this->getPortableInfoControl($element);
+            }
         }
         return $this->assets;
     }
@@ -184,17 +192,28 @@ class AssetParser
      * @param Element $element the element itself or a container of the target element
      */
     public function extractCustomElement(Element $element){
+        $this->getPortableCustomInteraction($element);
+        $this->getPortableInfoControl($element);
+    }
+
+    public function getPortableCustomInteraction(Element $element)
+    {
         if($element instanceof Container){
             foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\CustomInteraction') as $interaction){
-                $this->loadCustomElementAssets($interaction);
-            }
-
-            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\InfoControl') as $interaction){
                 $this->loadCustomElementAssets($interaction);
             }
         }
         if($element instanceof CustomInteraction){
             $this->loadCustomElementAssets($element);
+        }
+    }
+
+    public function getPortableInfoControl(Element $element)
+    {
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\InfoControl') as $interaction){
+                $this->loadCustomElementAssets($interaction);
+            }
         }
         if($element instanceof InfoControl){
             $this->loadCustomElementAssets($element);

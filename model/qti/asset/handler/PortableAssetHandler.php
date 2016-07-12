@@ -8,7 +8,7 @@
 
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
-use oat\qtiItemPci\model\common\parser\PortableElementItemParser;
+use oat\taoQtiItem\model\portableElement\common\parser\PortableElementItemParser;
 use oat\taoQtiItem\model\qti\Item;
 
 class PortableAssetHandler implements AssetHandler
@@ -60,7 +60,7 @@ class PortableAssetHandler implements AssetHandler
      */
     public function getQtiModel()
     {
-        return  $this->portableItemParser->getQtiModel();
+        return $this->portableItemParser->getQtiModel();
     }
 
     /**

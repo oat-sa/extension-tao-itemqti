@@ -25,9 +25,11 @@ use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
 use oat\oatbox\service\ServiceManager;
-use oat\qtiItemPci\model\PortableElementService;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
+use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
+use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use Psr\Http\Message\StreamInterface;
 use taoItems_models_classes_ItemExporter;
@@ -52,9 +54,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     /**
      * Overriden export from QTI items.
      *
+     * @see taoItems_models_classes_ItemExporter::export()
      * @param array $options An array of options.
      * @return \common_report_Report $report
-     * @see taoItems_models_classes_ItemExporter::export()
+     * @throws ExportException
+     * @throws \common_exception_Error
+     * @throws \core_kernel_persistence_Exception
      */
     public function export($options = array())
     {
@@ -67,37 +72,52 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if(is_null($this->getItemModel())){
             throw new ExportException('', 'No Item Model found for item : '.$this->getItem()->getUri());
         }
-        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
+        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(
+            new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $content = $this->getItemService()->getItemContent($this->getItem());
 
         $replacementList = array();
         // get the local resources and add them
 
 
-        $portableAssets = $this->getPortableElementAssets($this->getItem(), $lang);
+        $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
-        foreach ($portableAssets as $typeIdentifier => $assets) {
-            $model = $service->getPciByIdentifier($typeIdentifier);
-            $baseUrl = $basePath . DIRECTORY_SEPARATOR . $model->getTypeIdentifier();
-            foreach ($assets as $url) {
-                try {
-                    // Skip shared libraries into portable element
-                    if (strpos($url, './') !== 0) {
-                        \common_Logger::i('Shared libraries skipped : ' . $url);
-                        continue;
+        foreach ($modelsAssets as $key => $portableAssets) {
+
+            if ($key == 'pci') {
+                $model = new PciModel();
+            } elseif ($key == 'pic') {
+                $model = new PicModel();
+            } else{
+                \common_Logger::i('QTI item exporter is not correctly set. Unknow key model ' . $key);
+                continue;
+            }
+
+            foreach ($portableAssets as $typeIdentifier => $assets) {
+                $model->setTypeIdentifier($typeIdentifier);
+                $model = $service->hydrateModel($model);
+                $baseUrl = $basePath . DIRECTORY_SEPARATOR . $model->getTypeIdentifier();
+                foreach ($assets as $url) {
+                    try {
+                        // Skip shared libraries into portable element
+                        if (strpos($url, './') !== 0) {
+                            \common_Logger::i('Shared libraries skipped : ' . $url);
+                            continue;
+                        }
+                        $stream = $service->getFileStream($model, $url);
+                        $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
+                        \common_Logger::i('File copied: "' . $url . '" for portable element ' . $model->getTypeIdentifier());
+                    } catch (\tao_models_classes_FileNotFoundException $e) {
+                        \common_Logger::i($e->getMessage());
+                        $report->setMessage('Missing resource for ' . $url);
+                        $report->setType(\common_report_Report::TYPE_ERROR);
                     }
-                    $stream = $service->getFileStream($model, $url);
-                    $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
-                    \common_Logger::i('File copied: "' . $url . '" for portable element ' . $model->getTypeIdentifier());
-                } catch (\tao_models_classes_FileNotFoundException $e) {
-                    \common_Logger::i($e->getMessage());
-                    $report->setMessage('Missing resource for ' . $url);
-                    $report->setType(\common_report_Report::TYPE_ERROR);
                 }
             }
         }
+
 
         $assets = $this->getAssets($this->getItem(), $lang);
         foreach ($assets as $assetUrl) {
@@ -223,6 +243,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
         $assetParser = new AssetParser($qtiItem);
-        return $assetParser->extractPortableAssetLinks();
+        return [
+            'pci' => $assetParser->extractPortableAssetLinks('pci'),
+            'pic' => $assetParser->extractPortableAssetLinks('pic')
+        ];
     }
 }
