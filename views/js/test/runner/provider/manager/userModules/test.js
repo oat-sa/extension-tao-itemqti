@@ -21,8 +21,10 @@
  */
 define([
     'jquery',
-    'taoQtiItem/runner/provider/manager/userModules'
-], function($, userModules){
+    'taoQtiItem/runner/provider/manager/userModules',
+    'taoQtiItem/runner/qtiItemRunner',
+    'json!taoQtiItem/test/runner/provider/manager/userModules/data/qti.json'
+], function($, userModules, qtiItemRunner, itemData){
     'use strict';
 
     QUnit.module('userModules');
@@ -49,6 +51,32 @@ define([
             });
     });
 
+    QUnit.asyncTest('loader should be called by itemRunner', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        require.config({
+            config : {
+                'taoQtiItem/runner/provider/manager/userModules' : {"userModules":['taoQtiItem/test/runner/provider/manager/userModules/data/userModule2']}
+            }
+        });
+
+        QUnit.expect(3);
+
+        qtiItemRunner('qti', itemData)
+            .on('render', function() {
+                assert.ok(window.__userModulesTest, 'global __userModulesTest exists');
+                assert.ok(window.__userModulesTest.module2, 'global __userModulesTest has a module2 property');
+                assert.equal(window.__userModulesTest.module2, 'userModule2 loaded', 'module2 has the right value');
+                QUnit.start();
+            })
+            .on('error', function(err) {
+                assert.ok(false, 'error in user module loading: ' + err.message);
+                QUnit.start();
+            })
+            .init()
+            .render($container);
+    });
+
     QUnit.asyncTest('loader should work if no modules are defined', function(assert) {
         QUnit.expect(1);
 
@@ -70,7 +98,7 @@ define([
         require.config({
             waitSeconds: 1
         });
-        
+
         userModules.load(['i/do/not/exist'])
             .then(function() {
                 assert.ok(false, 'an error should have been thrown');

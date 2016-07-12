@@ -28,23 +28,23 @@ define([
     return {
         /**
          * Load user modules defined in the module config
-         * @param {Array} [userModules] - manually specify user modules to load instead of getting them
-         * from the module config. This is useful for backward compatibility and for unit testing.
+         * @param {Array} [userModules] - manually specify user modules to load instead of getting them from the module config
          * @returns {Promise}
          */
         load: function load(userModules) {
             var config = module.config();
-            
+
             if (! userModules || ! _.isArray(userModules)) {
                 if (config && config.userModules && _.isArray(config.userModules)) {
                     userModules = config.userModules;
+                    console.dir(config.userModules);
                 } else {
                     userModules = [];
                 }
             }
             return new Promise(function(resolve, reject) {
                 require(
-                    userModules, 
+                    userModules,
                     function () {
                         _.forEach(arguments, function (dependency) {
                             if (dependency && _.isFunction(dependency.exec)) {
