@@ -54,7 +54,6 @@ define([
                         resolve();
                     },
                     function (err) {
-                        console.log("REQUIRE ERROR !!!");
                         reject(err.message);
                     }
                 );
