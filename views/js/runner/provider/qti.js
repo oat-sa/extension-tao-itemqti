@@ -159,14 +159,7 @@ define([
                          */
                         self.trigger('listpic', picManager.collection(self._item));
 
-
-                        userModules.load()
-                        .then(function(){
-                            done();
-                        })
-                        .catch(function(err){
-                           self.trigger('error', 'Error in user modules : ' + err.message);
-                        });
+                        return userModules.load().then(done);
 
                     }).catch(function(err){
                         self.trigger('error', 'Error in post rendering : ' +  err.message);
