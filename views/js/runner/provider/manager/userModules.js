@@ -37,7 +37,6 @@ define([
             if (! userModules || ! _.isArray(userModules)) {
                 if (config && config.userModules && _.isArray(config.userModules)) {
                     userModules = config.userModules;
-                    console.dir(config.userModules);
                 } else {
                     userModules = [];
                 }
