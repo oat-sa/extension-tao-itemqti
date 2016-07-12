@@ -62,13 +62,13 @@ define([
                     qtiRunner.renderItem(undefined, function() {
 
                         //userModules loading
-                        //if any user modules are bound to this module configuration
-                        //then we use these rather than the ones bound to the new item runner
+                        //we use any user modules bound to this module configuration instead of the ones bound to the new test runner
+                        var userModulesOverride;
                         var config = module.config();
                         if (config && config.userModules && _.isArray(config.userModules) && config.userModules.length > 0) {
-                            userModules.setUserModules(config.userModules);
+                            userModulesOverride = config.userModules;
                         }
-                        userModules.load()
+                        userModules.load(userModulesOverride)
                             .then(function() {
 
                                 //exec user scripts
