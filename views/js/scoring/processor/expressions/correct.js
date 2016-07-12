@@ -42,11 +42,7 @@ define([], function(){
             var identifier = this.expression.attributes.identifier;
             var variable   = this.state[identifier];
 
-            if(typeof variable === 'undefined'){
-                 return null;
-            }
-
-            if(variable === null || typeof variable.correctResponse === 'undefined'){
+            if(typeof variable === 'undefined' || variable === null || typeof variable.correctResponse === 'undefined'){
                 return null;
             }
 
