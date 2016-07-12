@@ -45,7 +45,7 @@ define([
             var variable   = this.state[identifier];
 
             if(typeof variable === 'undefined'){
-                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
+                return null;
             }
 
             if(variable === null){
