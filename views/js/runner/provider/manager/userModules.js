@@ -25,33 +25,40 @@ define([
 ], function (_, module, Promise) {
     'use strict';
 
-    var userModules = [],
-        config = module.config();
-
-    if (config && config.userModules && _.isArray(config.userModules)) {
-        userModules = config.userModules;
-    }
-
     return {
-        load: function load() {
-            return new Promise(function(resolve) {
-                require(userModules, function () {
-                    _.forEach(arguments, function (dependency) {
-                        if (dependency && _.isFunction(dependency.exec)) {
-                            dependency.exec();
-                        }
-                    });
-                    resolve();
-                });
-            });
-        },
-
         /**
-         * allows overriding of requireJS's module. Used to maintain backwards compatibility and for unit testing
-         * @param {Array} newUserModules - should contain modules path to load as strings
+         * Load user modules defined in the module config
+         * @param {Array} [userModules] - manually specify user modules to load instead of getting them
+         * from the module config. This is useful for backward compatibility and for unit testing.
+         * @returns {Promise}
          */
-        setUserModules: function setUserModules(newUserModules) {
-            userModules = newUserModules;
+        load: function load(userModules) {
+            var config = module.config();
+            
+            if (! userModules || ! _.isArray(userModules)) {
+                if (config && config.userModules && _.isArray(config.userModules)) {
+                    userModules = config.userModules;
+                } else {
+                    userModules = [];
+                }
+            }
+            return new Promise(function(resolve, reject) {
+                require(
+                    userModules, 
+                    function () {
+                        _.forEach(arguments, function (dependency) {
+                            if (dependency && _.isFunction(dependency.exec)) {
+                                dependency.exec();
+                            }
+                        });
+                        resolve();
+                    },
+                    function (err) {
+                        console.log("REQUIRE ERROR !!!");
+                        reject(err.message);
+                    }
+                );
+            });
         }
     };
 });

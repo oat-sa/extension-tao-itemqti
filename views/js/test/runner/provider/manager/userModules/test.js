@@ -36,11 +36,9 @@ define([
     });
 
     QUnit.asyncTest('loader should require user modules defined in config', function(assert) {
-        userModules.setUserModules(['taoQtiItem/test/runner/provider/manager/userModules/data/userModule1']);
-
         QUnit.expect(3);
 
-        userModules.load()
+        userModules.load(['taoQtiItem/test/runner/provider/manager/userModules/data/userModule1'])
             .then(function() {
                 assert.ok(window.__userModulesTest, 'global __userModulesTest exists');
                 assert.ok(window.__userModulesTest.module1, 'global __userModulesTest has a module1 property');
@@ -52,40 +50,36 @@ define([
                 QUnit.start();
             });
     });
-
-    QUnit.asyncTest('loader should be called by itemRunner', function(assert) {
-        var $container = $('#qunit-fixture');
-        userModules.setUserModules(['taoQtiItem/test/runner/provider/manager/userModules/data/userModule2']);
-
-        QUnit.expect(3);
-
-        qtiItemRunner('qti', itemData)
-            .on('render', function() {
-                assert.ok(window.__userModulesTest, 'global __userModulesTest exists');
-                assert.ok(window.__userModulesTest.module2, 'global __userModulesTest has a module2 property');
-                assert.equal(window.__userModulesTest.module2, 'userModule2 loaded', 'module2 has the right value');
-                QUnit.start();
-            })
-            .on('error', function(err) {
-                assert.ok(false, 'error in user module loading: ' + err.message);
-                QUnit.start();
-            })
-            .init()
-            .render($container);
-    });
-
+/
     QUnit.asyncTest('loader should work if no modules are defined', function(assert) {
-        userModules.setUserModules([]);
-
         QUnit.expect(1);
 
-        userModules.load()
+        userModules.load([])
             .then(function() {
                 assert.ok(true, 'no errors have been thrown');
                 QUnit.start();
             })
             .catch(function(err) {
                 assert.ok(false, 'error in user module loading: ' + err.message);
+                QUnit.start();
+            });
+    });
+
+    // please disable coverage in QUnit UI for this test to pass
+    QUnit.asyncTest('should return an error if module is not found', function(assert) {
+        QUnit.expect(1);
+
+        require.config({
+            waitSeconds: 1
+        });
+        
+        userModules.load(['i/do/not/exist'])
+            .then(function() {
+                assert.ok(false, 'an error should have been thrown');
+                QUnit.start();
+            })
+            .catch(function() {
+                assert.ok(true, 'error in user module loading:');
                 QUnit.start();
             });
     });
