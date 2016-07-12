@@ -90,7 +90,7 @@ define([
                                 });
                             })
                             .catch(function(err) {
-                                throw new Error('error', 'Error in user modules : ' + err.message);
+                                throw new Error('Error in user modules : ' + err.message);
                             });
 
                     });
