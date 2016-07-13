@@ -117,8 +117,6 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         $correctResponses = $this->getCorrectResponses();
         if (is_array($correctResponses)) {
             foreach ($correctResponses as $correctResponseKey => $value) {
-                \common_Logger::d('******* '.print_r($this->getAttribute('cardinality'), true));
-                \common_Logger::d('******* '.print_r($this->getAttribute('cardinality') == 'record', true));
                 //if correct response has cardinality record:
                 if($this->getAttribute('cardinality') == 'record'){
                     $valueData = $value->toArray();
