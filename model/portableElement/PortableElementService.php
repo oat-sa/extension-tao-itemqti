@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\portableElement;
 
-use oat\qtiItemPci\test\PciRegistryTest;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\common\validator\Validator;
@@ -48,9 +47,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     protected function getRegistry(PortableElementModel $model)
     {
         if (!$this->registry[get_class($model)]) {
-            $this->registry[get_class($model)] = $this->getServiceLocator()
-                ->get(PortableElementFactory::SERVICE_ID)
-                ->getRegistry($model);
+            $this->registry[get_class($model)] = new PortableElementRegistry($model);
         }
         return $this->registry[get_class($model)];
     }

@@ -31,6 +31,7 @@ use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
 use oat\taoQtiItem\model\portableElement\pci\validator\PciValidator;
 use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
 use oat\taoQtiItem\model\portableElement\pic\validator\PicValidator;
+use oat\taoQtiItem\model\portableElement\PortableElementRegistry;
 
 /**
  * Factory to create components implementation based on PortableElementModel
@@ -40,7 +41,7 @@ use oat\taoQtiItem\model\portableElement\pic\validator\PicValidator;
  */
 class PortableElementFactory extends ConfigurableService
 {
-    const SERVICE_ID = 'qtiItemPci/portableElementRegistry';
+    const SERVICE_ID = 'taoQtiItem/portableElementRegistry';
 
     const PCI_IMPLEMENTATION = 'pciRegistry';
     const PIC_IMPLEMENTATION = 'picRegistry';
@@ -64,19 +65,10 @@ class PortableElementFactory extends ConfigurableService
      * @return mixed
      * @throws \common_Exception
      */
-    public function getRegistry(PortableElementModel $model)
+    static function getRegistry(PortableElementModel $model)
     {
-        switch (get_class($model)) {
-            case PciModel::class :
-                $registry = $this->getOption(self::PCI_IMPLEMENTATION);
-                break;
-            case PicModel::class :
-                $registry = $this->getOption(self::PIC_IMPLEMENTATION);
-                break;
-            default:
-                throw new \common_Exception('Unable to load registry implementation for model ' . get_class($model));
-                break;
-        }
+        $registry = new PortableElementRegistry();
+        $registry->setModel($model);
         $registry->setServiceLocator(ServiceManager::getServiceManager());
         return $registry;
     }

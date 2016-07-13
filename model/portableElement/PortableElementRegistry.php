@@ -22,30 +22,33 @@
 namespace oat\taoQtiItem\model\portableElement;
 
 use \common_ext_ExtensionsManager;
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\websource\Websource;
-use League\Flysystem\Filesystem;
-use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\websource\WebsourceManager;
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
+use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
 use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
-use Slim\Http\Stream;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * CreatorRegistry stores reference to
  *
  * @package qtiItemPci
  */
-class PortableElementRegistry extends ConfigurableService
+class PortableElementRegistry implements ServiceLocatorAwareInterface
 {
-    const OPTION_FS = 'filesystem';
-    const OPTION_WEBSOURCE = 'websource';
-    const OPTION_REGISTRY = 'registry';
-    const OPTION_STORAGE = 'storage';
+    use ServiceLocatorAwareTrait;
+    use PortableElementModelTrait;
 
     protected $storage;
     protected $source;
+
+    public function __construct()
+    {
+        if (!$this->getServiceLocator()) {
+            $this->setServiceLocator(ServiceManager::getServiceManager());
+        }
+    }
 
     /**
      * Return all PCIs from self::CONFIG_ID mapping
@@ -56,7 +59,7 @@ class PortableElementRegistry extends ConfigurableService
     protected function getMap()
     {
         $map = \common_ext_ExtensionsManager::singleton()->getExtensionById('qtiItemPci')->getConfig(
-            $this->getOption(self::OPTION_REGISTRY)
+            'qtiItemPci/pciRegistryEntries'
         );
         if(empty($map)){
             $map = [];
@@ -73,58 +76,24 @@ class PortableElementRegistry extends ConfigurableService
     protected function setMap($map)
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('qtiItemPci')->setConfig(
-            $this->getOption(self::OPTION_REGISTRY), $map
+            'qtiItemPci/pciRegistryEntries', $map
         );
     }
 
     /**
      * Get the fly filesystem based on OPTION_FS configuration
      *
-     * @return Filesystem
+     * @return PortableElementFileStorage
      */
     public function getFileSystem()
     {
         if (!$this->storage) {
-            $this->storage = $this
-                ->getServiceLocator()
-                ->get(FileSystemService::SERVICE_ID)
-                ->getFileSystem($this->getOption(self::OPTION_FS));
+//            var_dump($this->getServiceLocator());
+            $this->storage = $this->getServiceLocator()
+                ->get(PortableElementFileStorage::SERVICE_ID)
+                ->setServiceLocator($this->getServiceLocator());
         }
         return $this->storage;
-    }
-
-    /**
-     * Get the access provider following websource defined in OPTION_WEBSOURCE
-     *
-     * @return Websource
-     */
-    protected function getAccessProvider()
-    {
-        return WebsourceManager::singleton()->getWebsource($this->getOption(self::OPTION_WEBSOURCE));
-    }
-
-    /**
-     * Get the file url from a given relpath from PCI
-     *
-     * @param $typeIdentifier
-     * @param $version
-     * @param $relPath
-     * @return string
-     */
-    protected function getFileUrl($typeIdentifier, $version, $relPath)
-    {
-        return $this->getAccessProvider()->getAccessUrl($this->getPrefix(new PciModel($typeIdentifier, $version)) . $relPath);
-    }
-
-    /**
-     * Transform couple of $id, $version to key
-     *
-     * @param PortableElementModel $model
-     * @return string
-     */
-    protected function getPrefix(PortableElementModel $model)
-    {
-        return md5($model->getTypeIdentifier() . $model->getVersion()) . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -136,85 +105,8 @@ class PortableElementRegistry extends ConfigurableService
      */
     public function setSource($source)
     {
-        if (!is_dir($source)) {
-            throw new \common_Exception('Unable to locate the source directory.');
-        }
-        $this->source = DIRECTORY_SEPARATOR . trim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $this->getFileSystem()->setSource($source);
         return $this;
-    }
-
-    /**
-     * Get zip file source
-     *
-     * @return mixed
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
-     * Register files associated to a PCI track by $typeIdentifier
-     *
-     * @param PortableElementModel $model
-     * @param $files
-     * @return bool
-     * @throws \common_Exception
-     */
-    protected function registerFiles(PortableElementModel $model, $files)
-    {
-        $registered = false;
-        $fileSystem = $this->getFileSystem();
-
-        if (!$this->getSource()) {
-            throw new \common_Exception('The source directory is not correctly set.');
-        }
-
-        foreach ($files as $file) {
-            if (substr($file, 0, 2)!='./' && !preg_match('/^'.$model->getTypeIdentifier().'/', $file)) {
-                // File is not relative, it's a shared libraries
-                // Ignore this file, front have fallBack
-                continue;
-            }
-
-            $filePath = $this->getSource() . $file;
-            if (!file_exists($filePath) || ($resource = fopen($filePath, 'r'))===false) {
-                throw new \common_Exception('File cannot be opened : ' . $filePath);
-            }
-
-            $fileId = $this->getPrefix($model) . preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $file);
-            //Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.js
-            if ($fileSystem->has($fileId)) {
-                $registered = $fileSystem->updateStream($fileId, $resource);
-            } else {
-                $registered = $fileSystem->writeStream($fileId, $resource);
-            }
-            fclose($resource);
-            \common_Logger::i('Portable element asset file "' . $fileId . '" copied.');
-        }
-        return $registered;
-    }
-
-    /**
-     * Unregister files by removing them from FileSystem
-     *
-     * @param PortableElementModel $model
-     * @param $files
-     * @return bool
-     * @throws \common_Exception
-     */
-    protected function unregisterFiles(PortableElementModel $model, $files)
-    {
-        $deleted = true;
-        $filesystem = $this->getFileSystem();
-        foreach ($files as $relPath) {
-            $fileId = $this->getPrefix($model) . $relPath;
-            if (!$filesystem->has($fileId)) {
-                throw new \common_Exception('File does not exists in the filesystem: ' . $relPath);
-            }
-            $deleted = $filesystem->delete($fileId);
-        }
-        return $deleted;
     }
 
     /**
@@ -255,6 +147,8 @@ class PortableElementRegistry extends ConfigurableService
 
     /**
      * Get a PCI from identifier/version
+     *
+     * @refactor use PortableElementModel instead of PciModel
      *
      * @param $identifier
      * @param null $version
@@ -309,7 +203,7 @@ class PortableElementRegistry extends ConfigurableService
         }
 
         $files = $this->getFilesFromPortableElement($model);
-        $this->registerFiles($model, $files);
+        $this->getFileSystem()->registerFiles($model, $files);
 
         //saveModel must be executed last because it may affects the model itself
         $this->replaceAliases($model, 'hook');
@@ -333,6 +227,8 @@ class PortableElementRegistry extends ConfigurableService
 
     /**
      * Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.js
+     *
+     * @refactor CreatorKey is implementation of PCiModel not PortableElementModel
      *
      * @param PortableElementModel $model
      * @param string $keyName
@@ -359,6 +255,7 @@ class PortableElementRegistry extends ConfigurableService
     /**
      * Return the absolute url of PCI storage
      *
+     * @refactor use PortableElementModel instead of PciModel
      * @param $typeIdentifier
      * @param string $version
      * @return bool|string
@@ -367,7 +264,7 @@ class PortableElementRegistry extends ConfigurableService
     {
         $model = new PciModel($typeIdentifier, $version);
         if ($this->exists($model)) {
-            return $this->getFileUrl($typeIdentifier, $version, '');
+            return $this->getFileSystem()->getFileUrl($model);
         }
         return false;
     }
@@ -380,11 +277,7 @@ class PortableElementRegistry extends ConfigurableService
      */
     public function getFileStream(PortableElementModel $model, $file)
     {
-        $filePath = $this->getPrefix($model) . $file;
-        if ($this->getFileSystem()->has($filePath)) {
-            return new Stream($this->getFileSystem()->readStream($filePath));
-        }
-        throw new \tao_models_classes_FileNotFoundException($filePath);
+        return $this->getFileSystem()->getFileStream($model, $file);
     }
 
     /**
@@ -579,7 +472,7 @@ class PortableElementRegistry extends ConfigurableService
                 if (empty($allFiles)) {
                     continue;
                 }
-                if (!$this->unregisterFiles($model, array_keys($allFiles))) {
+                if (!$this->getFileSystem()->unregisterFiles($model, array_keys($allFiles))) {
                     throw new \common_Exception('Unable to delete asset files for PCI "' . $model->getTypeIdentifier()
                         . '" at version "' . $model->getVersion() . '"');
                 }
@@ -643,29 +536,12 @@ class PortableElementRegistry extends ConfigurableService
         $zip->addFromString($model->getManifestName(), $manifest);
 
         $files = $this->getFilesFromModel($model);
-        foreach ($files as $file)
-        {
-            $filePath = $this->getPrefix($model) . $file;
-            if ($this->getFileSystem()->has($filePath)) {
-                $fileContent = $this->getFileSystem()->read($filePath);
-                $zip->addFromString($file, $fileContent);
-            }
+        $filesystem = $this->getFileSystem();
+        foreach ($files as $file) {
+            $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($model, $file));
         }
 
         $zip->close();
         return $path;
-    }
-
-    /**
-     *
-     * @todo
-     * @param string $typeIdentifier
-     * @param string $sourceVersion
-     * @param string $targetVersion
-     * @param array $runtime
-     * @param array $creator
-     */
-    public function update($typeIdentifier, $sourceVersion, $targetVersion, $runtime = [], $creator = []){
-
     }
 }
