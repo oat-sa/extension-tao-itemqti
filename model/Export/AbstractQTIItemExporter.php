@@ -91,7 +91,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             } elseif ($key == 'pic') {
                 $model = new PicModel();
             } else{
-                \common_Logger::i('QTI item exporter is not correctly set. Unknow key model ' . $key);
+                \common_Logger::i('QTI item exporter is not correctly set. Unknown key model ' . $key);
                 continue;
             }
 

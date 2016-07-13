@@ -41,11 +41,6 @@ use oat\taoQtiItem\model\portableElement\PortableElementRegistry;
  */
 class PortableElementFactory extends ConfigurableService
 {
-    const SERVICE_ID = 'taoQtiItem/portableElementRegistry';
-
-    const PCI_IMPLEMENTATION = 'pciRegistry';
-    const PIC_IMPLEMENTATION = 'picRegistry';
-
     /**
      * Get a list of available $model implementation
      * @return array

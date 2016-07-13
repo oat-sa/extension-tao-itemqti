@@ -59,7 +59,7 @@ class PortableElementRegistry implements ServiceLocatorAwareInterface
     protected function getMap()
     {
         $map = \common_ext_ExtensionsManager::singleton()->getExtensionById('qtiItemPci')->getConfig(
-            'qtiItemPci/pciRegistryEntries'
+            'pciRegistryEntries'
         );
         if(empty($map)){
             $map = [];
@@ -76,7 +76,7 @@ class PortableElementRegistry implements ServiceLocatorAwareInterface
     protected function setMap($map)
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('qtiItemPci')->setConfig(
-            'qtiItemPci/pciRegistryEntries', $map
+            'pciRegistryEntries', $map
         );
     }
 
