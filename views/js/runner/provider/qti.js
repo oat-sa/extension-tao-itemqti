@@ -83,7 +83,9 @@ define([
                             _.forEach(item.modalFeedbacks, function(feedback){
 
                                 var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-                                if(itemSession[outcomeIdentifier].base.identifier === feedback.id()){
+                                if( outcomeIdentifier && itemSession[outcomeIdentifier] &&
+                                    itemSession[outcomeIdentifier].base.identifier === feedback.id()){
+
                                     queue.push(new Promise(function(resolve){
                                         var $feedbackContent = $(feedback.render());
 
