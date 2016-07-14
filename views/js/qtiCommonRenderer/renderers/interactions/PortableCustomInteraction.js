@@ -178,7 +178,7 @@ define([
      * @param {Object} interaction
      * @param {Object} serializedState - json format
      */
-    var setSerializedState = function(interaction, serializedState){
+    var setState = function(interaction, serializedState){
         _getPci(interaction).setSerializedState(serializedState);
     };
 
@@ -189,7 +189,7 @@ define([
      * @param {Object} interaction
      * @returns {Object} json format
      */
-    var getSerializedState = function(interaction){
+    var getState = function(interaction){
         return _getPci(interaction).getSerializedState();
     };
 
@@ -212,7 +212,7 @@ define([
         getResponse : getResponse,
         resetResponse : resetResponse,
         destroy : destroy,
-        getSerializedState : getSerializedState,
-        setSerializedState : setSerializedState
+        getState : getState,
+        setState : setState
     };
 });
