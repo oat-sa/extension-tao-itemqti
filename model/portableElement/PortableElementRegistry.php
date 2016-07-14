@@ -264,7 +264,7 @@ class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         $model = new PciModel($typeIdentifier, $version);
         if ($this->exists($model)) {
-            return $this->getFileSystem()->getFileUrl($model);
+            return $this->getFileSystem()->getFileUrl($model, '');
         }
         return false;
     }

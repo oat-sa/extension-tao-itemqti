@@ -56,7 +56,6 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     _.each([].slice.call(arguments), function(provider){
                         if(provider && _.isFunction(provider.load)){
                             __providers[providerLoadingStack.shift()] = provider;
-                    console.log(provider);
                         }
                     });
                     callback();
