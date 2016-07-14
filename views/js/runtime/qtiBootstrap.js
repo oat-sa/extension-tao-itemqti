@@ -22,8 +22,9 @@ define([
     'taoQtiItem/qtiRunner/core/QtiRunner',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'iframeNotifier',
-    'core/history'
-], function($, _, module, QtiRunner, Renderer, iframeNotifier, history){
+    'core/history',
+    'taoQtiItem/runner/provider/manager/userModules'
+], function($, _, module, QtiRunner, Renderer, iframeNotifier, history, userModules){
     'use strict';
 
     //fix backspace going back into the history
@@ -60,35 +61,38 @@ define([
 
                     qtiRunner.renderItem(undefined, function() {
 
-                    	//runtime user functions
-                    	var config = module.config();
-                    	if (config && config.userModules && _.isArray(config.userModules)) {
-                    		require(config.userModules, function() {
-                                _.forEach(arguments, function(dependency) {
-                                    if (dependency && _.isFunction(dependency.exec)) {
-                                        dependency.exec();
-                                    }
-                                });
-                            });
+                        //userModules loading
+                        //we use any user modules bound to this module configuration instead of the ones bound to the new test runner
+                        var userModulesOverride;
+                        var config = module.config();
+                        if (config && config.userModules && _.isArray(config.userModules) && config.userModules.length > 0) {
+                            userModulesOverride = config.userModules;
                         }
+                        userModules.load(userModulesOverride)
+                            .then(function() {
 
-                       //exec user scripts
-                        if (_.isArray(runnerContext.userScripts)) {
-                            require(runnerContext.userScripts, function() {
-                                _.forEach(arguments, function(dependency) {
-                                    if (_.isFunction(dependency.exec)) {
-                                        dependency.exec.call(null, runnerContext.userVars);
-                                    }
+                                //exec user scripts
+                                if (_.isArray(runnerContext.userScripts)) {
+                                    require(runnerContext.userScripts, function() {
+                                        _.forEach(arguments, function(dependency) {
+                                            if (_.isFunction(dependency.exec)) {
+                                                dependency.exec.call(null, runnerContext.userVars);
+                                            }
+                                        });
+                                    });
+                                }
+
+                                iframeNotifier.parent('itemloaded');
+
+                                //IE9/10 loose the iframe focus, so we force getting it back.
+                                _.defer(function(){
+                                    window.focus();
                                 });
+                            })
+                            .catch(function(err) {
+                                throw new Error('Error in user modules : ' + err.message);
                             });
-                        }
 
-                        iframeNotifier.parent('itemloaded');
-
-                        //IE9/10 loose the iframe focus, so we force getting it back.
-                        _.defer(function(){
-                            window.focus();
-                        });
                     });
                 });
             });
