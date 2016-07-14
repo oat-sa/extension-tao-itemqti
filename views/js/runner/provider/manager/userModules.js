@@ -21,7 +21,7 @@
 define([
     'lodash',
     'module',
-    'core/Promise'
+    'core/promise'
 ], function (_, module, Promise) {
     'use strict';
 
