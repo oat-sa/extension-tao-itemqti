@@ -85,9 +85,12 @@ define([
             //and add the current response
             if(responses && responses[identifier] && typeof responses[identifier][pciCardinality] !== 'undefined'){
                 responseValue = responses[identifier][pciCardinality];
-                if(_.isObject(responseValue)){
+                if(_.isArray(responseValue)){
+                    //is record cardinality
+                    state[identifier].value = pciRecordToVariable(responseValue);
+                }else if(_.isObject(responseValue)){
                     state[identifier].value = (typeof responseValue[baseType] !== 'undefined') ? responseValue[baseType] : null;
-                } else {
+                }else {
                     state[identifier].value = null;
                 }
             }
@@ -152,6 +155,55 @@ define([
         });
         return pciState;
     };
+
+    /**
+     * Format a pci record array :
+     *  [
+     *      {name : 'fieldA', base : {string : 'yes'}},
+     *      {name : 'fieldB', list : {boolean : [true, true, false]}}
+     *  ]
+     *
+     * into the scorer internal variable format :
+     *  {
+     *      fieldA : {
+     *          cardinality : 'single',
+     *          baseType : 'string',
+     *          value : 'yes'
+     *      },
+     *      fieldB : {
+     *          cardinality : 'multiple',
+     *          baseType : 'boolean',
+     *          value : [true, true, false]
+     *      }
+     *  }
+     * @param {Array} record
+     * @returns {Object
+     */
+    var pciRecordToVariable = function pciRecordToVariable(record){
+        var variableObject = {};
+        _.each(record, function(value){
+            if(value) {
+
+                var valueObject = value.base || value.list || null;
+                var ret = {};
+
+                if (valueObject) {
+                    _.forOwn(valueObject, function (actualValue, baseType) {
+                        var cardinality = value.base ? 'single' : 'multiple';
+                        ret = {
+                            cardinality: cardinality,
+                            baseType: baseType,
+                            value: actualValue
+                        };
+                        return false;//there can only be one baseType:value pair
+                    });
+                }
+
+                variableObject[value.name] = ret;
+            }
+        });
+        return variableObject;
+    }
 
     /**
      * Reformat the mapping/areaMapping from a flat list to a structured object to anticipate changes in the serializer.

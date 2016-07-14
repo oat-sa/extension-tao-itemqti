@@ -91,7 +91,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
     protected $simpleFeedbackRules = array();
 
     protected function generateIdentifier($prefix = ''){
-        
+
         if(empty($prefix)){
             $prefix = 'RESPONSE'; //QTI standard default value
         }
@@ -105,7 +105,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         //@todo : clean this please: do not use a class attributes to store childdren's ones.
         unset($data['attributes']['mapping']);
         unset($data['attributes']['areaMapping']);
-        
+
         //prepare the protected data:
         $protectedData = array(
             'mapping' => $this->mapping,
@@ -113,13 +113,20 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
             'howMatch' => $this->howMatch
         );
 
+        $correct = [];
         $correctResponses = $this->getCorrectResponses();
         if (is_array($correctResponses)) {
-            foreach ($correctResponses as $correctResponseKey => $correctResponse) {
-                $correctResponses[$correctResponseKey] = (string) $correctResponse;
+            foreach ($correctResponses as $correctResponseKey => $value) {
+                //if correct response has cardinality record:
+                if($this->getAttribute('cardinality') == 'record'){
+                    $valueData = $value->toArray();
+                    $correct[$valueData['fieldIdentifier']] = $valueData;
+                }else{
+                    $correct[$correctResponseKey] = (string) $value;
+                }
             }
         }
-        $protectedData['correctResponses'] = $correctResponses;
+        $protectedData['correctResponses'] = $correct;
 
         $defaultValues = $this->getDefaultValue();
         if (is_array($defaultValues)) {
@@ -137,10 +144,10 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
             $mappingAttributes = array_merge($mappingAttributes, $this->getAttributeValue('areaMapping'));
         }
         $protectedData['mappingAttributes'] = $mappingAttributes;
-        
+
         //add simple feedbacks
         $protectedData['feedbackRules'] = $this->getArraySerializedElementCollection($this->getFeedbackRules(), $filterVariableContent, $filtered);
-        
+
         if($filterVariableContent){
             $filtered[$this->getSerial()] = $protectedData;
         }else{
@@ -175,17 +182,17 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         $rpTemplate = '';
         switch($this->howMatch){
             case Template::MATCH_CORRECT:{
-                    $rpTemplate = 'match_correct';
-                    break;
-                }
+                $rpTemplate = 'match_correct';
+                break;
+            }
             case Template::MAP_RESPONSE:{
-                    $rpTemplate = 'map_response';
-                    break;
-                }
+                $rpTemplate = 'map_response';
+                break;
+            }
             case Template::MAP_RESPONSE_POINT:{
-                    $rpTemplate = 'map_response_point';
-                    break;
-                }
+                $rpTemplate = 'map_response_point';
+                break;
+            }
         }
         $variables['howMatch'] = $this->howMatch; //the template
         $variables['rpTemplate'] = $rpTemplate; //the template
@@ -286,7 +293,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
     /**
      * get the correct response in JSON format. If no correct response defined
      * null.
-     * 
+     *
      * @deprecated now use the new qtism lib for response evaluation
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -298,14 +305,14 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
             $correctResponses = $this->getCorrectResponses();
             if(count($correctResponses)){
                 $returnValue = taoQTI_models_classes_Matching_VariableFactory::createJSONVariableFromQTIData(
-                                $this->getIdentifier()
-                                , $this->getAttributeValue('cardinality')
-                                , $this->getAttributeValue('baseType')
-                                , $this->correctResponses
+                    $this->getIdentifier()
+                    , $this->getAttributeValue('cardinality')
+                    , $this->getAttributeValue('baseType')
+                    , $this->correctResponses
                 );
             }
         }catch(Exception $e){
-            
+
         }
 
         return $returnValue;
@@ -352,7 +359,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 
     /**
      * get the mapping in JSON format. If no mapping defined return null.
-     *  
+     *
      * @deprecated now use the new qtism lib for response evaluation
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
