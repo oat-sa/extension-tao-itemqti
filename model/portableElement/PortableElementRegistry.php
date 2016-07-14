@@ -88,7 +88,6 @@ class PortableElementRegistry implements ServiceLocatorAwareInterface
     public function getFileSystem()
     {
         if (!$this->storage) {
-//            var_dump($this->getServiceLocator());
             $this->storage = $this->getServiceLocator()
                 ->get(PortableElementFileStorage::SERVICE_ID)
                 ->setServiceLocator($this->getServiceLocator());
