@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>User Modules</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-only="/taoQtiItem/views/js/runner/provider/manager/userModules.js"></script>
+    <script  type="text/javascript">
+        QUnit.config.autostart = false;
+        require(['/tao/ClientConfig/config'], function(){
+            require(['taoQtiItem/test/runner/provider/manager/userModules/test'], function(){
+                QUnit.start();
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+</body>
+</html>

@@ -28,8 +28,7 @@ namespace oat\taoQtiItem\model\qti;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10073
-
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10042
  */
 class Value extends Element
 {
@@ -76,5 +75,23 @@ class Value extends Element
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Get the array representation of the Qti Element.
+     * Particularly helpful for data transformation, e.g. json
+     * 
+     * @param bool $filterVariableContent
+     * @param array $filtered
+     * @return array
+     */
+    public function toArray($filterVariableContent = false, &$filtered = array())
+    {
+        return [
+            'value' => $this->value,
+            'fieldIdentifier' => (string) $this->getAttribute('fieldIdentifier'),
+            'baseType' => (string) $this->getAttribute('baseType'),
+            'cardinality' => 'single'//cardinality always single for value, put it here to make it compatible with the rule engine
+        ];
     }
 }
