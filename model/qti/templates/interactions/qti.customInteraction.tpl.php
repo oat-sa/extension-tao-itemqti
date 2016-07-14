@@ -20,7 +20,7 @@
  */
 ?>
 <customInteraction <?=get_data('attributes')?>>
-    <pci:portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>">
+    <pci:portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>" >
         <pci:responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
         <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
             <pci:libraries>
@@ -28,6 +28,16 @@
                 <pci:lib id="<?=$lib?>"/>
                 <?php endforeach;?>
             </pci:libraries>
+            <pci:stylesheets>
+                <?php foreach(get_data('stylesheets') as $stylesheet):?>
+                <pci:lib id="<?=$stylesheet?>"/>
+                <?php endforeach;?>
+            </pci:stylesheets>
+            <pci:mediaFiles>
+                <?php foreach(get_data('mediaFiles') as $file):?>
+                <pci:lib id="<?=$file?>"/>
+                <?php endforeach;?>
+            </pci:mediaFiles>
         </pci:resources>
         <?=get_data('serializedProperties')?>
         <pci:markup>
