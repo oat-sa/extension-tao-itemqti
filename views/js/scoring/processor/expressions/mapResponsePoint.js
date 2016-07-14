@@ -58,7 +58,7 @@ define([
             };
 
             if(typeof variable === 'undefined' || variable === null){
-                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
+                 return null;
             }
 
             if(typeof variable.mapping === 'undefined' || variable.mapping.qtiClass !== 'areaMapping'){
