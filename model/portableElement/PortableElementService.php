@@ -164,12 +164,10 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $model = $parser->getModel();
 
         // Validate Portable Element  Model
-
         try {
             $this->validate($model, $source);
         } catch (PortableElementInvalidModelException $e) {
             \common_Logger::i($e->getMessage());
-//            var_dump($directory, $source, $model, $e->getMessage());
             return null;
         }
 

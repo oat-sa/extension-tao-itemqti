@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\model\portableElement\clientConfigRegistry;
  * @package oat\taoQtiItem\model\portableElement\clientConfigRegistry
  * @author Sam <sam@taotesting.com>
  */
-class CustomInteractiontRegistry extends AbstractPortableElementRegistry
+class CustomInteractionRegistry extends AbstractPortableElementRegistry
 {
     const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
 

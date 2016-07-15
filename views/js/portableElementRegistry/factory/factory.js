@@ -111,7 +111,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 loadStack.push(provider.load());
                             }
                         });
-
+                        
                         //performs the loadings in parallel
                         Promise.all(loadStack).then(function (results){
 
