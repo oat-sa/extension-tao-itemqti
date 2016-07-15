@@ -27,7 +27,7 @@
 define([
     'lodash',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, errorHandler, preProcessor){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -57,7 +57,7 @@ define([
             };
 
             if(typeof variable === 'undefined'){
-                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
+                 return null;
             }
 
             if(variable === null || typeof variable.mapping === 'undefined' || variable.mapping.qtiClass !== 'mapping'){

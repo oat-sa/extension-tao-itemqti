@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+        xmlns:xml="http://www.w3.org/XML/1998/namespace"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd "
+        identifier="i1468246257550489" title="Item 16" adaptive="false" timeDependent="false" label="" xml:lang="en-US" toolName="TAO" toolVersion="3.1.0-sprint15">
+    <responseDeclaration identifier="RESPONSE" cardinality="record">
+        <correctResponse>
+            <value fieldIdentifier="fieldA" baseType="string">yes</value>
+            <value fieldIdentifier="fieldB" baseType="integer">2</value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" />
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                QQQ
+            </div>
+        </div>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <fieldValue fieldIdentifier="fieldA">
+                        <variable identifier="RESPONSE"/>
+                    </fieldValue>
+                    <fieldValue fieldIdentifier="fieldA">
+                        <correct identifier="RESPONSE"/>
+                    </fieldValue>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">2.0</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElse>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">-1.0</baseValue>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+    </responseProcessing>
+</assessmentItem>

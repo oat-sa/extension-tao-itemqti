@@ -13,10 +13,7 @@ use oat\tao\helpers\Template;
     <nav class="action-bar plain content-action-bar horizontal-action-bar">
         <ul class="menu-left action-group plain item-editor-menu"></ul>
 
-        <div class="menu action-group">
-            <ul class="plain item-editor-menu"></ul>
-            <div id="item-editor-label" class="truncate"></div>
-        </div>
+        <ul class="menu action-group plain item-editor-menu"></ul>
 
         <ul class="menu-right action-group plain item-editor-menu">
             <li id="appearance-trigger" class="btn-info small rgt">
@@ -30,7 +27,6 @@ use oat\tao\helpers\Template;
     </nav>
     <div class="wrapper clearfix content sidebar-popup-parent" id="item-editor-wrapper">
 
-
     <!-- interaction panel -->
     <div class="item-editor-sidebar-wrapper left-bar">
         <form class="item-editor-sidebar" id="item-editor-interaction-bar" autocomplete="off"></form>
@@ -38,6 +34,9 @@ use oat\tao\helpers\Template;
 
     <!-- item panel -->
     <main id="item-editor-panel" class="clearfix">
+
+        <h1 class="truncate"></h1>
+
         <div id="item-editor-scroll-outer">
             <div id="item-editor-scroll-inner">
                 <!-- item goes here -->
