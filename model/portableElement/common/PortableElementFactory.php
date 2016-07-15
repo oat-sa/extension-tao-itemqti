@@ -21,8 +21,9 @@
 
 namespace oat\taoQtiItem\model\portableElement\common;
 
-use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\AbstractRegistry;
 use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\parser\PortableElementDirectoryParser;
 use oat\taoQtiItem\model\portableElement\common\parser\PortableElementPackageParser;
@@ -32,6 +33,7 @@ use oat\taoQtiItem\model\portableElement\pci\validator\PciValidator;
 use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
 use oat\taoQtiItem\model\portableElement\pic\validator\PicValidator;
 use oat\taoQtiItem\model\portableElement\PortableElementRegistry;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 /**
  * Factory to create components implementation based on PortableElementModel
@@ -39,8 +41,11 @@ use oat\taoQtiItem\model\portableElement\PortableElementRegistry;
  * Class PortableElementFactory
  * @package oat\qtiItemPci\model\common
  */
-class PortableElementFactory extends ConfigurableService
+class PortableElementFactory
 {
+    static protected $registries = [];
+    static protected $services = [];
+
     /**
      * Get a list of available $model implementation
      * @return array
@@ -57,15 +62,35 @@ class PortableElementFactory extends ConfigurableService
      * Get the registry associated to $model, from config
      *
      * @param PortableElementModel $model
-     * @return mixed
+     * @return PortableElementRegistry
      * @throws \common_Exception
      */
     static function getRegistry(PortableElementModel $model)
     {
-        $registry = new PortableElementRegistry();
-        $registry->setModel($model);
-        $registry->setServiceLocator(ServiceManager::getServiceManager());
-        return $registry;
+        if (! isset(self::$registries[get_class($model)])) {
+            $registry = PortableElementRegistry::getRegistry();
+            $registry
+                ->setServiceLocator(ServiceManager::getServiceManager())
+                ->setModel($model);
+            self::$registries[get_class($model)] = $registry;
+        }
+        return self::$registries[get_class($model)];
+    }
+
+    /**
+     * @param PortableElementModel $model
+     * @return PortableElementService
+     */
+    static function getService(PortableElementModel $model)
+    {
+        if (! isset(self::$services[get_class($model)])) {
+            $service = new PortableElementService();
+            $service
+                ->setServiceLocator(ServiceManager::getServiceManager())
+                ->setModel($model);
+            self::$services[get_class($model)] = $service;
+        }
+        return self::$services[get_class($model)];
     }
 
     /**
@@ -74,12 +99,16 @@ class PortableElementFactory extends ConfigurableService
      *
      * @param $source
      * @param PortableElementModel|null $forceModel
-     * @return bool|PortableElementPackageParser
-     * @throws \common_Exception
+     * @return PortableElementPackageParser
+     * @throws PortableElementParserException
      */
     static public function getPackageParser($source, PortableElementModel $forceModel=null)
     {
-        $parser = new PortableElementPackageParser($source);
+        try {
+            $parser = new PortableElementPackageParser($source);
+        } catch (\common_exception_Error $e) {
+            throw new PortableElementParserException('Unable to parse Portable package', 0, $e);
+        }
 
         if ($forceModel) {
             if ($parser->hasValidModel($forceModel)) {
@@ -94,7 +123,9 @@ class PortableElementFactory extends ConfigurableService
             }
         }
 
-        throw new \common_Exception('This zip source is not compatible neither with PCI or PIC model. Manifest and/or engine file are missing.');
+        throw new PortableElementParserException(
+            'This zip source is not compatible neither with PCI or PIC model. Manifest and/or engine file are missing.'
+        );
     }
 
     /**
@@ -107,7 +138,12 @@ class PortableElementFactory extends ConfigurableService
      */
     static public function getDirectoryParser($source, PortableElementModel $forceModel=null)
     {
-        $parser = new PortableElementDirectoryParser($source);
+        try {
+            $parser = new PortableElementDirectoryParser($source);
+        } catch (\common_exception_Error $e) {
+            throw new PortableElementParserException('Unable to parse Portable package', 0, $e);
+        }
+
         $models = self::getAvailableModels();
 
         if ($forceModel) {
@@ -120,7 +156,7 @@ class PortableElementFactory extends ConfigurableService
             }
         }
 
-        throw new \common_Exception('This directory source is not compatible neither with PCI or PIC model. Manifest and/or engine file are missing.');
+        throw new PortableElementParserException('This directory source is not compatible neither with PCI or PIC model. Manifest and/or engine file are missing.');
     }
 
     /**

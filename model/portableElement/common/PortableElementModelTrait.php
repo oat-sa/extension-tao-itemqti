@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\common;
 
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 
 trait PortableElementModelTrait
@@ -31,13 +32,13 @@ trait PortableElementModelTrait
     protected $model;
 
     /**
-     * @throws \common_Exception
      * @return PortableElementModel
+     * @throws PortableElementInconsistencyModelException
      */
     public function getModel()
     {
-        if (!$this->hasModel()) {
-            throw new \common_Exception('Portable element model is not set.');
+        if (! $this->hasModel()) {
+            throw new PortableElementInconsistencyModelException('Portable element model is not set.');
         }
         return $this->model;
     }
@@ -56,5 +57,13 @@ trait PortableElementModelTrait
     public function hasModel()
     {
         return !empty($this->model);
+    }
+
+    public function getModelName()
+    {
+        if (!$this->hasModel()) {
+            throw new PortableElementInconsistencyModelException('Portable element model is not set.');
+        }
+        return get_class($this->model);
     }
 }

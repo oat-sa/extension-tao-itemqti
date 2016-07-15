@@ -171,19 +171,12 @@ class AssetParser
         }
     }
 
-    public function extractPortableAssetLinks($type)
+    public function extractPortableAssetElements()
     {
-        if (in_array($type, array('pci','pic'))) {
-            return [];
-        }
-
         foreach ($this->item->getComposingElements() as $element) {
-            if ($type == 'pci') {
-                $this->getPortableCustomInteraction($element);
-            } else {
-                $this->getPortableInfoControl($element);
-            }
+            $this->extractCustomElement($element);
         }
+//        \common_Logger::i(print_r($this->assets, true));
         return $this->assets;
     }
 
@@ -260,25 +253,11 @@ class AssetParser
      */
     private function loadCustomElementAssets(Element $element)
     {
-        $service = new PortableElementService();
-        $service->setServiceLocator(ServiceManager::getServiceManager());
-
         if ($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl) {
-
             if ($element instanceof PortableCustomInteraction) {
-                $model = new PciModel();
+                $this->assets['pciElement'] = $element;
             } else {
-                $model = new PicModel();
-            }
-
-            $model->setTypeIdentifier($element->getTypeIdentifier());
-            $portableElement = $service->hydrateModel($model);
-
-            $validator = PortableElementFactory::getValidator($portableElement);
-            $files = $validator->getRequiredAssets('runtime');
-
-            foreach ($files as $file) {
-                $this->addAsset($model->getTypeIdentifier(), $file);
+                $this->assets['picElement'] = $element;
             }
         }
 

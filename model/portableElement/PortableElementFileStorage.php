@@ -54,10 +54,12 @@ class PortableElementFileStorage extends ConfigurableService
 
     public function getPrefix(PortableElementModel $model)
     {
-        return get_class($model) . md5($model->getTypeIdentifier() . $model->getVersion()) . DIRECTORY_SEPARATOR;
+        $test =  get_class($model) . md5($model->getTypeIdentifier() . $model->getVersion()) . DIRECTORY_SEPARATOR;
+        \common_Logger::i(print_r($test, true));
+        return $test;
     }
 
-    public function getFileUrl(PortableElementModel $model, $relPath)
+    public function getFileUrl(PortableElementModel $model, $relPath='')
     {
         return $this->getAccessProvider()->getAccessUrl($this->getPrefix($model) . $relPath);
     }

@@ -21,9 +21,11 @@
 
 namespace oat\taoQtiItem\model\portableElement\common\parser;
 
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementExtractException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
-use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\PackageParser;
 use oat\taoQtiItem\helpers\QtiPackage;
 use common_Exception;
@@ -44,13 +46,20 @@ class PortableElementPackageParser extends PackageParser
      *
      * @param string $schema
      * @return bool
-     * @throws common_Exception
+     * @throws PortableElementException
+     * @throws PortableElementParserException
+     * @throws \oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException
      */
     public function validate($schema = '')
     {
-        if (!QtiPackage::isValidZip($this->source)) {
-            throw new common_Exception('Source package is not a valid zip.');
+        try {
+            if (!QtiPackage::isValidZip($this->source)) {
+                throw new PortableElementParserException('Source package is not a valid zip.');
+            }
+        } catch (common_Exception $e) {
+            throw new PortableElementParserException('A problem has occured during package parsing.', 0, $e);
         }
+
 
         $zip = new ZipArchive();
         $zip->open($this->source, ZIPARCHIVE::CHECKCONS);
@@ -58,7 +67,9 @@ class PortableElementPackageParser extends PackageParser
         $definitionFiles = $this->getModel()->getDefinitionFiles();
         foreach ($definitionFiles as $file) {
             if ($zip->locateName($file) === false) {
-                throw new common_Exception('A portable element package must contains a "' . $file . '" file at the root of the archive');
+                throw new PortableElementParserException(
+                    'A portable element package must contains a "' . $file . '" file at the root of the archive.'
+                );
             }
         }
 
@@ -71,16 +82,21 @@ class PortableElementPackageParser extends PackageParser
     /**
      * Extract zip package into temp directory
      *
-     * @return string Name of source directory
-     * @throws ExtractException
-     * @throws \common_exception_Error
+     * @return string
+     * @throws PortableElementExtractException
      */
     public function extract()
     {
-        $source = parent::extract();
-        if(!is_dir($source)){
-            throw new ExtractException('Unable to find a valid directory of extracted package.');
+        try {
+            $source = parent::extract();
+        } catch (\common_exception_Error $e) {
+            throw new PortableElementExtractException('Unable to extract portable element.', 0, $e);
         }
+
+        if(!is_dir($source)){
+            throw new PortableElementExtractException('Unable to find a valid directory of extracted package.');
+        }
+
         return $source;
     }
 
@@ -88,7 +104,7 @@ class PortableElementPackageParser extends PackageParser
     {
         /** get Manifest */
         if (($handle = fopen('zip://' . $this->source . '#' . $this->getModel()->getManifestName(), 'r')) === false) {
-            throw new common_Exception('Unable to open the ZIP file located at: ' . $this->source);
+            throw new PortableElementParserException('Unable to open the ZIP file located at: ' . $this->source);
         }
 
         $content = '';
@@ -102,7 +118,7 @@ class PortableElementPackageParser extends PackageParser
         if (json_last_error() === JSON_ERROR_NONE) {
             return $content;
         }
-        throw new common_Exception('Portable element manifest is not a valid json file.');
+        throw new PortableElementException('Portable element manifest is not a valid json file.');
     }
 
     public function hasValidModel(PortableElementModel $model)
@@ -112,7 +128,7 @@ class PortableElementPackageParser extends PackageParser
             if ($this->validate()) {
                 return true;
             }
-        } catch (\common_Exception $e) {}
+        } catch (common_Exception $e) {}
         return false;
     }
 }

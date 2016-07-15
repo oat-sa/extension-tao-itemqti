@@ -21,6 +21,10 @@
 
 namespace oat\taoQtiItem\model\portableElement\common\validator;
 
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidFieldException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
+
 class Validator
 {
     const NotEmpty         = 'NotEmpty';
@@ -79,6 +83,12 @@ class Validator
         return $validConstraints;
     }
 
+    /**
+     * @param Validatable $validatable
+     * @param array $validationGroup
+     * @return bool
+     * @throws PortableElementInconsistencyModelException
+     */
     public static function validate(Validatable $validatable, $validationGroup=array())
     {
         $messages = [];
@@ -88,8 +98,8 @@ class Validator
             foreach ($constraint as $validator) {
                 $getter = 'get' . ucfirst($field);
                 if (!method_exists($validatable->getModel(), $getter)) {
-                    // throw error?
-                    continue;
+                    throw new PortableElementInconsistencyModelException(
+                        'Validator is not correctly set for model ' . get_class($validatable->getModel()));
                 }
                 $value = $validatable->getModel()->$getter();
 
@@ -105,7 +115,7 @@ class Validator
                         $callable = self::$customValidators[$validator];
                         try {
                             self::$callable($value);
-                        } catch (\common_Exception $e) {
+                        } catch (PortableElementInvalidFieldException $e) {
                             $messages[$field][$validator] = $e->getMessage();
                         }
                     }
@@ -117,33 +127,49 @@ class Validator
         }
 
         if (!empty($messages)) {
-            throw new \common_Exception('invalid '. print_r($messages , true));
-            return false;
+            $exception = new PortableElementInvalidModelException('Portable element validation has failed.');
+            $exception->setMessages($messages);
+            throw $exception;
         }
         return true;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     * @throws PortableElementInvalidFieldException
+     */
     public static function isValidString($value)
     {
         if (!is_string($value)) {
-            throw new \common_Exception('Unable to validate the given value as valid string.');
+            throw new PortableElementInvalidFieldException('Unable to validate the given value as valid string.');
         }
         return true;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     * @throws PortableElementInvalidFieldException
+     */
     public static function isValidArray($value)
     {
         if (!is_array($value)) {
-            throw new \common_Exception('Unable to validate the given value as valid array.');
+            throw new PortableElementInvalidFieldException('Unable to validate the given value as valid array.');
         }
         return true;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     * @throws PortableElementInvalidFieldException
+     */
     public static function isValidVersion($value)
     {
         $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/\d+(?:\.\d+)+/'));
         if (!$validator->evaluate($value)) {
-            throw new \common_Exception('Unable to validate the given value as valid version.');
+            throw new PortableElementInvalidFieldException('Unable to validate the given value as valid version.');
         }
         return true;
     }

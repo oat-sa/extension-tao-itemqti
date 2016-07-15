@@ -22,6 +22,9 @@
 namespace oat\taoQtiItem\model\portableElement\common\validator;
 
 use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidAssetException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
 
@@ -36,6 +39,7 @@ abstract class PortableElementAssetValidator implements Validatable
         }
     }
 
+
     public function validateAssets($source, $files=null)
     {
         if (!$files) {
@@ -49,9 +53,15 @@ abstract class PortableElementAssetValidator implements Validatable
         foreach ($files as $key => $file) {
             try {
                 $this->validFile($source, $file);
-            } catch (\common_Exception $e) {
-                throw new \common_Exception('Invalid file for ' . $key . ': ' . $file, 0, $e);
+            } catch (PortableElementInvalidAssetException $e) {
+                $errorMessages[] = $e->getMessage();
             }
+        }
+
+        if (! empty($errorMessages)) {
+            $exception = new PortableElementInvalidModelException();
+            $exception->setMessages($errorMessages);
+            throw $exception;
         }
         return true;
     }
@@ -59,11 +69,11 @@ abstract class PortableElementAssetValidator implements Validatable
     public function getRequiredAssets($type=null)
     {
         $assets = [];
-        if (is_null($type) ||($type == 'runtime')) {
+        if (is_null($type) || ($type == 'runtime')) {
             $assets = ['runtime' => $this->getModel()->getRuntime()];
         }
 
-        if (is_null($type) ||($type == 'creator')) {
+        if (is_null($type) || ($type == 'creator')) {
             if (!empty($this->getModel()->getCreator())) {
                 $assets['creator'] = $this->getModel()->getCreator();
             }
@@ -77,7 +87,7 @@ abstract class PortableElementAssetValidator implements Validatable
                     if ($this->isOptionalConstraint($key, $constraint)) {
                         continue;
                     }
-                    throw new \common_Exception('Missing asset file for ' . $key . ':' . $constraint);
+                    throw new PortableElementInvalidAssetException('Missing asset file for ' . $key . ':' . $constraint);
                 }
                 if (is_array($asset[$constraint])) {
                     $files = array_merge($files, $asset[$constraint]);
@@ -92,7 +102,7 @@ abstract class PortableElementAssetValidator implements Validatable
     public function validFile($source, $file)
     {
         if (!file_exists($source)) {
-            throw new \common_Exception('Unable to locate extracted zip file.');
+            throw new PortableElementParserException('Unable to locate extracted zip file.');
         }
 
         $filePath = $source . $file;
@@ -103,6 +113,9 @@ abstract class PortableElementAssetValidator implements Validatable
         if (array_key_exists($file, ClientLibRegistry::getRegistry()->getLibAliasMap())) {
             return true;
         }
-        throw new \common_Exception('Asset ' . $file . ' is not found in archive neither through alias');
+
+        throw new PortableElementInvalidAssetException(
+            'Asset ' . $file . ' is not found in archive neither through alias'
+        );
     }
 }
