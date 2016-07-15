@@ -92,6 +92,10 @@ class PortableCustomInteraction extends CustomInteraction
     public function getVersion(){
         return $this->version;
     }
+
+    public function setVersion($version){
+        return $this->version = $version;
+    }
     
     public function setProperties($properties){
         if(is_array($properties)){
@@ -116,12 +120,15 @@ class PortableCustomInteraction extends CustomInteraction
     public function toArray($filterVariableContent = false, &$filtered = array()){
         
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        
-        $returnValue['libraries'] = $this->libraries;
-        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
-        $returnValue['entryPoint'] = $this->entryPoint;
+
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
-        
+        $returnValue['version'] = $this->version;
+        $returnValue['entryPoint'] = $this->entryPoint;
+        $returnValue['libraries'] = $this->libraries;
+        $returnValue['stylesheets'] = $this->stylesheets;
+        $returnValue['mediaFiles'] = $this->mediaFiles;
+        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+
         return $returnValue;
     }
 
@@ -144,24 +151,32 @@ class PortableCustomInteraction extends CustomInteraction
     
     /**
      * Feed the pci instance with data provided in the pci dom node
-     * 
-     * @param \oat\taoQtiItem\model\qti\ParserFactory $parser
+     *
+     * @param ParserFactory $parser
      * @param DOMElement $data
+     * @throws InvalidArgumentException
+     * @throws QtiModelException
      */
     public function feed(ParserFactory $parser, DOMElement $data){
 
         $ns = $parser->getPciNamespace();
 
         $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $ns);
-        if($pciNodes->length){
-            $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
-            if(empty($typeIdentifier)){
-                throw new QtiModelException('the type identifier of the pci is missing');
-            }else{
-                $this->setTypeIdentifier($typeIdentifier);
-            }
-            //the hook is optional here, since the hook is registered internally in TAO and correctly filled 
-            $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
+        if(!$pciNodes->length) {
+            throw new QtiModelException('no portableCustomInteraction node found');
+        }
+
+        $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
+        if(empty($typeIdentifier)){
+            throw new QtiModelException('the type identifier of the pci is missing');
+        }else{
+            $this->setTypeIdentifier($typeIdentifier);
+        }
+        $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
+
+        $version = $pciNodes->item(0)->getAttribute('version');
+        if($version){
+            $this->setVersion($version);
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
@@ -196,12 +211,6 @@ class PortableCustomInteraction extends CustomInteraction
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);
         }
-        
-        //until versionning is not supported in the standard, we are using a special property for this
-        if(isset($this->properties['__version__'])){
-            $this->version = $this->properties['__version__'];
-        }
-        
     }
     
     /**
