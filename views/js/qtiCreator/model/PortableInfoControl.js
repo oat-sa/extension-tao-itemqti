@@ -2,7 +2,7 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/helper/portableElement',
-    'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'taoQtiItem/portableElementRegistry/icRegistry',
     'taoQtiItem/qtiItem/core/PortableInfoControl'
 ], function(_, editable, portableElement, icRegistry, PortableInfoControl){
     "use strict";

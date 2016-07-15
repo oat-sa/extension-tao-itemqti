@@ -23,6 +23,12 @@ define([
 ], function (_, portableElementRegistry, qtiElements){
     'use strict';
 
+    /**
+     * Create a ney interaction registry instance
+     * interaction registry need to register newly loaded creator hooks in the list of available qti authoring elements
+     *
+     * @returns {Object} registry instance
+     */
     return function customInteractionRegistry(){
 
         return portableElementRegistry({

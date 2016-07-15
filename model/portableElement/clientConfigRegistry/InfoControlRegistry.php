@@ -1,3 +1,4 @@
+<?php
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,26 +14,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['lodash', 'taoQtiItem/portableElementRegistry/factory/ciRegistry', 'module'], function (_, ciRegistry, module){
-    'use strict';
 
-    //create a preregistered singleton of ciRegistry
-    var registry = ciRegistry();
-    var providers = [];
-    var config = module.config();
+namespace oat\taoQtiItem\model\portableElement\clientConfigRegistry;
 
-    if(config && config.providers){
-        providers = config.providers;
+/**
+ * Class InfoControlRegistry
+ * @package oat\taoQtiItem\model\portableElement\clientConfigRegistry
+ * @author Sam <sam@taotesting.com>
+ */
+class InfoControlRegistry extends AbstractPortableElementRegistry
+{
+    const IC_REGISTRY = "taoQtiItem/portableElementRegistry/icRegistry";
+
+    protected function getClientModule(){
+        return self::IC_REGISTRY;
     }
-
-    _.each(providers, function(provider){
-        if(provider.name && provider.module){
-            registry.registerProvider(provider.module);
-        }
-    });
-
-    return registry;
-});
+}

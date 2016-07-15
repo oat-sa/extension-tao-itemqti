@@ -16,11 +16,11 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'taoQtiItem/portableElementRegistry/factory/ciRegistry', 'module'], function (_, ciRegistry, module){
+define(['lodash', 'taoQtiItem/portableElementRegistry/factory/icRegistry', 'module'], function (_, icRegistry, module){
     'use strict';
 
-    //create a preregistered singleton of ciRegistry
-    var registry = ciRegistry();
+    //create a preregistered singleton of icRegistry
+    var registry = icRegistry();
     var providers = [];
     var config = module.config();
 
