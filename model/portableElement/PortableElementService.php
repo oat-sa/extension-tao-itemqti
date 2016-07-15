@@ -169,6 +169,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
             $this->validate($model, $source);
         } catch (PortableElementInvalidModelException $e) {
             \common_Logger::i($e->getMessage());
+//            var_dump($directory, $source, $model, $e->getMessage());
             return null;
         }
 
@@ -200,7 +201,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     {
         $model = $this->getValidPortableElementFromDirectorySource($directory);
         if (is_null($model)) {
-            throw new PortableElementNotFoundException('no valid portable element model found in the directory');
+            throw new PortableElementNotFoundException('no valid portable element model found in the directory '.$directory);
         }
 
         return $this->registerModel($model, $directory);

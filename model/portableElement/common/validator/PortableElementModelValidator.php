@@ -34,6 +34,12 @@ class PortableElementModelValidator extends PortableElementAssetValidator
 
     protected $optional = [
         'runtime' => [
+            'libraries',
+            'stylesheets',
+            'mediaFiles',
+        ],
+        'creator' => [
+            'libraries',
             'stylesheets',
             'mediaFiles',
         ]
