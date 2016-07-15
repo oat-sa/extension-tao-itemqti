@@ -34,7 +34,7 @@ define([
     'core/eventifier',
     'core/promise',
     'taoQtiItem/portableElementRegistry/ciRegistry',
-    'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'taoQtiItem/portableElementRegistry/icRegistry',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for read-only element : preview + xinclude
@@ -78,7 +78,17 @@ define([
                 reject(new Error(err));
             });
         });
-    }
+    };
+
+    var loadInfoControls = function loadInfoControls(){
+        return new Promise(function(resolve, reject){
+            icRegistry.loadCreators(function(){
+                return resolve();
+            }).on('error', function(err){
+                reject(new Error(err));
+            });
+        });
+    };
 
     /**
      * Build a new Item Creator
@@ -180,7 +190,7 @@ define([
                 //performs the loadings in parallel
                 Promise.all([
                     loadCustomInteractions(),
-                    loadCustomInteractions(),
+                    loadInfoControls(),
                     loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
                 ]).then(function(results){
 

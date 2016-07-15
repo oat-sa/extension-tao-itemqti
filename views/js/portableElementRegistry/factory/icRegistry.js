@@ -16,23 +16,19 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'taoQtiItem/portableElementRegistry/factory/ciRegistry', 'module'], function (_, ciRegistry, module){
+define([
+    'lodash',
+    'taoQtiItem/portableElementRegistry/factory/factory'
+], function (_, portableElementRegistry){
     'use strict';
 
-    //create a preregistered singleton of ciRegistry
-    var registry = ciRegistry();
-    var providers = [];
-    var config = module.config();
-
-    if(config && config.providers){
-        providers = config.providers;
+    /**
+     * Info control registry has currently no additonal fonctionalities than the basic portable element registry
+     *
+     * @returns {Object} registry instance
+     */
+    return function infoControlRegistry(){
+        return portableElementRegistry();
     }
 
-    _.each(providers, function(provider){
-        if(provider.name && provider.module){
-            registry.registerProvider(provider.module);
-        }
-    });
-
-    return registry;
 });

@@ -23,7 +23,7 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
-    'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'taoQtiItem/portableElementRegistry/icRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
 ], function(_, Renderer, icRegistry, commonRenderer){
     'use strict';
