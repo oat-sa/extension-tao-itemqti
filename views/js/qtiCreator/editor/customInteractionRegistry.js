@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -12,23 +11,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+define([
+    'taoQtiItem/portableElementRegistry/ciRegistry'
+], function(ciRegistry){
+    "use strict";
 
-namespace oat\taoQtiItem\model\portableElement\pic\validator;
+    console.warn('deprected use of "taoQtiItem/qtiCreator/editor/customInteractionRegistry", please use "taoQtiItem/portableElementRegistry/ciRegistry" now');
 
-use oat\taoQtiItem\model\portableElement\common\validator\PortableElementModelValidator;
-
-class PicValidator extends PortableElementModelValidator
-{
-    public function isOptionalConstraint($key, $constraint)
-    {
-        array_push($this->optional['creator'], 'hook');
-        array_push($this->optional['creator'], 'icon');
-        return parent::isOptionalConstraint($key, $constraint);
+    return {
+        get : function get(id){
+            var portableElement = {};
+            portableElement.manifest = ciRegistry.get(id);
+            return portableElement;
+        }
     }
-}
+});

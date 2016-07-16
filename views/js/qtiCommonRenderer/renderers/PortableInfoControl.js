@@ -102,7 +102,7 @@ define([
                 //load the entrypoint
                 require(requireEntries, function(){
 
-                    var pic = _getPic(interaction);
+                    var pic = _getPic(infoControl);
                     var picAssetManager = {
                         resolve : function resolve(url){
                             return assetManager.resolveBy('portableElementLocation', url);

@@ -157,7 +157,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
 
                     if(requiredCreators.length){
-                        //@todo support caching
+                        //@todo support caching?
                         _requirejs(requiredCreators, function (){
                             var creators = {};
                             _.each(arguments, function (creatorHook){

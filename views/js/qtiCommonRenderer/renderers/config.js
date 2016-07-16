@@ -23,30 +23,11 @@ define([
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
     'module',
-    'taoQtiItem/portableElementRegistry/ciRegistry'
-], function(_, context, themes, assetManagerFactory, assetStrategies, module, ciRegistry){
+    'taoQtiItem/portableElementRegistry/assetManager/portableAssetStrategy'
+], function(_, context, themes, assetManagerFactory, assetStrategies, module, portableAssetStrategy){
     'use strict';
 
     var itemThemes = themes.get('items');
-
-    //strategy to resolve portable info control and portable interactions paths.
-    //It should never be reached in the stack the ususal way and should be called only using resolveBy.
-    var portableAssetStrategy = {
-        name : 'portableElementLocation',
-        handle : function handlePortableElementLocation(url){
-            if(url.file === url.path){
-                return ciRegistry.getBaseUrl(url.file);
-            }else if(url.source === url.relative){
-                return url.relative.replace(/^(\.\/)?([a-z_0-9]+)\/(.*)/i, function(fullmatch, $1, typeIdentifier, relPath){
-                    var runtimeLocation = ciRegistry.getBaseUrl(typeIdentifier);
-                    if(runtimeLocation){
-                        return runtimeLocation + '/' + relPath;
-                    }
-                    return fullmatch;
-                });
-            }
-        }
-    };
 
     //Create asset manager stack
     var assetManager = assetManagerFactory([{

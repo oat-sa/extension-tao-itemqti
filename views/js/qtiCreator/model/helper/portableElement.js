@@ -31,38 +31,6 @@ define([
     'use strict';
 
     /**
-     * Add ns directory to a relative path (a relative path only)
-     *
-     * @param {String} typeIdentifier
-     * @param {String} file
-     * @returns {String}
-     */
-    function _addNsDir(typeIdentifier, file){
-        if(file.match(/^\./)){
-            return typeIdentifier + '/' + file.replace(/^\.\//, '');
-        }else{
-            return file;
-        }
-    }
-
-    /**
-     * Add namespace directory to a file or an array of file
-     *
-     * @param {String} typeIdentifier
-     * @param {String|Array} file - a file path or an array of file path
-     * @returns {String}
-     */
-    function addNamespaceDirectory(typeIdentifier, file){
-        if(_.isString(file)){
-            return _addNsDir(typeIdentifier, file);
-        }else if(_.isArray(file)){
-            return _.map(file, function(f){
-                return _addNsDir(typeIdentifier, f);
-            });
-        }
-    }
-
-    /**
      * Get common methods to augment a portableElement implementation
      *
      * @param {object} registry
@@ -97,7 +65,7 @@ define([
                 this.properties = creatorModule.getDefaultProperties();
 
                 //@todo fix this !
-                if(creator.response){//for custom interaciton only
+                if(creator.response && _.size(creator.response)){//for custom interaciton only
                     //create response
                     response = this.createResponse({
                         cardinality : creator.response.cardinality
@@ -108,7 +76,7 @@ define([
                         response.attr('baseType', creator.response.baseType);
                     }
                 } else {
-                    //the attribute is mendatory for info control
+                    //the attribute is mandatory for info control
                     this.attr('title', creator.label);
 
                     //we ensure the info control has an identifier
