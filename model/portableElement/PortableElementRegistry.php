@@ -249,7 +249,6 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
         }
 
         $files = $this->getFilesFromPortableElement($model);
-        var_dump($model->getTypeIdentifier(), $files);
         $this->getFileSystem()->registerFiles($model, $files);
 
         //saveModel must be executed last because it may affects the model itself

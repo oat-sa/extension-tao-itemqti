@@ -125,7 +125,6 @@ class Validator
                 return false;
             }
         }
-        var_dump('*****************************', $messages);
         if (!empty($messages)) {
             $exception = new PortableElementInvalidModelException('Portable element validation has failed.');
             $exception->setMessages($messages);

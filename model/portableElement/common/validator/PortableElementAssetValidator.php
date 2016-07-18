@@ -82,7 +82,6 @@ abstract class PortableElementAssetValidator implements Validatable
         $files = [];
         foreach ($assets as $key => $asset) {
             $constraints = $this->getAssetConstraints($key);
-            var_dump(__LINE__, $key, $constraints);
             foreach ($constraints as $constraint) {
                 if (!isset($asset[$constraint])) {
                     if ($this->isOptionalConstraint($key, $constraint)) {
