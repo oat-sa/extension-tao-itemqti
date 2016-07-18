@@ -78,7 +78,7 @@ class PortableElementFileStorage extends ConfigurableService
     public function setSource($source)
     {
         if (!is_dir($source)) {
-            throw new \common_Exception('Unable to locate the source directory.');
+            throw new PortableElementFileStorageException('Unable to locate the source directory.');
         }
         $this->source = DIRECTORY_SEPARATOR . trim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         return $this;
@@ -100,7 +100,7 @@ class PortableElementFileStorage extends ConfigurableService
         $fileSystem = $this->getFileStorage();
 
         if (!$this->source) {
-            throw new \common_Exception('The source directory is not correctly set.');
+            throw new PortableElementFileStorageException('The source directory is not correctly set.');
         }
 
         foreach ($files as $file) {
@@ -112,7 +112,7 @@ class PortableElementFileStorage extends ConfigurableService
 
             $filePath = $this->source . $file;
             if (!file_exists($filePath) || ($resource = fopen($filePath, 'r'))===false) {
-                throw new \common_Exception('File cannot be opened : ' . $filePath);
+                throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }
 
             $fileId = $this->getPrefix($model) . preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $file);
@@ -156,7 +156,7 @@ class PortableElementFileStorage extends ConfigurableService
         if ($this->getFileStorage()->has($filePath)) {
             return $this->getFileStorage()->read($filePath);
         }
-        throw new \FileNotFoundException('Unable to find file "' . $file . '"' .
+        throw new PortableElementFileStorageException('Unable to find file "' . $file . '"' .
             ' related to Portable element ' . $model->getTypeIdentifier());
     }
 
@@ -172,6 +172,6 @@ class PortableElementFileStorage extends ConfigurableService
         if ($this->getFileStorage()->has($filePath)) {
             return new Stream($this->getFileStorage()->readStream($filePath));
         }
-        throw new \tao_models_classes_FileNotFoundException($filePath);
+        throw new PortableElementFileStorageException($filePath);
     }
 }
