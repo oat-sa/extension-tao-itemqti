@@ -240,7 +240,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $replacementList[$assetUrl] = $replacement;
                 $tmpfile = $mediaSource->download($mediaAsset->getMediaIdentifier());
                 $fh = fopen($tmpfile, 'r');
-                $publicDirectory->write($lang.'/'.$replacement, $fh);
+                $publicDirectory->writeStream($lang.'/'.$replacement, $fh);
                 fclose($fh);
                 unlink($tmpfile);
                 
