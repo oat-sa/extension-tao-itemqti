@@ -1,0 +1,175 @@
+{
+    "type": "qti",
+    "data": {
+        "identifier": "i1468246257550489",
+        "serial": "item_5784ed91a8f8f520320995",
+        "qtiClass": "assessmentItem",
+        "attributes": {
+            "identifier": "i1468246257550489",
+            "title": "Item 16",
+            "label": "",
+            "xml:lang": "en-US",
+            "adaptive": false,
+            "timeDependent": false,
+            "toolName": "TAO",
+            "toolVersion": "3.1.0-sprint15",
+            "class": ""
+        },
+        "body": {
+            "serial": "container_containeritembody_5784ed91a8f74666402209",
+            "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                QQQ\n            <\/div>\n        <\/div>\n    ",
+            "elements": {},
+            "debug": {
+                "relatedItem": "item_5784ed91a8f8f520320995"
+            }
+        },
+        "debug": {
+            "relatedItem": "item_5784ed91a8f8f520320995"
+        },
+        "namespaces": {
+            "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1",
+            "xml": "http:\/\/www.w3.org\/XML\/1998\/namespace",
+            "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+        },
+        "schemaLocations": {
+            "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
+        },
+        "stylesheets": {},
+        "outcomes": {
+            "outcomedeclaration_5784ed91ad60f883015879": {
+                "identifier": "SCORE",
+                "serial": "outcomedeclaration_5784ed91ad60f883015879",
+                "qtiClass": "outcomeDeclaration",
+                "attributes": {
+                    "identifier": "SCORE",
+                    "cardinality": "single",
+                    "baseType": "float"
+                },
+                "debug": {
+                    "relatedItem": "item_5784ed91a8f8f520320995"
+                },
+                "defaultValue": null
+            }
+        },
+        "responses": {
+            "responsedeclaration_5784ed91ac168519849035": {
+                "identifier": "RESPONSE",
+                "serial": "responsedeclaration_5784ed91ac168519849035",
+                "qtiClass": "responseDeclaration",
+                "attributes": {
+                    "identifier": "RESPONSE",
+                    "cardinality": "record"
+                },
+                "debug": {
+                    "relatedItem": "item_5784ed91a8f8f520320995"
+                },
+                "mapping": [],
+                "areaMapping": [],
+                "howMatch": null,
+                "correctResponses": {
+                    "fieldA": {
+                        "value": "yes",
+                        "fieldIdentifier": "fieldA",
+                        "cardinality": "single",
+                        "baseType": "string"
+                    },
+                    "fieldB": {
+                        "value": "2",
+                        "fieldIdentifier": "fieldB",
+                        "baseType": "integer"
+                    }
+                },
+                "mappingAttributes": {
+                    "defaultValue": 0
+                },
+                "feedbackRules": {}
+            }
+        },
+        "feedbacks": {},
+        "responseProcessing": {
+            "serial": "response_custom_5784ed91afefe440941847",
+            "qtiClass": "responseProcessing",
+            "attributes": [],
+            "debug": {
+                "relatedItem": ""
+            },
+            "processingType": "custom",
+            "data": "<responseProcessing>\n        <responseCondition>\n            <responseIf>\n                <match>\n                    <fieldValue fieldIdentifier=\"fieldA\">\n                        <variable identifier=\"RESPONSE\"\/>\n                    <\/fieldValue>\n                    <fieldValue fieldIdentifier=\"fieldA\">\n                        <correct identifier=\"RESPONSE\"\/>\n                    <\/fieldValue>\n                <\/match>\n                <setOutcomeValue identifier=\"SCORE\">\n                    <baseValue baseType=\"float\">2.0<\/baseValue>\n                <\/setOutcomeValue>\n            <\/responseIf>\n            <responseElse>\n                <setOutcomeValue identifier=\"SCORE\">\n                    <baseValue baseType=\"float\">-1.0<\/baseValue>\n                <\/setOutcomeValue>\n            <\/responseElse>\n        <\/responseCondition>\n    <\/responseProcessing>",
+            "responseRules": [
+                {
+                    "qtiClass": "responseCondition",
+                    "responseIf": {
+                        "qtiClass": "responseIf",
+                        "expression": {
+                            "qtiClass": "match",
+                            "expressions": [
+                                {
+                                    "qtiClass": "fieldValue",
+                                    "attributes": {
+                                        "fieldIdentifier": "fieldA"
+                                    },
+                                    "expressions": [
+                                        {
+                                            "qtiClass": "variable",
+                                            "attributes": {
+                                                "identifier": "RESPONSE"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "qtiClass": "fieldValue",
+                                    "attributes": {
+                                        "fieldIdentifier": "fieldA"
+                                    },
+                                    "expressions": [
+                                        {
+                                            "qtiClass": "correct",
+                                            "attributes": {
+                                                "identifier": "RESPONSE"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "responseRules": [
+                            {
+                                "qtiClass": "setOutcomeValue",
+                                "attributes": {
+                                    "identifier": "SCORE"
+                                },
+                                "expression": {
+                                    "qtiClass": "baseValue",
+                                    "attributes": {
+                                        "baseType": "float"
+                                    },
+                                    "value": "2.0"
+                                }
+                            }
+                        ]
+                    },
+                    "responseElse": {
+                        "qtiClass": "responseElse",
+                        "responseRules": [
+                            {
+                                "qtiClass": "setOutcomeValue",
+                                "attributes": {
+                                    "identifier": "SCORE"
+                                },
+                                "expression": {
+                                    "qtiClass": "baseValue",
+                                    "attributes": {
+                                        "baseType": "float"
+                                    },
+                                    "value": "-1.0"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "apipAccessibility": ""
+    }
+}

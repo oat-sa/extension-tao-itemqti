@@ -23,9 +23,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'taoQtiItem/scoring/processor/errorHandler'
-], function(errorHandler){
+define([], function(){
     'use strict';
 
     /**
@@ -44,11 +42,7 @@ define([
             var identifier = this.expression.attributes.identifier;
             var variable   = this.state[identifier];
 
-            if(typeof variable === 'undefined'){
-                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
-            }
-
-            if(variable === null || typeof variable.defaultValue === 'undefined'){
+            if(typeof variable === 'undefined' || variable === null || typeof variable.defaultValue === 'undefined'){
                 return null;
             }
 

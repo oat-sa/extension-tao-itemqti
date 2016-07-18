@@ -14,19 +14,21 @@ define([
     'json!taoQtiItem/test/samples/json/es6.json',
     'json!taoQtiItem/test/samples/json/pluto.json',
     'json!taoQtiItem/test/samples/json/customrp/andAnd.json',
+    'json!taoQtiItem/test/samples/json/customrp/custom_record.json'
 ], function(_, scorer, qtiScoringProvider,
-        singleCorrectData,
-        multipleCorrectData,
-        multipleMapData,
-        singleMapPointData,
-        customChoiceMultipleData,
-        customTextEntryNumericData,
-        customChoiceMultipleData2,
-        customChoiceSingleData,
-        orderData,
-        multipleResponseCorrectData,
-        embedConditionsData,
-        andAndData
+            singleCorrectData,
+            multipleCorrectData,
+            multipleMapData,
+            singleMapPointData,
+            customChoiceMultipleData,
+            customTextEntryNumericData,
+            customChoiceMultipleData2,
+            customChoiceSingleData,
+            orderData,
+            multipleResponseCorrectData,
+            embedConditionsData,
+            andAndData,
+            customRecordData
 ){
     'use strict';
 
@@ -419,6 +421,18 @@ define([
         },
         outcomes : {
             SCORE : { base : { 'float' : 1 } }
+        }
+    }, {
+        title   : 'custom record',
+        item    : customRecordData.data,
+        resp    : {
+            RESPONSE   : { record : [{
+                name : 'fieldA',
+                base : {string : 'yes'}
+            }] }
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 2 } }
         }
     }];
 

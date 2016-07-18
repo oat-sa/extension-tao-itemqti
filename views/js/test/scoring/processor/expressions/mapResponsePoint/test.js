@@ -4,32 +4,16 @@ define([
     'taoQtiItem/scoring/processor/expressions/mapResponsePoint',
     'taoQtiItem/scoring/processor/errorHandler'
 ], function(_, preProcessorFactory, mapResponsePointProcessor, errorHandler){
+    'use strict';
 
-    module('API');
+    QUnit.module('API');
 
     QUnit.test('structure', function(assert){
         assert.ok(_.isPlainObject(mapResponsePointProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(mapResponsePointProcessor.process), 'the processor has a process function');
     });
 
-    module('Process');
-
-    QUnit.asyncTest('Fails if no variable is found', function(assert){
-        QUnit.expect(1);
-        mapResponsePointProcessor.expression = {
-            attributes : { identifier : 'RESPONSE' }
-        };
-        mapResponsePointProcessor.state = {
-            RESPONSE_1 : {
-            }
-        };
-        errorHandler.listen('scoring', function(err){
-            assert.equal(err.name, 'Error', 'Without the variable in the state it throws and error');
-            QUnit.start();
-        });
-
-	    mapResponsePointProcessor.process();
-    });
+    QUnit.module('Process');
 
     QUnit.asyncTest('Fails if variable has no mapping', function(assert){
         QUnit.expect(1);
@@ -75,6 +59,10 @@ define([
     });
 
     var dataProvider = [{
+        title: 'no variable',
+        response: undefined,
+        expectedResult : null
+    }, {
         title : 'in a rectangle',
         response : {
             cardinality     : 'single',
