@@ -67,8 +67,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
             $stream = \GuzzleHttp\Psr7\stream_for(json_encode($variableElements));
-            $privateDirectory->writeStream($language.DIRECTORY_SEPARATOR.self::VAR_ELT_FILE_NAME, $stream);
-            $stream->close();
+            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::VAR_ELT_FILE_NAME, $stream->detach());
             
             //create the item.json file in private directory
             $itemPacker = new QtiItemPacker();
@@ -80,7 +79,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $this->itemJson['data'] = $data['core'];
 
             $stream = \GuzzleHttp\Psr7\stream_for(json_encode($this->itemJson));
-            $privateDirectory->writeStream($language.DIRECTORY_SEPARATOR.self::ITEM_FILE_NAME, $stream);
+            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::ITEM_FILE_NAME, $stream->detach());
             $stream->close();
             
             return new common_report_Report(
