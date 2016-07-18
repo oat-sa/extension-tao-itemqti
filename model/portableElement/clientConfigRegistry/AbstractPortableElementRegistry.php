@@ -18,19 +18,21 @@
  *
  */
 
-namespace oat\taoQtiItem\model;
+namespace oat\taoQtiItem\model\portableElement\clientConfigRegistry;
 
 use oat\tao\model\ClientLibConfigRegistry;
 
 /**
- * Class CiRegistryClientConfigRegistry
- * @package oat\taoQtiItem\models
+ * Class AbstractPortableElementRegistry
+ * @package oat\taoQtiItem\model\portableElement\clientConfigRegistry
  * @author Sam <sam@taotesting.com>
  */
-class CiRegistryClientConfigRegistry extends ClientLibConfigRegistry
+abstract class AbstractPortableElementRegistry extends ClientLibConfigRegistry
 {
     const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
 
+    abstract protected function getClientModule();
+    
     /**
      * @param $name
      * @param $module
@@ -47,8 +49,8 @@ class CiRegistryClientConfigRegistry extends ClientLibConfigRegistry
 
         $config = [];
         $registry = self::getRegistry();
-        if ($registry->isRegistered(self::CI_REGISTRY)) {
-            $config = $registry->get(self::CI_REGISTRY);
+        if ($registry->isRegistered($this->getClientModule())) {
+            $config = $registry->get($this->getClientModule());
         }
 
         $entries = [];
@@ -66,7 +68,7 @@ class CiRegistryClientConfigRegistry extends ClientLibConfigRegistry
         ];
 
         $config['providers'] = $entries;
-        $registry->set(self::CI_REGISTRY, $config);
+        $registry->set($this->getClientModule(), $config);
     }
 
     /**
@@ -78,8 +80,8 @@ class CiRegistryClientConfigRegistry extends ClientLibConfigRegistry
         $config = [];
         $registry = self::getRegistry();
 
-        if ($registry->isRegistered(self::CI_REGISTRY)) {
-            $config = $registry->get(self::CI_REGISTRY);
+        if ($registry->isRegistered($this->getClientModule())) {
+            $config = $registry->get($this->getClientModule());
         }
 
         if (!isset($config['providers'])) {
@@ -99,6 +101,6 @@ class CiRegistryClientConfigRegistry extends ClientLibConfigRegistry
         }
 
         $config['providers'] = $entries;
-        $registry->set(self::CI_REGISTRY, $config);
+        $registry->set($this->getClientModule(), $config);
     }
 }

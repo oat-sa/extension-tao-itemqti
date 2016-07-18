@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -12,23 +11,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+define(['lodash', 'taoQtiItem/portableElementRegistry/factory/icRegistry', 'module'], function (_, icRegistry, module){
+    'use strict';
 
-namespace oat\taoQtiItem\model\portableElement\pic\validator;
+    //create a preregistered singleton of icRegistry
+    var registry = icRegistry();
+    var providers = [];
+    var config = module.config();
 
-use oat\taoQtiItem\model\portableElement\common\validator\PortableElementModelValidator;
-
-class PicValidator extends PortableElementModelValidator
-{
-    public function isOptionalConstraint($key, $constraint)
-    {
-        array_push($this->optional['creator'], 'hook');
-        array_push($this->optional['creator'], 'icon');
-        return parent::isOptionalConstraint($key, $constraint);
+    if(config && config.providers){
+        providers = config.providers;
     }
-}
+
+    _.each(providers, function(provider){
+        if(provider.name && provider.module){
+            registry.registerProvider(provider.module);
+        }
+    });
+
+    return registry;
+});

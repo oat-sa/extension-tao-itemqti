@@ -127,7 +127,7 @@ define([
                         return resolve();
                     }
 
-                    return reject('Unable to initiliaze pci : ' + id);
+                    return reject('Unable to initialize pci : ' + id);
 
                 }, reject);
                 

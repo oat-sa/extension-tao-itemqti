@@ -111,7 +111,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 loadStack.push(provider.load());
                             }
                         });
-
+                        
                         //performs the loadings in parallel
                         Promise.all(loadStack).then(function (results){
 
@@ -157,7 +157,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
 
                     if(requiredCreators.length){
-                        //@todo support caching
+                        //@todo support caching?
                         _requirejs(requiredCreators, function (){
                             var creators = {};
                             _.each(arguments, function (creatorHook){

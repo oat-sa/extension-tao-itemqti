@@ -19,7 +19,7 @@
 define(['lodash', 'taoQtiItem/portableElementRegistry/factory/ciRegistry', 'module'], function (_, ciRegistry, module){
     'use strict';
 
-    //create an unique configurable instance of ciRegistry
+    //create a preregistered singleton of ciRegistry
     var registry = ciRegistry();
     var providers = [];
     var config = module.config();

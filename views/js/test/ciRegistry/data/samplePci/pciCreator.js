@@ -1,9 +1,8 @@
 define([
     'lodash',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'samplePci/creator/widget/Widget',
     'tpl!samplePci/creator/tpl/markup'
-], function(_, ciRegistry, Widget, markupTpl){
+], function(_, Widget, markupTpl){
 
     var _typeIdentifier = 'samplePci';
 
