@@ -229,4 +229,9 @@ class PortableElementService implements ServiceLocatorAwareInterface
     {
         return PortableElementFactory::getRegistry($model)->getFileStream($model, $file);
     }
+
+    public function getPathOfAliasFile(PortableElementModel $model, $file)
+    {
+        return PortableElementFactory::getRegistry($model)->replacePathToAliases($model, $file);
+    }
 }

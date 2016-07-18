@@ -27,6 +27,8 @@ use DOMXPath;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
+use oat\taoQtiItem\controller\PortableElement;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
 use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
@@ -84,13 +86,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
-        $portableElements = [];
+        $portableElementsToExport = $portableAssetsToExport = [];
 
-        foreach ($modelsAssets as $key => $portableElement) {
-
-            if (! $portableElement instanceof Element) {
-                continue;
-            }
+        foreach ($modelsAssets as $key => $portableElements) {
 
             if ($key == 'pciElement') {
                 $model = new PciModel();
@@ -101,36 +99,47 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 continue;
             }
 
-            $model->setTypeIdentifier($portableElement->getTypeIdentifier());
-            $portableElement = $service->hydrateModel($model);
+            /** @var PortableElementModel $portableElement */
+            foreach($portableElements as $element) {
 
-            $validator = PortableElementFactory::getValidator($portableElement);
-            $files = $validator->getRequiredAssets('runtime');
+                if (!$element instanceof Element) {
+                    continue;
+                }
 
-            $baseUrl = $basePath . DIRECTORY_SEPARATOR . $model->getTypeIdentifier();
+                $model->setTypeIdentifier($element->getTypeIdentifier());
+                $portableElement = $service->hydrateModel($model);
 
-            foreach ($files as $url) {
-                try {
-                    // Skip shared libraries into portable element
-                    if (strpos($url, './') !== 0) {
-                        \common_Logger::i('Shared libraries skipped : ' . $url);
-                        $replacementList[$url] = $url;
-                        continue;
+                $portableElementsToExport[$key][$model->getTypeIdentifier()] = $model->toArray();
+
+                $validator = PortableElementFactory::getValidator($portableElement);
+                $files = $validator->getRequiredAssets('runtime');
+
+                $baseUrl = $basePath . DIRECTORY_SEPARATOR . $portableElement->getTypeIdentifier();
+                $portableAssetsToExport[$portableElement->getTypeIdentifier()] = [];
+
+                foreach ($files as $url) {
+                    try {
+                        // Skip shared libraries into portable element
+                        if (strpos($url, './') !== 0) {
+                            \common_Logger::i('Shared libraries skipped : ' . $url);
+                            $portableAssetsToExport[$portableElement->getTypeIdentifier()][$url] = $url;
+                            continue;
+                        }
+                        $stream = $service->getFileStream($portableElement, $url);
+                        $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
+                        $portableAssetsToExport[$portableElement->getTypeIdentifier()][$url] = preg_replace(
+                            '/^(.\/)(.*)/', $portableElement->getTypeIdentifier() . "/$2",
+                            $replacement
+                        );
+                        \common_Logger::i('File copied: "' . $url . '" for portable element ' . $portableElement->getTypeIdentifier());
+                    } catch (\tao_models_classes_FileNotFoundException $e) {
+                        \common_Logger::i($e->getMessage());
+                        $report->setMessage('Missing resource for ' . $url);
+                        $report->setType(\common_report_Report::TYPE_ERROR);
                     }
-                    $stream = $service->getFileStream($portableElement, $url);
-                    $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
-                    $replacementList[$url] = $replacement;
-                    \common_Logger::i('File copied: "' . $url . '" for portable element ' . $portableElement->getTypeIdentifier());
-                } catch (\tao_models_classes_FileNotFoundException $e) {
-                    \common_Logger::i($e->getMessage());
-                    $report->setMessage('Missing resource for ' . $url);
-                    $report->setType(\common_report_Report::TYPE_ERROR);
                 }
             }
-
-            $portableElements[$portableElement->getTypeIdentifier()] = $portableElement;
         }
-
 
         $assets = $this->getAssets($this->getItem(), $lang);
         foreach ($assets as $assetUrl) {
@@ -158,17 +167,47 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
 
+            // Get all portable element from qti.xml
             $attributeNodes = $dom->getElementsByTagName('portableCustomInteraction');
             for ($i=0; $i<$attributeNodes->length; $i++) {
+
                 $identifier = $attributeNodes->item($i)->getAttribute('customInteractionTypeIdentifier');
 
-                if (! isset($portableElements[$identifier])) {
+                // Find model associated to registered portable element
+                if (isset($portableElementsToExport['picElement'])
+                    && isset($portableElementsToExport['picElement'][$identifier])
+                ) {
+                    $portableElement = new PciModel();
+                    $portableElement->exchangeArray($portableElementsToExport['picElement'][$identifier]);
+                } elseif (isset($portableElementsToExport['pciElement'])
+                    && isset($portableElementsToExport['pciElement'][$identifier])
+                ) {
+                    $portableElement = new PicModel();
+                    $portableElement->exchangeArray($portableElementsToExport['pciElement'][$identifier]);
+                } else {
+                    // If portable element is not registered, skip
+                    \common_Logger::i('QTI item exporter is not correctly set. Unknown key model ' . $key);
                     continue;
                 }
 
-                $portableElement = $portableElements[$identifier];
-                $attributeNodes->item($i)->setAttribute('hook', $portableElement->getRuntimeKey('hook'));
+
+                // Add hook and version as attributes
+                if ($portableElement->hasRuntimeKey('hook'))
+                $attributeNodes->item($i)->setAttribute(
+                    'hook',
+                    preg_replace(
+                        '/^(.\/)(.*)/', $portableElement->getTypeIdentifier() . "/$2",
+                        $portableElement->getRuntimeKey('hook')
+                    )
+                );
                 $attributeNodes->item($i)->setAttribute('version', $portableElement->getVersion());
+
+                // If asset files list is empty for current identifier skip
+                if ( (! isset($portableAssetsToExport))
+                    || (! isset($portableAssetsToExport[$portableElement->getTypeIdentifier()]))
+                ) {
+                    continue;
+                }
 
                 $resourcesNode = $attributeNodes->item($i)->getElementsByTagName('resources')->item(0);
 
@@ -176,7 +215,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $librariesNode = $dom->createElement('pci:libraries');
                 foreach ($portableElement->getRuntimeKey('libraries') as $library) {
                     $libraryNode = $dom->createElement('pci:lib');
-                    $libraryNode->setAttribute('id', $replacementList[$library]);
+                    $libraryNode->setAttribute(
+                        'id', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$library]
+                    );
                     $librariesNode->appendChild($libraryNode);
                 }
 
@@ -184,19 +225,20 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if ($oldLibrariesNode->length > 0) {
                     $resourcesNode->removeChild($oldLibrariesNode->item(0));
                 }
-
                 if ($librariesNode->hasChildNodes()) {
                     $resourcesNode->appendChild($librariesNode);
                 }
 
                 // Portable stylesheets
                 $stylesheetsNode = $dom->createElement('pci:stylesheets');
-                foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheets) {
+                foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
                     $stylesheetNode = $dom->createElement('pci:link');
-                    $stylesheetNode->setAttribute('href', $replacementList[$stylesheets]);
+                    $stylesheetNode->setAttribute(
+                        'href', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$stylesheet]
+                    );
                     $stylesheetNode->setAttribute('type', 'text/css');
-                    $info = pathinfo($stylesheets);
-                    $stylesheetNode->setAttribute('title', basename($stylesheets,'.'.$info['extension']));
+                    $info = pathinfo($stylesheet);
+                    $stylesheetNode->setAttribute('title', basename($stylesheet, '.' . $info['extension']));
                     $stylesheetsNode->appendChild($stylesheetNode);
                 }
 
@@ -204,19 +246,22 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if ($oldStylesheetsNode->length > 0) {
                     $resourcesNode->removeChild($oldStylesheetsNode->item(0));
                 }
-
                 if ($stylesheetsNode->hasChildNodes()) {
                     $resourcesNode->appendChild($stylesheetsNode);
                 }
 
                 // Portable mediaFiles
                 $mediaFilesNode = $dom->createElement('pci:mediaFiles');
-                foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFiles) {
+                foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
                     $mediaFileNode = $dom->createElement('pci:file');
-                    $mediaFileNode->setAttribute('src', $replacementList[$mediaFiles]);
+                    $mediaFileNode->setAttribute(
+                        'src', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
+                    );
+                    $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType(
+                        $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
+                    ));
                     $mediaFilesNode->appendChild($mediaFileNode);
                 }
-
                 $oldMediaFilesNode = $xpath->query('.//pci:mediaFiles', $resourcesNode);
                 if ($oldMediaFilesNode->length > 0) {
                     $resourcesNode->removeChild($oldMediaFilesNode->item(0));
@@ -225,58 +270,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if ($mediaFilesNode->hasChildNodes()) {
                     $resourcesNode->appendChild($mediaFilesNode);
                 }
-
-
-
-
-
-
-//                $identifier = $attributeNodes->item($i)->setAttribute('hook', 'customInteractionTypeIdentifier');
-
-
-//                $attributeNodes->item($i)->removeChild('resources');
-//                $librariesNode = $attributeNodes->item($i)->appendChild('resources');
-
-//                \common_Logger::i(print_r($portableLibraries, true));
-//                foreach ($libraries[$identifier] as $library) {
-////                    $librariesNode->appendChild('library')
-//                }
-//                \common_Logger::i(print_r(
-//                    ,true));
-//
-////                $attributeNodes->getAttribute('customInteractionTypeIdentifier');
-//                \common_Logger::i(print_r($attributeNodes->getAttribute('customInteractionTypeIdentifier'), true));
-//                \common_Logger::i(print_r($attributeNodes->item($i)->nodeValue, true));
             }
-//            foreach ($attributeNodes as $portableNode) {
-//                \common_Logger::i($portableNode->getAttributes('customInteractionTypeIdentifier'));
-//            }
-//            foreach ($libraries as $library) {
-//                $xpath->addChild('name', 'Mr. Parser');
-//            }
 
-//            foreach ($attributeNodes as $node) {
-//                if (isset($replacementList[$node->value])) {
-//                    $node->value = $replacementList[$node->value];
-//                }
-//            }
+            unset($xpath);
 
-            $attributeNodes = $xpath->query('//portableCustomInteraction/resources/libraries');
-            unset($xpath);
-//            foreach ($libraries as $library) {
-//
-//            }
-            foreach ($attributeNodes as $node) {
-                \common_Logger::i($node->value);
-                if (isset($replacementList[$node->value])) {
-                    $node->value = $replacementList[$node->value];
-                }
-            }
-            unset($xpath);
         } else {
             throw new ExportException($this->getItem()->getLabel(), 'Unable to load XML');
         }
 
+        $dom->preserveWhiteSpace = true;
+        $dom->formatOutput = true;
         if(($content = $dom->saveXML()) === false){
             throw new ExportException($this->getItem()->getLabel(), 'Unable to save XML');
         }
@@ -297,6 +300,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $qtiItemDoc->loadXML($content);
             
             // Retrieve APIP related assets...
+            $qtiItemDoc->preserveWhiteSpace = true;
+            $qtiItemDoc->formatOutput = true;
             $content = $qtiItemDoc->saveXML();
             $fileHrefElts = $qtiItemDoc->getElementsByTagName('fileHref');
             for ($i = 0; $i < $fileHrefElts->length; $i++) {

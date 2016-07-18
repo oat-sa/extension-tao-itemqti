@@ -289,7 +289,7 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
      * @param PortableElementModel $model
      * @param array $keys
      */
-    private function replacePathToAliases(PortableElementModel &$model, array $keys = [])
+    public function replacePathToAliases(PortableElementModel &$model, array $keys = [])
     {
         if (empty($keys)) {
             $keys = ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'];

@@ -25,7 +25,11 @@ use League\Flysystem\Filesystem;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\websource\WebsourceManager;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementFileStorageException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
+use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
+use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
 
 class PortableElementFileStorage extends ConfigurableService
 {
@@ -54,9 +58,16 @@ class PortableElementFileStorage extends ConfigurableService
 
     public function getPrefix(PortableElementModel $model)
     {
-        $test =  get_class($model) . md5($model->getTypeIdentifier() . $model->getVersion()) . DIRECTORY_SEPARATOR;
-        \common_Logger::i(print_r($test, true));
-        return $test;
+        $hashFile = DIRECTORY_SEPARATOR . md5($model->getTypeIdentifier() . $model->getVersion()) . DIRECTORY_SEPARATOR;
+        if ($model instanceof PciModel) {
+            return  'pci' . $hashFile;
+        }
+
+        if ($model instanceof PicModel) {
+            return  'pic' . $hashFile;
+        }
+
+        throw new PortableElementInconsistencyModelException(get_class($model) . ' is not managed to handle files.');
     }
 
     public function getFileUrl(PortableElementModel $model, $relPath='')

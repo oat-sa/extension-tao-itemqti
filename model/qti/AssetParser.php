@@ -176,7 +176,7 @@ class AssetParser
         foreach ($this->item->getComposingElements() as $element) {
             $this->extractCustomElement($element);
         }
-//        \common_Logger::i(print_r($this->assets, true));
+        \common_Logger::i(print_r($this->assets, true));
         return $this->assets;
     }
 
@@ -255,9 +255,9 @@ class AssetParser
     {
         if ($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl) {
             if ($element instanceof PortableCustomInteraction) {
-                $this->assets['pciElement'] = $element;
+                $this->assets['pciElement'][$element->getTypeIdentifier()] = $element;
             } else {
-                $this->assets['picElement'] = $element;
+                $this->assets['picElement'][$element->getTypeIdentifier()] = $element;
             }
         }
 

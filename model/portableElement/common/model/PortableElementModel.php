@@ -308,7 +308,7 @@ abstract class PortableElementModel
         if ($this->hasRuntimeKey($key)) {
             return $this->runtime[$key];
         }
-        return null;
+        return [];
     }
 
     /**
@@ -367,7 +367,7 @@ abstract class PortableElementModel
         if ($this->hasCreatorKey($key)) {
             return $this->creator[$key];
         }
-        return null;
+        return [];
     }
 
     /**
