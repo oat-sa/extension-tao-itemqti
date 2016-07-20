@@ -41,14 +41,14 @@ use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
 
 /**
- * 
+ *
  * @author Sam <sam@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
 
     /**
-     * 
+     *
      * @param string $initialVersion
      * @return string
      */
@@ -129,21 +129,21 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('qtiCreator', array('multi-column' => false));
             $currentVersion = '2.7.5';
         }
-        
+
         if($currentVersion == '2.7.5'){
 
             $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
 
             $currentVersion = '2.7.6';
         }
-        
+
         if($currentVersion == '2.7.6'){
 
             $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
 
             $currentVersion = '2.7.7';
         }
-        
+
         if($currentVersion == '2.7.7'){
 
             $itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
@@ -170,12 +170,12 @@ class Updater extends \common_ext_ExtensionUpdater
         if($currentVersion == '2.7.9'){
              $currentVersion = '2.8.0';
         }
-        
+
         if($currentVersion == '2.8.0'){
             $currentVersion = '2.8.1';
             $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
         }
-        
+
         if ($currentVersion == '2.8.1') {
             $qtiItem = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
             $qtiItem->setConfig('userScripts', array());
@@ -209,7 +209,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
 	    if($this->isVersion('2.13.0')) {
-            
+
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
                 array(
@@ -220,7 +220,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $fs = \taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
             $itemUpdater = new ItemUpdateInlineFeedback($fs->getPath());
             $itemUpdater->update(true);
-        
+
             $this->setVersion('2.14.0');
         }
 
@@ -320,10 +320,10 @@ class Updater extends \common_ext_ExtensionUpdater
                 $createExportDirectoryScript = new createExportDirectory();
                 $createExportDirectoryScript([]);
             }
-            
+
             $this->setVersion('2.20.0');
         }
-	
+
 	$this->skip('2.20.0', '2.22.0');
 
         if ($this->isVersion('2.22.0')) {
@@ -381,7 +381,7 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class));
             $this->setVersion('2.27.0');
         }
-        
+
         $this->skip('2.27.0', '2.28.2');
 
 	    if($this->isVersion('2.28.2')){

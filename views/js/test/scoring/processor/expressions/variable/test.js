@@ -4,15 +4,16 @@ define([
     'taoQtiItem/scoring/processor/expressions/variable',
     'taoQtiItem/scoring/processor/errorHandler'
 ], function(_, preProcessorFactory, variableProcessor, errorHandler){
+    'use strict';
 
-    module('API');
+    QUnit.module('API');
 
     QUnit.test('structure', function(assert){
         assert.ok(_.isPlainObject(variableProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(variableProcessor.process), 'the processor has a process function');
     });
 
-    module('Process');
+    QUnit.module('Process');
 
     QUnit.test('Get the variable', function(assert){
         var state = {
@@ -38,7 +39,6 @@ define([
 
     QUnit.test('Get the variable value even null', function(assert){
         var state = {
-            RESPONSE :  null
         };
         variableProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
@@ -71,7 +71,7 @@ define([
         assert.deepEqual(variableProcessor.process(), expectedResult, 'returns null');
     });
 
-    QUnit.asyncTest('Fails if no variable is found', function(assert){
+    QUnit.test('Get null if no variable is found', function(assert){
         QUnit.expect(1);
         variableProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
@@ -83,11 +83,7 @@ define([
                 value               : 'choice-2'
             }
         };
-        errorHandler.listen('scoring', function(err){
-            assert.equal(err.name, 'Error', 'Without the variable in the state it throws and error');
-            QUnit.start();
-        });
 
-        variableProcessor.process();
+        assert.deepEqual(variableProcessor.process(), null, 'returns null');
     });
 });

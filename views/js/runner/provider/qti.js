@@ -29,8 +29,9 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
+    'taoQtiItem/runner/provider/manager/userModules',
     'taoItems/assets/manager'
-], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
+], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules, assetManagerFactory){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -83,7 +84,9 @@ define([
                             _.forEach(item.modalFeedbacks, function(feedback){
 
                                 var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-                                if(itemSession[outcomeIdentifier].base.identifier === feedback.id()){
+                                if( outcomeIdentifier && itemSession[outcomeIdentifier] &&
+                                    itemSession[outcomeIdentifier].base.identifier === feedback.id()){
+
                                     queue.push(new Promise(function(resolve){
                                         var $feedbackContent = $(feedback.render());
 
@@ -158,7 +161,7 @@ define([
                          */
                         self.trigger('listpic', picManager.collection(self._item));
 
-                        done();
+                        return userModules.load().then(done);
 
                     }).catch(function(err){
                         self.trigger('error', 'Error in post rendering : ' +  err.message);
