@@ -58,22 +58,21 @@ EOF;
      * @param array $cssArr
      * @return boolean true on success
      */
-    public static function saveCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath, $cssArr){
-
-        $service = \taoItems_models_classes_ItemsService::singleton();
-        $cssFile  = $service->getItemFolder($item, $lang) . $styleSheetPath;
+    public static function saveCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath, $cssArr)
+    {
+        $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
 
         // make sure that 'no custom css' means exactly that
-        if(empty($cssArr) && file_exists($cssFile)) {
-            unlink($cssFile);
+        if (empty($cssArr) && $directory->hasFile($styleSheetPath)) {
+            $directory->delete($styleSheetPath);
         }
 
         $css = self::_buildWarning() . self::arrayToCss($cssArr);
-        if(!is_dir(dirname($cssFile))) {
-            mkdir(dirname($cssFile), 0755, 1);
+        if ($directory->hasFile($styleSheetPath)) {
+            return $directory->update($styleSheetPath, $css);
+        } else {
+            return $directory->write($styleSheetPath, $css);
         }
-        $count = file_put_contents($cssFile, $css);
-        return $count > 0;
     }
 
     /**
@@ -86,10 +85,8 @@ EOF;
      */
     public static function downloadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath){
 
-        $service = \taoItems_models_classes_ItemsService::singleton();
-        $cssFile  = $service->getItemFolder($item, $lang) . $styleSheetPath;
-
-        return file_get_contents($cssFile);
+        $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
+        return $directory->read($styleSheetPath);
     }
 
     /**
@@ -178,18 +175,15 @@ EOF;
      */
     public static function loadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheet) {
 
-        $service = \taoItems_models_classes_ItemsService::singleton();
-        $cssFile  = $service->getItemFolder($item, $lang) . $styleSheet;
+        $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
 
         // no user style sheet has been created yet
-        if(!is_file($cssFile)) {
-            \common_Logger::d('Stylesheet ' . $cssFile . ' does not exist yet, returning empty array');
+        if (! $directory->hasFile($styleSheet)) {
+            \common_Logger::d('Stylesheet ' . $styleSheet . ' does not exist yet, returning empty array');
             return array();
         }
 
-        $cssArr = self::cssToArray(file_get_contents($cssFile));
-        return $cssArr;
+        return self::cssToArray($directory->read($styleSheet));
     }
-
 
 } 

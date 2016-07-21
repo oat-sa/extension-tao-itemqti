@@ -28,6 +28,7 @@ use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
+use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
 use tao_actions_CommonModule;
 use tao_helpers_File;
@@ -151,15 +152,13 @@ class QtiCreator extends tao_actions_CommonModule
             $uri = urldecode($this->getRequestParameter('uri'));
             $xml = file_get_contents('php://input');
             $rdfItem = new core_kernel_classes_Resource($uri);
-            $itemService = taoItems_models_classes_ItemsService::singleton();
+            /** @var Service $itemService */
+            $itemService = Service::singleton();
 
             //check if the item is QTI item
             if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
                 try {
-                    $sanitized = Authoring::sanitizeQtiXml($xml);
-                    Authoring::validateQtiXml($sanitized);
-                    //get the QTI xml
-                    $returnValue['success'] = $itemService->setItemContent($rdfItem, $sanitized);
+                    $returnValue['success'] = $itemService->saveXmlItemToRdfItem($xml, $rdfItem);
                 } catch (QtiModelException $e) {
                     throw new \RuntimeException($e->getUserMessage(), 0, $e);
                 }
