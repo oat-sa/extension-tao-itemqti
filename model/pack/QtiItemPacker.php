@@ -88,10 +88,12 @@ class QtiItemPacker extends ItemPacker
      * @param core_kernel_classes_Resource $item the item to pack
      * @param string $lang
      * @param Item $qtiItem
+     * @param \tao_models_classes_service_StorageDirectory $publicDirectory
      * @return ItemPack $itemPack
      * @throws common_Exception
      */
-    public function packQtiItem($item, $lang, $qtiItem){
+    public function packQtiItem($item, $lang, $qtiItem, $publicDirectory)
+    {
         //use the QtiParser to transform the QTI XML into an assoc array representation
         try {
             //build the ItemPack from the parsed data
@@ -110,7 +112,7 @@ class QtiItemPacker extends ItemPacker
             $assetParser->setGetXinclude(!$this->replaceXinclude);
 
             foreach ($assetParser->extract($itemPack) as $type => $assets) {
-                $itemPack->setAssets($type, $assets, $path);
+                $itemPack->setAssets($type, $assets, $publicDirectory, $lang);
             }
         } catch (common_Exception $e) {
             throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
