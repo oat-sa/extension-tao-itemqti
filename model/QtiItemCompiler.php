@@ -149,8 +149,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         //copy item.xml file to private directory
         $itemDir = $itemService->getItemDirectory($item, $language);
-        $sourceItem = new File($itemDir->getFileSystem(), $itemDir->getPath().DIRECTORY_SEPARATOR.'qti.xml');
-        $privateDirectory->write($language.'/qti.xml', $sourceItem->readStream());
+        $sourceItem = $itemDir->getFile('qti.xml');
+        $privateDirectory->writeStream($language . '/qti.xml', $sourceItem->readStream());
 
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
