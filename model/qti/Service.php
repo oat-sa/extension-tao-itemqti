@@ -67,7 +67,8 @@ class Service extends tao_models_classes_Service
         
         try {
             //Parse it and build the QTI_Data_Item
-            $qtiParser = new Parser($this->getXmlByRdfItem($item, $langCode));
+            $file = $this->getXmlByRdfItem($item, $langCode);
+            $qtiParser = new Parser($file);
             $returnValue = $qtiParser->load();
             
             if($resolveXInclude && !empty($langCode)){
@@ -106,11 +107,15 @@ class Service extends tao_models_classes_Service
         $itemService = taoItems_models_classes_ItemsService::singleton();
         
         //check if the item is QTI item
-        if (!$itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
+        if (! $itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
             throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
         }
-        
-        return $itemService->getItemDirectory($item, $language)->read(self::QTI_ITEM_FILE);
+
+        $itemDirectory = $itemService->getItemDirectory($item, $language);
+        if ($itemDirectory->hasFile(self::QTI_ITEM_FILE)) {
+            return $itemDirectory->read(self::QTI_ITEM_FILE);
+        }
+        throw new FileNotFoundException('File "' . self::QTI_ITEM_FILE . '" not found."');
     }
 
     /**
@@ -131,7 +136,6 @@ class Service extends tao_models_classes_Service
         $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
 
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-        common_Logger::i($directory->getRelativePath());
 
         if ($directory->hasFile(self::QTI_ITEM_FILE)) {
             $success = $directory->update(self::QTI_ITEM_FILE, $qtiItem->toXML());
@@ -142,6 +146,7 @@ class Service extends tao_models_classes_Service
         if ($success) {
 //            $this->getEventManager()->trigger(new ItemUpdatedEvent($item->getUri()));
         }
+
         return $success;
     }
 

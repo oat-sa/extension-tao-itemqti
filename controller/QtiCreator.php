@@ -171,9 +171,9 @@ class QtiCreator extends tao_actions_CommonModule
     public function getFile()
     {
 
-        if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('lang') && $this->hasRequestParameter(
-                'relPath'
-            )
+        if ($this->hasRequestParameter('uri')
+            && $this->hasRequestParameter('lang')
+            && $this->hasRequestParameter('relPath')
         ) {
             $uri = urldecode($this->getRequestParameter('uri'));
             $rdfItem = new core_kernel_classes_Resource($uri);
