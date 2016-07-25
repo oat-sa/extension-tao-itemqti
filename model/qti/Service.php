@@ -103,19 +103,20 @@ class Service extends tao_models_classes_Service
      * @throws FileNotFoundException
      * @return string
      */
-    public function getXmlByRdfItem(core_kernel_classes_Resource $item, $langCode = '')
+    public function getXmlByRdfItem(core_kernel_classes_Resource $item, $language = '')
     {
         $returnValue = null;
         $itemService = taoItems_models_classes_ItemsService::singleton();
         
         //check if the item is QTI item
-        if (!$itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
+        if (! $itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
             throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
         }
-        
-        $dir = $itemService->getItemDirectory($item);
-        $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
-        return $file->read();
+
+        $itemDirectory = $itemService->getItemDirectory($item, $language);
+        if ($itemDirectory->hasFile(self::QTI_ITEM_FILE)) {
+            return $itemDirectory->read(self::QTI_ITEM_FILE);
+        }
     }
 
     /**
@@ -133,14 +134,13 @@ class Service extends tao_models_classes_Service
         //set the current data lang in the item content to keep the integrity
         $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
         
-        $dir = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-        $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
-        $success = false;
-        try {
-            $success = $file->write($qtiItem->toXML());
-        } catch (FileExistsException $s) {
-            $success = $file->update($qtiItem->toXML());
+        $itemDirectory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
+        if (! $itemDirectory->hasFile(self::QTI_ITEM_FILE)) {
+            $success = $itemDirectory->write(self::QTI_ITEM_FILE, $qtiItem->toXML());
+        } else {
+            $success = $itemDirectory->update(self::QTI_ITEM_FILE, $qtiItem->toXML());
         }
+
         return $success;
     }
 
