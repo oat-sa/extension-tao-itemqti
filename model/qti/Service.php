@@ -67,7 +67,8 @@ class Service extends tao_models_classes_Service
         
         try {
             //Parse it and build the QTI_Data_Item
-            $qtiParser = new Parser($this->getXmlByRdfItem($item, $langCode));
+            $file = $this->getXmlByRdfItem($item, $langCode);
+            $qtiParser = new Parser($file);
             $returnValue = $qtiParser->load();
             
             if($resolveXInclude && !empty($langCode)){
@@ -117,6 +118,7 @@ class Service extends tao_models_classes_Service
         if ($itemDirectory->hasFile(self::QTI_ITEM_FILE)) {
             return $itemDirectory->read(self::QTI_ITEM_FILE);
         }
+        throw new FileNotFoundException('File "' . self::QTI_ITEM_FILE . '" not found."');
     }
 
     /**
