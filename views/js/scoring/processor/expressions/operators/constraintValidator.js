@@ -47,11 +47,11 @@ define([
             var maxOperand  = processor.constraints.maxOperand;
 
             var hasWrongType = function hasWrongType(operand){
-                return !_.contains(processor.constraints.baseType, operand.baseType);
+                return !_.isNull(operand) && !_.contains(processor.constraints.baseType, operand.baseType);
             };
 
             var hasWrongCardinality = function hasWrongCardinality(operand){
-                return !_.contains(processor.constraints.cardinality, operand.cardinality);
+                return !_.isNull(operand) && !_.contains(processor.constraints.cardinality, operand.cardinality);
 
             };
 
