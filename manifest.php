@@ -25,20 +25,20 @@ $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
 
 return array(
-	'name' => 'taoQtiItem',
+    'name' => 'taoQtiItem',
     'label' => 'QTI item model',
-	'description' => 'TAO QTI item model',
+    'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '3.3.0',
-	'author' => 'Open Assessment Technologies',
-	'requires' => array(
+    'version' => '3.3.1',
+    'author' => 'Open Assessment Technologies',
+    'requires' => array(
         'taoItems' => '>=2.20.0',
-        'tao'      => '>=5.3.0'
-	),
-	'models' => array(
-		'http://www.tao.lu/Ontologies/TAOItem.rdf'
-	),
-	'install' => array(
+        'tao'      => '>=6.0.0'
+    ),
+    'models' => array(
+        'http://www.tao.lu/Ontologies/TAOItem.rdf'
+    ),
+    'install' => array(
 		'rdf' => array(
 			dirname(__FILE__). '/install/ontology/taoQti.rdf',
 		    dirname(__FILE__). '/install/ontology/qtiItemRunner.rdf'

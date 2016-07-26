@@ -101,9 +101,7 @@ class QtiRunner
     public static function getContentVariableElements(tao_models_classes_service_StorageDirectory $directory)
     {
         $jsonFile = self::getPrivatePathByLanguage($directory) . 'variableElements.json';
-        $stream = $directory->readStream($jsonFile);
-        $data = $stream->getContents();
-        $stream->close();
+        $data = $directory->read($jsonFile);
         return json_decode($data, true);
     }
     
