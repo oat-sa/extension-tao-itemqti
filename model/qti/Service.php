@@ -35,7 +35,6 @@ use \common_Exception;
 use \Exception;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
-use League\Flysystem\File;
 use League\Flysystem\FileNotFoundException;
 
 /**
@@ -111,11 +110,8 @@ class Service extends tao_models_classes_Service
             throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
         }
 
-        $itemDirectory = $itemService->getItemDirectory($item, $language);
-        if ($itemDirectory->hasFile(self::QTI_ITEM_FILE)) {
-            return $itemDirectory->read(self::QTI_ITEM_FILE);
-        }
-        throw new FileNotFoundException('File "' . self::QTI_ITEM_FILE . '" not found."');
+        $file = $itemService->getItemDirectory($item, $language)->getFile(self::QTI_ITEM_FILE);
+        return $file->read();
     }
 
     /**
@@ -136,12 +132,7 @@ class Service extends tao_models_classes_Service
         $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
 
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-
-        if ($directory->hasFile(self::QTI_ITEM_FILE)) {
-            $success = $directory->update(self::QTI_ITEM_FILE, $qtiItem->toXML());
-        } else {
-            $success = $directory->write(self::QTI_ITEM_FILE, $qtiItem->toXML());
-        }
+        $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
         if ($success) {
 //            $this->getEventManager()->trigger(new ItemUpdatedEvent($item->getUri()));
@@ -258,44 +249,4 @@ class Service extends tao_models_classes_Service
         return (bool) $returnValue;
     }
 
-//    /**
-//     * @param core_kernel_classes_Resource $item
-//     * @return core_kernel_classes_Resource
-//     * @throws common_Exception
-//     */
-//    public function setDefaultItemContent(core_kernel_classes_Resource $item)
-//    {
-//        if (is_null($item)) {
-//            return $item;
-//        }
-//
-//        $this->getDefaultItemFolder($item);
-//
-//        return $item;
-//    }
-//
-//    /**
-//     * @param core_kernel_classes_Resource $item
-//     * @param string $language
-//     * @return \League\Flysystem\Directory|string
-//     * @throws Exception
-//     * @throws common_Exception
-//     */
-//    public function getDefaultItemFolder(core_kernel_classes_Resource $item, $language = '')
-//    {
-//        if (is_null($item)) {
-//            return '';
-//        }
-//
-//        $itemService = taoItems_models_classes_ItemsService::singleton();
-//
-//        //check if the item is QTI item
-//        if (! $itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
-//            throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
-//        }
-//
-//        $language = empty($language) ? $itemService->getSessionLg() : $language;
-//
-//        return $itemService->getItemDirectory($item, $language);
-//    }
 }

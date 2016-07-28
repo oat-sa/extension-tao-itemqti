@@ -62,17 +62,15 @@ EOF;
     {
         $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
 
+        $file = $directory->getFile($styleSheetPath);
+
         // make sure that 'no custom css' means exactly that
-        if (empty($cssArr) && $directory->hasFile($styleSheetPath)) {
-            $directory->delete($styleSheetPath);
+        if (empty($cssArr) && $file->exists()) {
+            $file->delete();
         }
 
         $css = self::_buildWarning() . self::arrayToCss($cssArr);
-        if ($directory->hasFile($styleSheetPath)) {
-            return $directory->update($styleSheetPath, $css);
-        } else {
-            return $directory->write($styleSheetPath, $css);
-        }
+        return $file->put($css);
     }
 
     /**
@@ -178,12 +176,13 @@ EOF;
         $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
 
         // no user style sheet has been created yet
-        if (! $directory->hasFile($styleSheet)) {
+        $file = $directory->getFile($styleSheet);
+        if (! $file->exists()) {
             \common_Logger::d('Stylesheet ' . $styleSheet . ' does not exist yet, returning empty array');
             return array();
         }
 
-        return self::cssToArray($directory->read($styleSheet));
+        return self::cssToArray($file->read());
     }
 
 } 

@@ -193,6 +193,7 @@ class QtiCreator extends tao_actions_CommonModule
         if (tao_helpers_File::securityCheck($path, true)) {
             $resolver = new ItemMediaResolver($item, $lang);
             $asset = $resolver->resolve($path);
+            \common_Logger::i($asset->getMediaIdentifier());
             $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
             \tao_helpers_Http::returnFile($filePath);
         } else {
