@@ -66,4 +66,22 @@ trait PortableElementModelTrait
         }
         return get_class($this->model);
     }
+
+    public function resetModel()
+    {
+        $class = $this->getModelName();
+        $this->model = new $class();
+    }
+
+    /**
+     * @param array $data
+     * @return PortableElementModel
+     * @throws PortableElementInconsistencyModelException
+     */
+    public function getModelFromArray(array $data)
+    {
+        $class = $this->getModelName();
+        $this->model = new $class();
+        return $this->model->exchangeArray($data);
+    }
 }

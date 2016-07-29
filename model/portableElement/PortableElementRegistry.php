@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\portableElement\common\exception\PortableElementVersion
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
+use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -81,16 +82,15 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     {
         $portableElements = $this->getAllVersions($model);
 
-        \common_Logger::i($model->getVersion());
         // No version, return latest version
         if (! $model->hasVersion()) {
             krsort($portableElements);
-            return $this->getModel()->exchangeArray(reset($portableElements));
+            return $this->getModelFromArray(reset($portableElements));
         }
 
         // Version is set, return associated record
         if (isset($portableElements[$model->getVersion()])) {
-            return $this->getModel()->exchangeArray($portableElements[$model->getVersion()]);
+            return $this->getModelFromArray($portableElements[$model->getVersion()]);
         }
 
         // Version is set, no record found
@@ -162,7 +162,11 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
         }
 
         unset($portableElements[$model->getVersion()]);
-        parent::set($model->getTypeIdentifier(), $portableElements);
+        if (empty($portableElements)) {
+            parent::remove($model->getTypeIdentifier());
+        } else {
+            parent::set($model->getTypeIdentifier(), $portableElements);
+        }
     }
 
     /**
@@ -178,7 +182,7 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
         }
 
         foreach ($this->getAllVersions($model) as $version) {
-            $this->unregister($this->getModel()->exchangeArray($version));
+            $this->unregister($this->getModelFromArray($version));
         }
     }
 
@@ -190,6 +194,7 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     {
         $portableElements = $this->getMap();
         foreach ($portableElements as $identifier => $versions) {
+            $this->resetModel();
             $this->removeAllVersions($this->getModel()->setTypeIdentifier($identifier));
         }
     }
@@ -224,7 +229,7 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     {
         $portableElements = $this->getAllVersions($model);
         krsort($portableElements);
-        return $this->getModel()->exchangeArray(reset($portableElements));
+        return $this->getModelFromArray(reset($portableElements));
     }
 
     /**
@@ -344,8 +349,13 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     {
         $all = [];
         foreach ($this->getMap() as $typeIdentifier => $versions) {
+
+            if (empty($versions)) {
+                continue;
+            }
+
             krsort($versions);
-            $model = $this->getModel()->exchangeArray(reset($versions));
+            $model = $this->getModelFromArray(reset($versions));
             $all[$typeIdentifier] = [$this->getRuntime($model)];
         }
         return $all;
@@ -360,9 +370,14 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     {
         $all = [];
         foreach ($this->getMap() as $typeIdentifier => $versions) {
+
+            if (empty($versions)) {
+                continue;
+            }
+
             krsort($versions);
-            $model = $this->getModel()->exchangeArray(reset($versions));
-            if(! empty($model->getCreator())){
+            $model = $this->getModelFromArray(reset($versions));
+            if (! empty($model->getCreator())) {
                 $all[$typeIdentifier] = $model;
             }
         }
