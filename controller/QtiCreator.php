@@ -23,6 +23,8 @@ namespace oat\taoQtiItem\controller;
 
 use common_exception_Error;
 use core_kernel_classes_Resource;
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
@@ -45,6 +47,7 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  */
 class QtiCreator extends tao_actions_CommonModule
 {
+    use EventManagerAwareTrait;
     /**
      * create a new QTI item
      *
@@ -72,6 +75,7 @@ class QtiCreator extends tao_actions_CommonModule
 
         if(!is_null($item)){
             $service->setItemModel($item, new \core_kernel_classes_Resource(ItemModel::MODEL_URI));
+            $this->getEventManager()->trigger(new ItemCreatedEvent($item->getUri()));
             $response = array(
                 'label'	=> $item->getLabel(),
                 'uri' 	=> $item->getUri()
