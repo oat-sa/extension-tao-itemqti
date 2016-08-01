@@ -112,9 +112,8 @@ class Service extends tao_models_classes_Service
         if (!$itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
             throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
         }
-        
-        $dir = $itemService->getItemDirectory($item);
-        $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
+
+        $file = $itemService->getItemDirectory($item)->getFile(self::QTI_ITEM_FILE);
         return $file->read();
     }
 
@@ -134,14 +133,8 @@ class Service extends tao_models_classes_Service
         $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
         
         $dir = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-        $file = new File($dir->getFilesystem(),$dir->getPath().DIRECTORY_SEPARATOR.self::QTI_ITEM_FILE);
-        $success = false;
-        try {
-            $success = $file->write($qtiItem->toXML());
-        } catch (FileExistsException $s) {
-            $success = $file->update($qtiItem->toXML());
-        }
-        return $success;
+        $file = $dir->getFile(self::QTI_ITEM_FILE);
+        return $file->put($qtiItem->toXML());
     }
 
     /**
