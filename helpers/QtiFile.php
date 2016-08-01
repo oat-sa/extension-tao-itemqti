@@ -20,21 +20,42 @@
 
 namespace oat\taoQtiItem\helpers;
 
-use oat\taoQtiItem\helpers\QtiFile;
 use \core_kernel_classes_Resource;
 use \taoItems_models_classes_ItemsService;
 
 /**
  * @access public
  * @package tao
- 
  */
 class QtiFile
 {
     const FILE = 'qti.xml';
-    
-    public static function getQtiFilePath(core_kernel_classes_Resource $item, $langCode = '') {
+
+    /**
+     * @deprecated by fly-system ()
+     *
+     * @param core_kernel_classes_Resource $item
+     * @param string $langCode
+     * @return string
+     * @throws \common_Exception
+     */
+    public static function getQtiFilePath(core_kernel_classes_Resource $item, $langCode = '')
+    {
         $itemPath = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $langCode);
         return $itemPath.self::FILE;
+    }
+
+    /**
+     * Get content of qti.xml following an item + language
+     *
+     * @param core_kernel_classes_Resource $item
+     * @param string $language
+     * @return false|string
+     * @throws \common_Exception
+     */
+    public static function getQtiFileContent(core_kernel_classes_Resource $item, $language = '')
+    {
+        $itemDirectory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $language);
+        return $itemDirectory->read(self::FILE);
     }
 }

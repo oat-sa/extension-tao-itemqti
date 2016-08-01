@@ -72,31 +72,34 @@ class Authoring
      * @return array
      * @throws common_exception_Error
      */
-    public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, core_kernel_classes_Resource $item, $lang){
+    public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, core_kernel_classes_Resource $item, $lang)
+    {
 
         $returnValue = array();
 
-        $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
+        $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
         
-        foreach($relativeSourceFiles as $relPath){
-            if(tao_helpers_File::securityCheck($relPath, true)){
+        foreach ($relativeSourceFiles as $relPath) {
+
+            if(! tao_helpers_File::securityCheck($relPath, true)) {
+                throw new common_exception_Error('Invalid resource file path');
+            }
                 
-               $relPath = preg_replace('/^\.\//', '', $relPath);
-                $source = $sourceDirectory.$relPath;
-                
-                $destination = tao_helpers_File::concat(array(
-                    $folder,
-                    $prefix ? $prefix : '',
-                    $relPath
-                ));
-                
-                if(tao_helpers_File::copy($source, $destination)){
-                    $returnValue[] = $relPath;
-                }else{
-                    throw new common_exception_Error('the resource "'.$source.'" cannot be copied');
-                }
-            }else{
-                throw new common_exception_Error('invalid resource file path');
+            $relPath = preg_replace('/^\.\//', '', $relPath);
+            $source = $sourceDirectory . $relPath;
+
+            $content = \GuzzleHttp\Psr7\stream_for($source);
+            if (! is_resource($content)) {
+                throw new common_exception_Error('The resource "' . $source . '" cannot be copied.');
+            }
+
+            $path = tao_helpers_File::concat(array(
+                $prefix ? $prefix : '',
+                $relPath
+            ));
+
+            if ($directory->writeStream($path, $content)) {
+                $returnValue[] = $relPath;
             }
         }
 

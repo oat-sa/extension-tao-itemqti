@@ -138,7 +138,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             for ($i = 0; $i < $fileHrefElts->length; $i++) {
                 $fileHrefElt = $fileHrefElts->item($i);
                 $destPath = $basePath . '/' . $fileHrefElt->nodeValue;
-                $sourcePath = $this->getItemLocation() . $fileHrefElt->nodeValue;
+                $sourcePath = $this->getItemDirectory()->readStream($fileHrefElt->nodeValue);
                 $this->addFile($sourcePath, $destPath);
             }
         }
