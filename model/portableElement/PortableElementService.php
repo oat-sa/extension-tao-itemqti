@@ -45,14 +45,6 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @return bool
      * @throws common\exception\PortableElementInconsistencyModelException
      */
-
-    /**
-     * @param PortableElementModel $model
-     * @param null $source
-     * @param array $validationGroup
-     * @throws PortableElementInvalidModelException
-     * @throws common\exception\PortableElementInconsistencyModelException
-     */
     public function validate(PortableElementModel $model, $source=null, $validationGroup=array())
     {
         $validator = PortableElementFactory::getValidator($model);

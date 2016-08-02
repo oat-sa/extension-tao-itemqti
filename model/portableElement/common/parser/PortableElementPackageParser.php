@@ -75,7 +75,7 @@ class PortableElementPackageParser extends PackageParser
 
         $zip->close();
 
-        $this->getModelFromArray($this->getManifestContent()));
+        $this->getModelFromArray($this->getManifestContent());
         return true;
     }
 
