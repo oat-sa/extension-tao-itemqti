@@ -72,7 +72,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             getRuntime : function getRuntime(typeIdentifier, version){
                 var pci = this.get(typeIdentifier, version);
                 if(pci){
-                    return _.assign(pci.runtime, {baseUrl : pci.baseUrl});
+                    return _.assign(pci.runtime, {
+                        id : pci.typeIdentifier,
+                        label : pci.label,
+                        baseUrl : pci.baseUrl
+                    });
                 }else{
                     this.trigger('error', 'no portable element runtime found' , typeIdentifier, version);
                 }
@@ -81,6 +85,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 var pci = this.get(typeIdentifier, version);
                 if(pci && pci.creator){
                     return _.assign(pci.creator, {
+                        id : pci.typeIdentifier,
+                        label : pci.label,
                         baseUrl : pci.baseUrl,
                         response : pci.response
                     });

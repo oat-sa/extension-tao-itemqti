@@ -33,7 +33,7 @@ define([
     }
 
     //strategy to resolve portable info control and portable interactions paths.
-    //It should never be reached in the stack the ususal way and should be called only using resolveBy.
+    //It should never be reached in the stack the usual way and should be called only using resolveBy.
     return {
         name: 'portableElementLocation',
         handle: function handlePortableElementLocation(url) {
