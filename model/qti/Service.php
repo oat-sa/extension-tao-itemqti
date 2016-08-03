@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
@@ -131,13 +132,11 @@ class Service extends tao_models_classes_Service
         //set the current data lang in the item content to keep the integrity
         $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
         
-        $dir = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
         if ($success) {
-//            $this->getEventManager()->trigger(new ItemUpdatedEvent($item->getUri()));
+            $this->getEventManager()->trigger(new ItemUpdatedEvent($rdfItem->getUri()));
         }
 
         return $success;
@@ -238,17 +237,9 @@ class Service extends tao_models_classes_Service
         return new MetadataRegistry();
     }
 
-    public function hasItemModel(core_kernel_classes_Resource $item, $models){
-        $returnValue = (bool) false;
-
-        $itemModel = $item->getOnePropertyValue(new \core_kernel_classes_Property(TAO_ITEM_MODEL_PROPERTY));
-        if($itemModel instanceof core_kernel_classes_Resource){
-            if(in_array($itemModel->getUri(), $models)){
-                $returnValue = true;
-            }
-        }
-
-        return (bool) $returnValue;
+    public function hasItemModel(core_kernel_classes_Resource $item, $models)
+    {
+        return taoItems_models_classes_ItemsService::singleton()->hasItemModel($item, $models);
     }
 
 }
