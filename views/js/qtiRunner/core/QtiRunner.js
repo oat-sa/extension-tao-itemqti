@@ -77,7 +77,12 @@ define([
             
             variables[key] = value;
         }
-        
+
+        // Set bookmark
+        if (typeof window.parent.parent.isBookmarked !== 'undefined') {
+            variables['isBookmark'] = window.parent.parent.isBookmarked;
+        }
+
         //set all variables at once
         this.itemApi.setVariables(variables);
 
