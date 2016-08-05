@@ -21,8 +21,10 @@
 
 namespace oat\taoQtiItem\model\flyExporter\simpleExporter;
 
+use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\flyExporter\extractor\Extractor;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 
 /**
@@ -72,17 +74,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     protected $extractors = [];
 
     /**
-     * Flysytem to manage file storage
-     * @var
+     * Fileysstem File to manage exported file storage
+     *
+     * @var File
      */
-    protected $filesystem;
-
-    /**
-     * file location inside filesystem
-     * @var
-     */
-    protected $filelocation;
-
+    protected $exportFile;
 
     /**
      * @inheritdoc
@@ -91,14 +87,12 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * @return mixed
      * @throws ExtractorException
      */
-    public function export($uri=null)
+    public function export($uri=null, $asFile=false)
     {
         $this->loadConfig();
         $items = $this->getItems($uri);
         $data  = $this->extractDataFromItems($items);
-        $this->save($data);
-
-        return $this->filelocation;
+        return $this->save($data, $asFile);
     }
 
     /**
@@ -110,14 +104,14 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function loadConfig()
     {
-        $this->filelocation = $this->getOption('fileLocation');
-        if (!$this->filelocation) {
+        if (! $this->hasOption('fileLocation')) {
             throw new ExtractorException('File location config is not correctly set.');
         }
 
-        $serviceManager = $this->getServiceManager();
-        $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
-        $this->filesystem = $fsService->getFileSystem(self::EXPORT_FILESYSTEM);
+        $this->exportFile = $this->getServiceManager()
+            ->get(FileSystemService::SERVICE_ID)
+            ->getDirectory(self::EXPORT_FILESYSTEM)
+            ->getFile($this->getOption('fileLocation'));
 
         $this->extractors = $this->getOption('extractors');
         $this->columns = $this->getOption('columns');
@@ -187,6 +181,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     {
         try {
             foreach ($this->columns as $column => $config) {
+                /** @var Extractor $extractor */
                 $extractor = $this->extractors[$config['extractor']];
                 if (isset($config['parameters'])) {
                     $parameters = $config['parameters'];
@@ -236,10 +231,8 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * @throws ExtractorException
      * @throws \Exception
      */
-    protected function save(array $data)
+    protected function save(array $data, $asFile = false)
     {
-        $this->handleFile($this->filelocation);
-
         $output = $contents = [];
 
         $contents[] = self::CSV_ENCLOSURE . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers) . self::CSV_ENCLOSURE;
@@ -257,33 +250,12 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
                 $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
             }
         }
-        $this->filesystem->update($this->filelocation, chr(239) . chr(187) . chr(191) . implode("\n", $contents));
-    }
 
-    /**
-     * Handle file, delete if already exist
-     *
-     * @param $filename
-     * @throws ExtractorException
-     * @throws \Exception
-     */
-    protected function handleFile($filename)
-    {
-        if (empty($filename)) {
-            throw new ExtractorException('Filename is empty!');
-        }
-
-        if ($this->filesystem->has($filename)) {
-            $this->filesystem->delete($filename);
-        }
-
-        if (($resource = fopen('temp', 'w'))===false) {
-            throw new \Exception('Unable to create csv file.');
-        }
-
-        $this->filesystem->write($filename, $resource);
-        if (is_resource($resource)) {
-            fclose($resource);
+        $this->exportFile->put(/*chr(239) . chr(187) . chr(191) . */implode("\n", $contents));
+        if ($asFile) {
+            return $this->exportFile;
+        } else {
+            return $this->exportFile->getPrefix();
         }
     }
 }
