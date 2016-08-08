@@ -28,6 +28,7 @@ use \taoItems_models_classes_ItemsService;
 use \tao_helpers_File;
 use \Exception;
 use \ZipArchive;
+use \DomDocument;
 use \common_Logger;
 use oat\taoQtiItem\model\ItemModel;
 
@@ -91,8 +92,8 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 				foreach($instances as $instance){
 					$item = new core_kernel_classes_Resource($instance);
 					if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
-						$exporter = new QTIPackedItemExporter($item, $zipArchive, $manifest);
-						
+						$exporter = $this->createExporter($item, $zipArchive, $manifest);
+                        
 						$subReport = $exporter->export();
 						$manifest = $exporter->getManifest();
                         $report->add($subReport);
@@ -111,5 +112,10 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 			}
 		}
 		return $report;
+    }
+    
+    protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null)
+    {
+        return new QTIPackedItemExporter($item, $zipArchive, $manifest);
     }
 }
