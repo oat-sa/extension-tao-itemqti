@@ -44,9 +44,7 @@ define([
 
     var _readyInstructions = __('The selected file is ready to be sent.');
 
-    var _handleSelectedFiles = function (interaction, file) {
-        instructionMgr.removeInstructions(interaction);
-        instructionMgr.appendInstruction(interaction, _initialInstructions);
+    var _handleSelectedFiles = function _handleSelectedFiles(interaction, file, messageWrongType) {
 
         var $container = containerHelper.get(interaction);
 
@@ -55,13 +53,15 @@ define([
         var filesize = file.size;
         var filetype = file.type;
 
+        instructionMgr.removeInstructions(interaction);
+        instructionMgr.appendInstruction(interaction, _initialInstructions);
+
+        console.log(filetype);
         if (!validateFileType(file, interaction)) {
             instructionMgr.removeInstructions(interaction);
-            var expectedType = _.find(uploadHelper.getMimeTypes(), {mime : interaction.attr('type')}),
-                message = __('Wrong type of file. Expected %s', expectedType ? expectedType.label : interaction.attr('type'));
-
-            instructionMgr.appendInstruction(interaction, message, function () {
+            instructionMgr.appendInstruction(interaction, getMessageWrongType(interaction, messageWrongType), function () {
                 this.setLevel('error');
+                //clear preview
             });
             instructionMgr.validateInstructions(interaction);
             return;
@@ -94,11 +94,11 @@ define([
             var visibleFileUploadPreview = getCustomData(interaction);
 
             var $previewArea = $container.find('.file-upload-preview');
-
             $previewArea
-                .toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
+                //.toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
+                .addClass('visible-file-upload-preview runtime-visible-file-upload-preview')
                 .previewer({
-                    url: reader.result,
+                    url: base64Data,
                     name: filename,
                     type: filetype.substr(0, filetype.indexOf('/'))
                 });
@@ -183,12 +183,11 @@ define([
      * @returns {boolean}
      */
     function validateFileType (file, interaction) {
-        var expectedType = interaction.attr('type'),
-            result = true;
-        if (expectedType) {
-            result = expectedType === file.type;
+        var expectedTypes = getExpectedTypes(interaction);
+        if (expectedTypes.length) {
+            return (_.indexOf(expectedTypes, file.type) >= 0);
         }
-        return result;
+        return true;
     }
 
     var _resetGui = function (interaction) {
@@ -208,7 +207,8 @@ define([
      *
      * @param {object} interaction
      */
-    var render = function (interaction, options) {
+    var render = function (interaction) {
+        var self = this;
         var $container = containerHelper.get(interaction);
         _resetGui(interaction);
 
@@ -220,7 +220,7 @@ define([
             // Are you really sure something was selected
             // by the user... huh? :)
             if (typeof(file) !== 'undefined') {
-                _handleSelectedFiles(interaction, file);
+                _handleSelectedFiles(interaction, file, self.getCustomMessage('upload', 'wrongType'));
             }
         };
 
@@ -341,12 +341,58 @@ define([
      * in tao/views/js/ui/previewer.js
      */
     function getCustomData (interaction, data) {
-        data = _.merge(data || {}, {
+        return _.merge(data || {}, {
             isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0,
-            accept : interaction.attr('type') || undefined
+            accept : getExpectedTypes(interaction).join(',')
         });
-        return data;
     };
+
+    /**
+     * Return the array of authorized mime types
+     * It first get the standard "type" attribute value.
+     * If not set search the TAO specific type information recorded in the class attributes
+     * @param interaction
+     * @returns {Array}
+     */
+    function getExpectedTypes(interaction){
+        var classes = interaction.attr('class');
+        var types = [];
+        if(interaction.attr('type')){
+            types.push(interaction.attr('type'));
+        }else{
+            classes.replace(/x-tao-upload-type-([-_a-zA-Z]*)/g, function($0, type){
+                types.push(type.replace('_', '/').trim());
+            });
+        }
+        return types;
+    }
+
+    /**
+     * Compute the message to be displayed when an invalid file type has been selected
+     *
+     * @param {Object} interaction
+     * @param {Function} messageWrongType
+     * @returns {String}
+     */
+    function getMessageWrongType(interaction, messageWrongType){
+        var types = getExpectedTypes(interaction);
+        var labels = _.map(_.uniq(types), function(type){
+            var mime = _.find(uploadHelper.getMimeTypes(), {mime : type});
+            if(mime){
+                return mime.label;
+            }else{
+                return type;
+            }
+        });
+
+        if(messageWrongType && _.isFunction(messageWrongType)){
+            return messageWrongType({
+                types : labels
+            });
+        }else{
+            return __('Wrong type of file. Expected %s', labels.join(__(' or ')));
+        }
+    }
 
     return {
         qtiClass: 'uploadInteraction',
