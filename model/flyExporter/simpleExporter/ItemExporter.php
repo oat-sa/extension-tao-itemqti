@@ -161,13 +161,17 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     {
         $output = [];
         foreach ($items as $item) {
-            $output[] = $this->extractDataFromItem($item);
+            try {
+                $itemData = $this->extractDataFromItem($item);
+                $output[] = $itemData;
+            } catch (ExtractorException $e) {
+                \common_Logger::e('ERROR on item ' . $item->getUri() . ' : ' . $e->getMessage());
+            }
         }
 
         if (empty($output)) {
-            throw new ExtractorException('No data to export.');
+            throw new ExtractorException('No data item to export.');
         }
-
         return $output;
     }
 
@@ -179,79 +183,79 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function extractDataFromItem(\core_kernel_classes_Resource $item)
     {
-        try {
-            foreach ($this->columns as $column => $config) {
-                /** @var Extractor $extractor */
-                $extractor = $this->extractors[$config['extractor']];
-                if (isset($config['parameters'])) {
-                    $parameters = $config['parameters'];
-                } else {
-                    $parameters = [];
-                }
-                $extractor->addColumn($column, $parameters);
+        foreach ($this->columns as $column => $config) {
+            /** @var Extractor $extractor */
+            $extractor = $this->extractors[$config['extractor']];
+            if (isset($config['parameters'])) {
+                $parameters = $config['parameters'];
+            } else {
+                $parameters = [];
             }
-
-            $data = ['0' => []];
-            foreach ($this->extractors as $extractor) {
-
-                $extractor->setItem($item);
-                $extractor->run();
-                $values = $extractor->getData();
-
-                foreach($values as $key => $value) {
-
-                    if (count($value) > 1) {
-                        $interactionData = $value;
-                    } else {
-                        $interactionData = $values;
-                    }
-
-                    if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) == array_keys($interactionData)) {
-                        $line = array_intersect_key($data[0], array_flip($this->headers));
-                        $data[] = array_merge($line, $interactionData);
-                    } else {
-                        $data[0] = array_merge($data[0], $interactionData);
-                    }
-
-                    $this->headers = array_unique(array_merge($this->headers, array_keys($interactionData)));
-                }
-            }
-
-            return $data;
-
-        } catch (ExtractorException $e) {
-            \common_Logger::e('ERROR on item ' . $item->getUri() . ' : ' . $e->getMessage());
+            $extractor->addColumn($column, $parameters);
         }
+
+        $data = ['0' => []];
+        foreach ($this->extractors as $extractor) {
+
+            $extractor->setItem($item);
+            $extractor->run();
+            $values = $extractor->getData();
+
+            foreach($values as $key => $value) {
+
+                if (count($value) > 1) {
+                    $interactionData = $value;
+                } else {
+                    $interactionData = $values;
+                }
+
+                if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) == array_keys($interactionData)) {
+                    $line = array_intersect_key($data[0], array_flip($this->headers));
+                    $data[] = array_merge($line, $interactionData);
+                } else {
+                    $data[0] = array_merge($data[0], $interactionData);
+                }
+
+                $this->headers = array_unique(array_merge($this->headers, array_keys($interactionData)));
+            }
+        }
+
+        return $data;
     }
 
     /**
      * Save data to file
      *
      * @param array $data
-     * @throws ExtractorException
-     * @throws \Exception
+     * @param bool $asFile
+     * @return File|string
+     * @throws \common_Exception
      */
     protected function save(array $data, $asFile = false)
     {
         $output = $contents = [];
 
-        $contents[] = self::CSV_ENCLOSURE . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers) . self::CSV_ENCLOSURE;
+        $contents[] = self::CSV_ENCLOSURE
+            . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers)
+            . self::CSV_ENCLOSURE;
 
-        foreach ($data as $item) {
-            foreach ($item as $line) {
-                foreach ($this->headers as $index => $value) {
-                    if (isset($line[$value]) && $line[$value]!=='') {
-                        $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
-                        unset($line[$value]);
-                    } else {
-                        $output[$value] = '';
+        if (! empty($data)) {
+            foreach ($data as $item) {
+                foreach ($item as $line) {
+                    foreach ($this->headers as $index => $value) {
+                        if (isset($line[$value]) && $line[$value]!=='') {
+                            $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
+                            unset($line[$value]);
+                        } else {
+                            $output[$value] = '';
+                        }
                     }
+                    $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
                 }
-                $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
             }
         }
 
-        $this->exportFile->put(/*chr(239) . chr(187) . chr(191) . */implode("\n", $contents));
+        $this->exportFile->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
         if ($asFile) {
             return $this->exportFile;
         } else {

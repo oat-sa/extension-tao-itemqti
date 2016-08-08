@@ -115,6 +115,10 @@ class Service extends tao_models_classes_Service
 //        common_Logger::i(print_r($itemService->getItemDirectory($item, $language), true));
 
         $file = $itemService->getItemDirectory($item, $language)->getFile(self::QTI_ITEM_FILE);
+
+        if (! $file->exists()) {
+            return '';
+        }
 //        common_Logger::i(print_r($file->getPrefix(), true));
         return $file->read();
     }

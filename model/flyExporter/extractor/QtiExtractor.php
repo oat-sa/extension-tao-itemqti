@@ -99,7 +99,7 @@ class QtiExtractor implements Extractor
 
         $itemService = Service::singleton();
         $xml = $itemService->getXmlByRdfItem($item);
-        if (is_null($xml)) {
+        if (empty($xml)) {
             throw new ExtractorException('No content found for item ' . $item->getUri());
         }
 
