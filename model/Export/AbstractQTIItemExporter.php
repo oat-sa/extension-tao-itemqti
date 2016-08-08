@@ -55,6 +55,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     );
 
     abstract public function buildBasePath();
+    
+    abstract protected function renderManifest(array $options, array $qtiItemData);
+    
+    abstract protected function itemContentPostProcessing($content);
 
     /**
      * Overriden export from QTI items.
@@ -311,6 +315,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $this->addFile($sourcePath, $destPath);
             }
         }
+        
+        // Possibility to delegate (if necessary) some item content post-processing to sub-classes.
+        $content = $this->itemContentPostProcessing($content);
         
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
