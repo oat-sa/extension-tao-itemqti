@@ -132,7 +132,6 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		        // Merge old manifest and new one.
 		        $dom1 = $this->getManifest();
 		        $dom2 = $newManifest;
-		        $dom2->loadXML($renderedManifest);
 		        $resourceNodes = $dom2->getElementsByTagName('resource');
 		        $resourcesNodes = $dom1->getElementsByTagName('resources');
 		    
