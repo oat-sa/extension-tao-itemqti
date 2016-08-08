@@ -16,7 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2016 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
 
@@ -80,8 +80,6 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	 */
 	public function exportManifest($options = array()) {
 	    
-	    $asApip = isset($options['apip']) && $options['apip'] === true;
-	    
 	    $base = $this->buildBasePath();
 		$zipArchive = $this->getZip();
 		$qtiFile = '';
@@ -128,17 +126,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    }
 		    
 		    // -- Build a brand new IMS Manifest.
-		    $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-		    $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
-		    
-		    $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
-		                    'qtiItems' 				=> array($qtiItemData),
-		                    'manifestIdentifier'    => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
-		    ));
-		    	
-		    $renderedManifest = $templateRenderer->render();
-		    $newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
-		    $newManifest->loadXML($renderedManifest);
+		    $newManifest = $this->renderManifest($options, $qtiItemData);
 		    
 		    if ($this->hasManifest()) {
 		        // Merge old manifest and new one.
@@ -172,4 +160,27 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    throw new common_Exception("the item '${itemLabel}' involved in the export process has no content.");
 		}
 	}
+    
+    protected function renderManifest(array $options, array $qtiItemData)
+    {
+        $asApip = isset($options['apip']) && $options['apip'] === true;
+        $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
+        $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
+        
+        $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
+            'qtiItems' 				=> array($qtiItemData),
+            'manifestIdentifier'    => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
+        ));
+            
+        $renderedManifest = $templateRenderer->render();
+        $newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
+        $newManifest->loadXML($renderedManifest);
+        
+        return $newManifest;
+    }
+    
+    protected function itemContentPostProcessing($content)
+    {
+        return $content;
+    }
 }
