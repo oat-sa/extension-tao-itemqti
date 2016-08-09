@@ -83,7 +83,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(
             new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
-        $content = $this->getItemService()->getItemContent($this->getItem());
         $replacementList = array();
 
         $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
@@ -112,8 +111,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                 $model->setTypeIdentifier($element->getTypeIdentifier());
                 $portableElement = $service->hydrateModel($model);
-
-                $portableElementsToExport[$key][$model->getTypeIdentifier()] = $model->toArray();
+                $portableElementsToExport[$portableElement->getTypeIdentifier()] = $portableElement;
 
                 $validator = PortableElementFactory::getValidator($portableElement);
                 $files = $validator->getRequiredAssets('runtime');
@@ -176,24 +174,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             for ($i=0; $i<$attributeNodes->length; $i++) {
 
                 $identifier = $attributeNodes->item($i)->getAttribute('customInteractionTypeIdentifier');
-
-                // Find model associated to registered portable element
-                if (isset($portableElementsToExport['picElement'])
-                    && isset($portableElementsToExport['picElement'][$identifier])
-                ) {
-                    $portableElement = new PciModel();
-                    $portableElement->exchangeArray($portableElementsToExport['picElement'][$identifier]);
-                } elseif (isset($portableElementsToExport['pciElement'])
-                    && isset($portableElementsToExport['pciElement'][$identifier])
-                ) {
-                    $portableElement = new PicModel();
-                    $portableElement->exchangeArray($portableElementsToExport['pciElement'][$identifier]);
-                } else {
-                    // If portable element is not registered, skip
-                    \common_Logger::i('QTI item exporter is not correctly set. Unknown key model ' . $key);
-                    continue;
+                
+                if (! isset($portableElementsToExport[$identifier])) {
+                    throw new \common_Exception('Unable to find loaded portable element.');
                 }
-
+                $portableElement = $portableElementsToExport[$identifier];
 
                 // Add hook and version as attributes
                 if ($portableElement->hasRuntimeKey('hook'))
