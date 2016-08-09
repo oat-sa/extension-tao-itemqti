@@ -69,7 +69,7 @@ class AssetParser
      * Set mode - if parser have to find portable element
      * @var bool
      */
-    private $getCustomElement = true;
+    private $getCustomElement = false;
 
     /**
      * Set mode - if parser have to find all external entries ( like url, require etc )
@@ -102,9 +102,7 @@ class AssetParser
             $this->extractImg($element);
             $this->extractObject($element);
             $this->extractStyleSheet($element);
-            if($this->getGetCustomElement()){
-                $this->extractCustomElement($element);
-            }
+            $this->extractCustomElement($element);
             if($this->getGetXinclude()){
                 $this->extractXinclude($element);
             }
@@ -253,10 +251,12 @@ class AssetParser
      */
     private function loadCustomElementAssets(Element $element)
     {
-        if ($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl) {
+        if($this->getGetCustomElementDefinition()) {
             if ($element instanceof PortableCustomInteraction) {
                 $this->assets['pciElement'][$element->getTypeIdentifier()] = $element;
-            } else {
+            }
+
+            if ($element instanceof PortableInfoControl) {
                 $this->assets['picElement'][$element->getTypeIdentifier()] = $element;
             }
         }
@@ -376,7 +376,7 @@ class AssetParser
     /**
      * @param boolean $getCustomElement
      */
-    public function setGetCustomElement($getCustomElement)
+    public function setGetCustomElementDefinition($getCustomElement)
     {
         $this->getCustomElement = $getCustomElement;
     }
@@ -384,7 +384,7 @@ class AssetParser
     /**
      * @return boolean
      */
-    public function getGetCustomElement()
+    public function getGetCustomElementDefinition()
     {
         return $this->getCustomElement;
     }

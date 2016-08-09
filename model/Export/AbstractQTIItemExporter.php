@@ -174,7 +174,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             for ($i=0; $i<$attributeNodes->length; $i++) {
 
                 $identifier = $attributeNodes->item($i)->getAttribute('customInteractionTypeIdentifier');
-                
+
                 if (! isset($portableElementsToExport[$identifier])) {
                     throw new \common_Exception('Unable to find loaded portable element.');
                 }
@@ -334,7 +334,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
         $assetParser = new AssetParser($qtiItem);
         $assetParser->setGetSharedLibraries(false);
-        $assetParser->setGetCustomElement(false);
         $returnValue = array();
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
@@ -353,6 +352,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
         $assetParser = new AssetParser($qtiItem);
+        $assetParser->setGetCustomElementDefinition(true);
         return $assetParser->extractPortableAssetElements();
     }
 }

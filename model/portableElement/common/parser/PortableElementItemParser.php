@@ -182,7 +182,7 @@ class PortableElementItemParser
 
         //Adjust file resource entries where {QTI_NS}/xxx/yyy is equivalent to {QTI_NS}/xxx/yyy.js
         foreach($portableElement->getLibraries() as $lib){
-            if(preg_match('/^'.$typeId.'/', $lib)){//filter shared stimulus
+            if(preg_match('/^'.$typeId.'.*\.js$/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
                 $requiredLibFiles[] = $lib.'.js';//amd modules
                 $libs[] = $lib.'.js';
             }else{
@@ -230,10 +230,6 @@ class PortableElementItemParser
     public function importPortableElements()
     {
         if (count($this->importingFiles) != count($this->requiredFiles)) {
-            \common_Logger::i(' ** ');
-            \common_Logger::i(print_r($this->importingFiles,true));
-            \common_Logger::i(print_r($this->requiredFiles,true));
-            \common_Logger::i(' ** ');
             throw new \common_Exception('Needed files are missing during Portable Element asset files');
         }
 

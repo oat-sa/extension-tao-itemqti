@@ -141,6 +141,8 @@ class PortableCustomInteraction extends CustomInteraction
         $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
         $variables['libraries'] = $this->libraries;
+        $variables['stylesheets'] = $this->stylesheets;
+        $variables['mediaFiles'] = $this->mediaFiles;
         $variables['serializedProperties'] = $this->serializePciProperties($this->properties, self::NS_NAME);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;

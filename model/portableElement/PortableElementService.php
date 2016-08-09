@@ -177,6 +177,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     public function getPciByIdentifier($identifier, $version=null)
     {
         $model = new PciModel($identifier, $version);
+        $this->setModel(new PciModel());
         return PortableElementFactory::getRegistry($this->getModel())->fetch($model);
     }
 
