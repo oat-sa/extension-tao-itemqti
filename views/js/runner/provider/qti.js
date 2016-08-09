@@ -24,6 +24,7 @@ define([
     'jquery',
     'lodash',
     'context',
+    'module',
     'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
@@ -31,7 +32,7 @@ define([
     'taoQtiItem/runner/provider/manager/picManager',
     'taoQtiItem/runner/provider/manager/userModules',
     'taoItems/assets/manager'
-], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules, assetManagerFactory){
+], function($, _, context, module, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules, assetManagerFactory){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
