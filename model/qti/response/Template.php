@@ -40,52 +40,67 @@ class Template extends ResponseProcessing implements Rule
 {
 
     /**
-     * Short description of attribute MATCH_CORRECT
+     * QTI 2.1 Match Correct RP Template URL.
      *
-     * @access public
      * @var string
      */
     const MATCH_CORRECT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct';
 
     /**
-     * Short description of attribute MAP_RESPONSE
+     * QTI 2.1 Map Response RP Template URL.
      *
-     * @access public
      * @var string
      */
     const MAP_RESPONSE = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response';
 
     /**
-     * Short description of attribute MAP_RESPONSE_POINT
+     * QTI 2.1 Map Response Point RP Template URL.
      *
-     * @access public
      * @var string
      */
     const MAP_RESPONSE_POINT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point';
 
     /**
-     * Short description of attribute MATCH_CORRECT
+     * QTI 2.0 Match Correct RP Template URL.
      *
-     * @access public
      * @var string
      */
     const MATCH_CORRECT_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct';
 
     /**
-     * Short description of attribute MAP_RESPONSE
+     * QTI 2.0 Map Response RP Template URL.
      *
-     * @access public
      * @var string
      */
     const MAP_RESPONSE_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/map_response';
 
     /**
-     * Short description of attribute MAP_RESPONSE_POINT
+     * QTI 2.0 Map Response Point RP Template URL.
      *
-     * @access public
      * @var string
      */
     const MAP_RESPONSE_POINT_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/map_response_point';
+
+    /**
+     * QTI 2.2 Match Correct RP Template URL.
+     *
+     * @var string
+     */
+    const MATCH_CORRECT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct';
+    
+    /**
+     * QTI 2.2 Map Response RP Template URL.
+     *
+     * @var string
+     */
+    const MAP_RESPONSE_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response';
+    
+    /**
+     * QTI 2.2 Map Response Point RP Template URL.
+     *
+     * @var string
+     */
+    const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
 
     /**
      * Short description of attribute uri
@@ -166,12 +181,15 @@ class Template extends ResponseProcessing implements Rule
         //automatically transform to qti 2.1 templates:
         switch($uri){
             case self::MATCH_CORRECT_qtiv2p0:
+            case self::MATCH_CORRECT_qtiv2p2:
                 $uri = self::MATCH_CORRECT;
                 break;
             case self::MAP_RESPONSE_qtiv2p0:
+            case self::MAP_RESPONSE_qtiv2p2:
                 $uri = self::MAP_RESPONSE;
                 break;
             case self::MAP_RESPONSE_POINT_qtiv2p0:
+            case self::MAP_RESPONSE_POINT_qtiv2p2:
                 $uri = self::MAP_RESPONSE_POINT;
                 break;
         }
