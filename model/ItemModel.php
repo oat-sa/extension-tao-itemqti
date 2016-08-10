@@ -25,6 +25,7 @@ use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
 use oat\taoQtiItem\model\import\ApipPackageImport;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
+use oat\taoQtiItem\model\Export\QtiPackage22ExportHandler;
 use oat\taoQtiItem\model\import\QtiPackageImport;
 use oat\taoQtiItem\model\import\QtiItemImport;
 use \tao_models_classes_export_ExportProvider;
@@ -115,7 +116,8 @@ class ItemModel
     public function getExportHandlers() {
     	return array(
     	    new ApipPackageExportHandler(),
-    		new QtiPackageExportHandler()
+    		new QtiPackageExportHandler(),
+            new QtiPackage22ExportHandler()
     	);
     }
     
