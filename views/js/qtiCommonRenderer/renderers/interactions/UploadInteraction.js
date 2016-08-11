@@ -88,13 +88,11 @@ define([
             interaction.data('_response', {base: {file: {data: base64Raw, mime: filetype, name: filename}}});
 
             var $previewArea = $container.find('.file-upload-preview');
-            $previewArea
-                .addClass('visible-file-upload-preview runtime-visible-file-upload-preview')
-                .previewer({
-                    url: base64Data,
-                    name: filename,
-                    mime: filetype
-                });
+            $previewArea.previewer({
+                url: base64Data,
+                name: filename,
+                mime: filetype
+            });
 
             // we wait for the image to be completely loaded
             $previewArea.waitForMedia(function(){
@@ -187,10 +185,6 @@ define([
         var $container = containerHelper.get(interaction);
         $container.find('.file-name').text(__('No file selected'));
         $container.find('.btn-info').text(__('Browse...'));
-        $container.find('.file-upload-preview').toggleClass(
-            'visible-file-upload-preview',
-            (interaction.attr('type') && interaction.attr('type').indexOf('image') === 0) ? true : false
-        );
     };
 
     /**
@@ -336,7 +330,6 @@ define([
      */
     function getCustomData (interaction, data) {
         return _.merge(data || {}, {
-            isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0,
             accept : uploadHelper.getExpectedTypes(interaction).join(',')
         });
     };
