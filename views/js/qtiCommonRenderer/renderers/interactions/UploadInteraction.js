@@ -183,7 +183,7 @@ define([
      * @returns {boolean}
      */
     function validateFileType (file, interaction) {
-        var expectedTypes = getExpectedTypes(interaction);
+        var expectedTypes = uploadHelper.getExpectedTypes(interaction);
         if (expectedTypes.length) {
             return (_.indexOf(expectedTypes, file.type) >= 0);
         }
@@ -321,7 +321,6 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction) {
-        var $container;
         var state = {};
         var response = interaction.getResponse();
 
@@ -343,29 +342,9 @@ define([
     function getCustomData (interaction, data) {
         return _.merge(data || {}, {
             isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0,
-            accept : getExpectedTypes(interaction).join(',')
+            accept : uploadHelper.getExpectedTypes(interaction).join(',')
         });
     };
-
-    /**
-     * Return the array of authorized mime types
-     * It first get the standard "type" attribute value.
-     * If not set search the TAO specific type information recorded in the class attributes
-     * @param interaction
-     * @returns {Array}
-     */
-    function getExpectedTypes(interaction){
-        var classes = interaction.attr('class');
-        var types = [];
-        if(interaction.attr('type')){
-            types.push(interaction.attr('type'));
-        }else{
-            classes.replace(/x-tao-upload-type-([-_a-zA-Z]*)/g, function($0, type){
-                types.push(type.replace('_', '/').trim());
-            });
-        }
-        return types;
-    }
 
     /**
      * Compute the message to be displayed when an invalid file type has been selected
@@ -375,7 +354,7 @@ define([
      * @returns {String}
      */
     function getMessageWrongType(interaction, messageWrongType){
-        var types = getExpectedTypes(interaction);
+        var types = uploadHelper.getExpectedTypes(interaction);
         var labels = _.map(_.uniq(types), function(type){
             var mime = _.find(uploadHelper.getMimeTypes(), {mime : type});
             if(mime){

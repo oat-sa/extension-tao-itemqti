@@ -38,7 +38,8 @@ define([
             types = uploadHelper.getMimeTypes(),
             $previewZone = _widget.$container.find('.qti-interaction .file-upload-preview'),
             selectedMime = '',
-            preselected = [],
+            // Pre-select a value in the types combo box if needed.
+            preselected = uploadHelper.getExpectedTypes(interaction),
             previewClassName = 'visible-file-upload-preview';
 
         types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
@@ -48,16 +49,6 @@ define([
             delete interaction.attributes.type;
         }
 
-        // Pre-select a value in the types combo box if needed.
-        var classes = interaction.attr('class');
-        if(interaction.attr('type')){
-            preselected.push(interaction.attr('type'));
-        }else if(classes){
-            classes.replace(/x-tao-upload-type-([-_a-zA-Z]*)/g, function($0,mime){
-                preselected.push(mime.replace('_', '/'));
-            });
-        }
-
         for (var i in types) {
             if (_.indexOf(preselected, types[i].mime) >= 0) {
                 types[i].selected = true;
@@ -65,7 +56,7 @@ define([
             }
         }
         $form.html(formTpl({
-            "types" : types
+            types : types
         }));
 
         formElement.initWidget($form);
@@ -81,27 +72,7 @@ define([
 
         // -- type callback.
         callbacks.type = function(interaction, attrValue) {
-
-            var classes = interaction.attr('class') || '';
-            classes = classes.replace(/(x-tao-upload-type-[-_a-zA-Z]*)/, '').trim();
-            interaction.attr('class', classes);
-            interaction.removeAttr('type');
-
-            if(!attrValue){
-                return;
-            }
-
-            if(attrValue.length === 1){
-                if (attrValue[0] !== 'any/kind') {
-                    interaction.attr('type', attrValue[0]);
-                }
-            }else{
-                classes = _.reduce(attrValue, function(acc, selectedType){
-                    return acc + ' x-tao-upload-type-'+selectedType.replace('/', '_');
-                }, classes).trim();
-                interaction.attr('class', classes);
-            }
-
+            uploadHelper.setExpectedTypes(interaction, attrValue);
             $previewZone.toggleClass(previewClassName, isPreviewable(attrValue));
         };
 
