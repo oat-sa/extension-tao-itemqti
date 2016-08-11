@@ -112,14 +112,7 @@ class Service extends tao_models_classes_Service
             throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
         }
 
-//        common_Logger::i(print_r($itemService->getItemDirectory($item, $language), true));
-
         $file = $itemService->getItemDirectory($item, $language)->getFile(self::QTI_ITEM_FILE);
-
-        if (! $file->exists()) {
-            return '';
-        }
-//        common_Logger::i(print_r($file->getPrefix(), true));
         return $file->read();
     }
 
