@@ -100,7 +100,7 @@ define([
                 .previewer({
                     url: base64Data,
                     name: filename,
-                    type: filetype.substr(0, filetype.indexOf('/'))
+                    mime: filetype
                 });
 
             // we wait for the image to be completely loaded
