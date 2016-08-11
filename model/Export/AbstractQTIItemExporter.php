@@ -154,8 +154,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if (!$mediaSource instanceof HttpSource) {
                     $link = $mediaAsset->getMediaIdentifier();
                     $stream = $mediaSource->getFileStream($link);
+                    $psrStream = \GuzzleHttp\Psr7\stream_for($stream);
                     $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
-                    $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
+                    $replacement = $this->copyAssetFile($psrStream, $basePath, $baseName, $replacementList);
                     $replacementList[$assetUrl] = $replacement;
                 }
             } catch(\tao_models_classes_FileNotFoundException $e){
