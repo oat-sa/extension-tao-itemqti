@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\flyExporter\simpleExporter;
 
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 
 /**
  *

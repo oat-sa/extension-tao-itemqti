@@ -83,6 +83,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(
             new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
+
         $replacementList = array();
 
         $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
@@ -163,8 +164,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
-
-        $xml = \taoItems_models_classes_ItemsService::singleton()->getItemContent($this->getItem());
+        $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
         $dom = new \DOMDocument('1.0', 'UTF-8');
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
@@ -296,7 +296,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             for ($i = 0; $i < $fileHrefElts->length; $i++) {
                 $fileHrefElt = $fileHrefElts->item($i);
                 $destPath = $basePath . '/' . $fileHrefElt->nodeValue;
-                $sourcePath = $this->getItemLocation() . $fileHrefElt->nodeValue;
+                $sourcePath = $this->getItemDirectory()->readStream($fileHrefElt->nodeValue);
                 $this->addFile($sourcePath, $destPath);
             }
         }
