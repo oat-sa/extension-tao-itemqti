@@ -37,9 +37,6 @@ define([
 ], function ($, _, __, context, tpl, containerHelper, instructionMgr, uploadHelper) {
     'use strict';
 
-    //FIXME this response is global to the app, it must be linked to the interaction!
-    var _response = {"base": null};
-
     var _initialInstructions = __('Browse your computer and select the appropriate file.');
 
     var _readyInstructions = __('The selected file is ready to be sent.');
@@ -88,7 +85,7 @@ define([
 
             // Store the base64 encoded data for later use.
             var base64Raw = base64Data.substring(commaPosition + 1);
-            _response = {"base": {"file": {"data": base64Raw, "mime": filetype, "name": filename}}};
+            interaction.data('_response', {base: {file: {data: base64Raw, mime: filetype, name: filename}}});
 
             var $previewArea = $container.find('.file-upload-preview');
             $previewArea
@@ -210,6 +207,9 @@ define([
 
         instructionMgr.appendInstruction(interaction, _initialInstructions);
 
+        //init response
+        interaction.data('_response', {base: null});
+
         var changeListener = function (e) {
             var file = e.target.files[0];
 
@@ -263,7 +263,7 @@ define([
                 .text(filename);
         }
 
-        _response = response;
+        interaction.data('_response', response);
     };
 
     /**
@@ -279,7 +279,7 @@ define([
      * @returns {object}
      */
     var getResponse = function (interaction) {
-        return _response;
+        return interaction.data('_response');
     };
 
     var destroy = function (interaction) {
@@ -331,7 +331,6 @@ define([
      * @param {Object} interaction - the interaction
      * @param {Object} [data] - interaction custom data
      * @returns {Object} custom data
-     * @TODO isPreviwable could be nicely implemented using tao/views/js/core/mimetype.js
      * This way we could cover a lot more types. How could this be matched with the preview templates
      * in tao/views/js/ui/previewer.js
      */
