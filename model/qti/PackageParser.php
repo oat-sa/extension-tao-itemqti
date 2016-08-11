@@ -141,7 +141,8 @@ class PackageParser
      */
     public function extract()
     {
-        
+        $returnValue = null;
+
     	if(!is_file($this->source)){	//ultimate verification
         	throw new common_exception_Error("source ".$this->source." not a file");
         }
