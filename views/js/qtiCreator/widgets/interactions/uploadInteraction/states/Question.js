@@ -36,11 +36,9 @@ define([
             interaction = _widget.element,
             callbacks = {},
             types = uploadHelper.getMimeTypes(),
-            $previewZone = _widget.$container.find('.qti-interaction .file-upload-preview'),
             selectedMime = '',
             // Pre-select a value in the types combo box if needed.
-            preselected = uploadHelper.getExpectedTypes(interaction),
-            previewClassName = 'visible-file-upload-preview';
+            preselected = uploadHelper.getExpectedTypes(interaction);
 
         types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
 
@@ -68,21 +66,14 @@ define([
             }
         });
 
-        $previewZone.toggleClass(previewClassName, isPreviewable(selectedMime));
-
         // -- type callback.
         callbacks.type = function(interaction, attrValue) {
             uploadHelper.setExpectedTypes(interaction, attrValue);
-            $previewZone.toggleClass(previewClassName, isPreviewable(attrValue));
         };
 
         //init data change callbacks
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
-
-    function isPreviewable(mime) {
-        return mime && mime.indexOf('image') === 0 && mime === 'application/pdf';
-    }
 
     return UploadInteractionStateQuestion;
 });

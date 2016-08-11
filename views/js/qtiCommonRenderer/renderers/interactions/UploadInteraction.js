@@ -56,7 +56,6 @@ define([
         instructionMgr.removeInstructions(interaction);
         instructionMgr.appendInstruction(interaction, _initialInstructions);
 
-        console.log(filetype);
         if (!validateFileType(file, interaction)) {
             instructionMgr.removeInstructions(interaction);
             instructionMgr.appendInstruction(interaction, getMessageWrongType(interaction, messageWrongType), function () {
@@ -91,11 +90,8 @@ define([
             var base64Raw = base64Data.substring(commaPosition + 1);
             _response = {"base": {"file": {"data": base64Raw, "mime": filetype, "name": filename}}};
 
-            var visibleFileUploadPreview = getCustomData(interaction);
-
             var $previewArea = $container.find('.file-upload-preview');
             $previewArea
-                //.toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
                 .addClass('visible-file-upload-preview runtime-visible-file-upload-preview')
                 .previewer({
                     url: base64Data,
