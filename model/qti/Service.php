@@ -86,7 +86,6 @@ class Service extends tao_models_classes_Service
                 $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
             }
         } catch (FileNotFoundException $e) {
-            common_Logger::i($e->getMessage());
             // fail silently, since file might not have been created yet
             // $returnValue is then NULL.
             common_Logger::d('item('.$item->getUri().') is empty, newly created?');
