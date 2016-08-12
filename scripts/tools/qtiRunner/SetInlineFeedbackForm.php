@@ -42,7 +42,7 @@ class SetInlineFeedbackForm implements Action
         $inlineModel = in_array('inline', $params) || in_array('--inline', $params);
 
         ClientLibConfigRegistry::getRegistry()->register(
-            'taoQtiItem/runner/provider/qti',
+            'taoQtiItem/runner/plugins/modalFeedback',
             array(
                 'inlineModalFeedback' => $inlineModel
             )

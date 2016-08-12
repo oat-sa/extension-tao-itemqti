@@ -24,17 +24,15 @@ define([
     'jquery',
     'lodash',
     'context',
-    'module',
     'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoQtiItem/runner/provider/manager/userModules',
-    'taoItems/assets/manager',
-    'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer',
-    'taoQtiItem/qtiRunner/modalFeedback/modalRenderer'
-], function($, _, context, module, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules, assetManagerFactory, modalFeedbackInline, modalFeedbackModal){
+    'taoQtiItem/runner/plugins/modalFeedback',
+    'taoItems/assets/manager'
+], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, modalFeedback, userModules){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -92,6 +90,7 @@ define([
 
                                     queue.push(new Promise(function(resolve){
 
+                                        /* todo move to plugin
                                         var inlineDisplay = !!module.config().inlineModalFeedback;
                                         var onShowCallback = function() {};
 
@@ -101,6 +100,7 @@ define([
                                         } else {
                                             return modalFeedbackModal.showFeedbacks(item, self._loader, self._renderer, itemSession, resolve, onShowCallback);
                                         }
+                                        */
 
                                         /*var $feedbackContent = $(feedback.render());
 
