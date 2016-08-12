@@ -88,8 +88,8 @@ class Authoring
             $relPath = preg_replace('/^\.\//', '', $relPath);
             $source = $sourceDirectory . $relPath;
 
-            $content = \GuzzleHttp\Psr7\stream_for($source);
-            if (! is_resource($content)) {
+            $fh = fopen($source, 'r');
+            if (! is_resource($fh)) {
                 throw new common_exception_Error('The resource "' . $source . '" cannot be copied.');
             }
 
@@ -98,9 +98,11 @@ class Authoring
                 $relPath
             ));
 
-            if ($directory->writeStream($path, $content)) {
+            // cannot write as PCI do not get cleaned up
+            if ($directory->getFile($path)->put($fh)) {
                 $returnValue[] = $relPath;
             }
+            fclose($fh);
         }
 
         return $returnValue;
