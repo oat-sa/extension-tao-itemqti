@@ -88,7 +88,7 @@ class Authoring
             $relPath = preg_replace('/^\.\//', '', $relPath);
             $source = $sourceDirectory . $relPath;
 
-            $content = \GuzzleHttp\Psr7\stream_for($source);
+            $content = fopen($source, 'r');
             if (! is_resource($content)) {
                 throw new common_exception_Error('The resource "' . $source . '" cannot be copied.');
             }
@@ -98,7 +98,7 @@ class Authoring
                 $relPath
             ));
 
-            if ($directory->writeStream($path, $content)) {
+            if ($directory->getFile($path)->write($content)) {
                 $returnValue[] = $relPath;
             }
         }
