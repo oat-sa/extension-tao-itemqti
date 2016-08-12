@@ -64,10 +64,8 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
             throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
         }
 
-        $css = $this -> getCssArray();
-//        if (! empty($css)) {
-            CssHelper::saveCssFile($item, $lang, $styleSheet, $css);
-//        }
+        $css = $this->getCssArray();
+        CssHelper::saveCssFile($item, $lang, $styleSheet, $css);
     }
 
     /**
