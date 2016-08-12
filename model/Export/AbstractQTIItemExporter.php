@@ -46,6 +46,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     );
 
     abstract public function buildBasePath();
+    
+    abstract protected function renderManifest(array $options, array $qtiItemData);
+    
+    abstract protected function itemContentPostProcessing($content);
 
     /**
      * Overriden export from QTI items.
@@ -66,7 +70,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             throw new ExportException('', 'No Item Model found for item : '.$this->getItem()->getUri());
         }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
-        $content = $this->getItemService()->getItemContent($this->getItem());
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
 
         $replacementList = array();
@@ -98,8 +101,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
-
-        $xml = \taoItems_models_classes_ItemsService::singleton()->getItemContent($this->getItem());
+        $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
         $dom = new \DOMDocument('1.0', 'UTF-8');
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
@@ -138,10 +140,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             for ($i = 0; $i < $fileHrefElts->length; $i++) {
                 $fileHrefElt = $fileHrefElts->item($i);
                 $destPath = $basePath . '/' . $fileHrefElt->nodeValue;
-                $sourcePath = $this->getItemLocation() . $fileHrefElt->nodeValue;
+                $sourcePath = $this->getItemDirectory()->readStream($fileHrefElt->nodeValue);
                 $this->addFile($sourcePath, $destPath);
             }
         }
+        
+        // Possibility to delegate (if necessary) some item content post-processing to sub-classes.
+        $content = $this->itemContentPostProcessing($content);
         
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);

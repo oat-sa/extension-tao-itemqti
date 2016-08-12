@@ -62,6 +62,11 @@ class Parser extends tao_models_classes_Parser
             $dom = new DOMDocument('1.0', 'UTF-8');
 
             switch($this->sourceType){
+                case self::SOURCE_FLYFILE:
+                    if ($this->source->exists()) {
+                        $dom->load($this->source->read());
+                    }
+                    break;
                 case self::SOURCE_FILE:
                     $dom->load($this->source);
                     break;
@@ -117,6 +122,11 @@ class Parser extends tao_models_classes_Parser
         $xml = new DOMDocument();
         
         switch($this->sourceType){
+            case self::SOURCE_FLYFILE:
+                if ($this->source->exists()) {
+                    $xml->load($this->source->read());
+                }
+                break;
             case self::SOURCE_FILE:
                 $xml->load($this->source);
                 break;
