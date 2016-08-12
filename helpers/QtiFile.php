@@ -56,6 +56,6 @@ class QtiFile
     public static function getQtiFileContent(core_kernel_classes_Resource $item, $language = '')
     {
         $itemDirectory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $language);
-        return $itemDirectory->read(self::FILE);
+        return $itemDirectory->getFile(self::FILE)->read();
     }
 }
