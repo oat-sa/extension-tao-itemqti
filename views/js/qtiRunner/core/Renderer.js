@@ -244,6 +244,19 @@ define([
             return null;
         };
 
+        this.getCustomMessage = function getCustomMessage(elementName, messageKey){
+            var messages = this.getOption('messages');
+            if(messages &&
+                elementName &&
+                messages[elementName] &&
+                _.isString(messages[elementName][messageKey])){
+                //currently not translatable but potentially could be if the need raises
+                return Handlebars.compile(messages[elementName][messageKey]);
+            }else{
+                return null;
+            }
+        };
+
         /**
          * Get the bound assetManager
          * @returns {AssetManager} the assetManager
