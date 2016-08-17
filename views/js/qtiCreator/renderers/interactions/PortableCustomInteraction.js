@@ -23,7 +23,7 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
 ], function(_, Renderer, ciRegistry, commonRenderer){
     'use strict';
@@ -36,23 +36,24 @@ define([
      */
     CreatorCustomInteraction.render = function render(interaction, options){
 
-        var widget;
-        var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier);
-        var renderOptions = {
-            runtimeLocations : {}
-        };
-        renderOptions.runtimeLocations[interaction.typeIdentifier] = ciRegistry.getBaseUrl(interaction.typeIdentifier);
+        var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier).module;
 
         //initial rendering:
-        Renderer.render.call(commonRenderer.get(), interaction, renderOptions);
+        Renderer.render.call(commonRenderer.get(), interaction);
 
-        widget =  pciCreator.getWidget().build(
-            interaction,
-            Renderer.getContainer(interaction),
-            this.getOption('interactionOptionForm'),
-            this.getOption('responseOptionForm'),
-            options
-        );
+        if(pciCreator){
+            pciCreator.getWidget().build(
+                interaction,
+                Renderer.getContainer(interaction),
+                this.getOption('interactionOptionForm'),
+                this.getOption('responseOptionForm'),
+                options
+            );
+        }else{
+            //in case the pci has been imported with a runtime only (no creator)
+            //@todo allow deleting it
+        }
+
     };
 
     return CreatorCustomInteraction;

@@ -23,7 +23,7 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
-    'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'taoQtiItem/portableElementRegistry/icRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
 ], function(_, Renderer, icRegistry, commonRenderer){
     'use strict';
@@ -36,7 +36,7 @@ define([
      */
     CreatorPortableInfoControl.render = function render(infoControl, options){
 
-        var pciCreator = icRegistry.getCreator(infoControl.typeIdentifier);
+        var picCreator = icRegistry.getCreator(infoControl.typeIdentifier).module;
         var renderOptions = {
             runtimeLocations : {}
         };
@@ -46,7 +46,7 @@ define([
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), infoControl, renderOptions);
 
-        pciCreator.getWidget().build(
+        picCreator.getWidget().build(
             infoControl,
             Renderer.getContainer(infoControl),
             this.getOption('bodyElementOptionForm'),

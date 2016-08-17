@@ -47,8 +47,11 @@ class PortableCustomInteraction extends CustomInteraction
     
     protected $properties = array();
     protected $libraries = array();
+    protected $stylesheets = array();
+    protected $mediaFiles = array();
     protected $typeIdentifier = '';
     protected $entryPoint = '';
+    protected $version = '0.0.0';
     
     public function setTypeIdentifier($typeIdentifier){
         $this->typeIdentifier = $typeIdentifier;
@@ -69,7 +72,31 @@ class PortableCustomInteraction extends CustomInteraction
     public function getProperties(){
         return $this->properties;
     }
+    
+    public function getStylesheets(){
+        return $this->stylesheets;
+    }
+    
+    public function setStylesheets($stylesheets){
+        $this->stylesheets = $stylesheets;
+    }
+    
+    public function getMediaFiles(){
+        return $this->mediaFiles;
+    }
+    
+    public function setMediaFiles($mediaFiles){
+        $this->mediaFiles = $mediaFiles;
+    }
+    
+    public function getVersion(){
+        return $this->version;
+    }
 
+    public function setVersion($version){
+        return $this->version = $version;
+    }
+    
     public function setProperties($properties){
         if(is_array($properties)){
             $this->properties = $properties;
@@ -93,12 +120,15 @@ class PortableCustomInteraction extends CustomInteraction
     public function toArray($filterVariableContent = false, &$filtered = array()){
         
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        
-        $returnValue['libraries'] = $this->libraries;
-        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
-        $returnValue['entryPoint'] = $this->entryPoint;
+
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
-        
+        $returnValue['version'] = $this->version;
+        $returnValue['entryPoint'] = $this->entryPoint;
+        $returnValue['libraries'] = $this->libraries;
+        $returnValue['stylesheets'] = $this->stylesheets;
+        $returnValue['mediaFiles'] = $this->mediaFiles;
+        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+
         return $returnValue;
     }
 
@@ -111,6 +141,8 @@ class PortableCustomInteraction extends CustomInteraction
         $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
         $variables['libraries'] = $this->libraries;
+        $variables['stylesheets'] = $this->stylesheets;
+        $variables['mediaFiles'] = $this->mediaFiles;
         $variables['serializedProperties'] = $this->serializePciProperties($this->properties, self::NS_NAME);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
@@ -121,29 +153,32 @@ class PortableCustomInteraction extends CustomInteraction
     
     /**
      * Feed the pci instance with data provided in the pci dom node
-     * 
-     * @param \oat\taoQtiItem\model\qti\ParserFactory $parser
+     *
+     * @param ParserFactory $parser
      * @param DOMElement $data
+     * @throws InvalidArgumentException
+     * @throws QtiModelException
      */
     public function feed(ParserFactory $parser, DOMElement $data){
 
         $ns = $parser->getPciNamespace();
 
         $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $ns);
-        if($pciNodes->length){
-            $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
-            if(empty($typeIdentifier)){
-                throw new QtiModelException('the type identifier of the pci is missing');
-            }else{
-                $this->setTypeIdentifier($typeIdentifier);
-            }
-            
-            $entryPoint = $pciNodes->item(0)->getAttribute('hook');
-            if(empty($entryPoint)){
-                throw new QtiModelException('the entry point of the pci is missing');
-            }else{
-                $this->setEntryPoint($entryPoint);
-            }
+        if(!$pciNodes->length) {
+            throw new QtiModelException('no portableCustomInteraction node found');
+        }
+
+        $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
+        if(empty($typeIdentifier)){
+            throw new QtiModelException('the type identifier of the pci is missing');
+        }else{
+            $this->setTypeIdentifier($typeIdentifier);
+        }
+        $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
+
+        $version = $pciNodes->item(0)->getAttribute('version');
+        if($version){
+            $this->setVersion($version);
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
@@ -152,6 +187,20 @@ class PortableCustomInteraction extends CustomInteraction
             $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
+
+        $stylesheetNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'stylesheets', 'link'), $data, $ns);
+        $stylesheets = array();
+        foreach($stylesheetNodes as $styleNode){
+            $stylesheets[] = $styleNode->getAttribute('href');
+        }
+        $this->setStylesheets($stylesheets);
+
+        $mediaNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'mediaFiles', 'file'), $data, $ns);
+        $media = array();
+        foreach($mediaNodes as $mediaNode){
+            $media[] = $mediaNode->getAttribute('src');
+        }
+        $this->setMediaFiles($media);
 
         $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $ns);
         if($propertyNodes->length){
@@ -164,7 +213,6 @@ class PortableCustomInteraction extends CustomInteraction
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);
         }
-        
     }
     
     /**
