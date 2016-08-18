@@ -36,57 +36,45 @@ define([
             interaction = _widget.element,
             callbacks = {},
             types = uploadHelper.getMimeTypes(),
-            $previewZone = _widget.$container.find('.qti-interaction .file-upload-preview'),
-            isImage = function(mime) {
-                return mime && mime.indexOf('image') === 0;
-            },
             selectedMime = '',
-            previewClassName = 'visible-file-upload-preview';
+            // Pre-select a value in the types combo box if needed.
+            preselected = uploadHelper.getExpectedTypes(interaction);
 
         types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
 
-        // Prepare the work...
-        if (typeof interaction.attr('type') !== 'undefined') {
-
-            if (interaction.attr('type') === '') {
-                // Kill the attribute if it is empty.
-                delete interaction.attributes.type;
-            }
-            else {
-                // Pre-select a value in the types combo box if needed.
-                for (var i in types) {
-                    if (interaction.attr('type') === types[i].mime) {
-                        types[i].selected = true;
-                        selectedMime = types[i].mime;
-                    }
-                }
-            }
+        if (interaction.attr('type') === '') {
+            // Kill the attribute if it is empty.
+            delete interaction.attributes.type;
         }
 
+        for (var i in types) {
+            if (_.indexOf(preselected, types[i].mime) >= 0) {
+                types[i].selected = true;
+                selectedMime = types[i].mime;
+            }
+        }
         $form.html(formTpl({
-            "types" : types
+            types : types
         }));
 
         formElement.initWidget($form);
-        $previewZone.toggleClass(previewClassName, isImage(selectedMime));
-
+        var $select = $form.find('[name="type"]');
+        $select.select2({
+            width: '100%',
+            formatNoMatches : function(){
+                return __('Enter a select MIME-type');
+            }
+        });
 
         // -- type callback.
         callbacks.type = function(interaction, attrValue) {
-
-            $previewZone.toggleClass(previewClassName, isImage(attrValue));
-
-            if (attrValue === 'any/kind') {
-                interaction.removeAttr('type');
-            }
-            else {
-                interaction.attr('type', attrValue);
-            }
+            uploadHelper.setExpectedTypes(interaction, attrValue);
         };
 
         //init data change callbacks
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
+
     return UploadInteractionStateQuestion;
 });
 

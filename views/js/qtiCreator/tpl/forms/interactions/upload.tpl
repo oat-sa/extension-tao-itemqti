@@ -3,7 +3,7 @@
 <div class="tooltip-content">{{__ "The MIME-type attribute describes which kind of file may be uploaded."}}</div>
 
 <div class="reset-group">
-    <select name="type" class="select2" data-has-search="false">
+    <select name="type" class="select2" multiple data-has-search="false">
     	{{#each types}}
     		<option value="{{mime}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
     	{{/each}}

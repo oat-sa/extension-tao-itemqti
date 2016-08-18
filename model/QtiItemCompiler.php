@@ -97,6 +97,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
             $report->setData($this->createQtiService($item, $publicDirectory, $privateDirectory));
         }
+
         return $report;
     }
 
@@ -149,8 +150,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         //copy item.xml file to private directory
         $itemDir = $itemService->getItemDirectory($item, $language);
-        $sourceItem = new File($itemDir->getFileSystem(), $itemDir->getPath().DIRECTORY_SEPARATOR.'qti.xml');
-        $privateDirectory->write($language.'/qti.xml', $sourceItem->readStream());
+
+        $sourceItem = $itemDir->getFile('qti.xml');
+        $privateDirectory->writeStream($language . '/qti.xml', $sourceItem->readStream());
 
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -158,32 +160,38 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
         $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
         if (\tao_helpers_Mode::is('production')) {
-            $publicDirectory->write($language.'/qtiLoader.min.js', fopen($assetPath . 'qtiLoader.min.js','r'));
+            $fh = fopen($assetPath . 'qtiLoader.min.js','r');
+            $publicDirectory->writeStream($language.'/qtiLoader.min.js', $fh);
+            fclose($fh);
         } else {
-            $publicDirectory->write($language.'/qtiLoader.js', fopen($assetPath . 'qtiLoader.js','r'));
-            $publicDirectory->write($language.'/require.js', fopen($assetLibPath . 'require.js','r'));
+            $fh = fopen($assetPath . 'qtiLoader.js','r');
+            $publicDirectory->writeStream($language.'/qtiLoader.js', $fh);
+            fclose($fh);
+            $fh = fopen($assetLibPath . 'require.js','r');
+            $publicDirectory->writeStream($language.'/require.js', $fh);
+            fclose($fh);
         }
 
-        // retrieve the media assets
+        //  retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
-    
+
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
 
             $stream = \GuzzleHttp\Psr7\stream_for(json_encode($variableElements));
-            $privateDirectory->writeStream($language.'/variableElements.json', $stream);
+            $privateDirectory->writePsrStream($language.'/variableElements.json', $stream);
             $stream->close();
-            
+
             // render item based on the modified QtiItem
             $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
-            
+
             //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
             // write index.html
             $stream = \GuzzleHttp\Psr7\stream_for($xhtml);
-            $publicDirectory->writeStream($language.'/index.html', $stream, 'text/html');
+            $publicDirectory->writePsrStream($language.'/index.html', $stream, 'text/html');
             $stream->close();
-    
+
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
             );
@@ -240,7 +248,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $replacementList[$assetUrl] = $replacement;
                 $tmpfile = $mediaSource->download($mediaAsset->getMediaIdentifier());
                 $fh = fopen($tmpfile, 'r');
-                $publicDirectory->write($lang.'/'.$replacement, $fh);
+                $publicDirectory->writeStream($lang.'/'.$replacement, $fh);
                 fclose($fh);
                 unlink($tmpfile);
                 
