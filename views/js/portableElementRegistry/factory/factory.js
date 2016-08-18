@@ -44,6 +44,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 __providers[moduleName] = null;
                 return this;
             },
+            resetProviders : function resetProviders(){
+                __providers = {};
+                return this;
+            },
             loadProviders : function loadProviders(callback){
                 var self = this;
                 var providerLoadingStack = [];

@@ -91,18 +91,23 @@ define([
             var assetManager       = self.getAssetManager();
 
             ciRegistry.loadRuntimes(function(){
-                
+
+                var requireEntries = [];
                 var runtime = ciRegistry.getRuntime(typeIdentifier);
-                
+
+                if(!runtime || !runtime.hook){
+                    return reject('The runtime for the pci cannot be found : ' + typeIdentifier);
+                }
+
                 //load the entrypoint
-                var requireEntries = [runtime.hook.replace(/\.js$/, '')];
+                requireEntries.push(runtime.hook.replace(/\.js$/, ''));
 
                 //load stylesheets
                 _.each(runtime.stylesheets, function(stylesheet){
                     requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
                 });
 
-                //load the entrypoint
+                //load the entrypoint+stylesheets
                 require(requireEntries, function(){
 
                     var pci = _getPci(interaction);
