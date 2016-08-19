@@ -49,7 +49,7 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler
      * @see tao_models_classes_import_ImportHandler::getLabel()
      */
     public function getLabel() {
-    	return __('QTI Package');
+    	return __('QTI/APIP Content Package');
     }
     
     /**

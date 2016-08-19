@@ -83,13 +83,13 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $jsonPayload = taoQtiCommon_helpers_Utils::readJsonPayload();
         
         try {
-            $qtiXmlFilePath = QtiFile::getQtiFilePath($item);
+            $qtiXmlFileContent = QtiFile::getQtiFileContent($item);
             $qtiXmlDoc = new XmlDocument();
-            $qtiXmlDoc->load($qtiXmlFilePath);
+            $qtiXmlDoc->loadFromString($qtiXmlFileContent);
         }
         catch(StorageException $e) {
             $msg = "An error occurred while loading QTI-XML file at expected location '${qtiXmlFilePath}'.";
-            common_Logger::e($e->getPrevious()->getMessage());
+            common_Logger::e(($e->getPrevious() !== null) ? $e->getPrevious()->getMessage() : $e->getMessage());
             throw new \RuntimeException($msg, 0, $e);
         }
 

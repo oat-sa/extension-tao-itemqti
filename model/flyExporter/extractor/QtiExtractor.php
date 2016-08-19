@@ -20,6 +20,7 @@
  */
 
 namespace oat\taoQtiItem\model\flyExporter\extractor;
+use oat\taoQtiItem\model\qti\Service;
 
 /**
  * Extract all given columns of item qti data
@@ -95,11 +96,12 @@ class QtiExtractor implements Extractor
      */
     private function loadXml(\core_kernel_classes_Resource $item)
     {
-        $itemService = \taoItems_models_classes_ItemsService::singleton();
-        if (!$itemService->hasItemContent($item)) {
+
+        $itemService = Service::singleton();
+        $xml = $itemService->getXmlByRdfItem($item);
+        if (empty($xml)) {
             throw new ExtractorException('No content found for item ' . $item->getUri());
         }
-        $xml = $itemService->getItemContent($item);
 
         $this->dom   = new \DOMDocument();
         $this->dom->loadXml($xml);

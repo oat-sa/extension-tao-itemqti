@@ -33,17 +33,21 @@ class ValidationService extends ConfigurableService
             '/qti/data/qtiv2p0/imsqti_v2p0.xsd'
         ),
         'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1' => array(
-                '/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+            '/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+        ),
+        'http://www.imsglobal.org/xsd/imsqti_v2p2' => array(
+            '/qti/data/qtiv2p2p1/imsqti_v2p2p1.xsd'
         ),
         'default' => array(
-                '/qti/data/qtiv2p1/imsqti_v2p1.xsd'
+            '/qti/data/qtiv2p1p1/imsqti_v2p1p1.xsd'
         )
     );
 
     private $manifestValidation = array(
         'default' => array(
-                '/qti/data/imscp_v1p1.xsd',
-                '/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
+            '/qti/data/imscp_v1p1.xsd',
+            '/qti/data/qtiv2p2/qtiv2p2_imscpv1p2_v1p0.xsd',
+            '/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
         )
     );
 

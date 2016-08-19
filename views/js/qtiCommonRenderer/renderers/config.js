@@ -27,6 +27,7 @@ define([
     'use strict';
 
     var itemThemes = themes.get('items');
+    var moduleConfig = module.config();
 
     //stratgy to resolve portable info control and portable interactions paths.
     //It should never be reached in the stack the ususal way and should be called only using resolveBy.
@@ -111,11 +112,12 @@ define([
             assetManager: assetManager,
             themes : itemThemes,
             enableDragAndDrop: {
-                associate: !!module.config().associateDragAndDrop,
-                gapMatch: !!module.config().gapMatchDragAndDrop,
-                graphicGapMatch: !!module.config().graphicGapMatchDragAndDrop,
-                order: !!module.config().orderDragAndDrop
-            }
+                associate: !!moduleConfig.associateDragAndDrop,
+                gapMatch: !!moduleConfig.gapMatchDragAndDrop,
+                graphicGapMatch: !!moduleConfig.graphicGapMatchDragAndDrop,
+                order: !!moduleConfig.orderDragAndDrop
+            },
+            messages : moduleConfig.messages
         }
     };
 });
