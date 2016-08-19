@@ -24,15 +24,15 @@ define([
     'jquery',
     'lodash',
     'context',
-    'module',
     'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoQtiItem/runner/provider/manager/userModules',
+    'taoQtiItem/runner/plugins/modalFeedback',
     'taoItems/assets/manager'
-], function($, _, context, module, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules, assetManagerFactory){
+], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, modalFeedback, userModules){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -89,7 +89,20 @@ define([
                                     itemSession[outcomeIdentifier].base.identifier === feedback.id()){
 
                                     queue.push(new Promise(function(resolve){
-                                        var $feedbackContent = $(feedback.render());
+
+                                        /* todo move to plugin
+                                        var inlineDisplay = !!module.config().inlineModalFeedback;
+                                        var onShowCallback = function() {};
+
+                                        //currently only modal feedbacks are available
+                                        if (inlineDisplay) {
+                                            return modalFeedbackInline.showFeedbacks(item, self._loader, self._renderer, itemSession, resolve, onShowCallback);
+                                        } else {
+                                            return modalFeedbackModal.showFeedbacks(item, self._loader, self._renderer, itemSession, resolve, onShowCallback);
+                                        }
+                                        */
+
+                                        /*var $feedbackContent = $(feedback.render());
 
                                         //FIXME the IR should not be responsible of the modal rendering, i
                                         //the container selection should be part of the renderer
@@ -99,7 +112,7 @@ define([
                                                 $feedbackContent.remove();
                                                 resolve();
                                             }
-                                        });
+                                        });*/
                                     }));
                                 }
                             });
