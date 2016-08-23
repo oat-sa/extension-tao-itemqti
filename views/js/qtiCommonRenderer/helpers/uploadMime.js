@@ -58,7 +58,7 @@ define([
          */
         setExpectedTypes : function setExpectedTypes(interaction, types) {
             var classes = interaction.attr('class') || '';
-            classes = classes.replace(/x-tao-upload-type-[-_a-zA-Z+.]*/g, '').trim();
+            classes = classes.replace(/x-tao-upload-type-[-_a-zA-Z+.0-9]*/g, '').trim();
             interaction.attr('class', classes);
             interaction.removeAttr('type');
 
@@ -94,7 +94,7 @@ define([
             if (interaction.attr('type')) {
                 types.push(interaction.attr('type'));
             } else {
-                classes.replace(/x-tao-upload-type-([-_a-zA-Z+.]*)/g, function ($0, type) {
+                classes.replace(/x-tao-upload-type-([-_a-zA-Z+.0-9]*)/g, function ($0, type) {
                     types.push(type.replace('_', '/').trim());
                 });
             }
