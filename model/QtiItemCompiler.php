@@ -209,19 +209,19 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             );
         }
     }
-    
+
     /**
-     * 
+     *
      * @param core_kernel_classes_Resource $item
      * @param string $lang
      * @param \tao_models_classes_service_StorageDirectory $publicDirectory
-     * @return \oat\taoQtiItem\model\qti\Item
+     * @return qti\Item
      */
     protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $publicDirectory)
     {
         $qtiItem  = Service::singleton()->getDataItemByRdfItem($item, $lang);
-        
-        $assetParser = new AssetParser($qtiItem);
+
+        $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);
