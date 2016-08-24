@@ -25,6 +25,7 @@ use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
+use oat\taoQtiItem\model\qti\PortableElementTrait;
 
 /**
  * The QTI custom interaction is a subclass of the main QTI Interaction class
@@ -37,14 +38,11 @@ use \DOMElement;
  */
 class PortableCustomInteraction extends CustomInteraction
 {
-    
+    use PortableElementTrait;
+
     const NS_NAME = 'pci';
-    
-    protected $nsMap = array(
-        'pci' => 'http://www.imsglobal.org/xsd/portableCustomInteraction'
-    );
-    
-    
+    const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction';
+
     protected $properties = array();
     protected $libraries = array();
     protected $stylesheets = array();
@@ -72,7 +70,15 @@ class PortableCustomInteraction extends CustomInteraction
     public function getProperties(){
         return $this->properties;
     }
-    
+
+    public function setProperties($properties){
+        if(is_array($properties)){
+            $this->properties = $properties;
+        }else{
+            throw new InvalidArgumentException('properties should be an array');
+        }
+    }
+
     public function getStylesheets(){
         return $this->stylesheets;
     }
@@ -95,14 +101,6 @@ class PortableCustomInteraction extends CustomInteraction
 
     public function setVersion($version){
         return $this->version = $version;
-    }
-    
-    public function setProperties($properties){
-        if(is_array($properties)){
-            $this->properties = $properties;
-        }else{
-            throw new InvalidArgumentException('properties should be an array');
-        }
     }
 
     public function getLibraries(){
@@ -133,7 +131,7 @@ class PortableCustomInteraction extends CustomInteraction
     }
 
     public static function getTemplateQti(){
-        return static::getTemplatePath().'interactions/qti.customInteraction.tpl.php';
+        return static::getTemplatePath().'interactions/qti.portableCustomInteraction.tpl.php';
     }
     
     protected function getTemplateQtiVariables(){
@@ -143,7 +141,7 @@ class PortableCustomInteraction extends CustomInteraction
         $variables['libraries'] = $this->libraries;
         $variables['stylesheets'] = $this->stylesheets;
         $variables['mediaFiles'] = $this->mediaFiles;
-        $variables['serializedProperties'] = $this->serializePciProperties($this->properties, self::NS_NAME);
+        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties, self::NS_NAME, self::NS_URI);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
         $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$nsMarkup.':$2', $variables['markup']);
@@ -204,7 +202,7 @@ class PortableCustomInteraction extends CustomInteraction
 
         $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $ns);
         if($propertyNodes->length){
-            $properties = $this->extractPciProperties($propertyNodes->item(0), $ns);
+            $properties = $this->extractProperties($propertyNodes->item(0), $ns);
             $this->setProperties($properties);
         }
 
@@ -214,109 +212,4 @@ class PortableCustomInteraction extends CustomInteraction
             $this->setMarkup($markup);
         }
     }
-    
-    /**
-     * Format the pci namespace prefix used for pci
-     * @param string $ns
-     * @return string
-     */
-    private function formatPciNs($ns){
-        $ns = $ns ? $ns : '';
-        if($ns){
-            if(substr($ns, -1) !== ':'){
-                $ns .= ':';
-            }
-        }
-        return $ns;
-    }
-    
-    /**
-     * Parse a pci properties dom node into an associative array
-     * 
-     * @param DOMElement $propertiesNode
-     * @param string $ns
-     * @return array
-     */
-    private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
-
-        $properties = array();
-        
-        $ns = $this->formatPciNs($ns);
-        
-        foreach($propertiesNode->childNodes as $prop){
-            if($prop instanceof DOMElement){
-                switch($prop->tagName){
-                    case $ns.'entry':
-                        $key = $prop->getAttribute('key');
-                        $properties[$key] = $prop->nodeValue;
-                        break;
-                    case $ns.'properties':
-                        $key = $prop->getAttribute('key');
-                        $properties[$key] = $this->extractPciProperties($prop, $ns);
-                        break;
-                }
-            }
-        }
-
-        return $properties;
-    }
-    
-    /**
-     * Serialize an associative array of pci properties into a pci xml
-     * 
-     * @param array $properties
-     * @param string $ns
-     * @return string
-     */
-    private function serializePciProperties($properties, $ns = '', $name = null, $element = null){
-        $document = null;
-        $result = '';
-        
-        if (!isset($this->nsMap[$ns])) {
-            $ns = '';
-        }
-        
-        if ($element === null) {
-            $document = new \DomDocument();
-            $element = $ns ? 
-                $document->createElementNS($this->nsMap[$ns], $ns . ':properties') : 
-                $document->createElement('properties');
-            
-            $document->appendChild($element);
-        } else {
-            $newElement = $ns ? 
-                $element->ownerDocument->createElementNS($this->nsMap[$ns], $ns . ':properties') : 
-                $element->ownerDocument->createElement('properties');
-            
-            $element->appendChild($newElement);
-            $element = $newElement;
-        }
-
-        if ($name !== null) {
-            $element->setAttribute('key', $name);
-        } 
-
-        foreach ($properties as $name => $value) {
-            if(is_array($value)){
-                $this->serializePciProperties($value, $ns, $name, $element);
-            } else {
-                $entryElement = $ns ? 
-                    $element->ownerDocument->createElementNS($this->nsMap[$ns], $ns . ':entry') : 
-                    $element->ownerDocument->createElementNS('entry');
-                
-                $entryElement->setAttribute('key', $name);
-                $entryElement->appendChild(new \DOMText($value));
-                $element->appendChild($entryElement);
-            }
-        }
-
-        if ($document !== null) {
-            foreach ($document->childNodes as $node) {
-               $result .= $document->saveXML($node);
-            }
-        }
-        
-        return $result;
-    }
-    
 }
