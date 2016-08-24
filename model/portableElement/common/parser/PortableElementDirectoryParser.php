@@ -30,7 +30,7 @@ use common_Exception;
  * Parser of a QTI PCI package
  * A PCI package must contain a manifest pciCreator.json in the root as well as a pciCreator.js creator file
  *
- * @package qtiItemPci
+ * @package taoQtiItem
  */
 class PortableElementDirectoryParser
 {
@@ -38,6 +38,11 @@ class PortableElementDirectoryParser
 
     protected $source = '';
 
+    /**
+     * PortableElementDirectoryParser constructor.
+     * @param $directory
+     * @throws ExtractException
+     */
     public function __construct($directory){
         if(!is_dir($directory)){
             throw new ExtractException('Invalid directory');
@@ -45,6 +50,13 @@ class PortableElementDirectoryParser
         $this->source = $directory;
     }
 
+    /**
+     * Validate the source directory
+     *
+     * @return bool
+     * @throws \oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException
+     * @throws common_Exception
+     */
     public function validate()
     {
         $definitionFiles = $this->getModel()->getDefinitionFiles();
@@ -58,11 +70,23 @@ class PortableElementDirectoryParser
         return true;
     }
 
+    /**
+     * Return the source directory
+     *
+     * @return string
+     */
     public function extract()
     {
         return $this->source;
     }
 
+    /**
+     * Return the manifest content found in the source directory as an associative array
+     *
+     * @return array
+     * @throws \oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException
+     * @throws common_Exception
+     */
     public function getManifestContent()
     {
         $content = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR . $this->getModel()->getManifestName()), true);
@@ -72,6 +96,13 @@ class PortableElementDirectoryParser
         throw new common_Exception('Portable element manifest is not a valid json file.');
     }
 
+    /**
+     * Check if the source directory contains a valid portable element model
+     * The class of the portable element model must be provided in argument
+     *
+     * @param PortableElementModel $model
+     * @return bool
+     */
     public function hasValidModel(PortableElementModel $model)
     {
         $this->setModel($model);

@@ -35,7 +35,7 @@ use \ZipArchive;
  * Parser of a QTI PCI package
  * A PCI package must contain a manifest pciCreator.json in the root as well as a pciCreator.js creator file
  *
- * @package qtiItemPci
+ * @package taoQtiItem
  */
 class PortableElementPackageParser extends PackageParser
 {

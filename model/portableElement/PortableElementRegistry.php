@@ -35,7 +35,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 /**
  * CreatorRegistry stores reference to
  *
- * @package qtiItemPci
+ * @package taoQtiItem
  */
 class PortableElementRegistry extends AbstractRegistry implements ServiceLocatorAwareInterface
 {

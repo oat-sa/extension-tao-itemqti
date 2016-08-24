@@ -27,7 +27,6 @@ use DOMXPath;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
-use oat\taoQtiItem\controller\PortableElement;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
@@ -36,7 +35,6 @@ use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use Psr\Http\Message\StreamInterface;
-use SebastianBergmann\Comparator\Factory;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\apip\ApipService;
@@ -59,17 +57,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     abstract protected function renderManifest(array $options, array $qtiItemData);
     
     abstract protected function itemContentPostProcessing($content);
-
-    /**
-     * Overriden export from QTI items.
-     *
-     * @see taoItems_models_classes_ItemExporter::export()
-     * @param array $options An array of options.
-     * @return \common_report_Report $report
-     * @throws ExportException
-     * @throws \common_exception_Error
-     * @throws \core_kernel_persistence_Exception
-     */
 
     /**
      * Overwritten export from QTI items.

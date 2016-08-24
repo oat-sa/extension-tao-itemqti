@@ -21,11 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\oatbox\service\ServiceManager;
-use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
-use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
-use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
-use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;

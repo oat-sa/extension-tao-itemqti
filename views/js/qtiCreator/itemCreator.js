@@ -70,6 +70,11 @@ define([
         });
     };
 
+    /**
+     * load custom interactions registered from the custom interaction registry
+     *
+     * @returns {Promise} that resolve with the loaded item model
+     */
     var loadCustomInteractions = function loadCustomInteractions(){
         return new Promise(function(resolve, reject){
             ciRegistry.loadCreators(function(){
@@ -80,6 +85,11 @@ define([
         });
     };
 
+    /**
+     * load info controls registered from the info control registry
+     *
+     * @returns {Promise} that resolve with the loaded item model
+     */
     var loadInfoControls = function loadInfoControls(){
         return new Promise(function(resolve, reject){
             icRegistry.loadCreators(function(){
