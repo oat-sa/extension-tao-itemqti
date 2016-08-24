@@ -256,9 +256,14 @@ class AssetParser
             }
         }
 
+        $xmls = array();
+        if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
+            //some portable elements contains htmlentitied markup in their properties...
+            $xmls = $this->getXmlProperties($element->getProperties());
+        }
+
         //parse and extract assets from markup using XPATH
         if ($element instanceof CustomInteraction || $element instanceof InfoControl) {
-            $xmls = array();
             // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
             $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);

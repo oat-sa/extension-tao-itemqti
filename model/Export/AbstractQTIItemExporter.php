@@ -59,7 +59,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     abstract protected function itemContentPostProcessing($content);
 
     /**
-     * Overwritten export from QTI items.
+     * Overriden export from QTI items.
      *
      * @see taoItems_models_classes_ItemExporter::export()
      * @param array $options An array of options.
