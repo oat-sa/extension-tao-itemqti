@@ -44,12 +44,6 @@ class AssetParser
     private $item;
 
     /**
-     * The item path of file system
-     * @var string
-     */
-    private $path;
-
-    /**
     * Set mode - if parser have to find shared libraries (PCI and PIC)
     * @var bool
     */
@@ -156,7 +150,6 @@ class AssetParser
                     $parsedUrl)
             ) {
                 $file = $this->directory->getFile($parsedUrl['path']);
-//                    $this->directory->getPath() . '/' . $parsedUrl['path']);
                 if ($file->exists()) {
                     $this->loadStyleSheetAsset($file->read());
                 }
