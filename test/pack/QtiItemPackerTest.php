@@ -393,7 +393,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $sample = __DIR__ . '/../samples/xml/packer/qti.xml';
         $path   = __DIR__ . '/../samples/xml/packer';
 
-        $this->registerFS(__DIR__ . '/../samples/xml/packer');
+        $this->registerFS($path);
 
         $this->assertTrue(file_exists($sample));
 
