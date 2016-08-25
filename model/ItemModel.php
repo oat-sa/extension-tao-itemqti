@@ -123,7 +123,6 @@ class ItemModel
     
     public function getImportHandlers() {
     	return array(
-    	    new ApipPackageImport(),
     		new QtiItemImport(),
     	    new QtiPackageImport(),
     	);

@@ -34,7 +34,6 @@ use helpers_File;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
-use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
@@ -79,22 +78,14 @@ class ImportService extends tao_models_classes_GenerisService
         $qtiFile,
         core_kernel_classes_Class $itemClass,
         $validate = true,
-        core_kernel_versioning_Repository $repository = null,
-        $extractApip = false
+        core_kernel_versioning_Repository $repository = null
     ) {
         $report = null;
 
         try {
 
             $qtiModel = $this->createQtiItemModel($qtiFile, $validate);
-
             $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
-
-            // If APIP content must be imported, just extract the apipAccessibility element
-            // and store it along the qti.xml file.
-            if ($extractApip === true) {
-                $this->storeApip($qtiFile, $rdfItem);
-            }
 
             $report = \common_report_Report::createSuccess(__('The IMS QTI Item was successfully imported.'), $rdfItem);
 
@@ -200,15 +191,6 @@ class ImportService extends tao_models_classes_GenerisService
         return $qtiManifestParser->load();
     }
 
-    private function storeApip($qtiFile, $rdfItem)
-    {
-        $originalDoc = new DOMDocument('1.0', 'UTF-8');
-        $originalDoc->load($qtiFile);
-
-        $apipService = ApipService::singleton();
-        $apipService->storeApipAccessibilityContent($rdfItem, $originalDoc);
-    }
-
     /**
      * imports a qti package and
      * returns the number of items imported
@@ -235,8 +217,7 @@ class ImportService extends tao_models_classes_GenerisService
         $validate = true,
         core_kernel_versioning_Repository $repository = null,
         $rollbackOnError = false,
-        $rollbackOnWarning = false,
-        $extractApip = false
+        $rollbackOnWarning = false
     ) {
 
         //load and validate the package
@@ -303,7 +284,6 @@ class ImportService extends tao_models_classes_GenerisService
                     $folder,
                     $qtiItemResource,
                     $itemClass,
-                    $extractApip,
                     array(),
                     $metadataValues,
                     $metadataInjectors,
@@ -363,7 +343,6 @@ class ImportService extends tao_models_classes_GenerisService
      * @param $folder
      * @param \oat\taoQtiItem\model\qti\Resource $qtiItemResource
      * @param $itemClass
-     * @param bool|false $extractApip
      * @param array $dependencies
      * @param array $metadataValues
      * @param array $metadataInjectors
@@ -377,7 +356,6 @@ class ImportService extends tao_models_classes_GenerisService
         $folder,
         Resource $qtiItemResource,
         $itemClass,
-        $extractApip = false,
         array $dependencies = array(),
         array $metadataValues = array(),
         array $metadataInjectors = array(),
@@ -470,11 +448,6 @@ class ImportService extends tao_models_classes_GenerisService
 
                 // Finally, import metadata.
                 $this->importResourceMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
-
-                // And Apip if wanted
-                if ($extractApip) {
-                    $this->storeApip($qtiFile, $rdfItem);
-                }
 
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));
