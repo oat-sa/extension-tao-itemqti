@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\model\portableElement\common\parser;
 
 use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\portableElement\common\helper\Manifest;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
 use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
@@ -207,7 +208,7 @@ class PortableElementItemParser
         if (!is_null($lastVersionModel)
             && (intval($lastVersionModel->getVersion()) != intVal($portableModel->getVersion()))
         ) {
-            //@todo return a user exception to inform user of incompaible pci version found and that an item update is required
+            //@todo return a user exception to inform user of incompatible pci version found and that an item update is required
             throw new \common_Exception('Unable to import pci asset because pci is not compatible. '
                 . 'Current version is ' . $lastVersionModel->getVersion() . ' and imported is ' . $portableModel->getVersion());
         }
@@ -237,7 +238,11 @@ class PortableElementItemParser
             $lastVersionModel = $this->getService()->getPciByIdentifier($model->getTypeIdentifier());
             //only register a pci that has not been register yet, subsequent update must be done through pci package import
             if(is_null($lastVersionModel)){
-                $this->getService()->registerModel($model, $this->source);
+                $this->replaceLibAliases($model);
+                $this->getService()->registerModel($model, $this->source.DIRECTORY_SEPARATOR.$model->getTypeIdentifier().DIRECTORY_SEPARATOR);
+            }else{
+                \common_Logger::i('The imported item contains the portable element '.$model->getTypeIdentifier()
+                    .' in a version '.$model->getVersion().' compatible with the current '.$lastVersionModel->getVersion());
             }
         }
         return true;
@@ -252,21 +257,16 @@ class PortableElementItemParser
      */
     private function replaceLibAliases(PortableElementModel $model){
 
-        $libs = $model->getRuntimeKey('libraries');
-        $registeredLibs = [];
-        foreach($libs as $lib){
-            $count = 0;
-            $href = preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $lib, -1, $count);
-            if($count){
-                //implementation specific lib
-                $registeredLibs[] = $href.'.js';//amd modules
-            }else{
-                //share libs
-                $registeredLibs[] = $lib;
+        $id = $model->getTypeIdentifier();
+        $model->setRuntimeKey('libraries', array_map(function($lib) use ($id){
+            if(preg_match('/^'.$id.'/', $lib)){
+                return $lib.'.js';
             }
-        }
-        $model->setRuntimeKey('libraries', $registeredLibs);
+            return $lib;
+        }, $model->getRuntimeKey('libraries')));
+
+        Manifest::replaceAliasesToPath($model);
+
         return $model;
     }
-
 }

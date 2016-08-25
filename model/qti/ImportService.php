@@ -100,7 +100,7 @@ class ImportService extends tao_models_classes_GenerisService
     /**
      *
      * @param core_kernel_classes_Class $itemClass
-     * @param unknown $qtiModel
+     * @param oat\taoQtiItem\model\qti\Item $qtiModel
      * @throws common_exception_Error
      * @throws \common_Exception
      * @return core_kernel_classes_Resource
@@ -479,9 +479,8 @@ class ImportService extends tao_models_classes_GenerisService
                     $message);
             } catch (Exception $e) {
                 // an error occured during a specific item
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR,
-                    __("An unknown error occured while importing the IMS QTI Package."));
-                common_Logger::e(print_r($e->getTrace(), true));
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
+                common_Logger::e($e->getMessage());
             }
         } catch (ValidationException $ve) {
             $validationReport = \common_report_Report::createFailure("The IMS Manifest file could not be validated");

@@ -25,10 +25,10 @@ use oat\oatbox\AbstractRegistry;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoundException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementVersionIncompatibilityException;
+use oat\taoQtiItem\model\portableElement\common\helper\Manifest;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
-use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -248,7 +248,7 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
             }
         } catch (PortableElementNotFoundException $e) {
             if (! $model->hasVersion()) {
-                $model->setVersion = '0.0.0';
+                $model->setVersion('0.0.0');
             }
             // The portable element to register does not exist, continue
         }
@@ -257,7 +257,7 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
         $this->getFileSystem()->registerFiles($model, $files);
 
         //saveModel must be executed last because it may affects the model itself
-        $this->replaceAliasesToPath($model);
+        Manifest::replaceAliasesToPath($model);
 
         $this->update($model);
     }
@@ -289,32 +289,6 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     }
 
     /**
-     * Adjust file resource entries from ./xxx/yyy.js to {QTI_NS}/xxx/yyy.js
-     *
-     * @param PortableElementModel $model
-     * @param array $keys
-     */
-    public function replacePathToAliases(PortableElementModel &$model, array $keys = [])
-    {
-        if (empty($keys)) {
-            $keys = ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'];
-        }
-
-        foreach ($keys as $key) {
-            if ($model->hasRuntimeKey($key)) {
-                $model->setRuntimeKey(
-                    $key, preg_replace('/^(.\/)(.*)/', $model->getTypeIdentifier() . "/$2", $model->getRuntimeKey($key))
-                );
-            }
-            if($model->hasCreatorKey($key)) {
-                $model->setCreatorKey(
-                    $key, preg_replace('/^(.\/)(.*)/', $model->getTypeIdentifier() . "/$2", $model->getCreatorKey($key))
-                );
-            }
-        }
-    }
-
-    /**
      * @param PortableElementModel $model
      * @return array
      * @throws \common_Exception
@@ -335,7 +309,7 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     protected function getRuntime(PortableElementModel $model)
     {
         $model = $this->fetch($model);
-        $this->replacePathToAliases($model);
+        Manifest::replacePathToAliases($model);
         $runtime = $model->toArray();
         $runtime['baseUrl'] = $this->getBaseUrl($model);
         return $runtime;

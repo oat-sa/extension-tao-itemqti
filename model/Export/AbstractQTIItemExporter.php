@@ -201,8 +201,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $librariesNode = $dom->createElement('pci:libraries');
                 foreach ($portableElement->getRuntimeKey('libraries') as $library) {
                     $libraryNode = $dom->createElement('pci:lib');
+                    //the exported lib id must be adapted from a href mode to an amd name mode
                     $libraryNode->setAttribute(
-                        'id', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$library]
+                        'id', preg_replace('/\.js$/', '', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$library])
                     );
                     $librariesNode->appendChild($libraryNode);
                 }
