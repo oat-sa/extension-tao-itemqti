@@ -45,7 +45,7 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
      * @see tao_models_classes_import_ImportHandler::getLabel()
      */
     public function getLabel(){
-        return __('QTI Item');
+        return __('QTI/APIP XML Item Document');
     }
 
     /**
@@ -71,8 +71,7 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
             
             try{
                 $importService = ImportService::singleton();
-                $apip = in_array('apip', $form->getValue('import_options'));
-                $report = $importService->importQTIFile($uploadedFile, $class, true, null, $apip);
+                $report = $importService->importQTIFile($uploadedFile, $class, true, null);
             }catch(UnsupportedQtiElement $e){
                 $report = common_report_Report::createFailure(__('The "%s" QTI component is not supported.', $e->getType()));
             }catch(ParsingException $e){
