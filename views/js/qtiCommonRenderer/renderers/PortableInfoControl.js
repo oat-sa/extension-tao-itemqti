@@ -21,6 +21,7 @@
  * Portable Info Control Common Renderer
  */
 define([
+    'lodash',
     'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/infoControl',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
@@ -28,7 +29,7 @@ define([
     'qtiInfoControlContext',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/portableElementRegistry/icRegistry'
-], function(Promise, tpl, containerHelper, PortableElement, qtiInfoControlContext, util, icRegistry){
+], function(_, Promise, tpl, containerHelper, PortableElement, qtiInfoControlContext, util, icRegistry){
     'use strict';
 
     /**

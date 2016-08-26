@@ -88,19 +88,24 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                     return 'json!'+manifest;
                 });
                 require(_requiredManifests, function(){
+                    var ok = true;
                     _.each([].slice.call(arguments), function(manifest){
                         var id;
                         if(manifest && manifest.typeIdentifier){
                             id = manifest.typeIdentifier;
                             if(!_portableElementManifests[id]){
                                 reject('typeIdentifier mismatch');
+                                ok = false;
+                                return false;
                             }
                             manifest.baseUrl = context.root_url + _portableElementManifests[id].replace(/^([a-zA-Z]*)\/(.*)\/(pciCreator.json$)/, '$1/views/js/$2');
                             _registry[id] = [setPortableElementPrefix(manifest, id)];
                         }
                     });
-                    resolve(_registry);
-                });
+                    if(ok){
+                        resolve(_registry);
+                    }
+                }, reject);
             });
         }
     }
