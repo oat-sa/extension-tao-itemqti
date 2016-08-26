@@ -16,13 +16,15 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['context'], function (context){
+define(['module'], function (module){
+
     'use strict';
 
+    var baseUrl = module.uri.substring(0, module.uri.indexOf('testProvider'));
     var _registry0 = {
         samplePci : [
             {
-                'baseUrl' : context.root_url+'taoQtiItem/views/js/test/ciRegistry/data/samplePci',
+                'baseUrl' : baseUrl+'samplePci',
                 'typeIdentifier' : 'samplePci',
                 'label' : 'Sample Pci',
                 'short' : 'sample',
