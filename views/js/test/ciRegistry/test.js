@@ -42,9 +42,10 @@ define([
 
     QUnit.asyncTest('getAuthoringData', function(assert){
 
-        ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider').loadCreators(function(){
+        var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
+        registry.loadCreators().then(function(){
 
-            var authoringData = this.getAuthoringData('samplePci');
+            var authoringData = registry.getAuthoringData('samplePci');
 
             assert.ok(_.isPlainObject(authoringData), 'authoring data is an object');
             assert.equal(authoringData.label, 'Sample Pci', 'label ok');
@@ -56,13 +57,29 @@ define([
 
     });
 
-    QUnit.asyncTest('error handling', function(assert){
+    QUnit.asyncTest('error handling - get', function(assert){
 
-        ciRegistry().on('error', function(message, id, version){
-            assert.equal(id, 'inexistingCustomInteraction', 'correct error catched');
-            assert.equal(version, '1.0.0', 'correct error catched');
+        ciRegistry().on('error', function(err){
+            assert.equal(err.typeIdentifier, 'inexistingCustomInteraction', 'correct error catched');
+            assert.equal(err.version, '1.0.0', 'correct error catched');
             QUnit.start();
         }).getCreator('inexistingCustomInteraction', '1.0.0');
+    });
+
+    QUnit.asyncTest('error handling - load', function(assert){
+
+        var inexistingProvider = 'taoQtiItem/test/ciRegistry/data/inexistingProvider';
+        var registry = ciRegistry().registerProvider(inexistingProvider);
+        registry.loadCreators().then(function(){
+            assert.ok(false, 'should not be resolved');
+            QUnit.start();
+        }).catch(function(err){
+            assert.equal(err.requireType, 'scripterror', 'script error catched');
+            assert.ok(_.isArray(err.requireModules), 'error module list ok');
+            assert.equal(err.requireModules.length, 1, 'error module list count ok');
+            assert.equal(err.requireModules[0], inexistingProvider, 'error module list count ok');
+            QUnit.start();
+        });
     });
 
 });

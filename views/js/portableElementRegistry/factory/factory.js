@@ -48,22 +48,24 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 __providers = {};
                 return this;
             },
-            loadProviders : function loadProviders(callback){
+            loadProviders : function loadProviders(){
                 var self = this;
-                var providerLoadingStack = [];
-                _.forIn(__providers, function(provider, id){
-                    if(provider === null){
-                        providerLoadingStack.push(id);
-                    }
-                });
-                _requirejs(providerLoadingStack, function(){
-                    _.each([].slice.call(arguments), function(provider){
-                        if(provider && _.isFunction(provider.load)){
-                            __providers[providerLoadingStack.shift()] = provider;
+                return new Promise(function(resolve, reject) {
+                    var providerLoadingStack = [];
+                    _.forIn(__providers, function(provider, id){
+                        if(provider === null){
+                            providerLoadingStack.push(id);
                         }
                     });
-                    callback();
-                    self.trigger('providersloaded');
+                    _requirejs(providerLoadingStack, function(){
+                        _.each([].slice.call(arguments), function(provider){
+                            if(provider && _.isFunction(provider.load)){
+                                __providers[providerLoadingStack.shift()] = provider;
+                            }
+                        });
+                        resolve();
+                        self.trigger('providersloaded');
+                    }, reject);
                 });
             },
             getAllVersions : function getAllVersions(){
@@ -82,7 +84,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         baseUrl : pci.baseUrl
                     });
                 }else{
-                    this.trigger('error', 'no portable element runtime found' , typeIdentifier, version);
+                    this.trigger('error', {
+                        message : 'no portable element runtime found',
+                        typeIdentifier : typeIdentifier,
+                        version : version
+                    });
                 }
             },
             getCreator : function getCreator(typeIdentifier, version){
@@ -95,7 +101,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         response : pci.response
                     });
                 }else{
-                    this.trigger('error', 'no portable element creator found' , typeIdentifier, version);
+                    this.trigger('error', {
+                        message : 'no portable element runtime found',
+                        typeIdentifier : typeIdentifier,
+                        version : version
+                    });
                 }
             },
             getBaseUrl : function getBaseUrl(typeIdentifier, version){
@@ -105,95 +115,99 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 }
                 return '';
             },
-            loadRuntimes : function loadRuntimes(callback, reload){
-
+            loadRuntimes : function loadRuntimes(reload){
                 var self = this;
-                var loadStack = [];
+                return new Promise(function(resolve, reject) {
+                    if(_loaded && !reload){
+                        resolve();
+                        self.trigger('runtimesloaded');
+                    }else{
+                        self.loadProviders().then(function(){
 
-                if(_loaded && !reload){
-                    callback.call(this);
-                    this.trigger('runtimesloaded');
-                }else{
-                    this.loadProviders(function(){
+                            var loadStack = [];
 
-                        _.each(__providers, function (provider){
-                            if(provider){//check that the provider is loaded
-                                loadStack.push(provider.load());
-                            }
-                        });
-                        
-                        //performs the loadings in parallel
-                        Promise.all(loadStack).then(function (results){
-
-                            var requireConfigAliases = {};
-
-                            //update registry
-                            self._registry = _.reduce(results, function (acc, _pcis){
-                                return _.merge(acc, _pcis);
-                            }, {});
-
-                            //pre-configuring the baseUrl of the portable element's source
-                            _.forIn(self._registry, function (versions, typeIdentifier){
-                                //currently use latest runtime path
-                                requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
-                            });
-                            _requirejs.config({paths : requireConfigAliases});
-
-                            _loaded = true;
-
-                            callback.call(self);
-                            self.trigger('runtimesloaded');
-
-                        }).catch(function (err){
-
-                            self.trigger('error', err);
-                        });
-                    });
-                }
-
-                return this;
-            },
-            loadCreators : function loadCreators(callback, reload){
-
-                var self = this;
-                this.loadRuntimes(function (){
-                    var requiredCreators = [];
-
-                    _.forIn(self._registry, function (versions, typeIdentifier){
-                        var pciModel = self.get(typeIdentifier);//currently use the latest version only
-                        if(pciModel.creator && pciModel.creator.hook){
-                            requiredCreators.push(pciModel.creator.hook.replace(/\.js$/, ''));
-                        }
-                    });
-
-                    if(requiredCreators.length){
-                        //@todo support caching?
-                        _requirejs(requiredCreators, function (){
-                            var creators = {};
-                            _.each(arguments, function (creatorHook){
-                                var id = creatorHook.getTypeIdentifier();
-                                var pciModel = self.get(id);
-                                var i = _.findIndex(self._registry[id], {version : pciModel.version});
-                                if(i < 0){
-                                    self.trigger('error', 'no creator found for id/version ' + id + '/' + pciModel.version);
-                                }else{
-                                    self._registry[id][i].creator.module = creatorHook;
-                                    creators[id] = creatorHook;
+                            _.each(__providers, function (provider){
+                                if(provider){//check that the provider is loaded
+                                    loadStack.push(provider.load());
                                 }
                             });
 
-                            callback.call(self, creators);
-                            self.trigger('creatorsloaded', creators);
+                            //performs the loadings in parallel
+                            Promise.all(loadStack).then(function (results){
+
+                                var requireConfigAliases = {};
+
+                                //update registry
+                                self._registry = _.reduce(results, function (acc, _pcis){
+                                    return _.merge(acc, _pcis);
+                                }, {});
+
+                                //pre-configuring the baseUrl of the portable element's source
+                                _.forIn(self._registry, function (versions, typeIdentifier){
+                                    //currently use latest runtime path
+                                    requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
+                                });
+                                _requirejs.config({paths : requireConfigAliases});
+
+                                _loaded = true;
+
+                                resolve(self);
+                                self.trigger('runtimesloaded');
+
+                            }).catch(function (err){
+                                reject(err);
+                                self.trigger('error', err);
+                            });
+                        }).catch(function (err){
+                            reject(err);
+                            self.trigger('error', err);
                         });
-                    }else{
-
-                        callback.call(self, {});
-                        self.trigger('creatorsloaded', {});
                     }
+                });
+            },
+            loadCreators : function loadCreators(reload){
 
-                }, reload);
+                var self = this;
 
-                return this;
+                return new Promise(function(resolve, reject) {
+                    self.loadRuntimes(reload).then(function(){
+                        var requiredCreators = [];
+
+                        _.forIn(self._registry, function (versions, typeIdentifier){
+                            var pciModel = self.get(typeIdentifier);//currently use the latest version only
+                            if(pciModel.creator && pciModel.creator.hook){
+                                requiredCreators.push(pciModel.creator.hook.replace(/\.js$/, ''));
+                            }
+                        });
+
+                        if(requiredCreators.length){
+                            //@todo support caching?
+                            _requirejs(requiredCreators, function (){
+                                var creators = {};
+                                _.each(arguments, function (creatorHook){
+                                    var id = creatorHook.getTypeIdentifier();
+                                    var pciModel = self.get(id);
+                                    var i = _.findIndex(self._registry[id], {version : pciModel.version});
+                                    if(i < 0){
+                                        self.trigger('error', 'no creator found for id/version ' + id + '/' + pciModel.version);
+                                    }else{
+                                        self._registry[id][i].creator.module = creatorHook;
+                                        creators[id] = creatorHook;
+                                    }
+                                });
+                                resolve(creators);
+                                self.trigger('creatorsloaded', creators);
+                            });
+                        }else{
+                            resolve({});
+                            self.trigger('creatorsloaded', {});
+                        }
+
+                    }).catch(function (err){
+                        reject(err);
+                        self.trigger('error', err);
+                    });
+                });
             }
         }));
     }

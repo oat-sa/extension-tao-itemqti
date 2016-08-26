@@ -87,7 +87,7 @@ define([
             var $dom               = containerHelper.get(infoControl).children();
             var assetManager       = self.getAssetManager();
 
-            icRegistry.loadRuntimes(function(){
+            icRegistry.loadRuntimes().then(function(){
 
                 var runtime = icRegistry.getRuntime(typeIdentifier);
 
@@ -122,6 +122,8 @@ define([
 
                 }, reject);
 
+            }).catch(function(error){
+                reject('Error loading runtime : ' + id);
             });
         });
     };

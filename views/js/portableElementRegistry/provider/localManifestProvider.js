@@ -74,7 +74,7 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
          * Get the amd module name
          * @returns {string}
          */
-        getModuleName : function(){
+        getModuleName : function getModuleName(){
             return _moduleName;
         },
         /**

@@ -90,7 +90,7 @@ define([
             var $dom               = containerHelper.get(interaction).children();
             var assetManager       = self.getAssetManager();
 
-            ciRegistry.loadRuntimes(function(){
+            ciRegistry.loadRuntimes().then(function(){
 
                 var requireEntries = [];
                 var runtime = ciRegistry.getRuntime(typeIdentifier);
@@ -136,6 +136,8 @@ define([
 
                 }, reject);
                 
+            }).catch(function(error){
+                reject('Error loading runtime : ' + id);
             });
         });
     };

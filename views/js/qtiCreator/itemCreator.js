@@ -77,9 +77,9 @@ define([
      */
     var loadCustomInteractions = function loadCustomInteractions(){
         return new Promise(function(resolve, reject){
-            ciRegistry.loadCreators(function(){
+            ciRegistry.loadCreators().then(function(){
                 return resolve();
-            }).on('error', function(err){
+            }).catch(function(err){
                 reject(new Error(err));
             });
         });
@@ -92,9 +92,9 @@ define([
      */
     var loadInfoControls = function loadInfoControls(){
         return new Promise(function(resolve, reject){
-            icRegistry.loadCreators(function(){
+            icRegistry.loadCreators().then(function(){
                 return resolve();
-            }).on('error', function(err){
+            }).catch(function(err){
                 reject(new Error(err));
             });
         });
