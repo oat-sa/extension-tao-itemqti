@@ -117,70 +117,68 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             },
             loadRuntimes : function loadRuntimes(reload){
                 var self = this;
-                return new Promise(function(resolve, reject) {
-                    if(_loaded && !reload){
-                        resolve();
-                        self.trigger('runtimesloaded');
-                    }else{
-                        self.loadProviders().then(function(){
+                var loadPromise;
+                if(_loaded && !reload){
+                    loadPromise = Promise.resolve();
+                } else {
+                    loadPromise = self.loadProviders().then(function(){
 
-                            var loadStack = [];
+                        var loadStack = [];
 
-                            _.each(__providers, function (provider){
-                                if(provider){//check that the provider is loaded
-                                    loadStack.push(provider.load());
-                                }
-                            });
-
-                            //performs the loadings in parallel
-                            Promise.all(loadStack).then(function (results){
-
-                                var requireConfigAliases = {};
-
-                                //update registry
-                                self._registry = _.reduce(results, function (acc, _pcis){
-                                    return _.merge(acc, _pcis);
-                                }, {});
-
-                                //pre-configuring the baseUrl of the portable element's source
-                                _.forIn(self._registry, function (versions, typeIdentifier){
-                                    //currently use latest runtime path
-                                    requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
-                                });
-                                _requirejs.config({paths : requireConfigAliases});
-
-                                _loaded = true;
-
-                                resolve(self);
-                                self.trigger('runtimesloaded');
-
-                            }).catch(function (err){
-                                reject(err);
-                                self.trigger('error', err);
-                            });
-                        }).catch(function (err){
-                            reject(err);
-                            self.trigger('error', err);
+                        _.each(__providers, function (provider){
+                            if(provider){//check that the provider is loaded
+                                loadStack.push(provider.load());
+                            }
                         });
-                    }
-                });
+
+                        //performs the loadings in parallel
+                        return Promise.all(loadStack).then(function (results){
+
+                            var requireConfigAliases = {};
+
+                            //update registry
+                            self._registry = _.reduce(results, function (acc, _pcis){
+                                return _.merge(acc, _pcis);
+                            }, {});
+
+                            //pre-configuring the baseUrl of the portable element's source
+                            _.forIn(self._registry, function (versions, typeIdentifier){
+                                //currently use latest runtime path
+                                requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
+                            });
+                            _requirejs.config({paths : requireConfigAliases});
+
+                            _loaded = true;
+                        });
+                    });
+                }
+
+                loadPromise
+                    .then(function() {
+                        self.trigger('runtimesloaded');
+                    })
+                    .catch(function(err) {
+                        self.trigger('error', err);
+                    });
+
+                return loadPromise;
             },
             loadCreators : function loadCreators(reload){
 
                 var self = this;
 
-                return new Promise(function(resolve, reject) {
-                    self.loadRuntimes(reload).then(function(){
-                        var requiredCreators = [];
+                var loadPromise = self.loadRuntimes(reload).then(function(){
+                    var requiredCreators = [];
 
-                        _.forIn(self._registry, function (versions, typeIdentifier){
-                            var pciModel = self.get(typeIdentifier);//currently use the latest version only
-                            if(pciModel.creator && pciModel.creator.hook){
-                                requiredCreators.push(pciModel.creator.hook.replace(/\.js$/, ''));
-                            }
-                        });
+                    _.forIn(self._registry, function (versions, typeIdentifier){
+                        var pciModel = self.get(typeIdentifier);//currently use the latest version only
+                        if(pciModel.creator && pciModel.creator.hook){
+                            requiredCreators.push(pciModel.creator.hook.replace(/\.js$/, ''));
+                        }
+                    });
 
-                        if(requiredCreators.length){
+                    if(requiredCreators.length){
+                        return new Promise(function(resolve, reject){
                             //@todo support caching?
                             _requirejs(requiredCreators, function (){
                                 var creators = {};
@@ -196,18 +194,24 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     }
                                 });
                                 resolve(creators);
-                                self.trigger('creatorsloaded', creators);
-                            });
-                        }else{
-                            resolve({});
-                            self.trigger('creatorsloaded', {});
-                        }
+                            }, reject);
+                        });
+                    }else{
+                        return Promise.resolve({});
+                    }
 
-                    }).catch(function (err){
-                        reject(err);
+                });
+
+                loadPromise
+                    .then(function(creators) {
+                        self.trigger('creatorsloaded', creators);
+                        return creators;
+                    })
+                    .catch(function(err) {
                         self.trigger('error', err);
                     });
-                });
+
+                return loadPromise;
             }
         }));
     }

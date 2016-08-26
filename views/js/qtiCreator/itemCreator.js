@@ -76,13 +76,7 @@ define([
      * @returns {Promise} that resolve with the loaded item model
      */
     var loadCustomInteractions = function loadCustomInteractions(){
-        return new Promise(function(resolve, reject){
-            ciRegistry.loadCreators().then(function(){
-                return resolve();
-            }).catch(function(err){
-                reject(new Error(err));
-            });
-        });
+        return ciRegistry.loadCreators();
     };
 
     /**
@@ -91,13 +85,7 @@ define([
      * @returns {Promise} that resolve with the loaded item model
      */
     var loadInfoControls = function loadInfoControls(){
-        return new Promise(function(resolve, reject){
-            icRegistry.loadCreators().then(function(){
-                return resolve();
-            }).catch(function(err){
-                reject(new Error(err));
-            });
-        });
+        return icRegistry.loadCreators();
     };
 
     /**
