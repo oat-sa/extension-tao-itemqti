@@ -49,17 +49,19 @@ abstract class PortableElementAssetValidator implements Validatable
             return false;
         }
 
+        $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
         foreach ($files as $key => $file) {
             try {
                 $this->validFile($source, $file);
             } catch (PortableElementInvalidAssetException $e) {
-                $errorMessages[] = $e->getMessage();
+                $subReport = \common_report_Report::createFailure(__('Error to validate file "%s"', $source . $file));
+                $errorReport->add($subReport);
             }
         }
 
-        if (! empty($errorMessages)) {
+        if ($errorReport->containsError()) {
             $exception = new PortableElementInvalidModelException();
-            $exception->setMessages($errorMessages);
+            $exception->setReport($errorReport);
             throw $exception;
         }
         return true;

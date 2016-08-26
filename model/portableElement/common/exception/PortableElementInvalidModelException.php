@@ -20,20 +20,69 @@
 
 namespace oat\taoQtiItem\model\portableElement\common\exception;
 
+/**
+ * Class PortableElementInvalidModelException
+ * @package oat\taoQtiItem\model\portableElement\common\exception
+ */
 class PortableElementInvalidModelException extends PortableElementException
 {
-    protected $messages;
+    protected $report;
 
-    public function setMessages(array $messages)
+    /**
+     * PortableElementInvalidModelException constructor.
+     * Set default message is $message is null
+     *
+     * @param null $message
+     * @param int $code
+     * @param \Exception|null $previous
+     */
+    public function __construct($message = null, $code = 0, \Exception $previous = null)
     {
-        $this->message = print_r($messages, true);
-        $this->messages = $messages;
+        if (is_null($message)) {
+            $message = 'Portable element validation has failed.';
+        }
+        parent::__construct($message, $code, $previous);
     }
 
-    public function getLastMessage()
+    /**
+     * Set report
+     *
+     * @param $report
+     */
+    public function setReport(\common_report_Report $report)
     {
-        $message = reset($this->messages);
-        $field = key($message);
-        return 'Error related to field "' . $field . '" : ' . reset($message[$field]);
+        $this->report = $report;
+    }
+
+    /**
+     * Return the report
+     *
+     * @return \common_report_Report
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    /**
+     * Extract all report messages to simple array
+     *
+     * @return array
+     */
+    public function getReportMessages()
+    {
+        $messages = array();
+        /** @var \common_report_Report $subReport */
+        foreach ($this->report as $subReport) {
+            $errors = [];
+            if ($subReport->containsError()) {
+                $errors = $subReport->getErrors();
+            }
+            $messages[] = array(
+                'message' => $subReport->getMessage(),
+                'details' => $errors
+            );
+        }
+        return $messages;
     }
 }

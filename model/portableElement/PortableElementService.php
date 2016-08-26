@@ -196,7 +196,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     {
         $model = $this->getValidPortableElementFromDirectorySource($directory);
         if (is_null($model)) {
-            throw new PortableElementNotFoundException('no valid portable element model found in the directory '.$directory);
+            throw new PortableElementNotFoundException('No valid portable element model found in the directory '.$directory);
         }
 
         return $this->registerModel($model, $directory);

@@ -90,21 +90,24 @@ class Validator
      */
     public static function validate(Validatable $validatable, $validationGroup=array())
     {
-        $messages = [];
         $constraints = self::getValidConstraints($validatable->getConstraints(), $validationGroup);
+        $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
 
         foreach ($constraints as $field => $constraint) {
             foreach ($constraint as $validator) {
                 $getter = 'get' . ucfirst($field);
-                if (!method_exists($validatable->getModel(), $getter)) {
+                if (! method_exists($validatable->getModel(), $getter)) {
                     throw new PortableElementInconsistencyModelException(
                         'Validator is not correctly set for model ' . get_class($validatable->getModel()));
                 }
                 $value = $validatable->getModel()->$getter();
 
                 if ($validator instanceof \tao_helpers_form_Validator) {
-                    if (!$validator->evaluate($value)) {
-                        $messages[$field][$validator->getName()] = $validator->getMessage();
+                    if (! $validator->evaluate($value)) {
+                        $subReport = \common_report_Report::createFailure(
+                            __('Unable to validate %s', $field), array($validator->getName() => $validator->getMessage())
+                        );
+                        $errorReport->add($subReport);
                     }
                     continue;
                 }
@@ -115,7 +118,10 @@ class Validator
                         try {
                             self::$callable($value);
                         } catch (PortableElementInvalidFieldException $e) {
-                            $messages[$field][$validator] = $e->getMessage();
+                            $subReport = \common_report_Report::createFailure(
+                                __('Unable to validate "%s" field.', $field), array($validator => $e->getMessage())
+                            );
+                            $errorReport->add($subReport);
                         }
                     }
                     continue;
@@ -124,9 +130,9 @@ class Validator
                 return false;
             }
         }
-        if (!empty($messages)) {
-            $exception = new PortableElementInvalidModelException('Portable element validation has failed.');
-            $exception->setMessages($messages);
+        if ($errorReport->containsError()) {
+            $exception = new PortableElementInvalidModelException();
+            $exception->setReport($errorReport);
             throw $exception;
         }
         return true;
