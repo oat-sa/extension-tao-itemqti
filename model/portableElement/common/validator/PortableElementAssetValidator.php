@@ -54,7 +54,7 @@ abstract class PortableElementAssetValidator implements Validatable
             try {
                 $this->validFile($source, $file);
             } catch (PortableElementInvalidAssetException $e) {
-                $subReport = \common_report_Report::createFailure(__('Error to validate file "%s"', $source . $file));
+                $subReport = \common_report_Report::createFailure(__('Cannot locate the file "%s"', $file));
                 $errorReport->add($subReport);
             }
         }

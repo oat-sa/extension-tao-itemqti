@@ -39,7 +39,7 @@ class PortableElementInvalidModelException extends PortableElementException
     public function __construct($message = null, $code = 0, \Exception $previous = null)
     {
         if (is_null($message)) {
-            $message = 'Portable element validation has failed.';
+            $message = 'Portable element validation failed';
         }
         parent::__construct($message, $code, $previous);
     }

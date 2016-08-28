@@ -35,6 +35,8 @@ use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
@@ -459,8 +461,7 @@ class ImportService extends tao_models_classes_GenerisService
             } catch (ParsingException $e) {
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage());
             } catch (ValidationException $ve) {
-                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.',
-                    $qtiItemResource->getIdentifier()));
+                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $qtiItemResource->getIdentifier()));
                 $report->add($ve->getReport());
             } catch (XmlStorageException $e){
 
@@ -477,7 +478,11 @@ class ImportService extends tao_models_classes_GenerisService
 
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     $message);
-            } catch (Exception $e) {
+            } catch (PortableElementInvalidModelException $pe) {
+                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
+                $report->add($pe->getReport());
+                $rdfItem->delete();
+            }catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
                 common_Logger::e($e->getMessage());
