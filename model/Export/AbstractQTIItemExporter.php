@@ -287,7 +287,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
     public function copyAssetFile(StreamInterface $stream, $basePath, $baseName, &$replacementList)
     {
+        $baseName = preg_replace( '/^(.\/)/', '',$baseName);
         $replacement = $baseName;
+
         $count = 0;
         while (in_array($replacement, $replacementList)) {
             $dot = strrpos($baseName, '.');
