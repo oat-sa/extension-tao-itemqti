@@ -90,10 +90,15 @@ define([
 
             icRegistry.loadRuntimes().then(function(){
 
+                var requireEntries = [];
                 var runtime = icRegistry.getRuntime(typeIdentifier);
 
+                if(!runtime || !runtime.hook){
+                    return reject('The runtime for the pic cannot be found : ' + typeIdentifier);
+                }
+
                 //load the entrypoint
-                var requireEntries = [runtime.hook.replace(/\.js$/, '')];
+                requireEntries = [runtime.hook.replace(/\.js$/, '')];
 
                 //load stylesheets
                 _.each(runtime.stylesheets, function(stylesheet){
