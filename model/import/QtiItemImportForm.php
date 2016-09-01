@@ -66,7 +66,7 @@ class QtiItemImportForm
     	
     	//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add a QTI XML file"));
+		$fileElt->setDescription(__("Add a QTI/APIP XML Item Document"));
     	if(isset($_POST['import_sent_qti'])){
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		}
@@ -79,15 +79,7 @@ class QtiItemImportForm
 		));
     	
 		$this->form->addElement($fileElt);
-		
-		$apipElt = tao_helpers_form_FormFactory::getElement('import_options', 'Checkbox');
-		$apipElt->setOptions(array('apip' => __('APIP data')));
-		$apipElt->setValues(array('apip'));
-		$apipElt->setDescription(__('Import'));
-		$this->form->addElement($apipElt);
-		
-		
-		$this->form->createGroup('file', __('Import QTI 2.X Item'), array('source','import_options'));
+		$this->form->createGroup('file', __('Import a QTI/APIP XML Item Document'), array('source'));
 		
 		$qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');
 		$qtiSentElt->setValue(1);

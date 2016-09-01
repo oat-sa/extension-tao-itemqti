@@ -21,8 +21,11 @@
 
 namespace oat\taoQtiItem\model\flyExporter\simpleExporter;
 
+use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\flyExporter\extractor\Extractor;
+use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 
 /**
  *
@@ -71,17 +74,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     protected $extractors = [];
 
     /**
-     * Flysytem to manage file storage
-     * @var
+     * Fileysstem File to manage exported file storage
+     *
+     * @var File
      */
-    protected $filesystem;
-
-    /**
-     * file location inside filesystem
-     * @var
-     */
-    protected $filelocation;
-
+    protected $exportFile;
 
     /**
      * @inheritdoc
@@ -90,14 +87,12 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * @return mixed
      * @throws ExtractorException
      */
-    public function export($uri=null)
+    public function export($uri=null, $asFile=false)
     {
         $this->loadConfig();
         $items = $this->getItems($uri);
         $data  = $this->extractDataFromItems($items);
-        $this->save($data);
-
-        return $this->filelocation;
+        return $this->save($data, $asFile);
     }
 
     /**
@@ -109,14 +104,14 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function loadConfig()
     {
-        $this->filelocation = $this->getOption('fileLocation');
-        if (!$this->filelocation) {
+        if (! $this->hasOption('fileLocation')) {
             throw new ExtractorException('File location config is not correctly set.');
         }
 
-        $serviceManager = $this->getServiceManager();
-        $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
-        $this->filesystem = $fsService->getFileSystem(self::EXPORT_FILESYSTEM);
+        $this->exportFile = $this->getServiceManager()
+            ->get(FileSystemService::SERVICE_ID)
+            ->getDirectory(self::EXPORT_FILESYSTEM)
+            ->getFile($this->getOption('fileLocation'));
 
         $this->extractors = $this->getOption('extractors');
         $this->columns = $this->getOption('columns');
@@ -166,13 +161,17 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     {
         $output = [];
         foreach ($items as $item) {
-            $output[] = $this->extractDataFromItem($item);
+            try {
+                $itemData = $this->extractDataFromItem($item);
+                $output[] = $itemData;
+            } catch (ExtractorException $e) {
+                \common_Logger::e('ERROR on item ' . $item->getUri() . ' : ' . $e->getMessage());
+            }
         }
 
         if (empty($output)) {
-            throw new ExtractorException('No data to export.');
+            throw new ExtractorException('No data item to export.');
         }
-
         return $output;
     }
 
@@ -184,105 +183,83 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function extractDataFromItem(\core_kernel_classes_Resource $item)
     {
-        try {
-            foreach ($this->columns as $column => $config) {
-                $extractor = $this->extractors[$config['extractor']];
-                if (isset($config['parameters'])) {
-                    $parameters = $config['parameters'];
-                } else {
-                    $parameters = [];
-                }
-                $extractor->addColumn($column, $parameters);
+        foreach ($this->columns as $column => $config) {
+            /** @var Extractor $extractor */
+            $extractor = $this->extractors[$config['extractor']];
+            if (isset($config['parameters'])) {
+                $parameters = $config['parameters'];
+            } else {
+                $parameters = [];
             }
-
-            $data = ['0' => []];
-            foreach ($this->extractors as $extractor) {
-
-                $extractor->setItem($item);
-                $extractor->run();
-                $values = $extractor->getData();
-
-                foreach($values as $key => $value) {
-
-                    if (count($value) > 1) {
-                        $interactionData = $value;
-                    } else {
-                        $interactionData = $values;
-                    }
-
-                    if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) == array_keys($interactionData)) {
-                        $line = array_intersect_key($data[0], array_flip($this->headers));
-                        $data[] = array_merge($line, $interactionData);
-                    } else {
-                        $data[0] = array_merge($data[0], $interactionData);
-                    }
-
-                    $this->headers = array_unique(array_merge($this->headers, array_keys($interactionData)));
-                }
-            }
-
-            return $data;
-
-        } catch (ExtractorException $e) {
-            \common_Logger::e('ERROR on item ' . $item->getUri() . ' : ' . $e->getMessage());
+            $extractor->addColumn($column, $parameters);
         }
+
+        $data = ['0' => []];
+        foreach ($this->extractors as $extractor) {
+
+            $extractor->setItem($item);
+            $extractor->run();
+            $values = $extractor->getData();
+
+            foreach($values as $key => $value) {
+
+                if (count($value) > 1) {
+                    $interactionData = $value;
+                } else {
+                    $interactionData = $values;
+                }
+
+                if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) == array_keys($interactionData)) {
+                    $line = array_intersect_key($data[0], array_flip($this->headers));
+                    $data[] = array_merge($line, $interactionData);
+                } else {
+                    $data[0] = array_merge($data[0], $interactionData);
+                }
+
+                $this->headers = array_unique(array_merge($this->headers, array_keys($interactionData)));
+            }
+        }
+
+        return $data;
     }
 
     /**
      * Save data to file
      *
      * @param array $data
-     * @throws ExtractorException
-     * @throws \Exception
+     * @param bool $asFile
+     * @return File|string
+     * @throws \common_Exception
      */
-    protected function save(array $data)
+    protected function save(array $data, $asFile = false)
     {
-        $this->handleFile($this->filelocation);
-
         $output = $contents = [];
 
-        $contents[] = self::CSV_ENCLOSURE . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers) . self::CSV_ENCLOSURE;
+        $contents[] = self::CSV_ENCLOSURE
+            . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers)
+            . self::CSV_ENCLOSURE;
 
-        foreach ($data as $item) {
-            foreach ($item as $line) {
-                foreach ($this->headers as $index => $value) {
-                    if (isset($line[$value]) && $line[$value]!=='') {
-                        $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
-                        unset($line[$value]);
-                    } else {
-                        $output[$value] = '';
+        if (! empty($data)) {
+            foreach ($data as $item) {
+                foreach ($item as $line) {
+                    foreach ($this->headers as $index => $value) {
+                        if (isset($line[$value]) && $line[$value]!=='') {
+                            $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
+                            unset($line[$value]);
+                        } else {
+                            $output[$value] = '';
+                        }
                     }
+                    $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
                 }
-                $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
             }
         }
-        $this->filesystem->update($this->filelocation, chr(239) . chr(187) . chr(191) . implode("\n", $contents));
-    }
 
-    /**
-     * Handle file, delete if already exist
-     *
-     * @param $filename
-     * @throws ExtractorException
-     * @throws \Exception
-     */
-    protected function handleFile($filename)
-    {
-        if (empty($filename)) {
-            throw new ExtractorException('Filename is empty!');
-        }
-
-        if ($this->filesystem->has($filename)) {
-            $this->filesystem->delete($filename);
-        }
-
-        if (($resource = fopen('temp', 'w'))===false) {
-            throw new \Exception('Unable to create csv file.');
-        }
-
-        $this->filesystem->write($filename, $resource);
-        if (is_resource($resource)) {
-            fclose($resource);
+        $this->exportFile->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
+        if ($asFile) {
+            return $this->exportFile;
+        } else {
+            return $this->exportFile->getPrefix();
         }
     }
 }

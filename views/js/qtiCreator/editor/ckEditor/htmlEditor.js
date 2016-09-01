@@ -20,11 +20,12 @@ define([
     'i18n',
     'jquery',
     'ckeditor',
+    'taoQtiItem/qtiCreator/editor/ckEditor/groupToggler',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
+], function(_, __, $, CKEditor, groupToggler, ckConfigurator, Element, contentHelper, deletingHelper){
     "use strict";
 
     //prevent auto inline editor creation:
@@ -36,6 +37,8 @@ define([
         passthroughInnerContent : false,
         hideTriggerOnBlur : false
     };
+
+    var gpeToggler = groupToggler();
 
     /**
      * Find the ck launcher (the trigger that toggle visibility of the editor) in the editor's container
@@ -62,7 +65,7 @@ define([
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var toolbarType, $trigger;
+        var $trigger;
 
         options = _.defaults(options, _defaults);
 
@@ -116,11 +119,15 @@ define([
                                 $trigger.removeClass('active');
                                 floatSpaceApi.hide();
                             }else{
-                                $trigger.addClass('active');
+                                $trigger.addClass('active').trigger('show.grouptoggler');
                                 floatSpaceApi.show();
                             }
                         });
+                        $trigger.on('showanother.grouptoggler', function(){
+                            floatSpaceApi.hide();
+                        });
 
+                        gpeToggler.register($trigger);
                     },
                     changeMode : function(oldYMode, newYMode){
                         var element = this,

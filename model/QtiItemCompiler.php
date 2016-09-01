@@ -97,6 +97,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
             $report->setData($this->createQtiService($item, $publicDirectory, $privateDirectory));
         }
+
         return $report;
     }
 
@@ -149,8 +150,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         //copy item.xml file to private directory
         $itemDir = $itemService->getItemDirectory($item, $language);
-        $sourceItem = new File($itemDir->getFileSystem(), $itemDir->getPath().DIRECTORY_SEPARATOR.'qti.xml');
-        $privateDirectory->writeStream($language.'/qti.xml', $sourceItem->readStream());
+
+        $sourceItem = $itemDir->getFile('qti.xml');
+        $privateDirectory->writeStream($language . '/qti.xml', $sourceItem->readStream());
 
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -170,26 +172,26 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             fclose($fh);
         }
 
-        // retrieve the media assets
+        //  retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
-    
+
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
 
             $stream = \GuzzleHttp\Psr7\stream_for(json_encode($variableElements));
             $privateDirectory->writePsrStream($language.'/variableElements.json', $stream);
             $stream->close();
-            
+
             // render item based on the modified QtiItem
             $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
-            
+
             //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
             // write index.html
             $stream = \GuzzleHttp\Psr7\stream_for($xhtml);
             $publicDirectory->writePsrStream($language.'/index.html', $stream, 'text/html');
             $stream->close();
-    
+
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
             );
@@ -207,19 +209,19 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             );
         }
     }
-    
+
     /**
-     * 
+     *
      * @param core_kernel_classes_Resource $item
      * @param string $lang
      * @param \tao_models_classes_service_StorageDirectory $publicDirectory
-     * @return \oat\taoQtiItem\model\qti\Item
+     * @return qti\Item
      */
     protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $publicDirectory)
     {
         $qtiItem  = Service::singleton()->getDataItemByRdfItem($item, $lang);
-        
-        $assetParser = new AssetParser($qtiItem);
+
+        $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);

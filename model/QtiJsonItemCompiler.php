@@ -20,12 +20,10 @@
 
 namespace oat\taoQtiItem\model;
 
-use common_Logger;
 use common_report_Report;
 use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
-use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
 
 /**
@@ -71,7 +69,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             //create the item.json file in private directory
             $itemPacker = new QtiItemPacker();
             $itemPacker->setReplaceXinclude(false);
-            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem);
+            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem, $publicDirectory);
             $this->itemJson = $itemPack->JsonSerialize();
             //get the filtered data to avoid cheat
             $data = $qtiItem->getDataForDelivery();
