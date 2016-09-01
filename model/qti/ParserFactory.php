@@ -1459,25 +1459,8 @@ class ParserFactory
         if($data->nodeName == 'modalFeedback'){
             $myFeedback = new $feedbackClass($attributes, $this->item);
             $this->parseContainerStatic($data, $myFeedback->getBody());
-        } /*elseif ($data->nodeName == 'feedbackInline') {
-            //@todo: to be implemented: <feedbackInline> {@see http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html#section10008}
-            common_Logger::i('Importing item that contains <feedbackInline> element.');
-            $myFeedback = null;
-        } */else {
-
-            //@todo: to be implemented: interactive feedback
-            //@todo: to be implemented: <feedbackInline> {@see http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html#section10008}
+        } else {
             throw new UnsupportedQtiElement($data);
-
-            /*if($interactive){
-                $container = new ContainerFeedbackInteractive();
-                $myFeedback = new $feedbackClass($container, $attributes, $this->item);
-                $this->parseContainerInteractive($data, $myFeedback->getBody());
-            }else{
-                $container = new ContainerStatic();
-                $myFeedback = new $feedbackClass($container, $attributes, $this->item);
-                $this->parseContainerStatic($data, $myFeedback->getBody());
-            }*/
         }
 
         return $myFeedback;
