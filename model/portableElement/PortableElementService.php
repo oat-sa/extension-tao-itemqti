@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement;
 
+use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoundException;
@@ -28,13 +29,41 @@ use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
 use oat\taoQtiItem\model\portableElement\common\validator\Validator;
 use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class PortableElementService implements ServiceLocatorAwareInterface
+class PortableElementService extends ConfigurableService
 {
-    use ServiceLocatorAwareTrait;
+
     use PortableElementModelTrait;
+
+    /**
+     * @var PortableElementFactory
+     */
+    protected $factory;
+
+    public function __construct(array $options)
+    {
+        parent::__construct($options);
+
+        if(array_key_exists('factory' , $options)) {
+            $this->setFactory($options['factory']);
+            return;
+        }
+        throw new \InvalidArgumentException('option \"factory\" is mandatory');
+    }
+
+    /**
+     * set up factory from options
+     * @param $factoryOptions
+     * @return $this
+     */
+    protected function setFactory(array $factoryOptions) {
+
+        $factoryClassName = (array_key_exists('class' , $factoryOptions))?  $factoryOptions['class']: PortableElementFactory::class ;
+        $options          = (array_key_exists('options' , $factoryOptions))?  $factoryOptions['options']: [] ;
+
+        $this->factory = new $factoryClassName($options);
+        return $this;
+    }
 
     /**
      * Validate a model using associated validator

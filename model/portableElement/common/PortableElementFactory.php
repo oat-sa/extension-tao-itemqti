@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\model\portableElement\common;
 
 use oat\oatbox\AbstractRegistry;
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
@@ -40,7 +41,7 @@ use oat\taoQtiItem\model\portableElement\PortableElementService;
  * Class PortableElementFactory
  * @package oat\qtiItemPci\model\common
  */
-class PortableElementFactory
+class PortableElementFactory extends ConfigurableService
 {
     static protected $registries = [];
     static protected $services = [];
@@ -55,6 +56,10 @@ class PortableElementFactory
             new PciModel(),
             new PicModel()
         ];
+    }
+
+    public function getModel(array $data) {
+
     }
 
     /**
