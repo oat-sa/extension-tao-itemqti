@@ -30,9 +30,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoQtiItem/runner/provider/manager/userModules',
-    'taoQtiItem/runner/plugins/modalFeedback',
     'taoItems/assets/manager'
-], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, modalFeedback, userModules){
+], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -66,65 +65,6 @@ define([
 
                     done();
                 }, this.getLoadedClasses());
-            });
-
-            /**
-             * This "special" event has to be called on the IR to show a modal feedback
-             * @event itemRunner#feedback
-             * @param {Objtec} feedbackData - the feedback item data, loaded only on demand (hidden to the user)
-             * @param {Object} itemSession - the itemSession to decide which feedback to display
-             * @param {Function} done - what to do once the modal feedback is closed
-             */
-            this.on('feedback', function(feedbackData, itemSession, done){
-                //modal feedback data is
-                if(feedbackData && itemSession){
-                    self._loader.loadElements(feedbackData, function(item){
-                        self._renderer.load(function(){
-                            var queue = [];
-
-                            _.forEach(item.modalFeedbacks, function(feedback){
-
-                                var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-                                if( outcomeIdentifier && itemSession[outcomeIdentifier] &&
-                                    itemSession[outcomeIdentifier].base.identifier === feedback.id()){
-
-                                    queue.push(new Promise(function(resolve){
-
-                                        /* todo move to plugin
-                                        var inlineDisplay = !!module.config().inlineModalFeedback;
-                                        var onShowCallback = function() {};
-
-                                        //currently only modal feedbacks are available
-                                        if (inlineDisplay) {
-                                            return modalFeedbackInline.showFeedbacks(item, self._loader, self._renderer, itemSession, resolve, onShowCallback);
-                                        } else {
-                                            return modalFeedbackModal.showFeedbacks(item, self._loader, self._renderer, itemSession, resolve, onShowCallback);
-                                        }
-                                        */
-
-                                        /*var $feedbackContent = $(feedback.render());
-
-                                        //FIXME the IR should not be responsible of the modal rendering, i
-                                        //the container selection should be part of the renderer
-                                        $('#modalFeedbacks').append($feedbackContent);
-                                        feedback.postRender({
-                                            callback : function(){
-                                                $feedbackContent.remove();
-                                                resolve();
-                                            }
-                                        });*/
-                                    }));
-                                }
-                            });
-
-                            //execute the done callback once all modals are closed
-                            Promise.all(queue).then(done);
-
-                        }, this.getLoadedClasses());
-                    });
-                } else {
-                    done();
-                }
             });
         },
 

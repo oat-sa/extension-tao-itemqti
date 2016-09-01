@@ -2,16 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Dialog modal feedback Plugin</title>
+    <title>Plugin for the output of the messages in the item in test runner as a modal window</title>
     <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
     <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
     <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
-    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-only="/taoQtiItem/views/js/runner/plugins/modalFeedback/dialogFeedback.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-only="/taoQtiItem/views/js/runner/plugins/alertMessage.js"></script>
     <script  type="text/javascript">
         QUnit.config.autostart = false;
         require(['/tao/ClientConfig/config'], function(){
-            require(['taoQtiItem/test/runner/plugins/modalFeedback/dialogFeedback/test'], function() {
+            require(['taoQtiItem/test/runner/plugins/alertMessage/test'], function(){
                 QUnit.start();
             });
         });
@@ -19,6 +19,10 @@
 </head>
 <body>
 <div id="qunit"></div>
-<div id="qunit-fixture"></div>
+<div id="qunit-fixture">
+    <div id="item-container"></div>
+</div>
+
+<div id="outside-container"></div>
 </body>
 </html>

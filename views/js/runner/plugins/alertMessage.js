@@ -18,6 +18,10 @@
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
+
+/**
+ * Create dialog form with message, with overlapped content
+ */
 define([
     'jquery',
     'i18n',
@@ -31,59 +35,45 @@ define([
      */
     return pluginFactory({
 
-        name : 'modalDialogFeedback',
+        name : 'itemAlertMessage',
 
         /**
          * Initialize the plugin (called during runner's init)
          */
         init : function init(){
-            console.log('init');
+            var self = this;
+            this.$element = $(this.getContent().dom);
+
+            this.$element
+                // for GUI actions
+                .on('closed.modal', function(){
+                    $(this).modal('destroy');
+                })
+                .on('destroyed.modal', function(){
+                    self.trigger('resume', self);
+                });
         },
 
         /**
          * Called during the runner's render phase
          */
         render : function render(){
-            console.log('render');
-            /*var $container = this.getAreaBroker().getNavigationArea();
-            $container.append(this.$element);*/
+            var testRunner = this.getTestRunner();
+            var itemRunner = testRunner.itemRunner;
+            var $modalsContainer = this.getContent().$container;
+            if (!$modalsContainer) {
+                $modalsContainer = $('#modalFeedbacks', itemRunner.container);
+            }
+            $modalsContainer.append(this.$element);
+
+            this.$element.modal();
         },
 
         /**
          * Called during the runner's destroy phase
          */
         destroy : function destroy (){
-            this.$element.remove();
-        },
-
-        /**
-         * Enable the button
-         */
-        enable : function enable (){
-            this.$element.removeProp('disabled')
-                .removeClass('disabled');
-        },
-
-        /**
-         * Disable the button
-         */
-        disable : function disable (){
-            this.$element.prop('disabled', true)
-                .addClass('disabled');
-        },
-
-        /**
-         * Show the button
-         */
-        show: function show(){
-            hider.show(this.$element);
-        },
-
-        /**
-         * Hide the button
-         */
-        hide: function hide(){
-            hider.hide(this.$element);
+            this.$element.modal('close');
         }
     });
 });
