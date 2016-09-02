@@ -51,13 +51,30 @@ define([
 
     /**
      * Create the button based on the current context
+     * @param {Object} selfPlugin
      * @param {Object} context - the test context
-     * @returns {jQueryElement} the button
+     * @returns {*|jQuery|HTMLElement} the button
      */
-    var createElement = function createElement(context){
+    var createOkButton = function createElement(selfPlugin, context){
         var dataType = !!context.isLast ? 'end' : 'next';
         var $btn = $(buttonTpl(buttonData[dataType]));
-        $btn.addClass('modal-feedback-button');
+        $btn.addClass('modalFeedback-button');
+
+        //plugin behavior
+        $btn.on('click', function(e){
+            e.preventDefault();
+
+            selfPlugin.disable();
+            if($(this).data('control') === 'move-end'){
+                selfPlugin.trigger('end');
+            }
+
+            $btn.remove();
+            selfPlugin.$element.remove();
+
+            selfPlugin.trigger('resume', selfPlugin);
+        });
+
         return $btn;
     };
 
@@ -74,24 +91,7 @@ define([
         init : function init(){
             var self = this;
             var testRunner = this.getTestRunner();
-
-            this.$button = createElement(testRunner.getTestContext());
-
-            //plugin behavior
-            this.$button.on('click', function(e){
-                e.preventDefault();
-
-                self.disable();
-                if($(this).data('control') === 'move-end'){
-                    self.trigger('end');
-                }
-
-                self.$button.remove();
-                self.$element.remove();
-
-                self.trigger('resume', self);
-            });
-
+            this.$button = createOkButton(self, testRunner.getTestContext());
             this.$element = $(this.getContent().dom);
         },
 
@@ -110,7 +110,7 @@ define([
             $inlineContainer.append(this.$element);
 
             // hide all navigation buttons, create new instead of
-            if (!$('.modal-feedback-button', $navigationContainer).length){
+            if (!$('.modalFeedback-button', $navigationContainer).length){
                 $navigationContainer.append(this.$button);
             }
         },

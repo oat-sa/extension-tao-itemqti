@@ -219,7 +219,6 @@ define([
         init: function init(content) {
             var self = this;
             var testRunner = this.getTestRunner();
-            var resumeTriggerName = content.inlineMessage ? 'plugin-resume.itemInlineMessage' : 'plugin-resume.itemAlertMessage';
 
             messagePlugin = content.inlineMessage ? inlineMessage : alertMessage;
             renderingQueue = [];
@@ -231,11 +230,23 @@ define([
                 self.trigger('resume');
             }
 
-            testRunner
-                .off(resumeTriggerName)
-                .on(resumeTriggerName, function (feedback) {
-                    destroyFeedback(self, feedback);
-                });
+            if (content.inlineMessage) {
+
+                // todo implement scroll to on render?
+                // todo timer pause on render, resume on resume
+
+                testRunner
+                    .off('plugin-resume.itemInlineMessage')
+                    .on('plugin-resume.itemInlineMessage', function () {
+                        self.destroy();
+                    });
+            } else {
+                testRunner
+                    .off('plugin-resume.itemAlertMessage')
+                    .on('plugin-resume.itemAlertMessage', function (feedback) {
+                        destroyFeedback(self, feedback);
+                    });
+            }
         },
 
         /**
