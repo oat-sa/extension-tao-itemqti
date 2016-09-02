@@ -15,8 +15,22 @@ use oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoun
 
 class PortableElementService extends ConfigurableService
 {
-    /**
-     * @var
+    
+    public function __construct($options = array()) {
+        
+        if(array_key_exists('factory', $options)) {
+            
+            $this->factory = new $options['factory']['class'];
+            $this->factory->setTypeList($options['factory']['options']);
+            
+            parent::__construct($options);
+        }
+        
+        throw new \InvalidArgumentException('factory must be configured');
+    }
+
+        /**
+     * @var PortableElementFactory
      */
     protected $factory;
 
@@ -25,15 +39,19 @@ class PortableElementService extends ConfigurableService
      * @return PortableElement
      * @throws PortableElementNotFoundException
      */
-    public function getFormPath($path) {
-
+    public function getFormPath($type , $path) {
+        $portableElement = $this->factory->get($type)->loadFromPath($path);
+        return $portableElement;
     }
 
     /**
      * @param \DOMElement $element
+     * @return PortableElement
+     * @throws PortableElementNotFoundException
      */
-    public function getFormElement(\DOMElement $element) {
-
+    public function getFormElement($type , \DOMElement $element) {
+        $portableElement = $this->factory->get($type)->hydrateFromElement($element);
+        return $portableElement;
     }
 
     /**
@@ -42,8 +60,9 @@ class PortableElementService extends ConfigurableService
      * @return PortableElement
      * @throws PortableElementNotFoundException
      */
-    public function getFromData(array $data) {
-
+    public function getFromData($type , array $data) {
+        $portableElement = $this->factory->get($type)->hydrateFromData($data);
+        return $portableElement;
     }
 
     /**
@@ -53,7 +72,7 @@ class PortableElementService extends ConfigurableService
      * @throws PortableElementNotFoundException
      */
     public function get($type) {
-
+        return $this->factory->get($type);
     }
 
 }
