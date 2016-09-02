@@ -39,7 +39,7 @@ class PortableElementService extends ConfigurableService
      * @return PortableElement
      * @throws PortableElementNotFoundException
      */
-    public function getFormPath($type , $path) {
+    public function getFromPath($type , $path) {
         $portableElement = $this->factory->get($type)->loadFromPath($path);
         return $portableElement;
     }
@@ -49,7 +49,7 @@ class PortableElementService extends ConfigurableService
      * @return PortableElement
      * @throws PortableElementNotFoundException
      */
-    public function getFormElement($type , \DOMElement $element) {
+    public function getFromElement($type , \DOMElement $element) {
         $portableElement = $this->factory->get($type)->hydrateFromElement($element);
         return $portableElement;
     }
