@@ -468,9 +468,13 @@ class PortableElementRegistry extends AbstractRegistry implements ServiceLocator
     public function getFileSystem()
     {
         if (!$this->storage) {
+            try {
             $this->storage = $this->getServiceLocator()
                 ->get(PortableElementFileStorage::SERVICE_ID)
                 ->setServiceLocator($this->getServiceLocator());
+            } catch(\Exception $e) {
+                throw  new PortableElementNotFoundException('install tao extension : tao-itemqti-pci. Is mandatory to import this QTI package');
+            }
         }
         return $this->storage;
     }

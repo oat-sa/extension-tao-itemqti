@@ -153,6 +153,7 @@ class PortableElementFileStorage extends ConfigurableService
     public function getFileContentFromModelStorage(PortableElementModel $model, $file)
     {
         $filePath = $this->getPrefix($model) . $file;
+        //var_dump($filePath);die();
         if ($this->getFileStorage()->has($filePath)) {
             return $this->getFileStorage()->read($filePath);
         }

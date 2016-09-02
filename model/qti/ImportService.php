@@ -51,6 +51,7 @@ use tao_models_classes_GenerisService;
 use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
+use \oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoundException;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -62,7 +63,7 @@ use oat\oatbox\service\ServiceManager;
 class ImportService extends tao_models_classes_GenerisService
 {
 
-    /**
+     /**
      * Short description of method importQTIFile
      *
      * @access public
@@ -489,10 +490,15 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     $message);
             } catch (PortableElementInvalidModelException $pe) {
-                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
-                $report->add($pe->getReport());
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getMessage());
+                common_Logger::e($e->getMessage());
                 $rdfItem->delete();
-            }catch (Exception $e) {
+            }catch (PortableElementNotFoundException $e) {
+                // an error occured during a specific item
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR,$e->getMessage());
+                common_Logger::e($e->getMessage());
+            }
+            catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
                 common_Logger::e($e->getMessage());

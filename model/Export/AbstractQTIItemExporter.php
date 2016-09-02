@@ -306,7 +306,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
-        $assetParser = new AssetParser($qtiItem);
+        $assetParser = new AssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
         $assetParser->setGetSharedLibraries(false);
         $returnValue = array();
         foreach($assetParser->extract() as $type => $assets) {
