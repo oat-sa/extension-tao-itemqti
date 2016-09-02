@@ -63,12 +63,10 @@ class QtiItemPacker extends ItemPacker
      * @throws InvalidArgumentException
      * @throws common_Exception
      */
-    public function packItem(core_kernel_classes_Resource $item, $lang = "")
+    public function packItem(core_kernel_classes_Resource $item, $lang = "", $directory)
     {
-        $itemPack = null;
-
         //use the QtiParser to transform the QTI XML into an assoc array representation
-        $content = Service::singleton()->getXmlByRdfItem($item, $lang);
+        $content = $this->getXmlByItem($item, $lang);
         //load content
         $qtiParser = new QtiParser($content);
         //validate it
@@ -80,7 +78,7 @@ class QtiItemPacker extends ItemPacker
         //parse
         $qtiItem = $qtiParser->load();
 
-        return $this->packQtiItem($item, $lang, $qtiItem);
+        return $this->packQtiItem($item, $lang, $qtiItem, $directory);
 
     }
 
@@ -88,10 +86,12 @@ class QtiItemPacker extends ItemPacker
      * @param core_kernel_classes_Resource $item the item to pack
      * @param string $lang
      * @param Item $qtiItem
+     * @param \oat\oatbox\filesystem\Directory $directory
      * @return ItemPack $itemPack
      * @throws common_Exception
      */
-    public function packQtiItem($item, $lang, $qtiItem){
+    public function packQtiItem($item, $lang, $qtiItem, $directory)
+    {
         //use the QtiParser to transform the QTI XML into an assoc array representation
         try {
             //build the ItemPack from the parsed data
@@ -105,13 +105,18 @@ class QtiItemPacker extends ItemPacker
 
             $itemPack->setAssetEncoders($this->getAssetEncoders());
 
-            $assetParser = new AssetParser($qtiItem);
+            $assetParser = new AssetParser($qtiItem, $directory);
             $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
             $assetParser->setGetXinclude(!$this->replaceXinclude);
 
+            $storageDirectory = new \tao_models_classes_service_StorageDirectory($item->getUri(),
+                $directory->getFileSystemId(), $directory->getPrefix() . '/' . $lang);
+            $storageDirectory->setServiceLocator($directory->getServiceLocator());
+
             foreach ($assetParser->extract($itemPack) as $type => $assets) {
-                $itemPack->setAssets($type, $assets, $path);
+                $itemPack->setAssets($type, $assets, $storageDirectory);
             }
+
         } catch (common_Exception $e) {
             throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
         }
@@ -120,28 +125,21 @@ class QtiItemPacker extends ItemPacker
     }
 
     /**
-     * Get QTI Item content.
-     * Let this method protected : it's behavior can be changed.
-     *
-     * @param string $folder the item folder
-     * @return string the qti.xml content
-     * @throws common_Exception
-     */
-    protected function getItemContent($folder)
-    {
-        $file = $folder . DIRECTORY_SEPARATOR . 'qti.xml';
-        if (file_exists($file)) {
-            return file_get_contents($file);
-        }
-        throw new common_Exception('Unable to retrieve item content at : ' . $file);
-    }
-
-    /**
      * @param boolean $replaceXinclude
      */
     public function setReplaceXinclude($replaceXinclude)
     {
         $this->replaceXinclude = $replaceXinclude;
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $item
+     * @param string $lang
+     * @return string
+     */
+    protected function getXmlByItem(core_kernel_classes_Resource $item, $lang = '')
+    {
+        return Service::singleton()->getXmlByRdfItem($item, $lang);
     }
 
 }
