@@ -149,7 +149,7 @@ define([
 
                 var feedback = alertMessage(testRunner, testRunner.getAreaBroker());
 
-                feedback.init('<div>text with message for user</div>')
+                feedback.init({dom: '<div>text with message for user</div>'})
                     .then(function() {
                         assert.equal(feedback.getState('init'), true, 'The feedback is initialised');
                         assert.equal(feedback.$element.text(), 'text with message for user', 'The feedback is initialised');
@@ -184,7 +184,7 @@ define([
 
                 mFeedback = alertMessage(testRunner, testRunner.getAreaBroker());
 
-                mFeedback.init('<div id="qUnitTestMessage">text with message for user</div>');
+                mFeedback.init({dom: '<div id="qUnitTestMessage">text with message for user</div>'});
                 mFeedback
                     .render()
                     .catch(function(err){
@@ -197,7 +197,7 @@ define([
             .render(container);
 
         testRunner = testRunnerFactory(providerName);
-        testRunner.itemRunner = runner;
+        testRunner.itemRunner = {_item: runner};
 
         testRunner
             .on('plugin-render.itemAlertMessage', function(feedback) {

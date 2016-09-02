@@ -151,7 +151,7 @@ define([
 
                 var feedback = inlineMessage(testRunner, testRunner.getAreaBroker());
 
-                feedback.init('<div>text with message for user</div>')
+                feedback.init({dom: '<div>text with message for user</div>'})
                     .then(function() {
                         assert.equal(feedback.getState('init'), true, 'The feedback is initialised');
                         assert.equal(feedback.$element.text(), 'text with message for user', 'The message was appended');
@@ -168,14 +168,14 @@ define([
             .render(container);
 
         testRunner = testRunnerFactory(providerName);
-        testRunner.itemRunner = runner;
+        testRunner.itemRunner = {_item: runner};
     });
 
     QUnit.asyncTest('render', function(assert) {
 
         QUnit.expect(10);
 
-        var feedback;
+        var mFeedback;
         var container = document.getElementById(containerId);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
@@ -186,9 +186,9 @@ define([
                 assert.equal(container.children.length, 1, 'the container has children');
                 assert.equal($('li.action', testRunner.getAreaBroker().getNavigationArea()).length, 0, 'Navigation has no children');
 
-                feedback = inlineMessage(testRunner, testRunner.getAreaBroker());
-                feedback.init('<div id="qUnitTestMessage">text with message for user</div>');
-                feedback
+                mFeedback = inlineMessage(testRunner, testRunner.getAreaBroker());
+                mFeedback.init({dom: '<div id="qUnitTestMessage">text with message for user</div>'});
+                mFeedback
                     .render()
                     .catch(function(err){
                         console.log(err);
@@ -200,7 +200,7 @@ define([
             .render(container);
 
         testRunner = testRunnerFactory(providerName);
-        testRunner.itemRunner = runner;
+        testRunner.itemRunner = {_item: runner};
 
         testRunner
             .on('plugin-render.itemInlineMessage', function (feedback) {
@@ -214,7 +214,7 @@ define([
 
                 feedback.$button.click();
             })
-            .on('plugin-resume.itemInlineMessage', function (feedback) {
+            .on('plugin-resume.itemInlineMessage', function () {
                 assert.equal($('#qUnitTestMessage', testRunner.itemRunner.container).length, 0, 'The message is deleted');
                 QUnit.start();
             });

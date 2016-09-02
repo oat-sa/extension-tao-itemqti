@@ -50,6 +50,7 @@ define([
                     $(this).modal('destroy');
                 })
                 .on('destroyed.modal', function(){
+                    self.$element = null;
                     self.trigger('resume', self);
                 });
         },
@@ -62,7 +63,7 @@ define([
             var itemRunner = testRunner.itemRunner;
             var $modalsContainer = this.getContent().$container;
             if (!$modalsContainer) {
-                $modalsContainer = $('#modalFeedbacks', itemRunner.container);
+                $modalsContainer = $('#modalFeedbacks', itemRunner._item.container);
             }
             $modalsContainer.append(this.$element);
 
@@ -73,7 +74,9 @@ define([
          * Called during the runner's destroy phase
          */
         destroy : function destroy (){
-            this.$element.modal('close');
+            if (this.$element && this.$element.length){
+                this.$element.modal('close');
+            }
         }
     });
 });

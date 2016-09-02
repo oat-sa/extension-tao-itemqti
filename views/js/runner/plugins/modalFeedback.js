@@ -35,14 +35,14 @@ define([
      * Form of the feedback
      * by default dialog (modal) form
      */
-    var messagePlugin = alertMessage;
+    var messagePlugin;
 
     /**
      * Feedbacks to be displayed
      */
-    var renderingQueue = [];
+    var renderingQueue;
 
-    var renderedFeedbacks = [];
+    var renderedFeedbacks;
 
     /**
      * Provide the feedbackMessage signature to check if the feedback contents should be considered equals
@@ -103,18 +103,16 @@ define([
 
         //extract all interaction related information needed to display their
         _.each(item.getComposingElements(), function (element) {
-            var responseIdentifier;
             if (element.is('interaction')) {
-                responseIdentifier = element.attr('responseIdentifier');
                 interactionsDisplayInfo.push(extractDisplayInfo(element));
             }
         });
 
         //sort interactionsDisplayInfo on the item level
         $itemContainer.find('.qti-interaction').each(function () {
-            var interactionContainer = this;
+            var self = this;
             _.each(interactionsDisplayInfo, function (_interactionInfo) {
-                if (_interactionInfo.interactionContainer[0] === interactionContainer) {
+                if (_interactionInfo.interactionContainer[0] === self) {
                     _interactionInfo.order = interactionOrder;
                     return false;
                 }
@@ -185,7 +183,7 @@ define([
     };
 
 
-    var destroyFeedback = function destroyFeedback(self, feedback) {
+    var destroyFeedback = function destroyFeedback(selfPlugin, feedback) {
 
         var removed = false;
         _.remove(renderedFeedbacks, function (storedFeedback) {
@@ -201,7 +199,7 @@ define([
             feedback.destroy();
 
             if (!renderedFeedbacks.length) {
-                self.trigger('resume');
+                selfPlugin.trigger('resume');
             }
         }
     };
@@ -219,9 +217,25 @@ define([
          * @param content
          */
         init: function init(content) {
+            var self = this;
             var testRunner = this.getTestRunner();
+            var resumeTriggerName = content.inlineMessage ? 'plugin-resume.itemInlineMessage' : 'plugin-resume.itemAlertMessage';
+
             messagePlugin = content.inlineMessage ? inlineMessage : alertMessage;
+            renderingQueue = [];
+            renderedFeedbacks = [];
+
             renderingQueue = getFeedbacks(testRunner.itemRunner._item, content.itemSession);
+
+            if (!renderingQueue.length) {
+                self.trigger('resume');
+            }
+
+            testRunner
+                .off(resumeTriggerName)
+                .on(resumeTriggerName, function (feedback) {
+                    destroyFeedback(self, feedback);
+                });
         },
 
         /**
@@ -240,7 +254,8 @@ define([
                         dom: renderingToken.feedback.render({
                             inline: self.getContent().inlineMessage
                         }),
-                        $container: renderingToken.$container
+                        // for alert by default will be looking for #modalMessages
+                        $container: self.getContent().inlineMessage ? renderingToken.$container : null
                     });
                     feedback.render();
 

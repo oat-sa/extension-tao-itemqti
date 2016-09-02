@@ -103,8 +103,8 @@ define([
             var testRunner = this.getTestRunner();
             var itemRunner = testRunner.itemRunner;
             var $inlineContainer = this.getContent().$container;
-            if (!$inlineContainer && itemRunner.container) {
-                $inlineContainer = $('.qti-itemBody', itemRunner.container);
+            if (!$inlineContainer && itemRunner._item.container) {
+                $inlineContainer = $('.qti-itemBody', itemRunner._item.container);
             }
 
             $inlineContainer.append(this.$element);

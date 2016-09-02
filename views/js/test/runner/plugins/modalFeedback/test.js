@@ -388,11 +388,11 @@ define([
                         .on('plugin-render.QtiModalFeedback', function (feedback) {
 
                             var feedbacks;
-
+                            var $modalsBlock = $('#modalFeedbacks', $result);
+                            var countFeedbacks = testCase.feedbacks.choice.length + testCase.feedbacks.inline.length + testCase.feedbacks.order.length;
                             assert.equal(feedback.getState('ready'), true, 'The feedback is rendered');
-                            assert.equal($('.qti-modalFeedback', $choiceInteraction).length, testCase.feedbacks.choice.length, 'modal feedbacks below choice interaction');
-                            assert.equal($('.qti-modalFeedback', $orderInteraction).length, testCase.feedbacks.order.length, 'modal feedbacks below order interaction');
-                            assert.equal($('.qti-modalFeedback', $inlineInteractionContainer).length, testCase.feedbacks.inline.length, 'modal feedbacks below inline block');
+
+                            assert.equal($('.qti-modalFeedback', $modalsBlock).length, countFeedbacks, 'modal feedbacks in the special dom element');
 
                             feedbacks = testCase.feedbacks.choice.concat(testCase.feedbacks.order, testCase.feedbacks.inline);
                             _.each(feedbacks, function (fb) {
