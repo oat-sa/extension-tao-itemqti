@@ -20,12 +20,14 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\InfoControl;
+use oat\taoQtiItem\model\qti\PortableElementTrait;
 use \DOMElement;
 
 /**
- * Class representing a QTI protable InfoControl
+ * Class representing a QTI portable InfoControl
  * 
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10433a
  * @access public
@@ -36,10 +38,18 @@ use \DOMElement;
 class PortableInfoControl extends InfoControl
 {
 
+    use PortableElementTrait;
+
+    const NS_NAME = 'pic';
+    const NS_URI = 'http://www.imsglobal.org/xsd/portableInfoControl';
+
     protected $properties = array();
     protected $libraries = array();
+    protected $stylesheets = array();
+    protected $mediaFiles = array();
     protected $typeIdentifier = '';
     protected $entryPoint = '';
+    protected $version = '0.0.0';
 
     public function setTypeIdentifier($typeIdentifier){
         $this->typeIdentifier = $typeIdentifier;
@@ -69,6 +79,30 @@ class PortableInfoControl extends InfoControl
         }
     }
 
+    public function getStylesheets(){
+        return $this->stylesheets;
+    }
+
+    public function setStylesheets($stylesheets){
+        $this->stylesheets = $stylesheets;
+    }
+
+    public function getMediaFiles(){
+        return $this->mediaFiles;
+    }
+
+    public function setMediaFiles($mediaFiles){
+        $this->mediaFiles = $mediaFiles;
+    }
+
+    public function getVersion(){
+        return $this->version;
+    }
+
+    public function setVersion($version){
+        return $this->version = $version;
+    }
+
     public function getLibraries(){
         return $this->libraries;
     }
@@ -85,41 +119,56 @@ class PortableInfoControl extends InfoControl
 
         $returnValue = parent::toArray($filterVariableContent, $filtered);
 
-        $returnValue['libraries'] = array();
-        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
-        $returnValue['entryPoint'] = $this->entryPoint;
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
+        $returnValue['version'] = $this->version;
+        $returnValue['entryPoint'] = $this->entryPoint;
+        $returnValue['libraries'] = $this->libraries;
+        $returnValue['stylesheets'] = $this->stylesheets;
+        $returnValue['mediaFiles'] = $this->mediaFiles;
+        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
 
         return $returnValue;
     }
 
     public static function getTemplateQti(){
-        return static::getTemplatePath().'interactions/qti.infoControlInteraction.tpl.php';
+        return static::getTemplatePath().'qti.portableInfoControl.tpl.php';
     }
 
     protected function getTemplateQtiVariables(){
 
+        $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
-
         $variables['libraries'] = $this->libraries;
-        $variables['properties'] = $this->properties;
+        $variables['stylesheets'] = $this->stylesheets;
+        $variables['mediaFiles'] = $this->mediaFiles;
+        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties, self::NS_NAME, self::NS_URI);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
-
+        $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$nsMarkup.':$2', $variables['markup']);
+        $this->getRelatedItem()->addNamespace($nsMarkup, $nsMarkup);
         return $variables;
     }
 
     public function feed(ParserFactory $parser, DOMElement $data){
-        
-        $ns = $parser->getPicNamespace();
-        
-        $pciNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $ns);
-        if($pciNodes->length){
-            $typeIdentifier = $pciNodes->item(0)->getAttribute('infoControlTypeIdentifier');
-            $this->setTypeIdentifier($typeIdentifier);
 
-            $entryPoint = $pciNodes->item(0)->getAttribute('hook');
-            $this->setEntryPoint($entryPoint);
+        $ns = $parser->getPicNamespace();
+
+        $pciNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $ns);
+        if(!$pciNodes->length) {
+            throw new QtiModelException('no portableInfoControl node found');
+        }
+
+        $typeIdentifier = $pciNodes->item(0)->getAttribute('infoControlTypeIdentifier');
+        if(empty($typeIdentifier)){
+            throw new QtiModelException('the type identifier of the pic is missing');
+        }else{
+            $this->setTypeIdentifier($typeIdentifier);
+        }
+        $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
+
+        $version = $pciNodes->item(0)->getAttribute('version');
+        if($version){
+            $this->setVersion($version);
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'libraries', 'lib'), $data, $ns);
@@ -129,9 +178,23 @@ class PortableInfoControl extends InfoControl
         }
         $this->setLibraries($libs);
 
+        $stylesheetNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'stylesheets', 'link'), $data, $ns);
+        $stylesheets = array();
+        foreach($stylesheetNodes as $styleNode){
+            $stylesheets[] = $styleNode->getAttribute('href');
+        }
+        $this->setStylesheets($stylesheets);
+
+        $mediaNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'mediaFiles', 'file'), $data, $ns);
+        $media = array();
+        foreach($mediaNodes as $mediaNode){
+            $media[] = $mediaNode->getAttribute('src');
+        }
+        $this->setMediaFiles($media);
+
         $propertyNodes = $parser->queryXPathChildren(array('portableInfoControl', 'properties'), $data, $ns);
         if($propertyNodes->length){
-            $properties = $this->extractPciProperties($propertyNodes->item(0), $ns);
+            $properties = $this->extractProperties($propertyNodes->item(0), $ns);
             $this->setProperties($properties);
         }
 
@@ -141,29 +204,4 @@ class PortableInfoControl extends InfoControl
             $this->setMarkup($markup);
         }
     }
-
-    private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
-
-        $properties = array();
-        $ns = $ns ? trim( $ns, ':' ) . ':' : '';
-
-        foreach($propertiesNode->childNodes as $prop){
-
-            if($prop instanceof DOMElement){
-                switch($prop->tagName){
-                    case $ns.'entry':
-                        $key = $prop->getAttribute('key');
-                        $properties[$key] = $prop->nodeValue;
-                        break;
-                    case $ns.'properties':
-                        $key = $prop->getAttribute('key');
-                        $properties[$key] = $this->extractPciProperties($prop, $ns);
-                        break;
-                }
-            }
-        }
-
-        return $properties;
-    }
-
 }
