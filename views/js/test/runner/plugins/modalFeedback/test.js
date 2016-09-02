@@ -286,7 +286,6 @@ define([
 
                     testRunner
                         .on('plugin-render.QtiModalFeedback', function (feedback) {
-
                             var feedbacks;
 
                             var $navContainer = testRunner.getAreaBroker().getNavigationArea();

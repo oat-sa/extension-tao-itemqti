@@ -44,6 +44,8 @@ define([
 
     var renderedFeedbacks;
 
+    var isDestroyed;
+
     /**
      * Provide the feedbackMessage signature to check if the feedback contents should be considered equals
      *
@@ -220,6 +222,7 @@ define([
             var self = this;
             var testRunner = this.getTestRunner();
 
+            isDestroyed = false;
             messagePlugin = content.inlineMessage ? inlineMessage : alertMessage;
             renderingQueue = [];
             renderedFeedbacks = [];
@@ -265,7 +268,7 @@ define([
                         dom: renderingToken.feedback.render({
                             inline: self.getContent().inlineMessage
                         }),
-                        // for alert by default will be looking for #modalMessages
+                        // for alerts will be used #modalMessages container
                         $container: self.getContent().inlineMessage ? renderingToken.$container : null
                     });
                     feedback.render();
@@ -277,12 +280,16 @@ define([
 
         /**
          * Called during the runner's destroy phase
+         * allow to run that function only once
          */
         destroy: function destroy() {
-            var self = this;
-            var tFeedbacks = renderedFeedbacks.slice(0);
-            for (var i in tFeedbacks) {
-                destroyFeedback(self, tFeedbacks[i]);
+            var tFeedbacks, i;
+            if (!isDestroyed) {
+                isDestroyed = true;
+                tFeedbacks = renderedFeedbacks.slice(0);
+                for (i in tFeedbacks) {
+                    destroyFeedback(this, tFeedbacks[i]);
+                }
             }
         }
     });
