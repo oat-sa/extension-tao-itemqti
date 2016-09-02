@@ -27,8 +27,9 @@ define([
     'taoTests/runner/plugin',
     'taoQtiItem/qtiItem/helper/container',
     'taoQtiItem/runner/plugins/inlineMessage',
-    'taoQtiItem/runner/plugins/alertMessage'
-], function ($, _, __, Promise, pci, pluginFactory, containerHelper, inlineMessage, alertMessage) {
+    'taoQtiItem/runner/plugins/alertMessage',
+    'ui/autoscroll'
+], function ($, _, __, Promise, pci, pluginFactory, containerHelper, inlineMessage, alertMessage, autoscroll) {
     'use strict';
 
     /**
@@ -126,7 +127,7 @@ define([
         return interactionsDisplayInfo;
     }
 
-    var getFeedbacks = function getFeedbacks(item, itemSession) {
+    function getFeedbacks(item, itemSession) {
 
         var messages = {};
         var $itemContainer = item.getContainer();
@@ -182,10 +183,10 @@ define([
         renderingQueue = _.sortBy(renderingQueue, 'order');
 
         return renderingQueue;
-    };
+    }
 
 
-    var destroyFeedback = function destroyFeedback(selfPlugin, feedback) {
+    function destroyFeedback(selfPlugin, feedback) {
 
         var removed = false;
         _.remove(renderedFeedbacks, function (storedFeedback) {
@@ -204,7 +205,7 @@ define([
                 selfPlugin.trigger('resume');
             }
         }
-    };
+    }
 
     /**
      * Returns the configured plugin
@@ -235,7 +236,6 @@ define([
 
             if (content.inlineMessage) {
 
-                // todo implement scroll to on render?
                 // todo timer pause on render, resume on resume
 
                 testRunner
@@ -275,6 +275,11 @@ define([
 
                     renderedFeedbacks.push(feedback);
                 });
+
+                // auto scroll to the first feedback, only for the "inline" mode
+                if (self.getContent().inlineMessage && renderedFeedbacks) {
+                    autoscroll($('.qti-modalFeedback', testRunner.itemRunner._item.getContainer()).first(), this.getAreaBroker().getContentArea().parents('.content-wrapper'));
+                }
             }
         },
 
