@@ -76,11 +76,13 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
     protected function containsItem()
     {
         $found = false;
-        foreach ($this->getManifest()->getElementsByTagName('resource') as $resourceNode) {
-            /** @var \DOMElement $resourceNode */
-            if ($resourceNode->getAttribute('identifier') == $this->buildIdentifier()) {
-                $found = true;
-                break;
+        if ($this->hasManifest()) {
+            foreach ($this->getManifest()->getElementsByTagName('resource') as $resourceNode) {
+                /** @var \DOMElement $resourceNode */
+                if ($resourceNode->getAttribute('identifier') == $this->buildIdentifier()) {
+                    $found = true;
+                    break;
+                }
             }
         }
         return $found;
