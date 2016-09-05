@@ -21,16 +21,11 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
-use oat\taoQtiItem\model\qti\Element;
-use oat\taoQtiItem\model\qti\StyleSheet;
-use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use \SimpleXMLElement;
-use oat\tao\model\ClientLibRegistry;
 
 /**
  * Parse and Extract all assets of an item.
@@ -48,12 +43,6 @@ class AssetParser
     private $item;
 
     /**
-     * The item path of file system
-     * @var string
-     */
-    private $path;
-
-    /**
     * Set mode - if parser have to find shared libraries (PCI and PIC)
     * @var bool
     */
@@ -64,6 +53,12 @@ class AssetParser
      * @var bool
      */
     private $getXinclude = true;
+
+    /**
+     * Set mode - if parser have to find portable element
+     * @var bool
+     */
+    private $getCustomElement = false;
 
     /**
      * Set mode - if parser have to find all external entries ( like url, require etc )
@@ -77,14 +72,17 @@ class AssetParser
      */
     private $assets = array();
 
+    private $directory;
+
     /**
      * Creates a new parser from an item
      * @param Item $item the item to parse
-     * @param string $path the path of the item in the FS
+     * @param $directory
      */
-    public function __construct(Item $item, $path = null){
+    public function __construct(Item $item, $directory)
+    {
         $this->item = $item;
-        $this->path = $path;
+        $this->directory = $directory;
     }
 
     /**
@@ -153,14 +151,23 @@ class AssetParser
             $this->addAsset('css', $href);
 
             $parsedUrl = parse_url($href);
-            if($this->isDeepParsing() && !is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
-                //relative
-                $styleSheetPath = $this->path . DIRECTORY_SEPARATOR . $parsedUrl['path'];
-                if(file_exists($styleSheetPath)){
-                    $this->loadStyleSheetAsset(file_get_contents($styleSheetPath));
+            if ($this->isDeepParsing() && array_key_exists('path', $parsedUrl) && !array_key_exists('host',
+                    $parsedUrl)
+            ) {
+                $file = $this->directory->getFile($parsedUrl['path']);
+                if ($file->exists()) {
+                    $this->loadStyleSheetAsset($file->read());
                 }
             }
         }
+    }
+
+    public function extractPortableAssetElements()
+    {
+        foreach ($this->item->getComposingElements() as $element) {
+            $this->extractCustomElement($element);
+        }
+        return $this->assets;
     }
 
     /**
@@ -168,17 +175,28 @@ class AssetParser
      * @param Element $element the element itself or a container of the target element
      */
     public function extractCustomElement(Element $element){
+        $this->getPortableCustomInteraction($element);
+        $this->getPortableInfoControl($element);
+    }
+
+    public function getPortableCustomInteraction(Element $element)
+    {
         if($element instanceof Container){
             foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\CustomInteraction') as $interaction){
-                $this->loadCustomElementAssets($interaction);
-            }
-
-            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\InfoControl') as $interaction){
                 $this->loadCustomElementAssets($interaction);
             }
         }
         if($element instanceof CustomInteraction){
             $this->loadCustomElementAssets($element);
+        }
+    }
+
+    public function getPortableInfoControl(Element $element)
+    {
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\InfoControl') as $interaction){
+                $this->loadCustomElementAssets($interaction);
+            }
         }
         if($element instanceof InfoControl){
             $this->loadCustomElementAssets($element);
@@ -225,25 +243,24 @@ class AssetParser
      */
     private function loadCustomElementAssets(Element $element)
     {
+        if($this->getGetCustomElementDefinition()) {
+            if ($element instanceof PortableCustomInteraction) {
+                $this->assets['pciElement'][$element->getTypeIdentifier()] = $element;
+            }
 
-        $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
-        $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
+            if ($element instanceof PortableInfoControl) {
+                $this->assets['picElement'][$element->getTypeIdentifier()] = $element;
+            }
+        }
+
         $xmls = array();
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
-            $entryPoint = $element->getEntryPoint();
-            $fileName = substr($entryPoint, -3) != '.js' ? $entryPoint.'.js' : $entryPoint;
-            $this->addAsset('js', $fileName);
-            foreach($element->getLibraries() as $lib){
-                if ($this->getGetSharedLibraries() || !ClientLibRegistry::getRegistry()->isRegistered($lib)) {
-                    $fileName = substr($lib, -3) != '.js' ? $lib.'.js' : $lib;
-                    $this->addAsset('js', $fileName);
-                }
-            }
+            //some portable elements contains htmlentitied markup in their properties...
             $xmls = $this->getXmlProperties($element->getProperties());
         }
 
         //parse and extract assets from markup using XPATH
-        if($element instanceof CustomInteraction || $element instanceof InfoControl){
+        if ($element instanceof CustomInteraction || $element instanceof InfoControl) {
             // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
             $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);
@@ -352,6 +369,23 @@ class AssetParser
     {
         return $this->getXinclude;
     }
+
+    /**
+     * @param boolean $getCustomElement
+     */
+    public function setGetCustomElementDefinition($getCustomElement)
+    {
+        $this->getCustomElement = $getCustomElement;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getGetCustomElementDefinition()
+    {
+        return $this->getCustomElement;
+    }
+
 
     /**
      * @return boolean

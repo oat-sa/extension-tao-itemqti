@@ -23,14 +23,14 @@
  */
 define([
     'lodash',
-    'context',
     'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiCustomInteractionContext',
-    'taoQtiItem/qtiItem/helper/util'
-], function(_, context, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util){
+    'taoQtiItem/qtiItem/helper/util',
+    'taoQtiItem/portableElementRegistry/ciRegistry'
+], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
     'use strict';
 
     /**
@@ -63,7 +63,7 @@ define([
 
         return pci;
     };
-
+    
     /**
      * Execute javascript codes to bring the interaction to life.
      * At this point, the html markup must already be ready in the document.
@@ -82,50 +82,63 @@ define([
 
         options = options || {};
         return new Promise(function(resolve, reject){
-            var runtimeLocation;
             var state              = {}; //@todo pass state and response to renderer here:
-            var localRequireConfig = { paths : {} };
             var response           = { base : null};
             var id                 = interaction.attr('responseIdentifier');
             var typeIdentifier     = interaction.typeIdentifier;
-            var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : self.getOption('runtimeLocations');
             var config             = _.clone(interaction.properties); //pass a clone instead
             var $dom               = containerHelper.get(interaction).children();
-            var entryPoint         = interaction.entryPoint.replace(/\.js$/, '');   //ensure it's an AMD module
+            var assetManager       = self.getAssetManager();
 
-            //update config with runtime paths
-            if(runtimeLocations && runtimeLocations[typeIdentifier]){
-                runtimeLocation = runtimeLocations[typeIdentifier];
-            } else{
-                runtimeLocation = self.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
-            }
-            if(runtimeLocation){
-                localRequireConfig.paths[typeIdentifier] = runtimeLocation;
-                require.config(localRequireConfig);
-            }
+            ciRegistry.loadRuntimes().then(function(){
 
-            //load the entrypoint
-            require([entryPoint], function(){
+                var requireEntries = [];
+                var runtime = ciRegistry.getRuntime(typeIdentifier);
 
-                var pci = _getPci(interaction);
-                if(pci){
-                    //call pci initialize() to render the pci
-                    pci.initialize(id, $dom[0], config);
-                    //restore context (state + response)
-                    pci.setSerializedState(state);
-                    pci.setResponse(response);
-
-                    //forward internal PCI event responseChange
-                    interaction.onPci('responseChange', function(){
-                        containerHelper.triggerResponseChangeEvent(interaction);
-                    });
-
-                    return resolve();
+                if(!runtime || !runtime.hook){
+                    return reject('The runtime for the pci cannot be found : ' + typeIdentifier);
                 }
 
-                return reject('Unable to initiliaze pci : ' + id);
+                //load the entrypoint
+                requireEntries.push(runtime.hook.replace(/\.js$/, ''));
 
-            }, reject);
+                //load stylesheets
+                _.each(runtime.stylesheets, function(stylesheet){
+                    requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
+                });
+
+                //load the entrypoint+stylesheets
+                require(requireEntries, function(){
+
+                    var pci = _getPci(interaction);
+                    var pciAssetManager = {
+                        resolve : function resolve(url){
+                            return assetManager.resolveBy('portableElementLocation', url);
+                        }
+                    };
+
+                    if(pci){
+                        //call pci initialize() to render the pci
+                        pci.initialize(id, $dom[0], config, pciAssetManager);
+                        //restore context (state + response)
+                        pci.setSerializedState(state);
+                        pci.setResponse(response);
+
+                        //forward internal PCI event responseChange
+                        interaction.onPci('responseChange', function(){
+                            containerHelper.triggerResponseChangeEvent(interaction);
+                        });
+
+                        return resolve();
+                    }
+
+                    return reject('Unable to initialize pci : ' + id);
+
+                }, reject);
+                
+            }).catch(function(error){
+                reject('Error loading runtime : ' + id);
+            });
         });
     };
 
