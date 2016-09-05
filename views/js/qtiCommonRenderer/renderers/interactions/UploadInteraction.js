@@ -26,6 +26,7 @@ define([
     'lodash',
     'i18n',
     'context',
+    'core/mimetype',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
@@ -34,7 +35,7 @@ define([
     'ui/previewer',
     'ui/modal',
     'ui/waitForMedia'
-], function ($, _, __, context, tpl, containerHelper, instructionMgr, uploadHelper) {
+], function ($, _, __, context, mimetype, tpl, containerHelper, instructionMgr, uploadHelper) {
     'use strict';
 
     var _initialInstructions = __('Browse your computer and select the appropriate file.');
@@ -48,8 +49,7 @@ define([
         // Show information about the processed file to the candidate.
         var filename = file.name;
         var filesize = file.size;
-        var filetype = file.type;
-
+        var filetype = mimetype.getMimeType(file);
         instructionMgr.removeInstructions(interaction);
         instructionMgr.appendInstruction(interaction, _initialInstructions);
 
