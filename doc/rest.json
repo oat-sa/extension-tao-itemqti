@@ -6,10 +6,6 @@
         "version": "1.0.0",
         "title": "QTI item API"
     },
-    "schemes": [
-        "http",
-        "https"
-    ],
     "tags": [
         {
             "name": "item",

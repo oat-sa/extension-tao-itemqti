@@ -113,8 +113,6 @@ class ApipExportForm extends tao_helpers_form_FormContainer
 		$this->form->addElement($instanceElt);
 
 
-    	$this->form->createGroup('options', __('Export APIP 1.0 Package'), array('xml_desc', 'filename', 'instances'));
+        $this->form->createGroup('options', __('Export APIP 1.0 Package'), array('filename', 'instances'));
     }
 }
-
-?>

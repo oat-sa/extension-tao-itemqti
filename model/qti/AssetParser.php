@@ -21,12 +21,8 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
-use oat\taoQtiItem\model\qti\Element;
-use oat\taoQtiItem\model\qti\StyleSheet;
-use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use \SimpleXMLElement;
@@ -46,12 +42,6 @@ class AssetParser
      * @var Item
      */
     private $item;
-
-    /**
-     * The item path of file system
-     * @var string
-     */
-    private $path;
 
     /**
     * Set mode - if parser have to find shared libraries (PCI and PIC)
@@ -77,14 +67,17 @@ class AssetParser
      */
     private $assets = array();
 
+    private $directory;
+
     /**
      * Creates a new parser from an item
      * @param Item $item the item to parse
-     * @param string $path the path of the item in the FS
+     * @param $directory
      */
-    public function __construct(Item $item, $path = null){
+    public function __construct(Item $item, $directory)
+    {
         $this->item = $item;
-        $this->path = $path;
+        $this->directory = $directory;
     }
 
     /**
@@ -153,11 +146,12 @@ class AssetParser
             $this->addAsset('css', $href);
 
             $parsedUrl = parse_url($href);
-            if($this->isDeepParsing() && !is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
-                //relative
-                $styleSheetPath = $this->path . DIRECTORY_SEPARATOR . $parsedUrl['path'];
-                if(file_exists($styleSheetPath)){
-                    $this->loadStyleSheetAsset(file_get_contents($styleSheetPath));
+            if ($this->isDeepParsing() && array_key_exists('path', $parsedUrl) && !array_key_exists('host',
+                    $parsedUrl)
+            ) {
+                $file = $this->directory->getFile($parsedUrl['path']);
+                if ($file->exists()) {
+                    $this->loadStyleSheetAsset($file->read());
                 }
             }
         }
