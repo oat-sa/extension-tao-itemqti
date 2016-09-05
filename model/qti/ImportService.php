@@ -35,8 +35,11 @@ use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -48,6 +51,7 @@ use tao_models_classes_GenerisService;
 use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
+use \oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoundException;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -59,7 +63,7 @@ use oat\oatbox\service\ServiceManager;
 class ImportService extends tao_models_classes_GenerisService
 {
 
-    /**
+     /**
      * Short description of method importQTIFile
      *
      * @access public
@@ -99,7 +103,7 @@ class ImportService extends tao_models_classes_GenerisService
     /**
      *
      * @param core_kernel_classes_Class $itemClass
-     * @param unknown $qtiModel
+     * @param oat\taoQtiItem\model\qti\Item $qtiModel
      * @throws common_exception_Error
      * @throws \common_Exception
      * @return core_kernel_classes_Resource
@@ -420,6 +424,14 @@ class ImportService extends tao_models_classes_GenerisService
                  * The first applicable will be used to import assets
                  */
 
+                /** Pci handler */
+                $pciHandler = new PortableAssetHandler();
+                $pciHandler
+                    ->setQtiModel($qtiModel)
+                    ->setSource(dirname($qtiFile));
+
+                $itemAssetManager->loadAssetHandler($pciHandler);
+
                 /** Shared stimulus handler */
                 $sharedStimulusHandler = new SharedStimulusAssetHandler();
                 $sharedStimulusHandler
@@ -437,6 +449,8 @@ class ImportService extends tao_models_classes_GenerisService
                 $itemAssetManager
                     ->importAuxiliaryFiles($qtiItemResource)
                     ->importDependencyFiles($qtiItemResource, $dependencies);
+
+                $pciHandler->finalize();
 
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
@@ -458,8 +472,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, $message);
 
             } catch (ValidationException $ve) {
-                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.',
-                    $qtiItemResource->getIdentifier()));
+                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $qtiItemResource->getIdentifier()));
                 $report->add($ve->getReport());
             } catch (XmlStorageException $e){
 
@@ -476,10 +489,18 @@ class ImportService extends tao_models_classes_GenerisService
 
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     $message);
-            } catch (Exception $e) {
+            } catch (PortableElementInvalidModelException $pe) {
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getMessage());
+                common_Logger::e($e->getMessage());
+                $rdfItem->delete();
+            }catch (PortableElementNotFoundException $e) {
                 // an error occured during a specific item
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR,
-                    __("An unknown error occured while importing the IMS QTI Package."));
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR,$e->getMessage());
+                common_Logger::e($e->getMessage());
+            }
+            catch (Exception $e) {
+                // an error occured during a specific item
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
                 common_Logger::e($e->getMessage());
             }
         } catch (ValidationException $ve) {

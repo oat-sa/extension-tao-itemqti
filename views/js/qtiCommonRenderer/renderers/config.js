@@ -22,23 +22,13 @@ define([
     'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-    'module'
-], function(_, context, themes, assetManagerFactory, assetStrategies, module){
+    'module',
+    'taoQtiItem/portableElementRegistry/assetManager/portableAssetStrategy'
+], function(_, context, themes, assetManagerFactory, assetStrategies, module, portableAssetStrategy){
     'use strict';
 
     var itemThemes = themes.get('items');
     var moduleConfig = module.config();
-
-    //stratgy to resolve portable info control and portable interactions paths.
-    //It should never be reached in the stack the ususal way and should be called only using resolveBy.
-    var portableAssetStrategy = {
-        name : 'portableElementLocation',
-        handle : function handlePortableElementLocation(url){
-            if(url.source === url.relative){
-                return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
-            }
-        }
-    };
 
     //Create asset manager stack
     var assetManager = assetManagerFactory([{
