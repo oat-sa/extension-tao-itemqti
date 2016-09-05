@@ -209,12 +209,15 @@ define([
             return responses;
         },
 
-        renderFeedbacks : function renderFeedbacks(feedbacks, itemSession, done) {
+        renderFeedbacks : function(feedbacks, itemSession, done) {
             var self = this;
 
+            var _renderer = self._item.getRenderer();
+            var _loader   = new QtiLoader(self._item);
+
             // loading feedbacks from response into the current item
-            self._loader.loadElements(feedbacks, function (item) {
-                self._renderer.load(function () {
+            _loader.loadElements(feedbacks, function (item) {
+                _renderer.load(function () {
 
                     var renderingQueue = modalFeedbackHelper.getFeedbacks(item, itemSession);
 
