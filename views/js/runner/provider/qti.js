@@ -30,8 +30,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoQtiItem/runner/provider/manager/userModules',
+    'taoQtiItem/qtiItem/helper/modalFeedback',
     'taoItems/assets/manager'
-], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules){
+], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules, modalFeedbackHelper){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -70,7 +71,6 @@ define([
 
         render : function(elt, done){
             var self = this;
-            var current = 0;
 
             if(this._item){
 
@@ -207,6 +207,20 @@ define([
                 }, responses);
             }
             return responses;
+        },
+
+        renderFeedbacks : function renderFeedbacks(feedbacks, itemSession, done) {
+            var self = this;
+
+            // loading feedbacks from response into the current item
+            self._loader.loadElements(feedbacks, function (item) {
+                self._renderer.load(function () {
+
+                    var renderingQueue = modalFeedbackHelper.getFeedbacks(item, itemSession);
+
+                    done(renderingQueue);
+                }, this.getLoadedClasses());
+            });
         }
     };
 
