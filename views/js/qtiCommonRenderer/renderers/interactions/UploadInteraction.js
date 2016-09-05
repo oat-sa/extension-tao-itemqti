@@ -175,8 +175,9 @@ define([
      */
     function validateFileType (file, interaction) {
         var expectedTypes = uploadHelper.getExpectedTypes(interaction);
+        var filetype = mimetype.getMimeType(file);
         if (expectedTypes.length) {
-            return (_.indexOf(expectedTypes, file.type) >= 0);
+            return (_.indexOf(expectedTypes, filetype) >= 0);
         }
         return true;
     }
