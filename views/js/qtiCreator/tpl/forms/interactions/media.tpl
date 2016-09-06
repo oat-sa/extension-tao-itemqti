@@ -1,9 +1,3 @@
-<!--
-<div class="panel">
-      TO BE COMPLETED : add "object" editor (see : http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173)
-</div>
--->
-
 <div class="panel">
     
     <div>

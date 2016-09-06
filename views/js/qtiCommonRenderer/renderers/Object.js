@@ -38,7 +38,6 @@ define([
                 previewOptions.height = obj.attr('height');
             }
             $container.previewer(previewOptions);
-            console.log($container);
         }
     };
 });

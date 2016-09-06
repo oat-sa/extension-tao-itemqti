@@ -26,23 +26,22 @@ define([
         this.widget.$form.empty();
     });
 
-    /**
-     * Extract a default label from a file/path name
-     * @param {String} fileName - the file/path
-     * @returns {String} a label
-     */
-    var _extractLabel = function extractLabel(fileName){
-        return fileName
-            .replace(/\.[^.]+$/, '')
-            .replace(/^(.*)\//, '')
-            .replace(/\W/, ' ')
-            .substr(0, 255);
-    };
+    var refreshRendering = function refreshRendering(widget){
+        var qtiObject =  widget.element;
+        var previewOptions = {
+            url : widget.getAssetManager().resolve(qtiObject.attr('data')),
+            mime : qtiObject.attr('type'),
+            width : qtiObject.attr('width') || '100%'
+        };
+        if(qtiObject.attr('height')){
+            previewOptions.height = qtiObject.attr('height');
+        }
+        widget.$original.previewer('update', previewOptions);
+    }
 
     ObjectStateActive.prototype.initForm = function(){
 
         var _widget = this.widget,
-            $qtiObject = _widget.$original,
             $form = _widget.$form,
             qtiObject = _widget.element,
             baseUrl = _widget.options.baseUrl,
@@ -59,7 +58,6 @@ define([
 
         //init slider and set align value before ...
         _initAdvanced(_widget);
-        _initMediaSizer(_widget);
         _initAlign(_widget);
         _initUpload(_widget);
 
@@ -69,11 +67,17 @@ define([
         //init data change callbacks
         formElement.setChangeCallbacks($form, qtiObject, {
             src : _.throttle(function(object, value){
-
                 qtiObject.attr('data', value);
-                //refresh rendering:
-                $qtiObject.attr('data', _widget.getAssetManager().resolve(value));
-                _widget.refresh();
+                //get default height or width if no height nor width set
+                refreshRendering(_widget);
+            }, 1000),
+            width : _.throttle(function(object, value){
+                qtiObject.attr('width', value);
+                refreshRendering(_widget);
+            }, 1000),
+            height : _.throttle(function(object, value){
+                qtiObject.attr('height', value);
+                refreshRendering(_widget);
             }, 1000),
             alt : function(qtiObject, value){
                 qtiObject.attr('alt', value);
@@ -98,69 +102,6 @@ define([
 
         inlineHelper.positionFloat(widget, align);
         widget.$form.find('select[name=align]').val(align);
-    };
-
-
-    var _initMediaSizer = function(widget){
-
-        return;
-
-        var qtiObject = widget.element,
-            $src = widget.$form.find('input[name=src]'),
-            $mediaResizer = widget.$form.find('.img-resizer'),
-            $mediaSpan = widget.$container;
-
-        if($src.val()){
-
-            //init data-responsive:
-            if(qtiObject.data('responsive') === undefined){
-                if(qtiObject.attr('width') && !/[0-9]+%/.test(qtiObject.attr('width'))){
-                    qtiObject.data('responsive', false);
-                }else{
-                    qtiObject.data('responsive', true);
-                }
-            }
-
-            //hack to fix the initial width issue:
-            if(qtiObject.data('responsive')){
-                $mediaSpan.css('width', qtiObject.attr('width'))
-                $mediaSpan.css('height', '')
-            }
-
-            //init media sizer
-            $mediaResizer.mediasizer({
-                responsive : (qtiObject.data('responsive') !== undefined) ? !!qtiObject.data('responsive') : true,
-                target : widget.$original,
-                applyToMedium : false
-            });
-
-            //bind modification events
-            $mediaResizer
-                .off('.mediasizer')
-                .on('responsiveswitch.mediasizer', function(e, responsive){
-
-                    qtiObject.data('responsive', responsive);
-
-                })
-                .on('sizechange.mediasizer', function(e, size){
-
-
-                    _(['width', 'height']).each(function(sizeAttr){
-                        if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
-                            qtiObject.removeAttr(sizeAttr);
-                            $mediaSpan.css(sizeAttr, '')
-                        }else{
-                            qtiObject.attr(sizeAttr, size[sizeAttr]);
-                            $mediaSpan.css(sizeAttr, size[sizeAttr])
-                        }
-
-                        //trigger choice container size adaptation
-                        widget.$container.trigger('contentChange.qti-widget');
-                    });
-
-                });
-        }
-
     };
 
     var _initAdvanced = function(widget){
@@ -203,7 +144,7 @@ define([
                 pathParam : 'path',
                 select : function(e, files){
 
-                    var file, alt;
+                    var file, type;
 
                     if(files && files.length){
 
