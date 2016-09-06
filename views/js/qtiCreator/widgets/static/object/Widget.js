@@ -4,9 +4,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
-    'tpl!taoQtiItem/qtiCreator/tpl/notifications/widgetOverlay',
     'i18n'
-], function(Widget, states, helper, toolbarTpl, inlineHelper, overlayTpl, __) {
+], function(Widget, states, helper, toolbarTpl, inlineHelper, __) {
 
     var ObjectWidget = Widget.clone();
 
@@ -17,8 +16,6 @@ define([
         Widget.initCreator.call(this);
         
         inlineHelper.togglePlaceholder(this);
-        
-        this.notAvailable();
     };
     
     ObjectWidget.getRequiredOptions = function(){
@@ -37,19 +34,6 @@ define([
          helper.createToolbar(this, toolbarTpl);
 
         return this;
-    };
-    
-    ObjectWidget.notAvailable = function(){
-        
-        
-        this.$container.append(overlayTpl({
-            message : __('Editing this element is not supported currently.')
-        }));
-        this.$container.attr('contenteditable', false);
-         this.$container.css({cursor:'default'});
-        this.$container.on('click, mousedown', function(e){
-            e.stopPropagation();
-        });
     };
     
     return ObjectWidget;

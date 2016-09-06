@@ -20,7 +20,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/object',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'ui/previewer'
-], function(tpl, containerHelper, previewer){
+], function(tpl, containerHelper){
     'use strict';
 
     return {
@@ -38,6 +38,7 @@ define([
                 previewOptions.height = obj.attr('height');
             }
             $container.previewer(previewOptions);
+            console.log($container);
         }
     };
 });
