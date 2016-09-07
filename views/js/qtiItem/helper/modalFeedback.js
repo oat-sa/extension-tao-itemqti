@@ -106,6 +106,13 @@ define([
         return interactionsDisplayInfo;
     };
 
+    /**
+     * Returns feedbacks according to the given itemSession variables
+     *
+     * @param {Object} item - the standard tao qti item object
+     * @param {Object} itemSession - session information containing the list of feedbacks to display
+     * @returns {Array} renderingFeedbacks - feedbacks to be displayed
+     */
     var getFeedbacks = function getFeedbacks(item, itemSession) {
 
         var messages = {};
@@ -125,7 +132,7 @@ define([
 
                 //is the feedback in the list of feedbacks to be displayed ?
                 feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
-                if (_.indexOf(feedbackIds, feedback.id()) === -1) {
+                if (_.contains(feedbackIds, feedback.id()) === -1) {
                     return true;//continue with next feedback
                 }
 
