@@ -84,7 +84,7 @@ define([
         var interactionOrder = 0;
 
         //extract all interaction related information needed to display their
-        _.each(item.getComposingElements(), function (element) {
+        _.forEach(item.getComposingElements(), function (element) {
             if (element.is('interaction')) {
                 interactionsDisplayInfo.push(extractDisplayInfo(element));
             }
@@ -93,7 +93,7 @@ define([
         //sort interactionsDisplayInfo on the item level
         $itemContainer.find('.qti-interaction').each(function () {
             var self = this;
-            _.each(interactionsDisplayInfo, function (_interactionInfo) {
+            _.forEach(interactionsDisplayInfo, function (_interactionInfo) {
                 if (_interactionInfo.interactionContainer[0] === self) {
                     _interactionInfo.order = interactionOrder;
                     return false;
@@ -114,7 +114,7 @@ define([
         var interactionsDisplayInfo = getInteractionsDisplayInfo(item);
         var renderingQueue = [];
 
-        _.each(item.modalFeedbacks, function (feedback) {
+        _.forEach(item.modalFeedbacks, function (feedback) {
 
             var feedbackIds, message, $container, comparedOutcome, _currentMessageGroupId, interactionInfo;
             var outcomeIdentifier = feedback.attr('outcomeIdentifier');
