@@ -68,7 +68,7 @@ define([
         }
 
         this.saveItemUrl = config.saveItemUrl;
-        
+
         this.renderer = config.renderer;
 
         this.itemUri = config.uri;
@@ -105,7 +105,14 @@ define([
      */
     ItemWidget.save = function(){
         var self = this;
-        return new Promise(function(resolve){
+        return new Promise(function(resolve, reject){
+            // transform application errors into object Error in order to make them displayable
+            function rejectError(err) {
+                if (err.type === 'Error') {
+                    err = new Error(__('The item cannot be saved!') + (err.message ? '\n' + err.message : ''));
+                }
+                reject(err);
+            }
             $.ajax({
                 url : urlUtil.build(self.saveItemUrl, {uri: self.itemUri}),
                 type : 'POST',
@@ -113,7 +120,14 @@ define([
                 dataType : 'json',
                 data : xmlRenderer.render(self.element)
             })
-            .done(resolve);
+                .done(function(data) {
+                    if (!data || data.success) {
+                        resolve(data);
+                    } else {
+                        rejectError(data);
+                    }
+                })
+                .fail(rejectError);
         });
     };
 
