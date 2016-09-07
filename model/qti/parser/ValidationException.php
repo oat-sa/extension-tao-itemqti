@@ -33,7 +33,6 @@ class ValidationException extends \common_Exception {
     public function __construct($file, $errors)
     {
         $this->errors = $errors;
-        \common_Logger::e('Failed to validate ' . $file);
         parent::__construct('Failed to validate '.$file);
     }
     
@@ -44,4 +43,10 @@ class ValidationException extends \common_Exception {
     {
         return common_report_Report::createFailure(__("Malformed XML:\n%s", implode("\n", $this->errors)));
     }
+
+    public function getSeverity()
+    {
+        return \common_Logger::ERROR_LEVEL;
+    }
+
 }
