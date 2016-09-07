@@ -33,6 +33,7 @@ class ValidationException extends \common_Exception {
     public function __construct($file, $errors)
     {
         $this->errors = $errors;
+        \common_Logger::e('Failed to validate ' . $file);
         parent::__construct('Failed to validate '.$file);
     }
     
