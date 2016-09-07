@@ -109,7 +109,7 @@ define([
             // transform application errors into object Error in order to make them displayable
             function rejectError(err) {
                 if (err.type === 'Error') {
-                    err = new Error(__('The item cannot be saved!') + (err.message ? '\n' + err.message : ''));
+                    err = new Error(__('The item has not been saved!') + (err.message ? '\n' + err.message : ''));
                 }
                 reject(err);
             }
