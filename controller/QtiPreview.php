@@ -178,25 +178,29 @@ class QtiPreview extends taoItems_actions_ItemPreview
         //@todo make getRenderedItem language dependent
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang, true);
-        
-        $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
-        
-        $taoBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
-        $qtiBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
-        
-        $taoLibUrl = $taoBaseUrl.'js/lib/';
-        $taoQtiItemLibUrl = $qtiBaseUrl.'js/runtime/';
-        
-        $xhtml = $qtiItem->toXHTML(array(
-            'contentVariableElements' => $contentVariableElements,
-          //  'js' => array($qtiBaseUrl.'js/preview/qtiViewSelector.js'),
-            'js_var' => array('view' => $this->getRequestView()),
-           // 'css' => array($qtiBaseUrl.'css/preview/qtiViewSelector.css'),
-            'path' => array(
-                'tao' => $taoLibUrl,
-                'taoQtiItem' => $taoQtiItemLibUrl
-            )
-        ));
+        if ($qtiItem) {
+            $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
+
+            $taoBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
+            $qtiBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
+
+            $taoLibUrl = $taoBaseUrl.'js/lib/';
+            $taoQtiItemLibUrl = $qtiBaseUrl.'js/runtime/';
+
+            $xhtml = $qtiItem->toXHTML(array(
+                'contentVariableElements' => $contentVariableElements,
+                //  'js' => array($qtiBaseUrl.'js/preview/qtiViewSelector.js'),
+                'js_var' => array('view' => $this->getRequestView()),
+                // 'css' => array($qtiBaseUrl.'css/preview/qtiViewSelector.css'),
+                'path' => array(
+                    'tao' => $taoLibUrl,
+                    'taoQtiItem' => $taoQtiItemLibUrl
+                )
+            ));
+        } else {
+            \common_Logger::i('Try to preview an empty item', [$item->getUri()]);
+            $xhtml = '';
+        }
 
         return $xhtml;
     }
