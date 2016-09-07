@@ -8,12 +8,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'taoQtiItem/qtiItem/helper/util',
     'lodash',
-    'util/image',
     'ui/mediasizer',
     'ui/resourcemgr',
     'nouislider',
     'ui/tooltip'
-], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
+], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _){
 
     var fileFilters = 'image/jpeg,image/png,image/gif,image/svg+xml,video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg,application/ogg,audio/aac,application/pdf';
 
@@ -27,6 +26,7 @@ define([
     });
 
     var refreshRendering = function refreshRendering(widget){
+        //widget.refresh();return;
         var qtiObject =  widget.element;
         var previewOptions = {
             url : widget.getAssetManager().resolve(qtiObject.attr('data')),
@@ -122,11 +122,12 @@ define([
         var $form = widget.$form,
             options = widget.options,
             qtiObject = widget.element,
-            $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
-            $src = $form.find('input[name=src]');
+            $src = $form.find('input[name=src]'),
+            $width = $form.find('input[name=width]'),
+            $height = $form.find('input[name=height]');
 
-        var _openResourceMgr = function(){
+        var _openResourceMgr = function _openResourceMgr(){
             $uploadTrigger.resourcemgr({
                 title : __('Please select a media file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer : options.mediaManager.appendContainer,
@@ -151,28 +152,17 @@ define([
                         file = files[0].file;
                         type = files[0].mime;
                         console.log('file', files[0]);
-                        imageUtil.getSize(options.baseUrl + file, function(size){
 
-                            if(size && size.width >= 0){
-
-                                var w = parseInt(size.width, 10),
-                                    maxW = $container.parents().innerWidth();
-
-                                //always set the image size in % of the container size with a seurity margin of 5%
-                                if(w >= maxW * 0.95){
-                                    qtiObject.attr('width', '100%');
-                                }else{
-                                    w = parseInt(100*w/maxW);
-                                    qtiObject.attr('width', w+'%');
-                                }
-                                qtiObject.removeAttr('height');
-                            }
-
-                            _.defer(function(){
-                                qtiObject.attr('type', type);
-                                $src.val(file).trigger('change');
-                            });
-                        });
+                        if(qtiObject && (!qtiObject.attr('width') || parseInt(qtiObject.attr('width'), 10) <= 0)){
+                            //qtiObject.attr('width', widget.$original.innerWidth());
+                            $width.val(widget.$original.innerWidth()).trigger('change');
+                        }
+                        if(qtiObject && (!qtiObject.attr('height') || parseInt(qtiObject.attr('height'), 10) <= 0)){
+                            //qtiObject.attr('height', widget.$original.innerHeight());
+                            $height.val(widget.$original.innerHeight()).trigger('change');
+                        }
+                        qtiObject.attr('type', type);
+                        $src.val(file).trigger('change');
                     }
                 },
                 open : function(){

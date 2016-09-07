@@ -11,12 +11,12 @@
 
     <div>
         <label for="width" class="spinner">Width</label>
-        <input name="width" value="{{width}}" type="text"   data-increment="1" data-min="0" data-max="1920" style='min-width: 55px!important;' />
+        <input name="width" value="{{width}}" type="text" class="large" data-increment="10" data-min="10" data-max="1920" />
     </div>
 
     <div>
         <label for="height" class="spinner">Height</label>
-        <input name="height" value="{{height}}" type="text"  data-increment="1" data-min="0" data-max="1080" style='min-width: 55px!important;' />
+        <input name="height" value="{{height}}" type="text" class="large" data-increment="10" data-min="10" data-max="1080"/>
     </div>
 
 </div>
