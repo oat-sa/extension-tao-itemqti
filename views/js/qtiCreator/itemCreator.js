@@ -163,6 +163,9 @@ define([
                     plugins[plugin.getName()] = plugin;
                 });
 
+                // quick-fix: clear all ghost events listeners
+                // prevent ghosting of item states and other properties
+                $(document).off('.qti-widget');
 
                 /**
                  * Save the item on "save" event
