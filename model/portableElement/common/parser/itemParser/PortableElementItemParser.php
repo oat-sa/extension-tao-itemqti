@@ -191,16 +191,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 $this->parsePortableElement($itemParser->getModel()->getId(), $portableElementXml);
             }
         }
-
-//        $pcis = $item->getComposingElements('oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction');
-//        foreach($pcis as $pci) {
-//            $this->parsePortableElement(new PciModel(), $pci);
-//        }
-//
-//        $pics = $item->getComposingElements('oat\taoQtiItem\model\qti\PortableInfoControl');
-//        foreach($pics as $pic) {
-//            $this->parsePortableElement(new PicModel(), $pic);
-//        }
     }
 
     /**
