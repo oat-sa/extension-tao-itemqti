@@ -190,6 +190,7 @@ define([
                         self.trigger('saved');
                     }).catch(function(err){
                         self.trigger('error', err);
+                        self.trigger('saveerror', err);
                     });
                 });
 
