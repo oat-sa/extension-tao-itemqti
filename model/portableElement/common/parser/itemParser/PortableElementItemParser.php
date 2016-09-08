@@ -18,19 +18,22 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\common\parser;
+namespace oat\taoQtiItem\model\portableElement\common\parser\itemParser;
 
-use oat\oatbox\service\ServiceManager;
-use oat\taoQtiItem\model\portableElement\common\helper\Manifest;
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
-use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
-use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
+use oat\taoQtiItem\model\portableElement\helper\Manifest;
+use oat\taoQtiItem\model\portableElement\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Element;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class PortableElementItemParser
+class PortableElementItemParser implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @var Item
      */
@@ -38,11 +41,20 @@ class PortableElementItemParser
 
     protected $importingFiles = [];
     protected $requiredFiles = [];
-    protected $portableModels = [];
+    protected $portableObjects = [];
     protected $picModels = [];
 
     protected $source;
+
+    /**
+     * @var PortableElementService
+     */
     protected $service;
+
+    /**
+     * @var PortableElementFactory
+     */
+    protected $factory;
 
     /**
      * @return PortableElementService
@@ -51,9 +63,20 @@ class PortableElementItemParser
     {
         if (!$this->service) {
             $this->service = new PortableElementService();
-            $this->service->setServiceLocator(ServiceManager::getServiceManager());
+            $this->service->setServiceLocator($this->getServiceLocator());
         }
         return $this->service;
+    }
+
+    /**
+     * @return PortableElementFactory
+     */
+    protected function getPortableFactory()
+    {
+        if (! $this->factory) {
+            $this->factory = $this->getServiceLocator()->get(PortableElementFactory::SERVICE_ID);
+        }
+        return $this->factory;
     }
 
     /**
@@ -153,29 +176,42 @@ class PortableElementItemParser
     protected function feedRequiredFiles(Item $item)
     {
         $this->requiredFiles = [];
-        $this->portableModels = [];
+        $this->portableObjects = [];
         $this->picModels = [];
 
-        $pcis = $item->getComposingElements('oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction');
-        foreach($pcis as $pci) {
-            $this->parsePortableElement(new PciModel(), $pci);
+        $itemParsers = $this->getPortableFactory()->getItemParsers();
+
+        foreach ($itemParsers as $itemParser) {
+            $expr = $itemParser->getXmlExpression();
+            $portableElementsXml = $item->getComposingElements($expr);
+            if (empty($portableElementXml)) {
+                continue;
+            }
+            foreach($portableElementsXml as $portableElementXml) {
+                $this->parsePortableElement($itemParser->getModel()->getId(), $portableElementXml);
+            }
         }
 
-        $pics = $item->getComposingElements('oat\taoQtiItem\model\qti\PortableInfoControl');
-        foreach($pics as $pic) {
-            $this->parsePortableElement(new PicModel(), $pic);
-        }
+//        $pcis = $item->getComposingElements('oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction');
+//        foreach($pcis as $pci) {
+//            $this->parsePortableElement(new PciModel(), $pci);
+//        }
+//
+//        $pics = $item->getComposingElements('oat\taoQtiItem\model\qti\PortableInfoControl');
+//        foreach($pics as $pic) {
+//            $this->parsePortableElement(new PicModel(), $pic);
+//        }
     }
 
     /**
      * Parse individual portable element into the given portable model
-     *
-     * @param PortableElementModel $portableModel
+     * @param $type
      * @param Element $portableElement
      * @throws \common_Exception
+     * @throws PortableElementInconsistencyModelException
      */
-    protected function parsePortableElement(PortableElementModel $portableModel, Element $portableElement){
-
+    protected function parsePortableElement($type, Element $portableElement)
+    {
         $typeId = $portableElement->getTypeIdentifier();
         $libs = [];
         $requiredLibFiles = [];
@@ -190,7 +226,7 @@ class PortableElementItemParser
             }
         }
 
-        $portableModel->exchangeArray([
+        $data = [
             'typeIdentifier' => $typeId,
             'version' => $portableElement->getVersion(),
             'label' => $typeId,
@@ -201,20 +237,32 @@ class PortableElementItemParser
                 'stylesheets' => $portableElement->getStylesheets(),
                 'mediaFiles' => $portableElement->getMediaFiles(),
             ]
-        ]);
+        ];
 
-        $lastVersionModel = $this->getService()->getPciByIdentifier($portableModel->getTypeIdentifier());
+        /** @var PortableElementObject $portableObject */
+        $portableObject = $this->getPortableFactory()->getModel($type)->createDataObject($data);
+
+        $lastVersionModel = $this->getService()->getPortableElementByIdentifier(
+            $portableObject->getModel()->getId(),
+            $portableObject->getTypeIdentifier()
+        );
+
         if (!is_null($lastVersionModel)
-            && (intval($lastVersionModel->getVersion()) != intVal($portableModel->getVersion()))
+            && (intval($lastVersionModel->getVersion()) != intVal($portableObject->getVersion()))
         ) {
             //@todo return a user exception to inform user of incompatible pci version found and that an item update is required
             throw new \common_Exception('Unable to import pci asset because pci is not compatible. '
-                . 'Current version is ' . $lastVersionModel->getVersion() . ' and imported is ' . $portableModel->getVersion());
+                . 'Current version is ' . $lastVersionModel->getVersion() . ' and imported is ' . $portableObject->getVersion());
         }
 
-        $this->portableModels[$typeId] = $portableModel;
+        $this->portableObjects[$typeId] = $portableObject;
 
-        $files = array_merge([$portableModel->getRuntimeKey('hook')], $requiredLibFiles, $portableModel->getRuntimeKey('stylesheets'), $portableModel->getRuntimeKey('mediaFiles'));
+        $files = array_merge(
+            [$portableObject->getRuntimeKey('hook')],
+            $requiredLibFiles,
+            $portableObject->getRuntimeKey('stylesheets'),
+            $portableObject->getRuntimeKey('mediaFiles')
+        );
         $this->requiredFiles = array_merge($this->requiredFiles, array_fill_keys($files, $typeId));
     }
 
@@ -233,15 +281,22 @@ class PortableElementItemParser
             throw new \common_Exception('Needed files are missing during Portable Element asset files');
         }
 
-        foreach ($this->portableModels as $model) {
-            $lastVersionModel = $this->getService()->getPciByIdentifier($model->getTypeIdentifier());
+        /** @var PortableElementObject $object */
+        foreach ($this->portableObjects as $object) {
+            $lastVersionModel = $this->getService()->getPortableElementByIdentifier(
+                $object->getModel()->getId(),
+                $object->getTypeIdentifier()
+            );
             //only register a pci that has not been register yet, subsequent update must be done through pci package import
-            if(is_null($lastVersionModel)){
-                $this->replaceLibAliases($model);
-                $this->getService()->registerModel($model, $this->source.DIRECTORY_SEPARATOR.$model->getTypeIdentifier().DIRECTORY_SEPARATOR);
-            }else{
-                \common_Logger::i('The imported item contains the portable element '.$model->getTypeIdentifier()
-                    .' in a version '.$model->getVersion().' compatible with the current '.$lastVersionModel->getVersion());
+            if (is_null($lastVersionModel)){
+                $this->replaceLibAliases($object);
+                $this->getService()->registerModel(
+                    $object,
+                    $this->source . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
+                );
+            } else {
+                \common_Logger::i('The imported item contains the portable element '.$object->getTypeIdentifier()
+                    .' in a version '.$object->getVersion().' compatible with the current '.$lastVersionModel->getVersion());
             }
         }
         return true;
@@ -251,18 +306,18 @@ class PortableElementItemParser
      * Replace the libs aliases with their relative url before saving into the registry
      * This format is consistent with the format of TAO portable package manifest
      *
-     * @param PortableElementModel $model
-     * @return PortableElementModel
+     * @param PortableElementObject $object
+     * @return PortableElementObject
      */
-    private function replaceLibAliases(PortableElementModel $model){
+    private function replaceLibAliases(PortableElementObject $object){
 
-        $id = $model->getTypeIdentifier();
-        $model->setRuntimeKey('libraries', array_map(function($lib) use ($id){
+        $id = $object->getTypeIdentifier();
+        $object->setRuntimeKey('libraries', array_map(function($lib) use ($id) {
             if(preg_match('/^'.$id.'/', $lib)){
                 return $lib.'.js';
             }
             return $lib;
-        }, $model->getRuntimeKey('libraries')));
+        }, $object->getRuntimeKey('libraries')));
 
         Manifest::replaceAliasesToPath($model);
 

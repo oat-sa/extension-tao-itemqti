@@ -24,6 +24,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementDirectoryParser;
+use oat\taoQtiItem\model\portableElement\common\parser\itemParser\PortableElementItemParserInterface;
 use oat\taoQtiItem\model\portableElement\common\parser\PortableElementPackageParser;
 
 /**
@@ -82,14 +83,33 @@ class PortableElementFactory extends ConfigurableService
     /**
      * Return all directory parsers from configuration
      *
-     * @return PortableElementDirectoryParser
+     * @return PortableElementDirectoryParser[]
      */
     public function getDirectoryParsers()
     {
         $parsers = array();
         $models = $this->getModels();
         foreach ($models as $model) {
-            $parsers[] = $model->getDirectoryParser();
+            if ($model->getDirectoryParser() instanceof PortableElementDirectoryParser) {
+                $parsers[] = $model->getDirectoryParser();
+            }
+        }
+        return $parsers;
+    }
+
+    /**
+     * Return all item parsers from configuration
+     *
+     * @return PortableElementItemParserInterface[]
+     */
+    public function getItemParsers()
+    {
+        $parsers = array();
+        $models = $this->getModels();
+        foreach ($models as $model) {
+            if ($model->getItemParser() instanceof PortableElementItemParserInterface) {
+                $parsers[] = $model->getItemParser();
+            }
         }
         return $parsers;
     }

@@ -21,7 +21,8 @@ namespace oat\taoQtiItem\model\portableElement;
 
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementDirectoryParser;
-use oat\taoQtiItem\model\portableElement\common\parser\PortableElementPackageParser;
+use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementPackageParser;
+use oat\taoQtiItem\model\portableElement\common\parser\itemParser\PortableElementItemParserInterface;
 use oat\taoQtiItem\model\portableElement\common\storage\PortableElementRegistry;
 use oat\taoQtiItem\model\portableElement\common\validator\PortableElementModelValidator;
 
@@ -32,8 +33,14 @@ interface PortableElement
      */
     public function getId();
 
+    /**
+     * @return array
+     */
     public function getDefinitionFiles();
 
+    /**
+     * @return string
+     */
     public function getManifestName();
 
     /**
@@ -62,7 +69,8 @@ interface PortableElement
      */
     public function getPackageParser();
 
-    //    public function getImporter();
-    //    public function getExporter();
-    //    public function getItemParser();
+    /**
+     * @return PortableElementItemParserInterface
+     */
+    public function getItemParser();
 }
