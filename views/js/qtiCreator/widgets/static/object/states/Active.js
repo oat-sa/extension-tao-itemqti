@@ -36,7 +36,7 @@ define([
         if(qtiObject.attr('height')){
             previewOptions.height = qtiObject.attr('height');
         }
-        widget.$original.previewer('update', previewOptions);
+        widget.$original.previewer(previewOptions);
     }
 
     ObjectStateActive.prototype.initForm = function(){
@@ -68,15 +68,15 @@ define([
         formElement.setChangeCallbacks($form, qtiObject, {
             src : _.throttle(function(object, value){
                 qtiObject.attr('data', value);
-                //get default height or width if no height nor width set
+                inlineHelper.togglePlaceholder(_widget);
                 refreshRendering(_widget);
             }, 1000),
             width : _.throttle(function(object, value){
-                qtiObject.attr('width', value);
+                qtiObject.attr('width', parseInt(value, 10));
                 refreshRendering(_widget);
             }, 1000),
             height : _.throttle(function(object, value){
-                qtiObject.attr('height', value);
+                qtiObject.attr('height', parseInt(value, 10));
                 refreshRendering(_widget);
             }, 1000),
             alt : function(qtiObject, value){

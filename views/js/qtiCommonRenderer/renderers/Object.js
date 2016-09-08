@@ -37,7 +37,9 @@ define([
             if(obj.attr('height')){
                 previewOptions.height = obj.attr('height');
             }
-            $container.previewer(previewOptions);
+            if(previewOptions.url && previewOptions.mime){
+                $container.previewer(previewOptions);
+            }
         }
     };
 });
