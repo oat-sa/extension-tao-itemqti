@@ -22,10 +22,8 @@ namespace oat\taoQtiItem\model\portableElement;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
-use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementDirectoryParser;
 use oat\taoQtiItem\model\portableElement\common\parser\itemParser\PortableElementItemParserInterface;
-use oat\taoQtiItem\model\portableElement\common\parser\PortableElementPackageParser;
 
 /**
  * Factory to create components implementation based on PortableElementModel

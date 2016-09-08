@@ -43,16 +43,16 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
         }
 
         $fsm = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsPortableElement = $fsm->createFileSystem('portableElementRegistry', 'portableElement');
+        $fsPortableElement = $fsm->createFileSystem('portableElementStorage', 'portableElement');
 
         if ($fsPortableElement->getAdapter() instanceof Local) {
-            $websource = TokenWebSource::spawnWebsource('portableElementRegistry', $fsPortableElement->getAdapter()->getPathPrefix());
+            $websource = TokenWebSource::spawnWebsource('portableElementStorage', $fsPortableElement->getAdapter()->getPathPrefix());
         } else {
-            $websource = FlyTokenWebSource::spawnWebsource('portableElementRegistry','');
+            $websource = FlyTokenWebSource::spawnWebsource('portableElementStorage','');
         }
 
         $portableElementStorage = new PortableElementFileStorage(array(
-            PortableElementFileStorage::OPTION_FILESYSTEM => 'portableElementRegistry',
+            PortableElementFileStorage::OPTION_FILESYSTEM => 'portableElementStorage',
             PortableElementFileStorage::OPTION_WEBSOURCE => $websource->getId()
         ));
 
