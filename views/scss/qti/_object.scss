@@ -4,7 +4,7 @@
     display: inline-block;
     vertical-align: bottom;
     &.previewer {
-        min-width: auto;
-        min-height: auto;
+        min-width: 10px;
+        min-height: 10px;
     }
 }
