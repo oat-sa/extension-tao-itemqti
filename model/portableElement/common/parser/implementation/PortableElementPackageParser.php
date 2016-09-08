@@ -18,14 +18,15 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\common\parser;
+namespace oat\taoQtiItem\model\portableElement\common\parser\implementation;
 
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementExtractException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
-use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
-use oat\taoQtiItem\model\qti\PackageParser;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementModelTrait;
+use oat\taoQtiItem\model\portableElement\common\parser\PortableElementParser;
+use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\helpers\QtiPackage;
 use common_Exception;
 use \ZipArchive;
@@ -36,9 +37,25 @@ use \ZipArchive;
  *
  * @package taoQtiItem
  */
-class PortableElementPackageParser extends PackageParser
+abstract class PortableElementPackageParser implements PortableElementParser
 {
     use PortableElementModelTrait;
+
+    protected $source = '';
+
+    /**
+     * Set the source to extract
+     *
+     * @param $source
+     * @return $this
+     * @throws ExtractException
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+        $this->assertSourceAsFile();
+        return $this;
+    }
 
     /**
      * Validate the zip package
@@ -47,18 +64,19 @@ class PortableElementPackageParser extends PackageParser
      * @return bool
      * @throws PortableElementException
      * @throws PortableElementParserException
-     * @throws \oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException
+     * @throws PortableElementInconsistencyModelException
      */
     public function validate($schema = '')
     {
         try {
-            if (!QtiPackage::isValidZip($this->source)) {
+            $this->assertSourceAsFile();
+
+            if (! QtiPackage::isValidZip($this->source)) {
                 throw new PortableElementParserException('Source package is not a valid zip.');
             }
         } catch (common_Exception $e) {
             throw new PortableElementParserException('A problem has occured during package parsing.', 0, $e);
         }
-
 
         $zip = new ZipArchive();
         $zip->open($this->source, ZIPARCHIVE::CHECKCONS);
@@ -74,7 +92,7 @@ class PortableElementPackageParser extends PackageParser
 
         $zip->close();
 
-        $this->getModelFromArray($this->getManifestContent());
+        $this->getModel()->createDataObject($this->getManifestContent());
         return true;
     }
 
@@ -86,19 +104,32 @@ class PortableElementPackageParser extends PackageParser
      */
     public function extract()
     {
-        try {
-            $source = parent::extract();
-        } catch (\common_exception_Error $e) {
-            throw new PortableElementExtractException('Unable to extract portable element.', 0, $e);
+        $source = null;
+
+        $this->assertSourceAsFile();
+        $folder = \tao_helpers_File::createTempDir();
+        $zip = new ZipArchive();
+        if ($zip->open($this->source) === true) {
+            if($zip->extractTo($folder)){
+                $source = $folder;
+            }
+            $zip->close();
         }
 
-        if(!is_dir($source)){
-            throw new PortableElementExtractException('Unable to find a valid directory of extracted package.');
+        if (! is_dir($source)) {
+            throw new PortableElementExtractException('Unable to extract portable element.');
         }
 
         return $source;
     }
 
+    /**
+     * Extract JSON representation of $source package e.q. Manifest
+     *
+     * @return string JSON representation of $this->source
+     * @throws PortableElementException
+     * @throws PortableElementParserException
+     */
     public function getManifestContent()
     {
         /** get Manifest */
@@ -120,9 +151,13 @@ class PortableElementPackageParser extends PackageParser
         throw new PortableElementException('Portable element manifest is not a valid json file.');
     }
 
-    public function hasValidModel(PortableElementModel $model)
+    /**
+     * Check if $source has valid portable element
+     *
+     * @return bool
+     */
+    public function hasValidPortableElement()
     {
-        $this->setModel($model);
         try {
             if ($this->validate()) {
                 return true;
@@ -130,4 +165,17 @@ class PortableElementPackageParser extends PackageParser
         } catch (common_Exception $e) {}
         return false;
     }
+
+    /**
+     * Check if source if file
+     *
+     * @throws ExtractException
+     */
+    protected function assertSourceAsFile()
+    {
+        if (! is_file($this->source)) {
+            throw new ExtractException('Zip file to extract is not a file.');
+        }
+    }
+
 }

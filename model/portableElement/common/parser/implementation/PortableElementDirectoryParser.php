@@ -18,10 +18,12 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\common\parser;
+namespace oat\taoQtiItem\model\portableElement\common\parser\implementation;
 
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
-use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementModelTrait;
+use oat\taoQtiItem\model\portableElement\common\parser\PortableElementParser;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use common_Exception;
 
@@ -31,41 +33,47 @@ use common_Exception;
  *
  * @package taoQtiItem
  */
-class PortableElementDirectoryParser
+abstract class PortableElementDirectoryParser implements PortableElementParser
 {
     use PortableElementModelTrait;
 
     protected $source = '';
 
     /**
-     * PortableElementDirectoryParser constructor.
-     * @param $directory
+     * Set source from extraction
+     *
+     * @param $source
+     * @return PortableElementDirectoryParser
      * @throws ExtractException
      */
-    public function __construct($directory){
-        if(!is_dir($directory)){
-            throw new ExtractException('Invalid directory');
-        }
-        $this->source = $directory;
+    public function setSource($source)
+    {
+        $this->source = $source;
+        $this->assertSourceAsDirectory();
+        return $this;
     }
 
     /**
      * Validate the source directory
      *
+     * @param $schema
      * @return bool
-     * @throws \oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException
+     * @throws PortableElementInconsistencyModelException
      * @throws common_Exception
      */
-    public function validate()
+    public function validate($schema='')
     {
+        $this->assertSourceAsDirectory();
+
         $definitionFiles = $this->getModel()->getDefinitionFiles();
         foreach ($definitionFiles as $file) {
-            if (!file_exists($this->source . DIRECTORY_SEPARATOR . $file)) {
-                throw new common_Exception('A portable element package must contains a "' . $file . '" file at the root of the directory');
+            if (! file_exists($this->source . DIRECTORY_SEPARATOR . $file)) {
+                throw new PortableElementParserException('A portable element package must contains a "' . $file .
+                    '" file at the root of the directory: "' . $this->source . '"');
             }
         }
 
-        $this->getModelFromArray($this->getManifestContent());
+        $this->getModel()->createDataObject($this->getManifestContent());
         return true;
     }
 
@@ -76,6 +84,7 @@ class PortableElementDirectoryParser
      */
     public function extract()
     {
+        $this->assertSourceAsDirectory();
         return $this->source;
     }
 
@@ -88,7 +97,8 @@ class PortableElementDirectoryParser
      */
     public function getManifestContent()
     {
-        $content = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR . $this->getModel()->getManifestName()), true);
+        $content = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR
+            . $this->getModel()->getManifestName()), true);
         if (json_last_error() === JSON_ERROR_NONE) {
             return $content;
         }
@@ -99,17 +109,27 @@ class PortableElementDirectoryParser
      * Check if the source directory contains a valid portable element model
      * The class of the portable element model must be provided in argument
      *
-     * @param PortableElementModel $model
      * @return bool
      */
-    public function hasValidModel(PortableElementModel $model)
+    public function hasValidPortableElement()
     {
-        $this->setModel($model);
         try {
             if ($this->validate()) {
                 return true;
             }
         } catch (\common_Exception $e) {}
         return false;
+    }
+
+    /**
+     * Check if $this->source is a directory
+     *
+     * @throws ExtractException
+     */
+    protected function assertSourceAsDirectory()
+    {
+        if (! is_dir($this->source)) {
+            throw new ExtractException('Invalid directory');
+        }
     }
 }

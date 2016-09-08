@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\portableElement\common\validator;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidFieldException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 
 class Validator
 {
@@ -87,8 +88,10 @@ class Validator
      * @param array $validationGroup
      * @return bool
      * @throws PortableElementInconsistencyModelException
+     * @throws PortableElementInvalidModelException
+     * @throws \common_exception_Error
      */
-    public static function validate(Validatable $validatable, $validationGroup=array())
+    public static function validate(PortableElementObject $object, Validatable $validatable, $validationGroup=array())
     {
         $constraints = self::getValidConstraints($validatable->getConstraints(), $validationGroup);
         $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
@@ -96,11 +99,11 @@ class Validator
         foreach ($constraints as $field => $constraint) {
             foreach ($constraint as $validator) {
                 $getter = 'get' . ucfirst($field);
-                if (! method_exists($validatable->getModel(), $getter)) {
+                if (! method_exists($object, $getter)) {
                     throw new PortableElementInconsistencyModelException(
-                        'Validator is not correctly set for model ' . get_class($validatable->getModel()));
+                        'Validator is not correctly set for model ' . get_class($object));
                 }
-                $value = $validatable->getModel()->$getter();
+                $value = $object->$getter();
 
                 if ($validator instanceof \tao_helpers_form_Validator) {
                     if (! $validator->evaluate($value)) {

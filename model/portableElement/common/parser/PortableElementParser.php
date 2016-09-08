@@ -18,11 +18,17 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\common\validator;
+namespace oat\taoQtiItem\model\portableElement\common\parser;
 
-interface Validatable
+interface PortableElementParser
 {
-    public function getConstraints();
-    public function getAssetConstraints($key);
-    public function isOptionalConstraint($key, $constraint);
+    public function setSource($source);
+
+    public function validate($schema = '');
+
+    public function extract();
+
+    public function hasValidPortableElement();
+
+    public function getManifestContent();
 }

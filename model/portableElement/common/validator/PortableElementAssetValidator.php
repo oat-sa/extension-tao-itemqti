@@ -24,27 +24,15 @@ use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
-use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 
 abstract class PortableElementAssetValidator implements Validatable
 {
-    use PortableElementModelTrait;
-
-    public function __construct(PortableElementModel $model=null)
+    public function validateAssets(PortableElementObject $object, $source, array $files=[])
     {
-        if ($model) {
-            $this->setModel($model);
+        if (empty($files)) {
+            $files = $this->getRequiredAssets($object, $files);
         }
-    }
-
-
-    public function validateAssets($source, $files=null)
-    {
-        if (!$files) {
-            $files = $this->getRequiredAssets();
-        }
-
         if (empty($files)) {
             return false;
         }
@@ -67,16 +55,16 @@ abstract class PortableElementAssetValidator implements Validatable
         return true;
     }
 
-    public function getRequiredAssets($type=null)
+    public function getRequiredAssets(PortableElementObject $object, $type=null)
     {
         $assets = [];
         if (is_null($type) || ($type == 'runtime')) {
-            $assets = ['runtime' => $this->getModel()->getRuntime()];
+            $assets = ['runtime' => $object->getRuntime()];
         }
 
         if (is_null($type) || ($type == 'creator')) {
-            if (!empty($this->getModel()->getCreator())) {
-                $assets['creator'] = $this->getModel()->getCreator();
+            if (!empty($object->getCreator())) {
+                $assets['creator'] = $object->getCreator();
             }
         }
 

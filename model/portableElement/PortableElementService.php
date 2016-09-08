@@ -20,108 +20,70 @@
 
 namespace oat\taoQtiItem\model\portableElement;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\portableElement\common\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoundException;
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
-use oat\taoQtiItem\model\portableElement\common\PortableElementFactory;
-use oat\taoQtiItem\model\portableElement\common\PortableElementModelTrait;
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
+use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementDirectoryParser;
+use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementParserAggregator;
+use oat\taoQtiItem\model\portableElement\common\parser\PortableElementParser;
 use oat\taoQtiItem\model\portableElement\common\validator\Validator;
 use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class PortableElementService extends ConfigurableService
+class PortableElementService implements ServiceLocatorAwareInterface
 {
-
-    use PortableElementModelTrait;
+    use ServiceLocatorAwareTrait;
 
     /**
      * @var PortableElementFactory
      */
     protected $factory;
 
-    public function __construct(array $options)
+    protected function getPortableFactory()
     {
-        parent::__construct($options);
-
-        if(array_key_exists('factory' , $options)) {
-            $this->setFactory($options['factory']);
-            return;
+        if (! $this->factory) {
+            $this->factory = $this->getServiceLocator()->get(PortableElementFactory::SERVICE_ID);
         }
-        throw new \InvalidArgumentException('option \"factory\" is mandatory');
-    }
-
-    /**
-     * set up factory from options
-     * @param $factoryOptions
-     * @return $this
-     */
-    protected function setFactory(array $factoryOptions) {
-
-        $factoryClassName = (array_key_exists('class' , $factoryOptions))?  $factoryOptions['class']: PortableElementFactory::class ;
-        $options          = (array_key_exists('options' , $factoryOptions))?  $factoryOptions['options']: [] ;
-
-        $this->factory = new $factoryClassName($options);
-        return $this;
+        return $this->factory;
     }
 
     /**
      * Validate a model using associated validator
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param null $source Directory of portable element, if not null it will be checked
      * @param array $validationGroup Fields to be checked, empty=$validator->getConstraints()
      * @return bool
      * @throws common\exception\PortableElementInconsistencyModelException
      */
-    public function validate(PortableElementModel $model, $source=null, $validationGroup=array())
+    public function validate(PortableElementObject $object, $source=null, $validationGroup=array())
     {
-        $validator = PortableElementFactory::getValidator($model);
-        Validator::validate($validator, $validationGroup);
+        $validator = $object->getModel()->getValidator();
+        Validator::validate($object, $validator, $validationGroup);
         if ($source) {
-            $validator->validateAssets($source);
+            $validator->validateAssets($object, $source);
         }
-    }
-
-    /**
-     * Import a Portable element from an uploaded zip file
-     *
-     * @param $zipFile
-     * @return PortableElementModel
-     * @throws \common_Exception
-     * @throws common\exception\PortableElementExtractException
-     * @throws common\exception\PortableElementInconsistencyModelException
-     * @throws common\exception\PortableElementParserException
-     */
-    public function import($zipFile)
-    {
-        $parser = PortableElementFactory::getPackageParser($zipFile);
-        $source = $parser->extract();
-        $model = $parser->getModel();
-
-        $this->registerModel($model, $source);
-
-        \tao_helpers_File::delTree($source);
-
-        return $model;
     }
 
     /**
      * Register a $model with $source into registryEntries & filesystem
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param $source
      * @return bool
      * @throws PortableElementInvalidModelException
      * @throws common\exception\PortableElementVersionIncompatibilityException
      */
-    public function registerModel(PortableElementModel $model, $source)
+    public function registerModel(PortableElementObject $object, $source)
     {
         $validationGroup = array('typeIdentifier', 'version', 'runtime');
-        $this->validate($model, $source, $validationGroup);
+        $this->validate($object, $source, $validationGroup);
 
-        PortableElementFactory::getRegistry($model)->setSource($source);
-        PortableElementFactory::getRegistry($model)->register($model);
+        $registry = $object->getModel()->getRegistry();
+        $registry->setSource($source);
+        $registry->register($object);
 
         return true;
     }
@@ -129,70 +91,120 @@ class PortableElementService extends ConfigurableService
     /**
      * Export a model with files into a ZIP
      *
+     * @param $type
      * @param $identifier
      * @param null $version
      * @return string
      * @throws PortableElementNotFoundException
      * @throws \common_Exception
+     * @throws common\exception\PortableElementInconsistencyModelException
      */
-    public function export($identifier, $version=null)
+    public function export($type, $identifier, $version=null)
     {
-        $model = $this->getModel();
-        $model->setTypeIdentifier($identifier);
-        $model->setVersion($version);
-        $model = PortableElementFactory::getRegistry($this->getModel())->fetch($model);
-        if (is_null($model)) {
+        $data = ['typeIdentifier' => $identifier];
+        if (! is_null($version)) {
+            $data['version'] = $version;
+        }
+        $model = $this->getPortableFactory()->getModel($type);
+        $object = $model->getRegistry()->fetch($model->createDataObject($data));
+
+        if (is_null($object)) {
             throw new PortableElementNotFoundException(
-                'Unable to find a PCI associated to identifier: ' . $model->getTypeIndentifier()
+                'Unable to find a PCI associated to identifier: ' . $identifier
             );
         }
-        $this->validate($model);
-        return PortableElementFactory::getRegistry($this->getModel())->export($model);
+        $this->validate($object);
+        return $model->getRegistry()->export($object);
+    }
+
+    /**
+     * Import a Portable element from an uploaded zip file
+     *
+     * @param $type
+     * @param $zipFile
+     * @return PortableElementObject
+     * @throws common\exception\PortableElementException
+     * @throws common\exception\PortableElementExtractException
+     * @throws common\exception\PortableElementInconsistencyModelException
+     * @throws common\exception\PortableElementParserException
+     */
+    public function import($type, $zipFile)
+    {
+        $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
+        $parser->setSource($zipFile);
+        $source = $parser->extract();
+        $object = $parser->getModel()->createDataObject($parser->getManifestContent());
+
+        $this->registerModel($object, $source);
+
+        \tao_helpers_File::delTree($source);
+
+        return $object;
     }
 
     /**
      * Extract a valid model from a zip
      *
+     * @param $type
      * @param $zipFile
-     * @return PortableElementModel
-     * @throws PortableElementInvalidModelException
+     * @return PortableElementObject
+     * @throws PortableElementParserException
+     * @throws common\exception\PortableElementException
      * @throws common\exception\PortableElementExtractException
      * @throws common\exception\PortableElementInconsistencyModelException
-     * @throws common\exception\PortableElementParserException
      */
-    public function getValidPortableElementFromZipSource($zipFile)
+    public function getValidPortableElementFromZipSource($type, $zipFile)
     {
-        $parser = PortableElementFactory::getPackageParser($zipFile);
+        $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
+        $parser->setSource($zipFile);
         $source = $parser->extract();
-        $model = $parser->getModel();
+        $object = $parser->getModel()->createDataObject($parser->getManifestContent());
 
         // Validate Portable Element Model
-        $this->validate($model, $source);
+        $this->validate($object, $source);
 
-        return $model;
+        return $object;
     }
 
     /**
+     * Extract a valid model from a directory
+     *
      * @param $directory
-     * @return null|PortableElementModel
-     * @throws common\exception\PortableElementInconsistencyModelException
-     * @throws common\exception\PortableElementParserException
+     * @return null|PortableElementObject
+     * @throws PortableElementParserException
+     * @throws \common_Exception
      */
     public function getValidPortableElementFromDirectorySource($directory)
     {
-        $parser = PortableElementFactory::getDirectoryParser($directory);
-        $source = $parser->extract();
-        $model = $parser->getModel();
+        $parserMatched = null;
+        $parsers = $this->getPortableFactory()->getDirectoryParsers();
+        /** @var PortableElementDirectoryParser $parser */
+        foreach ($parsers as $parser) {
+            $parser->setSource($directory);
+            if ($parser->hasValidPortableElement()) {
+                $parserMatched = $parser;
+            }
+        }
+
+        if (is_null($parserMatched)) {
+            throw new PortableElementParserException(
+                'This zip source is not compatible with any portable element. Manifest and/or engine file are missing '
+                . ' or related extensions are not installed.'
+            );
+        }
+
+        $source = $parserMatched->extract();
+        $object = $parserMatched->getModel()->createDataObject($parser->getManifestContent());
 
         // Validate Portable Element  Model
         try {
-            $this->validate($model, $source);
+            $this->validate($object, $source);
         } catch (PortableElementInvalidModelException $e) {
             \common_Logger::w($e->getMessage());
             return null;
         }
 
-        return $model;
+        return $object;
     }
 
     /**
@@ -200,16 +212,21 @@ class PortableElementService extends ConfigurableService
      *
      * @param $identifier
      * @param null $version
-     * @return PortableElementModel
+     * @return PortableElementObject
      * @throws PortableElementNotFoundException
      */
-    public function getPciByIdentifier($identifier, $version=null)
+    public function getPortableElementByIdentifier($type, $identifier, $version=null)
     {
-        $model = new PciModel($identifier, $version);
-        $this->setModel(new PciModel());
-        $registry = PortableElementFactory::getRegistry($this->getModel());
-        if($registry->has($model)){
-            return $registry->fetch($model);
+        $data = ['typeIdentifier' => $identifier];
+        if (! is_null($version)) {
+            $data['version'] = $version;
+        }
+
+        $model = $this->getPortableFactory()->getModel($type);
+        $object = $model->createDataObject($data);
+        $registry = $model->getRegistry();
+        if($registry->has($object)){
+            return $registry->fetch($object);
         }
         return null;
     }
@@ -223,40 +240,35 @@ class PortableElementService extends ConfigurableService
      */
     public function registerFromDirectorySource($directory)
     {
-        $model = $this->getValidPortableElementFromDirectorySource($directory);
-        if (is_null($model)) {
+        $object = $this->getValidPortableElementFromDirectorySource($directory);
+        if (is_null($object)) {
             throw new PortableElementNotFoundException('No valid portable element model found in the directory '.$directory);
         }
 
-        return $this->registerModel($model, $directory);
+        return $this->registerModel($object, $directory);
     }
 
     /**
-     * Fill all values of a model based on $model->getTypeIdentifier, $model->getVersion
+     * Fill all values of a model based on $object->getTypeIdentifier, $object->getVersion
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @return $this|null
      */
-    public function hydrateModel(PortableElementModel $model)
+    public function hydrateModel(PortableElementObject $object)
     {
-        return PortableElementFactory::getRegistry($model)->fetch($model);
+        return $object->getModel()->getRegistry()->fetch($object);
     }
 
     /**
      * Return the stream of a file model
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param $file
      * @return bool|false|resource
      * @throws \tao_models_classes_FileNotFoundException
      */
-    public function getFileStream(PortableElementModel $model, $file)
+    public function getFileStream(PortableElementObject $object, $file)
     {
-        return PortableElementFactory::getRegistry($model)->getFileStream($model, $file);
-    }
-
-    public function getPathOfAliasFile(PortableElementModel $model, $file)
-    {
-        return PortableElementFactory::getRegistry($model)->replacePathToAliases($model, $file);
+        return $object->getModel()->getRegistry()->getFileStream($object, $file);
     }
 }

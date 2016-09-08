@@ -18,9 +18,9 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\common\helper;
+namespace oat\taoQtiItem\model\portableElement\helper;
 
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 
 class Manifest
 {
@@ -28,24 +28,24 @@ class Manifest
     /**
      * Adjust file resource entries from {QTI_NS}/xxx/yyy.js to ./xxx/yyy.js
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param array $keys
      */
-    public static function replaceAliasesToPath(PortableElementModel &$model, array $keys = [])
+    public static function replaceAliasesToPath(PortableElementObject &$object, array $keys = [])
     {
         if (empty($keys)) {
             $keys = ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'];
         }
 
         foreach ($keys as $key) {
-            if ($model->hasRuntimeKey($key)) {
-                $model->setRuntimeKey(
-                    $key, preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $model->getRuntimeKey($key))
+            if ($object->hasRuntimeKey($key)) {
+                $object->setRuntimeKey(
+                    $key, preg_replace('/^' . $object->getTypeIdentifier() . '/', '.', $object->getRuntimeKey($key))
                 );
             }
-            if($model->hasCreatorKey($key)) {
-                $model->setCreatorKey(
-                    $key, preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $model->getCreatorKey($key))
+            if($object->hasCreatorKey($key)) {
+                $object->setCreatorKey(
+                    $key, preg_replace('/^' . $object->getTypeIdentifier() . '/', '.', $object->getCreatorKey($key))
                 );
             }
         }
@@ -54,24 +54,24 @@ class Manifest
     /**
      * Adjust file resource entries from ./xxx/yyy.js to {QTI_NS}/xxx/yyy.js
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param array $keys
      */
-    public static function replacePathToAliases(PortableElementModel &$model, array $keys = [])
+    public static function replacePathToAliases(PortableElementObject &$object, array $keys = [])
     {
         if (empty($keys)) {
             $keys = ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'];
         }
 
         foreach ($keys as $key) {
-            if ($model->hasRuntimeKey($key)) {
-                $model->setRuntimeKey(
-                    $key, preg_replace('/^(.\/)(.*)/', $model->getTypeIdentifier() . "/$2", $model->getRuntimeKey($key))
+            if ($object->hasRuntimeKey($key)) {
+                $object->setRuntimeKey(
+                    $key, preg_replace('/^(.\/)(.*)/', $object->getTypeIdentifier() . "/$2", $object->getRuntimeKey($key))
                 );
             }
-            if($model->hasCreatorKey($key)) {
-                $model->setCreatorKey(
-                    $key, preg_replace('/^(.\/)(.*)/', $model->getTypeIdentifier() . "/$2", $model->getCreatorKey($key))
+            if($object->hasCreatorKey($key)) {
+                $object->setCreatorKey(
+                    $key, preg_replace('/^(.\/)(.*)/', $object->getTypeIdentifier() . "/$2", $object->getCreatorKey($key))
                 );
             }
         }

@@ -20,7 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\common\validator;
 
-class PortableElementModelValidator extends PortableElementAssetValidator
+abstract class PortableElementModelValidator extends PortableElementAssetValidator
 {
     protected $assetConstraints = [
         'runtime' => [

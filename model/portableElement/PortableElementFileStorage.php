@@ -26,14 +26,14 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\websource\WebsourceManager;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementFileStorageException;
-use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementModel;
-use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
-use oat\taoQtiItem\model\portableElement\pic\model\PicModel;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementModelTrait;
+use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 
 class PortableElementFileStorage extends ConfigurableService
 {
-    const SERVICE_ID = 'qtiItemPci/portableElementFileStorage';
+    use PortableElementModelTrait;
+
+    const SERVICE_ID = 'taoQtiItem/portableElementFileStorage';
 
     const OPTION_WEBSOURCE = 'websource';
     const OPTION_FILESYSTEM = 'filesystem';
@@ -56,23 +56,15 @@ class PortableElementFileStorage extends ConfigurableService
         return WebsourceManager::singleton()->getWebsource($this->getOption(self::OPTION_WEBSOURCE));
     }
 
-    public function getPrefix(PortableElementModel $model)
+    public function getPrefix(PortableElementObject $object)
     {
-        $hashFile = DIRECTORY_SEPARATOR . md5($model->getTypeIdentifier() . $model->getVersion()) . DIRECTORY_SEPARATOR;
-        if ($model instanceof PciModel) {
-            return  'pci' . $hashFile;
-        }
-
-        if ($model instanceof PicModel) {
-            return  'pic' . $hashFile;
-        }
-
-        throw new PortableElementInconsistencyModelException(get_class($model) . ' is not managed to handle files.');
+        $hashFile = DIRECTORY_SEPARATOR . md5($object->getTypeIdentifier() . $object->getVersion()) . DIRECTORY_SEPARATOR;
+        return $object->getModel()->getId() . $hashFile;
     }
 
-    public function getFileUrl(PortableElementModel $model, $relPath='')
+    public function getFileUrl(PortableElementObject $object, $relPath='')
     {
-        return $this->getAccessProvider()->getAccessUrl($this->getPrefix($model) . $relPath);
+        return $this->getAccessProvider()->getAccessUrl($this->getPrefix($object) . $relPath);
     }
 
     public function setSource($source)
@@ -89,12 +81,12 @@ class PortableElementFileStorage extends ConfigurableService
      *
      * @refactor improve response
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param $files
      * @return bool
      * @throws \common_Exception
      */
-    public function registerFiles(PortableElementModel $model, $files)
+    public function registerFiles(PortableElementObject $object, $files)
     {
         $registered = false;
         $fileSystem = $this->getFileStorage();
@@ -104,7 +96,7 @@ class PortableElementFileStorage extends ConfigurableService
         }
 
         foreach ($files as $file) {
-            if (substr($file, 0, 2)!='./' && !preg_match('/^'.$model->getTypeIdentifier().'/', $file)) {
+            if (substr($file, 0, 2)!='./' && !preg_match('/^' . $object->getTypeIdentifier() . '/', $file)) {
                 // File is not relative, it's a shared libraries
                 // Ignore this file, front have fallBack
                 continue;
@@ -115,7 +107,7 @@ class PortableElementFileStorage extends ConfigurableService
                 throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }
 
-            $fileId = $this->getPrefix($model) . preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $file);
+            $fileId = $this->getPrefix($object) . preg_replace('/^' . $object->getTypeIdentifier() . '/', '.', $file);
             //Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.js
             if ($fileSystem->has($fileId)) {
                 $registered = $fileSystem->updateStream($fileId, $resource);
@@ -131,17 +123,17 @@ class PortableElementFileStorage extends ConfigurableService
     /**
      * Unregister files by removing them from FileSystem
      *
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param $files
      * @return bool
      * @throws \common_Exception
      */
-    public function unregisterFiles(PortableElementModel $model, $files)
+    public function unregisterFiles(PortableElementObject $object, $files)
     {
         $deleted = true;
         $filesystem = $this->getFileStorage();
         foreach ($files as $relPath) {
-            $fileId = $this->getPrefix($model) . $relPath;
+            $fileId = $this->getPrefix($object) . $relPath;
             if (!$filesystem->has($fileId)) {
                 throw new \common_Exception('File does not exists in the filesystem: ' . $relPath);
             }
@@ -150,25 +142,25 @@ class PortableElementFileStorage extends ConfigurableService
         return $deleted;
     }
 
-    public function getFileContentFromModelStorage(PortableElementModel $model, $file)
+    public function getFileContentFromModelStorage(PortableElementObject $object, $file)
     {
-        $filePath = $this->getPrefix($model) . $file;
+        $filePath = $this->getPrefix($object) . $file;
         if ($this->getFileStorage()->has($filePath)) {
             return $this->getFileStorage()->read($filePath);
         }
         throw new PortableElementFileStorageException('Unable to find file "' . $file . '"' .
-            ' related to Portable element ' . $model->getTypeIdentifier());
+            ' related to Portable element ' . $object->getTypeIdentifier());
     }
 
     /**
-     * @param PortableElementModel $model
+     * @param PortableElementObject $object
      * @param $file
      * @return bool|false|resource
      * @throws \common_Exception
      */
-    public function getFileStream(PortableElementModel $model, $file)
+    public function getFileStream(PortableElementObject $object, $file)
     {
-        $filePath = $this->getPrefix($model) . $file;
+        $filePath = $this->getPrefix($object) . $file;
         if ($this->getFileStorage()->has($filePath)) {
             return new Stream($this->getFileStorage()->readStream($filePath));
         }

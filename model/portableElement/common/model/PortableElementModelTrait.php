@@ -12,17 +12,36 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\common\validator;
+namespace oat\taoQtiItem\model\portableElement\common\model;
 
-interface Validatable
+use oat\taoQtiItem\model\portableElement\PortableElement;
+
+trait PortableElementModelTrait
 {
-    public function getConstraints();
-    public function getAssetConstraints($key);
-    public function isOptionalConstraint($key, $constraint);
+    /**
+     * @var PortableElement
+     */
+    protected $model;
+
+    /**
+     * @return PortableElement
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param PortableElement $model
+     */
+    public function setModel(PortableElement $model)
+    {
+        $this->model = $model;
+    }
 }

@@ -29,6 +29,7 @@ class PciModel extends PortableElementModel
 
     /** @var array */
     protected $response = array();
+
     /** @var array */
     protected $creator = array();
 

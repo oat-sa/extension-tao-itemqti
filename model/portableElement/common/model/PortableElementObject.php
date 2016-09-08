@@ -20,8 +20,10 @@
 
 namespace oat\taoQtiItem\model\portableElement\common\model;
 
-abstract class PortableElementModel
+abstract class PortableElementObject
 {
+    use PortableElementModelTrait;
+
     /** @var string */
     protected $typeIdentifier;
     /** @var string */
@@ -44,9 +46,6 @@ abstract class PortableElementModel
     protected $runtime = array();
     /** @var array */
     protected $creator = array();
-
-    abstract public function getDefinitionFiles();
-    abstract public function getManifestName();
 
     /**
      * PortableElementModel constructor with identifier & optional version
@@ -90,6 +89,7 @@ abstract class PortableElementModel
         if (is_array($selectionGroup)) {
             return array_intersect_key($array, array_flip($selectionGroup));
         }
+        unset($array['model']);
         return $array;
     }
 
