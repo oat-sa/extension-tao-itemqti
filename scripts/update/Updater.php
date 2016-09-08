@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
+use oat\taoQtiItem\model\portableElement\PortableElementFactory;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -399,6 +400,11 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('2.31.0', '4.3.0');
+
+        if ($this->isVersion('4.3.0')) {
+            $this->getServiceManager()->register(PortableElementFactory::SERVICE_ID, new PortableElementFactory());
+            $this->setVersion('4.4.0');
+        }
     }
 
 }

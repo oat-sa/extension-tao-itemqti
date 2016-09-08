@@ -19,6 +19,7 @@
  */
 namespace oat\taoQtiItem\model\portableElement;
 
+use oat\oatbox\PhpSerializable;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementDirectoryParser;
 use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementPackageParser;
@@ -26,7 +27,7 @@ use oat\taoQtiItem\model\portableElement\common\parser\itemParser\PortableElemen
 use oat\taoQtiItem\model\portableElement\common\storage\PortableElementRegistry;
 use oat\taoQtiItem\model\portableElement\common\validator\PortableElementModelValidator;
 
-interface PortableElement
+interface PortableElement extends PhpSerializable
 {
     /**
      * @return string

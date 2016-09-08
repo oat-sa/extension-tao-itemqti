@@ -454,6 +454,8 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     protected function krsortByVersion(array &$array)
     {
-        krsort($array);
+        uksort($array, function($a, $b) {
+            return version_compare($a, $b, '<');
+        });
     }
 }
