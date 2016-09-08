@@ -164,7 +164,11 @@ class QtiCreator extends tao_actions_CommonModule
                 try {
                     $returnValue['success'] = $itemService->saveXmlItemToRdfItem($xml, $rdfItem);
                 } catch (QtiModelException $e) {
-                    throw new \RuntimeException($e->getUserMessage(), 0, $e);
+                    $returnValue = array(
+                        'success' => false,
+                        'type' => 'Error',
+                        'message' => $e->getUserMessage()
+                    );
                 }
             }
         }

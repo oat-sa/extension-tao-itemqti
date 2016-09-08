@@ -56,13 +56,13 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
 
         // No version, return latest version
         if (! $object->hasVersion()) {
-            krsort($portableElements);
-            return $object->exchangeArray(reset($portableElements));
+            $this->krsortByVersion($portableElements);
+            return $object->getModel()->createDataObject(reset($portableElements));
         }
 
         // Version is set, return associated record
         if (isset($portableElements[$object->getVersion()])) {
-            return $object->exchangeArray($portableElements[$object->getVersion()]);
+            return $object->getModel()->createDataObject($portableElements[$object->getVersion()]);
         }
 
         // Version is set, no record found
@@ -199,8 +199,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     public function getLatestVersion($identifier)
     {
         $portableElements = $this->getAllVersions($identifier);
-        //usort
-        krsort($portableElements);
+        $this->krsortByVersion($portableElements);
 
         return $this->getModel()->createDataObject(reset($portableElements));
     }
@@ -234,32 +233,6 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
 
         $this->update($object);
     }
-
-//    /**
-//     * Adjust file resource entries from {QTI_NS}/xxx/yyy.js to ./xxx/yyy.js
-//     *
-//     * @param PortableElementModel $model
-//     * @param array $keys
-//     */
-//    private function replaceAliasesToPath(PortableElementObject &$object, array $keys = [])
-//    {
-//        if (empty($keys)) {
-//            $keys = ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'];
-//        }
-//
-//        foreach ($keys as $key) {
-//            if ($model->hasRuntimeKey($key)) {
-//                $model->setRuntimeKey(
-//                    $key, preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $model->getRuntimeKey($key))
-//                );
-//            }
-//            if($model->hasCreatorKey($key)) {
-//                $model->setCreatorKey(
-//                    $key, preg_replace('/^'.$model->getTypeIdentifier().'/', '.', $model->getCreatorKey($key))
-//                );
-//            }
-//        }
-//    }
 
     /**
      * Get list of files following Pci Model
@@ -303,7 +276,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
                 continue;
             }
 
-            krsort($versions);
+            $this->krsortByVersion($versions);
             $object = $this->getModel()->createDataObject(reset($versions));
             $all[$typeIdentifier] = [$this->getRuntime($object)];
         }
@@ -324,7 +297,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
                 continue;
             }
 
-            krsort($versions);
+            $this->krsortByVersion($versions);
             $object = $this->getModel()->createDataObject(reset($versions));
             if (! empty($object->getCreator())) {
                 $all[$typeIdentifier] = $object;
@@ -472,5 +445,15 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     public function getFileStream(PortableElementObject $object, $file)
     {
         return $this->getFileSystem()->getFileStream($object, $file);
+    }
+
+    /**
+     * Sort array keys by version (DESC)
+     *
+     * @param array $array
+     */
+    protected function krsortByVersion(array &$array)
+    {
+        krsort($array);
     }
 }

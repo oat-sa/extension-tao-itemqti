@@ -20,15 +20,14 @@
 
 namespace oat\taoQtiItem\model\portableElement;
 
+use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoundException;
 use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementDirectoryParser;
-use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementParserAggregator;
-use oat\taoQtiItem\model\portableElement\common\parser\PortableElementParser;
+use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\common\validator\Validator;
-use oat\taoQtiItem\model\portableElement\pci\model\PciModel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -130,6 +129,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function import($type, $zipFile)
     {
+        /** @var PortableElementPackageParser $parser */
         $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
         $parser->setSource($zipFile);
         $source = $parser->extract();
@@ -155,6 +155,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function getValidPortableElementFromZipSource($type, $zipFile)
     {
+        /** @var PortableElementPackageParser $parser */
         $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
         $parser->setSource($zipFile);
         $source = $parser->extract();
@@ -210,10 +211,12 @@ class PortableElementService implements ServiceLocatorAwareInterface
     /**
      * Get model from identifier & version
      *
+     * @param $type
      * @param $identifier
      * @param null $version
-     * @return PortableElementObject
+     * @return null|PortableElementObject
      * @throws PortableElementNotFoundException
+     * @throws common\exception\PortableElementInconsistencyModelException
      */
     public function getPortableElementByIdentifier($type, $identifier, $version=null)
     {
@@ -251,12 +254,23 @@ class PortableElementService implements ServiceLocatorAwareInterface
     /**
      * Fill all values of a model based on $object->getTypeIdentifier, $object->getVersion
      *
-     * @param PortableElementObject $object
-     * @return $this|null
+     * @param $type
+     * @param $identifier
+     * @param null $version
+     * @return PortableElementObject
+     * @throws PortableElementNotFoundException
+     * @throws PortableElementInconsistencyModelException
      */
-    public function hydrateModel(PortableElementObject $object)
+    public function retrieve($type, $identifier, $version=null)
     {
-        return $object->getModel()->getRegistry()->fetch($object);
+        $data = ['typeIdentifier' => $identifier];
+        if (! is_null($version)) {
+            $data['version'] = $version;
+        }
+
+        $model = $this->getPortableFactory()->getModel($type);
+        $object = $model->createDataObject($data);
+        return $model->getRegistry()->fetch($object);
     }
 
     /**

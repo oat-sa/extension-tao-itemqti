@@ -201,12 +201,8 @@ define([
          */
         clear : function(){
             var renderer = this.getRenderer();
-            if(renderer){
-                if(_.isFunction(renderer.destroy)){
-                    renderer.destroy(this);
-                }
-            }else{
-                throw 'no renderer found for the interaction ' + this.qtiClass;
+            if(renderer && _.isFunction(renderer.destroy)){
+                renderer.destroy(this);
             }
         },
 

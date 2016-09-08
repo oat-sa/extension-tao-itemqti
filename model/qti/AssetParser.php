@@ -245,11 +245,11 @@ class AssetParser
     {
         if($this->getGetCustomElementDefinition()) {
             if ($element instanceof PortableCustomInteraction) {
-                $this->assets['pciElement'][$element->getTypeIdentifier()] = $element;
+                $this->assets['PCI'][$element->getTypeIdentifier()] = $element;
             }
 
             if ($element instanceof PortableInfoControl) {
-                $this->assets['picElement'][$element->getTypeIdentifier()] = $element;
+                $this->assets['PIC'][$element->getTypeIdentifier()] = $element;
             }
         }
 
