@@ -132,7 +132,7 @@ define([
 
                 //is the feedback in the list of feedbacks to be displayed ?
                 feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
-                if (_.indexOf(feedbackIds, feedback.id()) === -1) {
+                if (!_.contains(feedbackIds, feedback.id())) {
                     return true;//continue with next feedback
                 }
 
@@ -152,7 +152,8 @@ define([
                 if (!messages[_currentMessageGroupId]) {
                     messages[_currentMessageGroupId] = [];
                 }
-                if (_.indexOf(messages[_currentMessageGroupId], message) >= 0) {
+
+                if (_.contains(messages[_currentMessageGroupId], message)) {
                     return true; //continue
                 } else {
                     messages[_currentMessageGroupId].push(message);
