@@ -26,8 +26,13 @@ define([
     return {
         get : function get(id){
             var portableElement = {};
+            console.warn('deprected use of "taoQtiItem/qtiCreator/editor/customInteractionRegistry::get()", please use "taoQtiItem/portableElementRegistry/ciRegistry::get()" now');
             portableElement.manifest = ciRegistry.get(id);
             return portableElement;
+        },
+        getBaseUrl : function getBaseUrl(id){
+            console.warn('deprected use of "taoQtiItem/qtiCreator/editor/customInteractionRegistry::getBaseUrl()", please use "taoQtiItem/portableElementRegistry/ciRegistry::getBaseUrl()" now');
+            return this.get(id).manifest.baseUrl;
         }
     }
 });
