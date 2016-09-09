@@ -23,6 +23,7 @@ use \common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\QtiItemCompiler;
 use \taoItems_models_classes_ItemsService;
 use \tao_models_classes_service_FileStorage;
 use \taoItems_models_classes_ItemCompiler;
@@ -261,7 +262,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testCompile($item)
     {
         $storage = tao_models_classes_service_FileStorage::singleton();
-        $compiler = new taoItems_models_classes_ItemCompiler($item, $storage);
+        $compiler = new QtiItemCompiler($item, $storage);
         $report = $compiler->compile();
         $this->assertEquals($report->getType(), common_report_Report::TYPE_SUCCESS);
         $serviceCall = $report->getData();
