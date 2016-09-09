@@ -64,6 +64,8 @@ use \DOMXPath;
 use \DOMElement;
 use \common_Logger;
 use \SimpleXMLElement;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\portableElement\PortableElementFactory;
 
 /**
  * The ParserFactory provides some methods to build the QTI_Data objects from an
@@ -1489,7 +1491,10 @@ class ParserFactory
 
         $interaction = null;
 
-        if($this->isPciNode($data)){
+        if ($this->isPciNode($data)) {
+            // throws an exception if pci not present
+            $pef = ServiceManager::getServiceManager()->get(PortableElementFactory::SERVICE_ID);
+            $pef->getModel('PCI');
 
             //use tao's implementation of portable custom interaction
             $interaction = new PortableCustomInteraction($this->extractAttributes($data), $this->item);
