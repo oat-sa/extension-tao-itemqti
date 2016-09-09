@@ -33,7 +33,7 @@ use oat\taoQtiItem\model\portableElement\common\parser\itemParser\PortableElemen
  */
 class PortableElementFactory extends ConfigurableService
 {
-    const SERVICE_ID = 'taoQtiItem/PortableElementFactory';
+    const SERVICE_ID = 'taoQtiItem/portableElementFactory';
 
     /**
      * Return model associated to the given string value
