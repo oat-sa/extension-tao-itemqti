@@ -139,8 +139,6 @@ class ImportService extends tao_models_classes_GenerisService
             $qtiParser->validate();
 
             if (!$qtiParser->isValid()) {
-                $failedValidation = true;
-
                 $eStrs = array();
                 foreach ($qtiParser->getErrors() as $libXmlError) {
                     $eStrs[] = __('QTI-XML error at line %1$d "%2$s".', $libXmlError['line'],
@@ -156,6 +154,14 @@ class ImportService extends tao_models_classes_GenerisService
         }
 
         $qtiItem = $qtiParser->load();
+        if (!$qtiItem && count($qtiParser->getErrors())) {
+            $errors = [];
+            foreach ($qtiParser->getErrors() as $error) {
+                $errors[] = $error['message'];
+            }
+
+            throw new ValidationException($qtiFile, $errors);
+        }
 
         return $qtiItem;
     }
@@ -446,7 +452,11 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = common_report_Report::createSuccess($msg, $rdfItem);
 
             } catch (ParsingException $e) {
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage());
+
+                $message = $e->getUserMessage();
+
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $message);
+
             } catch (ValidationException $ve) {
                 $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.',
                     $qtiItemResource->getIdentifier()));

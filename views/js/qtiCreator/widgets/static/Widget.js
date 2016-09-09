@@ -27,7 +27,7 @@ define([
 
     StaticWidget.getAssetManager = function () {
         if (!this.options || !this.options.assetManager) {
-            throw new Error('Asset Manager have to be provided');
+            throw new Error('Asset Manager has not been set.');
         }
         return this.options.assetManager;
     };

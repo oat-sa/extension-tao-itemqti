@@ -89,8 +89,8 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $this->assertEquals(2, count($modifiedFiles));
         
         sort($modifiedFiles);
-        $this->assertEquals($modifiedFiles[0], realpath($itemRootDir.'/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml'));
-        $this->assertEquals($modifiedFiles[1], realpath($itemRootDir.'/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml'));
+        $this->assertEquals(realpath($modifiedFiles[0]), realpath($itemRootDir.'/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml'));
+        $this->assertEquals(realpath($modifiedFiles[1]), realpath($itemRootDir.'/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml'));
 
         //compare the content of the items after update
         $resultFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'updateResult.xml';

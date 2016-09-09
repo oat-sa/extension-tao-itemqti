@@ -171,7 +171,7 @@ class Parser extends tao_models_classes_Parser
 
         if($error instanceof UnsupportedQtiElement){
             $this->errors[] = array(
-                'message' => '[Unsupported Qti Type] '.__('the following Qti Element is currently not supported in TAO').': '.$error->getType()
+                'message' => '[Unsupported Qti Type] ' . $error->getUserMessage()
             );
         }else{
             parent::addError($error);

@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\exception;
 
-use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \common_Exception;
 use \common_exception_UserReadableException;
 
@@ -42,6 +41,6 @@ class QtiModelException
      * @return string
      */
     public function getUserMessage() {
-        return __('An error occured at the level of the QTI model.');
+        return __('An error occurred at the level of the QTI model.');
     }
 }
