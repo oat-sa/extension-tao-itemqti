@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Element;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use oat\taoQtiItem\controller\PortableElement;
 
 class PortableElementItemParser implements ServiceLocatorAwareInterface
 {
@@ -188,19 +189,19 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 continue;
             }
             foreach($portableElementsXml as $portableElementXml) {
-                $this->parsePortableElement($model->getId(), $portableElementXml);
+                $this->parsePortableElement($model, $portableElementXml);
             }
         }
     }
 
     /**
      * Parse individual portable element into the given portable model
-     * @param $type
+     * @param PortableElement $model
      * @param Element $portableElement
      * @throws \common_Exception
      * @throws PortableElementInconsistencyModelException
      */
-    protected function parsePortableElement($type, Element $portableElement)
+    protected function parsePortableElement($model, Element $portableElement)
     {
         $typeId = $portableElement->getTypeIdentifier();
         $libs = [];
@@ -230,7 +231,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         ];
 
         /** @var PortableElementObject $portableObject */
-        $portableObject = $this->getPortableFactory()->getModel($type)->createDataObject($data);
+        $portableObject = $model->createDataObject($data);
 
         $lastVersionModel = $this->getService()->getPortableElementByIdentifier(
             $portableObject->getModel()->getId(),

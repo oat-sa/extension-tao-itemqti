@@ -90,23 +90,4 @@ class PortableElementFactory extends ConfigurableService
         }
         return $parsers;
     }
-
-    /**
-     * Return all item parsers from configuration
-     *
-     * @return PortableElementItemParserInterface[]
-     */
-    public function getItemParsers()
-    {
-        $parsers = array();
-        $models = $this->getModels();
-        foreach ($models as $model) {
-            if ($model->getItemParser() instanceof PortableElementItemParserInterface) {
-                $parsers[] = $model->getItemParser();
-            } else {
-                \common_Logger::e('Invalid ItemParser for model '.$key);
-            }
-        }
-        return $parsers;
-    }
 }
