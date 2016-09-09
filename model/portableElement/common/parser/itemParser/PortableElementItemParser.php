@@ -185,9 +185,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         foreach ($models as $model) {
             $className = $model->getQtiElementClassName();
             $portableElementsXml = $item->getComposingElements($className);
-            if (empty($portableElementXml)) {
-                continue;
-            }
             foreach($portableElementsXml as $portableElementXml) {
                 $this->parsePortableElement($model, $portableElementXml);
             }
@@ -310,8 +307,8 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             return $lib;
         }, $object->getRuntimeKey('libraries')));
 
-        Manifest::replaceAliasesToPath($model);
+        Manifest::replaceAliasesToPath($object);
 
-        return $model;
+        return $object;
     }
 }
