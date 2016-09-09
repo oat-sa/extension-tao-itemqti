@@ -164,6 +164,16 @@ class AssetManager
     }
 
     /**
+     * Finalize asset handling
+     */
+    public function finalize()
+    {
+        foreach ($this->assetHandlers as $handler) {
+            $handler->finalize();
+        }
+    }
+
+    /**
      * Return the location of file as absolute path
      *
      * @param $file

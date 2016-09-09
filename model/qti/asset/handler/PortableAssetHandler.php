@@ -88,6 +88,11 @@ class PortableAssetHandler implements AssetHandler
         return $this;
     }
 
+    /**
+     * Finalize portable element asset import
+     *
+     * @throws \common_Exception
+     */
     public function finalize()
     {
         $this->portableItemParser->importPortableElements();

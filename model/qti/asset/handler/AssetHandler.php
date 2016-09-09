@@ -39,4 +39,9 @@ interface AssetHandler
      * @return mixed
      */
     public function handle($absolutePath, $relativePath);
+
+    /**
+     * Finalize asset handling with post call
+     */
+    public function finalize();
 }

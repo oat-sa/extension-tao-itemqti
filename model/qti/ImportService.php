@@ -449,7 +449,7 @@ class ImportService extends tao_models_classes_GenerisService
                     ->importAuxiliaryFiles($qtiItemResource)
                     ->importDependencyFiles($qtiItemResource, $dependencies);
 
-                $peHandler->finalize();
+                $itemAssetManager->finalize();
 
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
