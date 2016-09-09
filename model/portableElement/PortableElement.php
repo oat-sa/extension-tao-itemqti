@@ -71,7 +71,11 @@ interface PortableElement extends PhpSerializable
     public function getPackageParser();
 
     /**
-     * @return PortableElementItemParserInterface
+     * Return the classname of Element representing
+     * the portable Element in the taoQtiItem Qti model
+     *
+     * @return String
      */
-    public function getItemParser();
+    public function getQtiElementClassName();
+
 }

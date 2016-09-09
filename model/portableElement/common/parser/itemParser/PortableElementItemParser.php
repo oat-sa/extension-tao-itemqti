@@ -179,11 +179,11 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $this->portableObjects = [];
         $this->picModels = [];
 
-        $itemParsers = $this->getPortableFactory()->getItemParsers();
+        $models = $this->getPortableFactory()->getModels();
 
-        foreach ($itemParsers as $itemParser) {
-            $expr = $itemParser->getXmlExpression();
-            $portableElementsXml = $item->getComposingElements($expr);
+        foreach ($models as $model) {
+            $className = $model->getQtiElementClassName();
+            $portableElementsXml = $item->getComposingElements($className);
             if (empty($portableElementXml)) {
                 continue;
             }
