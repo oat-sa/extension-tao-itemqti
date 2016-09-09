@@ -132,7 +132,7 @@ define([
 
                 //is the feedback in the list of feedbacks to be displayed ?
                 feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
-                if (_.contains(feedbackIds, feedback.id()) === -1) {
+                if (_.indexOf(feedbackIds, feedback.id()) === -1) {
                     return true;//continue with next feedback
                 }
 
