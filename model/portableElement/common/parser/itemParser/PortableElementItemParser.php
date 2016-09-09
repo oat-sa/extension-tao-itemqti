@@ -188,7 +188,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 continue;
             }
             foreach($portableElementsXml as $portableElementXml) {
-                $this->parsePortableElement($itemParser->getModel()->getId(), $portableElementXml);
+                $this->parsePortableElement($model->getId(), $portableElementXml);
             }
         }
     }
