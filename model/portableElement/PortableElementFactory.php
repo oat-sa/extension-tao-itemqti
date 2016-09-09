@@ -38,20 +38,20 @@ class PortableElementFactory extends ConfigurableService
     /**
      * Return model associated to the given string value
      *
-     * @param string $model
+     * @param string $modelId
      * @return PortableElement
      * @throws PortableElementInconsistencyModelException
      */
-    public function getModel($model)
+    public function getModel($modelId)
     {
-        if ($this->hasOption($model)
-            && ($implementation = $this->getOption($model)) instanceof PortableElement
+        if ($this->hasOption($modelId)
+            && ($implementation = $this->getOption($modelId)) instanceof PortableElement
         ) {
             return $implementation;
         }
 
-        throw new PortableElementInconsistencyModelException('Portable element "' . $model . '" not found. ' .
-            'Maybe you should install the associated extension?');
+        throw new PortableElementInconsistencyModelException('Portable element model "' . $modelId . '" not found. '.
+            'Required extension might be missing');
     }
 
     /**
@@ -64,15 +64,9 @@ class PortableElementFactory extends ConfigurableService
     {
         $models = $this->getOptions();
 
-        if (empty($models)) {
-            throw new PortableElementInconsistencyModelException('Portable elements not found. ' .
-                'Maybe you should install associated extensions?');
-        }
-
-        foreach ($models as $model) {
+        foreach ($models as $key => $model) {
             if (! $model instanceof PortableElement) {
-                throw new PortableElementInconsistencyModelException('Configured models are not correctly set. ' .
-                    'Portable model has to inherit PortableElement');
+                throw new PortableElementInconsistencyModelException('Configured model '.$key.' does not implement PortableElement');
             }
         }
         return $models;
@@ -87,9 +81,11 @@ class PortableElementFactory extends ConfigurableService
     {
         $parsers = array();
         $models = $this->getModels();
-        foreach ($models as $model) {
+        foreach ($models as $key => $model) {
             if ($model->getDirectoryParser() instanceof PortableElementDirectoryParser) {
                 $parsers[] = $model->getDirectoryParser();
+            } else {
+                \common_Logger::e('Invalid DirectoryParser for model '.$key);
             }
         }
         return $parsers;
@@ -107,6 +103,8 @@ class PortableElementFactory extends ConfigurableService
         foreach ($models as $model) {
             if ($model->getItemParser() instanceof PortableElementItemParserInterface) {
                 $parsers[] = $model->getItemParser();
+            } else {
+                \common_Logger::e('Invalid ItemParser for model '.$key);
             }
         }
         return $parsers;

@@ -423,13 +423,13 @@ class ImportService extends tao_models_classes_GenerisService
                  * The first applicable will be used to import assets
                  */
 
-                /** Pci handler */
-                $pciHandler = new PortableAssetHandler();
-                $pciHandler
+                /** Portable element handler */
+                $peHandler = new PortableAssetHandler();
+                $peHandler
                     ->setQtiModel($qtiModel)
                     ->setSource(dirname($qtiFile));
 
-                $itemAssetManager->loadAssetHandler($pciHandler);
+                $itemAssetManager->loadAssetHandler($peHandler);
 
                 /** Shared stimulus handler */
                 $sharedStimulusHandler = new SharedStimulusAssetHandler();
@@ -449,7 +449,7 @@ class ImportService extends tao_models_classes_GenerisService
                     ->importAuxiliaryFiles($qtiItemResource)
                     ->importDependencyFiles($qtiItemResource, $dependencies);
 
-                $pciHandler->finalize();
+                $peHandler->finalize();
 
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);

@@ -22,5 +22,11 @@ namespace oat\taoQtiItem\model\portableElement\common\parser\itemParser;
 
 interface PortableElementItemParserInterface
 {
+    /**
+     * Returns the class name of the php internal representation
+     * of the portable element
+     *
+     * @return string
+     */
     public function getXmlExpression();
 }
