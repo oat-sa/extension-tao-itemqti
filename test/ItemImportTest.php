@@ -164,10 +164,9 @@ class ItemImportTest extends TaoPhpUnitTestRunner
             }
         }
         $this->assertEquals(2, count($items));
-        
-        foreach ($items as $item) {
-            $this->itemService->deleteItem($item);    
-        }
+        $this->removeItem($items[1]);
+
+        return $items[0];
     }
     
     public function testImportPCI()
@@ -307,7 +306,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @depends testImport
+     * @depends testImportQti20
      * @depends testExport
      * @param $item
      * @param $manifest
@@ -321,6 +320,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * @depends testImportQti20
      * @depends testImport
      */
     public function testRemoveItem()

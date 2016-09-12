@@ -1,0 +1,10 @@
+@import "inc/bootstrap";
+
+.qti-object-container {
+    display: inline-block;
+    vertical-align: bottom;
+    &.previewer {
+        min-width: 10px;
+        min-height: 10px;
+    }
+}
