@@ -64,7 +64,7 @@ class QtiItemPacker extends ItemPacker
      * @throws InvalidArgumentException
      * @throws common_Exception
      */
-    public function packItem(core_kernel_classes_Resource $item, $lang = "", Directory $directory)
+    public function packItem(core_kernel_classes_Resource $item, $lang, Directory $directory)
     {
         //use the QtiParser to transform the QTI XML into an assoc array representation
         $content = $this->getXmlByItem($item, $lang);
