@@ -20,7 +20,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/object',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'ui/previewer'
-], function(tpl, containerHelper, previewer){
+], function(tpl, containerHelper){
     'use strict';
 
     return {
@@ -31,13 +31,17 @@ define([
             var $container = containerHelper.get(obj);
             var previewOptions = {
                 url : obj.renderer.resolveUrl(obj.attr('data')),
-                mime : obj.attr('type'),
-                width : obj.attr('width') || '100%'
+                mime : obj.attr('type')
             };
             if(obj.attr('height')){
                 previewOptions.height = obj.attr('height');
             }
-            $container.previewer(previewOptions);
+            if(obj.attr('width')){
+                previewOptions.width = obj.attr('width');
+            }
+            if(previewOptions.url && previewOptions.mime){
+                $container.previewer(previewOptions);
+            }
         }
     };
 });

@@ -42,6 +42,7 @@ define(['ui/ckeditor/ckConfigurator', 'mathJax'], function(ckConfigurator, mathJ
         options = options || {};
 
         options.qtiImage = true;
+        options.qtiMedia = true;
         options.qtiInclude = true;
         options.underline = true;
         options.mathJax = !!mathJax;
