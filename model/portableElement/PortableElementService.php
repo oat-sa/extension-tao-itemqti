@@ -134,6 +134,9 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $parser->setSource($zipFile);
         $source = $parser->extract();
         $object = $parser->getModel()->createDataObject($parser->getManifestContent());
+        if (! $object->hasVersion()) {
+            $object->setVersion('0.0.0');
+        }
 
         $this->registerModel($object, $source);
 
@@ -162,6 +165,9 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $object = $parser->getModel()->createDataObject($parser->getManifestContent());
 
         // Validate Portable Element Model
+        if (! $object->hasVersion()) {
+            $object->setVersion('0.0.0');
+        }
         $this->validate($object, $source);
 
         return $object;

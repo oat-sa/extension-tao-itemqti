@@ -199,8 +199,12 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     public function getLatestVersion($identifier)
     {
         $portableElements = $this->getAllVersions($identifier);
-        $this->krsortByVersion($portableElements);
 
+        if (empty($portableElements)) {
+            throw new PortableElementNotFoundException('Unable to find any version of protable element "' . $identifier . '"');
+        }
+
+        $this->krsortByVersion($portableElements);
         return $this->getModel()->createDataObject(reset($portableElements));
     }
 

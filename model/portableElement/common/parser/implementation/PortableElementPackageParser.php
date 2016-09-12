@@ -52,7 +52,7 @@ abstract class PortableElementPackageParser implements PortableElementParser
      */
     public function setSource($source)
     {
-        $this->source = $source;
+        $this->source = DIRECTORY_SEPARATOR . ltrim($source, DIRECTORY_SEPARATOR);
         $this->assertSourceAsFile();
         return $this;
     }
@@ -138,7 +138,7 @@ abstract class PortableElementPackageParser implements PortableElementParser
         }
 
         $content = '';
-        while(!feof($handle)){
+        while(!feof($handle)) {
             $content .= fread($handle, 8192);
         }
         fclose($handle);

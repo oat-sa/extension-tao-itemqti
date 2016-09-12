@@ -108,7 +108,7 @@ class Validator
                 if ($validator instanceof \tao_helpers_form_Validator) {
                     if (! $validator->evaluate($value)) {
                         $subReport = \common_report_Report::createFailure(
-                            __('Unable to validate %s', $field), array($validator->getName() => $validator->getMessage())
+                            __("Unable to validate %s: %s", $field, $validator->getMessage())
                         );
                         $errorReport->add($subReport);
                     }
@@ -122,7 +122,7 @@ class Validator
                             self::$callable($value);
                         } catch (PortableElementInvalidFieldException $e) {
                             $subReport = \common_report_Report::createFailure(
-                                __('Unable to validate "%s" field.', $field), array($validator => $e->getMessage())
+                                __("Unable to validate %s: %s", $field, $e->getMessage())
                             );
                             $errorReport->add($subReport);
                         }
@@ -148,7 +148,7 @@ class Validator
      */
     public static function isValidString($value)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid string.');
         }
         return true;
