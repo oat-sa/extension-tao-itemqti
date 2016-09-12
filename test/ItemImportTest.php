@@ -23,6 +23,7 @@ use \common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\QtiItemCompiler;
 use \taoItems_models_classes_ItemsService;
 use \tao_models_classes_service_FileStorage;
 use \taoItems_models_classes_ItemCompiler;
@@ -163,10 +164,9 @@ class ItemImportTest extends TaoPhpUnitTestRunner
             }
         }
         $this->assertEquals(2, count($items));
-        
-        foreach ($items as $item) {
-            $this->itemService->deleteItem($item);    
-        }
+        $this->removeItem($items[1]);
+
+        return $items[0];
     }
     
     public function testImportPCI()
@@ -262,7 +262,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testCompile($item)
     {
         $storage = tao_models_classes_service_FileStorage::singleton();
-        $compiler = new taoItems_models_classes_ItemCompiler($item, $storage);
+        $compiler = new QtiItemCompiler($item, $storage);
         $report = $compiler->compile();
         $this->assertEquals($report->getType(), common_report_Report::TYPE_SUCCESS);
         $serviceCall = $report->getData();
@@ -306,7 +306,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @depends testImport
+     * @depends testImportQti20
      * @depends testExport
      * @param $item
      * @param $manifest
@@ -320,6 +320,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * @depends testImportQti20
      * @depends testImport
      */
     public function testRemoveItem()

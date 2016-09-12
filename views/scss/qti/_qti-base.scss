@@ -295,6 +295,7 @@ $mainContainer : '.qti-item';
         }
     }
 
+    @import "object";
     @import "choice";
     @import "order";
     @import "extended-text";

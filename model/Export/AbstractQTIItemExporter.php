@@ -41,6 +41,7 @@ use oat\taoQtiItem\model\apip\ApipService;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
+use oat\oatbox\service\ServiceManager;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
@@ -306,11 +307,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
-        $assetParser = new AssetParser($qtiItem);
+
+        $assetParser = new AssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
         $assetParser->setGetSharedLibraries(false);
         $returnValue = array();
-        foreach($assetParser->extract() as $type => $assets) {
-            foreach($assets as $assetUrl) {
+        foreach ($assetParser->extract() as $type => $assets) {
+            foreach ($assets as $assetUrl) {
                 foreach (self::$BLACKLIST as $blacklist) {
                     if (preg_match($blacklist, $assetUrl) === 1) {
                         continue(2);
@@ -329,4 +331,31 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $assetParser->setGetCustomElementDefinition(true);
         return $assetParser->extractPortableAssetElements();
     }
+
+    /**
+     * Get the item's directory
+     *
+     * @param \core_kernel_classes_Resource $item The item
+     * @param string                        $lang The item lang
+     *
+     * @return \tao_models_classes_service_StorageDirectory The directory
+     */
+    protected function getStorageDirectory(\core_kernel_classes_Resource $item, $lang)
+    {
+        $itemService = \taoItems_models_classes_ItemsService::singleton();
+        $directory = $itemService->getItemDirectory($item, $lang);
+
+        //we should use be language unaware for storage manipulation
+        $path = str_replace($lang, '', $directory->getPrefix());
+        $storageDirectory = new \tao_models_classes_service_StorageDirectory($item->getUri(), $directory->getFilesystem()->getId(), $path);
+        $storageDirectory->setServiceLocator($this->getServiceManager());
+
+        return $storageDirectory;
+    }
+
+    protected function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
+    }
+
 }
