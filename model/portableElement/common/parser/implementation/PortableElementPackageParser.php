@@ -132,16 +132,23 @@ abstract class PortableElementPackageParser implements PortableElementParser
      */
     public function getManifestContent()
     {
-        /** get Manifest */
-        if (($handle = fopen('zip://' . $this->source . '#' . $this->getModel()->getManifestName(), 'r')) === false) {
+        $zip = new ZipArchive();
+        if($zip->open($this->source) === false ) {
             throw new PortableElementParserException('Unable to open the ZIP file located at: ' . $this->source);
         }
 
-        $content = '';
-        while(!feof($handle)) {
-            $content .= fread($handle, 8192);
+        $manifestName = $this->getModel()->getManifestName();
+        if ($zip->locateName($manifestName) === false) {
+            throw new PortableElementParserException(
+                'ZIP package does not have a manifest at root path: ' . $this->getModel()->getManifestName()
+            );
         }
-        fclose($handle);
+
+        $content = $zip->getFromName($manifestName);
+
+        if (! $content) {
+            throw new PortableElementParserException('Manifest file "' . $manifestName. '" found but not readable.');
+        }
 
         $content = json_decode($content, true);
 
