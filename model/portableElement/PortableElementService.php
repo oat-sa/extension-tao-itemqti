@@ -226,7 +226,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $object = $model->createDataObject($data);
         $registry = $model->getRegistry();
         if($registry->has($object)){
-            return $registry->fetch($object);
+            return $registry->fetch($object->getTypeIdentifier(), $object->getVersion());
         }
         return null;
     }
@@ -267,7 +267,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
 
         $model = $this->getPortableFactory()->getModel($type);
         $object = $model->createDataObject($data);
-        return $model->getRegistry()->fetch($object);
+        return $model->getRegistry()->fetch($object->getTypeIdentifier(), $object->getVersion());
     }
 
     /**

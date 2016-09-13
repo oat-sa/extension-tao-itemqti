@@ -45,30 +45,32 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     protected $storage;
 
     /**
-     * @param PortableElementObject $object
+     * Fetch a portable element with identifier & version
+     *
+     * @param $identifier
+     * @param null $version
      * @return PortableElementObject
      * @throws PortableElementNotFoundException
-     * @throws PortableElementInconsistencyModelException
      */
-    public function fetch(PortableElementObject $object)
+    public function fetch($identifier, $version=null)
     {
-        $portableElements = $this->getAllVersions($object->getTypeIdentifier());
+        $portableElements = $this->getAllVersions($identifier);
 
         // No version, return latest version
-        if (! $object->hasVersion()) {
+        if (! is_null($version)) {
             $this->krsortByVersion($portableElements);
-            return $object->getModel()->createDataObject(reset($portableElements));
+            return $this->getModel()->createDataObject(reset($portableElements));
         }
 
         // Version is set, return associated record
-        if (isset($portableElements[$object->getVersion()])) {
-            return $object->getModel()->createDataObject($portableElements[$object->getVersion()]);
+        if (isset($portableElements[$version])) {
+            return $this->getModel()->createDataObject($portableElements[$version]);
         }
 
         // Version is set, no record found
         throw new PortableElementNotFoundException(
-            $this->getModel()->getId() . ' with identifier ' . $object->getTypeIdentifier(). ' found, '
-            . 'but version ' . $object->getVersion() . ' does not exist.'
+            $this->getModel()->getId() . ' with identifier ' . $identifier. ' found, '
+            . 'but version ' . $version . ' does not exist.'
         );
     }
 
@@ -102,7 +104,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     public function has(PortableElementObject $object)
     {
         try {
-            return (bool) $this->fetch($object);
+            return (bool) $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         } catch (PortableElementNotFoundException $e) {
             return false;
         }
@@ -183,7 +185,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     public function unregister(PortableElementObject $object)
     {
-        $object = $this->fetch($object);
+        $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
 
         if (! $object->hasVersion()) {
             $this->removeAllVersions($object);
@@ -262,7 +264,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     protected function getRuntime(PortableElementObject $object)
     {
-        $object = $this->fetch($object);
+        $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         Manifest::replacePathToAliases($object);
         $runtime = $object->toArray();
         $runtime['baseUrl'] = $this->getBaseUrl($object);
@@ -326,7 +328,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
             throw new PortableElementVersionIncompatibilityException('Unable to delete asset files whitout model version.');
         }
 
-        $object = $this->fetch($object);
+        $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
 
         $files[] = array_merge($object->getRuntime(), $object->getCreator());
         $filesToRemove = [];
@@ -439,7 +441,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     protected function getBaseUrl(PortableElementObject $object)
     {
-        $object = $this->fetch($object);
+        $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         return $this->getFileSystem()->getFileUrl($object);
     }
 
