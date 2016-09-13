@@ -81,8 +81,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $this->validate($object, $source, $validationGroup);
 
         $registry = $object->getModel()->getRegistry();
-        $registry->setSource($source);
-        $registry->register($object);
+        $registry->register($object, $source);
 
         return true;
     }

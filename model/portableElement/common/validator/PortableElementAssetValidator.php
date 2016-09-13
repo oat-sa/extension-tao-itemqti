@@ -28,10 +28,24 @@ use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
 
 abstract class PortableElementAssetValidator implements Validatable
 {
+    /**
+     * Validate files by checking:
+     *  - Model requirement
+     *  - Existing as file or alias
+     *
+     * @param PortableElementObject $object
+     * @param string $source Temporary directory source
+     * @param array $files Array of file relative path
+     * @return bool
+     * @throws PortableElementInvalidAssetException
+     * @throws PortableElementInvalidModelException
+     * @throws PortableElementParserException
+     * @throws \common_exception_Error
+     */
     public function validateAssets(PortableElementObject $object, $source, array $files=[])
     {
         if (empty($files)) {
-            $files = $this->getRequiredAssets($object, $files);
+            $files = $this->getAssets($object, $files);
         }
         if (empty($files)) {
             return false;
@@ -55,7 +69,16 @@ abstract class PortableElementAssetValidator implements Validatable
         return true;
     }
 
-    public function getRequiredAssets(PortableElementObject $object, $type=null)
+    /**
+     * Return all assets of a portable element in a array of string
+     * Path is relative to Portable Element location
+     *
+     * @param PortableElementObject $object
+     * @param null $type Object key to focus
+     * @return array List of file relative path
+     * @throws PortableElementInvalidAssetException
+     */
+    public function getAssets(PortableElementObject $object, $type=null)
     {
         $assets = [];
         if (is_null($type) || ($type == 'runtime')) {
@@ -63,7 +86,7 @@ abstract class PortableElementAssetValidator implements Validatable
         }
 
         if (is_null($type) || ($type == 'creator')) {
-            if (!empty($object->getCreator())) {
+            if (! empty($object->getCreator())) {
                 $assets['creator'] = $object->getCreator();
             }
         }
@@ -72,7 +95,7 @@ abstract class PortableElementAssetValidator implements Validatable
         foreach ($assets as $key => $asset) {
             $constraints = $this->getAssetConstraints($key);
             foreach ($constraints as $constraint) {
-                if (!isset($asset[$constraint])) {
+                if (! isset($asset[$constraint])) {
                     if ($this->isOptionalConstraint($key, $constraint)) {
                         continue;
                     }
@@ -88,9 +111,18 @@ abstract class PortableElementAssetValidator implements Validatable
         return $files;
     }
 
+    /**
+     * Valid a file if exists or alias
+     *
+     * @param string $source Temporary directory source
+     * @param string $file Path to the file
+     * @return bool
+     * @throws PortableElementInvalidAssetException
+     * @throws PortableElementParserException
+     */
     public function validFile($source, $file)
     {
-        if (!file_exists($source)) {
+        if (! file_exists($source)) {
             throw new PortableElementParserException('Unable to locate extracted zip file.');
         }
 

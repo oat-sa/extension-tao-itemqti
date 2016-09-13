@@ -98,7 +98,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $object = $service->retrieve($key, $element->getTypeIdentifier());
                 $portableElementsToExport[$element->getTypeIdentifier()] = $object;
 
-                $files = $object->getModel()->getValidator()->getRequiredAssets($object, 'runtime');
+                $files = $object->getModel()->getValidator()->getAssets($object, 'runtime');
 
                 $baseUrl = $basePath . DIRECTORY_SEPARATOR . $object->getTypeIdentifier();
                 $portableAssetsToExport[$object->getTypeIdentifier()] = [];

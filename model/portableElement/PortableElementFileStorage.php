@@ -38,8 +38,6 @@ class PortableElementFileStorage extends ConfigurableService
     const OPTION_WEBSOURCE = 'websource';
     const OPTION_FILESYSTEM = 'filesystem';
 
-    protected $source;
-
     /**
      * @return Filesystem
      */
@@ -67,13 +65,12 @@ class PortableElementFileStorage extends ConfigurableService
         return $this->getAccessProvider()->getAccessUrl($this->getPrefix($object) . $relPath);
     }
 
-    public function setSource($source)
+    protected function sanitizeSourceAsDirectory($source)
     {
-        if (!is_dir($source)) {
+        if (! is_dir($source)) {
             throw new PortableElementFileStorageException('Unable to locate the source directory.');
         }
-        $this->source = DIRECTORY_SEPARATOR . trim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        return $this;
+        return DIRECTORY_SEPARATOR . trim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -82,18 +79,16 @@ class PortableElementFileStorage extends ConfigurableService
      * @refactor improve response
      *
      * @param PortableElementObject $object
-     * @param $files
+     * @param string[] $files Relative path of portable element files
+     * @param string $source Location of temporary directory
      * @return bool
-     * @throws \common_Exception
+     * @throws PortableElementFileStorageException
      */
-    public function registerFiles(PortableElementObject $object, $files)
+    public function registerFiles(PortableElementObject $object, $files, $source)
     {
         $registered = false;
         $fileSystem = $this->getFileStorage();
-
-        if (!$this->source) {
-            throw new PortableElementFileStorageException('The source directory is not correctly set.');
-        }
+        $source = $this->sanitizeSourceAsDirectory($source);
 
         foreach ($files as $file) {
             if (substr($file, 0, 2)!='./' && !preg_match('/^' . $object->getTypeIdentifier() . '/', $file)) {
@@ -102,7 +97,7 @@ class PortableElementFileStorage extends ConfigurableService
                 continue;
             }
 
-            $filePath = $this->source . $file;
+            $filePath = $source . $file;
             if (!file_exists($filePath) || ($resource = fopen($filePath, 'r'))===false) {
                 throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }

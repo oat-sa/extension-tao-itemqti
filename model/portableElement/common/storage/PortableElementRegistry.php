@@ -214,10 +214,11 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
 
     /**
      * @param PortableElementObject $object
+     * @param string $source Temporary directory path
+     * @throws PortableElementFileStorageException
      * @throws PortableElementVersionIncompatibilityException
-     * @throws \common_Exception
      */
-    public function register(PortableElementObject $object)
+    public function register(PortableElementObject $object, $source)
     {
         try {
             $latestVersion = $this->getLatestVersion($object->getTypeIdentifier());
@@ -234,7 +235,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
         }
 
         $files = $this->getFilesFromPortableElement($object);
-        $this->getFileSystem()->registerFiles($object, $files);
+        $this->getFileSystem()->registerFiles($object, $files, $source);
 
         //saveModel must be executed last because it may affects the model itself
         Manifest::replaceAliasesToPath($object);
@@ -252,7 +253,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     protected function getFilesFromPortableElement(PortableElementObject $object)
     {
         $validator = $object->getModel()->getValidator();
-        return $validator->getRequiredAssets($object);
+        return $validator->getAssets($object);
     }
 
     /**
@@ -417,19 +418,6 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
             $this->storage->setModel($this->getModel());
         }
         return $this->storage;
-    }
-
-    /**
-     * Set source of directory where extracted zip is located
-     *
-     * @param $source
-     * @return PortableElementRegistry
-     * @throws \common_Exception
-     */
-    public function setSource($source)
-    {
-        $this->getFileSystem()->setSource($source);
-        return $this;
     }
 
     /**
