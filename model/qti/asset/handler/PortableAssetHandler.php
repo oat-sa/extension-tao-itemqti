@@ -20,7 +20,7 @@
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
 use oat\oatbox\service\ServiceManager;
-use oat\taoQtiItem\model\portableElement\common\parser\itemParser\PortableElementItemParser;
+use oat\taoQtiItem\model\portableElement\parser\itemParser\PortableElementItemParser;
 use oat\taoQtiItem\model\qti\Item;
 
 class PortableAssetHandler implements AssetHandler

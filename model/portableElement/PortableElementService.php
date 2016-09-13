@@ -20,14 +20,16 @@
 
 namespace oat\taoQtiItem\model\portableElement;
 
-use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInconsistencyModelException;
-use oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidModelException;
-use oat\taoQtiItem\model\portableElement\common\exception\PortableElementNotFoundException;
-use oat\taoQtiItem\model\portableElement\common\exception\PortableElementParserException;
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
-use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementDirectoryParser;
-use oat\taoQtiItem\model\portableElement\common\parser\implementation\PortableElementPackageParser;
-use oat\taoQtiItem\model\portableElement\common\validator\Validator;
+use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementParserException;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
+use oat\taoQtiItem\model\portableElement\model\PortableElementFactory;
+use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementDirectoryParser;
+use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementPackageParser;
+use oat\taoQtiItem\model\portableElement\validator\Validator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -55,7 +57,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @param null $source Directory of portable element, if not null it will be checked
      * @param array $validationGroup Fields to be checked, empty=$validator->getConstraints()
      * @return bool
-     * @throws common\exception\PortableElementInconsistencyModelException
+     * @throws PortableElementInconsistencyModelException
      */
     public function validate(PortableElementObject $object, $source=null, $validationGroup=array())
     {
@@ -73,7 +75,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @param $source
      * @return bool
      * @throws PortableElementInvalidModelException
-     * @throws common\exception\PortableElementVersionIncompatibilityException
+     * @throws PortableElementVersionIncompatibilityException
      */
     public function registerModel(PortableElementObject $object, $source)
     {
@@ -95,7 +97,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @return string
      * @throws PortableElementNotFoundException
      * @throws \common_Exception
-     * @throws common\exception\PortableElementInconsistencyModelException
+     * @throws PortableElementInconsistencyModelException
      */
     public function export($type, $identifier, $version=null)
     {
@@ -120,11 +122,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
      *
      * @param $type
      * @param $zipFile
-     * @return PortableElementObject
-     * @throws common\exception\PortableElementException
-     * @throws common\exception\PortableElementExtractException
-     * @throws common\exception\PortableElementInconsistencyModelException
-     * @throws common\exception\PortableElementParserException
+     * @return mixed
+     * @throws PortableElementInconsistencyModelException
      */
     public function import($type, $zipFile)
     {
@@ -145,11 +144,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
      *
      * @param $type
      * @param $zipFile
-     * @return PortableElementObject
-     * @throws PortableElementParserException
-     * @throws common\exception\PortableElementException
-     * @throws common\exception\PortableElementExtractException
-     * @throws common\exception\PortableElementInconsistencyModelException
+     * @return mixed
+     * @throws PortableElementInconsistencyModelException
      */
     public function getValidPortableElementFromZipSource($type, $zipFile)
     {
@@ -191,7 +187,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
         }
 
         $source = $parserMatched->extract();
-        $object = $parserMatched->getModel()->createDataObject($parser->getManifestContent());
+        $object = $parserMatched->getModel()->createDataObject($parserMatched->getManifestContent());
 
         // Validate Portable Element  Model
         try {
@@ -212,7 +208,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @param null $version
      * @return null|PortableElementObject
      * @throws PortableElementNotFoundException
-     * @throws common\exception\PortableElementInconsistencyModelException
+     * @throws PortableElementInconsistencyModelException
      */
     public function getPortableElementByIdentifier($type, $identifier, $version=null)
     {

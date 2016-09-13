@@ -27,7 +27,8 @@ use DOMXPath;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
-use oat\taoQtiItem\model\portableElement\common\model\PortableElementObject;
+use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\ExportException;
@@ -64,7 +65,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * @throws \common_Exception
      * @throws \common_exception_Error
      * @throws \core_kernel_persistence_Exception
-     * @throws \oat\taoQtiItem\model\portableElement\common\exception\PortableElementInvalidAssetException
+     * @throws PortableElementInvalidAssetException
      */
     public function export($options = array())
     {
