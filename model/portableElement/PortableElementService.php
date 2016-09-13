@@ -77,7 +77,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function registerModel(PortableElementObject $object, $source)
     {
-        $validationGroup = array('typeIdentifier', 'runtime');
+        $validationGroup = array('typeIdentifier', 'version', 'runtime');
         $this->validate($object, $source, $validationGroup);
 
         $registry = $object->getModel()->getRegistry();
