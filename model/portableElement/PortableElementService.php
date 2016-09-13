@@ -77,7 +77,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function registerModel(PortableElementObject $object, $source)
     {
-        $validationGroup = array('typeIdentifier', 'version', 'runtime');
+        $validationGroup = array('typeIdentifier', 'runtime');
         $this->validate($object, $source, $validationGroup);
 
         $registry = $object->getModel()->getRegistry();
@@ -134,10 +134,6 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $parser->setSource($zipFile);
         $source = $parser->extract();
         $object = $parser->getModel()->createDataObject($parser->getManifestContent());
-        if (! $object->hasVersion()) {
-            $object->setVersion('0.0.0');
-        }
-
         $this->registerModel($object, $source);
 
         \tao_helpers_File::delTree($source);
@@ -163,11 +159,6 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $parser->setSource($zipFile);
         $source = $parser->extract();
         $object = $parser->getModel()->createDataObject($parser->getManifestContent());
-
-        // Validate Portable Element Model
-        if (! $object->hasVersion()) {
-            $object->setVersion('0.0.0');
-        }
         $this->validate($object, $source);
 
         return $object;
