@@ -65,7 +65,7 @@ use \DOMElement;
 use \common_Logger;
 use \SimpleXMLElement;
 use oat\oatbox\service\ServiceManager;
-use oat\taoQtiItem\model\portableElement\PortableElementFactory;
+use oat\taoQtiItem\model\portableElement\model\PortableElementFactory;
 
 /**
  * The ParserFactory provides some methods to build the QTI_Data objects from an

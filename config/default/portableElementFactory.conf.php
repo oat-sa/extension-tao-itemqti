@@ -1,3 +1,3 @@
 <?php
 
-return new \oat\taoQtiItem\model\portableElement\PortableElementFactory();
+return new \oat\taoQtiItem\model\portableElement\model\PortableElementFactory();

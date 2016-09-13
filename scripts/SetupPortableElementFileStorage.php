@@ -29,7 +29,7 @@ use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\websource\FlyTokenWebSource;
 use oat\tao\model\websource\TokenWebSource;
-use oat\taoQtiItem\model\portableElement\PortableElementFileStorage;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 
 class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
 {
