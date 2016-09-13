@@ -101,12 +101,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function export($type, $identifier, $version=null)
     {
-        $data = ['typeIdentifier' => $identifier];
-        if (! is_null($version)) {
-            $data['version'] = $version;
-        }
         $model = $this->getPortableFactory()->getModel($type);
-        $object = $model->getRegistry()->fetch($model->createDataObject($data));
+        $object = $model->getRegistry()->fetch($identifier, $version);
 
         if (is_null($object)) {
             throw new PortableElementNotFoundException(
@@ -250,14 +246,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function retrieve($type, $identifier, $version=null)
     {
-        $data = ['typeIdentifier' => $identifier];
-        if (! is_null($version)) {
-            $data['version'] = $version;
-        }
-
         $model = $this->getPortableFactory()->getModel($type);
-        $object = $model->createDataObject($data);
-        return $model->getRegistry()->fetch($object->getTypeIdentifier(), $object->getVersion());
+        return $model->getRegistry()->fetch($identifier, $version);
     }
 
     /**
