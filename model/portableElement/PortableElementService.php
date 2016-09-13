@@ -217,16 +217,11 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function getPortableElementByIdentifier($type, $identifier, $version=null)
     {
-        $data = ['typeIdentifier' => $identifier];
-        if (! is_null($version)) {
-            $data['version'] = $version;
-        }
-
         $model = $this->getPortableFactory()->getModel($type);
-        $object = $model->createDataObject($data);
         $registry = $model->getRegistry();
-        if($registry->has($object)){
-            return $registry->fetch($object->getTypeIdentifier(), $object->getVersion());
+
+        if($registry->has($identifier, $version)){
+            return $registry->fetch($identifier, $version);
         }
         return null;
     }

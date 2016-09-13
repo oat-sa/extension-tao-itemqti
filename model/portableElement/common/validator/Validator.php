@@ -161,7 +161,7 @@ class Validator
      */
     public static function isValidArray($value)
     {
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid array.');
         }
         return true;
@@ -175,7 +175,7 @@ class Validator
     public static function isValidVersion($value)
     {
         $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/\d+(?:\.\d+)+/'));
-        if (!$validator->evaluate($value)) {
+        if (! is_null($value) && ! $validator->evaluate($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid version.');
         }
         return true;

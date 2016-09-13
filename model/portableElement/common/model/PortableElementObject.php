@@ -170,7 +170,7 @@ abstract class PortableElementObject
      */
     public function getVersion()
     {
-        return $this->version;
+        return $this->hasVersion() ? $this->version : '0.0.0';
     }
 
     /**

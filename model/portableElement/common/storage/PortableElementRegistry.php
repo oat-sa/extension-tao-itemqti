@@ -57,7 +57,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
         $portableElements = $this->getAllVersions($identifier);
 
         // No version, return latest version
-        if (! is_null($version)) {
+        if (is_null($version)) {
             $this->krsortByVersion($portableElements);
             return $this->getModel()->createDataObject(reset($portableElements));
         }
@@ -70,7 +70,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
         // Version is set, no record found
         throw new PortableElementNotFoundException(
             $this->getModel()->getId() . ' with identifier ' . $identifier. ' found, '
-            . 'but version ' . $version . ' does not exist.'
+            . 'but version "' . $version . '" does not exist.'
         );
     }
 
@@ -97,14 +97,14 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     }
 
     /**
-     * @param PortableElementObject $object
+     * @param $identifier
+     * @param null $version
      * @return bool
-     * @throws PortableElementInconsistencyModelException
      */
-    public function has(PortableElementObject $object)
+    public function has($identifier, $version=null)
     {
         try {
-            return (bool) $this->fetch($object->getTypeIdentifier(), $object->getVersion());
+            return (bool) $this->fetch($identifier, $version);
         } catch (PortableElementNotFoundException $e) {
             return false;
         }
