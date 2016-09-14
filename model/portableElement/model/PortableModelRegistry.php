@@ -20,9 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\model;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
-use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementDirectoryParser;
 use oat\oatbox\AbstractRegistry;
 
 /**

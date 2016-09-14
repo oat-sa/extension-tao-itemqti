@@ -21,8 +21,8 @@ namespace oat\taoQtiItem\model\portableElement\model;
 
 use oat\oatbox\PhpSerializable;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
-use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementDirectoryParser;
-use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementPackageParser;
+use oat\taoQtiItem\model\portableElement\parser\element\PortableElementDirectoryParser;
+use oat\taoQtiItem\model\portableElement\parser\element\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
 use oat\taoQtiItem\model\portableElement\validator\PortableElementModelValidator;
 

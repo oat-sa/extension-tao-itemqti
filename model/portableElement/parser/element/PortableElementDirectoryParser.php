@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\parser\implementation;
+namespace oat\taoQtiItem\model\portableElement\parser\element;
 
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementParserException;
@@ -42,7 +42,8 @@ abstract class PortableElementDirectoryParser implements PortableElementParser
      *
      * @param string $source Directory path to validate
      * @return bool
-     * @throws PortableElementInconsistencyModelException
+     * @throws ExtractException
+     * @throws PortableElementParserException
      * @throws common_Exception
      */
     public function validate($source)

@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\parser\implementation;
+namespace oat\taoQtiItem\model\portableElement\parser\element;
 
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementExtractException;

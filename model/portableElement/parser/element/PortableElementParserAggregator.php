@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\parser\implementation;
+namespace oat\taoQtiItem\model\portableElement\parser\element;
 
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementParserException;
