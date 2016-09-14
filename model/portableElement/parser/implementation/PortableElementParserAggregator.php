@@ -53,8 +53,7 @@ class PortableElementParserAggregator
     {
         /** @var PortableElementParser $parser */
         foreach ($this->parsers as $parser) {
-            $parser->setSource($source);
-            if ($parser->hasValidPortableElement()) {
+            if ($parser->hasValidPortableElement($source)) {
                 return $parser;
             }
         }

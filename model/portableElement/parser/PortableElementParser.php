@@ -22,13 +22,36 @@ namespace oat\taoQtiItem\model\portableElement\parser;
 
 interface PortableElementParser
 {
-    public function setSource($source);
+    /**
+     * Validate the $source as path
+     *
+     * @param string $source Zip package location to validate
+     * @return bool isValid
+     */
+    public function validate($source);
 
-    public function validate($schema = '');
+    /**
+     * Handle the $source to fetch information
+     * Return a path of directory where information is
+     *
+     * @param string $source
+     * @return string
+     */
+    public function extract($source);
 
-    public function extract();
+    /**
+     * Check if $source contains a valid portable element
+     *
+     * @param string $source
+     * @return bool
+     */
+    public function hasValidPortableElement($source);
 
-    public function hasValidPortableElement();
-
-    public function getManifestContent();
+    /**
+     * Get the manifest of portable element package
+     *
+     * @param string $source
+     * @return mixed
+     */
+    public function getManifestContent($source);
 }

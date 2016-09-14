@@ -28,8 +28,8 @@ use oat\taoQtiItem\model\qti\exception\ExtractException;
 use common_Exception;
 
 /**
- * Parser of a QTI PCI package
- * A PCI package must contain a manifest pciCreator.json in the root as well as a pciCreator.js creator file
+ * Parser of a QTI Portable element package
+ * A Portable element package must contain a manifest pciCreator.json in the root as well as a pciCreator.js creator file
  *
  * @package taoQtiItem
  */
@@ -37,67 +37,54 @@ abstract class PortableElementDirectoryParser implements PortableElementParser
 {
     use PortableElementModelTrait;
 
-    protected $source = '';
-
-    /**
-     * Set source from extraction
-     *
-     * @param $source
-     * @return PortableElementDirectoryParser
-     * @throws ExtractException
-     */
-    public function setSource($source)
-    {
-        $this->source = $source;
-        $this->assertSourceAsDirectory();
-        return $this;
-    }
-
     /**
      * Validate the source directory
      *
-     * @param $schema
+     * @param string $source Directory path to validate
      * @return bool
      * @throws PortableElementInconsistencyModelException
      * @throws common_Exception
      */
-    public function validate($schema='')
+    public function validate($source)
     {
-        $this->assertSourceAsDirectory();
+        $this->assertSourceAsDirectory($source);
 
         $definitionFiles = $this->getModel()->getDefinitionFiles();
         foreach ($definitionFiles as $file) {
-            if (! file_exists($this->source . DIRECTORY_SEPARATOR . $file)) {
+            if (! file_exists($source . DIRECTORY_SEPARATOR . $file)) {
                 throw new PortableElementParserException('A portable element package must contains a "' . $file .
-                    '" file at the root of the directory: "' . $this->source . '"');
+                    '" file at the root of the directory: "' . $source . '"');
             }
         }
 
-        $this->getModel()->createDataObject($this->getManifestContent());
+        $this->getModel()->createDataObject($this->getManifestContent($source));
         return true;
     }
 
     /**
      * Return the source directory
      *
+     * @param string $source Directory path
      * @return string
+     * @throws ExtractException
      */
-    public function extract()
+    public function extract($source)
     {
-        $this->assertSourceAsDirectory();
-        return $this->source;
+        $this->assertSourceAsDirectory($source);
+        return $source;
     }
 
     /**
-     * Return the manifest content found in the source directory as an associative array
+     * Return the manifest content found in the source directory as json array
      *
+     * @param string $source Directory path
      * @return array
      * @throws PortableElementInconsistencyModelException
      * @throws common_Exception
      */
-    public function getManifestContent()
+    public function getManifestContent($source)
     {
-        $content = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR
+        $content = json_decode(file_get_contents($source . DIRECTORY_SEPARATOR
             . $this->getModel()->getManifestName()), true);
         if (json_last_error() === JSON_ERROR_NONE) {
             return $content;
@@ -107,14 +94,14 @@ abstract class PortableElementDirectoryParser implements PortableElementParser
 
     /**
      * Check if the source directory contains a valid portable element model
-     * The class of the portable element model must be provided in argument
      *
+     * @param string $source Directory path
      * @return bool
      */
-    public function hasValidPortableElement()
+    public function hasValidPortableElement($source)
     {
         try {
-            if ($this->validate()) {
+            if ($this->validate($source)) {
                 return true;
             }
         } catch (\common_Exception $e) {}
@@ -122,13 +109,14 @@ abstract class PortableElementDirectoryParser implements PortableElementParser
     }
 
     /**
-     * Check if $this->source is a directory
+     * Check if $source is a directory
      *
+     * @param string $source Directory path
      * @throws ExtractException
      */
-    protected function assertSourceAsDirectory()
+    protected function assertSourceAsDirectory($source)
     {
-        if (! is_dir($this->source)) {
+        if (! is_dir($source)) {
             throw new ExtractException('Invalid directory');
         }
     }

@@ -125,9 +125,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
     {
         /** @var PortableElementPackageParser $parser */
         $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
-        $parser->setSource($zipFile);
-        $source = $parser->extract();
-        $object = $parser->getModel()->createDataObject($parser->getManifestContent());
+        $source = $parser->extract($zipFile);
+        $object = $parser->getModel()->createDataObject($parser->getManifestContent($zipFile));
         $this->registerModel($object, $source);
 
         \tao_helpers_File::delTree($source);
@@ -147,9 +146,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
     {
         /** @var PortableElementPackageParser $parser */
         $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
-        $parser->setSource($zipFile);
-        $source = $parser->extract();
-        $object = $parser->getModel()->createDataObject($parser->getManifestContent());
+        $source = $parser->extract($zipFile);
+        $object = $parser->getModel()->createDataObject($parser->getManifestContent($zipFile));
         $this->validate($object, $source);
 
         return $object;
@@ -169,8 +167,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $parsers = $this->getPortableFactory()->getDirectoryParsers();
         /** @var PortableElementDirectoryParser $parser */
         foreach ($parsers as $parser) {
-            $parser->setSource($directory);
-            if ($parser->hasValidPortableElement()) {
+            if ($parser->hasValidPortableElement($directory)) {
                 $parserMatched = $parser;
             }
         }
@@ -182,8 +179,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
             );
         }
 
-        $source = $parserMatched->extract();
-        $object = $parserMatched->getModel()->createDataObject($parserMatched->getManifestContent());
+        $source = $parserMatched->extract($directory);
+        $object = $parserMatched->getModel()->createDataObject($parserMatched->getManifestContent($directory));
 
         // Validate Portable Element  Model
         try {
