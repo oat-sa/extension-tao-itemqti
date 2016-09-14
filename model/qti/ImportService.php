@@ -424,11 +424,7 @@ class ImportService extends tao_models_classes_GenerisService
                  */
 
                 /** Portable element handler */
-                $peHandler = new PortableAssetHandler();
-                $peHandler
-                    ->setQtiModel($qtiModel)
-                    ->setSource(dirname($qtiFile));
-
+                $peHandler = new PortableAssetHandler($qtiModel, dirname($qtiFile));
                 $itemAssetManager->loadAssetHandler($peHandler);
 
                 /** Shared stimulus handler */

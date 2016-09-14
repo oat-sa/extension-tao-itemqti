@@ -28,7 +28,7 @@ use oat\oatbox\AbstractRegistry;
 /**
  * Factory to create components implementation based on PortableElementModel
  *
- * Class PortableElementFactory
+ * Class PortableModelRegistry
  * @package oat\qtiItemPci\model\common
  */
 class PortableModelRegistry extends AbstractRegistry
@@ -48,7 +48,7 @@ class PortableModelRegistry extends AbstractRegistry
      */
     protected function getConfigId()
     {
-        return 'PortableModels';
+        return 'portableModels';
     }
 
     /**

@@ -34,10 +34,12 @@ class PortableAssetHandler implements AssetHandler
      * PciAssetHandler constructor.
      * Set PortableElementItemParser
      */
-    public function __construct()
+    public function __construct(Item $item, $sourceDir)
     {
         $this->portableItemParser = new PortableElementItemParser();
         $this->portableItemParser->setServiceLocator(ServiceManager::getServiceManager());
+        $this->portableItemParser->setSource(rtrim($sourceDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+        $this->portableItemParser->setQtiModel($item);
     }
 
     /**
@@ -71,24 +73,6 @@ class PortableAssetHandler implements AssetHandler
     }
 
     /**
-     * @return mixed
-     */
-    public function getQtiModel()
-    {
-        return $this->portableItemParser->getQtiModel();
-    }
-
-    /**
-     * @param Item $item
-     * @return $this
-     */
-    public function setQtiModel(Item $item)
-    {
-        $this->portableItemParser->setQtiModel($item);
-        return $this;
-    }
-
-    /**
      * Finalize portable element asset import
      *
      * @throws \common_Exception
@@ -98,9 +82,4 @@ class PortableAssetHandler implements AssetHandler
         $this->portableItemParser->importPortableElements();
     }
 
-    public function setSource($path)
-    {
-        $this->portableItemParser->setSource(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
-        return $this;
-    }
 }
