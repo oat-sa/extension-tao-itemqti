@@ -82,12 +82,12 @@ abstract class PortableElementAssetValidator implements Validatable
     {
         $assets = [];
         if (is_null($type) || ($type == 'runtime')) {
-            $assets = ['runtime' => $object->getRuntime()];
+            $assets = ['runtime' => $object->getRuntimePath()];
         }
 
         if (is_null($type) || ($type == 'creator')) {
             if (! empty($object->getCreator())) {
-                $assets['creator'] = $object->getCreator();
+                $assets['creator'] = $object->getCreatorPath();
             }
         }
 

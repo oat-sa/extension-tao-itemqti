@@ -97,7 +97,7 @@ class PortableElementFileStorage extends ConfigurableService
                 continue;
             }
 
-            $filePath = $source . $file;
+            $filePath = $source . ltrim($file, DIRECTORY_SEPARATOR);
             if (!file_exists($filePath) || ($resource = fopen($filePath, 'r'))===false) {
                 throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }

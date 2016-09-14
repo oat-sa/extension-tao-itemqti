@@ -22,7 +22,6 @@ namespace oat\taoQtiItem\model\portableElement\parser\itemParser;
 
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
-use oat\taoQtiItem\model\portableElement\helper\Manifest;
 use oat\taoQtiItem\model\portableElement\model\PortableElementFactory;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
@@ -306,8 +305,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             }
             return $lib;
         }, $object->getRuntimeKey('libraries')));
-
-        Manifest::replaceAliasesToPath($object);
 
         return $object;
     }

@@ -274,6 +274,71 @@ abstract class PortableElementObject
     }
 
     /**
+     * Return runtime files with relative path
+     *
+     * @return array
+     */
+    public function getRuntimePath()
+    {
+        $paths = [];
+        foreach ($this->getRuntime() as $key => $value) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+                $paths[$key] = preg_replace('/^' . $this->getTypeIdentifier() . '/', '.', $value);
+            }
+        }
+        return $paths;
+    }
+
+    /**
+     * Return creator files with relative aliases
+     *
+     * @return array
+     */
+    public function getRuntimeAliases()
+    {
+        $paths = [];
+        foreach ($this->getRuntime() as $key => $value) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+                $paths[$key] = preg_replace('/^(.\/)(.*)/', $this->getTypeIdentifier() . "/$2", $this->getRuntimeKey($key));
+            }
+        }
+        return $paths;
+    }
+
+    /**
+     * Return creator files with relative path
+     *
+     * @return array
+     */
+    public function getCreatorPath()
+    {
+        $paths = [];
+        foreach ($this->getCreator() as $key => $value) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+                $paths[$key] = preg_replace('/^' . $this->getTypeIdentifier() . '/', '.', $value);
+            }
+        }
+        return $paths;
+    }
+
+    /**
+     * Return creator files with relative aliases
+     *
+     * @return array
+     */
+    public function getCreatorAliases()
+    {
+        $paths = [];
+        foreach ($this->getCreator() as $key => $value) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+                $paths[$key] = preg_replace('/^(.\/)(.*)/', $this->getTypeIdentifier() . "/$2", $this->getCreatorKey($key));
+            }
+        }
+        return $paths;
+    }
+
+
+    /**
      * @param array $runtime
      * @return $this
      */

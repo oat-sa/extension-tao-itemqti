@@ -27,7 +27,6 @@ use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundExcept
 use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
-use oat\taoQtiItem\model\portableElement\helper\Manifest;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -236,9 +235,6 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
         $files = $this->getFilesFromPortableElement($object);
         $this->getFileSystem()->registerFiles($object, $files, $source);
 
-        //saveModel must be executed last because it may affects the model itself
-        Manifest::replaceAliasesToPath($object);
-
         $this->update($object);
     }
 
@@ -265,8 +261,9 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     protected function getRuntime(PortableElementObject $object)
     {
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
-        Manifest::replacePathToAliases($object);
         $runtime = $object->toArray();
+        $runtime['runtime'] = $object->getRuntimeAliases();
+        $runtime['creator'] = $object->getCreatorAliases();
         $runtime['baseUrl'] = $this->getBaseUrl($object);
         return $runtime;
     }
