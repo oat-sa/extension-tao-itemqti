@@ -27,8 +27,8 @@ use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundExcept
 use oat\taoQtiItem\model\portableElement\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
-use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementDirectoryParser;
-use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementPackageParser;
+use oat\taoQtiItem\model\portableElement\parser\element\PortableElementDirectoryParser;
+use oat\taoQtiItem\model\portableElement\parser\element\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;

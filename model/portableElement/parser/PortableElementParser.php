@@ -20,19 +20,22 @@
 
 namespace oat\taoQtiItem\model\portableElement\parser;
 
+use oat\taoQtiItem\model\portableElement\exception\PortableElementParserException;
+
 interface PortableElementParser
 {
     /**
      * Validate the $source as path
      *
      * @param string $source Zip package location to validate
-     * @return bool isValid
+     * @return bool Always true or PortableElementParserException
+     * @throws PortableElementParserException
      */
     public function validate($source);
 
     /**
      * Handle the $source to fetch information
-     * Return a path of directory where information is
+     * Return a path of directory representing portable element
      *
      * @param string $source
      * @return string
