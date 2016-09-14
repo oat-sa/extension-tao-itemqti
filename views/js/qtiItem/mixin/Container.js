@@ -25,6 +25,9 @@ define(['taoQtiItem/qtiItem/mixin/Mixin', 'taoQtiItem/qtiItem/core/Container'], 
         },
         getElement : function(serial){
             return this.bdy.getElement(serial);
+        },
+        isEmpty : function isEmpty(){
+            return !this.bdy.body();
         }
     };
 
