@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\portableElement\model;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementDirectoryParser;
+use oat\oatbox\AbstractRegistry;
 
 /**
  * Factory to create components implementation based on PortableElementModel
@@ -30,9 +31,25 @@ use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementDi
  * Class PortableElementFactory
  * @package oat\qtiItemPci\model\common
  */
-class PortableElementFactory extends ConfigurableService
+class PortableModelRegistry extends AbstractRegistry
 {
-    const SERVICE_ID = 'taoQtiItem/portableElementFactory';
+    /**
+     * (non-PHPdoc)
+     * @see \oat\oatbox\AbstractRegistry::getExtension()
+     */
+    protected function getExtension()
+    {
+        return \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\oatbox\AbstractRegistry::getConfigId()
+     */
+    protected function getConfigId()
+    {
+        return 'PortableModels';
+    }
 
     /**
      * Return model associated to the given string value
@@ -43,14 +60,23 @@ class PortableElementFactory extends ConfigurableService
      */
     public function getModel($modelId)
     {
-        if ($this->hasOption($modelId)
-            && ($implementation = $this->getOption($modelId)) instanceof PortableElementModel
-        ) {
-            return $implementation;
+        if (!$this->isRegistered($modelId)) {
+            throw new PortableElementInconsistencyModelException('Portable element model "' . $modelId . '" not found. '.
+                'Required extension might be missing');
         }
+        return $this->getModelFromConfig($this->get($modelId));
+    }
 
-        throw new PortableElementInconsistencyModelException('Portable element model "' . $modelId . '" not found. '.
-            'Required extension might be missing');
+    /**
+     * Register a new model to the registry
+     * 
+     * @param PortableElementModel $model
+     */
+    public function register(PortableElementModel $model)
+    {
+        $this->set($model->getId(), [
+            'class' => get_class($model)
+        ]);
     }
 
     /**
@@ -61,32 +87,23 @@ class PortableElementFactory extends ConfigurableService
      */
     public function getModels()
     {
-        $models = $this->getOptions();
-
-        foreach ($models as $key => $model) {
-            if (! $model instanceof PortableElementModel) {
-                throw new PortableElementInconsistencyModelException('Configured model '.$key.' does not implement PortableElement');
-            }
+        $models = $this->getMap();
+        foreach ($models as $key => $config) {
+            $models[$key] = $this->getModelFromConfig($config);
         }
         return $models;
     }
-
+    
     /**
-     * Return all directory parsers from configuration
-     *
-     * @return PortableElementDirectoryParser[]
+     * Helper to initialise the models
+     * 
+     * @param array $config
+     * @return PortableElementModel
      */
-    public function getDirectoryParsers()
+    protected function getModelFromConfig($config)
     {
-        $parsers = array();
-        $models = $this->getModels();
-        foreach ($models as $key => $model) {
-            if ($model->getDirectoryParser() instanceof PortableElementDirectoryParser) {
-                $parsers[] = $model->getDirectoryParser();
-            } else {
-                \common_Logger::e('Invalid DirectoryParser for model '.$key);
-            }
-        }
-        return $parsers;
+        $implClass = $config['class'];
+        return new $implClass;
     }
+
 }

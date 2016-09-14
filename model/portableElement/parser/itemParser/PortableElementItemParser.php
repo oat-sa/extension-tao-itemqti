@@ -22,7 +22,7 @@ namespace oat\taoQtiItem\model\portableElement\parser\itemParser;
 
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
-use oat\taoQtiItem\model\portableElement\model\PortableElementFactory;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Item;
@@ -52,11 +52,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     protected $service;
 
     /**
-     * @var PortableElementFactory
-     */
-    protected $factory;
-
-    /**
      * @return PortableElementService
      */
     public function getService()
@@ -69,14 +64,11 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @return PortableElementFactory
+     * @return PortableModelRegistry
      */
     protected function getPortableFactory()
     {
-        if (! $this->factory) {
-            $this->factory = $this->getServiceLocator()->get(PortableElementFactory::SERVICE_ID);
-        }
-        return $this->factory;
+        return PortableModelRegistry::getRegistry();
     }
 
     /**

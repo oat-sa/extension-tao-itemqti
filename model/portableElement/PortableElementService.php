@@ -26,7 +26,7 @@ use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelEx
 use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementParserException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
-use oat\taoQtiItem\model\portableElement\model\PortableElementFactory;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementDirectoryParser;
 use oat\taoQtiItem\model\portableElement\parser\implementation\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
@@ -37,17 +37,9 @@ class PortableElementService implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    /**
-     * @var PortableElementFactory
-     */
-    protected $factory;
-
     protected function getPortableFactory()
     {
-        if (! $this->factory) {
-            $this->factory = $this->getServiceLocator()->get(PortableElementFactory::SERVICE_ID);
-        }
-        return $this->factory;
+        return PortableModelRegistry::getRegistry();
     }
 
     /**
@@ -156,6 +148,25 @@ class PortableElementService implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Return all directory parsers from configuration
+     *
+     * @return PortableElementDirectoryParser[]
+     */
+    protected function getDirectoryParsers()
+    {
+        $parsers = array();
+        $models = $this->getPortableFactory()->getModels();
+        foreach ($models as $key => $model) {
+            if ($model->getDirectoryParser() instanceof PortableElementDirectoryParser) {
+                $parsers[] = $model->getDirectoryParser();
+            } else {
+                \common_Logger::e('Invalid DirectoryParser for model '.$key);
+            }
+        }
+        return $parsers;
+    }
+
+    /**
      * Extract a valid model from a directory
      *
      * @param $directory
@@ -166,7 +177,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     public function getValidPortableElementFromDirectorySource($directory)
     {
         $parserMatched = null;
-        $parsers = $this->getPortableFactory()->getDirectoryParsers();
+        $parsers = $this->getDirectoryParsers();
         /** @var PortableElementDirectoryParser $parser */
         foreach ($parsers as $parser) {
             $parser->setSource($directory);
