@@ -20,7 +20,7 @@
  */
 ?>
 <infoControl <?=get_data('attributes')?>>
-    <pic:portableInfoControl infoControlTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>">
+    <pic:portableInfoControl infoControlTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>">
         <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
             <pic:libraries>
                 <?php foreach(get_data('libraries') as $lib):?>

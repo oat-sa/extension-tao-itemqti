@@ -86,4 +86,12 @@ class LocalAssetHandler implements AssetHandler
         $this->itemSource = $itemSource;
         return $this;
     }
+
+    /**
+     * @inherit
+     */
+    public function finalize()
+    {
+        // Nothing to do
+    }
 }

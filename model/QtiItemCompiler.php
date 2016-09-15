@@ -235,6 +235,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 }
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
+
                 $basename = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
                 $replacement = $basename;
                 $count = 0;

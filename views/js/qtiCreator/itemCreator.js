@@ -33,8 +33,8 @@ define([
     'module',
     'core/eventifier',
     'core/promise',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
-    'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
+    'taoQtiItem/portableElementRegistry/icRegistry',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for read-only element : preview + xinclude
@@ -43,32 +43,10 @@ define([
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
-
-], function($, _, __, module, eventifier, Promise,
-            ciRegistry, icRegistry, itemLoader,
+], function($, _, __, module, eventifier, Promise, ciRegistry, icRegistry, itemLoader,
             creatorRenderer, commonRenderer, xincludeRenderer,
             interactionPanel, propertiesPanel, eventHelper, styleEditor){
     'use strict';
-
-
-    /**
-     * Register QTI portable elements
-     * @param {Object} registry
-     * @param {Array} elements - the elements to register
-     * @returns {Promise}
-     */
-    var register = function register(registry, elements){
-        if(!_.isArray(elements) || elements.length <= 0){
-            return Promise.resolve();
-        }
-        return new Promise(function(resolve){
-            if(registry && _.isFunction(registry.register)){
-                registry.register(elements);
-                return registry.loadAll(resolve);
-            }
-            return resolve();
-        });
-    };
 
     /**
      * Load an item
@@ -90,6 +68,24 @@ define([
                 resolve(item);
             });
         });
+    };
+
+    /**
+     * load custom interactions registered from the custom interaction registry
+     *
+     * @returns {Promise} that resolve with the loaded item model
+     */
+    var loadCustomInteractions = function loadCustomInteractions(){
+        return ciRegistry.loadCreators();
+    };
+
+    /**
+     * load info controls registered from the info control registry
+     *
+     * @returns {Promise} that resolve with the loaded item model
+     */
+    var loadInfoControls = function loadInfoControls(){
+        return icRegistry.loadCreators();
     };
 
     /**
@@ -194,22 +190,19 @@ define([
                     });
                 });
 
-                //performs the loadings in parrallel
+                //performs the loadings in parallel
                 Promise.all([
-                    register(ciRegistry, config.interactions),
-                    register(icRegistry, config.infoControls),
+                    loadCustomInteractions(),
+                    loadInfoControls(),
                     loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
                 ]).then(function(results){
 
                     if(_.isArray(results) && results.length === 3){
 
-                        self.customInterations = results[0] || {};
-                        self.infoControls      = results[1] || {};
                         if(! _.isObject(results[2])){
                             self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
                             return;
                         }
-
                         self.item = results[2];
 
                         //initialize all the plugins
@@ -248,8 +241,7 @@ define([
                 //configure commonRenderer for the preview
                 commonRenderer.setOption('baseUrl', config.properties.baseUrl);
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
-
-                interactionPanel(areaBroker.getInteractionPanelArea(), this.getCustomInteractions());
+                interactionPanel(areaBroker.getInteractionPanelArea());
 
                 //the renderers' widgets do not handle async yet, so we rely on this event
                 //TODO ready should be triggered once every renderer's widget is done (ie. promisify everything)
@@ -314,8 +306,7 @@ define([
                 return this;
             },
 
-
-        //accessors
+            //accessors
 
             /**
              * Give an access to the loaded item
@@ -331,22 +322,6 @@ define([
              */
             getConfig : function getConfig(){
                 return config;
-            },
-
-            /**
-             * Give an access to the loaded additional interactinos
-             * @returns {Object[]} the interations
-             */
-            getCustomInteractions : function getCustomInteractions(){
-                return this.customInterations || {};
-            },
-
-            /**
-             * Give an access to the loaded info controls
-             * @returns {Object[]} the infos controls
-             */
-            getInfoControls : function getInfoControls(){
-                return this.infoControls || {};
             }
 
         });
