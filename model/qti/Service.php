@@ -161,13 +161,6 @@ class Service extends tao_models_classes_Service
         $qtiParser = new Parser($sanitized);
         $qtiItem = $qtiParser->load();
 
-        if ($this->hasUnauthorablePortableElement($qtiItem)) {
-            throw new QtiModelException(
-                __('QTI item contains Portable Element without Creator config. '.
-                    'It\'s not editable, you have to import a new version with Creator')
-            );
-        }
-
         return $this->saveDataItemToRdfItem($qtiItem, $rdfItem);
     }
 
@@ -253,37 +246,4 @@ class Service extends tao_models_classes_Service
     {
         return taoItems_models_classes_ItemsService::singleton()->hasItemModel($item, $models);
     }
-
-    /**
-     * Check if QtiItem has a PortableElement without Creator e.q. unauthorable
-     *
-     * @param Item $qtiItem
-     * @return bool
-     */
-    protected function hasUnauthorablePortableElement(Item $qtiItem)
-    {
-        $models = PortableModelRegistry::getRegistry()->getModels();
-        $service = new PortableElementService();
-        $service->setServiceLocator($this->getServiceLocator());
-
-        foreach ($qtiItem->getComposingElements() as $element) {
-            /** @var PortableElementModel $model */
-            foreach ($models as $model) {
-                if (is_a($element, $model->getQtiElementClassName())) {
-                    $version = $element->getVersion();
-                    if ($version == '0.0.0') {
-                        $version = null;
-                    }
-                    $portableElement = $service->getPortableElementByIdentifier(
-                        $model->getId(), $element->getTypeIdentifier(), $version
-                    );
-                    if (empty($portableElement->getCreator())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
 }
