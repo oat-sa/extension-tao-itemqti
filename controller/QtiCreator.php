@@ -23,10 +23,12 @@ namespace oat\taoQtiItem\controller;
 
 use common_exception_Error;
 use core_kernel_classes_Resource;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
+use oat\taoQtiItem\model\event\ItemCreatorLoad;
 use oat\taoQtiItem\model\HookRegistry;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
@@ -99,6 +101,8 @@ class QtiCreator extends tao_actions_CommonModule
 
         $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');
+
+        $this->getEventManager()->trigger(new ItemCreatorLoad());
     }
 
     public function getMediaSources()

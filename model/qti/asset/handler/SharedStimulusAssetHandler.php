@@ -198,4 +198,12 @@ class SharedStimulusAssetHandler implements AssetHandler
         $this->parentPath = $parentPath;
         return $this;
     }
+
+    /**
+     * @inherit
+     */
+    public function finalize()
+    {
+        // Nothing to do
+    }
 }

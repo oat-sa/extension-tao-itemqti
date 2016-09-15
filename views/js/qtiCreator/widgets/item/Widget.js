@@ -113,12 +113,20 @@ define([
                 }
                 reject(err);
             }
+
+            var xml = xmlRenderer.render(self.element);
+
+            //@todo : remove this hotfix : prevent unsupported custom interaction to be saved
+            if(hasUnsupportedInteraction(xml)){
+                return reject(new Error(__('The item cannot be saved because it contains an unsupported custom interaction.')));
+            }
+
             $.ajax({
                 url : urlUtil.build(self.saveItemUrl, {uri: self.itemUri}),
                 type : 'POST',
                 contentType : 'text/xml',
                 dataType : 'json',
-                data : xmlRenderer.render(self.element)
+                data : xml
             })
                 .done(function(data) {
                     if (!data || data.success) {
@@ -459,7 +467,6 @@ define([
 
     };
 
-
     var _createInfoBox = function(data){
         var $messageBox = $(genericFeedbackPopup(data)),
             closeTrigger = $messageBox.find('.close-trigger');
@@ -478,6 +485,11 @@ define([
 
         return $messageBox;
     };
+
+    function hasUnsupportedInteraction(xml){
+        var $qti = $(xml);
+        return ($qti.find('div.qti-interaction.qti-customInteraction[data-serial]').length > 0);
+    }
 
     return ItemWidget;
 });

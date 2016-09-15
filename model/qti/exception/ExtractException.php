@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\exception;
 
-use oat\taoQtiItem\model\qti\exception\ExtractException;
 use \common_Exception;
 use \common_exception_UserReadableException;
 

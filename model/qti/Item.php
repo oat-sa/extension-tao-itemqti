@@ -11,7 +11,6 @@ use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\controller\QTIform\AssessmentItem;
 use \common_Serializable;
 use \common_Logger;
 use \common_ext_ExtensionsManager;
@@ -269,7 +268,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $this->outcomes = array();
         foreach($outcomes as $outcome){
             if(!$outcome instanceof OutcomeDeclaration){
-                throw new InvalidArgumentException("wrong entry in outcomes list");
+                throw new \InvalidArgumentException("wrong entry in outcomes list");
             }
             $this->addOutcome($outcome);
         }
@@ -411,7 +410,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         }elseif(is_string($response)){
             $serial = $response;
         }else{
-            throw new InvalidArgumentException('the argument must be an instance of taoQTI_models_classes_QTI_ResponseDeclaration or a string serial');
+            throw new \InvalidArgumentException('the argument must be an instance of taoQTI_models_classes_QTI_ResponseDeclaration or a string serial');
         }
 
         if(!empty($serial)){
