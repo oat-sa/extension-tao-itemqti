@@ -36,6 +36,7 @@ use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
@@ -488,7 +489,11 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
                 $report->add($pe->getReport());
                 $rdfItem->delete();
-            }catch (Exception $e) {
+            } catch (PortableElementInconsistencyModelException $e) {
+                // an error occured during a specific item
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getMessage());
+                common_Logger::e($e->getMessage());
+            } catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
                 common_Logger::e($e->getMessage());
