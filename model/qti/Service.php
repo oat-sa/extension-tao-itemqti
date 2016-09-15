@@ -23,6 +23,11 @@ namespace oat\taoQtiItem\model\qti;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
@@ -156,6 +161,13 @@ class Service extends tao_models_classes_Service
         $qtiParser = new Parser($sanitized);
         $qtiItem = $qtiParser->load();
 
+        if ($this->hasUnauthorablePortableElement($qtiItem)) {
+            throw new QtiModelException(
+                __('QTI item contains Portable Element without Creator config. '.
+                    'It\'s not editable, you have to import a new version with Creator')
+            );
+        }
+
         return $this->saveDataItemToRdfItem($qtiItem, $rdfItem);
     }
 
@@ -240,6 +252,41 @@ class Service extends tao_models_classes_Service
     public function hasItemModel(core_kernel_classes_Resource $item, $models)
     {
         return taoItems_models_classes_ItemsService::singleton()->hasItemModel($item, $models);
+    }
+
+    /**
+     * Check if QtiItem has a PortableElement without Creator e.q. unauthorable
+     *
+     * @param Item $qtiItem
+     * @return bool
+     */
+    protected function hasUnauthorablePortableElement(Item $qtiItem)
+    {
+        $models = PortableModelRegistry::getRegistry()->getModels();
+        $service = new PortableElementService();
+        $service->setServiceLocator($this->getServiceLocator());
+        common_Logger::i(print_r('starting parsing', true));
+
+        foreach ($qtiItem->getComposingElements() as $element) {
+            /** @var PortableElementModel $model */
+            foreach ($models as $model) {
+                if (is_a($element, $model->getQtiElementClassName())) {
+                    $version = $element->getVersion();
+                    if ($version == '0.0.0') {
+                        $version = null;
+                    }
+                    common_Logger::i(print_r($version, true));
+                    $portableElement = $service->getPortableElementByIdentifier(
+                        $model->getId(), $element->getTypeIdentifier(), $version
+                    );
+                    common_Logger::i(print_r($portableElement, true));
+                    if (empty($portableElement->getCreator())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }
