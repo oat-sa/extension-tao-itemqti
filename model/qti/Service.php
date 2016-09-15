@@ -265,7 +265,6 @@ class Service extends tao_models_classes_Service
         $models = PortableModelRegistry::getRegistry()->getModels();
         $service = new PortableElementService();
         $service->setServiceLocator($this->getServiceLocator());
-        common_Logger::i(print_r('starting parsing', true));
 
         foreach ($qtiItem->getComposingElements() as $element) {
             /** @var PortableElementModel $model */
@@ -275,11 +274,9 @@ class Service extends tao_models_classes_Service
                     if ($version == '0.0.0') {
                         $version = null;
                     }
-                    common_Logger::i(print_r($version, true));
                     $portableElement = $service->getPortableElementByIdentifier(
                         $model->getId(), $element->getTypeIdentifier(), $version
                     );
-                    common_Logger::i(print_r($portableElement, true));
                     if (empty($portableElement->getCreator())) {
                         return true;
                     }
