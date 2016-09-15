@@ -60,10 +60,33 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	}
 	
 	public function export($options = array()) {
-		$report = parent::export($options);
-		$this->exportManifest($options);
-        return $report;
+        if (!$this->containsItem()) {
+            $report = parent::export($options);
+            $this->exportManifest($options);
+
+            return $report;
+        }
+        return \common_report_Report::createSuccess();
 	}
+
+    /**
+     * Whenever the item is already in the manifest
+     * @return boolean
+     */
+    protected function containsItem()
+    {
+        $found = false;
+        if ($this->hasManifest()) {
+            foreach ($this->getManifest()->getElementsByTagName('resource') as $resourceNode) {
+                /** @var \DOMElement $resourceNode */
+                if ($resourceNode->getAttribute('identifier') == $this->buildIdentifier()) {
+                    $found = true;
+                    break;
+                }
+            }
+        }
+        return $found;
+    }
 	
 	public function buildBasePath() {
 	    return tao_helpers_Uri::getUniqueId($this->getItem()->getUri());
@@ -159,7 +182,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    throw new common_Exception("the item '${itemLabel}' involved in the export process has no content.");
 		}
 	}
-    
+
     protected function renderManifest(array $options, array $qtiItemData)
     {
         $asApip = isset($options['apip']) && $options['apip'] === true;

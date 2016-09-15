@@ -302,6 +302,7 @@ img.dragging.ui-draggable-dragging {
                 min-width: 100px;
             }
             .icon-help.tooltipstered {
+                cursor: pointer;
                 float: right;
             }
             &:last-child, .panel-row {
@@ -419,6 +420,9 @@ img.dragging.ui-draggable-dragging {
         &.short {
             padding-right: 10px;
         }
+    }
+    .incrementer.large{
+        min-width: 55px !important;
     }
     .incrementer-ctrl {
         top: -3px;
@@ -1101,6 +1105,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
+    @import "qtiCreator/_object";
     @import "qtiCreator/_choice";
     @import "qtiCreator/_order";
     @import "qtiCreator/_associate";
