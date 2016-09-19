@@ -53,9 +53,19 @@ define([
         instructionMgr.removeInstructions(interaction);
         instructionMgr.appendInstruction(interaction, _initialInstructions);
 
-        if (!validateFileType(file, interaction)) {
+        if (true || !validateFileType(file, interaction)) {
+            var debugData = {
+                file : {
+                    name : file.name,
+                    lastModified : file.lastModified,
+                    size : file.size,
+                    type : file.type
+                },
+                filetype : filetype,
+                expectedTypes : uploadHelper.getExpectedTypes(interaction)
+            };
             instructionMgr.removeInstructions(interaction);
-            instructionMgr.appendInstruction(interaction, getMessageWrongType(interaction, messageWrongType), function () {
+            instructionMgr.appendInstruction(interaction, getMessageWrongType(interaction, messageWrongType)+ ', DEBUG MESSAGE: '+JSON.stringify(debugData), function () {
                 this.setLevel('error');
                 //clear preview
             });
