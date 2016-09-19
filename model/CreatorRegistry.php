@@ -33,13 +33,6 @@ use oat\tao\model\ClientLibRegistry;
  */
 abstract class CreatorRegistry
 {
-
-    /**
-     * constructor
-     */
-    public function __construct(){
-    }
-
     /**
      * @return string - e.g. DIR_VIEWS/js/pciCreator/dev/
      */

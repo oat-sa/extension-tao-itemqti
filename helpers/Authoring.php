@@ -133,7 +133,7 @@ class Authoring
                 $ids[] = $id;
             }
         }
-        
+
         return $doc->saveXML();
     }
     

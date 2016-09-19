@@ -21,13 +21,15 @@
  * Portable Info Control Common Renderer
  */
 define([
+    'lodash',
     'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/infoControl',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiInfoControlContext',
-    'taoQtiItem/qtiItem/helper/util'
-], function(Promise, tpl, containerHelper, PortableElement, qtiInfoControlContext, util){
+    'taoQtiItem/qtiItem/helper/util',
+    'taoQtiItem/portableElementRegistry/icRegistry'
+], function(_, Promise, tpl, containerHelper, PortableElement, qtiInfoControlContext, util, icRegistry){
     'use strict';
 
     /**
@@ -74,49 +76,61 @@ define([
      *
      * @param {Object} infoControl
      * @param {Object} [options]
-     * @param {Object} [options.runtimeLocations] - to set manually the runtime path of PIC
      */
     var render = function(infoControl, options){
         var self = this;
         options = options || {};
-
         return new Promise(function(resolve, reject){
-
-            var runtimeLocation;
             var state              = {}; //@todo pass state and response to renderer here:
-            var localRequireConfig = { paths : {} };
             var id                 = infoControl.attr('id');
             var typeIdentifier     = infoControl.typeIdentifier;
-            var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : self.getOption('runtimeLocations');
             var config             = infoControl.properties;
             var $dom               = containerHelper.get(infoControl).children();
-            var entryPoint         = infoControl.entryPoint.replace(/\.js$/, '');   //ensure the entry point is in AMD
+            var assetManager       = self.getAssetManager();
 
-            //update config
-            if(runtimeLocations && runtimeLocations[typeIdentifier]){
-                runtimeLocation = runtimeLocations[typeIdentifier];
-            } else{
-                //use the asset strategy named "portableElementLocation"
-                runtimeLocation = self.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
-            }
-            if(runtimeLocation){
-                localRequireConfig.paths[typeIdentifier] = runtimeLocation;
-                require.config(localRequireConfig);
-            }
+            icRegistry.loadRuntimes().then(function(){
 
-            //load the entry point
-            require([entryPoint], function(){
+                var requireEntries = [];
+                var runtime = icRegistry.getRuntime(typeIdentifier);
 
-                var pic = _getPic(infoControl);
-                if(pic && $dom.length){
-                    //call pci initialize() to render the pci
-                    pic.initialize(id, $dom[0], config);
-                    //restore context (state + response)
-                    pic.setSerializedState(state);
-                    return resolve();
+                if(!runtime || !runtime.hook){
+                    return reject('The runtime for the pic cannot be found : ' + typeIdentifier);
                 }
-                return reject('Unable to initiliaze infoControl : ' + id);
-            }, reject);
+
+                //load the entrypoint
+                requireEntries = [runtime.hook.replace(/\.js$/, '')];
+
+                //load stylesheets
+                _.each(runtime.stylesheets, function(stylesheet){
+                    requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
+                });
+
+                //load the entrypoint
+                require(requireEntries, function(){
+
+                    var pic = _getPic(infoControl);
+                    var picAssetManager = {
+                        resolve : function resolve(url){
+                            return assetManager.resolveBy('portableElementLocation', url);
+                        }
+                    };
+
+                    if(pic){
+                        //call pic initialize() to render the pic
+                        pic.initialize(id, $dom[0], config, picAssetManager);
+                        //restore context (state + response)
+                        pic.setSerializedState(state);
+
+                        return resolve();
+                    }
+
+                    return reject('Unable to initialize pic : ' + id);
+
+                }, reject);
+
+            }).catch(function(error){
+                reject('Error loading runtime : ' + id);
+            });
         });
     };
 

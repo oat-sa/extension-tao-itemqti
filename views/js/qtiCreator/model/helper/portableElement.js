@@ -31,38 +31,6 @@ define([
     'use strict';
 
     /**
-     * Add ns directory to a relative path (a relative path only)
-     *
-     * @param {String} typeIdentifier
-     * @param {String} file
-     * @returns {String}
-     */
-    function _addNsDir(typeIdentifier, file){
-        if(file.match(/^\./)){
-            return typeIdentifier + '/' + file.replace(/^\.\//, '');
-        }else{
-            return file;
-        }
-    }
-
-    /**
-     * Add namespace directory to a file or an array of file
-     *
-     * @param {String} typeIdentifier
-     * @param {String|Array} file - a file path or an array of file path
-     * @returns {String}
-     */
-    function addNamespaceDirectory(typeIdentifier, file){
-        if(_.isString(file)){
-            return _addNsDir(typeIdentifier, file);
-        }else if(_.isArray(file)){
-            return _.map(file, function(f){
-                return _addNsDir(typeIdentifier, f);
-            });
-        }
-    }
-
-    /**
      * Get common methods to augment a portableElement implementation
      *
      * @param {object} registry
@@ -75,9 +43,9 @@ define([
                 return {};
             },
             getDefaultProperties : function(){
-
+                
                 var creator = registry.getCreator(this.typeIdentifier);
-                if(_.isFunction(creator.getDefaultProperties)){
+                if(creator && creator.module && _.isFunction(creator.module.getDefaultProperties)){
                     return creator.getDefaultProperties(this);
                 }else{
                     return {};
@@ -87,58 +55,29 @@ define([
 
                 var typeId = this.typeIdentifier,
                     creator = registry.getCreator(typeId),
-                    manifest = registry.getManifest(typeId),
-                    item = this.getRelatedItem(),
+                    creatorModule = creator.module,
                     response;
 
-                //add required resource
-                //@todo need afterCreate() to return a promise
-                var _this = this;
-                registry.addRequiredResources(typeId, item.data('uri'), function(res){
-                    if(res.success){
-                        $(document).trigger('resourceadded.qti-creator', [typeId, res.resources, _this]);
-                    }else{
-                        throw 'resource addition failed';
-                    }
-                });
-
                 //set default markup (for initial rendering)
-                creator.getMarkupTemplate();
+                creatorModule.getMarkupTemplate();
 
                 //set pci props
-                this.properties = creator.getDefaultProperties();
-
-                //set hook entry point
-                this.entryPoint = addNamespaceDirectory(typeId, manifest.entryPoint);
-
-                //set libs
-                if(_.isArray(manifest.libraries)){
-                    this.libraries = addNamespaceDirectory(typeId, manifest.libraries);
-                }
-
-                if(_.isArray(manifest.css)){
-                    this.css = addNamespaceDirectory(typeId, manifest.css);
-                    _.each(this.css, function(css){
-                        if(!item.stylesheetExists(css)){
-                            item.createStyleSheet(css);
-                        }
-                    });
-                }
+                this.properties = creatorModule.getDefaultProperties();
 
                 //@todo fix this !
-                if(manifest.response){//for custom interaciton only
+                if(creator.response && _.size(creator.response)){//for custom interaciton only
                     //create response
                     response = this.createResponse({
-                        cardinality : manifest.response.cardinality
+                        cardinality : creator.response.cardinality
                     });
                     
                     //the base type is optional
-                    if(manifest.response.baseType){
-                        response.attr('baseType', manifest.response.baseType);
+                    if(creator.response.baseType){
+                        response.attr('baseType', creator.response.baseType);
                     }
                 } else {
-                    //the attribute is mendatory for info control
-                    this.attr('title', manifest.label);
+                    //the attribute is mandatory for info control
+                    this.attr('title', creator.label);
 
                     //we ensure the info control has an identifier
                     if(!this.attr('id')){
@@ -153,19 +92,20 @@ define([
                 this.getNamespace();
 
                 //after create
-                if(_.isFunction(creator.afterCreate)){
-                    return creator.afterCreate(this);
+                //@todo need afterCreate() to return a promise
+                if(_.isFunction(creatorModule.afterCreate)){
+                    return creatorModule.afterCreate(this);
                 }
             },
             renderMarkup : function(){
 
-                var creator = registry.getCreator(this.typeIdentifier),
-                    markupTpl = creator.getMarkupTemplate(),
+                var creatorModule = registry.getCreator(this.typeIdentifier).module,
+                    markupTpl = creatorModule.getMarkupTemplate(),
                     markupData = this.getDefaultMarkupTemplateData();
 
-                if(_.isFunction(creator.getMarkupData)){
+                if(_.isFunction(creatorModule.getMarkupData)){
                     //extends the default data with the custom one
-                    markupData = creator.getMarkupData(this, markupData);
+                    markupData = creatorModule.getMarkupData(this, markupData);
                 }
 
                 return markupTpl(markupData);
