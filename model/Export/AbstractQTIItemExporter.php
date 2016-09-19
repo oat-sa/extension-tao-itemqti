@@ -115,7 +115,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                         $stream = $service->getFileStream($object, $url);
                         $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
                         $portableAssetToExport = preg_replace('/^(.\/)(.*)/', $object->getTypeIdentifier() . "/$2", $replacement);
-                        $portableAssetToExport =  preg_replace( '/^(.\/)/', '',$portableAssetToExport);
                         $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $portableAssetToExport;
                         \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
                     } catch (\tao_models_classes_FileNotFoundException $e) {
@@ -315,7 +314,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
 
         // To check if replacement is to replace basename ???
-        $this->addFile($stream, $basePath . '/' . $baseName);
+        $this->addFile($stream, $basePath . '/' . preg_replace( '/^(.\/)/', '',$baseName));
         $stream->close();
         return $replacement;
     }
