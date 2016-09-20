@@ -87,6 +87,10 @@ define(['lodash', 'taoQtiItem/qtiCommonRenderer/helpers/PciPrettyPrint'], functi
                 cardinality = responseDeclaration.attr('cardinality'),
                 mappedCardinality;
 
+            responseValues = _.map(responseValues || [], function(v){
+                return (baseType === 'boolean') ? (v === true || v === 'true') : v;
+            });
+
             if(_qtiModelPciResponseCardinalities[cardinality]){
                 mappedCardinality = _qtiModelPciResponseCardinalities[cardinality];
                 if(mappedCardinality === 'base'){
