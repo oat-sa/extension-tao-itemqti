@@ -183,6 +183,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
 
+        if (! $report->getMessage()) {
+            $report->setMessage(__('Item ' . $this->getItem()->getLabel() . ' exported.'));
+        }
+
         return $report;
     }
 
