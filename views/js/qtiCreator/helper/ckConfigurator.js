@@ -18,8 +18,16 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['ui/ckeditor/ckConfigurator', 'mathJax'], function(ckConfigurator, mathJax) {
+define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfigurator, mathJax) {
     'use strict';
+
+    var _defaults = {
+        qtiImage : true,
+        qtiMedia : true,
+        qtiInclude : true,
+        underline : true,
+        mathJax : !!mathJax
+    };
 
     /**
      * Generate a configuration object for CKEDITOR
@@ -39,15 +47,7 @@ define(['ui/ckeditor/ckConfigurator', 'mathJax'], function(ckConfigurator, mathJ
      * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
      */
     var getConfig = function(editor, toolbarType, options){
-        options = options || {};
-
-        options.qtiImage = true;
-        options.qtiMedia = true;
-        options.qtiInclude = true;
-        options.underline = true;
-        options.mathJax = !!mathJax;
-
-        return ckConfigurator.getConfig(editor, toolbarType, options);
+        return ckConfigurator.getConfig(editor, toolbarType, _.defaults(options || {}, _defaults));
     };
 
     return {
