@@ -101,6 +101,7 @@ class AssetParser
                 $this->extractXinclude($element);
             }
         }
+        $this->extractApipAccessibilityFiles($element);
         return $this->assets;
     }
 
@@ -368,4 +369,28 @@ class AssetParser
     {
         $this->deepParsing = $deepParsing;
     }
+
+    /* BT CUSTOMIZATION - START */
+    /**
+     * Lookup and extract assets from IMG elements
+     * @param Element $element container of the target element
+     * @author Mahmoud Kasdi <mahmoud.kasdi@breaktech.com>
+     */
+    private function extractApipAccessibilityFiles($element)
+    {
+        if($element){
+            $xmlDocument = new \DOMDocument();
+            $apipXml = $element->getRelatedItem()->getApipAccessibility();
+            if (!empty($apipXml) && $xmlDocument->loadXML($apipXml)) {
+                $apipFiles = $xmlDocument->getElementsByTagName('fileHref');
+                foreach ($apipFiles as $file) {
+                    $this->addAsset("apip", $file->nodeValue);
+                }
+            } else {
+              \common_Logger::w("Compiling test: Unable to load apipAccessibility node to extract assets files
+               - Identifier: " . $element->getRelatedItem()->getIdentifier());
+            }
+        }
+    }
+    /* BT CUSTOMIZATION - END */
 }
