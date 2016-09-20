@@ -28,6 +28,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Element;
@@ -96,7 +97,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     continue;
                 }
 
-                $object = $service->retrieve($key, $element->getTypeIdentifier());
+                try {
+                    $object = $service->retrieve($key, $element->getTypeIdentifier());
+                } catch (PortableElementException $e) {
+                    $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
+                    throw new PortableElementException($message, 0 , $e);
+                }
                 $portableElementsToExport[$element->getTypeIdentifier()] = $object;
 
                 $files = $object->getModel()->getValidator()->getAssets($object, 'runtime');
