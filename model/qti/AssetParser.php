@@ -263,18 +263,30 @@ class AssetParser
         if ($element instanceof CustomInteraction || $element instanceof InfoControl) {
             // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
             $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
+
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);
 
+            $portableProperties = $element->getProperties();
+            if (isset($portableProperties['documents'])) {
+                $documents = $portableProperties['documents'];
+                if (is_array($documents)) {
+                    foreach ($documents as $document) {
+                        if (isset($document['uri'])) {
+                            $this->addAsset('asset', $document['uri']);
+                        }
+                    }
+                }
+            }
 
             /** @var SimpleXMLElement $xml */
             foreach ($xmls as $xml) {
-                foreach($xml->xpath('//img') as $img){
+                foreach ($xml->xpath('//img') as $img) {
                     $this->addAsset('img', (string)$img['src']);
                 }
-                foreach($xml->xpath('//video') as $video){
+                foreach ($xml->xpath('//video') as $video) {
                     $this->addAsset('video', (string)$video['src']);
                 }
-                foreach($xml->xpath('//audio') as $audio){
+                foreach ($xml->xpath('//audio') as $audio) {
                     $this->addAsset('audio', (string)$audio['src']);
                 }
             }
