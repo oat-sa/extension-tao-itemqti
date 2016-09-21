@@ -43,4 +43,10 @@ class ValidationException extends \common_Exception {
     {
         return common_report_Report::createFailure(__("Malformed XML:\n%s", implode("\n", $this->errors)));
     }
+
+    public function getSeverity()
+    {
+        return \common_Logger::ERROR_LEVEL;
+    }
+
 }
