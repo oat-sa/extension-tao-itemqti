@@ -398,9 +398,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.31.0');
         }
 
-        $this->skip('2.31.0', '5.1.1');
+        $this->skip('2.31.0', '5.1.2');
 
-        if ($this->isVersion('5.1.1')) {
+        if ($this->isVersion('5.1.2')) {
             $registry->registerFromFile('OAT/jquery.qtip', $installBasePath . '/OAT/jquery.qtip.js');
         }
         $this->setVersion('5.2.0');
