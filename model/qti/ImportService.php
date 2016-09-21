@@ -374,11 +374,9 @@ class ImportService extends tao_models_classes_GenerisService
     ) {
 
         try {
-            //load the information about resources in the manifest
-
-            $itemService = taoItems_models_classes_ItemsService::singleton();
             $qtiService = Service::singleton();
-            
+
+            //load the information about resources in the manifest
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
 
@@ -493,7 +491,10 @@ class ImportService extends tao_models_classes_GenerisService
                 }
             } catch (PortableElementException $e) {
                 // an error occured during a specific item
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getMessage());
+                $report = new common_report_Report(
+                    common_report_Report::TYPE_ERROR,
+                    __('Error on item ') . $qtiItemResource->getIdentifier() . ' : ' . ($e->getMessage())
+                );
                 common_Logger::e($e->getMessage());
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
                     $rdfItem->delete();

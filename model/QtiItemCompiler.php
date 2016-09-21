@@ -269,7 +269,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                     $node->value = $replacementList[$node->value];
                 }
             }
-            $attributeNodes = $xpath->query('//pci:entry');
+            $attributeNodes = $xpath->query('//pci:entry|//pic:entry');
             unset($xpath);
             if ($attributeNodes->length > 0) {
                 foreach ($attributeNodes as $node) {
