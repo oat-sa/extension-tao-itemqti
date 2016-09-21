@@ -38,4 +38,11 @@ interface SimpleExporter
      * @return mixed
      */
     public function export($uri=null);
+
+    /**
+     * Set items.
+     *
+     * @param array $items
+     */
+    public function setItems(array $items);
 }

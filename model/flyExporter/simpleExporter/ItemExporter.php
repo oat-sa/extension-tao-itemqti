@@ -81,6 +81,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     protected $exportFile;
 
     /**
+     * @var \core_kernel_classes_Resource[]
+     */
+    protected $items;
+
+    /**
      * @inheritdoc
      *
      * @param null $uri
@@ -90,9 +95,20 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     public function export($uri=null, $asFile=false)
     {
         $this->loadConfig();
-        $items = $this->getItems($uri);
+        $items = !empty($this->items) ? $this->items : $this->getItems($uri);
         $data  = $this->extractDataFromItems($items);
         return $this->save($data, $asFile);
+    }
+
+    /**
+     * @param \core_kernel_classes_Resource[] $items
+     * @return $this
+     */
+    public function setItems(array $items)
+    {
+        $this->items = $items;
+
+        return $this;
     }
 
     /**
