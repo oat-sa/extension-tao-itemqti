@@ -271,10 +271,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             }
             $attributeNodes = $xpath->query('//pci:entry') ?: [];
             unset($xpath);
-            if ($attributeNodes->length > 0) {
-                foreach ($attributeNodes as $node) {
-                    $node->nodeValue = str_replace(array_keys($replacementList), array_values($replacementList), $node->nodeValue);
-                }
+            foreach ($attributeNodes as $node) {
+                $node->nodeValue = str_replace(array_keys($replacementList), array_values($replacementList), $node->nodeValue);
             }
         } else {
             throw new \taoItems_models_classes_CompilationFailedException('Unable to load XML');
