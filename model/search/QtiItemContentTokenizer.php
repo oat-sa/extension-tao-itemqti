@@ -49,12 +49,10 @@ class QtiItemContentTokenizer implements ResourceTokenizer
             return [];
         }
 
-        $file = $this->getFileReferenceSerializer()->unserialize(reset($ontologyFiles));
-
-        if ($file instanceof Directory) {
-            $file = $file->getFile(Service::QTI_ITEM_FILE);
-        }
-
+        $file = $this->getFileReferenceSerializer()
+            ->unserializeDirectory(reset($ontologyFiles))
+            ->getFile(Service::QTI_ITEM_FILE);
+        
         if (! $file->exists()) {
             return [];
         }
