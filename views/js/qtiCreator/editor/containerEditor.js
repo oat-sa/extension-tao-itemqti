@@ -20,7 +20,8 @@ define([
     var _defaults = {
         change : _.noop,
         markup : '',
-        markupSelector : ''
+        markupSelector : '',
+        qtiMedia : false
     };
 
     function parser($container){
@@ -55,6 +56,7 @@ define([
      * @param {Function} [options.placeholder] - the placeholder text of the container editor when
      * @param {Function} [options.$toolbarLocation] - the location of the toolbar
      * @param {Function} [options.toolbar] - the ck toolbar
+     * @param {Function} [options.qtiMedia=false] - allow insert media object
      * @returns {undefined}
      */
     function create($container, options){
@@ -117,7 +119,8 @@ define([
                 buildEditor($container, container, {
                     hideTriggerOnBlur: !!options.hideTriggerOnBlur,
                     placeholder : options.placeholder || undefined,
-                    toolbar : options.toolbar || undefined
+                    toolbar : options.toolbar || undefined,
+                    qtiMedia : options.qtiMedia
                 });
 
                 $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
