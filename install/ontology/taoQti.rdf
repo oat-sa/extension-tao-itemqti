@@ -5,10 +5,8 @@
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xmlns:item="http://www.tao.lu/Ontologies/TAOItem.rdf#"
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
-	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
 >
 
-  <!-- QTI model -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#QTI">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModels"/>
     <rdf:value xml:lang="en-US"/>
@@ -32,17 +30,4 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor">
   	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole"/>
   </rdf:Description>
-
-  <!-- Item content Tokenizer for QTI model -->
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemContentTokenizer">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[QTI Item Content Tokenizer]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Tokenizer using the QTI item content]]></rdfs:comment>
-    <tao:TokenizerClass xml:lang="en-US"><![CDATA[\oat\taoQtiItem\model\search\QtiItemContentTokenizer]]></tao:TokenizerClass>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#QTI">
-    <tao:IndexTokenizer rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemContentTokenizer"/>
-  </rdf:Description>
-
 </rdf:RDF>
