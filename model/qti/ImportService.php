@@ -490,10 +490,13 @@ class ImportService extends tao_models_classes_GenerisService
                 }
             } catch (PortableElementException $e) {
                 // an error occured during a specific item
-                $report = new common_report_Report(
-                    common_report_Report::TYPE_ERROR,
-                    __('Error on item ') . $qtiItemResource->getIdentifier() . ' : ' . ($e->getMessage())
-                );
+                if ($e instanceof \common_exception_UserReadableException) {
+                    $msg = __('Error on item %1$s : %2$s', $qtiItemResource->getIdentifier(), $e->getUserMessage());
+                } else {
+                    $msg = __('Error on item %s', $qtiItemResource->getIdentifier());
+                    common_Logger::d($e->getMessage());
+                }
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR,$msg);
                 common_Logger::e($e->getMessage());
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
                     $rdfItem->delete();

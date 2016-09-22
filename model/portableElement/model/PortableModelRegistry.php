@@ -20,8 +20,8 @@
 
 namespace oat\taoQtiItem\model\portableElement\model;
 
-use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\oatbox\AbstractRegistry;
+use oat\taoQtiItem\model\portableElement\exception\PortableModelMissing;
 
 /**
  * Factory to create components implementation based on PortableElementModel
@@ -59,8 +59,7 @@ class PortableModelRegistry extends AbstractRegistry
     public function getModel($modelId)
     {
         if (!$this->isRegistered($modelId)) {
-            throw new PortableElementInconsistencyModelException('Portable element model "' . $modelId . '" not found. '.
-                'Required extension might be missing');
+            throw new PortableModelMissing($modelId);
         }
         return $this->getModelFromConfig($this->get($modelId));
     }
