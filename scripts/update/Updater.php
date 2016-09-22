@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
@@ -399,6 +400,12 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('2.31.0', '5.1.2');
+
+        if ($this->isVersion('5.1.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('5.1.2', '5.2.0');
+        }
+
     }
 
 }
