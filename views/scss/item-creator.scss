@@ -805,6 +805,7 @@ img.dragging.ui-draggable-dragging {
             z-index: 99;
         }
         .tlb-wrapper {
+            line-height: 1.4;
             position: absolute;
             width: 100%;
             left : 0;
@@ -1109,6 +1110,7 @@ img.dragging.ui-draggable-dragging {
     .qti-interaction {
         .qti-prompt {
             & ~ .mini-tlb {
+                line-height: 1.4;
                 right: -31px !important;
                 top:1px
             }
