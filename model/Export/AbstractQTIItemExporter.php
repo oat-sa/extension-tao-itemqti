@@ -101,7 +101,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $object = $service->retrieve($key, $element->getTypeIdentifier());
                 } catch (PortableElementException $e) {
                     $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
-                    throw new PortableElementException($message, 0 , $e);
+                    return \common_report_Report::createFailure($message);
                 }
                 $portableElementsToExport[$element->getTypeIdentifier()] = $object;
 

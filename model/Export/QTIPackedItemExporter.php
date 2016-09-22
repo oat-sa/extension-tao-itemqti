@@ -62,14 +62,10 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	
 	public function export($options = array()) {
         if (!$this->containsItem()) {
-			try {
-				$report = parent::export($options);
+			$report = parent::export($options);
+			if (! $report->containsError()) {
 				$this->exportManifest($options);
-			} catch (PortableElementException $e) {
-
-				$report = \common_report_Report::createFailure($e->getMessage());
 			}
-
             return $report;
         }
         return \common_report_Report::createSuccess();
