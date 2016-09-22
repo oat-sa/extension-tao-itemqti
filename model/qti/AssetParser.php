@@ -238,6 +238,24 @@ class AssetParser
     }
 
     /**
+     * Search assets URI in properties
+     * @param array $properties
+     */
+    private function searchPropertiesAssets($properties) {
+        if (is_array($properties)) {
+            if (isset($properties['uri'])) {
+                $this->addAsset('asset', urldecode($properties['uri']));
+            } else {
+                foreach($properties as $property) {
+                    if (is_array($property)) {
+                        $this->searchPropertiesAssets($property);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Load assets from the custom elements (CustomInteraction, PCI, PIC)
      * @param Element $element the custom element
      */
@@ -266,17 +284,7 @@ class AssetParser
 
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);
 
-            $portableProperties = $element->getProperties();
-            if (isset($portableProperties['documents'])) {
-                $documents = $portableProperties['documents'];
-                if (is_array($documents)) {
-                    foreach ($documents as $document) {
-                        if (isset($document['uri'])) {
-                            $this->addAsset('asset', $document['uri']);
-                        }
-                    }
-                }
-            }
+            $this->searchPropertiesAssets($element->getProperties());
 
             /** @var SimpleXMLElement $xml */
             foreach ($xmls as $xml) {
