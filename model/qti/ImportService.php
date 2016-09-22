@@ -497,7 +497,6 @@ class ImportService extends tao_models_classes_GenerisService
                     common_Logger::d($e->getMessage());
                 }
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,$msg);
-                common_Logger::e($e->getMessage());
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
                     $rdfItem->delete();
                 }
