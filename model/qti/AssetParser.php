@@ -238,6 +238,28 @@ class AssetParser
     }
 
     /**
+     * Search assets URI in custom element properties
+     * The PCI standard will be extended in the future with typed property value (boolean, integer, float, string, uri, html etc.)
+     * Meanwhile, we use the special property name uri for the special type "URI" that represents a file URI.
+     * Portable element using this reserved property should be migrated later on when the standard is updated.
+     *
+     * @param array $properties
+     */
+    private function loadCustomElementPropertiesAssets($properties) {
+        if (is_array($properties)) {
+            if (isset($properties['uri'])) {
+                $this->addAsset('document', urldecode($properties['uri']));
+            } else {
+                foreach($properties as $property) {
+                    if (is_array($property)) {
+                        $this->loadCustomElementPropertiesAssets($property);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Load assets from the custom elements (CustomInteraction, PCI, PIC)
      * @param Element $element the custom element
      */
@@ -263,18 +285,20 @@ class AssetParser
         if ($element instanceof CustomInteraction || $element instanceof InfoControl) {
             // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
             $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
+
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);
 
+            $this->loadCustomElementPropertiesAssets($element->getProperties());
 
             /** @var SimpleXMLElement $xml */
             foreach ($xmls as $xml) {
-                foreach($xml->xpath('//img') as $img){
+                foreach ($xml->xpath('//img') as $img) {
                     $this->addAsset('img', (string)$img['src']);
                 }
-                foreach($xml->xpath('//video') as $video){
+                foreach ($xml->xpath('//video') as $video) {
                     $this->addAsset('video', (string)$video['src']);
                 }
-                foreach($xml->xpath('//audio') as $audio){
+                foreach ($xml->xpath('//audio') as $audio) {
                     $this->addAsset('audio', (string)$audio['src']);
                 }
             }

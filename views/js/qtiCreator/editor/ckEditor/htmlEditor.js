@@ -229,6 +229,11 @@ define([
                     }else{
                         toolbarType = getTooltypeFromContainer($editableContainer);
                     }
+
+                    if(options.qtiMedia !== undefined){
+                        ckConfig.qtiMedia = options.qtiMedia;
+                    }
+
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },
                 afterPaste : function(e){

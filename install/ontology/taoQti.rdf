@@ -19,7 +19,7 @@
     <item:ItemModelStatus rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#StatusStable"/>
     <item:ModelService><![CDATA[\oat\taoQtiItem\model\ItemModel]]></item:ModelService>
   </rdf:Description>
-  
+
   <!-- Management Role -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole"/>

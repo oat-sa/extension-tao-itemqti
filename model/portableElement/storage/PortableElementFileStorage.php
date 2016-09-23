@@ -70,7 +70,7 @@ class PortableElementFileStorage extends ConfigurableService
         if (! is_dir($source)) {
             throw new PortableElementFileStorageException('Unable to locate the source directory.');
         }
-        return DIRECTORY_SEPARATOR . trim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        return rtrim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 
     /**

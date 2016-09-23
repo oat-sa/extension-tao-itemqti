@@ -23,7 +23,7 @@ $defaultValues = get_data('defaultValue');
 $mapping = get_data('mapping');
 $areaMapping = get_data('areaMapping');
 ?>
-<responseDeclaration <?=get_data('attributes')?><?php if(!$correctResponses && !$mapping && !$areaMapping):?>/>
+<responseDeclaration <?=get_data('attributes')?><?php if(!$correctResponses && !$mapping && !$areaMapping && !$defaultValues):?>/>
 <?php else:?>>
     <?php if(is_array($defaultValues) && count($defaultValues) > 0):?>
 	<defaultValue>
