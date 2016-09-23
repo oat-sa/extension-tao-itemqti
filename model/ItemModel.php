@@ -21,13 +21,14 @@
 
 namespace oat\taoQtiItem\model;
 
+use oat\taoItems\model\search\IndexableItemModel;
 use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
-use oat\taoQtiItem\model\import\ApipPackageImport;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
 use oat\taoQtiItem\model\Export\QtiPackage22ExportHandler;
 use oat\taoQtiItem\model\import\QtiPackageImport;
 use oat\taoQtiItem\model\import\QtiItemImport;
+use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
 use \tao_models_classes_export_ExportProvider;
 use \tao_models_classes_import_ImportProvider;
 use \common_ext_ExtensionsManager;
@@ -46,7 +47,8 @@ use taoItems_models_classes_itemModel;
 class ItemModel
         implements taoItems_models_classes_itemModel,
                    tao_models_classes_export_ExportProvider,
-                   tao_models_classes_import_ImportProvider
+                   tao_models_classes_import_ImportProvider,
+                   IndexableItemModel
 {
 
     const MODEL_URI = "http://www.tao.lu/Ontologies/TAOItem.rdf#QTI";
@@ -134,5 +136,15 @@ class ItemModel
 
     public function getPackerClass() {
         return 'oat\\taoQtiItem\\model\\pack\\QtiItemPacker';
+    }
+
+    /**
+     * Get tokenizer to index qti.xml content
+     *
+     * @return QtiItemContentTokenizer
+     */
+    public function getItemContentTokenizer()
+    {
+        return new QtiItemContentTokenizer();
     }
 }
