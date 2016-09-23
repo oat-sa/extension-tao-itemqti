@@ -403,10 +403,15 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('5.1.2')) {
             $registry->registerFromFile('OAT/jquery.qtip', $installBasePath . '/OAT/jquery.qtip.js');
+            $this->setVersion('5.2.0');
         }
-        $this->setVersion('5.2.0');
 
         $this->skip('5.2.0', '5.3.0');
+
+        if ($this->isVersion('5.3.0')) {
+            $registry->registerFromFile('OAT/customEvent', $installBasePath . '/OAT/customEvent.js');
+            $this->setVersion('5.4.0');
+        }
     }
 
 }
