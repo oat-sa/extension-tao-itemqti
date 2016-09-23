@@ -6,14 +6,14 @@
       <thead>
       <tr>
         <th> </th>
-        {{#matchSet1}}{{{.}}}{{/matchSet1}}
+        {{#matchSet2}}{{{.}}}{{/matchSet2}}
       </tr>
       </thead>
       <tbody>
-      {{#matchSet2}}
+      {{#matchSet1}}
       <tr>
         {{{.}}}
-        {{#each ../matchSet1}}
+        {{#each ../matchSet2}}
         <td>
           <label>
             <input type="checkbox" >
@@ -22,7 +22,7 @@
         </td>
         {{/each}}
       </tr>
-      {{/matchSet2}}
+      {{/matchSet1}}
       </tbody>
     </table>
   </div>
