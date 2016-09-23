@@ -81,34 +81,21 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     protected $exportFile;
 
     /**
-     * @var \core_kernel_classes_Resource[]
-     */
-    protected $items;
-
-    /**
      * @inheritdoc
      *
-     * @param null $uri
-     * @return mixed
      * @throws ExtractorException
+     * @param \core_kernel_classes_Resource[] $items
+     * @return mixed
      */
-    public function export($uri=null, $asFile=false)
+    public function export(array $items = null, $asFile = false)
     {
+        if (empty($items)) {
+            $items = $this->getItems();
+        }
+
         $this->loadConfig();
-        $items = !empty($this->items) ? $this->items : $this->getItems($uri);
         $data  = $this->extractDataFromItems($items);
         return $this->save($data, $asFile);
-    }
-
-    /**
-     * @param \core_kernel_classes_Resource[] $items
-     * @return $this
-     */
-    public function setItems(array $items)
-    {
-        $this->items = $items;
-
-        return $this;
     }
 
     /**
@@ -141,27 +128,12 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     /**
      * Get all items of given uri otherwise get default class
      *
-     * @param $uri
      * @return array
      */
-    protected function getItems($uri)
+    protected function getItems()
     {
-        if (!empty($uri)) {
-            $classUri = $uri;
-        } else {
-            $classUri = $this->getDefaultUriClass();
-        }
-
-        $class = new \core_kernel_classes_Class($classUri);
-        $items = $class->getInstances(true);
-        $itemService = \taoItems_models_classes_ItemsService::singleton();
-        $return = [];
-        foreach ($items as $item) {
-            if ($itemService->getItemModel($item) == TAO_ITEM_MODEL_QTI) {
-                $return[] = $items;
-            }
-        }
-        return $return;
+        $class = new \core_kernel_classes_Class($this->getDefaultUriClass());
+        return $class->getInstances(true);
     }
 
     /**
@@ -251,9 +223,8 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * Save data to file
      *
      * @param array $data
-     * @param bool $asFile
+     * @param bool  $asFile
      * @return File|string
-     * @throws \common_Exception
      */
     protected function save(array $data, $asFile = false)
     {
@@ -280,10 +251,6 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         }
 
         $this->exportFile->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
-        if ($asFile) {
-            return $this->exportFile;
-        } else {
-            return $this->exportFile->getPrefix();
-        }
+        return $asFile ? $this->exportFile : $this->exportFile->getPrefix();
     }
 }
