@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
@@ -404,6 +405,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/jquery.qtip', $installBasePath . '/OAT/jquery.qtip.js');
         }
         $this->setVersion('5.2.0');
+
+        $this->skip('5.2.0', '5.3.0');
     }
 
 }
