@@ -33,13 +33,9 @@ use oat\taoQtiItem\model\qti\Item;
  */
 abstract class ItemUpdater
 {
-    /**
-     * @var \Traversable
-     */
-    protected $iterator;
 
     /**
-     * @var string
+     * @var string|Directory
      */
     protected $itemRootDir;
 
