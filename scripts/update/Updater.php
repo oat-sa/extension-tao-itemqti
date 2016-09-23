@@ -412,6 +412,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/customEvent', $installBasePath . '/OAT/customEvent.js');
             $this->setVersion('5.4.0');
         }
+
+        $this->skip('5.4.0', '5.5.0');
     }
 
 }
