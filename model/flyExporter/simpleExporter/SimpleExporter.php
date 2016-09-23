@@ -34,8 +34,8 @@ interface SimpleExporter
     /**
      * Main action to launch export
      *
-     * @param null $uri
+     * @param \core_kernel_classes_Resource[] $items
      * @return mixed
      */
-    public function export($uri=null);
+    public function export(array $items = null);
 }
