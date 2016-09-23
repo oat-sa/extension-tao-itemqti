@@ -238,17 +238,21 @@ class AssetParser
     }
 
     /**
-     * Search assets URI in properties
+     * Search assets URI in custom element properties
+     * The PCI standard will be extended in the future with typed property value (boolean, integer, float, string, uri, html etc.)
+     * Meanwhile, we use the special property name uri for the special type "URI" that represents a file URI.
+     * Portable element using this reserved property should be migrated later on when the standard is updated.
+     * 
      * @param array $properties
      */
-    private function searchPropertiesAssets($properties) {
+    private function loadCustomElementPropertiesAssets($properties) {
         if (is_array($properties)) {
             if (isset($properties['uri'])) {
                 $this->addAsset('asset', urldecode($properties['uri']));
             } else {
                 foreach($properties as $property) {
                     if (is_array($property)) {
-                        $this->searchPropertiesAssets($property);
+                        $this->loadCustomElementPropertiesAssets($property);
                     }
                 }
             }
@@ -284,7 +288,7 @@ class AssetParser
 
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);
 
-            $this->searchPropertiesAssets($element->getProperties());
+            $this->loadCustomElementPropertiesAssets($element->getProperties());
 
             /** @var SimpleXMLElement $xml */
             foreach ($xmls as $xml) {
