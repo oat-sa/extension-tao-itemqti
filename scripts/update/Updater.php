@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
