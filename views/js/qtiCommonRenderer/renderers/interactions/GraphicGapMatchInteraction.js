@@ -451,7 +451,7 @@ define([
             var element = interaction.paper.getById(choice.serial);
             if(element && _.isArray(element.data('matching'))){
                 _.forEach(element.data('matching'), function(match){
-                    pairs.push([choice.id(), match]);
+                    pairs.push([match, choice.id()]);
                 });
             }
        });
