@@ -162,8 +162,8 @@ define([
         var $element = $(element);
         var y = $element.closest('tr').index();
         var x = $element.closest('td').index();
-        var firstId = $('.matrix > thead th').eq(x).data('identifier');
-        var secondId = $('.matrix > tbody th').eq(y).data('identifier');
+        var firstId = $('.matrix > tbody th').eq(y).data('identifier');
+        var secondId = $('.matrix > thead th').eq(x).data('identifier');
         return [firstId, secondId];
     };
 
