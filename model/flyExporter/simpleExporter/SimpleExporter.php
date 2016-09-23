@@ -37,12 +37,5 @@ interface SimpleExporter
      * @param null $uri
      * @return mixed
      */
-    public function export($uri=null);
-
-    /**
-     * Set items.
-     *
-     * @param array $items
-     */
-    public function setItems(array $items);
+    public function export(array $items = null);
 }

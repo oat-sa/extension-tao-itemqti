@@ -153,7 +153,15 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         }
 
         $class = new \core_kernel_classes_Class($classUri);
-        return $class->getInstances(true);
+        $items = $class->getInstances(true);
+        $itemService = \taoItems_models_classes_ItemsService::singleton();
+        $return = [];
+        foreach ($items as $item) {
+            if ($itemService->getItemModel($item) == TAO_ITEM_MODEL_QTI) {
+                $return[] = $items;
+            }
+        }
+        return $return;
     }
 
     /**

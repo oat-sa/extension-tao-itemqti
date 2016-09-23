@@ -77,6 +77,7 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
                 try {
                     /** @var ItemExporter $exporterService */
                     $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+                    //items
                     $file =  $exporterService->export($classToExport->getUri(), true);
                     return $this->output($file);
                 } catch (ExtractorException $e) {
