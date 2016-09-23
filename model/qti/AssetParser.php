@@ -45,7 +45,7 @@ class AssetParser
     /**
     * Set mode - if parser have to find shared libraries (PCI and PIC)
     * @var bool
-    */L
+    */
     private $getSharedLibraries = true;
 
     /**
