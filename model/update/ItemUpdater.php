@@ -21,26 +21,49 @@
 namespace oat\taoQtiItem\model\update;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
-use \RecursiveIteratorIterator;
-use \RecursiveDirectoryIterator;
+use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\File;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\qti\Item;
 
+/**
+ * Class ItemUpdater
+ * @package oat\taoQtiItem\model\update
+ */
 abstract class ItemUpdater
 {
-    protected $itemPath     = '';
-    protected $checkedFiles = array();
+
+    /**
+     * @var string|Directory
+     */
+    protected $itemRootDir;
+
+    /**
+     * @var array
+     */
+    protected $checkedFiles = [];
 
     /**
      * Init the item updater with the item directory path
      * 
-     * @param string $itemRootPath
+     * @param string|Directory $itemRootDir directory to recursive search qti.xml files.
      * @throws \common_Exception
      */
-    public function __construct($itemRootPath)
+    public function __construct($itemRootDir)
     {
-        if (file_exists($itemRootPath)) {
-            $this->itemPath = $itemRootPath;
-        } else {
-            throw new \common_Exception('the given item root path does not exist');
+        $this->itemRootDir = $itemRootDir;
+        $serviceLocator = ServiceManager::getServiceManager();
+
+        if (is_string($itemRootDir)) {
+            $fsm = $serviceLocator->get(FileSystemService::SERVICE_ID);
+            $itemUpdaterFs = $fsm->createFileSystem('itemUpdater', '/');
+            $itemUpdaterFs->getAdapter()->setPathPrefix('');
+            $this->itemRootDir = new Directory('itemUpdater', $itemRootDir);
+            $this->itemRootDir->setServiceLocator($serviceLocator);
+
+        } else if ($itemRootDir instanceof Directory) {
+            $this->itemRootDir = $itemRootDir;
         }
     }
 
@@ -52,35 +75,33 @@ abstract class ItemUpdater
     public function update($changeItemContent = false)
     {
         $returnValue = array();
-        $objects     = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->itemPath), RecursiveIteratorIterator::SELF_FIRST);
         $i = 0;
         $fixed = 0;
-        
-        foreach ($objects as $itemFile => $cursor) {
 
-            if (is_file($itemFile)) {
-                
-                $this->checkedFiles[$itemFile] = false;
+        $iterator = $this->itemRootDir->getFlyIterator(Directory::ITERATOR_FILE|Directory::ITERATOR_RECURSIVE);
+        foreach ($iterator as $itemFile) {
+            /** @var File $itemFile */
+            $filePath = $itemFile->getPrefix();
 
-                if (basename($itemFile) === 'qti.xml') {
+            $this->checkedFiles[$filePath] = false;
+            if ($itemFile->getBasename() === 'qti.xml') {
 
-                    $i++;
-                    $xml = new \DOMDocument();
-                    $xml->load($itemFile);
+                $i++;
+                $xml = new \DOMDocument();
+                $xml->loadXML($itemFile->read());
 
-                    $parser = new ParserFactory($xml);
-                    $item   = $parser->load();
-                    \common_Logger::i('checking item #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
+                $parser = new ParserFactory($xml);
+                $item   = $parser->load();
+                \common_Logger::i('checking item #'.$i.' id:'.$item->attr('identifier').' file:'.$filePath);
 
-                    if ($this->updateItem($item, $itemFile)) {
-                        $this->checkedFiles[$itemFile] = true;
-                        $returnValue[$itemFile]        = $item;
-                        \common_Logger::i('fixed required for #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
-                        if ($changeItemContent) {
-                            $fixed++;
-                            \common_Logger::i('item fixed #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
-                            file_put_contents($itemFile, $item->toXML());
-                        }
+                if ($this->updateItem($item, $filePath)) {
+                    $this->checkedFiles[$filePath] = true;
+                    $returnValue[$filePath]        = $item;
+                    \common_Logger::i('fixed required for #'.$i.' id:'.$item->attr('identifier').' file:'.$filePath);
+                    if ($changeItemContent) {
+                        $fixed++;
+                        \common_Logger::i('item fixed #'.$i.' id:'.$item->attr('identifier').' file:'.$filePath);
+                        $itemFile->update($item->toXML());
                     }
                 }
             }
@@ -103,9 +124,9 @@ abstract class ItemUpdater
      * Try updating an single item instance,
      * Returns true if the content has been changed, false otherwise
      *
-     * @param oat\taoQtiItem\modal\Item $item
+     * @param Item $item
      * @param string $itemFile
      * @return boolean
      */
-    abstract protected function updateItem(\oat\taoQtiItem\model\qti\Item $item, $itemFile);
+    abstract protected function updateItem(Item $item, $itemFile);
 }
