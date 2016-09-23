@@ -45,7 +45,7 @@ class AssetParser
     /**
     * Set mode - if parser have to find shared libraries (PCI and PIC)
     * @var bool
-    */
+    */L
     private $getSharedLibraries = true;
 
     /**
@@ -242,13 +242,13 @@ class AssetParser
      * The PCI standard will be extended in the future with typed property value (boolean, integer, float, string, uri, html etc.)
      * Meanwhile, we use the special property name uri for the special type "URI" that represents a file URI.
      * Portable element using this reserved property should be migrated later on when the standard is updated.
-     * 
+     *
      * @param array $properties
      */
     private function loadCustomElementPropertiesAssets($properties) {
         if (is_array($properties)) {
             if (isset($properties['uri'])) {
-                $this->addAsset('asset', urldecode($properties['uri']));
+                $this->addAsset('document', urldecode($properties['uri']));
             } else {
                 foreach($properties as $property) {
                     if (is_array($property)) {
