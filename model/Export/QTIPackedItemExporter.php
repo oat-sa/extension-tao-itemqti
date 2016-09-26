@@ -22,6 +22,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\qti\Service;
 use \core_kernel_classes_Resource;
 use \ZipArchive;
@@ -62,8 +63,9 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	public function export($options = array()) {
         if (!$this->containsItem()) {
             $report = parent::export($options);
-            $this->exportManifest($options);
-
+            if (! $report->containsError()) {
+                $this->exportManifest($options);
+            }
             return $report;
         }
         return \common_report_Report::createSuccess();
