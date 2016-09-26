@@ -147,7 +147,8 @@ class QtiExtractor implements Extractor
                     if (isset($config['callbackParameters'])) {
                         $params = $config['callbackParameters'];
                     }
-                    $callbackValue = $this->$config['callback']($interaction, $params);
+                    $functionCall = $config['callback'];
+                    $callbackValue = call_user_func(array($this, $functionCall), $interaction, $params);
                     if (isset($config['valuesAsColumns'])) {
                         $line[$interaction['id']] = array_merge($line[$interaction['id']], $callbackValue);
                     } else {
