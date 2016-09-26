@@ -2,7 +2,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 
+    'jquery',
     'lodash' ,
     'i18n',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/pairScoreMappingForm',
@@ -12,6 +12,7 @@ define([
     'ui/tooltipster',
     'ui/selecter'
 ], function($, _, __, formTpl, pairTpl, answerStateHelper, formElementHelper, tooltipster, selecter){
+    'use strict';
 
     //to bind html element to a pair, we use this separator to replace spaces in the pair name.
     //The colons char isn't allowed by QTI but it is in HTML, so no change to encounter this separator into the pairs id.
@@ -23,7 +24,7 @@ define([
     /**
      * Create a new instance of PairScoringForm
      * @exports taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm
-     * @param {Object} widget - the interaction widget 
+     * @param {Object} widget - the interaction widget
      * @param {Object} [options]
      * @returns {PairScoringForm} the form compoenent, loaded by default.
      */
@@ -52,14 +53,14 @@ define([
                 var callbacks       = {};
                 var corrects        = _.values(response.getCorrect());
                 var mapEntries      = response.getMapEntries();
-           
+
                 //create / update the HTML element
                 if(!$popup.length){
                     $popup = createPopup($container);
                 } else {
                     $popup.empty();
                 }
-                
+
                 if(options){
 
                     //prepare content for the form, using either current map entries or data given in options.
@@ -81,21 +82,21 @@ define([
                     //run the template with the data
                     $form = $(formTpl({
                         'title'             : options.title      || __('Pair scoring'),
-                        'leftTitle'         : options.leftTitle  || __('Choices'),
-                        'rightTitle'        : options.rightTitle || __('Gaps'),
+                        'leftTitle'         : options.rightTitle || __('Gaps'),
+                        'rightTitle'        : options.leftTitle  || __('Choices'),
                         'defineCorrect'     : answerStateHelper.defineCorrect(response),
                         'scoreMin'          : response.getMappingAttribute('lowerBound'),
                         'scoreMax'          : response.getMappingAttribute('upperBound'),
                         'pairs'             : _.map(pairs, pairTpl),
-                        'pairLeft'          : _.isFunction(options.pairLeft) ? options.pairLeft() : _.values(interaction.getChoices()), 
-                        'pairRight'         : _.isFunction(options.pairRight) ? options.pairRight() : _.values(interaction.getChoices()) 
+                        'pairLeft'          : _.isFunction(options.pairLeft) ? options.pairLeft() : _.values(interaction.getGapImgs()),
+                        'pairRight'         : _.isFunction(options.pairRight) ? options.pairRight() : _.values(interaction.getChoices())
                     }));
-                    
+
                     updateFormBindings();
 
                     $popup.append($form);
 
-                    //initialize UI componenets manually 
+                    //initialize UI componenets manually
                     selecter($popup);
                     tooltipster($popup);
                     deleter($popup);
@@ -112,10 +113,10 @@ define([
              * @returns {PairScoringForm} for chaining
              */
             addPair : function addPair(key){
-                
+
                 var score = response.mappingAttributes.defaultValue;
                 var pair  = formatPair(score, key, true);
-                
+
                 //update internal model
                 pairs.push(pair);
 
@@ -125,7 +126,7 @@ define([
                 $('.pairs', $popup).append(pairTpl(pair));
 
                 updateFormBindings();
-               
+
                 if(_.isFunction(options.add)){
                     options.add(key);
                 }
@@ -146,11 +147,11 @@ define([
 
                 //update the response
                 response.removeMapEntry(key);
-   
+
                 if(_.isFunction(options.remove)){
                     options.remove(key);
                 }
-        
+
                 return this;
             },
 
@@ -162,33 +163,33 @@ define([
                 if($popup.length){
                     $popup.remove();
                 }
-                
+
                 //reset overflow
                 $('#item-editor-panel').css('overflow', '');
             }
         };
 
         /**
-         * Set up the pair adder. 
-         * Disable list options according to the current values. 
-         * 
+         * Set up the pair adder.
+         * Disable list options according to the current values.
+         *
          * @private
          * @param {jQueryElement} $container - to scope element finding
          */
         function adder($container){
-           var $panel   = $('.panel-new-pair', $container); 
+           var $panel   = $('.panel-new-pair', $container);
            var $adder   = $('.pair-adder', $container);
            var $left    = $('.new-pair-left', $container);
            var $right   = $('.new-pair-right', $container);
-           var $options = $('.select2 > option', $container); 
+           var $options = $('.select2 > option', $container);
 
            //disable options based on existing pairs
            $left.on('change', function(){
                 var currentLeft = $left.select2('val'),
                     currentRight = $right.select2('val');
-                
-                $options.removeProp('disabled'); 
-                
+
+                $options.removeProp('disabled');
+
                 _(pairs).where({leftId : currentLeft}).forEach(function(pair){
                     $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                 });
@@ -197,16 +198,16 @@ define([
                 });
                 if(options.type === 'pair'){
                     _(pairs).where({rightId : currentLeft}).forEach(function(pair){
-                        $right.find('option[value="' + pair.leftId+ '"]').prop('disabled', true); 
+                        $right.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                     });
                 }
            });
            $right.on('change', function(){
                 var currentRight = $right.select2('val'),
                     currentLeft = $left.select2('val');
-                
-                $options.removeProp('disabled'); 
-                
+
+                $options.removeProp('disabled');
+
                 _(pairs).where({rightId : currentRight}).forEach(function(pair){
                     $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                 });
@@ -215,7 +216,7 @@ define([
                 });
                 if(options.type === 'pair'){
                     _(pairs).where({leftId : currentRight}).forEach(function(pair){
-                        $left.find('option[value="' + pair.rightId+ '"]').prop('disabled', true); 
+                        $left.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                     });
                 }
            });
@@ -236,7 +237,7 @@ define([
                    $left.select2('val', '');
                    $right.select2('val', '');
                 }
-           }); 
+           });
         }
 
         /**
@@ -254,9 +255,9 @@ define([
                 var key = $elt.attr('id')
                               .replace(/-delete$/, '')
                               .replace(separator.html, separator.qti);
-    
+
                 pairScoringForm.removePair(key);
-                
+
                 $elt.closest('.grid-row').remove();
            });
         }
@@ -280,21 +281,21 @@ define([
          * @private
          * @param {Number} score - the value mapped to the pair
          * @param {String} key - the pair key
-         * @param {Boolean} [default = false] - is the score the default value
-         * @returns {Object} the pair 
+         * @param {Boolean} [defaultScore = false] - is the score the default value
+         * @returns {Object} the pair
          */
         function formatPair(score, key, defaultScore){
             var pair = key.split(separator.qti);
             return {
                 id              : key.replace(separator.qti, separator.html),
                 score           : score,
-                defaultScore    : !!defaultScore, 
+                defaultScore    : !!defaultScore,
                 leftId          : pair[0],
                 rightId         : pair[1],
                 left            : _.isFunction(options.formatLeft) ? options.formatLeft(pair[0]) : pair[0],
                 right           : _.isFunction(options.formatRight) ? options.formatRight(pair[1]) : pair[1],
                 defineCorrect   : answerStateHelper.defineCorrect(response),
-                correct         : _.contains(_.values(response.getCorrect()), key) 
+                correct         : _.contains(_.values(response.getCorrect()), key)
             };
         }
 
@@ -305,7 +306,7 @@ define([
         function updateFormBindings(){
             var callbacks = {};
             var corrects  = _.values(response.getCorrect());
-    
+
             if($form.length){
 
                //the default value changes
@@ -316,7 +317,7 @@ define([
                             if($score.data('default')){
                                 $score.val(data.value);
                                 response.setMapEntry( pair.id.replace(separator.html, separator.qti), data.value);
-                            } 
+                            }
                         });
                     }
                 });
@@ -339,12 +340,12 @@ define([
                         response.setCorrect(corrects);
                     };
                 });
-                
+
                 //set up the form data binding
                 formElementHelper.setChangeCallbacks($form, response, callbacks);
             }
         }
-        
+
         return pairScoringForm.load();
     };
 
@@ -354,15 +355,15 @@ define([
      * @returns {jQueryElement} the popup
      */
     function createPopup($container){
-        var $element    = $('<div class="mapping-editor arrow-top-left"></div>'); 
+        var $element    = $('<div class="mapping-editor arrow-top-left"></div>');
         var width       = $container.innerWidth();
         var height      = $container.innerHeight();
 
-        //only one 
+        //only one
         $('.mapping-editor', $container).remove();
 
         //style and attach the form
-        $element.css({       
+        $element.css({
             'top'       : height - 30,
             'width'     : width - 100
         }).appendTo($container);
