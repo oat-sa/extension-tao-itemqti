@@ -77,7 +77,7 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
                 try {
                     /** @var ItemExporter $exporterService */
                     $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
-                    $file =  $exporterService->export($classToExport->getUri(), true);
+                    $file =  $exporterService->export($classToExport->getInstances(true), true);
                     return $this->output($file);
                 } catch (ExtractorException $e) {
                     return \common_report_Report::createFailure('Selected object does not have any item to export.');
