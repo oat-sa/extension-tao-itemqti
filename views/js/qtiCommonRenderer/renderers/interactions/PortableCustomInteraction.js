@@ -113,7 +113,12 @@ define([
                     var pci = _getPci(interaction);
                     var pciAssetManager = {
                         resolve : function resolve(url){
-                            return assetManager.resolveBy('portableElementLocation', url);
+                            var resolved = assetManager.resolveBy('portableElementLocation', url);
+                            if(resolved === url){
+                                return assetManager.resolveBy('baseUrl', url);
+                            }else{
+                                return resolved;
+                            }
                         }
                     };
 
