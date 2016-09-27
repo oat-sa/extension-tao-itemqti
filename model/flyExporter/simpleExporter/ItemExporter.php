@@ -83,14 +83,17 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     /**
      * @inheritdoc
      *
-     * @param null $uri
-     * @return mixed
      * @throws ExtractorException
+     * @param \core_kernel_classes_Resource[] $items
+     * @return mixed
      */
-    public function export($uri=null, $asFile=false)
+    public function export(array $items = null, $asFile = false)
     {
+        if (empty($items)) {
+            $items = $this->getItems();
+        }
+
         $this->loadConfig();
-        $items = $this->getItems($uri);
         $data  = $this->extractDataFromItems($items);
         return $this->save($data, $asFile);
     }
@@ -125,18 +128,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     /**
      * Get all items of given uri otherwise get default class
      *
-     * @param $uri
      * @return array
      */
-    protected function getItems($uri)
+    protected function getItems()
     {
-        if (!empty($uri)) {
-            $classUri = $uri;
-        } else {
-            $classUri = $this->getDefaultUriClass();
-        }
-
-        $class = new \core_kernel_classes_Class($classUri);
+        $class = new \core_kernel_classes_Class($this->getDefaultUriClass());
         return $class->getInstances(true);
     }
 
@@ -227,9 +223,8 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * Save data to file
      *
      * @param array $data
-     * @param bool $asFile
+     * @param bool  $asFile
      * @return File|string
-     * @throws \common_Exception
      */
     protected function save(array $data, $asFile = false)
     {
@@ -256,10 +251,6 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         }
 
         $this->exportFile->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
-        if ($asFile) {
-            return $this->exportFile;
-        } else {
-            return $this->exportFile->getPrefix();
-        }
+        return $asFile ? $this->exportFile : $this->exportFile->getPrefix();
     }
 }

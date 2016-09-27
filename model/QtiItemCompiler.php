@@ -237,6 +237,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 }
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
+
                 $basename = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
                 $replacement = $basename;
                 $count = 0;
@@ -253,23 +254,28 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $publicDirectory->writeStream($lang.'/'.$replacement, $fh);
                 fclose($fh);
                 unlink($tmpfile);
-                
+
                 //$fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
                 //$publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
-                
+
             }
         }
-        
+
         $dom = new \DOMDocument('1.0', 'UTF-8');
         if ($dom->loadXML($qtiItem->toXml()) === true) {
         
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
-            unset($xpath);
             foreach ($attributeNodes as $node) {
                 if (isset($replacementList[$node->value])) {
                     $node->value = $replacementList[$node->value];
                 }
+            }
+
+            $attributeNodes = $xpath->query("//*[local-name()='entry']") ?: [];
+            unset($xpath);
+            foreach ($attributeNodes as $node) {
+                $node->nodeValue = str_replace(array_keys($replacementList), array_values($replacementList), $node->nodeValue);
             }
         } else {
             throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');

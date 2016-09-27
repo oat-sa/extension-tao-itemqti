@@ -135,6 +135,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
             }
         }
         $protectedData['defaultValue'] = $defaultValues;
+        $data['defaultValue'] = $defaultValues;
 
         //add mapping attributes
         $mappingAttributes = array('defaultValue' => $this->mappingDefaultValue);

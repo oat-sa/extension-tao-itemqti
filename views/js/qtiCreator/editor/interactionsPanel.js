@@ -27,22 +27,21 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry'
+    'taoQtiItem/portableElementRegistry/ciRegistry'
 ], function(_, interactionsToolbar, panel, qtiElements, ciRegistry){
     'use strict';
 
     /**
      * Set up the interaction selection panel
      * @param {jQueryElement} $container - the panel container
-     * @param {Object} [customInterations] - the additionnal interactions to load
      */
-    return function setUpInteractionPanel($container, customInterations){
+    return function setUpInteractionPanel($container){
 
         var interactions = qtiElements.getAvailableAuthoringElements();
 
-        _.forEach(customInterations, function(interactionModel){
-            var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
-            if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
+        _.forIn(ciRegistry.getAllVersions(), function(versions, typeId){
+            var data = ciRegistry.getAuthoringData(typeId);
+            if(data && data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                 interactions[data.qtiClass] = data;
             }
         });

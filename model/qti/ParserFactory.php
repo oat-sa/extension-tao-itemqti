@@ -64,6 +64,8 @@ use \DOMXPath;
 use \DOMElement;
 use \common_Logger;
 use \SimpleXMLElement;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 
 /**
  * The ParserFactory provides some methods to build the QTI_Data objects from an
@@ -1489,7 +1491,9 @@ class ParserFactory
 
         $interaction = null;
 
-        if($this->isPciNode($data)){
+        if ($this->isPciNode($data)) {
+            // throws an exception if pci not present
+            PortableModelRegistry::getRegistry()->getModel('PCI');
 
             //use tao's implementation of portable custom interaction
             $interaction = new PortableCustomInteraction($this->extractAttributes($data), $this->item);
@@ -1550,6 +1554,9 @@ class ParserFactory
         $infoControl = null;
 
         if($this->isPicNode($data)){
+
+            // throws an exception if pic not present
+            PortableModelRegistry::getRegistry()->getModel('PIC');
 
             //use tao's implementation of portable custom interaction
             $infoControl = new PortableInfoControl($this->extractAttributes($data), $this->item);

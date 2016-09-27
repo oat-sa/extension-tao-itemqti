@@ -295,6 +295,7 @@ $mainContainer : '.qti-item';
         }
     }
 
+    @import "all-interactions";
     @import "object";
     @import "choice";
     @import "order";
@@ -310,5 +311,6 @@ $mainContainer : '.qti-item';
     @import "text-entry";
     @import "upload";
     @import "rubric-block";
+    @import "custom";
 
 }

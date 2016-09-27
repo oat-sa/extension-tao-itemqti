@@ -298,6 +298,17 @@ abstract class Container extends Element implements IdentifiedElementContainer
         return $returnValue;
     }
 
+    public function replaceElement(Element $oldElement, Element $newElement){
+        $body = str_replace($oldElement->getPlaceholder(), $newElement->getPlaceholder(), $this->body, $count);
+        if($count === 0){
+            throw new QtiModelException('cannot find the element to be replaced');
+        }else if($count > 1){
+            throw new QtiModelException('multiple placeholder found for the element to be replaced');
+        }
+        $this->removeElement($oldElement);
+        $this->setElement($newElement, $body);
+    }
+
     public function getIdentifiedElements(){
 
         $returnValue = new IdentifierCollection();

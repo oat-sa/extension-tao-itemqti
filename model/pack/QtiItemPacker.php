@@ -115,6 +115,12 @@ class QtiItemPacker extends ItemPacker
             $storageDirectory->setServiceLocator($directory->getServiceLocator());
 
             foreach ($assetParser->extract($itemPack) as $type => $assets) {
+                $resolver = new ItemMediaResolver($item, $lang);
+                foreach ($assets as &$asset) {
+                    $mediaAsset = $resolver->resolve($asset);
+                    $mediaSource = $mediaAsset->getMediaSource();
+                    $asset = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
+                }
                 $itemPack->setAssets($type, $assets, $storageDirectory);
             }
 

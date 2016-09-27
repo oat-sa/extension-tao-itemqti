@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\taoQtiItem\model\CreatorRegistry;
 use \tao_actions_CommonModule;
 use \common_exception_Error;
 use \tao_helpers_File;
@@ -28,28 +29,32 @@ use \tao_helpers_Http;
 
 abstract class AbstractPortableElementManager extends tao_actions_CommonModule
 {
-    
+    /**
+     * @var CreatorRegistry
+     */
+    protected $registry;
+
     /**
      * Instanciate the controller
      */
-    public function __construct(){
-        parent::__construct();
+    public function __construct()
+    {
         $this->registry = $this->getCreatorRegistry();
     }
     
     /**
      * Return the registry used by this controller
      * 
-     * @return oat\taoQtiItem\model\CreatorRegistry
+     * @return CreatorRegistry
      */
     abstract protected function getCreatorRegistry();
     
     /**
      * Get a file of a custom interaction
      */
-    public function getFile(){
-
-        if($this->hasRequestParameter('file')){
+    public function getFile()
+    {
+        if ($this->hasRequestParameter('file')) {
             $file = urldecode($this->getRequestParameter('file'));
             $filePathTokens = explode('/', $file);
             $typeIdentifier = array_shift($filePathTokens);
@@ -64,7 +69,8 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
      * @param string $typeIdentifier
      * @return string
      */
-    protected function getImplementationDirectory($typeIdentifier){
+    protected function getImplementationDirectory($typeIdentifier)
+    {
         return $this->registry->getDevImplementationDirectory($typeIdentifier);
     }
     
@@ -75,20 +81,19 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
      * @param string $relPath
      * @throws common_exception_Error
      */
-    private function renderFile($typeIdentifier, $relPath){
-        
-        if(tao_helpers_File::securityCheck($relPath, true)){
-            
+    private function renderFile($typeIdentifier, $relPath)
+    {
+        if (tao_helpers_File::securityCheck($relPath, true)) {
             $folder = $this->getImplementationDirectory($typeIdentifier);
             $filename = $folder.$relPath;
             
             //@todo : find better way to to this
             //load amd module
-            if(!file_exists($filename) && file_exists($filename.'.js')){
+            if (! file_exists($filename) && file_exists($filename.'.js')) {
                 $filename = $filename.'.js';
             }
             tao_helpers_Http::returnFile($filename);
-        }else{
+        } else {
             throw new common_exception_Error('invalid item preview file path');
         }
     }
@@ -98,8 +103,8 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
      * 
      * @throws common_exception_Error
      */
-    public function addRequiredResources(){
-        
+    public function addRequiredResources()
+    {
         $typeIdentifier = $this->getRequestParameter('typeIdentifier');
         $itemUri = urldecode($this->getRequestParameter('uri'));
         $item = new core_kernel_classes_Resource($itemUri);

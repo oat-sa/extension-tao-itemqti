@@ -24,6 +24,12 @@ define([
     return {
         qtiClass : 'rubricBlock',
         getContainer : containerHelper.get,
-        template : tpl
+        template : tpl,
+        getData : function getData(rubric, data){
+            if(rubric.isEmpty()){
+                data.empty = true;
+            }
+            return data;
+        }
     };
 });

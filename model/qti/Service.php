@@ -23,6 +23,11 @@ namespace oat\taoQtiItem\model\qti;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
@@ -241,5 +246,4 @@ class Service extends tao_models_classes_Service
     {
         return taoItems_models_classes_ItemsService::singleton()->hasItemModel($item, $models);
     }
-
 }
