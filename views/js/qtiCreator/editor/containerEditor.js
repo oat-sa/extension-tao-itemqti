@@ -15,6 +15,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor, toolbarTpl){
     "use strict";
+
     var _ns = 'containereditor';
 
     var _defaults = {
@@ -39,13 +40,13 @@ define([
         if(data.body){
             return data.body;
         }else{
-            throw 'invalid content for qti container';
+            throw new Error('invalid content for qti container');
         }
     }
-    
+
     /**
      * Transform the given dom element into a rich-text editor
-     * 
+     *
      * @param {JQuery} $container - the container of the DOM element that is going to editable
      * @param {Object} [options]
      * @param {String} [options.markup] - the markup to be use as the initial editor content
@@ -62,7 +63,7 @@ define([
     function create($container, options){
 
         options = _.defaults(options || {}, _defaults);
-        
+
         //assign proper markup
         if(options.markup){
             var html = options.markup;
@@ -72,17 +73,17 @@ define([
             }
             $container.html(html);
         }
-        
+
         var data = parser($container);
         var loader = new Loader().setClassesLocation(qtiClasses);
         loader.loadRequiredClasses(data, function(){
 
             //create a new container object
             var container = new Container();
-            
+
             //tag the new container as statelss, which means that its state is not supposed to change
             container.data('stateless', true);
-            
+
             $container.data('container', container);
 
             //need to attach a container to the item to enable innserElement.remove()
@@ -101,26 +102,27 @@ define([
 
             //apply common renderer :
             creatorRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){
-                
+
                 var baseUrl = this.getOption('baseUrl');
                 container.setRenderer(this);
                 $container.html(container.render());
                 container.postRender();
-                
+
                 //resolve xinclude
                 _.each(container.getComposingElements(), function(element){
                     if(element.qtiClass === 'include'){
                         xincludeRenderer.render(element.data('widget'), baseUrl);
                     }
                 });
-                        
+
                 buildContainer($container);
                 createToolbar($container, options.$toolbarLocation);
                 buildEditor($container, container, {
                     hideTriggerOnBlur: !!options.hideTriggerOnBlur,
                     placeholder : options.placeholder || undefined,
                     toolbar : options.toolbar || undefined,
-                    qtiMedia : options.qtiMedia
+                    qtiMedia : options.qtiMedia,
+                    highlight : options.highlight
                 });
 
                 $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
@@ -130,7 +132,7 @@ define([
                         options.change(html);
                     }
                 }, 600));
-                
+
                 $container.trigger('editorready.containereditor');
             });
 
@@ -149,16 +151,16 @@ define([
             serial : 'serial123456',
             state : 'active'
         }));
-        
+
         if(!$appendTo || !$appendTo.length){
             $appendTo = $container;
         }
-        
+
         $appendTo.append($tlb);
         $tlb.show();
-        
+
         $container.data('editor-toolbar', $tlb);
-        
+
         return this;
     }
 
@@ -179,16 +181,16 @@ define([
         $container.removeData('container');
 
     }
-    
+
     /**
      * create a fase widget that is required in html editor
-     * 
+     *
      * @param {JQuery} $editableContainer
      * @param {Object} container
      * @returns {Object} The fake widget object
      */
     function createFakeWidget($editableContainer, container){
-        
+
         var widget = {
             $container : $editableContainer,
             element : container,
@@ -196,7 +198,7 @@ define([
         };
         //associate the widget to the container
         container.data('widget', widget);
-        
+
         return widget;
     }
 
@@ -227,7 +229,7 @@ define([
         destroyEditor($container);
         cleanup($container);
     }
-    
+
     function extractHtmlFromMarkup(markupStr, selector){
         var $found = $('<div>').html(markupStr).find(selector);
         var ret = [];
@@ -236,7 +238,7 @@ define([
         });
         return ret;
     }
-    
+
     return {
         create : create,
         destroy : destroy
