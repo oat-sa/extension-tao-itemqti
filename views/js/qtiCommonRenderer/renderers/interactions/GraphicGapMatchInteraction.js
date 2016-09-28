@@ -352,7 +352,6 @@ define([
 
                     // ... or removing the existing gapfiller
                     } else {
-                        debugger;
                         //update the element matching array
                         element.data('matching', _.without(element.data('matching') || [], rElement.data('identifier')));
 
