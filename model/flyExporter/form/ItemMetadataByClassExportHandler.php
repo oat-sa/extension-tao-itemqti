@@ -26,6 +26,7 @@ use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
+use oat\taoQtiItem\model\ItemModel;
 
 class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
     implements \tao_models_classes_export_ExportHandler
@@ -53,7 +54,7 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
         if ($resource instanceof \core_kernel_classes_Class) {
             $formData = array('class' => $resource);
         } else {
-            $formData = array('class' => new \core_kernel_classes_Class($resource));
+            $formData = array('class' => $this->getClass($resource));
         }
         $form = new MetadataExporterForm($formData);
         return $form->getForm();
@@ -77,7 +78,7 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
                 try {
                     /** @var ItemExporter $exporterService */
                     $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
-                    $file =  $exporterService->export($classToExport->getInstances(true), true);
+                    $file =  $exporterService->export($this->getInstances($classToExport), true);
                     return $this->output($file);
                 } catch (ExtractorException $e) {
                     return \common_report_Report::createFailure('Selected object does not have any item to export.');
@@ -85,6 +86,18 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
             }
         }
         return;
+    }
+
+    protected function getInstances($classToExport)
+    {
+        $instances = array();
+        $itemService = \taoItems_models_classes_ItemsService::singleton();
+        foreach($classToExport->getInstances(true) as $item){
+            if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
+                $instances[] = $item;
+            }
+        }
+        return $instances;
     }
 
     /**

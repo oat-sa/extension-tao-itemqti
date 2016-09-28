@@ -49,7 +49,7 @@ class taoQTI_scripts_update_taoQtiUpdate extends tao_scripts_Runner
     protected function convertQtiItem(core_kernel_classes_Resource $item){
         
         $itemService = taoItems_models_classes_ItemsService::singleton();
-        $itemContentProp = new core_kernel_classes_Property(TAO_ITEM_CONTENT_PROPERTY);
+        $itemContentProp = new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT);
         $usedLanguages = $item->getUsedLanguages($itemContentProp);
         foreach($usedLanguages as $lang){
             $this->out('language:'.$lang);

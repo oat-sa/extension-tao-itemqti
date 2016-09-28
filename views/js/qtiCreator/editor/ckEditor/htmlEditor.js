@@ -28,9 +28,6 @@ define([
 ], function(_, __, $, CKEditor, groupToggler, ckConfigurator, Element, contentHelper, deletingHelper){
     "use strict";
 
-    //prevent auto inline editor creation:
-    CKEditor.disableAutoInline = true;
-
     var _defaults = {
         placeholder : __('some text ...'),
         shieldInnerContent : true,
@@ -39,6 +36,9 @@ define([
     };
 
     var gpeToggler = groupToggler();
+
+    //prevent auto inline editor creation:
+    CKEditor.disableAutoInline = true;
 
     /**
      * Find the ck launcher (the trigger that toggle visibility of the editor) in the editor's container
@@ -70,10 +70,10 @@ define([
         options = _.defaults(options, _defaults);
 
         if( !($editable instanceof $) || !$editable.length){
-            throw 'invalid jquery element for $editable';
+            throw new Error('invalid jquery element for $editable');
         }
         if( !($editableContainer instanceof $) || !$editableContainer.length){
-            throw 'invalid jquery element for $editableContainer';
+            throw new Error('invalid jquery element for $editableContainer');
         }
 
         $trigger = getTrigger($editableContainer);
@@ -167,7 +167,7 @@ define([
 
                     var widgets = {},
                         editor = e.editor;
-                    
+
                     //fix ck editor combo box display issue
                     $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
@@ -204,7 +204,7 @@ define([
                     $('.qti-item').trigger('toolbarchange');
 
                 },
-                focus : function(e){
+                focus : function(){
 
                     //show trigger
                     $trigger.show();
@@ -218,7 +218,7 @@ define([
 
 
                 },
-                blur : function(e){
+                blur : function(){
                     return false;
                 },
                 configLoaded : function(e){
@@ -230,13 +230,17 @@ define([
                         toolbarType = getTooltypeFromContainer($editableContainer);
                     }
 
-                    if(options.qtiMedia !== undefined){
+                    if(typeof options.qtiMedia !== 'undefined'){
                         ckConfig.qtiMedia = options.qtiMedia;
+                    }
+
+                    if(typeof options.highlight !== 'undefined'){
+                        ckConfig.highlight = options.highlight;
                     }
 
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },
-                afterPaste : function(e){
+                afterPaste : function(){
                     //@todo : we may add some processing on the editor after paste
                 }
             }
@@ -287,17 +291,15 @@ define([
      * @param {Object} options
      */
     function _rebuildWidgets(container, $container, options){
-
+        var widgets = {};
         options = options || {};
 
-        var widgets = {};
-        
         //re-init all widgets:
         _.each(_.values(container.elements), function(elt){
 
             var widget = elt.data('widget'),
                 currentState = widget.getCurrentState().name;
-                
+
             widgets[elt.serial] = widget.rebuild({
                 context : $container,
                 ready : function(widget){
@@ -454,7 +456,7 @@ define([
                 });
 
             };
-            
+
             if(Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')){
 
                 //only _container that are NOT stateless need to change its state to sleep before activating the new one.
@@ -599,7 +601,7 @@ define([
             if(editor){
                 return _htmlEncode(editor.getData());
             }else{
-                throw 'no editor attached to the DOM element';
+                throw new Error('no editor attached to the DOM element');
             }
         },
         /**

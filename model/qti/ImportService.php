@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,9 +14,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -374,11 +373,9 @@ class ImportService extends tao_models_classes_GenerisService
     ) {
 
         try {
-            //load the information about resources in the manifest
-
-            $itemService = taoItems_models_classes_ItemsService::singleton();
             $qtiService = Service::singleton();
-            
+
+            //load the information about resources in the manifest
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
 
@@ -488,12 +485,21 @@ class ImportService extends tao_models_classes_GenerisService
             } catch (PortableElementInvalidModelException $pe) {
                 $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
                 $report->add($pe->getReport());
-                $rdfItem->delete();
+                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
+                    $rdfItem->delete();
+                }
             } catch (PortableElementException $e) {
                 // an error occured during a specific item
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getMessage());
-                common_Logger::e($e->getMessage());
-                $rdfItem->delete();
+                if ($e instanceof \common_exception_UserReadableException) {
+                    $msg = __('Error on item %1$s : %2$s', $qtiItemResource->getIdentifier(), $e->getUserMessage());
+                } else {
+                    $msg = __('Error on item %s', $qtiItemResource->getIdentifier());
+                    common_Logger::d($e->getMessage());
+                }
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR,$msg);
+                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
+                    $rdfItem->delete();
+                }
             } catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));

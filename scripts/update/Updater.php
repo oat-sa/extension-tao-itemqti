@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
@@ -413,7 +412,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('5.4.0');
         }
 
-        $this->skip('5.4.0', '5.6.0');
+        $this->skip('5.4.0', '5.7.0');
     }
 
 }

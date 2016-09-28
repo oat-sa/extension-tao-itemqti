@@ -1555,6 +1555,9 @@ class ParserFactory
 
         if($this->isPicNode($data)){
 
+            // throws an exception if pic not present
+            PortableModelRegistry::getRegistry()->getModel('PIC');
+
             //use tao's implementation of portable custom interaction
             $infoControl = new PortableInfoControl($this->extractAttributes($data), $this->item);
             $infoControl->feed($this, $data);
