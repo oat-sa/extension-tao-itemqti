@@ -382,10 +382,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         //we should use be language unaware for storage manipulation
         $path = str_replace($lang, '', $directory->getPrefix());
-        $storageDirectory = new Directory($directory->getFilesystem()->getId(), $path);
-        $storageDirectory->setServiceLocator($this->getServiceManager());
-
-        return $storageDirectory;
+        return $itemService->getDefaultItemDirectory()->getDirectory($path);
     }
 
     protected function getServiceManager()
