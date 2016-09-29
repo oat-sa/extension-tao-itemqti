@@ -55,7 +55,8 @@ return array(
 			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
 			'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
-			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig'
+			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
+                        'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
 		)
 	),
 	'local'	=> array(

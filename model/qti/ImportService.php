@@ -122,7 +122,12 @@ class ImportService extends tao_models_classes_GenerisService
         $itemService->setItemModel($rdfItem, new core_kernel_classes_Resource(ItemModel::MODEL_URI));
 
         //set the label
-        $rdfItem->setLabel($qtiModel->getAttributeValue('title'));
+        if($qtiModel->hasAttribute('label')) {
+            $label = $qtiModel->getAttributeValue('label');
+        } else {
+            $label = $qtiModel->getAttributeValue('title');
+        }
+        $rdfItem->setLabel($label);
 
         //save itemcontent
         if (!$qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem)) {
