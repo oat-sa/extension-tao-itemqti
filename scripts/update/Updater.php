@@ -422,6 +422,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
             $this->setVersion('5.7.1');
         }
+        
+        $this->skip('5.7.1', '5.7.2');
     }
 
 }
