@@ -38,16 +38,19 @@ class ItemUpdater {
      */
     public function catchItemRdfUpdatedEvent(ItemRdfUpdatedEvent $event) {
         $rdfItem = new core_kernel_classes_Resource($event->getItemUri());
-        
+        /*@var $directory \oat\oatbox\filesystem\Directory */
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-        /* @var $file File */
-        $file = $directory->getFile(Service::QTI_ITEM_FILE);
+        if($directory->exists() ) {
+            /* @var $file File */
+            $file = $directory->getFile(Service::QTI_ITEM_FILE);
+                
+            $qtiParser = new Parser($file->read());
+            $qtiItem = $qtiParser->load();
+            
+            $qtiItem->setAttribute('label', $rdfItem->getLabel());
+            $file->put($qtiItem->toXML());
+        }
         
-        $qtiParser = new Parser($file->read());
-        $qtiItem = $qtiParser->load();
-        
-        $qtiItem->setAttribute('label', $rdfItem->getLabel());
-        $file->put($qtiItem->toXML());
     }
     
 }
