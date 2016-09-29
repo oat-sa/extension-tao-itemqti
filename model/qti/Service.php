@@ -136,6 +136,7 @@ class Service extends tao_models_classes_Service
     {
         //set the current data lang in the item content to keep the integrity
         $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+        $qtiItem->setAttribute('label', $rdfItem->getLabel());
         
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());

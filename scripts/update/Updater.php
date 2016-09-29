@@ -412,7 +412,18 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('5.4.0');
         }
 
-        $this->skip('5.4.0', '5.7.1');
+        $this->skip('5.4.0', '5.7.0');
+
+        if ($this->isVersion('5.7.0')) {
+            $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+            $eventManager->attach(oat\taoItems\model\event\ItemRdfUpdatedEvent::class,
+                array(\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent')
+            );
+            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
+            $this->setVersion('5.7.1');
+        }
+        
+        $this->skip('5.7.1', '5.7.2');
     }
 
 }
