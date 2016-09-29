@@ -417,7 +417,7 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('5.7.0')) {
 
             $eventManager = $this->getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
-            $eventManager->attach(oat\taoItems\model\event\ItemRdfUpdatedEvent::class,
+            $eventManager->attach(\oat\taoItems\model\event\ItemRdfUpdatedEvent::class,
                 array(\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent')
             );
             $this->getServiceManager()->register(\oat\oatbox\event\EventManager::CONFIG_ID, $eventManager);
