@@ -32,8 +32,8 @@ return array(
     'version' => '5.7.1',
     'author' => 'Open Assessment Technologies',
     'requires' => array(
-        'taoItems' => '>=2.22.0',
-        'tao'      => '>=7.10.0'
+        'taoItems' => '>=2.22.1',
+        'tao'      => '>=7.11.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -55,7 +55,8 @@ return array(
 			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
 			'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
-			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig'
+			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
+                        'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
 		)
 	),
 	'local'	=> array(

@@ -22,7 +22,6 @@ namespace oat\taoQtiItem\model\Listener;
 use core_kernel_classes_Resource;
 use oat\oatbox\filesystem\File;
 use oat\taoItems\model\event\ItemRdfUpdatedEvent;
-use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
 use taoItems_models_classes_ItemsService;
