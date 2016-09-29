@@ -46,8 +46,8 @@ class ItemUpdater {
                 
             $qtiParser = new Parser($file->read());
             $qtiItem = $qtiParser->load();
-            
-            $qtiItem->setAttribute('label', $rdfItem->getLabel());
+            $label = substr($rdfItem->getLabel(), 0, 256);
+            $qtiItem->setAttribute('label', $label);
             $file->put($qtiItem->toXML());
         }
         
