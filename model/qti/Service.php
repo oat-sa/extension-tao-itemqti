@@ -134,8 +134,10 @@ class Service extends tao_models_classes_Service
      */
     public function saveDataItemToRdfItem(Item $qtiItem, core_kernel_classes_Resource $rdfItem)
     {
+        $label = mb_substr($rdfItem->getLabel(), 0, 256, 'UTF-8');
         //set the current data lang in the item content to keep the integrity
         $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+        $qtiItem->setAttribute('label', $label);
         
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
