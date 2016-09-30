@@ -72,7 +72,7 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
                 new \core_kernel_classes_Literal('math')
             ),
             'difficulty' => array(
-                new \core_kernel_classes_Literal('low')
+                new \core_kernel_classes_Literal('easy')
 
             )
         );
@@ -84,7 +84,7 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
                 new \core_kernel_classes_Resource('ELA'),
             ),
             'difficulty' => array(
-                new \core_kernel_classes_Literal('high')
+                new \core_kernel_classes_Literal('hard')
 
             )
         );
@@ -109,14 +109,26 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
         );
 
         $expected = array(
-            'itemUri1' => array('science', 'math', 'medium'),
-            'itemUri5' => array('ELA', 'high'),
-            'itemUri3' => array('math', 'low'),
+            'itemUri1' => array('SCIENCE', 'MATH', 'MEDIUM'),
+            'itemUri5' => array('ENGLISH', 'HIGH'),
+            'itemUri3' => array('MATH', 'LOW'),
             'itemUri4' => array(),
-            'itemUri2' => array('ELA'),
+            'itemUri2' => array('ENGLISH'),
         );
         /** @var ItemCategoriesService $itemCategoriesService */
-        $itemCategoriesService = new ItemCategoriesService(array('properties' => array('subject', 'difficulty')));
+        $itemCategoriesService = new ItemCategoriesService(
+            array(
+                'properties'    => array('subject', 'difficulty'),
+                'mapping'       => array(
+                    'math' => 'MATH',
+                    'ELA' => 'ENGLISH',
+                    'science' => 'SCIENCE',
+                    'easy' => 'LOW',
+                    'medium' => 'MEDIUM',
+                    'hard' => 'HIGH'
+                    )
+            )
+        );
         $categories = $itemCategoriesService->getCategories($items);
 
         $this->assertEquals($expected, $categories);
