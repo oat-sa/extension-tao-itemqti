@@ -429,7 +429,7 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('5.7.1', '5.7.3');
 
         if ($this->isVersion('5.7.3')) {
-            $categoriesService = new ItemCategoriesService(array('properties' => array()));
+            $categoriesService = new ItemCategoriesService(array('properties' => array(), 'mapping' => array()));
             $categoriesService->setServiceManager($this->getServiceManager());
             $this->getServiceManager()->register(ItemCategoriesService::SERVICE_ID, $categoriesService);
             $this->setVersion('5.8.0');

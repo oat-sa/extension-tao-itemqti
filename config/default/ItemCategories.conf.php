@@ -7,5 +7,8 @@
 
 return new oat\taoQtiItem\model\ItemCategoriesService(array(
     'properties' => array(
+    ),
+    'mapping' => array(
+
     )
 ));

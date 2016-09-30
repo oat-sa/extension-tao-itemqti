@@ -34,16 +34,18 @@ class ItemCategoriesService extends ConfigurableService
     const SERVICE_ID = 'taoQtiItem/ItemCategories';
 
     /**
-     *
      * Get the categories link to the list of items in parameter.
-     * Theses categories come from a configurable list of properties
+     * Theses categories come from a configurable list of properties.
+     * The category label is also set in a configurable list
      * @param \core_kernel_classes_Resource[] $items
-     * @return array
+     * @return array of categories for specified items
+     * ['itemUri' => ['CATEGORY1', 'CATEGORY2']]
      */
     public function getCategories(array $items)
     {
         $categories = array();
         $lookupProperties = $this->getOption('properties');
+        $mapping = $this->getOption('mapping');
         if (!empty($lookupProperties)) {
             /** @var \core_kernel_classes_Resource $item */
             foreach ($items as $item) {
@@ -52,7 +54,10 @@ class ItemCategoriesService extends ConfigurableService
                 /** @var \core_kernel_classes_Property $property */
                 foreach ($properties as $propertyValues) {
                     foreach ($propertyValues as $value) {
-                        $itemCategories[] = ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string)$value;
+                        $propertyValue = ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string)$value;
+                        if(isset($mapping[$propertyValue])){
+                            $itemCategories[] = $mapping[$propertyValue];
+                        }
                     }
                 }
                 $categories[$item->getUri()] = $itemCategories;
