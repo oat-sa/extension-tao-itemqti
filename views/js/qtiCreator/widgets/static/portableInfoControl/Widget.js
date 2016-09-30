@@ -13,20 +13,5 @@ define([
         Widget.initCreator.call(this);
     };
 
-    InfoControlWidget.buildContainer = function(){
-
-        var $tool = $(this.element.data('pic').dom);
-        $tool.wrap('<span class="widget-box widget-student-tool">');
-
-        this.$container = $tool.parent();
-        this.$container.css({
-            display : 'inline-block',
-            float : 'left'
-        });
-        this.$container.append($('<span class="overlay">').css({
-            display : 'inline-block'
-        }));
-    };
-
     return InfoControlWidget;
 });
