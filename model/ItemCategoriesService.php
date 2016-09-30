@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
  */
@@ -23,29 +23,42 @@ namespace oat\taoQtiItem\model;
 
 use oat\oatbox\service\ConfigurableService;
 
+/**
+ *
+ * @author Antoine Robin, <antoine@taotesting.com>
+ * @package taoQtiItem
+ */
 class ItemCategoriesService extends ConfigurableService
 {
 
     const SERVICE_ID = 'taoQtiItem/ItemCategories';
 
-    public function getCategories($itemUris){
-
+    /**
+     *
+     * Get the categories link to the list of items in parameter.
+     * Theses categories come from a configurable list of properties
+     * @param \core_kernel_classes_Resource[] $items
+     * @return array
+     */
+    public function getCategories(array $items)
+    {
         $categories = array();
         $lookupProperties = $this->getOption('properties');
-        if(!empty($lookupProperties)){
-            foreach($itemUris as $uri){
+        if (!empty($lookupProperties)) {
+            /** @var \core_kernel_classes_Resource $item */
+            foreach ($items as $item) {
                 $itemCategories = array();
-                $item = new \core_kernel_classes_Resource($uri);
                 $properties = $item->getPropertiesValues($lookupProperties);
                 /** @var \core_kernel_classes_Property $property */
-                foreach($properties as $propertyValues){
-                    foreach($propertyValues as $value){
-                        $itemCategories[] = ($value instanceof \core_kernel_classes_Resource)? $value->getLabel() : (string)$value;
+                foreach ($properties as $propertyValues) {
+                    foreach ($propertyValues as $value) {
+                        $itemCategories[] = ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string)$value;
                     }
                 }
-                $categories[$uri] =  $itemCategories;
+                $categories[$item->getUri()] = $itemCategories;
             }
         }
+
         return $categories;
     }
 }
