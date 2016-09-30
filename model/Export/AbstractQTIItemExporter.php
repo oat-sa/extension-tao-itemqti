@@ -168,7 +168,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 }
             }
             foreach ($portableEntryNodes as $node) {
-                $node->nodeValue = str_replace(array_keys($replacementList), array_values($replacementList), $node->nodeValue);
+                $node->nodeValue = strtr($node->nodeValue, $replacementList);
             }
 
             $this->exportPortableAssets($dom, 'portableCustomInteraction', 'customInteractionTypeIdentifier', 'pci', $portableElementsToExport, $portableAssetsToExport);
