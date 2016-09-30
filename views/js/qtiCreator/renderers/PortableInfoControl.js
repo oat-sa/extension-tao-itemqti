@@ -36,22 +36,25 @@ define([
      */
     CreatorPortableInfoControl.render = function render(infoControl, options){
 
-        var picCreator = icRegistry.getCreator(infoControl.typeIdentifier).module;
-        var renderOptions = {
-            runtimeLocations : {}
-        };
-        //set the runtime location manually
-        renderOptions.runtimeLocations[infoControl.typeIdentifier] = icRegistry.getBaseUrl(infoControl.typeIdentifier);
+        var self = this;
 
         //initial rendering:
-        Renderer.render.call(commonRenderer.get(), infoControl, renderOptions);
-
-        picCreator.getWidget().build(
-            infoControl,
-            Renderer.getContainer(infoControl),
-            this.getOption('bodyElementOptionForm'),
-            options
-        );
+        Renderer.render.call(commonRenderer.get(), infoControl).then(function(){
+            var picCreator = icRegistry.getCreator(infoControl.typeIdentifier).module;
+            if(picCreator){
+                picCreator.getWidget().build(
+                    infoControl,
+                    Renderer.getContainer(infoControl),
+                    self.getOption('bodyElementOptionForm'),
+                    options
+                );
+            }else{
+                //in case the pic has been imported with a runtime only (no creator)
+                //@todo allow deleting it
+            }
+        }).catch(function(err){
+            reject('Error initializing the creator : ' + error);
+        });
     };
 
     return CreatorPortableInfoControl;

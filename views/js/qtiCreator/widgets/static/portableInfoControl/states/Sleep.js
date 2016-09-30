@@ -20,5 +20,17 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Sleep'
 ], function(stateFactory, SleepState){
     'use strict';
-    return stateFactory.extend(SleepState);
+
+    return stateFactory.extend(SleepState, function(){
+
+        var _widget = this.widget;
+        _widget.$container.on('click.qti-widget.sleep', function(e){
+            e.stopPropagation();
+            _widget.changeState('active');
+        });
+
+    }, function(){
+
+        this.widget.$container.off('.sleep');
+    });
 });
