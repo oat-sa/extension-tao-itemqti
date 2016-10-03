@@ -2,7 +2,7 @@
 /**
  * Default config header
  *
- * To replace this add a file /var/www/package-tao/taoQtiTest/config/header/TestModel.conf.php
+ * To replace this add a file /var/www/package-tao/taoQtiItem/config/header/ItemCategoriesService.conf.php
  */
 
 return new oat\taoQtiItem\model\ItemCategoriesService(array(
