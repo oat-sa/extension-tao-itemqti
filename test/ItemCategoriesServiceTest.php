@@ -56,14 +56,14 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
                 new \core_kernel_classes_Literal('math')
             ),
             'difficulty' => array(
-                new \core_kernel_classes_Literal('medium')
+                new \core_kernel_classes_Resource('http://tao.test/mytao.rdf#semi')
 
             )
         );
 
         $item2Properties = array(
             'subject' => array(
-                new \core_kernel_classes_Resource('ELA'),
+                new \core_kernel_classes_Resource('http://tao.test/mytao.rdf#ELA'),
             )
         );
 
@@ -81,7 +81,7 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
 
         $item5Properties = array(
             'subject' => array(
-                new \core_kernel_classes_Resource('ELA'),
+                new \core_kernel_classes_Resource('http://tao.test/mytao.rdf#ELA'),
             ),
             'difficulty' => array(
                 new \core_kernel_classes_Literal('hard')
@@ -118,15 +118,20 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
         /** @var ItemCategoriesService $itemCategoriesService */
         $itemCategoriesService = new ItemCategoriesService(
             array(
-                'properties'    => array('subject', 'difficulty'),
-                'mapping'       => array(
-                    'math' => 'MATH',
-                    'ELA' => 'ENGLISH',
-                    'science' => 'SCIENCE',
-                    'easy' => 'LOW',
-                    'medium' => 'MEDIUM',
-                    'hard' => 'HIGH'
-                    )
+                'properties'    => array(
+                    'subject' =>
+                        array(
+                            'math' => 'MATH',
+                            'http://tao.test/mytao.rdf#ELA' => 'ENGLISH',
+                            'science' => 'SCIENCE',
+
+                        ),
+                    'difficulty' =>
+                        array(
+                            'easy' => 'LOW',
+                            'http://tao.test/mytao.rdf#semi' => 'MEDIUM',
+                            'hard' => 'HIGH'
+                        ))
             )
         );
         $categories = $itemCategoriesService->getCategories($items);
