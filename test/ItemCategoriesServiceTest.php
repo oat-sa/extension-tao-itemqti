@@ -134,10 +134,4 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals($expected, $categories);
     }
 
-    public function testGetItems(){
-
-
-
-    }
-
 }
