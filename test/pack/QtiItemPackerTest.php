@@ -20,6 +20,7 @@
 namespace oat\taoItems\test\pack;
 
 use \core_kernel_classes_Resource;
+use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
@@ -476,7 +477,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
      */
     protected function getDirectoryStorage()
     {
-        $directoryStorage = $this->getMockBuilder(\tao_models_classes_service_StorageDirectory::class)
+        $directoryStorage = $this->getMockBuilder(Directory::class)
             ->disableOriginalConstructor()
             ->setMethods(['getServiceLocator', 'getPrefix', 'getFileSystemId'])
             ->getMock();
