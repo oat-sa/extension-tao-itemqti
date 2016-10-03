@@ -47,20 +47,20 @@ class ItemCategoriesService extends ConfigurableService
         $lookupProperties = $this->getOption('properties');
         $mapping = $this->getOption('mapping');
         if (!empty($lookupProperties)) {
-            /** @var \core_kernel_classes_Resource $item */
             foreach ($items as $item) {
                 $itemCategories = array();
-                $properties = $item->getPropertiesValues($lookupProperties);
-                /** @var \core_kernel_classes_Property $property */
-                foreach ($properties as $propertyValues) {
-                    foreach ($propertyValues as $value) {
-                        $propertyValue = ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string)$value;
-                        if(isset($mapping[$propertyValue])){
-                            $itemCategories[] = $mapping[$propertyValue];
+                if($item instanceof \core_kernel_classes_Resource){
+                    $properties = $item->getPropertiesValues($lookupProperties);
+                    foreach ($properties as $propertyValues) {
+                        foreach ($propertyValues as $value) {
+                            $propertyValue = ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string)$value;
+                            if(isset($mapping[$propertyValue])){
+                                $itemCategories[] = $mapping[$propertyValue];
+                            }
                         }
                     }
+                    $categories[$item->getUri()] = $itemCategories;
                 }
-                $categories[$item->getUri()] = $itemCategories;
             }
         }
 
