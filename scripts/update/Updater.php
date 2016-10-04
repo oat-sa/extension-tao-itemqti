@@ -434,7 +434,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(ItemCategoriesService::SERVICE_ID, $categoriesService);
             $this->setVersion('5.8.0');
         }
-        $this->skip('5.8.0', '5.8.2');
+        $this->skip('5.8.0', '5.9.0');
     }
 
 }
