@@ -40,8 +40,18 @@ define([
 
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), infoControl).then(function(){
+
             var picCreator = icRegistry.getCreator(infoControl.typeIdentifier).module;
             if(picCreator){
+
+                //add extra options required to setup the resource manager
+                options = options || {};
+                options.baseUrl = self.getOption('baseUrl');
+                options.uri = self.getOption('uri');
+                options.lang = self.getOption('lang');
+                options.mediaManager = self.getOption('mediaManager');
+                options.assetManager = self.getAssetManager();
+
                 picCreator.getWidget().build(
                     infoControl,
                     Renderer.getContainer(infoControl),
