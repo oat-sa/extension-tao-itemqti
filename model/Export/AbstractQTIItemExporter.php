@@ -160,12 +160,18 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
+            $portableEntryNodes = $xpath->query("//*[local-name()='entry']") ?: [];
             unset($xpath);
+
             foreach ($attributeNodes as $node) {
                 if (isset($replacementList[$node->value])) {
                     $node->value = $replacementList[$node->value];
                 }
             }
+            foreach ($portableEntryNodes as $node) {
+                $node->nodeValue = strtr($node->nodeValue, $replacementList);
+            }
+
             $this->exportPortableAssets($dom, 'portableCustomInteraction', 'customInteractionTypeIdentifier', 'pci', $portableElementsToExport, $portableAssetsToExport);
             $this->exportPortableAssets($dom, 'portableInfoControl', 'infoControlTypeIdentifier', 'pic', $portableElementsToExport, $portableAssetsToExport);
         } else {
