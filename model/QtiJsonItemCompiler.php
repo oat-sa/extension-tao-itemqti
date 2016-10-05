@@ -25,6 +25,7 @@ use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
+use tao_models_classes_service_StorageDirectory;
 
 /**
  * The QTI Json Item Compiler
@@ -49,11 +50,16 @@ class QtiJsonItemCompiler extends QtiItemCompiler
      *
      * @param core_kernel_classes_Resource $item
      * @param string $language
-     * @param \tao_models_classes_service_StorageDirectory $publicDirectory
-     * @param \tao_models_classes_service_StorageDirectory $privateDirectory
+     * @param tao_models_classes_service_StorageDirectory $publicDirectory
+     * @param tao_models_classes_service_StorageDirectory $privateDirectory
      * @return common_report_Report
      */
-    protected function deployQtiItem(core_kernel_classes_Resource $item, $language, $publicDirectory, $privateDirectory)
+    protected function deployQtiItem(
+        core_kernel_classes_Resource $item,
+        $language,
+        tao_models_classes_service_StorageDirectory $publicDirectory,
+        tao_models_classes_service_StorageDirectory $privateDirectory
+    )
     {
         $qtiService = Service::singleton();
 

@@ -25,6 +25,7 @@ use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
@@ -372,7 +373,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * @param \core_kernel_classes_Resource $item The item
      * @param string                        $lang The item lang
      *
-     * @return \tao_models_classes_service_StorageDirectory The directory
+     * @return Directory The directory
      */
     protected function getStorageDirectory(\core_kernel_classes_Resource $item, $lang)
     {
@@ -381,10 +382,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         //we should use be language unaware for storage manipulation
         $path = str_replace($lang, '', $directory->getPrefix());
-        $storageDirectory = new \tao_models_classes_service_StorageDirectory($item->getUri(), $directory->getFilesystem()->getId(), $path);
-        $storageDirectory->setServiceLocator($this->getServiceManager());
-
-        return $storageDirectory;
+        return $itemService->getDefaultItemDirectory()->getDirectory($path);
     }
 
     protected function getServiceManager()
