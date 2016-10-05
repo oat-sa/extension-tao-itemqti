@@ -425,7 +425,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('5.7.1');
         }
-        
+
         $this->skip('5.7.1', '5.7.3');
 
         if ($this->isVersion('5.7.3')) {
@@ -434,7 +434,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(ItemCategoriesService::SERVICE_ID, $categoriesService);
             $this->setVersion('5.8.0');
         }
-        $this->skip('5.8.0', '5.9.0');
+        $this->skip('5.8.0', '5.10.0');
     }
 
 }
