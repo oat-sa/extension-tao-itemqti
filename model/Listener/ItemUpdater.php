@@ -36,7 +36,7 @@ class ItemUpdater {
      * synchronise item label
      * @param ItemRdfUpdatedEvent $event
      */
-    public function catchItemRdfUpdatedEvent(ItemRdfUpdatedEvent $event) {
+    public static function catchItemRdfUpdatedEvent(ItemRdfUpdatedEvent $event) {
         $rdfItem = new core_kernel_classes_Resource($event->getItemUri());
         /*@var $directory \oat\oatbox\filesystem\Directory */
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);

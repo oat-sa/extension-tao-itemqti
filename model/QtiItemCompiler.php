@@ -20,24 +20,21 @@
 
 namespace oat\taoQtiItem\model;
 
-use common_Logger;
 use common_report_Report;
 use core_kernel_classes_Resource;
+use oat\oatbox\filesystem\Directory;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
-use tao_helpers_File;
 use tao_models_classes_service_ConstantParameter;
 use tao_models_classes_service_ServiceCall;
 use tao_models_classes_service_StorageDirectory;
+use taoItems_models_classes_CompilationFailedException;
 use taoItems_models_classes_ItemCompiler;
 use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
-use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
-use GuzzleHttp\Psr7\Stream;
-use League\Flysystem\File;
 
 /**
  * The QTI Item Compiler
@@ -139,11 +136,16 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      *
      * @param core_kernel_classes_Resource $item
      * @param string $language
-     * @param \tao_models_classes_service_StorageDirectory $publicDirectory
-     * @param \tao_models_classes_service_StorageDirectory $privateDirectory
+     * @param tao_models_classes_service_StorageDirectory $publicDirectory
+     * @param tao_models_classes_service_StorageDirectory $privateDirectory
      * @return common_report_Report
      */
-    protected function deployQtiItem(core_kernel_classes_Resource $item, $language, $publicDirectory, $privateDirectory)
+    protected function deployQtiItem(
+        core_kernel_classes_Resource $item,
+        $language,
+        tao_models_classes_service_StorageDirectory $publicDirectory,
+        tao_models_classes_service_StorageDirectory $privateDirectory
+    )
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
@@ -211,13 +213,13 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     }
 
     /**
-     *
      * @param core_kernel_classes_Resource $item
      * @param string $lang
-     * @param \tao_models_classes_service_StorageDirectory $publicDirectory
+     * @param Directory $publicDirectory
      * @return qti\Item
+     * @throws taoItems_models_classes_CompilationFailedException
      */
-    protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $publicDirectory)
+    protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, Directory $publicDirectory)
     {
         $qtiItem  = Service::singleton()->getDataItemByRdfItem($item, $lang);
 
@@ -276,7 +278,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $node->nodeValue = strtr($node->nodeValue, $replacementList);
             }
         } else {
-            throw new \taoItems_models_classes_CompilationFailedException('Unable to load XML');
+            throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');
         }
 
         $qtiParser = new Parser($dom->saveXML());
