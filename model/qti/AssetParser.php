@@ -222,6 +222,9 @@ class AssetParser
         } else if (strpos($type, "audio") !== false){
             $this->addAsset('audio', $object->attr('data'));
         }
+        else if (strpos($type, "text/html") !== false){
+            $this->addAsset('html', $object->attr('data'));
+        }
     }
 
     /**
