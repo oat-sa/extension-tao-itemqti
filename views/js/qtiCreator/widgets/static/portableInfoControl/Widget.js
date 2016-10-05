@@ -16,10 +16,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define([
-    'jquery',
-    'taoQtiItem/qtiCreator/widgets/static/Widget'
-], function($, Widget) {
+define(['taoQtiItem/qtiCreator/widgets/static/Widget'], function(Widget) {
     'use strict';
     
     var InfoControlWidget = Widget.clone();
