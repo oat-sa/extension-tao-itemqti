@@ -77,7 +77,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
     /**
      * Test serializing array of pci properties into a pci xml
      */
-    public function testSerializePciProperties()
+    public function testSerializePortableProperties()
     {
         $properties = array(
             'prompt' => '<b>lorem ipsum</b>',
@@ -91,10 +91,10 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         );
         $PCI = new \oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction();
         
-        $method = new \ReflectionMethod('oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction', 'serializePciProperties');
+        $method = new \ReflectionMethod('\oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction', 'serializePortableProperties');
         $method->setAccessible(true);
         
-        $result = $method->invoke($PCI, $properties, 'pci');
+        $result = $method->invoke($PCI, $properties, 'pci', 'http://www.imsglobal.org/xsd/portableCustomInteraction');
         
         $this->assertFalse(strpos($result, '<b>lorem ipsum</b>'));
         $this->assertFalse(strpos($result, '<span class="test">Label 1</span>'));
