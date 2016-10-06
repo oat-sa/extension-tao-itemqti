@@ -133,7 +133,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         $reflectionClass = new \ReflectionClass(AssetManager::class);
         $reflectionMethod = $reflectionClass->getMethod('getRelativePath');
         $reflectionMethod->setAccessible(true);
-
+        $expected = str_replace(DIRECTORY_SEPARATOR, '/', $expected);
         $this->assertEquals($expected, $reflectionMethod->invokeArgs($this->instance, [$path1, $path2]));
     }
 
@@ -141,8 +141,8 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     {
         $ds = DIRECTORY_SEPARATOR;
         return [
-            ['/path/to/absolute/path', '/path/to/absolute/path/in/package/polop.txt', 'path' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
-            ['/path/to/absolute/path', '/path/to/in/package/polop.txt', '..' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
+            ["{$ds}path{$ds}to{$ds}absolute{$ds}path", "{$ds}path{$ds}to{$ds}absolute{$ds}path{$ds}in{$ds}package{$ds}polop.txt", 'path' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
+            ["{$ds}path{$ds}to{$ds}absolute{$ds}path", "{$ds}path{$ds}to{$ds}in{$ds}package{$ds}polop.txt", '..' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
         ];
     }
 

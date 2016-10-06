@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\oatbox\filesystem\Directory;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
@@ -43,9 +44,9 @@ class AssetParser
     private $item;
 
     /**
-    * Set mode - if parser have to find shared libraries (PCI and PIC)
-    * @var bool
-    */
+     * Set mode - if parser have to find shared libraries (PCI and PIC)
+     * @var bool
+     */
     private $getSharedLibraries = true;
 
     /**
@@ -72,6 +73,9 @@ class AssetParser
      */
     private $assets = array();
 
+    /**
+     * @var Directory
+     */
     private $directory;
 
     /**
@@ -79,7 +83,7 @@ class AssetParser
      * @param Item $item the item to parse
      * @param $directory
      */
-    public function __construct(Item $item, $directory)
+    public function __construct(Item $item, Directory $directory)
     {
         $this->item = $item;
         $this->directory = $directory;
@@ -213,12 +217,13 @@ class AssetParser
 
         if(strpos($type, "image") !== false){
             $this->addAsset('img', $object->attr('data'));
-        }
-        else if (strpos($type, "video") !== false  || strpos($type, "ogg") !== false){
+        } else if (strpos($type, "video") !== false  || strpos($type, "ogg") !== false){
             $this->addAsset('video', $object->attr('data'));
-        }
-        else if (strpos($type, "audio") !== false){
+        } else if (strpos($type, "audio") !== false){
             $this->addAsset('audio', $object->attr('data'));
+        }
+        else if (strpos($type, "text/html") !== false){
+            $this->addAsset('html', $object->attr('data'));
         }
     }
 
@@ -355,7 +360,7 @@ class AssetParser
                 preg_match_all($fontRe, $faceMatch, $fontMatches);
                 if(isset($fontMatches[1])){
                     foreach($fontMatches[1] as $fontMatch){
-                       $this->addAsset('font', $fontMatch);
+                        $this->addAsset('font', $fontMatch);
                     }
                 }
             }
