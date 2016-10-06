@@ -127,7 +127,7 @@ Class CreatorConfig extends Config
 
         //as the config overrides the plugins, we get the list from the registry
         $registry = QtiCreatorClientConfigRegistry::getRegistry();
-        $this->plugins = $registry->getPlugins();
+        $this->plugins = array_merge($this->plugins, $registry->getPlugins());
     }
 
     protected function prepare($hook){
