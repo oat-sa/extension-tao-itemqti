@@ -38,9 +38,11 @@ class ItemUpdater {
      */
     public static function catchItemRdfUpdatedEvent(ItemRdfUpdatedEvent $event) {
         $rdfItem = new core_kernel_classes_Resource($event->getItemUri());
+        $type = $rdfItem->getProperty('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel');
         /*@var $directory \oat\oatbox\filesystem\Directory */
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-        if($directory->exists() ) {
+        $itemModel = $rdfItem->getPropertyValues($type);
+        if($directory->exists() && in_array('http://www.tao.lu/Ontologies/TAOItem.rdf#QTI', $itemModel)  ) {
             /* @var $file File */
             $file = $directory->getFile(Service::QTI_ITEM_FILE);
                 
