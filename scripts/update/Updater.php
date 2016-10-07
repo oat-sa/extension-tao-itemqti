@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
+use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -413,6 +414,27 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('5.4.0', '5.7.0');
+
+        if ($this->isVersion('5.7.0')) {
+
+            $eventManager = $this->getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
+            $eventManager->attach(\oat\taoItems\model\event\ItemRdfUpdatedEvent::class,
+                array(\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent')
+            );
+            $this->getServiceManager()->register(\oat\oatbox\event\EventManager::CONFIG_ID, $eventManager);
+
+            $this->setVersion('5.7.1');
+        }
+
+        $this->skip('5.7.1', '5.7.3');
+
+        if ($this->isVersion('5.7.3')) {
+            $categoriesService = new ItemCategoriesService(array('properties' => array()));
+            $categoriesService->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(ItemCategoriesService::SERVICE_ID, $categoriesService);
+            $this->setVersion('5.8.0');
+        }
+        $this->skip('5.8.0', '5.11.3');
     }
 
 }

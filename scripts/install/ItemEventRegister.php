@@ -1,4 +1,6 @@
-/*
+<?php
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,11 +17,24 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
+ *
  */
-define([
-    'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/static/states/states'
-], function(factory, states){
-    'use strict';
-    return factory.createBundle(states, arguments, ['answer', 'correct', 'map']);
-});
+
+namespace oat\taoQtiItem\scripts\install;
+
+/**
+ * Description of ItemEventRegister
+ *
+ * @author Christophe GARCIA <christopheg@taotesting.com>
+ */
+class ItemEventRegister  extends \common_ext_action_InstallAction
+{
+    public function __invoke($params)
+    {
+    
+        $this->registerEvent(\oat\taoItems\model\event\ItemRdfUpdatedEvent::class, 
+                array(\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent')
+            );
+        
+    }
+}

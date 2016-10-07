@@ -122,7 +122,15 @@ class ImportService extends tao_models_classes_GenerisService
         $itemService->setItemModel($rdfItem, new core_kernel_classes_Resource(ItemModel::MODEL_URI));
 
         //set the label
-        $rdfItem->setLabel($qtiModel->getAttributeValue('title'));
+        $label = '';
+        if($qtiModel->hasAttribute('label')) {
+            $label = $qtiModel->getAttributeValue('label');
+        } 
+        
+        if(empty($label)) {
+           $label = $qtiModel->getAttributeValue('title'); 
+        }
+        $rdfItem->setLabel($label);
 
         //save itemcontent
         if (!$qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem)) {
@@ -274,6 +282,8 @@ class ImportService extends tao_models_classes_GenerisService
                 \common_Logger::i("Metadata Class Lookup '{$classLookup}' registered.");
             }
 
+            $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
+
             foreach ($metadataMapping['extractors'] as $extractor) {
                 $metadataExtractor = new $extractor();
                 \common_Logger::i("Metatada Extractor '${extractor}' registered.");
@@ -283,7 +293,6 @@ class ImportService extends tao_models_classes_GenerisService
             $metadataCount = count($metadataValues, COUNT_RECURSIVE);
             \common_Logger::i("${metadataCount} Metadata Values found in manifest by extractor(s).");
 
-            $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
             $itemCount = 0;
             $sharedFiles = array();
             foreach ($qtiItemResources as $qtiItemResource) {
