@@ -38,11 +38,10 @@ interface MetadataClassLookupClassCreator extends MetadataClassLookup
     /**
      * Whether or not a class has been created.
      * 
-     * Invoke this method to know whether or not the target import Ontology class
-     * identified during the last invokation of MetadataClassLookup::lookup() method
-     * had to be created on purpose.
+     * Invoke this method to know whether or not during the last invokation of the MetadataClassLookup::lookup() method,
+     * Ontology Classes were created for this purpose.
      * 
-     * @return boolean
+     * @return array An array of core_kernel_classes_Class object.
      */
-    public function classCreated();
+    public function createdClasses();
 }
