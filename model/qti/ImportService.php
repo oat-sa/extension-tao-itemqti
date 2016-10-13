@@ -255,7 +255,7 @@ class ImportService extends tao_models_classes_GenerisService
 
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, '');
         $successItems = array();
-        $createdClasses = array();
+        $allCreatedClasses = array();
         try {
 
             // -- Initializing metadata services.
@@ -297,7 +297,7 @@ class ImportService extends tao_models_classes_GenerisService
 
             $itemCount = 0;
             $sharedFiles = array();
-            $classCreated = false;
+            $createdClasses = array();
             foreach ($qtiItemResources as $qtiItemResource) {
                 $itemCount++;
                 $itemReport = $this->importQtiItem(
@@ -310,19 +310,16 @@ class ImportService extends tao_models_classes_GenerisService
                     $metadataGuardians,
                     $metadataClassLookups,
                     $sharedFiles,
-                    $classCreated
+                    $createdClasses
                 );
                 
-                if ($classCreated instanceof core_kernel_classes_Class) {
-                    $createdClasses[] = $classCreated;
-                }
+                $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
                 
                 $rdfItem = $itemReport->getData();
                 
                 if ($rdfItem) {
                     $successItems[$qtiItemResource->getIdentifier()] = $rdfItem;
                 }
-                
                 
                 $report->add($itemReport);
             }
@@ -352,11 +349,11 @@ class ImportService extends tao_models_classes_GenerisService
 
         if ($rollbackOnError === true) {
             if ($report->getType() === common_report_Report::TYPE_ERROR || $report->contains(common_report_Report::TYPE_ERROR)) {
-                $this->rollback($successItems, $report, $createdClasses);
+                $this->rollback($successItems, $report, $allCreatedClasses);
             }
         } elseif ($rollbackOnWarning === true) {
             if ($report->contains(common_report_Report::TYPE_WARNING)) {
-                $this->rollback($successItems, $report, $createdClasses);
+                $this->rollback($successItems, $report, $allCreatedClasses);
             }
         }
 
@@ -391,7 +388,7 @@ class ImportService extends tao_models_classes_GenerisService
         array $metadataGuardians = array(),
         array $metadataClassLookups = array(),
         array $sharedFiles = array(),
-        &$createdClass = false
+        &$createdClasses = array()
     ) {
 
         try {
@@ -422,8 +419,8 @@ class ImportService extends tao_models_classes_GenerisService
                         if (($targetClass = $classLookup->lookup($metadataValues[$resourceIdentifier])) !== false) {
                             \common_Logger::i("Class Lookup Successful. Resource '${resourceIdentifier}' will be stored in RDFS Class '" . $targetClass->getUri() . "'.");
                             
-                            if ($classLookup instanceof MetadataClassLookupClassCreator && $classLookup->classCreated() === true) {
-                                $createdClass = $targetClass;
+                            if ($classLookup instanceof MetadataClassLookupClassCreator) {
+                                $createdClasses = $classLookup->createdClasses();
                             }
                             
                             break;
