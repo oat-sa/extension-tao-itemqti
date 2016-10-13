@@ -42,7 +42,7 @@ interface MetadataClassLookupClassCreator extends MetadataClassLookup
      * identified during the last invokation of MetadataClassLookup::lookup() method
      * had to be created on purpose.
      * 
-     * @return false|\core_kernel_classes_Class
+     * @return boolean
      */
     public function classCreated();
 }
