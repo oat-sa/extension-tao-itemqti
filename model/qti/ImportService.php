@@ -44,6 +44,7 @@ use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
+use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
 use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\storage\xml\XmlStorageException;
 use tao_helpers_File;
@@ -254,6 +255,7 @@ class ImportService extends tao_models_classes_GenerisService
 
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, '');
         $successItems = array();
+        $allCreatedClasses = array();
         try {
 
             // -- Initializing metadata services.
@@ -282,6 +284,8 @@ class ImportService extends tao_models_classes_GenerisService
                 \common_Logger::i("Metadata Class Lookup '{$classLookup}' registered.");
             }
 
+            $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
+
             foreach ($metadataMapping['extractors'] as $extractor) {
                 $metadataExtractor = new $extractor();
                 \common_Logger::i("Metatada Extractor '${extractor}' registered.");
@@ -291,9 +295,9 @@ class ImportService extends tao_models_classes_GenerisService
             $metadataCount = count($metadataValues, COUNT_RECURSIVE);
             \common_Logger::i("${metadataCount} Metadata Values found in manifest by extractor(s).");
 
-            $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
             $itemCount = 0;
             $sharedFiles = array();
+            $createdClasses = array();
             foreach ($qtiItemResources as $qtiItemResource) {
                 $itemCount++;
                 $itemReport = $this->importQtiItem(
@@ -305,13 +309,18 @@ class ImportService extends tao_models_classes_GenerisService
                     $metadataInjectors,
                     $metadataGuardians,
                     $metadataClassLookups,
-                    $sharedFiles
+                    $sharedFiles,
+                    $createdClasses
                 );
-
+                
+                $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
+                
                 $rdfItem = $itemReport->getData();
+                
                 if ($rdfItem) {
                     $successItems[$qtiItemResource->getIdentifier()] = $rdfItem;
                 }
+                
                 $report->add($itemReport);
             }
         } catch (ValidationException $ve) {
@@ -340,11 +349,11 @@ class ImportService extends tao_models_classes_GenerisService
 
         if ($rollbackOnError === true) {
             if ($report->getType() === common_report_Report::TYPE_ERROR || $report->contains(common_report_Report::TYPE_ERROR)) {
-                $this->rollback($successItems, $report);
+                $this->rollback($successItems, $report, $allCreatedClasses);
             }
         } elseif ($rollbackOnWarning === true) {
-            if ($report->getType() === common_report_Report::TYPE_WARNING || $report->contains(common_report_Report::TYPE_WARNING)) {
-                $this->rollback($successItems, $report);
+            if ($report->contains(common_report_Report::TYPE_WARNING)) {
+                $this->rollback($successItems, $report, $allCreatedClasses);
             }
         }
 
@@ -365,6 +374,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @param array $metadataGuardians
      * @param array $metadataClassLookups
      * @param array $sharedFiles
+     * @param array $createdClass
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -377,7 +387,8 @@ class ImportService extends tao_models_classes_GenerisService
         array $metadataInjectors = array(),
         array $metadataGuardians = array(),
         array $metadataClassLookups = array(),
-        array $sharedFiles = array()
+        array $sharedFiles = array(),
+        &$createdClasses = array()
     ) {
 
         try {
@@ -407,6 +418,11 @@ class ImportService extends tao_models_classes_GenerisService
                         \common_Logger::i("Target Class Lookup for resource '${resourceIdentifier}' ...");
                         if (($targetClass = $classLookup->lookup($metadataValues[$resourceIdentifier])) !== false) {
                             \common_Logger::i("Class Lookup Successful. Resource '${resourceIdentifier}' will be stored in RDFS Class '" . $targetClass->getUri() . "'.");
+                            
+                            if ($classLookup instanceof MetadataClassLookupClassCreator) {
+                                $createdClasses = $classLookup->createdClasses();
+                            }
+                            
                             break;
                         }
                     }
@@ -473,7 +489,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, $message);
 
             } catch (ValidationException $ve) {
-                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $qtiItemResource->getIdentifier()));
+                $report = common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $qtiItemResource->getIdentifier()));
                 $report->add($ve->getReport());
             } catch (XmlStorageException $e){
 
@@ -491,14 +507,14 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     $message);
             } catch (PortableElementInvalidModelException $pe) {
-                $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
+                $report = common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
                 $report->add($pe->getReport());
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
                     $rdfItem->delete();
                 }
             } catch (PortableElementException $e) {
                 // an error occured during a specific item
-                if ($e instanceof \common_exception_UserReadableException) {
+                if ($e instanceof common_exception_UserReadableException) {
                     $msg = __('Error on item %1$s : %2$s', $qtiItemResource->getIdentifier(), $e->getUserMessage());
                 } else {
                     $msg = __('Error on item %s', $qtiItemResource->getIdentifier());
@@ -511,10 +527,13 @@ class ImportService extends tao_models_classes_GenerisService
             } catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
+                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
+                    $rdfItem->delete();
+                }
                 common_Logger::e($e->getMessage());
             }
         } catch (ValidationException $ve) {
-            $validationReport = \common_report_Report::createFailure("The IMS Manifest file could not be validated");
+            $validationReport = common_report_Report::createFailure("The IMS Manifest file could not be validated");
             $validationReport->add($ve->getReport());
             $report->setMessage(__("No Items could be imported from the given IMS QTI package."));
             $report->setType(common_report_Report::TYPE_ERROR);
@@ -561,14 +580,19 @@ class ImportService extends tao_models_classes_GenerisService
     /**
      * @param array $items
      * @param common_report_Report $report
+     * @param array $createdClasses (optional)
      * @throws common_exception_Error
      */
-    protected function rollback(array $items, common_report_Report $report)
+    protected function rollback(array $items, common_report_Report $report, array $createdClasses = array())
     {
         foreach ($items as $id => $item) {
             @taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
             $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,
                 __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfully rolled back.', $id)));
+        }
+        
+        foreach ($createdClasses as $createdClass) {
+            @$createdClass->delete();
         }
     }
 }

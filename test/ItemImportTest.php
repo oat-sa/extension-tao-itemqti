@@ -26,9 +26,7 @@ use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\QtiItemCompiler;
 use \taoItems_models_classes_ItemsService;
 use \tao_models_classes_service_FileStorage;
-use \taoItems_models_classes_ItemCompiler;
 use \ZipArchive;
-use oat\taoQtiItem\model\Export;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\ItemModel;
 
