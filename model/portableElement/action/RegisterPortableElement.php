@@ -37,6 +37,7 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
 {
     public function __invoke($params)
     {
+        $report = null;
 
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
@@ -54,17 +55,23 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
         try {
             $model = $service->getValidPortableElementFromDirectorySource($sourceDirectory);
             if(!empty($params)){
-                $version = $params[0];
-                if($version !== $model->getVersion()){
-                    return Report::createFailure('The given version "'.$version.'" does not correspond to the version in manifest "'.$model->getVersion().'"' );
+                $minRequiredVersion = $params[0];
+                if(version_compare($model->getVersion(), $minRequiredVersion) < 0){
+                    $this->createFailure('The version is manifest "'.$model->getVersion().'" cannot be lower than the minimum required version "'.$minRequiredVersion.'"', $model);
                 }
             }
             $service->registerFromDirectorySource($sourceDirectory);
         } catch (PortableElementVersionIncompatibilityException $e) {
-            return Report::createFailure('incompatible version: ' . $e->getMessage());
+            $this->createFailure('incompatible version: ' . $e->getMessage(), $model);
         }
 
         return Report::createSuccess('registered portable element "'.$model->getTypeIdentifier(). '" in version "'.$model->getVersion().'""');
+    }
+
+    private function createFailure($userMessage, $model = null){
+        $typeIdentifier = is_null($model) ? 'unknown type' : $model->getTypeIdentifier();
+        \common_Logger::w('the portable element cannot be registered "'.$typeIdentifier.'", reason:'.$userMessage);
+        return Report::createFailure($userMessage);
     }
 
     abstract protected function getSourceDirectory();
