@@ -370,8 +370,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('2.25.0')) {
 
-            $registry = QtiCreatorClientConfigRegistry::getRegistry();
-            $registry->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
+            QtiCreatorClientConfigRegistry::getRegistry()->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
 
             $this->setVersion('2.26.0');
         }
