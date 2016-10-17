@@ -37,42 +37,53 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
 {
     public function __invoke($params)
     {
-        $report = null;
-
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
         $sourceDirectory = $this->getSourceDirectory();
 
         if (empty($sourceDirectory)) {
-            return Report::createFailure('The file does is empty.');
+            return $this->createFailure('the source directory is empty');
         }
 
         if (!is_readable($sourceDirectory)) {
-            return Report::createFailure('The file does not exists or is not readable: ' .$sourceDirectory);
+            return $this->createFailure('the source directory does not exists or is not readable ' .$sourceDirectory);
         }
 
         try {
             $model = $service->getValidPortableElementFromDirectorySource($sourceDirectory);
             if(!empty($params)){
                 $minRequiredVersion = $params[0];
+                // if the minimal required version number string "x.y.z" is given in the parameter, the new target version should be equal or higher than it
                 if(version_compare($model->getVersion(), $minRequiredVersion) < 0){
-                    $this->createFailure('The version is manifest "'.$model->getVersion().'" cannot be lower than the minimum required version "'.$minRequiredVersion.'"', $model);
+                    return $this->createFailure('the version in manifest "'.$model->getVersion().'" cannot be lower than the given minimum required version "'.$minRequiredVersion.'"', $model);
                 }
             }
             $service->registerFromDirectorySource($sourceDirectory);
         } catch (PortableElementVersionIncompatibilityException $e) {
-            $this->createFailure('incompatible version: ' . $e->getMessage(), $model);
+            return $this->createFailure('incompatible version: ' . $e->getMessage(), $model);
         }
 
         return Report::createSuccess('registered portable element "'.$model->getTypeIdentifier(). '" in version "'.$model->getVersion().'""');
     }
 
+    /**
+     * Create a formatted failure report and log a warning
+     *
+     * @param $userMessage
+     * @param null $model
+     * @return Report
+     */
     private function createFailure($userMessage, $model = null){
         $typeIdentifier = is_null($model) ? 'unknown type' : $model->getTypeIdentifier();
         \common_Logger::w('the portable element cannot be registered "'.$typeIdentifier.'", reason:'.$userMessage);
         return Report::createFailure($userMessage);
     }
 
+    /**
+     * Return the absolute path to the source directory
+     *
+     * @return string
+     */
     abstract protected function getSourceDirectory();
 }
