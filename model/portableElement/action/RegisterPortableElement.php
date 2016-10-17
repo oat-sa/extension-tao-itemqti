@@ -76,8 +76,9 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
      */
     private function createFailure($userMessage, $model = null){
         $typeIdentifier = is_null($model) ? 'unknown type' : $model->getTypeIdentifier();
-        \common_Logger::w('the portable element cannot be registered "'.$typeIdentifier.'", reason:'.$userMessage);
-        return Report::createFailure($userMessage);
+        $message = 'The portable element cannot be registered "'.$typeIdentifier.'", reason: '.$userMessage;
+        \common_Logger::w($message);
+        return Report::createFailure($message);
     }
 
     /**
