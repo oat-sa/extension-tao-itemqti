@@ -27,6 +27,8 @@ use oat\oatbox\service\ConfigurableService;
  *
  * @author Antoine Robin, <antoine@taotesting.com>
  * @package taoQtiItem
+ *
+ * @deprecated Use oat\taoItems\model\CategoryService instead
  */
 class ItemCategoriesService extends ConfigurableService
 {
