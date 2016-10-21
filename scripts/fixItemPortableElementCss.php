@@ -21,10 +21,10 @@
  * Usage:
  *
  * dry-run:
- * sudo -u www-data php taoQtiItem/scripts/fixItemTextReaderCss.php data/taoItems/itemData/ dryrun
+ * sudo -u www-data php taoQtiItem/scripts/fixItemPortableElementCss.php data/taoItems/itemData/ dryrun
  *
  * real:
- * sudo -u www-data php taoQtiItem/scripts/fixItemTextReaderCss.php data/taoItems/itemData/
+ * sudo -u www-data php taoQtiItem/scripts/fixItemPortableElementCss.php data/taoItems/itemData/
  *
  */
 
@@ -33,7 +33,7 @@ require_once dirname(__FILE__) .'/../../tao/includes/raw_start.php';
 common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
 $path = $argv[1];
-$dryrun = ($argv[2] === 'dryrun');
+$dryrun = (isset($argv[2]) && $argv[2] === 'dryrun');
 if(empty($path)){
     die('the first argument should be the target directory of items to be fixed');
 }
@@ -44,7 +44,7 @@ if(!is_writable($path)){
     die('target directory is not writable: '.$path);
 }
 
-$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixTextReaderCss($path);
+$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixPortableElementCss($path);
 $fixed = $itemUpdater->update(!$dryrun);
 echo "Fixed ".count($fixed)." items";
 echo PHP_EOL;

@@ -20,13 +20,14 @@
 
 namespace oat\taoQtiItem\model\update;
 
+use oat\qtiItemPci\model\PciModel;
 use \oat\taoQtiItem\model\qti\Item;
 
 /**
- * Class ItemFixTextReaderCss
+ * Class ItemFixPortableElementCss
  * @package oat\taoQtiItem\model\update
  */
-class ItemFixTextReaderCss extends ItemUpdater
+class ItemFixPortableElementCss extends ItemUpdater
 {
     /**
      *
@@ -39,14 +40,24 @@ class ItemFixTextReaderCss extends ItemUpdater
     protected function updateItem(Item $item, $itemFile)
     {
         $changed = false;
+        $registry = (new PciModel())->getRegistry();
+        $pcis = $item->getComposingElements('\oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction');
+        $pciStylesheets = [];
+        foreach($pcis as $pci){
+            $model = $registry->fetch($pci->getTypeIdentifier());
+            $pciStylesheets = array_merge($pciStylesheets, array_map(function($css) use ($pci){
+                return preg_replace('/^.\//', $pci->getTypeIdentifier().'/', $css);
+            }, $model->getRuntimeKey('stylesheets')));
+        }
 
         $stylesheets = $item->getStylesheets();
         foreach($stylesheets as $stylesheet){
-            if($stylesheet->attr('href') === 'textReaderInteraction/runtime/css/textReaderInteraction.css'){
+            if(in_array($stylesheet->attr('href'), $pciStylesheets)){
                 $item->removeStylesheet($stylesheet);
                 $changed = true;
             }
         }
+
         return $changed;
     }
 }
