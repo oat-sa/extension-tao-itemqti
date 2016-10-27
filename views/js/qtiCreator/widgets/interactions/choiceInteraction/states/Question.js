@@ -55,7 +55,8 @@ define([
             maxChoices : parseInt(interaction.attr('maxChoices')),
             minChoices : parseInt(interaction.attr('minChoices')),
             choicesCount : _.size(_widget.element.getChoices()),
-            horizontal : interaction.attr('orientation') === 'horizontal'
+            horizontal : interaction.attr('orientation') === 'horizontal',
+            eliminable : (/\beliminable\b/).test(interaction.attr('class'))
         }));
 
 
@@ -70,6 +71,15 @@ define([
                     $choiceArea.addClass(listStylePrefix + data.newStyle);
                 }
             });
+
+
+        // activate the elimination buttons
+        $form.find('[name="eliminable"]').on('change.eliminable', function() {
+            // model
+            interaction.toggleClass('eliminable', this.checked);
+            // current visual
+            _widget.$original.toggleClass('eliminable', this.checked);
+        });
 
         formElement.initWidget($form);
 
@@ -88,6 +98,7 @@ define([
                 $choiceArea.removeClass('horizontal');
             }
         };
+
         formElement.setChangeCallbacks($form, interaction, callbacks);
 
         interactionFormElement.syncMaxChoices(_widget);
