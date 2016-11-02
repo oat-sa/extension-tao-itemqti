@@ -44,6 +44,9 @@ define([
 
     var MediaInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
+    /**
+     * Initialize the attribute form : file, type, size, etc.
+     */
     MediaInteractionStateQuestion.prototype.initForm = function initForm(){
 
         var widget             = this.widget;
@@ -57,16 +60,20 @@ define([
         var callbacks;
         var $heightContainer;
 
-        var xmlUpdateCheat = function xmlUpdateCheat(){
-            interaction.attr('responseIdentifier', interaction.attr('responseIdentifier'));
-        };
-
+        /**
+         * Each change triggers an re rendering of the interaction
+         */
         var reRender = _.debounce(function reRender(){
-            xmlUpdateCheat();
+            interaction.attr('responseIdentifier', interaction.attr('responseIdentifier'));
+
             widget.destroyInteraction();
             widget.renderInteraction();
         }, 1000);
 
+        /**
+         * Switch to audio mode:
+         * update height and disable the field
+         */
         var switchToAudio = function switchToAudio(){
             isAudio = true;
 
@@ -74,12 +81,19 @@ define([
             interaction.object.attr('height', defaultAudioHeight);
         };
 
+        /**
+         * Switch to video mode:
+         * update height and enable the field
+         */
         var switchToVideo = function switchToVideo(){
             isAudio = false;
             interaction.object.attr('height', defaultVideoHeight);
             $heightContainer.show();
         };
 
+        /**
+         * Switch mode based on file type
+         */
         var switchMode = function switchMode(){
             if (/audio/.test(interaction.object.attr('type'))) {
                 switchToAudio();
@@ -88,6 +102,9 @@ define([
             }
         };
 
+        /**
+         * Set up the file upload component
+         */
         var setUpUploader = function setUpUploader() {
 
             var $src = $form.find('input[name=data]');
@@ -207,7 +224,6 @@ define([
                 var value;
                 if(interaction.object.attr(attrName) !== attrValue){
                     interaction.object.attr(attrName, attrValue);
-                    xmlUpdateCheat(interaction);
 
                     value = $.trim(attrValue).toLowerCase();
 
