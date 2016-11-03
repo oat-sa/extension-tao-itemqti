@@ -76,22 +76,36 @@ define([
 
         $container.on('click.commonRenderer', '.qti-choice', function(e){
             var $choiceBox = $(this);
+            var state;
+            var eliminator = e.target.dataset.eliminable;
 
             e.preventDefault();
-            e.stopPropagation();//required otherwise any tao scoped ,form initialization might prevent it from working
+            e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
 
-            _triggerInput($choiceBox);
+           if(!_.isUndefined(eliminator)) {
+               state = false;
+               if(eliminator === 'trigger') {
+                   this.classList.toggle('eliminated');
+               }
+           }
+
+            _triggerInput($choiceBox, state);
 
             instructionMgr.validateInstructions(interaction, {choice : $choiceBox});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
     };
 
-    var _triggerInput = function($choiceBox){
+    var _triggerInput = function($choiceBox, state){
+
         var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
+        if(!_.isBoolean(state)) {
+            state = !$input.prop('checked');
+        }
+
         if($input.length){
-            $input.prop('checked', !$input.prop('checked'));
+            $input.prop('checked', state);
             $input.trigger('change');
         }
     };
@@ -284,7 +298,7 @@ define([
     };
 
     /**
-     * Set additionnal data to the template (data that are not really part of the model).
+     * Set additional data to the template (data that are not really part of the model).
      * @param {Object} interaction - the interaction
      * @param {Object} [data] - interaction custom data
      * @returns {Object} custom data
@@ -293,9 +307,12 @@ define([
         var listStyles = (interaction.attr('class') || '').match(/\blist-style-[\w-]+/) || [];
         return _.merge(data || {}, {
             horizontal : (interaction.attr('orientation') === 'horizontal'),
-            listStyle: listStyles.pop()
+            listStyle: listStyles.pop(),
+            eliminable: (/\beliminable\b/).test(interaction.attr('class'))
         });
     };
+
+
 
 
     /**

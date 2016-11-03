@@ -11,6 +11,7 @@
     </span>
 </div>
 
+<hr/>
 <div class="panel">
     <h3>{{__ "Allowed choices"}}</h3>
 
@@ -33,7 +34,20 @@
         </span>
     </div>
 </div>
+<hr/>
+<div class="panel">
+    <label>
+        <input name="eliminable" type="checkbox" {{#if eliminable}}checked="checked"{{/if}}/>
+        <span class="icon-checkbox"></span>
+        {{__ "Allow elimination"}}
+    </label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+        {{__ 'If this box is checked the student will be able to eliminate choices.'}}
+    </span>
+</div>
 
+<hr/>
 
 
 <div class="panel">
@@ -47,11 +61,12 @@
 </div>
 
 
+<hr/>
 <div class="panel">
     <h3>{{__ 'Orientation'}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <span class="tooltip-content">
-            {{__ 'Display the choices either horizontaly or verticaly'}}
+            {{__ 'Display the choices either horizontally or vertically'}}
         </span>
     <div>
         <label class="smaller-prompt">
