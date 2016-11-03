@@ -127,7 +127,7 @@ define([
                     pathParam : 'path',
                     select : function(e, files){
                         if(files && files.length){
-                            // set data field content and meybe detect and set media type here
+                            // set data field content and maybe detect and set media type here
                             interaction.object.attr('type', files[0].mime);
                             $form.find('input[name=data]')
                                 .val(files[0].file)

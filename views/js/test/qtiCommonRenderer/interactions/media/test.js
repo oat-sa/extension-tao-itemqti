@@ -41,7 +41,7 @@ define([
             .on('render', function(){
 
                 //check DOM
-                assert.equal($container.children().length, 1, 'the container a elements');
+                assert.equal($container.children().length, 1, 'the container exists');
                 assert.equal($container.children('.qti-item').length, 1, 'the container contains a the root element .qti-item');
                 assert.equal($container.find('.qti-itemBody').length, 1, 'the container contains a the body element .qti-itemBody');
                 assert.equal($container.find('.qti-interaction').length, 1, 'the container contains an interaction .qti-interaction');
@@ -86,7 +86,7 @@ define([
             .on('render', function(){
 
                 //check DOM
-                assert.equal($container.children().length, 1, 'the container a elements');
+                assert.equal($container.children().length, 1, 'the container exists');
                 assert.equal($container.children('.qti-item').length, 1, 'the container contains a the root element .qti-item');
                 assert.equal($container.find('.qti-itemBody').length, 1, 'the container contains a the body element .qti-itemBody');
                 assert.equal($container.find('.qti-interaction').length, 1, 'the container contains an interaction .qti-interaction');
@@ -94,7 +94,7 @@ define([
                 assert.equal($container.find('.qti-mediaInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
                 assert.equal($container.find('.qti-mediaInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
                 assert.equal($container.find('.qti-mediaInteraction audio').length, 1, 'the interaction contains an audio tag');
-                assert.equal($container.find('.qti-mediaInteraction audio source').length, 1, 'the interaction contains a video source tag');
+                assert.equal($container.find('.qti-mediaInteraction audio source').length, 1, 'the interaction contains an audio source tag');
                 assert.equal($container.find('.qti-mediaInteraction audio source').attr('src'), audioSampleUrl, 'the interaction has proper file attached');
                 assert.equal($container.find('.qti-mediaInteraction audio source').attr('type'), 'audio/mpeg', 'the interaction has proper file type');
 
