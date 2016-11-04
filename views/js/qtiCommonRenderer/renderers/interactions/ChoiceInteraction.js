@@ -62,6 +62,7 @@ define([
             }
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
+                // delay the trigger to be sure the selection will not be invalidated by the browser
                 _.delay(function(){
                     _triggerInput($this.closest('.qti-choice'));
                 }, 100);
