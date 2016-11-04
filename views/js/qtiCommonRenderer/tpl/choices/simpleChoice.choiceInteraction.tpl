@@ -15,4 +15,7 @@
             </div>
         </div>
     </div>
+    <label data-eliminable="container" data-label="{{__ "Eliminate"}}">
+        <span data-eliminable="trigger" class="icon-checkbox"></span>
+    </label>
 </li>

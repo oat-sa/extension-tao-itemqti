@@ -1,5 +1,5 @@
 <div class="panel">
-    
+
     <div>
         <label>
             <div>{{__ 'Media file path or YouTube video address'}}</div>
@@ -7,17 +7,17 @@
             <div><button class='selectMediaFile btn-info small block'>{{__ 'Select media file'}}</button></div>
         </label>
     </div>
-    
+
     <div>
         <label for="width" class="spinner">Width</label>
-        <input name="width" value="{{width}}" type="text" class="large" data-increment="1" data-min="0" data-max="1920" />
+        <input name="width" value="{{width}}" type="text" class="large" data-increment="1" data-min="50" data-max="1920" />
     </div>
-    
-    <div>
+
+    <div class="height-container">
         <label for="height" class="spinner">Height</label>
-        <input name="height" value="{{height}}" type="text" class="large" data-increment="1" data-min="0" data-max="1080" />
+        <input name="height" value="{{height}}" type="text" class="large" data-increment="1" data-min="30" data-max="1080" />
     </div>
-    
+
 </div>
 
 <div class="panel">
