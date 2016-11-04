@@ -55,13 +55,17 @@ define([
         var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
         $choiceInputs.on('keydown.commonRenderer', function(e){
+            var $this = $(this);
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
             if(keyCode !== KEY_CODE_TAB){
                 e.preventDefault();
             }
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
-                _triggerInput($(this).closest('.qti-choice'));
+                // delay the trigger to be sure the selection will not be invalidated by the browser
+                _.delay(function(){
+                    _triggerInput($this.closest('.qti-choice'));
+                }, 100);
             }
 
             var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
