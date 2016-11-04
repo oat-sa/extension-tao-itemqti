@@ -2,12 +2,116 @@
 
 .qti-choiceInteraction {
 
+    $elimCbOffsetLeft: 50;
+    $captionOffsetLeft: 17;
+    $elimListStyleCbOffsetLeft: $elimCbOffsetLeft + 23;
+
+    [data-eliminable="container"] {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: $elimCbOffsetLeft * 1px;
+        height: 100%;
+        padding-top: 6px;
+        z-index: 3;
+        [data-eliminable="trigger"] {
+            font-size: 1.6rem;
+            position: relative;
+            z-index: 4;
+            cursor: pointer;
+        }
+        // label above ol
+        &::before {
+            position: absolute;
+            top: -33px;
+            left: $captionOffsetLeft * -1px;
+            font: inherit;
+            cursor: default;
+        }
+    }
+    // parent .qti-interaction
+    &.eliminable {
+        .label-box {
+            margin-left: 85px;
+        }
+        // ol
+        .choice-area {
+            margin-top: 25px;
+            // there might be list-styles that move everything to the right
+            &[class^="list-style-"], &[class*=" list-style-"] {
+                [data-eliminable="container"] {
+                    left: $elimListStyleCbOffsetLeft * 1px;
+                }
+                // li
+                .qti-choice {
+                    // when checked
+                    &.eliminated {
+                        [data-eliminable="container"] {
+                            padding-left: $elimListStyleCbOffsetLeft * 1px;
+                            //&::before {
+                            //    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
+                            //}
+                        }
+                    }
+                    &:first-child {
+                        &.eliminated {
+                            [data-eliminable="container"] {
+                                // label above ol
+                                &::before {
+                                    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //both label and checkbox
+        [data-eliminable] {
+            display:block;
+        }
+        // eliminator outer layer
+        .qti-choice {
+            // when checked
+            &.eliminated {
+                .label-box {
+                    font-style: italic;
+                    text-decoration: line-through;
+                }
+                [data-eliminable="container"] {
+                    width: 100%;
+                    padding-left: $elimCbOffsetLeft * 1px;
+                    left: 0;
+                    background: white(.7);
+                    cursor: not-allowed;
+                    [data-eliminable="trigger"] {
+                        &:before {
+                            @include icon-checkbox-crossed();
+                        }
+                    }
+                    &::before {
+                        left: ($elimCbOffsetLeft - $captionOffsetLeft) * 1px !important;
+                    }
+                }
+            }
+            &:first-child {
+                [data-eliminable="container"] {
+                    // label above ol
+                    &::before {
+                        content: attr(data-label);
+                    }
+                }
+            }
+        }
+    }
+
     .qti-choice .real-label{
         top:1px;
     }
 
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
+
 
             .label-content {
                 padding-left: 30px;
