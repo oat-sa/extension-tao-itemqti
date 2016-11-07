@@ -98,8 +98,11 @@ define([
     };
 
     /**
-     * Propagate the checked state to the styled input.
+     * Propagate the checked state to the actual input.
      * Debounce the action to prevent multiple activations at the same time.
+     * This is especially to address a keyboard issue: when the user hits the space key, this function is called,
+     * but it is also called when a click is made over the input.
+     * And a click is trigerred when the input is programmatically checked.
      * @type {Function}
      * @param {jQuery} $choiceBox
      * @param {Boolean} state
