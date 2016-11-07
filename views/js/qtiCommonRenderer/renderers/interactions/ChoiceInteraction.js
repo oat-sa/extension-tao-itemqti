@@ -62,10 +62,7 @@ define([
             }
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
-                // delay the trigger to be sure the selection will not be invalidated by the browser
-                _.delay(function(){
-                    _triggerInput($this.closest('.qti-choice'));
-                }, 100);
+                _triggerInput($this.closest('.qti-choice'));
             }
 
             var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
@@ -100,7 +97,15 @@ define([
         });
     };
 
-    var _triggerInput = function($choiceBox, state){
+    /**
+     * Propagate the checked state to the styled input.
+     * Debounce the action to prevent multiple activations at the same time.
+     * @type {Function}
+     * @param {jQuery} $choiceBox
+     * @param {Boolean} state
+     * @private
+     */
+    var _triggerInput = _.debounce(function($choiceBox, state){
 
         var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
@@ -112,7 +117,7 @@ define([
             $input.prop('checked', state);
             $input.trigger('change');
         }
-    };
+    }, 100);
 
     /**
      * Init rendering, called after template injected into the DOM
