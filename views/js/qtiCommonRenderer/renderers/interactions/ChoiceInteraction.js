@@ -55,23 +55,24 @@ define([
         var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
         $choiceInputs.on('keydown.commonRenderer', function(e){
-            var $this = $(this);
+            var $qtiChoice = $(this).closest('.qti-choice');
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(keyCode !== KEY_CODE_TAB){
-                e.preventDefault();
-            }
-
-            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
-                _triggerInput($this.closest('.qti-choice'));
-            }
-
-            var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-            var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
             if (keyCode === KEY_CODE_UP){
-                $prevInput.focus();
+                e.preventDefault();
+                $qtiChoice.prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             } else if (keyCode === KEY_CODE_DOWN){
-                $nextInput.focus();
+                e.preventDefault();
+                $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
+            }
+        });
+
+        $choiceInputs.on('keyup.commonRenderer', function(e){
+            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+
+            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
+                e.preventDefault();
+                _triggerInput($(this).closest('.qti-choice'));
             }
         });
 
