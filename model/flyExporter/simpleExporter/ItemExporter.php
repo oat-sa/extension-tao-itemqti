@@ -74,11 +74,27 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     protected $extractors = [];
 
     /**
-     * Fileysstem File to manage exported file storage
+     * Fileystem File to manage exported file storage
      *
      * @var File
      */
     protected $exportFile;
+
+    public function __construct(array $options)
+    {
+        parent::__construct($options);
+
+        if (! $this->hasOption('fileLocation')) {
+            throw new ExtractorException('File location config is not correctly set.');
+        }
+
+        $this->extractors = $this->getOption('extractors');
+        $this->columns = $this->getOption('columns');
+        if (!$this->extractors || !$this->columns) {
+            throw new ExtractorException('Data config is not correctly set.');
+        }
+
+    }
 
     /**
      * @inheritdoc
@@ -93,57 +109,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             $items = $this->getItems();
         }
 
-        $this->loadConfig();
-        $data  = $this->extractDataFromItems($items);
-        return $this->save($data, $asFile);
-    }
-
-    /**
-     * Load config & check if mandatory settings exist
-     *
-     * @return $this
-     * @throws ExtractorException
-     * @throws \common_Exception
-     */
-    protected function loadConfig()
-    {
-        if (! $this->hasOption('fileLocation')) {
-            throw new ExtractorException('File location config is not correctly set.');
-        }
-
-        $this->exportFile = $this->getServiceManager()
-            ->get(FileSystemService::SERVICE_ID)
-            ->getDirectory(self::EXPORT_FILESYSTEM)
-            ->getFile($this->getOption('fileLocation'));
-
-        $this->extractors = $this->getOption('extractors');
-        $this->columns = $this->getOption('columns');
-        if (!$this->extractors || !$this->columns) {
-            throw new ExtractorException('Data config is not correctly set.');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get all items of given uri otherwise get default class
-     *
-     * @return array
-     */
-    protected function getItems()
-    {
-        $class = new \core_kernel_classes_Class($this->getDefaultUriClass());
-        return $class->getInstances(true);
-    }
-
-    /**
-     * Get default class e.q. root class
-     *
-     * @return mixed
-     */
-    protected function getDefaultUriClass()
-    {
-        return TAO_ITEM_CLASS;
+        return $this->save($this->headers, $this->getDataByItems($items), $asFile);
     }
 
     /**
@@ -153,13 +119,12 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * @return array
      * @throws ExtractorException
      */
-    protected function extractDataFromItems(array $items)
+    public function getDataByItems(array $items)
     {
         $output = [];
         foreach ($items as $item) {
             try {
-                $itemData = $this->extractDataFromItem($item);
-                $output[] = $itemData;
+                $output[] = $this->getDataByItems($item);
             } catch (ExtractorException $e) {
                 \common_Logger::e('ERROR on item ' . $item->getUri() . ' : ' . $e->getMessage());
             }
@@ -177,7 +142,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * @param \core_kernel_classes_Resource $item
      * @return array
      */
-    protected function extractDataFromItem(\core_kernel_classes_Resource $item)
+    public function getDataByItem(\core_kernel_classes_Resource $item)
     {
         foreach ($this->columns as $column => $config) {
             /** @var Extractor $extractor */
@@ -222,22 +187,23 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     /**
      * Save data to file
      *
+     * @param array $headers
      * @param array $data
-     * @param bool  $asFile
+     * @param bool $asFile
      * @return File|string
      */
-    protected function save(array $data, $asFile = false)
+    public function save(array $headers, array $data, $asFile = false)
     {
         $output = $contents = [];
 
         $contents[] = self::CSV_ENCLOSURE
-            . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers)
+            . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $headers)
             . self::CSV_ENCLOSURE;
 
         if (! empty($data)) {
             foreach ($data as $item) {
                 foreach ($item as $line) {
-                    foreach ($this->headers as $index => $value) {
+                    foreach ($headers as $index => $value) {
                         if (isset($line[$value]) && $line[$value]!=='') {
                             $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
                             unset($line[$value]);
@@ -250,7 +216,56 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             }
         }
 
-        $this->exportFile->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
-        return $asFile ? $this->exportFile : $this->exportFile->getPrefix();
+        $file = $this->getExportFile();
+        $file->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
+        return $asFile ? $file : $file->getPrefix();
     }
+
+    /**
+     * Get csv headers
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Get the file from config
+     *
+     * @return File
+     */
+    protected function getExportFile()
+    {
+        if (! $this->exportFile) {
+            $this->exportFile = $this->exportFile = $this->getServiceManager()
+                ->get(FileSystemService::SERVICE_ID)
+                ->getDirectory(self::EXPORT_FILESYSTEM)
+                ->getFile($this->getOption('fileLocation'));
+        }
+        return $this->exportFile;
+    }
+
+    /**
+     * Get all items of given uri otherwise get default class
+     *
+     * @return array
+     */
+    protected function getItems()
+    {
+        $class = new \core_kernel_classes_Class($this->getDefaultUriClass());
+        return $class->getInstances(true);
+    }
+
+    /**
+     * Get default class e.q. root class
+     *
+     * @return mixed
+     */
+    protected function getDefaultUriClass()
+    {
+        return TAO_ITEM_CLASS;
+    }
+
 }
