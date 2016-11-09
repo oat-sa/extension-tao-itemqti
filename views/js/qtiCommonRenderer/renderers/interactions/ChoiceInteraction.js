@@ -80,6 +80,11 @@ define([
             var state;
             var eliminator = e.target.dataset.eliminable;
 
+            // if the click has been triggered by a keyboard check, prevent this listener to cancel this check
+            if ($(e.originalEvent.target).is('input')) {
+                return;
+            }
+
             e.preventDefault();
             e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
 
@@ -99,16 +104,12 @@ define([
 
     /**
      * Propagate the checked state to the actual input.
-     * Debounce the action to prevent multiple activations at the same time.
-     * This is especially to address a keyboard issue: when the user hits the space key, this function is called,
-     * but it is also called when a click is made over the input.
-     * And a click is trigerred when the input is programmatically checked.
      * @type {Function}
      * @param {jQuery} $choiceBox
      * @param {Boolean} state
      * @private
      */
-    var _triggerInput = _.debounce(function($choiceBox, state){
+    var _triggerInput = function($choiceBox, state){
 
         var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
@@ -120,7 +121,7 @@ define([
             $input.prop('checked', state);
             $input.trigger('change');
         }
-    }, 100);
+    };
 
     /**
      * Init rendering, called after template injected into the DOM
