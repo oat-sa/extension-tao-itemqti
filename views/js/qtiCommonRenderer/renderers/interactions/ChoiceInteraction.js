@@ -82,7 +82,7 @@ define([
             var eliminator = e.target.dataset.eliminable;
 
             // if the click has been triggered by a keyboard check, prevent this listener to cancel this check
-            if ($(e.originalEvent.target).is('input')) {
+            if (e.originalEvent && $(e.originalEvent.target).is('input')) {
                 return;
             }
 
