@@ -236,4 +236,73 @@ class Resource
     public function getDependencies() {
         return $this->dependencies;
     }
+
+    // BT Customization Start
+    /**
+     * Short description of attribute rdfProperties
+     *
+     * @access protected
+     * @author Mahmoud Kasdi, <mahmoud.kasdi@breaktech.com>
+     * @var array
+     */
+    protected $rdfProperties = [];
+
+    /**
+     * Short description of attribute title
+     *
+     * @access public
+     * @author Mahmoud Kasdi, <mahmoud.kasdi@breaktech.com>
+     * @var string
+     */
+    public $title;
+
+
+    /**
+     * Short description of method getRdfProperties
+     *
+     * @access public
+     * @author Mahmoud Kasdi, <mahmoud.kasdi@breaktech.com>
+     * @return array
+     */
+    public function getRdfProperties() {
+        $returnValue = $this->rdfProperties;
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method setRdfProperties
+     *
+     * @access public
+     * @author Mahmoud Kasdi, <mahmoud.kasdi@breaktech.com>
+     * @param  array properties
+     * @param  string type
+     * @return mixed
+     */
+    public function setRdfProperties($properties, $type) {
+        if ($properties != NULL) {
+            switch ($type) {
+                case "taxon":
+                    foreach ($properties as $propertySet) {
+                        foreach ($propertySet as $property) {
+                            $this->rdfProperties[] = ["key" => (string)$property->source->string, "value" => (string)$property->taxon->entry->string];
+                        }
+                    }
+                    break;
+                case "standard":
+                    foreach ($properties as $subProperty) {
+                        foreach ($subProperty->setOfGUIDs as $property)
+                            $this->rdfProperties[] = ["key" => (string) $property['region'], "value" => (string) $property->labelledGUID->label];
+                    }
+                    break;
+                case "itemType":
+                    $this->rdfProperties[] = ["key" => "Client Item Type Abbreviation", "value" => (string) $properties->interactionType];
+                    break;
+                case "assetId":
+                    $this->rdfProperties[] = ["key" => "AssetId", "value" => $this->title];
+                    break;
+            }
+        }
+    }
+    // BT Customization End
 }

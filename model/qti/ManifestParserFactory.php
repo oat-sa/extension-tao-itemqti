@@ -36,7 +36,7 @@ use \SimpleXMLElement;
  */
 class ManifestParserFactory
 {
-	
+
     /**
      * Enables you to build the QTI_Resources from a manifest xml data node
      * Content Packaging 1.1)
@@ -89,6 +89,19 @@ class ManifestParserFactory
                 
 				$resource = new Resource($id, $type, $href);
 				$resource->setAuxiliaryFiles($auxFiles);
+
+				// BT Customization Start
+				//add support for additional manifest properties
+				$resource->setRdfProperties($resourceNode->metadata->lom->classification, "taxon");
+				$resource->setRdfProperties($resourceNode->metadata->curriculumStandardsMetadataSet->curriculumStandardsMetadata, "standard");
+				$resource->setRdfProperties($resourceNode->metadata->lom->qtiMetadata, 'itemType');
+
+				//Setting resource title according to the manifest file
+				if (isset($resourceNode->metadata->lom->general->identifier->entry)) {
+					$resource->title = $resourceNode->metadata->lom->general->identifier->entry;
+					$resource->setRdfProperties(["assetId" => $resource->title], "assetId");
+				}
+				// BT Customization End
 					
 				$returnValue[] = $resource;
 			}

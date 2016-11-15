@@ -305,7 +305,8 @@ class ImportService extends tao_models_classes_GenerisService
                     $metadataInjectors,
                     $metadataGuardians,
                     $metadataClassLookups,
-                    $sharedFiles
+                    $sharedFiles,
+                    $qtiItemResource // BT Customization
                 );
 
                 $rdfItem = $itemReport->getData();
@@ -366,6 +367,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @param array $metadataGuardians
      * @param array $metadataClassLookups
      * @param array $sharedFiles
+     * @param array $qtiResource  // BT Customization
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -379,10 +381,17 @@ class ImportService extends tao_models_classes_GenerisService
         array $metadataInjectors = array(),
         array $metadataGuardians = array(),
         array $metadataClassLookups = array(),
-        array &$sharedFiles = array()
+        array &$sharedFiles = array(),
+        $qtiResource = array() // BT Customization
     ) {
 
         try {
+
+            // BT Customization Start
+            //item class properties
+            $itemClassProperties = $this->getProperties($itemClass);
+            // BT Customization End
+
             //load the information about resources in the manifest
 
             $itemService = taoItems_models_classes_ItemsService::singleton();
@@ -426,6 +435,24 @@ class ImportService extends tao_models_classes_GenerisService
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
                 $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
+
+                // BT Customization Start
+                //set the label (check if $qtiResource is set first)
+                $rdfItem->setLabel($qtiResource->title);
+
+                //check if $qtiResource holds any properties
+                if(count($qtiResource) > 0) {
+                    // get matching properties
+                    $properties = $this->matchProperties(
+                        $itemClassProperties,
+                        $qtiResource->getRdfProperties(),
+                        $rdfItem->getLabel());
+
+                    //set RDF properties
+                    $rdfItem->setPropertiesValues($properties);
+                }
+                // BT Customization End
+
                 $name = $rdfItem->getLabel();
                 $itemContent = $itemService->getItemContent($rdfItem);
 
@@ -635,4 +662,65 @@ class ImportService extends tao_models_classes_GenerisService
                 __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfully rolled back.', $id)));
         }
     }
+
+    // BT Customization Start
+    /**
+     * return the itemClass properties
+     *
+     * @access private
+     * @author Mahmoud Kasdi, <mahmoud.kasdi@breaktech.com>
+     * @param core_kernel_classes_Class $itemClass
+     * @return array
+     * @internal param itemClass $core_kernel_classes_Class
+     */
+    private function getProperties(core_kernel_classes_Class $itemClass) {
+        $returnValue = [];
+        $properties = $itemClass->getProperties(true);
+        foreach (array_keys($itemClass->getProperties(true)) as $key => $property) {
+            // finding only the custom properties
+            if (strstr($property, ".rdf#i")) {
+                $returnValue[] = $properties[$property];
+            }
+        }
+        return $returnValue;
+    }
+
+    /**
+     * return the resource matched properties
+     *
+     * @access private
+     * @author Mahmoud Kasdi, <mahmoud.kasdi@breaktech.com>
+     * @param  array itemClassProperties
+     * @param  array $resourceProperties
+     * @param  string resourceLabel
+     * @return array(core_kernel_classes_Property)
+     */
+    private function matchProperties($itemClassProperties, $resourceProperties, $resourceLabel) {
+        $returnValue = [];
+
+        for ($i=0; $i < count($itemClassProperties); $i++) {
+            for ($j=0; $j < count($resourceProperties); $j++) {
+                if ($resourceProperties[$j]["key"] == $itemClassProperties[$i]->getLabel()) {
+                    // loading the property element map
+                    $itemClassPropertyElement = \tao_helpers_form_GenerisFormFactory::elementMap($itemClassProperties[$i]);
+                    // if property has options then the value should match one of them
+                    if (method_exists($itemClassPropertyElement, "getOptions")){
+                        foreach($itemClassPropertyElement->getOptions() as $key => $value) {
+                            if ($resourceProperties[$j]["value"] == $value) {
+                                $returnValue[$itemClassProperties[$i]->getUri()] = $key;
+                            }
+                        }
+                        if (!isset($returnValue[$itemClassProperties[$i]->getUri()])) {
+                            common_Logger::t("Item ingestion ERROR : $resourceLabel - Property [" . $resourceProperties[$j]["key"] . "] - Unable to set value [" . $resourceProperties[$j]["value"] . "], its incompatible! [" . date("Y-m-d H:i:s") . "]");
+                        }
+                    } else {
+                        // Adding the value assuming property is text_field
+                        $returnValue[$itemClassProperties[$i]->getUri()] = $resourceProperties[$j]["value"];
+                    }
+                }
+            }
+        }
+        return $returnValue;
+    }
+    // BT Customization End
 }
