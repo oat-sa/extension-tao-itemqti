@@ -109,7 +109,8 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             $items = $this->getItems();
         }
 
-        return $this->save($this->headers, $this->getDataByItems($items), $asFile);
+        $data = $this->getDataByItems($items);
+        return $this->save($this->headers, $data, $asFile);
     }
 
     /**
@@ -124,7 +125,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         $output = [];
         foreach ($items as $item) {
             try {
-                $output[] = $this->getDataByItems($item);
+                $output[] = $this->getDataByItem($item);
             } catch (ExtractorException $e) {
                 \common_Logger::e('ERROR on item ' . $item->getUri() . ' : ' . $e->getMessage());
             }
