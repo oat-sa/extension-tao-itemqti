@@ -55,26 +55,24 @@ define([
         var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
         $choiceInputs.on('keydown.commonRenderer', function(e){
-            var $this = $(this);
+            var $qtiChoice = $(this).closest('.qti-choice');
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(keyCode !== KEY_CODE_TAB){
-                e.preventDefault();
-            }
-
-            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
-                // delay the trigger to be sure the selection will not be invalidated by the browser
-                _.delay(function(){
-                    _triggerInput($this.closest('.qti-choice'));
-                }, 100);
-            }
-
-            var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-            var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
             if (keyCode === KEY_CODE_UP){
-                $prevInput.focus();
+                e.preventDefault();
+                $qtiChoice.prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             } else if (keyCode === KEY_CODE_DOWN){
-                $nextInput.focus();
+                e.preventDefault();
+                $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
+            }
+        });
+
+        $choiceInputs.on('keyup.commonRenderer', function(e){
+            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+
+            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
+                e.preventDefault();
+                _triggerInput($(this).closest('.qti-choice'));
             }
         });
 
@@ -82,6 +80,11 @@ define([
             var $choiceBox = $(this);
             var state;
             var eliminator = e.target.dataset.eliminable;
+
+            // if the click has been triggered by a keyboard check, prevent this listener to cancel this check
+            if (e.originalEvent && $(e.originalEvent.target).is('input')) {
+                return;
+            }
 
             e.preventDefault();
             e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
@@ -100,6 +103,13 @@ define([
         });
     };
 
+    /**
+     * Propagate the checked state to the actual input.
+     * @type {Function}
+     * @param {jQuery} $choiceBox
+     * @param {Boolean} state
+     * @private
+     */
     var _triggerInput = function($choiceBox, state){
 
         var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
