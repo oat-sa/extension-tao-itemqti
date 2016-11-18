@@ -21,6 +21,8 @@
 
 namespace oat\taoQtiItem\model\flyExporter\simpleExporter;
 
+use oat\oatbox\filesystem\File;
+
 /**
  * Service to export item data
  *
@@ -38,4 +40,37 @@ interface SimpleExporter
      * @return mixed
      */
     public function export(array $items = null);
+
+    /**
+     * Extract data from items
+     *
+     * @param array $items
+     * @return array
+     */
+    public function getDataByItems(array $items);
+
+    /**
+     * Extract data from one item
+     *
+     * @param \core_kernel_classes_Resource $item
+     * @return array
+     */
+    public function getDataByItem(\core_kernel_classes_Resource $item);
+
+    /**
+     * Save extracted to a file, return file or file path, depending of $asFile
+     *
+     * @param array $headers
+     * @param array $data
+     * @param bool $asFile
+     * @return string|File
+     */
+    public function save(array $headers, array $data, $asFile = false);
+
+    /**
+     * Get headers of csv
+     *
+     * @return array
+     */
+    public function getHeaders();
 }
