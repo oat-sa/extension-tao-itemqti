@@ -275,7 +275,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             $attributeNodes = $xpath->query("//*[local-name()='entry']") ?: [];
             unset($xpath);
             foreach ($attributeNodes as $node) {
-                $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
+                $node->nodeValue = htmlentities(strtr($node->nodeValue, $replacementList), ENT_XML1);
             }
         } else {
             throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');

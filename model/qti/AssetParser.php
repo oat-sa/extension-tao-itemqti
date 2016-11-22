@@ -317,7 +317,9 @@ class AssetParser
                 $xmls = array_merge($xmls, $this->getXmlProperties($property));
             }
             if(is_string($property)){
-                $xml = simplexml_load_string('<div>'.$property.'</div>');
+                $prop = str_replace('&amp;', '&', $property);
+                $prop = str_replace('&', '&amp;', $prop);
+                $xml = simplexml_load_string('<div>'.$prop.'</div>');
                 if($xml !== false){
                     $xmls[] = $xml;
                 }
