@@ -45,7 +45,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     const CSV_DELIMITER = ',';
 
     /**
-     * Defautlt csv enclosure
+     * Default csv enclosure
      */
     const CSV_ENCLOSURE = '"';
 
