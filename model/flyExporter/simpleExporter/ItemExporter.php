@@ -45,7 +45,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     const CSV_DELIMITER = ',';
 
     /**
-     * Defautl csv enclosure
+     * Defautlt csv enclosure
      */
     const CSV_ENCLOSURE = '"';
 
@@ -53,6 +53,16 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * Default property delimiter
      */
     const DEFAULT_PROPERTY_DELIMITER = '|';
+
+    /**
+     * Optional config option to set CSV enclosure
+     */
+    const CSV_ENCLOSURE_OPTION = 'enclosure';
+
+    /**
+     * Optional config option to set CSV delimiter
+     */
+    const CSV_DELIMITER_OPTION = 'delimiter';
 
     /**
      * Header of flyfile
@@ -197,22 +207,25 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     {
         $output = $contents = [];
 
-        $contents[] = self::CSV_ENCLOSURE
-            . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $headers)
-            . self::CSV_ENCLOSURE;
+        $enclosure = $this->getCsvEnclosure();
+        $delimiter = $this->getCsvDelimiter();
+
+        $contents[] = $enclosure
+            . implode($enclosure . $delimiter . $enclosure, $headers)
+            . $enclosure;
 
         if (! empty($data)) {
             foreach ($data as $item) {
                 foreach ($item as $line) {
                     foreach ($headers as $index => $value) {
                         if (isset($line[$value]) && $line[$value]!=='') {
-                            $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
+                            $output[$value] = $enclosure . (string) $line[$value] . $enclosure;
                             unset($line[$value]);
                         } else {
                             $output[$value] = '';
                         }
                     }
-                    $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
+                    $contents[] = implode($delimiter,  array_merge($output, $line));
                 }
             }
         }
@@ -269,4 +282,29 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         return TAO_ITEM_CLASS;
     }
 
+    /**
+     * Get the CSV enclosure from config, if not set use default value
+     *
+     * @return string
+     */
+    protected function getCsvEnclosure()
+    {
+        if ($this->hasOption(self::CSV_ENCLOSURE_OPTION)) {
+            return $this->getOption(self::CSV_ENCLOSURE_OPTION);
+        }
+        return self::CSV_ENCLOSURE;
+    }
+
+    /**
+     * Get the CSV delimiter from config, if not set use default value
+     *
+     * @return string
+     */
+    protected function getCsvDelimiter()
+    {
+        if ($this->hasOption(self::CSV_DELIMITER_OPTION)) {
+            return $this->getOption(self::CSV_DELIMITER_OPTION);
+        }
+        return self::CSV_DELIMITER;
+    }
 }
