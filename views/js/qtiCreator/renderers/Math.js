@@ -19,8 +19,9 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Math',
-    'taoQtiItem/qtiCreator/widgets/static/math/Widget'
-], function(_, Renderer, Widget){
+    'taoQtiItem/qtiCreator/widgets/static/math/Widget',
+    'taoQtiItem/qtiItem/core/Element'
+], function(_, Renderer, Widget, Element){
     'use strict';
 
     var CreatorMath = _.clone(Renderer);
@@ -28,14 +29,18 @@ define([
     CreatorMath.render = function(math, options){
 
         //initial rendering:
-        Renderer.render(math);
+        var parent = math.parent();
+        if (! Element.isA(parent, 'hottext')) { // todo: improve this and make it work for Gapmatch?
+            Renderer.render(math);
 
-        Widget.build(
-            math,
-            Renderer.getContainer(math),
-            this.getOption('bodyElementOptionForm'),
-            options
-        );
+            Widget.build(
+                math,
+                Renderer.getContainer(math),
+                this.getOption('bodyElementOptionForm'),
+                options
+            );
+        }
+
     };
 
     return CreatorMath;
