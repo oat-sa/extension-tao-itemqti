@@ -21,12 +21,12 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\PackageParser;
 use \tao_models_classes_Parser;
 use \Exception;
 use \tao_helpers_File;
 use \ZipArchive;
 use \common_exception_Error;
+use \oat\oatbox\filesystem\File;
 
 /**
  * Enables you to parse and validate a QTI Package.
@@ -144,7 +144,7 @@ class PackageParser
     {
         $returnValue = null;
 
-        if ($this->source instanceof \oat\oatbox\filesystem\File) {
+        if ($this->source instanceof File) {
             $archiveFolder = tao_helpers_File::createTempDir();
             if (!is_dir($archiveFolder)) {
                 mkdir($archiveFolder);
