@@ -27,9 +27,23 @@ define([
 
             //init delete:
             $toolbar.find('[data-role=restore]').on('mousedown.question', function(){
+                var inlineStaticElements = hottext.getElements(),
+                    parent = hottext.parent(),
+                    serial;
+
+                for (serial in inlineStaticElements) {
+                    if (inlineStaticElements.hasOwnProperty(serial)) {
+                        parent.getBody().elements[serial] = inlineStaticElements[serial]; //todo: replace with setElement?
+                    }
+                }
+
+                parent.body(parent.body().replace(hottext.placeholder(), hottext.body()));
+
                 $container.replaceWith(hottext.body());
-                _widget.destroy();
+                _widget.destroy(); //todo: do this also in 'create'
                 hottext.remove();
+
+                parent.render(parent.getContainer());
             });
         }
 
