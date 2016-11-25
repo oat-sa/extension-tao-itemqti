@@ -136,24 +136,33 @@ class PackageParser
      * Short description of method extract
      *
      * @access public
+     * @throws \common_exception_Error
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return string
+     * @return string|null
      */
     public function extract()
     {
         $returnValue = null;
 
+        if ($this->source instanceof \oat\oatbox\filesystem\File) {
+            $archiveFolder = tao_helpers_File::createTempDir();
+            if (!is_dir($archiveFolder)) {
+                mkdir($archiveFolder);
+            }
+            $filename = $archiveFolder . basename($this->source->getPrefix());
+            file_put_contents($filename, $this->source->read());
+            $this->source = $filename;
+        }
+
     	if(!is_file($this->source)){	//ultimate verification
         	throw new common_exception_Error("source ".$this->source." not a file");
         }
-        
-        $sourceFile = basename($this->source);
+
         $folder = tao_helpers_File::createTempDir();
-		
-		if(!is_dir($folder)){
-        	mkdir($folder);
+        if (!is_dir($folder)) {
+            mkdir($folder);
         }
-        
+
 	    $zip = new ZipArchive();
 		if ($zip->open($this->source) === true) {
 		    if($zip->extractTo($folder)){
