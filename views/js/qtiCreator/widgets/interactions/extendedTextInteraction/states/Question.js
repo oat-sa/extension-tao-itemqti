@@ -1,3 +1,20 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013-2016 (original work) Open Assessment Technologies SA ;
+ */
 define([
     'jquery',
     'lodash',
@@ -9,6 +26,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText'
 ], function($, _, __, stateFactory, Question, formElement, renderer, formTpl){
     'use strict';
+
     var initState = function initState(){
         // Disable inputs until response edition.
         renderer.disable(this.widget.element);
@@ -98,8 +116,6 @@ define([
             formats[format].selected = true;
         }
 
-
-
         $form.html(formTpl({
             formats : formats,
             patternMask : patternMask,
@@ -108,7 +124,6 @@ define([
             expectedLength : expectedLength,
             expectedLines : expectedLines,
             constraints : constraints
-
         }));
 
         formElement.initWidget($form);
@@ -181,7 +196,7 @@ define([
             if(! isNaN(newValue)){
                 interaction.attr('expectedLength', attrValue);
             }else{
-                interaction.attr('expectedLength', -1);
+                interaction.attr('expectedLength', -1);//invalid qti, 0
             }
         };
 
@@ -190,7 +205,7 @@ define([
             if(! isNaN(newValue)){
                 interaction.attr('expectedLines', attrValue);
             }else{
-                interaction.attr('expectedLines',-1);
+                interaction.attr('expectedLines',-1);//invalid qti, 0
             }
         };
 
