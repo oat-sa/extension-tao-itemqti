@@ -26,7 +26,6 @@ define([
     'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction-counter',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
@@ -34,7 +33,7 @@ define([
     'util/locale',
     'polyfill/placeholders',
     'ui/tooltip'
-], function($, _, __, tpl, counterTpl,  containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale){
+], function($, _, __, tpl,  containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale){
     'use strict';
 
     /**
@@ -46,7 +45,8 @@ define([
      */
     var render = function(interaction){
         var attributes = interaction.getAttributes(),
-            $el = interaction.getContainer();
+            $container = interaction.getContainer(),
+            $input = getInput(interaction);
 
         var expectedLength,
             patternMask = interaction.attr('patternMask'),
@@ -57,14 +57,14 @@ define([
         if(attributes.expectedLength){
             //adding 2 chars to include reasonable padding size
             expectedLength = parseInt(attributes.expectedLength) + 2;
-            $el.css('width', expectedLength + 'ch');
-            $el.css('min-width', expectedLength + 'ch');
+            $input.css('width', expectedLength + 'ch');
+            $input.css('min-width', expectedLength + 'ch');
         }
 
         //checking if there's a pattern mask for the input
         if(attributes.patternMask){
             //set up the tooltip plugin for the input
-            $el.qtip({
+            $input.qtip({
                 theme : 'error',
                 show : {
                     event : 'custom'
@@ -80,33 +80,26 @@ define([
 
         //checking if there's a placeholder for the input
         if(attributes.placeholderText){
-            $el.attr('placeholder', attributes.placeholderText);
+            $input.attr('placeholder', attributes.placeholderText);
         }
 
         if(maxWords || maxChars){
-            var $counter = $(counterTpl({
-                count : 0,
-                max:maxChars,
-                unit: __('chars')
-            }));
-            var $count = $counter.find('.count');
-            $el.after($counter);
-            $el.attr('maxlength', maxChars);
-            $el.on('keyup.commonRenderer', function(){
-                var count = $el.val().length;
+            var $count = $container.find('.count');
+            $input.attr('maxlength', maxChars);
+            $input.on('keyup.commonRenderer', function(){
+                var count = $input.val().length;
                 $count.html(count);
             });
         }else{
-            $el.on('keyup.commonRenderer', _.debounce(function(){
+            $input.on('keyup.commonRenderer', _.debounce(function(){
 
                 var regex;
-                if(attributes.patternMask && maxChars !== null && maxWords !== null){
-                    //debugger;
+                if(attributes.patternMask){
                     regex = new RegExp(attributes.patternMask);
-                    if(regex.test($el.val())){
-                        $el.removeClass('invalid').qtip('hide');
+                    if(regex.test($input.val())){
+                        $input.removeClass('invalid').qtip('hide');
                     } else {
-                        $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
+                        $input.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
                     }
                 }
                 containerHelper.triggerResponseChangeEvent(interaction);
@@ -114,7 +107,7 @@ define([
             }, 600)).on('keydown.commonRenderer', function(){
                 //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
                 if(attributes.patternMask){
-                    $el.qtip('hide');
+                    $input.qtip('hide');
                 }
             });
         }
@@ -167,21 +160,21 @@ define([
     var getResponse = function(interaction){
         var ret = {'base' : {}},
         value,
-            $el = interaction.getContainer(),
+            $input = getInput(interaction),
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             numericBase = attributes.base || 10;
         
-        if($el.hasClass('invalid') || (attributes.placeholderText && $el.val() === attributes.placeholderText)){
+        if($input.hasClass('invalid') || (attributes.placeholderText && $input.val() === attributes.placeholderText)){
             //invalid response or response equals to the placeholder text are considered empty
             value = '';
         }else{
             if (baseType === 'integer') {
-                value = locale.parseInt($el.val(), numericBase);
+                value = locale.parseInt($input.val(), numericBase);
             } else if (baseType === 'float') {
-                value = locale.parseFloat($el.val());
+                value = locale.parseFloat($input.val());
             } else if (baseType === 'string') {
-                value = $el.val();
+                value = $input.val();
             }
         }
 
@@ -225,7 +218,6 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
         var state =  {};
         var response =  interaction.getResponse();
 
@@ -235,6 +227,16 @@ define([
         return state;
     };
 
+    function getInput(interaction){
+        var $container = interaction.getContainer();
+        if($container.length){
+            if($container.get(0).nodeName === 'INPUT'){
+                return $container;
+            }else{
+                return $container.find('input');
+            }
+        }
+    };
 
     return {
         qtiClass : 'textEntryInteraction',
