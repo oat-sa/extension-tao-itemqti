@@ -26,7 +26,6 @@ define([
     'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction-counter',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
@@ -34,7 +33,7 @@ define([
     'util/locale',
     'polyfill/placeholders',
     'ui/tooltip'
-], function($, _, __, tpl, counterTpl,  containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale){
+], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale){
     'use strict';
 
     /**
@@ -61,8 +60,71 @@ define([
             $el.css('min-width', expectedLength + 'ch');
         }
 
-        //checking if there's a pattern mask for the input
-        if(attributes.patternMask){
+        //checking if there's a placeholder for the input
+        if(attributes.placeholderText){
+            $el.attr('placeholder', attributes.placeholderText);
+        }
+
+        if(maxWords || maxChars){
+
+            var createTooltip = function createTooltip(theme, message, forceCreation, hidden){
+                if(forceCreation || !$el.data('qtip')){
+                    $el.qtip({
+                        theme : theme,
+                        content : {
+                            text : message
+                        },
+                        show : {
+                            event : 'custom'
+                        },
+                        hide : {
+                            event : 'custom'
+                        }
+                    });
+                }else{
+                    $el.qtip('option', 'content.text', message);
+                    $el.qtip('option', 'theme', 'info');
+                }
+                if(!hidden){
+                    $el.qtip('show');
+                }
+            };
+
+            var updateConstraintTooltip = function updateConstraintTooltip(){
+                var count = $el.val().length;
+                var message;
+                if(count >= maxChars){
+                    $el.addClass('invalid');
+                    createTooltip('warning', __('maximum chars reached'), true);
+                }else{
+                    if(count){
+                        message = __('%d of %d chars maximum', count, maxChars);
+                    }else{
+                        message = __('%d chars allowed', maxChars);
+                    }
+                    if($el.hasClass('invalid')){
+                        console.log('created');
+                        $el.removeClass('invalid');
+                        createTooltip('info', message, true);
+                    }else{
+                        console.log('updated');
+                        createTooltip('info', message);
+                    }
+                }
+            };
+
+            $el.attr('maxlength', maxChars);
+
+            $el.on('keyup.commonRenderer keydown.commonRenderer', function(){
+                updateConstraintTooltip();
+            }).on('focus.commonRenderer', function(){
+                updateConstraintTooltip();
+            }).on('blur.commonRenderer', function(){
+                $el.qtip('hide');
+            });
+
+        }else if(attributes.patternMask){
+
             //set up the tooltip plugin for the input
             $el.qtip({
                 theme : 'error',
@@ -76,48 +138,26 @@ define([
                     text: __('This is not a valid answer')
                 }
             });
-        }
 
-        //checking if there's a placeholder for the input
-        if(attributes.placeholderText){
-            $el.attr('placeholder', attributes.placeholderText);
-        }
-
-        if(maxWords || maxChars){
-            var $counter = $(counterTpl({
-                count : 0,
-                max:maxChars,
-                unit: __('chars')
-            }));
-            var $count = $counter.find('.count');
-            $el.after($counter);
-            $el.attr('maxlength', maxChars);
             $el.on('keyup.commonRenderer', function(){
-                var count = $el.val().length;
-                $count.html(count);
-            });
-        }else{
-            $el.on('keyup.commonRenderer', _.debounce(function(){
 
-                var regex;
-                if(attributes.patternMask && maxChars !== null && maxWords !== null){
-                    //debugger;
-                    regex = new RegExp(attributes.patternMask);
-                    if(regex.test($el.val())){
-                        $el.removeClass('invalid').qtip('hide');
-                    } else {
-                        $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
-                    }
+                var regex = new RegExp(attributes.patternMask);
+                if(regex.test($el.val())){
+                    $el.removeClass('invalid').qtip('hide');
+                } else {
+                    $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
                 }
-                containerHelper.triggerResponseChangeEvent(interaction);
 
-            }, 600)).on('keydown.commonRenderer', function(){
+            }).on('keydown.commonRenderer', function(){
                 //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
-                if(attributes.patternMask){
-                    $el.qtip('hide');
-                }
+                $el.qtip('hide');
             });
         }
+
+        $el.on('keyup.commonRenderer', function(){
+            //TODO validate before submit response change?
+            containerHelper.triggerResponseChangeEvent(interaction);
+        });
     };
 
     var resetResponse = function(interaction){
@@ -191,7 +231,6 @@ define([
     };
 
     var destroy = function(interaction){
-
         //remove event
         $(document).off('.commonRenderer');
         containerHelper.get(interaction).off('.commonRenderer');
@@ -225,7 +264,6 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
         var state =  {};
         var response =  interaction.getResponse();
 
