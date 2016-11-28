@@ -26,13 +26,15 @@ define([
     'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction-counter',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'util/locale',
     'polyfill/placeholders',
     'ui/tooltip'
-], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, locale){
+], function($, _, __, tpl, counterTpl,  containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale){
     'use strict';
 
     /**
@@ -46,11 +48,17 @@ define([
         var attributes = interaction.getAttributes(),
             $el = interaction.getContainer();
 
-
+        var expectedLength,
+            patternMask = interaction.attr('patternMask'),
+            maxWords = parseInt(patternMaskHelper.parsePattern(patternMask,'words'),10),
+            maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10);
 
         //setting up the width of the input field
         if(attributes.expectedLength){
-            $el.css('width', parseInt(attributes.expectedLength) + 'ch');
+            //adding 2 chars to include reasonable padding size
+            expectedLength = parseInt(attributes.expectedLength) + 2;
+            $el.css('width', expectedLength + 'ch');
+            $el.css('min-width', expectedLength + 'ch');
         }
 
         //checking if there's a pattern mask for the input
@@ -75,25 +83,41 @@ define([
             $el.attr('placeholder', attributes.placeholderText);
         }
 
-        $el.on('keyup.commonRenderer', _.debounce(function(){
-            
-            var regex;
-            if(attributes.patternMask){
-                regex = new RegExp('^' + attributes.patternMask + '$');
-                 if(regex.test($el.val())){
-                    $el.removeClass('invalid').qtip('hide');
-                } else {
-                    $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
+        if(maxWords || maxChars){
+            var $counter = $(counterTpl({
+                count : 0,
+                max:maxChars,
+                unit: __('chars')
+            }));
+            var $count = $counter.find('.count');
+            $el.after($counter);
+            $el.attr('maxlength', maxChars);
+            $el.on('keyup.commonRenderer', function(){
+                var count = $el.val().length;
+                $count.html(count);
+            });
+        }else{
+            $el.on('keyup.commonRenderer', _.debounce(function(){
+
+                var regex;
+                if(attributes.patternMask && maxChars !== null && maxWords !== null){
+                    //debugger;
+                    regex = new RegExp(attributes.patternMask);
+                    if(regex.test($el.val())){
+                        $el.removeClass('invalid').qtip('hide');
+                    } else {
+                        $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
+                    }
                 }
-            }
-            containerHelper.triggerResponseChangeEvent(interaction);
-            
-        }, 600)).on('keydown.commonRenderer', function(){
-            //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
-            if(attributes.patternMask){
-                $el.qtip('hide');
-            }
-        });
+                containerHelper.triggerResponseChangeEvent(interaction);
+
+            }, 600)).on('keydown.commonRenderer', function(){
+                //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
+                if(attributes.patternMask){
+                    $el.qtip('hide');
+                }
+            });
+        }
     };
 
     var resetResponse = function(interaction){
