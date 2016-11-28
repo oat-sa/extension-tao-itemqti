@@ -131,64 +131,48 @@ define([
                         hottext: ['.widget-math'] //todo: try more // supported inline static elements inside hottext / gapmatchz
                     },
                     $inlineStaticWidgets,
-                    inlineStaticElts = [],
-                    $renderPlaceholder = $('<span>')
-                        .addClass('widget-box')
-                        .attr('data-new', true),
-                    newEl = newGapWidget.element,
-                    newBody,
-                    newMarkup;
+                    newElt = newGapWidget.element,
+                    newBody;
 
-                newGapWidget.changeState('question');
+                // newGapWidget.changeState('response');
                 textWrapper.create($editable);
 
                 // look for nested inlineStatic elements
                 if (allowedInlineStaticElts[gapModel.qtiClass]) {
                     $inlineStaticWidgets = $initialContent.find(
-                        //todo: improve selectors
+                        //todo: improve selectors with a map on the array
                         allowedInlineStaticElts[gapModel.qtiClass].join(',')
                     );
                 }
 
-                // build new model structure & body
+                // update elements hierarchy
                 if($inlineStaticWidgets && $inlineStaticWidgets.length > 0) {
                     $inlineStaticWidgets.each(function() {
-                        var serial = $(this).data('serial');
-                        // get inline element from container
-                        var elt = interaction.getBody().elements[serial];
-                        // move it to its new parent
-                        newEl.getBody().elements[serial] = elt;
-                        // replace the widget markup with corresponding element placeholder
-                        $(this).replaceWith(elt.placeholder());
+                        var serial = $(this).data('serial'),
+                            elt = interaction.getElement(serial),
+                            eltWidget = elt.data('widget');
 
-                        inlineStaticElts.push(elt);
+                        interaction.removeElement(elt);
+                        newElt.setElement(elt);
+
+                        // destroy the widget and replace it with a placeholder that will be used for rendering
+                        $(this).replaceWith(elt.placeholder());
+                        eltWidget.destroy();
                     });
                 }
                 // strip everything that hasn't been replaced and that is not pure text
-                newBody = _.escape($initialContent.text().trim());
-                newEl.body(newBody); // update model
+                newBody = _.escape($initialContent.text());
+                //todo: check for empty
+                newElt.body(newBody); // update model
 
-                // build the new markup, by replacing elements placeholders with empty html nodes
-                newMarkup = newBody;
-                inlineStaticElts.forEach(function (elt) {
-                    var serial = elt.placeholder(),
-                        $tmpPlaceholder = $renderPlaceholder.clone()
-                            .attr('data-serial', elt.serial)
-                            .attr('data-qti-class', elt.qtiClass);
+                newElt.render(newElt.getContainer());
+                newElt.postRender();
 
-                    newMarkup = newMarkup.replace(serial, $('<div>').append($tmpPlaceholder).html());
-                });
-                //todo: move me !
-                newGapWidget.$container.find('.hottext-content').html(newMarkup); // update markup
-                //todo: I should go there... this should be restored for compatibility with gapmatch
-                // gapModel.afterCreate(widget, newGapWidget, _.escape(text));
+                newGapWidget.destroy();
+                newGapWidget = newElt.data('widget');
 
-                // render the inline elements in the empty nodes, but without postRendering,
-                // so we do not create qtiCreator widgets
-                inlineStaticElts.forEach(function (elt) {
-                    $renderPlaceholder = newGapWidget.$container.find('[data-serial="' + elt.serial + '"]');
-                    elt.render($renderPlaceholder);
-                });
+                //todo: this mecanism should be restored for compatibility with gapmatch
+                gapModel.afterCreate(widget, newGapWidget, _.escape('')); // '' was text
 
             });
 

@@ -35,9 +35,9 @@ define([
             toolbarTpl : hottextTpl,
             qtiClass : 'hottext',
             afterCreate : function(interactionWidget, newHottextWidget, text){
-            
-                newHottextWidget.element.body(text);
-                newHottextWidget.$container.find('.hottext-content').html(text);//add this manually the first time
+
+                // newHottextWidget.element.body(text);
+                // newHottextWidget.$container.find('.hottext-content').html(text);//add this manually the first time
                 newHottextWidget.changeState('choice');
             }
         };
