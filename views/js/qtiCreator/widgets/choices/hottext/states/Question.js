@@ -2,9 +2,9 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext',
-    'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
-], function($, stateFactory, QuestionState, gapTpl, formElement){
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext'
+], function($, stateFactory, QuestionState, gapTpl){
+    'use strict';
 
     var HottextStateQuestion = stateFactory.extend(QuestionState);
 
@@ -29,21 +29,26 @@ define([
             $toolbar.find('[data-role=restore]').on('mousedown.question', function(){
                 var inlineStaticElements = hottext.getElements(),
                     parent = hottext.parent(),
-                    serial;
+                    newBody = parent.body().replace(hottext.placeholder(), hottext.body()),
+                    serial,
+                    elt;
 
                 for (serial in inlineStaticElements) {
                     if (inlineStaticElements.hasOwnProperty(serial)) {
-                        parent.getBody().elements[serial] = inlineStaticElements[serial]; //todo: replace with setElement?
+                        elt = hottext.getElement(serial);
+                        parent.setElement(elt);
+                        hottext.removeElement(elt);
                     }
                 }
 
-                parent.body(parent.body().replace(hottext.placeholder(), hottext.body()));
+                parent.body(newBody);
 
                 $container.replaceWith(hottext.body());
-                _widget.destroy(); //todo: do this also in 'create'
+                _widget.destroy();
                 hottext.remove();
 
                 parent.render(parent.getContainer());
+                parent.postRender();
             });
         }
 
