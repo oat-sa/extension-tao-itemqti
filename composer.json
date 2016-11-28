@@ -56,7 +56,7 @@
     },
     "minimum-stability" : "dev",
     "require": {
-        "oat-sa/lib-tao-qti" : "~2.0.0",
+        "oat-sa/lib-tao-qti" : "dev-feature/TAO-3410-flysystem-test-state-files",
         "oat-sa/oatbox-extension-installer": "dev-master"
     },
     "autoload" : {
