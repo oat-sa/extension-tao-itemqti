@@ -45,31 +45,30 @@ define([
      */
     var render = function(interaction){
         var attributes = interaction.getAttributes(),
-            $el = interaction.getContainer();
+            $input = interaction.getContainer();
 
         var expectedLength,
             patternMask = interaction.attr('patternMask'),
-            maxWords = parseInt(patternMaskHelper.parsePattern(patternMask,'words'),10),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10);
 
         //setting up the width of the input field
         if(attributes.expectedLength){
             //adding 2 chars to include reasonable padding size
             expectedLength = parseInt(attributes.expectedLength) + 2;
-            $el.css('width', expectedLength + 'ch');
-            $el.css('min-width', expectedLength + 'ch');
+            $input.css('width', expectedLength + 'ch');
+            $input.css('min-width', expectedLength + 'ch');
         }
 
         //checking if there's a placeholder for the input
         if(attributes.placeholderText){
-            $el.attr('placeholder', attributes.placeholderText);
+            $input.attr('placeholder', attributes.placeholderText);
         }
 
-        if(maxWords || maxChars){
+        if(maxChars){
 
             var createTooltip = function createTooltip(theme, message, forceCreation, hidden){
-                if(forceCreation || !$el.data('qtip')){
-                    $el.qtip({
+                if(forceCreation || !$input.data('qtip')){
+                    $input.qtip({
                         theme : theme,
                         content : {
                             text : message
@@ -82,19 +81,19 @@ define([
                         }
                     });
                 }else{
-                    $el.qtip('option', 'content.text', message);
-                    $el.qtip('option', 'theme', 'info');
+                    $input.qtip('option', 'content.text', message);
+                    $input.qtip('option', 'theme', 'info');
                 }
                 if(!hidden){
-                    $el.qtip('show');
+                    $input.qtip('show');
                 }
             };
 
             var updateConstraintTooltip = function updateConstraintTooltip(){
-                var count = $el.val().length;
+                var count = $input.val().length;
                 var message;
                 if(count >= maxChars){
-                    $el.addClass('invalid');
+                    $input.addClass('invalid');
                     createTooltip('warning', __('maximum chars reached'), true);
                 }else{
                     if(count){
@@ -102,31 +101,26 @@ define([
                     }else{
                         message = __('%d chars allowed', maxChars);
                     }
-                    if($el.hasClass('invalid')){
-                        console.log('created');
-                        $el.removeClass('invalid');
+                    if($input.hasClass('invalid')){
+                        $input.removeClass('invalid');
                         createTooltip('info', message, true);
                     }else{
-                        console.log('updated');
                         createTooltip('info', message);
                     }
                 }
             };
 
-            $el.attr('maxlength', maxChars);
-
-            $el.on('keyup.commonRenderer keydown.commonRenderer', function(){
-                updateConstraintTooltip();
-            }).on('focus.commonRenderer', function(){
-                updateConstraintTooltip();
-            }).on('blur.commonRenderer', function(){
-                $el.qtip('hide');
-            });
+            $input
+                .attr('maxlength', maxChars)
+                .on('focus.commonRenderer keyup.commonRenderer keydown.commonRenderer', updateConstraintTooltip)
+                .on('blur.commonRenderer', function(){
+                    $input.qtip('hide');
+                });
 
         }else if(attributes.patternMask){
 
             //set up the tooltip plugin for the input
-            $el.qtip({
+            $input.qtip({
                 theme : 'error',
                 show : {
                     event : 'custom'
@@ -139,22 +133,22 @@ define([
                 }
             });
 
-            $el.on('keyup.commonRenderer', function(){
+            $input.on('keyup.commonRenderer', function(){
 
                 var regex = new RegExp(attributes.patternMask);
-                if(regex.test($el.val())){
-                    $el.removeClass('invalid').qtip('hide');
+                if(regex.test($input.val())){
+                    $input.removeClass('invalid').qtip('hide');
                 } else {
-                    $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
+                    $input.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
                 }
 
             }).on('keydown.commonRenderer', function(){
                 //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
-                $el.qtip('hide');
+                $input.qtip('hide');
             });
         }
 
-        $el.on('keyup.commonRenderer', function(){
+        $input.on('keyup.commonRenderer', function(){
             //TODO validate before submit response change?
             containerHelper.triggerResponseChangeEvent(interaction);
         });
@@ -207,21 +201,21 @@ define([
     var getResponse = function(interaction){
         var ret = {'base' : {}},
         value,
-            $el = interaction.getContainer(),
+            $input = interaction.getContainer(),
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             numericBase = attributes.base || 10;
         
-        if($el.hasClass('invalid') || (attributes.placeholderText && $el.val() === attributes.placeholderText)){
+        if($input.hasClass('invalid') || (attributes.placeholderText && $input.val() === attributes.placeholderText)){
             //invalid response or response equals to the placeholder text are considered empty
             value = '';
         }else{
             if (baseType === 'integer') {
-                value = locale.parseInt($el.val(), numericBase);
+                value = locale.parseInt($input.val(), numericBase);
             } else if (baseType === 'float') {
-                value = locale.parseFloat($el.val());
+                value = locale.parseFloat($input.val());
             } else if (baseType === 'string') {
-                value = $el.val();
+                value = $input.val();
             }
         }
 
@@ -272,7 +266,6 @@ define([
         }
         return state;
     };
-
 
     return {
         qtiClass : 'textEntryInteraction',

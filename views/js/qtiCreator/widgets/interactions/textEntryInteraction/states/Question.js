@@ -35,25 +35,18 @@ define([
             interaction = _widget.element;
 
         var patternMask = interaction.attr('patternMask'),
-            maxWords = parseInt(patternMaskHelper.parsePattern(patternMask,'words'),10),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10);
 
         var constraints = {
             none : {label : __("None"), selected : true},
             maxLength : {label : __("Max Length"), selected : false},
-            maxWords : {label : __("Max Words"), selected : false},
             pattern : {label : __("Pattern"), selected : false}
         };
-        /**
-         * Set the selected on the right items before sending it to the view for constraints
-         */
-        if ( !isNaN(maxWords) && maxWords > 0) {
-            constraints.none.selected = false;
-            constraints.maxWords.selected = true;
-        }else if (!isNaN(maxChars) && maxChars > 0) {
+
+        if (!isNaN(maxChars) && maxChars > 0) {
             constraints.none.selected = false;
             constraints.maxLength.selected = true;
-        }else if( patternMask !== null && patternMask !== undefined && patternMask !== ""){
+        }else if( patternMask !== null && patternMask !== undefined && patternMask !== ''){
             constraints.none.selected = false;
             constraints.pattern.selected = true;
         }
@@ -64,7 +57,6 @@ define([
             expectedLength : parseInt(interaction.attr('expectedLength')),
             constraints : constraints,
             patternMask : patternMask,
-            maxWords : maxWords,
             maxLength : maxChars,
         }));
 
@@ -77,11 +69,11 @@ define([
                 interaction.attr('expectedLength', isNaN(parseInt(attrValue, 10)) ? 0 : attrValue);
             },
             constraint : function constraint(interaction,attrValue){
+                //TODO use class!!
                 $('[id|="constraint"]').hide('500');
                 $('#constraint-' + attrValue).show('1000');
                 if (attrValue === "none") {
                     //Reset other pattern definition
-                    $('[name="maxWords"]').val('');
                     $('[name="maxLength"]').val('');
 
                     interaction.attr('patternMask',null);
@@ -89,29 +81,17 @@ define([
             },
             patternMask : function patternMask(interaction, attrValue){
                 //Reset other pattern definition
-                $('[name="maxWords"]').val('');
                 $('[name="maxLength"]').val('');
 
                 interaction.attr('patternMask', attrValue);
             },
             maxLength : function maxLength(interaction, attrValue){
                 //Reset other pattern definition
-                $('[name="maxWords"]').val('');
                 $('[name="patternMask"]').val('');
 
                 var newValue = parseInt(attrValue,10);
                 if(! isNaN(newValue)){
                     interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
-                }
-            },
-            maxWords : function(interaction, attrValue){
-                //Reset other pattern definition
-                $('[name="maxLength"]').val('');
-                $('[name="patternMask"]').val('');
-
-                var newValue = parseInt(attrValue,10);
-                if (! isNaN(newValue)) {
-                    interaction.attr('patternMask', patternMaskHelper.createMaxWordPattern(newValue));
                 }
             }
         });
