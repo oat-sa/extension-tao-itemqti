@@ -101,7 +101,7 @@ define([
                 var count = $input.val().length;
                 var message;
                 if(count >= maxChars){
-                    $input.addClass('invalid');
+                    $input.addClass('maxed');
                     createTooltip($input, 'warning', __('maximum chars reached'), true);
                 }else{
                     if(count){
@@ -109,8 +109,8 @@ define([
                     }else{
                         message = __('%d chars allowed', maxChars);
                     }
-                    if($input.hasClass('invalid')){
-                        $input.removeClass('invalid');
+                    if($input.hasClass('maxed')){
+                        $input.removeClass('maxed');
                         createTooltip($input, 'info', message, true);
                     }else{
                         createTooltip($input, 'info', message);
@@ -126,6 +126,7 @@ define([
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
+                    console.log('blurred');
                     $input.qtip('hide');
                 });
 

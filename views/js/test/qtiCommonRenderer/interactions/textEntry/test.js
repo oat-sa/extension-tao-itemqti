@@ -61,6 +61,13 @@ define([
                 $input.keyup();
                 assert.equal(getTooltipContent($input), 'maximum chars reached', 'the warning message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'warning tooltip is visible');
+                assert.ok($input.hasClass('maxed'), 'has state maxed');
+
+                $input.val('1234');
+                $input.keyup();
+                assert.equal(getTooltipContent($input), '4 of 5 chars maximum', 'the instruction message is correct');
+                assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
+                assert.ok(!$input.hasClass('maxed'), 'has state maxed removed');
 
                 QUnit.start();
             })
@@ -121,7 +128,6 @@ define([
             }).on('responsechange', function(state){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
                 assert.equal(getTooltip($input), undefined, 'the error tooltip is hidden after a correct response');
-                console.log(JSON.stringify(state));
                 QUnit.start();
             })
             .init()
@@ -148,12 +154,15 @@ define([
 
                 assert.equal($input.val(), 'PARIS', 'the text input has been correctly set');
 
-                var retrivedState = this.getState(state);
-                console.log(retrivedState);
+                assert.deepEqual(this.getState(state), state, 'state is correct');
 
-                assert.deepEqual(retrivedState, state, 'get state is correct');
+                $input.keyup();//trigger the response changed event
+
+            }).on('statechange', function(retrivedState){
+
+                assert.deepEqual(retrivedState, state, 'statechange state is correct');
+
                 QUnit.start();
-
             })
             .init()
             .render($container);
