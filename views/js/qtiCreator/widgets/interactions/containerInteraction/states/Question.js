@@ -41,17 +41,18 @@ define([
 
     ContainerInteractionStateQuestion.prototype.buildEditor = function(){
 
-        var _this = this,
+        var self = this,
             _widget = this.widget,
             container = _widget.element.getBody(),
             $container = _widget.$container,
-            $editableContainer = $container.find('.qti-flow-container');
+            $editableContainer = $container.find('.qti-flow-container'),
+            $bodyTlb;
 
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
-            var $bodyTlb = $(toolbarTpl({
+            $bodyTlb = $(toolbarTpl({
                 serial : _widget.serial,
                 state : 'question'
             }));
@@ -61,7 +62,7 @@ define([
             $bodyTlb.show();
 
             //init text wrapper
-            _this.initTextWrapper();
+            self.initTextWrapper();
 
             //hack : prevent ckeditor from removing empty spans
             $container.find('.gapmatch-content').html('...');
@@ -126,59 +127,9 @@ define([
             textWrapper.destroy($editable);
 
             htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(newGapWidget){
-                /* */
                 newGapWidget.changeState('question');
                 textWrapper.create($editable);
                 gapModel.afterCreate(widget, newGapWidget, $initialContent);
-
-                /* * /
-                var allowedInlineStaticElts = {
-                        hottext: ['.widget-math'] //todo: try more // supported inline static elements inside hottext / gapmatchz
-                    },
-                    $inlineStaticWidgets,
-                    newElt = newGapWidget.element,
-                    newBody;
-
-                // newGapWidget.changeState('response');
-                textWrapper.create($editable);
-
-                // look for nested inlineStatic elements
-                if (allowedInlineStaticElts[gapModel.qtiClass]) {
-                    $inlineStaticWidgets = $initialContent.find(
-                        //todo: improve selectors with a map on the array
-                        allowedInlineStaticElts[gapModel.qtiClass].join(',')
-                    );
-                }
-
-                // update elements hierarchy
-                if($inlineStaticWidgets && $inlineStaticWidgets.length > 0) {
-                    $inlineStaticWidgets.each(function() {
-                        var serial = $(this).data('serial'),
-                            elt = interaction.getElement(serial),
-                            eltWidget = elt.data('widget');
-
-                        interaction.removeElement(elt);
-                        newElt.setElement(elt);
-
-                        // destroy the widget and replace it with a placeholder that will be used for rendering
-                        $(this).replaceWith(elt.placeholder());
-                        eltWidget.destroy();
-                    });
-                }
-                // strip everything that hasn't been replaced and that is not pure text
-                newBody = _.escape($initialContent.text());
-                //todo: check for empty
-                newElt.body(newBody); // update model
-
-                newElt.render(newElt.getContainer());
-                newElt.postRender();
-
-                newGapWidget.destroy();
-                newGapWidget = newElt.data('widget');
-
-                //todo: this mecanism should be restored for compatibility with gapmatch
-                gapModel.afterCreate(widget, newGapWidget, _.escape('')); // '' was text
-                /* */
             });
 
         }).on('mouseup', function(e){
@@ -189,6 +140,12 @@ define([
         $editable.on('editorready.wrapper', function(){
             textWrapper.create($(this));
         }).on('wrapped.wrapper', function(e, $wrapper){
+            // if wrapped text already contains a toolbar, then we move it inside the selection to prevent overlapping toolbars
+            if ($wrapper.find('.mini-tlb').length > 0) {
+                $gapTlb.addClass('tlb-inside');
+            } else {
+                $gapTlb.removeClass('tlb-inside');
+            }
             $wrapper.append($gapTlb);
         }).on('beforeunwrap.wrapper', function(){
             $gapTlb.detach();
