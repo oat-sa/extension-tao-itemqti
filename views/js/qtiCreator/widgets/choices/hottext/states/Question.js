@@ -47,7 +47,7 @@ define([
                 _widget.destroy();
                 hottext.remove();
 
-                parent.render(parent.getContainer());
+                parent.render(parent.data('widget').$container);
                 parent.postRender();
             });
         }
