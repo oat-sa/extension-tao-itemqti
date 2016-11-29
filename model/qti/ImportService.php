@@ -438,7 +438,9 @@ class ImportService extends tao_models_classes_GenerisService
 
                 // BT Customization Start
                 //set the label (check if $qtiResource is set first)
-                $rdfItem->setLabel($qtiResource->title);
+                if (!empty($qtiResource->title)) {
+                	$rdfItem->setLabel($qtiResource->title);
+                }
 
                 //check if $qtiResource holds any properties
                 if(count($qtiResource) > 0) {
