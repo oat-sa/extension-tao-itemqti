@@ -126,7 +126,12 @@ define([
             textWrapper.destroy($editable);
 
             htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(newGapWidget){
+                /* */
+                newGapWidget.changeState('question');
+                textWrapper.create($editable);
+                gapModel.afterCreate(widget, newGapWidget, $initialContent);
 
+                /* * /
                 var allowedInlineStaticElts = {
                         hottext: ['.widget-math'] //todo: try more // supported inline static elements inside hottext / gapmatchz
                     },
@@ -173,7 +178,7 @@ define([
 
                 //todo: this mecanism should be restored for compatibility with gapmatch
                 gapModel.afterCreate(widget, newGapWidget, _.escape('')); // '' was text
-
+                /* */
             });
 
         }).on('mouseup', function(e){

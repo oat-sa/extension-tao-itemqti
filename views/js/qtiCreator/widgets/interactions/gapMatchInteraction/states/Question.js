@@ -80,9 +80,10 @@ define([
         return {
             toolbarTpl : gapTpl,
             qtiClass : 'gap',
-            afterCreate : function afterCreate(interactionWidget, newGapWidget, text){
+            afterCreate : function afterCreate(interactionWidget, newGapWidget, $initialContent){
                 var choice,
-                    choiceWidget;
+                    choiceWidget,
+                    text = _.escape($initialContent.text().trim());
 
                 //after the gap is created, delete it
                 choice = interactionWidget.element.createChoice(text);
