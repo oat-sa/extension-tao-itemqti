@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -37,17 +37,48 @@ define([
     'use strict';
 
     /**
+     * Prepare the feedback tooltip for the text input
+     * @param {jQuery} $input
+     * @param {String} theme
+     * @param {String} message
+     * @param {Boolean} [forceCreation=false]
+     * @param {Boolean} [hidden=false]
+     */
+    var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
+        if(forceCreation || !$input.data('qtip')){
+            $input.qtip({
+                theme : theme,
+                content : {
+                    text : message
+                },
+                show : {
+                    event : 'custom'
+                },
+                hide : {
+                    event : 'custom'
+                }
+            });
+        }else{
+            $input.qtip('option', 'content.text', message);
+            $input.qtip('option', 'theme', 'info');
+        }
+        if(!hidden){
+            $input.qtip('show');
+        }
+    };
+
+    /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10333
      *
      * @param {object} interaction
      */
-    var render = function(interaction){
+    var render = function render(interaction){
         var attributes = interaction.getAttributes(),
-            $input = interaction.getContainer();
-
-        var expectedLength,
+            $input = interaction.getContainer(),
+            expectedLength,
+            updateConstraintTooltip,
             patternMask = interaction.attr('patternMask'),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10);
 
@@ -66,35 +97,12 @@ define([
 
         if(maxChars){
 
-            var createTooltip = function createTooltip(theme, message, forceCreation, hidden){
-                if(forceCreation || !$input.data('qtip')){
-                    $input.qtip({
-                        theme : theme,
-                        content : {
-                            text : message
-                        },
-                        show : {
-                            event : 'custom'
-                        },
-                        hide : {
-                            event : 'custom'
-                        }
-                    });
-                }else{
-                    $input.qtip('option', 'content.text', message);
-                    $input.qtip('option', 'theme', 'info');
-                }
-                if(!hidden){
-                    $input.qtip('show');
-                }
-            };
-
-            var updateConstraintTooltip = function updateConstraintTooltip(){
+            updateConstraintTooltip = function updateConstraintTooltip(){
                 var count = $input.val().length;
                 var message;
                 if(count >= maxChars){
                     $input.addClass('invalid');
-                    createTooltip('warning', __('maximum chars reached'), true);
+                    createTooltip($input, 'warning', __('maximum chars reached'), true);
                 }else{
                     if(count){
                         message = __('%d of %d chars maximum', count, maxChars);
@@ -103,16 +111,20 @@ define([
                     }
                     if($input.hasClass('invalid')){
                         $input.removeClass('invalid');
-                        createTooltip('info', message, true);
+                        createTooltip($input, 'info', message, true);
                     }else{
-                        createTooltip('info', message);
+                        createTooltip($input, 'info', message);
                     }
                 }
             };
 
             $input
                 .attr('maxlength', maxChars)
-                .on('focus.commonRenderer keyup.commonRenderer keydown.commonRenderer', updateConstraintTooltip)
+                .on('focus.commonRenderer keydown.commonRenderer', updateConstraintTooltip)
+                .on('keyup.commonRenderer', function(){
+                    updateConstraintTooltip();
+                    containerHelper.triggerResponseChangeEvent(interaction);
+                })
                 .on('blur.commonRenderer', function(){
                     $input.qtip('hide');
                 });
@@ -120,41 +132,29 @@ define([
         }else if(attributes.patternMask){
 
             //set up the tooltip plugin for the input
-            $input.qtip({
-                theme : 'error',
-                show : {
-                    event : 'custom'
-                },
-                hide : {
-                    event : 'custom'
-                },
-                content: {
-                    text: __('This is not a valid answer')
-                }
-            });
+            createTooltip($input, 'error', __('This is not a valid answer'), true, true);
 
-            $input.on('keyup.commonRenderer', function(){
-
+            $input.on('keyup.commonRenderer', _.debounce(function(){
                 var regex = new RegExp(attributes.patternMask);
                 if(regex.test($input.val())){
                     $input.removeClass('invalid').qtip('hide');
                 } else {
                     $input.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
                 }
-
-            }).on('keydown.commonRenderer', function(){
+                containerHelper.triggerResponseChangeEvent(interaction);
+            }, 600)).on('keydown.commonRenderer', function(){
                 //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
                 $input.qtip('hide');
             });
-        }
 
-        $input.on('keyup.commonRenderer', function(){
-            //TODO validate before submit response change?
-            containerHelper.triggerResponseChangeEvent(interaction);
-        });
+        }else{
+            $input.on('keyup.commonRenderer', function(){
+                containerHelper.triggerResponseChangeEvent(interaction);
+            });
+        }
     };
 
-    var resetResponse = function(interaction){
+    var resetResponse = function resetResponse(interaction){
         interaction.getContainer().val('');
     };
 
@@ -172,7 +172,7 @@ define([
      * @param {object} interaction
      * @param {object} response
      */
-    var setResponse = function(interaction, response){
+    var setResponse = function setResponse(interaction, response){
 
         var responseValue;
 
@@ -198,7 +198,7 @@ define([
      * @param {object} interaction
      * @returns {object}
      */
-    var getResponse = function(interaction){
+    var getResponse = function getResponse(interaction){
         var ret = {'base' : {}},
         value,
             $input = interaction.getContainer(),
@@ -224,7 +224,7 @@ define([
         return ret;
     };
 
-    var destroy = function(interaction){
+    var destroy = function destroy(interaction){
         //remove event
         $(document).off('.commonRenderer');
         containerHelper.get(interaction).off('.commonRenderer');
