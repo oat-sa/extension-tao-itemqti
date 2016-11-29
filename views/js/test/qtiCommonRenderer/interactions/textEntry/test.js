@@ -121,8 +121,39 @@ define([
             }).on('responsechange', function(state){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
                 assert.equal(getTooltip($input), undefined, 'the error tooltip is hidden after a correct response');
-
+                console.log(JSON.stringify(state));
                 QUnit.start();
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('set/get response', function(assert){
+
+        var $container = $('#' + fixtureContainerId);
+        var state = {"RESPONSE":{response:{"base":{"string":"PARIS"}}}};
+
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        runner = qtiItemRunner('qti', textEntryData)
+            .on('render', function(){
+
+                var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
+
+                assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
+                assert.equal($input.val(), '', 'the text input is initially empty');
+
+                this.setState(state);
+
+                assert.equal($input.val(), 'PARIS', 'the text input has been correctly set');
+
+                var retrivedState = this.getState(state);
+                console.log(retrivedState);
+
+                assert.deepEqual(retrivedState, state, 'get state is correct');
+                QUnit.start();
+
             })
             .init()
             .render($container);
