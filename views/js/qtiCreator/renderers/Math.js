@@ -26,11 +26,20 @@ define([
 
     var CreatorMath = _.clone(Renderer);
 
+    /**
+     * This could be extracted as a helper if generic support is needed for non-editable element rendering
+     * Here, we simply check that the math element is not nested inside a hottext element
+     * @param {Element} element
+     */
+    function isEditable(element) {
+        var parent = element.parent();
+        return ! Element.isA(parent, 'hottext');
+    }
+
     CreatorMath.render = function(math, options){
 
         //initial rendering:
-        var parent = math.parent();
-        if (! Element.isA(parent, 'hottext')) { // todo: improve this and make it work for Gapmatch?
+        if (isEditable(math)) {
             Renderer.render(math);
 
             Widget.build(
