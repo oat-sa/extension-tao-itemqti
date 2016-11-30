@@ -73,7 +73,7 @@ define(['jquery'], function($) {
         /**
          * Check that the given range is in the allowed container
          * @param {Range} range
-         * @returns {*|boolean}
+         * @returns {boolean}
          */
         function isRangeValid(range) {
             return $.contains($container.get(0), range.commonAncestorContainer)
