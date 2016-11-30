@@ -27,9 +27,10 @@ define([
     var CreatorMath = _.clone(Renderer);
 
     /**
-     * This could be extracted as a helper if generic support is needed for non-editable element rendering
+     * This could serve as a basis for a helper if generic support is needed for non-editable element rendering
      * Here, we simply check that the math element is not nested inside a hottext element
      * @param {Element} element
+     * @returns {boolean}
      */
     function isEditable(element) {
         var parent = element.parent();
