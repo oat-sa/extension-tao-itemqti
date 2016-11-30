@@ -25,7 +25,7 @@
                     "base": 10,
                     "expectedLength": 15,
                     "patternMask": "",
-                    "placeholderText": ""
+                    "placeholderText": "type in"
                 },
                 "debug": {
                     "relatedItem": "item_583d87875dd60279540203"
