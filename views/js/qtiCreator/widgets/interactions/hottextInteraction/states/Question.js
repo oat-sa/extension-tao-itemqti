@@ -90,7 +90,10 @@ define([
 
     HottextInteractionStateQuestion.prototype.destroyEditor = function(){
         var $container = this.widget.$container,
-            $flowContainer = $container.find('.qti-flow-container');
+            $flowContainer = $container.find('.qti-flow-container'),
+            $editable      = $container.find('.qti-flow-container [data-html-editable]');
+
+        $editable.off('hottextcreator');
 
         //search and destroy the editor
         htmlEditor.destroyEditor($flowContainer);
@@ -141,7 +144,7 @@ define([
         $newHottextBtn.hide();
 
         $editable
-            .on('mouseup.hottextcreator', function() { // todo: destroy this event handler
+            .on('mouseup.hottextcreator', function() {
                 if (wrapper.canWrap()) {
                     $newHottextBtn.show();
                 } else {
@@ -152,7 +155,7 @@ define([
                 $newHottextBtn.hide();
             });
 
-        $newHottextBtn.on('mousedown', function() {
+        $newHottextBtn.on('mousedown.hottextcreator', function() {
             $newHottextBtn.hide();
             if (wrapper.wrapWith($newHottext)) {
                 self.createNewHottext($newHottext.clone());
@@ -171,7 +174,7 @@ define([
             $editable = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
 
             $inlineStaticWidgets,
-            allowedInlineStaticElts = ['math'], // todo: try more !
+            allowedInlineStaticElts = ['math'], // support for more inline static elements (img...) can be added here
             newHottextElt,
             newHottextBody;
 
