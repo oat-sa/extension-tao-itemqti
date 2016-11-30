@@ -22,6 +22,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/selectionWrapper',
@@ -35,12 +36,13 @@ define([
     Question,
     htmlEditor,
     gridContentHelper,
+    htmlContentHelper,
     formElement,
     interactionFormElement,
     selectionWrapper,
     formTpl,
     toolbarTpl,
-    hottextTpl
+    newHottextBtnTpl
 ){
     'use strict';
 
@@ -71,8 +73,8 @@ define([
             $editableContainer.append($bodyTlb);
             $bodyTlb.show();
 
-            //init text wrapper
-            self.initTextWrapper();
+            //init hot text creator
+            self.initHottextCreator();
 
             //create editor
             htmlEditor.buildEditor($editableContainer, {
@@ -97,9 +99,6 @@ define([
         $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]').remove();
     };
 
-    /**
-     *
-     */
     HottextInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget,
@@ -121,120 +120,105 @@ define([
     };
 
     /**
-     *
+     * Add the button that allow to create hottext when a selection is made
      */
-    HottextInteractionStateQuestion.prototype.initTextWrapper = function(){
-        console.log('initTextWrapper');
-/*
-        var widget = this.widget,
-            interaction = widget.element,
-            $editable = widget.$container.find('.qti-flow-container [data-html-editable]'),
-            gapModel = this.getGapModel(),
-            $gapTlb = $(gapModel.toolbarTpl()).show();
+    HottextInteractionStateQuestion.prototype.initHottextCreator = function(){
+        var self = this,
+            wrapper = selectionWrapper(),
+            interactionWidget = this.widget,
 
-        $gapTlb.on('mousedown', function(e){
-            var $wrapper = $gapTlb.parent(),
-                $initialContent = $wrapper.clone();
-
-            e.stopPropagation();//prevent rewrapping
-
-            //detach it from the DOM for another usage in the next future
-            $gapTlb.detach();
-
-            //create gap:
-            $wrapper
-                .removeAttr('id')
-                .addClass('widget-box')
-                .attr('data-new', true)
-                .attr('data-qti-class', gapModel.qtiClass);
-
-            textWrapper.destroy($editable);
-
-            htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(newGapWidget){
-                newGapWidget.changeState('question');
-                textWrapper.create($editable);
-                gapModel.afterCreate(widget, newGapWidget, $initialContent);
+            $editable       = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
+            $flowContainer  = interactionWidget.$container.find('.qti-flow-container'),
+            $toolbar        = $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]'),
+            $newHottextBtn  = $(newHottextBtnTpl()),
+            $newHottext     = $('<span>', {
+                class: 'widget-box',
+                'data-new': true,
+                'data-qti-class': 'hottext'
             });
 
-        }).on('mouseup', function(e){
-            e.stopPropagation();//prevent rewrapping
-        });
+        $toolbar.append($newHottextBtn);
+        $newHottextBtn.hide();
 
-        //init text wrapper:
-        $editable.on('editorready.wrapper', function(){
-            textWrapper.create($(this));
-        }).on('wrapped.wrapper', function(e, $wrapper){
-            // if wrapped text already contains a toolbar, then we move it inside the selection to prevent overlapping toolbars
-            if ($wrapper.find('.mini-tlb').length > 0) {
-                $gapTlb.addClass('tlb-inside');
-            } else {
-                $gapTlb.removeClass('tlb-inside');
+        $editable
+            .on('mouseup.hottextcreator', function() { // todo: destroy this event handler
+                if (wrapper.canWrap()) {
+                    $newHottextBtn.show();
+                } else {
+                    $newHottextBtn.hide();
+                }
+            })
+            .on('blur.hottextcreator', function() {
+                $newHottextBtn.hide();
+            });
+
+        $newHottextBtn.on('mousedown', function() {
+            $newHottextBtn.hide();
+            if (wrapper.wrapWith($newHottext)) {
+                self.createNewHottext($newHottext.clone());
             }
-            $wrapper.append($gapTlb);
-        }).on('beforeunwrap.wrapper', function(){
-            $gapTlb.detach();
-            // console.log('unwrapping');
-            // widget.$container = null;
-            // widget = widget.refresh();
-            // $editable = widget.$container.find('.qti-flow-container [data-html-editable]');
-            // textWrapper.create($editable);
         });
-        */
     };
 
-    HottextInteractionStateQuestion.prototype.getGapModel = function(){
+    /**
+     * Create a new hottext
+     * @param $hottextContent - content of the hottext. May contain plain text or qti inline static elements
+     */
+    HottextInteractionStateQuestion.prototype.createNewHottext = function($hottextContent) {
+        var interactionWidget = this.widget,
+            interaction = interactionWidget.element,
 
-        return {
-            toolbarTpl : hottextTpl,
-            qtiClass : 'hottext',
-            afterCreate : function(interactionWidget, newHottextWidget, $initialContent){
-                var allowedInlineStaticElts = ['math'], // todo: try more !
-                    $inlineStaticWidgets,
-                    interaction = interactionWidget.element,
-                    newHottextElt = newHottextWidget.element,
-                    newHottextBody;
+            $editable = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
 
-                // look for nested inlineStatic elements
-                $inlineStaticWidgets = $initialContent.find(
-                    allowedInlineStaticElts
-                        .map(function(qtiClass) {
-                            return '.widget-' + qtiClass;
-                        })
-                        .join(',')
-                );
+            $inlineStaticWidgets,
+            allowedInlineStaticElts = ['math'], // todo: try more !
+            newHottextElt,
+            newHottextBody;
 
-                // update elements hierarchy
-                if($inlineStaticWidgets && $inlineStaticWidgets.length > 0) {
-                    $inlineStaticWidgets.each(function() {
-                        var serial = $(this).data('serial'),
-                            elt = interaction.getElement(serial),
-                            eltWidget = elt.data('widget');
+        htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function (newHottextWidget) {
+            newHottextWidget.changeState('question');
+            newHottextElt = newHottextWidget.element;
 
-                        // move element from interaction to hottext element
-                        interaction.removeElement(elt);
-                        newHottextElt.setElement(elt);
+            // look for nested inlineStatic elements
+            $inlineStaticWidgets = $hottextContent.find(
+                allowedInlineStaticElts
+                    .map(function(qtiClass) {
+                        return '.widget-' + qtiClass;
+                    })
+                    .join(',')
+            );
 
-                        // destroy the widget and replace it with a placeholder that will be used for rendering
-                        $(this).replaceWith(elt.placeholder());
-                        eltWidget.destroy();
-                    });
-                }
-                // strip everything that hasn't been replaced and that is not pure text
-                newHottextBody = _.escape($initialContent.text());
+            // update elements hierarchy
+            if($inlineStaticWidgets && $inlineStaticWidgets.length > 0) {
+                $inlineStaticWidgets.each(function() {
+                    var serial = $(this).data('serial'),
+                        elt = interaction.getElement(serial),
+                        eltWidget = elt.data('widget');
 
-                if (newHottextBody.trim() !== '') { // todo: check if we lost any check like this before creating elements
-                    // update model and render it
-                    newHottextElt.body(newHottextBody);
-                    newHottextElt.render(newHottextElt.getContainer());
-                    newHottextElt.postRender();
+                    // move element from interaction to hottext element
+                    interaction.removeElement(elt);
+                    newHottextElt.setElement(elt);
 
-                    // recreate editing widget
-                    newHottextWidget.destroy();
-                    newHottextWidget = newHottextElt.data('widget');
-                    newHottextWidget.changeState('choice');
-                }
+                    // destroy the widget and replace it with a placeholder that will be used for rendering
+                    $(this).replaceWith(elt.placeholder());
+                    eltWidget.destroy();
+                });
             }
-        };
+            // strip everything that hasn't been replaced and that is not pure text
+            newHottextBody = _.escape($hottextContent.text());
+
+            if (newHottextBody.trim() !== '') {
+                // update model and render it
+                newHottextElt.body(newHottextBody);
+                newHottextElt.render(newHottextElt.getContainer());
+                newHottextElt.postRender();
+
+                // recreate editing widget
+                newHottextWidget.destroy();
+                newHottextWidget = newHottextElt.data('widget');
+                newHottextWidget.changeState('choice');
+            }
+        });
     };
 
     return HottextInteractionStateQuestion;
