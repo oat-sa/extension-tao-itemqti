@@ -49,7 +49,7 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), '5 chars allowed', 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), '5 characters allowed', 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
 
                 $input.val('123');

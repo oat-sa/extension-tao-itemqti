@@ -107,7 +107,7 @@ define([
                     if(count){
                         message = __('%d/%d', count, maxChars);
                     }else{
-                        message = __('%d chars allowed', maxChars);
+                        message = __('%d characters allowed', maxChars);
                     }
                     if($input.hasClass('maxed')){
                         $input.removeClass('maxed');
