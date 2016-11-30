@@ -19,7 +19,7 @@
 </div>
 <div class="panel extendedText">
     {{!-- Let the user enter his own pattern --}}
-    <div id="constraint-pattern" {{#unless constraints.pattern.selected}}style="display:none"{{/unless}}>
+    <div class="constraint constraint-pattern" {{#unless constraints.pattern.selected}}style="display:none"{{/unless}}>
         <label>
             {{__ "Pattern"}}
         </label>
@@ -28,7 +28,7 @@
         <input type="text" name="patternMask" value="{{#if patternMask}}{{patternMask}}{{/if}}"/>
     </div>
     {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
-    <div id="constraint-maxLength" {{#unless constraints.maxLength.selected}}style="display:none"{{/unless}}>
+    <div class="constraint constraint-maxLength" {{#unless constraints.maxLength.selected}}style="display:none"{{/unless}}>
         <label class="spinner">
             {{__ "Max length"}}
         </label>
@@ -37,7 +37,7 @@
         <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" {{#if maxLength}}value="{{maxLength}}"{{/if}} />
     </div>
     {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
-    <div id="constraint-maxWords" {{#unless constraints.maxWords.selected}}style="display:none"{{/unless}}>
+    <div class="constraint constraint-maxWords" {{#unless constraints.maxWords.selected}}style="display:none"{{/unless}}>
         <label class="spinner">
             {{__ "Max words"}}
         </label>

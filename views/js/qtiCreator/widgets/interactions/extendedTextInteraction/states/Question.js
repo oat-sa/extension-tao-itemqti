@@ -44,6 +44,7 @@ define([
 
         var _widget = this.widget,
             $form = _widget.$form,
+            $inputs,
             interaction = _widget.element,
             format = interaction.attr('format'),
             patternMask = interaction.attr('patternMask'),
@@ -96,6 +97,13 @@ define([
         }));
 
         formElement.initWidget($form);
+
+        $inputs = {
+            maxLength : $form.find('[name="maxLength"]'),
+            maxWords : $form.find('[name="maxWords"]'),
+            patternMask : $form.find('[name="patternMask"]')
+        };
+
         //  init data change callbacks
         var callbacks = {};
 
@@ -121,41 +129,37 @@ define([
             }
         };
         callbacks.constraint = function(interaction,attrValue){
-            $('[id|="constraint"]').hide('500');
-            $('#constraint-' + attrValue).show('1000');
+            $('.constraint', $form).hide('500');
+            $('.constraint-' + attrValue, $form).show('1000');
             if (attrValue === "none") {
+                //Reset all constraints
+                $('input', $form).val('');
                 interaction.attr('patternMask',null);
-                $('[name="maxWords"]').val('');
-                $('[name="maxLength"]').val('');
             }
         };
         callbacks.maxWords = function(interaction, attrValue){
-            // 1. Reset maxLength
-            $('[name="maxLength"]').val('');
-            $('[name="patternMask"]').val('');
-
             var newValue = parseInt(attrValue,10);
             if (! isNaN(newValue)) {
                 interaction.attr('patternMask', patternMaskHelper.createMaxWordPattern(newValue));
             }
+            $inputs.maxLength.val('');
+            $inputs.patternMask.val(interaction.attr('patternMask'));
         };
         callbacks.maxLength = function(interaction, attrValue){
-            // 1. Reset maxWords
-            $('[name="maxWords"]').val('');
-            $('[name="patternMask"]').val('');
-
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
             }
+            $inputs.maxWords.val('');
+            $inputs.patternMask.val(interaction.attr('patternMask'));
         };
         callbacks.patternMask = function(interaction, attrValue){
             interaction.attr('patternMask', attrValue);
             /**
              * If anything is entered inside the patternMask, reset maxWords / maxLength(interaction, attrValue)
              */
-            $('[name="maxWords"]').val('');
-            $('[name="maxLength"]').val('');
+            $inputs.maxWords.val('');
+            $inputs.maxLength.val('');
         };
 
         callbacks.expectedLength = function(interaction, attrValue){

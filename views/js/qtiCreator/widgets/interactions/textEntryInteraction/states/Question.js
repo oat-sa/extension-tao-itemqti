@@ -32,10 +32,10 @@ define([
         
         var _widget = this.widget,
             $form = _widget.$form,
-            interaction = _widget.element;
-
-        var patternMask = interaction.attr('patternMask'),
-            maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10);
+            $inputs,
+            interaction = _widget.element,
+            patternMask = interaction.attr('patternMask'),
+            maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'), 10);
 
         var constraints = {
             none : {label : __("None"), selected : true},
@@ -62,6 +62,11 @@ define([
 
         formElement.initWidget($form);
 
+        $inputs = {
+            maxLength : $form.find('[name="maxLength"]'),
+            patternMask : $form.find('[name="patternMask"]')
+        };
+
         formElement.setChangeCallbacks($form, interaction, {
             base: formElement.getAttributeChangeCallback(),
             placeholderText: formElement.getAttributeChangeCallback(),
@@ -69,30 +74,25 @@ define([
                 interaction.attr('expectedLength', isNaN(parseInt(attrValue, 10)) ? 0 : attrValue);
             },
             constraint : function constraint(interaction,attrValue){
-                //TODO use class!!
-                $('[id|="constraint"]').hide('500');
-                $('#constraint-' + attrValue).show('1000');
+                $('.constraint', $form).hide('500');
+                $('.constraint-' + attrValue, $form).show('1000');
                 if (attrValue === "none") {
-                    //Reset other pattern definition
-                    $('[name="maxLength"]').val('');
-
+                    //Reset all constraints
+                    $('input', $form).val('');
                     interaction.attr('patternMask',null);
                 }
             },
             patternMask : function patternMask(interaction, attrValue){
-                //Reset other pattern definition
-                $('[name="maxLength"]').val('');
-
                 interaction.attr('patternMask', attrValue);
+                //If anything is entered inside the patternMask, reset maxLength
+                $inputs.maxLength.val('');
             },
             maxLength : function maxLength(interaction, attrValue){
-                //Reset other pattern definition
-                $('[name="patternMask"]').val('');
-
                 var newValue = parseInt(attrValue,10);
                 if(! isNaN(newValue)){
                     interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
                 }
+                $inputs.patternMask.val(interaction.attr('patternMask'));
             }
         });
     };
