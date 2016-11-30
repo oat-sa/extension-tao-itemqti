@@ -1,5 +1,8 @@
 @import "inc/bootstrap";
 
+
+
+
 .qti-hottextInteraction {
 
     .qti-hottext {
@@ -36,10 +39,6 @@
         .mini-tlb[data-role=create-hottext-tlb] {
             position : absolute;
             right    : -30px;
-
-            &.tlb-inside {
-                right: 0 !important;
-            }
         }
         #selection-wrapper {
             z-index     : 1000;
