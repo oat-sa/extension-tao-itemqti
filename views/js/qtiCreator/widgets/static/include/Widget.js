@@ -33,23 +33,11 @@ define([
      */
     IncludeWidget.initCreator = function(options){
 
-        var _this = this,
-            xinclude = _this.element;
-
         this.registerStates(states);
-        
+
         Widget.initCreator.call(this);
-        
+
         inlineHelper.togglePlaceholder(this);
-        return;
-        //check file exists:
-        inlineHelper.checkFileExists(this, 'href', options.baseUrl);
-        $('#item-editor-scope').on('filedelete.resourcemgr.' + this.element.serial, function(e, src){
-            if(_this.getAssetManager().resolve(xinclude.attr('href')) === _this.getAssetManager().resolve(src)){
-                xinclude.attr('href', '');
-                inlineHelper.togglePlaceholder(_this);
-            }
-        });
     };
 
     IncludeWidget.destroy = function(){
