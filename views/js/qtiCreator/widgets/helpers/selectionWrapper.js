@@ -18,63 +18,110 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([
-    'jquery',
-    'lodash'
-], function($, _) {
+define(['jquery'], function($) {
     'use strict';
 
+    /**
+     * @param {Object} options
+     * @param {jQuery} options.$container - the element in which the selection is allowed
+     * @param {jQuery} options.allowQtiElements - if qtiElements can be wrapped
+     */
     return function(options) {
-        // var $container = options.$container;
-        //
-        // function isWrappable() {
-        //
-        // }
-        var selection = window.getSelection();
+        var $container = options.$container;
+        var allowQtiElements = options.allowQtiElements;
 
-        //fixme: I don't work over multiple lines
-        function containQtiElement(range){
-            var selectedChildNodes,
-                i;
-            if(range.commonAncestorContainer.nodeType === 1){
-                selectedChildNodes = range.cloneContents().childNodes;
-                for (i = 0; i < selectedChildNodes.length; i++){
-                    if(selectedChildNodes[i].className &&
-                        selectedChildNodes[i].className.indexOf("qti-choice") > -1){
-                        return true;
+        var selection = window.getSelection();
+        var containQtiElement;
+
+        /**
+         * traverse a DOM tree to check if it contains a QTI element
+         * @param {Node} rootNode
+         */
+        function searchQtiElement(rootNode) {
+            var childNodes = rootNode.childNodes,
+                currentNode, i;
+            for (i = 0; i < childNodes.length; i++) {
+                currentNode = childNodes[i];
+                if (!containQtiElement && isElement(currentNode)) {
+                    if(isQtiElement(currentNode)) {
+                        containQtiElement = true;
+                    } else {
+                        searchQtiElement(currentNode);
                     }
                 }
             }
-            return false;
         }
 
+        /**
+         * Check if the given node is an element
+         * @param {Node} node
+         * @returns {boolean}
+         */
+        function isElement(node) {
+            return node.nodeType === window.Node.ELEMENT_NODE;
+        }
+
+        /**
+         * Check if the given node represent a QTI Element
+         * @param {Node} node
+         * @returns {boolean}
+         */
+        function isQtiElement(node) {
+            return node.className && node.className.indexOf('qti-choice') > -1;
+        }
+
+        /**
+         * Check that the given range is in the allowed container
+         * @param {Range} range
+         * @returns {*|boolean}
+         */
+        function isRangeValid(range) {
+            return $.contains($container.get(0), range.commonAncestorContainer)
+                || $container.get(0).isSameNode(range.commonAncestorContainer);
+        }
+
+        /**
+         * The selection wrapper helper
+         */
         return {
+            /**
+             * Can the content of the active selection be wrapped?
+             * @returns {boolean|*}
+             */
             canWrap: function canWrap() {
                 var range = selection.getRangeAt(0);
+
+                containQtiElement = false;
+                if (! allowQtiElements) {
+                    searchQtiElement(range.cloneContents());
+                }
+
                 return !selection.isCollapsed
                     && range.toString().trim() !== ''
-                    && !containQtiElement(range);
+                    && isRangeValid(range)
+                    && !containQtiElement;
             },
 
             /**
-             * warning: will lose any event handlers attached to the wrapped nodes !
+             * Wraps the current active selection inside the given element
+             * Warning: will lose any event handlers attached to the wrapped nodes!
+             *
+             * @param {jQuery} $wrapper - the element that will wrap the selection
              * @returns {boolean}
              */
             wrapWith: function wrapWith($wrapper) {
-                var sel = getSelection(),
-                    range = sel.getRangeAt(0);
+                var range = selection.getRangeAt(0);
 
                 if (this.canWrap()) {
                     try {
                         range.surroundContents($wrapper[0]);
-                        return $wrapper;
+                        return true;
                     } catch (err) {
-                        // this happens when partial wrapping is attempted, which would result in an invalid markup
-                        // we silently fail and simply return false
+                        // this happens when wrapping of partially selected nodes is attempted, which would result in an invalid markup
+                        // we return false to feedback the wrapping failure
                     }
                 }
                 return false;
-
             }
         };
     };

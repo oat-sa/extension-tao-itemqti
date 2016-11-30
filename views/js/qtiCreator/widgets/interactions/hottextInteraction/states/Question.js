@@ -127,7 +127,6 @@ define([
      */
     HottextInteractionStateQuestion.prototype.initHottextCreator = function(){
         var self = this,
-            wrapper = selectionWrapper(),
             interactionWidget = this.widget,
 
             $editable       = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
@@ -138,6 +137,11 @@ define([
                 class: 'widget-box',
                 'data-new': true,
                 'data-qti-class': 'hottext'
+            }),
+
+            wrapper = selectionWrapper({
+                $container: $editable,
+                allowQtiElements: false
             });
 
         $toolbar.append($newHottextBtn);

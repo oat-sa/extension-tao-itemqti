@@ -49,6 +49,7 @@ define([
 
                 parent.render(parent.data('widget').$container);
                 parent.postRender();
+                parent.data('widget').changeState('question'); //fixme !!!
             });
         }
 
