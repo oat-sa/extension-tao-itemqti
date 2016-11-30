@@ -26,9 +26,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/textWrapper',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(_, $, stateFactory, Question, htmlEditor, gridContentHelper, htmlContentHelper, textWrapper, toolbarTpl){
-
+    
     'use strict';
-
+    
     var ContainerInteractionStateQuestion = stateFactory.extend(Question, function(){
 
         this.buildEditor();
@@ -41,18 +41,17 @@ define([
 
     ContainerInteractionStateQuestion.prototype.buildEditor = function(){
 
-        var self = this,
+        var _this = this,
             _widget = this.widget,
             container = _widget.element.getBody(),
             $container = _widget.$container,
-            $editableContainer = $container.find('.qti-flow-container'),
-            $bodyTlb;
+            $editableContainer = $container.find('.qti-flow-container');
 
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
-            $bodyTlb = $(toolbarTpl({
+            var $bodyTlb = $(toolbarTpl({
                 serial : _widget.serial,
                 state : 'question'
             }));
@@ -62,7 +61,7 @@ define([
             $bodyTlb.show();
 
             //init text wrapper
-            self.initTextWrapper();
+            _this.initTextWrapper();
 
             //hack : prevent ckeditor from removing empty spans
             $container.find('.gapmatch-content').html('...');
@@ -76,7 +75,7 @@ define([
                     widget : _widget
                 }
             });
-
+            
             //restore gaps
             $container.find('.gapmatch-content').empty();
         }
@@ -92,7 +91,7 @@ define([
 
         //search and destroy the editor
         htmlEditor.destroyEditor($flowContainer);
-
+        
         //restore gaps
         $container.find('.gapmatch-content').empty();
 
@@ -109,10 +108,11 @@ define([
             $gapTlb = $(gapModel.toolbarTpl()).show();
 
         $gapTlb.on('mousedown', function(e){
-            var $wrapper = $gapTlb.parent(),
-                $initialContent = $wrapper.clone();
 
             e.stopPropagation();//prevent rewrapping
+
+            var $wrapper = $gapTlb.parent(),
+                text = $wrapper.text().trim();
 
             //detach it from the DOM for another usage in the next future
             $gapTlb.detach();
@@ -127,11 +127,12 @@ define([
             textWrapper.destroy($editable);
 
             htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(newGapWidget){
+
                 newGapWidget.changeState('question');
                 textWrapper.create($editable);
-                gapModel.afterCreate(widget, newGapWidget, $initialContent);
+                gapModel.afterCreate(widget, newGapWidget, _.escape(text));
             });
-
+            
         }).on('mouseup', function(e){
             e.stopPropagation();//prevent rewrapping
         });
@@ -140,12 +141,6 @@ define([
         $editable.on('editorready.wrapper', function(){
             textWrapper.create($(this));
         }).on('wrapped.wrapper', function(e, $wrapper){
-            // if wrapped text already contains a toolbar, then we move it inside the selection to prevent overlapping toolbars
-            if ($wrapper.find('.mini-tlb').length > 0) {
-                $gapTlb.addClass('tlb-inside');
-            } else {
-                $gapTlb.removeClass('tlb-inside');
-            }
             $wrapper.append($gapTlb);
         }).on('beforeunwrap.wrapper', function(){
             $gapTlb.detach();
