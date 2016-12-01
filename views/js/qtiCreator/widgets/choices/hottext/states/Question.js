@@ -16,11 +16,12 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 define([
+    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext'
-], function($, stateFactory, QuestionState, gapTpl){
+], function(_, $, stateFactory, QuestionState, gapTpl){
     'use strict';
 
     var HottextStateQuestion = stateFactory.extend(QuestionState);
@@ -44,29 +45,33 @@ define([
 
             //init delete:
             $toolbar.find('[data-role=restore]').on('mousedown.question', function(){
+
                 var inlineStaticElements = hottext.getElements(),
                     parent = hottext.parent(),
-                    newBody = parent.body().replace(hottext.placeholder(), hottext.body()),
-                    serial,
-                    elt;
+                    newBody = parent.body().replace(hottext.placeholder(), hottext.body());
 
-                for (serial in inlineStaticElements) {
-                    if (inlineStaticElements.hasOwnProperty(serial)) {
-                        elt = hottext.getElement(serial);
-                        parent.setElement(elt);
-                        hottext.removeElement(elt);
-                    }
-                }
+                //prepare the replacement of the hottext html rendering by prerendering inner element
+                var hottextHtmlReplacement = _.reduce(inlineStaticElements, function(hottextBody, elt){
+                    //move all inner element of the hottext to its parent
+                    parent.setElement(elt);
+                    hottext.removeElement(elt);
 
-                parent.body(newBody);
+                    //prerender inner element to html
+                    return hottextBody.replace(elt.placeholder(), elt.render());
+                }, hottext.body());
 
-                $container.replaceWith(hottext.body());
+                //properly destroy the old hottext and its widget
                 _widget.destroy();
                 hottext.remove();
 
-                parent.render(parent.data('widget').$container);
-                parent.postRender();
-                parent.data('widget').changeState('question'); //fixme !!!
+                //set the new body into the model of the parent
+                parent.body(newBody);
+
+                //render static elements
+                $container.replaceWith(hottextHtmlReplacement);
+                _.each(inlineStaticElements, function(elt){
+                    elt.postRender();
+                });
             });
         }
 

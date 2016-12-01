@@ -183,7 +183,7 @@ define([
             newHottextBody;
 
         htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function (newHottextWidget) {
-            newHottextWidget.changeState('question');
+
             newHottextElt = newHottextWidget.element;
 
             // look for nested inlineStatic elements
@@ -215,7 +215,7 @@ define([
             newHottextBody = _.escape($hottextContent.text());
 
             if (newHottextBody.trim() !== '') {
-                // update model and render it
+                // update model and render it inline
                 newHottextElt.body(newHottextBody);
                 newHottextElt.render(newHottextElt.getContainer());
                 newHottextElt.postRender();
