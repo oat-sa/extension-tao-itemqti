@@ -52,7 +52,7 @@ define([
         this.destroyEditor();
     });
 
-    HottextInteractionStateQuestion.prototype.buildEditor = function(){
+    HottextInteractionStateQuestion.prototype.buildEditor = function buildEditor(){
 
         var self = this,
             _widget = this.widget,
@@ -88,7 +88,7 @@ define([
         }
     };
 
-    HottextInteractionStateQuestion.prototype.destroyEditor = function(){
+    HottextInteractionStateQuestion.prototype.destroyEditor = function destroyEditor(){
         var $container = this.widget.$container,
             $flowContainer = $container.find('.qti-flow-container'),
             $editable      = $container.find('.qti-flow-container [data-html-editable]');
@@ -102,7 +102,7 @@ define([
         $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]').remove();
     };
 
-    HottextInteractionStateQuestion.prototype.initForm = function(){
+    HottextInteractionStateQuestion.prototype.initForm = function initForm(){
 
         var _widget = this.widget,
             $form = _widget.$form,
@@ -125,7 +125,7 @@ define([
     /**
      * Add the button that allow to create hottext when a selection is made
      */
-    HottextInteractionStateQuestion.prototype.initHottextCreator = function(){
+    HottextInteractionStateQuestion.prototype.initHottextCreator = function initHottextCreator(){
         var self = this,
             interactionWidget = this.widget,
 
@@ -171,7 +171,7 @@ define([
      * Create a new hottext
      * @param $hottextContent - content of the hottext. May contain plain text or qti inline static elements
      */
-    HottextInteractionStateQuestion.prototype.createNewHottext = function($hottextContent) {
+    HottextInteractionStateQuestion.prototype.createNewHottext = function createNewHottext($hottextContent) {
         var interactionWidget = this.widget,
             interaction = interactionWidget.element,
 
