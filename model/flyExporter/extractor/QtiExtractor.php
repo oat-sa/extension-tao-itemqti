@@ -106,7 +106,7 @@ class QtiExtractor implements Extractor
         $this->dom   = new \DOMDocument();
         $this->dom->loadXml($xml);
         $this->xpath = new \DOMXpath($this->dom);
-        $this->xpath->registerNamespace('qti', 'http://www.imsglobal.org/xsd/imsqti_v2p1');
+        $this->xpath->registerNamespace('qti', $this->dom->documentElement->namespaceURI);
 
         return $this;
     }
