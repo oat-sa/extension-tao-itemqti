@@ -13,9 +13,10 @@ define([
         //move to sleep state by clicking anywhere outside the interaction 
         $('#item-editor-panel').on('mousedown.active.' + _widget.serial, function(e){
             if (
-                container !== e.target 
-                && !$.contains(container, e.target) 
+                container !== e.target
+                && !$.contains(container, e.target)
                 && !$.contains($('#modalFeedbacks')[0], e.target) //if click triggered inside the #modalFeedback then state must not be changed.
+                && ($(e.target).data('role') !== 'restore')
             ){
                 _widget.changeState('sleep');
             }

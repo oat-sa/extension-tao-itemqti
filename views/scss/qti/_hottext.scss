@@ -12,12 +12,13 @@
 .qti-hottextInteraction {
 
     .qti-hottext {
+        display: inline-block;
         background: $uiClickableDefaultBg;
         margin-right: 5px;
         @include border-radius();
         position: relative;
         border-width: 0px !important;
-        
+
         &:hover {
             @extend %selectableHover;
         }

@@ -15,6 +15,16 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+/**
+ * =========================================
+ * Warning
+ * =========================================
+ *
+ * This component used to be shared by hottext and gapmatch interaction, but is now only used by gapmatch interaction.
+ * the use of the textWrapper component has been problematic while implementing TAO-3368, so hottext now use a selectionWrapper instead.
+ * if support is needed for Qti Inline Static Elements, then Gapmatch should be refactored in the same way
+ *
+ */
 define([
     'lodash',
     'jquery',
@@ -26,9 +36,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/textWrapper',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(_, $, stateFactory, Question, htmlEditor, gridContentHelper, htmlContentHelper, textWrapper, toolbarTpl){
-    
+
     'use strict';
-    
+
     var ContainerInteractionStateQuestion = stateFactory.extend(Question, function(){
 
         this.buildEditor();
@@ -41,17 +51,18 @@ define([
 
     ContainerInteractionStateQuestion.prototype.buildEditor = function(){
 
-        var _this = this,
+        var self = this,
             _widget = this.widget,
             container = _widget.element.getBody(),
             $container = _widget.$container,
-            $editableContainer = $container.find('.qti-flow-container');
+            $editableContainer = $container.find('.qti-flow-container'),
+            $bodyTlb;
 
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
-            var $bodyTlb = $(toolbarTpl({
+            $bodyTlb = $(toolbarTpl({
                 serial : _widget.serial,
                 state : 'question'
             }));
@@ -61,7 +72,7 @@ define([
             $bodyTlb.show();
 
             //init text wrapper
-            _this.initTextWrapper();
+            self.initTextWrapper();
 
             //hack : prevent ckeditor from removing empty spans
             $container.find('.gapmatch-content').html('...');
@@ -75,7 +86,7 @@ define([
                     widget : _widget
                 }
             });
-            
+
             //restore gaps
             $container.find('.gapmatch-content').empty();
         }
@@ -91,7 +102,7 @@ define([
 
         //search and destroy the editor
         htmlEditor.destroyEditor($flowContainer);
-        
+
         //restore gaps
         $container.find('.gapmatch-content').empty();
 
@@ -108,11 +119,10 @@ define([
             $gapTlb = $(gapModel.toolbarTpl()).show();
 
         $gapTlb.on('mousedown', function(e){
-
-            e.stopPropagation();//prevent rewrapping
-
             var $wrapper = $gapTlb.parent(),
                 text = $wrapper.text().trim();
+
+            e.stopPropagation();//prevent rewrapping
 
             //detach it from the DOM for another usage in the next future
             $gapTlb.detach();
@@ -132,7 +142,7 @@ define([
                 textWrapper.create($editable);
                 gapModel.afterCreate(widget, newGapWidget, _.escape(text));
             });
-            
+
         }).on('mouseup', function(e){
             e.stopPropagation();//prevent rewrapping
         });

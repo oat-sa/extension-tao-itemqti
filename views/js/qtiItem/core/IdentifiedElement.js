@@ -41,7 +41,7 @@ define([
          */
         buildIdentifier : function buildIdentifier(prefix, useSuffix){
             var item = this.getRelatedItem();
-            var id = util.buildIdentifier(item, prefix, useSuffix);
+            var id = util.buildIdentifier(item, prefix || this.qtiClass, useSuffix);
             if(id){
                 this.attr('identifier', id);
             }
