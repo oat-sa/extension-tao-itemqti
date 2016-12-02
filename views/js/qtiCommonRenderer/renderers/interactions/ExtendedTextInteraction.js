@@ -31,8 +31,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
+    'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'polyfill/placeholders'
-], function($, _, __, Promise, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator){
+], function($, _, __, Promise, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
     'use strict';
 
 
@@ -50,7 +51,6 @@ define([
             var $el, expectedLength, minStrings, expectedLines, patternMask, placeholderType, editor;
             var $container = containerHelper.get(interaction);
 
-            var response = interaction.getResponseDeclaration();
             var multiple = _isMultiple(interaction);
             var limiter  = inputLimiter(interaction);
 
@@ -345,8 +345,8 @@ define([
             $wordsCounter   = $('.count-words',$container);
 
             if (patternMask !== "") {
-                maxWords = _parsePattern(patternMask, 'words');
-                maxLength = _parsePattern(patternMask, 'chars');
+                maxWords = patternMaskHelper.parsePattern(patternMask, 'words');
+                maxLength = patternMaskHelper.parsePattern(patternMask, 'chars');
                 maxWords = (_.isNaN(maxWords)) ? undefined : maxWords;
                 maxLength = (_.isNaN(maxLength) ? undefined : maxLength);
             }
@@ -489,7 +489,7 @@ define([
      * @param {string} pattern
      */
     var _setPattern = function _setPattern($element, pattern){
-        var patt = new RegExp('^'+pattern+'$');
+        var patt = new RegExp(pattern);
 
         //test when some data is entering in the input field
         //@todo plug the validator + tooltip
@@ -600,39 +600,6 @@ define([
             return format;
         }
         return 'plain';
-    };
-
-    /**
-     * parse the pattern (idealy from patternMask) and return the max words / chars from the pattern
-     * @param  {String} pattern String from patternMask
-     * @param  {String} type    the type of information you want : words / chars
-     * @returns {Number|null}    the number extracted of the pattern, or null if not found
-     */
-    var _parsePattern = function _parsePattern(pattern,type){
-        if (pattern === undefined){return null;}
-
-        var regexChar = /\^\[\\s\\S\]\{\d+\,(\d+)\}\$/,
-        regexWords =  /\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}\$/,
-        result;
-
-        if (type === "words") {
-            result = pattern.match(regexWords);
-            if (result !== null && result.length > 1) {
-                return parseInt(result[1],10);
-            }else{
-                return null;
-            }
-        }else if (type === "chars"){
-            result = pattern.match(regexChar);
-
-            if (result !== null && result.length > 1) {
-                return parseInt(result[1],10);
-            }else{
-                return null;
-            }
-        }else{
-            return null;
-        }
     };
 
     var enable = function(interaction) {
@@ -756,8 +723,8 @@ define([
 
     var getCustomData = function(interaction, data){
         var pattern = interaction.attr('patternMask'),
-            maxWords = parseInt(_parsePattern(pattern,'words')),
-            maxLength = parseInt(_parsePattern(pattern, 'chars')),
+            maxWords = parseInt(patternMaskHelper.parsePattern(pattern,'words')),
+            maxLength = parseInt(patternMaskHelper.parsePattern(pattern, 'chars')),
             expectedLength = parseInt(interaction.attr('expectedLines'),10);
         return _.merge(data || {}, {
             maxWords : (! isNaN(maxWords)) ? maxWords : undefined,
