@@ -56,7 +56,7 @@
     },
     "minimum-stability" : "dev",
     "require": {
-        "oat-sa/lib-tao-qti" : "~2.0.0",
+        "oat-sa/lib-tao-qti" : "~2.1.0",
         "oat-sa/oatbox-extension-installer": "dev-master"
     },
     "autoload" : {
