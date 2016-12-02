@@ -92,9 +92,15 @@ class ManifestParserFactory
 
 				// BT Customization Start
 				//add support for additional manifest properties
-				$resource->setRdfProperties($resourceNode->metadata->lom->classification, "taxon");
-				$resource->setRdfProperties($resourceNode->metadata->curriculumStandardsMetadataSet->curriculumStandardsMetadata, "standard");
-				$resource->setRdfProperties($resourceNode->metadata->lom->qtiMetadata, 'itemType');
+				if (isset($resourceNode->metadata->lom->classification)) {
+					$resource->setRdfProperties($resourceNode->metadata->lom->classification, "taxon");
+				}
+				if (isset($resourceNode->metadata->curriculumStandardsMetadataSet->curriculumStandardsMetadata)) {
+					$resource->setRdfProperties($resourceNode->metadata->curriculumStandardsMetadataSet->curriculumStandardsMetadata, "standard");
+				}
+				if (isset($resourceNode->metadata->lom->qtiMetadata)) {
+					$resource->setRdfProperties($resourceNode->metadata->lom->qtiMetadata, 'itemType');
+				}
 
 				//Setting resource title according to the manifest file
 				if (isset($resourceNode->metadata->lom->general->identifier->entry)) {
