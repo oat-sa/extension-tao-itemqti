@@ -43,6 +43,8 @@ use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
 use oat\taoQtiItem\model\event\ItemImported;
@@ -259,41 +261,43 @@ class ImportService extends tao_models_classes_GenerisService
         try {
 
             // -- Initializing metadata services.
-            $metadataMapping = Service::singleton()->getMetadataRegistry()->getMapping();
+//            $metadataMapping = Service::singleton()->getMetadataRegistry()->getMapping();
             $metadataInjectors = array();
             $metadataGuardians = array();
             $metadataClassLookups = array();
-            $metadataValues = array();
+//            $metadataValues = array();
 
             // The metadata import feature needs a DOM representation of the manifest.
             $domManifest = new DOMDocument('1.0', 'UTF-8');
             $domManifest->load($folder . 'imsmanifest.xml');
 
-            foreach ($metadataMapping['injectors'] as $injector) {
-                $metadataInjectors[] = new $injector();
-                \common_Logger::i("Metadata Injector '${injector}' registered.");
-            }
-
-            foreach ($metadataMapping['guardians'] as $guardian) {
-                $metadataGuardians[] = new $guardian();
-                \common_Logger::i("Metadata Guardian '${guardian}' registered.");
-            }
-
-            foreach ($metadataMapping['classLookups'] as $classLookup) {
-                $metadataClassLookups[] = new $classLookup();
-                \common_Logger::i("Metadata Class Lookup '{$classLookup}' registered.");
-            }
+//            foreach ($metadataMapping['injectors'] as $injector) {
+//                $metadataInjectors[] = new $injector();
+//                \common_Logger::i("Metadata Injector '${injector}' registered.");
+//            }
+//
+//            foreach ($metadataMapping['guardians'] as $guardian) {
+//                $metadataGuardians[] = new $guardian();
+//                \common_Logger::i("Metadata Guardian '${guardian}' registered.");
+//            }
+//
+//            foreach ($metadataMapping['classLookups'] as $classLookup) {
+//                $metadataClassLookups[] = new $classLookup();
+//                \common_Logger::i("Metadata Class Lookup '{$classLookup}' registered.");
+//            }
 
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
-            foreach ($metadataMapping['extractors'] as $extractor) {
-                $metadataExtractor = new $extractor();
-                \common_Logger::i("Metatada Extractor '${extractor}' registered.");
-                $metadataValues = array_merge($metadataValues, $metadataExtractor->extract($domManifest));
-            }
+            $metadataValues = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter()->extract($domManifest);
 
-            $metadataCount = count($metadataValues, COUNT_RECURSIVE);
-            \common_Logger::i("${metadataCount} Metadata Values found in manifest by extractor(s).");
+//            foreach ($metadataMapping['extractors'] as $extractor) {
+//                $metadataExtractor = new $extractor();
+//                \common_Logger::i("Metatada Extractor '${extractor}' registered.");
+//                $metadataValues = array_merge($metadataValues, $metadataExtractor->extract($domManifest));
+//            }
+
+//            $metadataCount = count($metadataValues, COUNT_RECURSIVE);
+//            \common_Logger::i("${metadataCount} Metadata Values found in manifest by extractor(s).");
 
             $itemCount = 0;
             $sharedFiles = array();
@@ -398,35 +402,52 @@ class ImportService extends tao_models_classes_GenerisService
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
 
-                // Use the guardians to check whether or not the item has to be imported.
-                foreach ($metadataGuardians as $guardian) {
-                    if (isset($metadataValues[$resourceIdentifier]) === true) {
-                        if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
-                            \common_Logger::i("Resource '${resourceIdentifier}' is already stored in the database and will not be imported.");
-                            $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier);
-                            $report = common_report_Report::createInfo($msg, $guard);
-                            // Simply do not import again.
-                            return $report;
-                        }
-                    }
+                /** @var MetadataImporter $metadataImporter */
+                $metadataImporter = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter();
+                $metadataImporter->setMetadataValues($metadataValues);
+
+                $guardian = $metadataImporter->guard($resourceIdentifier);
+                if ($guardian !== false) {
+                    \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
+                    return common_report_Report::createInfo(
+                        __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
+                        $guardian
+                    );
                 }
 
-                $targetClass = false;
-                // Use the classLookups to determine where the item has to go.
-                foreach ($metadataClassLookups as $classLookup) {
-                    if (isset($metadataValues[$resourceIdentifier]) === true) {
-                        \common_Logger::i("Target Class Lookup for resource '${resourceIdentifier}' ...");
-                        if (($targetClass = $classLookup->lookup($metadataValues[$resourceIdentifier])) !== false) {
-                            \common_Logger::i("Class Lookup Successful. Resource '${resourceIdentifier}' will be stored in RDFS Class '" . $targetClass->getUri() . "'.");
-                            
-                            if ($classLookup instanceof MetadataClassLookupClassCreator) {
-                                $createdClasses = $classLookup->createdClasses();
-                            }
-                            
-                            break;
-                        }
-                    }
-                }
+
+
+                // Use the guardians to check whether or not the item has to be imported.
+//                foreach ($metadataGuardians as $guardian) {
+//                    if (isset($metadataValues[$resourceIdentifier]) === true) {
+//                        if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
+//                            \common_Logger::i("Resource '${resourceIdentifier}' is already stored in the database and will not be imported.");
+//                            $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier);
+//                            $report = common_report_Report::createInfo($msg, $guard);
+//                            // Simply do not import again.
+//                            return $report;
+//                        }
+//                    }
+//                }
+
+                $targetClass = $metadataImporter->classLookUp($resourceIdentifier, $createdClasses);
+
+//                $targetClass = false;
+//                // Use the classLookups to determine where the item has to go.
+//                foreach ($metadataClassLookups as $classLookup) {
+//                    if (isset($metadataValues[$resourceIdentifier]) === true) {
+//                        \common_Logger::i("Target Class Lookup for resource '${resourceIdentifier}' ...");
+//                        if (($targetClass = $classLookup->lookup($metadataValues[$resourceIdentifier])) !== false) {
+//                            \common_Logger::i("Class Lookup Successful. Resource '${resourceIdentifier}' will be stored in RDFS Class '" . $targetClass->getUri() . "'.");
+//
+//                            if ($classLookup instanceof MetadataClassLookupClassCreator) {
+//                                $createdClasses = $classLookup->createdClasses();
+//                            }
+//
+//                            break;
+//                        }
+//                    }
+//                }
 
                 $qtiFile = $folder . helpers_File::urlToPath($qtiItemResource->getFile());
 
@@ -472,8 +493,10 @@ class ImportService extends tao_models_classes_GenerisService
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
+                $metadataImporter->inject($resourceIdentifier, $rdfItem);
+
                 // Finally, import metadata.
-                $this->importResourceMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
+//                $this->importResourceMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
 
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));

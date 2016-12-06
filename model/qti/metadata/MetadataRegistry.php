@@ -42,36 +42,36 @@ class MetadataRegistry
      * @var string
      */
     const CONFIG_ID = 'metadata_registry';
-    
+
     /**
      * A pointer to the taoQtiItem extension
-     * 
+     *
      * @var \common_ext_Extension
      */
     protected $extension;
-    
+
     /**
      * Create a new MetadataRegistry object.
-     * 
+     *
      */
     public function __construct()
     {
         $this->setExtension(common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem'));
     }
-    
+
     /**
      * Set the extension to be used to store the mapping in configuration.
-     * 
+     *
      * @param common_ext_Extension $extension
      */
     protected function setExtension(common_ext_Extension $extension)
     {
         $this->extension = $extension;
     }
-    
+
     /**
      * Get the extension to be used to store the mapping configuration.
-     * 
+     *
      * @return common_ext_Extension
      */
     protected function getExtension()
@@ -101,8 +101,21 @@ class MetadataRegistry
             
             return $mapping;
         } else {
-            
-            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array(), 'classLookups' => array());
+
+            // Needs: distinguish import/export
+            $mapping = array(
+                'injectors' => array(),
+                'extractors' => array(),
+                'guardians' => array(),
+                'classLookups' => array()
+            );
+
+            // Final word
+
+            // Metadata extractor : make distinction between extract and extract all?
+            // Change getMapping() to getMetadataMapping($key) with object
+
+            return $mapping;
         }
     }
     
