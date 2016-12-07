@@ -99,7 +99,10 @@ class MetadataRegistry
 
         $mapping = [];
         foreach ($instances as $key => $instance) {
-            $mapping[$key][] = get_class($instances);
+            if (! isset($mapping[$key])) {
+                $mapping[$key] = [];
+            }
+            $mapping[$key][] = get_class($instance);
         }
 
         return $mapping;
