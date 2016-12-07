@@ -494,11 +494,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->unregisterFileSystem('UnitTest');
     }
 
-    private function getServiceLocator()
-    {
-        return ServiceManager::getServiceManager();
-    }
-
     private function registerFS($dir)
     {
         $fsService = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);

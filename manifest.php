@@ -29,11 +29,11 @@ return array(
     'label' => 'QTI item model',
     'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '6.4.1',
+    'version' => '6.6.1',
     'author' => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=2.23.0',
-        'tao'      => '>=7.18.0'
+        'tao'      => '>=7.36.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
