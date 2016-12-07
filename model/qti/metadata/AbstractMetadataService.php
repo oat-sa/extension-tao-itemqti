@@ -1,19 +1,71 @@
 <?php
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ *
+ */
 
 namespace oat\taoQtiItem\model\qti\metadata;
 
 use oat\oatbox\service\ConfigurableService;
 
+/**
+ * Class AbstractMetadataService
+ * Base class for a metadata Service e.q. MetadataExporter or MetadataImporter
+ *
+ * @package oat\taoQtiItem\model\qti\metadata
+ */
 abstract class AbstractMetadataService extends ConfigurableService
 {
+    /**
+     * Config key to store injectors classes
+     */
     const INJECTOR_KEY  = 'injectors';
+
+    /**
+     * Config key to store extractors classes
+     */
     const EXTRACTOR_KEY = 'extractors';
 
+    /**
+     * Array of metadata, with metadata key with associated value
+     * @var array
+     */
     protected $metadataValues;
+
+    /**
+     * Instances to manage metadata values
+     *
+     * @var array
+     */
     protected $instances;
 
+    /**
+     * Allow to register into config a metadataService
+     */
     abstract protected function registerService();
 
+    /**
+     * Extract metadata value of a DomManifest
+     *
+     * Extract metadata values by calling each extractors
+     *
+     * @param \DOMDocument $domManifest
+     * @return array
+     */
     public function extract(\DOMDocument $domManifest)
     {
         $metadata = [];
@@ -26,6 +78,15 @@ abstract class AbstractMetadataService extends ConfigurableService
         return $metadata;
     }
 
+    /**
+     * Inject metadata value for an identifier through injectors
+     *
+     * Inject metadata value for an identifier by calling each injectors
+     * Injectors need $refItem as target of injection
+     *
+     * @param $identifier
+     * @param \core_kernel_classes_Resource $rdfItem
+     */
     public function inject($identifier, \core_kernel_classes_Resource $rdfItem)
     {
         if ($this->hasMetadataValue($identifier)) {
@@ -40,10 +101,23 @@ abstract class AbstractMetadataService extends ConfigurableService
         }
     }
 
+    /**
+     * Register an importer instance
+     *
+     * Register an instance e.q. Injectors, Extractors, Guardians or LooUpClass
+     * Respective interface is checked
+     * Throw exception if call if not correctly formed
+     *
+     * @param $key
+     * @param $name
+     * @return bool
+     * @throws \InvalidArgumentException
+     * @throws \common_Exception
+     */
     public function register($key, $name)
     {
         if (empty($key) || empty($name)) {
-            throw new \common_Exception();
+            throw new \InvalidArgumentException(__('Register method expects $key and $name parameters'));
         }
 
         if (is_object($name)) {
@@ -58,12 +132,48 @@ abstract class AbstractMetadataService extends ConfigurableService
                 $this->registerInstance(self::INJECTOR_KEY, $name, MetadataInjector::class);
                 break;
             default:
-                throw new \common_Exception('');
+                throw new \common_Exception(__('Unknow $key to register MetadataService instance'));
         }
 
         return true;
     }
 
+    /**
+     * Unregister a instance of metadataService config
+     *
+     * Unregister an instance with helper method unregisterInstance
+     *
+     * @param string $key The config key where unregister instance
+     * @param string $name The instance name to unregister
+     * @throws \common_Exception If method is call with empty argument
+     */
+    public function unregister($key, $name)
+    {
+        if (empty($key) || empty($name)) {
+            throw new \common_Exception();
+        }
+
+        if (is_object($name)) {
+            $name = get_class($name);
+        }
+
+        switch ($key) {
+            case self::EXTRACTOR_KEY:
+                $this->unregisterInstance(self::EXTRACTOR_KEY, $name);
+                break;
+            case self::INJECTOR_KEY:
+                $this->unregisterInstance(self::INJECTOR_KEY, $name);
+                break;
+        }
+        return;
+    }
+
+    /**
+     * Return metadata values
+     *
+     * @return array
+     * @throws \common_Exception If metadata values are empty
+     */
     public function getMetadataValues()
     {
         if (! $this->metadataValues) {
@@ -72,11 +182,26 @@ abstract class AbstractMetadataService extends ConfigurableService
         return $this->metadataValues;
     }
 
+    /**
+     * Set metadata values with given array
+     *
+     * @param array $metadataValues
+     */
     public function setMetadataValues(array $metadataValues)
     {
         $this->metadataValues = $metadataValues;
     }
 
+    /**
+     * Register an instance
+     *
+     * Register a $name instance into $key config
+     * $key class has to implements $interface
+     *
+     * @param $key
+     * @param $name
+     * @param $interface
+     */
     protected function registerInstance($key, $name, $interface)
     {
         if (is_a($name, $interface, true)) {
@@ -89,27 +214,77 @@ abstract class AbstractMetadataService extends ConfigurableService
         }
     }
 
+    /**
+     * Unregister an instance
+     *
+     * Unregister a $name instance into $key config
+     *
+     * @param $key
+     * @param $name
+     */
+    protected function unregisterInstance($key, $name)
+    {
+        if ($this->hasOption($key)) {
+            $instances = $this->getOption($key);
+            if (array_search($name, $instances) !== false) {
+                unset($instances[$name]);
+                $this->setOption($key, $instances);
+                $this->registerService();
+            }
+        }
+    }
+
+    /**
+     * Check if metadata value $identifier exists
+     *
+     * @param $identifier
+     * @return bool
+     */
     protected function hasMetadataValue($identifier)
     {
         return array_key_exists($identifier, $this->getMetadataValues());
     }
 
+    /**
+     * Return the associated value of metadata $identifier or null if not exists
+     *
+     * @param $identifier
+     * @return mixed|null
+     */
     protected function getMetadataValue($identifier)
     {
         $metadata = $this->getMetadataValues();
         return isset($metadata[$identifier]) ? $metadata[$identifier] : null;
     }
 
+    /**
+     *
+     * @return MetadataExtractor[]
+     */
     protected function getExtractors()
     {
         return $this->getInstances(self::EXTRACTOR_KEY, MetadataExtractor::class);
     }
 
+    /**
+     *
+     * @return MetadataInjector[]
+     */
     protected function getInjectors()
     {
         return $this->getInstances(self::INJECTOR_KEY, MetadataInjector::class);
     }
 
+    /**
+     * Return config instances
+     *
+     * Retrieve instances stored into config
+     * Config $key is scan to take only instances with given $interface
+     *
+     * @param $id
+     * @param $interface
+     * @return mixed
+     */
     protected function getInstances($id, $interface)
     {
         if (isset($this->instances[$id])) {
