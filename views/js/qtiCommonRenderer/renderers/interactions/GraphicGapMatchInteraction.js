@@ -446,12 +446,11 @@ define([
      */
     var _getRawResponse = function _getRawResponse(interaction){
         var pairs = [];
-
        _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
             if(element && _.isArray(element.data('matching'))){
                 _.forEach(element.data('matching'), function(match){
-                    pairs.push([choice.id(), match]);
+                    pairs.push([match, choice.id()]);
                 });
             }
        });
@@ -486,10 +485,10 @@ define([
                     var element = interaction.paper.getById(choice.serial);
                     if(element){
                         _.forEach(responseValues, function(pair){
-                            var index = _.indexOf(pair, choice.id());
-                            if(index > -1 && pair.length === 2){
+                            if(pair.length === 2 && pair[1] === choice.id()){
 
-                                $("[data-identifier=" + pair[index === 0 ? 1 : 0] + "]", $container).addClass('active');
+                                $("[data-identifier=" + pair[0] + "]", $container).addClass('active');
+
                                 _selectShape(interaction, element, false);
                             }
                         });
