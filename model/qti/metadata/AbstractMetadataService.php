@@ -73,7 +73,7 @@ abstract class AbstractMetadataService extends ConfigurableService
         foreach ($this->getExtractors() as $extractor) {
             $metadata = array_merge($metadata, $extractor->extract($domManifest));
         }
-        \common_Logger::i(count($metadata) . ' metadata Values found in manifest by extractor(s).');
+        \common_Logger::i(count($metadata) . ' metadata values found in manifest by extractor(s).');
 
         return $metadata;
     }
@@ -132,7 +132,7 @@ abstract class AbstractMetadataService extends ConfigurableService
                 $this->registerInstance(self::INJECTOR_KEY, $name, MetadataInjector::class);
                 break;
             default:
-                throw new \common_Exception(__('Unknow $key to register MetadataService instance'));
+                throw new \common_Exception(__('Unknown $key to register MetadataService instance'));
         }
 
         return true;
