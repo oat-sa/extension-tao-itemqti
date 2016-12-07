@@ -22,6 +22,7 @@ namespace oat\taoQtiItem\model\qti\metadata;
 use \common_ext_Extension;
 use \common_ext_ExtensionsManager;
 use \InvalidArgumentException;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * MetadataRegistry objects enables you to register/unregister
@@ -177,17 +178,22 @@ class MetadataRegistry
      */
     public function registerMetadataExtractor($fqcn)
     {
-        // Check if $fqcn class implements the correct interface.
-        $interfaces = class_implements($fqcn);
-        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataExtractor', $interfaces) === false) {
-            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataExtractor interface";
-            throw new InvalidArgumentException($msg);
-        }
-        
-        $mapping = $this->getMapping();
-        $mapping['extractors'][] = $fqcn;
-        
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->register(MetadataService::EXTRACTOR_KEY, $fqcn);
+
+//        // Check if $fqcn class implements the correct interface.
+//        $interfaces = class_implements($fqcn);
+//        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataExtractor', $interfaces) === false) {
+//            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataExtractor interface";
+//            throw new InvalidArgumentException($msg);
+//        }
+//
+//        $mapping = $this->getMapping();
+//        $mapping['extractors'][] = $fqcn;
+//
+//        $this->setMapping($mapping);
     }
     
     /**
@@ -283,5 +289,10 @@ class MetadataRegistry
         }
     
         $this->setMapping($mapping);
+    }
+
+    protected function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }

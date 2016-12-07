@@ -2,40 +2,16 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\importer;
 
-use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\qti\metadata\AbstractMetadataService;
+use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
+use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
-class MetadataImporter extends ConfigurableService
+class MetadataImporter extends AbstractMetadataService
 {
     const GUARDIAN_KEY     = 'guardians';
     const CLASS_LOOKUP_KEY = 'classLookups';
-
-    protected $metadataValues;
-
-    public function getMetadataValues()
-    {
-        if (! $this->metadataValues) {
-            throw new \common_Exception(__('Metadata values are not found.'));
-        }
-        return $this->metadataValues;
-    }
-
-    public function setMetadataValues(array $metadataValues)
-    {
-        $this->metadataValues = $metadataValues;
-    }
-
-    protected function hasMetadataValue($identifier)
-    {
-        return array_key_exists($identifier, $this->getMetadataValues());
-    }
-
-    protected function getMetadataValue($identifier)
-    {
-        $metadata = $this->getMetadataValues();
-        return isset($metadata[$identifier]) ? $metadata[$identifier] : null;
-    }
 
     public function guard($identifier)
     {
@@ -70,62 +46,47 @@ class MetadataImporter extends ConfigurableService
         return $targetClass;
     }
 
-    public function extract(\DOMDocument $domManifest)
+    public function register($key, $name)
     {
-        $metadata = [];
-        foreach ($this->getExtractors() as $extractor) {
-            $metadata = array_merge($metadata, $extractor->extract($domManifest));
+        if (empty($key) || empty($name)) {
+            throw new \common_Exception();
         }
-        \common_Logger::i(count($metadata) . ' metadata Values found in manifest by extractor(s).');
 
-        return $metadata;
+        if (is_object($name)) {
+            $name = get_class($name);
+        }
+
+        switch ($key) {
+            case self::GUARDIAN_KEY:
+                $this->registerInstance(self::GUARDIAN_KEY, $name, MetadataGuardian::class);
+                return true;
+                break;
+            case self::CLASS_LOOKUP_KEY:
+                $this->registerInstance(self::CLASS_LOOKUP_KEY, $name, MetadataClassLookup::class);
+                return true;
+                break;
+        }
+        return parent::register($key, $name);
     }
 
-    public function inject($identifier, \core_kernel_classes_Resource $rdfItem)
+    protected function registerService()
     {
-        if ($this->hasMetadataValue($identifier)) {
-            \common_Logger::i('Preparing Metadata Values for resource "' . $identifier . '"...');
-            $values = $this->getMetadataValue($identifier);
-
-            foreach ($this->getInjectors() as $injector) {
-                \common_Logger::i('Attempting to inject "' . count($values) . '" metadata values in database ' .
-                    ' for resource "' . $identifier . '" with Metadata Injector "' . get_class($injector) . '".');
-                $injector->inject($rdfItem, array($identifier => $values));
-            }
+        if ($this->getServiceLocator()->has(MetadataService::SERVICE_ID)) {
+            $metadataService = $this->getServiceLocator()->get(MetadataService::SERVICE_ID);
+        } else {
+            $metadataService = $this->getServiceManager()->build(MetadataService::class);
         }
+        $metadataService->setOption(MetadataService::IMPORTER_KEY, $this);
+        $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
     }
 
     protected function getGuardians()
     {
-        return $this->getHelpers(self::GUARDIAN_KEY);
+        return $this->getInstances(self::GUARDIAN_KEY, MetadataGuardian::class);
     }
 
     protected function getClassLookUp()
     {
-        return $this->getHelpers(self::CLASS_LOOKUP_KEY);
+        return $this->getInstances(self::CLASS_LOOKUP_KEY, MetadataClassLookup::class);
     }
-
-    protected function getExtractors()
-    {
-        return $this->getHelpers(MetadataService::EXTRACTOR_KEY);
-    }
-
-    protected function getInjectors()
-    {
-        return $this->getHelpers(MetadataService::INJECTOR_KEY);
-    }
-
-    protected function getHelpers($id, $interface = null)
-    {
-        $helpers = [];
-        if (! $this->hasOption($id)) {
-            return $helpers;
-        }
-        foreach ($this->getOption($id) as $config) {
-            $helpers[] = $this->getSubService($config, $interface);
-        }
-        return $helpers;
-    }
-
-
 }

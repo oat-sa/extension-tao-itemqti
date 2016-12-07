@@ -25,12 +25,12 @@ $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
 
 return array(
-    'name' => 'taoQtiItem',
-    'label' => 'QTI item model',
+    'name'        => 'taoQtiItem',
+    'label'       => 'QTI item model',
     'description' => 'TAO QTI item model',
-    'license' => 'GPL-2.0',
-    'version' => '6.6.1',
-    'author' => 'Open Assessment Technologies',
+    'license'     => 'GPL-2.0',
+    'version'     => '6.6.1',
+    'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=2.23.0',
         'tao'      => '>=7.36.0'
@@ -56,7 +56,7 @@ return array(
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
 			'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
 			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
-                        'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
+            'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
 		)
 	),
 	'local'	=> array(

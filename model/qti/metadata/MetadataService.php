@@ -11,9 +11,6 @@ class MetadataService extends ConfigurableService
     const IMPORTER_KEY  = 'import';
     const EXPORTER_KEY  = 'export';
 
-    const INJECTOR_KEY  = 'injectors';
-    const EXTRACTOR_KEY = 'extractors';
-
     public function getImporter()
     {
         return $this->getSubService(self::IMPORTER_KEY);
@@ -23,9 +20,4 @@ class MetadataService extends ConfigurableService
     {
         return $this->getSubService(self::EXPORTER_KEY);
     }
-
-//    public function registerImporter(MetadataImporter $importer)
-//    {
-//        $importerOptions = array_merge($this->getOption(self::IMPORTER_KEY)->getOptions(), $importer->getOptions());
-//    }
 }
