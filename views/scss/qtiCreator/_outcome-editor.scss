@@ -1,0 +1,23 @@
+@import "inc/bootstrap";
+
+.qti-outcome-editor {
+    .outcome-container {
+        span {
+            float: right;
+            padding: 4px;
+            margin-left: 5px;
+            cursor: pointer;
+            &:hover {
+                color: $info;
+            }
+            &:active {
+                color: whiten($info, .5);
+            }
+        }
+        &.readonly span{
+            color: $darkBrown !important;
+            cursor: not-allowed;
+        }
+    }
+
+}
