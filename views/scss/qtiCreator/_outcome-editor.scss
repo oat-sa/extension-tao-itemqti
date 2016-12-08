@@ -1,25 +1,59 @@
 @import "inc/bootstrap";
 
-.qti-outcome-editor {
+.item-editor-sidebar .tool-group .qti-outcome-editor {
     .outcome-container {
-        span {
+        .trigger {
             float: right;
-            padding: 3px 5px;
-            margin-left: 5px;
+            padding: 3px;
+            margin-left: 3px;
             cursor: pointer;
             &:hover {
-                color: $info;
+                color: whiten($info, .8);
             }
             &:active {
-                color: whiten($info, .5);
+                color: whiten($info, .6);
             }
         }
-        &.readonly span{
-            color: $darkBrown !important;
-            cursor: not-allowed;
+        &.readonly {
+            diplay: none;
+            .trigger {
+                color: $darkBrown !important;
+                cursor: not-allowed;
+            }
         }
-        label{
-            margin : 0;
+        .identifier-label {
+            display: inline-block;
+            margin: 0;
+            width: calc(100% - 44px);
+            input.identifier{
+                @include font-size(12);
+                min-width: 80px;
+                display: none;
+            }
+        }
+        h3{
+            display: block;
+        }
+        .outcome-properties-form{
+            display: none;
+        }
+        &.editing{
+            .icon-edit{
+                font-weight:bold;
+                color: $info;
+            }
+            .outcome-properties-form{
+                display: block;
+            }
+            .identifier-label{
+                margin-bottom: 12px;
+                span.label{
+                    display:none;
+                }
+                input.identifier{
+                    display: inline-block;
+                }
+            }
         }
     }
 

@@ -20,10 +20,13 @@ define([
     'lodash',
     'i18n',
     'core/plugin',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/helper/popup',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/panel',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing'
-], function ($, _, __, pluginFactory, OutcomeDeclaration, panelTpl, listingTpl) {
+], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, panelTpl, listingTpl) {
     'use strict';
 
     var _ns = '.outcomeEditor';
@@ -33,13 +36,16 @@ define([
             return {
                 serial : outcome.serial,
                 identifier : outcome.id(),
-                description : outcome.attr('interpretation'),
+                interpretation : outcome.attr('interpretation'),
                 readonly : outcome.id() === 'SCORE'
             };
         });
         $outcomeEditorPanel.find('.outcomes').html(listingTpl({
             outcomes : outcomesData
         }));
+
+        //init form javascript
+        formElement.initWidget($outcomeEditorPanel);
     }
 
     return pluginFactory({
@@ -59,22 +65,44 @@ define([
                 $container.append('editor');
                 $responsePanel.find('.qti-outcome-editor').remove();
                 $outcomeEditorPanel = $(panelTpl());
-                $responsePanel.append($outcomeEditorPanel).on('click', ':not(.readonly) [data-role="edit"]', function(){
+                $responsePanel.append($outcomeEditorPanel).on('click', '.editable [data-role="edit"]', function(){
 
-                    //edit it
-                    console.log('edit');
+                    var $outcomeContainer = $(this).closest('.outcome-container');
+                    var serial = $outcomeContainer.data('serial');
+                    var outcome = Element.getElementBySerial(serial);
+                    var $identifierLabel = $outcomeContainer.find('.identifier-label .label');
+                    var minMaxCallbacks = formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {allowNull : true, floatVal: true});
 
-                }).on('click', ':not(.readonly) [data-role="delete"]', function(){
+                    formElement.setChangeCallbacks($outcomeContainer, outcome, _.assign({
+                        identifier : function(outcome, value){
+                            $identifierLabel.html(value);
+                            outcome.id(value);
+                        },
+                        interpretation : function(outcome, value){
+                            outcome.attr('interpretation', value);
+                        }
+                    }, minMaxCallbacks));
+
+                    $outcomeContainer.addClass('editing');
+
+                }).on('click', '.editing [data-role="edit"]', function(){
+
+                    var $outcomeContainer = $(this).closest('.outcome-container');
+                    $outcomeContainer.removeClass('editing');
+
+                }).on('click', '.deletable [data-role="delete"]', function(){
 
                     //delete the outcome
                     var $outcomeContainer = $(this).closest('.outcome-container');
-                    item.remove('outcomes', $outcomeContainer.data('serial'));
                     $outcomeContainer.remove();
+                    item.remove('outcomes', $outcomeContainer.data('serial'));
 
                 }).on('click', '.adder', function(){
 
                     //add new outcome
                     var newOutcome = new OutcomeDeclaration({
+                        cardinality : 'single',
+                        baseType : 'float',
                         normalMinimum : 0.0,
                         normalMaximum : 1.0
                     });
