@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\oatbox\filesystem\Directory;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
@@ -43,9 +44,9 @@ class AssetParser
     private $item;
 
     /**
-    * Set mode - if parser have to find shared libraries (PCI and PIC)
-    * @var bool
-    */
+     * Set mode - if parser have to find shared libraries (PCI and PIC)
+     * @var bool
+     */
     private $getSharedLibraries = true;
 
     /**
@@ -72,6 +73,9 @@ class AssetParser
      */
     private $assets = array();
 
+    /**
+     * @var Directory
+     */
     private $directory;
 
     /**
@@ -79,7 +83,7 @@ class AssetParser
      * @param Item $item the item to parse
      * @param $directory
      */
-    public function __construct(Item $item, $directory)
+    public function __construct(Item $item, Directory $directory)
     {
         $this->item = $item;
         $this->directory = $directory;
@@ -213,12 +217,13 @@ class AssetParser
 
         if(strpos($type, "image") !== false){
             $this->addAsset('img', $object->attr('data'));
-        }
-        else if (strpos($type, "video") !== false  || strpos($type, "ogg") !== false){
+        } else if (strpos($type, "video") !== false  || strpos($type, "ogg") !== false){
             $this->addAsset('video', $object->attr('data'));
-        }
-        else if (strpos($type, "audio") !== false){
+        } else if (strpos($type, "audio") !== false){
             $this->addAsset('audio', $object->attr('data'));
+        }
+        else if (strpos($type, "text/html") !== false){
+            $this->addAsset('html', $object->attr('data'));
         }
     }
 
@@ -234,6 +239,28 @@ class AssetParser
         }
         if(!empty($uri) && !in_array($uri, $this->assets[$type])){
             $this->assets[$type][] = $uri;
+        }
+    }
+
+    /**
+     * Search assets URI in custom element properties
+     * The PCI standard will be extended in the future with typed property value (boolean, integer, float, string, uri, html etc.)
+     * Meanwhile, we use the special property name uri for the special type "URI" that represents a file URI.
+     * Portable element using this reserved property should be migrated later on when the standard is updated.
+     *
+     * @param array $properties
+     */
+    private function loadCustomElementPropertiesAssets($properties) {
+        if (is_array($properties)) {
+            if (isset($properties['uri'])) {
+                $this->addAsset('document', urldecode($properties['uri']));
+            } else {
+                foreach($properties as $property) {
+                    if (is_array($property)) {
+                        $this->loadCustomElementPropertiesAssets($property);
+                    }
+                }
+            }
         }
     }
 
@@ -263,18 +290,20 @@ class AssetParser
         if ($element instanceof CustomInteraction || $element instanceof InfoControl) {
             // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
             $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
+
             $xmls[] = new SimpleXMLElement($sanitizedMarkup);
 
+            $this->loadCustomElementPropertiesAssets($element->getProperties());
 
             /** @var SimpleXMLElement $xml */
             foreach ($xmls as $xml) {
-                foreach($xml->xpath('//img') as $img){
+                foreach ($xml->xpath('//img') as $img) {
                     $this->addAsset('img', (string)$img['src']);
                 }
-                foreach($xml->xpath('//video') as $video){
+                foreach ($xml->xpath('//video') as $video) {
                     $this->addAsset('video', (string)$video['src']);
                 }
-                foreach($xml->xpath('//audio') as $audio){
+                foreach ($xml->xpath('//audio') as $audio) {
                     $this->addAsset('audio', (string)$audio['src']);
                 }
             }
@@ -331,7 +360,7 @@ class AssetParser
                 preg_match_all($fontRe, $faceMatch, $fontMatches);
                 if(isset($fontMatches[1])){
                     foreach($fontMatches[1] as $fontMatch){
-                       $this->addAsset('font', $fontMatch);
+                        $this->addAsset('font', $fontMatch);
                     }
                 }
             }

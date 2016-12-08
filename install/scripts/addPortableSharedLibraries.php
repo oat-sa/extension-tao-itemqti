@@ -33,6 +33,7 @@ $registry->registerFromFile('OAT/lodash', $installBasePath . '/OAT/lodash.js');
 $registry->registerFromFile('OAT/async', $installBasePath . '/OAT/async.js');
 $registry->registerFromFile('OAT/raphael', $installBasePath . '/OAT/raphael.js');
 $registry->registerFromFile('OAT/scale.raphael', $installBasePath . '/OAT/scale.raphael.js');
+$registry->registerFromFile('OAT/jquery.qtip', $installBasePath . '/OAT/jquery.qtip.js');
 $registry->registerFromFile('OAT/util/xml', $installBasePath . '/OAT/util/xml.js');
 $registry->registerFromFile('OAT/util/math', $installBasePath . '/OAT/util/math.js');
 $registry->registerFromFile('OAT/util/html', $installBasePath . '/OAT/util/html.js');
@@ -47,3 +48,4 @@ $registry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT
 $registry->registerFromFile('OAT/handlebars', $installBasePath . '/OAT/handlebars.js');
 $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
 $registry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
+$registry->registerFromFile('OAT/customEvent', $installBasePath . '/OAT/customEvent.js');

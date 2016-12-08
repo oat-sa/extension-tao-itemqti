@@ -87,6 +87,10 @@ define(['lodash'], function(_){
                 throw new TypeError('A item is required to generate a unique identifier');
             }
 
+            if(!prefix){
+                throw new TypeError('Prefix is required to build an identifier');
+            }
+
             usedIds   = item.getUsedIdentifiers();
             useSuffix = _.isUndefined(useSuffix) ? true : useSuffix;
 
@@ -97,9 +101,6 @@ define(['lodash'], function(_){
                 if(useSuffix){
                     suffix = '_' + i;
                 }
-            } else {
-                prefix = this.qtiClass;
-                suffix = '_' + i;
             }
 
             do{

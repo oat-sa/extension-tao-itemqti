@@ -55,43 +55,74 @@ define([
         var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
         $choiceInputs.on('keydown.commonRenderer', function(e){
+            var $qtiChoice = $(this).closest('.qti-choice');
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(keyCode !== KEY_CODE_TAB){
-                e.preventDefault();
-            }
-
-            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
-                _triggerInput($(this).closest('.qti-choice'));
-            }
-
-            var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-            var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
             if (keyCode === KEY_CODE_UP){
-                $prevInput.focus();
+                e.preventDefault();
+                $qtiChoice.prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             } else if (keyCode === KEY_CODE_DOWN){
-                $nextInput.focus();
+                e.preventDefault();
+                $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
+            }
+        });
+
+        $choiceInputs.on('keyup.commonRenderer', function(e){
+            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+
+            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
+                e.preventDefault();
+                _triggerInput($(this).closest('.qti-choice'));
             }
         });
 
         $container.on('click.commonRenderer', '.qti-choice', function(e){
             var $choiceBox = $(this);
+            var state;
+            var eliminator = e.target.dataset.eliminable;
+
+            // if the click has been triggered by a keyboard check, prevent this listener to cancel this check
+            if (e.originalEvent && $(e.originalEvent.target).is('input')) {
+                return;
+            }
 
             e.preventDefault();
-            e.stopPropagation();//required otherwise any tao scoped ,form initialization might prevent it from working
+            e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
 
-            _triggerInput($choiceBox);
+           if(!_.isUndefined(eliminator)) {
+               state = false;
+               if(eliminator === 'trigger') {
+                   this.classList.toggle('eliminated');
+               }
+           }
+
+            _triggerInput($choiceBox, state);
 
             instructionMgr.validateInstructions(interaction, {choice : $choiceBox});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
     };
 
-    var _triggerInput = function($choiceBox){
+    /**
+     * Propagate the checked state to the actual input.
+     * @type {Function}
+     * @param {jQuery} $choiceBox
+     * @param {Boolean} state
+     * @private
+     */
+    var _triggerInput = function($choiceBox, state){
+
         var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
+
+        if(!_.isBoolean(state)) {
+            state = !$input.prop('checked');
+        }
+
+        $choiceBox.toggleClass('user-selected', state);
+
         if($input.length){
-            $input.prop('checked', !$input.prop('checked'));
+            $input.prop('checked', state);
             $input.trigger('change');
         }
     };
@@ -284,7 +315,7 @@ define([
     };
 
     /**
-     * Set additionnal data to the template (data that are not really part of the model).
+     * Set additional data to the template (data that are not really part of the model).
      * @param {Object} interaction - the interaction
      * @param {Object} [data] - interaction custom data
      * @returns {Object} custom data
@@ -293,9 +324,12 @@ define([
         var listStyles = (interaction.attr('class') || '').match(/\blist-style-[\w-]+/) || [];
         return _.merge(data || {}, {
             horizontal : (interaction.attr('orientation') === 'horizontal'),
-            listStyle: listStyles.pop()
+            listStyle: listStyles.pop(),
+            eliminable: (/\beliminable\b/).test(interaction.attr('class'))
         });
     };
+
+
 
 
     /**

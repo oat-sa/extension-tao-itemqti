@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 use oat\taoQtiItem\controller\QtiPreview;
@@ -29,11 +29,11 @@ return array(
     'label' => 'QTI item model',
     'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '5.1.2',
+    'version' => '6.6.1',
     'author' => 'Open Assessment Technologies',
     'requires' => array(
-        'taoItems' => '>=2.21.0',
-        'tao'      => '>=7.7.0'
+        'taoItems' => '>=2.23.0',
+        'tao'      => '>=7.36.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -55,7 +55,8 @@ return array(
 			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
 			'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
-			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig'
+			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
+                        'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
 		)
 	),
 	'local'	=> array(

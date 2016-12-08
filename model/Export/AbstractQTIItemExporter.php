@@ -25,9 +25,11 @@ use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Element;
@@ -96,7 +98,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     continue;
                 }
 
-                $object = $service->retrieve($key, $element->getTypeIdentifier());
+                try {
+                    $object = $service->retrieve($key, $element->getTypeIdentifier());
+                } catch (PortableElementException $e) {
+                    $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
+                    return \common_report_Report::createFailure($message);
+                }
                 $portableElementsToExport[$element->getTypeIdentifier()] = $object;
 
                 $files = $object->getModel()->getValidator()->getAssets($object, 'runtime');
@@ -153,12 +160,18 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
+            $portableEntryNodes = $xpath->query("//*[local-name()='entry']") ?: [];
             unset($xpath);
+
             foreach ($attributeNodes as $node) {
                 if (isset($replacementList[$node->value])) {
                     $node->value = $replacementList[$node->value];
                 }
             }
+            foreach ($portableEntryNodes as $node) {
+                $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
+            }
+
             $this->exportPortableAssets($dom, 'portableCustomInteraction', 'customInteractionTypeIdentifier', 'pci', $portableElementsToExport, $portableAssetsToExport);
             $this->exportPortableAssets($dom, 'portableInfoControl', 'infoControlTypeIdentifier', 'pic', $portableElementsToExport, $portableAssetsToExport);
         } else {
@@ -176,6 +189,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
+
+        if (! $report->getMessage()) {
+            $report->setMessage(__('Item ' . $this->getItem()->getLabel() . ' exported.'));
+        }
 
         return $report;
     }
@@ -362,7 +379,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * @param \core_kernel_classes_Resource $item The item
      * @param string                        $lang The item lang
      *
-     * @return \tao_models_classes_service_StorageDirectory The directory
+     * @return Directory The directory
      */
     protected function getStorageDirectory(\core_kernel_classes_Resource $item, $lang)
     {
@@ -371,10 +388,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         //we should use be language unaware for storage manipulation
         $path = str_replace($lang, '', $directory->getPrefix());
-        $storageDirectory = new \tao_models_classes_service_StorageDirectory($item->getUri(), $directory->getFilesystem()->getId(), $path);
-        $storageDirectory->setServiceLocator($this->getServiceManager());
-
-        return $storageDirectory;
+        return $itemService->getDefaultItemDirectory()->getDirectory($path);
     }
 
     protected function getServiceManager()

@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
+use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -60,21 +61,21 @@ class Updater extends \common_ext_ExtensionUpdater
         $libBasePath = ROOT_PATH.'taoQtiItem/views/js/portableSharedLibraries';
         $libRootUrl = ROOT_URL.'taoQtiItem/views/js/portableSharedLibraries';
         $installBasePath = ROOT_PATH.'taoQtiItem/install/scripts/portableSharedLibraries';
-        $registry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
+        $sharedLibRegistry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
 
         //migrate from 2.6 to 2.7.0
         if($currentVersion == '2.6'){
 
-            $registry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
-            $registry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
-            $registry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
-            $registry->registerFromFile('OAT/raphael', $installBasePath.'/OAT/raphael.js');
-            $registry->registerFromFile('OAT/scale.raphael', $installBasePath.'/OAT/scale.raphael.js');
-            $registry->registerFromFile('OAT/util/xml', $installBasePath.'/OAT/util/xml.js');
-            $registry->registerFromFile('OAT/util/math', $installBasePath.'/OAT/util/math.js');
-            $registry->registerFromFile('OAT/util/html', $installBasePath.'/OAT/util/html.js');
-            $registry->registerFromFile('OAT/util/EventMgr', $installBasePath.'/OAT/util/EventMgr.js');
-            $registry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
+            $sharedLibRegistry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
+            $sharedLibRegistry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
+            $sharedLibRegistry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
+            $sharedLibRegistry->registerFromFile('OAT/raphael', $installBasePath.'/OAT/raphael.js');
+            $sharedLibRegistry->registerFromFile('OAT/scale.raphael', $installBasePath.'/OAT/scale.raphael.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/xml', $installBasePath.'/OAT/util/xml.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/math', $installBasePath.'/OAT/util/math.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/html', $installBasePath.'/OAT/util/html.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/EventMgr', $installBasePath.'/OAT/util/EventMgr.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
 
             $currentVersion = '2.7.0';
         }
@@ -82,9 +83,9 @@ class Updater extends \common_ext_ExtensionUpdater
         //migrate from 2.7.0 to 2.7.1
         if($currentVersion == '2.7.0'){
 
-            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
-            $registry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
-            $registry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
+            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+            $sharedLibRegistry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
+            $sharedLibRegistry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
 
             $currentVersion = '2.7.1';
         }
@@ -92,7 +93,7 @@ class Updater extends \common_ext_ExtensionUpdater
         //migrate from 2.7.0 to 2.7.1
         if($currentVersion == '2.7.1'){
 
-            $registry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
+            $sharedLibRegistry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
 
             $currentVersion = '2.7.2';
         }
@@ -100,27 +101,27 @@ class Updater extends \common_ext_ExtensionUpdater
         //migrate from 2.7.2 to 2.7.3
         if($currentVersion == '2.7.2'){
 
-            $registry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
-            $registry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
-            $registry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
-            $registry->registerFromFile('OAT/raphael', $installBasePath.'/OAT/raphael.js');
-            $registry->registerFromFile('OAT/scale.raphael', $installBasePath.'/OAT/scale.raphael.js');
-            $registry->registerFromFile('OAT/util/xml', $installBasePath.'/OAT/util/xml.js');
-            $registry->registerFromFile('OAT/util/math', $installBasePath.'/OAT/util/math.js');
-            $registry->registerFromFile('OAT/util/html', $installBasePath.'/OAT/util/html.js');
-            $registry->registerFromFile('OAT/util/EventMgr', $installBasePath.'/OAT/util/EventMgr.js');
-            $registry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
-            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
-            $registry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
-            $registry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
-            $registry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
+            $sharedLibRegistry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
+            $sharedLibRegistry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
+            $sharedLibRegistry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
+            $sharedLibRegistry->registerFromFile('OAT/raphael', $installBasePath.'/OAT/raphael.js');
+            $sharedLibRegistry->registerFromFile('OAT/scale.raphael', $installBasePath.'/OAT/scale.raphael.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/xml', $installBasePath.'/OAT/util/xml.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/math', $installBasePath.'/OAT/util/math.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/html', $installBasePath.'/OAT/util/html.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/EventMgr', $installBasePath.'/OAT/util/EventMgr.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
+            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+            $sharedLibRegistry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
+            $sharedLibRegistry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
+            $sharedLibRegistry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
 
             $currentVersion = '2.7.3';
         }
 
         //migrate from 2.7.3 to 2.7.4
         if($currentVersion == '2.7.3'){
-            $registry->registerFromFile('OAT/handlebars', $installBasePath.'/OAT/handlebars.js');
+            $sharedLibRegistry->registerFromFile('OAT/handlebars', $installBasePath.'/OAT/handlebars.js');
             $currentVersion = '2.7.4';
         }
 
@@ -132,14 +133,14 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if($currentVersion == '2.7.5'){
 
-            $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
+            $sharedLibRegistry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
 
             $currentVersion = '2.7.6';
         }
 
         if($currentVersion == '2.7.6'){
 
-            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
 
             $currentVersion = '2.7.7';
         }
@@ -173,7 +174,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if($currentVersion == '2.8.0'){
             $currentVersion = '2.8.1';
-            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
         }
 
         if ($currentVersion == '2.8.1') {
@@ -183,7 +184,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         if ($currentVersion === '2.9.0') {
-            $registry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
+            $sharedLibRegistry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
             $currentVersion = '2.9.1';
         }
         if ($currentVersion === '2.9.1') {
@@ -193,8 +194,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.11.0';
         }
         if($currentVersion === '2.11.0') {
-            $registry->registerFromFile('OAT/util/asset', $installBasePath . '/OAT/util/asset.js');
-            $registry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/asset', $installBasePath . '/OAT/util/asset.js');
+            $sharedLibRegistry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
             $currentVersion = '2.12.0';
         }
 
@@ -369,8 +370,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('2.25.0')) {
 
-            $registry = QtiCreatorClientConfigRegistry::getRegistry();
-            $registry->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
+            QtiCreatorClientConfigRegistry::getRegistry()->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
 
             $this->setVersion('2.26.0');
         }
@@ -399,6 +399,42 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('2.31.0', '5.1.2');
+
+        if ($this->isVersion('5.1.2')) {
+            $sharedLibRegistry->registerFromFile('OAT/jquery.qtip', $installBasePath . '/OAT/jquery.qtip.js');
+            $this->setVersion('5.2.0');
+        }
+
+        $this->skip('5.2.0', '5.3.0');
+
+        if ($this->isVersion('5.3.0')) {
+            $sharedLibRegistry->registerFromFile('OAT/customEvent', $installBasePath . '/OAT/customEvent.js');
+            $this->setVersion('5.4.0');
+        }
+
+        $this->skip('5.4.0', '5.7.0');
+
+        if ($this->isVersion('5.7.0')) {
+
+            $eventManager = $this->getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
+            $eventManager->attach(\oat\taoItems\model\event\ItemRdfUpdatedEvent::class,
+                array(\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent')
+            );
+            $this->getServiceManager()->register(\oat\oatbox\event\EventManager::CONFIG_ID, $eventManager);
+
+            $this->setVersion('5.7.1');
+        }
+
+        $this->skip('5.7.1', '5.7.3');
+
+        if ($this->isVersion('5.7.3')) {
+            $categoriesService = new ItemCategoriesService(array('properties' => array()));
+            $categoriesService->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(ItemCategoriesService::SERVICE_ID, $categoriesService);
+            $this->setVersion('5.8.0');
+        }
+        
+        $this->skip('5.8.0', '6.6.1');
     }
 
 }

@@ -295,6 +295,7 @@ $mainContainer : '.qti-item';
         }
     }
 
+    @import "all-interactions";
     @import "object";
     @import "choice";
     @import "order";
@@ -312,4 +313,8 @@ $mainContainer : '.qti-item';
     @import "rubric-block";
     @import "custom";
 
+}
+
+.tao-preview-scope{
+    padding-top: 20px;
 }

@@ -33,16 +33,6 @@ define([
 ], function($, _, __, Promise, tpl, pciResponse, containerHelper, mediaplayer) {
     'use strict';
 
-    /**
-     * Resize video player elements to fit container size
-     * @param {Object} mediaElement - player instance
-     * @param {jQueryElement} $container   - container element to adapt
-     */
-    var resizeVideo = function (mediaElement, $container) {
-        var height = $container.find('.media-container').height(),
-            width =  $container.find('.media-container').width();
-        mediaElement.resize(width, height);
-    };
 
     //some default values
     var defaults = {
@@ -67,12 +57,38 @@ define([
      */
     var render = function render(interaction) {
         var self = this;
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
+
             var $container = containerHelper.get(interaction);
-            var $item      = $container.parents('.qti-item');
             var media      = interaction.object;
+            var $item      = $container.parents('.qti-item');
             var maxPlays   = parseInt(interaction.attr('maxPlays'), 10) || 0;
             var url        = media.attr('data') || '';
+
+
+            //check if the media can be played (using timesPlayed and maxPlays)
+            var canBePlayed = function canBePlayed(){
+                var current = parseInt($container.data('timesPlayed'), 10);
+                return maxPlays === 0 || maxPlays > current;
+            };
+
+
+            /**
+            * Resize video player elements to fit container size
+            * @param {Object} mediaElement - player instance
+            * @param {jQueryElement} $container   - container element to adapt
+            */
+            var resize = _.debounce(function resize () {
+                var width, height;
+                if (interaction.mediaElement){
+
+                    height = $container.find('.media-container').height();
+                    width =  $container.find('.media-container').width();
+
+                    interaction.mediaElement.resize(width, height);
+                }
+            }, 200);
+
 
             //intialize the player if not yet done
             var initMediaPlayer = function initMediaPlayer(){
@@ -89,56 +105,42 @@ define([
                         loop: !!interaction.attr('loop'),
                         renderTo: $('.media-container', $container)
                     })
-                        .on('render', function() {
-                            var mediaElement = this;
-                            var rTimer;
+                    .on('render', function() {
 
-                            resizeVideo(this, $container);
+                        resize();
 
-                            var delayedResize = function () {
-                                clearTimeout(rTimer);
-                                rTimer = setTimeout(function () {
-                                    resizeVideo(mediaElement, $container);
-                                }, 200);
-                            };
+                        $(window).off('resize.mediaInteraction')
+                            .on('resize.mediaInteraction', resize);
 
-                            $(window).off('resize.video')
-                                .on('resize.video', delayedResize);
+                        $item.off('resize.gridEdit')
+                            .on('resize.gridEdit', resize);
 
-                            $item.off('resize.gridEdit')
-                                .on('resize.gridEdit', delayedResize);
+                        resolve();
+                    })
+                    .on('ready', function() {
+                       /**
+                        * @event playerready
+                        */
+                        $container.trigger('playerready');
+                    })
+                    .on('ended', function() {
+                        $container.data('timesPlayed', $container.data('timesPlayed') + 1);
+                        containerHelper.triggerResponseChangeEvent(interaction);
 
-                            resolve();
-                        })
-                        .on('ready', function() {
-                            resizeVideo(this, $container);
-
-                            /**
-                             * @event playerready
-                             */
-                            $container.trigger('playerready');
-                        })
-                        .on('ended', function() {
-                            $container.data('timesPlayed', $container.data('timesPlayed') + 1);
-                            containerHelper.triggerResponseChangeEvent(interaction);
-
-                            if (!canBePlayed() ) {
-                                this.disable();
-                            }
-                        });
+                        if (!canBePlayed() ) {
+                            this.disable();
+                        }
+                    });
                 }
             };
 
-            //check if the media can be played (using timesPlayed and maxPlays)
-            var canBePlayed = function canBePlayed(){
-                var current = parseInt($container.data('timesPlayed'), 10);
-                return maxPlays === 0 || maxPlays > current;
-            };
+
 
             if(_.size(media.attributes) === 0){
                 //TODO move to afterCreate
                 media.attr('type', defaults.type);
                 media.attr('width', $container.innerWidth());
+
                 media.attr('height', defaults.video.height);
                 media.attr('data', '');
             }
@@ -167,7 +169,7 @@ define([
 
         if (interaction.mediaElement) {
             interaction.mediaElement.destroy();
-            interaction.mediaElement = undefined;
+            interaction.mediaElement = null;
         }
 
         $('.instruction-container', $container).empty();
@@ -206,10 +208,10 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response) {
+        var responseValues;
         if (response) {
             try {
                 //try to unserialize the pci response
-                var responseValues;
                 responseValues = pciResponse.unserialize(response, interaction);
                 containerHelper.get(interaction).data('timesPlayed', responseValues[0]);
             } catch (e) {

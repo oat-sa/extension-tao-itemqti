@@ -45,7 +45,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     const CSV_DELIMITER = ',';
 
     /**
-     * Defautl csv enclosure
+     * Default csv enclosure
      */
     const CSV_ENCLOSURE = '"';
 
@@ -53,6 +53,16 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * Default property delimiter
      */
     const DEFAULT_PROPERTY_DELIMITER = '|';
+
+    /**
+     * Optional config option to set CSV enclosure
+     */
+    const CSV_ENCLOSURE_OPTION = 'enclosure';
+
+    /**
+     * Optional config option to set CSV delimiter
+     */
+    const CSV_DELIMITER_OPTION = 'delimiter';
 
     /**
      * Header of flyfile
@@ -74,44 +84,19 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     protected $extractors = [];
 
     /**
-     * Fileysstem File to manage exported file storage
+     * Fileystem File to manage exported file storage
      *
      * @var File
      */
     protected $exportFile;
 
-    /**
-     * @inheritdoc
-     *
-     * @param null $uri
-     * @return mixed
-     * @throws ExtractorException
-     */
-    public function export($uri=null, $asFile=false)
+    public function __construct(array $options)
     {
-        $this->loadConfig();
-        $items = $this->getItems($uri);
-        $data  = $this->extractDataFromItems($items);
-        return $this->save($data, $asFile);
-    }
+        parent::__construct($options);
 
-    /**
-     * Load config & check if mandatory settings exist
-     *
-     * @return $this
-     * @throws ExtractorException
-     * @throws \common_Exception
-     */
-    protected function loadConfig()
-    {
         if (! $this->hasOption('fileLocation')) {
             throw new ExtractorException('File location config is not correctly set.');
         }
-
-        $this->exportFile = $this->getServiceManager()
-            ->get(FileSystemService::SERVICE_ID)
-            ->getDirectory(self::EXPORT_FILESYSTEM)
-            ->getFile($this->getOption('fileLocation'));
 
         $this->extractors = $this->getOption('extractors');
         $this->columns = $this->getOption('columns');
@@ -119,35 +104,23 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             throw new ExtractorException('Data config is not correctly set.');
         }
 
-        return $this;
     }
 
     /**
-     * Get all items of given uri otherwise get default class
+     * @inheritdoc
      *
-     * @param $uri
-     * @return array
-     */
-    protected function getItems($uri)
-    {
-        if (!empty($uri)) {
-            $classUri = $uri;
-        } else {
-            $classUri = $this->getDefaultUriClass();
-        }
-
-        $class = new \core_kernel_classes_Class($classUri);
-        return $class->getInstances(true);
-    }
-
-    /**
-     * Get default class e.q. root class
-     *
+     * @throws ExtractorException
+     * @param \core_kernel_classes_Resource[] $items
      * @return mixed
      */
-    protected function getDefaultUriClass()
+    public function export(array $items = null, $asFile = false)
     {
-        return TAO_ITEM_CLASS;
+        if (empty($items)) {
+            $items = $this->getItems();
+        }
+
+        $data = $this->getDataByItems($items);
+        return $this->save($this->headers, $data, $asFile);
     }
 
     /**
@@ -157,13 +130,12 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * @return array
      * @throws ExtractorException
      */
-    protected function extractDataFromItems(array $items)
+    public function getDataByItems(array $items)
     {
         $output = [];
         foreach ($items as $item) {
             try {
-                $itemData = $this->extractDataFromItem($item);
-                $output[] = $itemData;
+                $output[] = $this->getDataByItem($item);
             } catch (ExtractorException $e) {
                 \common_Logger::e('ERROR on item ' . $item->getUri() . ' : ' . $e->getMessage());
             }
@@ -181,7 +153,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      * @param \core_kernel_classes_Resource $item
      * @return array
      */
-    protected function extractDataFromItem(\core_kernel_classes_Resource $item)
+    public function getDataByItem(\core_kernel_classes_Resource $item)
     {
         foreach ($this->columns as $column => $config) {
             /** @var Extractor $extractor */
@@ -226,40 +198,113 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     /**
      * Save data to file
      *
+     * @param array $headers
      * @param array $data
      * @param bool $asFile
      * @return File|string
-     * @throws \common_Exception
      */
-    protected function save(array $data, $asFile = false)
+    public function save(array $headers, array $data, $asFile = false)
     {
         $output = $contents = [];
 
-        $contents[] = self::CSV_ENCLOSURE
-            . implode(self::CSV_ENCLOSURE . self::CSV_DELIMITER . self::CSV_ENCLOSURE, $this->headers)
-            . self::CSV_ENCLOSURE;
+        $enclosure = $this->getCsvEnclosure();
+        $delimiter = $this->getCsvDelimiter();
+
+        $contents[] = $enclosure
+            . implode($enclosure . $delimiter . $enclosure, $headers)
+            . $enclosure;
 
         if (! empty($data)) {
             foreach ($data as $item) {
                 foreach ($item as $line) {
-                    foreach ($this->headers as $index => $value) {
+                    foreach ($headers as $index => $value) {
                         if (isset($line[$value]) && $line[$value]!=='') {
-                            $output[$value] = self::CSV_ENCLOSURE . (string) $line[$value] . self::CSV_ENCLOSURE;
+                            $output[$value] = $enclosure . (string) $line[$value] . $enclosure;
                             unset($line[$value]);
                         } else {
                             $output[$value] = '';
                         }
                     }
-                    $contents[] = implode(self::CSV_DELIMITER,  array_merge($output, $line));
+                    $contents[] = implode($delimiter,  array_merge($output, $line));
                 }
             }
         }
 
-        $this->exportFile->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
-        if ($asFile) {
-            return $this->exportFile;
-        } else {
-            return $this->exportFile->getPrefix();
+        $file = $this->getExportFile();
+        $file->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
+        return $asFile ? $file : $file->getPrefix();
+    }
+
+    /**
+     * Get csv headers
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Get the file from config
+     *
+     * @return File
+     */
+    protected function getExportFile()
+    {
+        if (! $this->exportFile) {
+            $this->exportFile = $this->exportFile = $this->getServiceManager()
+                ->get(FileSystemService::SERVICE_ID)
+                ->getDirectory(self::EXPORT_FILESYSTEM)
+                ->getFile($this->getOption('fileLocation'));
         }
+        return $this->exportFile;
+    }
+
+    /**
+     * Get all items of given uri otherwise get default class
+     *
+     * @return array
+     */
+    protected function getItems()
+    {
+        $class = new \core_kernel_classes_Class($this->getDefaultUriClass());
+        return $class->getInstances(true);
+    }
+
+    /**
+     * Get default class e.q. root class
+     *
+     * @return mixed
+     */
+    protected function getDefaultUriClass()
+    {
+        return TAO_ITEM_CLASS;
+    }
+
+    /**
+     * Get the CSV enclosure from config, if not set use default value
+     *
+     * @return string
+     */
+    protected function getCsvEnclosure()
+    {
+        if ($this->hasOption(self::CSV_ENCLOSURE_OPTION)) {
+            return $this->getOption(self::CSV_ENCLOSURE_OPTION);
+        }
+        return self::CSV_ENCLOSURE;
+    }
+
+    /**
+     * Get the CSV delimiter from config, if not set use default value
+     *
+     * @return string
+     */
+    protected function getCsvDelimiter()
+    {
+        if ($this->hasOption(self::CSV_DELIMITER_OPTION)) {
+            return $this->getOption(self::CSV_DELIMITER_OPTION);
+        }
+        return self::CSV_DELIMITER;
     }
 }

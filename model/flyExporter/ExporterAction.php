@@ -44,13 +44,26 @@ class ExporterAction extends ConfigurableService implements Action
     public function __invoke($params)
     {
         try {
+            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoItems');
+
             $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
 
             $uri = isset($params[0]) ? $params[0] : null;
-            $filename = $exporterService->export($uri);
+            if (!is_null($uri)) {
+                $class = new \core_kernel_classes_Class($uri);
+                if ($class->exists()) {
+                    $items = $class->getInstances(true);
+                } else {
+                    throw new \Exception("Exporter needs a valid class uri.");
+                }
+            }
 
-            return new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-                "\nExport end.\nCSV export is located at: " . $filename . "\n");
+            $filename = $exporterService->export(isset($items) ? $items : $uri);
+            return new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                "\nExport end.\nCSV export is located at: " . $filename . "\n"
+            );
+
         } catch (\Exception $e) {
             \common_Logger::w('Error during item metadata export: ' . $e->getMessage());
             return new \common_report_Report(\common_report_Report::TYPE_ERROR, "\n" . $e->getMessage() . "\n");
