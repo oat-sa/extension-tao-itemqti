@@ -60,17 +60,26 @@ define([
                 $responsePanel.find('.qti-outcome-editor').remove();
                 $outcomeEditorPanel = $(panelTpl());
                 $responsePanel.append($outcomeEditorPanel).on('click', ':not(.readonly) [data-role="edit"]', function(){
+
+                    //edit it
                     console.log('edit');
+
                 }).on('click', ':not(.readonly) [data-role="delete"]', function(){
-                    console.log('delete');
+
+                    //delete the outcome
+                    var $outcomeContainer = $(this).closest('.outcome-container');
+                    item.remove('outcomes', $outcomeContainer.data('serial'));
+                    $outcomeContainer.remove();
+
                 }).on('click', '.adder', function(){
-                    var newOutcome = new OutcomeDeclaration();
-                    item.addOutcomeDeclaration(newOutcome);
-                    newOutcome.buildIdentifier('OUTCOME');
-                    newOutcome.attr({
+
+                    //add new outcome
+                    var newOutcome = new OutcomeDeclaration({
                         normalMinimum : 0.0,
                         normalMaximum : 1.0
                     });
+                    item.addOutcomeDeclaration(newOutcome);
+                    newOutcome.buildIdentifier('OUTCOME');
                     renderListing(item, $outcomeEditorPanel);
                 });
                 renderListing(item, $outcomeEditorPanel);

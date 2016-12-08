@@ -4,7 +4,7 @@
     .outcome-container {
         span {
             float: right;
-            padding: 4px;
+            padding: 3px 5px;
             margin-left: 5px;
             cursor: pointer;
             &:hover {
@@ -17,6 +17,9 @@
         &.readonly span{
             color: $darkBrown !important;
             cursor: not-allowed;
+        }
+        label{
+            margin : 0;
         }
     }
 
