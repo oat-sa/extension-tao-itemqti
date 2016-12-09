@@ -49,9 +49,6 @@ define([
              * @returns {PairScoringForm} for chaining
              */
             load : function load(){
-                var self            = this;
-                var callbacks       = {};
-                var corrects        = _.values(response.getCorrect());
                 var mapEntries      = response.getMapEntries();
 
                 //create / update the HTML element
@@ -82,14 +79,14 @@ define([
                     //run the template with the data
                     $form = $(formTpl({
                         'title'             : options.title      || __('Pair scoring'),
-                        'leftTitle'         : options.rightTitle || __('Gaps'),
-                        'rightTitle'        : options.leftTitle  || __('Choices'),
+                        'leftTitle'         : options.leftTitle || __('Choices'),
+                        'rightTitle'        : options.rightTitle  || __('Gap'),
                         'defineCorrect'     : answerStateHelper.defineCorrect(response),
                         'scoreMin'          : response.getMappingAttribute('lowerBound'),
                         'scoreMax'          : response.getMappingAttribute('upperBound'),
                         'pairs'             : _.map(pairs, pairTpl),
-                        'pairLeft'          : _.isFunction(options.pairLeft) ? options.pairLeft() : _.values(interaction.getGapImgs()),
-                        'pairRight'         : _.isFunction(options.pairRight) ? options.pairRight() : _.values(interaction.getChoices())
+                        'pairLeft'          : _.isFunction(options.pairLeft) ? options.pairLeft() : _.values(interaction.getChoices()),
+                        'pairRight'         : _.isFunction(options.pairRight) ? options.pairRight() : _.values(interaction.getGapImgs())
                     }));
 
                     updateFormBindings();
@@ -177,14 +174,13 @@ define([
          * @param {jQueryElement} $container - to scope element finding
          */
         function adder($container){
-           var $panel   = $('.panel-new-pair', $container);
-           var $adder   = $('.pair-adder', $container);
-           var $left    = $('.new-pair-left', $container);
-           var $right   = $('.new-pair-right', $container);
-           var $options = $('.select2 > option', $container);
+            var $adder   = $('.pair-adder', $container);
+            var $left    = $('.new-pair-left', $container);
+            var $right   = $('.new-pair-right', $container);
+            var $options = $('.select2 > option', $container);
 
-           //disable options based on existing pairs
-           $left.on('change', function(){
+            //disable options based on existing pairs
+            $left.on('change', function(){
                 var currentLeft = $left.select2('val'),
                     currentRight = $right.select2('val');
 
@@ -201,8 +197,8 @@ define([
                         $right.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                     });
                 }
-           });
-           $right.on('change', function(){
+            });
+            $right.on('change', function(){
                 var currentRight = $right.select2('val'),
                     currentLeft = $left.select2('val');
 
@@ -219,25 +215,31 @@ define([
                         $left.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                     });
                 }
-           });
+            });
 
-           //create a new pair
-           $adder.on('click', function(e){
-               $options.removeProp('disabled');
-               e.preventDefault();
-               var key;
-               var lval = $left.select2('val');
-               var rval = $right.select2('val');
-               if(lval && rval){
-                   //update the form component
-                   key      = lval + separator.qti + rval;
-                   pairScoringForm.addPair(key);
+            //create a new pair
+            $adder.on('click', function(e){
+                var key;
+                var lval = $left.select2('val');
+                var rval = $right.select2('val');
 
-                   //reset the select lists
-                   $left.select2('val', '');
-                   $right.select2('val', '');
+                $options.removeProp('disabled');
+                e.preventDefault();
+
+                if(lval && rval){
+                    //update the form component
+                    if(options.isDirectedPairFlipped){
+                        key  = rval + separator.qti + lval;
+                    } else {
+                        key  = lval + separator.qti + rval;
+                    }
+                    pairScoringForm.addPair(key);
+
+                    //reset the select lists
+                    $left.select2('val', '');
+                    $right.select2('val', '');
                 }
-           });
+            });
         }
 
         /**
@@ -249,17 +251,19 @@ define([
             $container
               .off('click', '.pair-deleter')
               .on('click', '.pair-deleter', function(e){
-                e.preventDefault();
+                  var $elt, key;
 
-                var $elt = $(this);
-                var key = $elt.attr('id')
-                              .replace(/-delete$/, '')
-                              .replace(separator.html, separator.qti);
+                  e.preventDefault();
 
-                pairScoringForm.removePair(key);
+                  $elt = $(this);
+                  key = $elt.attr('id')
+                            .replace(/-delete$/, '')
+                            .replace(separator.html, separator.qti);
 
-                $elt.closest('.grid-row').remove();
-           });
+                  pairScoringForm.removePair(key);
+
+                  $elt.closest('.grid-row').remove();
+            });
         }
 
         /**
@@ -285,15 +289,18 @@ define([
          * @returns {Object} the pair
          */
         function formatPair(score, key, defaultScore){
-            var pair = key.split(separator.qti);
+            var pair   = key.split(separator.qti);
+            var choice = options.isDirectedPairFlipped ? pair[0]  : pair[1];
+            var gap    = options.isDirectedPairFlipped ? pair[1]  : pair[0];
+
             return {
                 id              : key.replace(separator.qti, separator.html),
                 score           : score,
                 defaultScore    : !!defaultScore,
-                leftId          : pair[0],
-                rightId         : pair[1],
-                left            : _.isFunction(options.formatLeft) ? options.formatLeft(pair[0]) : pair[0],
-                right           : _.isFunction(options.formatRight) ? options.formatRight(pair[1]) : pair[1],
+                leftId          : gap,
+                rightId         : choice,
+                left            : _.isFunction(options.formatLeft) ? options.formatLeft(gap) : gap,
+                right           : _.isFunction(options.formatRight) ? options.formatRight(choice) : choice,
                 defineCorrect   : answerStateHelper.defineCorrect(response),
                 correct         : _.contains(_.values(response.getCorrect()), key)
             };

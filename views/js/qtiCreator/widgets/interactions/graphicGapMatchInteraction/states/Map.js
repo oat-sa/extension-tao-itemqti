@@ -17,7 +17,6 @@
  *
  */
 
-
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -53,6 +52,66 @@ define([
                 });
             }
         });
+    };
+
+     /**
+     * Update the scoring form
+     * @param {Object} widget - the current widget
+     * @param {Array} [entries] - to force the use of this collection instead of the mapEntries
+     */
+    var updateForm = function updateForm(widget, entries){
+
+        var interaction = widget.element;
+        var response    = interaction.getResponseDeclaration();
+        var mapEntries  = response.getMapEntries();
+
+        var gapSrcs  = _.transform(interaction.getGapImgs(), function(acc, gapImg){
+            if(gapImg.object && gapImg.object.attr('data')){
+                acc[gapImg.id()] = widget.options.baseUrl + gapImg.object.attr('data');
+            }
+        }, {});
+
+        //set up the scoring form options
+        var options = {
+            leftTitle : __('Gap'),
+            rightTitle : __('Choice'),
+            type : 'directedPair',
+            pairLeft : function(){
+                return _.map(interaction.getGapImgs(), function(gap){
+                    return {
+                        id : gap.id(),
+                        value : gap.id()
+                    };
+                });
+            },
+            formatLeft : function(id){
+                var formated = '';
+                if(gapSrcs[id]){
+                    formated += "<img height='1em' src='" + gapSrcs[id] + "' /> ";
+                }
+                formated += id;
+                return formated;
+            },
+            pairRight : function(){
+                return _.map(interaction.getChoices(), function(choice){
+                    return {
+                        id : choice.id(),
+                        value : choice.id()
+                    };
+                });
+            },
+            isDirectedPairFlipped : commonRenderer.isDirectedPairFlipped
+        };
+
+        //format the entries to match the needs of the scoring form
+        if(entries){
+            options.entries = _.transform(entries, function(result, value){
+                result[value] = typeof mapEntries[value] !== 'undefined' ? mapEntries[value] : response.mappingAttributes.defaultValue;
+            }, {});
+        }
+
+        //initialize the scoring form
+        interaction.pairScoringForm = scoringFormFactory(widget, options);
     };
 
     /**
@@ -96,11 +155,17 @@ define([
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
             if(data && data.response &&  data.response[type]){
-               pairs = _.invoke(data.response[type].directedPair, Array.prototype.join, ' ');
-               entries = _.keys(response.getMapEntries());
+                pairs = _.map(data.response[type].directedPair, function(pair){
+                    if(commonRenderer.isDirectedPairFlipped){
+                        return pair.reverse().join(' ');
+                    } else {
+                        return pair.join(' ');
+                    }
+                });
+                entries = _.keys(response.getMapEntries());
 
-               //add new pairs from  the difference between the current entries and the given data
-               _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
+                //add new pairs from  the difference between the current entries and the given data
+                _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
             }
             removeGapFillers(interaction);
         });
@@ -132,74 +197,6 @@ define([
         interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
         widget.createChoices();
         widget.createGapImgs();
-    };
-
-
-
-     /**
-     * Update the scoring form
-     * @param {Object} widget - the current widget
-     * @param {Array} [entries] - to force the use of this collection instead of the mapEntries
-     */
-    var updateForm = function updateForm(widget, entries){
-
-        var interaction = widget.element;
-        var response = interaction.getResponseDeclaration();
-        var mapEntries = response.getMapEntries();
-
-        var mappingChange = function mappingChange(){
-            //set the current responses, either the mapEntries or the corrects if nothing else
-            commonRenderer.setResponse(
-                interaction,
-                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
-            );
-        };
-        var gapSrcs  = {};
-        _.forEach(interaction.getGapImgs(), function(gapImg){
-            if(gapImg.object && gapImg.object.attr('data')){
-                gapSrcs[gapImg.id()] = widget.options.baseUrl + gapImg.object.attr('data');
-            }
-        });
-
-        //set up the scoring form options
-        var options = {
-            leftTitle : __('Gap'),
-            rightTitle : __('Choice'),
-            type : 'directedPair',
-            pairLeft : function(){
-                return _.map(interaction.getGapImgs(), function(gap){
-                    return {
-                        id : gap.id(),
-                        value : gap.id()
-                    };
-                });
-            },
-            formatLeft : function(id){
-                var formated = id;
-                if(gapSrcs[id]){
-                    formated += "<br><img height='24px' src='" + gapSrcs[id] + "' />";
-                }
-                return formated;
-            },
-            pairRight : function(){
-                return _.map(interaction.getChoices(), function(choice){
-                    return {
-                        id : choice.id(),
-                        value : choice.id()
-                    };
-                });
-            }
-        };
-
-        //format the entries to match the needs of the scoring form
-        if(entries){
-            options.entries = _.transform(entries, function(result, value){
-                result[value] = mapEntries[value] !== undefined ? mapEntries[value] : response.mappingAttributes.defaultValue;
-            }, {});
-        }
-
-        //initialize the scoring form
-        interaction.pairScoringForm = scoringFormFactory(widget, options);
     };
 
     /**

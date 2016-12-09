@@ -29,7 +29,6 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
 ], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
-
     'use strict';
 
     /**
@@ -40,36 +39,36 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
-        
-        commonRenderer.resetResponse(interaction); 
+
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
         if(!interaction.paper){
             return;
         }
-        
+
         //add a specific instruction
         instructionMgr.appendInstruction(interaction, __('Please fill the gap with the correct choices below.'));
-       
-        widget.createGapImgs(); 
- 
+
+        widget.createGapImgs();
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
 
         commonRenderer.setResponse(
-            interaction, 
+            interaction,
             PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
         );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-           if(data.response && data.response.list){
+            if(data.response && data.response.list){
                 response.setCorrect(
                     _.map(data.response.list.directedPair, function(pair){
                         return pair.join(' ');
                     })
-                ); 
-           }
+                );
+            }
         });
     }
 
@@ -79,17 +78,17 @@ define([
     function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
-        
+
         if(!interaction.paper){
             return;
         }
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');
-        
+
         //destroy the common renderer
-        commonRenderer.resetResponse(interaction); 
-        commonRenderer.destroy(interaction); 
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction);
         instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
