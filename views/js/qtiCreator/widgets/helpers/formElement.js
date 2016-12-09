@@ -187,7 +187,7 @@ define([
 
                     var max = options.floatVal ? parseFloat($max.val()) : parseInt($max.val(), 10);
 
-                    if(max < value){ // && !(max === 0 && $max.data('zero') === true)
+                    if(max < value && !(max === 0 && $max.data('zero') === true)){
                         $max.val(value);
                     }
                 }
