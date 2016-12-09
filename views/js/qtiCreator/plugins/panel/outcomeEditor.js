@@ -29,14 +29,22 @@ define([
 ], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, panelTpl, listingTpl) {
     'use strict';
 
-    var _ns = '.outcomeEditor';
+    var _ns = '.outcome-editor';
 
+    /**
+     * Render the lists of the item outcomes into the outcome editor panel
+     *
+     * @param {Object} item
+     * @param {JQuery} $outcomeEditorPanel
+     */
     function renderListing(item, $outcomeEditorPanel){
         var outcomesData = _.map(item.outcomes, function(outcome){
             return {
                 serial : outcome.serial,
                 identifier : outcome.id(),
                 interpretation : outcome.attr('interpretation'),
+                normalMaximum : outcome.attr('normalMaximum'),
+                normalMinimum : outcome.attr('normalMinimum'),
                 readonly : outcome.id() === 'SCORE'
             };
         });
@@ -50,31 +58,37 @@ define([
 
     return pluginFactory({
         name: 'outcomeEditor',
-
         /**
          * Initialize the plugin (called during runner's init)
          */
         init: function init() {
-            var self = this;
+
             var item = this.getHost().getItem();
             var $container = this.getAreaBroker().getContainer();
             var $responsePanel = $container.find('#sidebar-right-response-properties');
             var $outcomeEditorPanel;
 
             $container.on('initResponseForm' + _ns, function () {
-                $container.append('editor');
+
+                //remove old one if exists
                 $responsePanel.find('.qti-outcome-editor').remove();
+
+                //create new one
                 $outcomeEditorPanel = $(panelTpl());
 
                 //bind behaviour
-                $outcomeEditorPanel.on('click', '.editable [data-role="edit"]', function(){
+                $outcomeEditorPanel.on('click'+_ns, '.editable [data-role="edit"]', function(){
 
                     var $outcomeContainer = $(this).closest('.outcome-container');
                     var serial = $outcomeContainer.data('serial');
                     var outcome = Element.getElementBySerial(serial);
                     var $identifierLabel = $outcomeContainer.find('.identifier-label .label');
-                    var minMaxCallbacks = formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {allowNull : true, floatVal: true});
+                    var $identifierInput = $outcomeContainer.find('.identifier-label .identifier');
 
+                    //sync the identifier value in case it was invalid before
+                    $identifierInput.val(outcome.id());
+
+                    //attach form change callbacks
                     formElement.setChangeCallbacks($outcomeContainer, outcome, _.assign({
                         identifier : function(outcome, value){
                             $identifierLabel.html(value);
@@ -83,23 +97,32 @@ define([
                         interpretation : function(outcome, value){
                             outcome.attr('interpretation', value);
                         }
-                    }, minMaxCallbacks));
+                    }, formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {
+                        allowNull : true,
+                        floatVal: true,
+                        callback : function(outcome, value, attr){
+                            if(isNaN(value)){
+                                outcome.removeAttr(attr);
+                            }
+                        }
+                    })));
 
                     $outcomeContainer.addClass('editing');
 
-                }).on('click', '.editing [data-role="edit"]', function(){
+                }).on('click'+_ns, '.editing [data-role="edit"]', function(){
 
                     var $outcomeContainer = $(this).closest('.outcome-container');
                     $outcomeContainer.removeClass('editing');
+                    formElement.removeChangeCallback($outcomeContainer);
 
-                }).on('click', '.deletable [data-role="delete"]', function(){
+                }).on('click'+_ns, '.deletable [data-role="delete"]', function(){
 
                     //delete the outcome
                     var $outcomeContainer = $(this).closest('.outcome-container');
                     $outcomeContainer.remove();
                     item.remove('outcomes', $outcomeContainer.data('serial'));
 
-                }).on('click', '.adder', function(){
+                }).on('click'+_ns, '.adder', function(){
 
                     //add new outcome
                     var newOutcome = new OutcomeDeclaration({
@@ -108,8 +131,12 @@ define([
                         normalMinimum : 0.0,
                         normalMaximum : 1.0
                     });
+
+                    //attach the outcome to the item before generating item-level unique id
                     item.addOutcomeDeclaration(newOutcome);
                     newOutcome.buildIdentifier('OUTCOME');
+
+                    //refresh the list
                     renderListing(item, $outcomeEditorPanel);
                 });
 

@@ -7,7 +7,7 @@
                value="{{identifier}}"
                type="text"
                placeholder="e.g. CONTENT"
-               data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{serial}});">
+               data-validate="$notEmpty; $qtiIdentifier; $availableVariableIdentifier(serial={{serial}});">
     </div>
     <span class="trigger icon-bin" title="{{__ "Delete"}}" data-role="delete"></span>
     <span class="trigger icon-edit sidebar-popup-trigger" data-popup="~ .sidebar-popup" title="Edit" data-role="edit"></span>
@@ -23,9 +23,9 @@
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
             <div class="tooltip-content">{{__ "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."}}</div>
             <label for="normalMinimum" class="spinner">{{__ "from"}}</label>
-            <input name="normalMinimum" value="{{normalMinimum}}" data-increment=".1" type="text" />
+            <input name="normalMinimum" value="{{normalMinimum}}" data-increment=".1" data-zero="true" type="text" />
             <label for="normalMaximum" class="spinner">{{__ "to"}}</label>
-            <input name="normalMaximum" value="{{normalMaximum}}" data-increment=".1" type="text" />
+            <input name="normalMaximum" value="{{normalMaximum}}" data-increment=".1" data-zero="true" data-min="0" type="text" />
         </div>
     </div>
 </div>
