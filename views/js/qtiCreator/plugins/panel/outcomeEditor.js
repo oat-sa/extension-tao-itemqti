@@ -65,7 +65,9 @@ define([
                 $container.append('editor');
                 $responsePanel.find('.qti-outcome-editor').remove();
                 $outcomeEditorPanel = $(panelTpl());
-                $responsePanel.append($outcomeEditorPanel).on('click', '.editable [data-role="edit"]', function(){
+
+                //bind behaviour
+                $outcomeEditorPanel.on('click', '.editable [data-role="edit"]', function(){
 
                     var $outcomeContainer = $(this).closest('.outcome-container');
                     var serial = $outcomeContainer.data('serial');
@@ -110,6 +112,9 @@ define([
                     newOutcome.buildIdentifier('OUTCOME');
                     renderListing(item, $outcomeEditorPanel);
                 });
+
+                //attach to response form side panel
+                $responsePanel.append($outcomeEditorPanel)
                 renderListing(item, $outcomeEditorPanel);
             });
         }

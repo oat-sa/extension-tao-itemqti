@@ -18,8 +18,10 @@
             <div class="tooltip-content">{{__ "A human interpretation of the variable's value."}}</div>
             <input name="interpretation" value="{{interpretation}}" type="text">
         </div>
-        <div class="panel">
-            <h3>{{__ "Value"}}</h3>
+        <div class="panel minimum-maximum">
+            <label class="has-icon">{{__ "Value"}}</label>
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+            <div class="tooltip-content">{{__ "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."}}</div>
             <label for="normalMinimum" class="spinner">{{__ "from"}}</label>
             <input name="normalMinimum" value="{{normalMinimum}}" data-increment=".1" type="text" />
             <label for="normalMaximum" class="spinner">{{__ "to"}}</label>

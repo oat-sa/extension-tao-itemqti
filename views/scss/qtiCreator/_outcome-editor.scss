@@ -2,6 +2,9 @@
 
 .item-editor-sidebar .tool-group .qti-outcome-editor {
     .outcome-container {
+        label: {
+            cursor: default;
+        }
         .trigger {
             float: right;
             padding: 3px;
@@ -25,36 +28,49 @@
             display: inline-block;
             margin: 0;
             width: calc(100% - 44px);
-            input.identifier{
+            input.identifier {
                 @include font-size(12);
                 min-width: 80px;
                 display: none;
+                margin-bottom: 6px;
             }
         }
-        h3{
+        h3 {
             display: block;
         }
-        .outcome-properties-form{
+        .outcome-properties-form {
             display: none;
         }
-        &.editing{
-            .icon-edit{
-                font-weight:bold;
+        .minimum-maximum {
+            label {
+                display: inline;
+                &.has-icon {
+                    display: inline-block;
+                    min-width: 120px;
+                    width: 120px;
+                }
+            }
+            .incrementer-ctrl-wrapper {
+                margin: 0 5px;
+            }
+        }
+        &.editing {
+            .icon-edit {
+                font-weight: bold;
                 color: $info;
             }
-            .outcome-properties-form{
+            .outcome-properties-form {
                 display: block;
             }
-            .identifier-label{
+            .identifier-label {
                 margin-bottom: 12px;
-                span.label{
-                    display:none;
+                span.label {
+                    display: none;
                 }
-                input.identifier{
+                input.identifier {
                     display: inline-block;
                 }
             }
         }
     }
-
 }
