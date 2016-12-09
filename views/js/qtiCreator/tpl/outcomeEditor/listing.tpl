@@ -9,8 +9,8 @@
                placeholder="e.g. CONTENT"
                data-validate="$notEmpty; $qtiIdentifier; $availableVariableIdentifier(serial={{serial}});">
     </div>
-    <span class="trigger icon-bin" title="{{__ "Delete"}}" data-role="delete"></span>
-    <span class="trigger icon-edit sidebar-popup-trigger" data-popup="~ .sidebar-popup" title="Edit" data-role="edit"></span>
+    <span class="trigger icon-bin" title="{{titleDelete}}" data-role="delete"></span>
+    <span class="trigger icon-edit sidebar-popup-trigger" data-popup="~ .sidebar-popup" title="{{titleEdit}}" data-role="edit"></span>
     <div class="outcome-properties-form">
         <div class="panel">
             <label for="interpretation" class="has-icon">{{__ "Interpretation"}}</label>

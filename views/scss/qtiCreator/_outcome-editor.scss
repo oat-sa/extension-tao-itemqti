@@ -20,7 +20,7 @@
         &.readonly {
             diplay: none;
             .trigger {
-                color: $darkBrown !important;
+                color: whiten($darkBrown, .5) !important;
                 cursor: not-allowed;
             }
         }

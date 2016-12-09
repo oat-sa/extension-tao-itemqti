@@ -24,12 +24,33 @@ define([
     'taoQtiItem/qtiCreator/helper/popup',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
+    'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/panel',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing'
-], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, panelTpl, listingTpl) {
+], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, xmlRenderer, panelTpl, listingTpl) {
     'use strict';
 
     var _ns = '.outcome-editor';
+
+    /**
+     * Get the identifiers of the variables that are used in the response declaration
+     *
+     * @param {Object} item
+     * @returns {Array}
+     */
+    function getRpUsedVariables(item){
+
+        var rpXml = xmlRenderer.render(item.responseProcessing);
+        var variables = ['SCORE'];//score is always used, even in template based response processing
+        var $rp = $(rpXml);
+
+        $rp.find('variable,setOutcomeValue').each(function(){
+            var id = $(this).attr('identifier');
+            variables.push(id);
+        });
+
+        return _.uniq(variables);
+    }
 
     /**
      * Render the lists of the item outcomes into the outcome editor panel
@@ -38,16 +59,23 @@ define([
      * @param {JQuery} $outcomeEditorPanel
      */
     function renderListing(item, $outcomeEditorPanel){
+
+        var rpVariables = getRpUsedVariables(item);
+        
         var outcomesData = _.map(item.outcomes, function(outcome){
+            var readonly = (rpVariables.indexOf(outcome.id()) >= 0);
             return {
                 serial : outcome.serial,
                 identifier : outcome.id(),
                 interpretation : outcome.attr('interpretation'),
                 normalMaximum : outcome.attr('normalMaximum'),
                 normalMinimum : outcome.attr('normalMinimum'),
-                readonly : outcome.id() === 'SCORE'
+                titleDelete : readonly ? __('Cannot delete a variable currently used in response processing') : __('Delete'),
+                titleEdit : readonly ? __('Cannot edit a variable currently used in response processing') : __('Edit'),
+                readonly : readonly
             };
         });
+
         $outcomeEditorPanel.find('.outcomes').html(listingTpl({
             outcomes : outcomesData
         }));
@@ -157,4 +185,3 @@ define([
         }
     });
 });
-
