@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\import;
 
+use oat\tao\helpers\uploadReferencerTrait;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -35,10 +36,10 @@ use \common_exception_Error;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoQTIItem
- 
  */
 class QtiItemImport implements tao_models_classes_import_ImportHandler
 {
+    use uploadReferencerTrait;
 
     /**
      * (non-PHPdoc)
@@ -67,8 +68,8 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
 
         if(isset($fileInfo['uploaded_file'])){
 
-            $uploadedFile = $fileInfo['uploaded_file'];
-            
+            $uploadedFile = $this->getLocalCopy($fileInfo['uploaded_file']);
+
             try{
                 $importService = ImportService::singleton();
                 $report = $importService->importQTIFile($uploadedFile, $class, true, null);
