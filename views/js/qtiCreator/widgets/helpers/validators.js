@@ -33,6 +33,22 @@ define([
                     throw 'missing required option "serial"';
                 }
             }
+        },
+        {
+            name: 'availableVariableIdentifier',
+            message: __('identifier already taken'),
+            validate: function(value, callback, options) {
+                if (options.serial) {
+                    var element = Element.getElementBySerial(options.serial);
+                    if (element && typeof callback === 'function') {
+                        var ids = element.getRelatedItem().getUsedIdentifiers();
+                        var available = (!ids[value] || ids[value].serial === element.serial || !ids[value].is('variableDeclaration'));
+                        callback(available);
+                    }
+                }else{
+                    throw 'missing required option "serial"';
+                }
+            }
         }
     ];
 
