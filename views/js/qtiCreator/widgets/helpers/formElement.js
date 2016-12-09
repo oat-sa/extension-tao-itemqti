@@ -33,7 +33,7 @@ define([
     'use strict';
 
     var formElement = {
-        initWidget : function($form){
+        initWidget : function initWidget($form){
             spinner($form);
             tooltip($form);
             select2($form);
@@ -47,7 +47,7 @@ define([
          * @param {Boolean} [options.validateOnInit = false] - define if the validation should be trigger immediately after the callbacks have been set
          * @param {Boolean} [options.invalidate = false] - define if the validation set the valid/invalidate state to the widget of the element
          */
-        setChangeCallbacks : function($form, element, attributes, options){
+        setChangeCallbacks : function setChangeCallbacks($form, element, attributes, options){
 
             attributes = attributes || {};
             options = _.defaults(options || {}, {
@@ -82,7 +82,9 @@ define([
                         var $elt = $(elt),
                             name = $elt.attr('name');
 
-                        _callbackCall(name, $elt.val(), $elt);
+                        if(valid){
+                            _callbackCall(name, $elt.val(), $elt);
+                        }
                         if(options.invalidate){
                             element.data('widget').isValid(name, valid);
                         }
@@ -105,7 +107,11 @@ define([
             });
 
         },
-        initTitle : function($form, element){
+        removeChangeCallback : function removeChangeCallback($form){
+            $form.off('.databinding');
+            $form.find(':input[data-hasqtip]').qtip('destroy', true);
+        },
+        initTitle : function initTitle($form, element){
 
             var $title = $form.hasClass('qti-title') ? $form : $form.find('.qti-title');
 
@@ -122,7 +128,7 @@ define([
          * the simplest form of save callback used in setChangeCallbacks()
          * @param {boolean} allowEmpty
          */
-        getAttributeChangeCallback : function(allowEmpty){
+        getAttributeChangeCallback : function getAttributeChangeCallback(allowEmpty){
 
             return function(element, value, name){
                 if(!allowEmpty && value === ''){
@@ -142,7 +148,7 @@ define([
          * @param {Object} options
          * @returns {Object}
          */
-        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, options){
+        getMinMaxAttributeCallbacks : function getMinMaxAttributeCallbacks($form, attributeNameMin, attributeNameMax, options){
 
             var _defaults = {
                 allowNull : false,
@@ -151,6 +157,7 @@ define([
                     remove : 'removeAttr',
                     set : 'attr'
                 },
+                floatVal : false,
                 callback : _.noop
             },
             $max = $form.find('input[name=' + attributeNameMax + ']'),
@@ -161,10 +168,11 @@ define([
 
             callbacks[attributeNameMin] = function(element, value, name){
 
-                var newOptions = {min : 0};
+                var newOptions = {min : $max.data('min') || 0};
+                var isActualNumber;
 
-                value = parseInt(value);
-                var isActualNumber = !isNaN(value);
+                value = options.floatVal ? parseFloat(value) : parseInt(value, 10);
+                isActualNumber = !isNaN(value);
 
                 if(!options.allowNull && (value === 0 || !isActualNumber)){
 
@@ -175,11 +183,11 @@ define([
 
                     //if the value is an actual number
                     element[options.attrMethodNames.set](name, value);
-                    newOptions.min = value;
+                    newOptions.min = Math.max(newOptions.min, value);
 
-                    var max = parseInt($max.val());
+                    var max = options.floatVal ? parseFloat($max.val()) : parseInt($max.val(), 10);
 
-                    if(max < value && !(max === 0 && $max.data('zero') === true)){
+                    if(max < value){ // && !(max === 0 && $max.data('zero') === true)
                         $max.val(value);
                     }
                 }
@@ -191,7 +199,7 @@ define([
 
             callbacks[attributeNameMax] = function(element, value, name){
 
-                value = parseInt(value) || 0;
+                value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
 
                 if(element.is('interaction')){
                     //update response
@@ -211,7 +219,7 @@ define([
         }
     };
 
-    var _updateResponseDeclaration = function(interaction, maxChoice, updateCardinality){
+    var _updateResponseDeclaration = function _updateResponseDeclaration(interaction, maxChoice, updateCardinality){
 
         if(Element.isA(interaction, 'interaction')){
             updateCardinality = (updateCardinality === undefined) ? true : !!updateCardinality;
@@ -269,7 +277,7 @@ define([
 
     };
 
-    var _createTooltip = function($input, validatorOptions){
+    var _createTooltip = function _createTooltip($input, validatorOptions){
         if(!$input.data('qtip')){
             $input.qtip({
                 show: {
