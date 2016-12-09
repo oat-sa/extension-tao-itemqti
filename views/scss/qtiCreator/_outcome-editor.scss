@@ -2,7 +2,7 @@
 
 .item-editor-sidebar .tool-group .qti-outcome-editor {
     .outcome-container {
-        label: {
+        label, .label {
             cursor: default;
         }
         .trigger {
@@ -11,7 +11,7 @@
             margin-left: 3px;
             cursor: pointer;
             &:hover {
-                color: whiten($info, .8);
+                color: whiten($info, .4);
             }
             &:active {
                 color: whiten($info, .6);
@@ -51,13 +51,19 @@
                 }
             }
             .incrementer-ctrl-wrapper {
-                margin: 0 5px;
+                margin: 0 2px;
+                .incrementer {
+                    width: 46px !important;;
+                }
             }
         }
         &.editing {
             .icon-edit {
                 font-weight: bold;
                 color: $info;
+                &:hover {
+                    color: whiten($info, .2);
+                }
             }
             .outcome-properties-form {
                 display: block;

@@ -82,19 +82,31 @@ define([
                     var $outcomeContainer = $(this).closest('.outcome-container');
                     var serial = $outcomeContainer.data('serial');
                     var outcome = Element.getElementBySerial(serial);
-                    var $identifierLabel = $outcomeContainer.find('.identifier-label .label');
-                    var $identifierInput = $outcomeContainer.find('.identifier-label .identifier');
+                    var $labelContainer = $outcomeContainer.find('.identifier-label');
+                    var $identifierLabel = $labelContainer.find('.label');
+                    var $identifierInput = $labelContainer.find('.identifier');
+
+                    $outcomeContainer.addClass('editing');
 
                     //sync the identifier value in case it was invalid before
+                    $identifierInput.focus();
+                    $identifierInput.val('');
                     $identifierInput.val(outcome.id());
 
                     //attach form change callbacks
                     formElement.setChangeCallbacks($outcomeContainer, outcome, _.assign({
                         identifier : function(outcome, value){
+                            //update the html for real time update
                             $identifierLabel.html(value);
+
+                            //save to model
                             outcome.id(value);
                         },
                         interpretation : function(outcome, value){
+                            //update the title attr for real time update
+                            $labelContainer.attr('title', value);
+
+                            //save to model
                             outcome.attr('interpretation', value);
                         }
                     }, formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {
@@ -106,8 +118,6 @@ define([
                             }
                         }
                     })));
-
-                    $outcomeContainer.addClass('editing');
 
                 }).on('click'+_ns, '.editing [data-role="edit"]', function(){
 
