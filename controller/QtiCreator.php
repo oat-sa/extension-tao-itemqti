@@ -248,8 +248,6 @@ class QtiCreator extends tao_actions_CommonModule
             $config->addPlugin('blockAdder', 'taoQtiItem/qtiCreator/plugins/content/blockAdder', 'content');
         }
 
-        $config->addPlugin('outcomeEditor', 'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor', 'panel');
-
         $mediaSourcesUrl = tao_helpers_Uri::url(
             'getMediaSources',
             'QtiCreator',
