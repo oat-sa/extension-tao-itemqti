@@ -118,7 +118,7 @@ define([
                         return userModules.load().then(done);
 
                     }).catch(function(err){
-                        self.trigger('error', 'Error in post rendering : ' +  err.message);
+                        self.trigger('error', 'Error in post rendering : ' + err instanceof Error ? err.message : err);
                     });
                 } catch(err){
                     self.trigger('error', 'Error in post rendering : ' + err.message);
