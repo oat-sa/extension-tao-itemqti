@@ -21,7 +21,8 @@
 
 namespace oat\taoQtiItem\model\import;
 
-use oat\tao\helpers\uploadReferencerTrait;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -31,7 +32,6 @@ use \core_kernel_versioning_Repository;
 use \helpers_TimeOutHelper;
 use \common_report_Report;
 use \Exception;
-use \tao_helpers_File;
 use \common_exception_Error;
 
 /**
@@ -43,7 +43,6 @@ use \common_exception_Error;
  */
 class QtiPackageImport implements tao_models_classes_import_ImportHandler
 {
-    use uploadReferencerTrait;
 
     /**
      * (non-PHPdoc)
@@ -65,6 +64,12 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
+     * @param \core_kernel_classes_Class $class
+     * @param \tao_helpers_form_Form $form
+     * @return common_report_Report
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
+     * @throws common_exception_Error
      */
     public function import($class, $form) {
 
@@ -73,7 +78,9 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler
 
         if (isset($fileInfo['uploaded_file'])) {
 
-            $uploadedFile = $this->getLocalCopy($fileInfo['uploaded_file']);
+            /** @var  UploadService $uploadService */
+            $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+            $uploadedFile = $uploadService->getLocalCopy($fileInfo['uploaded_file']);
 
             //test versioning
             $repository = null;
@@ -100,7 +107,7 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler
             }
 
             helpers_TimeOutHelper::reset();
-            tao_helpers_File::remove($uploadedFile);
+            $uploadService->remove($uploadedFile);
         } else {
             throw new common_exception_Error('No source file for import');
         }
