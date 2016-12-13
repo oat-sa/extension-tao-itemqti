@@ -22,7 +22,6 @@
             <label class="has-icon">{{__ "Value"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
             <div class="tooltip-content">{{__ "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."}}</div>
-            <label for="normalMinimum" class="spinner">{{__ "from"}}</label>
             <input name="normalMinimum" value="{{normalMinimum}}" data-increment=".1" type="text" />
             <label for="normalMaximum" class="spinner">{{__ "to"}}</label>
             <input name="normalMaximum" value="{{normalMaximum}}" data-increment=".1" data-min="0" type="text" />
