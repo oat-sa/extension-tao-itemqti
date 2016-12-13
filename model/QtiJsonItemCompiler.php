@@ -67,6 +67,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         // retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
+            $this->compileItemIndex($qtiItem, $language);
 
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
