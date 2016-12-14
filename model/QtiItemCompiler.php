@@ -179,7 +179,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         //  retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
-            $this->compileItemIndex($qtiItem, $language);
+            $this->compileItemIndex($item->getUri(), $qtiItem, $language);
 
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
@@ -295,14 +295,15 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     }
 
     /**
+     * @param string $uri
      * @param Item $qtiItem
      * @param $language
      */
-    protected function compileItemIndex(Item $qtiItem, $language)
+    protected function compileItemIndex($uri, Item $qtiItem, $language)
     {
         $context = $this->getContext();
         if ($context && $context instanceof ItemCompilerIndex) {
-            $context->setItem($qtiItem->getIdentifier(), $language, $qtiItem->getAttributeValues());
+            $context->setItem($uri, $language, $qtiItem->getAttributeValues());
         }
     }
 }
