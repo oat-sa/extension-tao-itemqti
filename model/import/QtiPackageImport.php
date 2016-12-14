@@ -80,7 +80,7 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler
 
             /** @var  UploadService $uploadService */
             $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-            $uploadedFile = $uploadService->getLocalCopy($fileInfo['uploaded_file']);
+            $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
 
             //test versioning
             $repository = null;
