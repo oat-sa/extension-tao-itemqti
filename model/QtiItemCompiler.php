@@ -23,7 +23,9 @@ namespace oat\taoQtiItem\model;
 use common_report_Report;
 use core_kernel_classes_Resource;
 use oat\oatbox\filesystem\Directory;
+use oat\taoItems\model\ItemCompilerIndex;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
+use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
 use tao_models_classes_service_ConstantParameter;
 use tao_models_classes_service_ServiceCall;
@@ -177,6 +179,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         //  retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
+            $this->compileItemIndex($item->getUri(), $qtiItem, $language);
 
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
@@ -291,4 +294,16 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         return $assetRetrievedQtiItem;
     }
 
+    /**
+     * @param string $uri
+     * @param Item $qtiItem
+     * @param $language
+     */
+    protected function compileItemIndex($uri, Item $qtiItem, $language)
+    {
+        $context = $this->getContext();
+        if ($context && $context instanceof ItemCompilerIndex) {
+            $context->setItem($uri, $language, $qtiItem->getAttributeValues());
+        }
+    }
 }
