@@ -109,7 +109,7 @@ class MetadataImporter extends AbstractMetadataService
     public function register($key, $name)
     {
         if (empty($key) || empty($name)) {
-            throw new \InvalidArgumentException(__('Register method expects $key and $name parameters'));
+            throw new \InvalidArgumentException(__('Register method expects $key and $name parameters.'));
         }
 
         if (is_object($name)) {
@@ -129,10 +129,20 @@ class MetadataImporter extends AbstractMetadataService
         return parent::register($key, $name);
     }
 
+    /**
+     * Unregister an instances
+     *
+     * Look for GUARDIAN OR CLASS_LOOKUP key, otherwise fallback to parent
+     *
+     * @param string $key
+     * @param string $name
+     * @return bool|void
+     * @throws \common_Exception
+     */
     public function unregister($key, $name)
     {
         if (empty($key) || empty($name)) {
-            throw new \common_Exception();
+            throw new \common_Exception(__('Unregister method expects $key and $name parameters.'));
         }
 
         if (is_object($name)) {
