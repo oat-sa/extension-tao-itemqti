@@ -36,9 +36,10 @@ define([
 
     var KEY_CODE_SPACE = 32;
     var KEY_CODE_ENTER = 13;
+    var KEY_CODE_LEFT  = 37;
     var KEY_CODE_UP    = 38;
+    var KEY_CODE_RIGHT = 39;
     var KEY_CODE_DOWN  = 40;
-    var KEY_CODE_TAB   = 9;
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
@@ -58,10 +59,10 @@ define([
             var $qtiChoice = $(this).closest('.qti-choice');
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
 
-            if (keyCode === KEY_CODE_UP){
+            if (keyCode === KEY_CODE_UP || keyCode === KEY_CODE_LEFT){
                 e.preventDefault();
                 $qtiChoice.prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
-            } else if (keyCode === KEY_CODE_DOWN){
+            } else if (keyCode === KEY_CODE_DOWN || keyCode === KEY_CODE_RIGHT){
                 e.preventDefault();
                 $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             }
