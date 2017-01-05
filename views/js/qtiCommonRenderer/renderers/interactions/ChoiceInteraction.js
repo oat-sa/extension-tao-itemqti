@@ -80,7 +80,7 @@ define([
         $container.on('click.commonRenderer', '.qti-choice', function(e){
             var $choiceBox = $(this);
             var state;
-            var eliminator = e.target.dataset.eliminable;
+            var eliminator = e.target.dataset && e.target.dataset.eliminable;
 
             // if the click has been triggered by a keyboard check, prevent this listener to cancel this check
             if (e.originalEvent && $(e.originalEvent.target).is('input')) {
@@ -177,6 +177,7 @@ define([
                     $input.prop('checked', false);
                     $li.removeAttr('style');
                     $icon.removeAttr('style').removeClass('cross');
+                    $li.toggleClass('user-selected', false);
                     containerHelper.triggerResponseChangeEvent(interaction);
                 }, 150);
                 interaction.data('__instructionTimeout', timeout);
@@ -276,7 +277,8 @@ define([
 
         try{
             _.each(pciResponse.unserialize(response, interaction), function(identifier){
-                $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
+                var $input = $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
+                $input.closest('.qti-choice').toggleClass('user-selected', true);
             });
             instructionMgr.validateInstructions(interaction);
         }catch(e){
