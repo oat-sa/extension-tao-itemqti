@@ -14,20 +14,16 @@ define([
 
     //override asset loading in order to resolve it from the runtime location
     var strategies = [{
-        name : 'portableElementLocation',
-        handle : function handlePortableElementLocation(url){
+        name : 'default',
+        handle : function defaultStrategy(url){
             if(/assets/.test(url.toString())){
                 return '../../taoQtiItem/views/js/test/qtiCommonRenderer/interactions/graphicGapMatch/' + url.toString();
             }
-        }
-    }, {
-        name : 'default',
-        handle : function defaultStrategy(url){
             return url.toString();
         }
     }];
 
-    module('Graphic GapMatch Interaction', {
+    QUnit.module('Graphic GapMatch Interaction', {
         teardown : function(){
             if(runner){
                 runner.clear();
@@ -35,7 +31,6 @@ define([
         }
     });
 
-    /* */
     QUnit.asyncTest('renders correctly', function(assert){
         QUnit.expect(20);
 
@@ -77,7 +72,6 @@ define([
             .render($container);
     });
 
-    /* */
     QUnit.asyncTest('enables to activate a gap filler', function(assert){
         QUnit.expect(5);
 
@@ -105,7 +99,6 @@ define([
             .render($container);
     });
 
-    /* */
     QUnit.asyncTest('enables to fill a hotspot', function(assert){
         QUnit.expect(4);
 
@@ -124,7 +117,7 @@ define([
             .on('statechange', function(state){
                 assert.ok(typeof state === 'object', 'The state is an object');
                 assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'] ] } } }, 'The pair is selected');
+                assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['gapimg_1', 'associablehotspot_6'] ] } } }, 'The pair is selected');
 
                 QUnit.start();
             })
@@ -133,7 +126,6 @@ define([
             .render($container);
     });
 
-    /* */
     QUnit.asyncTest('enables to fill a hotspot with two gap fillers', function(assert){
         QUnit.expect(3);
 
@@ -163,13 +155,13 @@ define([
                 if (stateChangeCounter === 1) {
                     assert.deepEqual(
                         state.RESPONSE,
-                        { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'] ] } } },
+                        { response : { list  : { directedPair : [ ['gapimg_1', 'associablehotspot_6'] ] } } },
                         'The first pair is selected');
 
                 } else if (stateChangeCounter === 2) {
                     assert.deepEqual(
                         state.RESPONSE,
-                        { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'], ['associablehotspot_6', 'gapimg_3'] ] } } },
+                        { response : { list  : { directedPair : [ ['gapimg_1', 'associablehotspot_6'], ['gapimg_3', 'associablehotspot_6'] ] } } },
                         'The 2 pairs are selected');
 
                     QUnit.start();
@@ -180,7 +172,6 @@ define([
             .render($container);
     });
 
-    /* */
     QUnit.asyncTest('enables to remove a gap filler', function(assert){
         QUnit.expect(4);
 
@@ -210,7 +201,7 @@ define([
             .on('statechange', function(state){
                 stateChangeCounter++;
                 if (stateChangeCounter === 1) {
-                    assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'] ] } } }, 'The pair is selected');
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [ ['gapimg_1', 'associablehotspot_6'] ] } } }, 'The pair is selected');
                 } else if (stateChangeCounter === 2) {
                     assert.deepEqual(state.RESPONSE, { response : { list  : { directedPair : [] } } }, 'Response is empty');
                     QUnit.start();
@@ -221,7 +212,6 @@ define([
             .render($container);
     });
 
-    /* */
     QUnit.asyncTest('set the default response', function(assert){
         QUnit.expect(2);
 
@@ -234,7 +224,7 @@ define([
                 var $gapFiller = $('.qti-choice[data-identifier="gapimg_1"]', $container);
                 var gapFillerImgSrc = $gapFiller.find('img').attr('src');
 
-                this.setState({ RESPONSE : { response : { list  : { directedPair : [ ['associablehotspot_6', 'gapimg_1'] ] } } } });
+                this.setState({ RESPONSE : { response : { list  : { directedPair : [ ['gapimg_1', 'associablehotspot_6'] ] } } } });
 
                 _.delay(function(){
                     var $gapFillerOnHotspot = $container.find('.main-image-box image', $container).eq(1);
@@ -248,7 +238,6 @@ define([
             .render($container);
     });
 
-    /* */
     QUnit.asyncTest('destroys', function(assert){
         QUnit.expect(2);
 
@@ -283,7 +272,6 @@ define([
             .render($container);
     });
 
-    /* */
     QUnit.asyncTest('resets the response', function(assert){
         QUnit.expect(3);
 
@@ -327,8 +315,7 @@ define([
             .render($container);
     });
 
-    /* */
-    module('Visual Test');
+    QUnit.module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
         QUnit.expect(1);
@@ -347,6 +334,5 @@ define([
             .init()
             .render($container);
     });
-/* */
 });
 

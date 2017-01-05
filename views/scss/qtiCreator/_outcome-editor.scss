@@ -1,0 +1,81 @@
+@import "inc/bootstrap";
+
+.item-editor-sidebar .tool-group .qti-outcome-editor {
+    .outcome-container {
+        label, .label {
+            cursor: default;
+        }
+        .trigger {
+            float: right;
+            padding: 3px;
+            margin-left: 3px;
+            cursor: pointer;
+            &:hover {
+                color: whiten($info, .4);
+            }
+            &:active {
+                color: whiten($info, .6);
+            }
+        }
+        &.readonly {
+            .trigger {
+                color: whiten($darkBrown, .5) !important;
+                cursor: not-allowed;
+            }
+        }
+        .identifier-label {
+            @include font-size(12.5);
+            display: inline-block;
+            margin: 0;
+            width: calc(100% - 44px);
+            input.identifier {
+                min-width: 80px;
+                display: none;
+                margin-bottom: 6px;
+            }
+        }
+        h3 {
+            display: block;
+        }
+        .outcome-properties-form {
+            display: none;
+        }
+        .minimum-maximum {
+            label {
+                display: inline;
+                &.has-icon {
+                    display: inline-block;
+                    min-width: 140px;
+                    width: 140px;
+                }
+            }
+            .incrementer-ctrl-wrapper {
+                margin: 0 2px;
+                .incrementer {
+                    width: 46px !important;;
+                }
+            }
+        }
+        &.editing {
+            .icon-edit {
+                font-weight: bold;
+                color: $info;
+                &:hover {
+                    color: whiten($info, .2);
+                }
+            }
+            .outcome-properties-form {
+                display: block;
+            }
+            .identifier-label {
+                margin-bottom: 12px;
+                span.label {
+                    display: none;
+                }
+                input.identifier {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
