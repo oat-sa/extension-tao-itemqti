@@ -137,6 +137,10 @@ $mainContainer : '.qti-item';
         }
     }
 
+    .qti-prompt {
+        word-break: break-all;
+    }
+
     // MathJax reset
     .MathJax span {
         line-height: inherit;
