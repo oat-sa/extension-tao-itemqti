@@ -32,57 +32,69 @@ define([
         var $container         = widget.$original;
         var options            = widget.options;
         var interaction        = widget.element;
-        var mediaProps         = interaction.properties.media;
         var isAudio            = false;
         var defaultVideoHeight = 270;
         var defaultAudioHeight = 30;
         var $heightContainer;
+        var mediaProps         = interaction.properties.media || {};
+
+        // default values
+        mediaProps = _.defaults(mediaProps, {
+            autostart: false,
+            loop: false,
+            maxPlays: 10,
+            height: defaultVideoHeight,
+            width: 360,
+            data: null,
+            type: null
+        });
+        interaction.properties.media = mediaProps;
 
         /**
          * Switch to audio mode:
          * update height and disable the field
          */
-        var switchToAudio = function switchToAudio(){
+        function switchToAudio(){
             isAudio = true;
 
             $heightContainer.hide();
             mediaProps.height = defaultAudioHeight;
-        };
+        }
 
         /**
          * Switch to video mode:
          * update height and enable the field
          */
-        var switchToVideo = function switchToVideo(){
+        function switchToVideo(){
             if(isAudio){
                 isAudio = false;
                 mediaProps.height = defaultVideoHeight;
                 $heightContainer.show();
             }
-        };
+        }
 
         /**
          * Switch mode based on file type
          */
-        var switchMode = function switchMode(){
+        function switchMode(){
             if (/audio/.test(mediaProps.type)) {
                 switchToAudio();
             } else {
                 switchToVideo();
             }
-        };
+        }
 
         /**
          * Set up the file upload component
          */
-        var setUpUploader = function setUpUploader() {
+        function setUpUploader() {
 
             var $src = $form.find('input[name=data]');
             var $uploadTrigger = $form.find('.selectMediaFile');
             var openResourceMgr = function openResourceMgr(){
                 $uploadTrigger.resourcemgr({
                     title : __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'),
-                    appendContainer: options.mediaManager.appendContainer, // todo: WTF ?!
+                    appendContainer: options.mediaManager.appendContainer,
                     mediaSourcesUrl: options.mediaManager.mediaSourcesUrl,
                     browseUrl:       options.mediaManager.browseUrl,
                     uploadUrl:       options.mediaManager.uploadUrl,
@@ -120,18 +132,6 @@ define([
 
             $uploadTrigger.on('click', openResourceMgr);
 
-        };
-
-        // default values
-        if (!mediaProps) {
-            mediaProps = {
-                height: defaultVideoHeight,
-                autostart: false,
-                loop: false,
-                maxPlays: 10,
-                object: {}
-            };
-            interaction.properties.mediaProps = mediaProps;
         }
 
         function configChangeCallback(boundInteraction, value, name) {
@@ -139,7 +139,16 @@ define([
             boundInteraction.triggerPci('configChange', [boundInteraction.getProperties()]);
         }
 
+        /**
+         * The pciMediaManager helper
+         */
         return {
+
+            init: function init() {
+                switchMode();
+                setUpUploader();
+            },
+
             getForm: function getForm() {
                 return formTpl({
                     //tpl data for the interaction
@@ -151,7 +160,6 @@ define([
                     type:      mediaProps.type, //use the same as the uploadInteraction, contact jerome@taotesting.com for this
                     width:     mediaProps.width,
                     height:    mediaProps.height
-
                 });
             },
 
@@ -203,14 +211,7 @@ define([
                         }
                     }
                 };
-            },
-
-            init: function init() {
-                switchMode();
-                setUpUploader();
             }
-
-            //todo: shall this implement some kind of destroy ?
         };
     };
 
