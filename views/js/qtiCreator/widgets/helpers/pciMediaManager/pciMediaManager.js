@@ -23,15 +23,16 @@ define([
     'lodash',
     'i18n',
     'jquery',
-    'tpl!taoQtiItem/qtiCreator/widgets/helpers/mediaStimulus/propertiesForm'
+    'tpl!taoQtiItem/qtiCreator/widgets/helpers/pciMediaManager/propertiesForm'
 ], function( _, __, $, formTpl){
     'use strict';
 
-    var mediaStimulus  = function mediaStimulusFactory(widget) {
+    var pciMediaManager  = function pciMediaManagerFactory(widget) {
         var $form              = widget.$form;
         var $container         = widget.$original;
         var options            = widget.options;
         var interaction        = widget.element;
+        var mediaProps         = interaction.properties.media;
         var isAudio            = false;
         var defaultVideoHeight = 270;
         var defaultAudioHeight = 30;
@@ -45,7 +46,7 @@ define([
             isAudio = true;
 
             $heightContainer.hide();
-            interaction.properties.mediaStimulus.height = defaultAudioHeight;
+            mediaProps.height = defaultAudioHeight;
         };
 
         /**
@@ -55,7 +56,7 @@ define([
         var switchToVideo = function switchToVideo(){
             if(isAudio){
                 isAudio = false;
-                interaction.properties.mediaStimulus.height = defaultVideoHeight;
+                mediaProps.height = defaultVideoHeight;
                 $heightContainer.show();
             }
         };
@@ -64,7 +65,7 @@ define([
          * Switch mode based on file type
          */
         var switchMode = function switchMode(){
-            if (/audio/.test(interaction.properties.mediaStimulus.type)) {
+            if (/audio/.test(mediaProps.type)) {
                 switchToAudio();
             } else {
                 switchToVideo();
@@ -97,7 +98,7 @@ define([
                     select : function(e, files){
                         if(files && files.length){
                             // set data field content and maybe detect and set media type here
-                            interaction.properties.mediaStimulus.type = files[0].mime;
+                            mediaProps.type = files[0].mime;
                             $form.find('input[name=data]')
                                 .val(files[0].file)
                                 .trigger('change');
@@ -122,13 +123,19 @@ define([
         };
 
         // default values
-        if (! interaction.properties.mediaStimulus) {
-            interaction.properties.mediaStimulus = {};
+        if (!mediaProps) {
+            mediaProps = {
+                height: defaultVideoHeight,
+                autostart: false,
+                loop: false,
+                maxPlays: 10,
+                object: {}
+            };
+            interaction.properties.mediaProps = mediaProps;
         }
 
-
         function configChangeCallback(boundInteraction, value, name) {
-            boundInteraction.properties.mediaStimulus[name] = value;
+            mediaProps[name] = value;
             boundInteraction.triggerPci('configChange', [boundInteraction.getProperties()]);
         }
 
@@ -136,14 +143,14 @@ define([
             getForm: function getForm() {
                 return formTpl({
                     //tpl data for the interaction
-                    autostart: !!interaction.properties.mediaStimulus.autostart,
-                    loop:      !!interaction.properties.mediaStimulus.loop,
-                    maxPlays:  parseInt(interaction.properties.mediaStimulus.maxPlays, 10),
+                    autostart: !!mediaProps.autostart,
+                    loop:      !!mediaProps.loop,
+                    maxPlays:  parseInt(mediaProps.maxPlays, 10),
                     pause:     interaction.hasClass('pause'), //todo: wtf?!
-                    data:      interaction.properties.mediaStimulus.data,
-                    type:      interaction.properties.mediaStimulus.type, //use the same as the uploadInteraction, contact jerome@taotesting.com for this
-                    width:     interaction.properties.mediaStimulus.width,
-                    height:    interaction.properties.mediaStimulus.height
+                    data:      mediaProps.data,
+                    type:      mediaProps.type, //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                    width:     mediaProps.width,
+                    height:    mediaProps.height
 
                 });
             },
@@ -175,22 +182,22 @@ define([
                     },
 
                     data : function data(boundInteraction, value){
-                        if(boundInteraction.properties.mediaStimulus.data !== value){
-                            boundInteraction.properties.mediaStimulus.data = value;
+                        if(mediaProps.data !== value){
+                            mediaProps.data = value;
 
                             value = $.trim(value).toLowerCase();
 
                             if (/^http(s)?:\/\/(www\.)?youtu/.test(value)) {
-                                boundInteraction.object.attr('type', 'video/youtube');
+                                mediaProps.type = 'video/youtube';
                                 switchToVideo();
-                            } else if (/audio/.test(boundInteraction.object.attr('type'))) {
+                            } else if (/audio/.test(mediaProps.type)) {
                                 switchToAudio();
                             } else {
                                 switchToVideo();
                             }
 
-                            if(boundInteraction.object && (!boundInteraction.object.attr('width') || parseInt(boundInteraction.object.attr('width'), 10) <= 0)){
-                                boundInteraction.object.attr('width', widget.$original.innerWidth());
+                            if(mediaProps && (!mediaProps.width || parseInt(mediaProps.width, 10) <= 0)){
+                                mediaProps.width = widget.$original.innerWidth();
                             }
                             boundInteraction.triggerPci('configChange', [boundInteraction.getProperties()]);
                         }
@@ -207,5 +214,5 @@ define([
         };
     };
 
-    return mediaStimulus;
+    return pciMediaManager;
 });
