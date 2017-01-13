@@ -145,6 +145,7 @@ define([
         return {
 
             init: function init() {
+                $heightContainer = $('.height-container', $form);
                 switchMode();
                 setUpUploader();
             },

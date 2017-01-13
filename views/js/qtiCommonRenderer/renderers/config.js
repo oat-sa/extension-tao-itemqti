@@ -44,7 +44,7 @@ define([
         assetStrategies.base64,
         assetStrategies.baseUrl,
         portableAssetStrategy
-    ], {baseUrl : ''});
+    ], {baseUrl : ''}); //todo: <<------------ AND WHY ?!?!!
 
     //renderers locations
     var locations = {

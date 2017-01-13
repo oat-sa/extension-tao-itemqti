@@ -63,7 +63,7 @@ define([
 
         return pci;
     };
-    
+
     /**
      * Execute javascript codes to bring the interaction to life.
      * At this point, the html markup must already be ready in the document.
@@ -115,6 +115,7 @@ define([
                         resolve : function resolve(url){
                             var resolved = assetManager.resolveBy('portableElementLocation', url);
                             if(resolved === url){
+                                assetManager.setData('baseUrl', self.getOption('baseUrl')); // todo: <<------------ IS THIS ALLOWED ?!?!!
                                 return assetManager.resolveBy('baseUrl', url);
                             }else{
                                 return resolved;
@@ -140,7 +141,7 @@ define([
                     return reject('Unable to initialize pci : ' + id);
 
                 }, reject);
-                
+
             }).catch(function(error){
                 reject('Error loading runtime : ' + id);
             });
