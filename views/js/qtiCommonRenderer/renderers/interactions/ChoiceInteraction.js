@@ -31,7 +31,6 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
 ], function (_, $, __, tpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
-
     'use strict';
 
     var KEY_CODE_SPACE = 32;
@@ -42,6 +41,30 @@ define([
     var KEY_CODE_DOWN  = 40;
 
     /**
+     * Propagate the checked state to the actual input.
+     * @type {Function}
+     * @param {jQuery} $choiceBox
+     * @param {Boolean} state
+     * @private
+     */
+    var _triggerInput = function _triggerInput($choiceBox, state){
+
+        var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+
+        if(!_.isBoolean(state)) {
+            state = !$input.prop('checked');
+        }
+
+        $choiceBox.toggleClass('user-selected', state);
+
+        if($input.length){
+            $input.prop('checked', state);
+            $input.trigger('change');
+        }
+    };
+
+    /**
      * 'pseudo-label' is technically a div that behaves like a label.
      * This allows the usage of block elements inside the fake label
      *
@@ -49,11 +72,12 @@ define([
      * @param {Object} interaction - the interaction instance
      * @param {jQueryElement} $container
      */
-    var _pseudoLabel = function(interaction, $container){
+    var _pseudoLabel = function _pseudoLabel(interaction, $container){
+        var $choiceInputs;
 
         $container.off('.commonRenderer');
 
-        var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+        $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
         $choiceInputs.on('keydown.commonRenderer', function(e){
             var $qtiChoice = $(this).closest('.qti-choice');
@@ -90,12 +114,12 @@ define([
             e.preventDefault();
             e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
 
-           if(!_.isUndefined(eliminator)) {
-               state = false;
-               if(eliminator === 'trigger') {
-                   this.classList.toggle('eliminated');
-               }
-           }
+            if(!_.isUndefined(eliminator)) {
+                state = false;
+                if(eliminator === 'trigger') {
+                    this.classList.toggle('eliminated');
+                }
+            }
 
             _triggerInput($choiceBox, state);
 
@@ -105,46 +129,18 @@ define([
     };
 
     /**
-     * Propagate the checked state to the actual input.
-     * @type {Function}
-     * @param {jQuery} $choiceBox
-     * @param {Boolean} state
+     * Get the responses from the DOM.
      * @private
-     */
-    var _triggerInput = function($choiceBox, state){
-
-        var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-
-
-        if(!_.isBoolean(state)) {
-            state = !$input.prop('checked');
-        }
-
-        $choiceBox.toggleClass('user-selected', state);
-
-        if($input.length){
-            $input.prop('checked', state);
-            $input.trigger('change');
-        }
-    };
-
-    /**
-     * Init rendering, called after template injected into the DOM
-     * All options are listed in the QTI v2.1 information model:
-     * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
-     *
      * @param {Object} interaction - the interaction instance
+     * @returns {Array} the list of choices identifiers
      */
-    var render = function(interaction){
+    var _getRawResponse = function _getRawResponse(interaction){
+        var values = [];
         var $container = containerHelper.get(interaction);
-
-        _pseudoLabel(interaction, $container);
-
-        _setInstructions(interaction);
-
-        if(interaction.attr('orientation') === 'horizontal') {
-            sizeAdapter.adaptSize($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
-        }
+        $('.real-label > input[name=response-' + interaction.getSerial() + ']:checked', $container).each(function(){
+            values.push($(this).val());
+        });
+        return values;
     };
 
     /**
@@ -152,7 +148,7 @@ define([
      * @private
      * @param {Object} interaction - the interaction instance
      */
-    var _setInstructions = function(interaction){
+    var _setInstructions = function _setInstructions(interaction){
 
         var min = interaction.attr('minChoices'),
             max = interaction.attr('maxChoices'),
@@ -160,29 +156,28 @@ define([
             choiceCount = _.size(interaction.getChoices()),
             minInstructionSet = false;
 
+        var highlightInvalidInput = function highlightInvalidInput($choice){
+            var $input = $choice.find('.real-label > input'),
+                $li = $choice.css('color', '#BA122B'),
+                $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
+            var timeout = interaction.data('__instructionTimeout');
+
+            if(timeout){
+                clearTimeout(timeout);
+            }
+            timeout = setTimeout(function(){
+                $input.prop('checked', false);
+                $li.removeAttr('style');
+                $icon.removeAttr('style').removeClass('cross');
+                $li.toggleClass('user-selected', false);
+                containerHelper.triggerResponseChangeEvent(interaction);
+            }, 150);
+            interaction.data('__instructionTimeout', timeout);
+        };
+
         //if maxChoice = 1, use the radio group behaviour
         //if maxChoice = 0, infinite choice possible
         if(max > 1 && max < choiceCount){
-
-            var highlightInvalidInput = function($choice){
-                var $input = $choice.find('.real-label > input'),
-                    $li = $choice.css('color', '#BA122B'),
-                    $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
-                var timeout = interaction.data('__instructionTimeout');
-
-                if(timeout){
-                    clearTimeout(timeout);
-                }
-                timeout = setTimeout(function(){
-                    $input.prop('checked', false);
-                    $li.removeAttr('style');
-                    $icon.removeAttr('style').removeClass('cross');
-                    $li.toggleClass('user-selected', false);
-                    containerHelper.triggerResponseChangeEvent(interaction);
-                }, 150);
-                interaction.data('__instructionTimeout', timeout);
-            };
-
             if(max === min){
                 minInstructionSet = true;
                 msg = __('You must select exactly %s choices', max);
@@ -249,11 +244,30 @@ define([
     };
 
     /**
+     * Init rendering, called after template injected into the DOM
+     * All options are listed in the QTI v2.1 information model:
+     * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
+     *
+     * @param {Object} interaction - the interaction instance
+     */
+    var render = function render(interaction){
+        var $container = containerHelper.get(interaction);
+
+        _pseudoLabel(interaction, $container);
+
+        _setInstructions(interaction);
+
+        if(interaction.attr('orientation') === 'horizontal') {
+            sizeAdapter.adaptSize($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
+        }
+    };
+
+    /**
      * Reset the responses previously set
      *
      * @param {Object} interaction - the interaction instance
      */
-    var resetResponse = function(interaction){
+    var resetResponse = function resetResponse(interaction){
         var $container = containerHelper.get(interaction);
 
         $('.real-label > input', $container).prop('checked', false);
@@ -272,7 +286,7 @@ define([
      * @param {Object} interaction - the interaction instance
      * @param {0bject} response - the PCI formated response
      */
-    var setResponse = function(interaction, response){
+    var setResponse = function setResponse(interaction, response){
         var $container = containerHelper.get(interaction);
 
         try{
@@ -287,21 +301,6 @@ define([
     };
 
     /**
-     * Get the responses from the DOM.
-     * @private
-     * @param {Object} interaction - the interaction instance
-     * @returns {Array} the list of choices identifiers
-     */
-    var _getRawResponse = function(interaction){
-        var values = [];
-        var $container = containerHelper.get(interaction);
-        $('.real-label > input[name=response-' + interaction.getSerial() + ']:checked', $container).each(function(){
-            values.push($(this).val());
-        });
-        return values;
-    };
-
-    /**
      * Return the response of the rendered interaction
      *
      * The response format follows the IMS PCI recommendation :
@@ -313,7 +312,7 @@ define([
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the response formatted in PCI
      */
-    var getResponse = function(interaction){
+    var getResponse = function getResponse(interaction){
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
@@ -331,9 +330,6 @@ define([
             eliminable: (/\beliminable\b/).test(interaction.attr('class'))
         });
     };
-
-
-
 
     /**
      * Destroy the interaction by leaving the DOM exactly in the same state it was before loading the interaction.
@@ -418,7 +414,7 @@ define([
 
             state.order = [];
             $('.qti-simpleChoice', $container).each(function(){
-               state.order.push($(this).data('identifier'));
+                state.order.push($(this).data('identifier'));
             });
         }
         return state;
@@ -429,16 +425,16 @@ define([
      * @exports qtiCommonRenderer/renderers/interactions/ChoiceInteraction
      */
     return {
-        qtiClass : 'choiceInteraction',
-        template : tpl,
-        getData : getCustomData,
-        render : render,
-        getContainer : containerHelper.get,
-        setResponse : setResponse,
-        getResponse : getResponse,
-        resetResponse : resetResponse,
-        destroy : destroy,
-        setState : setState,
-        getState : getState
+        qtiClass:      'choiceInteraction',
+        template:      tpl,
+        getData:       getCustomData,
+        render:        render,
+        getContainer:  containerHelper.get,
+        setResponse:   setResponse,
+        getResponse:   getResponse,
+        resetResponse: resetResponse,
+        destroy:       destroy,
+        setState:      setState,
+        getState:      getState
     };
 });
