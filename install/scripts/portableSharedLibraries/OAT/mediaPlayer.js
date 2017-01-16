@@ -23,8 +23,10 @@ define([
     // an option is to refactor the current media player with:
     // - a dependency injection for jquery & lodash (to use the PCI shared ones)
     // - a provider loader to avoid registering the youtube player that loads against Window
+    // and create a bundle for the PCI
     'core/promise',
     'ui/mediaplayer'
+
 ], function($, _, Promise, mediaplayer) {
     'use strict';
 
@@ -56,12 +58,13 @@ define([
      * @param {Object} mediaElement - player instance
      * @param {jQuery} $container   - container element to adapt
      */
-    var resize = _.debounce(function resize(mediaElement, $container) {
+    var resize = _.debounce(function resize(mediaElement, $container, maxWidth) {
         var newWidth, newHeight;
         if (mediaElement){
 
-            newHeight = $container.find('.media-container').height();
-            newWidth =  $container.find('.media-container').width();
+            newHeight = $container.height();
+            newWidth  = $container.width();
+            newWidth  = (maxWidth && newWidth > maxWidth) ? maxWidth : newWidth;
 
             mediaElement.resize(newWidth, newHeight);
         }
@@ -111,11 +114,12 @@ define([
                                 _debugMode: true
                             })
                                 .on('render', function() {
-
-                                    resize(mediaElement, $container);
+                                    resize(mediaElement, $container, width);
 
                                     $(window).off('resize.pciMediaPlayer')
-                                        .on('resize.pciMediaPlayer', resize.bind(mediaElement, $container));
+                                        .on('resize.pciMediaPlayer', function () {
+                                            resize(mediaElement, $container, width);
+                                        });
 
                                     resolve();
                                 })

@@ -36,6 +36,7 @@ define([
         var defaultAudioHeight = 30;
         var $heightContainer;
         var mediaProps         = interaction.properties.media || {};
+        var configChangeCallback;
 
         // default values
         mediaProps = _.defaults(mediaProps, {
@@ -132,10 +133,10 @@ define([
             $uploadTrigger.on('click', openResourceMgr);
         }
 
-        function configChangeCallback(boundInteraction, value, name) {
+        configChangeCallback = _.debounce(function confchangeCallback(boundInteraction, value, name) {
             mediaProps[name] = value;
             boundInteraction.triggerPci('configChange', [boundInteraction.getProperties()]);
-        }
+        }, 500);
 
         /**
          * The pciMediaManager helper
