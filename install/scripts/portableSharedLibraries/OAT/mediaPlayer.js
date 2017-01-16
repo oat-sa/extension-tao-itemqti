@@ -94,7 +94,13 @@ define([
          * xxxx xxxx xxxx
          */
         return {
+            getMediaElement: function getMediaElement() {
+                return mediaElement;
+            },
+
             render: function render() {
+                var self = this;
+
                 return new Promise(function(resolve) {
 
                     //intialize the player if not yet done
@@ -111,7 +117,7 @@ define([
                                 autoStart: autostart && canBePlayed(timesPlayed, maxPlays),
                                 loop: loop,
                                 renderTo: $container,
-                                _debugMode: true
+                                _debugMode: false
                             })
                                 .on('render', function() {
                                     resize(mediaElement, $container, width);
@@ -130,16 +136,15 @@ define([
                                     $container.trigger('playerready');
                                 })
                                 .on('ended', function() {
-                                    timesPlayed++;
+                                    timesPlayed++; // todo: use mediaElement getTimesPlayed?
 
                                     if (!canBePlayed(timesPlayed, maxPlays) ) {
                                         this.disable();
                                     }
                                 });
+                            self.element = mediaElement;
                         }
                     };
-
-
 
                     // todo: find what to do with this
                     /**
