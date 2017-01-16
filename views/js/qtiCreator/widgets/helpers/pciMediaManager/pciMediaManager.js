@@ -28,27 +28,30 @@ define([
     'use strict';
 
     var pciMediaManager  = function pciMediaManagerFactory(widget) {
-        var $form              = widget.$form;
-        var options            = widget.options;
-        var interaction        = widget.element;
-        var isAudio            = false;
-        var defaultVideoHeight = 270;
-        var defaultAudioHeight = 30;
-        var $heightContainer;
-        var mediaProps         = interaction.properties.media || {};
-        var configChangeCallback;
+        var $form       = widget.$form,
+            options     = widget.options,
+            interaction = widget.element,
+            configChangeCallback;
+
+        var isAudio            = false,
+            defaultVideoHeight = 270,
+            defaultAudioHeight = 30,
+            $heightContainer;
+
+        var mediaProps         = interaction.properties.media || {},
+            mediaPropsDefaults = {
+                autostart: false,
+                loop: false,
+                maxPlays: 10,
+                pause: false,
+                data: null,
+                type: null,
+                height: defaultVideoHeight,
+                width: 480
+            };
 
         // default values
-        mediaProps = _.defaults(mediaProps, {
-            autostart: false,
-            loop: false,
-            maxPlays: 10,
-            pause: false,
-            data: null,
-            type: null,
-            height: defaultVideoHeight,
-            width: 480
-        });
+        mediaProps = _.defaults(mediaProps, mediaPropsDefaults);
         interaction.properties.media = mediaProps;
 
         /**
@@ -142,7 +145,6 @@ define([
          * The pciMediaManager helper
          */
         return {
-
             init: function init() {
                 $heightContainer = $('.height-container', $form);
                 switchMode();
