@@ -115,7 +115,6 @@ define([
                         resolve : function resolve(url){
                             var resolved = assetManager.resolveBy('portableElementLocation', url);
                             if(resolved === url){
-                                assetManager.setData('baseUrl', self.getOption('baseUrl')); // todo: <<------------ IS THIS ALLOWED ?!?!!
                                 return assetManager.resolveBy('baseUrl', url);
                             }else{
                                 return resolved;
