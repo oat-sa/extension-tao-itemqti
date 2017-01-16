@@ -40,14 +40,14 @@ define([
 
         var mediaProps         = interaction.properties.media || {},
             mediaPropsDefaults = {
-                autostart: false,
-                loop: false,
-                maxPlays: 10,
-                pause: false,
-                data: null,
-                type: null,
-                height: defaultVideoHeight,
-                width: 480
+                autostart:  false,
+                loop:       false,
+                maxPlays:   10,
+                pause:      false,
+                data:       null,
+                type:       null,
+                height:     defaultVideoHeight,
+                width:      480
             };
 
         // default values
@@ -153,7 +153,6 @@ define([
 
             getForm: function getForm() {
                 return formTpl({
-                    //tpl data for the interaction
                     autostart: !!mediaProps.autostart,
                     loop:      !!mediaProps.loop,
                     maxPlays:  parseInt(mediaProps.maxPlays, 10),
