@@ -19,7 +19,10 @@ define([
     'jquery',
     'lodash',
 
-    // fixme: we should find package a lightweight media player as a proper shared lib with no dependencies
+    // fixme: we should package a lightweight media player as a proper PCI shared lib with no dependencies
+    // an option is to refactor the current media player with:
+    // - a dependency injection for jquery & lodash (to use the PCI shared ones)
+    // - a provider loader to avoid registering the youtube player that loads against Window
     'core/promise',
     'ui/mediaplayer'
 ], function($, _, Promise, mediaplayer) {
@@ -38,75 +41,81 @@ define([
         }
     };
 
+    /**
+     * xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+     * @param timesPlayed
+     * @param maxPlays
+     * @returns {boolean}
+     */
+    var canBePlayed = function canBePlayed(timesPlayed, maxPlays) {
+        return maxPlays === 0 || maxPlays > timesPlayed;
+    };
+
+    /**
+     * Resize video player elements to fit container size
+     * @param {Object} mediaElement - player instance
+     * @param {jQuery} $container   - container element to adapt
+     */
+    var resize = _.debounce(function resize(mediaElement, $container) {
+        var newWidth, newHeight;
+        if (mediaElement){
+
+            newHeight = $container.find('.media-container').height();
+            newWidth =  $container.find('.media-container').width();
+
+            mediaElement.resize(newWidth, newHeight);
+        }
+    }, 200);
+
+    /**
+     * xxxx xxxx xxxx
+     */
     return function mediaPlayerFactory(options) {
         var $container  = options.$container,
-            maxPlays    = options.maxPlays || 0,
-            autostart   = !!options.autostart,
-            loop        = !!options.loop,
-            media       = options.media;
+            mediaElement,
+            timesPlayed = 0,
 
-        var mediaElement;
+            // media
+            url         = options.url || '',
+            type        = options.type || defaults.type,
+            width       = options.width || defaults.video.width,
+            height      = options.height || defaults.video.height,
+
+            // player options
+            autostart   = !!options.autostart,
+            pause       = !!options.pause,
+            loop        = !!options.loop,
+            maxPlays    = options.maxPlays || 0;
 
         /**
-         * xxxxx xxxx  xxxx xxx
+         * xxxx xxxx xxxx
          */
         return {
             render: function render() {
-                var self = this;
                 return new Promise(function(resolve) {
-                    var $item = $container.parents('.qti-item'); // todo: wtf?!
-
-
-                    //check if the media can be played (using timesPlayed and maxPlays)
-                    var canBePlayed = function canBePlayed(){
-                        var current = parseInt($container.data('timesPlayed'), 10);
-                        return maxPlays === 0 || maxPlays > current;
-                    };
-
-
-                    /**
-                     * Resize video player elements to fit container size
-                     * @param {Object} mediaElement - player instance
-                     * @param {jQueryElement} $container   - container element to adapt
-                     */
-                    var resize = _.debounce(function resize () {
-                        var width, height;
-                        if (mediaElement){
-
-                            height = $container.find('.media-container').height();
-                            width =  $container.find('.media-container').width();
-
-                            mediaElement.resize(width, height);
-                        }
-                    }, 200);
-
 
                     //intialize the player if not yet done
                     var initMediaPlayer = function initMediaPlayer(){
                         if (!mediaElement) {
                             mediaElement = mediaplayer({
-                                // url: url && self.resolveUrl(url),
-                                url: media.url || '',
-                                type: media.type || defaults.type,
-                                canPause: $container.hasClass('pause'), //fixme: wtf?!
+                                url: url,
+                                type: type,
+                                canPause: pause,
                                 maxPlays: maxPlays,
-                                width: media.width,
-                                height: media.height,
+                                width: width,
+                                height: height,
                                 volume: 100,
-                                autoStart: autostart && canBePlayed(),
+                                autoStart: autostart && canBePlayed(timesPlayed, maxPlays),
                                 loop: loop,
                                 renderTo: $container,
                                 _debugMode: true
                             })
                                 .on('render', function() {
 
-                                    resize();
+                                    resize(mediaElement, $container);
 
-                                    $(window).off('resize.mediaInteraction')
-                                        .on('resize.mediaInteraction', resize);
-
-                                    $item.off('resize.gridEdit')
-                                        .on('resize.gridEdit', resize);
+                                    $(window).off('resize.pciMediaPlayer')
+                                        .on('resize.pciMediaPlayer', resize.bind(mediaElement, $container));
 
                                     resolve();
                                 })
@@ -117,12 +126,9 @@ define([
                                     $container.trigger('playerready');
                                 })
                                 .on('ended', function() {
-                                    $container.data('timesPlayed', $container.data('timesPlayed') + 1);
+                                    timesPlayed++;
 
-                                    // todo: wtf to do with this ?
-                                    // containerHelper.triggerResponseChangeEvent(interaction);
-
-                                    if (!canBePlayed() ) {
+                                    if (!canBePlayed(timesPlayed, maxPlays) ) {
                                         this.disable();
                                     }
                                 });
@@ -143,40 +149,18 @@ define([
                     }
                     */
 
-                    //set up the number of times played
-                    if (!$container.data('timesPlayed')) {
-                        $container.data('timesPlayed', 0);
-                    }
-
-                    //initialize the component
-                    $container.on('responseSet', function() {
-                        initMediaPlayer();
-                    });
-
-                    //gives a small chance to the responseSet event before initializing the player
                     initMediaPlayer();
-                    // mediaElement.render();
                 });
             },
 
             //todo: how does this fit into the PCI lifecycle
-            destroy: function destroy(interaction) {
-                var $container = containerHelper.get(interaction);
-
+            destroy: function destroy() {
                 if (mediaElement) {
                     mediaElement.destroy();
                     mediaElement = null;
                 }
 
-                $('.instruction-container', $container).empty();
-                $('.media-container', $container).empty();
-
-                $container.removeData('timesPlayed');
-
-                $(window).off('resize.video');
-
-                //remove all references to a cache container
-                containerHelper.reset(interaction);
+                $(window).off('resize.pciMediaPlayer');
             }
         };
     };

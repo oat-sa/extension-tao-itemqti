@@ -29,7 +29,6 @@ define([
 
     var pciMediaManager  = function pciMediaManagerFactory(widget) {
         var $form              = widget.$form;
-        var $container         = widget.$original;
         var options            = widget.options;
         var interaction        = widget.element;
         var isAudio            = false;
@@ -43,10 +42,11 @@ define([
             autostart: false,
             loop: false,
             maxPlays: 10,
-            height: defaultVideoHeight,
-            width: 360,
+            pause: false,
             data: null,
-            type: null
+            type: null,
+            height: defaultVideoHeight,
+            width: 480
         });
         interaction.properties.media = mediaProps;
 
@@ -129,9 +129,7 @@ define([
                 });
 
             };
-
             $uploadTrigger.on('click', openResourceMgr);
-
         }
 
         function configChangeCallback(boundInteraction, value, name) {
@@ -156,9 +154,9 @@ define([
                     autostart: !!mediaProps.autostart,
                     loop:      !!mediaProps.loop,
                     maxPlays:  parseInt(mediaProps.maxPlays, 10),
-                    pause:     interaction.hasClass('pause'), //todo: wtf?!
+                    pause:     !!mediaProps.pause,
                     data:      mediaProps.data,
-                    type:      mediaProps.type, //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                    type:      mediaProps.type,
                     width:     mediaProps.width,
                     height:    mediaProps.height
                 });
@@ -169,24 +167,12 @@ define([
                     autostart:  configChangeCallback,
                     loop:       configChangeCallback,
                     maxPlays:   configChangeCallback,
+                    pause:      configChangeCallback,
                     width:      configChangeCallback,
 
                     height: function height(boundInteraction, value, name){
                         if(!isAudio){
                             configChangeCallback(boundInteraction, value, name);
-                        }
-                    },
-
-                    // todo: wtf ?!
-                    pause : function pause(boundInteraction, value){
-                        if(value){
-                            if(!$container.hasClass('pause')){
-                                $container.addClass('pause');
-                                boundInteraction.addClass('pause');
-                            }
-                        } else {
-                            $container.removeClass('pause');
-                            boundInteraction.removeClass('pause');
                         }
                     },
 
