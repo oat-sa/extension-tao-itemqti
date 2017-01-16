@@ -85,9 +85,11 @@ define([
 
             if (keyCode === KEY_CODE_UP || keyCode === KEY_CODE_LEFT){
                 e.preventDefault();
+                e.stopPropagation();
                 $qtiChoice.prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             } else if (keyCode === KEY_CODE_DOWN || keyCode === KEY_CODE_RIGHT){
                 e.preventDefault();
+                e.stopPropagation();
                 $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             }
         });
@@ -97,6 +99,7 @@ define([
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
                 e.preventDefault();
+                e.stopPropagation();
                 _triggerInput($(this).closest('.qti-choice'));
             }
         });
