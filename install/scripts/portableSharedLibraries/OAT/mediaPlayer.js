@@ -85,10 +85,11 @@ define([
             height      = options.height || defaults.video.height,
 
             // player options
-            autostart   = !!options.autostart,
-            pause       = !!options.pause,
-            loop        = !!options.loop,
-            maxPlays    = options.maxPlays || 0;
+            autostart       = !!options.autostart,
+            pause           = !!options.pause,
+            loop            = !!options.loop,
+            maxPlays        = options.maxPlays || 0,
+            replayTimeout   = options.replayTimeout || 0;
 
         /**
          * xxxx xxxx xxxx
@@ -111,6 +112,7 @@ define([
                                 type: type,
                                 canPause: pause,
                                 maxPlays: maxPlays,
+                                replayTimeout: replayTimeout,
                                 width: width,
                                 height: height,
                                 volume: 100,

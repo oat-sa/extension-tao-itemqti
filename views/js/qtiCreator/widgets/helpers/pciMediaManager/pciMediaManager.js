@@ -40,14 +40,15 @@ define([
 
         var mediaProps         = interaction.properties.media || {},
             mediaPropsDefaults = {
-                autostart:  false,
-                loop:       false,
-                maxPlays:   10,
-                pause:      false,
-                data:       null,
-                type:       null,
-                height:     defaultVideoHeight,
-                width:      480
+                autostart:      false,
+                loop:           false,
+                maxPlays:       2,
+                replayTimeout:  5,
+                pause:          false,
+                data:           null,
+                type:           null,
+                height:         defaultVideoHeight,
+                width:          480
             };
 
         // default values
@@ -153,24 +154,26 @@ define([
 
             getForm: function getForm() {
                 return formTpl({
-                    autostart: !!mediaProps.autostart,
-                    loop:      !!mediaProps.loop,
-                    maxPlays:  parseInt(mediaProps.maxPlays, 10),
-                    pause:     !!mediaProps.pause,
-                    data:      mediaProps.data,
-                    type:      mediaProps.type,
-                    width:     mediaProps.width,
-                    height:    mediaProps.height
+                    autostart:      !!mediaProps.autostart,
+                    loop:           !!mediaProps.loop,
+                    maxPlays:       parseInt(mediaProps.maxPlays, 10),
+                    replayTimeout:  parseInt(mediaProps.replayTimeout, 10),
+                    pause:          !!mediaProps.pause,
+                    data:           mediaProps.data,
+                    type:           mediaProps.type,
+                    width:          mediaProps.width,
+                    height:         mediaProps.height
                 });
             },
 
             getChangeCallbacks: function getChangeCallbacks() {
                 return {
-                    autostart:  configChangeCallback,
-                    loop:       configChangeCallback,
-                    maxPlays:   configChangeCallback,
-                    pause:      configChangeCallback,
-                    width:      configChangeCallback,
+                    autostart:      configChangeCallback,
+                    loop:           configChangeCallback,
+                    maxPlays:       configChangeCallback,
+                    replayTimeout:  configChangeCallback,
+                    pause:          configChangeCallback,
+                    width:          configChangeCallback,
 
                     height: function height(boundInteraction, value, name){
                         if(!isAudio){
@@ -178,7 +181,7 @@ define([
                         }
                     },
 
-                    data : function data(boundInteraction, value){
+                    data: function data(boundInteraction, value){
                         if(mediaProps.data !== value){
                             mediaProps.data = value;
 

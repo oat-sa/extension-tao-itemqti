@@ -65,3 +65,14 @@
         </span>
     </div>
 </div>
+
+<div class="panel">
+    <div>
+        <label for="replayTimeout" class="spinner">Replay timeout</label>
+        <input name="replayTimeout" value="{{replayTimeout}}" class="large" data-increment="1" data-min="0" data-max="1000" type="text" />
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">
+            {{__ "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."}}
+        </span>
+    </div>
+</div>
