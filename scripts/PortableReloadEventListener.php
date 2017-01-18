@@ -29,15 +29,18 @@ class PortableReloadEventListener
             $service = new PortableElementService();
             $service->setServiceLocator(ServiceManager::getServiceManager());
             foreach($customInteractionDirs as $path){
+                $sourceDir = '';
                 if(is_dir(ROOT_PATH.$path)){
                     $sourceDir = ROOT_PATH.$path;
                 }else if(is_dir($path)){
                     $sourceDir = $path;
-                }else{
-                    throw new \common_Exception('No directory found on path '.$path);
                 }
-                $service->registerFromDirectorySource($sourceDir);
-                \common_Logger::i('Re-registered portable element from the source '.$sourceDir);
+                if(!empty($sourceDir)){
+                    $service->registerFromDirectorySource($sourceDir);
+                    \common_Logger::i('Re-registered portable element from the source '.$sourceDir);
+                }else{
+                    \common_Logger::w('Attempt to register a pci from a non-existing path : '.$path);
+                }
             }
         }
     }
