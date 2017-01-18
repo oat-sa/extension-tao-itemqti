@@ -159,7 +159,7 @@ define([
                     maxPlays:       parseInt(mediaProps.maxPlays, 10),
                     replayTimeout:  parseInt(mediaProps.replayTimeout, 10),
                     pause:          !!mediaProps.pause,
-                    uri:           mediaProps.data,
+                    uri:            mediaProps.uri,
                     type:           mediaProps.type,
                     width:          mediaProps.width,
                     height:         mediaProps.height
