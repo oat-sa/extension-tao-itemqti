@@ -114,8 +114,8 @@ define([
                     var pciAssetManager = {
                         resolve : function resolve(url){
                             var resolved = assetManager.resolveBy('portableElementLocation', url);
-                            if(resolved === url){
-                                return assetManager.resolveBy('baseUrl', url);
+                            if(resolved === url || _.isUndefined(resolved)){
+                                return assetManager.resolve(url);
                             }else{
                                 return resolved;
                             }

@@ -45,7 +45,7 @@ define([
             maxPlays: 10,
             height: defaultVideoHeight,
             width: 360,
-            data: null,
+            uri: null,
             type: null
         });
         interaction.properties.media = mediaProps;
@@ -89,7 +89,7 @@ define([
          */
         function setUpUploader() {
 
-            var $src = $form.find('input[name=data]');
+            var $src = $form.find('input[name=uri]');
             var $uploadTrigger = $form.find('.selectMediaFile');
             var openResourceMgr = function openResourceMgr(){
                 $uploadTrigger.resourcemgr({
@@ -109,9 +109,9 @@ define([
                     pathParam : 'path',
                     select : function(e, files){
                         if(files && files.length){
-                            // set data field content and maybe detect and set media type here
+                            // set uri field content and maybe detect and set media type here
                             mediaProps.type = files[0].mime;
-                            $form.find('input[name=data]')
+                            $form.find('input[name=uri]')
                                 .val(files[0].file)
                                 .trigger('change');
                         }
@@ -157,7 +157,7 @@ define([
                     loop:      !!mediaProps.loop,
                     maxPlays:  parseInt(mediaProps.maxPlays, 10),
                     pause:     interaction.hasClass('pause'), //todo: wtf?!
-                    data:      mediaProps.data,
+                    uri:      mediaProps.uri,
                     type:      mediaProps.type, //use the same as the uploadInteraction, contact jerome@taotesting.com for this
                     width:     mediaProps.width,
                     height:    mediaProps.height
@@ -190,9 +190,9 @@ define([
                         }
                     },
 
-                    data : function data(boundInteraction, value){
-                        if(mediaProps.data !== value){
-                            mediaProps.data = value;
+                    uri : function uri(boundInteraction, value){
+                        if(mediaProps.uri !== value){
+                            mediaProps.uri = value;
 
                             value = $.trim(value).toLowerCase();
 
@@ -208,6 +208,7 @@ define([
                             if(mediaProps && (!mediaProps.width || parseInt(mediaProps.width, 10) <= 0)){
                                 mediaProps.width = widget.$original.innerWidth();
                             }
+
                             boundInteraction.triggerPci('configChange', [boundInteraction.getProperties()]);
                         }
                     }
