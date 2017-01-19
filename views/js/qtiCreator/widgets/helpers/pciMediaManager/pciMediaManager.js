@@ -51,7 +51,6 @@ define([
                 width:          480
             };
 
-        // default values
         mediaProps = _.defaults(mediaProps, mediaPropsDefaults);
         interaction.properties.media = mediaProps;
 
@@ -96,6 +95,7 @@ define([
 
             var $src = $form.find('input[name=uri]');
             var $uploadTrigger = $form.find('.selectMediaFile');
+
             var openResourceMgr = function openResourceMgr(){
                 $uploadTrigger.resourcemgr({
                     title : __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'),
@@ -146,12 +146,19 @@ define([
          * The pciMediaManager helper
          */
         return {
+            /**
+             * Init the helper
+             */
             init: function init() {
                 $heightContainer = $('.height-container', $form);
                 switchMode();
                 setUpUploader();
             },
 
+            /**
+             * Get the Widget form for the media setting
+             * @returns {String}
+             */
             getForm: function getForm() {
                 return formTpl({
                     autostart:      !!mediaProps.autostart,
@@ -166,6 +173,9 @@ define([
                 });
             },
 
+            /**
+             * Get the change callbacks for the form options
+             */
             getChangeCallbacks: function getChangeCallbacks() {
                 return {
                     autostart:      configChangeCallback,
