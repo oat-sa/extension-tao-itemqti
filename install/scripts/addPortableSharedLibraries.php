@@ -49,3 +49,4 @@ $registry->registerFromFile('OAT/handlebars', $installBasePath . '/OAT/handlebar
 $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
 $registry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
 $registry->registerFromFile('OAT/customEvent', $installBasePath . '/OAT/customEvent.js');
+$registry->registerFromFile('OAT/mediaPlayer', $installBasePath . '/OAT/mediaPlayer.js');

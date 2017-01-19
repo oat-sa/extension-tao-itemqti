@@ -3,18 +3,18 @@
     <div>
         <label>
             <div>{{__ 'Media file path or YouTube video address'}}</div>
-            <input type="text" name="data" placeholder="Please select media file" value="{{data}}" data-validate="$notEmpty;"/>
+            <input type="text" name="uri" placeholder="Please select media file" value="{{uri}}" data-validate="$notEmpty;"/>
             <div><button class='selectMediaFile btn-info small block'>{{__ 'Select media file'}}</button></div>
         </label>
     </div>
 
     <div>
-        <label for="width" class="spinner">Width</label>
+        <label for="width" class="spinner">{{__ 'Width'}}</label>
         <input name="width" value="{{width}}" type="text" class="large" data-increment="1" data-min="50" data-max="1920" />
     </div>
 
     <div class="height-container">
-        <label for="height" class="spinner">Height</label>
+        <label for="height" class="spinner">{{__ 'Height'}}</label>
         <input name="height" value="{{height}}" type="text" class="large" data-increment="1" data-min="30" data-max="1080" />
     </div>
 
@@ -57,7 +57,7 @@
 
 <div class="panel">
     <div>
-        <label for="maxPlays" class="spinner">Max plays count</label>
+        <label for="maxPlays" class="spinner">{{__ 'Max plays count'}}</label>
         <input name="maxPlays" value="{{maxPlays}}" class="large" data-increment="1" data-min="0" data-max="1000" type="text" />
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">
@@ -68,7 +68,7 @@
 
 <div class="panel">
     <div>
-        <label for="replayTimeout" class="spinner">Replay timeout</label>
+        <label for="replayTimeout" class="spinner">{{__ 'Replay timeout'}}</label>
         <input name="replayTimeout" value="{{replayTimeout}}" class="large" data-increment="1" data-min="0" data-max="1000" type="text" />
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">

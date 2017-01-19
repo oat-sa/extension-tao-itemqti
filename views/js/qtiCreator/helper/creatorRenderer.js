@@ -58,8 +58,7 @@ define([
      * @returns {Object} - a configured instance of creatorRenderer
      */
     var get = function(reset, config){
-        var assetManager,
-            $bodyEltForm;
+        var $bodyEltForm;
 
         if(!_creatorRenderer || reset){
 

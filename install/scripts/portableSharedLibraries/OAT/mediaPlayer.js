@@ -164,7 +164,6 @@ define([
                 });
             },
 
-            //todo: how does this fit into the PCI lifecycle
             destroy: function destroy() {
                 if (mediaElement) {
                     mediaElement.destroy();

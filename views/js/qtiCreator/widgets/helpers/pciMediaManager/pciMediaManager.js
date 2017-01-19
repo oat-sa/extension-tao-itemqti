@@ -45,7 +45,7 @@ define([
                 maxPlays:       2,
                 replayTimeout:  5,
                 pause:          false,
-                data:           null,
+                uri:            null,
                 type:           null,
                 height:         defaultVideoHeight,
                 width:          480
@@ -94,7 +94,7 @@ define([
          */
         function setUpUploader() {
 
-            var $src = $form.find('input[name=data]');
+            var $src = $form.find('input[name=uri]');
             var $uploadTrigger = $form.find('.selectMediaFile');
             var openResourceMgr = function openResourceMgr(){
                 $uploadTrigger.resourcemgr({
@@ -114,9 +114,9 @@ define([
                     pathParam : 'path',
                     select : function(e, files){
                         if(files && files.length){
-                            // set data field content and maybe detect and set media type here
+                            // set uri field content and maybe detect and set media type here
                             mediaProps.type = files[0].mime;
-                            $form.find('input[name=data]')
+                            $form.find('input[name=uri]')
                                 .val(files[0].file)
                                 .trigger('change');
                         }
@@ -159,7 +159,7 @@ define([
                     maxPlays:       parseInt(mediaProps.maxPlays, 10),
                     replayTimeout:  parseInt(mediaProps.replayTimeout, 10),
                     pause:          !!mediaProps.pause,
-                    data:           mediaProps.data,
+                    uri:            mediaProps.uri,
                     type:           mediaProps.type,
                     width:          mediaProps.width,
                     height:         mediaProps.height
@@ -181,9 +181,9 @@ define([
                         }
                     },
 
-                    data: function data(boundInteraction, value){
-                        if(mediaProps.data !== value){
-                            mediaProps.data = value;
+                    uri: function uri(boundInteraction, value){
+                        if(mediaProps.uri !== value){
+                            mediaProps.uri = value;
 
                             value = $.trim(value).toLowerCase();
 
@@ -199,6 +199,7 @@ define([
                             if(mediaProps && (!mediaProps.width || parseInt(mediaProps.width, 10) <= 0)){
                                 mediaProps.width = widget.$original.innerWidth();
                             }
+
                             boundInteraction.triggerPci('configChange', [boundInteraction.getProperties()]);
                         }
                     }
