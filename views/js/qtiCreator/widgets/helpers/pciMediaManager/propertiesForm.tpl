@@ -2,7 +2,6 @@
 
     <div>
         <label>
-            <div>{{__ 'Media file path or YouTube video address'}}</div>
             <input type="text" name="uri" placeholder="Please select media file" value="{{uri}}" data-validate="$notEmpty;"/>
             <div><button class='selectMediaFile btn-info small block'>{{__ 'Select media file'}}</button></div>
         </label>
