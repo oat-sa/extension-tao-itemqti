@@ -79,6 +79,9 @@ define([
             interaction.toggleClass('eliminable', this.checked);
             // current visual
             _widget.$original.toggleClass('eliminable', this.checked);
+
+            // indicate whether this has been unchecked on purpose
+            interaction.toggleClass('eliminability-deselected', !this.checked);
         });
 
         formElement.initWidget($form);
