@@ -15,15 +15,14 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
+/**
+ * This is a wrapper around the TAO media player, suitable for media rendering inside a PCI
+ */
 define([
     'jquery',
     'lodash',
 
     // fixme: we should package a lightweight media player as a proper PCI shared lib with no dependencies
-    // an option is to refactor the current media player with:
-    // - a dependency injection for jquery & lodash (to use the PCI shared ones)
-    // - a provider loader to avoid registering the youtube player that loads against Window
-    // and create a bundle for the PCI
     'core/promise',
     'ui/mediaplayer'
 
@@ -44,7 +43,7 @@ define([
     };
 
     /**
-     * xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+     * If the media can still be played
      * @param timesPlayed
      * @param maxPlays
      * @returns {boolean}
@@ -71,7 +70,7 @@ define([
     }, 200);
 
     /**
-     * xxxx xxxx xxxx
+     * The Mediaplayer factory
      */
     return function mediaPlayerFactory(options) {
         var $container  = options.$container,
@@ -92,13 +91,20 @@ define([
             replayTimeout   = options.replayTimeout || 0;
 
         /**
-         * xxxx xxxx xxxx
+         * The mediaplayer instance
          */
         return {
+            /**
+             * @returns {Object} a reference to TAO's MediaPlayer component
+             */
             getMediaElement: function getMediaElement() {
                 return mediaElement;
             },
 
+            /**
+             * Render the media player
+             * @returns {Promise}
+             */
             render: function render() {
                 var self = this;
 
@@ -108,18 +114,18 @@ define([
                     var initMediaPlayer = function initMediaPlayer(){
                         if (!mediaElement) {
                             mediaElement = mediaplayer({
-                                url: url,
-                                type: type,
-                                canPause: pause,
-                                maxPlays: maxPlays,
-                                replayTimeout: replayTimeout,
-                                width: width,
-                                height: height,
-                                volume: 100,
-                                autoStart: autostart && canBePlayed(timesPlayed, maxPlays),
-                                loop: loop,
-                                renderTo: $container,
-                                _debugMode: false
+                                url:            url,
+                                type:           type,
+                                canPause:       pause,
+                                maxPlays:       maxPlays,
+                                replayTimeout:  replayTimeout,
+                                width:          width,
+                                height:         height,
+                                volume:         100,
+                                autoStart:      autostart && canBePlayed(timesPlayed, maxPlays),
+                                loop:           loop,
+                                renderTo:       $container,
+                                _debugMode:     false
                             })
                                 .on('render', function() {
                                     resize(mediaElement, $container, width);
@@ -148,22 +154,13 @@ define([
                         }
                     };
 
-                    // todo: find what to do with this
-                    /**
-                    if(_.size(media.attributes) === 0){
-                        //TODO move to afterCreate
-                        media.attr('type', defaults.type);
-                        media.attr('width', $container.innerWidth());
-
-                        media.attr('height', defaults.video.height);
-                        media.attr('data', '');
-                    }
-                    */
-
                     initMediaPlayer();
                 });
             },
 
+            /**
+             * Destroy the mediaPlayer instance
+             */
             destroy: function destroy() {
                 if (mediaElement) {
                     mediaElement.destroy();
@@ -174,7 +171,4 @@ define([
             }
         };
     };
-
-
-
 });
