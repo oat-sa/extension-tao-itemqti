@@ -109,52 +109,47 @@ define([
                 var self = this;
 
                 return new Promise(function(resolve) {
-
                     //intialize the player if not yet done
-                    var initMediaPlayer = function initMediaPlayer(){
-                        if (!mediaElement) {
-                            mediaElement = mediaplayer({
-                                url:            url,
-                                type:           type,
-                                canPause:       pause,
-                                maxPlays:       maxPlays,
-                                replayTimeout:  replayTimeout,
-                                width:          width,
-                                height:         height,
-                                volume:         100,
-                                autoStart:      autostart && canBePlayed(timesPlayed, maxPlays),
-                                loop:           loop,
-                                renderTo:       $container,
-                                _debugMode:     false
+                    if (!mediaElement) {
+                        mediaElement = mediaplayer({
+                            url:            url,
+                            type:           type,
+                            canPause:       pause,
+                            maxPlays:       maxPlays,
+                            replayTimeout:  replayTimeout,
+                            width:          width,
+                            height:         height,
+                            volume:         100,
+                            autoStart:      autostart && canBePlayed(timesPlayed, maxPlays),
+                            loop:           loop,
+                            renderTo:       $container,
+                            _debugMode:     false
+                        })
+                            .on('render', function() {
+                                resize(mediaElement, $container, width);
+
+                                $(window).off('resize.pciMediaPlayer')
+                                    .on('resize.pciMediaPlayer', function () {
+                                        resize(mediaElement, $container, width);
+                                    });
+
+                                resolve();
                             })
-                                .on('render', function() {
-                                    resize(mediaElement, $container, width);
+                            .on('ready', function() {
+                                /**
+                                 * @event playerready
+                                 */
+                                $container.trigger('playerready');
+                            })
+                            .on('ended', function() {
+                                timesPlayed++; // todo: use mediaElement getTimesPlayed?
 
-                                    $(window).off('resize.pciMediaPlayer')
-                                        .on('resize.pciMediaPlayer', function () {
-                                            resize(mediaElement, $container, width);
-                                        });
-
-                                    resolve();
-                                })
-                                .on('ready', function() {
-                                    /**
-                                     * @event playerready
-                                     */
-                                    $container.trigger('playerready');
-                                })
-                                .on('ended', function() {
-                                    timesPlayed++; // todo: use mediaElement getTimesPlayed?
-
-                                    if (!canBePlayed(timesPlayed, maxPlays) ) {
-                                        this.disable();
-                                    }
-                                });
-                            self.element = mediaElement;
-                        }
-                    };
-
-                    initMediaPlayer();
+                                if (!canBePlayed(timesPlayed, maxPlays) ) {
+                                    this.disable();
+                                }
+                            });
+                        self.element = mediaElement;
+                    }
                 });
             },
 

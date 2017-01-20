@@ -112,7 +112,7 @@ define([
                         filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg,application/ogg,audio/aac,audio/wav,audio/flac'
                     },
                     pathParam : 'path',
-                    select : function(e, files){
+                    select : function select(e, files){
                         if(files && files.length){
                             // set uri field content and maybe detect and set media type here
                             mediaProps.type = files[0].mime;
@@ -121,13 +121,13 @@ define([
                                 .trigger('change');
                         }
                     },
-                    open : function(){
+                    open : function open(){
                         //hide tooltip if displayed
                         if($src.data('qtip')){
                             $src.blur().qtip('hide');
                         }
                     },
-                    close : function(){
+                    close : function close(){
                         //triggers validation :
                         $src.blur();
                     }
