@@ -44,7 +44,7 @@ define([
         assetStrategies.base64,
         assetStrategies.baseUrl,
         portableAssetStrategy
-    ], {baseUrl : ''});
+    ], {baseUrl : ''});//baseUrl is not predefined in the config, but should be set upon renderer instantiating
 
     //renderers locations
     var locations = {
