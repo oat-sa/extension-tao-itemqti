@@ -22,7 +22,6 @@ namespace oat\taoQtiItem\model\themes;
 
 use oat\tao\model\ThemeRegistry;
 
-\console::setMode('file' , 'theme-installer.log');
 
 class ItemThemeInstaller
 {
