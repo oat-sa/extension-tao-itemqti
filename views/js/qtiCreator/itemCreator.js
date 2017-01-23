@@ -238,9 +238,12 @@ define([
                     return this.trigger('error', new Error('We need an item to render.'));
                 }
 
-                //configure commonRenderer for the preview
-                commonRenderer.setOption('baseUrl', config.properties.baseUrl);
+                //configure commonRenderer for the preview and initial qti element rendering
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
+                commonRenderer
+                    .get(true, config)
+                    .setOption('baseUrl', config.properties.baseUrl);
+
                 interactionPanel(areaBroker.getInteractionPanelArea());
 
                 //the renderers' widgets do not handle async yet, so we rely on this event

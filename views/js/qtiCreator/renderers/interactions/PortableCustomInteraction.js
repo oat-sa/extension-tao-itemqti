@@ -38,6 +38,12 @@ define([
 
         var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier).module;
 
+        options = options || {};
+        options.baseUrl = this.getOption('baseUrl');
+        options.mediaManager = this.getOption('mediaManager');
+        options.uri = this.getOption('uri');
+        options.lang = this.getOption('lang');
+
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), interaction);
 

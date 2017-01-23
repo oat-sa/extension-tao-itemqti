@@ -29,6 +29,7 @@ use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\websource\FlyTokenWebSource;
 use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\TokenWebSourceService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 
 class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
@@ -43,13 +44,9 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
         }
 
         $fsm = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsPortableElement = $fsm->createFileSystem('portableElementStorage', 'portableElement');
+        $fsm->createFileSystem('portableElementStorage', 'portableElement');
 
-        if ($fsPortableElement->getAdapter() instanceof Local) {
-            $websource = TokenWebSource::spawnWebsource('portableElementStorage', $fsPortableElement->getAdapter()->getPathPrefix());
-        } else {
-            $websource = FlyTokenWebSource::spawnWebsource('portableElementStorage','');
-        }
+        $websource = TokenWebSourceService::spawnTokenWebsource('portableElementStorage');
 
         $portableElementStorage = new PortableElementFileStorage(array(
             PortableElementFileStorage::OPTION_FILESYSTEM => 'portableElementStorage',
