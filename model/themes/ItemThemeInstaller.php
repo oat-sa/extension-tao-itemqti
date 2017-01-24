@@ -87,7 +87,7 @@ use oat\tao\model\ThemeRegistry;
  * $itemThemeInstaller->update($themes);
  * </code>
  *
- * Finally you can also restore the defaults. This affects the current item extension only, themes from other extension
+ * Finally you can also restore the defaults. This affects the current item extension only, themes from other extensions
  * stay registered. 'tao' however will be re-installed and set as default.
  *
  * <code>
