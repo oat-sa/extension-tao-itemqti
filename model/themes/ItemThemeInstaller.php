@@ -22,7 +22,81 @@ namespace oat\taoQtiItem\model\themes;
 
 use oat\tao\model\ThemeRegistry;
 
-
+/**
+ * Class ItemThemeInstaller
+ *
+ * Item themes are usually stored in /extensionName/views/css/themes/items/name-of-the-theme.
+ * For the usage of this class it's assumed that you are using this very setup.
+ * For all other setups please use ThemeRegistry directly. *
+ *
+ * Let's say you start with a regular setup and 'tao' as the default theme. You want to remove 'tao'
+ * and install two of your own themes. The registry should eventually look like this.
+ *
+ * <code>
+ * 'available' => [
+ *      [
+ *          'id' => 'taoFooDefault',
+ *          'name' => 'TAO',
+ *          'path' => '/taoFoo/views/css/themes/items/default/theme.css'
+ *      ],
+ *      [
+ *          'id' => 'taoFooOther',
+ *          'name' => 'The other one',
+ *          'path' => '/taoFoo/views/css/themes/items/other/theme.css'
+ *      ]
+ * ],
+ * 'default' => 'taoFooOther' // note the prefix
+ * </code>
+ *
+ * The code for installs and updates is - apart from the themes - identical. All theme ids
+ * will be prefixed with your extension id to avoid collisions. If you add the extension
+ * prefix yourself it won't be doubled. The 'tao' theme is never prefixed.
+ *
+ * <code>
+ * $themes = [
+ *      'default' => 'The default theme', // equivalent to 'taoFooDefault' => 'The default theme'
+ *      'other' => 'The other one'
+ * ];
+ *
+ * $itemThemeInstaller = new ItemThemeInstaller('taoFoo'); // 'taoFoo' is the id of your extension
+ * $itemThemeInstaller->add($themes);
+ * </code>
+ *
+ *
+ * Now you need to set a default theme, again there will be no prefix duplication
+ *
+ * <code>
+ * $itemThemeInstaller->setDefault('default');
+ * </code>
+ *
+ * Eventually you may want to remove the 'tao' theme. Note that ItemThemeInstaller::remove() also accepts
+ * an array of ids as argument.
+ *
+ * <code>
+ * $itemThemeInstaller->remove('tao');
+ * // with array
+ * $itemThemeInstaller->remove(['tao', 'foo', 'bar']);
+ * </code>
+ *
+ * What if the label - the name under which the theme appears in the preview or during delivery - needs to be changed?
+ *
+ * <code>
+ * $themes = [
+ *      'default' => 'The new label'
+ * ];
+ * $itemThemeInstaller->update($themes);
+ * </code>
+ *
+ * Finally you can also restore the defaults. This affects the current item extension only, themes from other extension
+ * stay registered. 'tao' however will be re-installed and set as default.
+ *
+ * <code>
+ * $itemThemeInstaller->reset();
+ * </code>
+ *
+ *
+ * @package oat\taoQtiItem\model\themes
+ */
 class ItemThemeInstaller
 {
 
