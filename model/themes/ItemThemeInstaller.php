@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\themes;
 
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\ThemeRegistry;
 
 /**
@@ -100,6 +101,8 @@ use oat\tao\model\ThemeRegistry;
 class ItemThemeInstaller
 {
 
+    use LoggerAwareTrait;
+
     private $extensionId;
 
     private $registry;
@@ -119,7 +122,7 @@ class ItemThemeInstaller
      *
      * @param array|string $themeIds
      *
-     * @return \common_report_Report
+     * @return bool
      */
     public function remove($themeIds) {
         $themeIds = (array)$themeIds;
@@ -130,14 +133,15 @@ class ItemThemeInstaller
             }
             $this->registry->unregisterTheme($prefixedId);
         }
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Item themes removed: ' . implode(',', $themeIds));
+        $this->logInfo('Item themes removed: ' . implode(',', $themeIds));
+        return true;
     }
 
 
     /**
      * @param array $themes
      *
-     * @return \common_report_Report
+     * @return bool
      */
     public function add(array $themes) {
 
@@ -149,21 +153,23 @@ class ItemThemeInstaller
             $this->register($themeId, $label);
         }
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Item themes registered: ' . implode(',', array_keys($themes)));
+        $this->logInfo('Item themes registered: ' . implode(',', array_keys($themes)));
+        return true;
     }
 
 
     /**
      * @param array $themes
      *
-     * @return \common_report_Report
+     * @return bool
      */
     public function update(array $themes) {
         foreach($themes as $themeId => $label) {
             $this->remove($themeId);
             $this->register($themeId, $label);
         }
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Item themes updated: ' . implode(',', array_keys($themes)));
+        $this->logInfo('Item themes updated: ' . implode(',', array_keys($themes)));
+        return true;
     }
 
 
@@ -177,10 +183,13 @@ class ItemThemeInstaller
     public function setDefault($themeId) {
         $prefixedId =  $this->getPrefixedThemeId($themeId);
         if(!$this->themeExists($prefixedId)) {
-            return new \common_report_Report(\common_report_Report::TYPE_ERROR, $themeId . ' not installed, could not set to default');
+            $this->logInfo($themeId . ' not installed, could not set to default');
+            return false;
         }
         $this->registry->setDefaultTheme('items', $prefixedId);
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Default item theme set to ' . $themeId);
+
+        $this->logInfo('Default item theme set to ' . $themeId);
+        return true;
     }
 
 
@@ -221,7 +230,8 @@ class ItemThemeInstaller
             'default' => 'tao'
         ));
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Removed ' . $this->extensionId . ' themes, restored TAO default');
+        $this->logInfo('Removed ' . $this->extensionId . ' themes, restored TAO default');
+        return true;
     }
 
     /**
