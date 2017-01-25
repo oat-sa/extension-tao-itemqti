@@ -95,7 +95,7 @@ use oat\tao\model\ThemeRegistry;
  * </code>
  *
  * During development you often have situations where you want to run the installer/updater multiple times. You can do
- * this will all methods without risking errors.
+ * this for all methods without risking errors.
  *
  * @package oat\taoQtiItem\model\themes
  */
