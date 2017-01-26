@@ -781,6 +781,19 @@ define([
                 }
             }
 
+            // recalculate again in case of scaled image via transform
+            var matrix = $container.closest('.transform-scale').css('transform');
+            if (matrix) {
+                var values = matrix.match(/-?[\d\.]+/g);
+
+                var scaleX = +values[0];
+                var scaleY = +values[3];
+
+                // TODO: this won't work with negative scales
+                point.x = point.x / scaleX;
+                point.y = point.y / scaleY;
+            }
+
             return point;
         },
 
