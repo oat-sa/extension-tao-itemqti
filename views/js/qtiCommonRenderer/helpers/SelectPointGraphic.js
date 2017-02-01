@@ -27,10 +27,24 @@ define([
 
 
     /**
-     * Select point graphic interaction helper
-     * @exports qtiCommonRenderer/helpers/SelectPointGraphic
+     * Graphic interaction helper
+     * @exports qtiCommonRenderer/helpers/SelectPointGraphicHelper
      */
     var SelectPointGraphicHelper = {
+
+        /**
+         * Raw access to the image width
+         * @type {Number}
+         */
+        _width : 0,
+
+
+        /**
+         * Raw access to the image height
+         * @type {Object}
+         */
+        _height : 0,
+
 
         /**
          * Apply the style defined by name to the element
@@ -63,45 +77,29 @@ define([
 
             var $container = options.container || $('#' + id).parent();
             var $editor    = $('.image-editor', $container);
-            var $body  = $container.closest('.qti-itemBody');
-            var factory = raphael.type === 'SVG' ? scaleRaphael : raphael;
+            var $body      = $container.closest('.qti-itemBody');
+            var factory    = raphael.type === 'SVG' ? scaleRaphael : raphael;
+            var resizer    = _.throttle(resizePaper.bind(this), 10);
 
-            var width = options.width || $container.innerWidth();
-            var height = options.height || $container.innerHeight();
+            var width  = this._width  = options.width  || $container.innerWidth();
+            var height = this._height = options.height || $container.innerHeight();
 
-            var resizer = _.throttle(resizePaper, 10);
-
-            //padding and border diff. always add 1px to cover the rounded value in scalling
-
-
-            paper = factory.call(null ,id, width, height);
-            image = paper.image(options.img, 0, 0, width, height);
-            if (options.imgId) {
-                image.id = options.imgId;
-            }
+            resizer();
 
             //retry to resize once the SVG is loaded
             $(image.node)
-                .attr('externalResourcesRequired','true')
-                .on("load", function() {
-                    resizePaper();
+                .attr('externalResourcesRequired', 'true')
+                .on('load', function() {
+                    resizer();
                 });
 
             if (raphael.type === 'SVG') {
-
-                //scale on creation
-                resizePaper();
-
                 $(window).on('resize.qti-widget.'  + serial, resizer);
-                $(document).on('customcssloaded.styleeditor', function() {
-                    _.delay(resizer, 200);
-                });
+                $(document).on('customcssloaded.styleeditor', resizer);
                 $container.on('resize.qti-widget.' + serial , function(e, givenWidth) {
                     resizer(e, givenWidth);
                 });
-
             } else {
-                paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
                 $container.find('.main-image-box').width(width);
                 if (typeof options.resize === 'function') {
                     options.resize(width, 1);
@@ -117,13 +115,12 @@ define([
                     e.stopPropagation();
                 }
 
-                var factor          = 1;
                 var diff            = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
                 var maxWidth        = $body.width();
                 var containerWidth  = $container.innerWidth();
+                var factor          = containerWidth / width;
 
                 if (containerWidth > 0 || givenWidth > 0) {
-
 
                     if (givenWidth < containerWidth && givenWidth < maxWidth) {
                         containerWidth = givenWidth - diff;
@@ -133,17 +130,22 @@ define([
                         containerWidth -= diff;
                     }
 
-                    if ($container.hasClass('responsive')) {
-                        factor = containerWidth / width;
+                    if (!paper) {
+                        paper    = factory.call(null ,id, width * factor, height * factor);
+                        image    = paper.image(options.img, 0, 0, width, height);
+                        image.id = options.imgId || image.id;
 
+                        paper.setViewBox(0, 0, width, height);
+                    } else if ($container.hasClass('responsive')) {
                         paper.changeSize(containerWidth, height * factor, false, false);
-                        paper.scaleAll( factor );
                     } else {
                         paper.changeSize(containerWidth, height, false, false);
                     }
+
                     if (typeof options.resize === 'function') {
                         options.resize(containerWidth, factor);
                     }
+
                     $container.trigger('resized.qti-widget');
                 }
             }
@@ -165,16 +167,17 @@ define([
          * @param {Function} [options.remove] - call once removed
          */
         createTarget : function createTarget(paper, options) {
-            var self    = this;
-            options     = options || {};
-            var point   = options.point || {x : 0, y : 0};
-            var baseSize= 18;
-            var factor  = (paper.w && paper.width) ? paper.width / paper.w : 1;
-            var size    = factor !== 1 ? Math.floor(18 / factor) + 1 : baseSize;
-            var half    = size / 2;
-            var x       = point.x >= half ? point.x - half : 0;
-            var y       = point.y >= half ? point.y - half : 0;
-            var hover   = typeof options.hover === 'undefined' ? true : !!options.hover;
+            options      = options || {};
+
+            var self     = this;
+            var point    = options.point || {x : 0, y : 0};
+            var baseSize = 18;
+            var factor   = (paper.w && paper.width) ? paper.width / paper.w : 1;
+            var size     = factor !== 1 ? Math.floor(18 / factor) + 1 : baseSize;
+            var half     = size / 2;
+            var x        = point.x >= half ? point.x - half : 0;
+            var y        = point.y >= half ? point.y - half : 0;
+            var hover    = typeof options.hover === 'undefined' ? true : !!options.hover;
             var tBBox;
 
             //create the target from a path
@@ -204,17 +207,20 @@ define([
                 .rect(tBBox.x, tBBox.y, tBBox.width, tBBox.height)
                 .attr(gstyle.layer)
                 .click(function() {
-                    var id = target.id;
+                    var id    = target.id;
                     var point = this.data('point');
+
                     if (_.isFunction(options.select)) {
                         options.select(target, point, this);
                     }
+
                     if (_.isFunction(options.remove)) {
                         this.remove();
                         target.remove();
                         options.remove(id, point);
                     }
                 });
+
             if (hover) {
                 layer.hover(function() {
                     if (!target.flashing) {
@@ -247,12 +253,12 @@ define([
          */
         createTouchCircle : function(paper, bbox) {
             var radius  = bbox.width > bbox.height ? bbox.width : bbox.height;
-            var tCircle = paper.circle( (bbox.x + (bbox.width / 2)),  (bbox.y + (bbox.height / 2)), radius );
+            var tCircle = paper.circle( (bbox.x + (bbox.width / 2)),  (bbox.y + (bbox.height / 2)), radius);
 
             tCircle.attr(gstyle['touch-circle']);
 
             _.defer(function() {
-                tCircle.animate({'r' : radius + 5, opacity: 0.7}, 300, function() {
+                tCircle.animate({ 'r' : radius + 5, opacity: 0.7 }, 300, function() {
                     tCircle.remove();
                 });
             });
@@ -275,6 +281,7 @@ define([
                 }, 800);
             }
         },
+
 
         /**
          * Trigger an event already bound to a raphael element
@@ -299,28 +306,12 @@ define([
          * @returns {Object} x,y point
          */
         getPoint : function getPoint(event, paper, $container, isResponsive) {
-            var rwidth, rheight, wfactor;
+            var point  = this.clickPoint($container, event);
+            var rect   = $container.get(0).getBoundingClientRect();
+            var factor = this._width / rect.width;
 
-            //get the click coords
-            var point = this.clickPoint($container, event);
-
-            //recalculate point coords in case of scaled image.
-            if (paper.w && paper.w !== paper.width) {
-                if (isResponsive) {
-                    wfactor = paper.w / paper.width;
-                    point.x = Math.round(point.x * wfactor);
-                    point.y = Math.round(point.y * wfactor);
-                } else if (paper.width > paper.w) {
-                    rwidth  = (paper.width - paper.w) / 2;
-                    point.x = Math.round(point.x - rwidth);
-                } else {
-                    wfactor = paper.w / paper.width;
-                    point.x = Math.round(point.x * wfactor);
-
-                    rheight = (paper.height - (paper.height * (2 - wfactor))) / 2;
-                    point.y = Math.round((point.y * wfactor) - rheight);
-                }
-            }
+            point.x = Math.round(point.x * factor);
+            point.y = Math.round(point.y * factor);
 
             return point;
         },
@@ -335,6 +326,7 @@ define([
         clickPoint : function($container, event) {
             var x, y;
             var offset = $container.offset();
+
             if (event.pageX || event.pageY) {
                 x = event.pageX - offset.left;
                 y = event.pageY - offset.top;
@@ -346,7 +338,6 @@ define([
             return { x : x, y : y };
         }
     };
-
 
     return SelectPointGraphicHelper;
 });
