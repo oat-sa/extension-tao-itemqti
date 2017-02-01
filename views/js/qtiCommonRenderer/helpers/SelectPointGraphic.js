@@ -183,7 +183,7 @@ define([
             //create the target from a path
             var target = paper
                 .path(gstyle.target.path)
-                .translate(x, y)
+                .transform(`t${x},${y}s${2 / factor}`)
                 .attr(gstyle.target)
                 .attr('title', _('Click again to remove'));
 
