@@ -169,21 +169,21 @@ define([
         createTarget : function createTarget(paper, options) {
             options      = options || {};
 
-            var self     = this;
-            var point    = options.point || {x : 0, y : 0};
-            var baseSize = 18;
-            var factor   = (paper.w && paper.width) ? paper.width / paper.w : 1;
-            var size     = factor !== 1 ? Math.floor(18 / factor) + 1 : baseSize;
-            var half     = size / 2;
-            var x        = point.x >= half ? point.x - half : 0;
-            var y        = point.y >= half ? point.y - half : 0;
-            var hover    = typeof options.hover === 'undefined' ? true : !!options.hover;
+            var self   = this;
+            var point  = options.point || {x : 0, y : 0};
+            var factor = paper.width / this._width;
+            var hover  = typeof options.hover === 'undefined' ? true : !!options.hover;
             var tBBox;
+
+            var baseSize = 18; // this is the base size of the path element to be placed on svg
+            var half     = baseSize / 2;
+            var x        = point.x - half;
+            var y        = point.y - half;
 
             //create the target from a path
             var target = paper
                 .path(gstyle.target.path)
-                .transform('T' + x + ',' + y + 's' + size / baseSize)
+                .translate(x, y)
                 .attr(gstyle.target)
                 .attr('title', _('Click again to remove'));
 
