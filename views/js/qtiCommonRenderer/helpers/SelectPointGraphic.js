@@ -119,6 +119,7 @@ define([
                 var maxWidth        = $body.width();
                 var containerWidth  = $container.innerWidth();
                 var factor          = containerWidth / width;
+                var containerHeight;
 
                 if (containerWidth > 0 || givenWidth > 0) {
 
@@ -130,13 +131,15 @@ define([
                         containerWidth -= diff;
                     }
 
+                    containerHeight = height * (containerWidth / width);
+
                     if (!paper) {
-                        paper    = factory.call(null ,id, width * factor, height * factor);
+                        paper    = factory.call(null ,id, containerWidth, containerHeight);
                         image    = paper.image(options.img, 0, 0, width, height);
                         image.id = options.imgId || image.id;
                         paper.setViewBox(0, 0, width, height);
                     } else {
-                        paper.changeSize(containerWidth, height * factor, false, false);
+                        paper.changeSize(containerWidth, containerHeight, false, false);
                     }
 
                     if (typeof options.resize === 'function') {
