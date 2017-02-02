@@ -227,47 +227,27 @@ define([
 
             var $container = options.container || $('#' + id).parent();
             var $editor    = $('.image-editor', $container);
-            var $body  = $container.closest('.qti-itemBody');
-            var factory = raphael.type === 'SVG' ? scaleRaphael : raphael;
+            var $body      = $container.closest('.qti-itemBody');
+            var resizer    = _.throttle(resizePaper, 10);
 
-            var width = options.width || $container.innerWidth();
-            var height = options.height || $container.innerHeight();
+            var imgWidth  = options.width  || $container.innerWidth();
+            var imgHeight = options.height || $container.innerHeight();
 
-            var resizer = _.throttle(resizePaper, 10);
-
-            //padding and border diff. always add 1px to cover the rounded value in scalling
-
-            paper = factory.call(null ,id, width, height);
-            image = paper.image(options.img, 0, 0, width, height);
-            if (options.imgId) {
-                image.id = options.imgId;
-            }
+            resizer();
 
             //retry to resize once the SVG is loaded
             $(image.node)
-                .attr('externalResourcesRequired','true')
-                .on("load", function() {
-                    resizePaper();
-                });
+                .attr('externalResourcesRequired', 'true')
+                .on('load', resizer);
 
             if (raphael.type === 'SVG') {
-
-                //scale on creation
-                resizePaper();
-
                 $(window).on('resize.qti-widget.'  + serial, resizer);
-                $(document).on('customcssloaded.styleeditor', function() {
-                    _.delay(resizer, 200);
-                });
-                $container.on('resize.qti-widget.' + serial , function(e, givenWidth) {
-                    resizer(e, givenWidth);
-                });
-
+                $(document).on('customcssloaded.styleeditor', resizer);
+                $container.on('resize.qti-widget.' + serial , resizer);
             } else {
-                paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
-                $container.find('.main-image-box').width(width);
+                $container.find('.main-image-box').width(imgWidth);
                 if (typeof options.resize === 'function') {
-                    options.resize(width, 1);
+                    options.resize(imgWidth, 1);
                 }
             }
 
@@ -280,13 +260,13 @@ define([
                     e.stopPropagation();
                 }
 
-                var factor          = 1;
                 var diff            = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
                 var maxWidth        = $body.width();
                 var containerWidth  = $container.innerWidth();
+                var factor          = containerWidth / imgWidth;
+                var containerHeight;
 
                 if (containerWidth > 0 || givenWidth > 0) {
-
 
                     if (givenWidth < containerWidth && givenWidth < maxWidth) {
                         containerWidth = givenWidth - diff;
@@ -296,13 +276,19 @@ define([
                         containerWidth -= diff;
                     }
 
-                    if ($container.hasClass('responsive')) {
-                        factor = containerWidth / width;
+                    containerHeight = imgHeight * (containerWidth / imgWidth);
 
-                        paper.changeSize(containerWidth, height * factor, false, false);
-                        paper.scaleAll( factor );
+                    if (!paper) {
+                        paper    = scaleRaphael(id, containerWidth, containerHeight);
+                        paper.w  = imgWidth;
+                        paper.h  = imgHeight;
+
+                        image    = paper.image(options.img, 0, 0, imgWidth, imgHeight);
+                        image.id = options.imgId || image.id;
+
+                        paper.setViewBox(0, 0, imgWidth, imgHeight);
                     } else {
-                        paper.changeSize(containerWidth, height, false, false);
+                        paper.changeSize(containerWidth, containerHeight, false, false);
                     }
 
                     if (typeof options.resize === 'function') {
@@ -394,22 +380,23 @@ define([
          * @param {Function} [options.remove] - call once removed
          */
         createTarget : function createTarget(paper, options) {
-            var self     = this;
             options      = options || {};
-            var point    = options.point || {x : 0, y : 0};
-            var baseSize = 18;
-            var factor   = (paper.w && paper.width) ? paper.width / paper.w : 1;
-            var size     = factor !== 1 ? Math.floor(18 / factor) + 1 : baseSize;
-            var half     = size / 2;
-            var x        = point.x >= half ? point.x - half : 0;
-            var y        = point.y >= half ? point.y - half : 0;
-            var hover    = typeof options.hover === 'undefined' ? true : !!options.hover;
+
+            var self   = this;
+            var point  = options.point || {x : 0, y : 0};
+            var factor = paper.width / paper.w;
+            var hover  = typeof options.hover === 'undefined' ? true : !!options.hover;
             var tBBox;
+
+            var baseSize = 18; // this is the base size of the path element to be placed on svg
+            var half     = baseSize / 2;
+            var x        = point.x - half;
+            var y        = point.y - half;
 
             //create the target from a path
             var target = paper
                 .path(gstyle.target.path)
-                .transform('T' + x + ',' + y + 's' + size / baseSize)
+                .transform(`t${x},${y}s${2 / factor}`)
                 .attr(gstyle.target)
                 .attr('title', _('Click again to remove'));
 
@@ -433,17 +420,20 @@ define([
                 .rect(tBBox.x, tBBox.y, tBBox.width, tBBox.height)
                 .attr(gstyle.layer)
                 .click(function() {
-                    var id = target.id;
+                    var id    = target.id;
                     var point = this.data('point');
+
                     if (_.isFunction(options.select)) {
                         options.select(target, point, this);
                     }
+
                     if (_.isFunction(options.remove)) {
                         this.remove();
                         target.remove();
                         options.remove(id, point);
                     }
                 });
+
             if (hover) {
                 layer.hover(function() {
                     if (!target.flashing) {
@@ -525,13 +515,13 @@ define([
          * @param {Raphael.Element} element - used to get the bbox from
          */
         createTouchCircle : function(paper, bbox) {
-            var radius = bbox.width > bbox.height ? bbox.width : bbox.height;
+            var radius  = bbox.width > bbox.height ? bbox.width : bbox.height;
             var tCircle = paper.circle( (bbox.x + (bbox.width / 2)),  (bbox.y + (bbox.height / 2)), radius);
 
             tCircle.attr(gstyle['touch-circle']);
 
             _.defer(function() {
-                tCircle.animate({'r' : radius + 5, opacity: 0.7}, 300, function() {
+                tCircle.animate({ 'r' : radius + 5, opacity: 0.7 }, 300, function() {
                     tCircle.remove();
                 });
             });
@@ -764,7 +754,6 @@ define([
          */
         trigger : function(element, event) {
             var evt = _.where(element.events, { name : event});
-
             if (evt.length && evt[0] && typeof evt[0].f === 'function') {
                 evt[0].f.apply(element, Array.prototype.slice.call(arguments, 2));
             }
@@ -780,28 +769,12 @@ define([
          * @returns {Object} x,y point
          */
         getPoint : function getPoint(event, paper, $container, isResponsive) {
-            var rwidth, rheight, wfactor;
+            var point  = this.clickPoint($container, event);
+            var rect   = $container.get(0).getBoundingClientRect();
+            var factor = paper.w / rect.width;
 
-            //get the click coords
-            var point = this.clickPoint($container, event);
-
-            //recalculate point coords in case of scaled image.
-            if (paper.w && paper.w !== paper.width) {
-                if (isResponsive) {
-                    wfactor = paper.w / paper.width;
-                    point.x = Math.round(point.x * wfactor);
-                    point.y = Math.round(point.y * wfactor);
-                } else if (paper.width > paper.w) {
-                    rwidth = (paper.width - paper.w) / 2;
-                    point.x = Math.round(point.x - rwidth);
-                } else {
-                    wfactor = paper.w / paper.width;
-                    point.x = Math.round(point.x * wfactor);
-
-                    rheight = (paper.height - (paper.height * (2 - wfactor))) / 2;
-                    point.y = Math.round((point.y * wfactor) - rheight);
-                }
-            }
+            point.x = Math.round(point.x * factor);
+            point.y = Math.round(point.y * factor);
 
             return point;
         },

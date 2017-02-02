@@ -26,7 +26,7 @@ define([
     'i18n',
     'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/selectPointInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/SelectPointGraphic',
+    'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
