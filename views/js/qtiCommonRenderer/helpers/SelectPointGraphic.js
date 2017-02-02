@@ -33,20 +33,6 @@ define([
     var SelectPointGraphicHelper = {
 
         /**
-         * Raw access to the image width
-         * @type {Number}
-         */
-        _width : 0,
-
-
-        /**
-         * Raw access to the image height
-         * @type {Object}
-         */
-        _height : 0,
-
-
-        /**
          * Apply the style defined by name to the element
          * @param {Raphael.Element} element - the element to change the state
          * @param {String} state - the name of the state (from states) to switch to
@@ -79,10 +65,10 @@ define([
             var $editor    = $('.image-editor', $container);
             var $body      = $container.closest('.qti-itemBody');
             var factory    = raphael.type === 'SVG' ? scaleRaphael : raphael;
-            var resizer    = _.throttle(resizePaper.bind(this), 10);
+            var resizer    = _.throttle(resizePaper, 10);
 
-            var width  = this._width  = options.width  || $container.innerWidth();
-            var height = this._height = options.height || $container.innerHeight();
+            var imgWidth  = options.width  || $container.innerWidth();
+            var imgHeight = options.height || $container.innerHeight();
 
             resizer();
 
@@ -100,9 +86,9 @@ define([
                     resizer(e, givenWidth);
                 });
             } else {
-                $container.find('.main-image-box').width(width);
+                $container.find('.main-image-box').width(imgWidth);
                 if (typeof options.resize === 'function') {
-                    options.resize(width, 1);
+                    options.resize(imgWidth, 1);
                 }
             }
 
@@ -118,7 +104,7 @@ define([
                 var diff            = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
                 var maxWidth        = $body.width();
                 var containerWidth  = $container.innerWidth();
-                var factor          = containerWidth / width;
+                var factor          = containerWidth / imgWidth;
                 var containerHeight;
 
                 if (containerWidth > 0 || givenWidth > 0) {
@@ -131,13 +117,15 @@ define([
                         containerWidth -= diff;
                     }
 
-                    containerHeight = height * (containerWidth / width);
+                    containerHeight = imgHeight * (containerWidth / imgWidth);
 
                     if (!paper) {
                         paper    = factory.call(null ,id, containerWidth, containerHeight);
-                        image    = paper.image(options.img, 0, 0, width, height);
+                        paper.w  = imgWidth;
+                        paper.h  = imgHeight;
+                        image    = paper.image(options.img, 0, 0, imgWidth, imgHeight);
                         image.id = options.imgId || image.id;
-                        paper.setViewBox(0, 0, width, height);
+                        paper.setViewBox(0, 0, imgWidth, imgHeight);
                     } else {
                         paper.changeSize(containerWidth, containerHeight, false, false);
                     }
@@ -171,7 +159,7 @@ define([
 
             var self   = this;
             var point  = options.point || {x : 0, y : 0};
-            var factor = paper.width / this._width;
+            var factor = paper.width / paper.w;
             var hover  = typeof options.hover === 'undefined' ? true : !!options.hover;
             var tBBox;
 
@@ -308,7 +296,7 @@ define([
         getPoint : function getPoint(event, paper, $container, isResponsive) {
             var point  = this.clickPoint($container, event);
             var rect   = $container.get(0).getBoundingClientRect();
-            var factor = this._width / rect.width;
+            var factor = paper.w / rect.width;
 
             point.x = Math.round(point.x * factor);
             point.y = Math.round(point.y * factor);
