@@ -64,7 +64,6 @@ define([
             var $container = options.container || $('#' + id).parent();
             var $editor    = $('.image-editor', $container);
             var $body      = $container.closest('.qti-itemBody');
-            var factory    = raphael.type === 'SVG' ? scaleRaphael : raphael;
             var resizer    = _.throttle(resizePaper, 10);
 
             var imgWidth  = options.width  || $container.innerWidth();
@@ -75,16 +74,12 @@ define([
             //retry to resize once the SVG is loaded
             $(image.node)
                 .attr('externalResourcesRequired', 'true')
-                .on('load', function() {
-                    resizer();
-                });
+                .on('load', resizer);
 
             if (raphael.type === 'SVG') {
                 $(window).on('resize.qti-widget.'  + serial, resizer);
                 $(document).on('customcssloaded.styleeditor', resizer);
-                $container.on('resize.qti-widget.' + serial , function(e, givenWidth) {
-                    resizer(e, givenWidth);
-                });
+                $container.on('resize.qti-widget.' + serial , resizer);
             } else {
                 $container.find('.main-image-box').width(imgWidth);
                 if (typeof options.resize === 'function') {
@@ -120,11 +115,13 @@ define([
                     containerHeight = imgHeight * (containerWidth / imgWidth);
 
                     if (!paper) {
-                        paper    = factory.call(null ,id, containerWidth, containerHeight);
+                        paper    = scaleRaphael(id, containerWidth, containerHeight);
                         paper.w  = imgWidth;
                         paper.h  = imgHeight;
+
                         image    = paper.image(options.img, 0, 0, imgWidth, imgHeight);
                         image.id = options.imgId || image.id;
+
                         paper.setViewBox(0, 0, imgWidth, imgHeight);
                     } else {
                         paper.changeSize(containerWidth, containerHeight, false, false);
