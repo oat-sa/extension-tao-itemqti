@@ -134,12 +134,9 @@ define([
                         paper    = factory.call(null ,id, width * factor, height * factor);
                         image    = paper.image(options.img, 0, 0, width, height);
                         image.id = options.imgId || image.id;
-
                         paper.setViewBox(0, 0, width, height);
-                    } else if ($container.hasClass('responsive')) {
-                        paper.changeSize(containerWidth, height * factor, false, false);
                     } else {
-                        paper.changeSize(containerWidth, height, false, false);
+                        paper.changeSize(containerWidth, height * factor, false, false);
                     }
 
                     if (typeof options.resize === 'function') {
