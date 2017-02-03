@@ -114,6 +114,9 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     public function update(PortableElementObject $object)
     {
         $mapByIdentifier = parent::get($object->getTypeIdentifier());
+        if (! is_array($mapByIdentifier)) {
+            $mapByIdentifier = [];
+        }
         $mapByIdentifier[$object->getVersion()] = $object->toArray();
         parent::set($object->getTypeIdentifier(), $mapByIdentifier);
     }
