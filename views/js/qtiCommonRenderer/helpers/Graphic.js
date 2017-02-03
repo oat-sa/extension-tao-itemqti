@@ -241,9 +241,10 @@ define([
                 .on('load', resizer);
 
             if (raphael.type === 'SVG') {
+                // TODO: move listeners somewhere they can be easily turned off
                 $(window).on('resize.qti-widget.'  + serial, resizer);
+                $container.on('resize.qti-widget.' + serial, resizer);
                 $(document).on('customcssloaded.styleeditor', resizer);
-                $container.on('resize.qti-widget.' + serial , resizer);
             } else {
                 $container.find('.main-image-box').width(imgWidth);
                 if (typeof options.resize === 'function') {
