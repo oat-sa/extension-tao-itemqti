@@ -762,21 +762,22 @@ define([
 
             //get the click coords
             var point = this.clickPoint($container, event);
+            var rect  = $container.get(0).getBoundingClientRect();
 
-            //recalculate point coords in case of scaled image.
-            if(paper.w && paper.w !== paper.width){
+            // recalculate point coords in case of scaled image.
+            if(paper.w && paper.w !== rect.width){
                 if(isResponsive){
-                    wfactor = paper.w / paper.width;
+                    wfactor = paper.w / rect.width;
                     point.x = Math.round(point.x * wfactor);
                     point.y = Math.round(point.y * wfactor);
-                } else if(paper.width > paper.w){
-                    rwidth = (paper.width - paper.w) / 2;
+                } else if(rect.width > paper.w){
+                    rwidth = (rect.width - paper.w) / 2;
                     point.x = Math.round(point.x - rwidth);
                 } else {
-                    wfactor = paper.w / paper.width;
+                    wfactor = paper.w / rect.width;
                     point.x = Math.round(point.x * wfactor);
 
-                    rheight = (paper.height - (paper.height * (2 - wfactor))) / 2;
+                    rheight = (rect.height - (rect.height * (2 - wfactor))) / 2;
                     point.y = Math.round((point.y * wfactor) - rheight);
                 }
             }
@@ -811,6 +812,7 @@ define([
         clickPoint : function($container, event){
             var x, y;
             var offset = $container.offset();
+
              if (event.pageX || event.pageY) {
                 x = event.pageX - offset.left;
                 y = event.pageY - offset.top;
