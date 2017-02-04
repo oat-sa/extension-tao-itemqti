@@ -17,7 +17,7 @@ define([
         var itemResizer = $('#item-editor-item-resizer'),
             target = itemResizer.data('target'),
             $target = $(target),
-            targetWidth = $target.width(),
+            targetWidth = $target.innerWidth(),
             itemWidthPrompt = itemResizer.find('[name="item-width-prompt"]'),
             sliderBox = itemResizer.find('.slider-box'),
             slider = itemResizer.find('#item-editor-item-resizer-slider'),
@@ -30,7 +30,6 @@ define([
                 },
                 start: targetWidth
             };
-
 
         var reset = function() {
             itemResizer.find('[value="no-slider"]').trigger('click');
