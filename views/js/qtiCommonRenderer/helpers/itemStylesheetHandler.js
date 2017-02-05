@@ -46,25 +46,15 @@ define([
 
          // relative links with cache buster
         _(stylesheets).forEach(function(stylesheet){
-            var sep,
-                $link,
+            var $link,
                 href;
 
             //if the href is something
             if(stylesheet.attr('href')){
                 $link = $(stylesheet.render());
+
                 //get the resolved href once rendererd
                 href = $link.attr('href');
-
-                //bust cache only for network URLs
-                if(!/^data\:/.test(href)){
-                    sep = href.indexOf('?') > -1 ? '&' : '?';
-                    if(href.indexOf('/') === 0) {
-                        href = href.slice(1);
-                    }
-
-                    href +=  sep + (new Date().getTime()).toString();
-                }
 
                 //we need to set the href after the link is appended to the head (for our dear IE)
                 $link.removeAttr('href')
