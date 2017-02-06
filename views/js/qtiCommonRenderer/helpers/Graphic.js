@@ -289,7 +289,9 @@ define([
 
                         paper.setViewBox(0, 0, imgWidth, imgHeight);
                     } else {
-                        paper.changeSize(containerWidth, containerHeight, false, false);
+                        if (containerWidth > 0) {
+                            paper.changeSize(containerWidth, containerHeight, false, false);
+                        }
                     }
 
                     if (typeof options.resize === 'function') {
