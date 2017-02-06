@@ -70,6 +70,8 @@ define([
                 styleEditor.apply(target, 'width');
                 styleEditor.apply(target, 'max-width');
                 item.data('responsive', true); 
+
+                resizeItem(sliderSettings.start);
             }
         });
 
