@@ -41,11 +41,16 @@ define([
          * @param val int|string
          */
         var resizeItem = function(val) {
-            // to make sure the value can come as int or string
-            val = parseInt(val).toString() + 'px';
-            styleEditor.apply(target, 'width', val);
-            styleEditor.apply(target, 'max-width', 'none');
-            
+            if (val) {
+                // to make sure the value can come as int or string
+                val = parseInt(val).toString() + 'px';
+                styleEditor.apply(target, 'width', val);
+                styleEditor.apply(target, 'max-width', 'none');
+            } else {
+                styleEditor.apply(target, 'width');
+                styleEditor.apply(target, 'max-width');
+            }
+
             item.data('widget').$container.trigger('resize.itemResizer');
         };
 
@@ -55,23 +60,23 @@ define([
         itemWidthPrompt.on('click', function() {
             // user intends to resize the item
             if(this.value === 'slider') {
-                resizeItem($target.width());
                 input.val($target.width());
-                sliderBox.slideDown();
                 slider.val($target.width()).trigger('slide');
-                item.data('responsive', false); 
+                sliderBox.slideDown();
+
+                item.data('responsive', false);
+
+                resizeItem($target.width());
             }
             // user wants to use default
             else {
+                input.val('');
                 slider.val(sliderSettings.start);
                 sliderBox.slideUp();
-                input.val('');
 
-                styleEditor.apply(target, 'width');
-                styleEditor.apply(target, 'max-width');
-                item.data('responsive', true); 
+                item.data('responsive', true);
 
-                resizeItem(sliderSettings.start);
+                resizeItem();
             }
         });
 
