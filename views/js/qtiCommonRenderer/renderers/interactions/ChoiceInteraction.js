@@ -73,13 +73,10 @@ define([
      * @param {jQueryElement} $container
      */
     var _pseudoLabel = function _pseudoLabel(interaction, $container){
-        var $choiceInputs;
-
+        var inputSelector = '.qti-choice input:radio:not([disabled]):not(.disabled), .qti-choice input:checkbox:not([disabled]):not(.disabled)';
         $container.off('.commonRenderer');
 
-        $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-
-        $choiceInputs.on('keydown.commonRenderer', function(e){
+        $container.on('keydown.commonRenderer.keyNavigation', inputSelector, function(e){
             var $qtiChoice = $(this).closest('.qti-choice');
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
 
@@ -92,9 +89,7 @@ define([
                 e.stopPropagation();
                 $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             }
-        });
-
-        $choiceInputs.on('keyup.commonRenderer', function(e){
+        }).on('keyup.commonRenderer.keyNavigation', inputSelector, function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
