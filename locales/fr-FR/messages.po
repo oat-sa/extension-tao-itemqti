@@ -245,7 +245,7 @@ msgid "CSV file"
 msgstr ""
 
 msgid "Current value:"
-msgstr ""
+msgstr "Valeur actuelle :"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr ""
@@ -592,7 +592,7 @@ msgid "LaTex"
 msgstr ""
 
 msgid "leave empty"
-msgstr ""
+msgstr "laisser vide"
 
 msgid "Left"
 msgstr ""
@@ -648,10 +648,10 @@ msgid "Max"
 msgstr ""
 
 msgid "Max Length"
-msgstr ""
+msgstr "Longueur maximale"
 
 msgid "Max length"
-msgstr ""
+msgstr "Longueur maximale"
 
 msgid "Max words"
 msgstr ""
@@ -672,7 +672,7 @@ msgid "Maximum choices reached"
 msgstr ""
 
 msgid "Maximum number of choices reached."
-msgstr ""
+msgstr "Nombre de choix maximum atteint"
 
 msgid "Media"
 msgstr ""
@@ -727,7 +727,7 @@ msgid "New item"
 msgstr ""
 
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 msgid "no configuration property needed"
 msgstr ""
@@ -1022,10 +1022,10 @@ msgid "Select a "
 msgstr ""
 
 msgid "select a choice"
-msgstr ""
+msgstr "choisir une option"
 
 msgid "Select a choice from a drop-down list."
-msgstr ""
+msgstr "choisir une option de la liste"
 
 msgid "Select a response identifier from the list."
 msgstr ""
