@@ -107,7 +107,7 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler
             }
 
             helpers_TimeOutHelper::reset();
-            $uploadService->remove($uploadedFile);
+            $uploadService->remove($uploadService->getUploadedFlyFile($fileInfo['uploaded_file']));
         } else {
             throw new common_exception_Error('No source file for import');
         }

@@ -88,7 +88,7 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
                 $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the QTI Item. The system returned the following error:", $e->getMessage()));
             }
 
-            $uploadService->remove($uploadedFile);
+            $uploadService->remove($uploadService->getUploadedFlyFile($fileInfo['uploaded_file']));
         }else{
             throw new common_exception_Error('No source file for import');
         }
