@@ -383,23 +383,24 @@ define([
          * @param {Function} [options.remove] - call once removed
          */
         createTarget : function createTarget(paper, options) {
-            options      = options || {};
+            options = options || {};
 
             var self   = this;
             var point  = options.point || {x : 0, y : 0};
-            var factor = paper.width / paper.w;
+            var factor = paper.w !== 0 ? paper.width / paper.w : 1;
             var hover  = typeof options.hover === 'undefined' ? true : !!options.hover;
             var tBBox;
 
-            var baseSize = 18; // this is the base size of the path element to be placed on svg
-            var half     = baseSize / 2;
-            var x        = point.x - half;
-            var y        = point.y - half;
+            var baseSize   = 18; // this is the base size of the path element to be placed on svg (i.e. the path element crosshair is created to have a size of 18)
+            var half       = baseSize / 2;
+            var x          = point.x - half;
+            var y          = point.y - half;
+            var targetSize = factor !== 0 ? 2 / factor : 2;
 
             //create the target from a path
             var target = paper
                 .path(gstyle.target.path)
-                .transform('t' + x + ',' + y + 's' + (2 / factor))
+                .transform('t' + x + ',' + y + 's' + targetSize)
                 .attr(gstyle.target)
                 .attr('title', _('Click again to remove'));
 
