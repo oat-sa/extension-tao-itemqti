@@ -1,11 +1,26 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ */
+
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/runner/qtiItemRunner',
-    'core/mouseEvent',
-    'ui/interactUtils',
     'json!taoQtiItem/test/qtiCommonRenderer/interactions/selectPoint/qti.json'
-], function($, _, qtiItemRunner, triggerMouseEvent, interactUtils, selectPointData){
+], function($, qtiItemRunner, selectPointData) {
     'use strict';
 
     var runner;
@@ -15,8 +30,8 @@ define([
     //override asset loading in order to resolve it from the runtime location
     var strategies = [{
         name : 'default',
-        handle : function defaultStrategy(url){
-            if(/assets/.test(url.toString())){
+        handle : function defaultStrategy(url) {
+            if (/assets/.test(url.toString())) {
                 return '../../taoQtiItem/views/js/test/qtiCommonRenderer/interactions/selectPoint/' + url.toString();
             }
             return url.toString();
@@ -24,14 +39,14 @@ define([
     }];
 
     QUnit.module('Select Point Interaction', {
-        teardown : function(){
-            if(runner){
+        teardown : function() {
+            if (runner) {
                 runner.clear();
             }
         }
     });
 
-    QUnit.asyncTest('renders correctly', function(assert){
+    QUnit.asyncTest('renders correctly', function(assert) {
         QUnit.expect(11);
 
         var $container = $('#' + fixtureContainerId);
@@ -40,7 +55,7 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', selectPointData)
-            .on('render', function(){
+            .on('render', function() {
 
                 //check DOM
                 assert.equal($container.children().length, 1, 'the container a elements');
@@ -64,7 +79,7 @@ define([
 
     QUnit.module('Visual Test');
 
-    QUnit.asyncTest('Display and play', function(assert){
+    QUnit.asyncTest('Display and play', function(assert) {
         QUnit.expect(1);
 
         var $container = $('#' + outsideContainerId);
@@ -74,8 +89,7 @@ define([
             .on('render', function() {
                 QUnit.start();
             })
-            .on('statechange', function(state){
-                console.log('state', state);
+            .on('statechange', function(state) {
                 document.getElementById('response-display').textContent = JSON.stringify(state);
             })
             .assets(strategies)
