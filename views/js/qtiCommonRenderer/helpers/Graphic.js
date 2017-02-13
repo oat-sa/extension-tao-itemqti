@@ -385,11 +385,12 @@ define([
         createTarget : function createTarget(paper, options) {
             options = options || {};
 
+            var target, layer, tBBox, count;
+
             var self   = this;
             var point  = options.point || {x : 0, y : 0};
             var factor = paper.w !== 0 ? paper.width / paper.w : 1;
             var hover  = typeof options.hover === 'undefined' ? true : !!options.hover;
-            var tBBox;
 
             var baseSize   = 18; // this is the base size of the path element to be placed on svg (i.e. the path element crosshair is created to have a size of 18)
             var half       = baseSize / 2;
@@ -398,7 +399,7 @@ define([
             var targetSize = factor !== 0 ? 2 / factor : 2;
 
             //create the target from a path
-            var target = paper
+            target = paper
                 .path(gstyle.target.path)
                 .transform('t' + x + ',' + y + 's' + targetSize)
                 .attr(gstyle.target)
@@ -408,7 +409,7 @@ define([
             if (options.id) {
                 target.id = options.id;
             } else {
-                var count = 0;
+                count = 0;
                 paper.forEach(function(element) {
                     if (element.data('target')) {
                         count++;
@@ -420,7 +421,7 @@ define([
             tBBox = target.getBBox();
 
             //create an invisible rect over the target to ensure path selection
-            var layer = paper
+            layer = paper
                 .rect(tBBox.x, tBBox.y, tBBox.width, tBBox.height)
                 .attr(gstyle.layer)
                 .click(function() {
