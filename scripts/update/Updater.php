@@ -452,7 +452,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $sharedLibRegistry->registerFromFile('OAT/mediaPlayer', $installBasePath . '/OAT/mediaPlayer.js');
             $this->setVersion('6.11.0');
         }
-        $this->skip('6.11.0', '6.12.0');
+
+        $this->skip('6.11.0', '6.14.0');
     }
 
 }
