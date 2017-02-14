@@ -200,22 +200,6 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         }
     }
 
-    public function testImportResponseEncoding()
-    {
-        $importQtiFilePath = $this->getSamplePath('/xml/qtiv2p1/textentry_response_special_chars.xml');
-        $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIFile($importQtiFilePath, $itemClass);
-
-        $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
-        $item = $report->getData();
-        $this->assertNotEmpty($item);
-        $itemXml = \oat\taoQtiItem\model\qti\Service::singleton()->getXmlByRdfItem($item, DEFAULT_LANG);
-
-        $this->assertXmlStringEqualsXmlString($this->normalizeXml(file_get_contents($importQtiFilePath)), $this->normalizeXml($itemXml));
-
-        $this->itemService->deleteItem($item);
-    }
-
     public function testImport()
     {
         $itemClass = $this->itemService->getRootClass();
