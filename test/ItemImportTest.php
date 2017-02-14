@@ -200,6 +200,22 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         }
     }
 
+    public function testImportResponseEncoding()
+    {
+        $importQtiFilePath = $this->getSamplePath('/xml/qtiv2p1/textentry_response_special_chars.xml');
+        $itemClass = $this->itemService->getRootClass();
+        $report = $this->importService->importQTIFile($importQtiFilePath, $itemClass);
+
+        $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
+        $item = $report->getData();
+        $this->assertNotEmpty($item);
+        $itemXml = \oat\taoQtiItem\model\qti\Service::singleton()->getXmlByRdfItem($item, DEFAULT_LANG);
+
+        $this->assertXmlStringEqualsXmlString($this->normalizeXml(file_get_contents($importQtiFilePath)), $this->normalizeXml($itemXml));
+
+        $this->itemService->deleteItem($item);
+    }
+
     public function testImport()
     {
         $itemClass = $this->itemService->getRootClass();
@@ -375,6 +391,18 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertTrue(file_exists($path),'could not find path ' . $path);
         $this->exportedZips[] = $path;
         return array($path, $manifest);
+    }
+
+    protected function normalizeXml($xml)
+    {
+        $xml = preg_replace('/toolVersion="[0-9a-zA-Z-\.]+"/', '', $xml);
+
+        //work around DOMNode C14N error : "Relative namespace UR is invalid here"
+        $xml = str_replace('xmlns:html5="html5"', 'xmlns:html5="http://www.imsglobal.org/xsd/html5"', $xml);
+
+        //replace media url by a fixed uri
+        $xml = preg_replace('/taomedia:\/\/mediamanager\/([a-zA-Z0-9_]+)/', 'taomedia://mediamanager/ASSET_URI', $xml);
+        return $xml;
     }
 
 }
