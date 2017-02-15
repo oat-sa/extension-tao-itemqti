@@ -14,26 +14,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\test;
 
 use \common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\qti\ImportService;
-use oat\taoQtiItem\model\QtiItemCompiler;
 use \taoItems_models_classes_ItemsService;
-use \tao_models_classes_service_FileStorage;
-use \ZipArchive;
-use oat\taoItems\model\media\LocalItemSource;
-use oat\taoQtiItem\model\ItemModel;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
- * test the item content access
+ * test the item imported into TAO does not suffer modification
  *
  */
 class ImportConsistencyTest extends TaoPhpUnitTestRunner
@@ -83,6 +77,11 @@ class ImportConsistencyTest extends TaoPhpUnitTestRunner
         $this->itemService->deleteResource($item);
     }
 
+    /**
+     * Normalize the xml string for comparison
+     * @param $xml
+     * @return string
+     */
     protected function normalizeXml($xml)
     {
         $xml = preg_replace('/toolVersion="[0-9a-zA-Z-\.]+"/', '', $xml);

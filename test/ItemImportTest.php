@@ -377,16 +377,4 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         return array($path, $manifest);
     }
 
-    protected function normalizeXml($xml)
-    {
-        $xml = preg_replace('/toolVersion="[0-9a-zA-Z-\.]+"/', '', $xml);
-
-        //work around DOMNode C14N error : "Relative namespace UR is invalid here"
-        $xml = str_replace('xmlns:html5="html5"', 'xmlns:html5="http://www.imsglobal.org/xsd/html5"', $xml);
-
-        //replace media url by a fixed uri
-        $xml = preg_replace('/taomedia:\/\/mediamanager\/([a-zA-Z0-9_]+)/', 'taomedia://mediamanager/ASSET_URI', $xml);
-        return $xml;
-    }
-
 }
