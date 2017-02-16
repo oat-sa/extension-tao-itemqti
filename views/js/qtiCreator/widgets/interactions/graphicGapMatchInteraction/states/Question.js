@@ -324,16 +324,25 @@ define([
                         applyMediasizerValues(params, widget.$original.data('factor'));
                     });
 
-                $mediaSizer.empty().mediasizer({
-                    target: $gapImgElem,
-                    showResponsiveToggle: false,
-                    showSync: false,
-                    responsive: false,
-                    parentSelector: $gapImgBox,
-                    // needs to be done on.sizechange.mediasizer to take in account the scale factor
-                    applyToMedium: false,
-                    maxWidth: interaction.object.attr('width')
-                });
+                // Wait for image to load before initializing mediasizer
+                if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
+                    initMediasizer();
+                } else {
+                    $gapImgElem.one('load', initMediasizer);
+                }
+
+                function initMediasizer() {
+                    $mediaSizer.empty().mediasizer({
+                        target: $gapImgElem,
+                        showResponsiveToggle: false,
+                        showSync: false,
+                        responsive: false,
+                        parentSelector: $gapImgBox,
+                        // needs to be done on.sizechange.mediasizer to take in account the scale factor
+                        applyToMedium: false,
+                        maxWidth: interaction.object.attr('width')
+                    });
+                }
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
 
