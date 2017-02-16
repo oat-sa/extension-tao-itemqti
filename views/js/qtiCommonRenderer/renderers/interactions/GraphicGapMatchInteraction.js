@@ -45,6 +45,12 @@ define([
     var activeDrop = null;
 
     /**
+     * Global variable to count number of choice usages:
+     * @type {object}
+     */
+    var _choiceUsages = {};
+
+    /**
      * This options enables to support old items created with the wrong
      * direction in the directedpairs.
      *
@@ -137,6 +143,44 @@ define([
     };
 
     /**
+     * Sets a choice and marks as disabled if at max
+     * @private
+     * @param {Object} interaction
+     * @param {JQuery Element} $choice
+     */
+    var _setChoice = function _setChoice(interaction, $choice) {
+        var choiceSerial = $choice.data('serial');
+        var choice = interaction.getGapImg(choiceSerial);
+
+        if (!_choiceUsages[choiceSerial]) {
+            _choiceUsages[choiceSerial] = 0;
+        }
+
+        _choiceUsages[choiceSerial]++;
+
+        if (!interaction.responseMappingMode &&
+            choice.attr('matchMax') &&
+            _choiceUsages[choiceSerial] >= choice.attr('matchMax')
+        ) {
+            $choice.addClass('disabled');
+        }
+    };
+
+    /**
+     * Unset a choice and unmark as disabled
+     * @private
+     * @param {Object} interaction
+     * @param {JQuery Element} $choice
+     */
+    var _unsetChoice = function _unsetChoice(interaction, $choice) {
+        var choiceSerial = $choice.data('serial');
+
+        _choiceUsages[choiceSerial]--;
+
+        $choice.removeClass('disabled');
+    };
+
+    /**
      * Select a shape (= hotspot) (a gap image must be active)
      * @private
      * @param {Object} interaction
@@ -180,6 +224,8 @@ define([
             //then reset the state of the shapes and the gap images
             _shapesUnSelectable(interaction);
             $gapList.children().removeClass('active');
+
+            _setChoice(interaction, $active);
 
             $clone = $img.clone();
             shapeOffset  = $(element.node).offset();
@@ -241,6 +287,8 @@ define([
                         interaction.gapFillers = _.without(interaction.gapFillers, gapFiller);
 
                         gapFiller.remove();
+
+                        _unsetChoice(interaction, $active);
 
                         containerHelper.triggerResponseChangeEvent(interaction);
                     }
