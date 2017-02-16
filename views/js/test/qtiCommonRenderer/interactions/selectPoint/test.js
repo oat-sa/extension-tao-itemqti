@@ -19,8 +19,9 @@
 define([
     'jquery',
     'taoQtiItem/runner/qtiItemRunner',
+    'ui/interactUtils',
     'json!taoQtiItem/test/qtiCommonRenderer/interactions/selectPoint/qti.json'
-], function($, qtiItemRunner, selectPointData) {
+], function($, qtiItemRunner, interactUtils, selectPointData) {
     'use strict';
 
     var runner;
@@ -71,6 +72,58 @@ define([
                 assert.equal($container.children('.qti-item').data('identifier'), 'i14862478187486450', 'the .qti-item node has the right identifier');
 
                 QUnit.start();
+            })
+            .assets(strategies)
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('destroys', function(assert) {
+        QUnit.expect(3);
+
+        var $container = $('#' + fixtureContainerId);
+        assert.equal($container.length, 1, 'the item container exists');
+
+        qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var self = this;
+
+                var interaction = this._item.getInteractions()[0];
+                var $imageBox = $('.main-image-box', $container);
+
+                assert.equal($imageBox.children().length, 1, 'the image box has elements');
+                interaction.renderer.destroy(interaction);
+                assert.equal($imageBox.children().length, 0, 'the image box has no elements');
+
+                QUnit.start();
+            })
+            .assets(strategies)
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('resets the response', function(assert) {
+        QUnit.expect(3);
+
+        var $container = $('#' + fixtureContainerId);
+        assert.equal($container.length, 1, 'the item container exists');
+
+        runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var self = this;
+
+                var interaction = this._item.getInteractions()[0];
+                var $canvas = $('.main-image-box svg', $container);
+
+                interactUtils.tapOn($canvas, function() {
+                    var $target = $canvas.find('path');
+
+                    assert.equal($target.length, 1, 'a target exists on image');
+                    interaction.renderer.resetResponse(interaction);
+                    assert.equal($target.length, 0, 'no target exists on image');
+
+                    QUnit.start();
+                }, 50);
             })
             .assets(strategies)
             .init()
