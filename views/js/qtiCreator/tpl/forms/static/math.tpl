@@ -17,6 +17,7 @@
     <div class="tooltip-content">{{__ "How the math expression should be edited"}}.</div>
 
     <select name="editMode" class="select2" data-has-search="false">
+        <option value="wysiwyg">{{__ "Latex (WYSIWYG)"}}</option>
         <option value="latex">{{__ "LaTex"}}</option>
         <option value="mathml">{{__ "MathML"}}</option>
     </select>
