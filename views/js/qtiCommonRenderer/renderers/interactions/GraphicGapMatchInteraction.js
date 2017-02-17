@@ -328,17 +328,23 @@ define([
             interact(rElement.node).dropzone({
                 overlap: 0.15,
                 ondragenter: function() {
-                    graphic.setStyle(rElement, 'hover');
-                    activeDrop = rElement.node;
+                    if (rElement.data('matching').length < rElement.data('max')) {
+                        graphic.setStyle(rElement, 'hover');
+                        activeDrop = rElement.node;
+                    }
                 },
                 ondrop: function () {
-                    graphic.setStyle(rElement, 'selectable');
-                    handleShapeSelect();
-                    activeDrop = null;
+                    if (rElement.data('matching').length < rElement.data('max')) {
+                        graphic.setStyle(rElement, 'selectable');
+                        handleShapeSelect();
+                        activeDrop = null;
+                    }
                 },
                 ondragleave: function() {
-                    graphic.setStyle(rElement, 'selectable');
-                    activeDrop = null;
+                    if (rElement.data('matching').length < rElement.data('max')) {
+                        graphic.setStyle(rElement, 'selectable');
+                        activeDrop = null;
+                    }
                 }
             });
         }
