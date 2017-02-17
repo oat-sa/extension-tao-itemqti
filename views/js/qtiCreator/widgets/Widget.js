@@ -120,7 +120,7 @@ define([
             var serial       = $interaction.data('serial');
 
             this.$container.on('resize.itemResizer', function() {
-                $interaction.trigger('resize.qti-widget.' + serial);
+                $(window).trigger('resize.qti-widget.' + serial);
             });
         },
         getCurrentState : function(){
