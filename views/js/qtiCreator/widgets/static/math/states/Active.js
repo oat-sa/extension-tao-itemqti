@@ -1,3 +1,20 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ */
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -12,13 +29,14 @@ define([
     'mathJax',
     'ui/tooltip'
 ], function($, stateFactory, Active, MathEditor, popup, formTpl, formElement, inlineHelper, _, __, mathJax){
+    'use strict';
 
     var _throttle = 300;
-    var MathActive = stateFactory.extend(Active, function(){
+    var MathActive = stateFactory.extend(Active, function create(){
 
         this.initForm();
 
-    }, function(){
+    }, function destroy(){
 
         this.widget.$form.empty();
     });
@@ -69,6 +87,7 @@ define([
             $form = _widget.$form,
             math = _widget.element,
             mathML = math.mathML,
+            mathEditor,
             tex = math.getAnnotation('latex'),
             display = math.attr('display') || 'inline',
             $fields = {
@@ -116,7 +135,7 @@ define([
         });
 
 
-        var mathEditor = new MathEditor({
+        mathEditor = new MathEditor({
             tex : tex,
             mathML : mathML,
             display : display,
@@ -179,17 +198,17 @@ define([
         });
     };
 
-    var _toggleMode = function($form, mode){
+    function _toggleMode($form, mode){
 
         var $panels = {
-            mathml : $form.children('.panel[data-role="mathml"]'),
-            latex : $form.children('.panel[data-role="latex"]')
-        },
-        $fields = {
-            mathml : $form.find('textarea[name=mathml]'),
-            latex : $form.find('input[name=latex]')
-        },
-        $editMode = $form.find('select[name=editMode]');
+                mathml : $form.children('.panel[data-role="mathml"]'),
+                latex : $form.children('.panel[data-role="latex"]')
+            },
+            $fields = {
+                mathml : $form.find('textarea[name=mathml]'),
+                latex : $form.find('input[name=latex]')
+            },
+            $editMode = $form.find('select[name=editMode]');
 
         //toggle form visibility
         $panels.mathml.hide();
@@ -209,10 +228,10 @@ define([
                 });
             }
         }
-    };
+    }
 
 
-    var _createWarningTooltip = function($mathField){
+    function _createWarningTooltip($mathField){
 
         var $content = $('<span>')
             .html(__('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.'));
@@ -237,7 +256,7 @@ define([
         setTimeout(function(){
             $mathField.qtip('hide');
         }, 3000);
-    };
+    }
 
     return MathActive;
 });
