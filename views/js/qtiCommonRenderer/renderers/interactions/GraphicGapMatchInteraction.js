@@ -24,6 +24,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'module',
     'core/promise',
     'core/mouseEvent',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicGapMatchInteraction',
@@ -33,208 +34,89 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'interact',
     'ui/interactUtils'
-], function($, _, __, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact, interactUtils){
+], function($, _, __, module, Promise, triggerMouseEvent, tpl, graphic,  pciResponse, containerHelper, instructionMgr, interact, interactUtils){
     'use strict';
 
-    var isDragAndDropEnabled,
-        // this represents the state for the active droppable zone
-        // we need it only to access the active dropzone in the iFrameFix
-        // should be removed when the old test runner is discarded
-        activeDrop = null;
+    var isDragAndDropEnabled;
+
+    // this represents the state for the active droppable zone
+    // we need it only to access the active dropzone in the iFrameFix
+    // should be removed when the old test runner is discarded
+    var activeDrop = null;
 
     /**
-     * Init rendering, called after template injected into the DOM
-     * All options are listed in the QTI v2.1 information model:
-     * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
+     * This options enables to support old items created with the wrong
+     * direction in the directedpairs.
      *
-     * @param {object} interaction
-     * @return {Promise}
+     * @deprecated
      */
-    var render = function render(interaction){
-        var self = this;
+    var isDirectedPairFlipped = module.config().flipDirectedPair;
 
-        return new Promise(function(resolve, reject){
+    /**
+     * Check if a shape can accept matches
+     * @private
+     * @param {Raphael.Element} element - the shape
+     * @returns {Boolean} true if the element is matchable
+     */
+    var _isMatchable = function(element){
+        var matchable = false;
+        var matching, matchMax;
+        if(element){
+            matchMax = element.data('max') || 0;
+            matching = element.data('matching') || [];
+            matchable = (matchMax === 0 || matchMax > matching.length);
+        }
+        return matchable;
+    };
 
-            var $container = containerHelper.get(interaction);
-            var $gapList = $('ul.source', $container);
-            var background = interaction.object.attributes;
+    /**
+     * Makes the shapes selectable (at least those who can still accept matches)
+     * @private
+     * @param {Object} interaction
+     */
+    var _shapesSelectable = function _shapesSelectable(interaction){
 
-            interaction.gapFillers = [];
+        var tooltip = __('Select the area to add an image');
 
-            if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").graphicGapMatch) {
-                isDragAndDropEnabled = self.getOption("enableDragAndDrop").graphicGapMatch;
+        //update the shape state
+        _.forEach(interaction.getChoices(), function(choice){
+            var element = interaction.paper.getById(choice.serial);
+            if(_isMatchable(element)){
+                element.selectable = true;
+                graphic.setStyle(element, 'selectable');
+                graphic.updateTitle(element, tooltip);
             }
+        });
 
-            $container
-                .off('resized.qti-widget.resolve')
-                .one('resized.qti-widget.resolve', resolve);
-
-            //create the paper
-            interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-                width       : background.width,
-                height      : background.height,
-                img         : self.resolveUrl(background.data),
-                imgId       : 'bg-image-' + interaction.serial,
-                container   : $container,
-                resize      : function(newSize, factor){
-                   $gapList.css('max-width', newSize + 'px');
-                   if(factor !== 1){
-                        $gapList.find('img').each(function(){
-                            var $img = $(this);
-                            $img.width( $img.attr('width') * factor );
-                            $img.height( $img.attr('height') * factor );
-                        });
-                   }
-                }
+        //update the gap images tooltip
+        _.forEach(interaction.gapFillers, function(gapFiller){
+            gapFiller.forEach(function(element){
+                graphic.updateTitle(element, tooltip);
             });
-
-            //call render choice for each interaction's choices
-            _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
-
-            //create the list of gap images
-            _renderGapList(interaction, $gapList);
-
-            //clicking the paper to reset selection
-            _paperUnSelect(interaction);
-
         });
     };
 
-
     /**
-     * Render a choice (= hotspot) inside the paper.
-     * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
-     *
+     * Makes all the shapes UNselectable
      * @private
      * @param {Object} interaction
-     * @param {Object} choice - the hotspot choice to add to the interaction
      */
-    var _renderChoice  =  function _renderChoice(interaction, choice){
-
-        //create the shape
-        var rElement = graphic.createElement(interaction.paper, choice.attr('shape'), choice.attr('coords'), {
-            id : choice.serial,
-            title : __('Select an image first'),
-            hover : false
-        })
-        .data('max', choice.attr('matchMax') )
-        .data('matching', []);
-
-        interact(rElement.node).on('tap', function onClickShape(){
-            handleShapeSelect();
+    var _shapesUnSelectable = function _shapesUnSelectable(interaction){
+        _.forEach(interaction.getChoices(), function(choice){
+            var element = interaction.paper.getById(choice.serial);
+            if(element){
+                element.selectable = false;
+                graphic.setStyle(element, 'basic');
+                graphic.updateTitle(element, __('Select an image first'));
+            }
         });
 
-        if (isDragAndDropEnabled) {
-            interact(rElement.node).dropzone({
-                overlap: 0.15,
-                ondragenter: function() {
-                    graphic.setStyle(rElement, 'hover');
-                    activeDrop = rElement.node;
-                },
-                ondrop: function () {
-                    graphic.setStyle(rElement, 'selectable');
-                    handleShapeSelect();
-                    activeDrop = null;
-                },
-                ondragleave: function() {
-                    graphic.setStyle(rElement, 'selectable');
-                    activeDrop = null;
-                }
-            });
-        }
-
-        function handleShapeSelect() {
-            // check if can make the shape selectable on click
-            if(_isMatchable(rElement) && rElement.selectable === true){
-                _selectShape(interaction, rElement);
-            }
-        }
-    };
-
-    function _iFrameDragFix(draggableSelector, target) {
-        interactUtils.iFrameDragFixOn(function () {
-            if (activeDrop) {
-                interact(activeDrop).fire({
-                    type: 'drop',
-                    target: activeDrop,
-                    relatedTarget: target
-                });
-            }
-            interact(draggableSelector).fire({
-                type: 'dragend',
-                target: target
+        //update the gap images tooltip
+        _.forEach(interaction.gapFillers, function(gapFiller){
+            gapFiller.forEach(function(element){
+                graphic.updateTitle(element, __('Remove'));
             });
         });
-    }
-
-    /**
-     * Render the list of gap fillers
-     * @private
-     * @param {Object} interaction
-     * @param {jQueryElement} $gapList - the list than contains the orderers
-     */
-    var _renderGapList = function _renderGapList(interaction, $gapList){
-
-        var gapFillersSelector = $gapList.selector + ' li';
-
-        interact(gapFillersSelector).on('tap', function onClickGapImg(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            toggleActiveGapState($(e.currentTarget));
-        });
-
-        if (isDragAndDropEnabled) {
-            var dragOptions = {
-                inertia: false,
-                autoScroll: true,
-                restrict: {
-                    restriction: ".qti-interaction",
-                    endOnly: false,
-                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
-                }
-            };
-
-            interact(gapFillersSelector).draggable(_.assign({}, dragOptions, {
-                onstart: function (e) {
-                    var $target = $(e.target);
-                    _setActiveGapState($target);
-                    $target.addClass('dragged');
-
-                    _iFrameDragFix(gapFillersSelector, e.target);
-                },
-                onmove: function (e) {
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
-                },
-                onend: function (e) {
-                    var $target = $(e.target);
-                    _setInactiveGapState($target);
-                    $target.removeClass('dragged');
-                    interactUtils.restoreOriginalPosition($target);
-                    interactUtils.iFrameDragFixOff();
-                }
-            })).styleCursor(false);
-        }
-
-        function toggleActiveGapState($target) {
-            if(!$target.hasClass('disabled')){
-                if($target.hasClass('active')){
-                    _setInactiveGapState($target);
-                } else {
-                    _setActiveGapState($target);
-                }
-            }
-        }
-
-        function _setActiveGapState($target) {
-            $gapList.children('li').removeClass('active');
-            $target.addClass('active');
-            _shapesSelectable(interaction);
-        }
-
-        function _setInactiveGapState($target) {
-            $target.removeClass('active');
-            _shapesUnSelectable(interaction);
-        }
     };
 
     /**
@@ -372,71 +254,200 @@ define([
     };
 
     /**
-     * Makes the shapes selectable (at least those who can still accept matches)
+     * Render a choice (= hotspot) inside the paper.
+     * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
+     *
      * @private
      * @param {Object} interaction
+     * @param {Object} choice - the hotspot choice to add to the interaction
      */
-    var _shapesSelectable = function _shapesSelectable(interaction){
+    var _renderChoice  =  function _renderChoice(interaction, choice){
 
-        var tooltip = __('Select the area to add an image');
+        //create the shape
+        var rElement = graphic.createElement(interaction.paper, choice.attr('shape'), choice.attr('coords'), {
+            id : choice.serial,
+            title : __('Select an image first'),
+            hover : false
+        })
+        .data('max', choice.attr('matchMax') )
+        .data('matching', []);
 
-        //update the shape state
-        _.forEach(interaction.getChoices(), function(choice){
-            var element = interaction.paper.getById(choice.serial);
-            if(_isMatchable(element)){
-                element.selectable = true;
-                graphic.setStyle(element, 'selectable');
-                graphic.updateTitle(element, tooltip);
-            }
+        interact(rElement.node).on('tap', function onClickShape(){
+            handleShapeSelect();
         });
 
-        //update the gap images tooltip
-        _.forEach(interaction.gapFillers, function(gapFiller){
-            gapFiller.forEach(function(element){
-                graphic.updateTitle(element, tooltip);
+        if (isDragAndDropEnabled) {
+            interact(rElement.node).dropzone({
+                overlap: 0.15,
+                ondragenter: function() {
+                    graphic.setStyle(rElement, 'hover');
+                    activeDrop = rElement.node;
+                },
+                ondrop: function () {
+                    graphic.setStyle(rElement, 'selectable');
+                    handleShapeSelect();
+                    activeDrop = null;
+                },
+                ondragleave: function() {
+                    graphic.setStyle(rElement, 'selectable');
+                    activeDrop = null;
+                }
             });
-        });
-    };
-
-    /**
-     * Makes all the shapes UNselectable
-     * @private
-     * @param {Object} interaction
-     */
-    var _shapesUnSelectable = function _shapesUnSelectable(interaction){
-        _.forEach(interaction.getChoices(), function(choice){
-            var element = interaction.paper.getById(choice.serial);
-            if(element){
-                element.selectable = false;
-                graphic.setStyle(element, 'basic');
-                graphic.updateTitle(element, __('Select an image first'));
-            }
-        });
-
-        //update the gap images tooltip
-        _.forEach(interaction.gapFillers, function(gapFiller){
-            gapFiller.forEach(function(element){
-                graphic.updateTitle(element, __('Remove'));
-            });
-        });
-    };
-
-    /**
-     * Check if a shape can accept matches
-     * @private
-     * @param {Raphael.Element} element - the shape
-     * @returns {Boolean} true if the element is matchable
-     */
-    var _isMatchable = function(element){
-        var matchable = false;
-        var matching, matchMax;
-        if(element){
-            matchMax = element.data('max') || 0;
-            matching = element.data('matching') || [];
-            matchable = (matchMax === 0 || matchMax > matching.length);
         }
-        return matchable;
+
+        function handleShapeSelect() {
+            // check if can make the shape selectable on click
+            if(_isMatchable(rElement) && rElement.selectable === true){
+                _selectShape(interaction, rElement);
+            }
+        }
     };
+
+    var _iFrameDragFix = function _iFrameDragFix(draggableSelector, target) {
+        interactUtils.iFrameDragFixOn(function () {
+            if (activeDrop) {
+                interact(activeDrop).fire({
+                    type: 'drop',
+                    target: activeDrop,
+                    relatedTarget: target
+                });
+            }
+            interact(draggableSelector).fire({
+                type: 'dragend',
+                target: target
+            });
+        });
+    };
+
+    /**
+     * Render the list of gap fillers
+     * @private
+     * @param {Object} interaction
+     * @param {jQueryElement} $gapList - the list than contains the orderers
+     */
+    var _renderGapList = function _renderGapList(interaction, $gapList){
+
+        var gapFillersSelector = $gapList.selector + ' li';
+        var dragOptions;
+
+        interact(gapFillersSelector).on('tap', function onClickGapImg(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleActiveGapState($(e.currentTarget));
+        });
+
+        if (isDragAndDropEnabled) {
+            dragOptions = {
+                inertia: false,
+                autoScroll: true,
+                restrict: {
+                    restriction: ".qti-interaction",
+                    endOnly: false,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                }
+            };
+
+            interact(gapFillersSelector).draggable(_.assign({}, dragOptions, {
+                onstart: function (e) {
+                    var $target = $(e.target);
+                    _setActiveGapState($target);
+                    $target.addClass('dragged');
+
+                    _iFrameDragFix(gapFillersSelector, e.target);
+                },
+                onmove: function (e) {
+                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                },
+                onend: function (e) {
+                    var $target = $(e.target);
+                    _setInactiveGapState($target);
+                    $target.removeClass('dragged');
+                    interactUtils.restoreOriginalPosition($target);
+                    interactUtils.iFrameDragFixOff();
+                }
+            })).styleCursor(false);
+        }
+
+        function toggleActiveGapState($target) {
+            if(!$target.hasClass('disabled')){
+                if($target.hasClass('active')){
+                    _setInactiveGapState($target);
+                } else {
+                    _setActiveGapState($target);
+                }
+            }
+        }
+
+        function _setActiveGapState($target) {
+            $gapList.children('li').removeClass('active');
+            $target.addClass('active');
+            _shapesSelectable(interaction);
+        }
+
+        function _setInactiveGapState($target) {
+            $target.removeClass('active');
+            _shapesUnSelectable(interaction);
+        }
+    };
+
+    /**
+     * Init rendering, called after template injected into the DOM
+     * All options are listed in the QTI v2.1 information model:
+     * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
+     *
+     * @param {object} interaction
+     * @return {Promise}
+     */
+    var render = function render(interaction){
+        var self = this;
+
+        return new Promise(function(resolve){
+
+            var $container = containerHelper.get(interaction);
+            var $gapList = $('ul.source', $container);
+            var background = interaction.object.attributes;
+
+            interaction.gapFillers = [];
+
+            if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").graphicGapMatch) {
+                isDragAndDropEnabled = self.getOption("enableDragAndDrop").graphicGapMatch;
+            }
+
+            $container
+                .off('resized.qti-widget.resolve')
+                .one('resized.qti-widget.resolve', resolve);
+
+            //create the paper
+            interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
+                width       : background.width,
+                height      : background.height,
+                img         : self.resolveUrl(background.data),
+                imgId       : 'bg-image-' + interaction.serial,
+                container   : $container,
+                resize      : function(newSize, factor){
+                    $gapList.css('max-width', newSize + 'px');
+                    if(factor !== 1){
+                        $gapList.find('img').each(function(){
+                            var $img = $(this);
+                            $img.width( $img.attr('width') * factor );
+                            $img.height( $img.attr('height') * factor );
+                        });
+                    }
+                }
+            });
+
+            //call render choice for each interaction's choices
+            _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
+
+            //create the list of gap images
+            _renderGapList(interaction, $gapList);
+
+            //clicking the paper to reset selection
+            _paperUnSelect(interaction);
+
+        });
+    };
+
 
     /**
      * Get the responses from the interaction
@@ -446,16 +457,21 @@ define([
      */
     var _getRawResponse = function _getRawResponse(interaction){
         var pairs = [];
-
-       _.forEach(interaction.getChoices(), function(choice){
+        _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
             if(element && _.isArray(element.data('matching'))){
                 _.forEach(element.data('matching'), function(match){
-                    pairs.push([choice.id(), match]);
+
+                    //backward support of previous order
+                    if(isDirectedPairFlipped){
+                        pairs.push([choice.id(), match]);
+                    } else {
+                        pairs.push([match, choice.id()]);
+                    }
                 });
             }
-       });
-       return pairs;
+        });
+        return pairs;
     };
 
     /**
@@ -478,19 +494,26 @@ define([
         if(response && interaction.paper){
             try{
                 responseValues = pciResponse.unserialize(response, interaction);
-            } catch(e){ }
+            } catch(e){
+                responseValues = null;
+            }
 
             if(_.isArray(responseValues)){
-
                 _.forEach(interaction.getChoices(), function(choice){
                     var element = interaction.paper.getById(choice.serial);
                     if(element){
                         _.forEach(responseValues, function(pair){
-                            var index = _.indexOf(pair, choice.id());
-                            if(index > -1 && pair.length === 2){
+                            var responseChoice;
+                            var responseGap;
+                            if(pair.length === 2){
 
-                                $("[data-identifier=" + pair[index === 0 ? 1 : 0] + "]", $container).addClass('active');
-                                _selectShape(interaction, element, false);
+                                //backward support of previous order
+                                responseChoice = isDirectedPairFlipped ? pair[0] : pair[1];
+                                responseGap    = isDirectedPairFlipped ? pair[1] : pair[0];
+                                if(responseChoice === choice.id()){
+                                    $("[data-identifier=" + responseGap + "]", $container).addClass('active');
+                                    _selectShape(interaction, element, false);
+                                }
                             }
                         });
                     }
@@ -519,7 +542,6 @@ define([
             interactUtils.tapOn(gapFiller.items[2][0]); // this refers to the gapFiller image
         });
     };
-
 
     /**
      * Return the response of the rendered interaction
@@ -600,15 +622,16 @@ define([
      * @exports qtiCommonRenderer/renderers/interactions/HotspotInteraction
      */
     return {
-        qtiClass        : 'graphicGapMatchInteraction',
-        template        : tpl,
-        render          : render,
-        getContainer    : containerHelper.get,
-        setResponse     : setResponse,
-        getResponse     : getResponse,
-        resetResponse   : resetResponse,
-        destroy : destroy,
-        setState : setState,
-        getState : getState
+        qtiClass:              'graphicGapMatchInteraction',
+        template:              tpl,
+        render:                render,
+        getContainer:          containerHelper.get,
+        setResponse:           setResponse,
+        getResponse:           getResponse,
+        resetResponse:         resetResponse,
+        destroy:               destroy,
+        setState:              setState,
+        getState:              getState,
+        isDirectedPairFlipped: isDirectedPairFlipped
     };
 });
