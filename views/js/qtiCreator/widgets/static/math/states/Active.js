@@ -24,24 +24,50 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/math',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
+    'ui/dynamicComponent',
     'lodash',
     'i18n',
     'mathJax',
     'ui/tooltip'
-], function($, stateFactory, Active, MathEditor, popup, formTpl, formElement, inlineHelper, _, __, mathJax){
+], function($, stateFactory, Active, MathEditor, popup, formTpl, formElement, inlineHelper, dynamicComponent, _, __, mathJax){
     'use strict';
 
+    var MathActive;
+
     var _throttle = 300;
-    var MathActive = stateFactory.extend(Active, function create(){
+
+    var components = {},
+        $componentContainer = $('#item-editor-scroll-inner'); // fixme: this should be given by the area broker
+
+    MathActive = stateFactory.extend(Active, function create(){
 
         this.initForm();
+
+        // Create Wysiwyg editor component
+        components.wysiwyg = dynamicComponent()
+            .init({
+                title: 'Latex (WYSIWYG)',
+                width: 480,
+                height: 320,
+                minWidth: 240,
+                maxWidth: 960,
+                minHeight: 160,
+                maxHeight: 640,
+                top: 200, // todo: Dynamic component should have a centering option
+                left: ($componentContainer.outerWidth() / 2) - 240
+            });
+
+        _.invoke(components, 'render', $componentContainer);
+        _.invoke(components, 'hide');
 
     }, function destroy(){
 
         this.widget.$form.empty();
+
+        _.invoke(components, 'destroy');
     });
 
-    MathActive.prototype.initForm = function(){
+    MathActive.prototype.initForm = function initForm(){
 
         var _widget = this.widget,
             $form = _widget.$form,
@@ -80,7 +106,7 @@ define([
 
     };
 
-    MathActive.prototype.initFormChangeListener = function(){
+    MathActive.prototype.initFormChangeListener = function initFormChangeListener(){
 
         var _widget = this.widget,
             $container = _widget.$container,
@@ -213,19 +239,30 @@ define([
         //toggle form visibility
         $panels.mathml.hide();
         $panels.latex.hide();
-        if(mode === 'latex'){
-            $panels.latex.show();
-        }else if(mode === 'mathml'){
-            $panels.mathml.show();
-            if($fields.latex.val()){
-                //show a warning here, stating that the content in LaTeX will be removed
-                if(!$fields.mathml.data('qtip')){
-                    _createWarningTooltip($fields.mathml);
+        components.wysiwyg.hide();
+
+        switch (mode) {
+            case 'latex': {
+                $panels.latex.show();
+                break;
+            }
+            case 'mathml': {
+                $panels.mathml.show();
+                if($fields.latex.val()){
+                    //show a warning here, stating that the content in LaTeX will be removed
+                    if(!$fields.mathml.data('qtip')){
+                        _createWarningTooltip($fields.mathml);
+                    }
+                    $fields.mathml.qtip('show');
+                    $editMode.off('change.editMode').one('change.editMode', function(){
+                        $fields.mathml.qtip('hide');
+                    });
                 }
-                $fields.mathml.qtip('show');
-                $editMode.off('change.editMode').one('change.editMode', function(){
-                    $fields.mathml.qtip('hide');
-                });
+                break;
+            }
+            case 'wysiwyg': {
+                components.wysiwyg.show();
+                break;
             }
         }
     }
