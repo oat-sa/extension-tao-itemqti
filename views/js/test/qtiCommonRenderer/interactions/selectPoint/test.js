@@ -115,11 +115,23 @@ define([
                 var interaction = this._item.getInteractions()[0];
                 var $canvas = $('.main-image-box svg', $container);
 
-                interactUtils.tapOn($canvas, function() {
-                    var $target = $canvas.find('path');
+                var evt = new MouseEvent("click", {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true,
+                });
 
+                $canvas.find('image').get(0).dispatchEvent(evt);
+
+                _.delay(function() {
+                    var $target;
+
+                    $target = $canvas.find('path');
                     assert.equal($target.length, 1, 'a target exists on image');
+
                     interaction.renderer.resetResponse(interaction);
+
+                    $target = $canvas.find('path');
                     assert.equal($target.length, 0, 'no target exists on image');
 
                     QUnit.start();
