@@ -198,8 +198,13 @@ define([
                 var interaction = this._item.getInteractions()[0];
                 var $canvas     = $('.main-image-box svg', $container);
 
+                var evt = new MouseEvent('click', {
+                    pageX: 100,
+                    pageY: 100
+                });
+
                 // Set / Click
-                $canvas.find('image').get(0).dispatchEvent(new MouseEvent('click'));
+                $canvas.find('image').get(0).dispatchEvent(evt);
             })
             .on('statechange', function(state) {
                 assert.deepEqual(
