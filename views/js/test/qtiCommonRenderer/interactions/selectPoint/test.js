@@ -184,6 +184,36 @@ define([
             .render($container);
     });
 
+    // TODO: This test is incomplete and shows that selectPoint does not adhere
+    // to the item lifecycle
+    QUnit.asyncTest('sets the state', function(assert) {
+        QUnit.expect(1);
+
+        var $container = $('#' + fixtureContainerId);
+
+        var runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var self = this;
+
+                var interaction = this._item.getInteractions()[0];
+                var $canvas     = $('.main-image-box svg', $container);
+
+                // Set / Click
+                $canvas.find('image').get(0).dispatchEvent(new MouseEvent('click'));
+            })
+            .on('statechange', function(state) {
+                assert.deepEqual(
+                    state.RESPONSE,
+                    { response : { list  : { point : [ ] } } },
+                    'The pair is selected'
+                );
+                QUnit.start();
+            })
+            .assets(strategies)
+            .init()
+            .render($container);
+    });
+
     QUnit.module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert) {
