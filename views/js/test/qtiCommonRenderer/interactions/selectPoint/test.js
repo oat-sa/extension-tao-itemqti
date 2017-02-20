@@ -142,6 +142,48 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('clicking target removes it from interaction', function(assert) {
+        QUnit.expect(2);
+
+        var $container = $('#' + fixtureContainerId);
+
+        var runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var self = this;
+
+                var interaction = this._item.getInteractions()[0];
+                var $canvas     = $('.main-image-box svg', $container);
+
+                var evt = new MouseEvent("click", {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true,
+                });
+
+                // Set / Click
+                $canvas.find('image').get(0).dispatchEvent(evt);
+
+                _.delay(function() {
+                    var $target;
+
+                    $target = $canvas.find('path');
+                    assert.equal($target.length, 1, 'click placed target on image');
+
+                    $canvas.find('rect').get(0).dispatchEvent(evt);
+
+                    _.delay(function() {
+                        $target = $canvas.find('path');
+                        assert.equal($target.length, 0, 'another click removed target from image');
+
+                        QUnit.start();
+                    }, 50);
+                }, 50);
+            })
+            .assets(strategies)
+            .init()
+            .render($container);
+    });
+
     QUnit.module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert) {
