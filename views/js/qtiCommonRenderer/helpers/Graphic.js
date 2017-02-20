@@ -243,6 +243,7 @@ define([
             if (raphael.type === 'SVG') {
                 // TODO: move listeners somewhere they can be easily turned off
                 $(window).on('resize.qti-widget.'  + serial, resizer);
+                // TODO: favor window resize event and deprecate $container resive event (or don't allow $container to be destroyed and rebuilt
                 $container.on('resize.qti-widget.' + serial, resizer);
                 $(document).on('customcssloaded.styleeditor', resizer);
             } else {
