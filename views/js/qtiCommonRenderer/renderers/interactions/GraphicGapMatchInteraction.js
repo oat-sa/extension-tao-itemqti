@@ -162,7 +162,9 @@ define([
             choice.attr('matchMax') &&
             _choiceUsages[choiceSerial] >= choice.attr('matchMax')
         ) {
+            interact($choice.get(0)).draggable(false);
             $choice.addClass('disabled');
+            $choice.removeClass('selectable');
         }
     };
 
@@ -178,6 +180,8 @@ define([
         _choiceUsages[choiceSerial]--;
 
         $choice.removeClass('disabled');
+        $choice.addClass('selectable');
+        interact($choice.get(0)).draggable(true);
     };
 
     /**
@@ -401,25 +405,29 @@ define([
                 }
             };
 
-            interact(gapFillersSelector).draggable(_.assign({}, dragOptions, {
-                onstart: function (e) {
-                    var $target = $(e.target);
-                    _setActiveGapState($target);
-                    $target.addClass('dragged');
+            $(gapFillersSelector).each(function(index, gap) {
+                interact(gap)
+                .draggable(_.assign({}, dragOptions, {
+                    onstart: function (e) {
+                        var $target = $(e.target);
+                        _setActiveGapState($target);
+                        $target.addClass('dragged');
 
-                    _iFrameDragFix(gapFillersSelector, e.target);
-                },
-                onmove: function (e) {
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
-                },
-                onend: function (e) {
-                    var $target = $(e.target);
-                    _setInactiveGapState($target);
-                    $target.removeClass('dragged');
-                    interactUtils.restoreOriginalPosition($target);
-                    interactUtils.iFrameDragFixOff();
-                }
-            })).styleCursor(false);
+                        _iFrameDragFix(gapFillersSelector, e.target);
+                    },
+                    onmove: function (e) {
+                        interactUtils.moveElement(e.target, e.dx, e.dy);
+                    },
+                    onend: function (e) {
+                        var $target = $(e.target);
+                        _setInactiveGapState($target);
+                        $target.removeClass('dragged');
+                        interactUtils.restoreOriginalPosition($target);
+                        interactUtils.iFrameDragFixOff();
+                    }
+                }))
+                .styleCursor(false);
+            });
         }
 
         function toggleActiveGapState($target) {
