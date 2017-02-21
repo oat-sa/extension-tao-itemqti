@@ -130,7 +130,6 @@ define([
                 input.removeAttribute('disabled');
             }
 
-
             instructionMgr.validateInstructions(interaction, {choice : $choiceBox});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
