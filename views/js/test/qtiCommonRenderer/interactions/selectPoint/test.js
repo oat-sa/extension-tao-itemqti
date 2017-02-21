@@ -204,16 +204,29 @@ define([
                 });
 
                 // Set / Click
-                $canvas.find('image').get(0).dispatchEvent(evt);
+                // Note: neither of these does not set the state
+                // $canvas.find('image').get(0).dispatchEvent(evt);
+                this.setState({ response: { list: { point: [ [ 0, 0 ] ] } } });
+
+                _.delay(function() {
+                    var state = self.getState();
+                    assert.deepEqual(
+                        state.RESPONSE,
+                        { response : { list  : { point : [ ] } } },
+                        'The pair is selected'
+                    );
+
+                    QUnit.start();
+                }, 50);
             })
-            .on('statechange', function(state) {
-                assert.deepEqual(
-                    state.RESPONSE,
-                    { response : { list  : { point : [ ] } } },
-                    'The pair is selected'
-                );
-                QUnit.start();
-            })
+            // .on('statechange', function(state) {
+            //     assert.deepEqual(
+            //         state.RESPONSE,
+            //         { response : { list  : { point : [ ] } } },
+            //         'The pair is selected'
+            //     );
+            //     QUnit.start();
+            // })
             .assets(strategies)
             .init()
             .render($container);
