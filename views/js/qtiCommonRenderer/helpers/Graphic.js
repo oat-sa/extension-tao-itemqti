@@ -233,6 +233,11 @@ define([
             var imgWidth  = options.width  || $container.innerWidth();
             var imgHeight = options.height || $container.innerHeight();
 
+            paper    = scaleRaphael(id, imgWidth, imgHeight);
+            image    = paper.image(options.img, 0, 0, imgWidth, imgHeight);
+            image.id = options.imgId || image.id;
+            paper.setViewBox(0, 0, imgWidth, imgHeight);
+
             resizer();
 
             //retry to resize once the SVG is loaded
@@ -257,15 +262,15 @@ define([
              * @private
              */
             function resizePaper(e, givenWidth) {
+                var diff, maxWidth, containerWidth, containerHeight, factor;
+
                 if (e) {
                     e.stopPropagation();
                 }
 
-                var diff            = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
-                var maxWidth        = $body.width();
-                var containerWidth  = $container.innerWidth();
-                var factor          = containerWidth / imgWidth;
-                var containerHeight;
+                diff           = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
+                maxWidth       = $body.width();
+                containerWidth = $container.innerWidth();
 
                 if (containerWidth > 0 || givenWidth > 0) {
 
@@ -277,21 +282,11 @@ define([
                         containerWidth -= diff;
                     }
 
-                    containerHeight = imgHeight * (containerWidth / imgWidth);
+                    factor          = containerWidth / imgWidth;
+                    containerHeight = imgHeight * factor;
 
-                    if (!paper) {
-                        paper    = scaleRaphael(id, containerWidth, containerHeight);
-                        paper.w  = imgWidth;
-                        paper.h  = imgHeight;
-
-                        image    = paper.image(options.img, 0, 0, imgWidth, imgHeight);
-                        image.id = options.imgId || image.id;
-
-                        paper.setViewBox(0, 0, imgWidth, imgHeight);
-                    } else {
-                        if (containerWidth > 0) {
-                            paper.changeSize(containerWidth, containerHeight, false, false);
-                        }
+                    if (containerWidth > 0) {
+                        paper.changeSize(containerWidth, containerHeight, false, false);
                     }
 
                     if (typeof options.resize === 'function') {
