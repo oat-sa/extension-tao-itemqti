@@ -19,9 +19,9 @@
 define([
     'jquery',
     'taoQtiItem/runner/qtiItemRunner',
-    'ui/interactUtils',
+    'core/mouseEvent',
     'json!taoQtiItem/test/qtiCommonRenderer/interactions/selectPoint/qti.json'
-], function($, qtiItemRunner, interactUtils, selectPointData) {
+], function($, qtiItemRunner, triggerMouseEvent, selectPointData) {
     'use strict';
 
     var runner;
@@ -115,13 +115,7 @@ define([
                 var interaction = this._item.getInteractions()[0];
                 var $canvas = $('.main-image-box svg', $container);
 
-                var evt = new MouseEvent("click", {
-                    view: window,
-                    bubbles: true,
-                    cancelable: true,
-                });
-
-                $canvas.find('image').get(0).dispatchEvent(evt);
+                triggerMouseEvent($canvas.find('image').get(0), 'click', { bubbles: true });
 
                 _.delay(function() {
                     var $target;
@@ -154,14 +148,7 @@ define([
                 var interaction = this._item.getInteractions()[0];
                 var $canvas     = $('.main-image-box svg', $container);
 
-                var evt = new MouseEvent("click", {
-                    view: window,
-                    bubbles: true,
-                    cancelable: true,
-                });
-
-                // Set / Click
-                $canvas.find('image').get(0).dispatchEvent(evt);
+                triggerMouseEvent($canvas.find('image').get(0), 'click', { bubbles: true });
 
                 _.delay(function() {
                     var $target;
@@ -169,7 +156,7 @@ define([
                     $target = $canvas.find('path');
                     assert.equal($target.length, 1, 'click placed target on image');
 
-                    $canvas.find('rect').get(0).dispatchEvent(evt);
+                    triggerMouseEvent($canvas.find('rect').get(0), 'click', { bubbles: true });
 
                     _.delay(function() {
                         $target = $canvas.find('path');
