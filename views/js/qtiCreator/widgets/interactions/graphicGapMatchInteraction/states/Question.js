@@ -51,18 +51,16 @@ define([
      * Media size runs not in automated mode, this applies the values manually
      *
      * @param params
-     * @param factor
      */
-    function applyMediasizerValues(params, factor) {
-        factor = factor || 1;
-
+    function applyMediasizerValues(params) {
         // css() + attr() for consistency
-        params.$target.css({
-            width: params.width * factor,
-            height: params.height * factor
-        })
-            .attr('width', params.width * factor)
-            .attr('height', params.height * factor);
+        params.$target
+            .css({
+                width: params.width,
+                height: params.height
+            })
+            .attr('width', params.width)
+            .attr('height', params.height);
     }
 
 

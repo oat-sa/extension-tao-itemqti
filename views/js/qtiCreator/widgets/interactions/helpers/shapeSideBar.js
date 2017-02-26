@@ -123,7 +123,6 @@ define([
             }); 
              
 
-            $container.trigger('resize.qti-widget.' + serial); 
             return $sideBar;
         },
 
@@ -132,7 +131,6 @@ define([
             if($sideBar.length){
                 $sideBar.remove();
                 $container.off('resize.qti-widget.sidebar');
-                $container.trigger('resize.qti-widget'); 
             }
         }
     };
