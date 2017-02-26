@@ -92,8 +92,7 @@ define([
         instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
-        // interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
-        interaction.paper = widget.createPaper();
+        interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
         widget.createChoices();
         widget.createGapImgs();
     }

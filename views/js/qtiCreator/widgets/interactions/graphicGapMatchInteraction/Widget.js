@@ -90,8 +90,6 @@ define([
          * @param {Number} [factor = 1] - scaling factor
          */
         scaleGapList : function(newSize, factor){
-            console.log('scaleGapList', newSize, factor);
-            debugger;
 
            var $container = this.$original;
            var $gapList   = $('ul.source', $container);
