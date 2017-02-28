@@ -45,6 +45,13 @@ define([
          * Initialize the plugin (called during itemCreator's init)
          */
         init : function init(){
+            var itemCreator = this.getHost();
+
+            itemCreator.on('exit', function(){
+                if (history) {
+                    history.back();
+                }
+            });
             this.$element = $(buttonTpl({
                 icon: 'left',
                 title: __('Back to Manage Items'),
@@ -52,9 +59,7 @@ define([
                 cssClass: 'back-action'
             })).on('click', function backHandler(e){
                 e.preventDefault();
-                if (history) {
-                    history.back();
-                }
+                itemCreator.trigger('exit');
             });
             this.hide();
         },

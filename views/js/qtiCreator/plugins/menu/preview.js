@@ -52,18 +52,22 @@ define([
 
             var self = this;
             var itemCreator = this.getHost();
+
+
+
+
             var item = itemCreator.getItem();
-            var needSave  = !!item.data('new');
-            var itemData;
+            //var needSave  = !!item.data('new');
+            //var itemData;
 
             //wrap the preview opening
             //TODO move away the URLs !!!
-            var openPreview = function openPreview(){
+            itemCreator.on('preview', function(){
                 preview.init(urlUtil.build(itemCreator.getConfig().properties.previewUrl, {
                     uri: item.data('uri')
                 }));
                 preview.show();
-            };
+            });
 
             //creates the preview button
             this.$element = $(buttonTpl({
@@ -75,52 +79,53 @@ define([
                 e.preventDefault();
                 self.disable();
 
-                if(!needSave){
-                    if(itemData !== itemSerializer.serialize(itemCreator.getItem())){
-                        needSave = true;
-                    }
-                }
+                itemCreator.trigger('preview');
 
-                if(needSave){
-                    dialogConfirm(__('The item needs to be saved before it can be previewed'), function accept(){
-                        needSave = false;
-                        itemData  = itemSerializer.serialize(itemCreator.getItem());
+                self.enable();
 
-                        //save, wait for saved and open the preview
-                        itemCreator.on('saved.preview', function(){
-                            this.off('saved.preview');
-                            openPreview();
+                //if(!needSave){
+                    //if(itemData !== itemSerializer.serialize(itemCreator.getItem())){
+                        //needSave = true;
+                    //}
+                //}
 
-                        })
-                        //trigger a slient save
-                        .trigger('save', true);
+                //if(needSave){
+                    //dialogConfirm(__('The item needs to be saved before it can be previewed'), function accept(){
+                        //needSave = false;
+                        //itemData  = itemSerializer.serialize(itemCreator.getItem());
+
+                        ////save, wait for saved and open the preview
+                        //itemCreator.on('saved.preview', function(){
+                            //this.off('saved.preview');
+                            //openPreview();
+
+                        //})
+                        ////trigger a slient save
+                        //.trigger('save', true);
 
 
-                        self.enable();
-                    }, function refuse(){
-                        self.enable();
-                    });
-                } else {
-                    openPreview();
-                    self.enable();
-                }
+                        //self.enable();
+                    //}, function refuse(){
+                        //self.enable();
+                    //});
+                //} else {
+                    //openPreview();
+                    //self.enable();
+                //}
             });
-
-            this.hide();
-            this.disable();
 
             //the item is modified by the creator, so we serialize it once ready, only
-            itemCreator.on('ready', function(){
-                itemData = itemSerializer.serialize(item);
-                self.enable();
-            });
+            //itemCreator.on('ready', function(){
+                //itemData = itemSerializer.serialize(item);
+                //self.enable();
+            //});
 
             //we need to save before preview of style has changed (because style content is not part of the item model)
-            $(document)
-                .off('stylechange.qti-creator')
-                .on('stylechange.qti-creator', function (event, detail) {
-                    needSave = !detail || !detail.initializing;
-                });
+            //$(document)
+                //.off('stylechange.qti-creator')
+                //.on('stylechange.qti-creator', function (event, detail) {
+                    //needSave = !detail || !detail.initializing;
+                //});
         },
 
         render : function render(){
@@ -128,7 +133,6 @@ define([
             //attach the element to the menu area
             var $container = this.getAreaBroker().getMenuArea();
             $container.append(this.$element);
-            this.show();
         },
 
         /**
