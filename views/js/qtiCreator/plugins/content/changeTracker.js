@@ -23,14 +23,18 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'jquery',
     'lodash',
     'i18n',
     'core/plugin',
     'core/promise',
     'ui/dialog/confirm',
-], function(_, __, pluginFactory, Promise, dialog){
+], function($, _, __, pluginFactory, Promise, dialog){
     'use strict';
 
+    /**
+     * The messages asking to save
+     */
     var messages = {
         preview : __('The item needs to be saved before it can be previewed'),
         leave   : __('The item has unsaved changes, are you sure you want to leave ?'),
@@ -50,8 +54,13 @@ define([
          */
         init : function init(){
 
-
             var itemCreator = this.getHost();
+            var $container  = this.getAreaBroker().getContainer();
+
+            /**
+             * Get a string representation of the current item, used for comparison
+             * @returns {String} the item
+             */
             var getSerializedItem = function getSerializedItem() {
                 var serialized = '';
                 try {
@@ -61,27 +70,43 @@ define([
                 }
                 return serialized;
             };
+
+            //keep the value of the item before changes
             var originalItem = getSerializedItem();
 
+            //does the item styles have changed
+            var styleChanges = false;
+
+            /**
+             * Does the item have changed ?
+             * @returns {Boolean}
+             */
             var hasChanged  = function hasChanged(){
                 var currentItem = getSerializedItem();
-                if(originalItem !== currentItem || (_.isNull(currentItem) && _.isNull(originalItem))){
-                    originalItem = currentItem;
-                    return true;
-                }
-                return false;
+                return styleChanges || originalItem !== currentItem || (_.isNull(currentItem) && _.isNull(originalItem));
             };
 
+            /**
+             * Save the current item, quietly (without popup notifications)
+             * @returns {Promise} resolves once saved
+             */
             var silentSave = function silentSave(){
                 return new Promise(function(resolve){
-                    itemCreator.on('saved.silent', function(){
-                        itemCreator.off('saved.silent');
-                        resolve();
-                    })
-                    .trigger('save', true);
+                    itemCreator
+                        .on('saved.silent', function(){
+                            this.off('saved.silent');
+                            originalItem = getSerializedItem();
+                            styleChanges = false;
+                            resolve();
+                        })
+                        .trigger('save', true);
                 });
             };
 
+            /**
+             * Display a confirmation dialog, "ok" means
+             * @returns {Promise} resolves once saved
+             */
             var confirmBefore = function confirmBefore(message){
                 return new Promise(function(resolve, reject){
                     if(hasChanged()){
@@ -94,15 +119,35 @@ define([
                 });
             };
 
+            $(document).on('stylechange.qti-creator', function (e, detail) {
+                if(!detail || !detail.initializing){
+                    styleChanges = true;
+                }
+            });
+
+            //add a browser popup to prevent leaving the browser
             window.addEventListener("beforeunload", function (e) {
-                (e || window.event).returnValue = messages.leave;
-                return messages.leave;
+                if(hasChanged()){
+                    (e || window.event).returnValue = messages.leave;
+                    return messages.leave;
+                }
+            });
+
+            //every click outside the authoring
+            $('.content-wrap').on('click', function(e){
+                if(!$.contains($container.get(0), e.target)){
+                    if(hasChanged()){
+                        e.stopImmediatePropagation();
+                        e.preventDefault();
+
+                        confirmBefore(messages.exit).then(function(){
+                            $(e.target).trigger('click');
+                        });
+                    }
+                }
             });
 
             itemCreator
-                .on('saved', function(){
-                    originalItem = getSerializedItem();
-                })
                 .before('exit', function(){
                     return confirmBefore(messages.exit);
                 })
