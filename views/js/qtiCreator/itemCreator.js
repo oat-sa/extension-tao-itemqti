@@ -320,7 +320,7 @@ define([
                     self.trigger('destroy');
                 })
                 .catch(function(err){
-                    self.trigger('destroy', err);
+                    self.trigger('error', err);
                 });
                 return this;
             },

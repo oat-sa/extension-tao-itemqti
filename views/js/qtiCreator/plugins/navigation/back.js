@@ -43,6 +43,7 @@ define([
 
         /**
          * Initialize the plugin (called during itemCreator's init)
+         * @fires {itemCreator#exit}
          */
         init : function init(){
             var itemCreator = this.getHost();

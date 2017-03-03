@@ -76,7 +76,7 @@ define([
 
                 self.disable();
 
-                itemCreator.trigger('preview', itemCreator.getItem());
+                itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
 
                 self.enable();
             });
