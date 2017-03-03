@@ -37,6 +37,7 @@ use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_PciStateOutput;
 use \taoQtiCommon_helpers_Utils;
 use \common_ext_ExtensionsManager;
+use qtism\common\datatypes\files\FileSystemFileManager;
 use qtism\runtime\common\State;
 use qtism\runtime\tests\SessionManager;
 use qtism\runtime\tests\AssessmentItemSession;
@@ -107,7 +108,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
                 // Do not take into account QTI Files at preview time.
                 // Simply delete the created file.
                 if (taoQtiCommon_helpers_Utils::isQtiFile($var, false) === true) {
-                    $fileManager = taoQtiCommon_helpers_Utils::getFileDatatypeManager();
+                    $fileManager = new FileSystemFileManager();
                     $fileManager->delete($var->getValue());
                 }
                 else {
