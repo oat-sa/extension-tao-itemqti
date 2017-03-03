@@ -154,7 +154,7 @@ define([
                 var self = this;
 
                 //instantiate the plugins first
-                _.forEach(pluginFactories, function(pluginFactory, pluginName){
+                _.forEach(pluginFactories, function(pluginFactory){
                     var plugin = pluginFactory(self, areaBroker);
                     plugins[plugin.getName()] = plugin;
                 });
@@ -186,8 +186,15 @@ define([
                         self.trigger('saved');
                     }).catch(function(err){
                         self.trigger('error', err);
-                        self.trigger('saveerror', err);
                     });
+                });
+
+                /**
+                 * Exit the item creator
+                 * @event itemCreator#exit
+                 */
+                this.on('exit', function(){
+                    this.destroy();
                 });
 
                 //performs the loadings in parallel
@@ -271,28 +278,28 @@ define([
                          .all(item.postRender(_.clone(config.properties)))
                          .then(function(){
 
-                            //set reference to item widget object
-                            areaBroker.getContainer().data('widget', item);
+                             //set reference to item widget object
+                             areaBroker.getContainer().data('widget', item);
 
-                            widget = item.data('widget');
-                            _.each(item.getComposingElements(), function(element){
-                                if(element.qtiClass === 'include'){
-                                    xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
-                                }
-                            });
+                             widget = item.data('widget');
+                             _.each(item.getComposingElements(), function(element){
+                                 if(element.qtiClass === 'include'){
+                                     xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                                 }
+                             });
 
-                            propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
+                             propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
 
-                            //init event listeners:
-                            eventHelper.initElementToWidgetListeners();
+                             //init event listeners:
+                             eventHelper.initElementToWidgetListeners();
 
-                            return pluginRun('render').then(function(){
-                                self.trigger('render');
-                            });
-                        })
-                        .catch(function(err){
-                            self.trigger('error', err);
-                        });
+                             return pluginRun('render').then(function(){
+                                 self.trigger('render');
+                             });
+                         })
+                         .catch(function(err){
+                             self.trigger('error', err);
+                         });
 
                     }, item.getUsedClasses());
 
@@ -305,7 +312,16 @@ define([
              * @returns {itemCreator} chains
              */
             destroy : function destroy(){
-                //not yet implemented
+                var self = this;
+
+                $(document).off('.qti-widget');
+
+                pluginRun('destroy').then(function(){
+                    self.trigger('destroy');
+                })
+                .catch(function(err){
+                    self.trigger('error', err);
+                });
                 return this;
             },
 
@@ -326,9 +342,7 @@ define([
             getConfig : function getConfig(){
                 return config;
             }
-
         });
-
 
         return itemCreator;
     };
