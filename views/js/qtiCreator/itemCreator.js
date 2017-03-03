@@ -186,8 +186,15 @@ define([
                         self.trigger('saved');
                     }).catch(function(err){
                         self.trigger('error', err);
-                        self.trigger('saveerror', err);
                     });
+                });
+
+                /**
+                 * Exit the item creator
+                 * @event itemCreator#exit
+                 */
+                this.on('exit', function(){
+                    this.destroy();
                 });
 
                 //performs the loadings in parallel
@@ -305,7 +312,16 @@ define([
              * @returns {itemCreator} chains
              */
             destroy : function destroy(){
-                //not yet implemented
+                var self = this;
+
+                $(document).off('.qti-widget');
+
+                pluginRun('destroy').then(function(){
+                    self.trigger('destroy');
+                })
+                .catch(function(err){
+                    self.trigger('destroy', err);
+                });
                 return this;
             },
 
