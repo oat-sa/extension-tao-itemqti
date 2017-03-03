@@ -14,11 +14,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
 /**
- * This plugin displays the item label (from
+ * This plugin tracks item changes and prevents you to loose them.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -31,6 +31,9 @@ define([
     'ui/dialog/confirm',
 ], function($, _, __, pluginFactory, Promise, dialog){
     'use strict';
+
+    //function to remove all global handlers
+    var removeChangeHandlers;
 
     /**
      * The messages asking to save
@@ -74,6 +77,7 @@ define([
             //keep the value of the item before changes
             var originalItem = getSerializedItem();
 
+
             //does the item styles have changed
             var styleChanges = false;
 
@@ -95,65 +99,107 @@ define([
                     itemCreator
                         .on('saved.silent', function(){
                             this.off('saved.silent');
-                            originalItem = getSerializedItem();
-                            styleChanges = false;
                             resolve();
                         })
                         .trigger('save', true);
                 });
             };
 
+            //are we doing the confirm process ?
+            var asking = false;
+
             /**
              * Display a confirmation dialog, "ok" means
+             * @param {String} message - the confirm message to display
              * @returns {Promise} resolves once saved
              */
             var confirmBefore = function confirmBefore(message){
                 return new Promise(function(resolve, reject){
+                    if(asking){
+                        return reject();
+                    }
+                    asking = true;
                     if(hasChanged()){
                         dialog(message, function accept(){
                             return silentSave().then(resolve);
-                        }, reject);
+                        }, function cancel(){
+                            asking = false;
+                            reject();
+                        });
                     } else {
                         resolve();
                     }
+                }).then(function(){
+                    asking = false;
                 });
             };
 
+            /**
+             * Just unbind some handlers
+             */
+            removeChangeHandlers = function removeHandlers(){
+                $(document).off('stylechange.qti-creator');
+                $('.content-wrap').off('click.qti-creator');
+                $(window).off("beforeunload.qti-creator");
+            };
+
+            //also track style changes
             $(document).on('stylechange.qti-creator', function (e, detail) {
                 if(!detail || !detail.initializing){
                     styleChanges = true;
                 }
             });
 
-            //add a browser popup to prevent leaving the browser
-            window.addEventListener("beforeunload", function (e) {
-                if(hasChanged()){
-                    (e || window.event).returnValue = messages.leave;
-                    return messages.leave;
-                }
-            });
+            $(window)
+                //add a browser popup to prevent leaving the browser
+                .on("beforeunload.qti-creator", function () {
+                    if(!asking && hasChanged()){
+                        return messages.leave;
+                    }
+                })
+                //since we don't know how to prevent history based events,
+                //we just stop the handling
+                .on('popstate', function(){
+
+                    removeChangeHandlers();
+                });
 
             //every click outside the authoring
-            $('.content-wrap').on('click', function(e){
+            $('.content-wrap').on('click.qti-creator', function(e){
                 if(!$.contains($container.get(0), e.target)){
                     if(hasChanged()){
                         e.stopImmediatePropagation();
                         e.preventDefault();
 
-                        confirmBefore(messages.exit).then(function(){
-                            $(e.target).trigger('click');
-                        });
+                        confirmBefore(messages.exit)
+                            .then(function(){
+                                $(e.target).trigger('click');
+                            })
+                            .catch(_.noop); //do nothing but prevent uncacthed error
                     }
                 }
             });
 
             itemCreator
+                .on('saved', function(){
+                    originalItem = getSerializedItem();
+                    styleChanges = false;
+                })
                 .before('exit', function(){
                     return confirmBefore(messages.exit);
                 })
                 .before('preview', function(){
                     return confirmBefore(messages.preview);
                 });
+        },
+
+        /**
+         * Plugin destroy cycle
+         */
+        destroy : function destroy(){
+            if(_.isFunction(removeChangeHandlers)){
+                removeChangeHandlers();
+            }
         }
     });
 });

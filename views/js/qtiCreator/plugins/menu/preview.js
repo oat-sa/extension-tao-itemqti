@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -30,11 +30,9 @@ define([
     'core/plugin',
     'ui/hider',
     'taoItems/preview/preview',
-    'taoQtiItem/qtiCreator/helper/itemSerializer',
-    'ui/dialog/confirm',
     'tpl!taoQtiItem/qtiCreator/plugins/button',
     'util/url'
-], function($, __, pluginFactory, hider, preview, itemSerializer, dialogConfirm, buttonTpl, urlUtil){
+], function($, __, pluginFactory, hider, preview, buttonTpl, urlUtil){
     'use strict';
 
     /**
@@ -47,24 +45,22 @@ define([
 
         /**
          * Initialize the plugin (called during itemCreator's init)
+         * @fires {itemCreator#preview}
          */
         init : function init(){
-
             var self = this;
             var itemCreator = this.getHost();
 
+            /**
+             * Preview an item
+             * @event itemCreator#preview
+             * @param {String} uri - the uri of this item to preview
+             */
+            itemCreator.on('preview', function(uri){
 
-
-
-            var item = itemCreator.getItem();
-            //var needSave  = !!item.data('new');
-            //var itemData;
-
-            //wrap the preview opening
-            //TODO move away the URLs !!!
-            itemCreator.on('preview', function(){
+                //TODO move away the URLs !!!
                 preview.init(urlUtil.build(itemCreator.getConfig().properties.previewUrl, {
-                    uri: item.data('uri')
+                    uri: uri
                 }));
                 preview.show();
             });
@@ -77,57 +73,18 @@ define([
                 cssClass: 'preview-trigger'
             })).on('click', function previewHandler(e){
                 e.preventDefault();
+
                 self.disable();
 
-                itemCreator.trigger('preview');
+                itemCreator.trigger('preview', itemCreator.getItem());
 
                 self.enable();
-
-                //if(!needSave){
-                    //if(itemData !== itemSerializer.serialize(itemCreator.getItem())){
-                        //needSave = true;
-                    //}
-                //}
-
-                //if(needSave){
-                    //dialogConfirm(__('The item needs to be saved before it can be previewed'), function accept(){
-                        //needSave = false;
-                        //itemData  = itemSerializer.serialize(itemCreator.getItem());
-
-                        ////save, wait for saved and open the preview
-                        //itemCreator.on('saved.preview', function(){
-                            //this.off('saved.preview');
-                            //openPreview();
-
-                        //})
-                        ////trigger a slient save
-                        //.trigger('save', true);
-
-
-                        //self.enable();
-                    //}, function refuse(){
-                        //self.enable();
-                    //});
-                //} else {
-                    //openPreview();
-                    //self.enable();
-                //}
             });
-
-            //the item is modified by the creator, so we serialize it once ready, only
-            //itemCreator.on('ready', function(){
-                //itemData = itemSerializer.serialize(item);
-                //self.enable();
-            //});
-
-            //we need to save before preview of style has changed (because style content is not part of the item model)
-            //$(document)
-                //.off('stylechange.qti-creator')
-                //.on('stylechange.qti-creator', function (event, detail) {
-                    //needSave = !detail || !detail.initializing;
-                //});
         },
 
+        /**
+         * Initialize the plugin (called during itemCreator's render)
+         */
         render : function render(){
 
             //attach the element to the menu area
