@@ -109,7 +109,10 @@ define([
             var asking = false;
 
             /**
-             * Display a confirmation dialog, "ok" means
+             * Display a confirmation dialog,
+             * The "ok" button will save and resolve.
+             * The "cancel" button will reject.
+             *
              * @param {String} message - the confirm message to display
              * @returns {Promise} resolves once saved
              */
