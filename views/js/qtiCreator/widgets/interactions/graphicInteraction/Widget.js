@@ -59,7 +59,7 @@ define([
                     container   : $container,
                     resize      : function() {
                         if(typeof resize === 'function') {
-                            resize.call(this, arguments);
+                            resize.apply(this, arguments);
                         }
                     }
                 });

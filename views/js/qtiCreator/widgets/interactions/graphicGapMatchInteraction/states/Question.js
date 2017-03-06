@@ -51,18 +51,16 @@ define([
      * Media size runs not in automated mode, this applies the values manually
      *
      * @param params
-     * @param factor
      */
-    function applyMediasizerValues(params, factor) {
-        factor = factor || 1;
-
+    function applyMediasizerValues(params) {
         // css() + attr() for consistency
-        params.$target.css({
-            width: params.width * factor,
-            height: params.height * factor
-        })
-            .attr('width', params.width * factor)
-            .attr('height', params.height * factor);
+        params.$target
+            .css({
+                width: params.width,
+                height: params.height
+            })
+            .attr('width', params.width)
+            .attr('height', params.height);
     }
 
 
@@ -324,16 +322,25 @@ define([
                         applyMediasizerValues(params, widget.$original.data('factor'));
                     });
 
-                $mediaSizer.empty().mediasizer({
-                    target: $gapImgElem,
-                    showResponsiveToggle: false,
-                    showSync: false,
-                    responsive: false,
-                    parentSelector: $gapImgBox,
-                    // needs to be done on.sizechange.mediasizer to take in account the scale factor
-                    applyToMedium: false,
-                    maxWidth: interaction.object.attr('width')
-                });
+                // Wait for image to load before initializing mediasizer
+                if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
+                    initMediasizer();
+                } else {
+                    $gapImgElem.one('load', initMediasizer);
+                }
+
+                function initMediasizer() {
+                    $mediaSizer.empty().mediasizer({
+                        target: $gapImgElem,
+                        showResponsiveToggle: false,
+                        showSync: false,
+                        responsive: false,
+                        parentSelector: $gapImgBox,
+                        // needs to be done on.sizechange.mediasizer to take in account the scale factor
+                        applyToMedium: false,
+                        maxWidth: interaction.object.attr('width')
+                    });
+                }
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
 
