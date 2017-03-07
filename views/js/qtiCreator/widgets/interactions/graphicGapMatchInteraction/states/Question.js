@@ -52,12 +52,12 @@ define([
      *
      * @param params
      */
-    function applyMediasizerValues(params) {
+    function applyMediasizerValues(params, factor) {
         // css() + attr() for consistency
         params.$target
             .css({
-                width: params.width,
-                height: params.height
+                width: params.width * factor,
+                height: params.height * factor
             })
             .attr('width', params.width)
             .attr('height', params.height);
@@ -319,6 +319,12 @@ define([
                 //init media sizer
                 $mediaSizer = $choiceForm.find('.media-sizer-panel')
                     .on('create.mediasizer', function(e, params) {
+                        // On creation, mediasizer uses style properties to set
+                        // width and height, but our image needs to use the
+                        // it's attributes to set and resize properly.
+                        params.width = $gapImgElem.attr('width');
+                        params.height = $gapImgElem.attr('height');
+
                         applyMediasizerValues(params, widget.$original.data('factor'));
                     });
 
@@ -330,6 +336,11 @@ define([
                 }
 
                 function initMediasizer() {
+                    // Hack to manually set mediasizer to use gapImg's height
+                    // and width attributes (instead of it's style properties).
+                    $gapImgElem.width($gapImgElem.attr('width'));
+                    $gapImgElem.height($gapImgElem.attr('height'));
+
                     $mediaSizer.empty().mediasizer({
                         target: $gapImgElem,
                         showResponsiveToggle: false,
