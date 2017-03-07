@@ -3,9 +3,10 @@ define([
     'lodash',
     'taoItems/runner/api/itemRunner',
     'taoQtiItem/runner/provider/qti',
+    'taoQtiItem/portableElementRegistry/icRegistry',
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
     'json!taoQtiItem/test/samples/json/space-shuttle-pic.json'
-], function($, _, itemRunner, qtiRuntimeProvider, itemData, itemDataPic){
+], function($, _, itemRunner, qtiRuntimeProvider, icRegistry, itemData, itemDataPic){
     'use strict';
 
     var runner;
@@ -24,8 +25,7 @@ define([
 
     QUnit.module('Register the provider', {
         teardown : function(){
-            //reset the provider
-            itemRunner.providers = undefined;
+            itemRunner.providers = null;
         }
     });
 
@@ -46,8 +46,7 @@ define([
 
     QUnit.module('Provider init', {
         teardown : function(){
-            //reset the provides
-            itemRunner.providers = undefined;
+            itemRunner.providers = null;
         }
     });
 
@@ -56,14 +55,12 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-
         itemRunner('qti', itemData)
           .on('init', function(){
+              assert.ok(typeof this._item === 'object', 'The item data is loaded and mapped to an object');
+              assert.ok(typeof this._item.bdy === 'object', 'The item contains a body object');
 
-            assert.ok(typeof this._item === 'object', 'The item data is loaded and mapped to an object');
-            assert.ok(typeof this._item.bdy === 'object', 'The item contains a body object');
-
-            QUnit.start();
+              QUnit.start();
           }).init();
     });
 
@@ -75,10 +72,10 @@ define([
         itemRunner('qti', { foo : true})
           .on('error', function(message){
 
-            assert.ok(true, 'The provider triggers an error event');
-            assert.ok(typeof message === 'string', 'The error is a string');
+              assert.ok(true, 'The provider triggers an error event');
+              assert.ok(typeof message === 'string', 'The error is a string');
 
-            QUnit.start();
+              QUnit.start();
           }).init();
     });
 
@@ -87,15 +84,14 @@ define([
         teardown : function(){
             //reset the provides
             runner.clear();
-            itemRunner.providers = undefined;
-
+            itemRunner.providers = null;
         }
     });
 
     QUnit.asyncTest('Item rendering', function(assert){
-        QUnit.expect(3);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(3);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
         assert.equal(container.children.length, 0, 'the container has no children');
@@ -114,9 +110,10 @@ define([
     });
 
     QUnit.asyncTest('Issue in rendering', function(assert){
-        QUnit.expect(4);
         var count = 0;
         var container = document.getElementById(containerId);
+
+        QUnit.expect(4);
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
@@ -129,7 +126,7 @@ define([
                 assert.ok(true, 'The provider triggers an error event');
                 assert.ok(typeof message === 'string', 'The error is a string');
                 if(count > 0){
-                   QUnit.start();
+                    QUnit.start();
                 }
                 count++;
             })
@@ -140,15 +137,14 @@ define([
 
     QUnit.module('Provider clear', {
         teardown : function(){
-            //reset the provides
-            itemRunner.providers = undefined;
+            itemRunner.providers = null;
         }
     });
 
     QUnit.asyncTest('Clear a rendered item', function(assert){
-        QUnit.expect(4);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(4);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
         assert.equal(container.children.length, 0, 'the container has no children');
@@ -177,14 +173,14 @@ define([
         teardown : function(){
             //reset the provides
             runner.clear();
-            itemRunner.providers = undefined;
+            itemRunner.providers = null;
         }
     });
 
     QUnit.asyncTest('default state structure', function(assert){
-        QUnit.expect(4);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(4);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
@@ -205,9 +201,9 @@ define([
     });
 
     QUnit.asyncTest('get state after changes', function(assert){
-        QUnit.expect(12);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(12);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
@@ -215,7 +211,7 @@ define([
 
         runner = itemRunner('qti', itemData)
             .on('error', function(e){
-                console.error(e);
+                assert.ok(false, 'Unexpected error : ' + e.message);
             })
             .on('render', function(){
 
@@ -254,9 +250,9 @@ define([
     });
 
     QUnit.asyncTest('set state', function(assert){
-        QUnit.expect(3);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(3);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
@@ -278,9 +274,9 @@ define([
     });
 
     QUnit.asyncTest('set multiple  states', function(assert){
-        QUnit.expect(8);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(8);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
@@ -314,9 +310,9 @@ define([
     });
 
     QUnit.asyncTest('listen state changes', function(assert){
-        QUnit.expect(10);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(10);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
@@ -351,16 +347,15 @@ define([
 
     QUnit.module('Provider responses', {
         teardown : function(){
-            //reset the provides
             runner.clear();
-            itemRunner.providers = undefined;
+            itemRunner.providers = null;
         }
     });
 
     QUnit.asyncTest('no responses set', function(assert){
-        QUnit.expect(4);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(4);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
@@ -381,9 +376,9 @@ define([
     });
 
     QUnit.asyncTest('get responses after changes', function(assert){
-        QUnit.expect(7);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(7);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
@@ -414,28 +409,38 @@ define([
 
 
     QUnit.module('Provider PIC', {
+        setup : function(){
+            icRegistry.resetProviders();
+        },
         teardown : function(){
-            //reset the provides
             runner.clear();
-            itemRunner.providers = undefined;
+            itemRunner.providers = null;
+            icRegistry.resetProviders();
         }
     });
 
     QUnit.asyncTest('Get the list of PIC', function(assert){
-        QUnit.expect(17);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(17);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
         itemRunner.register('qti', qtiRuntimeProvider);
+        icRegistry.registerProvider('taoQtiItem/test/runner/provider/picMockProvider');
 
         runner = itemRunner('qti', itemDataPic)
+            .on('error', function(e){
+                assert.ok(false, 'Unexpected error : ' + e);
+                QUnit.start();
+            })
             .on('listpic', function(picManager){
+                var picList;
+
                 assert.ok(typeof picManager === 'object', 'the pic manager is an object');
                 assert.ok(typeof picManager.getList === 'function', 'the pic manager has a getList method');
 
-                var picList = picManager.getList();
+                picList = picManager.getList();
 
                 assert.ok(picList instanceof Array, 'the list is an array');
                 assert.equal(picList.length, 4, 'the list contains 4 items');
@@ -452,20 +457,21 @@ define([
     });
 
     QUnit.asyncTest('Get a particular PIC', function(assert){
-        QUnit.expect(17);
-
         var container = document.getElementById(containerId);
+
+        QUnit.expect(17);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
         itemRunner.register('qti', qtiRuntimeProvider);
+        icRegistry.registerProvider('taoQtiItem/test/runner/provider/picMockProvider');
 
         runner = itemRunner('qti', itemDataPic)
             .on('listpic', function(picManager){
+                var pic;
+
                 assert.ok(typeof picManager === 'object', 'the pic manager is an object');
                 assert.ok(typeof picManager.getPic === 'function', 'the pic manager has a getPic method');
-
-                var pic;
 
                 pic = picManager.getPic('picMock1');
                 assert.ok(typeof pic === 'object' , 'the pic manager is an object');
@@ -495,15 +501,18 @@ define([
 
 
     QUnit.asyncTest('PIC state', function(assert){
+        var container = document.getElementById(containerId);
+
         QUnit.expect(7);
 
-        var container = document.getElementById(containerId);
         assert.ok(container instanceof HTMLElement , 'the item container exists');
 
         itemRunner.register('qti', qtiRuntimeProvider);
+        icRegistry.registerProvider('taoQtiItem/test/runner/provider/picMockProvider');
 
         runner = itemRunner('qti', itemDataPic)
             .on('render', function(){
+                var newState;
                 var state = this.getState();
                 assert.ok(typeof state === 'object', 'The state is an object');
                 assert.ok(typeof state.pic === 'object', 'The state has a pic object');
@@ -515,8 +524,9 @@ define([
 
                 this.setState(state);
 
-                var newState = this.getState();
+                newState = this.getState();
                 assert.equal(newState.pic['mock-2'].foo, 'bar', 'The state values is set and retrieved');
+
                 QUnit.start();
             })
             .init()

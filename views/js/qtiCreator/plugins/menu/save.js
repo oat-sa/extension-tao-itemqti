@@ -61,7 +61,7 @@ define([
             this.hide();
             this.disable();
 
-            itemCreator.on('ready saved saveerror', function(){
+            itemCreator.on('ready saved error', function(){
                 self.enable();
             });
         },

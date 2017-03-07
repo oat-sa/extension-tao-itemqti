@@ -89,7 +89,7 @@ define([
 
             if(typeof (eltToBeRemoved) === 'string'){
                 targetSerial = eltToBeRemoved;
-                targetElt = Element.getElementBySerial[targetSerial];
+                targetElt = Element.getElementBySerial(targetSerial);
             }else if(eltToBeRemoved instanceof Element){
                 targetSerial = eltToBeRemoved.getSerial();
                 targetElt = eltToBeRemoved;

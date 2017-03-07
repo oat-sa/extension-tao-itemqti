@@ -16,11 +16,11 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['module'], function (module){
+define([], function (){
 
     'use strict';
 
-    var baseUrl = module.uri.substring(0, module.uri.indexOf('testProvider'));
+    var baseUrl = window.location.origin + '/taoQtiItem/views/js/test/ciRegistry/data/';
     var _registry0 = {
         samplePci : [
             {

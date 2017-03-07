@@ -86,9 +86,11 @@ define([
          * update height and enable the field
          */
         var switchToVideo = function switchToVideo(){
-            isAudio = false;
-            interaction.object.attr('height', defaultVideoHeight);
-            $heightContainer.show();
+            if(isAudio){
+                isAudio = false;
+                interaction.object.attr('height', defaultVideoHeight);
+                $heightContainer.show();
+            }
         };
 
         /**

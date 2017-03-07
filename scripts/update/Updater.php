@@ -433,15 +433,35 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(ItemCategoriesService::SERVICE_ID, $categoriesService);
             $this->setVersion('5.8.0');
         }
-        
-        $this->skip('5.8.0', '6.6.1');
 
-        if ($this->isVersion('6.6.1')) {
+        $this->skip('5.8.0', '6.8.1');
+
+        if ($this->isVersion('6.8.1')) {
+            $option = [
+                'flipDirectedPair' => true
+            ];
+            $registry = \oat\tao\model\ClientLibConfigRegistry::getRegistry();
+            $registry->register('taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction', $option);
+
+            $this->setVersion('6.8.2');
+        }
+
+        $this->skip('6.8.2', '6.10.1');
+
+        if ($this->isVersion('6.10.1')) {
+            $sharedLibRegistry->registerFromFile('OAT/mediaPlayer', $installBasePath . '/OAT/mediaPlayer.js');
+            $this->setVersion('6.11.0');
+        }
+
+
+        $this->skip('6.11.0', '6.17.0');
+
+        if ($this->isVersion('6.17.0')) {
             $updater = new InitMetadataService();
             $updater->setServiceLocator($this->getServiceManager());
             $updater([]);
-            $this->setVersion('6.7.0');
+            $this->setVersion('6.18.0');
         }
-    }
 
+    }
 }
