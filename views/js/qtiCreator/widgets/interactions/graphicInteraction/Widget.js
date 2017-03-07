@@ -33,14 +33,14 @@ define([
      * The Widget that provides components used by the QTI Creator for the Hotspot Interaction
      *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/Widget
-     */      
+     */
     var GraphicInteractionWidget = {
 
         /**
          * Create a basic Raphael paper or a placeholder of no bg is defined.
          * @param {Function} resize - called back on resize with the width and factor
          * @returns {Raphael.Paper} the raphael paper if initialized?
-         */ 
+         */
         createPaper : function(resize){
             var paper;
             var $container  = this.$original;
@@ -52,7 +52,7 @@ define([
                 this._createPlaceholder();
             } else {
                 paper = graphic.responsivePaper( 'graphic-paper-' + serial, serial, {
-                    width       : background.width, 
+                    width       : background.width,
                     height      : background.height,
                     img         : this.options.assetManager.resolve(background.data),
                     imgId       : 'bg-image-' + serial,
@@ -103,23 +103,23 @@ define([
 
         /**
          * call render choice for each interaction's choices
-         */ 
+         */
         createChoices : function(){
             _.forEach(this.element.getChoices(), this._currentChoices, this);
         },
-        
+
         /**
          * Add shape to the Raphael paper for a QTI choice
          * @private
-         * @param {Object} choice - the QTI choice 
-         */ 
+         * @param {Object} choice - the QTI choice
+         */
         _currentChoices : function(choice){
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
                 id          : choice.serial,
                 touchEffect : false
             });
         }
-   };
+    };
 
     return GraphicInteractionWidget;
 });

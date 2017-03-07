@@ -47,6 +47,8 @@ define([
 
     "use strict";
 
+    var GraphicGapMatchInteractionStateQuestion;
+
     /**
      * Media size runs not in automated mode, this applies the values manually
      *
@@ -68,7 +70,9 @@ define([
     /**
      * Question State initialization: set up side bar, editors and shae factory
      */
-    var initQuestionState = function initQuestionState() {
+    function initQuestionState() {
+        var $choiceForm, $formChoicePanel, $formInteractionPanel;
+        var $left, $top, $width, $height;
 
         var widget = this.widget;
         var interaction = widget.element;
@@ -85,11 +89,9 @@ define([
             return;
         }
 
-        var $choiceForm = widget.choiceForm;
-        var $formInteractionPanel = $('#item-editor-interaction-property-bar');
-        var $formChoicePanel = $('#item-editor-choice-property-bar');
-
-        var $left, $top, $width, $height;
+        $choiceForm = widget.choiceForm;
+        $formInteractionPanel = $('#item-editor-interaction-property-bar');
+        $formChoicePanel = $('#item-editor-choice-property-bar');
 
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
@@ -225,7 +227,7 @@ define([
          */
         function enterChoiceForm(serial) {
             var choice = interaction.getChoice(serial);
-            var element, bbox;
+            var element, bbox, callbacks;
 
             if (choice) {
 
@@ -251,7 +253,7 @@ define([
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                var callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
 
@@ -290,6 +292,7 @@ define([
 
             var callbacks,
                 gapImg = interaction.getGapImg(serial),
+                initMediasizer,
                 $gapImgBox,
                 $gapImgElem,
                 $mediaSizer;
@@ -328,14 +331,7 @@ define([
                         applyMediasizerValues(params, widget.$original.data('factor'));
                     });
 
-                // Wait for image to load before initializing mediasizer
-                if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
-                    initMediasizer();
-                } else {
-                    $gapImgElem.one('load', initMediasizer);
-                }
-
-                function initMediasizer() {
+                initMediasizer = function () {
                     // Hack to manually set mediasizer to use gapImg's height
                     // and width attributes (instead of it's style properties).
                     $gapImgElem.width($gapImgElem.attr('width'));
@@ -351,6 +347,13 @@ define([
                         applyToMedium: false,
                         maxWidth: interaction.object.attr('width')
                     });
+                };
+
+                // Wait for image to load before initializing mediasizer
+                if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
+                    initMediasizer();
+                } else {
+                    $gapImgElem.one('load', initMediasizer);
                 }
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
@@ -394,12 +397,12 @@ define([
                 }
             }
         }
-    };
+    }
 
     /**
      * Exit the question state, leave the room cleaned up
      */
-    var exitQuestionState = function exitQuestionState() {
+    function exitQuestionState() {
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
@@ -425,14 +428,14 @@ define([
         widget.$container.find('.qti-gapImg').removeClass('active')
             .find('.mini-tlb').remove();
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
-    };
+    }
 
     /**
      * The question state for the graphicGapMatch interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
      * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/Question
      */
-    var GraphicGapMatchInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
+    GraphicGapMatchInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
      * Initialize the form linked to the interaction
@@ -443,10 +446,6 @@ define([
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
-        var $container = widget.$original;
-        var isResponsive = $container.hasClass('responsive');
-        var $mediaSizer;
-        var $bgImage;
 
         $form.html(formTpl({
             baseUrl: options.baseUrl,

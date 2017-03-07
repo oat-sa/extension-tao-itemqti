@@ -319,7 +319,6 @@ define([
         createElement : function(paper, type, coords, options) {
             var self = this;
             var element;
-            var bbox;
             var shaper = shapeMap[type] ? paper[shapeMap[type]] : paper[type];
             var shapeCoords = options.qtiCoords !== false ? self.raphaelCoords(paper, type, coords) : coords;
 
@@ -379,20 +378,32 @@ define([
          * @param {Function} [options.remove] - call once removed
          */
         createTarget : function createTarget(paper, options) {
+            var baseSize,
+                count,
+                factor,
+                half,
+                hover,
+                layer,
+                point,
+                self,
+                tBBox,
+                targetSize,
+                x,
+                y,
+                target;
+
             options = options || {};
 
-            var target, layer, tBBox, count;
+            self   = this;
+            point  = options.point || {x : 0, y : 0};
+            factor = paper.w !== 0 ? paper.width / paper.w : 1;
+            hover  = typeof options.hover === 'undefined' ? true : !!options.hover;
 
-            var self   = this;
-            var point  = options.point || {x : 0, y : 0};
-            var factor = paper.w !== 0 ? paper.width / paper.w : 1;
-            var hover  = typeof options.hover === 'undefined' ? true : !!options.hover;
-
-            var baseSize   = 18; // this is the base size of the path element to be placed on svg (i.e. the path element crosshair is created to have a size of 18)
-            var half       = baseSize / 2;
-            var x          = point.x - half;
-            var y          = point.y - half;
-            var targetSize = factor !== 0 ? 2 / factor : 2;
+            baseSize   = 18; // this is the base size of the path element to be placed on svg (i.e. the path element crosshair is created to have a size of 18)
+            half       = baseSize / 2;
+            x          = point.x - half;
+            y          = point.y - half;
+            targetSize = factor !== 0 ? 2 / factor : 2;
 
             //create the target from a path
             target = paper
@@ -421,17 +432,17 @@ define([
                 .rect(tBBox.x, tBBox.y, tBBox.width, tBBox.height)
                 .attr(gstyle.layer)
                 .click(function() {
-                    var id    = target.id;
-                    var point = this.data('point');
+                    var id = target.id;
+                    var p  = this.data('point');
 
                     if (_.isFunction(options.select)) {
-                        options.select(target, point, this);
+                        options.select(target, p, this);
                     }
 
                     if (_.isFunction(options.remove)) {
                         this.remove();
                         target.remove();
-                        options.remove(id, point);
+                        options.remove(id, p);
                     }
                 });
 
@@ -544,7 +555,7 @@ define([
          * @returns {Raphael.Element} the created text
          */
         createText : function(paper, options) {
-            var fontSize, scaledFontSize;
+            var fontSize, scaledFontSize, text;
             var top     = options.top || 0;
             var left    = options.left || 0;
             var content = options.content || '';
@@ -556,7 +567,7 @@ define([
                 factor = paper.width / paper.w;
             }
 
-            var text = paper.text(left , top, content).toFront();
+            text = paper.text(left , top, content).toFront();
             if (options.id) {
                 text.id = options.id;
             }
@@ -597,8 +608,6 @@ define([
          * @returns {Raphael.Element} the created text
          */
         createShapeText : function(paper, shape, options) {
-            var fontSize, scaledFontSize;
-
             var self = this;
             var bbox = shape.getBBox();
 
@@ -769,7 +778,7 @@ define([
          * @param {Boolean} isResponsive - if the paper is scaling
          * @returns {Object} x,y point
          */
-        getPoint : function getPoint(event, paper, $container, isResponsive) {
+        getPoint : function getPoint(event, paper, $container) {
             var point  = this.clickPoint($container, event);
             var rect   = $container.get(0).getBoundingClientRect();
             var factor = paper.w / rect.width;
