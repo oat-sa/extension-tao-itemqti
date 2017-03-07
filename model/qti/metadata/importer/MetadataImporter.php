@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -52,7 +52,7 @@ class MetadataImporter extends AbstractMetadataService
     {
         foreach ($this->getGuardians() as $guardian) {
             if ($this->hasMetadataValue($identifier)) {
-                \common_Logger::i('Guard for resource "' . $identifier . '" ...');
+                \common_Logger::i(__('Guard for resource "%s"...', $identifier));
                 if (($guard = $guardian->guard($this->getMetadataValue($identifier))) !== false) {
                     return $guard;
                 }
@@ -79,9 +79,10 @@ class MetadataImporter extends AbstractMetadataService
         $targetClass = false;
         foreach ($this->getClassLookUp() as $classLookup) {
             if ($this->hasMetadataValue($identifier)) {
-                \common_Logger::i('Target Class Lookup for resource "' . $identifier . '" ...');
+                \common_Logger::i(__('Target Class Lookup for resource "%s"...', $identifier));
                 if (($targetClass = $classLookup->lookup($this->getMetadataValue($identifier))) !== false) {
-                    \common_Logger::i('Class Lookup Successful. Resource "' . $identifier . '" will be stored in RDFS Class "' . $targetClass->getUri() . '".');
+                    \common_Logger::i(__('Class Lookup Successful. Resource "%s" will be stored in RDFS Class "%s".',
+                        $identifier, $targetClass->getUri()));
 
                     if ($classLookup instanceof MetadataClassLookupClassCreator) {
                         $createdClasses = $classLookup->createdClasses();

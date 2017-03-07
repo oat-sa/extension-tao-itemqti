@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -27,6 +27,7 @@ use oat\oatbox\service\ConfigurableService;
  * Base class for a metadata Service e.q. MetadataExporter or MetadataImporter
  *
  * @package oat\taoQtiItem\model\qti\metadata
+ * @author Moyon Camille
  */
 abstract class AbstractMetadataService extends ConfigurableService
 {
@@ -73,7 +74,7 @@ abstract class AbstractMetadataService extends ConfigurableService
         foreach ($this->getExtractors() as $extractor) {
             $metadata = array_merge($metadata, $extractor->extract($domManifest));
         }
-        \common_Logger::i(count($metadata) . ' metadata values found in manifest by extractor(s).');
+        \common_Logger::i(__('%s metadata values found in manifest by extractor(s).', count($metadata)));
 
         return $metadata;
     }
@@ -90,12 +91,12 @@ abstract class AbstractMetadataService extends ConfigurableService
     public function inject($identifier, \core_kernel_classes_Resource $rdfItem)
     {
         if ($this->hasMetadataValue($identifier)) {
-            \common_Logger::i('Preparing Metadata Values for resource "' . $identifier . '"...');
+            \common_Logger::i(__('Preparing Metadata Values for resource "%s"...', $identifier));
             $values = $this->getMetadataValue($identifier);
 
             foreach ($this->getInjectors() as $injector) {
-                \common_Logger::i('Attempting to inject "' . count($values) . '" metadata values in database ' .
-                    ' for resource "' . $identifier . '" with Metadata Injector "' . get_class($injector) . '".');
+                \common_Logger::i(__('Attempting to inject "%s" metadata values in database for resource "%s" with Metadata Injector "%s".',
+                    count($values), $identifier), get_class($injector));
                 $injector->inject($rdfItem, array($identifier => $values));
             }
         }
