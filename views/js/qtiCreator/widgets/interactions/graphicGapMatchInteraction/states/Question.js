@@ -50,12 +50,19 @@ define([
     var GraphicGapMatchInteractionStateQuestion;
 
     /**
-     * Media size runs not in automated mode, this applies the values manually
+     * Apply size changes manually to mediasizer's target.
      *
-     * @param params
+     * @param {Object} params
+     * @param {number} factor
      */
     function applyMediasizerValues(params, factor) {
-        // css() + attr() for consistency
+        factor = factor || 1;
+
+        // The mediasizer target maintains a height and width (i.e. attributes)
+        // but is displayed according to a factor (i.e. styles). This matches
+        // the behavior of hotspots.
+        // This is because resize events utilize factor to adjust images, thus,
+        // the target's dimensions need to be maintained.
         params.$target
             .css({
                 width: params.width * factor,
