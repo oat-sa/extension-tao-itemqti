@@ -332,20 +332,20 @@ define([
             interact(rElement.node).dropzone({
                 overlap: 0.15,
                 ondragenter: function() {
-                    if (rElement.data('matching').length < rElement.data('max')) {
+                    if (_isMatchable(rElement)) {
                         graphic.setStyle(rElement, 'hover');
                         activeDrop = rElement.node;
                     }
                 },
                 ondrop: function () {
-                    if (rElement.data('matching').length < rElement.data('max')) {
+                    if (_isMatchable(rElement)) {
                         graphic.setStyle(rElement, 'selectable');
                         handleShapeSelect();
                         activeDrop = null;
                     }
                 },
                 ondragleave: function() {
-                    if (rElement.data('matching').length < rElement.data('max')) {
+                    if (_isMatchable(rElement)) {
                         graphic.setStyle(rElement, 'selectable');
                         activeDrop = null;
                     }
