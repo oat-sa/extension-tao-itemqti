@@ -38,7 +38,7 @@ abstract class AbstractMetadataService extends ConfigurableService
 
     /**
      * Config key to store extractors classes
-     */
+     */ 
     const EXTRACTOR_KEY = 'extractors';
 
     /**
@@ -70,7 +70,6 @@ abstract class AbstractMetadataService extends ConfigurableService
     public function extract(\DOMDocument $domManifest)
     {
         $metadata = [];
-        \common_Logger::i(print_r($this->getExtractors(), true));
         foreach ($this->getExtractors() as $extractor) {
             $metadata = array_merge($metadata, $extractor->extract($domManifest));
         }
@@ -83,12 +82,12 @@ abstract class AbstractMetadataService extends ConfigurableService
      * Inject metadata value for an identifier through injectors
      *
      * Inject metadata value for an identifier by calling each injectors
-     * Injectors need $refItem as target of injection
+     * Injectors need $resource as target of injection
      *
      * @param $identifier
-     * @param \core_kernel_classes_Resource $rdfItem
+     * @param \core_kernel_classes_Resource $resource
      */
-    public function inject($identifier, \core_kernel_classes_Resource $rdfItem)
+    public function inject($identifier, \core_kernel_classes_Resource $resource)
     {
         if ($this->hasMetadataValue($identifier)) {
             \common_Logger::i(__('Preparing Metadata Values for resource "%s"...', $identifier));
@@ -97,7 +96,7 @@ abstract class AbstractMetadataService extends ConfigurableService
             foreach ($this->getInjectors() as $injector) {
                 \common_Logger::i(__('Attempting to inject "%s" metadata values in database for resource "%s" with Metadata Injector "%s".',
                     count($values), $identifier), get_class($injector));
-                $injector->inject($rdfItem, array($identifier => $values));
+                $injector->inject($resource, array($identifier => $values));
             }
         }
     }
@@ -194,6 +193,15 @@ abstract class AbstractMetadataService extends ConfigurableService
     }
 
     /**
+     *
+     * @return MetadataExtractor[]
+     */
+    public function getExtractors()
+    {
+        return $this->getInstances(self::EXTRACTOR_KEY, MetadataExtractor::class);
+    }
+
+    /**
      * Register an instance
      *
      * Register a $name instance into $key config
@@ -256,15 +264,6 @@ abstract class AbstractMetadataService extends ConfigurableService
     {
         $metadata = $this->getMetadataValues();
         return isset($metadata[$identifier]) ? $metadata[$identifier] : null;
-    }
-
-    /**
-     *
-     * @return MetadataExtractor[]
-     */
-    protected function getExtractors()
-    {
-        return $this->getInstances(self::EXTRACTOR_KEY, MetadataExtractor::class);
     }
 
     /**

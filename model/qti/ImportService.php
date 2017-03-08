@@ -269,7 +269,6 @@ class ImportService extends tao_models_classes_GenerisService
 
             $metadataValues = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter()->extract($domManifest);
 
-
             $createdClasses = array();
             foreach ($qtiItemResources as $qtiItemResource) {
                 $itemCount++;
@@ -505,6 +504,8 @@ class ImportService extends tao_models_classes_GenerisService
 
     /**
      * Import metadata to a given QTI Item.
+     *
+     * @deprecated use MetadataService::getImporter::inject()
      *
      * @param oat\taoQtiItem\model\qti\metadata\MetadataValue[] $metadataValues An array of MetadataValue objects.
      * @param Resource $qtiResource The object representing the QTI Resource, from an IMS Manifest perspective.
