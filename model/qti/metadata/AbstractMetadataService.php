@@ -95,7 +95,7 @@ abstract class AbstractMetadataService extends ConfigurableService
 
             foreach ($this->getInjectors() as $injector) {
                 \common_Logger::i(__('Attempting to inject "%s" metadata values in database for resource "%s" with Metadata Injector "%s".',
-                    count($values), $identifier), get_class($injector));
+                    count($values), $identifier, get_class($injector)));
                 $injector->inject($resource, array($identifier => $values));
             }
         }
