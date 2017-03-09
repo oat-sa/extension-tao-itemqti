@@ -45,6 +45,12 @@ define([
     var activeDrop = null;
 
     /**
+     * Global variable to count number of choice usages:
+     * @type {object}
+     */
+    var _choiceUsages = {};
+
+    /**
      * This options enables to support old items created with the wrong
      * direction in the directedpairs.
      *
@@ -137,6 +143,48 @@ define([
     };
 
     /**
+     * Sets a choice and marks as disabled if at max
+     * @private
+     * @param {Object} interaction
+     * @param {JQuery Element} $choice
+     */
+    var _setChoice = function _setChoice(interaction, $choice) {
+        var choiceSerial = $choice.data('serial');
+        var choice = interaction.getGapImg(choiceSerial);
+
+        if (!_choiceUsages[choiceSerial]) {
+            _choiceUsages[choiceSerial] = 0;
+        }
+
+        _choiceUsages[choiceSerial]++;
+
+        if (!interaction.responseMappingMode &&
+            choice.attr('matchMax') &&
+            _choiceUsages[choiceSerial] >= choice.attr('matchMax')
+        ) {
+            interact($choice.get(0)).draggable(false);
+            $choice.addClass('disabled');
+            $choice.removeClass('selectable');
+        }
+    };
+
+    /**
+     * Unset a choice and unmark as disabled
+     * @private
+     * @param {Object} interaction
+     * @param {JQuery Element} $choice
+     */
+    var _unsetChoice = function _unsetChoice(interaction, $choice) {
+        var choiceSerial = $choice.data('serial');
+
+        _choiceUsages[choiceSerial]--;
+
+        $choice.removeClass('disabled');
+        $choice.addClass('selectable');
+        interact($choice.get(0)).draggable(true);
+    };
+
+    /**
      * Select a shape (= hotspot) (a gap image must be active)
      * @private
      * @param {Object} interaction
@@ -181,6 +229,8 @@ define([
             _shapesUnSelectable(interaction);
             $gapList.children().removeClass('active');
 
+            _setChoice(interaction, $active);
+
             $clone = $img.clone();
             shapeOffset  = $(element.node).offset();
             activeOffset   = $active.offset();
@@ -209,8 +259,8 @@ define([
                 //create an image into the paper and move it to the selected shape
                 gapFiller = graphic.createBorderedImage(interaction.paper, {
                     url     :  $img.attr('src'),
-                    left    : bbox.x + (3 * (currentCount - 1)),
-                    top     : bbox.y + (3 * (currentCount - 1)),
+                    left    : bbox.x + (8 * (currentCount - 1)),
+                    top     : bbox.y + (8 * (currentCount - 1)),
                     width   : parseInt($img.attr('width'), 10),
                     height  : parseInt($img.attr('height'), 10),
                     padding : 0,
@@ -241,6 +291,8 @@ define([
                         interaction.gapFillers = _.without(interaction.gapFillers, gapFiller);
 
                         gapFiller.remove();
+
+                        _unsetChoice(interaction, $active);
 
                         containerHelper.triggerResponseChangeEvent(interaction);
                     }
@@ -280,17 +332,23 @@ define([
             interact(rElement.node).dropzone({
                 overlap: 0.15,
                 ondragenter: function() {
-                    graphic.setStyle(rElement, 'hover');
-                    activeDrop = rElement.node;
+                    if (_isMatchable(rElement)) {
+                        graphic.setStyle(rElement, 'hover');
+                        activeDrop = rElement.node;
+                    }
                 },
                 ondrop: function () {
-                    graphic.setStyle(rElement, 'selectable');
-                    handleShapeSelect();
-                    activeDrop = null;
+                    if (_isMatchable(rElement)) {
+                        graphic.setStyle(rElement, 'selectable');
+                        handleShapeSelect();
+                        activeDrop = null;
+                    }
                 },
                 ondragleave: function() {
-                    graphic.setStyle(rElement, 'selectable');
-                    activeDrop = null;
+                    if (_isMatchable(rElement)) {
+                        graphic.setStyle(rElement, 'selectable');
+                        activeDrop = null;
+                    }
                 }
             });
         }
@@ -347,25 +405,29 @@ define([
                 }
             };
 
-            interact(gapFillersSelector).draggable(_.assign({}, dragOptions, {
-                onstart: function (e) {
-                    var $target = $(e.target);
-                    _setActiveGapState($target);
-                    $target.addClass('dragged');
+            $(gapFillersSelector).each(function(index, gap) {
+                interact(gap)
+                .draggable(_.assign({}, dragOptions, {
+                    onstart: function (e) {
+                        var $target = $(e.target);
+                        _setActiveGapState($target);
+                        $target.addClass('dragged');
 
-                    _iFrameDragFix(gapFillersSelector, e.target);
-                },
-                onmove: function (e) {
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
-                },
-                onend: function (e) {
-                    var $target = $(e.target);
-                    _setInactiveGapState($target);
-                    $target.removeClass('dragged');
-                    interactUtils.restoreOriginalPosition($target);
-                    interactUtils.iFrameDragFixOff();
-                }
-            })).styleCursor(false);
+                        _iFrameDragFix(gapFillersSelector, e.target);
+                    },
+                    onmove: function (e) {
+                        interactUtils.moveElement(e.target, e.dx, e.dy);
+                    },
+                    onend: function (e) {
+                        var $target = $(e.target);
+                        _setInactiveGapState($target);
+                        $target.removeClass('dragged');
+                        interactUtils.restoreOriginalPosition($target);
+                        interactUtils.iFrameDragFixOff();
+                    }
+                }))
+                .styleCursor(false);
+            });
         }
 
         function toggleActiveGapState($target) {
