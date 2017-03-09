@@ -98,11 +98,13 @@ class MetadataRegistry
             ->getOptions();
 
         $mapping = [];
-        foreach ($instances as $key => $instance) {
+        foreach ($instances as $key => $helpers) {
             if (! isset($mapping[$key])) {
                 $mapping[$key] = [];
             }
-            $mapping[$key][] = get_class($instance);
+            foreach ($helpers as $instance) {
+                $mapping[$key][] = get_class($instance);
+            }
         }
 
         return $mapping;
