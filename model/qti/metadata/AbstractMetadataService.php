@@ -42,15 +42,12 @@ abstract class AbstractMetadataService extends ConfigurableService
     const EXTRACTOR_KEY = 'extractors';
 
     /**
-     * Array of metadata, with metadata key with associated value
-     * @var array
+     * @var array Array of metadata, with metadata key with associated value
      */
     protected $metadataValues;
 
     /**
-     * Instances to manage metadata values
-     *
-     * @var array
+     * @var array Instances to manage metadata values
      */
     protected $instances;
 

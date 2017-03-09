@@ -26,7 +26,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 
 /**
- * @deprecated MetadataService should be to handle export & import
+ * @deprecated MetadataService should be used to handle export & import
  *
  * MetadataRegistry objects enables you to register/unregister
  * MetadataExtractor and MetadataInjector objects to be used
@@ -84,7 +84,7 @@ class MetadataRegistry
     }
     
     /**
-     * @deprecated Use MetadataService->getImporter() intead to have access to specific instance of metadataImporter
+     * @deprecated Use MetadataService->getImporter() instead to have access to specific instance of metadataImporter
      *
      * Get the class mapping of Extractor/Injector classes.
      * 
