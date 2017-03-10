@@ -62,6 +62,10 @@ use oat\oatbox\service\ServiceManager;
  */
 class ImportService extends tao_models_classes_GenerisService
 {
+    /**
+     * @var MetadataImporter Service to manage Lom metadata during package import
+     */
+    protected $metadataImporter;
 
     /**
      * Short description of method importQTIFile
@@ -267,7 +271,7 @@ class ImportService extends tao_models_classes_GenerisService
             /** @var Resource[] $qtiItemResources */
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
-            $metadataValues = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter()->extract($domManifest);
+            $metadataValues = $this->getMetadataImporter()->extract($domManifest);
 
             $createdClasses = array();
             foreach ($qtiItemResources as $qtiItemResource) {
@@ -370,11 +374,9 @@ class ImportService extends tao_models_classes_GenerisService
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
 
-                /** @var MetadataImporter $metadataImporter */
-                $metadataImporter = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter();
-                $metadataImporter->setMetadataValues($metadataValues);
+                $this->getMetadataImporter()->setMetadataValues($metadataValues);
 
-                $guardian = $metadataImporter->guard($resourceIdentifier);
+                $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
                 if ($guardian !== false) {
                     \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
                     return common_report_Report::createInfo(
@@ -383,7 +385,7 @@ class ImportService extends tao_models_classes_GenerisService
                     );
                 }
 
-                $targetClass = $metadataImporter->classLookUp($resourceIdentifier, $createdClasses);
+                $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
 
                 $qtiFile = $folder . helpers_File::urlToPath($qtiItemResource->getFile());
 
@@ -428,7 +430,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
-                $metadataImporter->inject($resourceIdentifier, $rdfItem);
+                $this->getMetadataImporter()->inject($resourceIdentifier, $rdfItem);
 
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));
@@ -551,5 +553,18 @@ class ImportService extends tao_models_classes_GenerisService
         foreach ($createdClasses as $createdClass) {
             @$createdClass->delete();
         }
+    }
+
+    /**
+     * Get the lom metadata importer
+     *
+     * @return MetadataImporter
+     */
+    protected function getMetadataImporter()
+    {
+        if (! $this->metadataImporter) {
+            $this->metadataImporter = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter();
+        }
+        return $this->metadataImporter;
     }
 }
