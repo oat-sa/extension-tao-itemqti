@@ -28,7 +28,7 @@ define([
     'i18n',
     'core/plugin',
     'core/promise',
-    'ui/dialog/confirm',
+    'ui/dialog',
 ], function($, _, __, pluginFactory, Promise, dialog){
     'use strict';
 
@@ -123,17 +123,39 @@ define([
                     }
                     asking = true;
                     if(hasChanged()){
-                        dialog(message, function accept(){
-                            return silentSave().then(resolve);
-                        }, function cancel(){
+
+                        dialog({
+                            message: message,
+                            buttons:  [{
+                                id : 'dontsave',
+                                type : 'regular',
+                                label : __('Don\'t save'),
+                                close: true
+                            },{
+                                id : 'cancel',
+                                type : 'regular',
+                                label : __('Cancel'),
+                                close: true
+                            }, {
+                                id : 'save',
+                                type : 'info',
+                                label : __('Save'),
+                                close: true
+                            }],
+                            autoRender: true,
+                            autoDestroy: true,
+                            onSaveBtn : function onSaveBtn(){
+                                silentSave().then(resolve);
+                            },
+                            onDontsaveBtn : resolve,
+                            onCancelBtn : reject
+                        })
+                        .on('closed.modal', function(){
                             asking = false;
-                            reject();
                         });
                     } else {
                         resolve();
                     }
-                }).then(function(){
-                    asking = false;
                 });
             };
 
