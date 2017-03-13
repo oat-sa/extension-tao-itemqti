@@ -29,8 +29,8 @@ class LomInjector extends OntologyMetadataInjector
             'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-        ),                
+        ),
         'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
-        
+
     }
 }

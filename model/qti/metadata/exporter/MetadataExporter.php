@@ -31,6 +31,35 @@ use oat\taoQtiItem\model\qti\metadata\MetadataService;
  */
 class MetadataExporter extends AbstractMetadataService
 {
+    public function export(\core_kernel_classes_Resource $resource, \DOMDocument $imsManifest)
+    {
+        $this->setMetadataValues($this->extract($resource));
+        foreach (array_keys($this->getMetadataValues()) as $identifier) {
+            $this->inject($identifier, $imsManifest);
+        }
+        return $imsManifest;
+    }
+
+    /**
+     * Extract metadata value form a resource
+     *
+     * {@inheritdoc}
+     */
+    public function extract(\core_kernel_classes_Resource $resource)
+    {
+        return parent::extract($resource);
+    }
+
+    /**
+     * Inject an identified metadata value to a dom IMS manifest
+     *
+     * {@inheritdoc}
+     */
+    public function inject($identifier, \DOMDocument $imsManifest)
+    {
+        parent::inject($identifier, $imsManifest);
+    }
+
     /**
      * Allow to register, into the config, the current exporter service
      */
