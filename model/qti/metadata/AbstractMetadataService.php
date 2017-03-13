@@ -38,7 +38,7 @@ abstract class AbstractMetadataService extends ConfigurableService
 
     /**
      * Config key to store extractors classes
-     */ 
+     */
     const EXTRACTOR_KEY = 'extractors';
 
     /**
@@ -57,20 +57,20 @@ abstract class AbstractMetadataService extends ConfigurableService
     abstract protected function registerService();
 
     /**
-     * Extract metadata value of a DomManifest
+     * Extract metadata value of a given $source
      *
      * Extract metadata values by calling each extractors
      *
-     * @param \DOMDocument $domManifest
+     * @param $source
      * @return array
      */
-    public function extract(\DOMDocument $domManifest)
+    public function extract($source)
     {
         $metadata = [];
         foreach ($this->getExtractors() as $extractor) {
-            $metadata = array_merge($metadata, $extractor->extract($domManifest));
+            $metadata = array_merge($metadata, $extractor->extract($source));
         }
-        \common_Logger::i(__('%s metadata values found in manifest by extractor(s).', count($metadata)));
+        \common_Logger::i(__('%s metadata values found in source by extractor(s).', count($metadata)));
 
         return $metadata;
     }
@@ -79,21 +79,21 @@ abstract class AbstractMetadataService extends ConfigurableService
      * Inject metadata value for an identifier through injectors
      *
      * Inject metadata value for an identifier by calling each injectors
-     * Injectors need $resource as target of injection
+     * Injectors need $target for injection
      *
      * @param $identifier
-     * @param \core_kernel_classes_Resource $resource
+     * @param $target
      */
-    public function inject($identifier, \core_kernel_classes_Resource $resource)
+    public function inject($identifier, $target)
     {
         if ($this->hasMetadataValue($identifier)) {
-            \common_Logger::i(__('Preparing Metadata Values for resource "%s"...', $identifier));
+            \common_Logger::i(__('Preparing Metadata Values for target "%s"...', $identifier));
             $values = $this->getMetadataValue($identifier);
 
             foreach ($this->getInjectors() as $injector) {
-                \common_Logger::i(__('Attempting to inject "%s" metadata values in database for resource "%s" with Metadata Injector "%s".',
+                \common_Logger::i(__('Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".',
                     count($values), $identifier, get_class($injector)));
-                $injector->inject($resource, array($identifier => $values));
+                $injector->inject($target, array($identifier => $values));
             }
         }
     }
@@ -169,13 +169,9 @@ abstract class AbstractMetadataService extends ConfigurableService
      * Return metadata values
      *
      * @return array
-     * @throws \common_Exception If metadata values are empty
      */
     public function getMetadataValues()
     {
-        if (! $this->metadataValues) {
-            throw new \common_Exception(__('Metadata values are not found.'));
-        }
         return $this->metadataValues;
     }
 

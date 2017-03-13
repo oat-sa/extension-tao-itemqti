@@ -39,6 +39,26 @@ class MetadataImporter extends AbstractMetadataService
     const CLASS_LOOKUP_KEY = 'classLookups';
 
     /**
+     * Extract metadata value from a DomManifest
+     *
+     * {@inheritdoc}
+     */
+    public function extract(\DOMDocument $domManifest)
+    {
+        return parent::extract($domManifest);
+    }
+
+    /**
+     * Inject an identified metadata value to a resource
+     *
+     * {@inheritdoc}
+     */
+    public function inject($identifier, \core_kernel_classes_Resource $resource)
+    {
+        parent::inject($identifier, $resource);
+    }
+
+    /**
      * Guard a metadata identifier at import
      *
      * Guard a metadata identifier by calling guard method of each guardians
