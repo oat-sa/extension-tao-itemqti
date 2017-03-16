@@ -461,6 +461,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $updater([]);
             $this->setVersion('6.19.0');
         }
-
+        
     }
 }

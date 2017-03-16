@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\importer;
 
+use oat\tao\model\metadata\exception\MetadataImportException;
 use oat\taoQtiItem\model\qti\metadata\AbstractMetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
@@ -43,8 +44,11 @@ class MetadataImporter extends AbstractMetadataService
      *
      * {@inheritdoc}
      */
-    public function extract(\DOMDocument $domManifest)
+    public function extract($domManifest)
     {
+        if (! $domManifest instanceof \DOMDocument) {
+            throw new MetadataImportException(__('Metadata import requires an instance of DomManifest to extract metadata'));
+        }
         return parent::extract($domManifest);
     }
 
@@ -53,8 +57,11 @@ class MetadataImporter extends AbstractMetadataService
      *
      * {@inheritdoc}
      */
-    public function inject($identifier, \core_kernel_classes_Resource $resource)
+    public function inject($identifier, $resource)
     {
+        if (! $resource instanceof \core_kernel_classes_Resource) {
+            throw new MetadataImportException(__('Metadata import requires an instance of core_kernel_classes_Resource to inject metadata'));
+        }
         parent::inject($identifier, $resource);
     }
 
