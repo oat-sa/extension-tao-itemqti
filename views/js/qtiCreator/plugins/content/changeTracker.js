@@ -28,7 +28,7 @@ define([
     'i18n',
     'core/plugin',
     'core/promise',
-    'ui/dialog/confirm',
+    'ui/dialog',
 ], function($, _, __, pluginFactory, Promise, dialog){
     'use strict';
 
@@ -60,6 +60,12 @@ define([
             var itemCreator = this.getHost();
             var $container  = this.getAreaBroker().getContainer();
 
+            //does the item styles have changed
+            var styleChanges = false;
+
+            //are we in the middle of the confirm process ?
+            var asking = false;
+
             /**
              * Get a string representation of the current item, used for comparison
              * @returns {String} the item
@@ -67,7 +73,11 @@ define([
             var getSerializedItem = function getSerializedItem() {
                 var serialized = '';
                 try {
+                    //create a string from the item content
                     serialized = JSON.stringify(itemCreator.getItem().toArray());
+
+                    //sometimes the creator strip spaces between tags, so we do the same
+                    serialized = serialized.replace(/ {2,}/g, ' ');
                 } catch(err){
                     serialized = null;
                 }
@@ -77,17 +87,17 @@ define([
             //keep the value of the item before changes
             var originalItem = getSerializedItem();
 
-
-            //does the item styles have changed
-            var styleChanges = false;
-
             /**
              * Does the item have changed ?
              * @returns {Boolean}
              */
             var hasChanged  = function hasChanged(){
-                var currentItem = getSerializedItem();
-                return styleChanges || originalItem !== currentItem || (_.isNull(currentItem) && _.isNull(originalItem));
+                var currentItem;
+                if(styleChanges){
+                    return true;
+                }
+                currentItem = getSerializedItem();
+                return originalItem !== currentItem || (_.isNull(currentItem) && _.isNull(originalItem));
             };
 
             /**
@@ -105,9 +115,6 @@ define([
                 });
             };
 
-            //are we doing the confirm process ?
-            var asking = false;
-
             /**
              * Display a confirmation dialog,
              * The "ok" button will save and resolve.
@@ -121,37 +128,62 @@ define([
                     if(asking){
                         return reject();
                     }
-                    asking = true;
-                    if(hasChanged()){
-                        dialog(message, function accept(){
-                            return silentSave().then(resolve);
-                        }, function cancel(){
-                            asking = false;
-                            reject();
-                        });
-                    } else {
-                        resolve();
+                    if(!hasChanged()){
+                        return resolve();
                     }
-                }).then(function(){
-                    asking = false;
+                    asking = true;
+                    dialog({
+                        message: message,
+                        buttons:  [{
+                            id : 'dontsave',
+                            type : 'regular',
+                            label : __('Don\'t save'),
+                            close: true
+                        },{
+                            id : 'cancel',
+                            type : 'regular',
+                            label : __('Cancel'),
+                            close: true
+                        }, {
+                            id : 'save',
+                            type : 'info',
+                            label : __('Save'),
+                            close: true
+                        }],
+                        autoRender: true,
+                        autoDestroy: true,
+                        onSaveBtn : function onSaveBtn(){
+                            silentSave().then(resolve);
+                        },
+                        onDontsaveBtn : resolve,
+                        onCancelBtn : reject
+                    })
+                    .on('closed.modal', function(){
+                        asking = false;
+                    });
                 });
             };
 
             /**
-             * Just unbind some handlers
+             * Just unbind the different handlers
              */
             removeChangeHandlers = function removeHandlers(){
                 $(document).off('stylechange.qti-creator');
-                $('.content-wrap').off('click.qti-creator');
+                $('.content-wrap').off('.qti-creator');
                 $(window).off("beforeunload.qti-creator");
             };
 
             //also track style changes
-            $(document).on('stylechange.qti-creator', function (e, detail) {
-                if(!detail || !detail.initializing){
-                    styleChanges = true;
-                }
-            });
+            $(document)
+                .one('customcssloaded.styleeditor', function(){
+                    originalItem = getSerializedItem();
+                    styleChanges = false;
+                })
+                .on('stylechange.qti-creator', function (e, detail) {
+                    if(!detail || !detail.initializing){
+                        styleChanges = true;
+                    }
+                });
 
             $(window)
                 //add a browser popup to prevent leaving the browser
@@ -163,28 +195,27 @@ define([
                 //since we don't know how to prevent history based events,
                 //we just stop the handling
                 .on('popstate', function(){
-
                     removeChangeHandlers();
                 });
 
             //every click outside the authoring
-            $('.content-wrap').on('click.qti-creator', function(e){
-                if(!$.contains($container.get(0), e.target)){
-                    if(hasChanged()){
-                        e.stopImmediatePropagation();
-                        e.preventDefault();
+            $('.content-wrap').on('click.qti-creator', function (e){
+                if(!$.contains($container.get(0), e.target) && hasChanged()){
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
 
-                        confirmBefore(messages.exit)
-                            .then(function(){
-                                $(e.target).trigger('click');
-                            })
-                            .catch(_.noop); //do nothing but prevent uncacthed error
-                    }
+                    confirmBefore(messages.exit)
+                        .then(function(){
+                            removeChangeHandlers();
+                            e.target.click();
+                        })
+                        .catch(_.noop); //do nothing but prevent uncacthed error
                 }
             });
 
             itemCreator
-                .on('saved', function(){
+                .on('ready saved', function(){
+                    //reset the base item
                     originalItem = getSerializedItem();
                     styleChanges = false;
                 })

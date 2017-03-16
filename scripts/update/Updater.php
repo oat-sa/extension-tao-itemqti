@@ -453,9 +453,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('6.11.0');
         }
 
-        $this->skip('6.11.0', '6.18.0');
+        $this->skip('6.11.0', '6.18.1');
 
-        if ($this->isVersion('6.18.0')) {
+        if ($this->isVersion('6.18.1')) {
             $updater = new InitMetadataService();
             $updater->setServiceLocator($this->getServiceManager());
             $updater([]);
