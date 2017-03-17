@@ -106,7 +106,7 @@ $mainContainer : '.qti-item';
             @extend %qtiModalFeedback;
         }
     }
-    
+
     .qti-itemBody{
         .qti-modalFeedback{
             @extend %qtiModalFeedback;
@@ -123,12 +123,12 @@ $mainContainer : '.qti-item';
             }
         }
     }
-    
+
     .interaction-cover{
         display : block;
         opacity : 0.05;
     }
-        
+
     /* authoring */
 
     .qti-choice, .qti-prompt-container {
@@ -137,8 +137,9 @@ $mainContainer : '.qti-item';
         }
     }
 
-    .qti-prompt {
-        word-break: break-all;
+    .prompt, .qti-prompt {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     // MathJax reset

@@ -86,8 +86,10 @@ define([
         }
 
         if (!!$bgImage.length) {
+            // TODO: This was removed becaus it is not likely needed after adjusting the svg.
+            // It was left just in case an issue arrives and needs to be reinstated.
             // handle images larger than the canvas
-            handleOversizedImages(widget);
+            // handleOversizedImages(widget);
 
             // setup media sizer
             setupMediaSizer(widget);

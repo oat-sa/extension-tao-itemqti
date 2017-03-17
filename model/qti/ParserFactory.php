@@ -798,7 +798,7 @@ class ParserFactory
                 foreach($value->attributes() as $attrName => $attrValue){
                     $response->setAttribute($attrName, strval($attrValue));
                 }
-                $response->setValue(htmlentities($correct));
+                $response->setValue($correct);
                 $responses[] = $response;
             }
             break;
@@ -815,7 +815,7 @@ class ParserFactory
                 foreach($value->attributes() as $attrName => $attrValue){
                     $defaultValue->setAttribute($attrName, strval($attrValue));
                 }
-                $defaultValue->setValue(htmlentities($default));
+                $defaultValue->setValue($default);
                 $defaultValues[] = $defaultValue;
             }
             break;

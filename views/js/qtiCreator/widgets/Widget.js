@@ -115,6 +115,13 @@ define([
         },
         initCreator : function(){
             //prepare all common actions, event handlers and dom for every state of the widget
+
+            var $interaction = this.$container.find('.qti-interaction');
+            var serial       = $interaction.data('serial');
+
+            this.$container.on('resize.itemResizer', function() {
+                $(window).trigger('resize.qti-widget.' + serial);
+            });
         },
         getCurrentState : function(){
             return _.last(this.stateStack);
@@ -220,6 +227,8 @@ define([
         offEvents : function(ns){
             var evtName = '.qti-widget.' + this.serial + (ns ? '.' + ns : '');
             $(document).off(evtName);
+
+            this.$container.off('resize.itemResizer');
         },
         destroy : function(){
 

@@ -14,8 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -40,6 +39,7 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\scripts\install\InitMetadataService;
 
 /**
  *
@@ -452,6 +452,15 @@ class Updater extends \common_ext_ExtensionUpdater
             $sharedLibRegistry->registerFromFile('OAT/mediaPlayer', $installBasePath . '/OAT/mediaPlayer.js');
             $this->setVersion('6.11.0');
         }
-    }
 
+        $this->skip('6.11.0', '6.18.1');
+
+        if ($this->isVersion('6.18.1')) {
+            $updater = new InitMetadataService();
+            $updater->setServiceLocator($this->getServiceManager());
+            $updater([]);
+            $this->setVersion('6.19.0');
+        }
+        
+    }
 }

@@ -177,6 +177,9 @@ class ImsManifestMetadataInjector implements MetadataInjector
 
             // Iterate through values to inject them in the DOMElement
             foreach($values as $identifier => $metadataValues){
+
+                $metadataNode = null;
+
                 // Search the node that has the given identifier
                 /** @var $resource DOMElement */
                 foreach($resources as $resource){
@@ -198,6 +201,10 @@ class ImsManifestMetadataInjector implements MetadataInjector
                         }
                         break;
                     }
+                }
+
+                if (is_null($metadataNode)) {
+                    continue;
                 }
 
                 // Add the metadata values into the right path

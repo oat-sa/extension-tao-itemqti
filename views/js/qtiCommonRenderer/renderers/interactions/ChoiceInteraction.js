@@ -73,13 +73,10 @@ define([
      * @param {jQueryElement} $container
      */
     var _pseudoLabel = function _pseudoLabel(interaction, $container){
-        var $choiceInputs;
-
+        var inputSelector = '.qti-choice input:radio:not([disabled]):not(.disabled), .qti-choice input:checkbox:not([disabled]):not(.disabled)';
         $container.off('.commonRenderer');
 
-        $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-
-        $choiceInputs.on('keydown.commonRenderer', function(e){
+        $container.on('keydown.commonRenderer.keyNavigation', inputSelector, function(e){
             var $qtiChoice = $(this).closest('.qti-choice');
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
 
@@ -92,9 +89,7 @@ define([
                 e.stopPropagation();
                 $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             }
-        });
-
-        $choiceInputs.on('keyup.commonRenderer', function(e){
+        }).on('keyup.commonRenderer.keyNavigation', inputSelector, function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
@@ -108,6 +103,7 @@ define([
             var $choiceBox = $(this);
             var state;
             var eliminator = e.target.dataset && e.target.dataset.eliminable;
+            var input = this.querySelector('.real-label > input');
 
             // if the click has been triggered by a keyboard check, prevent this listener to cancel this check
             if (e.originalEvent && $(e.originalEvent.target).is('input')) {
@@ -117,6 +113,7 @@ define([
             e.preventDefault();
             e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
 
+
             if(!_.isUndefined(eliminator)) {
                 state = false;
                 if(eliminator === 'trigger') {
@@ -125,6 +122,13 @@ define([
             }
 
             _triggerInput($choiceBox, state);
+
+            if(this.classList.contains('eliminated')) {
+                input.setAttribute('disabled', 'disabled');
+            }
+            else {
+                input.removeAttribute('disabled');
+            }
 
             instructionMgr.validateInstructions(interaction, {choice : $choiceBox});
             containerHelper.triggerResponseChangeEvent(interaction);

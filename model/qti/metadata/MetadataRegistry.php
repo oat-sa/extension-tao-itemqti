@@ -22,8 +22,12 @@ namespace oat\taoQtiItem\model\qti\metadata;
 use \common_ext_Extension;
 use \common_ext_ExtensionsManager;
 use \InvalidArgumentException;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 
 /**
+ * @deprecated MetadataService should be used to handle export & import
+ *
  * MetadataRegistry objects enables you to register/unregister
  * MetadataExtractor and MetadataInjector objects to be used
  * in various situations accross the platform.
@@ -42,36 +46,36 @@ class MetadataRegistry
      * @var string
      */
     const CONFIG_ID = 'metadata_registry';
-    
+
     /**
      * A pointer to the taoQtiItem extension
-     * 
+     *
      * @var \common_ext_Extension
      */
     protected $extension;
-    
+
     /**
      * Create a new MetadataRegistry object.
-     * 
+     *
      */
     public function __construct()
     {
         $this->setExtension(common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem'));
     }
-    
+
     /**
      * Set the extension to be used to store the mapping in configuration.
-     * 
+     *
      * @param common_ext_Extension $extension
      */
     protected function setExtension(common_ext_Extension $extension)
     {
         $this->extension = $extension;
     }
-    
+
     /**
      * Get the extension to be used to store the mapping configuration.
-     * 
+     *
      * @return common_ext_Extension
      */
     protected function getExtension()
@@ -80,43 +84,54 @@ class MetadataRegistry
     }
     
     /**
+     * @deprecated Use MetadataService->getImporter() instead to have access to specific instance of metadataImporter
+     *
      * Get the class mapping of Extractor/Injector classes.
      * 
      * @return array An associative array with two main keys. The 'injectors' and 'extractors' and 'guardians' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.  
      */
     public function getMapping()
     {
-        $mapping = $this->getExtension()->getConfig(self::CONFIG_ID);
-        
-        if (is_array($mapping) === true) {
-            if (isset($mapping['guardians']) === false) {
-                // Sometimes, 'guardians' key is not set...
-                $mapping['guardians'] = array();
+        $instances = $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->getOptions();
+
+        $mapping = [];
+        foreach ($instances as $key => $helpers) {
+            if (! isset($mapping[$key])) {
+                $mapping[$key] = [];
             }
-            
-            if (isset($mapping['classLookups']) === false) {
-                // Sometimes, 'classLookups' key is not set...
-                $mapping['classLookups'] = array();
+            foreach ($helpers as $instance) {
+                $mapping[$key][] = get_class($instance);
             }
-            
-            return $mapping;
-        } else {
-            
-            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array(), 'classLookups' => array());
         }
+
+        return $mapping;
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->registerService() instead
+     *
      * Set the class mapping of Extractor/Injector classes.
      * 
      * @param array $mapping An associative array with two main keys. The 'injectors' and 'extractors' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.
      */
     protected function setMapping(array $mapping)
     {
-        $this->getExtension()->setConfig(self::CONFIG_ID, $mapping);
+        /** @var MetadataService $metadataService */
+        $metadataService = $this->getServiceManager()->get(MetadataService::SERVICE_ID);
+
+        $importer = $metadataService->getImporter();
+        $importer->setOptions($mapping);
+
+        $metadataService->setOption(MetadataService::IMPORTER_KEY, $importer);
+        $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->register(MetadataImport::INJECTOR_KEY, $fqcn)
+     *
      * Register a MetadataInjector implementation by $fqcn (Fully Qualified Class Name).
      * 
      * @param string $fqcn A Fully Qualified Class Name.
@@ -125,20 +140,15 @@ class MetadataRegistry
      */
     public function registerMetadataInjector($fqcn)
     {
-        // Check if $fqcn class implements the correct interface.
-        $interfaces = class_implements($fqcn);
-        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataInjector', $interfaces) === false) {
-            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataInjector interface";
-            throw new InvalidArgumentException($msg);
-        }
-        
-        $mapping = $this->getMapping();
-        $mapping['injectors'][] = $fqcn;
-        
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->register(MetadataImporter::INJECTOR_KEY, $fqcn);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->unregister(MetadataImport::INJECTOR_KEY, $fqcn)
+     *
      * Unregister a MetadataInjector implementation by $fqcn (Fully Qualified Class Name).
      * 
      * @param string $fqcn A Fully Qualified Class Name.
@@ -146,16 +156,15 @@ class MetadataRegistry
      */
     public function unregisterMetadataInjector($fqcn)
     {
-        $mapping = $this->getMapping();
-        
-        if (($key = array_search($fqcn, $mapping['injectors'])) !== false) {
-            unset($mapping['injectors'][$key]);
-        }
-        
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->unregister(MetadataImporter::INJECTOR_KEY, $fqcn);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->register(MetadataImport::EXTRACTOR_KEY, $fqcn)
+     *
      * Register a MetadataExtractor implementation by $fqcn (Fully Qualified Class Name).
      * 
      * @param string $fqcn A Fully Qualified Class Name.
@@ -164,20 +173,15 @@ class MetadataRegistry
      */
     public function registerMetadataExtractor($fqcn)
     {
-        // Check if $fqcn class implements the correct interface.
-        $interfaces = class_implements($fqcn);
-        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataExtractor', $interfaces) === false) {
-            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataExtractor interface";
-            throw new InvalidArgumentException($msg);
-        }
-        
-        $mapping = $this->getMapping();
-        $mapping['extractors'][] = $fqcn;
-        
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->register(MetadataImporter::EXTRACTOR_KEY, $fqcn);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->unregister(MetadataImport::EXTRACTOR_KEY, $fqcn)
+     *
      * Unregister a MetadataExtractor implementation by $fqcn (Fully Qualified Class Name).
      * 
      * @param string $fqcn A Fully Qualified Class Name.
@@ -185,16 +189,15 @@ class MetadataRegistry
      */
     public function unregisterMetadataExtractor($fqcn)
     {
-        $mapping = $this->getMapping();
-        
-        if (($key = array_search($fqcn, $mapping['extractors'])) !== false) {
-            unset($mapping['extractors'][$key]);
-        }
-        
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->unregister(MetadataImporter::EXTRACTOR_KEY, $fqcn);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->register(MetadataImport::GUARDIAN_KEY, $fqcn)
+     *
      * Register a MetadataGuardian implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
@@ -203,20 +206,15 @@ class MetadataRegistry
      */
     public function registerMetadataGuardian($fqcn)
     {
-        // Check if $fqcn class implements the correct interface.
-        $interfaces = class_implements($fqcn);
-        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataGuardian', $interfaces) === false) {
-            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataGuardian interface";
-            throw new InvalidArgumentException($msg);
-        }
-    
-        $mapping = $this->getMapping();
-        $mapping['guardians'][] = $fqcn;
-    
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->register(MetadataImporter::GUARDIAN_KEY, $fqcn);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->unregister(MetadataImport::GUARDIAN_KEY, $fqcn)
+     *
      * Unregister a MetadataGuardian implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
@@ -224,16 +222,15 @@ class MetadataRegistry
      */
     public function unregisterMetadataGuardian($fqcn)
     {
-        $mapping = $this->getMapping();
-    
-        if (($key = array_search($fqcn, $mapping['guardians'])) !== false) {
-            unset($mapping['guardians'][$key]);
-        }
-    
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->unregister(MetadataImporter::GUARDIAN_KEY, $fqcn);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->register(MetadataImport::CLASS_LOOKUP_KEY, $fqcn)
+     *
      * Register a MetadataClassLookup implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
@@ -242,20 +239,15 @@ class MetadataRegistry
      */
     public function registerMetadataClassLookup($fqcn)
     {
-        // Check if $fqcn class implements the correct interface.
-        $interfaces = class_implements($fqcn);
-        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataClassLookup', $interfaces) === false) {
-            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataClassLookup interface";
-            throw new InvalidArgumentException($msg);
-        }
-        
-        $mapping = $this->getMapping();
-        $mapping['classLookups'][] = $fqcn;
-        
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->register(MetadataImporter::CLASS_LOOKUP_KEY, $fqcn);
     }
     
     /**
+     * @deprecated use MetadataService->getImporter()->unregister(MetadataImport::CLASS_LOOKUP_KEY, $fqcn)
+     *
      * Unregister a MetadataClassLookup implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
@@ -263,12 +255,14 @@ class MetadataRegistry
      */
     public function unregisterMetadataClassLookup($fqcn)
     {
-        $mapping = $this->getMapping();
-    
-        if (($key = array_search($fqcn, $mapping['classLookups'])) !== false) {
-            unset($mapping['classLookups'][$key]);
-        }
-    
-        $this->setMapping($mapping);
+        $this->getServiceManager()
+            ->get(MetadataService::SERVICE_ID)
+            ->getImporter()
+            ->unregister(MetadataImporter::CLASS_LOOKUP_KEY, $fqcn);
+    }
+
+    protected function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }
