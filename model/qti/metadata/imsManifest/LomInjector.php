@@ -14,23 +14,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
 
-namespace oat\taoQtiItem\model\qti\metadata\ontology;
 
-class LomInjector extends OntologyMetadataInjector
+namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
+
+class LomInjector extends ImsManifestMetadataInjector
 {
     public function __construct()
     {
-        parent::__construct();
-        $this->addInjectionRule(array(
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-        ),
-        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
-
+        $mappings = [];
+        $mappings[] = new ImsManifestMapping(
+            'http://www.imsglobal.org/xsd/imsmd_v1p2',
+            'imsmd',
+            'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd'
+        );
+        parent::__construct($mappings);
     }
+
 }
