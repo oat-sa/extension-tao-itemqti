@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\exporter;
 
+use oat\tao\model\metadata\exception\MetadataExportException;
 use oat\taoQtiItem\model\qti\metadata\AbstractMetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
@@ -45,8 +46,11 @@ class MetadataExporter extends AbstractMetadataService
      *
      * {@inheritdoc}
      */
-    public function extract(\core_kernel_classes_Resource $resource)
+    public function extract($resource)
     {
+        if (! $resource instanceof \core_kernel_classes_Resource) {
+            throw new MetadataExportException(__('Metadata export requires an instance of core_kernel_classes_Resource to extract metadata'));
+        }
         return parent::extract($resource);
     }
 
@@ -55,8 +59,12 @@ class MetadataExporter extends AbstractMetadataService
      *
      * {@inheritdoc}
      */
-    public function inject($identifier, \DOMDocument $imsManifest)
+    public function inject($identifier, $imsManifest)
     {
+        if (! $imsManifest instanceof \DOMDocument) {
+            throw new MetadataExportException(__('Metadata export requires an instance of DomManifest to inject metadata'));
+        }
+
         parent::inject($identifier, $imsManifest);
     }
 

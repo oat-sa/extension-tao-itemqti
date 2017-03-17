@@ -62,7 +62,17 @@ class MetadataImporter extends AbstractMetadataService
         if (! $resource instanceof \core_kernel_classes_Resource) {
             throw new MetadataImportException(__('Metadata import requires an instance of core_kernel_classes_Resource to inject metadata'));
         }
-        parent::inject($identifier, $resource);
+
+        if ($this->hasMetadataValue($identifier)) {
+            \common_Logger::i(__('Preparing Metadata Values for target "%s"...', $identifier));
+            $values = $this->getMetadataValue($identifier);
+
+            foreach ($this->getInjectors() as $injector) {
+                \common_Logger::i(__('Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".',
+                    count($values), $identifier, get_class($injector)));
+                $injector->inject($resource, array($identifier => $values));
+            }
+        }
     }
 
     /**

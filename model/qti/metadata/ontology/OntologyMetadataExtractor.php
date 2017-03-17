@@ -43,12 +43,12 @@ class OntologyMetadataExtractor extends OntologyMetadataRules implements Metadat
                 if (empty($values)) {
                     continue;
                 }
-
+                $identifier = \tao_helpers_Uri::getUniqueId($resource->getUri());
                 $path = $this->serializePath($rule->getPath());
                 if (! isset($metadataValues[$path])) {
-                    $metadataValues[$path] = $values;
+                    $metadataValues[$identifier] = $values;
                 } else {
-                    $metadataValues[$path] = array_merge($metadataValues[$path], $values);
+                    $metadataValues[$identifier] = array_merge($metadataValues[$identifier], $values);
                 }
             }
         }
