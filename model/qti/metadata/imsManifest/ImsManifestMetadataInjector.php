@@ -177,12 +177,12 @@ class ImsManifestMetadataInjector implements MetadataInjector
 
             // Iterate through values to inject them in the DOMElement
             foreach($values as $identifier => $metadataValues){
-                \common_Logger::i(' ------ ' . print_r($identifier,true));
+
+                $metadataNode = null;
 
                 // Search the node that has the given identifier
                 /** @var $resource DOMElement */
                 foreach($resources as $resource){
-                    \common_Logger::i(' *********** ' . $resource->getAttribute('identifier'));
                     if($resource->getAttribute('identifier') === $identifier){
                         // If metadata already exists we take it
                         if($resource->getElementsByTagName('metadata')->length !== 0){
@@ -203,7 +203,9 @@ class ImsManifestMetadataInjector implements MetadataInjector
                     }
                 }
 
-                \common_Logger::i(print_r($metadataNode, true));
+                if (is_null($metadataNode)) {
+                    continue;
+                }
 
                 // Add the metadata values into the right path
                 /** @var $metadata MetaDataValue */
