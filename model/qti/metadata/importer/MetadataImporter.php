@@ -62,7 +62,6 @@ class MetadataImporter extends AbstractMetadataService
         if (! $resource instanceof \core_kernel_classes_Resource) {
             throw new MetadataImportException(__('Metadata import requires an instance of core_kernel_classes_Resource to inject metadata'));
         }
-
         parent::inject($identifier, $resource);
     }
 
