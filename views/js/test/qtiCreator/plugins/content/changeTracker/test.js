@@ -134,12 +134,57 @@ define([
 
         setTimeout(function(){
             var $dialog = $('.modal');
-            var $ok     = $('.ok', $dialog);
+            var $save     = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
-            assert.equal($ok.length, 1, 'The ok button exists');
+            assert.equal($save.length, 1, 'The save button exists');
 
-            $ok.click();
+            $save.click();
+
+        }, 100);
+    });
+
+    QUnit.asyncTest('preview with changes but not saved', function(assert){
+        var itemValue = 'foo';
+        var item = {
+            toArray: function toArray(){
+                return itemValue;
+            }
+        };
+        var itemCreator = creatorMock($('qunit-fixtures'), {}, item);
+        var plugin;
+
+        QUnit.expect(4);
+
+        plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
+
+        plugin.init();
+
+        itemCreator.on('save', function(){
+            assert.ok(false, 'Save must not be called');
+
+            plugin.destroy();
+            QUnit.start();
+        });
+
+        itemCreator.on('preview', function(){
+            assert.ok(true, 'preview called');
+
+            plugin.destroy();
+            QUnit.start();
+        });
+
+        itemValue = 'bar';
+        itemCreator.trigger('preview');
+
+        setTimeout(function(){
+            var $dialog = $('.modal');
+            var $dontsave     = $('.dontsave', $dialog);
+            assert.equal($dialog.length, 1, 'The modal exists');
+            assert.ok($dialog.hasClass('opened'), 'The modal is opened');
+            assert.equal($dontsave.length, 1, 'The "dont save" button exists');
+
+            $dontsave.click();
 
         }, 100);
     });
@@ -229,12 +274,12 @@ define([
 
         setTimeout(function(){
             var $dialog = $('.modal');
-            var $ok     = $('.ok', $dialog);
+            var $save     = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
-            assert.equal($ok.length, 1, 'The ok button exists');
+            assert.equal($save.length, 1, 'The save button exists');
 
-            $ok.click();
+            $save.click();
 
         }, 100);
     });
@@ -275,12 +320,12 @@ define([
 
         setTimeout(function(){
             var $dialog = $('.modal');
-            var $ok     = $('.ok', $dialog);
+            var $save     = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
-            assert.equal($ok.length, 1, 'The ok button exists');
+            assert.equal($save.length, 1, 'The save button exists');
 
-            $ok.click();
+            $save.click();
 
         }, 100);
     });
@@ -326,12 +371,12 @@ define([
 
         setTimeout(function(){
             var $dialog = $('.modal');
-            var $ok     = $('.ok', $dialog);
+            var $save     = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
-            assert.equal($ok.length, 1, 'The ok button exists');
+            assert.equal($save.length, 1, 'The save button exists');
 
-            $ok.click();
+            $save.click();
 
         }, 100);
     });

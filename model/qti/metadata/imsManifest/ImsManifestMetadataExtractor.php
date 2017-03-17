@@ -32,7 +32,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
  *
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>
  */
-class ImsManifestMetadataExtractor implements MetadataExtractor 
+class ImsManifestMetadataExtractor implements MetadataExtractor
 {
 
     /**

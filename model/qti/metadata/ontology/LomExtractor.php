@@ -14,23 +14,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
 
 namespace oat\taoQtiItem\model\qti\metadata\ontology;
 
-class LomInjector extends OntologyMetadataInjector
+use oat\taoQtiItem\model\qti\metadata\extractors\ontology\LiteralPropertyExtractor;
+
+class LomExtractor extends OntologyMetadataExtractor
 {
     public function __construct()
     {
-        parent::__construct();
-        $this->addInjectionRule(array(
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-        ),
-        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
+        $this->addRule(new LiteralPropertyExtractor(array(
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
+            ),
+            RDFS_LABEL
+        ));
 
     }
 }

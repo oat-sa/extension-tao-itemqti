@@ -14,23 +14,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
 
-namespace oat\taoQtiItem\model\qti\metadata\ontology;
+namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
-class LomInjector extends OntologyMetadataInjector
+
+use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
+
+class LomIdentifierExtractor extends ImsManifestMetadataExtractor
 {
-    public function __construct()
+    public function extract($manifest)
     {
-        parent::__construct();
-        $this->addInjectionRule(array(
+        $values = parent::extract($manifest);
+        $newValues = array();
+
+        $expectedPath = array(
             'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-        ),
-        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
+        );
 
+        foreach ($values as $resourceIdentifier => $metadataValueCollection) {
+            $classificationMetadataValue = null;
+
+            /** @var SimpleMetadataValue $metadataValue */
+            foreach ($metadataValueCollection as $metadataValue) {
+                $path = $metadataValue->getPath();
+
+                if ($path === $expectedPath) {
+                    $newValues[$resourceIdentifier][] = $metadataValue;
+                }
+            }
+        }
+
+        return $newValues;
     }
 }

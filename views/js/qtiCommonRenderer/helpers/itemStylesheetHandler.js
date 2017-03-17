@@ -58,11 +58,10 @@ define([
 
                 //we need to set the href after the link is appended to the head (for our dear IE)
                 $link.removeAttr('href')
-                     .appendTo($head)
                      .attr('href', href);
 
-                //wait for the styles to applies
-                _.delay(informLoaded, 10);
+                $link.one('load', informLoaded)
+                     .appendTo($head);
             }
         });
     };
