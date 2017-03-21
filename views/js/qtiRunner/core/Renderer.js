@@ -538,6 +538,7 @@ define([
                             requiredClasses = _.union(requiredClasses, deps);
                         }
                     });
+                    debugger;
 
                     _.forEach(requiredClasses, function(qtiClass){
 
@@ -571,6 +572,7 @@ define([
             }
 
             var _this = this;
+            console.dir(required);
             require(required, function(){
 
                 _.each(arguments, function(clazz){

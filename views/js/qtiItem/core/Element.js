@@ -304,7 +304,6 @@ define([
             return rendering;
         },
         postRender : function(data, altClassName, renderer){
-
             var postRenderers = [];
             var _renderer = renderer || this.getRenderer();
 

@@ -37,11 +37,9 @@ define([
     var _throttle = 300;
 
     var components = {},
-        $componentContainer = $('#item-editor-scroll-inner'); // fixme: this should be given by the area broker
+        $componentContainer = $('#item-editor-panel'); // fixme: this should be given by the area broker
 
     MathActive = stateFactory.extend(Active, function create(){
-
-        this.initForm();
 
         // Create Wysiwyg editor component
         components.wysiwyg = dynamicComponent()
@@ -59,6 +57,8 @@ define([
 
         _.invoke(components, 'render', $componentContainer);
         _.invoke(components, 'hide');
+
+        this.initForm();
 
     }, function destroy(){
 

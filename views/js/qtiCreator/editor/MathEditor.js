@@ -20,7 +20,7 @@ define([
         if(config.buffer && config.buffer instanceof $ && config.buffer.length){
             this.$buffer = config.buffer;
         }else{
-            throw 'missing required element in config "buffer"';
+            // throw 'missing required element in config "buffer"';
         }
     };
 
