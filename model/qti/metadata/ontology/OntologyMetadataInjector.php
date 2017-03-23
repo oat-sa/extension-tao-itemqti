@@ -73,11 +73,8 @@ class OntologyMetadataInjector implements MetadataInjector
             throw new MetadataInjectionException($msg);
         }
         
-        $injectionRules = $this->getInjectionRules();
-        
         foreach ($values as $metadataValues) {
             foreach ($metadataValues as $metadataValue) {
-                $pathKey = implode('->', $metadataValue->getPath());
                 $lang = $metadataValue->getLanguage() ?: DEFAULT_LANG;
                 
                 if (($rule = $this->getRuleByValue($metadataValue->getPath(), $metadataValue->getValue())) !== false) {

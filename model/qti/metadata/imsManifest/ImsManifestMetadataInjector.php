@@ -221,6 +221,14 @@ class ImsManifestMetadataInjector implements MetadataInjector
         }
     }
 
+    /**
+     * Add an element based on MetadataValue object to DomDocument
+     *
+     * @param MetadataValue $metadata
+     * @param DOMElement $metadataNode
+     * @param $map
+     * @param DOMDocument $imsManifest
+     */
     protected function createMetadataElement(MetadataValue $metadata, DOMElement $metadataNode, $map, DOMDocument $imsManifest)
     {
         $path = $metadata->getPath();
@@ -228,7 +236,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
 
         $uniqNodes = [];
         if ($metadata instanceof ClassificationValue) {
-            $uniqNodes = array('taxonpath', 'source', 'entry');
+            $uniqNodes = array('taxonpath', 'source');
         }
 
         $oldChildNode = null;
