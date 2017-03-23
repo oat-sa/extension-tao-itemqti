@@ -58,7 +58,9 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
         } else {
             $formData= array('instance' => $resource);
         }
-    	$form = new ApipExportForm($formData);
+
+        $formData['title'] = __('Export APIP 1.0 Package');
+    	$form = new ExportForm($formData);
     	return $form->getForm();
     }
     
