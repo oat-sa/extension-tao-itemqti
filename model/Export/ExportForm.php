@@ -92,6 +92,8 @@ class ExportForm
 
 		$fileName = '';
     	$options = array();
+        $description = __('Items');
+        $id = 'instances';
     	if(isset($this->data['instance'])){
     		$item = $this->data['instance'];
     		if($item instanceof core_kernel_classes_Resource){
@@ -109,13 +111,14 @@ class ExportForm
 	    		$class = $itemService->getRootClass();
 	    	}
     		if($class instanceof core_kernel_classes_Class){
-                    $fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
-                    foreach($class->getInstances(true) as $instance){
-                        if($itemService->hasItemModel($instance, array(ItemModel::MODEL_URI)) && $itemService->hasItemContent($instance)){
-                            $options[$instance->getUri()] = $instance->getLabel();
-                        }
-                    }
+                $fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
+                $options[$class->getUri()] = $class->getLabel();
+                foreach($class->getSubClasses(true) as $subClass){
+                        $options[$subClass->getUri()] = $subClass->getLabel();
+                }
+                $description = __('Classes');
     		}
+            $id = 'classes';
     	}
 
 		$nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
@@ -125,8 +128,8 @@ class ExportForm
 		$nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
     	$this->form->addElement($nameElt);
 
-    	$instanceElt = tao_helpers_form_FormFactory::getElement('instances', 'Checkbox');
-    	$instanceElt->setDescription(__('Items'));
+    	$instanceElt = tao_helpers_form_FormFactory::getElement($id, 'Checkbox');
+    	$instanceElt->setDescription($description);
     	$instanceElt->setAttribute('checkAll', true);
 		$instanceElt->setOptions(tao_helpers_Uri::encodeArray($options, tao_helpers_Uri::ENCODE_ARRAY_KEYS));
     	foreach(array_keys($options) as $value){
@@ -135,7 +138,9 @@ class ExportForm
 		$this->form->addElement($instanceElt);
 
 
-    	$this->form->createGroup('options', __('Export QTI 2.1 Package'), array('filename', 'instances'));
+        $title = isset($this->data['title']) ? $this->data['title'] : __('Export QTI 2.1 Package');
+
+    	$this->form->createGroup('options', $title, array('filename', $id));
     }
 
 }
