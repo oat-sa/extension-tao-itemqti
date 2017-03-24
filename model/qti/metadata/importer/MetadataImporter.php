@@ -164,7 +164,7 @@ class MetadataImporter extends AbstractMetadataService
      *
      * @param string $key
      * @param string $name
-     * @return bool|void
+     * @return bool
      * @throws \common_Exception
      */
     public function unregister($key, $name)
