@@ -80,7 +80,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if(is_null($this->getItemModel())){
             throw new ExportException('', 'No Item Model found for item : '.$this->getItem()->getUri());
         }
-        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
+        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
 	    $replacementList = array();
         $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
