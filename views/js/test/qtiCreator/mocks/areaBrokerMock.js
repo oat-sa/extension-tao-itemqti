@@ -57,12 +57,13 @@ define([
 
     /**
      * Builds and returns a new areaBroker with dedicated areas.
+     * @param $brokerContainer - where to create the area broker - default to #qunit-fixture
      * @param areas - A list of areas to create
      * @returns {areaBroker} - Returns the new areaBroker
      */
-    function areaBrokerMock(areas) {
+    function areaBrokerMock($brokerContainer, areas) {
         var mapping = {};
-        var $container = $('<div />').attr('id', 'area-broker-mock-' + (mockId++)).addClass('qti-creator');
+        var $areaBrokerDom = $('<div />').attr('id', 'area-broker-mock-' + (mockId++)).addClass('qti-creator');
 
         if (!areas) {
             areas = defaultAreas;
@@ -71,12 +72,15 @@ define([
         }
 
         _.forEach(areas, function (areaId) {
-            mapping[areaId] = $('<div />').addClass('test-area').addClass(areaId).appendTo($container);
+            mapping[areaId] = $('<div />').addClass('test-area').addClass(areaId).appendTo($areaBrokerDom);
         });
 
-        $('#qunit-fixture').append($container);
+        if (! $brokerContainer) {
+            $brokerContainer = $('#qunit-fixture');
+        }
+        $brokerContainer.append($areaBrokerDom);
 
-        areaBroker = areaBrokerFactory($container, mapping);
+        areaBroker = areaBrokerFactory($areaBrokerDom, mapping);
 
         return areaBroker;
     }
