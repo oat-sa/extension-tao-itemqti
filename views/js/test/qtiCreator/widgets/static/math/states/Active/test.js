@@ -16,15 +16,18 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
+ * This is a first and naive attempt at unit testing a QTI Creator Widget State
+ *
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
     'jquery',
+    'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiItem/core/Math',
     'taoQtiItem/qtiCreator/widgets/static/math/Widget',
     'taoQtiItem/qtiCreator/widgets/static/math/states/Active'
-], function ($, creatorRenderer, mathElement, mathWidget, activeWidget) {
+], function ($, areaBrokerFactory, creatorRenderer, mathElement, mathWidget, activeWidget) {
     'use strict';
 
     QUnit.module('plugin');
@@ -39,13 +42,14 @@ define([
 
     QUnit.asyncTest('Display and play', function (assert) {
         var $outsideContainer = $('#outside-container'),
-            $widgetBox = $outsideContainer.find('.widget-box'),
-            $widgetForm = $outsideContainer.find('.property-form .panel'),
             widget,
-            mathEl = new mathElement();
+            mathEl = new mathElement(),
+            areaBroker = areaBrokerFactory($outsideContainer),
+            $widgetBox = $outsideContainer.find('.widget-box'),
+            $widgetForm = areaBroker.getItemPropertyPanelArea();
 
         creatorRenderer
-            .get(true, { properties: {} })
+            .get(true, { properties: {} }, areaBroker)
             .load(function() {
                 mathEl.init('serial');
                 mathEl.setRenderer(this);
