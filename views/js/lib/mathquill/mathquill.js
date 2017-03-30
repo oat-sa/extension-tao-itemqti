@@ -4932,7 +4932,7 @@ for (var key in MQ1) (function(key, val) {
 
 // AMD Module
 if (typeof define === 'function' && define.amd) {
-  define(['/taoQtiItem/lib/mathquill'], function() {
+  define(['taoQtiItem/lib/mathquill/mathquill'], function() {
     return MathQuill;
   });
 }
