@@ -347,7 +347,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
-
+        if (is_null($qtiItem)) {
+            return [];
+        }
         $assetParser = new AssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
         $assetParser->setGetSharedLibraries(false);
         $returnValue = array();
@@ -367,6 +369,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getPortableElementAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
+        if (is_null($qtiItem)) {
+            return [];
+        }
         $directory = $this->getStorageDirectory($item, $lang);
         $assetParser = new AssetParser($qtiItem, $directory);
         $assetParser->setGetCustomElementDefinition(true);

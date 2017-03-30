@@ -27,7 +27,6 @@ use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
-use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
@@ -94,7 +93,7 @@ class Service extends tao_models_classes_Service
         } catch (FileNotFoundException $e) {
             // fail silently, since file might not have been created yet
             // $returnValue is then NULL.
-            throw new ExportException($item->getLabel(), 'Item('.$item->getUri().') is empty and cannot be exported');
+            common_Logger::d('item('.$item->getUri().') is empty, newly created?');
         }
         
         return $returnValue;
