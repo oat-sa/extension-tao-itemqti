@@ -19,7 +19,9 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
+    'taoQtiItem/qtiCreator/editor/popup/popup',
     'taoQtiItem/qtiCreator/editor/MathEditor',
+    'taoQtiItem/qtiCreator/editor/mathInput/mathInput',
     'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/math',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -29,7 +31,22 @@ define([
     'i18n',
     'mathJax',
     'ui/tooltip'
-], function($, stateFactory, Active, MathEditor, popup, formTpl, formElement, inlineHelper, dynamicComponent, _, __, mathJax){
+], function(
+    $,
+    stateFactory,
+    Active,
+    popupFactory,
+    MathEditor,
+    mathInputFactory,
+    popup,
+    formTpl,
+    formElement,
+    inlineHelper,
+    dynamicComponent,
+    _,
+    __,
+    mathJax
+){
     'use strict';
 
     var MathActive;
@@ -37,31 +54,41 @@ define([
     var _throttle = 300;
 
     var components = {},
-        $componentContainer = $('#item-editor-scroll-inner'); // fixme: this should be given by the area broker
+        $componentContainer,
+        currentMode;
 
     MathActive = stateFactory.extend(Active, function create(){
+        var areaBroker = this.widget.areaBroker; // fixme: use a getter
 
-        this.initForm();
+        $componentContainer = areaBroker.getContainer();
 
         // Create Wysiwyg editor component
-        components.wysiwyg = dynamicComponent()
+        components.wysiwyg = popupFactory()
             .init({
-                title: 'Latex (WYSIWYG)',
+                popupTitle: 'Latex (WYSIWYG)',
                 width: 480,
                 height: 320,
                 minWidth: 240,
                 maxWidth: 960,
                 minHeight: 160,
-                maxHeight: 640,
-                top: 200, // todo: Dynamic component should have a centering option
-                left: ($componentContainer.outerWidth() / 2) - 240
+                maxHeight: 640
             });
 
+        components.wysiwyg.on('render', function() {
+            var $component = this.getElement(),
+                $popupContent = $component.find('.qti-creator-popup-content'),
+                mathInput = mathInputFactory().init();
+
+            mathInput.render($popupContent);
+        });
+
         _.invoke(components, 'render', $componentContainer);
+        _.invoke(components, 'center');
         _.invoke(components, 'hide');
 
-    }, function destroy(){
+        this.initForm();
 
+    }, function destroy(){
         this.widget.$form.empty();
 
         _.invoke(components, 'destroy');
@@ -75,7 +102,8 @@ define([
             mathML = math.mathML || '',
             tex = math.getAnnotation('latex') || '',
             display = math.attr('display') || 'inline',
-            editMode = 'latex';
+            editMode = 'latex',
+            $editorBtn ;
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
@@ -102,7 +130,16 @@ define([
 
             this.initFormChangeListener();
 
+            $editorBtn = $form.find('.open-editor');
+            $editorBtn.on('click', function() { //todo: remove listener
+                if (components[currentMode]) {
+                    components[currentMode].show();
+                }
+            });
+
         }
+
+
 
     };
 
@@ -235,6 +272,8 @@ define([
                 latex : $form.find('input[name=latex]')
             },
             $editMode = $form.find('select[name=editMode]');
+
+        currentMode = mode;
 
         //toggle form visibility
         $panels.mathml.hide();

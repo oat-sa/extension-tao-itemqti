@@ -1,4 +1,5 @@
 /**
+ * ORGINAL VERSION:
  * MathQuill v0.10.1               http://mathquill.com
  * by Han, Jeanine, and Mary  maintainers@mathquill.com
  *
@@ -6,8 +7,14 @@
  * Mozilla Public License, v. 2.0. If a copy of the MPL
  * was not distributed with this file, You can obtain
  * one at http://mozilla.org/MPL/2.0/.
+ *
+ * MODIFIED VERSION:
+ * @author Christophe Noël <christophe@taotesting.com> for OAT SA in 2017
+ * - Change AMD module identifier
+ * - Disabled eslint warnings
+ *
  */
-
+/* eslint-disable */
 (function() {
 
 var jQuery = window.jQuery,
@@ -4925,7 +4932,7 @@ for (var key in MQ1) (function(key, val) {
 
 // AMD Module
 if (typeof define === 'function' && define.amd) {
-  define(['mathquill'], function() {
+  define(['/taoQtiItem/lib/mathquill'], function() {
     return MathQuill;
   });
 }

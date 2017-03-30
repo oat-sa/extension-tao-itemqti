@@ -22,6 +22,8 @@
         <option value="mathml">{{__ "MathML"}}</option>
     </select>
 
+    <button class="btn-info small block open-editor">{{__ "Open editor"}}</button>
+
 </div>
 
 <div class="panel" data-role="latex" style="display:none;">
