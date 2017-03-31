@@ -80,7 +80,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if(is_null($this->getItemModel())){
             throw new ExportException('', 'No Item Model found for item : '.$this->getItem()->getUri());
         }
-        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
+        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
 	    $replacementList = array();
         $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
@@ -347,7 +347,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
-
+        if (is_null($qtiItem)) {
+            return [];
+        }
         $assetParser = new AssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
         $assetParser->setGetSharedLibraries(false);
         $returnValue = array();
@@ -367,6 +369,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getPortableElementAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
+        if (is_null($qtiItem)) {
+            return [];
+        }
         $directory = $this->getStorageDirectory($item, $lang);
         $assetParser = new AssetParser($qtiItem, $directory);
         $assetParser->setGetCustomElementDefinition(true);
