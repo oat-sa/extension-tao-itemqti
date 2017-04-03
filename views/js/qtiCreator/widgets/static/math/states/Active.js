@@ -58,33 +58,6 @@ define([
         currentMode;
 
     MathActive = stateFactory.extend(Active, function create(){
-        var areaBroker = this.widget.areaBroker; // fixme: use a getter
-
-        $componentContainer = areaBroker.getContainer();
-
-        // Create Wysiwyg editor component
-        components.wysiwyg = popupFactory()
-            .init({
-                popupTitle: 'Latex (WYSIWYG)',
-                width: 480,
-                height: 320,
-                minWidth: 240,
-                maxWidth: 960,
-                minHeight: 160,
-                maxHeight: 640
-            });
-
-        components.wysiwyg.on('render', function() {
-            var $component = this.getElement(),
-                $popupContent = $component.find('.qti-creator-popup-content'),
-                mathInput = mathInputFactory().init();
-
-            mathInput.render($popupContent);
-        });
-
-        _.invoke(components, 'render', $componentContainer);
-        _.invoke(components, 'center');
-        _.invoke(components, 'hide');
 
         this.initForm();
 
@@ -103,7 +76,8 @@ define([
             tex = math.getAnnotation('latex') || '',
             display = math.attr('display') || 'inline',
             editMode = 'latex',
-            $editorBtn ;
+            $editorBtn,
+            $fields;
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
@@ -136,6 +110,47 @@ define([
                     components[currentMode].show();
                 }
             });
+
+            // WYSIWYG start
+            $fields = {
+                mathml : $form.find('textarea[name=mathml]'),
+                latex : $form.find('input[name=latex]')
+            };
+
+            var areaBroker = this.widget.areaBroker; // fixme: use a getter
+
+            $componentContainer = areaBroker.getContainer();
+
+            // Create Wysiwyg editor component
+            components.wysiwyg = popupFactory()
+                .on('render', function() {
+                    var $component = this.getElement(),
+                        $popupContent = $component.find('.qti-creator-popup-content'),
+                        mathInput = mathInputFactory().init();
+
+                    mathInput
+                        .render($popupContent)
+                        .on('change', function(latex) {
+                            console.log(latex);
+                            $fields.latex.val(latex);
+                            $fields.latex.trigger('keyup');
+                        });
+                })
+                .init({
+                    popupTitle: 'Latex (WYSIWYG)',
+                    width: 480,
+                    height: 320,
+                    minWidth: 240,
+                    maxWidth: 960,
+                    minHeight: 160,
+                    maxHeight: 640
+                });
+
+            _.invoke(components, 'render', $componentContainer);
+            _.invoke(components, 'center');
+            _.invoke(components, 'hide');
+
+            // WYSIWYG end
 
         }
 
@@ -278,7 +293,7 @@ define([
         //toggle form visibility
         $panels.mathml.hide();
         $panels.latex.hide();
-        components.wysiwyg.hide();
+        // components.wysiwyg.hide();
 
         switch (mode) {
             case 'latex': {

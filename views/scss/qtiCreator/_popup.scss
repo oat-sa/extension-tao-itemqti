@@ -8,6 +8,7 @@ $popupBorder: $titleBarBg;
 .qti-creator-popup {
     background-color: $popupBg;
     border: 1px solid $popupBorder;
+    @include border-radius(5);
 
     .qti-creator-popup-title-bar {
         display: flex;
@@ -37,8 +38,6 @@ $popupBorder: $titleBarBg;
     }
 
     .qti-creator-popup-content {
-        padding: 5px;
-
-
+        padding: 10px;
     }
 }

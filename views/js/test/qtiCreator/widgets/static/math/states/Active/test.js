@@ -45,7 +45,7 @@ define([
             widget,
             mathEl = new mathElement(),
             areaBroker = areaBrokerFactory($outsideContainer),
-            $widgetBox = $outsideContainer.find('.widget-box'),
+            $widgetBox = $('<div>', { 'class': 'widget-box', 'data-serial': 'serial' }),
             $widgetForm = areaBroker.getItemPropertyPanelArea();
 
         creatorRenderer
@@ -53,6 +53,8 @@ define([
             .load(function() {
                 mathEl.init('serial');
                 mathEl.setRenderer(this);
+
+                $widgetBox.appendTo(areaBroker.getItemPanelArea());
 
                 widget = mathWidget.build(mathEl, $widgetBox, $widgetForm);
                 widget.changeState('active');

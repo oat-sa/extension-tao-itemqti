@@ -97,7 +97,7 @@ define([
      */
     function createToolGroup(toolGroup, toolGroupId) {
         var $toolGroup = $('<div>', {
-                'class': 'math-entry-toolgroup',
+                'class': 'math-input-toolgroup',
                 'data-identifier': toolGroupId
             }),
             activeTools = 0;
@@ -123,8 +123,8 @@ define([
      * @returns {jQuery} - the created button
      */
     function createTool(config) {
-        return $('<button>', { // todo: use button if possible?
-            'class': 'small btn-info math-entry-tool',
+        return $('<button>', {
+            'class': 'small btn-info math-input-tool',
             'data-identifier': config.id,
             'data-latex': config.latex,
             'data-fn': config.fn,
@@ -138,6 +138,10 @@ define([
      */
     return function mathInputFactory() {
         var mathInputApi;
+
+        function preventDrag(e) {
+            e.stopPropagation();
+        }
 
         mathInputApi = {
             setLatex: function setLatex(latexString) {
@@ -155,8 +159,12 @@ define([
                 var self = this,
                     $component = this.getElement(),
                     $toolbar = $component.find('.math-input-toolbar'),
+                    inputField = $component.find('.math-input-mathquill').get(0),
+
+                    // todo: abstract this away in another component?
                     MQ = MathQuill.getInterface(2),
                     MQConfig = {
+                        spacesBehavesLikeTab: true, // todo: doesn't work ???
                         handlers: {
                             edit: function onChange() {
                                 self.trigger('change', self.mathField.latex());
@@ -164,11 +172,21 @@ define([
                         }
                     };
 
-                this.mathField = MQ.MathField($component.find('.math-input-mathquill').get(0), MQConfig);
+                this.mathField = MQ.MathField(inputField, MQConfig);
                 createToolbar($toolbar, this.mathField);
+
+                // prevent dragging when the field is rendered in a draggable component
+                inputField.addEventListener('mousedown', preventDrag);
             })
             .on('destroy', function() {
-                // todo destroy me wildly
+                var $component = this.getElement(),
+                    $toolbar = $component.find('.math-input-toolbar'),
+                    inputField = $component.find('.math-input-mathquill').get(0);
+
+                $toolbar.off('mousedown.mathInput');
+                inputField.removeEventListener('mousedown', preventDrag);
+
+                this.mathField.revert.html();
             });
     };
 });
