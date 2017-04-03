@@ -17,12 +17,9 @@
     <div class="tooltip-content">{{__ "How the math expression should be edited"}}.</div>
 
     <select name="editMode" class="select2" data-has-search="false">
-        <option value="wysiwyg">{{__ "Latex (WYSIWYG)"}}</option>
         <option value="latex">{{__ "LaTex"}}</option>
         <option value="mathml">{{__ "MathML"}}</option>
     </select>
-
-    <button class="btn-info small block open-editor">{{__ "Open editor"}}</button>
 
 </div>
 
@@ -32,17 +29,8 @@
     <div class="tooltip-content">{{__ "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"}}</div>
 
     <input id="sidebar-latex-field" type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
-    <a href="#" data-context="latex" class="sidebar-popup-trigger" data-popup="~ .math-editor-container">{{__ "Display larger editor"}}</a>
 
-    <div class="sidebar-popup math-editor-container latex two-fifty">
-        <div class="sidebar-popup-title">
-            <h3>{{__ "Latex"}}</h3>
-            <a class="closer" href="#" title="{{__ 'Close'}}"></a>
-        </div>
-        <div class="sidebar-popup-content">
-            <input data-for="latex"/>
-        </div>
-    </div>
+    <div><button class="btn-info small block latex-editor">{{__ "WYSIWYG editor"}}</button></div>
 </div>
 
 <div class="panel sidebar-popup-container-box" data-role="mathml" style="display:none;">
@@ -52,19 +40,9 @@
 
     <textarea id="sidebar-mathml-field" name="mathml">{{{mathml}}}</textarea>
 
+    <div><button class="btn-info small block mathml-editor">{{__ "Large editor"}}</button></div>
+
     <div class="math-buffer" style="visibility:hidden;"></div>
-    <a href="#" data-context="mathml" class="sidebar-popup-trigger" data-popup="~ .math-editor-container">{{__ "Display larger editor"}}</a>
-
-    <div class="sidebar-popup math-editor-container mathml two-fifty">
-        <div class="sidebar-popup-title">
-            <h3>{{__ "MathML"}}</h3>
-            <a class="closer" href="#" title="{{__ 'Close'}}"></a>
-        </div>
-        <div class="sidebar-popup-content">
-            <textarea data-for="mathml"></textarea>
-        </div>
-    </div>
-
 </div>
 
 {{else}}
