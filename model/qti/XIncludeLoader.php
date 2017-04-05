@@ -128,8 +128,8 @@ class XIncludeLoader
         }else{
             throw new ParsingException('cannot parse pci markup');
         }
-        
-        $customElement->setMarkup($xml->saveXML());
+
+        $customElement->setMarkup($xml->saveXML(null, LIBXML_NOEMPTYTAG));
         
         return $xincludes;
     }
