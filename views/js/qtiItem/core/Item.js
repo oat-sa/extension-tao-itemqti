@@ -83,6 +83,16 @@ define([
             }
             return this;
         },
+        getOutcomeDeclaration : function getOutcomeDeclaration(identifier){
+            var found;
+            _.each(this.outcomes, function (outcome) {
+                if (outcome.id() === identifier) {
+                    found = outcome;
+                    return false;
+                }
+            });
+            return found;
+        },
         addModalFeedback : function addModalFeedback(feedback){
             if(Element.isA(feedback, 'modalFeedback')){
                 feedback.setRelatedItem(this);

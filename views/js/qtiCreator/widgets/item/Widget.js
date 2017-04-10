@@ -30,6 +30,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
+    'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
@@ -48,6 +49,7 @@ define([
     contentHelper,
     xmlRenderer,
     devTools,
+    responseHelper,
     TextWidget,
     styleEditor,
     genericFeedbackPopup
@@ -106,6 +108,8 @@ define([
     ItemWidget.save = function(){
         var self = this;
         return new Promise(function(resolve, reject){
+            var xml;
+
             // transform application errors into object Error in order to make them displayable
             function rejectError(err) {
                 if (err.type === 'Error') {
@@ -114,7 +118,8 @@ define([
                 reject(err);
             }
 
-            var xml = xmlRenderer.render(self.element);
+            responseHelper.setNormalMaximum(self.element);
+            xml = xmlRenderer.render(self.element);
 
             //@todo : remove this hotfix : prevent unsupported custom interaction to be saved
             if(hasUnsupportedInteraction(xml)){
