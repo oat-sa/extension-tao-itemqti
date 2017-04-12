@@ -66,11 +66,14 @@ define(['lodash'], function(_) {
                     var template = self.getTemplateNameFromUri(responseDeclaration.template);
                     var max, scoreMaps, skippableWrongResponse, totalAnswerableResponse;
 
-                    //console.log(responseDeclaration);
-                    //console.log(template);
+                    //console.log(responseDeclaration.correctResponse);
 
                     if (template === 'MATCH_CORRECT') {
-                        if(maxChoice && _.isArray(responseDeclaration.correctResponses) && responseDeclaration.correctResponses.length > maxChoice){
+                        if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice){
+                            //max choice does not enable selecting the correct responses
+                            max = 0;
+                        }else if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
+                            //no correct response defined -> score always zero
                             max = 0;
                         }else{
                             max = 1;

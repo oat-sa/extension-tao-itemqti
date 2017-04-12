@@ -20,30 +20,36 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/response',
+    'json!taoQtiItem/test/qtiItem/response/data/choice-correct-noresponse.json',
     'json!taoQtiItem/test/qtiItem/response/data/choice-correct-multiple.json',
     'json!taoQtiItem/test/qtiItem/response/data/choice-map-maxchoice3.json',
     'json!taoQtiItem/test/qtiItem/response/data/choice-map-upperbound2.json',
     'json!taoQtiItem/test/qtiItem/response/data/composite-choice-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/composite-choice-correct-map.json',
+    'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-correct-noresponse.json',
 ], function (
     _,
     Element,
     Loader,
     responseHelper,
+    dataChoiceCorrectNoResponse,
     dataChoiceCorrectMupltiple,
     dataChoiceMaxchoice3,
     dataChoiceUpperbound2,
     dataCompositeChoiceCorrect,
-    dataCompositeChoiceCorrectMap
+    dataCompositeChoiceCorrectMap,
+    dataInlineChoiceCorrectNoResponse
 ){
     'use strict';
 
     var cases = [
+        { title : 'single choice correct - no correct response', data : dataChoiceCorrectNoResponse, expectedMaximum: 0},
         { title : 'single choice correct', data : dataChoiceCorrectMupltiple, expectedMaximum: 1},
         { title : 'single choice map - maxChoice 3', data : dataChoiceMaxchoice3, expectedMaximum: 3},
         { title : 'single choice map - upperBound 2', data : dataChoiceUpperbound2, expectedMaximum: 2},
         { title : 'composite choice correct', data : dataCompositeChoiceCorrect, expectedMaximum: 2},
-        { title : 'composite choice correct and map', data : dataCompositeChoiceCorrectMap, expectedMaximum: 2.5}
+        { title : 'composite choice correct and map', data : dataCompositeChoiceCorrectMap, expectedMaximum: 2.5},
+        { title : 'inline choice - no correct response', data : dataInlineChoiceCorrectNoResponse, expectedMaximum: 0}
     ];
 
     QUnit
