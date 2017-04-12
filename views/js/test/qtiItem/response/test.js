@@ -29,6 +29,8 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-correct-noresponse.json',
     'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-map.json',
+    'json!taoQtiItem/test/qtiItem/response/data/order-noresponse.json',
+    'json!taoQtiItem/test/qtiItem/response/data/order-correct.json',
 ], function (
     _,
     Element,
@@ -42,7 +44,9 @@ define([
     dataCompositeChoiceCorrectMap,
     dataInlineChoiceCorrectNoResponse,
     dataInlineChoiceCorrect,
-    dataInlineChoiceMap
+    dataInlineChoiceMap,
+    dataOrderNoResponse,
+    dataOrder
 ){
     'use strict';
 
@@ -55,7 +59,9 @@ define([
         { title : 'composite choice correct and map', data : dataCompositeChoiceCorrectMap, expectedMaximum: 2.5},
         { title : 'inline choice correct - no correct response', data : dataInlineChoiceCorrectNoResponse, expectedMaximum: 0},
         { title : 'inline choice correct', data : dataInlineChoiceCorrect, expectedMaximum: 1},
-        { title : 'inline choice map', data : dataInlineChoiceMap, expectedMaximum: 2}
+        { title : 'inline choice map', data : dataInlineChoiceMap, expectedMaximum: 2},
+        { title : 'order - no correct response', data : dataOrderNoResponse, expectedMaximum: 0},
+        { title : 'order', data : dataOrder, expectedMaximum: 1},
     ];
 
     QUnit

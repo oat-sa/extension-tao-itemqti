@@ -5,33 +5,34 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
         identifier="i1492000233609482" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+    <responseDeclaration baseType="identifier" cardinality="ordered" identifier="RESPONSE">
         <correctResponse>
             <value>
                 <![CDATA[choice_1]]>
             </value>
+            <value>
+                <![CDATA[choice_2]]>
+            </value>
+            <value>
+                <![CDATA[choice_3]]>
+            </value>
         </correctResponse>
-        <mapping defaultValue="0">
-            <mapEntry mapKey="choice_1" mappedValue="1" caseSensitive="false"/>
-            <mapEntry mapKey="choice_2" mappedValue="0.5" caseSensitive="false"/>
-            <mapEntry mapKey="choice_3" mappedValue="-1" caseSensitive="false"/>
-        </mapping>
     </responseDeclaration>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>
     <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing ...
-
-                    <inlineChoiceInteraction responseIdentifier="RESPONSE" shuffle="false" required="false">
-                        <inlineChoice identifier="choice_1" fixed="false" showHide="show">choice #1</inlineChoice>
-                        <inlineChoice identifier="choice_2" fixed="false" showHide="show">choice #2</inlineChoice>
-                        <inlineChoice identifier="choice_3" fixed="false" showHide="show">choice #3</inlineChoice>
-                    </inlineChoiceInteraction>
-                </p>
+                <orderInteraction shuffle="false" orientation="vertical" responseIdentifier="RESPONSE">
+                    <prompt  />
+                    <simpleChoice fixed="false" showHide="show" identifier="choice_1">choice #1</simpleChoice>
+                    <simpleChoice fixed="false" showHide="show" identifier="choice_2">choice #2</simpleChoice>
+                    <simpleChoice fixed="false" showHide="show" identifier="choice_3">choice #3</simpleChoice>
+                    <simpleChoice fixed="false" showHide="show" identifier="choice_4">choice #4</simpleChoice>
+                    <simpleChoice fixed="false" showHide="show" identifier="choice_5">choice #5</simpleChoice>
+                </orderInteraction>
             </div>
         </div>
     </itemBody>
-    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
 </assessmentItem>
