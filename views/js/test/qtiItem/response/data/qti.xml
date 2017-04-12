@@ -4,20 +4,26 @@
         xmlns:m="http://www.w3.org/1998/Math/MathML"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
-        identifier="i14915736639201476" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
+        identifier="i14919775831610479" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
         <correctResponse>
             <value>
                 <![CDATA[choice_1]]>
             </value>
-            <value>
-                <![CDATA[choice_2]]>
-            </value>
         </correctResponse>
     </responseDeclaration>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="3"/>
-    <outcomeDeclaration identifier="OUTCOME_1" cardinality="single" baseType="float" normalMaximum="1" normalMinimum="0"/>
-    <outcomeDeclaration identifier="OUTCOME_2" cardinality="single" baseType="float" normalMaximum="1" normalMinimum="0"/>
+    <responseDeclaration identifier="RESPONSE_1" cardinality="multiple" baseType="identifier">
+        <correctResponse>
+            <value>
+                <![CDATA[choice_4]]>
+            </value>
+        </correctResponse>
+        <mapping defaultValue="0">
+            <mapEntry mapKey="choice_4" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_5" mappedValue="0.5" caseSensitive="false"/>
+        </mapping>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="2"/>
     <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
     <itemBody>
         <div class="grid-row">
@@ -30,6 +36,46 @@
                 </choiceInteraction>
             </div>
         </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <choiceInteraction responseIdentifier="RESPONSE_1" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
+                    <prompt  />
+                    <simpleChoice identifier="choice_4" fixed="false" showHide="show">choice #1</simpleChoice>
+                    <simpleChoice identifier="choice_5" fixed="false" showHide="show">choice #2</simpleChoice>
+                    <simpleChoice identifier="choice_6" fixed="false" showHide="show">choice #3</simpleChoice>
+                </choiceInteraction>
+            </div>
+        </div>
     </itemBody>
-    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="RESPONSE" />
+                    <correct identifier="RESPONSE" />
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE" />
+                        <baseValue baseType="integer">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <not>
+                    <isNull>
+                        <variable identifier="RESPONSE_1" />
+                    </isNull>
+                </not>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE" />
+                        <mapResponse identifier="RESPONSE_1" />
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
 </assessmentItem>

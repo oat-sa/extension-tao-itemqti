@@ -20,17 +20,41 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/response',
-    'json!taoQtiItem/test/qtiItem/response/data/choice-correct-multiple.json'
-], function (_, Element, Loader, responseHelper, dataChoiceCorrectMupltiple){
+    'json!taoQtiItem/test/qtiItem/response/data/choice-correct-multiple.json',
+    'json!taoQtiItem/test/qtiItem/response/data/choice-map-maxchoice3.json',
+    'json!taoQtiItem/test/qtiItem/response/data/choice-map-upperbound2.json',
+    'json!taoQtiItem/test/qtiItem/response/data/composite-choice-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/composite-choice-correct-map.json',
+], function (
+    _,
+    Element,
+    Loader,
+    responseHelper,
+    dataChoiceCorrectMupltiple,
+    dataChoiceMaxchoice3,
+    dataChoiceUpperbound2,
+    dataCompositeChoiceCorrect,
+    dataCompositeChoiceCorrectMap
+){
     'use strict';
 
-    QUnit.asyncTest('set/getEncodedData', function(assert){
+    var cases = [
+        { title : 'single choice correct', data : dataChoiceCorrectMupltiple, expectedMaximum: 1},
+        { title : 'single choice map - maxChoice 3', data : dataChoiceMaxchoice3, expectedMaximum: 3},
+        { title : 'single choice map - upperBound 2', data : dataChoiceUpperbound2, expectedMaximum: 2},
+        { title : 'composite choice correct', data : dataCompositeChoiceCorrect, expectedMaximum: 2},
+        { title : 'composite choice correct and map', data : dataCompositeChoiceCorrectMap, expectedMaximum: 2.5}
+    ];
+
+    QUnit
+        .cases(cases)
+        .asyncTest('setNormalMaximum', function(data, assert){
+
         var loader = new Loader();
 
-        loader.loadItemData(dataChoiceCorrectMupltiple, function(item){
+        loader.loadItemData(data.data, function(item){
 
-            var outcomeScore, normalMaximum;
-            var expectedMaximum = 1;
+            var outcomeScore;
 
             QUnit.start();
             assert.ok(Element.isA(item, 'assessmentItem'), 'item loaded');
@@ -39,32 +63,8 @@ define([
             assert.ok(_.isUndefined(outcomeScore.attr('normalMaximum')), 'normalMaximum initially undefined');
 
             responseHelper.setNormalMaximum(item);
-            assert.equal(outcomeScore.attr('normalMaximum'), expectedMaximum, 'normalMaximum initially undefined');
+            assert.equal(outcomeScore.attr('normalMaximum'), data.expectedMaximum, 'calculated normalMaximum is correct');
         });
-
-        return;
-        var fb = new ModalFeedback();
-        fb.body('<p>AAA</p>');
-
-        //set data
-        container.setEncodedData(fb, 'customData1', 'customValueA');
-        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueA"><p>AAA</p></div>');
-        assert.equal(container.hasEncodedData(fb, 'customData1', 'customValueA'), true);
-        assert.equal(container.getEncodedData(fb, 'customData1'), 'customValueA');
-
-        //edit data
-        container.setEncodedData(fb, 'customData1', 'customValueB');
-        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB"><p>AAA</p></div>');
-        assert.equal(container.hasEncodedData(fb, 'customData1', 'customValueB'), true);
-        assert.equal(container.getEncodedData(fb, 'customData1'), 'customValueB');
-
-        //set another data
-        container.setEncodedData(fb, 'customData2', 'customValueC');
-        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB x-tao-customData2-customValueC"><p>AAA</p></div>');
-        assert.equal(container.hasEncodedData(fb, 'customData1', 'customValueB'), true);
-        assert.equal(container.getEncodedData(fb, 'customData1'), 'customValueB');
-        assert.equal(container.hasEncodedData(fb, 'customData2', 'customValueC'), true);
-        assert.equal(container.getEncodedData(fb, 'customData2'), 'customValueC');
     });
 
 });
