@@ -31,6 +31,8 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-map.json',
     'json!taoQtiItem/test/qtiItem/response/data/order-noresponse.json',
     'json!taoQtiItem/test/qtiItem/response/data/order-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/textentry-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/textentry-map.json',
 ], function (
     _,
     Element,
@@ -46,7 +48,9 @@ define([
     dataInlineChoiceCorrect,
     dataInlineChoiceMap,
     dataOrderNoResponse,
-    dataOrder
+    dataOrder,
+    dataTextentryCorrect,
+    dataTextentryMap
 ){
     'use strict';
 
@@ -62,6 +66,8 @@ define([
         { title : 'inline choice map', data : dataInlineChoiceMap, expectedMaximum: 2},
         { title : 'order - no correct response', data : dataOrderNoResponse, expectedMaximum: 0},
         { title : 'order', data : dataOrder, expectedMaximum: 1},
+        { title : 'text entry - correct', data : dataTextentryCorrect, expectedMaximum: 1},
+        { title : 'text entry - map', data : dataTextentryMap, expectedMaximum: 2},
     ];
 
     QUnit
