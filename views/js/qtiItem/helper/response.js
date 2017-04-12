@@ -54,61 +54,12 @@ define(['lodash'], function(_) {
             return tplName;
         },
         setNormalMaximum: function setNormalMaximum(item) {
-            var self = this;
             var normalMaximum;
 
             if (item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
 
                 normalMaximum = _.reduce(item.getInteractions(), function (acc, interaction) {
-                    var maxChoice = parseInt(interaction.attr('maxChoices'));
-                    var minChoice = parseInt(interaction.attr('minChoices'));
-                    var responseDeclaration = interaction.getResponseDeclaration();
-                    var template = self.getTemplateNameFromUri(responseDeclaration.template);
-                    var max, scoreMaps, skippableWrongResponse, totalAnswerableResponse;
-
-                    //console.log(responseDeclaration.correctResponse);
-
-                    if (template === 'MATCH_CORRECT') {
-                        if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice){
-                            //max choice does not enable selecting the correct responses
-                            max = 0;
-                        }else if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
-                            //no correct response defined -> score always zero
-                            max = 0;
-                        }else{
-                            max = 1;
-                        }
-                    }else if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT'){
-
-                        //calculate the maximum reachable score by choice map
-                        scoreMaps = _.values(responseDeclaration.mapEntries);
-                        skippableWrongResponse = (minChoice === 0) ? Infinity : minChoice;
-                        totalAnswerableResponse = (maxChoice === 0) ? Infinity : maxChoice;
-
-                        //console.log(_(scoreMaps).map(function(v){
-                        //    return parseFloat(v);
-                        //}).sortBy().take(totalAnswerableResponse).values());
-
-                        max = _(scoreMaps).map(function(v){
-                            return parseFloat(v);
-                        }).sortBy().take(totalAnswerableResponse).reduce(function(acc, v){
-                            if(v >= 0){
-                                return acc+v;
-                            }else if(skippableWrongResponse > 0){
-                                skippableWrongResponse--;
-                                return acc;
-                            }else{
-                                return acc+v;
-                            }
-                        }, 0);
-
-                        //compare the calculated maximum with the mapping upperbound
-                        if(responseDeclaration.mappingAttributes.upperBound){
-                            max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
-                        }
-                    }
-
-                    return acc + max;
+                    return acc + interaction.getNormalMaximum();
                 }, 0);
             }
 

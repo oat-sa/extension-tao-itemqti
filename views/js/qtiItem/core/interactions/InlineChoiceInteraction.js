@@ -1,6 +1,38 @@
-define(['taoQtiItem/qtiItem/core/interactions/InlineInteraction'], function(InlineInteraction){
+define([
+    'taoQtiItem/qtiItem/core/interactions/InlineInteraction',
+    'taoQtiItem/qtiItem/helper/response',
+    'lodash'
+], function(InlineInteraction, responseHelper, _){
+    'use strict';
     var InlineChoiceInteraction = InlineInteraction.extend({
-        'qtiClass' : 'inlineChoiceInteraction'
+        'qtiClass' : 'inlineChoiceInteraction',
+        getNormalMaximum : function getNormalMaximum(){
+            var responseDeclaration = this.getResponseDeclaration();
+            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var max, scoreMaps;
+
+            if (template === 'MATCH_CORRECT') {
+                if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
+                    //no correct response defined -> score always zero
+                    max = 0;
+                }else{
+                    max = 1;
+                }
+            }else if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT') {
+
+                //calculate the maximum reachable score by choice map
+                scoreMaps = _.values(responseDeclaration.mapEntries);
+                max = _(scoreMaps).map(function (v) {
+                    return parseFloat(v);
+                }).max();
+
+                //compare the calculated maximum with the mapping upperbound
+                if (responseDeclaration.mappingAttributes.upperBound) {
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                }
+            }
+            return max;
+        }
     });
     return InlineChoiceInteraction;
 });

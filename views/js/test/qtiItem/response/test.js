@@ -27,6 +27,8 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/composite-choice-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/composite-choice-correct-map.json',
     'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-correct-noresponse.json',
+    'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/inlinechoice-map.json',
 ], function (
     _,
     Element,
@@ -38,7 +40,9 @@ define([
     dataChoiceUpperbound2,
     dataCompositeChoiceCorrect,
     dataCompositeChoiceCorrectMap,
-    dataInlineChoiceCorrectNoResponse
+    dataInlineChoiceCorrectNoResponse,
+    dataInlineChoiceCorrect,
+    dataInlineChoiceMap
 ){
     'use strict';
 
@@ -49,7 +53,9 @@ define([
         { title : 'single choice map - upperBound 2', data : dataChoiceUpperbound2, expectedMaximum: 2},
         { title : 'composite choice correct', data : dataCompositeChoiceCorrect, expectedMaximum: 2},
         { title : 'composite choice correct and map', data : dataCompositeChoiceCorrectMap, expectedMaximum: 2.5},
-        { title : 'inline choice - no correct response', data : dataInlineChoiceCorrectNoResponse, expectedMaximum: 0}
+        { title : 'inline choice correct - no correct response', data : dataInlineChoiceCorrectNoResponse, expectedMaximum: 0},
+        { title : 'inline choice correct', data : dataInlineChoiceCorrect, expectedMaximum: 1},
+        { title : 'inline choice map', data : dataInlineChoiceMap, expectedMaximum: 2}
     ];
 
     QUnit
