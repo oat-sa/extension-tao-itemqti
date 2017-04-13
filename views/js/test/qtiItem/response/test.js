@@ -40,6 +40,7 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/hotspot-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/selectpoint-map.json',
     'json!taoQtiItem/test/qtiItem/response/data/graphicorder-map.json',
+    'json!taoQtiItem/test/qtiItem/response/data/slider-correct.json',
 ], function (
     _,
     Element,
@@ -64,7 +65,8 @@ define([
     dataHottextCorrect,
     dataHotspotCorrect,
     dataSelectpointMap,
-    dataGraphicOrderCorrect
+    dataGraphicOrderCorrect,
+    dataSliderCorrect
 ){
     'use strict';
 
@@ -89,6 +91,7 @@ define([
         { title : 'hotspot - correct', data : dataHotspotCorrect, expectedMaximum: 1},
         { title : 'select point - map', data : dataSelectpointMap, expectedMaximum: 2},
         { title : 'graphic order - correct', data : dataGraphicOrderCorrect, expectedMaximum: 1},
+        { title : 'slider- correct', data : dataSliderCorrect, expectedMaximum: 1},
     ];
 
     QUnit

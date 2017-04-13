@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
-        xmlns:m="http://www.w3.org/1998/Math/MathML"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction"
-        xmlns:html5="html5"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
         identifier="i1492000233609482" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration baseType="identifier" cardinality="ordered" identifier="RESPONSE">
+    <responseDeclaration baseType="integer" cardinality="single" identifier="RESPONSE">
         <correctResponse>
             <value>
-                <![CDATA[hotspot_1]]>
-            </value>
-            <value>
-                <![CDATA[hotspot_2]]>
+                <![CDATA[38]]>
             </value>
         </correctResponse>
     </responseDeclaration>
@@ -22,13 +16,9 @@
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <graphicOrderInteraction class="responsive" responseIdentifier="RESPONSE">
+                <sliderInteraction lowerBound="0" upperBound="100" orientation="horizontal" reverse="false" step="1" stepLabel="false" responseIdentifier="RESPONSE">
                     <prompt  />
-                    <object width="428" height="276" type="image/gif" data="splintercell.gif" />
-                    <hotspotChoice shape="circle" coords="31,40,5" identifier="hotspot_1" />
-                    <hotspotChoice shape="circle" coords="141,116,14" identifier="hotspot_2" />
-                    <hotspotChoice shape="circle" coords="263,31,11" identifier="hotspot_3" />
-                </graphicOrderInteraction>
+                </sliderInteraction>
             </div>
         </div>
     </itemBody>
