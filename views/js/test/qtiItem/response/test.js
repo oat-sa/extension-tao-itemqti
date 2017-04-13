@@ -36,6 +36,8 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/upload.json',
     'json!taoQtiItem/test/qtiItem/response/data/custom.json',
     'json!taoQtiItem/test/qtiItem/response/data/upload-choice-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/hottext-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/hotspot-correct.json',
 ], function (
     _,
     Element,
@@ -56,7 +58,9 @@ define([
     dataTextentryMap,
     dataUpload,
     dataCustom,
-    dataUploadChoice
+    dataUploadChoice,
+    dataHottextCorrect,
+    dataHotspotCorrect
 ){
     'use strict';
 
@@ -77,6 +81,8 @@ define([
         { title : 'upload', data : dataUpload, expectedMaximum: undefined},
         { title : 'custom', data : dataCustom, expectedMaximum: undefined},
         { title : 'upload and choice - correct', data : dataUploadChoice, expectedMaximum: undefined},
+        { title : 'hottext - correct', data : dataHottextCorrect, expectedMaximum: 1},
+        { title : 'hotspotCorrect - correct', data : dataHotspotCorrect, expectedMaximum: 1},
     ];
 
     QUnit
