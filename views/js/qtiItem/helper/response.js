@@ -54,18 +54,30 @@ define(['lodash'], function(_) {
             return tplName;
         },
         setNormalMaximum: function setNormalMaximum(item) {
-            var normalMaximum;
+            var normalMaximum,
+                scoreOutcome = item.getOutcomeDeclaration('SCORE');
+
+            if(!scoreOutcome){
+                throw Error('no score outcome found');
+            }
 
             if (item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
-
                 normalMaximum = _.reduce(item.getInteractions(), function (acc, interaction) {
-                    return acc + interaction.getNormalMaximum();
+                    var interactionMaxScore = interaction.getNormalMaximum();
+                    if(_.isNumber(interactionMaxScore)){
+                        return acc + interactionMaxScore;
+                    }else{
+                        return false;
+                    }
                 }, 0);
             }
 
-            //console.log('normalMaximum', normalMaximum);
+            if(_.isNumber(normalMaximum)){
+                scoreOutcome.attr('normalMaximum', normalMaximum);
+            }else{
+                scoreOutcome.removeAttr('normalMaximum');
+            }
 
-            item.getOutcomeDeclaration('SCORE').attr('normalMaximum', normalMaximum);
         }
     };
 });

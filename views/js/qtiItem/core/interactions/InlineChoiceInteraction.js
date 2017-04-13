@@ -18,18 +18,21 @@ define([
                 }else{
                     max = 1;
                 }
-            }else if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT') {
+            }else if(template === 'MAP_RESPONSE') {
 
                 //calculate the maximum reachable score by choice map
                 scoreMaps = _.values(responseDeclaration.mapEntries);
                 max = _(scoreMaps).map(function (v) {
                     return parseFloat(v);
                 }).max();
+                max = parseFloat(max);
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
                     max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
                 }
+            }else if(template === 'MAP_RESPONSE_POINT'){
+                max = false;
             }
             return max;
         }

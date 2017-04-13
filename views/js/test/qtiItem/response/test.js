@@ -33,6 +33,9 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/order-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/textentry-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/textentry-map.json',
+    'json!taoQtiItem/test/qtiItem/response/data/upload.json',
+    'json!taoQtiItem/test/qtiItem/response/data/custom.json',
+    'json!taoQtiItem/test/qtiItem/response/data/upload-choice-correct.json',
 ], function (
     _,
     Element,
@@ -50,7 +53,10 @@ define([
     dataOrderNoResponse,
     dataOrder,
     dataTextentryCorrect,
-    dataTextentryMap
+    dataTextentryMap,
+    dataUpload,
+    dataCustom,
+    dataUploadChoice
 ){
     'use strict';
 
@@ -68,6 +74,9 @@ define([
         { title : 'order', data : dataOrder, expectedMaximum: 1},
         { title : 'text entry - correct', data : dataTextentryCorrect, expectedMaximum: 1},
         { title : 'text entry - map', data : dataTextentryMap, expectedMaximum: 2},
+        { title : 'upload', data : dataUpload, expectedMaximum: undefined},
+        { title : 'custom', data : dataCustom, expectedMaximum: undefined},
+        { title : 'upload and choice - correct', data : dataUploadChoice, expectedMaximum: undefined},
     ];
 
     QUnit
