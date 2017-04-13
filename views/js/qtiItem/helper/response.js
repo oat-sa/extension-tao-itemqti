@@ -126,6 +126,28 @@ define(['lodash'], function(_) {
                 max = false;
             }
             return max;
+        },
+        orderInteractionBased : function orderInteractionBased(interaction){
+            var responseHelper = this;
+            var maxChoice = parseInt(interaction.attr('maxChoices'));
+            var responseDeclaration = interaction.getResponseDeclaration();
+            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var max;
+
+            if (template === 'MATCH_CORRECT') {
+                if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice){
+                    //max choice does not enable selecting the correct responses
+                    max = 0;
+                }else if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
+                    //no correct response defined -> score always zero
+                    max = 0;
+                }else{
+                    max = 1;
+                }
+            }else if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT') {
+                max = false;
+            }
+            return max;
         }
     };
 });
