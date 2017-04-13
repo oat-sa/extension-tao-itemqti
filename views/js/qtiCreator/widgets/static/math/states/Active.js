@@ -107,7 +107,9 @@ define([
             // Create popups
             $popupsContainer = areaBroker.getContainer();
             this.popups = {
-                latex: this.createLatexPopup($popupsContainer)
+                latexWysiwyg: this.createLatexPopup($popupsContainer),
+                latex: this.createLargeEditor($popupsContainer, 'latex'),
+                mathml: this.createLargeEditor($popupsContainer, 'mathml')
             };
 
             //... init standard ui widget
@@ -127,14 +129,15 @@ define([
             mathML = math.mathML,
             mathEditor,
             tex = math.getAnnotation('latex'),
-            display = math.attr('display') || 'inline',
-            $fields = {
-                mathml : $form.find('textarea[name=mathml]'),
-                latex : $form.find('input[name=latex]')
-            },
-            $modeSelector = $form.find('select[name=editMode]');
+            display = math.attr('display') || 'inline';
+            // $fields = {
+            //     mathml : $form.find('textarea[name=mathml]'),
+            //     latex : $form.find('input[name=latex]')
+            // },
+            // $modeSelector = $form.find('select[name=editMode]');
 
 
+        /*
         $form.find('.sidebar-popup-trigger').each(function() {
             var $trigger = $(this),
                 context = $trigger.data('context');
@@ -171,7 +174,7 @@ define([
 
             });
         });
-
+        */
 
         mathEditor = new MathEditor({
             tex : tex,
@@ -207,7 +210,7 @@ define([
                     m.setAnnotation('latex', value);
 
                     //update mathML
-                    $fields.mathml.html(mathEditor.mathML);
+                    self.$fields.mathml.val(mathEditor.mathML);
                     m.setMathML(mathEditor.mathML);
 
                     inlineHelper.togglePlaceholder(_widget);
@@ -224,7 +227,7 @@ define([
                     m.setMathML(mathEditor.mathML);
 
                     //clear tex:
-                    $fields.latex.val('');
+                    self.$fields.latex.val('');
                     m.removeAnnotation('latex');
 
                     inlineHelper.togglePlaceholder(_widget);
@@ -235,9 +238,15 @@ define([
             }, _throttle)
         });
 
+        // todo: factorise this
         $form.find('.latex-editor').on('click', function() { //todo: remove listener
             if (self.popups.latex) {
                 self.popups.latex.show();
+            }
+        });
+        $form.find('.latex-wysiwyg-editor').on('click', function() { //todo: remove listener
+            if (self.popups.latexWysiwyg) {
+                self.popups.latexWysiwyg.show();
             }
         });
         $form.find('.mathml-editor').on('click', function() { //todo: remove listener
@@ -254,7 +263,7 @@ define([
         return popupFactory()
             .on('render', function() {
                 var $component = this.getElement(),
-                    $popupContent = $component.find('.qti-creator-popup-content');
+                    $popupContent = $component.find('.qti-creator-popup-content'); // todo: use getContent()
 
                 this.mathInput = mathInputFactory()
                     .init()
@@ -293,31 +302,56 @@ define([
 
     };
 
-    MathActive.prototype.createMathmlPopup = function createMathmlPopup() {
+    MathActive.prototype.createLargeEditor = function createLargeEditor($container, popupMode) {
         var self = this;
 
         return popupFactory()
             .on('render', function() {
                 var $component = this.getElement(),
                     $popupContent = $component.find('.qti-creator-popup-content'), // todo: use getContent()
-                    mathInput = mathInputFactory().init();
+                    $popupField = ($('<textarea>', {
+                        name: popupMode + '-large',
+                        placeholder: self.$fields[popupMode].attr('placeholder')
+                    }));
 
-                mathInput
-                    .render($popupContent)
-                    .on('change', function(mathml) {
-                        self.$fields.mathml.val(mathml);
-                        self.$fields.mathml.trigger('keyup');
+                $popupContent.append($popupField);
+
+                $popupField
+                    .on('mousedown', function(e) {
+                        e.stopPropagation();
+                    })
+                    .on('keyup', function() {
+                        self.$fields[popupMode].val($popupField.val());
+                        self.$fields[popupMode].trigger('keyup');
                     });
             })
+            .on('show', function() {
+                var $component = this.getElement(),
+                    $popupContent = $component.find('.qti-creator-popup-content'), // todo: use getContent()
+                    $popupField = $popupContent.find('textarea');
+
+                $popupField.val((self.$fields[popupMode].val()));
+                // disable small form
+                self.$fields[popupMode].prop('disabled', true);
+                self.$editMode.prop('disabled', true);
+            })
+            .on('hide', function() {
+                // enable form
+                self.$fields[popupMode].prop('disabled', false);
+                self.$editMode.prop('disabled', false);
+            })
             .init({
-                popupTitle: 'Latex (WYSIWYG)',
+                popupTitle: popupMode,
                 width: 480,
                 height: 320,
                 minWidth: 240,
                 maxWidth: 960,
                 minHeight: 160,
                 maxHeight: 640
-            });
+            })
+            .render($container)
+            .center()
+            .hide();
     };
 
 

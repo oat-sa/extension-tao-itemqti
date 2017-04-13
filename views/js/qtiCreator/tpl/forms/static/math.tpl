@@ -30,10 +30,11 @@
 
     <input id="sidebar-latex-field" type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
 
-    <div><button class="btn-info small block latex-editor">{{__ "WYSIWYG editor"}}</button></div>
+    <div><button class="btn-info small block latex-editor">{{__ "Large editor"}}</button></div>
+    <div><button class="btn-info small block latex-wysiwyg-editor">{{__ "WYSIWYG editor"}}</button></div>
 </div>
 
-<div class="panel sidebar-popup-container-box" data-role="mathml" style="display:none;">
+<div class="panel" data-role="mathml" style="display:none;">
     <label for="sidebar-mathml-field" class="has-icon">{{__ "MathML"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "Edit math expression using MathML"}}</div>
