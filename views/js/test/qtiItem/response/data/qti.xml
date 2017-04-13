@@ -7,26 +7,23 @@
         xmlns:html5="html5"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
         identifier="i1492000233609482" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration baseType="identifier" cardinality="multiple" identifier="RESPONSE">
-        <correctResponse>
-            <value>
-                <![CDATA[hotspot_1]]>
-            </value>
-        </correctResponse>
+    <responseDeclaration baseType="point" cardinality="multiple" identifier="RESPONSE">
+        <areaMapping defaultValue="0">
+            <areaMapEntry shape="circle" coords="179,115,61" mappedValue="-1" />
+            <areaMapEntry shape="circle" coords="26,57,7" mappedValue="2" />
+        </areaMapping>
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
     <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <hotspotInteraction maxChoices="0" class="responsive" responseIdentifier="RESPONSE">
+                <selectPointInteraction maxChoices="0" minChoices="0" class="responsive" responseIdentifier="RESPONSE">
                     <prompt  />
-                    <object width="428" height="276" type="image/gif" data="splintercell.gif" />
-                    <hotspotChoice shape="circle" coords="234,32,23" identifier="hotspot_1" />
-                    <hotspotChoice shape="circle" coords="94,115,15" identifier="hotspot_2" />
-                </hotspotInteraction>
+                    <object width="428" height="276" type="image/gif" data="background.gif" />
+                </selectPointInteraction>
             </div>
         </div>
     </itemBody>
-    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point"/>
 </assessmentItem>
