@@ -58,6 +58,7 @@ define(['lodash'], function(_) {
                 scoreOutcome = item.getOutcomeDeclaration('SCORE');
 
             if(!scoreOutcome){
+                //invalid QTI item with missing mandatory SCORE outcome
                 throw Error('no score outcome found');
             }
 
