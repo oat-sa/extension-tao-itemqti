@@ -20,7 +20,7 @@
 
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 
-$libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
+$libBasePath = EXTENSION_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
 $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
 $installBasePath = __DIR__ . '/portableSharedLibraries';
 
