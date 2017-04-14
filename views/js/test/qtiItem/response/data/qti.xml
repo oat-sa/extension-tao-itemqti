@@ -4,23 +4,29 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
         identifier="i1492000233609482" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration baseType="integer" cardinality="single" identifier="RESPONSE">
+    <responseDeclaration baseType="string" cardinality="single" identifier="RESPONSE">
         <correctResponse>
             <value>
-                <![CDATA[38]]>
+                <![CDATA[ABCD]]>
             </value>
         </correctResponse>
+        <mapping defaultValue="0">
+            <mapEntry mapKey="ABCD" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="ABC" mappedValue="0.5" caseSensitive="false"/>
+            <mapEntry mapKey="AB" mappedValue="-1" caseSensitive="false"/>
+        </mapping>
     </responseDeclaration>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>
     <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <sliderInteraction lowerBound="0" upperBound="100" orientation="horizontal" reverse="false" step="1" stepLabel="false" responseIdentifier="RESPONSE">
-                    <prompt  />
-                </sliderInteraction>
+                <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing ...
+
+                    <textEntryInteraction base="10" placeholderText="" responseIdentifier="RESPONSE" patternMask="^[\s\S]{0,3}$" />
+                </p>
             </div>
         </div>
     </itemBody>
-    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
 </assessmentItem>
