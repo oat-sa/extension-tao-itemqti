@@ -49,13 +49,13 @@ class QtiItemPacker extends ItemPacker
      * The item type identifier
      * @var string
      */
-    private static $itemType = 'qti';
+    protected static $itemType = 'qti';
 
     /**
      * XInclude expressions are replaced and not treated as assets
      * @var boolean
      */
-    private $replaceXinclude = true;
+    protected $replaceXinclude = true;
 
     /**
      * packItem implementation for QTI
@@ -96,8 +96,8 @@ class QtiItemPacker extends ItemPacker
         //use the QtiParser to transform the QTI XML into an assoc array representation
         try {
             //build the ItemPack from the parsed data
+            $resolver = new ItemMediaResolver($item, $lang);
             if($this->replaceXinclude){
-                $resolver = new ItemMediaResolver($item, $lang);
                 $xincludeLoader = new XIncludeLoader($qtiItem, $resolver);
                 $xincludeLoader->load(true);
             }
@@ -115,13 +115,7 @@ class QtiItemPacker extends ItemPacker
             $storageDirectory->setServiceLocator($directory->getServiceLocator());
 
             foreach ($assetParser->extract($itemPack) as $type => $assets) {
-                $resolver = new ItemMediaResolver($item, $lang);
-                foreach ($assets as &$asset) {
-                    $mediaAsset = $resolver->resolve($asset);
-                    $mediaSource = $mediaAsset->getMediaSource();
-                    $asset = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
-                }
-                $itemPack->setAssets($type, $assets, $storageDirectory);
+                $itemPack->setAssets($type, $this->resolveAsset($assets, $resolver), $storageDirectory);
             }
 
         } catch (common_Exception $e) {
@@ -129,6 +123,21 @@ class QtiItemPacker extends ItemPacker
         }
 
         return $itemPack;
+    }
+
+    /**
+     * @param string[] $assets
+     * @param ItemMediaResolver $resolver
+     * @return string[]
+     */
+    protected function resolveAsset($assets, ItemMediaResolver $resolver)
+    {
+        foreach ($assets as &$asset) {
+            $mediaAsset = $resolver->resolve($asset);
+            $mediaSource = $mediaAsset->getMediaSource();
+            $asset = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
+        }
+        return $assets;
     }
 
     /**
