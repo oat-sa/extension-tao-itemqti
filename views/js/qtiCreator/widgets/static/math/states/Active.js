@@ -19,7 +19,7 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
-    'taoQtiItem/qtiCreator/editor/popup/popup',
+    'taoQtiItem/qtiCreator/helper/windowPopup',
     'taoQtiItem/qtiCreator/editor/MathEditor',
     'taoQtiItem/qtiCreator/editor/mathInput/mathInput',
     'taoQtiItem/qtiCreator/helper/popup',
@@ -35,7 +35,7 @@ define([
     $,
     stateFactory,
     Active,
-    popupFactory,
+    windowPopupFactory,
     MathEditor,
     mathInputFactory,
     popup,
@@ -260,10 +260,9 @@ define([
     MathActive.prototype.createLatexPopup = function createLatexPopup($container) {
         var self = this;
 
-        return popupFactory()
+        return windowPopupFactory()
             .on('render', function() {
-                var $component = this.getElement(),
-                    $popupContent = $component.find('.qti-creator-popup-content'); // todo: use getContent()
+                var $popupContent = this.getBody();
 
                 this.mathInput = mathInputFactory()
                     .init()
@@ -288,7 +287,7 @@ define([
                 self.$editMode.prop('disabled', false);
             })
             .init({
-                popupTitle: 'Latex (WYSIWYG)',
+                windowTitle: 'Latex (WYSIWYG)',
                 width: 480,
                 height: 320,
                 minWidth: 240,
@@ -305,10 +304,9 @@ define([
     MathActive.prototype.createLargeEditor = function createLargeEditor($container, popupMode) {
         var self = this;
 
-        return popupFactory()
+        return windowPopupFactory()
             .on('render', function() {
-                var $component = this.getElement(),
-                    $popupContent = $component.find('.qti-creator-popup-content'), // todo: use getContent()
+                var $popupContent = this.getBody(),
                     $popupField = ($('<textarea>', {
                         name: popupMode + '-large',
                         placeholder: self.$fields[popupMode].attr('placeholder')
@@ -326,8 +324,7 @@ define([
                     });
             })
             .on('show', function() {
-                var $component = this.getElement(),
-                    $popupContent = $component.find('.qti-creator-popup-content'), // todo: use getContent()
+                var $popupContent = this.getBody(),
                     $popupField = $popupContent.find('textarea');
 
                 $popupField.val((self.$fields[popupMode].val()));
@@ -341,7 +338,7 @@ define([
                 self.$editMode.prop('disabled', false);
             })
             .init({
-                popupTitle: popupMode,
+                windowTitle: popupMode,
                 width: 480,
                 height: 320,
                 minWidth: 240,

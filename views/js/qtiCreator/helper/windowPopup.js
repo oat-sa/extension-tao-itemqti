@@ -24,34 +24,19 @@ define([
     'ui/component/draggable',
     'ui/component/resizable',
     'ui/component/stackable',
-    'tpl!taoQtiItem/qtiCreator/editor/popup/tpl/popup'
-], function ($, componentFactory, makeDraggable, makeResizable, makeStackable, popupTpl) {
+    'ui/component/windowed'
+], function ($, componentFactory, makeDraggable, makeResizable, makeStackable, makeWindowed) {
     'use strict';
 
-    return function popupFactory() {
-        var popup = componentFactory();
+    return function windowPopupFactory(specs, defaults) {
+        var windowPopup = componentFactory(specs, defaults);
 
-        makeDraggable(popup);
-        makeResizable(popup);
-        makeStackable(popup, { stackingScope: 'qti-creator' });
+        makeDraggable(windowPopup);
+        makeResizable(windowPopup);
+        makeStackable(windowPopup, { stackingScope: 'qti-creator' });
+        makeWindowed(windowPopup);
 
-        popup
-            .setTemplate(popupTpl)
-            .on('render', function() {
-                var self = this,
-                    $component = this.getElement(),
-                    $closer = $component.find('.qti-creator-popup-title-btns .icon-close');
-
-                $closer.on('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    self.hide();
-                });
-
-            });
-
-        return popup;
+        return windowPopup;
     };
 
 });
