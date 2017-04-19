@@ -61,8 +61,7 @@ define([
     }, function destroy(){
         this.$fields = null;
         this.$panels = null;
-        this.popups.latex.destroy();
-        this.popups.mathml.destroy();
+        _.invoke(this.popups, 'destroy');
         // todo: more?
         this.widget.$form.empty();
     });
@@ -232,7 +231,13 @@ define([
                     });
             })
             .on('show', function() {
-                this.mathInput.setLatex(self.$fields.latex.val());
+                var currentLatex = self.$fields.latex.val(),
+                    mathInput = this.mathInput;
+
+                // defering fixes a bug in the scaling of some MQ characters (\sqrt)
+                _.defer(function() {
+                    mathInput.setLatex(currentLatex);
+                });
                 self._disableForm();
             })
             .on('hide', function() {
