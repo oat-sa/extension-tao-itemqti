@@ -24,6 +24,7 @@ define([
     'taoQtiItem/qtiCreator/editor/mathInput/mathInput',
     'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/math',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/mathPopup',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/dynamicComponent',
@@ -40,6 +41,7 @@ define([
     mathInputFactory,
     popup,
     formTpl,
+    popupFormTpl,
     formElement,
     inlineHelper,
     dynamicComponent,
@@ -248,17 +250,10 @@ define([
             .on('render', function() {
                 var $popupContent = this.getBody();
 
-                this.$popupField = ($('<textarea>', {
-                    name: popupMode + '-large',
+                this.$popupField = $(popupFormTpl({
+                    popupMode: popupMode,
                     placeholder: self.$fields[popupMode].attr('placeholder')
                 }));
-
-                this.$popupField.css({
-                    width: '100%',
-                    height: '100%',
-                    'max-width': 'none',
-                    resize: 'none'
-                });
 
                 $popupContent.append(this.$popupField);
 
@@ -293,11 +288,11 @@ define([
     };
 
     MathActive.prototype._enableForm = function _enableForm(){
-        this.widget.$form.find('button,input,select').prop('disabled', false);
+        this.widget.$form.find('button,input,select,textarea').prop('disabled', false);
     };
 
     MathActive.prototype._disableForm = function _disableForm(){
-        this.widget.$form.find('button,input,select').prop('disabled', true);
+        this.widget.$form.find('button,input,select,textarea').prop('disabled', true);
     };
 
     MathActive.prototype._toggleMode = function _toggleMode(mode){

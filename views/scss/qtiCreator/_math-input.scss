@@ -1,6 +1,14 @@
 @import "inc/bootstrap";
 
+// popup for large latex/mathml input
+.math-popup-input {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    resize: none;
+}
 
+// wysiwyg editor
 .math-input {
     .math-input-toolbar { }
 
