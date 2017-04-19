@@ -19,20 +19,40 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'jquery',
     'ui/component',
     'ui/component/draggable',
     'ui/component/resizable',
     'ui/component/stackable',
     'ui/component/windowed'
-], function ($, componentFactory, makeDraggable, makeResizable, makeStackable, makeWindowed) {
+], function (_, $, componentFactory, makeDraggable, makeResizable, makeStackable, makeWindowed) {
     'use strict';
 
-    return function windowPopupFactory(specs, defaults) {
-        var windowPopup = componentFactory(specs, defaults);
+    var defaultConfig = {
+        draggable : true,
+        resizable : true
+    };
 
-        makeDraggable(windowPopup);
-        makeResizable(windowPopup);
+    /**
+     * @param {Object} specs - extra functions to extend the component
+     * @param {Object} config
+     * @param {Boolean} config.draggable - if the window should be draggable
+     * @param {Boolean} config.resizable - if the window should be resizable
+     */
+    return function windowPopupFactory(specs, config) {
+        var windowPopup;
+
+        config = _.defaults(config || {}, defaultConfig);
+
+        windowPopup = componentFactory(specs, config);
+
+        if (config.draggable) {
+            makeDraggable(windowPopup);
+        }
+        if (config.resizable) {
+            makeResizable(windowPopup);
+        }
         makeStackable(windowPopup, { stackingScope: 'qti-creator' });
         makeWindowed(windowPopup);
 

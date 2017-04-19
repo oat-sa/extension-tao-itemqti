@@ -208,9 +208,12 @@ define([
     };
 
     MathActive.prototype.createLatexWysiwygPopup = function createLatexWysiwygPopup($container) {
-        var self = this;
+        var self = this,
+            popupOptions = {
+                resizable: false
+            };
 
-        return windowPopupFactory()
+        return windowPopupFactory({}, popupOptions)
             .on('render', function() {
                 var $popupContent = this.getBody();
 
