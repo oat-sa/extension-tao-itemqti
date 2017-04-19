@@ -123,7 +123,6 @@ define([
     };
 
     MathActive.prototype.initFormChangeListener = function initFormChangeListener(){
-
         var self = this,
             _widget = this.widget,
             $container = _widget.$container,
@@ -210,7 +209,10 @@ define([
     MathActive.prototype.createLatexWysiwygPopup = function createLatexWysiwygPopup($container) {
         var self = this,
             popupOptions = {
-                resizable: false
+                resizable: false,
+                windowTitle: 'LaTeX (WYSIWYG)',
+                width: 640,
+                height: 400
             };
 
         return windowPopupFactory({}, popupOptions)
@@ -232,24 +234,25 @@ define([
             .on('hide', function() {
                 self._enableForm();
             })
-            .init({
-                windowTitle: 'Latex (WYSIWYG)',
-                width: 480,
-                height: 320,
-                minWidth: 240,
-                maxWidth: 960,
-                minHeight: 160,
-                maxHeight: 640
-            })
+            .init()
             .render($container)
             .center()
             .hide();
     };
 
     MathActive.prototype.createLargeEditor = function createLargeEditor($container, popupMode) {
-        var self = this;
+        var self = this,
+            popupOptions = {
+                windowTitle: (popupMode === 'latex') ? 'LaTeX' : 'MathML',
+                width: 640,
+                height: 320,
+                minWidth: 240,
+                maxWidth: 960,
+                minHeight: 160,
+                maxHeight: 640
+            };
 
-        return windowPopupFactory()
+        return windowPopupFactory({}, popupOptions)
             .on('render', function() {
                 var $popupContent = this.getBody();
 
@@ -276,15 +279,7 @@ define([
             .on('hide', function() {
                 self._enableForm();
             })
-            .init({
-                windowTitle: popupMode,
-                width: 480,
-                height: 320,
-                minWidth: 240,
-                maxWidth: 960,
-                minHeight: 160,
-                maxHeight: 640
-            })
+            .init()
             .render($container)
             .center()
             .hide();
