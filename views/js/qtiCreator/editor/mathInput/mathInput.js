@@ -20,6 +20,7 @@
  */
 define([
     'lodash',
+    'i18n',
     'jquery',
     'ui/component',
     'taoQtiItem/lib/mathquill/mathquill',
@@ -27,6 +28,7 @@ define([
     'css!taoQtiItem/lib/mathquill/mathquill'
 ], function(
     _,
+    __,
     $,
     componentFactory,
     MathQuill,
@@ -34,42 +36,66 @@ define([
 ) {
     'use strict';
 
+    var eventNs = '.mathInputWysiwyg';
+
+    /**
+     * 'cmd' vs 'write'
+     * ================
+     * 'write': You're supposed to pass fully formed LaTeX to 'write', such as '\log\left\{\right\}'. The idea is, it inserts
+     * that LaTeX math to the left of the cursor. The LaTeX passed in will be inserted at the current cursor position
+     * or replace the current selection, and the cursor ends up to the right of what was just inserted.
+     *
+     * 'cmd': You're only supposed to pass a single MathQuill command to 'cmd', such as '\sqrt'. The idea is, it's as if
+     * you just typed in that MathQuill command. If there is a current selection, it will end up inside the square root,
+     * otherwise it inserts the square root at the current cursor position, but the cursor now instead ends up inside
+     * the square root command.
+     *
+     * src: https://github.com/mathquill/mathquill/issues/74
+     */
     var allTools = {
-            frac:   { label: 'x/y',         latex: '\\frac',    fn: 'cmd',      desc: 'Fraction' },
-            sqrt:   { label: '&radic;',     latex: '\\sqrt',    fn: 'cmd',      desc: 'Square root' },
-            exp:    { label: 'x&#8319;',    latex: '^',         fn: 'cmd',      desc: 'Exponent' },
-            log:    { label: 'log',         latex: '\\log',     fn: 'write',    desc: 'Log' },
-            ln:     { label: 'ln',          latex: '\\ln',      fn: 'write',    desc: 'Ln' },
-            e:      { label: '&#8494;',     latex: '\\mathrm{e}',fn: 'write',   desc: 'Euler\'s constant' },
-            pi:     { label: '&pi;',        latex: '\\pi',      fn: 'write',    desc: 'Pi' },
-            cos:    { label: 'cos',         latex: '\\cos',     fn: 'write',    desc: 'Cosinus' },
-            sin:    { label: 'sin',         latex: '\\sin',     fn: 'write',    desc: 'Sinus' },
-            lte:    { label: '&le;',        latex: '\\le',      fn: 'write',    desc: 'Lower than or equal' },
-            gte:    { label: '&ge;',        latex: '\\ge',      fn: 'write',    desc: 'Greater than or equal' },
-            times:  { label: '&times;',     latex: '\\times',   fn: 'cmd',      desc: 'Multiply' },
-            divide: { label: '&divide;',    latex: '\\div',     fn: 'cmd',      desc: 'Divide' }
+            frac:       { label: 'x/y',         latex: '\\frac',        fn: 'cmd',      desc: __('Fraction') },
+            sqrt:       { label: '&radic;',     latex: '\\sqrt',        fn: 'cmd',      desc: __('Square root') },
+            exp:        { label: 'x&#8319;',    latex: '^',             fn: 'cmd',      desc: __('Exponent') },
+            log:        { label: 'log',         latex: '\\log',         fn: 'cmd',      desc: __('Log') },
+            ln:         { label: 'ln',          latex: '\\ln',          fn: 'cmd',      desc: __('Ln') },
+            e:          { label: '&#8494;',     latex: '\\mathrm{e}',   fn: 'write',    desc: __('Euler\'s constant') },
+            infinity:   { label: '&#8734;',     latex: '\\infty',       fn: 'cmd',      desc: __('Infinity') },
+            lbrack:     { label: '[',           latex: '\\lbrack',      fn: 'cmd',      desc: __('Left bracket') },
+            rbrack:     { label: ']',           latex: '\\rbrack',      fn: 'cmd',      desc: __('Right bracket') },
+            pi:         { label: '&pi;',        latex: '\\pi',          fn: 'cmd',      desc: __('Pi') },
+            cos:        { label: 'cos',         latex: '\\cos',         fn: 'cmd',      desc: __('Cosinus') },
+            sin:        { label: 'sin',         latex: '\\sin',         fn: 'cmd',      desc: __('Sinus') },
+            lte:        { label: '&le;',        latex: '\\le',          fn: 'cmd',      desc: __('Lower than or equal') },
+            gte:        { label: '&ge;',        latex: '\\ge',          fn: 'cmd',      desc: __('Greater than or equal') },
+            times:      { label: '&times;',     latex: '\\times',       fn: 'cmd',      desc: __('Multiply') },
+            divide:     { label: '&divide;',    latex: '\\div',         fn: 'cmd',      desc: __('Divide') },
+            plusminus:  { label: '&#177;',      latex: '\\pm',          fn: 'cmd',      desc:__( 'Plus/minus') }
         },
-        allToolGroups = {
-            functions:  ['sqrt', 'frac', 'exp', 'log', 'ln', 'e'],
-            trigo:      ['pi', 'sin', 'cos'],
-            comparison: ['lte', 'gte'],
-            operands:   ['times', 'divide']
-        };
+        allToolGroups = [
+            { id: 'functions',  tools: ['sqrt', 'frac', 'exp', 'log', 'ln'] },
+            { id: 'symbols',    tools: ['e', 'infinity', 'lbrack', 'rbrack'] },
+            { id: 'trigo',      tools: ['pi', 'sin', 'cos'] },
+            { id: 'comparison', tools: ['lte', 'gte'] },
+            { id: 'operands',   tools: ['times', 'divide', 'plusminus'] }
+        ];
 
     /**
      * Create the toolbar markup with event attached
+     * @param {jQuery} $container - where to render the toolbar
+     * @param {Object} mathField - MathQuill input field
      */
     function createToolbar($container, mathField) {
         $container.empty();
 
         // create buttons
-        _.forOwn(allToolGroups, function(toolGroup, toolGroupId) {
-            $container.append(createToolGroup(toolGroup, toolGroupId));
+        _.forOwn(allToolGroups, function(toolGroup) {
+            $container.append(createToolGroup(toolGroup.tools, toolGroup.id));
         });
 
         // add behaviour
-        $container.off('mousedown.mathInput');
-        $container.on('mousedown.mathInput', function(e) {
+        // using mousedown instead of click so we can apply the button cmd without loosing the current selection
+        $container.off('mousedown' + eventNs);
+        $container.on('mousedown' + eventNs, function(e) {
             var $target = $(e.target),
                 fn = $target.data('fn'),
                 latex = $target.data('latex');
@@ -85,42 +111,40 @@ define([
                     mathField.write(latex);
                     break;
             }
-
             mathField.focus();
         });
     }
 
-
     /**
-     * Create a group of buttons
-     * @returns {JQuery|string} the created element or an empty string
+     * @param {String[]} toolGroup - array of tools id composing the tool group
+     * @param {String} toolGroupId
+     * @returns {jQuery} the group of tool buttons
      */
     function createToolGroup(toolGroup, toolGroupId) {
         var $toolGroup = $('<div>', {
-                'class': 'math-input-toolgroup',
-                'data-identifier': toolGroupId
-            }),
-            activeTools = 0;
+            'class': 'math-input-toolgroup',
+            'data-identifier': toolGroupId
+        });
 
         toolGroup.forEach(function(toolId) {
             var toolConfig = allTools[toolId];
             toolConfig.id = toolId;
 
             $toolGroup.append(createTool(toolConfig));
-            activeTools++;
         });
 
-        return (activeTools > 0) ? $toolGroup : '';
+        return $toolGroup;
     }
 
     /**
      * Create a single button
      * @param {Object} config
-     * @param {String} config.id    - id of the tool
+     * @param {String} config.id - id of the tool
      * @param {String} config.latex - latex code to be generated
-     * @param {String} config.fn    - Mathquill function to be called (ie. cmd or write)
+     * @param {String} config.fn - Mathquill function to be called (ie. cmd or write)
+     * @param {String} config.desc - mouse over description of the button
      * @param {String} config.label - label of the rendered button
-     * @returns {jQuery} - the created button
+     * @returns {jQuery} the created button
      */
     function createTool(config) {
         return $('<button>', {
@@ -128,40 +152,41 @@ define([
             'data-identifier': config.id,
             'data-latex': config.latex,
             'data-fn': config.fn,
+            title: config.desc,
             html: config.label
         });
     }
 
 
     /**
-     * The factory !
+     * The component factory
      */
     return function mathInputFactory() {
-        var mathInputApi;
-
-        function preventDrag(e) {
-            e.stopPropagation();
-        }
-
-        mathInputApi = {
+        var mathInputApi = {
+            /**
+             * @param {String} latexString
+             */
             setLatex: function setLatex(latexString) {
-                this.mathField.latex(latexString);
+                if (this.mathField) {
+                    this.mathField.latex(latexString);
+                }
             },
 
+            /**
+             * @returns {String} the current latex string contained in the MathQuill object
+             */
             getLatex: function getLatex() {
-                return this.mathField.latex();
-            }
-        };
+                if (this.mathField) {
+                    return this.mathField.latex();
+                }
+            },
 
-        return componentFactory(mathInputApi)
-            .setTemplate(layoutTpl)
-            .on('render', function init() {
+            /**
+             * Turns a DOM element into a MathQuill field
+             * @param {jQuery} $element
+             */
+            _initMathQuill: function _initMathQuill($element) {
                 var self = this,
-                    $component = this.getElement(),
-                    $toolbar = $component.find('.math-input-toolbar'),
-                    inputField = $component.find('.math-input-mathquill').get(0),
-
-                    // todo: abstract this away in another component?
                     MQ = MathQuill.getInterface(2),
                     MQConfig = {
                         spacesBehavesLikeTab: true, // todo: doesn't work ???
@@ -172,21 +197,38 @@ define([
                         }
                     };
 
-                this.mathField = MQ.MathField(inputField, MQConfig);
+                this.mathField = MQ.MathField($element.get(0), MQConfig);
+            }
+        };
+
+        /**
+         * @returns {component}
+         */
+        return componentFactory(mathInputApi)
+            .setTemplate(layoutTpl)
+            .on('render', function init() {
+                var $component = this.getElement(),
+                    $toolbar = $component.find('.math-input-toolbar'),
+                    $inputField = $component.find('.math-input-mathquill');
+
+                this._initMathQuill($inputField);
                 createToolbar($toolbar, this.mathField);
 
                 // prevent dragging when the field is rendered in a draggable component
-                inputField.addEventListener('mousedown', preventDrag);
+                $inputField.on('mousedown' + eventNs, function preventDrag(e) {
+                    e.stopPropagation();
+                });
             })
             .on('destroy', function() {
                 var $component = this.getElement(),
                     $toolbar = $component.find('.math-input-toolbar'),
-                    inputField = $component.find('.math-input-mathquill').get(0);
+                    $inputField = $component.find('.math-input-mathquill');
 
-                $toolbar.off('mousedown.mathInput');
-                inputField.removeEventListener('mousedown', preventDrag);
+                $toolbar.off(eventNs);
+                $inputField.off(eventNs);
 
-                this.mathField.revert.html();
+                this.mathField.revert().html();
+                this.mathField = null;
             });
     };
 });
