@@ -30,8 +30,8 @@
 
     <input id="sidebar-latex-field" type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
 
-    <div><button class="btn-info small block latex-editor">{{__ "Large editor"}}</button></div>
-    <div><button class="btn-info small block latex-wysiwyg-editor">{{__ "WYSIWYG editor"}}</button></div>
+    <div><button class="btn-info small block popup-btn" data-control="latex">{{__ "Large editor"}}</button></div>
+    <div><button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button></div>
 </div>
 
 <div class="panel" data-role="mathml" style="display:none;">
@@ -41,7 +41,7 @@
 
     <textarea id="sidebar-mathml-field" name="mathml">{{{mathml}}}</textarea>
 
-    <div><button class="btn-info small block mathml-editor">{{__ "Large editor"}}</button></div>
+    <div><button class="btn-info small block popup-btn" data-control="mathml">{{__ "Large editor"}}</button></div>
 
     <div class="math-buffer" style="visibility:hidden;"></div>
 </div>

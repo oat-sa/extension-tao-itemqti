@@ -61,6 +61,7 @@ define([
         this.$panels = null;
         this.popups.latex.destroy();
         this.popups.mathml.destroy();
+        // todo: more?
         this.widget.$form.empty();
     });
 
@@ -107,7 +108,7 @@ define([
             // Create popups
             $popupsContainer = areaBroker.getContainer();
             this.popups = {
-                latexWysiwyg: this.createLatexPopup($popupsContainer),
+                latexWysiwyg: this.createLatexWysiwygPopup($popupsContainer),
                 latex: this.createLargeEditor($popupsContainer, 'latex'),
                 mathml: this.createLargeEditor($popupsContainer, 'mathml')
             };
@@ -130,51 +131,6 @@ define([
             mathEditor,
             tex = math.getAnnotation('latex'),
             display = math.attr('display') || 'inline';
-            // $fields = {
-            //     mathml : $form.find('textarea[name=mathml]'),
-            //     latex : $form.find('input[name=latex]')
-            // },
-            // $modeSelector = $form.find('select[name=editMode]');
-
-
-        /*
-        $form.find('.sidebar-popup-trigger').each(function() {
-            var $trigger = $(this),
-                context = $trigger.data('context');
-
-            // basic popup functionality
-            popup.init($trigger);
-
-            // after popup opens
-            $trigger.on('open.popup', function(e, params) {
-                var $largeField = params.popup.find(':input[data-for="' + context + '"]');
-
-                // copy value
-                $largeField.val($fields[context].val());
-
-                $largeField.on('keyup', function(){
-                    $fields[context].val($(this).val());
-                    $fields[context].trigger('keyup');
-                });
-                $largeField.attr('placeholder', $fields[context].attr('placeholder'));
-
-                // disable form
-                $fields[context].prop('disabled', true);
-                $modeSelector.prop('disabled', true);
-
-            });
-
-            // after popup closes
-            $trigger.on('close.popup', function(e, params) {
-                var $largeField = params.popup.find(':input[data-for="' + context + '"]');
-
-                $fields[context].val($largeField.val());
-                $fields[context].prop('disabled', false);
-                $modeSelector.prop('disabled', false);
-
-            });
-        });
-        */
 
         mathEditor = new MathEditor({
             tex : tex,
@@ -238,26 +194,18 @@ define([
             }, _throttle)
         });
 
-        // todo: factorise this
-        $form.find('.latex-editor').on('click', function() { //todo: remove listener
-            if (self.popups.latex) {
-                self.popups.latex.show();
-            }
-        });
-        $form.find('.latex-wysiwyg-editor').on('click', function() { //todo: remove listener
-            if (self.popups.latexWysiwyg) {
-                self.popups.latexWysiwyg.show();
-            }
-        });
-        $form.find('.mathml-editor').on('click', function() { //todo: remove listener
-            if (self.popups.mathml) {
-                self.popups.mathml.show();
+        // popup buttons behavior
+        $form.find('.popup-btn').on('click', function(e) {
+            var $target = $(e.target),
+                targetPopup = $target.data('control');
+
+            if (self.popups[targetPopup]) {
+                self.popups[targetPopup].show();
             }
         });
     };
 
-
-    MathActive.prototype.createLatexPopup = function createLatexPopup($container) {
+    MathActive.prototype.createLatexWysiwygPopup = function createLatexWysiwygPopup($container) {
         var self = this;
 
         return windowPopupFactory()
@@ -273,18 +221,11 @@ define([
                     });
             })
             .on('show', function() {
-                // todo: implement this
-                // $largeField.attr('placeholder', $fields[context].attr('placeholder'));
-
                 this.mathInput.setLatex(self.$fields.latex.val());
-                // disable form
-                self.$fields.latex.prop('disabled', true);
-                self.$editMode.prop('disabled', true);
+                self._disableForm();
             })
             .on('hide', function() {
-                // enable form
-                self.$fields.latex.prop('disabled', false);
-                self.$editMode.prop('disabled', false);
+                self._enableForm();
             })
             .init({
                 windowTitle: 'Latex (WYSIWYG)',
@@ -298,7 +239,6 @@ define([
             .render($container)
             .center()
             .hide();
-
     };
 
     MathActive.prototype.createLargeEditor = function createLargeEditor($container, popupMode) {
@@ -306,36 +246,37 @@ define([
 
         return windowPopupFactory()
             .on('render', function() {
-                var $popupContent = this.getBody(),
-                    $popupField = ($('<textarea>', {
-                        name: popupMode + '-large',
-                        placeholder: self.$fields[popupMode].attr('placeholder')
-                    }));
+                var $popupContent = this.getBody();
 
-                $popupContent.append($popupField);
+                this.$popupField = ($('<textarea>', {
+                    name: popupMode + '-large',
+                    placeholder: self.$fields[popupMode].attr('placeholder')
+                }));
 
-                $popupField
+                this.$popupField.css({
+                    width: '100%',
+                    height: '100%',
+                    'max-width': 'none',
+                    resize: 'none'
+                });
+
+                $popupContent.append(this.$popupField);
+
+                this.$popupField
                     .on('mousedown', function(e) {
                         e.stopPropagation();
                     })
-                    .on('keyup', function() {
-                        self.$fields[popupMode].val($popupField.val());
+                    .on('keyup', function(e) {
+                        self.$fields[popupMode].val($(e.target).val());
                         self.$fields[popupMode].trigger('keyup');
                     });
             })
             .on('show', function() {
-                var $popupContent = this.getBody(),
-                    $popupField = $popupContent.find('textarea');
-
-                $popupField.val((self.$fields[popupMode].val()));
-                // disable small form
-                self.$fields[popupMode].prop('disabled', true);
-                self.$editMode.prop('disabled', true);
+                this.$popupField.val((self.$fields[popupMode].val()));
+                self._disableForm();
             })
             .on('hide', function() {
-                // enable form
-                self.$fields[popupMode].prop('disabled', false);
-                self.$editMode.prop('disabled', false);
+                self._enableForm();
             })
             .init({
                 windowTitle: popupMode,
@@ -351,6 +292,13 @@ define([
             .hide();
     };
 
+    MathActive.prototype._enableForm = function _enableForm(){
+        this.widget.$form.find('button,input,select').prop('disabled', false);
+    };
+
+    MathActive.prototype._disableForm = function _disableForm(){
+        this.widget.$form.find('button,input,select').prop('disabled', true);
+    };
 
     MathActive.prototype._toggleMode = function _toggleMode(mode){
         var self = this;
