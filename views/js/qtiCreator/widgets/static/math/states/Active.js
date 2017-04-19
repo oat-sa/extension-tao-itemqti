@@ -209,10 +209,14 @@ define([
     MathActive.prototype.createLatexWysiwygPopup = function createLatexWysiwygPopup($container) {
         var self = this,
             popupOptions = {
-                resizable: false,
+                // resizable: false,
                 windowTitle: 'LaTeX (WYSIWYG)',
                 width: 640,
-                height: 400
+                height: 280,
+                minWidth: 460,
+                maxWidth: 960,
+                minHeight: 220,
+                maxHeight: 640
             };
 
         return windowPopupFactory({}, popupOptions)
