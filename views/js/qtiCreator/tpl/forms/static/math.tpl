@@ -17,7 +17,7 @@
     <div class="tooltip-content">{{__ "How the math expression should be edited"}}.</div>
 
     <select name="editMode" class="select2" data-has-search="false">
-        <option value="latex">{{__ "LaTex"}}</option>
+        <option value="latex">{{__ "LaTeX"}}</option>
         <option value="mathml">{{__ "MathML"}}</option>
     </select>
 
@@ -30,8 +30,10 @@
 
     <input id="sidebar-latex-field" type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
 
-    <div><button class="btn-info small block popup-btn" data-control="latex">{{__ "Large editor"}}</button></div>
-    <div><button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button></div>
+    <div class="panel">
+        <button class="btn-info small block popup-btn" data-control="latex">{{__ "Large editor"}}</button>
+        <button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button>
+    </div>
 </div>
 
 <div class="panel" data-role="mathml" style="display:none;">
@@ -41,7 +43,9 @@
 
     <textarea id="sidebar-mathml-field" name="mathml">{{{mathml}}}</textarea>
 
-    <div><button class="btn-info small block popup-btn" data-control="mathml">{{__ "Large editor"}}</button></div>
+    <div class="panel">
+        <button class="btn-info small block popup-btn" data-control="mathml">{{__ "Large editor"}}</button>
+    </div>
 
     <div class="math-buffer" style="visibility:hidden;"></div>
 </div>
