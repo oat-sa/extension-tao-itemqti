@@ -76,7 +76,7 @@ define([
             display = math.attr('display') || 'inline',
             editMode = 'latex',
             $popupsContainer,
-            areaBroker = this.widget.areaBroker; // fixme: use a getter
+            areaBroker = this.widget.getAreaBroker();
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';

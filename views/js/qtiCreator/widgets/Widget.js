@@ -63,10 +63,7 @@ define([
                 this.$form = $form;
                 this.stateStack = [];
 
-                renderer = element.getRenderer();
-                if (renderer) {
-                    this.areaBroker = renderer.getAreaBroker();
-                }
+
 
                 this.registeredStates = {};
 
@@ -107,6 +104,14 @@ define([
                 throw new Error('element is not a QTI Element');
             }
             return this;
+        },
+        getAreaBroker : function getAreaBroker() {
+            var element = this.element,
+                renderer = element.getRenderer();
+
+            if (renderer) {
+                return renderer.getAreaBroker();
+            }
         },
         getRequiredOptions : function(){
             return [];
