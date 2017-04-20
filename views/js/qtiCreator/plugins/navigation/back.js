@@ -28,9 +28,10 @@ define([
     'i18n',
     'core/plugin',
     'ui/hider',
+    'layout/section',
     'html5-history-api',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
-], function($, __, pluginFactory, hider, history, buttonTpl){
+], function($, __, pluginFactory, hider, section, history, buttonTpl){
     'use strict';
 
     /**
@@ -49,10 +50,15 @@ define([
             var itemCreator = this.getHost();
 
             itemCreator.on('exit', function(){
-                if (history) {
+                var itemSection = section.get('manage_items');
+
+                if(itemSection){
+                    itemSection.activate();
+                } else{
                     history.back();
                 }
             });
+
             this.$element = $(buttonTpl({
                 icon: 'left',
                 title: __('Back to Manage Items'),

@@ -189,14 +189,6 @@ define([
                     });
                 });
 
-                /**
-                 * Exit the item creator
-                 * @event itemCreator#exit
-                 */
-                this.on('exit', function(){
-                    this.destroy();
-                });
-
                 //performs the loadings in parallel
                 Promise.all([
                     loadCustomInteractions(),
