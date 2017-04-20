@@ -16,6 +16,8 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
+ * This component present a MathQuill (Latex Wysiwyg) input with a toolbar that allows to add some predefined symbols
+ *
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
@@ -93,26 +95,27 @@ define([
         });
 
         // add behaviour
-        // using mousedown instead of click so we can apply the button cmd without loosing the current selection
-        $container.off('mousedown' + eventNs);
-        $container.on('mousedown' + eventNs, function(e) {
-            var $target = $(e.target),
-                fn = $target.data('fn'),
-                latex = $target.data('latex');
+        // using mousedown instead of click so we can apply the button command without loosing the current selection
+        $container
+            .off('mousedown' + eventNs)
+            .on('mousedown' + eventNs, function(e) {
+                var $target = $(e.target),
+                    fn = $target.data('fn'),
+                    latex = $target.data('latex');
 
-            e.stopPropagation();
-            e.preventDefault();
+                e.stopPropagation();
+                e.preventDefault();
 
-            switch (fn) {
-                case 'cmd':
-                    mathField.cmd(latex);
-                    break;
-                case 'write':
-                    mathField.write(latex);
-                    break;
-            }
-            mathField.focus();
-        });
+                switch (fn) {
+                    case 'cmd':
+                        mathField.cmd(latex);
+                        break;
+                    case 'write':
+                        mathField.write(latex);
+                        break;
+                }
+                mathField.focus();
+            });
     }
 
     /**
@@ -132,7 +135,6 @@ define([
 
             $toolGroup.append(createTool(toolConfig));
         });
-
         return $toolGroup;
     }
 
@@ -184,12 +186,13 @@ define([
             /**
              * Turns a DOM element into a MathQuill field
              * @param {jQuery} $element
+             * @private
              */
             _initMathQuill: function _initMathQuill($element) {
                 var self = this,
                     MQ = MathQuill.getInterface(2),
                     MQConfig = {
-                        spacesBehavesLikeTab: true, // todo: doesn't work ???
+                        spaceBehavesLikeTab: true,
                         handlers: {
                             edit: function onChange() {
                                 self.trigger('change', self.mathField.latex());
@@ -227,8 +230,10 @@ define([
                 $toolbar.off(eventNs);
                 $inputField.off(eventNs);
 
-                this.mathField.revert().html();
-                this.mathField = null;
+                if (this.mathField) {
+                    this.mathField.revert().html();
+                    this.mathField = null;
+                }
             });
     };
 });

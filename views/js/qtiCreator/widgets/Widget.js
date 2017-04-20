@@ -50,8 +50,7 @@ define([
          * @returns {Object} The initialized widget
          */
         init : function(element, $original, $form, options){
-            var self = this,
-                renderer;
+            var self = this;
 
             if(element instanceof Element){
 
@@ -63,16 +62,14 @@ define([
                 this.$form = $form;
                 this.stateStack = [];
 
-
-
                 this.registeredStates = {};
 
                 //build container from origin element
                 this.buildContainer();
 
                 //attach the widget to widget $container and element:
-                this.$container.data('widget', this);
                 this.$original.data('widget', this);
+                this.$container.data('widget', this);
 
                 this.element.data('widget', this);
 
