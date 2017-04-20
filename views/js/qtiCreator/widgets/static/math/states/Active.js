@@ -62,6 +62,7 @@ define([
         function destroy(){
             _.invoke(this.popups, 'destroy');
             this.popups = null;
+            this.fields.$mathml.qtip('destroy', true);
             this.fields = null;
             this.widget.$form.empty();
         }
@@ -90,11 +91,12 @@ define([
         }));
 
         if(mathJax){
-            // grab a reference to the dom elements containing the source of truth for latex/mathml codes
+            // grab a reference to the DOM elements containing the source of truth for latex/mathml codes
             this.fields = {
                 $mathml : $form.find('textarea[name=mathml]'),
                 $latex : $form.find('input[name=latex]')
             };
+            _attachMathmlWarning(this.fields.$mathml);
 
             //init select boxes
             $form.find('select[name=editMode]').val(editMode);
@@ -180,15 +182,21 @@ define([
 
             }, _throttle),
             mathml : _.throttle(function(m, value){
+                // this callback is bound on the keyup event, which alone is not enough to decide if the content has
+                // really changed or not, as the user might have only pressed arrow keys.
+                // Thus, we do an extra check here to avoid deleting the latex content for nothing
+                var hasChanged = value !== mathEditor.mathML;
 
                 mathEditor.setMathML(value).renderFromMathML(function(){
 
                     //save mathML
                     m.setMathML(mathEditor.mathML);
 
-                    //clear tex:
-                    self.fields.$latex.val('');
-                    m.removeAnnotation('latex');
+                    //clear tex if mathml has changed
+                    if (hasChanged) {
+                        self.fields.$latex.val('');
+                        m.removeAnnotation('latex');
+                    }
 
                     inlineHelper.togglePlaceholder(_widget);
 
@@ -283,6 +291,9 @@ define([
             })
             .on('show', function() {
                 this.$popupField.val((smallField.val()));
+                if (popupMode === 'mathml') {
+                    self.fields.$mathml.qtip('hide');
+                }
                 self._disableForm();
             })
             .on('hide', function() {
@@ -305,60 +316,49 @@ define([
             panels = {
                 $mathml : $form.children('.panel[data-role="mathml"]'),
                 $latex : $form.children('.panel[data-role="latex"]')
-            },
-            $editMode = $form.find('select[name=editMode]');
+            };
 
         switch (mode) {
             case 'latex': {
                 panels.$latex.show();
                 panels.$mathml.hide();
+                this.fields.$mathml.qtip('hide');
                 break;
             }
             case 'mathml': {
                 panels.$latex.hide();
                 panels.$mathml.show();
                 if(this.fields.$latex.val()){
-                    //show a warning here, stating that the content in LaTeX will be removed
-                    if(!this.fields.$mathml.data('qtip')){
-                        _createWarningTooltip(this.fields.$mathml);
-                    }
                     this.fields.$mathml.qtip('show');
-                    $editMode
-                        .off('change.editMode')
-                        .one('change.editMode', function(){
-                            self.fields.$mathml.qtip('hide');
-                        });
+                    this.fields.$mathml.on('keyup.mathWarning', function() {
+                        self.fields.$mathml.qtip('hide');
+                        self.fields.$mathml.off('.mathWarning');
+                    });
                 }
                 break;
             }
         }
     };
 
-    function _createWarningTooltip($mathField){
-
-        var $content = $('<span>')
-            .html(__('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.'));
-
-        $mathField.qtip({
-            theme : 'error',
-            show: {
-                event : 'custom'
-            },
-            hide: {
-                event : 'custom'
-            },
-            content: {
-                text: $content
-            }
+    function _attachMathmlWarning($mathField){
+        var $tooltipContent = $('<span>', {
+            html: __('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.')
         });
 
-        $mathField.on('focus.mathwarning', function(){
-            $mathField.qtip('hide');
-        });
-
-        setTimeout(function(){
-            $mathField.qtip('hide');
-        }, 3000);
+        if(!$mathField.data('qtip')){
+            $mathField.qtip({
+                theme : 'error',
+                show: {
+                    event : 'custom'
+                },
+                hide: {
+                    event : 'custom'
+                },
+                content: {
+                    text: $tooltipContent
+                }
+            });
+        }
     }
 
     return MathActive;
