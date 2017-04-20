@@ -37,6 +37,7 @@ define([
 
 
     QUnit.test('factory', function (assert) {
+        var $container = $('#qunit-fixture');
         var extraArea = 'extra';
         var areas = [
             'menu',
@@ -62,7 +63,7 @@ define([
             assert.equal(broker.getContainer().find('.' + area).length, 1, "The container must contain an area related to " + area);
         });
 
-        broker = areaBrokerMock([extraArea]);
+        broker = areaBrokerMock($container, [extraArea]);
 
         assert.equal(typeof broker, 'object', "The factory creates an object");
         assert.equal(broker.getContainer().length, 1, "The container exists");
@@ -79,6 +80,7 @@ define([
 
 
     QUnit.test('broker api', function (assert) {
+        var $container = $('#qunit-fixture');
         var areas = [
             'menu',
             'menuLeft',
@@ -91,7 +93,7 @@ define([
             'itemStylePanel',
             'modalContainer'
         ];
-        var broker = areaBrokerMock(areas);
+        var broker = areaBrokerMock($container, areas);
 
         QUnit.expect(5);
 
@@ -105,6 +107,7 @@ define([
 
 
     QUnit.test('retrieve', function (assert) {
+        var $container = $('#qunit-fixture');
         var areas = [
             'menu',
             'menuLeft',
@@ -117,7 +120,7 @@ define([
             'itemStylePanel',
             'modalContainer'
         ];
-        var broker = areaBrokerMock(areas);
+        var broker = areaBrokerMock($container, areas);
 
         QUnit.expect(12);
 
