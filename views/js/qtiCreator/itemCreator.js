@@ -254,7 +254,7 @@ define([
                 });
 
                 creatorRenderer
-                    .get(true, config)
+                    .get(true, config, areaBroker)
                     .setOptions(config.properties)
                     .load(function(){
                         var widget;

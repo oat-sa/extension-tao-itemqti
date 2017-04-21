@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Math widget - Active state</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking"
+            data-cover-only="/qtiCreator/widgets/static/math/states/Active.js"></script>
+    <script type="text/javascript">
+        QUnit.config.autostart = false;
+        require(['/tao/ClientConfig/config'], function () {
+            require(['taoQtiItem/test/qtiCreator/widgets/static/math/states/Active/test'], function () {
+                QUnit.start();
+            });
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css">
+    <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/item-creator.css">
+
+    <style>
+        #outside-container, .qti-creator {
+            height: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<div id="outside-container"></div>
+</body>
+</html>
