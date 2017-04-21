@@ -151,6 +151,8 @@ define([
     var _setChoice = function _setChoice(interaction, $choice) {
         var choiceSerial = $choice.data('serial');
         var choice = interaction.getGapImg(choiceSerial);
+        var matchMax;
+        var usages;
 
         if (!_choiceUsages[choiceSerial]) {
             _choiceUsages[choiceSerial] = 0;
@@ -158,13 +160,16 @@ define([
 
         _choiceUsages[choiceSerial]++;
 
-        if (!interaction.responseMappingMode &&
-            choice.attr('matchMax') &&
-            _choiceUsages[choiceSerial] >= choice.attr('matchMax')
-        ) {
-            interact($choice.get(0)).draggable(false);
-            $choice.addClass('disabled');
-            $choice.removeClass('selectable');
+        // disable choice if maxium usage reached
+        if (!interaction.responseMappingMode && choice.attr('matchMax')) {
+            matchMax = +choice.attr('matchMax');
+            usages = +_choiceUsages[choiceSerial];
+
+            if (matchMax !== 0 && matchMax <= usages) {
+                interact($choice.get(0)).draggable(false);
+                $choice.addClass('disabled');
+                $choice.removeClass('selectable');
+            }
         }
     };
 
