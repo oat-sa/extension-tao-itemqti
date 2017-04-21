@@ -165,6 +165,7 @@ define([
             matchMax = +choice.attr('matchMax');
             usages = +_choiceUsages[choiceSerial];
 
+            // note: if matchMax is 0, then test taker is allowed unlimited usage of that choice
             if (matchMax !== 0 && matchMax <= usages) {
                 interact($choice.get(0)).draggable(false);
                 $choice.addClass('disabled');
