@@ -297,7 +297,7 @@ define([
         var $container = containerHelper.get(interaction);
 
         try{
-            _.each(pciResponse.unserialize(response, interaction), function(identifier){
+           _.forEach(pciResponse.unserialize(response, interaction), function(identifier){
                 var $input = $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
                 $input.closest('.qti-choice').toggleClass('user-selected', true);
             });
@@ -409,7 +409,7 @@ define([
 
             //restore eliminated choices
             if(isEliminable(interaction) && _.isArray(state.eliminated) && state.eliminated.length){
-                _.each(state.eliminated, function(identifier){
+               _.forEach(state.eliminated, function(identifier){
                     $container.find('.qti-simpleChoice[data-identifier=' + identifier + ']').addClass('eliminated');
                 })
             }
