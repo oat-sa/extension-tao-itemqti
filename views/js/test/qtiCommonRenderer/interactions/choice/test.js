@@ -309,6 +309,81 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('get eliminated choices state', function(assert){
+
+        var $container = $('#' + fixtureContainerId);
+
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        //hack the item data to set the eliminable behaviour on
+        var shuffled = _.cloneDeep(choiceData);
+        shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.class = 'eliminable';
+
+        runner = qtiItemRunner('qti', shuffled)
+            .on('render', function(){
+                var self = this;
+
+                assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
+                assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
+
+                //click to the eliminator of choices Discovery and Atlantis
+                $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery] [data-eliminable="trigger"]').click();
+                $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Atlantis] [data-eliminable="trigger"]').click();
+
+                _.delay(function(){
+                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]').hasClass('eliminated'), 'Discovery', 'Discovery has been eliminated');
+                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Challenger]').hasClass('eliminated'), 'Challenger', 'Challenger has not been eliminated');
+                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Pathfinder]').hasClass('eliminated'), 'Pathfinder', 'Pathfinder has not been eliminated');
+                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Atlantis]').hasClass('eliminated'), 'Atlantis', 'Atlantis has been eliminated');
+                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Endeavour]').hasClass('eliminated'), 'Endeavour', 'Endeavour has not been eliminated');
+                    assert.deepEqual(self.getState().RESPONSE.eliminated, ['Discovery', 'Atlantis'], 'state is correct');
+                    QUnit.start();
+                }, 100);
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.asyncTest('restores eliminated choices', function(assert){
+
+        var $container = $('#' + fixtureContainerId);
+
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        //hack the item data to set the eliminable behaviour on
+        var shuffled = _.cloneDeep(choiceData);
+        shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.class = 'eliminable';
+
+        runner = qtiItemRunner('qti', shuffled)
+            .on('render', function(){
+                var self = this;
+
+                assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
+                assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
+
+                this.setState({
+                    RESPONSE : {
+                        response : { base : null },
+                        eliminated : ['Discovery', 'Atlantis']
+                    }
+                });
+
+                _.delay(function(){
+                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]').hasClass('eliminated'), 'Discovery', 'Discovery has been eliminated');
+                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Challenger]').hasClass('eliminated'), 'Challenger', 'Challenger has not been eliminated');
+                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Pathfinder]').hasClass('eliminated'), 'Pathfinder', 'Pathfinder has not been eliminated');
+                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Atlantis]').hasClass('eliminated'), 'Atlantis', 'Atlantis has been eliminated');
+                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Endeavour]').hasClass('eliminated'), 'Endeavour', 'Endeavour has not been eliminated');
+                    assert.deepEqual(self.getState().RESPONSE.eliminated, ['Discovery', 'Atlantis'], 'state is correct');
+                    QUnit.start();
+                }, 100);
+            })
+            .init()
+            .render($container);
+    });
+
     module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
