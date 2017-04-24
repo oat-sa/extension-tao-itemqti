@@ -33,7 +33,7 @@ return array(
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=3.0.1',
-        'tao'      => '>=7.74.0'
+        'tao'      => '>=8.5.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'

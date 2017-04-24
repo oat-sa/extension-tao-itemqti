@@ -740,6 +740,16 @@ define([
 
             }
         };
+
+        this.setAreaBroker = function setAreaBroker(areaBroker) {
+            this._areaBroker = areaBroker;
+        };
+
+        this.getAreaBroker = function getAreaBroker() {
+            if (this._areaBroker) {
+                return this._areaBroker;
+            }
+        };
     };
 
     /**
