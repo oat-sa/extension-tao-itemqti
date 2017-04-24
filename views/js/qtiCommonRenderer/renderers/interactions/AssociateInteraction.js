@@ -382,6 +382,7 @@ define([
             interact($choiceArea.selector + ' >li').on('tap', function(e) {
                 var $target = $(e.currentTarget);
                 e.stopPropagation();
+                console.log('activate');
                 _handleChoiceActivate($target);
                 e.preventDefault();
             });
@@ -389,6 +390,7 @@ define([
             interact($resultArea.selector + ' >li>div').on('tap', function(e) {
                 var $target = $(e.currentTarget);
                 e.stopPropagation();
+                console.log('drop');
                 _handleResultActivate($target);
                 e.preventDefault();
             });

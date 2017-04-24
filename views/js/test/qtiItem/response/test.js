@@ -46,6 +46,8 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/slider-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/gapmatch-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/gapmatch-map.json',
+    'json!taoQtiItem/test/qtiItem/response/data/associate-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/associate-map.json'
 ], function (
     _,
     Element,
@@ -76,7 +78,9 @@ define([
     dataGraphicOrderCorrect,
     dataSliderCorrect,
     dataGapmatchCorrect,
-    dataGapmatchMap
+    dataGapmatchMap,
+    dataAssociateCorrect,
+    dataAssociateMap
 ){
     'use strict';
 
@@ -119,6 +123,20 @@ define([
             data.body.elements.interaction_gapmatchinteraction_58fa1c4a97da2623687350.choices.choice_gaptext_58fa1c4a9c05b538942409.attributes.matchMax = 0;
             return data;
         }},
+        { title : 'associate - correct', data : dataAssociateCorrect, expectedMaximum: 1},
+        { title : 'associate - correct impossible', data : dataAssociateCorrect, expectedMaximum: 0, changeData : function(data){
+            data.body.elements.interaction_associateinteraction_58fdf58980cb4613690390.choices.choice_simpleassociablechoice_58fdf58984e63595993061.attributes.matchMax = 1;
+            return data;
+        }},
+        { title : 'associate - map', data : dataAssociateMap, expectedMaximum: 3},
+        { title : 'associate - map - matchMax=1', data : dataAssociateMap, expectedMaximum: 2, changeData : function(data){
+            data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.choices.choice_simpleassociablechoice_58fdfc915f3ed319686888.attributes.matchMax = 1;
+            return data;
+        }},
+        { title : 'associate - map - maxAssociations=1', data : dataAssociateMap, expectedMaximum: 2, changeData : function(data){
+            data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.maxAssociations = 1;
+            return data;
+        }}
     ];
 
     QUnit
