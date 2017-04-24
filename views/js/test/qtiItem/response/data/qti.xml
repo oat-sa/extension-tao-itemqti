@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+        xmlns:html5="html5"
+        xmlns:m="http://www.w3.org/1998/Math/MathML"
+        xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
         identifier="i1492000233609482" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration baseType="string" cardinality="single" identifier="RESPONSE">
+    <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE">
         <correctResponse>
             <value>
-                <![CDATA[ABCD]]>
+                <![CDATA[choice_4 gap_2]]>
+            </value>
+            <value>
+                <![CDATA[choice_5 gap_1]]>
             </value>
         </correctResponse>
         <mapping defaultValue="0">
-            <mapEntry mapKey="ABCD" mappedValue="1" caseSensitive="false"/>
-            <mapEntry mapKey="ABC" mappedValue="0.5" caseSensitive="false"/>
-            <mapEntry mapKey="AB" mappedValue="-1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_4 gap_2" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_5 gap_1" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_5 gap_2" mappedValue="0" caseSensitive="false"/>
+            <mapEntry mapKey="choice_3 gap_1" mappedValue="-1" caseSensitive="false"/>
         </mapping>
     </responseDeclaration>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="3"/>
+    <outcomeDeclaration identifier="OUTCOME_1" cardinality="single" baseType="float" interpretation="AAA" normalMaximum="1.3" normalMinimum="0"/>
+    <outcomeDeclaration identifier="OUTCOME_2" cardinality="single" baseType="float" normalMaximum="1" normalMinimum="0"/>
     <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing ...
+                <gapMatchInteraction shuffle="false" responseIdentifier="RESPONSE">
+                    <prompt  />
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_1">choice #1</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_2">choice #2</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_3">choice #3</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_4">consectetur</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_5">dolor</gapText>
+                    <p>Lorem ipsum
 
-                    <textEntryInteraction base="10" placeholderText="" responseIdentifier="RESPONSE" patternMask="^[\s\S]{0,3}$" />
-                </p>
+                        <gap required="false" identifier="gap_2" /> sit amet,
+
+                        <gap required="false" identifier="gap_1" /> adipisicing ...
+
+                    </p>
+                </gapMatchInteraction>
             </div>
         </div>
     </itemBody>

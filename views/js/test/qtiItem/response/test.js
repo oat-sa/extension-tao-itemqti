@@ -44,6 +44,8 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/selectpoint-map.json',
     'json!taoQtiItem/test/qtiItem/response/data/graphicorder-map.json',
     'json!taoQtiItem/test/qtiItem/response/data/slider-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/gapmatch-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/gapmatch-map.json',
 ], function (
     _,
     Element,
@@ -72,7 +74,9 @@ define([
     dataHotspotCorrect,
     dataSelectpointMap,
     dataGraphicOrderCorrect,
-    dataSliderCorrect
+    dataSliderCorrect,
+    dataGapmatchCorrect,
+    dataGapmatchMap
 ){
     'use strict';
 
@@ -100,16 +104,35 @@ define([
         { title : 'hotspot - correct', data : dataHotspotCorrect, expectedMaximum: 1},
         { title : 'select point - map', data : dataSelectpointMap, expectedMaximum: 2},
         { title : 'graphic order - correct', data : dataGraphicOrderCorrect, expectedMaximum: 1},
-        { title : 'slider- correct', data : dataSliderCorrect, expectedMaximum: 1},
+        { title : 'slider - correct', data : dataSliderCorrect, expectedMaximum: 1},
+        { title : 'gap match - correct', data : dataGapmatchCorrect, expectedMaximum: 1},
+        { title : 'gap match - correct matchMax', data : dataGapmatchCorrect, expectedMaximum: 0, changeData : function(data){
+            data.responses.responsedeclaration_58f5e075ede73619627566.correctResponses = ['choice_11 gap_2', 'choice_11 gap_1'];
+            return data;
+        }},
+        { title : 'gap match - correct gap', data : dataGapmatchCorrect, expectedMaximum: 0, changeData : function(data){
+            data.responses.responsedeclaration_58f5e075ede73619627566.correctResponses = ['choice_11 gap_1', 'choice_12 gap_1'];
+            return data;
+        }},
+        { title : 'gap match - map', data : dataGapmatchMap, expectedMaximum: 3},
+        { title : 'gap match - map (no match max)', data : dataGapmatchMap, expectedMaximum: 3.5, changeData : function(data){
+            data.body.elements.interaction_gapmatchinteraction_58fa1c4a97da2623687350.choices.choice_gaptext_58fa1c4a9c05b538942409.attributes.matchMax = 0;
+            return data;
+        }},
     ];
 
     QUnit
         .cases(cases)
-        .asyncTest('setNormalMaximum', function(data, assert){
+        .asyncTest('setNormalMaximum', function(config, assert){
 
         var loader = new Loader();
+        var data = _.cloneDeep(config.data);
 
-        loader.loadItemData(data.data, function(item){
+        if(_.isFunction(config.changeData)){
+            data = config.changeData(data);
+        }
+
+        loader.loadItemData(data, function(item){
 
             var outcomeScore;
 
@@ -120,7 +143,7 @@ define([
             assert.ok(_.isUndefined(outcomeScore.attr('normalMaximum')), 'normalMaximum initially undefined');
 
             responseHelper.setNormalMaximum(item);
-            assert.equal(outcomeScore.attr('normalMaximum'), data.expectedMaximum, 'calculated normalMaximum is correct');
+            assert.equal(outcomeScore.attr('normalMaximum'), config.expectedMaximum, 'calculated normalMaximum is correct');
         });
     });
 
