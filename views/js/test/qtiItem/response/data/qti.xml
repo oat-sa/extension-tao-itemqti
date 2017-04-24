@@ -3,41 +3,42 @@
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
-        identifier="i1492000233609482" title="Item 14" adaptive="false" timeDependent="false" label="Item 14" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="pair">
+        identifier="i14930425198330510" title="Item 15" adaptive="false" timeDependent="false" label="Item 15" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
+    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
         <correctResponse>
             <value>
-                <![CDATA[choice_3 choice_4]]>
+                <![CDATA[choice_2 choice_3]]>
             </value>
             <value>
-                <![CDATA[choice_3 choice_5]]>
-            </value>
-            <value>
-                <![CDATA[choice_1 choice_2]]>
+                <![CDATA[choice_1 choice_6]]>
             </value>
         </correctResponse>
         <mapping defaultValue="0">
-            <mapEntry mapKey="choice_3 choice_4" mappedValue="2" caseSensitive="false"/>
-            <mapEntry mapKey="choice_3 choice_5" mappedValue="1" caseSensitive="false"/>
-            <mapEntry mapKey="choice_1 choice_2" mappedValue="-1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_2 choice_3" mappedValue="2" caseSensitive="false"/>
+            <mapEntry mapKey="choice_1 choice_6" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_2 choice_4" mappedValue="-1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_1 choice_4" mappedValue="-2" caseSensitive="false"/>
+            <mapEntry mapKey="choice_5 choice_4" mappedValue="0.5" caseSensitive="false"/>
         </mapping>
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
-    <outcomeDeclaration identifier="OUTCOME_1" cardinality="single" baseType="float" interpretation="AAA" normalMaximum="1.3" normalMinimum="0"/>
-    <outcomeDeclaration identifier="OUTCOME_2" cardinality="single" baseType="float" normalMaximum="1" normalMinimum="0"/>
-    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <associateInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="0" minAssociations="0">
+                <matchInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="0" minAssociations="0">
                     <prompt  />
-                    <simpleAssociableChoice identifier="choice_1" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #1</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="choice_2" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #2</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="choice_3" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #3</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="choice_4" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #4</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="choice_5" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #5</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="choice_6" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #6</simpleAssociableChoice>
-                </associateInteraction>
+                    <simpleMatchSet>
+                        <simpleAssociableChoice identifier="choice_1" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #1</simpleAssociableChoice>
+                        <simpleAssociableChoice identifier="choice_2" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #2</simpleAssociableChoice>
+                        <simpleAssociableChoice identifier="choice_5" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #3</simpleAssociableChoice>
+                    </simpleMatchSet>
+                    <simpleMatchSet>
+                        <simpleAssociableChoice identifier="choice_3" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #1</simpleAssociableChoice>
+                        <simpleAssociableChoice identifier="choice_4" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #2</simpleAssociableChoice>
+                        <simpleAssociableChoice identifier="choice_6" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #3</simpleAssociableChoice>
+                        <simpleAssociableChoice identifier="choice_7" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #4</simpleAssociableChoice>
+                    </simpleMatchSet>
+                </matchInteraction>
             </div>
         </div>
     </itemBody>

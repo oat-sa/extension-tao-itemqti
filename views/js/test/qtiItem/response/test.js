@@ -47,7 +47,9 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/gapmatch-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/gapmatch-map.json',
     'json!taoQtiItem/test/qtiItem/response/data/associate-correct.json',
-    'json!taoQtiItem/test/qtiItem/response/data/associate-map.json'
+    'json!taoQtiItem/test/qtiItem/response/data/associate-map.json',
+    'json!taoQtiItem/test/qtiItem/response/data/match-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/match-map.json'
 ], function (
     _,
     Element,
@@ -80,7 +82,9 @@ define([
     dataGapmatchCorrect,
     dataGapmatchMap,
     dataAssociateCorrect,
-    dataAssociateMap
+    dataAssociateMap,
+    dataMatchCorrect,
+    dataMatchMap
 ){
     'use strict';
 
@@ -136,7 +140,9 @@ define([
         { title : 'associate - map - maxAssociations=1', data : dataAssociateMap, expectedMaximum: 2, changeData : function(data){
             data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.maxAssociations = 1;
             return data;
-        }}
+        }},
+        { title : 'match - correct', data : dataMatchCorrect, expectedMaximum: 1},
+        { title : 'match - map', data : dataMatchMap, expectedMaximum: 3.25},
     ];
 
     QUnit
