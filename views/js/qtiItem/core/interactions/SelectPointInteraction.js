@@ -15,7 +15,7 @@ define([
 
             if (template === 'MATCH_CORRECT' || template === 'MAP_RESPONSE') {
                 //such templates are not allowed
-                return false;
+                return 0;
             }else if(template === 'MAP_RESPONSE_POINT'){
                 //calculate the maximum reachable score by choice map
                 skippableWrongResponse = (minChoice === 0) ? Infinity : minChoice;

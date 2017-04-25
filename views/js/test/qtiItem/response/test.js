@@ -118,7 +118,7 @@ define([
         { title : 'upload and choice - correct', data : dataUploadChoice, expectedMaximum: undefined},
         { title : 'hottext - correct', data : dataHottextCorrect, expectedMaximum: 1},
         { title : 'hotspot - correct', data : dataHotspotCorrect, expectedMaximum: 1},
-        { title : 'select point - map', data : dataSelectpointMap, expectedMaximum: 2},
+        { title : 'select point - map response', data : dataSelectpointMap, expectedMaximum: 8},
         { title : 'graphic order - correct', data : dataGraphicOrderCorrect, expectedMaximum: 1},
         { title : 'slider - correct', data : dataSliderCorrect, expectedMaximum: 1},
         { title : 'gap match - correct', data : dataGapmatchCorrect, expectedMaximum: 1},
@@ -154,7 +154,7 @@ define([
         { title : 'graphic associate - correct', data : dataGraphicAssociateCorrect, expectedMaximum: 1},
         { title : 'graphic associate - map', data : dataGraphicAssociateMap, expectedMaximum: 1.2},
         { title : 'graphic gap match - correct', data : dataGraphicGapCorrect, expectedMaximum: 1},
-        { title : 'graphic gap match - map', data : dataGraphicGapMap, expectedMaximum: 2.5},
+        { title : 'graphic gap match - map', data : dataGraphicGapMap, expectedMaximum: 2.5}
     ];
 
     QUnit

@@ -1,56 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
-        xmlns:m="http://www.w3.org/1998/Math/MathML"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
-        identifier="i14930461572410513" title="Item 16" adaptive="false" timeDependent="false" label="Item 16" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
-        <correctResponse>
-            <value>
-                <![CDATA[gapimg_2 associablehotspot_3]]>
-            </value>
-            <value>
-                <![CDATA[gapimg_2 associablehotspot_4]]>
-            </value>
-            <value>
-                <![CDATA[gapimg_3 associablehotspot_7]]>
-            </value>
-        </correctResponse>
-        <mapping defaultValue="0">
-            <mapEntry mapKey="gapimg_2 associablehotspot_3" mappedValue="-1" caseSensitive="false"/>
-            <mapEntry mapKey="gapimg_2 associablehotspot_4" mappedValue="2" caseSensitive="false"/>
-            <mapEntry mapKey="gapimg_3 associablehotspot_7" mappedValue="0.5" caseSensitive="false"/>
-            <mapEntry mapKey="gapimg_1 associablehotspot_3" mappedValue="-0.25" caseSensitive="false"/>
-        </mapping>
+        identifier="i14931113669640516" title="select point" adaptive="false" timeDependent="false">
+    <responseDeclaration baseType="point" cardinality="multiple" identifier="RESPONSE">
+        <areaMapping defaultValue="0">
+            <areaMapEntry shape="circle" coords="18,14,5" mappedValue="4" />
+            <areaMapEntry shape="ellipse" coords="10,32,5,5" mappedValue="-1" />
+            <areaMapEntry shape="circle" coords="48,22,8" mappedValue="2" />
+        </areaMapping>
     </responseDeclaration>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
-    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
+    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE"/>
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <graphicGapMatchInteraction responseIdentifier="RESPONSE" class="responsive">
+                <selectPointInteraction maxChoices="0" minChoices="0" class="responsive" responseIdentifier="RESPONSE">
                     <prompt  />
-                    <object data="daoism.jpg" type="image/jpeg" width="230" height="229" />
-                    <gapImg identifier="gapimg_1" fixed="false" matchMin="0" matchMax="0">
-                        <object data="training_css3.png" type="image/png" width="28" height="28" />
-                    </gapImg>
-                    <gapImg identifier="gapimg_2" fixed="false" matchMin="0" matchMax="0">
-                        <object data="training_css3.png" type="image/png" width="28" height="28" />
-                    </gapImg>
-                    <gapImg identifier="gapimg_3" fixed="false" matchMin="0" matchMax="0">
-                        <object data="training_css3.png" type="image/png" width="28" height="28" />
-                    </gapImg>
-                    <associableHotspot identifier="associablehotspot_1" fixed="false" matchMax="0" matchMin="0" shape="rect" coords="14,15,24,25" />
-                    <associableHotspot identifier="associablehotspot_2" fixed="false" matchMax="0" matchMin="0" shape="rect" coords="90,28,100,38" />
-                    <associableHotspot identifier="associablehotspot_3" fixed="false" matchMax="0" matchMin="0" shape="rect" coords="50,90,75,115" />
-                    <associableHotspot identifier="associablehotspot_4" fixed="false" matchMax="0" matchMin="0" shape="rect" coords="170,41,195,66" />
-                    <associableHotspot identifier="associablehotspot_5" fixed="false" matchMax="0" matchMin="0" shape="rect" coords="167,116,177,126" />
-                    <associableHotspot identifier="associablehotspot_6" fixed="false" matchMax="0" matchMin="0" shape="rect" coords="105,68,130,93" />
-                    <associableHotspot identifier="associablehotspot_7" fixed="false" matchMax="0" matchMin="0" shape="rect" coords="109,161,140,183" />
-                </graphicGapMatchInteraction>
+                    <object width="75" height="75" type="image/jpeg" data="small.jpg" />
+                </selectPointInteraction>
             </div>
         </div>
     </itemBody>
-    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point"/>
 </assessmentItem>
