@@ -80,11 +80,16 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             }
         },
         choiceInteractionBased : function choiceInteractionBased(interaction){
-            var maxChoice = parseInt(interaction.attr('maxChoices'));
-            var minChoice = parseInt(interaction.attr('minChoices'));
             var responseDeclaration = interaction.getResponseDeclaration();
+            var maxChoice = parseInt(interaction.attr('maxChoices')||0);
+            var minChoice = parseInt(interaction.attr('minChoices')||0);
+            var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
             var template = this.getTemplateNameFromUri(responseDeclaration.template);
-            var max, scoreMaps, skippableWrongResponse, totalAnswerableResponse;
+            var max, scoreMaps, requiredChoiceCount, totalAnswerableResponse, sortedMapEntries, i, missingMapsCount;
+
+            if(maxChoice && maxChoice < minChoice){
+                return 0;
+            }
 
             if (template === 'MATCH_CORRECT') {
                 if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice){
@@ -100,21 +105,45 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
 
                 //calculate the maximum reachable score by choice map
                 scoreMaps = _.values(responseDeclaration.mapEntries);
-                skippableWrongResponse = (minChoice === 0) ? Infinity : minChoice;
+                requiredChoiceCount = minChoice;
                 totalAnswerableResponse = (maxChoice === 0) ? Infinity : maxChoice;
 
-                max = _(scoreMaps).map(function (v) {
+                sortedMapEntries = _(scoreMaps).map(function (v) {
                     return parseFloat(v);
-                }).sortBy().reverse().take(totalAnswerableResponse).reduce(function (acc, v) {
-                    if (v >= 0) {
-                        return gamp.add(acc, v);
-                    } else if (skippableWrongResponse > 0) {
-                        skippableWrongResponse--;
-                        return acc;
-                    } else {
-                        return gamp.add(acc, v);
+                }).sortBy().reverse().take(totalAnswerableResponse)
+
+                //    .reduce(function (acc, v) {
+                //    if (v >= 0) {
+                //        return gamp.add(acc, v);
+                //    } else if (skippableWrongResponse > 0) {
+                //        skippableWrongResponse--;
+                //        return acc;
+                //    } else {
+                //        return gamp.add(acc, v);
+                //    }
+                //}, 0);
+
+                missingMapsCount = minChoice - sortedMapEntries.size();
+                for(i = 0; i < missingMapsCount;i++){
+                    //fill in the rest of required choices with the default map
+                    sortedMapEntries.push({score:mapDefault});
+                }
+
+                max = sortedMapEntries.reduce(function (acc, v) {
+                    var score = v;
+                    if(score < 0){
+                        if(requiredChoiceCount <= 0){
+                            //if the score is negative check if we have the choice not to pick it
+                            score = 0;
+                        }else{
+                            //else, always take the best option
+                            score = Math.max(mapDefault, score);
+                        }
                     }
+                    requiredChoiceCount--;
+                    return gamp.add(acc, score);
                 }, 0);
+
                 max = parseFloat(max);
 
                 //compare the calculated maximum with the mapping upperbound
@@ -128,10 +157,15 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             return max;
         },
         orderInteractionBased : function orderInteractionBased(interaction){
-            var maxChoice = parseInt(interaction.attr('maxChoices'));
+            var minChoice = parseInt(interaction.attr('minChoices')||0);
+            var maxChoice = parseInt(interaction.attr('maxChoices')||0);
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = this.getTemplateNameFromUri(responseDeclaration.template);
             var max;
+
+            if(maxChoice && maxChoice < minChoice){
+                return 0;
+            }
 
             if (template === 'MATCH_CORRECT') {
                 if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice){
@@ -157,6 +191,10 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             var minAssoc = parseInt(interaction.attr('minAssociations')||0);
             var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
             var requiredAssoc, totalAnswerableResponse, usedChoices, group1, sortedMapEntries, i, missingMapsCount;
+
+            if(maxAssoc && maxAssoc < minAssoc){
+                return 0;
+            }
 
             if (template === 'MATCH_CORRECT') {
                 if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
