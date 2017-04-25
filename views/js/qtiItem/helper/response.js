@@ -151,9 +151,8 @@ define(['lodash'], function(_) {
             return max;
         },
         associateInteractionBased : function associateInteractionBased(interaction){
-            var responseHelper = this;
             var responseDeclaration = interaction.getResponseDeclaration();
-            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var template = this.getTemplateNameFromUri(responseDeclaration.template);
             var max;
             var maxAssoc = parseInt(interaction.attr('maxAssociations'));
             var minAssoc = parseInt(interaction.attr('minAssociations'));

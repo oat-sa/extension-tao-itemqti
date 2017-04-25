@@ -3,44 +3,47 @@
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
-        identifier="i14930425198330510" title="Item 15" adaptive="false" timeDependent="false" label="Item 15" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
-    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
+        identifier="i14930461572410513" title="Item 16" adaptive="false" timeDependent="false" label="Item 16" xml:lang="en-US" toolName="TAO" toolVersion="3.2.0-sprint48">
+    <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE">
         <correctResponse>
             <value>
-                <![CDATA[choice_2 choice_3]]>
+                <![CDATA[gapimg_2 associablehotspot_3]]>
             </value>
             <value>
-                <![CDATA[choice_1 choice_6]]>
+                <![CDATA[gapimg_2 associablehotspot_4]]>
+            </value>
+            <value>
+                <![CDATA[gapimg_3 associablehotspot_7]]>
             </value>
         </correctResponse>
-        <mapping defaultValue="0">
-            <mapEntry mapKey="choice_2 choice_3" mappedValue="2" caseSensitive="false"/>
-            <mapEntry mapKey="choice_1 choice_6" mappedValue="1" caseSensitive="false"/>
-            <mapEntry mapKey="choice_2 choice_4" mappedValue="-1" caseSensitive="false"/>
-            <mapEntry mapKey="choice_1 choice_4" mappedValue="-2" caseSensitive="false"/>
-            <mapEntry mapKey="choice_5 choice_4" mappedValue="0.5" caseSensitive="false"/>
-        </mapping>
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <stylesheet href="style/custom/tao-user-styles.css" title="" type="text/css" media="all" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <matchInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="0" minAssociations="0">
+                <graphicGapMatchInteraction class="responsive" responseIdentifier="RESPONSE">
                     <prompt  />
-                    <simpleMatchSet>
-                        <simpleAssociableChoice identifier="choice_1" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #1</simpleAssociableChoice>
-                        <simpleAssociableChoice identifier="choice_2" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #2</simpleAssociableChoice>
-                        <simpleAssociableChoice identifier="choice_5" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #3</simpleAssociableChoice>
-                    </simpleMatchSet>
-                    <simpleMatchSet>
-                        <simpleAssociableChoice identifier="choice_3" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #1</simpleAssociableChoice>
-                        <simpleAssociableChoice identifier="choice_4" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #2</simpleAssociableChoice>
-                        <simpleAssociableChoice identifier="choice_6" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #3</simpleAssociableChoice>
-                        <simpleAssociableChoice identifier="choice_7" fixed="false" showHide="show" matchMax="0" matchMin="0">choice #4</simpleAssociableChoice>
-                    </simpleMatchSet>
-                </matchInteraction>
+                    <object width="230" height="229" type="image/jpeg" data="daoism.jpg" />
+                    <gapImg matchMin="0" matchMax="0" identifier="gapimg_1">
+                        <object data="training_css3.png" type="image/png" width="28" height="28" />
+                    </gapImg>
+                    <gapImg matchMin="0" matchMax="0" identifier="gapimg_2">
+                        <object data="training_css3.png" type="image/png" width="28" height="28" />
+                    </gapImg>
+                    <gapImg matchMin="0" matchMax="0" identifier="gapimg_3">
+                        <object data="training_css3.png" type="image/png" width="28" height="28" />
+                    </gapImg>
+                    <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="14,15,24,25" identifier="associablehotspot_1" />
+                    <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="90,28,100,38" identifier="associablehotspot_2" />
+                    <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="50,90,75,115" identifier="associablehotspot_3" />
+                    <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="170,41,195,66" identifier="associablehotspot_4" />
+                    <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="167,116,177,126" identifier="associablehotspot_5" />
+                    <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="105,68,130,93" identifier="associablehotspot_6" />
+                    <associableHotspot matchMax="0" matchMin="0" shape="rect" coords="109,161,140,183" identifier="associablehotspot_7" />
+                </graphicGapMatchInteraction>
             </div>
         </div>
     </itemBody>
-    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
 </assessmentItem>

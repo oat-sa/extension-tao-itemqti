@@ -49,7 +49,9 @@ define([
     'json!taoQtiItem/test/qtiItem/response/data/associate-correct.json',
     'json!taoQtiItem/test/qtiItem/response/data/associate-map.json',
     'json!taoQtiItem/test/qtiItem/response/data/match-correct.json',
-    'json!taoQtiItem/test/qtiItem/response/data/match-map.json'
+    'json!taoQtiItem/test/qtiItem/response/data/match-map.json',
+    'json!taoQtiItem/test/qtiItem/response/data/graphic-associate-correct.json',
+    'json!taoQtiItem/test/qtiItem/response/data/graphic-associate-map.json'
 ], function (
     _,
     Element,
@@ -84,7 +86,9 @@ define([
     dataAssociateCorrect,
     dataAssociateMap,
     dataMatchCorrect,
-    dataMatchMap
+    dataMatchMap,
+    dataGraphicAssociateCorrect,
+    dataGraphicAssociateMap
 ){
     'use strict';
 
@@ -143,6 +147,8 @@ define([
         }},
         { title : 'match - correct', data : dataMatchCorrect, expectedMaximum: 1},
         { title : 'match - map', data : dataMatchMap, expectedMaximum: 3.25},
+        { title : 'graphic associate - correct', data : dataGraphicAssociateCorrect, expectedMaximum: 1},
+        { title : 'graphic associate - map', data : dataGraphicAssociateMap, expectedMaximum: 1.2},
     ];
 
     QUnit
