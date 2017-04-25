@@ -154,8 +154,8 @@ define(['lodash'], function(_) {
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = this.getTemplateNameFromUri(responseDeclaration.template);
             var max;
-            var maxAssoc = parseInt(interaction.attr('maxAssociations'));
-            var minAssoc = parseInt(interaction.attr('minAssociations'));
+            var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
+            var minAssoc = parseInt(interaction.attr('minAssociations')||0);
             var skippableWrongResponse, totalAnswerableResponse, usedChoices, group1;
 
             if (template === 'MATCH_CORRECT') {
@@ -178,8 +178,13 @@ define(['lodash'], function(_) {
                     });
 
                     _.each(_.countBy(group1), function(count, identifier){
+                        var matchMax;
                         var choice = interaction.getChoiceByIdentifier(identifier);
-                        var matchMax = parseInt(choice.attr('matchMax'));
+                        if(!choice){
+                            max = 0;
+                            return false;
+                        }
+                        matchMax = parseInt(choice.attr('matchMax'));
                         if(matchMax && matchMax < count){
                             max = 0;
                             return false;

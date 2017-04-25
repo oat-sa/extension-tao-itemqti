@@ -1,18 +1,25 @@
-define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(GraphicInteraction, Element, _, rendererConfig){
+define([
+    'taoQtiItem/qtiItem/core/interactions/GraphicInteraction',
+    'taoQtiItem/qtiItem/core/Element',
+    'lodash',
+    'taoQtiItem/qtiItem/helper/rendererConfig',
+    'taoQtiItem/qtiItem/helper/response'
+], function(GraphicInteraction, Element, _, rendererConfig, responseHelper){
+    'use strict';
 
     var GraphicGapMatchInteraction = GraphicInteraction.extend({
         qtiClass : 'graphicGapMatchInteraction',
-        init : function(serial, attributes){
+        init : function init(serial, attributes){
             this._super(serial, attributes);
             this.gapImgs = {};
         },
-        addGapImg : function(gapImg){
+        addGapImg : function addGapImg(gapImg){
             if(Element.isA(gapImg, 'gapImg')){
                 gapImg.setRelatedItem(this.getRelatedItem() || null);
                 this.gapImgs[gapImg.getSerial()] = gapImg;
             }
         },
-        removeGapImg : function(gapImg){
+        removeGapImg : function removeGapImg(gapImg){
             var serial = '';
             if(typeof(gapImg) === 'string'){
                 serial = gapImg;
@@ -22,22 +29,32 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
             delete this.gapImgs[serial];
             return this;
         },
-        getGapImgs : function(){
+        getGapImgs : function getGapImgs(){
             return _.clone(this.gapImgs);
         },
-        getGapImg : function(serial){
+        getGapImg : function getGapImg(serial){
             return this.gapImgs[serial];
         },
-        getComposingElements : function(){
-            var elts = this._super();
+        getChoiceByIdentifier : function getChoiceByIdentifier(identifier){
+            var choice = this._super(identifier);
+            if(!choice){
+                //if not found among the choices, search the gapImgs
+                choice = _.find(this.gapImgs, function(elt){
+                    return (elt && elt.id() === identifier);
+                });
+            }
+            return choice;
+        },
+        getComposingElements : function getComposingElements(){
+            var serial, elts = this._super();
             //recursive to choices:
-            for(var serial in this.gapImgs){
+            for(serial in this.gapImgs){
                 elts[serial] = this.gapImgs[serial];
                 elts = _.extend(elts, this.gapImgs[serial].getComposingElements());
             }
             return elts;
         },
-        find : function(serial){
+        find : function find(serial){
             var found = this._super(serial);
             if(!found){
                 if(this.gapImgs[serial]){
@@ -46,9 +63,9 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
             }
             return found;
         },
-        render : function(){
-            
-            var args = rendererConfig.getOptionsFromArguments(arguments),
+        render : function render(){
+            var serial,
+                args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 defaultData = {
                     'gapImgs' : []
@@ -56,7 +73,7 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
 
             //note: no choice shuffling option available for graphic gap match
             var gapImgs = this.getGapImgs();
-            for(var serial in gapImgs){
+            for(serial in gapImgs){
                 if(Element.isA(gapImgs[serial], 'choice')){
                     defaultData.gapImgs.push(gapImgs[serial].render({}, null, '', renderer));
                 }
@@ -64,14 +81,17 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
 
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
-        toArray : function(){
-            var arr = this._super();
+        toArray : function toArray(){
+            var serial, gapImgs, arr = this._super();
             arr.gapImgs = {};
-            var gapImgs = this.getGapImgs();
-            for(var serial in gapImgs){
+            gapImgs = this.getGapImgs();
+            for(serial in gapImgs){
                 arr.gapImgs[serial] = gapImgs[serial].toArray();
             }
             return arr;
+        },
+        getNormalMaximum : function getNormalMaximum(){
+            return responseHelper.associateInteractionBased(this);
         }
     });
 
