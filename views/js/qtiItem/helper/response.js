@@ -78,7 +78,6 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             }else{
                 scoreOutcome.removeAttr('normalMaximum');
             }
-
         },
         choiceInteractionBased : function choiceInteractionBased(interaction){
             var maxChoice = parseInt(interaction.attr('maxChoices'));
@@ -123,7 +122,8 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
                     max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
-                max = false;
+                //map point response processing does not work on choice based interaction
+                max = 0;
             }
             return max;
         },
@@ -144,7 +144,8 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
                     max = 1;
                 }
             }else if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT') {
-                max = false;
+                //map response processing does not work on order based interaction
+                max = 0;
             }
             return max;
         },
@@ -154,7 +155,8 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             var max;
             var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
             var minAssoc = parseInt(interaction.attr('minAssociations')||0);
-            var requiredAssoc, totalAnswerableResponse, usedChoices, group1;
+            var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
+            var requiredAssoc, totalAnswerableResponse, usedChoices, group1, sortedMapEntries, i, missingMapsCount;
 
             if (template === 'MATCH_CORRECT') {
                 if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
@@ -191,18 +193,17 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
                 }
             }else if(template === 'MAP_RESPONSE') {
 
-                requiredAssoc =  minAssoc;
+                requiredAssoc = minAssoc;
                 totalAnswerableResponse = (maxAssoc === 0) ? Infinity : maxAssoc;
                 usedChoices = {};
-                var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
-                var sortedMapEntries = _(responseDeclaration.mapEntries).map(function(score, pair){
+                sortedMapEntries = _(responseDeclaration.mapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
                         pair : pair
                     };
                 }).sortBy('score').reverse().filter(function(mapEntry){
                     var pair = mapEntry.pair;
-                    var choices, choiceId, choice, i;
+                    var choices, choiceId, choice;
 
                     if(!_.isString(pair)){
                         return false;
@@ -238,12 +239,10 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
                     }
                 }).take(totalAnswerableResponse);
 
-                var missingMapsCount = minAssoc - sortedMapEntries.size();
-                if(missingMapsCount > 0){
-                    for(var i=0; i < missingMapsCount;i++){
-                        //fill in the rest of required choices with the default map
-                        sortedMapEntries.push({score:mapDefault});
-                    }
+                missingMapsCount = minAssoc - sortedMapEntries.size();
+                for(i = 0; i < missingMapsCount;i++){
+                    //fill in the rest of required choices with the default map
+                    sortedMapEntries.push({score:mapDefault});
                 }
 
                 max = sortedMapEntries.reduce(function (acc, v) {
@@ -266,7 +265,7 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
                     max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
-                max = false;
+                max = 0;
             }
             return max;
         }
