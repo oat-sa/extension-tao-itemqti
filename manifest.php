@@ -29,11 +29,11 @@ return array(
     'label'       => 'QTI item model',
     'description' => 'TAO QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '7.1.0',
+    'version'     => '8.0.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=3.0.1',
-        'tao'      => '>=8.5.0'
+        'tao'      => '>=9.0.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -93,9 +93,6 @@ return array(
 
 		#BASE URL (usually the domain root)
 		'BASE_URL'				=> ROOT_URL	.'taoQtiItem/',
-
-		#BASE WWW the web resources path
-		'BASE_WWW'				=> ROOT_URL	.'taoQtiItem/views/',
 	),
     'extra' => array(
         'structures' => dirname(__FILE__).DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.'structures.xml',
