@@ -251,7 +251,7 @@
                 "\n                choice_1 choice_2\n            "
             ],
             "mappingAttributes": {
-                "defaultValue": 0
+                "defaultValue": "-0.2"
             },
             "feedbackRules": {}
         }

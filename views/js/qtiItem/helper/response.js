@@ -16,7 +16,7 @@
  * Copyright (c) 2014-2017 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
-define(['lodash'], function(_) {
+define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
     'use strict';
 
     var _templateNames = {
@@ -66,7 +66,7 @@ define(['lodash'], function(_) {
                 normalMaximum = _.reduce(item.getInteractions(), function (acc, interaction) {
                     var interactionMaxScore = interaction.getNormalMaximum();
                     if(_.isNumber(interactionMaxScore)){
-                        return acc + interactionMaxScore;
+                        return gamp.add(acc, interactionMaxScore);
                     }else{
                         return false;
                     }
@@ -81,11 +81,10 @@ define(['lodash'], function(_) {
 
         },
         choiceInteractionBased : function choiceInteractionBased(interaction){
-            var responseHelper = this;
             var maxChoice = parseInt(interaction.attr('maxChoices'));
             var minChoice = parseInt(interaction.attr('minChoices'));
             var responseDeclaration = interaction.getResponseDeclaration();
-            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var template = this.getTemplateNameFromUri(responseDeclaration.template);
             var max, scoreMaps, skippableWrongResponse, totalAnswerableResponse;
 
             if (template === 'MATCH_CORRECT') {
@@ -109,12 +108,12 @@ define(['lodash'], function(_) {
                     return parseFloat(v);
                 }).sortBy().reverse().take(totalAnswerableResponse).reduce(function (acc, v) {
                     if (v >= 0) {
-                        return acc + v;
+                        return gamp.add(acc, v);
                     } else if (skippableWrongResponse > 0) {
                         skippableWrongResponse--;
                         return acc;
                     } else {
-                        return acc + v;
+                        return gamp.add(acc, v);
                     }
                 }, 0);
                 max = parseFloat(max);
@@ -129,10 +128,9 @@ define(['lodash'], function(_) {
             return max;
         },
         orderInteractionBased : function orderInteractionBased(interaction){
-            var responseHelper = this;
             var maxChoice = parseInt(interaction.attr('maxChoices'));
             var responseDeclaration = interaction.getResponseDeclaration();
-            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var template = this.getTemplateNameFromUri(responseDeclaration.template);
             var max;
 
             if (template === 'MATCH_CORRECT') {
@@ -156,7 +154,7 @@ define(['lodash'], function(_) {
             var max;
             var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
             var minAssoc = parseInt(interaction.attr('minAssociations')||0);
-            var skippableWrongResponse, totalAnswerableResponse, usedChoices, group1;
+            var requiredAssoc, totalAnswerableResponse, usedChoices, group1;
 
             if (template === 'MATCH_CORRECT') {
                 if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
@@ -193,10 +191,11 @@ define(['lodash'], function(_) {
                 }
             }else if(template === 'MAP_RESPONSE') {
 
-                skippableWrongResponse = (minAssoc === 0) ? Infinity : minAssoc;//TODO fix this interpretation of min association, should take into account
+                requiredAssoc =  minAssoc;
                 totalAnswerableResponse = (maxAssoc === 0) ? Infinity : maxAssoc;
                 usedChoices = {};
-                max = _(responseDeclaration.mapEntries).map(function(score, pair){
+                var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
+                var sortedMapEntries = _(responseDeclaration.mapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
                         pair : pair
@@ -237,16 +236,29 @@ define(['lodash'], function(_) {
                         //is not a correct response pair
                         return false;
                     }
-                }).take(totalAnswerableResponse).reduce(function (acc, v) {
-                    var score = v.score;
-                    if (score >= 0) {
-                        return acc + score;
-                    } else if (skippableWrongResponse > 0) {
-                        skippableWrongResponse--;
-                        return acc;
-                    } else {
-                        return acc + score;
+                }).take(totalAnswerableResponse);
+
+                var missingMapsCount = minAssoc - sortedMapEntries.size();
+                if(missingMapsCount > 0){
+                    for(var i=0; i < missingMapsCount;i++){
+                        //fill in the rest of required choices with the default map
+                        sortedMapEntries.push({score:mapDefault});
                     }
+                }
+
+                max = sortedMapEntries.reduce(function (acc, v) {
+                    var score = v.score;
+                    if(v.score < 0){
+                        if(requiredAssoc <= 0){
+                            //if the score is negative check if we have the choice not to pick it
+                            score = 0;
+                        }else{
+                            //else, always take the best option
+                            score = Math.max(mapDefault, score);
+                        }
+                    }
+                    requiredAssoc--;
+                    return gamp.add(acc, score);
                 }, 0);
 
                 //compare the calculated maximum with the mapping upperbound

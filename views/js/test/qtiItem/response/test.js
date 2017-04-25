@@ -149,6 +149,14 @@ define([
             data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.maxAssociations = 1;
             return data;
         }},
+        { title : 'associate - map - minAssociations=3', data : dataAssociateMap, expectedMaximum: 2.8, changeData : function(data){
+            data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.minAssociations = 3;
+            return data;
+        }},
+        { title : 'associate - map - minAssociations=5', data : dataAssociateMap, expectedMaximum: 2.4, changeData : function(data){
+            data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.minAssociations = 5;
+            return data;
+        }},
         { title : 'match - correct', data : dataMatchCorrect, expectedMaximum: 1},
         { title : 'match - map', data : dataMatchMap, expectedMaximum: 3.25},
         { title : 'graphic associate - correct', data : dataGraphicAssociateCorrect, expectedMaximum: 1},
