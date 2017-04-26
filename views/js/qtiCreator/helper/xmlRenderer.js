@@ -13,11 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA ;
  */
 define([
-    'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
-], function(XmlRenderer){
+    'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
+    'taoQtiItem/qtiItem/helper/response',
+], function(XmlRenderer, responseHelper){
     'use strict';
 
     var _xmlRenderer = new XmlRenderer({
@@ -27,6 +28,7 @@ define([
     var _render = function(item){
         var xml = '';
         try{
+            responseHelper.setNormalMaximum(item);
             xml = item.render(_xmlRenderer);
         }catch(e){
             console.log(e);

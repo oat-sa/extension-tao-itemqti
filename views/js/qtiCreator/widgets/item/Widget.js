@@ -30,7 +30,6 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
-    'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
@@ -49,7 +48,6 @@ define([
     contentHelper,
     xmlRenderer,
     devTools,
-    responseHelper,
     TextWidget,
     styleEditor,
     genericFeedbackPopup
@@ -118,7 +116,6 @@ define([
                 reject(err);
             }
 
-            responseHelper.setNormalMaximum(self.element);
             xml = xmlRenderer.render(self.element);
 
             //@todo : remove this hotfix : prevent unsupported custom interaction to be saved
