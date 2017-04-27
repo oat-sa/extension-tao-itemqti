@@ -2,25 +2,27 @@
 <assessmentItem
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:m="http://www.w3.org/1998/Math/MathML"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
-        identifier="i14931113669640516" title="select point" adaptive="false" timeDependent="false">
-    <responseDeclaration baseType="point" cardinality="multiple" identifier="RESPONSE">
-        <areaMapping defaultValue="0">
-            <areaMapEntry shape="circle" coords="18,14,5" mappedValue="4" />
-            <areaMapEntry shape="ellipse" coords="10,32,5,5" mappedValue="-1" />
-            <areaMapEntry shape="circle" coords="48,22,8" mappedValue="2" />
-        </areaMapping>
+        identifier="i14933007086493522" title="extended text" adaptive="false" timeDependent="false">
+    <responseDeclaration baseType="string" cardinality="single" identifier="RESPONSE">
+        <correctResponse>
+            <value>
+                <![CDATA[]]>
+            </value>
+        </correctResponse>
     </responseDeclaration>
     <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE"/>
+    <outcomeDeclaration cardinality="single" baseType="float" normalMinimum="0" normalMaximum="3" identifier="OUTCOME_1" interpretation="Manual scoring"/>
+    <stylesheet href="style/custom/tao-user-styles.css" title="" type="text/css" media="all" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <selectPointInteraction maxChoices="0" minChoices="0" class="responsive" responseIdentifier="RESPONSE">
+                <extendedTextInteraction format="plain" responseIdentifier="RESPONSE">
                     <prompt  />
-                    <object width="75" height="75" type="image/jpeg" data="small.jpg" />
-                </selectPointInteraction>
+                </extendedTextInteraction>
             </div>
         </div>
     </itemBody>
-    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point"/>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
 </assessmentItem>

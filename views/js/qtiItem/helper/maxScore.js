@@ -16,7 +16,12 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'lib/gamp/gamp', 'taoQtiItem/qtiItem/helper/response'], function(_, gamp, responseHelper) {
+define([
+    'lodash',
+    'lib/gamp/gamp',
+    'taoQtiItem/qtiItem/helper/response',
+    'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration'
+], function(_, gamp, responseHelper, OutcomeDeclaration) {
     'use strict';
 
     return {
@@ -29,6 +34,7 @@ define(['lodash', 'lib/gamp/gamp', 'taoQtiItem/qtiItem/helper/response'], functi
                 throw Error('no score outcome found');
             }
 
+            //try setting the computed normal maximum only if the processing type is known, i.e. 'templateDriven'
             if (item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
                 normalMaximum = _.reduce(item.getInteractions(), function (acc, interaction) {
                     var interactionMaxScore = interaction.getNormalMaximum();
@@ -38,12 +44,58 @@ define(['lodash', 'lib/gamp/gamp', 'taoQtiItem/qtiItem/helper/response'], functi
                         return false;
                     }
                 }, 0);
-            }
 
-            if(_.isNumber(normalMaximum)){
-                scoreOutcome.attr('normalMaximum', normalMaximum);
-            }else{
-                scoreOutcome.removeAttr('normalMaximum');
+                if(_.isNumber(normalMaximum)){
+                    scoreOutcome.attr('normalMaximum', normalMaximum);
+                }else{
+                    scoreOutcome.removeAttr('normalMaximum');
+                }
+            }
+        },
+        setMaxScore : function setMaxScore(item) {
+            var setMaxScore = true,
+                customOutcomes,
+                maxScore,
+                maxScoreOutcome;
+
+            //try setting the computed normal maximum only if the processing type is known, i.e. 'templateDriven'
+            if (item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
+
+                maxScore = _.reduce(item.getInteractions(), function (acc, interaction) {
+                    var interactionMaxScore = interaction.getNormalMaximum();
+                    if(_.isNumber(interactionMaxScore)){
+                        return gamp.add(acc, interactionMaxScore);
+                    }else{
+                        setMaxScore = false;
+                        return acc;
+                    }
+                }, 0);
+
+                customOutcomes =  _(item.getOutcomes()).filter(function(outcome){
+                    return (outcome.id() !== 'SCORE' && outcome.id() !== 'MAXSCORE');
+                });
+
+                if(customOutcomes.size()){
+                    maxScore = customOutcomes.reduce(function (acc, outcome) {
+                        return gamp.add(acc, parseFloat(outcome.attr('normalMaximum')));
+                    }, maxScore);
+                }
+
+                if(setMaxScore || customOutcomes.size()){
+                    maxScoreOutcome = item.getOutcomeDeclaration('MAXSCORE');
+                    if(!maxScoreOutcome){
+                        //add new outcome
+                        maxScoreOutcome = new OutcomeDeclaration({
+                            cardinality : 'single',
+                            baseType : 'float'
+                        });
+
+                        //attach the outcome to the item before generating item-level unique id
+                        item.addOutcomeDeclaration(maxScoreOutcome);
+                        maxScoreOutcome.buildIdentifier('MAXSCORE', false);
+                    }
+                    maxScoreOutcome.setDefaultValue(maxScore);
+                }
             }
         },
         choiceInteractionBased : function choiceInteractionBased(interaction){
@@ -265,5 +317,5 @@ define(['lodash', 'lib/gamp/gamp', 'taoQtiItem/qtiItem/helper/response'], functi
             }
             return max;
         }
-    }
+    };
 });

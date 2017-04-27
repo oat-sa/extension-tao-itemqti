@@ -143,17 +143,6 @@
             },
             "defaultValue": "0.0"
         },
-        "outcomedeclaration_54fd4c4a553c3771081613": {
-            "identifier": "MAXSCORE",
-            "serial": "outcomedeclaration_54fd4c4a553c3771081613",
-            "qtiClass": "outcomeDeclaration",
-            "attributes": {
-                "identifier": "MAXSCORE",
-                "cardinality": "single",
-                "baseType": "float"
-            },
-            "defaultValue": "3.0"
-        },
         "outcomedeclaration_54fd4c4a554ad612900133": {
             "identifier": "FEEDBACKBASIC",
             "serial": "outcomedeclaration_54fd4c4a554ad612900133",

@@ -93,6 +93,9 @@ define([
             });
             return found;
         },
+        getOutcomes : function getOutcomes(){
+            return _.clone(this.outcomes);
+        },
         addModalFeedback : function addModalFeedback(feedback){
             if(Element.isA(feedback, 'modalFeedback')){
                 feedback.setRelatedItem(this);

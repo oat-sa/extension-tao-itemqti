@@ -29,6 +29,7 @@ define([
         var xml = '';
         try{
             maxScore.setNormalMaximum(item);
+            maxScore.setMaxScore(item);
             xml = item.render(_xmlRenderer);
         }catch(e){
             console.log(e);
