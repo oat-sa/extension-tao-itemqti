@@ -92,7 +92,7 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             }
 
             if (template === 'MATCH_CORRECT') {
-                if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice){
+                if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice || responseDeclaration.correctResponse.length < minChoice){
                     //max choice does not enable selecting the correct responses
                     max = 0;
                 }else if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
@@ -110,18 +110,7 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
 
                 sortedMapEntries = _(scoreMaps).map(function (v) {
                     return parseFloat(v);
-                }).sortBy().reverse().take(totalAnswerableResponse)
-
-                //    .reduce(function (acc, v) {
-                //    if (v >= 0) {
-                //        return gamp.add(acc, v);
-                //    } else if (skippableWrongResponse > 0) {
-                //        skippableWrongResponse--;
-                //        return acc;
-                //    } else {
-                //        return gamp.add(acc, v);
-                //    }
-                //}, 0);
+                }).sortBy().reverse().take(totalAnswerableResponse);
 
                 missingMapsCount = minChoice - sortedMapEntries.size();
                 for(i = 0; i < missingMapsCount;i++){
@@ -168,7 +157,7 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             }
 
             if (template === 'MATCH_CORRECT') {
-                if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice){
+                if(_.isArray(responseDeclaration.correctResponse) && (maxChoice && responseDeclaration.correctResponse.length > maxChoice) || (minChoice && responseDeclaration.correctResponse.length < minChoice)){
                     //max choice does not enable selecting the correct responses
                     max = 0;
                 }else if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
@@ -197,7 +186,9 @@ define(['lodash', 'lib/gamp/gamp'], function(_, gamp) {
             }
 
             if (template === 'MATCH_CORRECT') {
-                if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
+                if(!responseDeclaration.correctResponse
+                    || (_.isArray(responseDeclaration.correctResponse)
+                    && (!responseDeclaration.correctResponse.length || maxAssoc && responseDeclaration.correctResponse.length > maxAssoc || minAssoc && responseDeclaration.correctResponse.length < minAssoc) )){
                     //no correct response defined -> score always zero
                     max = 0;
                 }else{

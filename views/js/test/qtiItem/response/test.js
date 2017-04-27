@@ -99,6 +99,10 @@ define([
     var cases = [
         { title : 'single choice correct - no correct response', data : dataChoiceCorrectNoResponse, expectedMaximum: 0},
         { title : 'single choice correct', data : dataChoiceCorrectMupltiple, expectedMaximum: 1},
+        { title : 'single choice correct - impossible min choice', data : dataChoiceCorrectMupltiple, expectedMaximum: 0, changeData : function(data){
+            data.body.elements.interaction_choiceinteraction_58eb45eba8e1b211271087.attributes.minChoices = 3;
+            return data;
+        }},
         { title : 'single choice map - maxChoice 3', data : dataChoiceMaxchoice3, expectedMaximum: 3},
         { title : 'single choice map - upperBound 2', data : dataChoiceUpperbound2, expectedMaximum: 2},
         { title : 'composite choice correct', data : dataCompositeChoiceCorrect, expectedMaximum: 2},
