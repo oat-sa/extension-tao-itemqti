@@ -1,4 +1,5 @@
 <?php
+use oat\tao\model\asset\AssetService;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ClientLibRegistry;
@@ -19,7 +20,8 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     
     protected function getBaseUrl()
     {
-        return \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
+        $assetService = new AssetService();
+        return $assetService->getJsBaseWww( 'taoQtiItem' );
     }
     
     protected function getSamplesDir()
