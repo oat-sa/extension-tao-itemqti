@@ -17,8 +17,8 @@
  */
 define([
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
-    'taoQtiItem/qtiItem/helper/response',
-], function(XmlRenderer, responseHelper){
+    'taoQtiItem/qtiItem/helper/maxScore',
+], function(XmlRenderer, maxScore){
     'use strict';
 
     var _xmlRenderer = new XmlRenderer({
@@ -28,7 +28,7 @@ define([
     var _render = function(item){
         var xml = '';
         try{
-            responseHelper.setNormalMaximum(item);
+            maxScore.setNormalMaximum(item);
             xml = item.render(_xmlRenderer);
         }catch(e){
             console.log(e);

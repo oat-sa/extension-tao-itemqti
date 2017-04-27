@@ -1,12 +1,12 @@
 define([
     'taoQtiItem/qtiItem/core/interactions/BlockInteraction',
-    'taoQtiItem/qtiItem/helper/response'
-], function(BlockInteraction, responseHelper){
+    'taoQtiItem/qtiItem/helper/maxScore'
+], function(BlockInteraction, maxScore){
     'use strict';
     var AssociateInteraction = BlockInteraction.extend({
         qtiClass : 'associateInteraction',
         getNormalMaximum : function getNormalMaximum(){
-            return responseHelper.associateInteractionBased(this);
+            return maxScore.associateInteractionBased(this);
         }
     });
     return AssociateInteraction;

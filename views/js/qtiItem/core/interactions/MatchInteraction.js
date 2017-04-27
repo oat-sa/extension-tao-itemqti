@@ -4,8 +4,8 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'taoQtiItem/qtiItem/helper/util',
-    'taoQtiItem/qtiItem/helper/response'
-], function(BlockInteraction, SimpleAssociableChoice, _, rendererConfig, util, responseHelper){
+    'taoQtiItem/qtiItem/helper/maxScore'
+], function(BlockInteraction, SimpleAssociableChoice, _, rendererConfig, util, maxScore){
     'use strict';
 
     var MatchInteraction = BlockInteraction.extend({
@@ -131,7 +131,7 @@ define([
             return arr;
         },
         getNormalMaximum : function getNormalMaximum(){
-            return responseHelper.associateInteractionBased(this);
+            return maxScore.associateInteractionBased(this);
         }
     });
 

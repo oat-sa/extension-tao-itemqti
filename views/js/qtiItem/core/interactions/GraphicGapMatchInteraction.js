@@ -3,8 +3,8 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig',
-    'taoQtiItem/qtiItem/helper/response'
-], function(GraphicInteraction, Element, _, rendererConfig, responseHelper){
+    'taoQtiItem/qtiItem/helper/maxScore'
+], function(GraphicInteraction, Element, _, rendererConfig, maxScore){
     'use strict';
 
     var GraphicGapMatchInteraction = GraphicInteraction.extend({
@@ -91,7 +91,7 @@ define([
             return arr;
         },
         getNormalMaximum : function getNormalMaximum(){
-            return responseHelper.associateInteractionBased(this);
+            return maxScore.associateInteractionBased(this);
         }
     });
 

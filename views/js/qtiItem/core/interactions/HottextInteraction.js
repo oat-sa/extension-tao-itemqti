@@ -1,8 +1,8 @@
 define([
     'taoQtiItem/qtiItem/core/interactions/ContainerInteraction',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiItem/helper/response'
-], function(ContainerInteraction, Element, responseHelper){
+    'taoQtiItem/qtiItem/helper/maxScore'
+], function(ContainerInteraction, Element, maxScore){
     'use strict';
     var HottextInteraction = ContainerInteraction.extend({
         qtiClass : 'hottextInteraction',
@@ -14,7 +14,7 @@ define([
             return Element.isA(element, 'choice') ? element : null;
         },
         getNormalMaximum : function getNormalMaximum(){
-            return responseHelper.choiceInteractionBased(this);
+            return maxScore.choiceInteractionBased(this);
         }
     });
     return HottextInteraction;

@@ -1,12 +1,12 @@
 define([
     'taoQtiItem/qtiItem/core/interactions/BlockInteraction',
-    'taoQtiItem/qtiItem/helper/response'
-], function(BlockInteraction, responseHelper){
+    'taoQtiItem/qtiItem/helper/maxScore'
+], function(BlockInteraction, maxScore){
     'use strict';
     var OrderInteraction = BlockInteraction.extend({
         qtiClass : 'orderInteraction',
         getNormalMaximum : function getNormalMaximum(){
-            return responseHelper.orderInteractionBased(this);
+            return maxScore.orderInteractionBased(this);
         }
     });
     return OrderInteraction;

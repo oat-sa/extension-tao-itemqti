@@ -19,7 +19,7 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiItem/helper/response',
+    'taoQtiItem/qtiItem/helper/maxScore',
     'json!taoQtiItem/test/qtiItem/response/data/choice-correct-noresponse.json',
     'json!taoQtiItem/test/qtiItem/response/data/choice-correct-multiple.json',
     'json!taoQtiItem/test/qtiItem/response/data/choice-map-maxchoice3.json',
@@ -58,7 +58,7 @@ define([
     _,
     Element,
     Loader,
-    responseHelper,
+    maxScore,
     dataChoiceCorrectNoResponse,
     dataChoiceCorrectMupltiple,
     dataChoiceMaxchoice3,
@@ -190,7 +190,7 @@ define([
             outcomeScore = item.getOutcomeDeclaration('SCORE');
             assert.ok(_.isUndefined(outcomeScore.attr('normalMaximum')), 'normalMaximum initially undefined');
 
-            responseHelper.setNormalMaximum(item);
+            maxScore.setNormalMaximum(item);
             assert.equal(outcomeScore.attr('normalMaximum'), config.expectedMaximum, 'calculated normalMaximum is correct');
         });
     });

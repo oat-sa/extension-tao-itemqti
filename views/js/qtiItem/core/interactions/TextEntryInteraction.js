@@ -50,7 +50,7 @@ define([
                     max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
-                max = false;
+                max = 0;
             }
             return max;
         }

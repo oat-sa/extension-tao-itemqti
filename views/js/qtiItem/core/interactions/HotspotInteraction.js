@@ -1,12 +1,12 @@
 define([
     'taoQtiItem/qtiItem/core/interactions/GraphicInteraction',
-    'taoQtiItem/qtiItem/helper/response'
-], function(GraphicInteraction, responseHelper){
+    'taoQtiItem/qtiItem/helper/maxScore'
+], function(GraphicInteraction, maxScore){
     'use strict';
     var HotspotInteraction = GraphicInteraction.extend({
         qtiClass : 'hotspotInteraction',
         getNormalMaximum : function getNormalMaximum(){
-            return responseHelper.choiceInteractionBased(this);
+            return maxScore.choiceInteractionBased(this);
         }
     });
     return HotspotInteraction;
