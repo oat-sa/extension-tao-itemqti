@@ -156,7 +156,7 @@ define([
                 scoreMaps = _.values(responseDeclaration.mapEntries);
                 sortedMapEntries = _(scoreMaps).map(function (v) {
                     return parseFloat(v);
-                }).sortBy().reverse().take(totalAnswerableResponse);
+                }).sortBy().reverse().first(totalAnswerableResponse);
 
                 //if there is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
                 missingMapsCount = minChoice - sortedMapEntries.size();
@@ -330,7 +330,7 @@ define([
                         //is not a correct response pair
                         return false;
                     }
-                }).take(totalAnswerableResponse);
+                }).first(totalAnswerableResponse);
 
                 //if there is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
                 missingMapsCount = minAssoc - sortedMapEntries.size();
@@ -470,7 +470,7 @@ define([
                         //is not a correct response pair
                         return false;
                     }
-                }).take(totalAnswerableResponse).reduce(function (acc, v) {
+                }).first(totalAnswerableResponse).reduce(function (acc, v) {
                     var score = v.score;
                     if (score >= 0) {
                         return acc + score;
@@ -514,7 +514,7 @@ define([
 
                 max = _(responseDeclaration.mapEntries).map(function (v) {
                     return parseFloat(v.mappedValue);
-                }).sortBy().reverse().take(totalAnswerableResponse).reduce(function (acc, v) {
+                }).sortBy().reverse().first(totalAnswerableResponse).reduce(function (acc, v) {
                     if (v >= 0) {
                         return acc + v;
                     } else if (skippableWrongResponse > 0) {

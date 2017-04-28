@@ -85,7 +85,7 @@ define([
         },
         getOutcomeDeclaration : function getOutcomeDeclaration(identifier){
             var found;
-            _.each(this.outcomes, function (outcome) {
+            _.forEach(this.outcomes, function (outcome) {
                 if (outcome.id() === identifier) {
                     found = outcome;
                     return false;
@@ -107,7 +107,7 @@ define([
         },
         getComposingElements : function getComposingElements(){
             var elts = this._super(), _this = this;
-            _.each(['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], function(elementCollection){
+            _.forEach(['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], function(elementCollection){
                 for(var i in _this[elementCollection]){
                     var elt = _this[elementCollection][i];
                     elts[i] = elt;
@@ -171,7 +171,7 @@ define([
         },
         stylesheetExists : function stylesheetExists(href){
             var exists = false;
-            _.each(this.stylesheets, function(stylesheet){
+            _.forEach(this.stylesheets, function(stylesheet){
                 if(stylesheet.attr('href') === href){
                     exists = true;
                     return false;//break each loop
