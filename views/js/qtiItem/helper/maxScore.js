@@ -131,7 +131,7 @@ define([
 
             options = _.defaults(options || {}, {maxChoices : 0, minChoices: 0});
             maxChoice = parseInt(interaction.attr('maxChoices')||options.maxChoices);
-            minChoice = parseInt(interaction.attr('minChoices')||options.minChoices);
+            minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices')||options.minChoices);
             if(maxChoice && minChoice && maxChoice < minChoice){
                 return 0;
             }
