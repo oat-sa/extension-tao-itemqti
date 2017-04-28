@@ -22,6 +22,8 @@
 namespace oat\taoQtiItem\controller;
 
 //use oat\taoQtiItem\controller\QtiPreview;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\asset\AssetService;
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Item;
@@ -182,8 +184,11 @@ class QtiPreview extends taoItems_actions_ItemPreview
         if ($qtiItem) {
             $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
 
-            $taoBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
-            $qtiBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
+            /** @var AssetService $assetService */
+            $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+
+            $taoBaseUrl = $assetService->getJsBaseWww( 'tao' );
+            $qtiBaseUrl = $assetService->getJsBaseWww( 'taoQtiItem' );
 
             $taoLibUrl = $taoBaseUrl.'js/lib/';
             $taoQtiItemLibUrl = $qtiBaseUrl.'js/runtime/';

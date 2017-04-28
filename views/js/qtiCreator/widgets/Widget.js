@@ -51,6 +51,7 @@ define([
          */
         init : function(element, $original, $form, options){
             var self = this;
+
             if(element instanceof Element){
 
                 options = options || {};
@@ -67,8 +68,8 @@ define([
                 this.buildContainer();
 
                 //attach the widget to widget $container and element:
-                this.$container.data('widget', this);
                 this.$original.data('widget', this);
+                this.$container.data('widget', this);
 
                 this.element.data('widget', this);
 
@@ -100,6 +101,14 @@ define([
                 throw new Error('element is not a QTI Element');
             }
             return this;
+        },
+        getAreaBroker : function getAreaBroker() {
+            var element = this.element,
+                renderer = element.getRenderer();
+
+            if (renderer) {
+                return renderer.getAreaBroker();
+            }
         },
         getRequiredOptions : function(){
             return [];
@@ -136,10 +145,13 @@ define([
          */
         changeState : function(stateName){
 
-            var _this = this,
+            var self = this,
                 state,
                 superStateName,
-                currentState = this.getCurrentState();
+                currentState = this.getCurrentState(),
+                exitedStates,
+                enteredStates,
+                i;
 
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName]();
@@ -154,7 +166,7 @@ define([
                 }else if(_.indexOf(state.superState, currentState.name) >= 0){
 
                     //initialize super states in reverse order:
-                    for(var i = _.indexOf(state.superState, currentState.name) - 1; i >= 0; i--){
+                    for(i = _.indexOf(state.superState, currentState.name) - 1; i >= 0; i--){
                         superStateName = state.superState[i];
                         _pushState(this, superStateName);
                     }
@@ -162,8 +174,8 @@ define([
                 }else if(_.indexOf(currentState.superState, state.name) >= 0){
 
                     //just exit as much state as needed to get to it:
-                    for(var i = 0; i <= _.indexOf(currentState.superState, state.name); i++){
-                        _popState(_this);
+                    for(i = 0; i <= _.indexOf(currentState.superState, state.name); i++){
+                        _popState(self);
                     }
 
                     return this;
@@ -171,24 +183,24 @@ define([
                 }else{
 
                     //first, exit the current state
-                    _popState(_this);
+                    _popState(self);
 
                     //then, exit super states in order:
-                    var exitedStates = _.difference(currentState.superState, state.superState);
+                    exitedStates = _.difference(currentState.superState, state.superState);
                     _.each(exitedStates, function(){
-                        _popState(_this);
+                        _popState(self);
                     });
 
                     //finally, init super states in reverse order:
-                    var enteredStates = _.difference(state.superState, currentState.superState);
-                    _.eachRight(enteredStates, function(superStateName){
-                        _pushState(_this, superStateName);
+                    enteredStates = _.difference(state.superState, currentState.superState);
+                    _.eachRight(enteredStates, function(_superStateName){
+                        _pushState(self, _superStateName);
                     });
                 }
 
             }else{
-                _.eachRight(state.superState, function(superStateName){
-                    _pushState(_this, superStateName);
+                _.eachRight(state.superState, function(_superStateName){
+                    _pushState(self, _superStateName);
                 });
             }
 
@@ -203,9 +215,9 @@ define([
             }
         },
         registerStates : function(states){
-            var _this = this;
+            var self = this;
             _.forIn(states, function(State, name){
-                _this.registerState(name, State);
+                self.registerState(name, State);
             });
         },
         afterStateInit : function(callback, ns){
@@ -243,16 +255,20 @@ define([
             this.offEvents();
         },
         rebuild : function(options){
+            var element,
+                postRenderOpts,
+                $container,
+                renderer;
 
             options = options || {};
 
-            var element = this.element;
-            var postRenderOpts = {};
+            element = this.element;
+            postRenderOpts = {};
             if(_.isFunction(options.ready)){
                 postRenderOpts.ready = options.ready;
             }
 
-            var $container = null;
+            $container = null;
             if(options.context && options.context.length){
                 //if the context option is provided, the function will fetch the widget container that in this context
                 //mandatory for detached of duplicated DOM element (e.g. ckEditor)
@@ -269,7 +285,7 @@ define([
             this.destroy();
 
             //we assume that the element still has its renderer set, check renderer:
-            var renderer = element.getRenderer();
+            renderer = element.getRenderer();
 
             if(renderer && renderer.isRenderer){
                 if(renderer.name === 'creatorRenderer'){
@@ -282,8 +298,6 @@ define([
             }else{
                 throw new Error('No renderer found to rebuild the widget');
             }
-
-            return null;
         },
 
         refresh : function(){
@@ -300,21 +314,21 @@ define([
         //assign an event listener that lives with the state
         on : function(qtiElementEventName, callback, live){
 
-            var _this = this,
+            var self = this,
                 eventNames = qtiElementEventName.replace(/\s+/g, ' ').split(' '),
                 $document = $(document);
 
             _.each(eventNames, function(eventName){
 
-                var eventNameToken = [eventName, 'qti-widget', _this.serial];
+                var eventNameToken = [eventName, 'qti-widget', self.serial];
 
                 if(!live){
-                    eventNameToken.push(_this.getCurrentState().name);
+                    eventNameToken.push(self.getCurrentState().name);
                 }
 
                 //bind each individual event listener to the document
                 $document.on(eventNameToken.join('.'), function(e, data){
-                    callback.call(_this, data);
+                    callback.call(self, data);
                 });
 
             });
@@ -331,7 +345,7 @@ define([
 
             var element = this.element;
 
-            if(what === undefined){
+            if(typeof what === 'undefined'){
                 //get
                 return invalidator.isValid(element);
             }else if(valid){

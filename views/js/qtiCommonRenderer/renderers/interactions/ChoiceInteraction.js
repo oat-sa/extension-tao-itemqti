@@ -297,7 +297,7 @@ define([
         var $container = containerHelper.get(interaction);
 
         try{
-            _.each(pciResponse.unserialize(response, interaction), function(identifier){
+           _.forEach(pciResponse.unserialize(response, interaction), function(identifier){
                 var $input = $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
                 $input.closest('.qti-choice').toggleClass('user-selected', true);
             });
@@ -329,13 +329,23 @@ define([
      * @param {Object} [data] - interaction custom data
      * @returns {Object} custom data
      */
-    var getCustomData = function(interaction, data) {
+    var getCustomData = function getCustomData(interaction, data) {
         var listStyles = (interaction.attr('class') || '').match(/\blist-style-[\w-]+/) || [];
         return _.merge(data || {}, {
             horizontal : (interaction.attr('orientation') === 'horizontal'),
             listStyle: listStyles.pop(),
-            eliminable: (/\beliminable\b/).test(interaction.attr('class'))
+            eliminable: isEliminable(interaction)
         });
+    };
+
+    /**
+     * Check if a choice interaction is choice-eliminable
+     *
+     * @param {Object} interaction
+     * @returns {boolean}
+     */
+    var isEliminable = function isEliminable(interaction){
+        return (/\beliminable\b/).test(interaction.attr('class'));
     };
 
     /**
@@ -377,11 +387,10 @@ define([
                 interaction.setResponse(state.response);
             }
 
+            $container = containerHelper.get(interaction);
+
             //restore order of previously shuffled choices
             if(_.isArray(state.order) && state.order.length === _.size(interaction.getChoices())){
-
-                $container = containerHelper.get(interaction);
-
                 $('.qti-simpleChoice', $container)
                     .sort(function(a, b){
                         var aIndex = _.indexOf(state.order, $(a).data('identifier'));
@@ -397,6 +406,13 @@ define([
                     .detach()
                     .appendTo($('.choice-area', $container));
             }
+
+            //restore eliminated choices
+            if(isEliminable(interaction) && _.isArray(state.eliminated) && state.eliminated.length){
+               _.forEach(state.eliminated, function(identifier){
+                    $container.find('.qti-simpleChoice[data-identifier=' + identifier + ']').addClass('eliminated');
+                })
+            }
         }
     };
 
@@ -407,7 +423,7 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
+        var $container = containerHelper.get(interaction);
         var state =  {};
         var response =  interaction.getResponse();
 
@@ -417,13 +433,20 @@ define([
 
         //we store also the choice order if shuffled
         if(interaction.attr('shuffle') === true){
-            $container = containerHelper.get(interaction);
-
             state.order = [];
             $('.qti-simpleChoice', $container).each(function(){
                 state.order.push($(this).data('identifier'));
             });
         }
+
+        //store the eliminated choices
+        if(isEliminable(interaction)){
+            state.eliminated = [];
+            $container.find('.qti-simpleChoice.eliminated').each(function(){
+                state.eliminated.push($(this).data('identifier'));
+            });
+        }
+
         return state;
     };
 
