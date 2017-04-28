@@ -147,7 +147,7 @@ define([
                     return parseFloat(v);
                 }).sortBy().reverse().take(totalAnswerableResponse);
 
-                //if thre is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
+                //if there is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
                 missingMapsCount = minChoice - sortedMapEntries.size();
                 for(i = 0; i < missingMapsCount;i++){
                     sortedMapEntries.push({score:mapDefault});
@@ -239,8 +239,10 @@ define([
                     max = 0;
                 }else{
                     max = 1;//is possible until proven otherwise
+
+                    //get the list of choices used in map entries
                     choicesIdentifiers = [];
-                    _.each(responseDeclaration.correctResponse, function(pair){
+                    _.forEach(responseDeclaration.correctResponse, function(pair){
                         var choices;
                         if(!_.isString(pair)){
                             return;
@@ -252,7 +254,8 @@ define([
                         }
                     });
 
-                    _.each(_.countBy(choicesIdentifiers), function(count, identifier){
+                    //check if the choices usage are possible within the constraint defined in the interaction
+                    _.forEach(_.countBy(choicesIdentifiers), function(count, identifier){
                         var matchMax;
                         var choice = interaction.getChoiceByIdentifier(identifier);
                         if(!choice){
@@ -271,6 +274,8 @@ define([
                 requiredAssoc = minAssoc;
                 totalAnswerableResponse = (maxAssoc === 0) ? Infinity : maxAssoc;
                 usedChoices = {};
+
+                //get the sorted list of mapentries ordered by the score
                 sortedMapEntries = _(responseDeclaration.mapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
@@ -288,6 +293,8 @@ define([
                     if(_.isArray(choices) && choices.length === 2){
                         for(i = 0; i < 2; i++){
                             choiceId = choices[i];
+
+                            //collect choices usage to check if the pair is possible
                             if(!usedChoices[choiceId]){
                                 choice = interaction.getChoiceByIdentifier(choiceId);
                                 if(!choice){
@@ -314,12 +321,13 @@ define([
                     }
                 }).take(totalAnswerableResponse);
 
+                //if there is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
                 missingMapsCount = minAssoc - sortedMapEntries.size();
                 for(i = 0; i < missingMapsCount;i++){
-                    //fill in the rest of required choices with the default map
                     sortedMapEntries.push({score:mapDefault});
                 }
 
+                //reduce the ordered list of map entries to calculate the max score
                 max = sortedMapEntries.reduce(function (acc, v) {
                     var score = v.score;
                     if(v.score < 0){
