@@ -25,6 +25,10 @@ define([
     'use strict';
 
     return {
+        /**
+         * Set the normal maximum to the item
+         * @param {Object} item - the standard qti item model object
+         */
         setNormalMaximum : function setNormalMaximum(item) {
             var normalMaximum,
                 scoreOutcome = item.getOutcomeDeclaration('SCORE');
@@ -52,8 +56,13 @@ define([
                 }
             }
         },
+
+        /**
+         * Set the maximum score of the item
+         * @param {Object} item - the standard qti item model object
+         */
         setMaxScore : function setMaxScore(item) {
-            var setMaxScore = true,
+            var hasInvalidInteraction = false,
                 customOutcomes,
                 maxScore,
                 maxScoreOutcome;
@@ -66,7 +75,7 @@ define([
                     if(_.isNumber(interactionMaxScore)){
                         return gamp.add(acc, interactionMaxScore);
                     }else{
-                        setMaxScore = false;
+                        hasInvalidInteraction = true;
                         return acc;
                     }
                 }, 0);
@@ -81,7 +90,7 @@ define([
                     }, maxScore);
                 }
 
-                if(setMaxScore || customOutcomes.size()){
+                if(!hasInvalidInteraction || customOutcomes.size()){
                     maxScoreOutcome = item.getOutcomeDeclaration('MAXSCORE');
                     if(!maxScoreOutcome){
                         //add new outcome
@@ -98,6 +107,12 @@ define([
                 }
             }
         },
+
+        /**
+         * Compute the maximum score of a "choice" typed interaction
+         * @param {Object} interaction - a standard interaction model object
+         * @returns {Number}
+         */
         choiceInteractionBased : function choiceInteractionBased(interaction){
             var responseDeclaration = interaction.getResponseDeclaration();
             var maxChoice = parseInt(interaction.attr('maxChoices')||0);
@@ -106,7 +121,7 @@ define([
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var max, scoreMaps, requiredChoiceCount, totalAnswerableResponse, sortedMapEntries, i, missingMapsCount;
 
-            if(maxChoice && maxChoice < minChoice){
+            if(maxChoice && minChoice && maxChoice < minChoice){
                 return 0;
             }
 
@@ -122,21 +137,23 @@ define([
                 }
             }else if(template === 'MAP_RESPONSE') {
 
-                //calculate the maximum reachable score by choice map
-                scoreMaps = _.values(responseDeclaration.mapEntries);
+                //prepare constraint params
                 requiredChoiceCount = minChoice;
                 totalAnswerableResponse = (maxChoice === 0) ? Infinity : maxChoice;
 
+                //sort the score map entries by the score
+                scoreMaps = _.values(responseDeclaration.mapEntries);
                 sortedMapEntries = _(scoreMaps).map(function (v) {
                     return parseFloat(v);
                 }).sortBy().reverse().take(totalAnswerableResponse);
 
+                //if thre is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
                 missingMapsCount = minChoice - sortedMapEntries.size();
                 for(i = 0; i < missingMapsCount;i++){
-                    //fill in the rest of required choices with the default map
                     sortedMapEntries.push({score:mapDefault});
                 }
 
+                //calculate the maximum reachable score by choice map
                 max = sortedMapEntries.reduce(function (acc, v) {
                     var score = v;
                     if(score < 0){
@@ -152,8 +169,6 @@ define([
                     return gamp.add(acc, score);
                 }, 0);
 
-                max = parseFloat(max);
-
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
                     max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
@@ -164,6 +179,12 @@ define([
             }
             return max;
         },
+
+        /**
+         * Compute the maximum score of a "order" typed interaction
+         * @param {Object} interaction - a standard interaction model object
+         * @returns {Number}
+         */
         orderInteractionBased : function orderInteractionBased(interaction){
             var minChoice = parseInt(interaction.attr('minChoices')||0);
             var maxChoice = parseInt(interaction.attr('maxChoices')||0);
@@ -171,7 +192,7 @@ define([
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var max;
 
-            if(maxChoice && maxChoice < minChoice){
+            if(maxChoice && minChoice && maxChoice < minChoice){
                 return 0;
             }
 
@@ -191,6 +212,12 @@ define([
             }
             return max;
         },
+
+        /**
+         * Compute the maximum score of a "associate" typed interaction
+         * @param {Object} interaction - a standard interaction model object
+         * @returns {Number}
+         */
         associateInteractionBased : function associateInteractionBased(interaction){
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
@@ -198,9 +225,9 @@ define([
             var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
             var minAssoc = parseInt(interaction.attr('minAssociations')||0);
             var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
-            var requiredAssoc, totalAnswerableResponse, usedChoices, group1, sortedMapEntries, i, missingMapsCount;
+            var requiredAssoc, totalAnswerableResponse, usedChoices, choicesIdentifiers, sortedMapEntries, i, missingMapsCount;
 
-            if(maxAssoc && maxAssoc < minAssoc){
+            if(maxAssoc && minAssoc && maxAssoc < minAssoc){
                 return 0;
             }
 
@@ -212,7 +239,7 @@ define([
                     max = 0;
                 }else{
                     max = 1;//is possible until proven otherwise
-                    group1 = [];
+                    choicesIdentifiers = [];
                     _.each(responseDeclaration.correctResponse, function(pair){
                         var choices;
                         if(!_.isString(pair)){
@@ -220,12 +247,12 @@ define([
                         }
                         choices = pair.trim().split(' ');
                         if(_.isArray(choices) && choices.length === 2){
-                            group1.push(choices[0].trim());
-                            group1.push(choices[1].trim());
+                            choicesIdentifiers.push(choices[0].trim());
+                            choicesIdentifiers.push(choices[1].trim());
                         }
                     });
 
-                    _.each(_.countBy(group1), function(count, identifier){
+                    _.each(_.countBy(choicesIdentifiers), function(count, identifier){
                         var matchMax;
                         var choice = interaction.getChoiceByIdentifier(identifier);
                         if(!choice){
