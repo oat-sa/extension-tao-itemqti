@@ -24,6 +24,16 @@ define([
 ], function(_, gamp, responseHelper, OutcomeDeclaration) {
     'use strict';
 
+    /**
+     * This variable allow to globally define if the minCHoice needs to be taken into consideration.
+     * Standard-wise, it must definitely be considered.
+     * However, the item delivery lifecycle currently does not consider the minChoice constraint during delivery.
+     * It is thus currently set to true. After the correct behaviour is implemented, we should remove this variables.
+     * @type {boolean}
+     * @private
+     */
+    var _ignoreMinChoice = true;
+
     return {
         /**
          * Set the normal maximum to the item
@@ -187,7 +197,7 @@ define([
          * @returns {Number}
          */
         orderInteractionBased : function orderInteractionBased(interaction){
-            var minChoice = parseInt(interaction.attr('minChoices')||0);
+            var minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices')||0);
             var maxChoice = parseInt(interaction.attr('maxChoices')||0);
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
@@ -224,7 +234,7 @@ define([
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var max;
             var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
-            var minAssoc = parseInt(interaction.attr('minAssociations')||0);
+            var minAssoc = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minAssociations')||0);
             var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
             var requiredAssoc, totalAnswerableResponse, usedChoices, choicesIdentifiers, sortedMapEntries, i, missingMapsCount;
 
@@ -489,7 +499,7 @@ define([
          */
         selectPointInteractionBased : function selectPointInteractionBased(interaction){
             var maxChoice = parseInt(interaction.attr('maxChoices'));
-            var minChoice = parseInt(interaction.attr('minChoices'));
+            var minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices'));
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var max, skippableWrongResponse, totalAnswerableResponse;

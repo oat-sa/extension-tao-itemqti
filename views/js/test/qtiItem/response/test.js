@@ -159,11 +159,13 @@ define([
             data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.maxAssociations = 1;
             return data;
         }},
-        { title : 'associate - map - minAssociations=3', data : dataAssociateMap, expectedMaximum: 2.8, maxScore: 2.8, changeData : function(data){
+        //if _ignoreMinChoice is turned to false, expect the expectedMaximumto be 2.8 instead of 3
+        { title : 'associate - map - minAssociations=3', data : dataAssociateMap, expectedMaximum: 3, maxScore: 3, changeData : function(data){
             data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.minAssociations = 3;
             return data;
         }},
-        { title : 'associate - map - minAssociations=5', data : dataAssociateMap, expectedMaximum: 2.4, maxScore: 2.4, changeData : function(data){
+        //if _ignoreMinChoice is turned to false, expect the expectedMaximumto be 2.4 instead of 3
+        { title : 'associate - map - minAssociations=5', data : dataAssociateMap, expectedMaximum: 3, maxScore: 3, changeData : function(data){
             data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.minAssociations = 5;
             return data;
         }},
