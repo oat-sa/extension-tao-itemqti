@@ -113,14 +113,15 @@ define([
          * @param {Object} interaction - a standard interaction model object
          * @returns {Number}
          */
-        choiceInteractionBased : function choiceInteractionBased(interaction){
+        choiceInteractionBased : function choiceInteractionBased(interaction, options){
             var responseDeclaration = interaction.getResponseDeclaration();
-            var maxChoice = parseInt(interaction.attr('maxChoices')||0);
-            var minChoice = parseInt(interaction.attr('minChoices')||0);
             var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
-            var max, scoreMaps, requiredChoiceCount, totalAnswerableResponse, sortedMapEntries, i, missingMapsCount;
+            var max, maxChoice, minChoice, scoreMaps, requiredChoiceCount, totalAnswerableResponse, sortedMapEntries, i, missingMapsCount;
 
+            options = _.defaults(options || {}, {maxChoices : 0, minChoices: 0});
+            maxChoice = parseInt(interaction.attr('maxChoices')||options.maxChoices);
+            minChoice = parseInt(interaction.attr('minChoices')||options.minChoices);
             if(maxChoice && minChoice && maxChoice < minChoice){
                 return 0;
             }
@@ -342,6 +343,265 @@ define([
                     requiredAssoc--;
                     return gamp.add(acc, score);
                 }, 0);
+
+                //compare the calculated maximum with the mapping upperbound
+                if (responseDeclaration.mappingAttributes.upperBound) {
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                }
+            }else if(template === 'MAP_RESPONSE_POINT'){
+                max = 0;
+            }
+            return max;
+        },
+
+        /**
+         * Compute the maximum score of a "gap match" typed interaction
+         * @param {Object} interaction - a standard interaction model object
+         * @returns {Number}
+         */
+        gapMatchInteractionBased : function gapMatchInteractionBased(interaction){
+            var responseDeclaration = interaction.getResponseDeclaration();
+            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var maxAssoc = 0;
+            var minAssoc = 0;
+            var max, skippableWrongResponse, totalAnswerableResponse, usedChoices, usedGaps, group1, group2;
+
+            if (template === 'MATCH_CORRECT') {
+                if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
+                    //no correct response defined -> score always zero
+                    max = 0;
+                }else{
+                    max = 1;//is possible until proven otherwise
+                    group1 = [];
+                    group2 = [];
+                    _.forEach(responseDeclaration.correctResponse, function(pair){
+                        var choices;
+                        if(!_.isString(pair)){
+                            return;
+                        }
+                        choices = pair.trim().split(' ');
+                        if(_.isArray(choices) && choices.length === 2){
+                            group1.push(choices[0].trim());
+                            group2.push(choices[1].trim());
+                        }
+                    });
+
+                    _.forEach(_.countBy(group1), function(count, identifier){
+                        var choice = interaction.getChoiceByIdentifier(identifier);
+                        var matchMax = parseInt(choice.attr('matchMax'));
+                        if(matchMax && matchMax < count){
+                            max = 0;
+                            return false;
+                        }
+                    });
+
+                    _.forEach(_.countBy(group2), function(count){
+                        var matchMax = 1;//match max for a gap is always 1
+                        if(matchMax && matchMax < count){
+                            max = 0;
+                            return false;
+                        }
+                    });
+                }
+            }else if(template === 'MAP_RESPONSE') {
+
+                skippableWrongResponse = (minAssoc === 0) ? Infinity : minAssoc;
+                totalAnswerableResponse = (maxAssoc === 0) ? Infinity : maxAssoc;
+                usedChoices = {};
+                usedGaps = {};
+                max = _(responseDeclaration.mapEntries).map(function(score, pair){
+                    return {
+                        score : parseFloat(score),
+                        pair : pair
+                    };
+                }).sortBy('score').reverse().filter(function(mapEntry){
+                    var pair = mapEntry.pair;
+                    var choices, choiceId, gapId, choice;
+
+                    if(!_.isString(pair)){
+                        return false;
+                    }
+
+                    choices = pair.trim().split(' ');
+                    if(_.isArray(choices) && choices.length === 2){
+                        choiceId = choices[0];
+                        gapId = choices[1];
+                        if(!usedChoices[choiceId]){
+                            choice = interaction.getChoiceByIdentifier(choiceId);
+                            if(!choice){
+                                //inexisting choice, skip
+                                return false;
+                            }
+                            usedChoices[choiceId] = {
+                                used : 0,
+                                max: parseInt(choice.attr('matchMax'))
+                            };
+                        }
+                        if(usedChoices[choiceId].max && usedChoices[choiceId].used === usedChoices[choiceId].max){
+                            //skip
+                            return false;
+                        }
+                        usedChoices[choiceId].used ++;
+
+                        if(!usedGaps[gapId]){
+                            usedGaps[gapId] = {
+                                used : 0,
+                                max: 1
+                            };
+                        }
+                        if(usedGaps[gapId].max && usedGaps[gapId].used === usedGaps[gapId].max){
+                            //skip
+                            return false;
+                        }
+                        usedGaps[gapId].used ++;
+
+                        return true;
+                    }else{
+                        //is not a correct response pair
+                        return false;
+                    }
+                }).take(totalAnswerableResponse).reduce(function (acc, v) {
+                    var score = v.score;
+                    if (score >= 0) {
+                        return acc + score;
+                    } else if (skippableWrongResponse > 0) {
+                        skippableWrongResponse--;
+                        return acc;
+                    } else {
+                        return acc + score;
+                    }
+                }, 0);
+
+                //compare the calculated maximum with the mapping upperbound
+                if (responseDeclaration.mappingAttributes.upperBound) {
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                }
+            }else if(template === 'MAP_RESPONSE_POINT'){
+                max = false;
+            }
+            return max;
+        },
+
+        /**
+         * Compute the maximum score of a "select point" typed interaction
+         * @param {Object} interaction - a standard interaction model object
+         * @returns {Number}
+         */
+        selectPointInteractionBased : function selectPointInteractionBased(interaction){
+            var maxChoice = parseInt(interaction.attr('maxChoices'));
+            var minChoice = parseInt(interaction.attr('minChoices'));
+            var responseDeclaration = interaction.getResponseDeclaration();
+            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var max, skippableWrongResponse, totalAnswerableResponse;
+
+            if (template === 'MATCH_CORRECT' || template === 'MAP_RESPONSE') {
+                //such templates are not allowed
+                return 0;
+            }else if(template === 'MAP_RESPONSE_POINT'){
+                //calculate the maximum reachable score by choice map
+                skippableWrongResponse = (minChoice === 0) ? Infinity : minChoice;
+                totalAnswerableResponse = (maxChoice === 0) ? Infinity : maxChoice;
+
+                max = _(responseDeclaration.mapEntries).map(function (v) {
+                    return parseFloat(v.mappedValue);
+                }).sortBy().reverse().take(totalAnswerableResponse).reduce(function (acc, v) {
+                    if (v >= 0) {
+                        return acc + v;
+                    } else if (skippableWrongResponse > 0) {
+                        skippableWrongResponse--;
+                        return acc;
+                    } else {
+                        return acc + v;
+                    }
+                }, 0);
+                max = parseFloat(max);
+
+                //compare the calculated maximum with the mapping upperbound
+                if (responseDeclaration.mappingAttributes.upperBound) {
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                }
+            }
+            return max;
+        },
+
+        /**
+         * Compute the maximum score of a "slider" typed interaction
+         * @param {Object} interaction - a standard interaction model object
+         * @returns {Number}
+         */
+        sliderInteractionBased : function sliderInteractionBased(interaction){
+            var responseDeclaration = interaction.getResponseDeclaration();
+            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var max, scoreMaps;
+
+            if (template === 'MATCH_CORRECT') {
+                if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
+                    //no correct response defined -> score always zero
+                    max = 0;
+                }else{
+                    max = 1;
+                }
+            }else if(template === 'MAP_RESPONSE') {
+
+                //calculate the maximum reachable score by choice map
+                scoreMaps = _.values(responseDeclaration.mapEntries);
+                max = _(scoreMaps).map(function (v) {
+                    return parseFloat(v);
+                }).max();
+                max = parseFloat(max);
+
+                //compare the calculated maximum with the mapping upperbound
+                if (responseDeclaration.mappingAttributes.upperBound) {
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                }
+            }else if(template === 'MAP_RESPONSE_POINT'){
+                max = 0;
+            }
+            return max;
+        },
+
+        /**
+         * Compute the maximum score of a "text entry" typed interaction
+         * @param {Object} interaction - a standard interaction model object
+         * @returns {Number}
+         */
+        textEntryInteractionBased : function textEntryInteractionBased(interaction){
+            var responseDeclaration = interaction.getResponseDeclaration();
+            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
+            var max, scoreMaps;
+
+            /**
+             * Check that a response is possible or not according to the defined patternmask
+             * @param {String} value
+             * @returns {Boolean}
+             */
+            var isPossibleResponse = function isPossibleResponse(value){
+                var patternMask = interaction.attr('patternMask');
+                if(patternMask){
+                    return !!value.match(new RegExp(patternMask));
+                }else{
+                    //no restriction by pattern so always possible
+                    return true;
+                }
+            };
+
+            if (template === 'MATCH_CORRECT') {
+                if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
+                    //no correct response defined -> score always zero
+                    max = 0;
+                }else{
+                    max = isPossibleResponse(responseDeclaration.correctResponse[0]) ? 1 : 0;
+                }
+            }else if(template === 'MAP_RESPONSE') {
+
+                //calculate the maximum reachable score by choice map
+                scoreMaps = _.values(_.filter(responseDeclaration.mapEntries, function(score, key){
+                    return isPossibleResponse(key);
+                }));
+                max = _(scoreMaps).map(function (v) {
+                    return parseFloat(v);
+                }).max();
+                max = parseFloat(max);
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {

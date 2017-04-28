@@ -1,46 +1,30 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
+ */
 define([
     'taoQtiItem/qtiItem/core/interactions/GraphicInteraction',
-    'taoQtiItem/qtiItem/helper/response',
-    'lodash'
-], function(GraphicInteraction, responseHelper, _){
+    'taoQtiItem/qtiItem/helper/maxScore'
+], function(GraphicInteraction, maxScore){
     'use strict';
     var SelectPointInteraction = GraphicInteraction.extend({
         qtiClass : 'selectPointInteraction',
         getNormalMaximum : function getNormalMaximum(){
-            var maxChoice = parseInt(this.attr('maxChoices'));
-            var minChoice = parseInt(this.attr('minChoices'));
-            var responseDeclaration = this.getResponseDeclaration();
-            var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
-            var max, skippableWrongResponse, totalAnswerableResponse;
-
-            if (template === 'MATCH_CORRECT' || template === 'MAP_RESPONSE') {
-                //such templates are not allowed
-                return 0;
-            }else if(template === 'MAP_RESPONSE_POINT'){
-                //calculate the maximum reachable score by choice map
-                skippableWrongResponse = (minChoice === 0) ? Infinity : minChoice;
-                totalAnswerableResponse = (maxChoice === 0) ? Infinity : maxChoice;
-
-                max = _(responseDeclaration.mapEntries).map(function (v) {
-                    return parseFloat(v.mappedValue);
-                }).sortBy().reverse().take(totalAnswerableResponse).reduce(function (acc, v) {
-                    if (v >= 0) {
-                        return acc + v;
-                    } else if (skippableWrongResponse > 0) {
-                        skippableWrongResponse--;
-                        return acc;
-                    } else {
-                        return acc + v;
-                    }
-                }, 0);
-                max = parseFloat(max);
-
-                //compare the calculated maximum with the mapping upperbound
-                if (responseDeclaration.mappingAttributes.upperBound) {
-                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
-                }
-            }
-            return max;
+            return maxScore.selectPointInteractionBased(this);
         }
     });
     return SelectPointInteraction;
