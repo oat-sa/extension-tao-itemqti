@@ -125,6 +125,7 @@ define([
              */
             var confirmBefore = function confirmBefore(message){
                 return new Promise(function(resolve, reject){
+                    var confirmDlg;
                     if(asking){
                         return reject();
                     }
@@ -132,7 +133,7 @@ define([
                         return resolve();
                     }
                     asking = true;
-                    dialog({
+                    confirmDlg = dialog({
                         message: message,
                         buttons:  [{
                             id : 'dontsave',
@@ -156,7 +157,9 @@ define([
                             silentSave().then(resolve);
                         },
                         onDontsaveBtn : resolve,
-                        onCancelBtn : reject
+                        onCancelBtn : function onCancelBtn () {
+                            confirmDlg.hide();
+                        }
                     })
                     .on('closed.modal', function(){
                         asking = false;

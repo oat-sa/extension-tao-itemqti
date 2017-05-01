@@ -37,8 +37,8 @@ define([
         QUnit.expect(3);
 
         assert.equal(typeof changeTrackerPlugin, 'function', 'The module exposes a function');
-        assert.equal(typeof changeTrackerPlugin(itemCreator), 'object', 'The factroy creates an object');
-        assert.notDeepEqual(changeTrackerPlugin(itemCreator), changeTrackerPlugin(itemCreator), 'The factroy creates an new object');
+        assert.equal(typeof changeTrackerPlugin(itemCreator), 'object', 'The factory creates an object');
+        assert.notDeepEqual(changeTrackerPlugin(itemCreator), changeTrackerPlugin(itemCreator), 'The factory creates an new object');
     });
 
     QUnit.test('plugin', function(assert){
