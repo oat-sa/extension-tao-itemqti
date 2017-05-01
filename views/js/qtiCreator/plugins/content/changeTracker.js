@@ -209,7 +209,7 @@ define([
                             removeChangeHandlers();
                             e.target.click();
                         })
-                        .catch(_.noop); //do nothing but prevent uncacthed error
+                        .catch(_.noop); //do nothing but prevent uncatched error
                 }
             });
 
@@ -220,7 +220,11 @@ define([
                     styleChanges = false;
                 })
                 .before('exit', function(){
-                    return confirmBefore(messages.exit);
+                    return confirmBefore(messages.exit)
+                        .then(function(){
+                            removeChangeHandlers();
+                        })
+                        .catch(_.noop); //do nothing but prevent uncatched error
                 })
                 .before('preview', function(){
                     return confirmBefore(messages.preview);
