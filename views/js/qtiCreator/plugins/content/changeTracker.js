@@ -226,8 +226,7 @@ define([
                     return confirmBefore(messages.exit)
                         .then(function(){
                             removeChangeHandlers();
-                        })
-                        .catch(_.noop); //do nothing but prevent uncatched error
+                        });
                 })
                 .before('preview', function(){
                     return confirmBefore(messages.preview);
