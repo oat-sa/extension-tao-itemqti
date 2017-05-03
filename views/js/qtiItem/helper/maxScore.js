@@ -164,6 +164,7 @@ define([
                     sortedMapEntries.push({score:mapDefault});
                 }
 
+                //if the map default is positive, the optimal strategy involves using as much mapDefault as possible
                 if(mapDefault && mapDefault > 0){
                     if(maxChoice){
                         missingMapsCount = maxChoice - sortedMapEntries.size();
@@ -354,17 +355,32 @@ define([
                     sortedMapEntries.push({score:mapDefault});
                 }
 
+                //if the map default is positive, the optimal strategy involves using as much mapDefault as possible
+                if(mapDefault && mapDefault > 0){
+                    if(totalAnswerableResponse){
+                        missingMapsCount = totalAnswerableResponse - sortedMapEntries.size();
+                    }
+                    if(missingMapsCount > 0){
+                        for(i = 0; i < missingMapsCount;i++){
+                            sortedMapEntries.push({score:mapDefault});
+                        }
+                    }
+                }
+
                 //reduce the ordered list of map entries to calculate the max score
                 max = sortedMapEntries.reduce(function (acc, v) {
                     var score = v.score;
                     if(v.score < 0){
                         if(requiredAssoc <= 0){
                             //if the score is negative check if we have the choice not to pick it
-                            score = 0;
+                            score = Math.max(mapDefault, 0);
                         }else{
                             //else, always take the best option
                             score = Math.max(mapDefault, score);
                         }
+                    }else{
+                        //always take the best option
+                        score = Math.max(mapDefault, score);
                     }
                     requiredAssoc--;
                     return gamp.add(acc, score);
