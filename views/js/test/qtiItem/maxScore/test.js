@@ -114,6 +114,12 @@ define([
             data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.upperBound = 0;
             return data;
         }},
+        { title : 'single choice map - no map entries', data : dataChoiceMaxchoice3, expectedMaximum: 0, maxScore: 0, changeData : function(data){
+            //note: when the mapping entry is empty, it is not QTI compliant
+            data.responses.responsedeclaration_58eb4dfbd4a74001643639.mapping = {};
+            data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.defaultValue = 1;
+            return data;
+        }},
         { title : 'single choice map - upperBound 2', data : dataChoiceUpperbound2, expectedMaximum: 2, maxScore: 2},
         { title : 'composite choice correct', data : dataCompositeChoiceCorrect, expectedMaximum: 2, maxScore: 2},
         { title : 'composite choice correct and map', data : dataCompositeChoiceCorrectMap, expectedMaximum: 2.5, maxScore: 2.5},

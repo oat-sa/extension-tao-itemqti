@@ -148,6 +148,11 @@ define([
                 }
             }else if(template === 'MAP_RESPONSE') {
 
+                //at least a map entry is required to be valid QTI
+                if(!responseDeclaration.mapEntries || !_.size(responseDeclaration.mapEntries)){
+                    return 0;
+                }
+
                 //prepare constraint params
                 requiredChoiceCount = minChoice;
                 totalAnswerableResponse = (maxChoice === 0) ? Infinity : maxChoice;
@@ -161,7 +166,7 @@ define([
                 //if there is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
                 missingMapsCount = minChoice - sortedMapEntries.size();
                 for(i = 0; i < missingMapsCount;i++){
-                    sortedMapEntries.push({score:mapDefault});
+                    sortedMapEntries.push(mapDefault);
                 }
 
                 //if the map default is positive, the optimal strategy involves using as much mapDefault as possible
@@ -173,7 +178,7 @@ define([
                     }
                     if(missingMapsCount > 0){
                         for(i = 0; i < missingMapsCount;i++){
-                            sortedMapEntries.push({score:mapDefault});
+                            sortedMapEntries.push(mapDefault);
                         }
                     }
                 }
@@ -199,7 +204,7 @@ define([
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
-                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound||0));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
                 //map point response processing does not work on choice based interaction
@@ -303,6 +308,11 @@ define([
                 totalAnswerableResponse = (maxAssoc === 0) ? Infinity : maxAssoc;
                 usedChoices = {};
 
+                //at least a map entry is required to be valid QTI
+                if(!responseDeclaration.mapEntries || !_.size(responseDeclaration.mapEntries)){
+                    return 0;
+                }
+
                 //get the sorted list of mapentries ordered by the score
                 sortedMapEntries = _(responseDeclaration.mapEntries).map(function(score, pair){
                     return {
@@ -388,7 +398,7 @@ define([
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
-                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound||0));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
                 max = 0;
@@ -451,6 +461,12 @@ define([
                 totalAnswerableResponse = (maxAssoc === 0) ? Infinity : maxAssoc;
                 usedChoices = {};
                 usedGaps = {};
+
+                //at least a map entry is required to be valid QTI
+                if(!responseDeclaration.mapEntries || !_.size(responseDeclaration.mapEntries)){
+                    return 0;
+                }
+
                 max = _(responseDeclaration.mapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
@@ -516,7 +532,7 @@ define([
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
-                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound||0));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
                 max = false;
@@ -560,7 +576,7 @@ define([
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
-                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound||0));
                 }
             }
             return max;
@@ -585,6 +601,11 @@ define([
                 }
             }else if(template === 'MAP_RESPONSE') {
 
+                //at least a map entry is required to be valid QTI
+                if(!responseDeclaration.mapEntries || !_.size(responseDeclaration.mapEntries)){
+                    return 0;
+                }
+
                 //calculate the maximum reachable score by choice map
                 scoreMaps = _.values(responseDeclaration.mapEntries);
                 max = _(scoreMaps).map(function (v) {
@@ -594,7 +615,7 @@ define([
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
-                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound||0));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
                 max = 0;
@@ -636,6 +657,11 @@ define([
                 }
             }else if(template === 'MAP_RESPONSE') {
 
+                //at least a map entry is required to be valid QTI
+                if(!responseDeclaration.mapEntries || !_.size(responseDeclaration.mapEntries)){
+                    return 0;
+                }
+
                 //calculate the maximum reachable score by choice map
                 scoreMaps = _.values(_.filter(responseDeclaration.mapEntries, function(score, key){
                     return isPossibleResponse(key);
@@ -647,7 +673,7 @@ define([
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
-                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound));
+                    max = Math.min(max, parseFloat(responseDeclaration.mappingAttributes.upperBound||0));
                 }
             }else if(template === 'MAP_RESPONSE_POINT'){
                 max = 0;
