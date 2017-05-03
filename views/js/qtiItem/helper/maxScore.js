@@ -137,7 +137,7 @@ define([
             }
 
             if (template === 'MATCH_CORRECT') {
-                if(maxChoice && _.isArray(responseDeclaration.correctResponse) && responseDeclaration.correctResponse.length > maxChoice || responseDeclaration.correctResponse.length < minChoice){
+                if(maxChoice && _.isArray(responseDeclaration.correctResponse) && (responseDeclaration.correctResponse.length > maxChoice || responseDeclaration.correctResponse.length < minChoice)){
                     //max choice does not enable selecting the correct responses
                     max = 0;
                 }else if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
@@ -164,17 +164,33 @@ define([
                     sortedMapEntries.push({score:mapDefault});
                 }
 
+                if(mapDefault && mapDefault > 0){
+                    if(maxChoice){
+                        missingMapsCount = maxChoice - sortedMapEntries.size();
+                    }else{
+                        missingMapsCount = _.size(interaction.getChoices()) - sortedMapEntries.size();
+                    }
+                    if(missingMapsCount > 0){
+                        for(i = 0; i < missingMapsCount;i++){
+                            sortedMapEntries.push({score:mapDefault});
+                        }
+                    }
+                }
+
                 //calculate the maximum reachable score by choice map
                 max = sortedMapEntries.reduce(function (acc, v) {
                     var score = v;
                     if(score < 0){
                         if(requiredChoiceCount <= 0){
                             //if the score is negative check if we have the choice not to pick it
-                            score = 0;
+                            score = Math.max(mapDefault, 0);
                         }else{
                             //else, always take the best option
                             score = Math.max(mapDefault, score);
                         }
+                    }else{
+                        //always take the best option
+                        score = Math.max(mapDefault, score);
                     }
                     requiredChoiceCount--;
                     return gamp.add(acc, score);

@@ -109,6 +109,11 @@ define([
             return data;
         }},
         { title : 'single choice map - maxChoice 3', data : dataChoiceMaxchoice3, expectedMaximum: 3, maxScore: 3},
+        { title : 'single choice map - favourable map default', data : dataChoiceMaxchoice3, expectedMaximum: 9, maxScore: 9, changeData : function(data){
+            data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.defaultValue = 3;
+            data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.upperBound = 0;
+            return data;
+        }},
         { title : 'single choice map - upperBound 2', data : dataChoiceUpperbound2, expectedMaximum: 2, maxScore: 2},
         { title : 'composite choice correct', data : dataCompositeChoiceCorrect, expectedMaximum: 2, maxScore: 2},
         { title : 'composite choice correct and map', data : dataCompositeChoiceCorrectMap, expectedMaximum: 2.5, maxScore: 2.5},
