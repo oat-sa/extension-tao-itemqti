@@ -96,7 +96,7 @@ define([
 
                 if(customOutcomes.size()){
                     maxScore = customOutcomes.reduce(function (acc, outcome) {
-                        return gamp.add(acc, parseFloat(outcome.attr('normalMaximum')));
+                        return gamp.add(acc, parseFloat(outcome.attr('normalMaximum')||0));
                     }, maxScore);
                 }
 

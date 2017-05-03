@@ -100,6 +100,21 @@
                 "relatedItem": "item_5901f75bd33d1885215991"
             },
             "defaultValue": null
+        },
+        "outcomedeclaration_5901f75bd8f2c67587xxxx": {
+            "identifier": "OUTCOME_X",
+            "serial": "outcomedeclaration_5901f75bd8f2c67587xxxx",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "OUTCOME_X",
+                "cardinality": "single",
+                "baseType": "float",
+                "interpretation": "some description"
+            },
+            "debug": {
+                "relatedItem": "item_5901f75bd33d1885215991"
+            },
+            "defaultValue": null
         }
     },
     "responses": {
