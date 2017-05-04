@@ -116,7 +116,6 @@ class ItemModel extends ConfigurableService
 
     public function getExportHandlers()
     {
-        common_Logger::w(print_r($this->getOptions(),true));
         if($this->hasOption(self::EXPORT_HANDLER)){
             return $this->getOption(self::EXPORT_HANDLER);
         } else {

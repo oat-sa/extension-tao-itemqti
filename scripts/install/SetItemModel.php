@@ -60,7 +60,6 @@ class SetItemModel  extends InstallAction
 
         $itemModelService->setServiceManager($this->getServiceManager());
 
-        \common_Logger::w(print_r($itemModelService,true));
         $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
 
     }
