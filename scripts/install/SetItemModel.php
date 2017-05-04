@@ -60,7 +60,7 @@ class SetItemModel  extends InstallAction
 
         $itemModelService = new ItemModel($options);
 
-        $itemModelService->setServiceManager($this->getServiceManager());
+        $this->getServiceManager()->propagate($itemModelService);
 
         $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
 
