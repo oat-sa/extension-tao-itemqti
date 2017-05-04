@@ -29,10 +29,10 @@ return array(
     'label'       => 'QTI item model',
     'description' => 'TAO QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '8.0.1',
+    'version'     => '8.1.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
-        'taoItems' => '>=3.0.1',
+        'taoItems' => '>=4.1.0',
         'tao'      => '>=9.0.0'
     ),
     'models' => array(
@@ -58,6 +58,7 @@ return array(
 			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
             \oat\taoQtiItem\scripts\install\InitMetadataService::class,
+            \oat\taoQtiItem\scripts\install\SetItemModel::class,
 		)
 	),
 	'local'	=> array(
