@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
@@ -40,6 +41,7 @@ use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
+use oat\taoQtiItem\scripts\install\SetItemModel;
 
 /**
  *
@@ -463,5 +465,12 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('6.19.0', '8.0.2');
+
+
+        if ($this->isVersion('8.0.2')) {
+            OntologyUpdater::syncModels();
+            $this->runExtensionScript(SetItemModel::class);
+            $this->setVersion('8.1.0');
+        }
     }
 }
