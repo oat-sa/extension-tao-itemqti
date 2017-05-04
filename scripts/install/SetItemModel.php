@@ -56,7 +56,6 @@ class SetItemModel  extends InstallAction
             \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->unsetConfig(ItemModel::COMPILER);
         }
 
-        \common_Logger::w(print_r($options,true));
         $itemModelService = new ItemModel($options);
 
         $itemModelService->setServiceManager($this->getServiceManager());
