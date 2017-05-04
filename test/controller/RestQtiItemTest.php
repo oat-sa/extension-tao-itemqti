@@ -18,10 +18,9 @@
 
 namespace oat\taoQtiItem\test\controller;
 
-use \Request;
+use oat\taoQtiItem\model\ItemModel;
 use oat\tao\test\RestTestRunner;
 use oat\generis\model\OntologyAwareTrait;
-use oat\taoQtiItem\model\ItemModel;
 
 /**
  * End point of Rest item API
