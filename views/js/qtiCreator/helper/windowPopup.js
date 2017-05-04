@@ -56,6 +56,13 @@ define([
         makeStackable(windowPopup, { stackingScope: 'qti-creator' });
         makeWindowed(windowPopup);
 
+        windowPopup
+            .on('render', function() {
+                var $component = this.getElement();
+
+                $component.addClass('window-popup');
+            });
+
         return windowPopup;
     };
 
