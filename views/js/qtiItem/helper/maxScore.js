@@ -186,17 +186,9 @@ define([
                 //calculate the maximum reachable score by choice map
                 max = sortedMapEntries.reduce(function (acc, v) {
                     var score = v;
-                    if(score < 0){
-                        if(requiredChoiceCount <= 0){
-                            //if the score is negative check if we have the choice not to pick it
-                            score = Math.max(mapDefault, 0);
-                        }else{
-                            //else, always take the best option
-                            score = Math.max(mapDefault, score);
-                        }
-                    }else{
-                        //always take the best option
-                        score = Math.max(mapDefault, score);
+                    if(score < 0 && requiredChoiceCount <= 0){
+                        //if the score is negative check if we have the choice not to pick it
+                        score = 0;
                     }
                     requiredChoiceCount--;
                     return gamp.add(acc, score);
@@ -380,17 +372,9 @@ define([
                 //reduce the ordered list of map entries to calculate the max score
                 max = sortedMapEntries.reduce(function (acc, v) {
                     var score = v.score;
-                    if(v.score < 0){
-                        if(requiredAssoc <= 0){
-                            //if the score is negative check if we have the choice not to pick it
-                            score = Math.max(mapDefault, 0);
-                        }else{
-                            //else, always take the best option
-                            score = Math.max(mapDefault, score);
-                        }
-                    }else{
-                        //always take the best option
-                        score = Math.max(mapDefault, score);
+                    if(v.score < 0 && requiredAssoc <= 0){
+                        //if the score is negative check if we have the choice not to pick it
+                        score = 0;
                     }
                     requiredAssoc--;
                     return gamp.add(acc, score);

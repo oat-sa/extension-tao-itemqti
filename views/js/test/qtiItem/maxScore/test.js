@@ -109,9 +109,15 @@ define([
             return data;
         }},
         { title : 'single choice map - maxChoice 3', data : dataChoiceMaxchoice3, expectedMaximum: 3, maxScore: 3},
-        { title : 'single choice map - map default > 3', data : dataChoiceMaxchoice3, expectedMaximum: 9, maxScore: 9, changeData : function(data){
+        { title : 'single choice map - map default > 3', data : dataChoiceMaxchoice3, expectedMaximum: 3, maxScore: 3, changeData : function(data){
             data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.defaultValue = 3;
             data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.upperBound = 0;
+            return data;
+        }},
+        { title : 'single choice map - map default > 3 and 2 map entries', data : dataChoiceMaxchoice3, expectedMaximum: 5, maxScore: 5, changeData : function(data){
+            data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.defaultValue = 3;
+            data.responses.responsedeclaration_58eb4dfbd4a74001643639.mappingAttributes.upperBound = 0;
+            delete data.responses.responsedeclaration_58eb4dfbd4a74001643639.mapping.choice_3;
             return data;
         }},
         { title : 'single choice map - no map entries', data : dataChoiceMaxchoice3, expectedMaximum: 0, maxScore: 0, changeData : function(data){
@@ -181,7 +187,7 @@ define([
             data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.minAssociations = 5;
             return data;
         }},
-        { title : 'associate - map - map default > 0', data : dataAssociateMap, expectedMaximum: 5, maxScore: 5, changeData : function(data){
+        { title : 'associate - map - map default > 0', data : dataAssociateMap, expectedMaximum: 4, maxScore: 4, changeData : function(data){
             data.responses.responsedeclaration_58fdfc91590be744736300.mappingAttributes.defaultValue = 1;
             data.body.elements.interaction_associateinteraction_58fdfc915cb60553869971.attributes.maxAssociations = 4;
             return data;
