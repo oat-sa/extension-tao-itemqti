@@ -21,13 +21,9 @@
 
 namespace oat\taoQtiItem\model;
 
+use oat\oatbox\service\ConfigurableService;
 use oat\taoItems\model\search\IndexableItemModel;
-use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
-use oat\taoQtiItem\model\Export\QtiPackage22ExportHandler;
-use oat\taoQtiItem\model\import\QtiPackageImport;
-use oat\taoQtiItem\model\import\QtiItemImport;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
 use \tao_models_classes_export_ExportProvider;
 use \tao_models_classes_import_ImportProvider;
@@ -44,15 +40,20 @@ use taoItems_models_classes_itemModel;
  * @package taoQTI
  
  */
-class ItemModel
+class ItemModel extends ConfigurableService
         implements taoItems_models_classes_itemModel,
                    tao_models_classes_export_ExportProvider,
                    tao_models_classes_import_ImportProvider,
                    IndexableItemModel
 {
 
+    const SERVICE_ID = 'taoQtiItem/ItemModel';
     const MODEL_URI = "http://www.tao.lu/Ontologies/TAOItem.rdf#QTI";
-    
+
+    const COMPILER = 'compilerClass';
+    const IMPORT_HANDLER = 'importHandlers';
+    const EXPORT_HANDLER = 'exportHandlers';
+
     /**
      * constructor called by itemService
      *
@@ -60,8 +61,9 @@ class ItemModel
      * @author Joel Bout, <joel@taotesting.com>
      * @return mixed
      */
-    public function __construct()
+    public function __construct($options = array())
     {
+        parent::__construct($options);
         // ensure qti extension is loaded
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
     }
@@ -111,27 +113,33 @@ class ItemModel
         )); 
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportProvider::getExportHandlers()
-     */
-    public function getExportHandlers() {
-    	return array(
-    	    new ApipPackageExportHandler(),
-    		new QtiPackageExportHandler(),
-            new QtiPackage22ExportHandler()
-    	);
-    }
-    
-    public function getImportHandlers() {
-    	return array(
-    		new QtiItemImport(),
-    	    new QtiPackageImport(),
-    	);
+
+    public function getExportHandlers()
+    {
+        common_Logger::w(print_r($this->getOptions(),true));
+        if($this->hasOption(self::EXPORT_HANDLER)){
+            return $this->getOption(self::EXPORT_HANDLER);
+        } else {
+            return array();
+        }
     }
 
-    public function getCompilerClass() {
-        return \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('compilerClass');
+    public function getImportHandlers()
+    {
+        if($this->hasOption(self::IMPORT_HANDLER)){
+            return $this->getOption(self::IMPORT_HANDLER);
+        } else {
+            return array();
+        }
+    }
+
+    public function getCompilerClass()
+    {
+        if($this->hasOption(self::COMPILER)){
+            return $this->getOption(self::COMPILER);
+        } else {
+            return array();
+        }
     }
 
     public function getPackerClass() {
