@@ -21,6 +21,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
     var _requirejs = window.require;
 
+    var isValidProvider = function isValidProvider(provider){
+        return (provider && _.isFunction(provider.load));
+    }
+
     return function portableElementRegistry(methods){
 
         var _loaded = false;
@@ -40,8 +44,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     }
                 }
             },
-            registerProvider : function registerProvider(moduleName){
-                __providers[moduleName] = null;
+            registerProvider : function registerProvider(moduleName, providerModule){
+                __providers[moduleName] = isValidProvider(providerModule) ? providerModule : null;
                 return this;
             },
             resetProviders : function resetProviders(){
@@ -59,7 +63,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
                     _requirejs(providerLoadingStack, function(){
                         _.each([].slice.call(arguments), function(provider){
-                            if(provider && _.isFunction(provider.load)){
+                            if(isValidProvider(provider)){
                                 __providers[providerLoadingStack.shift()] = provider;
                             }
                         });
