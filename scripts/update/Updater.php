@@ -476,7 +476,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.1.0');
         }
 
-        if ($this->isVersion('8.1.0')){
+        $this->skip('8.1.0', '8.2.0');
+
+        if ($this->isVersion('8.2.0')){
 
             $fsId = 'portableElementStorage';
 
@@ -493,7 +495,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $oldWebsource = WebsourceManager::singleton()->getWebsource($oldWebsourceId);
             WebsourceManager::singleton()->removeWebsource($oldWebsource);
 
-            $this->setVersion('8.2.0');
+            $this->setVersion('8.3.0');
         }
     }
 }
