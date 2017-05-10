@@ -93,7 +93,7 @@ define([
                 if(config.plugins){
                     _.forEach(config.plugins, function (plugin) {
                         if(plugin && plugin.module){
-                            pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                            pluginLoader.add(plugin);
                         }
                     });
                 }
@@ -103,7 +103,7 @@ define([
                             if(plugin.exclude){
                                 pluginLoader.remove(plugin.module);
                             } else {
-                                pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                                pluginLoader.add(plugin);
                             }
                         }
                     });
