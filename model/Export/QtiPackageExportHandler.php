@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use League\Flysystem\FileNotFoundException;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
 use oat\taoQtiItem\model\ItemModel;
@@ -100,9 +101,11 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
                             $subReport = $exporter->export();
                             $manifest = $exporter->getManifest();
                             $report->add($subReport);
+						} catch (FileNotFoundException $e){
+							$report->add(\common_report_Report::createFailure(__('Item "%s" has no xml document', $item->getLabel())));
                         } catch (\Exception $e) {
-                            common_Logger::i(__('Error to export item %s: %s', $instance, $e->getMessage()));
-                        }
+							common_Logger::i(__('Error to export item %s: %s', $instance, $e->getMessage()));
+						}
 					}
 				}
 				

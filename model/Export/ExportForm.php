@@ -22,6 +22,8 @@
 namespace oat\taoQtiItem\model\Export;
 
 //use oat\taoQtiItem\model\Export\ExportForm;
+use League\Flysystem\FileNotFoundException;
+use oat\tao\model\export\ExportElementException;
 use \tao_helpers_form_FormContainer;
 use \tao_helpers_form_xhtml_Form;
 use \tao_helpers_form_xhtml_TagWrapper;
@@ -32,6 +34,7 @@ use \tao_helpers_Display;
 use \core_kernel_classes_Class;
 use \tao_helpers_Uri;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\qti\Service;
 
 /**
  * Export form for QTI packages
@@ -92,11 +95,17 @@ class ExportForm
 
 		$fileName = '';
     	$options = array();
+    	$disabledOptions = array();
     	if(isset($this->data['instance'])){
     		$item = $this->data['instance'];
     		if($item instanceof core_kernel_classes_Resource){
     			if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
     				$fileName = strtolower(tao_helpers_Display::textCleaner($item->getLabel()));
+					try{
+						$this->isInstanceValid($item);
+					}catch(\common_exception_UserReadableException $e){
+						$disabledOptions[$item->getUri()] = $e->getUserMessage();
+					}
     				$options[$item->getUri()] = $item->getLabel();
     			}
     		}
@@ -111,8 +120,13 @@ class ExportForm
     		if($class instanceof core_kernel_classes_Class){
                     $fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
                     foreach($class->getInstances(true) as $instance){
-                        if($itemService->hasItemModel($instance, array(ItemModel::MODEL_URI)) && $itemService->hasItemContent($instance)){
-                            $options[$instance->getUri()] = $instance->getLabel();
+                        if($itemService->hasItemModel($instance, array(ItemModel::MODEL_URI))){
+							try{
+								$this->isInstanceValid($instance);
+							}catch(\common_exception_UserReadableException $e){
+								$disabledOptions[$instance->getUri()] = $e->getUserMessage();
+							}
+							$options[$instance->getUri()] = $instance->getLabel();
                         }
                     }
     		}
@@ -127,17 +141,38 @@ class ExportForm
 
     	$instanceElt = tao_helpers_form_FormFactory::getElement('instances', 'Checkbox');
     	$instanceElt->setDescription(__('Items'));
-    	$instanceElt->setAttribute('checkAll', true);
+
+		if(count($options) > 1){
+			$instanceElt->setAttribute('checkAll', true);
+		}
+
 		$instanceElt->setOptions(tao_helpers_Uri::encodeArray($options, tao_helpers_Uri::ENCODE_ARRAY_KEYS));
+		$instanceElt->setReadOnly(tao_helpers_Uri::encodeArray($disabledOptions, tao_helpers_Uri::ENCODE_ARRAY_KEYS));
     	foreach(array_keys($options) as $value){
-			$instanceElt->setValue($value);
+			if(!isset($disabledOptions[$value])){
+				$instanceElt->setValue($value);
+			}
 		}
 		$this->form->addElement($instanceElt);
 
 
-    	$this->form->createGroup('options', __('Export QTI 2.1 Package'), array('filename', 'instances'));
+    	$this->form->createGroup('options', $this->getFormGroupName(), array('filename', 'instances'));
     }
 
-}
+	private function isInstanceValid($item){
 
-?>
+		try{
+			$xml = Service::singleton()->getXmlByRdfItem($item);
+		}catch(FileNotFoundException $e){}
+
+		if(empty($xml)){
+			throw new ExportElementException($item, __('(no xml document)'));
+		}
+
+		return true;
+	}
+
+	protected function getFormGroupName(){
+		return __('Export QTI 2.1 Package');
+	}
+}
