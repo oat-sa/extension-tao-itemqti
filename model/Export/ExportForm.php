@@ -166,7 +166,7 @@ class ExportForm
 		}catch(FileNotFoundException $e){}
 
 		if(empty($xml)){
-			throw new ExportElementException($item, __('(no xml document)'));
+			throw new ExportElementException($item, __('no item content'));
 		}
 
 		return true;
