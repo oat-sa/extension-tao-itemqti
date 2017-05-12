@@ -65,7 +65,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
         } else {
             $formData= array('instance' => $resource);
         }
-    	$form = new ExportForm($formData);
+    	$form = new Qti21ExportForm($formData);
     	return $form->getForm();
     }
     

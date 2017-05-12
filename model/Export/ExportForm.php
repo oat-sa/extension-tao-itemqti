@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\Export;
 
-//use oat\taoQtiItem\model\Export\ExportForm;
 use League\Flysystem\FileNotFoundException;
 use oat\tao\model\export\ExportElementException;
 use \tao_helpers_form_FormContainer;
@@ -44,8 +43,7 @@ use oat\taoQtiItem\model\qti\Service;
  * @package taoItems
  
  */
-class ExportForm
-    extends tao_helpers_form_FormContainer
+abstract class ExportForm extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---
 
@@ -172,7 +170,9 @@ class ExportForm
 		return true;
 	}
 
-	protected function getFormGroupName(){
-		return __('Export QTI 2.1 Package');
-	}
+	/**
+	 * Get the form group name to be display
+	 * @return string
+	 */
+	abstract protected function getFormGroupName();
 }
