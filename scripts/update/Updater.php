@@ -20,6 +20,10 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\websource\ActionWebSource;
+use oat\tao\model\websource\WebsourceManager;
+use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
@@ -28,6 +32,7 @@ use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -40,6 +45,7 @@ use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
+use oat\taoQtiItem\scripts\install\SetItemModel;
 
 /**
  *
@@ -462,6 +468,36 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('6.19.0');
         }
 
-        $this->skip('6.19.0', '8.0.0');
+        $this->skip('6.19.0', '8.0.2');
+
+        if ($this->isVersion('8.0.2')) {
+            OntologyUpdater::syncModels();
+            $this->runExtensionScript(SetItemModel::class);
+            $this->setVersion('8.1.0');
+        }
+
+        $this->skip('8.1.0', '8.2.0');
+
+        if ($this->isVersion('8.2.0')){
+
+            $fsId = 'portableElementStorage';
+
+            //create a new web source of ActionWebSource (without token requirement)
+            $websource = ActionWebSource::spawnWebsource($fsId);
+
+            //assign the new web source to the existing PortableElementFileStorage while leaving existing filesystem intact
+            $portableElementStorage = $this->getServiceManager()->get(PortableElementFileStorage::SERVICE_ID);
+            $oldWebsourceId = $portableElementStorage->getOption(PortableElementFileStorage::OPTION_WEBSOURCE);
+            $portableElementStorage->setOption(PortableElementFileStorage::OPTION_WEBSOURCE, $websource->getId());
+            $this->getServiceManager()->register(PortableElementFileStorage::SERVICE_ID, $portableElementStorage);
+
+            //remove old websource
+            $oldWebsource = WebsourceManager::singleton()->getWebsource($oldWebsourceId);
+            WebsourceManager::singleton()->removeWebsource($oldWebsource);
+
+            $this->setVersion('8.3.0');
+        }
+
+        $this->skip('8.3.0', '8.4.0');
     }
 }

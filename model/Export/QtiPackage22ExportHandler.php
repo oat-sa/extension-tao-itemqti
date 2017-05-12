@@ -23,6 +23,8 @@ namespace oat\taoQtiItem\model\Export;
 
 use \ZipArchive;
 use \DomDocument;
+use \core_kernel_classes_Resource;
+use \core_kernel_classes_Class;
 
 class QtiPackage22ExportHandler extends QtiPackageExportHandler
 {
@@ -34,5 +36,15 @@ class QtiPackage22ExportHandler extends QtiPackageExportHandler
     protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null)
     {
         return new QTIPackedItem22Exporter($item, $zipArchive, $manifest);
+    }
+
+    public function getExportForm(core_kernel_classes_Resource $resource) {
+        if ($resource instanceof core_kernel_classes_Class) {
+            $formData= array('class' => $resource);
+        } else {
+            $formData= array('instance' => $resource);
+        }
+        $form = new Qti22ExportForm($formData);
+        return $form->getForm();
     }
 }
