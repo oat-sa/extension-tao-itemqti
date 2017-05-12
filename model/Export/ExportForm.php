@@ -154,7 +154,7 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
 		$this->form->addElement($instanceElt);
 
 
-    	$this->form->createGroup('options', $this->getFormGroupName(), array('filename', 'instances'));
+    	$this->form->createGroup('options', '<h3>'.$this->getFormGroupName().'</h3>', array('filename', 'instances'));
     }
 
 	private function isInstanceValid($item){
