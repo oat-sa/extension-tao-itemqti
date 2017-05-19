@@ -96,7 +96,7 @@ define([
                     interaction.mediaElement = mediaplayer({
                         url: url && self.resolveUrl(url),
                         type: media.attr('type') || defaults.type,
-                        canPause: $container.hasClass('pause'),
+                        canPause: $container.hasClass('pause') || !!maxPlays,
                         maxPlays: maxPlays,
                         canSeek: !maxPlays,
                         width: media.attr('width'),
