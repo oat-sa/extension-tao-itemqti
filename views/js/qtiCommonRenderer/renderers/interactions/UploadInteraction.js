@@ -55,7 +55,8 @@ define([
 
         if (!validateFileType(file, interaction)) {
             instructionMgr.removeInstructions(interaction);
-            instructionMgr.appendInstruction(interaction, getMessageWrongType(interaction, messageWrongType), function () {
+            var extraMessage = __(' The selected file has the mimetype "%s".', mimetype.getMimeType(file));
+            instructionMgr.appendInstruction(interaction, getMessageWrongType(interaction, messageWrongType) + extraMessage, function () {
                 this.setLevel('error');
                 //clear preview
             });
@@ -176,6 +177,7 @@ define([
     function validateFileType (file, interaction) {
         var expectedTypes = uploadHelper.getExpectedTypes(interaction);
         var filetype = mimetype.getMimeType(file);
+        //console.log(mimetype.getMimeType(file), uploadHelper.getExpectedTypes(interaction));
         if (expectedTypes.length) {
             return (_.indexOf(expectedTypes, filetype) >= 0);
         }
@@ -358,7 +360,7 @@ define([
                 types : labels
             });
         }else{
-            return __('Wrong type of file. Expected %s', labels.join(__(' or ')));
+            return __('Wrong type of file. Expected %s.', labels.join(__(' or ')));
         }
     }
 

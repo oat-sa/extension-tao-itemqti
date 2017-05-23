@@ -16,8 +16,9 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 define([
+    'lodash',
     'i18n'
-], function (__) {
+], function (_, __) {
     "use strict";
 
     return {
@@ -35,7 +36,7 @@ define([
                 {"mime": "image/png", "label": __("PNG image")},
                 {"mime": "image/gif", "label": __("GIF image")},
                 {"mime": "image/svg+xml", "label": __("SVG image")},
-                {"mime": "application/ogg", "label": __("MPEG audio")},
+                {"mime": "audio/mpeg", "label": __("MPEG audio")},
                 {"mime": "audio/x-ms-wma", "label": __("Windows Media audio")},
                 {"mime": "audio/x-wav", "label": __("WAV audio")},
                 {"mime": "video/mpeg", "label": __("MPEG video")},
@@ -44,9 +45,12 @@ define([
                 {"mime": "video/x-ms-wmv", "label": __("Windows Media video")},
                 {"mime": "video/x-flv", "label": __("Flash video")},
                 {"mime": "text/csv", "label": __("CSV file")},
-                {"mime": "application/msword", "label": __("Microsoft Word")},
-                {"mime": "application/vnd.ms-excel", "label": __("Microsoft Excel")},
-                {"mime": "application/vnd.ms-powerpoint", "label": __("Microsoft Powerpoint")}
+                {"mime": "application/msword", "label": __("Microsoft Word - doc")},
+                {"mime": "application/vnd.ms-excel", "label": __("Microsoft Excel - xls")},
+                {"mime": "application/vnd.ms-powerpoint", "label": __("Microsoft Powerpoint - ppt")},
+                {"mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "label": __("Microsoft Word - docx")},
+                {"mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "label": __("Microsoft Excel - xlsx")},
+                {"mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation", "label": __("Microsoft Powerpoint - pptx")},
             ];
         },
 
