@@ -49,6 +49,12 @@ define([
         getMappingAttribute : function(name){
             return this.mappingAttributes[name];
         },
+        toggleMappingForm: function toggleMappingForm() {
+            var mappingDisabled = _.isEmpty(this.mapEntries);
+            $('[data-editx="map"] input', this.renderer.getAreaBroker().getPropertyPanelArea()).each(function () {
+                $(this).attr("disabled", mappingDisabled);
+            });
+        },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
 
             mappedValue = parseFloat(mappedValue);
@@ -69,6 +75,8 @@ define([
                 }else{
                     this.mapEntries[mapKey] = mappedValue;
                 }
+
+                this.toggleMappingForm();
 
                 /**
                  * @todo caseSensitive is always set to "false" currently, need to add an option for this
@@ -106,6 +114,8 @@ define([
                 }
                 delete this.mapEntries[mapKey];
 
+                this.toggleMappingForm();
+
                 $(document).trigger('mapEntryRemove.qti-widget', {element : this, mapKey : mapKey});
             }
 
@@ -126,12 +136,12 @@ define([
                 cardinality : 'single',
                 baseType : 'identifier'
             });
-            
+
             var modalFeedback = item.createModalFeedback({
                 identifier : 'feedbackModal',
                 outcomeIdentifier : outcome.id()
             }, this);
-            
+
             var rule = new SimpleFeedbackRule('', outcome, modalFeedback);
 
             rule.setCondition(this, 'correct');
