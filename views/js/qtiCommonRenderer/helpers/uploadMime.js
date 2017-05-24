@@ -44,7 +44,7 @@ define([
                 {"mime": "video/quicktime", "label": __("Quicktime video")},
                 {"mime": "video/x-ms-wmv", "label": __("Windows Media video")},
                 {"mime": "video/x-flv", "label": __("Flash video")},
-                {"mime": "text/csv", "label": __("CSV file"), equivalent:["application/vnd.ms-excel"]},
+                {"mime": "text/csv", "label": __("CSV file")},
                 {"mime": "application/msword", "label": __("Microsoft Word"), equivalent:["application/vnd.openxmlformats-officedocument.wordprocessingml.document"]},
                 {"mime": "application/vnd.ms-excel", "label": __("Microsoft Excel"), equivalent:["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]},
                 {"mime": "application/vnd.ms-powerpoint", "label": __("Microsoft Powerpoint"), equivalent:["application/vnd.openxmlformats-officedocument.presentationml.presentation"]}

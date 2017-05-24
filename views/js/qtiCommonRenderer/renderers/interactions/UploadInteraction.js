@@ -177,7 +177,6 @@ define([
     function validateFileType (file, interaction) {
         var expectedTypes = uploadHelper.getExpectedTypes(interaction);
         var filetype = mimetype.getMimeType(file);
-        //console.log(mimetype.getMimeType(file), uploadHelper.getExpectedTypes(interaction));
         if (expectedTypes.length) {
             return (_.indexOf(expectedTypes, filetype) >= 0);
         }
