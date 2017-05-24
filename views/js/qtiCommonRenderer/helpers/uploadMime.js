@@ -86,10 +86,11 @@ define([
          * It first get the standard "type" attribute value.
          * If not set search the TAO specific type information recorded in the class attributes,
          * qti 2.1 xsd indeed does not allow comma-separated multi mime type value for the attribute "type"
-         * @param interaction
+         * @param {Object} interaction - standard QTI interaction model object
+         * @param {Boolean} [includeEquivalents] - enable including all recognized as equivalent types
          * @returns {Array}
          */
-        getExpectedTypes : function getExpectedTypes(interaction) {
+        getExpectedTypes : function getExpectedTypes(interaction, includeEquivalents) {
             var classes = interaction.attr('class') || '';
             var types = [];
             var mimes = uploadMime.getMimeTypes();
@@ -103,12 +104,14 @@ define([
             }
 
             // add in equivalent mimetypes to the list of expected types
-            _.forEach(types, function(mime){
-                var mimeData = _.find(mimes, {mime:mime});
-                if(mimeData && _.isArray(mimeData.equivalent)){
-                    equivalents = _.union(equivalents, mimeData.equivalent);
-                }
-            });
+            if(includeEquivalents === true){
+                _.forEach(types, function(mime){
+                    var mimeData = _.find(mimes, {mime:mime});
+                    if(mimeData && _.isArray(mimeData.equivalent)){
+                        equivalents = _.union(equivalents, mimeData.equivalent);
+                    }
+                });
+            }
 
             return _.union(types, equivalents);
         }
