@@ -45,12 +45,9 @@ define([
                 {"mime": "video/x-ms-wmv", "label": __("Windows Media video")},
                 {"mime": "video/x-flv", "label": __("Flash video")},
                 {"mime": "text/csv", "label": __("CSV file"), equivalent:["application/vnd.ms-excel"]},
-                {"mime": "application/msword", "label": __("Microsoft Word")},
-                {"mime": "application/vnd.ms-excel", "label": __("Microsoft Excel")},
-                {"mime": "application/vnd.ms-powerpoint", "label": __("Microsoft Powerpoint")},
-                {"mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "label": __("Microsoft Word - docx")},
-                {"mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "label": __("Microsoft Excel - xlsx")},
-                {"mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation", "label": __("Microsoft Powerpoint - pptx")},
+                {"mime": "application/msword", "label": __("Microsoft Word"), equivalent:["application/vnd.openxmlformats-officedocument.wordprocessingml.document"]},
+                {"mime": "application/vnd.ms-excel", "label": __("Microsoft Excel"), equivalent:["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]},
+                {"mime": "application/vnd.ms-powerpoint", "label": __("Microsoft Powerpoint"), equivalent:["application/vnd.openxmlformats-officedocument.presentationml.presentation"]}
             ];
         },
 
