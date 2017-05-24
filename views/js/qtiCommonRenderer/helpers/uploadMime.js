@@ -93,7 +93,7 @@ define([
         getExpectedTypes : function getExpectedTypes(interaction, includeEquivalents) {
             var classes = interaction.attr('class') || '';
             var types = [];
-            var mimes = uploadMime.getMimeTypes();
+            var mimes;
             var equivalents = [];
             if (interaction.attr('type')) {
                 types.push(interaction.attr('type'));
@@ -105,6 +105,7 @@ define([
 
             // add in equivalent mimetypes to the list of expected types
             if(includeEquivalents === true){
+                mimes = uploadMime.getMimeTypes();
                 _.forEach(types, function(mime){
                     var mimeData = _.find(mimes, {mime:mime});
                     if(mimeData && _.isArray(mimeData.equivalent)){
