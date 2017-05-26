@@ -1,12 +1,13 @@
 define([
     'jquery',
     'lodash',
+    'ui/hider',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/response/SimpleFeedbackRule',
     'taoQtiItem/qtiItem/helper/response'
-], function($, _, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
+], function($, _, hider, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -49,6 +50,16 @@ define([
         getMappingAttribute : function(name){
             return this.mappingAttributes[name];
         },
+        toggleMappingForm: function toggleMappingForm() {
+            var mappingDisabled = _.isEmpty(this.mapEntries);
+            var $panel = this.renderer.getAreaBroker().getPropertyPanelArea();
+            $('.response-mapping-attributes input', $panel).each(function () {
+                $(this).attr("disabled", mappingDisabled);
+            });
+
+            hider.toggle($('.response-mapping-attributes', $panel), !mappingDisabled);
+            hider.toggle($('.response-mapping-info', $panel), mappingDisabled);
+        },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
 
             mappedValue = parseFloat(mappedValue);
@@ -69,6 +80,8 @@ define([
                 }else{
                     this.mapEntries[mapKey] = mappedValue;
                 }
+
+                this.toggleMappingForm();
 
                 /**
                  * @todo caseSensitive is always set to "false" currently, need to add an option for this
@@ -106,6 +119,8 @@ define([
                 }
                 delete this.mapEntries[mapKey];
 
+                this.toggleMappingForm();
+
                 $(document).trigger('mapEntryRemove.qti-widget', {element : this, mapKey : mapKey});
             }
 
@@ -126,12 +141,12 @@ define([
                 cardinality : 'single',
                 baseType : 'identifier'
             });
-            
+
             var modalFeedback = item.createModalFeedback({
                 identifier : 'feedbackModal',
                 outcomeIdentifier : outcome.id()
             }, this);
-            
+
             var rule = new SimpleFeedbackRule('', outcome, modalFeedback);
 
             rule.setCondition(this, 'correct');

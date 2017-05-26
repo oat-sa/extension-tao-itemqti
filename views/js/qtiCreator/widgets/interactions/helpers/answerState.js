@@ -45,15 +45,15 @@ define([
                 //get:
 
                 if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT'){
-                    
+
                     if(response.data('defineCorrect') !== undefined){
                         defineCorrect = !!response.data('defineCorrect');
                     }else{
-                        //infer it : 
+                        //infer it :
                         defineCorrect = (corrects && _.size(corrects));
                         response.data('defineCorrect', defineCorrect);//set it
                     }
-                    
+
                 }else if(template === 'MATCH_CORRECT'){
                     defineCorrect = true;
                 }
@@ -89,6 +89,7 @@ define([
                 defineCorrect : defineCorrect,
                 editMapping : editMapping,
                 editFeedbacks : (template !== 'CUSTOM'),
+                mappingDisabled: _.isEmpty(response.mapEntries),
                 template : template,
                 templates : _getAvailableRpTemplates(interaction),
                 defaultValue : response.getMappingAttribute('defaultValue'),
@@ -128,16 +129,16 @@ define([
                     answerStateHelper.initResponseForm(widget);
                 },
                 defineCorrect : function(response, value){
-                
+
                     _toggleCorrectWidgets(value);
                     answerStateHelper.defineCorrect(response, !!value);
                 }
             });
 
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
-            
+
             widget.$responseForm.trigger('initResponseForm');
-            
+
             formElement.initWidget(widget.$responseForm);
         },
         isCorrectDefined : function(widget){
@@ -148,8 +149,8 @@ define([
 
     /**
      * Get available rp templates accoding to interaction type and response processing type
-     * 
-     * @todo refactor this : check if 
+     *
+     * @todo refactor this : check if
      * @param {object} interaction
      * @returns {object} templates
      */
