@@ -53,11 +53,11 @@ define([
         toggleMappingForm: function toggleMappingForm() {
             var mappingDisabled = _.isEmpty(this.mapEntries);
             var $panel = this.renderer.getAreaBroker().getPropertyPanelArea();
-            $('.response-mapping-fields input', $panel).each(function () {
+            $('.response-mapping-attributes input', $panel).each(function () {
                 $(this).attr("disabled", mappingDisabled);
             });
 
-            hider.toggle($('.response-mapping-fields', $panel), !mappingDisabled);
+            hider.toggle($('.response-mapping-attributes', $panel), !mappingDisabled);
             hider.toggle($('.response-mapping-info', $panel), mappingDisabled);
         },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){

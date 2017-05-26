@@ -25,7 +25,7 @@
 {{#if editMapping}}
 <hr/>
 
-<div class="response-mapping-fields{{#if mappingDisabled}} hidden{{/if}}">
+<div class="response-mapping-attributes{{#if mappingDisabled}} hidden{{/if}}">
     <div class="panel" data-editx="map">
         <h3>{{__ "Score range"}}</h3>
         <div>
