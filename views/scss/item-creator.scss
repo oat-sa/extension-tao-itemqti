@@ -177,6 +177,14 @@ img.dragging.ui-draggable-dragging {
 
 }
 
+.item-editor-response-related {
+    .response-mapping-info {
+        .feedback-info {
+            padding: 5px;
+        }
+    }
+}
+
 .item-editor-css-editor {
     select {
         min-width: 0 !important;
