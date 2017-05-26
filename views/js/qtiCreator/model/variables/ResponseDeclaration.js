@@ -1,12 +1,13 @@
 define([
     'jquery',
     'lodash',
+    'ui/hider',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/response/SimpleFeedbackRule',
     'taoQtiItem/qtiItem/helper/response'
-], function($, _, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
+], function($, _, hider, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -51,9 +52,13 @@ define([
         },
         toggleMappingForm: function toggleMappingForm() {
             var mappingDisabled = _.isEmpty(this.mapEntries);
-            $('[data-editx="map"] input', this.renderer.getAreaBroker().getPropertyPanelArea()).each(function () {
+            var $panel = this.renderer.getAreaBroker().getPropertyPanelArea();
+            $('.response-mapping-fields input', $panel).each(function () {
                 $(this).attr("disabled", mappingDisabled);
             });
+
+            hider.toggle($('.response-mapping-fields', $panel), !mappingDisabled);
+            hider.toggle($('.response-mapping-info', $panel), mappingDisabled);
         },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
 

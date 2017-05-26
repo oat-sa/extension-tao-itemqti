@@ -25,33 +25,37 @@
 {{#if editMapping}}
 <hr/>
 
-<div class="panel" data-editx="map">
-    <h3>{{__ "Score range"}}
-    </h3>
-    <div>
-        <label for="lowerBound" class="spinner">Min</label>
-        <input name="lowerBound" value="{{lowerBound}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">{{__ "Minimal  score for this interaction."}}</span>
+<div class="response-mapping-fields{{#if mappingDisabled}} hidden{{/if}}">
+    <div class="panel" data-editx="map">
+        <h3>{{__ "Score range"}}</h3>
+        <div>
+            <label for="lowerBound" class="spinner">Min</label>
+            <input name="lowerBound" value="{{lowerBound}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">{{__ "Minimal  score for this interaction."}}</span>
+        </div>
+        <div>
+            <label for="upperBound" class="spinner">Max</label>
+            <input name="upperBound" value="{{upperBound}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">{{__ "Maximal score for this interaction."}}</span>
+        </div>
     </div>
-    <div>
-        <label for="upperBound" class="spinner">Max</label>
-        <input name="upperBound" value="{{upperBound}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">{{__ "Maximal score for this interaction."}}</span>
+
+    <div class="panel" data-editx="map">
+        <label for="defaultValue" class="spinner">{{__ "Mapping default"}}</label>
+        <input name="defaultValue" value="{{defaultValue}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$notEmpty; $numeric;" data-validate-option="$lazy; $event(type=keyup)" />
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "The default value from the target set to be used when no explicit mapping for a source value is given."}}</span>
     </div>
 </div>
-
-<div class="panel" data-editx="map">
-    <label for="defaultValue" class="spinner">{{__ "Mapping default"}}</label>
-    <input name="defaultValue" value="{{defaultValue}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$notEmpty; $numeric;" data-validate-option="$lazy; $event(type=keyup)" />
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "The default value from the target set to be used when no explicit mapping for a source value is given."}}</span>
+<div class="response-mapping-info{{#unless mappingDisabled}} hidden{{/unless}}">
+    <p class="feedback-info">{{__ 'The mapping options are available when at least one map entry is defined.'}}</p>
 </div>
 
 <div class="panel" data-editx="map">
     <label>
-        <input name="defineCorrect" type="checkbox" data-role="defineCorrect"{{#if mappingDisabled}} disabled="true"{{/if}}{{#if defineCorrect}} checked="checked"{{/if}} />
+        <input name="defineCorrect" type="checkbox" data-role="defineCorrect"{{#if defineCorrect}} checked="checked"{{/if}} />
         <span class="icon-checkbox"></span>
         {{__ "Define correct response"}}
     </label>
