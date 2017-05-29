@@ -21,6 +21,10 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use League\Flysystem\FileNotFoundException;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\PhpSerializeStateless;
+use oat\taoQtiItem\model\ItemModel;
 use \tao_models_classes_export_ExportHandler;
 use \core_kernel_classes_Resource;
 use \core_kernel_classes_Class;
@@ -30,7 +34,6 @@ use \Exception;
 use \ZipArchive;
 use \DomDocument;
 use \common_Logger;
-use oat\taoQtiItem\model\ItemModel;
 
 /**
  * Short description of class oat\taoQtiItem\model\ItemModel
@@ -40,9 +43,10 @@ use oat\taoQtiItem\model\ItemModel;
  * @package taoQTI
  
  */
-class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
+class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler, PhpSerializable
 {
 
+    use PhpSerializeStateless;
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_export_ExportHandler::getLabel()
@@ -61,7 +65,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
         } else {
             $formData= array('instance' => $resource);
         }
-    	$form = new ExportForm($formData);
+    	$form = new Qti21ExportForm($formData);
     	return $form->getForm();
     }
     
@@ -97,9 +101,11 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
                             $subReport = $exporter->export();
                             $manifest = $exporter->getManifest();
                             $report->add($subReport);
+						} catch (FileNotFoundException $e){
+							$report->add(\common_report_Report::createFailure(__('Item "%s" has no xml document', $item->getLabel())));
                         } catch (\Exception $e) {
-                            common_Logger::i(__('Error to export item %s: %s', $instance, $e->getMessage()));
-                        }
+							common_Logger::i(__('Error to export item %s: %s', $instance, $e->getMessage()));
+						}
 					}
 				}
 				

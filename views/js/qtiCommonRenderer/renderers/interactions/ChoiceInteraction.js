@@ -51,12 +51,15 @@ define([
 
         var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
-
         if(!_.isBoolean(state)) {
             state = !$input.prop('checked');
         }
 
         $choiceBox.toggleClass('user-selected', state);
+
+        if($input[0].type === 'radio') {
+            $choiceBox.siblings().filter('.user-selected').removeClass('user-selected');
+        }
 
         if($input.length){
             $input.prop('checked', state);

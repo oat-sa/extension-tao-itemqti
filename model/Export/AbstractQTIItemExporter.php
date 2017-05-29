@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use League\Flysystem\FileNotFoundException;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
@@ -78,7 +79,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $basePath = $this->buildBasePath();
 
         if(is_null($this->getItemModel())){
-            throw new ExportException('', 'No Item Model found for item : '.$this->getItem()->getUri());
+            $report->setMessage($this->getExportErrorMessage(__('not a QTI item')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
+            return $report;
         }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
@@ -152,7 +155,15 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
-        $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
+
+        try{
+            $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
+        }catch(FileNotFoundException $e){
+            $report->setMessage($this->getExportErrorMessage(__('cannot find QTI XML')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
+            return $report;
+        }
+
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
@@ -175,13 +186,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->exportPortableAssets($dom, 'portableCustomInteraction', 'customInteractionTypeIdentifier', 'pci', $portableElementsToExport, $portableAssetsToExport);
             $this->exportPortableAssets($dom, 'portableInfoControl', 'infoControlTypeIdentifier', 'pic', $portableElementsToExport, $portableAssetsToExport);
         } else {
-            throw new ExportException($this->getItem()->getLabel(), 'Unable to load XML');
+            $report->setMessage($this->getExportErrorMessage(__('cannot load QTI XML')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
+            return $report;
         }
 
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         if(($content = $dom->saveXML()) === false){
-            throw new ExportException($this->getItem()->getLabel(), 'Unable to save XML');
+            $report->setMessage($this->getExportErrorMessage(__('invalid QTI XML')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
         }
 
         // Possibility to delegate (if necessary) some item content post-processing to sub-classes.
@@ -191,10 +205,20 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
 
         if (! $report->getMessage()) {
-            $report->setMessage(__('Item ' . $this->getItem()->getLabel() . ' exported.'));
+            $report->setMessage(__('Item "%s" is ready to be exported', $this->getItem()->getLabel()));
         }
 
         return $report;
+    }
+
+    /**
+     * Format a consistent error reporting message
+     *
+     * @param string $errorMessage
+     * @return string
+     */
+    private function getExportErrorMessage($errorMessage){
+        return __('Item "%s" cannot be exported: %s', $this->getItem()->getLabel(), $errorMessage);
     }
 
     /**

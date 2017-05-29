@@ -21,6 +21,8 @@
 
 namespace oat\taoQtiItem\model\import;
 
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 use oat\taoQtiItem\model\qti\ImportService;
@@ -38,8 +40,10 @@ use \common_exception_Error;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoQTIItem
  */
-class QtiItemImport implements tao_models_classes_import_ImportHandler
+class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSerializable
 {
+    use PhpSerializeStateless;
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getLabel()

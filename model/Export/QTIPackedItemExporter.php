@@ -23,6 +23,7 @@
 namespace oat\taoQtiItem\model\Export;
 
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
+use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\Service;
 use \core_kernel_classes_Resource;
 use \ZipArchive;
@@ -63,8 +64,13 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	public function export($options = array()) {
         if (!$this->containsItem()) {
             $report = parent::export($options);
-            if (! $report->containsError()) {
-                $this->exportManifest($options);
+            if ($report->getType() !== \common_report_Report::TYPE_ERROR || !$report->containsError()) {
+				try{
+					$this->exportManifest($options);
+				}catch(ExportException $e){
+					$report->setType(\common_report_Report::TYPE_ERROR);
+					$report->setMessage($e->getUserMessage());
+				}
             }
             return $report;
         }
@@ -181,7 +187,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		}
 		else {
 		    $itemLabel = $this->getItem()->getLabel();
-		    throw new common_Exception("the item '${itemLabel}' involved in the export process has no content.");
+		    throw new ExportException($itemLabel, 'no item content');
 		}
 	}
 

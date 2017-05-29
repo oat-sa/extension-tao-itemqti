@@ -1,38 +1,36 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ * Copyright (c) 2017 Open Assessment Technologies SA;
+ *
  */
 
 namespace oat\taoQtiItem\model\Export;
 
 /**
- * Backward compatibility class
+ * Export form for Qti 2.2 packages
  *
  * @access public
- * @author Joel Bout, <joel@taotesting.com>
- * @package taoQTIItem
- 
- * @deprecated
+ * @author Jérôme Bogaerts <jerome@taotesting.com>
+ * @package taoQtiItem
+
  */
-class QtiPackage20ExportHandler extends QtiPackageExportHandler 
+class Qti22ExportForm extends ExportForm
 {
-    public function getLabel() {
-        return __('QTI Package 2.0');
+    protected function getFormGroupName(){
+        return __('Export QTI 2.2 Package');
     }
 }

@@ -25,11 +25,8 @@ namespace oat\taoQtiItem\scripts;
  * This post-installation script creates a new local file source for file uploaded
  * by end-users through the TAO GUI.
  */
-use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\websource\FlyTokenWebSource;
-use oat\tao\model\websource\TokenWebSource;
-use oat\tao\model\websource\TokenWebSourceService;
+use oat\tao\model\websource\ActionWebSource;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 
 class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
@@ -43,13 +40,14 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
             return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Portable file storage already registered, skipped.');
         }
 
+        $fsId = 'portableElementStorage';
         $fsm = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsm->createFileSystem('portableElementStorage', 'portableElement');
+        $fsm->createFileSystem($fsId, 'portableElement');
 
-        $websource = TokenWebSourceService::spawnTokenWebsource('portableElementStorage');
+        $websource = ActionWebSource::spawnWebsource($fsId);
 
         $portableElementStorage = new PortableElementFileStorage(array(
-            PortableElementFileStorage::OPTION_FILESYSTEM => 'portableElementStorage',
+            PortableElementFileStorage::OPTION_FILESYSTEM => $fsId,
             PortableElementFileStorage::OPTION_WEBSOURCE => $websource->getId()
         ));
 

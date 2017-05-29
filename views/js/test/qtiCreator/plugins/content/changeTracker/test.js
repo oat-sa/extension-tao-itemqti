@@ -37,8 +37,8 @@ define([
         QUnit.expect(3);
 
         assert.equal(typeof changeTrackerPlugin, 'function', 'The module exposes a function');
-        assert.equal(typeof changeTrackerPlugin(itemCreator), 'object', 'The factroy creates an object');
-        assert.notDeepEqual(changeTrackerPlugin(itemCreator), changeTrackerPlugin(itemCreator), 'The factroy creates an new object');
+        assert.equal(typeof changeTrackerPlugin(itemCreator), 'object', 'The factory creates an object');
+        assert.notDeepEqual(changeTrackerPlugin(itemCreator), changeTrackerPlugin(itemCreator), 'The factory creates an new object');
     });
 
     QUnit.test('plugin', function(assert){
@@ -281,6 +281,54 @@ define([
 
             $save.click();
 
+        }, 100);
+    });
+
+    QUnit.asyncTest('cancel on changes', function(assert){
+        var itemValue = 'foo';
+        var item = {
+            toArray: function toArray(){
+                return itemValue;
+            }
+        };
+        var itemCreator = creatorMock($('qunit-fixture'), {}, item);
+        var plugin;
+
+        QUnit.expect(4);
+
+        plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
+
+        plugin.init();
+
+        itemCreator.on('cancel', function(){
+            setTimeout(function(){
+                itemCreator.trigger('saved');
+            }, 10);
+        });
+
+        itemCreator.on('exit', function(){
+            assert.ok(true, 'exit called');
+
+            plugin.destroy();
+            QUnit.start();
+        });
+
+        itemValue = { noz : 'bar' };
+        itemCreator.trigger('exit');
+
+        setTimeout(function(){
+            var $dialog = $('.modal');
+            var $cancel     = $('.cancel', $dialog);
+            assert.equal($dialog.length, 1, 'The modal exists');
+            assert.ok($dialog.hasClass('opened'), 'The modal is opened');
+            assert.equal($cancel.length, 1, 'The cancel button exists');
+
+            $cancel.click();
+
+            setTimeout(function () {
+                assert.equal($('.modal').length, 0, 'The modal was cancelled');
+                QUnit.start();
+            }, 1000);
         }, 100);
     });
 
