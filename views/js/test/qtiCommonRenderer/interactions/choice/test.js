@@ -310,33 +310,48 @@ define([
     });
 
     QUnit.asyncTest('get eliminated choices state', function(assert){
-
         var $container = $('#' + fixtureContainerId);
-
-        assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
+        var $discovery, $challenger, $pathfinder, $atlantis, $endeavour;
+        var shuffled;
 
         //hack the item data to set the eliminable behaviour on
-        var shuffled = _.cloneDeep(choiceData);
+        shuffled = _.cloneDeep(choiceData);
         shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.class = 'eliminable';
 
         runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
 
-                assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
-                assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
+                $discovery  = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]');
+                $challenger = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Challenger]');
+                $pathfinder = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Pathfinder]');
+                $atlantis   = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Atlantis]');
+                $endeavour  = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Endeavour]');
 
-                //click to the eliminator of choices Discovery and Atlantis
-                $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery] [data-eliminable="trigger"]').click();
-                $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Atlantis] [data-eliminable="trigger"]').click();
+                // All choices start not eliminated
+                assert.ok(!$discovery.hasClass('eliminated'), 'Discovery starts not eliminated');
+                assert.ok(!$challenger.hasClass('eliminated'), 'Challenger starts not eliminated');
+                assert.ok(!$pathfinder.hasClass('eliminated'), 'Pathfinder starts not eliminated');
+                assert.ok(!$atlantis.hasClass('eliminated'), 'Atlantis starts not eliminated');
+                assert.ok(!$endeavour.hasClass('eliminated'), 'Endeavour starts not eliminated');
+
+                // click 'eliminate'
+                $discovery.find('[data-eliminable="trigger"').click();
+
+                // set 'eliminated' state manually
+                this.setState({
+                    RESPONSE: {
+                        response: { base: null },
+                        eliminated: ['Atlantis']
+                    }
+                });
 
                 _.delay(function(){
-                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]').hasClass('eliminated'), 'Discovery', 'Discovery has been eliminated');
-                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Challenger]').hasClass('eliminated'), 'Challenger', 'Challenger has not been eliminated');
-                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Pathfinder]').hasClass('eliminated'), 'Pathfinder', 'Pathfinder has not been eliminated');
-                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Atlantis]').hasClass('eliminated'), 'Atlantis', 'Atlantis has been eliminated');
-                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Endeavour]').hasClass('eliminated'), 'Endeavour', 'Endeavour has not been eliminated');
+                    assert.ok( $discovery.hasClass('eliminated'), 'Discovery', 'Discovery has been eliminated');
+                    assert.ok(!$challenger.hasClass('eliminated'), 'Challenger', 'Challenger has not been eliminated');
+                    assert.ok(!$pathfinder.hasClass('eliminated'), 'Pathfinder', 'Pathfinder has not been eliminated');
+                    assert.ok( $atlantis.hasClass('eliminated'), 'Atlantis', 'Atlantis has been eliminated');
+                    assert.ok(!$endeavour.hasClass('eliminated'), 'Endeavour', 'Endeavour has not been eliminated');
                     assert.deepEqual(self.getState().RESPONSE.eliminated, ['Discovery', 'Atlantis'], 'state is correct');
                     QUnit.start();
                 }, 100);
@@ -346,42 +361,44 @@ define([
     });
 
     QUnit.asyncTest('restores eliminated choices', function(assert){
-
+        // Note: toggling state via events makes for unruly state management (and thus this mess of a test)
+        var $eliminator;
+        var $choice;
         var $container = $('#' + fixtureContainerId);
-
-        assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
+        var shuffled;
 
         //hack the item data to set the eliminable behaviour on
-        var shuffled = _.cloneDeep(choiceData);
+        shuffled = _.cloneDeep(choiceData);
         shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.class = 'eliminable';
 
         runner = qtiItemRunner('qti', shuffled)
-            .on('render', function(){
-                var self = this;
+        .on('render', function () {
+            $choice = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]');
+            $eliminator = $choice.find('[data-eliminable="trigger"]');
 
-                assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
-                assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
+            // 1) is not eliminated
+            assert.ok(!$choice.hasClass('eliminated'), 'Discovery is not eliminated');
 
-                this.setState({
-                    RESPONSE : {
-                        response : { base : null },
-                        eliminated : ['Discovery', 'Atlantis']
-                    }
-                });
+            _.delay(function () {
+                // 2) is eliminated
+                assert.ok($choice.hasClass('eliminated'), 'Discovery has been eliminated');
 
-                _.delay(function(){
-                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]').hasClass('eliminated'), 'Discovery', 'Discovery has been eliminated');
-                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Challenger]').hasClass('eliminated'), 'Challenger', 'Challenger has not been eliminated');
-                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Pathfinder]').hasClass('eliminated'), 'Pathfinder', 'Pathfinder has not been eliminated');
-                    assert.ok($container.find('.qti-choiceInteraction .qti-choice[data-identifier=Atlantis]').hasClass('eliminated'), 'Atlantis', 'Atlantis has been eliminated');
-                    assert.ok(!$container.find('.qti-choiceInteraction .qti-choice[data-identifier=Endeavour]').hasClass('eliminated'), 'Endeavour', 'Endeavour has not been eliminated');
-                    assert.deepEqual(self.getState().RESPONSE.eliminated, ['Discovery', 'Atlantis'], 'state is correct');
+                _.delay(function () {
+                    // 3) is un-eliminated
+                    assert.ok(!$choice.hasClass('eliminated'), 'Discovery has been un-eliminated');
+
                     QUnit.start();
                 }, 100);
-            })
-            .init()
-            .render($container);
+
+                // 2 -> 3 - un-eliminates item
+                $eliminator.click();
+            }, 100);
+
+            // 1 -> 2 - eliminate item
+            $eliminator.click();
+        })
+        .init()
+        .render($container);
     });
 
     module('Visual Test');
