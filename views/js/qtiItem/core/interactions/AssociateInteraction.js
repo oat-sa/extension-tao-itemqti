@@ -18,13 +18,64 @@
  */
 define([
     'taoQtiItem/qtiItem/core/interactions/BlockInteraction',
-    'taoQtiItem/qtiItem/helper/maxScore'
-], function(BlockInteraction, maxScore){
+    'taoQtiItem/qtiItem/helper/maxScore',
+    'lodash'
+], function(BlockInteraction, maxScore, _){
     'use strict';
+    var calculatePossiblePairs0 = function(associateInteraction){
+        //get max number of pairs
+        var pairs = [];
+        var choices = _(associateInteraction.getChoices()).map(function(choice){
+            return {
+                matchMax : choice.attr('matchMax') === 0 ? Infinity : choice.attr('matchMax') || 0,
+                id: choice.id()
+            };
+        }).sortBy('matchMax').reverse().valueOf();
+
+        var i,j;
+
+        for(i=0; i < choices.length; i++){
+            for(j=i; j < choices.length; j++){
+                if(!choices[i].matchMax){
+                    break;
+                }
+                if(!choices[j].matchMax){
+                    continue;
+                }
+                pairs.push([choices[i].id, choices[j].id]);
+                choices[i].matchMax --;
+                choices[j].matchMax --;
+            }
+        }
+
+        return pairs;
+    };
+
+    var calculatePossiblePairs = function calculatePossiblePairs(associateInteraction){
+        //get max number of pairs
+        var pairs = [];
+        var choices = _(associateInteraction.getChoices()).map(function(choice){
+            return {
+                matchMax : choice.attr('matchMax') === 0 ? Infinity : choice.attr('matchMax') || 0,
+                id: choice.id()
+            };
+        }).sortBy('matchMax').reverse().valueOf();
+
+        var i,j;
+
+        for(i=0; i < choices.length; i++){
+            for(j=i; j < choices.length; j++){
+                pairs.push([choices[i].id, choices[j].id]);
+            }
+        }
+
+        return pairs;
+    };
+
     var AssociateInteraction = BlockInteraction.extend({
         qtiClass : 'associateInteraction',
         getNormalMaximum : function getNormalMaximum(){
-            return maxScore.associateInteractionBased(this);
+            return maxScore.associateInteractionBased(this, {possiblePairs: calculatePossiblePairs(this)});
         }
     });
     return AssociateInteraction;

@@ -34,6 +34,13 @@ define([
      */
     var _ignoreMinChoice = true;
 
+    var pairExists = function pairExists(collection, pair){
+        if(pair.length !== 2){
+            return false;
+        }
+        return (collection[pair[0]+' '+pair[1]] || collection[pair[1]+' '+pair[0]]);
+    };
+
     return {
         /**
          * Set the normal maximum to the item
@@ -243,14 +250,16 @@ define([
          * @param {Object} interaction - a standard interaction model object
          * @returns {Number}
          */
-        associateInteractionBased : function associateInteractionBased(interaction){
+        associateInteractionBased : function associateInteractionBased(interaction, options){
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var max;
             var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
             var minAssoc = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minAssociations')||0);
             var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
-            var requiredAssoc, totalAnswerableResponse, usedChoices, choicesIdentifiers, sortedMapEntries, i, missingMapsCount;
+            var requiredAssoc, totalAnswerableResponse, usedChoices, choicesIdentifiers, sortedMapEntries, i, allPossibleMapEntries;
+
+            options = _.defaults(options || {}, {possiblePairs : []});
 
             if(maxAssoc && minAssoc && maxAssoc < minAssoc){
                 return 0;
@@ -305,15 +314,24 @@ define([
                     return 0;
                 }
 
+                allPossibleMapEntries = _.clone(responseDeclaration.mapEntries);
+                if(mapDefault && mapDefault > 0){
+                    _.forEachRight(options.possiblePairs, function(pair){
+                        if(!pairExists(allPossibleMapEntries, pair)){
+                            allPossibleMapEntries[pair[0]+' '+pair[1]] = mapDefault;
+                        }
+                    });
+                }
+
                 //get the sorted list of mapentries ordered by the score
-                sortedMapEntries = _(responseDeclaration.mapEntries).map(function(score, pair){
+                sortedMapEntries = _(allPossibleMapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
                         pair : pair
                     };
                 }).sortBy('score').reverse().filter(function(mapEntry){
                     var pair = mapEntry.pair;
-                    var choices, choiceId, choice;
+                    var choices, choiceId, choice, _usedChoices;
 
                     if(!_.isString(pair)){
                         return false;
@@ -321,53 +339,40 @@ define([
 
                     choices = pair.trim().split(' ');
                     if(_.isArray(choices) && choices.length === 2){
+                        //clone the global used choices array to brings the changes in that object first before storing in the actual object
+                        _usedChoices = _.cloneDeep(usedChoices);
+
                         for(i = 0; i < 2; i++){
                             choiceId = choices[i];
 
                             //collect choices usage to check if the pair is possible
-                            if(!usedChoices[choiceId]){
+                            if(!_usedChoices[choiceId]){
                                 choice = interaction.getChoiceByIdentifier(choiceId);
                                 if(!choice){
-                                    //inexisting choice, skip
+                                    //unexisting choice, skip
                                     return false;
                                 }
-                                usedChoices[choiceId] = {
+                                _usedChoices[choiceId] = {
                                     used : 0,
                                     max: parseInt(choice.attr('matchMax'))
                                 };
                             }
-                            if(usedChoices[choiceId].max && usedChoices[choiceId].used === usedChoices[choiceId].max){
+                            if(_usedChoices[choiceId].max && _usedChoices[choiceId].used === _usedChoices[choiceId].max){
                                 //skip
                                 return false;
                             }else{
-                                usedChoices[choiceId].used ++;
+                                _usedChoices[choiceId].used ++;
                             }
                         }
 
+                        //update the global used choices array
+                        _.assign(usedChoices, _usedChoices);
                         return true;
                     }else{
                         //is not a correct response pair
                         return false;
                     }
                 }).first(totalAnswerableResponse);
-
-                //if there is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
-                missingMapsCount = minAssoc - sortedMapEntries.size();
-                for(i = 0; i < missingMapsCount;i++){
-                    sortedMapEntries.push({score:mapDefault});
-                }
-
-                //if the map default is positive, the optimal strategy involves using as much mapDefault as possible
-                if(mapDefault && mapDefault > 0){
-                    if(totalAnswerableResponse){
-                        missingMapsCount = totalAnswerableResponse - sortedMapEntries.size();
-                    }
-                    if(missingMapsCount > 0){
-                        for(i = 0; i < missingMapsCount;i++){
-                            sortedMapEntries.push({score:mapDefault});
-                        }
-                    }
-                }
 
                 //reduce the ordered list of map entries to calculate the max score
                 max = sortedMapEntries.reduce(function (acc, v) {
@@ -379,6 +384,18 @@ define([
                     requiredAssoc--;
                     return gamp.add(acc, score);
                 }, 0);
+
+                function countChoiceUsages(pairs){
+                    //count max usage:
+                    var usages = {};
+                    pairs.each(function(mapEntry){
+                        var elts = mapEntry.pair.split(' ');
+                        usages[elts[0]] = usages[elts[0]] ? usages[elts[0]] + 1 : 1;
+                        usages[elts[1]] = usages[elts[1]] ? usages[elts[1]] + 1 : 1;
+                    });
+                    return usages;
+                }
+                console.log(allPossibleMapEntries, sortedMapEntries, countChoiceUsages(sortedMapEntries));
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
