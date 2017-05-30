@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -498,6 +497,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.3.0');
         }
 
-        $this->skip('8.3.0', '8.4.4');
+        $this->skip('8.3.0', '8.4.5');
     }
 }
