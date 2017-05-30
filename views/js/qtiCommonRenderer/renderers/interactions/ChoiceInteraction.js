@@ -300,7 +300,7 @@ define([
         var $container = containerHelper.get(interaction);
 
         try{
-           _.forEach(pciResponse.unserialize(response, interaction), function(identifier){
+            _.forEach(pciResponse.unserialize(response, interaction), function(identifier){
                 var $input = $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
                 $input.closest('.qti-choice').toggleClass('user-selected', true);
             });
@@ -327,6 +327,16 @@ define([
     };
 
     /**
+     * Check if a choice interaction is choice-eliminable
+     *
+     * @param {Object} interaction
+     * @returns {boolean}
+     */
+    var isEliminable = function isEliminable(interaction){
+        return (/\beliminable\b/).test(interaction.attr('class'));
+    };
+
+    /**
      * Set additional data to the template (data that are not really part of the model).
      * @param {Object} interaction - the interaction
      * @param {Object} [data] - interaction custom data
@@ -339,16 +349,6 @@ define([
             listStyle: listStyles.pop(),
             eliminable: isEliminable(interaction)
         });
-    };
-
-    /**
-     * Check if a choice interaction is choice-eliminable
-     *
-     * @param {Object} interaction
-     * @returns {boolean}
-     */
-    var isEliminable = function isEliminable(interaction){
-        return (/\beliminable\b/).test(interaction.attr('class'));
     };
 
     /**
@@ -412,9 +412,9 @@ define([
 
             //restore eliminated choices
             if(isEliminable(interaction) && _.isArray(state.eliminated) && state.eliminated.length){
-               _.forEach(state.eliminated, function(identifier){
+                _.forEach(state.eliminated, function(identifier){
                     $container.find('.qti-simpleChoice[data-identifier=' + identifier + ']').addClass('eliminated');
-                })
+                });
             }
         }
     };
