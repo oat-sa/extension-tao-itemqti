@@ -3,9 +3,8 @@ define([
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
-    'json!taoQtiItem/test/samples/json/space-shuttle-m.json',
-    'core/promise'
-], function($, _, qtiItemRunner, choiceData, multipleChoiceData, Promise){
+    'json!taoQtiItem/test/samples/json/space-shuttle-m.json'
+], function ($, _, qtiItemRunner, choiceData, multipleChoiceData) {
     'use strict';
 
     var runner;
@@ -21,9 +20,9 @@ define([
     });
 
     QUnit.asyncTest('renders correclty', function(assert){
-        QUnit.expect(17);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(17);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
@@ -59,23 +58,22 @@ define([
 
 
     QUnit.asyncTest('enables to select a choice', function(assert){
-        QUnit.expect(8);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(8);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
+                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
+
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
-
-                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
                 assert.equal($discovery.length, 1, 'the Discovery choice exists');
 
                 $discovery.trigger('click');
-
             })
             .on('statechange', function(state){
                 assert.ok(typeof state === 'object', 'The state is an object');
@@ -89,30 +87,28 @@ define([
 
 
     QUnit.asyncTest('enables to select a unique choice', function(assert){
-        QUnit.expect(11);
-
         var $container = $('#' + fixtureContainerId);
         var changes = 0;
+
+        QUnit.expect(11);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
+                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
+                var $challenger = $('.qti-choice[data-identifier="Challenger"]', $container);
+
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
-
-                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
                 assert.equal($discovery.length, 1, 'the Discovery choice exists');
-
-                var $challenger = $('.qti-choice[data-identifier="Challenger"]', $container);
                 assert.equal($discovery.length, 1, 'the Challenger choice exists');
 
                 $discovery.trigger('click');
                 _.delay(function(){
                     $challenger.trigger('click');
                 }, 200);
-
             })
             .on('statechange', function(state){
                 if(++changes === 2){
@@ -133,26 +129,24 @@ define([
     });
 
     QUnit.asyncTest('enables to select multiple choices', function(assert){
-        QUnit.expect(11);
-
         var $container = $('#' + fixtureContainerId);
         var changes = 0;
+
+        QUnit.expect(11);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', multipleChoiceData)
             .on('render', function(){
+                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
+                var $challenger = $('.qti-choice[data-identifier="Challenger"]', $container);
+
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
-
                 assert.equal($container.find('.qti-choiceInteraction .instruction-container').length, 1, 'the interaction contains an instruction box');
                 assert.equal($container.find('.qti-choiceInteraction .instruction-container').children().length, 2, 'the interaction has 2 instructions');
-
-                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
                 assert.equal($discovery.length, 1, 'the Discovery choice exists');
-
-                var $challenger = $('.qti-choice[data-identifier="Challenger"]', $container);
                 assert.equal($discovery.length, 1, 'the Challenger choice exists');
 
                 $discovery.trigger('click');
@@ -174,9 +168,9 @@ define([
 
 
     QUnit.asyncTest('set the default response', function(assert){
-        QUnit.expect(4);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(4);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
@@ -197,28 +191,27 @@ define([
     });
 
     QUnit.asyncTest('destroys', function(assert){
-        QUnit.expect(5);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(5);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
+                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
+                var interaction = this._item.getInteractions()[0];
                 var self = this;
 
                 //call destroy manually
-                var interaction = this._item.getInteractions()[0];
                 interaction.renderer.destroy(interaction);
 
-                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
                 assert.equal($discovery.length, 1, 'the Discovery choice exists');
 
                 $discovery.trigger('click');
 
                 _.delay(function(){
-
                     assert.deepEqual(self.getState(), {'RESPONSE': { response : { base : null } } }, 'Click does not trigger response once destroyed');
                     assert.equal($container.find('.qti-choiceInteraction .instruction-container').children().length, 0, 'there is no instructions anymore');
 
@@ -230,34 +223,33 @@ define([
     });
 
     QUnit.asyncTest('resets the response', function(assert){
-        QUnit.expect(7);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(7);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
+                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
                 var self = this;
 
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
-
-                var $discovery = $('.qti-choice[data-identifier="Discovery"]', $container);
                 assert.equal($discovery.length, 1, 'the Discovery choice exists');
 
                 $discovery.trigger('click');
 
                 _.delay(function(){
+                    var interaction = self._item.getInteractions()[0];
+
                     assert.ok($('input', $discovery).prop('checked'), 'Discovery is now checked');
 
                     //call destroy manually
-                    var interaction = self._item.getInteractions()[0];
                     interaction.renderer.resetResponse(interaction);
 
                     _.delay(function(){
-
                         assert.ok( ! $('input', $discovery).prop('checked'), 'Discovery is not checked checked anymore');
 
                         QUnit.start();
@@ -269,21 +261,20 @@ define([
     });
 
     QUnit.asyncTest('restores order of shuffled choices', function(assert){
-        QUnit.expect(9);
-
         var $container = $('#' + fixtureContainerId);
+        var shuffled;
+
+        QUnit.expect(9);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         //hack the item data to set the shuffle attr to true
-        var shuffled = _.cloneDeep(choiceData);
+        shuffled = _.cloneDeep(choiceData);
         shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.shuffle = true;
 
         runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
-                var self = this;
-
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
 
@@ -404,16 +395,15 @@ define([
     module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
-        QUnit.expect(4);
-
         var $container = $('#' + outsideContainerId);
+
+        QUnit.expect(4);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         qtiItemRunner('qti', choiceData)
             .on('render', function(){
-
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
 
@@ -423,4 +413,3 @@ define([
             .render($container);
     });
 });
-
