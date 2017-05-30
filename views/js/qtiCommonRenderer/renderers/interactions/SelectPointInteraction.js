@@ -37,46 +37,63 @@ define([
 
     /**
      * Get the responses from the interaction
-     * @private
      * @param {Object} interaction
      * @returns {Array} of points
      */
     var getRawResponse = function getRawResponse(interaction){
-        var points = [];
-        interaction.paper.forEach(function(element){
-            var point = element.data('point');
-            if(typeof point === 'object' && point.x && point.y){
-                points.push([Math.round(point.x), Math.round(point.y)]);
-            }
-        });
-        return points;
+        if(interaction && interaction.paper && _.isArray(interaction.paper.points)){
+            return _.map(interaction.paper.points, function(point){
+                return [point.x, point.y];
+            });
+        }
+        return [];
     };
 
+    /**
+     * Add a new point to the interaction
+     * @param {Object} interaction
+     * @param {Object} point - the x/y point
+     */
     var addPoint = function addPoint(interaction, point){
-        var maxChoices      = interaction.attr('maxChoices');
-        var pointChange     = function pointChange(target){
-            if(interaction.isTouch && target && target.getBBox){
-                graphic.createTouchCircle(interaction.paper, target.getBBox());
-            }
+        var maxChoices = interaction.attr('maxChoices');
+
+        var pointChange = function pointChange(){
             containerHelper.triggerResponseChangeEvent(interaction);
-            instructionMgr.validateInstructions(interaction, { target : target });
+            instructionMgr.validateInstructions(interaction);
         };
 
         if(maxChoices > 0 && getRawResponse(interaction).length >= maxChoices){
             instructionMgr.validateInstructions(interaction);
         } else {
+
+            if(!_.isArray(interaction.paper.points)){
+                interaction.paper.points = [];
+            }
+
             graphic.createTarget(interaction.paper, {
                 point : point,
-                create : pointChange,
-                remove : pointChange
+                create : function create(target){
+                    if(interaction.isTouch && target && target.getBBox){
+                        graphic.createTouchCircle(interaction.paper, target.getBBox());
+                    }
+
+                    interaction.paper.points.push(point);
+
+                    pointChange();
+                },
+                remove : function remove(){
+
+                    _.remove(interaction.paper.points, point);
+
+                    pointChange();
+                }
             });
         }
     };
 
     /**
      * Make the image clickable and place targets at the given position.
-     * @private
-     * @param {object} interaction
+     * @param {Object} interaction
      */
     var enableSelection = function enableSelection(interaction){
         var $container      = containerHelper.get(interaction);
@@ -103,7 +120,7 @@ define([
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
      *
-     * @param {object} interaction
+     * @param {Object} interaction
      */
     var render = function render(interaction){
         var self = this;
@@ -152,27 +169,32 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
      *
-     * @param {object} interaction
-     * @param {object} response
+     * @param {Object} interaction
+     * @param {Object} response
      */
     var setResponse = function(interaction, response){
-
         var responseValues;
-        if(response && interaction.paper){
 
+        if(response && interaction.paper){
             try{
                 responseValues = pciResponse.unserialize(response, interaction);
-            } catch(e) {
+
+                if(interaction.getResponseDeclaration().attr('cardinality') === 'single'){
+                    responseValues = [responseValues];
+                }
+                _(responseValues)
+                    .filter(function(point){
+                        return _.isArray(point) && point.length === 2;
+                    })
+                    .forEach(function(point){
+                        addPoint(interaction, {
+                            x : point[0],
+                            y : point[1]
+                        });
+                    });
+            } catch (err) {
                 return;
             }
-
-            _(responseValues)
-                .filter(function(point){
-                    return _.isArray(point) && point.length === 2;
-                })
-                .forEach(function(point){
-                    addPoint(interaction, { x : point[0], y : point[1] });
-                });
         }
     };
 
@@ -187,18 +209,20 @@ define([
      *
      * Special value: the empty object value {} resets the interaction responses
      *
-     * @param {object} interaction
-     * @param {object} response
+     * @param {Object} interaction
      */
     var resetResponse = function resetResponse(interaction){
-        interaction.paper.forEach(function(element){
-            var point = element.data('point');
-            if(typeof point === 'object'){
-                graphic.trigger(element, 'click');
-            }
-        });
-    };
+        if(interaction && interaction.paper){
+            interaction.paper.points = [];
 
+            interaction.paper.forEach(function(element){
+                var point = element.data('point');
+                if(typeof point === 'object'){
+                    graphic.trigger(element, 'click');
+                }
+            });
+        }
+    };
 
     /**
      i* Return the response of the rendered interaction
@@ -209,8 +233,8 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
      *
-     * @param {object} interaction
-     * @returns {object}
+     * @param {Object} interaction
+     * @returns {Object} the response
      */
     var getResponse = function(interaction){
         return pciResponse.serialize(getRawResponse(interaction), interaction);
@@ -269,7 +293,6 @@ define([
         }
         return state;
     };
-
 
     /**
      * Expose the common renderer for the interaction
