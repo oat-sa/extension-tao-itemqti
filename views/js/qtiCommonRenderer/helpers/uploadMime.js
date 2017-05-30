@@ -16,11 +16,12 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 define([
+    'lodash',
     'i18n'
-], function (__) {
+], function (_, __) {
     "use strict";
 
-    return {
+    var uploadMime = {
         /**
          * @TODO these mime types are not up-to-date, in particular the MS ones
          * refer to http://filext.com/faq/office_mime_types.php
@@ -28,25 +29,25 @@ define([
          */
         getMimeTypes : function getMimeTypes() {
             return [
-                {"mime": "application/zip", "label": __("ZIP archive")},
+                {"mime": "application/zip", "label": __("ZIP archive"), equivalent:["application/x-zip-compressed"]},
                 {"mime": "text/plain", "label": __("Plain text")},
                 {"mime": "application/pdf", "label": __("PDF file")},
                 {"mime": "image/jpeg", "label": __("JPEG image")},
                 {"mime": "image/png", "label": __("PNG image")},
                 {"mime": "image/gif", "label": __("GIF image")},
                 {"mime": "image/svg+xml", "label": __("SVG image")},
-                {"mime": "application/ogg", "label": __("MPEG audio")},
+                {"mime": "audio/mpeg", "label": __("MPEG audio"), equivalent:["audio/mp3"]},
                 {"mime": "audio/x-ms-wma", "label": __("Windows Media audio")},
-                {"mime": "audio/x-wav", "label": __("WAV audio")},
+                {"mime": "audio/x-wav", "label": __("WAV audio"), equivalent:["audio/wav"]},
                 {"mime": "video/mpeg", "label": __("MPEG video")},
                 {"mime": "video/mp4", "label": __("MP4 video")},
                 {"mime": "video/quicktime", "label": __("Quicktime video")},
                 {"mime": "video/x-ms-wmv", "label": __("Windows Media video")},
                 {"mime": "video/x-flv", "label": __("Flash video")},
                 {"mime": "text/csv", "label": __("CSV file")},
-                {"mime": "application/msword", "label": __("Microsoft Word")},
-                {"mime": "application/vnd.ms-excel", "label": __("Microsoft Excel")},
-                {"mime": "application/vnd.ms-powerpoint", "label": __("Microsoft Powerpoint")}
+                {"mime": "application/msword", "label": __("Microsoft Word"), equivalent:["application/vnd.openxmlformats-officedocument.wordprocessingml.document"]},
+                {"mime": "application/vnd.ms-excel", "label": __("Microsoft Excel"), equivalent:["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]},
+                {"mime": "application/vnd.ms-powerpoint", "label": __("Microsoft Powerpoint"), equivalent:["application/vnd.openxmlformats-officedocument.presentationml.presentation"]}
             ];
         },
 
@@ -85,12 +86,15 @@ define([
          * It first get the standard "type" attribute value.
          * If not set search the TAO specific type information recorded in the class attributes,
          * qti 2.1 xsd indeed does not allow comma-separated multi mime type value for the attribute "type"
-         * @param interaction
+         * @param {Object} interaction - standard QTI interaction model object
+         * @param {Boolean} [includeEquivalents] - enable including all recognized as equivalent types
          * @returns {Array}
          */
-        getExpectedTypes : function getExpectedTypes(interaction) {
+        getExpectedTypes : function getExpectedTypes(interaction, includeEquivalents) {
             var classes = interaction.attr('class') || '';
             var types = [];
+            var mimes;
+            var equivalents = [];
             if (interaction.attr('type')) {
                 types.push(interaction.attr('type'));
             } else {
@@ -98,8 +102,21 @@ define([
                     types.push(type.replace('_', '/').trim());
                 });
             }
-            return types;
+
+            // add in equivalent mimetypes to the list of expected types
+            if(includeEquivalents === true){
+                mimes = uploadMime.getMimeTypes();
+                _.forEach(types, function(mime){
+                    var mimeData = _.find(mimes, {mime:mime});
+                    if(mimeData && _.isArray(mimeData.equivalent)){
+                        equivalents = _.union(equivalents, mimeData.equivalent);
+                    }
+                });
+            }
+
+            return _.union(types, equivalents);
         }
-    }
-        ;
+    };
+
+    return uploadMime;
 });
