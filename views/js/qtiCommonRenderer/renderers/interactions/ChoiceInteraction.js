@@ -57,7 +57,7 @@ define([
 
         $choiceBox.toggleClass('user-selected', state);
 
-        if($input[0].type === 'radio') {
+        if ($input[0] && $input[0].type === 'radio') {
             $choiceBox.siblings().filter('.user-selected').removeClass('user-selected');
         }
 
