@@ -26,6 +26,7 @@ use \core_kernel_classes_Resource;
 use oat\taoQtiItem\model\ItemModel;
 use \taoItems_models_classes_ItemsService;
 use SimpleXMLElement;
+use oat\taoQtiItem\model\qti\Service;
 
 class StyleService extends tao_models_classes_Service
 {
@@ -52,29 +53,33 @@ class StyleService extends tao_models_classes_Service
      * @param string $langCode
      * @return SimpleXMLElement
      */
-    private function getItemContent(core_kernel_classes_Resource $itemResource, $langCode = ''){
-        $itemService = taoItems_models_classes_ItemsService::singleton();
-        if($this->isQtiItem($itemResource)){
-            $itemContent = $itemService->getItemContent($itemResource, $langCode);
-            if(!empty($itemContent)){
+    private function getItemContent(core_kernel_classes_Resource $itemResource, $langCode = '')
+    {
+        if ($this->isQtiItem($itemResource)) {
+            $itemContent  = Service::singleton()
+                ->getDataItemByRdfItem($itemResource, $langCode)
+                ->toXML();
+            if (!empty($itemContent)) {
                 return simplexml_load_string($itemContent);
             }
         }
+
         return null;
     }
 
     /**
      * Set the item content for a qti item resource
-     * 
+     *
+     * @param SimpleXMLElement $content
      * @param core_kernel_classes_Resource $itemResource
-     * @param string $langCode
-     * @return SimpleXMLElement
+     * @return bool
      */
-    private function setItemContent(SimpleXMLElement $content, core_kernel_classes_Resource $itemResource, $langCode = ''){
-        $itemService = taoItems_models_classes_ItemsService::singleton();
-        if($this->isQtiItem($itemResource)){
-            return $itemService->setItemContent($itemResource, $content->asXML(), $langCode);
+    private function setItemContent(SimpleXMLElement $content, core_kernel_classes_Resource $itemResource)
+    {
+        if ($this->isQtiItem($itemResource)) {
+            return Service::singleton()->saveXmlItemToRdfItem($content->asXML(), $itemResource);
         }
+
         return false;
     }
     

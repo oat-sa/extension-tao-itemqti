@@ -21,6 +21,7 @@
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\qti\Service;
 
 /**
  * Update script for qti
@@ -46,25 +47,25 @@ class taoQTI_scripts_update_taoQtiUpdate extends tao_scripts_Runner
         }
     }
 
-    protected function convertQtiItem(core_kernel_classes_Resource $item){
-        
-        $itemService = taoItems_models_classes_ItemsService::singleton();
+    protected function convertQtiItem(core_kernel_classes_Resource $item)
+    {
         $itemContentProp = new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT);
         $usedLanguages = $item->getUsedLanguages($itemContentProp);
-        foreach($usedLanguages as $lang){
+        foreach ($usedLanguages as $lang) {
             $this->out('language:'.$lang);
-            $xmlString = $itemService->getItemContent($item, $lang);
-            if(empty($xmlString)){
-                   $this->out('no qti xml found');
-            }else{
+            $xmlString  = Service::singleton()
+                ->getDataItemByRdfItem($item, $lang)
+                ->toXML();
+            if (empty($xmlString)) {
+                $this->out('no qti xml found');
+            } else {
                 $qti = $this->convertQtiFromV2p0ToV2p1($xmlString);
-                if(empty($qti)){
+                if (empty($qti)) {
                     $this->out('fail');
-                }else{
+                } else {
                     $this->out('done');
                 }
             }
-            
         }
     }
 

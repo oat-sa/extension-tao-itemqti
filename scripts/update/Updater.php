@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
@@ -153,16 +154,6 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if($currentVersion == '2.7.7'){
 
-            $itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
-            $itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Theme FileSource', $itemThemesDataPath);
-
-            $websource = TokenWebSource::spawnWebsource($itemThemesDataPathFs);
-            ThemeRegistry::getRegistry()->setWebSource($websource->getId());
-
-            ThemeRegistry::getRegistry()->createTarget('items', 'taoQtiItem/views/css/qti-runner.css');
-            ThemeRegistry::getRegistry()->registerTheme('tao', 'TAO', 'taoQtiItem/views/css/themes/default.css', array('items'));
-            ThemeRegistry::getRegistry()->setDefaultTheme('items', 'tao');
-
         	$currentVersion = '2.7.8';
         }
 
@@ -224,8 +215,14 @@ class Updater extends \common_ext_ExtensionUpdater
                 )
             );
 
-            $fs = \taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
-            $itemUpdater = new ItemUpdateInlineFeedback($fs->getPath());
+            $dir = \taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
+
+            // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
+            $adapter = $dir->getFileSystem()->getAdapter();
+            if (!$adapter instanceof Local) {
+                throw new \Exception(__CLASS__.' can only handle local files');
+            }
+            $itemUpdater = new ItemUpdateInlineFeedback($adapter->getPathPrefix());
             $itemUpdater->update(true);
 
             $this->setVersion('2.14.0');
