@@ -98,6 +98,7 @@ define([
                         type: media.attr('type') || defaults.type,
                         canPause: $container.hasClass('pause'),
                         maxPlays: maxPlays,
+                        canSeek: !maxPlays,
                         width: media.attr('width'),
                         height: media.attr('height'),
                         volume: 100,
