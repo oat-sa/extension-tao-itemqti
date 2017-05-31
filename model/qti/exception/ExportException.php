@@ -39,6 +39,7 @@ class ExportException
 
     public function __construct($itemLabel, $message = ""){
         parent::__construct($message);
+        $this->message = $message;
         $this->itemLabel = $itemLabel;
     }
 
@@ -51,8 +52,6 @@ class ExportException
         if($this->itemLabel === ''){
             return __('An error occured while exporting an item.');
         }
-        return __('An error occured while exporting the item %s.', $this->itemLabel);
+        return __('Export failed for the item "%s": %s', $this->itemLabel, $this->message);
     }
-} 
-
-?>
+}
