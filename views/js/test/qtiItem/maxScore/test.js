@@ -250,7 +250,6 @@ define([
             maxScore.setNormalMaximum(item);
             assert.equal(outcomeScore.attr('normalMaximum'), settings.expectedMaximum, 'calculated normalMaximum is correct');
 
-            return;
             maxScore.setMaxScore(item);
             if(!_.isUndefined(settings.maxScore)){
                 QUnit.expect(5);
