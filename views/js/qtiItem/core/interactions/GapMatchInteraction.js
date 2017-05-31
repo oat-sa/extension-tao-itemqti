@@ -18,8 +18,7 @@
  */
 define([
     'taoQtiItem/qtiItem/core/interactions/ContainerInteraction',
-    'taoQtiItem/qtiItem/helper/maxScore',
-    'lodash'
+    'taoQtiItem/qtiItem/helper/maxScore'
 ], function(ContainerInteraction, maxScore){
     'use strict';
     var GapMatchInteraction = ContainerInteraction.extend({

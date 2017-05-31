@@ -57,7 +57,9 @@ define([
     'json!taoQtiItem/test/qtiItem/maxScore/data/graphic-gap-correct.json',
     'json!taoQtiItem/test/qtiItem/maxScore/data/graphic-gap-map.json',
     'json!taoQtiItem/test/qtiItem/maxScore/data/associate-matchmax.json',
-    'json!taoQtiItem/test/qtiItem/maxScore/data/match-matchmax.json'
+    'json!taoQtiItem/test/qtiItem/maxScore/data/match-matchmax.json',
+    'json!taoQtiItem/test/qtiItem/maxScore/data/gapmatch-matchmax.json',
+    'json!taoQtiItem/test/qtiItem/maxScore/data/graphic-associate-matchmax.json'
 ], function (
     _,
     Element,
@@ -100,7 +102,9 @@ define([
     dataGraphicGapCorrect,
     dataGraphicGapMap,
     dataAssociateMatchmax,
-    dataMatchMatchmax
+    dataMatchMatchmax,
+    dataGapMatchMatchmax,
+    dataGraphicAssocMatchmax
 ){
     'use strict';
 
@@ -217,7 +221,9 @@ define([
             delete data.responses.responsedeclaration_592c14d47a3b5383510187.mapping['choice_3 choice_5'];
             return data;
         }},
-        { title : 'associate - match max - favorable mapping', data : dataMatchMatchmax, expectedMaximum: 17, maxScore: 17},
+        { title : 'match - match max - favorable mapping', data : dataMatchMatchmax, expectedMaximum: 17, maxScore: 17},
+        { title : 'gap match - match max - favorable mapping', data : dataGapMatchMatchmax, expectedMaximum: 4, maxScore: 4},
+        { title : 'gap association - match max - favorable mapping', data : dataGraphicAssocMatchmax, expectedMaximum: 5, maxScore: 5}
     ];
 
     QUnit

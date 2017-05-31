@@ -18,13 +18,36 @@
  */
 define([
     'taoQtiItem/qtiItem/core/interactions/GraphicInteraction',
-    'taoQtiItem/qtiItem/helper/maxScore'
-], function(GraphicInteraction, maxScore){
+    'taoQtiItem/qtiItem/helper/maxScore',
+    'lodash'
+], function(GraphicInteraction, maxScore, _){
     'use strict';
     var GraphicAssociateInteraction = GraphicInteraction.extend({
         qtiClass : 'graphicAssociateInteraction',
         getNormalMaximum : function getNormalMaximum(){
-            return maxScore.associateInteractionBased(this);
+            var calculatePossiblePairs = function calculatePossiblePairs(associateInteraction){
+                //get max number of pairs
+                var pairs = [];
+                var choices = _(associateInteraction.getChoices()).map(function(choice){
+                    return {
+                        matchMax : choice.attr('matchMax') === 0 ? Infinity : choice.attr('matchMax') || 0,
+                        id: choice.id()
+                    };
+                }).sortBy('matchMax').reverse().valueOf();
+
+                var i,j;
+
+                for(i=0; i < choices.length; i++){
+                    for(j=i; j < choices.length; j++){
+                        if(i !== j){
+                            pairs.push([choices[i].id, choices[j].id]);
+                        }
+                    }
+                }
+
+                return pairs;
+            };
+            return maxScore.associateInteractionBased(this, {possiblePairs: calculatePossiblePairs(this)});
         }
     });
     return GraphicAssociateInteraction;

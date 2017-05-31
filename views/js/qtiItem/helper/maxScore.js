@@ -395,7 +395,7 @@ define([
                     });
                     return usages;
                 }
-                console.log(allPossibleMapEntries, sortedMapEntries, countChoiceUsages(sortedMapEntries));
+                //console.log(allPossibleMapEntries, sortedMapEntries, countChoiceUsages(sortedMapEntries));
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
@@ -417,7 +417,30 @@ define([
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var maxAssoc = 0;
             var minAssoc = 0;
-            var max, skippableWrongResponse, totalAnswerableResponse, usedChoices, usedGaps, group1, group2;
+            var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
+            var max, skippableWrongResponse, totalAnswerableResponse, usedChoices, usedGaps, group1, group2, allPossibleMapEntries;
+            var getMatchMaxOrderedChoices = function getMatchMaxOrderedChoices(choiceCollection){
+                return _(choiceCollection).map(function(choice){
+                    return {
+                        matchMax : choice.attr('matchMax') === 0 ? Infinity : choice.attr('matchMax') || 0,
+                        id: choice.id()
+                    };
+                }).sortBy('matchMax').reverse().valueOf();
+            };
+            var calculatePossiblePairs = function calculatePossiblePairs(gapMatchInteraction){
+                //get max number of pairs
+                var pairs = [];
+                var matchSet1 = getMatchMaxOrderedChoices(gapMatchInteraction.getChoices());
+                var matchSet2 = getMatchMaxOrderedChoices(gapMatchInteraction.getGaps());
+
+                _.forEach(matchSet1, function(choice1){
+                    _.forEach(matchSet2, function(choice2){
+                        pairs.push([choice1.id, choice2.id]);
+                    });
+                });
+
+                return pairs;
+            };
 
             if (template === 'MATCH_CORRECT') {
                 if(!responseDeclaration.correctResponse || (_.isArray(responseDeclaration.correctResponse) && !responseDeclaration.correctResponse.length)){
@@ -468,7 +491,16 @@ define([
                     return 0;
                 }
 
-                max = _(responseDeclaration.mapEntries).map(function(score, pair){
+                allPossibleMapEntries = _.clone(responseDeclaration.mapEntries);
+                if(mapDefault && mapDefault > 0){
+                    _.forEachRight(calculatePossiblePairs(interaction), function(pair){
+                        if(!pairExists(allPossibleMapEntries, pair)){
+                            allPossibleMapEntries[pair[0]+' '+pair[1]] = mapDefault;
+                        }
+                    });
+                }
+
+                max = _(allPossibleMapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
                         pair : pair
