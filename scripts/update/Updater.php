@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
