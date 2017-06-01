@@ -500,13 +500,14 @@ define([
                     });
                 }
 
-                max = _(allPossibleMapEntries).map(function(score, pair){
+                var sortedMaps = _(allPossibleMapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
                         pair : pair
                     };
                 }).sortBy('score').reverse().filter(function(mapEntry){
                     var pair = mapEntry.pair;
+                    var _usedChoices = _.cloneDeep(usedChoices);
                     var choices, choiceId, gapId, choice;
 
                     if(!_.isString(pair)){
@@ -517,22 +518,22 @@ define([
                     if(_.isArray(choices) && choices.length === 2){
                         choiceId = choices[0];
                         gapId = choices[1];
-                        if(!usedChoices[choiceId]){
+                        if(!_usedChoices[choiceId]){
                             choice = interaction.getChoiceByIdentifier(choiceId);
                             if(!choice){
                                 //inexisting choice, skip
                                 return false;
                             }
-                            usedChoices[choiceId] = {
+                            _usedChoices[choiceId] = {
                                 used : 0,
                                 max: parseInt(choice.attr('matchMax'))
                             };
                         }
-                        if(usedChoices[choiceId].max && usedChoices[choiceId].used === usedChoices[choiceId].max){
+                        if(_usedChoices[choiceId].max && _usedChoices[choiceId].used === _usedChoices[choiceId].max){
                             //skip
                             return false;
                         }
-                        usedChoices[choiceId].used ++;
+                        _usedChoices[choiceId].used ++;
 
                         if(!usedGaps[gapId]){
                             usedGaps[gapId] = {
@@ -546,12 +547,16 @@ define([
                         }
                         usedGaps[gapId].used ++;
 
+                        //if an only if it is ok, we merge the temporary used choices array into the global one
+                        _.assign(usedChoices, _usedChoices);
                         return true;
                     }else{
                         //is not a correct response pair
                         return false;
                     }
-                }).first(totalAnswerableResponse).reduce(function (acc, v) {
+                }).first(totalAnswerableResponse);
+
+                max = sortedMaps.reduce(function (acc, v) {
                     var score = v.score;
                     if (score >= 0) {
                         return acc + score;
@@ -562,6 +567,8 @@ define([
                         return acc + score;
                     }
                 }, 0);
+
+                //console.log(usedChoices, allPossibleMapEntries, sortedMaps);
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {

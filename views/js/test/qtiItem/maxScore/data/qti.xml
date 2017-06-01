@@ -4,33 +4,39 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:m="http://www.w3.org/1998/Math/MathML"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
-        identifier="i14962231775235198" title="graphic assoc" adaptive="false" timeDependent="false">
-    <responseDeclaration baseType="pair" cardinality="multiple" identifier="RESPONSE">
-        <correctResponse>
-            <value>
-                <![CDATA[associablehotspot_1 associablehotspot_2]]>
-            </value>
-        </correctResponse>
+        identifier="i1496326012103773" title="Item 12" adaptive="false" timeDependent="false">
+    <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE">
         <mapping defaultValue="2">
-            <mapEntry mapKey="associablehotspot_1 associablehotspot_2" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="choice_2 gap_1" mappedValue="2" caseSensitive="false"/>
+            <mapEntry mapKey="choice_3 gap_2" mappedValue="2" caseSensitive="false"/>
+            <mapEntry mapKey="choice_4 gap_3" mappedValue="2" caseSensitive="false"/>
         </mapping>
     </responseDeclaration>
-    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE" normalMaximum="11"/>
+    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE" normalMaximum="4"/>
     <outcomeDeclaration cardinality="single" baseType="float" identifier="MAXSCORE">
         <defaultValue>
-            <value>11</value>
+            <value>4</value>
         </defaultValue>
     </outcomeDeclaration>
+    <stylesheet href="style/custom/tao-user-styles.css" title="" type="text/css" media="all" />
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <graphicAssociateInteraction maxAssociations="0" class="responsive" responseIdentifier="RESPONSE">
+                <gapMatchInteraction shuffle="false" responseIdentifier="RESPONSE">
                     <prompt  />
-                    <object width="428" height="276" type="image/gif" data="taomedia://mediamanager/http_2_tao_0_local_1_mytao_0_rdf_3_i14962232291474201" />
-                    <associableHotspot matchMax="0" matchMin="0" shape="circle" coords="67,45,5" identifier="associablehotspot_1" />
-                    <associableHotspot matchMax="0" matchMin="0" shape="circle" coords="129,100,5" identifier="associablehotspot_2" />
-                    <associableHotspot matchMax="0" matchMin="0" shape="circle" coords="332,89,25" identifier="associablehotspot_3" />
-                </graphicAssociateInteraction>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_2">ipsum</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_3">amet</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_4">adipisicing</gapText>
+                    <p>Lorem
+
+                        <gap required="false" identifier="gap_1" /> dolor sit
+
+                        <gap required="false" identifier="gap_2" />, consectetur
+
+                        <gap required="false" identifier="gap_3" /> ...
+
+                    </p>
+                </gapMatchInteraction>
             </div>
         </div>
     </itemBody>
