@@ -126,6 +126,20 @@ define([
         },
 
         /**
+         * Sort an array of associable choices by its matchMax attr value
+         * @param {Array} choiceCollection
+         * @returns {Array}
+         */
+        getMatchMaxOrderedChoices : function getMatchMaxOrderedChoices(choiceCollection){
+            return _(choiceCollection).map(function(choice){
+                return {
+                    matchMax : choice.attr('matchMax') === 0 ? Infinity : choice.attr('matchMax') || 0,
+                    id: choice.id()
+                };
+            }).sortBy('matchMax').reverse().valueOf();
+        },
+
+        /**
          * Compute the maximum score of a "choice" typed interaction
          * @param {Object} interaction - a standard interaction model object
          * @returns {Number}

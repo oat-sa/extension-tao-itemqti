@@ -149,19 +149,11 @@ define([
             return arr;
         },
         getNormalMaximum : function getNormalMaximum(){
-            var getMatchMaxOrderedChoices = function getMatchMaxOrderedChoices(choiceCollection){
-                return _(choiceCollection).map(function(choice){
-                    return {
-                        matchMax : choice.attr('matchMax') === 0 ? Infinity : choice.attr('matchMax') || 0,
-                        id: choice.id()
-                    };
-                }).sortBy('matchMax').reverse().valueOf();
-            };
             var calculatePossiblePairs = function calculatePossiblePairs(matchInteraction){
                 //get max number of pairs
                 var pairs = [];
-                var matchSet1 = getMatchMaxOrderedChoices(matchInteraction.getChoices(0));
-                var matchSet2 = getMatchMaxOrderedChoices(matchInteraction.getChoices(1));
+                var matchSet1 = maxScore.getMatchMaxOrderedChoices(matchInteraction.getChoices(0));
+                var matchSet2 = maxScore.getMatchMaxOrderedChoices(matchInteraction.getChoices(1));
 
                 _.forEach(matchSet1, function(choice1){
                     _.forEach(matchSet2, function(choice2){
@@ -171,7 +163,7 @@ define([
 
                 return pairs;
             };
-            return maxScore.associateInteractionBased(this, {possiblePairs:calculatePossiblePairs(this)});
+            return maxScore.associateInteractionBased(this, {possiblePairs : calculatePossiblePairs(this)});
         }
     });
 
