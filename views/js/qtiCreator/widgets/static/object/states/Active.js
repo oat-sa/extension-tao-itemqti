@@ -167,11 +167,6 @@ define([
         //if empty, open file manager immediately
         if(!$src.val()){
             _openResourceMgr();
-
-            //if empty, open file manager immediately
-            if(!$src.val()){
-                _openResourceMgr();
-            }
         }
     };
 
