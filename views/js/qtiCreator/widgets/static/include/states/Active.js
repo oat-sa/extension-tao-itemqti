@@ -25,10 +25,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
-    'taoQtiItem/qtiCreator/widgets/helpers/deleter',
     'ui/resourcemgr',
     'ui/tooltip'
-], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, widgetDeleter){
+], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer){
     'use strict';
 
     var IncludeStateActive = stateFactory.extend(Active, function(){
@@ -120,16 +119,6 @@ define([
         //if empty, open file manager immediately
         if(!$href.val()){
             _openResourceMgr();
-
-            return;
-            //if no file has been selected, remove the widget
-            $uploadTrigger.on('close.resourcemgr', function(){
-                var data = $href.val();
-                if(!data){
-                    widget.changeState('sleep');
-                    widgetDeleter(widget).deleteElement();
-                }
-            });
         }
 
     };

@@ -28,11 +28,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/helpers/deleter',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'ui/resourcemgr',
     'ui/tooltip'
-], function($, _, __, stateFactory, Question, formElement, widgetDeleter, formTpl){
+], function($, _, __, stateFactory, Question, formElement, formTpl){
     'use strict';
 
     var initQuestionState = function initQuestionState(){
@@ -156,16 +155,6 @@ define([
             //if empty, open file manager immediately
             if(!$src.val()){
                 openResourceMgr();
-
-                return;
-                //if no file has been selected, remove the widget
-                $uploadTrigger.on('close.resourcemgr', function(){
-                    var data = $src.val();
-                    if(!data){
-                        widget.changeState('sleep');
-                        widgetDeleter(widget).deleteElement();
-                    }
-                });
             }
         };
 

@@ -6,7 +6,6 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
-    'taoQtiItem/qtiCreator/widgets/helpers/deleter',
     'taoQtiItem/qtiItem/helper/util',
     'lodash',
     'util/image',
@@ -14,7 +13,7 @@ define([
     'ui/resourcemgr',
     'nouislider',
     'ui/tooltip'
-], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, widgetDeleter, itemUtil, _, imageUtil){
+], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
     'use strict';
 
     var ImgStateActive = stateFactory.extend(Active, function(){
@@ -292,16 +291,6 @@ define([
         //if empty, open file manager immediately
         if(!$src.val()){
             _openResourceMgr();
-
-            return;
-            //if no file has been selected, remove the widget
-            $uploadTrigger.on('close.resourcemgr', function(){
-                var data = $src.val();
-                if(!data){
-                    widget.changeState('sleep');
-                    widgetDeleter(widget).deleteElement();
-                }
-            });
         }
 
     };

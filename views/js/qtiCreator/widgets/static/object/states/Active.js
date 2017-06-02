@@ -25,11 +25,10 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/object',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
-    'taoQtiItem/qtiCreator/widgets/helpers/deleter',
     'ui/previewer',
     'ui/resourcemgr',
     'ui/tooltip'
-], function(_, $, __, stateFactory, Active, formTpl, formElement, inlineHelper, widgetDeleter){
+], function(_, $, __, stateFactory, Active, formTpl, formElement, inlineHelper){
     'use strict';
 
     var _config = {
@@ -172,16 +171,6 @@ define([
             //if empty, open file manager immediately
             if(!$src.val()){
                 _openResourceMgr();
-
-                return;
-                //if no file has been selected, remove the widget
-                $uploadTrigger.on('close.resourcemgr', function(){
-                    var data = $src.val();
-                    if(!data){
-                        widget.changeState('sleep');
-                        widgetDeleter(widget).deleteElement();
-                    }
-                });
             }
         }
     };
