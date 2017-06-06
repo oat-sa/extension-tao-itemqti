@@ -50,13 +50,8 @@ define([
             var normalMaximum,
                 scoreOutcome = item.getOutcomeDeclaration('SCORE');
 
-            if(!scoreOutcome){
-                //invalid QTI item with missing mandatory SCORE outcome
-                throw Error('no score outcome found');
-            }
-
             //try setting the computed normal maximum only if the processing type is known, i.e. 'templateDriven'
-            if (item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
+            if (scoreOutcome && item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
                 normalMaximum = _.reduce(item.getInteractions(), function (acc, interaction) {
                     var interactionMaxScore = interaction.getNormalMaximum();
                     if(_.isNumber(interactionMaxScore)){
