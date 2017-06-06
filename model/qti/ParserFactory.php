@@ -541,9 +541,12 @@ class ParserFactory
         //warning: extract the response processing at the latest to make oat\taoQtiItem\model\qti\response\TemplatesDriven::takeOverFrom() work
         $rpNodes = $this->queryXPath("*[name(.) = 'responseProcessing']", $data);
         if($rpNodes->length === 0){
-            common_Logger::i('No responseProcessing found for QTI Item, setting empty custom', array('QTI', 'TAOITEMS'));
-            $customrp = new Custom(array(), '<responseProcessing/>');
-            $this->item->setResponseProcessing($customrp);
+            $rProcessing = new TemplatesDriven();
+            $rProcessing->setRelatedItem($this->item);
+            foreach($this->item->getInteractions() as $interaction){
+                $rProcessing->setTemplate($interaction->getResponse(), Template::NONE);
+            }
+            $this->item->setResponseProcessing($rProcessing);
         }else{
             $rpNode = $rpNodes->item(0); //the node should be alone
             $rProcessing = $this->buildResponseProcessing($rpNode, $this->item);
@@ -551,7 +554,7 @@ class ParserFactory
                 $this->item->setResponseProcessing($rProcessing);
             }
         }
-        
+
         $this->buildApipAccessibility($data);
         
         return $this->item;
@@ -973,6 +976,8 @@ class ParserFactory
         }catch(UnexpectedResponseProcessing $e){
 
         }
+        common_Logger::w(__LINE__);
+
         //try templatedriven
         if(is_null($returnValue)){
             try{
@@ -1213,7 +1218,11 @@ class ParserFactory
         $simpleFeedbackRules = array();
         $data = simplexml_import_dom($data);
 
+        common_Logger::w($data->asXML());
+
         foreach($data as $responseRule){
+
+
 
             $feedbackRule = null;
             $subtree = new SimpleXMLElement($responseRule->asXML());
@@ -1303,14 +1312,14 @@ class ParserFactory
             }
         }
 
-        // drop rules that don't have a corresponding response identifier
-        if(count(array_diff($responseIdentifiers, array_keys($rules))) > 0){
+        //all rules must have been previously identified as belong to one interaction
+        if(count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
             throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
         }
         
         $templatesDrivenRP = new TemplatesDriven();
         foreach($interactions as $interaction){
-            $pattern = $rules[$interaction->getResponse()->getIdentifier()];
+            $pattern = isset($rules[$interaction->getResponse()->getIdentifier()]) ? $rules[$interaction->getResponse()->getIdentifier()] : Template::NONE;
             $templatesDrivenRP->setTemplate($interaction->getResponse(), $pattern);
         }
         $templatesDrivenRP->setRelatedItem($this->item);
