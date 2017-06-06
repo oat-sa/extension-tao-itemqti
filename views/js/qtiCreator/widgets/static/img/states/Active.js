@@ -14,6 +14,7 @@ define([
     'nouislider',
     'ui/tooltip'
 ], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
+    'use strict';
 
     var ImgStateActive = stateFactory.extend(Active, function(){
 
@@ -217,6 +218,7 @@ define([
                         
                         file = files[0].file;
                         alt = files[0].alt;
+                        $src.val(file);
 
                         imageUtil.getSize(options.baseUrl + file, function(size){
 
@@ -266,7 +268,7 @@ define([
                             }
 
                             _.defer(function(){
-                                $src.val(file).trigger('change');
+                                $src.trigger('change');
                             });
                         });
                     }

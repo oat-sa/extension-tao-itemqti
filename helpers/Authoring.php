@@ -62,6 +62,38 @@ class Authoring
     }
 
     /**
+     * Simple function to check if the item is not missing any of the required asset configuration path
+     * @param string $qti
+     * @throws QtiModelException
+     * @throws common_exception_Error
+     */
+    public static function checkEmptyMedia($qti){
+        $doc = new DOMDocument();
+        $doc->loadHTML(self::loadQtiXml($qti)->saveXML());
+
+        $imgs = $doc->getElementsByTagName('img');
+        foreach ($imgs as $img) {
+            if(empty($img->getAttribute('src'))){
+                throw new QtiModelException('image has no source');
+            }
+        }
+
+        $objects = $doc->getElementsByTagName('object');
+        foreach ($objects as $object) {
+            if(empty($object->getAttribute('data'))){
+                throw new QtiModelException('object has no data source');
+            }
+        }
+
+        $objects = $doc->getElementsByTagName('include');
+        foreach ($objects as $object) {
+            if(empty($object->getAttribute('href'))){
+                throw new QtiModelException('object has no data source');
+            }
+        }
+    }
+
+    /**
      * Add a list of required resources files to an RDF item and keeps the relative path structure
      * For instances, required css, js etc.
      * 
