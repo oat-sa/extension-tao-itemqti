@@ -162,6 +162,7 @@ class QtiCreator extends tao_actions_CommonModule
             //check if the item is QTI item
             if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
                 try {
+                    Authoring::checkEmptyMedia($xml);
                     $returnValue['success'] = $itemService->saveXmlItemToRdfItem($xml, $rdfItem);
                 } catch (QtiModelException $e) {
                     $returnValue = array(
