@@ -41,18 +41,19 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
         }
 
         $fsId = 'portableElementStorage';
+        /** @var FileSystemService $fsm */
         $fsm = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsm->createFileSystem($fsId, 'portableElement');
-
-        $websource = ActionWebSource::spawnWebsource($fsId);
+        if (! $fsm->hasDirectory('portableElement')) {
+            $fsm->createFileSystem($fsId, 'portableElement');
+            $this->registerService(FileSystemService::SERVICE_ID, $fsm);
+        }
 
         $portableElementStorage = new PortableElementFileStorage(array(
             PortableElementFileStorage::OPTION_FILESYSTEM => $fsId,
-            PortableElementFileStorage::OPTION_WEBSOURCE => $websource->getId()
+            PortableElementFileStorage::OPTION_WEBSOURCE => ActionWebSource::spawnWebsource($fsId)->getId()
         ));
 
         $this->getServiceManager()->register(PortableElementFileStorage::SERVICE_ID, $portableElementStorage);
-        $this->getServiceLocator()->register(FileSystemService::SERVICE_ID, $fsm);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Portable file storage registered.');
     }

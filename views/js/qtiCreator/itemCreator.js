@@ -192,29 +192,25 @@ define([
                 //performs the loadings in parallel
                 Promise.all([
                     loadCustomInteractions(),
-                    loadInfoControls(),
-                    loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
-                ]).then(function(results){
-
-                    if(_.isArray(results) && results.length === 3){
-
-                        if(! _.isObject(results[2])){
-                            self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
-                            return;
-                        }
-                        self.item = results[2];
-
-                        //initialize all the plugins
-                        return pluginRun('init').then(function(){
-
-                            /**
-                             * @event itemCreator#init the initialization is done
-                             * @param {Object} item - the loaded item
-                             */
-                            self.trigger('init', self.item);
-                        });
-
+                    loadInfoControls()
+                ]).then(function(){
+                    return loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl);
+                }).then(function(item){
+                    if(! _.isObject(item)){
+                        self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
+                        return;
                     }
+                    self.item = item;
+
+                    //initialize all the plugins
+                    return pluginRun('init').then(function(){
+
+                        /**
+                         * @event itemCreator#init the initialization is done
+                         * @param {Object} item - the loaded item
+                         */
+                        self.trigger('init', self.item);
+                    });
                 }).catch(function(err){
                     self.trigger('error', err);
                 });
