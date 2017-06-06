@@ -96,6 +96,12 @@ define([
         getOutcomes : function getOutcomes(){
             return _.clone(this.outcomes);
         },
+        removeOutcome : function removeOutcome(identifier){
+            var outcome = this.getOutcomeDeclaration(identifier);
+            if(outcome){
+                this.outcomes = _.omit(this.outcomes, outcome.getSerial());
+            }
+        },
         addModalFeedback : function addModalFeedback(feedback){
             if(Element.isA(feedback, 'modalFeedback')){
                 feedback.setRelatedItem(this);

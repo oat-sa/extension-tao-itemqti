@@ -21,8 +21,9 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig',
-    'taoQtiItem/qtiItem/helper/maxScore'
-], function(GraphicInteraction, Element, _, rendererConfig, maxScore){
+    'taoQtiItem/qtiItem/helper/maxScore',
+    'taoQtiItem/qtiItem/helper/response'
+], function(GraphicInteraction, Element, _, rendererConfig, maxScore, responseHelper){
     'use strict';
 
     var GraphicGapMatchInteraction = GraphicInteraction.extend({
@@ -109,12 +110,10 @@ define([
             return arr;
         },
         getNormalMaximum : function getNormalMaximum(){
-            //case of infinit score
-            var calculatePossiblePairs = function calculatePossiblePairs(matchInteraction){
-                //get max number of pairs
+            var calculatePossiblePairs = function calculatePossiblePairs(graphicGapInteraction){
                 var pairs = [];
-                var matchSet1 = maxScore.getMatchMaxOrderedChoices(matchInteraction.getGapImgs());
-                var matchSet2 = maxScore.getMatchMaxOrderedChoices(matchInteraction.getChoices());
+                var matchSet1 = maxScore.getMatchMaxOrderedChoices(graphicGapInteraction.getGapImgs());
+                var matchSet2 = maxScore.getMatchMaxOrderedChoices(graphicGapInteraction.getChoices());
 
                 _.forEach(matchSet1, function(choice1){
                     _.forEach(matchSet2, function(choice2){
@@ -124,7 +123,7 @@ define([
 
                 return pairs;
             };
-            return maxScore.associateInteractionBased(this, {possiblePairs : calculatePossiblePairs(this)});
+            return maxScore.associateInteractionBased(this, {possiblePairs : calculatePossiblePairs(this), checkInfinitePair : true});
         }
     });
 

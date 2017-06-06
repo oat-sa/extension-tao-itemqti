@@ -171,7 +171,7 @@
                             "identifier": "gapimg_1",
                             "fixed": false,
                             "matchMin": "0",
-                            "matchMax": "1"
+                            "matchMax": "0"
                         },
                         "debug": {
                             "relatedItem": "item_58ff0ef0ebda1332345043"
@@ -198,7 +198,7 @@
                             "identifier": "gapimg_2",
                             "fixed": false,
                             "matchMin": "0",
-                            "matchMax": "1"
+                            "matchMax": "0"
                         },
                         "debug": {
                             "relatedItem": "item_58ff0ef0ebda1332345043"
@@ -225,7 +225,7 @@
                             "identifier": "gapimg_3",
                             "fixed": false,
                             "matchMin": "0",
-                            "matchMax": "1"
+                            "matchMax": "0"
                         },
                         "debug": {
                             "relatedItem": "item_58ff0ef0ebda1332345043"
@@ -321,7 +321,7 @@
                 "\n                gapimg_3 associablehotspot_7\n            "
             ],
             "mappingAttributes": {
-                "defaultValue": 0
+                "defaultValue": 1
             },
             "feedbackRules": {}
         }

@@ -121,6 +121,9 @@ define([
                         maxScoreOutcome.buildIdentifier('MAXSCORE', false);
                     }
                     maxScoreOutcome.setDefaultValue(maxScore);
+                }else{
+                    //remove MAXSCORE:
+                    item.removeOutcome('MAXSCORE');
                 }
             }
         },
@@ -132,8 +135,12 @@ define([
          */
         getMatchMaxOrderedChoices : function getMatchMaxOrderedChoices(choiceCollection){
             return _(choiceCollection).map(function(choice){
+                var matchMax = parseInt(choice.attr('matchMax'), 10);
+                if(_.isNaN(matchMax)){
+                    matchMax = 0;
+                }
                 return {
-                    matchMax : choice.attr('matchMax') === 0 ? Infinity : choice.attr('matchMax') || 0,
+                    matchMax : matchMax === 0 ? Infinity : matchMax,
                     id: choice.id()
                 };
             }).sortBy('matchMax').reverse().valueOf();
@@ -267,13 +274,12 @@ define([
         associateInteractionBased : function associateInteractionBased(interaction, options){
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
-            var max;
             var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
             var minAssoc = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minAssociations')||0);
             var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
-            var requiredAssoc, totalAnswerableResponse, usedChoices, choicesIdentifiers, sortedMapEntries, i, allPossibleMapEntries;
+            var max, requiredAssoc, totalAnswerableResponse, usedChoices, choicesIdentifiers, sortedMapEntries, i, allPossibleMapEntries, infiniteScoringPair;
 
-            options = _.defaults(options || {}, {possiblePairs : []});
+            options = _.defaults(options || {}, {possiblePairs : [], checkInfinitePair: false});
 
             if(maxAssoc && minAssoc && maxAssoc < minAssoc){
                 return 0;
@@ -351,6 +357,7 @@ define([
                         return false;
                     }
 
+                    //check that the pair is possible in term of matchMax
                     choices = pair.trim().split(' ');
                     if(_.isArray(choices) && choices.length === 2){
                         //clone the global used choices array to brings the changes in that object first before storing in the actual object
@@ -368,7 +375,7 @@ define([
                                 }
                                 _usedChoices[choiceId] = {
                                     used : 0,
-                                    max: parseInt(choice.attr('matchMax'))
+                                    max: parseInt(choice.attr('matchMax'), 10)
                                 };
                             }
                             if(_usedChoices[choiceId].max && _usedChoices[choiceId].used === _usedChoices[choiceId].max){
@@ -379,6 +386,12 @@ define([
                             }
                         }
 
+                        //identify the edge case when we can get infinite association pair that create an infinite score
+                        infiniteScoringPair = infiniteScoringPair || (options.checkInfinitePair
+                            && mapEntry.score > 0
+                            && _usedChoices[choices[0]].max === 0
+                            && _usedChoices[choices[1]].max === 0);
+
                         //update the global used choices array
                         _.assign(usedChoices, _usedChoices);
                         return true;
@@ -387,6 +400,11 @@ define([
                         return false;
                     }
                 }).first(totalAnswerableResponse);
+
+                //infinite score => no normalMaximum should be generated for it
+                if(infiniteScoringPair){
+                    return false;
+                }
 
                 //reduce the ordered list of map entries to calculate the max score
                 max = sortedMapEntries.reduce(function (acc, v) {
@@ -398,18 +416,6 @@ define([
                     requiredAssoc--;
                     return gamp.add(acc, score);
                 }, 0);
-
-                function countChoiceUsages(pairs){
-                    //count max usage:
-                    var usages = {};
-                    pairs.each(function(mapEntry){
-                        var elts = mapEntry.pair.split(' ');
-                        usages[elts[0]] = usages[elts[0]] ? usages[elts[0]] + 1 : 1;
-                        usages[elts[1]] = usages[elts[1]] ? usages[elts[1]] + 1 : 1;
-                    });
-                    return usages;
-                }
-                //console.log(allPossibleMapEntries, sortedMapEntries, countChoiceUsages(sortedMapEntries));
 
                 //compare the calculated maximum with the mapping upperbound
                 if (responseDeclaration.mappingAttributes.upperBound) {
@@ -514,7 +520,7 @@ define([
                     });
                 }
 
-                var sortedMaps = _(allPossibleMapEntries).map(function(score, pair){
+                max = _(allPossibleMapEntries).map(function(score, pair){
                     return {
                         score : parseFloat(score),
                         pair : pair
@@ -568,9 +574,7 @@ define([
                         //is not a correct response pair
                         return false;
                     }
-                }).first(totalAnswerableResponse);
-
-                max = sortedMaps.reduce(function (acc, v) {
+                }).first(totalAnswerableResponse).reduce(function (acc, v) {
                     var score = v.score;
                     if (score >= 0) {
                         return acc + score;

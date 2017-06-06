@@ -60,6 +60,7 @@ define([
     'json!taoQtiItem/test/qtiItem/maxScore/data/match-matchmax.json',
     'json!taoQtiItem/test/qtiItem/maxScore/data/gapmatch-matchmax.json',
     'json!taoQtiItem/test/qtiItem/maxScore/data/gapmatch-map-matchmax.json',
+    'json!taoQtiItem/test/qtiItem/maxScore/data/graphic-gap-infinite.json',
     'json!taoQtiItem/test/qtiItem/maxScore/data/graphic-associate-matchmax.json'
 ], function (
     _,
@@ -106,6 +107,7 @@ define([
     dataMatchMatchmax,
     dataGapMatchMatchmax,
     dataGapMatchMapMatchmax,
+    dataGapMatchInfinite,
     dataGraphicAssocMatchmax
 ){
     'use strict';
@@ -226,6 +228,7 @@ define([
         { title : 'match - match max - favorable mapping', data : dataMatchMatchmax, expectedMaximum: 17, maxScore: 17},
         { title : 'gap match - match max = 0 - favorable mapping', data : dataGapMatchMatchmax, expectedMaximum: 4, maxScore: 4},
         { title : 'gap match - match max = 1 - neutral mapping', data : dataGapMatchMapMatchmax, expectedMaximum: 6, maxScore: 6},
+        { title : 'gap match - inifinite score', data : dataGapMatchInfinite, expectedMaximum: undefined, maxScore: undefined},
         { title : 'gap association - match max - favorable mapping', data : dataGraphicAssocMatchmax, expectedMaximum: 5, maxScore: 5}
     ];
 
