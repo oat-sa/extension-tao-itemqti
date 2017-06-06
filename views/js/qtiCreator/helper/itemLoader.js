@@ -44,6 +44,8 @@ define([
                         var loader = new Loader().setClassesLocation(qtiClasses),
                             itemData = data.itemData;
 
+                        console.log(itemData);
+
                         loader.loadItemData(itemData, function(item){
 
                             //hack to fix #2652

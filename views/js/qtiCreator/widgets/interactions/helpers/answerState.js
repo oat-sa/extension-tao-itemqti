@@ -6,6 +6,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule'
 ], function($, _, responseHelper, formElement, responseFormTpl, modalFeedbackRule){
+    'use strict';
 
     var _saveCallbacks = {
         mappingAttr : function(response, value, key){
@@ -30,6 +31,9 @@ define([
                 responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT')){
 
                 widget.changeState('map');
+            }else if(responseHelper.isUsingTemplate(response, 'NONE')){
+
+                widget.changeState('norp');
             }else{
 
                 widget.changeState('custom');
@@ -154,10 +158,11 @@ define([
      * @param {object} interaction
      * @returns {object} templates
      */
-    var _getAvailableRpTemplates = function(interaction){
+    var _getAvailableRpTemplates = function _getAvailableRpTemplates(interaction){
 
         var templates = {
             'CUSTOM' : 'custom',
+            'NONE' : 'none',
             'MATCH_CORRECT' : 'match correct',
             'MAP_RESPONSE' : 'map response',
             'MAP_RESPONSE_POINT' : 'map response'

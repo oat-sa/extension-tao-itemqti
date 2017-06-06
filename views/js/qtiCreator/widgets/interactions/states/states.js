@@ -8,6 +8,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/states/Answer',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Correct',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Map',
+    'taoQtiItem/qtiCreator/widgets/interactions/states/NoRp',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Custom'
 ], function(factory, states){
     return factory.createBundle(states, arguments);
