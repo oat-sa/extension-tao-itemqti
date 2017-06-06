@@ -18,19 +18,24 @@
 define([
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
     'taoQtiItem/qtiItem/helper/maxScore',
-], function(XmlRenderer, maxScore){
+    'taoQtiItem/qtiItem/core/Element',
+], function(XmlRenderer, maxScore, Element){
     'use strict';
 
     var _xmlRenderer = new XmlRenderer({
         shuffleChoices : false
     }).load();
 
-    var _render = function(item){
+    var _render = function(element){
         var xml = '';
         try{
-            maxScore.setNormalMaximum(item);
-            maxScore.setMaxScore(item);
-            xml = item.render(_xmlRenderer);
+            if(element instanceof Element) {
+                if (element.is('assessmentItem')) {
+                    maxScore.setNormalMaximum(element);
+                    maxScore.setMaxScore(element);
+                }
+                xml = element.render(_xmlRenderer);
+            }
         }catch(e){
             console.log(e);
         }
