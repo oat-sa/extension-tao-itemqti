@@ -75,12 +75,13 @@ define([
          */
         setMaxScore : function setMaxScore(item) {
             var hasInvalidInteraction = false,
+                scoreOutcome = item.getOutcomeDeclaration('SCORE'),
                 customOutcomes,
                 maxScore,
                 maxScoreOutcome;
 
             //try setting the computed normal maximum only if the processing type is known, i.e. 'templateDriven'
-            if (item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
+            if (scoreOutcome && item.responseProcessing && item.responseProcessing.processingType === 'templateDriven') {
 
                 maxScore = _.reduce(item.getInteractions(), function (acc, interaction) {
                     var interactionMaxScore = interaction.getNormalMaximum();
