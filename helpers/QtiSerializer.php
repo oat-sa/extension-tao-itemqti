@@ -203,7 +203,6 @@ class QtiSerializer
      * @return array
      */
     public static function parseResponseProcessingXml(SimpleXMLElement $xml){
-        \common_Logger::w(print_r($xml, true));
         return self::parseResponseRulesContainerXml($xml);
     }
 

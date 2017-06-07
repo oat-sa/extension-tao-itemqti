@@ -969,38 +969,30 @@ class ParserFactory
             try{
                 //warning: require to add interactions to the item to make it work
                 $returnValue = TemplatesDriven::takeOverFrom($returnValue, $item);
-                common_Logger::d('Processing is Template converted to TemplateDriven', array('TAOITEMS', 'QTI'));
-            }catch(TakeoverFailedException $e){
-                common_Logger::d('Processing is Template', array('TAOITEMS', 'QTI'));
-            }
+            }catch(TakeoverFailedException $e){}
         }catch(UnexpectedResponseProcessing $e){
 
         }
-        common_Logger::w(__LINE__);
 
         //try templatedriven
         if(is_null($returnValue)){
             try{
                 $returnValue = $this->buildTemplatedrivenResponse($data, $item->getInteractions());
-                common_Logger::d('Processing is TemplateDriven', array('TAOITEMS', 'QTI'));
-            }catch(UnexpectedResponseProcessing $e){
-
-            }
+            }catch(UnexpectedResponseProcessing $e){}
         }
 
         // build custom
         if(is_null($returnValue)){
             try{
                 $returnValue = $this->buildCustomResponseProcessing($data);
-                common_Logger::d('ResponseProcessing is custom');
             }catch(UnexpectedResponseProcessing $e){
                 // not a Template
-                common_Logger::e('custom response processing failed, should never happen', array('TAOITEMS', 'QTI'));
+                common_Logger::e('custom response processing failed', array('TAOITEMS', 'QTI'));
             }
         }
 
         if(is_null($returnValue)){
-            common_Logger::d('failled to determin ResponseProcessing');
+            common_Logger::w('failed to determine ResponseProcessing');
         }
 
         return $returnValue;
@@ -1082,11 +1074,10 @@ class ParserFactory
         }
 
         if(count(array_diff(array_keys($irps), array_keys($responses))) > 0){
-            throw new UnexpectedResponseProcessing('Not composit, no responses for rules: '.implode(',', array_diff(array_keys($irps), array_keys($responses))));
+            throw new UnexpectedResponseProcessing('Not composite, no responses for rules: '.implode(',', array_diff(array_keys($irps), array_keys($responses))));
         }
         if(count(array_diff(array_keys($responses), array_keys($irps))) > 0){
-            common_Logger::w('Some responses have no processing');
-            throw new UnexpectedResponseProcessing('Not composit, no support for unmatched variables yet');
+            throw new UnexpectedResponseProcessing('Not composite, no support for unmatched variables yet');
         }
 
         //assuming sum is correct
@@ -1218,11 +1209,7 @@ class ParserFactory
         $simpleFeedbackRules = array();
         $data = simplexml_import_dom($data);
 
-        common_Logger::w($data->asXML());
-
         foreach($data as $responseRule){
-
-
 
             $feedbackRule = null;
             $subtree = new SimpleXMLElement($responseRule->asXML());
