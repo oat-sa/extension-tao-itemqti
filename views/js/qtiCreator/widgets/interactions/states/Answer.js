@@ -12,6 +12,8 @@ define([
 
         this.initResponseForm();
 
+        answerStateHelper.forward(this.widget);
+
         this.widget.$responseForm.show();
 
         contentHelper.changeInnerWidgetState(this.widget, 'inactive');
