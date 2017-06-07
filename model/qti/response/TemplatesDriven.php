@@ -258,14 +258,13 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         return (string) $returnValue;
     }
 
-    private function getResponseProcessingTemplate($templateUri){
-        if($templateUri !== 'no_response_processing'){
+    protected function getResponseProcessingTemplate($templateUri){
+        if($templateUri === Template::NONE){
+            $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.none.tpl.php';
+        }else{
             $templateName = substr($templateUri, strrpos($templateUri, '/') + 1);
             $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.' . $templateName . '.tpl.php';
-        }else{
-            return dirname(__FILE__) . '/rpTemplate/qti.' . 'none' . '.tpl.php';
         }
-
         return $matchingTemplate;
     }
 

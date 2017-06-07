@@ -541,6 +541,7 @@ class ParserFactory
         //warning: extract the response processing at the latest to make oat\taoQtiItem\model\qti\response\TemplatesDriven::takeOverFrom() work
         $rpNodes = $this->queryXPath("*[name(.) = 'responseProcessing']", $data);
         if($rpNodes->length === 0){
+            //no response processing node found: the template for an empty response processing is simply "NONE"
             $rProcessing = new TemplatesDriven();
             $rProcessing->setRelatedItem($this->item);
             foreach($this->item->getInteractions() as $interaction){
@@ -548,7 +549,8 @@ class ParserFactory
             }
             $this->item->setResponseProcessing($rProcessing);
         }else{
-            $rpNode = $rpNodes->item(0); //the node should be alone
+            //if there is a response processing not, try parsing it
+            $rpNode = $rpNodes->item(0);
             $rProcessing = $this->buildResponseProcessing($rpNode, $this->item);
             if(!is_null($rProcessing)){
                 $this->item->setResponseProcessing($rProcessing);
@@ -1306,6 +1308,7 @@ class ParserFactory
         
         $templatesDrivenRP = new TemplatesDriven();
         foreach($interactions as $interaction){
+            //if a rule has been found for an interaction, apply it. Default to the template NONE otherwise
             $pattern = isset($rules[$interaction->getResponse()->getIdentifier()]) ? $rules[$interaction->getResponse()->getIdentifier()] : Template::NONE;
             $templatesDrivenRP->setTemplate($interaction->getResponse(), $pattern);
         }

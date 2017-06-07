@@ -103,6 +103,9 @@ class Template extends ResponseProcessing implements Rule
      */
     const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
 
+    /**
+     * Template to apply when no response processing should take place
+     */
     const NONE = 'no_response_processing';
 
     /**
@@ -185,38 +188,26 @@ class Template extends ResponseProcessing implements Rule
     public function __construct($uri){
         //automatically transform to qti 2.1 templates:
         switch($uri){
+            case self::MATCH_CORRECT:
             case self::MATCH_CORRECT_qtiv2p0:
             case self::MATCH_CORRECT_qtiv2p2:
-                $uri = self::MATCH_CORRECT;
+                $this->uri = self::MATCH_CORRECT;
                 break;
+            case self::MAP_RESPONSE:
             case self::MAP_RESPONSE_qtiv2p0:
             case self::MAP_RESPONSE_qtiv2p2:
-                $uri = self::MAP_RESPONSE;
+                $this->uri = self::MAP_RESPONSE;
                 break;
+            case self::MAP_RESPONSE_POINT:
             case self::MAP_RESPONSE_POINT_qtiv2p0:
             case self::MAP_RESPONSE_POINT_qtiv2p2:
-                $uri = self::MAP_RESPONSE_POINT;
+                $this->uri = self::MAP_RESPONSE_POINT;
                 break;
             case self::NONE;
-                $uri = self::NONE;
+                $this->uri = self::NONE;
                 break;
-        }
-
-        if($uri != self::NONE &&
-            $uri != self::MATCH_CORRECT &&
-            $uri != self::MAP_RESPONSE &&
-            $uri != self::MAP_RESPONSE_POINT){
-            throw new common_Exception("Unknown response processing template '$uri'");
-        }
-        $this->uri = $uri;
-
-        if($this->uri != self::NONE){
-            //if there is indeed a response template involved:
-            $extDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $this->file = $extDir.'model/qti/data/qtiv2p1/rptemplates/'.basename($this->uri).'.xml';
-            if(!file_exists($this->file)){
-                throw new Exception("Unable to load response processing template {$this->uri} in {$this->file}");
-            }
+            default:
+                throw new common_Exception("Unknown response processing template '$uri'");
         }
 
         parent::__construct();
@@ -234,6 +225,7 @@ class Template extends ResponseProcessing implements Rule
         $returnValue = '';
 
         if($this->uri != self::NONE){
+            //if there is actually a real response template involved, render the template
             $tplRenderer = new taoItems_models_classes_TemplateRenderer(static::getTemplatePath().'/qti.rptemplate.tpl.php', array('uri' => $this->uri));
             $returnValue = $tplRenderer->render();
         }

@@ -19,6 +19,6 @@
  */
 
 /**
- * The response processing "none" outputs nothing
+ * The response processing "none" exists but contains nothing
  */
 ?>
