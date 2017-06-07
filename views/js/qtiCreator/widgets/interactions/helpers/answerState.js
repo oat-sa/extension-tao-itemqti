@@ -176,6 +176,7 @@ define([
             case 'sliderInteraction':
             case 'uploadInteraction':
             case 'mediaInteraction':
+            case 'endAttemptInteraction':
                 delete templates.MAP_RESPONSE;
                 delete templates.MAP_RESPONSE_POINT;
                 break;
