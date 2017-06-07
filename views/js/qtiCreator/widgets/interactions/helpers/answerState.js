@@ -162,10 +162,10 @@ define([
 
         var templates = {
             'CUSTOM' : 'custom',
-            'NONE' : 'none',
             'MATCH_CORRECT' : 'match correct',
             'MAP_RESPONSE' : 'map response',
-            'MAP_RESPONSE_POINT' : 'map response'
+            'MAP_RESPONSE_POINT' : 'map response',
+            'NONE' : 'none'
         },
         rp = interaction.getRelatedItem().responseProcessing;
 
@@ -173,6 +173,8 @@ define([
             case 'orderInteraction':
             case 'graphicOrderInteraction':
             case 'extendedTextInteraction':
+            case 'sliderInteraction':
+            case 'uploadInteraction':
                 delete templates.MAP_RESPONSE;
                 delete templates.MAP_RESPONSE_POINT;
                 break;
@@ -180,10 +182,7 @@ define([
             case 'extendedTextInteraction':
                 delete templates.MATCH_CORRECT;
                 delete templates.MAP_RESPONSE;
-                break;
-            case 'sliderInteraction':
                 delete templates.MAP_RESPONSE_POINT;
-                delete templates.MAP_RESPONSE;
                 break;
             default:
                 delete templates.MAP_RESPONSE_POINT;
