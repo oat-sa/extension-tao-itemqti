@@ -22,13 +22,13 @@ define([
     'taoQtiItem/qtiCreator/model/qtiClasses'
 ], function($, Loader, Item, qtiClasses){
     "use strict";
-    var _generateIdentifier = function(uri){
+    var _generateIdentifier = function _generateIdentifier(uri){
         var pos = uri.lastIndexOf('#');
         return uri.substr(pos + 1);
     };
 
     var creatorLoader = {
-        loadItem : function(config, callback){
+        loadItem : function loadItem(config, callback){
 
             if(config.uri){
                 $.ajax({
@@ -38,50 +38,44 @@ define([
                         uri : config.uri
                     }
                 }).done(function(data){
+                    var loader, itemData, newItem;
 
                     if(data.itemData && data.itemData.qtiClass === 'assessmentItem'){
 
-                        var loader = new Loader().setClassesLocation(qtiClasses),
-                            itemData = data.itemData;
+                        loader = new Loader().setClassesLocation(qtiClasses);
+                        itemData = data.itemData;
 
-                        console.log(itemData);
-
-                        loader.loadItemData(itemData, function(item){
+                        loader.loadItemData(itemData, function(loadedItem){
 
                             //hack to fix #2652
-                            if(item.isEmpty()){
-                                item.body('');
+                            if(loadedItem.isEmpty()){
+                                loadedItem.body('');
                             }
 
-                            callback(item, this.getLoadedClasses());
+                            callback(loadedItem, this.getLoadedClasses());
                         });
                     }else{
-                        
-                        var item = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
-                        var outcome = item.createOutcomeDeclaration({
-                            cardinality : 'single',
-                            baseType : 'float'
-                        });
-                        outcome.buildIdentifier('SCORE', false);
 
-                        item.createResponseProcessing();
+                        newItem = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
+
+                        newItem.createResponseProcessing();
 
                         //set default namespaces
-                        item.setNamespaces({
+                        newItem.setNamespaces({
                             '' : 'http://www.imsglobal.org/xsd/imsqti_v2p1',
                             'xsi' : 'http://www.w3.org/2001/XMLSchema-instance',
                             'm' :'http://www.w3.org/1998/Math/MathML'
                         });//note : always add math element : since it has become difficult to know when a math element has been added to the item
-                        
+
                         //set default schema locations
-                        item.setSchemaLocations({
+                        newItem.setSchemaLocations({
                             'http://www.imsglobal.org/xsd/imsqti_v2p1' : 'http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd'
                         });
-                        
+
                         //tag the item as a new one
-                        item.data('new', true);
-                        
-                        callback(item);
+                        newItem.data('new', true);
+
+                        callback(newItem);
                     }
 
                 });
