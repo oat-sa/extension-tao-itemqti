@@ -181,10 +181,8 @@ define([
                 delete templates.MAP_RESPONSE_POINT;
                 break;
             case 'selectPointInteraction':
-            case 'extendedTextInteraction':
                 delete templates.MATCH_CORRECT;
                 delete templates.MAP_RESPONSE;
-                delete templates.MAP_RESPONSE_POINT;
                 break;
             default:
                 delete templates.MAP_RESPONSE_POINT;
