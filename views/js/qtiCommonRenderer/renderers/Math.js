@@ -33,6 +33,7 @@ define([
     'use strict';
 
     // Do not wait between rendering each individual math element
+    // http://docs.mathjax.org/en/latest/api/hub.html
     MathJax.Hub.processSectionDelay = 0;
 
     return {
@@ -50,7 +51,7 @@ define([
 
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, containerHelper.get(math).parent()[0]]);
 
-                        //@see http://mathjax.readthedocs.org/en/latest/typeset.html
+                        //@see http://docs.mathjax.org/en/latest/advanced/typeset.html
                         MathJax.Hub.Queue(resolve);
                     });
                 }
