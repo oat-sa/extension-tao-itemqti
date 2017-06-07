@@ -14,6 +14,7 @@ define([
         //remove outcome SCORE if there is no response processing
         if(!rpXml.trim()){
             item.removeOutcome('SCORE');
+            item.removeOutcome('MAXSCORE');
         }
 
     }, function exitStateNoRp(){
