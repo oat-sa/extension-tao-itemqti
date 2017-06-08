@@ -499,9 +499,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.3.0');
         }
 
-        $this->skip('8.3.0', '8.4.6');
+        $this->skip('8.3.0', '8.4.8');
 
-        if ($this->isVersion('8.4.6')) {
+        if ($this->isVersion('8.4.8')) {
             $itemModelService = $this->getServiceManager()->get(ItemModel::SERVICE_ID);
             $exportHandlers = $itemModelService->getOption(ItemModel::EXPORT_HANDLER);
             array_unshift($exportHandlers, new ItemMetadataByClassExportHandler());
