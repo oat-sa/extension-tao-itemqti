@@ -9,10 +9,8 @@ define([
 
     var ChoiceStateQuestion = stateFactory.extend(QuestionState, function initStateQuestion(){
         this.buildEditor();
-        console.log('IN');
     }, function exitStateQuestion(){
         this.destroyEditor();
-        console.log('OUT');
     });
 
     ChoiceStateQuestion.prototype.createToolbar = function(){
