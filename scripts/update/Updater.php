@@ -26,11 +26,13 @@ use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
+use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
@@ -498,5 +500,15 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('8.3.0', '8.4.6');
+
+        if ($this->isVersion('8.4.6')) {
+            $itemModelService = $this->getServiceManager()->get(ItemModel::SERVICE_ID);
+            $exportHandlers = $itemModelService->getOption(ItemModel::EXPORT_HANDLER);
+            array_unshift($exportHandlers, new ItemMetadataByClassExportHandler());
+            $itemModelService->setOption(ItemModel::EXPORT_HANDLER, $exportHandlers);
+            $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
+
+            $this->setVersion('8.5.0');
+        }
     }
 }

@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\flyExporter\form;
+namespace oat\taoQtiItem\model\Export;
 
 class MetadataExporterForm extends \tao_helpers_form_FormContainer
 {

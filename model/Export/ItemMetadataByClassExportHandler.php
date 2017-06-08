@@ -18,20 +18,22 @@
  *
  */
 
-namespace oat\taoQtiItem\model\flyExporter\form;
+namespace oat\taoQtiItem\model\Export;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\File;
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemModel;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\PhpSerializeStateless;
 
-class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
-    implements \tao_models_classes_export_ExportHandler
+class ItemMetadataByClassExportHandler implements \tao_models_classes_export_ExportHandler, PhpSerializable
 {
-    use OntologyAwareTrait;
+    use OntologyAwareTrait, PhpSerializeStateless;
 
     /**
      * Get label form
@@ -40,7 +42,7 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
      */
     public function getLabel()
     {
-        return 'item-metadata-export';
+        return __('QTI Metadata');
     }
 
     /**
@@ -78,13 +80,16 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
                 try {
                     /** @var ItemExporter $exporterService */
                     $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
-                    $file =  $exporterService->export($this->getInstances($classToExport), true);
-                    return $this->output($file);
+                    $this->output(
+                        $exporterService->export($this->getInstances($classToExport), true),
+                        $formValues['filename']
+                    );
                 } catch (ExtractorException $e) {
                     return \common_report_Report::createFailure('Selected object does not have any item to export.');
                 }
             }
         }
+
         return;
     }
 
@@ -101,25 +106,14 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
     }
 
     /**
-     * Output file with direct download with tao_helpers_export
-     * Filename is extracted from form data
-     *
      * @param File $file
+     * @param string $exportFileName Name of the exported file
      * @throws \common_Exception
      */
-    protected function output(File $file)
+    protected function output(File $file, $exportFileName)
     {
-        $tmpFile = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . $file->getBasename();
-        if (($resource = fopen($tmpFile, 'w')) === false) {
-            throw new \common_Exception('Unable to write "' . $file->getPrefix() . '" into tmp folder("' . $tmpFile . '").');
-        }
-        stream_copy_to_stream($file->readStream(), $resource);
-        fclose($resource);
-
-        $filename = $this->hasRequestParameter('filename') ? $this->getRequestParameter('filename') . '.csv' : '';
-        \tao_helpers_Export::outputFile($file->getBasename(), $filename);
-
-        return;
+        header('Content-Disposition: attachment; filename="'. $exportFileName .'.csv"');
+        \tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
     }
 
     /**
@@ -150,4 +144,11 @@ class ItemMetadataByClassExportHandler extends \tao_actions_CommonModule
         return $classToExport;
     }
 
+    /**
+     * @return ServiceManager
+     */
+    protected function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
+    }
 }
