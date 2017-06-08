@@ -18,12 +18,19 @@
  */
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
-    'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/Correct',
-    'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/Sleep',
-    'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/NoRp'
-], function(factory, states){
+    'taoQtiItem/qtiCreator/widgets/interactions/states/NoRp',
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction'
+], function(stateFactory, NoRp, renderer){
     'use strict';
-    return factory.createBundle(states, arguments);
+
+    return stateFactory.extend(NoRp, function initStateNoRp(){
+
+        // Disable inputs until response edition.
+        renderer.disable(this.widget.element);
+
+    }, function exitStateNoRp(){
+
+        // Enable inputs until response edition.
+        renderer.enable(this.widget.element);
+    });
 });
