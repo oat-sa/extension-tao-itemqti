@@ -3,10 +3,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState'
 ], function(stateFactory, Map, answerState){
+    'use strict';
 
     var InteractionStateMap = stateFactory.create(Map, function(){
-        
-        //use default [data-edit="map"].show();
         
         var $correctWidgets = this.widget.$container.find('[data-edit="correct"]');
         
@@ -18,8 +17,6 @@ define([
         }
         
     }, function(){
-        //use default [data-edit="map"].hide();
-        
         //plus, hide correct widget
         this.widget.$container.find('[data-edit="correct"]').hide();
     });
