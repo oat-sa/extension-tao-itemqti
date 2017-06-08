@@ -34,7 +34,9 @@ define([
 
     // Do not wait between rendering each individual math element
     // http://docs.mathjax.org/en/latest/api/hub.html
-    MathJax.Hub.processSectionDelay = 0;
+    if(typeof(MathJax) !== 'undefined' && MathJax) {
+        MathJax.Hub.processSectionDelay = 0;
+    }
 
     return {
         qtiClass : 'math',
