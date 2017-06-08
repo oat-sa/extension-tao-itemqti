@@ -20,9 +20,8 @@ define([
     };
 
     /**
-     * Get available rp templates accoding to interaction type and response processing type
+     * Get available rp templates according to interaction type and response processing type
      *
-     * @todo refactor this : check if
      * @param {object} interaction
      * @returns {object} templates
      */

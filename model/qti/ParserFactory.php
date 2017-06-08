@@ -549,7 +549,7 @@ class ParserFactory
             }
             $this->item->setResponseProcessing($rProcessing);
         }else{
-            //if there is a response processing not, try parsing it
+            //if there is a response processing node, try parsing it
             $rpNode = $rpNodes->item(0);
             $rProcessing = $this->buildResponseProcessing($rpNode, $this->item);
             if(!is_null($rProcessing)){
@@ -1301,7 +1301,7 @@ class ParserFactory
             }
         }
 
-        //all rules must have been previously identified as belong to one interaction
+        //all rules must have been previously identified as belonging to one interaction
         if(count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
             throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
         }
