@@ -32,22 +32,28 @@ define([
 ], function(_, Promise, tpl, containerHelper, MathJax){
     'use strict';
 
+    // Do not wait between rendering each individual math element
+    // http://docs.mathjax.org/en/latest/api/hub.html
+    if(typeof(MathJax) !== 'undefined' && MathJax) {
+        MathJax.Hub.processSectionDelay = 0;
+    }
+
     return {
         qtiClass : 'math',
         template : tpl,
         getContainer : containerHelper.get,
-        render : function render (math, data){
-            return new Promise(function(resolve, reject){
+        render : function render (math){
+            return new Promise(function(resolve){
                 if(typeof(MathJax) !== 'undefined' && MathJax){
                     //MathJax needs to be exported globally to integrate with tools like TTS, it's weird...
                     if(!window.MathJax){
                         window.MathJax = MathJax;
                     }
-
                     _.defer(function(){ //defer execution fix some rendering issue in chrome
+
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, containerHelper.get(math).parent()[0]]);
 
-                        //@see http://mathjax.readthedocs.org/en/latest/typeset.html
+                        //@see http://docs.mathjax.org/en/latest/advanced/typeset.html
                         MathJax.Hub.Queue(resolve);
                     });
                 }
