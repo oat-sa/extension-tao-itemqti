@@ -1,5 +1,5 @@
 {{~#equal contentModel "blockStatic"~}}
-<div class="qti-block">{{{body}}}</div>
+<div class="qti-block"><span>{{{body}}}</span></div>
 {{~else~}}
 {{{body}}}
 {{~/equal~}}
