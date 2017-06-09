@@ -1,0 +1,216 @@
+{
+    "identifier": "i1492000233609482",
+    "serial": "item_58ef25a944e72594804656",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "i1492000233609482",
+        "title": "Item 14",
+        "label": "Item 14",
+        "xml:lang": "en-US",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.2.0-sprint48",
+        "class": ""
+    },
+    "body": {
+        "serial": "container_containeritembody_58ef25a944e55377792798",
+        "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                {{interaction_selectpointinteraction_58ef25a94b3da336266585}}\n            <\/div>\n        <\/div>\n    ",
+        "elements": {
+            "interaction_selectpointinteraction_58ef25a94b3da336266585": {
+                "serial": "interaction_selectpointinteraction_58ef25a94b3da336266585",
+                "qtiClass": "selectPointInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE",
+                    "maxChoices": 0,
+                    "minChoices": 0,
+                    "class": "responsive"
+                },
+                "debug": {
+                    "relatedItem": "item_58ef25a944e72594804656"
+                },
+                "choices": {},
+                "prompt": {
+                    "serial": "container_containerstatic_58ef25a94c404312665549",
+                    "body": "",
+                    "elements": {},
+                    "debug": {
+                        "relatedItem": "item_58ef25a944e72594804656"
+                    }
+                },
+                "object": {
+                    "serial": "object_58ef25a94ce76261290623",
+                    "qtiClass": "object",
+                    "attributes": {
+                        "data": "background.gif",
+                        "type": "image\/gif",
+                        "width": 428,
+                        "height": 276
+                    },
+                    "debug": {
+                        "relatedItem": ""
+                    }
+                }
+            }
+        },
+        "debug": {
+            "relatedItem": "item_58ef25a944e72594804656"
+        }
+    },
+    "debug": {
+        "relatedItem": "item_58ef25a944e72594804656"
+    },
+    "namespaces": {
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1",
+        "html5": "html5",
+        "m": "http:\/\/www.w3.org\/1998\/Math\/MathML",
+        "pci": "http:\/\/www.imsglobal.org\/xsd\/portableCustomInteraction",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
+    },
+    "stylesheets": {
+        "stylesheet_58ef25a9471b7544473166": {
+            "serial": "stylesheet_58ef25a9471b7544473166",
+            "qtiClass": "stylesheet",
+            "attributes": {
+                "href": "style\/custom\/tao-user-styles.css",
+                "type": "text\/css",
+                "media": "all",
+                "title": ""
+            },
+            "debug": {
+                "relatedItem": "item_58ef25a944e72594804656"
+            }
+        }
+    },
+    "outcomes": {
+        "outcomedeclaration_58ef25a949678922192998": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_58ef25a949678922192998",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_58ef25a944e72594804656"
+            },
+            "defaultValue": null
+        }
+    },
+    "responses": {
+        "responsedeclaration_58ef25a94864d447751919": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_58ef25a94864d447751919",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "multiple",
+                "baseType": "point"
+            },
+            "debug": {
+                "relatedItem": "item_58ef25a944e72594804656"
+            },
+            "defaultValue": [],
+            "mapping": [],
+            "areaMapping": [
+                {
+                    "shape": "circle",
+                    "coords": "179,115,61",
+                    "mappedValue": "-1"
+                },
+                {
+                    "shape": "circle",
+                    "coords": "26,57,7",
+                    "mappedValue": "2"
+                },
+                {
+                    "shape": "circle",
+                    "coords": "18,14,5",
+                    "mappedValue": "4"
+                },
+                {
+                    "shape": "ellipse",
+                    "coords": "10,32,5,5",
+                    "mappedValue": "-1"
+                },
+                {
+                    "shape": "circle",
+                    "coords": "48,22,8",
+                    "mappedValue": "2"
+                }
+            ],
+            "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/map_response_point",
+            "correctResponses": [],
+            "mappingAttributes": {
+                "defaultValue": 0
+            },
+            "feedbackRules": {}
+        }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+        "serial": "response_templatesdriven_58ef25a94e68d850578158",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "debug": {
+            "relatedItem": "item_58ef25a944e72594804656"
+        },
+        "processingType": "templateDriven",
+        "responseRules": [
+            {
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "isNull",
+                        "expressions": [
+                            {
+                                "qtiClass": "variable",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        ]
+                    },
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "0"
+                            }
+                        }
+                    ]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "mapResponsePoint",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "apipAccessibility": ""
+}

@@ -5,19 +5,9 @@ define([
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response_point'
 ], function(_, tpl, correctTpl, mapTpl, mapPointTpl){
-    
-    var _renderInteractionRp = function(interaction){
-        var ret = '', response = interaction.getResponseDeclaration();
-        if(response.template){
-            ret = _renderRpTpl(response.template, {
-                responseIdentifier : response.id(),
-                outcomeIdentifier : 'SCORE'
-            });
-        }
-        return ret;
-    };
+    'use strict';
 
-    var _renderRpTpl = function(rpTpl, data){
+    var _renderRpTpl = function _renderRpTpl(rpTpl, data){
 
         var ret = '';
 
@@ -34,16 +24,32 @@ define([
             case 'MAP_RESPONSE_POINT':
                 ret = mapPointTpl(data);
                 break;
+            case 'no_response_processing':
+            case 'NONE':
+                ret = '';
+                break;
             default:
                 throw new Error('unknown rp template : ' + rpTpl);
         }
 
         return ret;
     };
+
+    var _renderInteractionRp = function _renderInteractionRp(interaction){
+        var ret = '',
+            response = interaction.getResponseDeclaration();
+        if(response.template){
+            ret = _renderRpTpl(response.template, {
+                responseIdentifier : response.id(),
+                outcomeIdentifier : 'SCORE'
+            });
+        }
+        return ret;
+    };
     
-    var _renderFeedbackRules = function(renderer, response){
+    var _renderFeedbackRules = function _renderFeedbackRules(renderer, response){
         var ret = [];
-        _.each(response.getFeedbackRules(), function(rule){
+        _.forEach(response.getFeedbackRules(), function(rule){
             ret.push(rule.render(renderer));
         });
         return ret;
@@ -53,9 +59,9 @@ define([
         qtiClass : 'responseProcessing',
         template : tpl,
         getData : function(responseProcessing, data){
-            
             var defaultData = {},
-                _renderer = this;
+                self = this,
+                interactions, response;
             
             switch(responseProcessing.processingType){
                 case 'custom':
@@ -63,29 +69,38 @@ define([
                     defaultData.xml = responseProcessing.xml;
                     break;
                 case 'templateDriven':
-                    var interactions = responseProcessing.getRelatedItem().getInteractions();
+                    interactions = responseProcessing.getRelatedItem().getInteractions();
                     if(interactions.length === 1){
-                        var response = interactions[0].getResponseDeclaration();
+                        response = interactions[0].getResponseDeclaration();
                         if(_.size(response.getFeedbackRules()) === 0 && response.id() === 'RESPONSE'){
-                            //the exact condition to serialize the rp as a standard template is met
-                            defaultData.template = response.template;
+                            if(response.template !== 'no_response_processing'){
+                                //the exact condition to serialize the rp as a standard template is met
+                                defaultData.template = response.template;
+                            }
                             break;
                         }
                     }
-                    defaultData.templateDriven = true;
+
                     defaultData.responseRules = [];
-                    _.each(interactions, function(interaction){
-                        defaultData.responseRules.push(_renderInteractionRp(interaction));
+                    _.forEach(interactions, function(interaction){
+                        var responseRule = _renderInteractionRp(interaction);
+                        if(_.isString(responseRule) && responseRule.trim()){
+                            defaultData.responseRules.push(responseRule);
+                        }
                     });
                     
                     defaultData.feedbackRules = [];
-                    _.each(interactions, function(interaction){
-                        defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(_renderer, interaction.getResponseDeclaration()));
+                    _.forEach(interactions, function(interaction){
+                        defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(self, interaction.getResponseDeclaration()));
                     });
-                    
+
+                    if(defaultData.responseRules.length || defaultData.feedbackRules.length){
+                        defaultData.templateDriven = true;
+                    }
+
                     break;
             }
-            
+
             return _.merge(data || {}, defaultData);
         }
     };

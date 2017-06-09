@@ -41,7 +41,7 @@ define([
     function getRpUsedVariables(item){
 
         var rpXml = xmlRenderer.render(item.responseProcessing);
-        var variables = ['SCORE'];//score is always used, even in template based response processing
+        var variables = ['SCORE', 'MAXSCORE'];//score and max score are always used, even in template based response processing
         var $rp = $(rpXml);
 
         $rp.find('variable,setOutcomeValue').each(function(){

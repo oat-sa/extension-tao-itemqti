@@ -499,16 +499,17 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.3.0');
         }
 
-        $this->skip('8.3.0', '8.4.8');
+        $this->skip('8.3.0', '8.8.0');
 
-        if ($this->isVersion('8.4.8')) {
+        if ($this->isVersion('8.8.0')) {
             $itemModelService = $this->getServiceManager()->get(ItemModel::SERVICE_ID);
             $exportHandlers = $itemModelService->getOption(ItemModel::EXPORT_HANDLER);
             array_unshift($exportHandlers, new ItemMetadataByClassExportHandler());
             $itemModelService->setOption(ItemModel::EXPORT_HANDLER, $exportHandlers);
             $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
 
-            $this->setVersion('8.5.0');
+            $this->setVersion('8.9.0');
         }
+
     }
 }

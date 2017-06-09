@@ -21,11 +21,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Choice',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Answer',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Correct',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Map'
 ], function(factory, states){
     'use strict';
-
     return factory.createBundle(states, arguments);
 });

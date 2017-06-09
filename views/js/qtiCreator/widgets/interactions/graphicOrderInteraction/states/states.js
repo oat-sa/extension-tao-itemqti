@@ -26,7 +26,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
 	'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Sleep',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Answer',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Correct'
 ], function(factory, states){
 

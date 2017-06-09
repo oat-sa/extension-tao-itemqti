@@ -1,0 +1,248 @@
+{
+    "identifier": "i14915736639201476",
+    "serial": "item_58eb4dfbcf8e3811501413",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "i14915736639201476",
+        "title": "Item 14",
+        "label": "Item 14",
+        "xml:lang": "en-US",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.2.0-sprint48",
+        "class": ""
+    },
+    "body": {
+        "serial": "container_containeritembody_58eb4dfbcf8c0131676926",
+        "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                {{interaction_choiceinteraction_58eb4dfbd97d1815765277}}\n            <\/div>\n        <\/div>\n    ",
+        "elements": {
+            "interaction_choiceinteraction_58eb4dfbd97d1815765277": {
+                "serial": "interaction_choiceinteraction_58eb4dfbd97d1815765277",
+                "qtiClass": "choiceInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE",
+                    "shuffle": false,
+                    "maxChoices": 0,
+                    "minChoices": 0,
+                    "orientation": "vertical"
+                },
+                "debug": {
+                    "relatedItem": "item_58eb4dfbcf8e3811501413"
+                },
+                "choices": {
+                    "choice_simplechoice_58eb4dfbdc6ad124242327": {
+                        "identifier": "choice_1",
+                        "serial": "choice_simplechoice_58eb4dfbdc6ad124242327",
+                        "qtiClass": "simpleChoice",
+                        "attributes": {
+                            "identifier": "choice_1",
+                            "fixed": false,
+                            "showHide": "show"
+                        },
+                        "body": {
+                            "serial": "container_containerstatic_58eb4dfbdd345401120830",
+                            "body": "choice #1",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_58eb4dfbcf8e3811501413"
+                            }
+                        },
+                        "debug": {
+                            "relatedItem": "item_58eb4dfbcf8e3811501413"
+                        }
+                    },
+                    "choice_simplechoice_58eb4dfbdd403693379607": {
+                        "identifier": "choice_2",
+                        "serial": "choice_simplechoice_58eb4dfbdd403693379607",
+                        "qtiClass": "simpleChoice",
+                        "attributes": {
+                            "identifier": "choice_2",
+                            "fixed": false,
+                            "showHide": "show"
+                        },
+                        "body": {
+                            "serial": "container_containerstatic_58eb4dfbdd427681740403",
+                            "body": "choice #2",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_58eb4dfbcf8e3811501413"
+                            }
+                        },
+                        "debug": {
+                            "relatedItem": "item_58eb4dfbcf8e3811501413"
+                        }
+                    },
+                    "choice_simplechoice_58eb4dfbdd497865024566": {
+                        "identifier": "choice_3",
+                        "serial": "choice_simplechoice_58eb4dfbdd497865024566",
+                        "qtiClass": "simpleChoice",
+                        "attributes": {
+                            "identifier": "choice_3",
+                            "fixed": false,
+                            "showHide": "show"
+                        },
+                        "body": {
+                            "serial": "container_containerstatic_58eb4dfbdd4b5671809883",
+                            "body": "choice #3",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_58eb4dfbcf8e3811501413"
+                            }
+                        },
+                        "debug": {
+                            "relatedItem": "item_58eb4dfbcf8e3811501413"
+                        }
+                    }
+                },
+                "prompt": {
+                    "serial": "container_containerstatic_58eb4dfbdba9d065569790",
+                    "body": "",
+                    "elements": {},
+                    "debug": {
+                        "relatedItem": "item_58eb4dfbcf8e3811501413"
+                    }
+                }
+            }
+        },
+        "debug": {
+            "relatedItem": "item_58eb4dfbcf8e3811501413"
+        }
+    },
+    "debug": {
+        "relatedItem": "item_58eb4dfbcf8e3811501413"
+    },
+    "namespaces": {
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1",
+        "m": "http:\/\/www.w3.org\/1998\/Math\/MathML",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
+    },
+    "stylesheets": {
+        "stylesheet_58eb4dfbd2afb932441788": {
+            "serial": "stylesheet_58eb4dfbd2afb932441788",
+            "qtiClass": "stylesheet",
+            "attributes": {
+                "href": "style\/custom\/tao-user-styles.css",
+                "type": "text\/css",
+                "media": "all",
+                "title": ""
+            },
+            "debug": {
+                "relatedItem": "item_58eb4dfbcf8e3811501413"
+            }
+        }
+    },
+    "outcomes": {
+        "outcomedeclaration_58eb4dfbd6bfc394601979": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_58eb4dfbd6bfc394601979",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_58eb4dfbcf8e3811501413"
+            },
+            "defaultValue": null
+        }
+    },
+    "responses": {
+        "responsedeclaration_58eb4dfbd4a74001643639": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_58eb4dfbd4a74001643639",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "multiple",
+                "baseType": "identifier"
+            },
+            "debug": {
+                "relatedItem": "item_58eb4dfbcf8e3811501413"
+            },
+            "defaultValue": [],
+            "mapping": {
+                "choice_1": "2",
+                "choice_2": "-1",
+                "choice_3": "1"
+            },
+            "areaMapping": [],
+            "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/map_response",
+            "correctResponses": [
+                "\n                choice_1\n            ",
+                "\n                choice_2\n            "
+            ],
+            "mappingAttributes": {
+                "defaultValue": 0,
+                "upperBound": "5"
+            },
+            "feedbackRules": {}
+        }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+        "serial": "response_templatesdriven_58eb4dfbdfa8d290880211",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "debug": {
+            "relatedItem": "item_58eb4dfbcf8e3811501413"
+        },
+        "processingType": "templateDriven",
+        "responseRules": [
+            {
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "isNull",
+                        "expressions": [
+                            {
+                                "qtiClass": "variable",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        ]
+                    },
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "0.0"
+                            }
+                        }
+                    ]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "mapResponse",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "apipAccessibility": ""
+}

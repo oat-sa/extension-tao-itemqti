@@ -1,0 +1,295 @@
+{
+    "identifier": "i1492000233609482",
+    "serial": "item_58fa1c4a8b966603270966",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "i1492000233609482",
+        "title": "Item 14",
+        "label": "Item 14",
+        "xml:lang": "en-US",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.2.0-sprint48",
+        "class": ""
+    },
+    "body": {
+        "serial": "container_containeritembody_58fa1c4a8b945678068315",
+        "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                {{interaction_gapmatchinteraction_58fa1c4a97da2623687350}}\n            <\/div>\n        <\/div>\n    ",
+        "elements": {
+            "interaction_gapmatchinteraction_58fa1c4a97da2623687350": {
+                "serial": "interaction_gapmatchinteraction_58fa1c4a97da2623687350",
+                "qtiClass": "gapMatchInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE",
+                    "shuffle": false
+                },
+                "body": {
+                    "serial": "container_containergap_58fa1c4a99951180290138",
+                    "body": "\n                    \n                    \n                    \n                    \n                    \n                    \n                    <p>Lorem ipsum\n\n                        {{choice_gap_58fa1c4a9c4b9449004690}} sit amet,\n\n                        {{choice_gap_58fa1c4a9c93d009825417}} adipisicing ...\n\n                    <\/p>\n                ",
+                    "elements": {
+                        "choice_gap_58fa1c4a9c4b9449004690": {
+                            "identifier": "gap_2",
+                            "serial": "choice_gap_58fa1c4a9c4b9449004690",
+                            "qtiClass": "gap",
+                            "attributes": {
+                                "identifier": "gap_2",
+                                "fixed": false,
+                                "required": false
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fa1c4a8b966603270966"
+                            }
+                        },
+                        "choice_gap_58fa1c4a9c93d009825417": {
+                            "identifier": "gap_1",
+                            "serial": "choice_gap_58fa1c4a9c93d009825417",
+                            "qtiClass": "gap",
+                            "attributes": {
+                                "identifier": "gap_1",
+                                "fixed": false,
+                                "required": false
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fa1c4a8b966603270966"
+                            }
+                        }
+                    },
+                    "debug": {
+                        "relatedItem": "item_58fa1c4a8b966603270966"
+                    }
+                },
+                "debug": {
+                    "relatedItem": "item_58fa1c4a8b966603270966"
+                },
+                "choices": {
+                    "choice_gaptext_58fa1c4a9a6d6716242166": {
+                        "identifier": "choice_1",
+                        "serial": "choice_gaptext_58fa1c4a9a6d6716242166",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_1",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_58fa1c4a8b966603270966"
+                        },
+                        "text": "choice #1"
+                    },
+                    "choice_gaptext_58fa1c4a9bfc0657440156": {
+                        "identifier": "choice_2",
+                        "serial": "choice_gaptext_58fa1c4a9bfc0657440156",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_2",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_58fa1c4a8b966603270966"
+                        },
+                        "text": "choice #2"
+                    },
+                    "choice_gaptext_58fa1c4a9c013391199571": {
+                        "identifier": "choice_3",
+                        "serial": "choice_gaptext_58fa1c4a9c013391199571",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_3",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_58fa1c4a8b966603270966"
+                        },
+                        "text": "choice #3"
+                    },
+                    "choice_gaptext_58fa1c4a9c05b538942409": {
+                        "identifier": "choice_4",
+                        "serial": "choice_gaptext_58fa1c4a9c05b538942409",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_4",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_58fa1c4a8b966603270966"
+                        },
+                        "text": "consectetur"
+                    },
+                    "choice_gaptext_58fa1c4a9c09e233437260": {
+                        "identifier": "choice_5",
+                        "serial": "choice_gaptext_58fa1c4a9c09e233437260",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_5",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_58fa1c4a8b966603270966"
+                        },
+                        "text": "dolor"
+                    }
+                },
+                "prompt": {
+                    "serial": "container_containerstatic_58fa1c4a99556495801142",
+                    "body": "",
+                    "elements": {},
+                    "debug": {
+                        "relatedItem": "item_58fa1c4a8b966603270966"
+                    }
+                }
+            }
+        },
+        "debug": {
+            "relatedItem": "item_58fa1c4a8b966603270966"
+        }
+    },
+    "debug": {
+        "relatedItem": "item_58fa1c4a8b966603270966"
+    },
+    "namespaces": {
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1",
+        "html5": "html5",
+        "m": "http:\/\/www.w3.org\/1998\/Math\/MathML",
+        "pci": "http:\/\/www.imsglobal.org\/xsd\/portableCustomInteraction",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
+    },
+    "stylesheets": {
+        "stylesheet_58fa1c4a8fae7789677110": {
+            "serial": "stylesheet_58fa1c4a8fae7789677110",
+            "qtiClass": "stylesheet",
+            "attributes": {
+                "href": "style\/custom\/tao-user-styles.css",
+                "type": "text\/css",
+                "media": "all",
+                "title": ""
+            },
+            "debug": {
+                "relatedItem": "item_58fa1c4a8b966603270966"
+            }
+        }
+    },
+    "outcomes": {
+        "outcomedeclaration_58fa1c4a9495a916707593": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_58fa1c4a9495a916707593",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_58fa1c4a8b966603270966"
+            },
+            "defaultValue": null
+        }
+    },
+    "responses": {
+        "responsedeclaration_58fa1c4a9215d727729481": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_58fa1c4a9215d727729481",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "multiple",
+                "baseType": "directedPair"
+            },
+            "debug": {
+                "relatedItem": "item_58fa1c4a8b966603270966"
+            },
+            "defaultValue": [],
+            "mapping": {
+                "choice_4 gap_1": "1.5",
+                "choice_5 gap_1": "1",
+                "choice_4 gap_2": "2",
+                "choice_5 gap_2": "0",
+                "choice_3 gap_1": "-1"
+            },
+            "areaMapping": [],
+            "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/map_response",
+            "correctResponses": [
+                "\n                choice_4 gap_2\n            ",
+                "\n                choice_5 gap_1\n            "
+            ],
+            "mappingAttributes": {
+                "defaultValue": 0
+            },
+            "feedbackRules": {}
+        }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+        "serial": "response_templatesdriven_58fa1c4a9f6a9809474445",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "debug": {
+            "relatedItem": "item_58fa1c4a8b966603270966"
+        },
+        "processingType": "templateDriven",
+        "responseRules": [
+            {
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "isNull",
+                        "expressions": [
+                            {
+                                "qtiClass": "variable",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        ]
+                    },
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "0.0"
+                            }
+                        }
+                    ]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "mapResponse",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "apipAccessibility": ""
+}

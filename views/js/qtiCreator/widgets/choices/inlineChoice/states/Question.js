@@ -5,10 +5,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
     'lodash'
 ], function($, stateFactory, QuestionState, formElement, _){
+    'use strict';
 
-    var ChoiceStateQuestion = stateFactory.extend(QuestionState, function(){
+    var ChoiceStateQuestion = stateFactory.extend(QuestionState, function initStateQuestion(){
         this.buildEditor();
-    }, function(){
+    }, function exitStateQuestion(){
         this.destroyEditor();
     });
 
@@ -26,40 +27,38 @@ define([
 
     ChoiceStateQuestion.prototype.buildEditor = function(){
 
-        var _widget = this.widget,
-            $editableContainer = _widget.$container.children('td:first');
+        var _widget = this.widget;
 
-        $editableContainer.attr('contentEditable', true);
+        _widget.$container.find('.editable-content')
+            .attr('contentEditable', true)
+            .on('keyup.qti-widget', _.throttle(function(){
 
-        $editableContainer.on('keyup.qti-widget', _.throttle(function(){
+                //update model
+                _widget.element.val(_.escape($(this).text()));
 
-            //update model
-            _widget.element.val(_.escape($(this).text()));
+                //update placeholder
+                _widget.$original.width($(this).width());
 
-            //update placeholder
-            _widget.$original.width($(this).width());
+            }, 200)).on('focus.qti-widget', function(){
 
-        }, 200)).on('focus.qti-widget', function(){
+                _widget.changeState('choice');
 
-            _widget.changeState('choice');
+            }).on('keypress.qti-widget', function(e){
 
-        }).on('keypress.qti-widget', function(e){
+                if(e.which === 13){
+                    e.preventDefault();
+                    $(this).blur();
+                    _widget.changeState('question');
+                }
 
-            if(e.which === 13){
-                e.preventDefault();
-                $(this).blur();
-                _widget.changeState('question');
-            }
-
-        });
+            });
     };
 
     ChoiceStateQuestion.prototype.destroyEditor = function(){
 
-        var $container = this.widget.$container;
-
-        $container.find('td').removeAttr('contentEditable');
-        $container.children('td:first').off('keyup.qti-widget');
+        this.widget.$container.find('.editable-content')
+            .removeAttr('contentEditable')
+            .off('keyup.qti-widget');
     };
 
     return ChoiceStateQuestion;

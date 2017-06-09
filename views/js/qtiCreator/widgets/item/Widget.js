@@ -106,6 +106,8 @@ define([
     ItemWidget.save = function(){
         var self = this;
         return new Promise(function(resolve, reject){
+            var xml;
+
             // transform application errors into object Error in order to make them displayable
             function rejectError(err) {
                 if (err.type === 'Error') {
@@ -114,7 +116,7 @@ define([
                 reject(err);
             }
 
-            var xml = xmlRenderer.render(self.element);
+            xml = xmlRenderer.render(self.element);
 
             //@todo : remove this hotfix : prevent unsupported custom interaction to be saved
             if(hasUnsupportedInteraction(xml)){
