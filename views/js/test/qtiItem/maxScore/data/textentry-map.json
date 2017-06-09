@@ -1,0 +1,172 @@
+{
+    "identifier": "i1492000233609482",
+    "serial": "item_58ee4214dd6a9499081656",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "i1492000233609482",
+        "title": "Item 14",
+        "label": "Item 14",
+        "xml:lang": "en-US",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.2.0-sprint48",
+        "class": ""
+    },
+    "body": {
+        "serial": "container_containeritembody_58ee4214dd689892272777",
+        "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                <p class=\"\">Lorem ipsum dolor sit amet, consectetur adipisicing ...\n\n                    {{interaction_textentryinteraction_58ee4214e5b38107830587}}\n                <\/p>\n            <\/div>\n        <\/div>\n    ",
+        "elements": {
+            "interaction_textentryinteraction_58ee4214e5b38107830587": {
+                "serial": "interaction_textentryinteraction_58ee4214e5b38107830587",
+                "qtiClass": "textEntryInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE",
+                    "base": 10,
+                    "placeholderText": ""
+                },
+                "debug": {
+                    "relatedItem": "item_58ee4214dd6a9499081656"
+                },
+                "choices": {}
+            }
+        },
+        "debug": {
+            "relatedItem": "item_58ee4214dd6a9499081656"
+        }
+    },
+    "debug": {
+        "relatedItem": "item_58ee4214dd6a9499081656"
+    },
+    "namespaces": {
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1",
+        "m": "http:\/\/www.w3.org\/1998\/Math\/MathML",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
+    },
+    "stylesheets": {
+        "stylesheet_58ee4214e04f7575632619": {
+            "serial": "stylesheet_58ee4214e04f7575632619",
+            "qtiClass": "stylesheet",
+            "attributes": {
+                "href": "style\/custom\/tao-user-styles.css",
+                "type": "text\/css",
+                "media": "all",
+                "title": ""
+            },
+            "debug": {
+                "relatedItem": "item_58ee4214dd6a9499081656"
+            }
+        }
+    },
+    "outcomes": {
+        "outcomedeclaration_58ee4214e37ea409883721": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_58ee4214e37ea409883721",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_58ee4214dd6a9499081656"
+            },
+            "defaultValue": null
+        }
+    },
+    "responses": {
+        "responsedeclaration_58ee4214e1d9d981860768": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_58ee4214e1d9d981860768",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "single",
+                "baseType": "string"
+            },
+            "debug": {
+                "relatedItem": "item_58ee4214dd6a9499081656"
+            },
+            "defaultValue": [],
+            "mapping": {
+                "A": "-1",
+                "B": "2",
+                "C": "0"
+            },
+            "areaMapping": [],
+            "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/map_response",
+            "correctResponses": [
+                "\n                A\n            "
+            ],
+            "mappingAttributes": {
+                "defaultValue": 0
+            },
+            "feedbackRules": {}
+        }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+        "serial": "response_templatesdriven_58ee4214e9d0f113543333",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "debug": {
+            "relatedItem": "item_58ee4214dd6a9499081656"
+        },
+        "processingType": "templateDriven",
+        "responseRules": [
+            {
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "isNull",
+                        "expressions": [
+                            {
+                                "qtiClass": "variable",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        ]
+                    },
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "0.0"
+                            }
+                        }
+                    ]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "mapResponse",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "apipAccessibility": ""
+}

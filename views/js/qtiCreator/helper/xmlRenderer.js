@@ -13,21 +13,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA ;
  */
 define([
-    'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
-], function(XmlRenderer){
+    'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
+    'taoQtiItem/qtiItem/helper/maxScore',
+    'taoQtiItem/qtiItem/core/Element',
+], function(XmlRenderer, maxScore, Element){
     'use strict';
 
     var _xmlRenderer = new XmlRenderer({
         shuffleChoices : false
     }).load();
 
-    var _render = function(item){
+    var _render = function(element){
         var xml = '';
         try{
-            xml = item.render(_xmlRenderer);
+            if(element instanceof Element) {
+                if (element.is('assessmentItem')) {
+                    maxScore.setNormalMaximum(element);
+                    maxScore.setMaxScore(element);
+                }
+                xml = element.render(_xmlRenderer);
+            }
         }catch(e){
             console.log(e);
         }

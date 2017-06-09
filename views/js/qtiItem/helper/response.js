@@ -26,33 +26,33 @@ define(['lodash'], function(_) {
         'NONE': 'no_response_processing'
     };
 
-   return {
-       isUsingTemplate : function(response, tpl){
-            if(_.isString(tpl)){
-                if(tpl === response.template || _templateNames[tpl] === response.template){
+    return {
+        isUsingTemplate: function isUsingTemplate(response, tpl) {
+            if (_.isString(tpl)) {
+                if (tpl === response.template || _templateNames[tpl] === response.template) {
                     return true;
                 }
             }
             return false;
         },
-        isValidTemplateName:function(tplName){
+        isValidTemplateName: function isValidTemplateName(tplName) {
             return !!this.getTemplateUriFromName(tplName);
         },
-        getTemplateUriFromName:function(tplName){
-            if(_templateNames[tplName]){
+        getTemplateUriFromName: function getTemplateUriFromName(tplName) {
+            if (_templateNames[tplName]) {
                 return _templateNames[tplName];
             }
             return '';
         },
-        getTemplateNameFromUri:function(tplUri){
+        getTemplateNameFromUri: function getTemplateNameFromUri(tplUri) {
             var tplName = '';
-            _.forIn(_templateNames, function(uri, name){
-                if(uri === tplUri){
+            _.forIn(_templateNames, function (uri, name) {
+                if (uri === tplUri) {
                     tplName = name;
                     return false;
                 }
             });
             return tplName;
         }
-   };
+    };
 });
