@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:m="http://www.w3.org/1998/Math/MathML"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+        identifier="i1496326012103773" title="Item 12" adaptive="false" timeDependent="false">
+    <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE">
+        <mapping defaultValue="2">
+            <mapEntry mapKey="choice_2 gap_1" mappedValue="2" caseSensitive="false"/>
+            <mapEntry mapKey="choice_3 gap_2" mappedValue="2" caseSensitive="false"/>
+            <mapEntry mapKey="choice_4 gap_3" mappedValue="2" caseSensitive="false"/>
+        </mapping>
+    </responseDeclaration>
+    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE" normalMaximum="4"/>
+    <outcomeDeclaration cardinality="single" baseType="float" identifier="MAXSCORE">
+        <defaultValue>
+            <value>4</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <stylesheet href="style/custom/tao-user-styles.css" title="" type="text/css" media="all" />
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <gapMatchInteraction shuffle="false" responseIdentifier="RESPONSE">
+                    <prompt  />
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_2">ipsum</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_3">amet</gapText>
+                    <gapText fixed="false" matchMax="1" matchMin="0" identifier="choice_4">adipisicing</gapText>
+                    <p>Lorem
+
+                        <gap required="false" identifier="gap_1" /> dolor sit
+
+                        <gap required="false" identifier="gap_2" />, consectetur
+
+                        <gap required="false" identifier="gap_3" /> ...
+
+                    </p>
+                </gapMatchInteraction>
+            </div>
+        </div>
+    </itemBody>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
+</assessmentItem>
