@@ -124,15 +124,8 @@ class ItemMetadataByClassExportHandler implements \tao_models_classes_export_Exp
      * @return \core_kernel_classes_Class|mixed
      * @throws \common_exception_BadRequest
      */
-    protected function getClassToExport($uri = null)
+    protected function getClassToExport($uri)
     {
-        if (is_null($uri)) {
-            if (! $this->hasRequestParameter('id')) {
-                throw new \common_exception_BadRequest();
-            }
-            $uri = $this->getRequestParameter('id');
-        }
-
         $resource = $this->getResource($uri);
 
         if ($resource->isClass()) {
