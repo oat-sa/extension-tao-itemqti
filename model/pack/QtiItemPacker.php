@@ -133,9 +133,7 @@ class QtiItemPacker extends ItemPacker
     protected function resolveAsset($assets, ItemMediaResolver $resolver)
     {
         foreach ($assets as &$asset) {
-            $mediaAsset = $resolver->resolve($asset);
-            $mediaSource = $mediaAsset->getMediaSource();
-            $asset = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
+            $asset = $resolver->resolve($asset);
         }
         return $assets;
     }

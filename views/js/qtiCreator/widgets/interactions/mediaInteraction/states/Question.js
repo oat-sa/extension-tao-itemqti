@@ -131,9 +131,9 @@ define([
                         if(files && files.length){
                             // set data field content and maybe detect and set media type here
                             interaction.object.attr('type', files[0].mime);
-                            $form.find('input[name=data]')
-                                .val(files[0].file)
-                                .trigger('change');
+                            $src.val(files[0].file).trigger('change');
+                        }else{
+                            $src.trigger('noselection');
                         }
                     },
                     open : function(){

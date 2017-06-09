@@ -13,7 +13,7 @@ define([
          * @param {string|choice} choice
          * @returns {object} this
          */
-        removeChoice : function(choice){
+        removeChoice : function removeChoice(choice){
 
             var serial = '', c;
             if(typeof(choice) === 'string'){
@@ -35,26 +35,40 @@ define([
             }
             return this;
         },
-        createResponse : function(attrs, template){
+        createResponse : function createResponse(attrs, template){
 
+            var item,
+                renderer,
+                outcomeScore;
             var response = new ResponseDeclaration();
             if(attrs){
                 response.attr(attrs);
             }
 
             //we assume in the context of edition, every element is created from the api so alwayd bound to an item:
-            this.getRelatedItem().addResponseDeclaration(response);
+            item = this.getRelatedItem();
+            item.addResponseDeclaration(response);
 
             //assign responseIdentifier only after attaching it to the item to generate a unique id
             response.buildIdentifier('RESPONSE', false);
             response.setTemplate(template || 'MATCH_CORRECT');
             this.attr('responseIdentifier', response.id());
-    
+
+            //adding a response processing template require the outcome SCORE:
+            outcomeScore = item.getOutcomeDeclaration('SCORE');
+            if(!outcomeScore){
+                outcomeScore = item.createOutcomeDeclaration({
+                    cardinality : 'single',
+                    baseType : 'float'
+                });
+                outcomeScore.buildIdentifier('SCORE', false);
+            }
+
             //se the default value for the score default value
             response.mappingAttributes.defaultValue = 0;
 
             //set renderer
-            var renderer = this.getRenderer();
+            renderer = this.getRenderer();
             if(renderer){
                 response.setRenderer(renderer);
             }
@@ -64,7 +78,7 @@ define([
         /**
          * To be called before deleting the interaction
          */
-        deleteResponse : function(){
+        deleteResponse : function deleteResponse(){
 
             var response = this.getResponseDeclaration();
             if(response){
@@ -73,7 +87,7 @@ define([
             this.removeAttr('responseIdentifier');
             return this;
         },
-        beforeRemove : function(){
+        beforeRemove : function beforeRemove(){
             
             var serial = this.serial,
                 interactions = this.getRelatedItem().getInteractions();
@@ -83,7 +97,7 @@ define([
             
             //when there is only one interaction remaining, its reponseIdentifier must be RESPONSE to be able to use one of the standard rp
             if(_.size(interactions) === 2){
-                _.each(interactions, function(interaction){
+                _.forEach(interactions, function(interaction){
                     
                     var response = interaction.getResponseDeclaration();
                     

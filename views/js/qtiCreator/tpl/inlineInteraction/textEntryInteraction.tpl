@@ -33,6 +33,12 @@
                         <input type="text" />
                     </td>
                 </tr>
+                <tr data-edit="norp">
+                    <td colspan="3">
+                        <!-- Input solely provides visual in response state -->
+                        <input type="text" disabled="disabled"/>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
