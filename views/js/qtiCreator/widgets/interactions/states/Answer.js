@@ -33,14 +33,7 @@ define([
     //some exception might be stringInteractions that require additional baseType selection
     //therfore, in the case of stringInteractions, please overwrite the prototype function with a new implementation
     InteractionStateAnswer.prototype.initResponseForm = function initResponseForm(){
-
-        var _widget = this.widget;
-
-        answerStateHelper.initResponseForm(_widget);
-
-        _widget.on('responseTemplateChange', function(){
-            answerStateHelper.forward(_widget);
-        });
+        answerStateHelper.initResponseForm(this.widget);
     };
 
     return InteractionStateAnswer;
