@@ -111,7 +111,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      *
      * @throws ExtractorException
      * @param \core_kernel_classes_Resource[] $items
-     * @return mixed
+     * @return File|string
      */
     public function export(array $items = null, $asFile = false)
     {

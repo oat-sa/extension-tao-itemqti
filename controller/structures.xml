@@ -8,10 +8,6 @@
                     <action id="item-new" name="New item" url="/taoQtiItem/QtiCreator/createItem" context="resource" group="tree" binding="instanciate">
                         <icon id="icon-item"/>
                     </action>
-                    <action id="item-export-meta" name="Export metadata" url="/taoQtiItem/QtiExporter/index" context="resource" group="tree">
-                        <!-- binding="instanciate">-->
-                        <icon id="icon-meta-data"/>
-                    </action>
                 </actions>
             </section>
         </sections>
