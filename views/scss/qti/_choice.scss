@@ -1,6 +1,9 @@
 @import "inc/bootstrap";
 
 .qti-choiceInteraction {
+    .qti-block-overlay {
+        display: none;
+    }
 
     $elimCbOffsetLeft: 50;
     $captionOffsetLeft: 17;
@@ -77,9 +80,6 @@
                 .label-box {
                     font-style: italic;
                     text-decoration: line-through;
-                    .qti-block-overlay {
-                        display: none;
-                    }
                 }
                 [data-eliminable="container"] {
                     width: 100%;
