@@ -17,8 +17,7 @@
  *
  */
 
-define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, rendererConfig){
-
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
     'use strict';
 
     return {
@@ -26,7 +25,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
         template : tpl,
         getData : function(item, data){
             
-            var renderer = this;
+            var self = this;
             var defaultData = {
                 'class' : data.attributes.class || '',
                 responses : [],
@@ -37,7 +36,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 schemaLocations : '',
                 xsi: 'xsi:',//the standard namespace prefix for xml schema
                 empty : item.isEmpty(),
-                responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : '',
+                responseProcessing : item.responseProcessing ? item.responseProcessing.render(self) : '',
                 apipAccessibility : item.getApipAccessibility() || ''
             };
             
@@ -46,17 +45,21 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
             });
             defaultData.schemaLocations = defaultData.schemaLocations.trim();
             
-            _.each(item.responses, function(response){
-                defaultData.responses.push(response.render(renderer));
+            _.forEach(item.responses, function(response){
+                defaultData.responses.push(response.render(self));
             });
-            _.each(item.outcomes, function(outcome){
-                defaultData.outcomes.push(outcome.render(renderer));
+            _.forEach(item.outcomes, function(outcome){
+                if(!defaultData.responseProcessing && outcome.id() === 'SCORE'){
+                    //should not export the SCORE outcome when there is no response processing
+                    return;
+                }
+                defaultData.outcomes.push(outcome.render(self));
             });
-            _.each(item.stylesheets, function(stylesheet){
-                defaultData.stylesheets.push(stylesheet.render(renderer));
+            _.forEach(item.stylesheets, function(stylesheet){
+                defaultData.stylesheets.push(stylesheet.render(self));
             });
-            _.each(item.modalFeedbacks, function(feedback){
-                defaultData.feedbacks.push(feedback.render(renderer));
+            _.forEach(item.modalFeedbacks, function(feedback){
+                defaultData.feedbacks.push(feedback.render(self));
             });
             
             data = _.merge({}, data || {}, defaultData);

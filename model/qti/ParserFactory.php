@@ -541,17 +541,22 @@ class ParserFactory
         //warning: extract the response processing at the latest to make oat\taoQtiItem\model\qti\response\TemplatesDriven::takeOverFrom() work
         $rpNodes = $this->queryXPath("*[name(.) = 'responseProcessing']", $data);
         if($rpNodes->length === 0){
-            common_Logger::i('No responseProcessing found for QTI Item, setting empty custom', array('QTI', 'TAOITEMS'));
-            $customrp = new Custom(array(), '<responseProcessing/>');
-            $this->item->setResponseProcessing($customrp);
+            //no response processing node found: the template for an empty response processing is simply "NONE"
+            $rProcessing = new TemplatesDriven();
+            $rProcessing->setRelatedItem($this->item);
+            foreach($this->item->getInteractions() as $interaction){
+                $rProcessing->setTemplate($interaction->getResponse(), Template::NONE);
+            }
+            $this->item->setResponseProcessing($rProcessing);
         }else{
-            $rpNode = $rpNodes->item(0); //the node should be alone
+            //if there is a response processing node, try parsing it
+            $rpNode = $rpNodes->item(0);
             $rProcessing = $this->buildResponseProcessing($rpNode, $this->item);
             if(!is_null($rProcessing)){
                 $this->item->setResponseProcessing($rProcessing);
             }
         }
-        
+
         $this->buildApipAccessibility($data);
         
         return $this->item;
@@ -966,36 +971,30 @@ class ParserFactory
             try{
                 //warning: require to add interactions to the item to make it work
                 $returnValue = TemplatesDriven::takeOverFrom($returnValue, $item);
-                common_Logger::d('Processing is Template converted to TemplateDriven', array('TAOITEMS', 'QTI'));
-            }catch(TakeoverFailedException $e){
-                common_Logger::d('Processing is Template', array('TAOITEMS', 'QTI'));
-            }
+            }catch(TakeoverFailedException $e){}
         }catch(UnexpectedResponseProcessing $e){
 
         }
+
         //try templatedriven
         if(is_null($returnValue)){
             try{
                 $returnValue = $this->buildTemplatedrivenResponse($data, $item->getInteractions());
-                common_Logger::d('Processing is TemplateDriven', array('TAOITEMS', 'QTI'));
-            }catch(UnexpectedResponseProcessing $e){
-
-            }
+            }catch(UnexpectedResponseProcessing $e){}
         }
 
         // build custom
         if(is_null($returnValue)){
             try{
                 $returnValue = $this->buildCustomResponseProcessing($data);
-                common_Logger::d('ResponseProcessing is custom');
             }catch(UnexpectedResponseProcessing $e){
                 // not a Template
-                common_Logger::e('custom response processing failed, should never happen', array('TAOITEMS', 'QTI'));
+                common_Logger::e('custom response processing failed', array('TAOITEMS', 'QTI'));
             }
         }
 
         if(is_null($returnValue)){
-            common_Logger::d('failled to determin ResponseProcessing');
+            common_Logger::w('failed to determine ResponseProcessing');
         }
 
         return $returnValue;
@@ -1077,11 +1076,10 @@ class ParserFactory
         }
 
         if(count(array_diff(array_keys($irps), array_keys($responses))) > 0){
-            throw new UnexpectedResponseProcessing('Not composit, no responses for rules: '.implode(',', array_diff(array_keys($irps), array_keys($responses))));
+            throw new UnexpectedResponseProcessing('Not composite, no responses for rules: '.implode(',', array_diff(array_keys($irps), array_keys($responses))));
         }
         if(count(array_diff(array_keys($responses), array_keys($irps))) > 0){
-            common_Logger::w('Some responses have no processing');
-            throw new UnexpectedResponseProcessing('Not composit, no support for unmatched variables yet');
+            throw new UnexpectedResponseProcessing('Not composite, no support for unmatched variables yet');
         }
 
         //assuming sum is correct
@@ -1303,14 +1301,15 @@ class ParserFactory
             }
         }
 
-        // drop rules that don't have a corresponding response identifier
-        if(count(array_diff($responseIdentifiers, array_keys($rules))) > 0){
+        //all rules must have been previously identified as belonging to one interaction
+        if(count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
             throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
         }
         
         $templatesDrivenRP = new TemplatesDriven();
         foreach($interactions as $interaction){
-            $pattern = $rules[$interaction->getResponse()->getIdentifier()];
+            //if a rule has been found for an interaction, apply it. Default to the template NONE otherwise
+            $pattern = isset($rules[$interaction->getResponse()->getIdentifier()]) ? $rules[$interaction->getResponse()->getIdentifier()] : Template::NONE;
             $templatesDrivenRP->setTemplate($interaction->getResponse(), $pattern);
         }
         $templatesDrivenRP->setRelatedItem($this->item);

@@ -13,24 +13,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
- */
-
-
-/**
- * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
-	'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Sleep',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Correct'
-], function(factory, states){
-
+    'taoQtiItem/qtiCreator/widgets/interactions/states/NoRp'
+], function(stateFactory, NoRp){
     'use strict';
 
-    //creates a state bundle for the interaction
-    return factory.createBundle(states, arguments);
+    return stateFactory.extend(NoRp, function initStateNoRp(){
+
+        this.widget.$container.find('.qti-choice').hide();
+
+    }, function exitStateNoRp(){
+
+        this.widget.$container.find('.qti-choice').show();
+    });
 });

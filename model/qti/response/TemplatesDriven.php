@@ -19,7 +19,6 @@
  */
 namespace oat\taoQtiItem\model\qti\response;
 
-use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 use oat\taoQtiItem\model\qti\response\ResponseProcessing;
 use oat\taoQtiItem\model\qti\response\Rule;
 use oat\taoQtiItem\model\qti\response\Template;
@@ -62,8 +61,8 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param
-     *            string uri
+     * @param string uri
+     * @deprecated
      * @return taoQTI_models_classes_Matching_bool
      */
     public static function isSupportedTemplate($uri)
@@ -71,7 +70,8 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         $mythoMap = Array(
             Template::MATCH_CORRECT,
             Template::MAP_RESPONSE,
-            Template::MAP_RESPONSE_POINT
+            Template::MAP_RESPONSE_POINT,
+            Template::NONE
         );
         
         $returnValue = in_array($uri, $mythoMap);
@@ -241,9 +241,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         foreach ($interactions as $interaction) {
             $response = $interaction->getResponse();
             $uri = $response->getHowMatch();
-            $templateName = substr($uri, strrpos($uri, '/') + 1);
-            $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.' . $templateName . '.tpl.php';
-            
+            $matchingTemplate = $this->getResponseProcessingTemplate($uri);
             $tplRenderer = new taoItems_models_classes_TemplateRenderer($matchingTemplate, Array(
                 'responseIdentifier' => $response->getIdentifier(),
                 'outcomeIdentifier' => 'SCORE'
@@ -260,37 +258,14 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         return (string) $returnValue;
     }
 
-    /**
-     * Short description of method buildRule
-     *
-     * @deprecated
-     *
-     *
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param
-     *            Item item
-     * @return string
-     */
-    public function buildRule(Item $item)
-    {
-        $returnValue = (string) '';
-        
-        foreach ($item->getInteractions() as $interaction) {
-            $response = $interaction->getResponse();
-            $uri = $response->getHowMatch();
-            $templateName = substr($uri, strrpos($uri, '/') + 1);
-            $matchingTemplate = dirname(__FILE__) . '/rpTemplate/rule.' . $templateName . '.tpl.php';
-            
-            $tplRenderer = new taoItems_models_classes_TemplateRenderer($matchingTemplate, Array(
-                'responseIdentifier' => $response->getIdentifier(),
-                'outcomeIdentifier' => 'SCORE'
-            ));
-            $returnValue .= $tplRenderer->render();
+    protected function getResponseProcessingTemplate($templateUri){
+        if($templateUri === Template::NONE){
+            $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.none.tpl.php';
+        }else{
+            $templateName = substr($templateUri, strrpos($templateUri, '/') + 1);
+            $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.' . $templateName . '.tpl.php';
         }
-        
-        return (string) $returnValue;
+        return $matchingTemplate;
     }
 
     /**
@@ -334,7 +309,9 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     {
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $rp = null;
+        $responseRules = [];
         $template = $this->convertToTemplate();
+
         if (is_null($template)) {
             // cannot be converted into a Template instance, so build the rp from the current instance
             $rp = $this->buildQTI();
@@ -342,18 +319,22 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             // can be converted into a Template instance, so get the Template content
             $rp = $template->getTemplateContent();
         }
-        $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp));
+        if(!empty(trim($rp))){
+            $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp));
+            $responseRules = $rpSerialized['responseRules'];
+        }
+
         $protectedData = array(
             'processingType' => 'templateDriven',
-            'responseRules' => $rpSerialized['responseRules']
+            'responseRules' => $responseRules
         );
-        
+
         if ($filterVariableContent) {
             $filtered[$this->getSerial()] = $protectedData;
         } else {
             $returnValue = array_merge($returnValue, $protectedData);
         }
-        
+
         return $returnValue;
     }
 

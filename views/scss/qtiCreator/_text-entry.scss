@@ -11,6 +11,11 @@
             top: 0;
         }
     }
+    &.edit-norp, &.edit-question{
+        .qti-textEntryInteraction{
+            padding: 20px 30px 10px 30px;
+        }
+    }
 }
 
 .textEntryInteraction-placeholder {
@@ -53,7 +58,12 @@
         height: 27px;
         white-space: nowrap;
     }
-    
+
+    .icon-radio{
+        top: 3px;
+        left: 8px;
+    }
+
     .icon-bin {
         text-align:center;
         width:auto;
