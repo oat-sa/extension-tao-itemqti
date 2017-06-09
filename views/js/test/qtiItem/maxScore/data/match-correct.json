@@ -1,0 +1,333 @@
+{
+    "identifier": "i14930425198330510",
+    "serial": "item_58fe0776d5974496136621",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "i14930425198330510",
+        "title": "Item 15",
+        "label": "",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.2.0-sprint48",
+        "class": ""
+    },
+    "body": {
+        "serial": "container_containeritembody_58fe0776d591e703702638",
+        "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                {{interaction_matchinteraction_58fe0776db6f0287938721}}\n            <\/div>\n        <\/div>\n    ",
+        "elements": {
+            "interaction_matchinteraction_58fe0776db6f0287938721": {
+                "serial": "interaction_matchinteraction_58fe0776db6f0287938721",
+                "qtiClass": "matchInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE",
+                    "shuffle": false,
+                    "maxAssociations": 0,
+                    "minAssociations": 0
+                },
+                "prompt": {
+                    "serial": "container_containerstatic_58fe0776dc81e285677404",
+                    "body": "",
+                    "elements": {},
+                    "debug": {
+                        "relatedItem": "item_58fe0776d5974496136621"
+                    }
+                },
+                "choices": [
+                    {
+                        "choice_simpleassociablechoice_58fe0776dcf6a139491030": {
+                            "identifier": "choice_1",
+                            "serial": "choice_simpleassociablechoice_58fe0776dcf6a139491030",
+                            "qtiClass": "simpleAssociableChoice",
+                            "attributes": {
+                                "identifier": "choice_1",
+                                "fixed": false,
+                                "showHide": "show",
+                                "matchMax": 0,
+                                "matchMin": 0
+                            },
+                            "body": {
+                                "serial": "container_containerstatic_58fe0776ddb30337381523",
+                                "body": "choice #1",
+                                "elements": {},
+                                "debug": {
+                                    "relatedItem": "item_58fe0776d5974496136621"
+                                }
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fe0776d5974496136621"
+                            }
+                        },
+                        "choice_simpleassociablechoice_58fe0776ddbd8323259819": {
+                            "identifier": "choice_2",
+                            "serial": "choice_simpleassociablechoice_58fe0776ddbd8323259819",
+                            "qtiClass": "simpleAssociableChoice",
+                            "attributes": {
+                                "identifier": "choice_2",
+                                "fixed": false,
+                                "showHide": "show",
+                                "matchMax": 0,
+                                "matchMin": 0
+                            },
+                            "body": {
+                                "serial": "container_containerstatic_58fe0776ddc08160949168",
+                                "body": "choice #2",
+                                "elements": {},
+                                "debug": {
+                                    "relatedItem": "item_58fe0776d5974496136621"
+                                }
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fe0776d5974496136621"
+                            }
+                        },
+                        "choice_simpleassociablechoice_58fe0776ddc7e332708155": {
+                            "identifier": "choice_5",
+                            "serial": "choice_simpleassociablechoice_58fe0776ddc7e332708155",
+                            "qtiClass": "simpleAssociableChoice",
+                            "attributes": {
+                                "identifier": "choice_5",
+                                "fixed": false,
+                                "showHide": "show",
+                                "matchMax": 0,
+                                "matchMin": 0
+                            },
+                            "body": {
+                                "serial": "container_containerstatic_58fe0776ddca9756225454",
+                                "body": "choice #3",
+                                "elements": {},
+                                "debug": {
+                                    "relatedItem": "item_58fe0776d5974496136621"
+                                }
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fe0776d5974496136621"
+                            }
+                        }
+                    },
+                    {
+                        "choice_simpleassociablechoice_58fe0776ddd25559292110": {
+                            "identifier": "choice_3",
+                            "serial": "choice_simpleassociablechoice_58fe0776ddd25559292110",
+                            "qtiClass": "simpleAssociableChoice",
+                            "attributes": {
+                                "identifier": "choice_3",
+                                "fixed": false,
+                                "showHide": "show",
+                                "matchMax": 0,
+                                "matchMin": 0
+                            },
+                            "body": {
+                                "serial": "container_containerstatic_58fe0776ddd50476408683",
+                                "body": "choice #1",
+                                "elements": {},
+                                "debug": {
+                                    "relatedItem": "item_58fe0776d5974496136621"
+                                }
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fe0776d5974496136621"
+                            }
+                        },
+                        "choice_simpleassociablechoice_58fe0776dddbb235025331": {
+                            "identifier": "choice_4",
+                            "serial": "choice_simpleassociablechoice_58fe0776dddbb235025331",
+                            "qtiClass": "simpleAssociableChoice",
+                            "attributes": {
+                                "identifier": "choice_4",
+                                "fixed": false,
+                                "showHide": "show",
+                                "matchMax": 0,
+                                "matchMin": 0
+                            },
+                            "body": {
+                                "serial": "container_containerstatic_58fe0776ddde4460203647",
+                                "body": "choice #2",
+                                "elements": {},
+                                "debug": {
+                                    "relatedItem": "item_58fe0776d5974496136621"
+                                }
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fe0776d5974496136621"
+                            }
+                        },
+                        "choice_simpleassociablechoice_58fe0776dde4c987704695": {
+                            "identifier": "choice_6",
+                            "serial": "choice_simpleassociablechoice_58fe0776dde4c987704695",
+                            "qtiClass": "simpleAssociableChoice",
+                            "attributes": {
+                                "identifier": "choice_6",
+                                "fixed": false,
+                                "showHide": "show",
+                                "matchMax": 0,
+                                "matchMin": 0
+                            },
+                            "body": {
+                                "serial": "container_containerstatic_58fe0776dde74987345581",
+                                "body": "choice #3",
+                                "elements": {},
+                                "debug": {
+                                    "relatedItem": "item_58fe0776d5974496136621"
+                                }
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fe0776d5974496136621"
+                            }
+                        },
+                        "choice_simpleassociablechoice_58fe0776ddeda611594545": {
+                            "identifier": "choice_7",
+                            "serial": "choice_simpleassociablechoice_58fe0776ddeda611594545",
+                            "qtiClass": "simpleAssociableChoice",
+                            "attributes": {
+                                "identifier": "choice_7",
+                                "fixed": false,
+                                "showHide": "show",
+                                "matchMax": 0,
+                                "matchMin": 0
+                            },
+                            "body": {
+                                "serial": "container_containerstatic_58fe0776ddf02677801436",
+                                "body": "choice #4",
+                                "elements": {},
+                                "debug": {
+                                    "relatedItem": "item_58fe0776d5974496136621"
+                                }
+                            },
+                            "debug": {
+                                "relatedItem": "item_58fe0776d5974496136621"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "debug": {
+            "relatedItem": "item_58fe0776d5974496136621"
+        }
+    },
+    "debug": {
+        "relatedItem": "item_58fe0776d5974496136621"
+    },
+    "namespaces": {
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1",
+        "m": "http:\/\/www.w3.org\/1998\/Math\/MathML",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
+    },
+    "stylesheets": {},
+    "outcomes": {
+        "outcomedeclaration_58fe0776d9a9e059269556": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_58fe0776d9a9e059269556",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_58fe0776d5974496136621"
+            },
+            "defaultValue": null
+        }
+    },
+    "responses": {
+        "responsedeclaration_58fe0776d891f839469431": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_58fe0776d891f839469431",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "multiple",
+                "baseType": "directedPair"
+            },
+            "debug": {
+                "relatedItem": "item_58fe0776d5974496136621"
+            },
+            "defaultValue": [],
+            "mapping": [],
+            "areaMapping": [],
+            "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/match_correct",
+            "correctResponses": [
+                "\n                choice_2 choice_3\n            ",
+                "\n                choice_1 choice_6\n            "
+            ],
+            "mappingAttributes": {
+                "defaultValue": 0
+            },
+            "feedbackRules": {}
+        }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+        "serial": "response_templatesdriven_58fe0776dffa0397636797",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "debug": {
+            "relatedItem": "item_58fe0776d5974496136621"
+        },
+        "processingType": "templateDriven",
+        "responseRules": [
+            {
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "match",
+                        "expressions": [
+                            {
+                                "qtiClass": "variable",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            },
+                            {
+                                "qtiClass": "correct",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        ]
+                    },
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "1"
+                            }
+                        }
+                    ]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "0"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "apipAccessibility": ""
+}

@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ *
+ */
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -11,8 +29,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse' 
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
 ], function($, _, __, stateFactory, Map, commonRenderer, answerStateHelper, instructionMgr, formElement, PciResponse){
+    'use strict';
 
     /**
      * Initialize the state.
@@ -23,7 +42,7 @@ define([
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
         
-        //really need to destroy before ? 
+        //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
         
@@ -33,7 +52,7 @@ define([
         //set the current mapping mode, needed by the common renderer
         interaction.responseMappingMode = true;
  
-        //must be done prior to the render to override clicks        
+        //must be done prior to the render to override clicks
         createScoreForm(interaction, widget.$container);
 
         //use the common Renderer
@@ -68,7 +87,7 @@ define([
         var widget      = this.widget;
         var interaction = widget.element;
         var $container  = widget.$container;
-        
+
         $container.off('responseChange.qti-widget');
 
         $('.score', $container).remove();
@@ -77,14 +96,17 @@ define([
 
         //destroy the common renderer
         commonRenderer.resetResponse(interaction);
-        commonRenderer.destroy(interaction); 
+        commonRenderer.destroy(interaction);
         instructionMgr.removeInstructions(interaction);
+
+        //always restore the checkbox to readonly before leaving the state
+        this.widget.$original.find('.hottext-checkmark > input').prop('disabled', 'disabled');
     }
 
     function toggleCorrectState($container, enable){
         if(enable){
             $('.hottext-checkmark > input', $container)
-                .removeProp('disabled') 
+                .removeProp('disabled')
                 .removeClass('disabled');
         } else {
             $('.hottext-checkmark > input', $container)
@@ -104,7 +126,7 @@ define([
             if($(e.target).hasClass('score') || answerStateHelper.defineCorrect(response) === false){
                 e.preventDefault();
                 e.stopImmediatePropagation();
-            } 
+            }
         });
 
         _.forEach(interaction.getChoices(), function(choice){
@@ -114,15 +136,15 @@ define([
             if($hottext.length){
     
                 $score = $("<input type='text' name='" + id + "' class='score' title='" + __('Score value') + "' data-validate='$numeric' data-validate-option='$allowEmpty; $event(type=keyup)' />"); 
-                $score.val(mapEntries[choice.id()] !== undefined ? mapEntries[choice.id()] : response.mappingAttributes.defaultValue);                
+                $score.val(mapEntries[choice.id()] !== undefined ? mapEntries[choice.id()] : response.mappingAttributes.defaultValue);
                 $hottext.append($score);
                 
 
-                callbacks[id] = function(response, value){
+                callbacks[id] = function(res, value){
                     if(value === ''){
-                        response.removeMapEntry(choice.id());
+                        res.removeMapEntry(choice.id());
                     } else {
-                        response.setMapEntry(choice.id(), value, true);
+                        res.setMapEntry(choice.id(), value, true);
                     }
                 };
             }
