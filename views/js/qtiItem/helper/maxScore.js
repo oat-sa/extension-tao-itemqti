@@ -154,8 +154,8 @@ define([
             var max, maxChoice, minChoice, scoreMaps, requiredChoiceCount, totalAnswerableResponse, sortedMapEntries, i, missingMapsCount;
 
             options = _.defaults(options || {}, {maxChoices : 0, minChoices: 0});
-            maxChoice = parseInt(interaction.attr('maxChoices')||options.maxChoices);
-            minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices')||options.minChoices);
+            maxChoice = parseInt(interaction.attr('maxChoices')||options.maxChoices, 10);
+            minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices')||options.minChoices, 10);
             if(maxChoice && minChoice && maxChoice < minChoice){
                 return 0;
             }
@@ -189,9 +189,9 @@ define([
 
                 //if there is not enough map defined, compared to the minChoice constraint, fill in the rest of required choices with the default map
                 missingMapsCount = minChoice - sortedMapEntries.size();
-                for(i = 0; i < missingMapsCount;i++){
+                _.times(missingMapsCount, function(){
                     sortedMapEntries.push(mapDefault);
-                }
+                });
 
                 //if the map default is positive, the optimal strategy involves using as much mapDefault as possible
                 if(mapDefault && mapDefault > 0){
@@ -201,9 +201,9 @@ define([
                         missingMapsCount = _.size(interaction.getChoices()) - sortedMapEntries.size();
                     }
                     if(missingMapsCount > 0){
-                        for(i = 0; i < missingMapsCount;i++){
+                        _.times(missingMapsCount, function(){
                             sortedMapEntries.push(mapDefault);
-                        }
+                        });
                     }
                 }
 
@@ -235,8 +235,8 @@ define([
          * @returns {Number}
          */
         orderInteractionBased : function orderInteractionBased(interaction){
-            var minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices')||0);
-            var maxChoice = parseInt(interaction.attr('maxChoices')||0);
+            var minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices')||0, 10);
+            var maxChoice = parseInt(interaction.attr('maxChoices')||0, 10);
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var max;
@@ -270,8 +270,8 @@ define([
         associateInteractionBased : function associateInteractionBased(interaction, options){
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
-            var maxAssoc = parseInt(interaction.attr('maxAssociations')||0);
-            var minAssoc = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minAssociations')||0);
+            var maxAssoc = parseInt(interaction.attr('maxAssociations')||0, 10);
+            var minAssoc = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minAssociations')||0, 10);
             var mapDefault = parseFloat(responseDeclaration.mappingAttributes.defaultValue||0);
             var max, requiredAssoc, totalAnswerableResponse, usedChoices, choicesIdentifiers, sortedMapEntries, i, allPossibleMapEntries, infiniteScoringPair;
 
@@ -312,7 +312,7 @@ define([
                             max = 0;
                             return false;
                         }
-                        matchMax = parseInt(choice.attr('matchMax'));
+                        matchMax = parseInt(choice.attr('matchMax'), 10);
                         if(matchMax && matchMax < count){
                             max = 0;
                             return false;
@@ -480,7 +480,7 @@ define([
 
                     _.forEach(_.countBy(group1), function(count, identifier){
                         var choice = interaction.getChoiceByIdentifier(identifier);
-                        var matchMax = parseInt(choice.attr('matchMax'));
+                        var matchMax = parseInt(choice.attr('matchMax'), 10);
                         if(matchMax && matchMax < count){
                             max = 0;
                             return false;
@@ -542,7 +542,7 @@ define([
                             }
                             _usedChoices[choiceId] = {
                                 used : 0,
-                                max: parseInt(choice.attr('matchMax'))
+                                max: parseInt(choice.attr('matchMax'), 10)
                             };
                         }
                         if(_usedChoices[choiceId].max && _usedChoices[choiceId].used === _usedChoices[choiceId].max){
@@ -600,8 +600,8 @@ define([
          * @returns {Number}
          */
         selectPointInteractionBased : function selectPointInteractionBased(interaction){
-            var maxChoice = parseInt(interaction.attr('maxChoices'));
-            var minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices'));
+            var maxChoice = parseInt(interaction.attr('maxChoices'), 10);
+            var minChoice = _ignoreMinChoice ? 0 : parseInt(interaction.attr('minChoices'), 10);
             var responseDeclaration = interaction.getResponseDeclaration();
             var template = responseHelper.getTemplateNameFromUri(responseDeclaration.template);
             var max, skippableWrongResponse, totalAnswerableResponse;
