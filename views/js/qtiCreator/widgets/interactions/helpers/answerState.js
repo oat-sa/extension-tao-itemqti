@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ *
+ */
 define([
     'jquery',
     'lodash',
@@ -20,21 +38,40 @@ define([
     };
 
     /**
+     * Get the list of all available response processing templates available in the plateform
+     * @returns {Object}
+     */
+    var getAvailableTemplates = function getAvailableTemplates(){
+        return {
+            'CUSTOM' : __('custom'),
+            'MATCH_CORRECT' : __('match correct'),
+            'MAP_RESPONSE' : __('map response'),
+            'MAP_RESPONSE_POINT' : __('map response'),
+            'NONE' : __('none')
+        };
+    };
+
+    /**
      * Get available rp templates according to interaction type and response processing type
      *
-     * @param {object} interaction
-     * @returns {object} templates
+     * @param {Object} interaction - standard interaction object model
+     * @param {Array} [filteredTemplates] - shorted listed of templates the interaction can use
+     * @returns {Object} templates
      */
-    var _getAvailableRpTemplates = function _getAvailableRpTemplates(interaction){
+    var _getAvailableRpTemplates = function _getAvailableRpTemplates(interaction, filteredTemplates){
 
-        var templates = {
-                'CUSTOM' : __('custom'),
-                'MATCH_CORRECT' : __('match correct'),
-                'MAP_RESPONSE' : __('map response'),
-                'MAP_RESPONSE_POINT' : __('map response'),
-                'NONE' : __('none')
-            },
-            rp = interaction.getRelatedItem().responseProcessing;
+        var rp = interaction.getRelatedItem().responseProcessing;
+        var allTemplates = getAvailableTemplates();
+        var templates = {};
+        if(!_.isEmpty(filteredTemplates)){
+            _.forEach(filteredTemplates, function(templateName){
+                if(allTemplates[templateName]){
+                    templates[templateName] = allTemplates[templateName];
+                }
+            });
+        }else{
+            templates = allTemplates;
+        }
 
         switch(interaction.qtiClass){
             case 'orderInteraction':
@@ -65,7 +102,10 @@ define([
     };
 
     var answerStateHelper = {
-        //forward to one of the available sub state, according to the response processing template
+        /**
+         * forward to one of the available sub-state of the answer, according to the response processing template
+         * @param {Object} widget
+         */
         forward : function forward(widget){
 
             var response = widget.element.getResponseDeclaration();
@@ -85,6 +125,13 @@ define([
                 widget.changeState('custom');
             }
         },
+
+        /**
+         * Allow getting and setting the possibility to define the correct response in the map response mode
+         * @param {Object} response - standard response object
+         * @param {boolean} [newDefineCorrectActive] - set the possibility or not to define the correct response
+         * @returns {boolean}
+         */
         defineCorrect : function defineCorrect(response, newDefineCorrectActive){
 
             var defineCorrectActive = false,
@@ -119,7 +166,14 @@ define([
 
             return defineCorrectActive;
         },
-        initResponseForm : function initResponseForm(widget){
+
+        /**
+         * Init the response form the interaction answer state
+         * @param {Object} widget
+         * @param {Object} [options]
+         * @param {Array} [options.rpTemplates] - the array of response processing templates name to be used
+         */
+        initResponseForm : function initResponseForm(widget, options){
 
             var interaction = widget.element,
                 item = interaction.getRelatedItem(),
@@ -140,6 +194,10 @@ define([
                 }
             };
 
+            options = _.defaults(options || {}, {
+                rpTemplates : []
+            });
+
             if(!template || rp.processingType === 'custom'){
                 template = 'CUSTOM';
             }
@@ -152,7 +210,7 @@ define([
                 editFeedbacks : (template !== 'CUSTOM'),
                 mappingDisabled: _.isEmpty(response.mapEntries),
                 template : template,
-                templates : _getAvailableRpTemplates(interaction),
+                templates : _getAvailableRpTemplates(interaction, options.rpTemplates),
                 defaultValue : response.getMappingAttribute('defaultValue'),
                 lowerBound : response.getMappingAttribute('lowerBound'),
                 upperBound : response.getMappingAttribute('upperBound')
@@ -191,6 +249,12 @@ define([
 
             formElement.initWidget(widget.$responseForm);
         },
+
+        /**
+         * Check if any correct response is defined
+         * @param {Object} widget
+         * @returns {Boolean}
+         */
         isCorrectDefined : function isCorrectDefined(widget){
             var response = widget.element.getResponseDeclaration();
             return !!_.size(response.getCorrect());
