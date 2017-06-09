@@ -77,6 +77,9 @@
                 .label-box {
                     font-style: italic;
                     text-decoration: line-through;
+                    .qti-block-overlay {
+                        display: none;
+                    }
                 }
                 [data-eliminable="container"] {
                     width: 100%;
