@@ -40,6 +40,14 @@
         // ol
         .choice-area {
             margin-top: 25px;
+            .label-content {
+                display: inline-block;
+                .qti-block {
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
             // there might be list-styles that move everything to the right
             &[class^="list-style-"], &[class*=" list-style-"] {
                 [data-eliminable="container"] {
