@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\model\portableElement\storage;
 
 use oat\oatbox\AbstractRegistry;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
@@ -35,12 +36,14 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  *
  * @package taoQtiItem
  */
-abstract class PortableElementRegistry extends AbstractRegistry implements ServiceLocatorAwareInterface
+abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use PortableElementModelTrait;
 
     protected $storage;
+
+    protected $fileSystemId;
 
     /**
      * Fetch a portable element with identifier & version
@@ -82,7 +85,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     protected function getAllVersions($identifier)
     {
-        $portableElements = parent::get($identifier);
+        $portableElements = $this->get($identifier);
 
         // No portable element found
         if ($portableElements == '') {
@@ -92,6 +95,65 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
         }
 
         return $portableElements;
+    }
+
+    /**
+     * Retrieve the given element from list of portable element
+     * @param string $identifier
+     * @return string
+     */
+    private function get($identifier)
+    {
+        $fileSystem= $this->getConfigFileSystem();
+
+        if($fileSystem->has($identifier)){
+            return $fileSystem->read($identifier);
+        }
+
+        return false;
+    }
+
+    private function getAll()
+    {
+        $contents = $this->getConfigFileSystem()->listContents();
+        foreach ($contents as $file){
+
+        }
+
+    }
+
+
+    /**
+     * Add a value to the list with given id
+     *
+     * @param string $identifier
+     * @param string $value
+     */
+    private function set($identifier, $value)
+    {
+        $this->getConfigFileSystem()->write($identifier, $value);
+    }
+
+    /**
+     * @return \oat\oatbox\filesystem\FileSystem
+     */
+    private function getConfigFileSystem()
+    {
+        /** @var FileSystemService $fs */
+        $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+        return $fs->getFileSystem($this->fileSystemId);
+    }
+
+    /**
+     *
+     * Remove a element from the array
+     *
+     * @param string $identifier
+     */
+    private function remove($identifier)
+    {
+        $this->getConfigFileSystem()->delete($identifier);
+
     }
 
     /**
@@ -113,12 +175,12 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     public function update(PortableElementObject $object)
     {
-        $mapByIdentifier = parent::get($object->getTypeIdentifier());
+        $mapByIdentifier = $this->get($object->getTypeIdentifier());
         if (! is_array($mapByIdentifier)) {
             $mapByIdentifier = [];
         }
         $mapByIdentifier[$object->getVersion()] = $object->toArray();
-        parent::set($object->getTypeIdentifier(), $mapByIdentifier);
+        $this->set($object->getTypeIdentifier(), $mapByIdentifier);
     }
 
     /**
@@ -140,9 +202,9 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
 
         unset($portableElements[$object->getVersion()]);
         if (empty($portableElements)) {
-            parent::remove($object->getTypeIdentifier());
+            $this->remove($object->getTypeIdentifier());
         } else {
-            parent::set($object->getTypeIdentifier(), $portableElements);
+            $this->set($object->getTypeIdentifier(), $portableElements);
         }
     }
 
@@ -152,7 +214,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     public function removeAllVersions($identifier)
     {
-        if (! $this->isRegistered($identifier)) {
+        if (! $this->has($identifier)) {
             throw new PortableElementNotFoundException(
                 'Unable to find portable element (' . $identifier . ') into registry. Deletion impossible.'
             );
@@ -169,7 +231,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
      */
     public function removeAll()
     {
-        $portableElements = $this->getMap();
+        $portableElements = $this->getAll();
         foreach ($portableElements as $identifier => $versions) {
             $this->removeAllVersions($identifier);
         }
@@ -278,7 +340,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     public function getLatestRuntimes()
     {
         $all = [];
-        foreach ($this->getMap() as $typeIdentifier => $versions) {
+        foreach ($this->getAll() as $typeIdentifier => $versions) {
 
             if (empty($versions)) {
                 continue;
@@ -299,7 +361,7 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
     public function getLatestCreators()
     {
         $all = [];
-        foreach ($this->getMap() as $typeIdentifier => $versions) {
+        foreach ($this->getAll() as $typeIdentifier => $versions) {
 
             if (empty($versions)) {
                 continue;
@@ -454,4 +516,6 @@ abstract class PortableElementRegistry extends AbstractRegistry implements Servi
             return version_compare($a, $b, '<');
         });
     }
+
+
 }
