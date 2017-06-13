@@ -24,7 +24,14 @@ require_once dirname(__FILE__) .'/../../tao/includes/raw_start.php';
 
 common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
-$fs = taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
-$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse($fs->getPath());
+$dir = \taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
+
+// maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
+$adapter = $dir->getFileSystem()->getAdapter();
+if (!$adapter instanceof \League\Flysystem\Adapter\Local) {
+    throw new \Exception(__CLASS__.' can only handle local files');
+}
+
+$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse($adapter->getPathPrefix());
 $fixed = $itemUpdater->update(true);
 echo "Fixed ".count($fixed)." items\n";

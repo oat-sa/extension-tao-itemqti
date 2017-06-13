@@ -29,8 +29,6 @@ use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use \tao_models_classes_import_ImportHandler;
-use \common_Utils;
-use \core_kernel_versioning_Repository;
 use \helpers_TimeOutHelper;
 use \common_report_Report;
 use \Exception;
@@ -75,8 +73,8 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
      * @throws \common_Exception
      * @throws common_exception_Error
      */
-    public function import($class, $form) {
-
+    public function import($class, $form)
+    {
         $fileInfo = $form->getValue('source');
         $rollbackInfo = $form->getValue('rollback');
 
@@ -86,22 +84,13 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
             $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
             $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
 
-            //test versioning
-            $repository = null;
-            if (common_Utils::isUri($form->getValue('repository'))) {
-                $repository = new core_kernel_versioning_Repository($form->getValue('repository'));
-                if (!$repository->exists()) {
-                    $repository = null;
-                }
-            }
-
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);	//the zip extraction is a long process that can exced the 30s timeout
 
             try {
                 $importService = ImportService::singleton();
                 $rollbackOnError = in_array('error', $rollbackInfo);
                 $rollbackOnWarning = in_array('warning', $rollbackInfo);
-                $report = $importService->importQTIPACKFile($uploadedFile, $class, true, $repository, $rollbackOnError, $rollbackOnWarning);
+                $report = $importService->importQTIPACKFile($uploadedFile, $class, true, $rollbackOnError, $rollbackOnWarning);
             } catch (ExtractException $e) {
                 $report = common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
             } catch (ParsingException $e) {

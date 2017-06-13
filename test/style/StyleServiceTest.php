@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\test\style;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\style\StyleService;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\qti\Service;
 
 class StyleServiceTest extends TaoPhpUnitTestRunner
 {
@@ -46,17 +47,20 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         
         $itemA = $this->itemClass->createInstance('itemA');
         $itemService->setItemModel($itemA, $qtiItemModel);
-        $itemService->setItemContent($itemA, file_get_contents(dirname(__FILE__).'/samples/itemA.xml'));
+        Service::singleton()
+            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__).'/samples/itemA.xml'), $itemA);
         $this->items[] = $itemA;
         
         $itemB = $this->itemClass->createInstance('itemB');
         $itemService->setItemModel($itemB, $qtiItemModel);
-        $itemService->setItemContent($itemB, file_get_contents(dirname(__FILE__).'/samples/itemB.xml'));
+        Service::singleton()
+            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__).'/samples/itemB.xml'), $itemB);
         $this->items[] = $itemB;
         
         $itemC = $this->itemClass->createInstance('itemC');
         $itemService->setItemModel($itemC, $qtiItemModel);
-        $itemService->setItemContent($itemC, file_get_contents(dirname(__FILE__).'/samples/itemC.xml'));
+        Service::singleton()
+            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__).'/samples/itemC.xml'), $itemC);
         $this->items[] = $itemC;
     }
     
