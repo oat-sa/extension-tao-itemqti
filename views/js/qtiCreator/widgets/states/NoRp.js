@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,25 +13,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
-namespace oat\taoQtiItem\controller;
-
-use oat\taoQtiItem\model\flyExporter\form\ItemMetadataByClassExportHandler;
-
-class QtiExporter extends \tao_actions_Export
-{
-    /**
-     * Override available export handlers
-     *
-     * @return array
-     */
-    protected function getAvailableExportHandlers()
-    {
-        return [
-            new ItemMetadataByClassExportHandler()
-        ];
-    }
-}
+/**
+ * The NoRp state stands for "no response processing" state.
+ * It is a sub-state of the state answer.
+ * It defines the state of an interaction when it is in the response editing mode with response processing disabled
+ */
+define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
+    'use strict';
+    return stateFactory.create('norp', ['answer', 'active'], function(){
+        throw new Error('state "norp" prototype init method must be implemented');
+    },function(){
+        throw new Error('state "norp" prototype exit method must be implemented');
+    });
+});

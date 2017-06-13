@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti\response;
 
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\response\ResponseProcessing;
 use oat\taoQtiItem\model\qti\response\Rule;
 use oat\taoQtiItem\helpers\QtiSerializer;
@@ -103,6 +104,11 @@ class Template extends ResponseProcessing implements Rule
     const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
 
     /**
+     * Template to apply when no response processing should take place
+     */
+    const NONE = 'no_response_processing';
+
+    /**
      * Short description of attribute uri
      *
      * @access protected
@@ -151,7 +157,6 @@ class Template extends ResponseProcessing implements Rule
      */
     public function getTemplateContent(){
 
-        $returnValue = '';
         $standardRpTemplateFolder = dirname(__FILE__).'/../data/qtiv2p1/rptemplates/';
         switch($this->uri){
             case self::MATCH_CORRECT:
@@ -163,8 +168,11 @@ class Template extends ResponseProcessing implements Rule
             case self::MAP_RESPONSE_POINT:
                 $returnValue = file_get_contents($standardRpTemplateFolder.'map_response_point.xml');
                 break;
+            case self::NONE:
+                $returnValue = '';
+                break;
             default:
-                throw new \oat\taoQtiItem\model\qti\exception\QtiModelException('unknown rp template');
+                throw new QtiModelException('unknown rp template');
         }
         return $returnValue;
     }
@@ -180,31 +188,26 @@ class Template extends ResponseProcessing implements Rule
     public function __construct($uri){
         //automatically transform to qti 2.1 templates:
         switch($uri){
+            case self::MATCH_CORRECT:
             case self::MATCH_CORRECT_qtiv2p0:
             case self::MATCH_CORRECT_qtiv2p2:
-                $uri = self::MATCH_CORRECT;
+                $this->uri = self::MATCH_CORRECT;
                 break;
+            case self::MAP_RESPONSE:
             case self::MAP_RESPONSE_qtiv2p0:
             case self::MAP_RESPONSE_qtiv2p2:
-                $uri = self::MAP_RESPONSE;
+                $this->uri = self::MAP_RESPONSE;
                 break;
+            case self::MAP_RESPONSE_POINT:
             case self::MAP_RESPONSE_POINT_qtiv2p0:
             case self::MAP_RESPONSE_POINT_qtiv2p2:
-                $uri = self::MAP_RESPONSE_POINT;
+                $this->uri = self::MAP_RESPONSE_POINT;
                 break;
-        }
-
-        if($uri != self::MATCH_CORRECT &&
-                $uri != self::MAP_RESPONSE &&
-                $uri != self::MAP_RESPONSE_POINT){
-            throw new common_Exception("Unknown response processing template '$uri'");
-        }
-        $this->uri = $uri;
-
-        $extDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        $this->file = $extDir.'model/qti/data/qtiv2p1/rptemplates/'.basename($this->uri).'.xml';
-        if(!file_exists($this->file)){
-            throw new Exception("Unable to load response processing template {$this->uri} in {$this->file}");
+            case self::NONE;
+                $this->uri = self::NONE;
+                break;
+            default:
+                throw new common_Exception("Unknown response processing template '$uri'");
         }
 
         parent::__construct();
@@ -218,11 +221,14 @@ class Template extends ResponseProcessing implements Rule
      * @return string
      */
     public function toQTI(){
-        $tplRenderer = new taoItems_models_classes_TemplateRenderer(
-                static::getTemplatePath().'/qti.rptemplate.tpl.php', array('uri' => $this->uri)
-        );
 
-        $returnValue = $tplRenderer->render();
+        $returnValue = '';
+
+        if($this->uri != self::NONE){
+            //if there is actually a real response template involved, render the template
+            $tplRenderer = new taoItems_models_classes_TemplateRenderer(static::getTemplatePath().'/qti.rptemplate.tpl.php', array('uri' => $this->uri));
+            $returnValue = $tplRenderer->render();
+        }
 
         return (string) $returnValue;
     }

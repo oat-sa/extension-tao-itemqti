@@ -1,6 +1,6 @@
 define([
-    'taoQtiItem/qtiItem/core/Element', 
-    'lodash', 
+    'taoQtiItem/qtiItem/core/Element',
+    'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'taoQtiItem/qtiItem/helper/util'
 ], function(Element, _, rendererConfig, util){
@@ -215,6 +215,11 @@ define([
                 }
             }
             return arr;
+        },
+
+        getNormalMaximum : function getNormalMaximum(){
+            //by default
+            return false;
         }
     });
     return QtiInteraction;

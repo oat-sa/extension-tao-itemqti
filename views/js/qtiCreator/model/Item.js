@@ -67,6 +67,22 @@ define([
 
             return outcome;
         },
+        getOutcomeDeclaration : function getOutcomeDeclaration(identifier){
+            var found;
+            _.forEach(this.outcomes, function (outcome) {
+                if (outcome.id() === identifier) {
+                    found = outcome;
+                    return false;
+                }
+            });
+            return found;
+        },
+        removeOutcome : function removeOutcome(identifier){
+            var outcome = this.getOutcomeDeclaration(identifier);
+            if(outcome){
+                this.outcomes = _.omit(this.outcomes, outcome.getSerial());
+            }
+        },
         createModalFeedback : function(attributes, response){
 
             var identifier = attributes.identifier || '';

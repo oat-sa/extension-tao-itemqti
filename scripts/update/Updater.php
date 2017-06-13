@@ -33,6 +33,7 @@ use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
+use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
@@ -495,6 +496,18 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.3.0');
         }
 
-        $this->skip('8.3.0', '8.5.0');
+        $this->skip('8.3.0', '8.8.0');
+
+        if ($this->isVersion('8.8.0')) {
+            $itemModelService = $this->getServiceManager()->get(ItemModel::SERVICE_ID);
+            $exportHandlers = $itemModelService->getOption(ItemModel::EXPORT_HANDLER);
+            array_unshift($exportHandlers, new ItemMetadataByClassExportHandler());
+            $itemModelService->setOption(ItemModel::EXPORT_HANDLER, $exportHandlers);
+            $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
+
+            $this->setVersion('8.9.0');
+        }
+
+        $this->skip('8.9.0', '8.10.0');
     }
 }
