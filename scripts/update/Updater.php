@@ -28,6 +28,7 @@ use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
@@ -508,6 +509,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.9.0');
         }
 
-        $this->skip('8.9.0', '8.10.0');
+        $this->skip('8.9.0', '8.10.1');
     }
 }
