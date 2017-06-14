@@ -300,10 +300,14 @@ define([
             .render($container);
     });
 
+
+
     QUnit.asyncTest('get eliminated choices state', function(assert){
         var $container = $('#' + fixtureContainerId);
         var $discovery, $challenger, $pathfinder, $atlantis, $endeavour;
         var shuffled;
+
+        QUnit.expect(11);
 
         //hack the item data to set the eliminable behaviour on
         shuffled = _.cloneDeep(choiceData);
@@ -312,6 +316,7 @@ define([
         runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
+
 
                 $discovery  = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]');
                 $challenger = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Challenger]');
@@ -327,7 +332,7 @@ define([
                 assert.ok(!$endeavour.hasClass('eliminated'), 'Endeavour starts not eliminated');
 
                 // click 'eliminate'
-                $discovery.find('[data-eliminable="trigger"').click();
+                $discovery.find('[data-eliminable=trigger]').click();
 
                 // set 'eliminated' state manually
                 this.setState({
@@ -345,7 +350,7 @@ define([
                     assert.ok(!$endeavour.hasClass('eliminated'), 'Endeavour', 'Endeavour has not been eliminated');
                     assert.deepEqual(self.getState().RESPONSE.eliminated, ['Discovery', 'Atlantis'], 'state is correct');
                     QUnit.start();
-                }, 100);
+                }, 1000);
             })
             .init()
             .render($container);
@@ -357,6 +362,8 @@ define([
         var $choice;
         var $container = $('#' + fixtureContainerId);
         var shuffled;
+
+        QUnit.expect(3);
 
         //hack the item data to set the eliminable behaviour on
         shuffled = _.cloneDeep(choiceData);
