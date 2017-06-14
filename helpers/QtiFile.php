@@ -32,20 +32,6 @@ class QtiFile
     const FILE = 'qti.xml';
 
     /**
-     * @deprecated by fly-system ()
-     *
-     * @param core_kernel_classes_Resource $item
-     * @param string $langCode
-     * @return string
-     * @throws \common_Exception
-     */
-    public static function getQtiFilePath(core_kernel_classes_Resource $item, $langCode = '')
-    {
-        $itemPath = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $langCode);
-        return $itemPath.self::FILE;
-    }
-
-    /**
      * Get content of qti.xml following an item + language
      *
      * @param core_kernel_classes_Resource $item

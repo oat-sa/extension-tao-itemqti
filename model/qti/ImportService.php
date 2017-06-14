@@ -26,7 +26,6 @@ use common_Logger;
 use common_report_Report;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use core_kernel_versioning_Repository;
 use DOMDocument;
 use Exception;
 use helpers_File;
@@ -75,18 +74,13 @@ class ImportService extends tao_models_classes_GenerisService
      * @param $qtiFile
      * @param core_kernel_classes_Class $itemClass
      * @param bool $validate
-     * @param core_kernel_versioning_Repository $repository unused
      * @throws \common_Exception
      * @throws \common_ext_ExtensionException
      * @throws common_exception_Error
      * @return common_report_Report
      */
-    public function importQTIFile(
-        $qtiFile,
-        core_kernel_classes_Class $itemClass,
-        $validate = true,
-        core_kernel_versioning_Repository $repository = null
-    ) {
+    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true)
+    {
         $report = null;
 
         try {
@@ -221,7 +215,6 @@ class ImportService extends tao_models_classes_GenerisService
      * @param $file
      * @param core_kernel_classes_Class $itemClass
      * @param bool $validate
-     * @param core_kernel_versioning_Repository $repository
      * @param bool $rollbackOnError
      * @param bool $rollbackOnWarning
      * @throws Exception
@@ -236,7 +229,6 @@ class ImportService extends tao_models_classes_GenerisService
         $file,
         core_kernel_classes_Class $itemClass,
         $validate = true,
-        core_kernel_versioning_Repository $repository = null,
         $rollbackOnError = false,
         $rollbackOnWarning = false
     ) {
