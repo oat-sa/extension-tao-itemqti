@@ -300,8 +300,6 @@ define([
             .render($container);
     });
 
-
-
     QUnit.asyncTest('get eliminated choices state', function(assert){
         var $container = $('#' + fixtureContainerId);
         var $discovery, $challenger, $pathfinder, $atlantis, $endeavour;
@@ -316,7 +314,6 @@ define([
         runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
-
 
                 $discovery  = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Discovery]');
                 $challenger = $container.find('.qti-choiceInteraction .qti-choice[data-identifier=Challenger]');
@@ -350,7 +347,7 @@ define([
                     assert.ok(!$endeavour.hasClass('eliminated'), 'Endeavour', 'Endeavour has not been eliminated');
                     assert.deepEqual(self.getState().RESPONSE.eliminated, ['Discovery', 'Atlantis'], 'state is correct');
                     QUnit.start();
-                }, 1000);
+                }, 100);
             })
             .init()
             .render($container);
