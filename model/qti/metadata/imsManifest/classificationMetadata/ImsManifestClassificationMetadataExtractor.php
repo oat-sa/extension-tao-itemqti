@@ -84,7 +84,7 @@ class ImsManifestClassificationMetadataExtractor extends ImsManifestMetadataExtr
                             if ($metadata->getValue() !== '') {
                                 $newValues[$resourceIdentifier][] = new SimpleMetadataValue(
                                     $resourceIdentifier,
-                                    array('http://www.imsglobal.org/xsd/imsmd_v1p2#lom', $property),
+                                    array('http://ltsc.ieee.org/xsd/LOM#lom', $property),
                                     $metadata->getValue()
                                 );
                             }
@@ -122,11 +122,11 @@ class ImsManifestClassificationMetadataExtractor extends ImsManifestMetadataExtr
     protected function getSourcePath()
     {
         return [
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#classification',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#taxonpath',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#source',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#langstring'
+            'http://ltsc.ieee.org/xsd/LOM#lom',
+            'http://ltsc.ieee.org/xsd/LOM#classification',
+            'http://ltsc.ieee.org/xsd/LOM#taxonPath',
+            'http://ltsc.ieee.org/xsd/LOM#source',
+            'http://ltsc.ieee.org/xsd/LOM#string'
         ];
     }
 
@@ -138,12 +138,12 @@ class ImsManifestClassificationMetadataExtractor extends ImsManifestMetadataExtr
     protected function getEntryPath()
     {
         return [
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#classification',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#taxonpath',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#taxon',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#entry',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#langstring'
+            'http://ltsc.ieee.org/xsd/LOM#lom',
+            'http://ltsc.ieee.org/xsd/LOM#classification',
+            'http://ltsc.ieee.org/xsd/LOM#taxonPath',
+            'http://ltsc.ieee.org/xsd/LOM#taxon',
+            'http://ltsc.ieee.org/xsd/LOM#entry',
+            'http://ltsc.ieee.org/xsd/LOM#string'
         ];
     }
 
