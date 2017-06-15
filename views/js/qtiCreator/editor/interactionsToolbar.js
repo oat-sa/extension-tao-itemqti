@@ -75,7 +75,15 @@ define([
     }
 
     function remove($sidebar, interactionClass){
-        $sidebar.find('li[data-qti-class="' + interactionClass + '"]:not(.dev)').remove();
+        $sidebar.find('li[data-qti-class="' + interactionClass + '"]').remove();
+    }
+
+    function disable($sidebar, interactionClass){
+        $sidebar.find('li[data-qti-class="' + interactionClass + '"]').addClass('hidden');
+    }
+
+    function enable($sidebar, interactionClass){
+        $sidebar.find('li[data-qti-class="' + interactionClass + '"]').removeClass('hidden');
     }
     
     function exists($sidebar, interactionClass){
@@ -83,7 +91,7 @@ define([
     }
     
     function add($sidebar, interactionAuthoringData){
-        
+
         if(exists($sidebar, interactionAuthoringData.qtiClass)){
             throw 'the interaction is already in the sidebar';
         }
@@ -201,6 +209,8 @@ define([
         getGroup : getGroup,
         isReady : isReady,
         remove : remove,
+        disable : disable,
+        enable : enable,
         getCustomInteractionTag : function(){
             return _customInteractionTag;
         }

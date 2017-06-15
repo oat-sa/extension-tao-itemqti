@@ -34,14 +34,14 @@ define([
         return portableElementRegistry({
             getAuthoringData : function getAuthoringData(typeIdentifier, version){
                 var pciModel = this.get(typeIdentifier, version);
-                if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon){
+                if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon && pciModel.enabled){
                     return {
                         label : pciModel.label, //currently no translation available
                         icon : pciModel.creator.icon.replace(new RegExp('^' + typeIdentifier + '\/'), pciModel.baseUrl),
                         short : pciModel.short,
                         description : pciModel.description,
                         qtiClass : 'customInteraction.' + pciModel.typeIdentifier, //custom interaction is block type
-                        tags : _.union(['Custom Interactions'], pciModel.tags)
+                        tags : _.union(['Custom Interactions'], pciModel.tags),
                     };
                 }
             }
@@ -50,6 +50,6 @@ define([
                 qtiElements.classes['customInteraction.' + creator.getTypeIdentifier()] = {parents : ['customInteraction'], qti : true};
             });
         });
-    }
+    };
 
 });

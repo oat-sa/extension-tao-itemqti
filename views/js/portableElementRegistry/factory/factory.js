@@ -20,6 +20,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
     'use strict';
 
     var _requirejs = window.require;
+    var _defaultLoadingOptions = {
+        reload: false,
+        enabledOnly : false,
+        runtimeOnly : []
+    };
 
     return function portableElementRegistry(methods){
 
@@ -115,10 +120,13 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 }
                 return '';
             },
-            loadRuntimes : function loadRuntimes(reload){
+            loadRuntimes : function loadRuntimes(options){
                 var self = this;
                 var loadPromise;
-                if(_loaded && !reload){
+
+                options = _.defaults(options||{}, _defaultLoadingOptions);
+
+                if(_loaded && !options.reload){
                     loadPromise = Promise.resolve();
                 } else {
                     loadPromise = self.loadProviders().then(function(){
@@ -163,16 +171,18 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 return loadPromise;
             },
-            loadCreators : function loadCreators(reload){
-
+            loadCreators : function loadCreators(options){
+                var loadPromise;
                 var self = this;
 
-                var loadPromise = self.loadRuntimes(reload).then(function(){
+                options = _.defaults(options||{}, _defaultLoadingOptions);
+
+                loadPromise = self.loadRuntimes(options).then(function(){
                     var requiredCreators = [];
 
                     _.forIn(self._registry, function (versions, typeIdentifier){
                         var pciModel = self.get(typeIdentifier);//currently use the latest version only
-                        if(pciModel.creator && pciModel.creator.hook){
+                        if(pciModel.creator && pciModel.creator.hook && pciModel.enabled){
                             requiredCreators.push(pciModel.creator.hook.replace(/\.js$/, ''));
                         }
                     });
@@ -214,5 +224,5 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 return loadPromise;
             }
         }));
-    }
+    };
 });
