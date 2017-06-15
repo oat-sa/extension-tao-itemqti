@@ -44,9 +44,9 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
     protected function getDefaultPath()
     {
         return array(
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#taxon',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#entry',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#langstring'
+            'http://ltsc.ieee.org/xsd/LOM#taxon',
+            'http://ltsc.ieee.org/xsd/LOM#entry',
+            'http://ltsc.ieee.org/xsd/LOM#string'
         );
     }
 
