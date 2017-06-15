@@ -20,6 +20,7 @@
  */
 
 namespace oat\taoQtiItem\model\flyExporter\extractor;
+use League\Flysystem\FileNotFoundException;
 use oat\taoQtiItem\model\qti\Service;
 
 /**
@@ -96,11 +97,15 @@ class QtiExtractor implements Extractor
      */
     private function loadXml(\core_kernel_classes_Resource $item)
     {
-
         $itemService = Service::singleton();
-        $xml = $itemService->getXmlByRdfItem($item);
-        if (empty($xml)) {
-            throw new ExtractorException('No content found for item ' . $item->getUri());
+
+        try {
+            $xml = $itemService->getXmlByRdfItem($item);
+            if (empty($xml)) {
+                throw new ExtractorException('No content found for item ' . $item->getUri());
+            }
+        } catch (FileNotFoundException $e) {
+            throw new ExtractorException('qti.xml file was not found for item '. $item->getUri() .'; The item might be empty.');
         }
 
         $this->dom   = new \DOMDocument();
