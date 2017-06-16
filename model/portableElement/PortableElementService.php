@@ -119,6 +119,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
         $source = $parser->extract($zipFile);
         $object = $parser->getModel()->createDataObject($parser->getManifestContent($zipFile));
+        $object->enable();
         $this->registerModel($object, $source);
 
         \tao_helpers_File::delTree($source);
