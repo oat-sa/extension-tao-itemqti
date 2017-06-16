@@ -33,13 +33,13 @@ class ClassificationSourceMetadataValue extends SimpleMetadataValue implements C
      */
     public function __construct($resourceIdentifier, $value, $language = DEFAULT_LANG)
     {
-        parent::__construct($resourceIdentifier, $this->getDefaultPath(), $value, $language);
+        parent::__construct($resourceIdentifier, self::getSourcePath(), $value, $language);
     }
 
     /**
      * Get the default classification source path
      */
-    protected function getDefaultPath()
+    static public function getSourcePath()
     {
         return [
             'http://ltsc.ieee.org/xsd/LOM#lom',

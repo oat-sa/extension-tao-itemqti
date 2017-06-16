@@ -33,7 +33,7 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
      */
     public function __construct($resourceIdentifier, $value, $language = DEFAULT_LANG)
     {
-        parent::__construct($resourceIdentifier, $this->getDefaultPath(), $value, $language);
+        parent::__construct($resourceIdentifier, $this->getRelativeEntryPath(), $value, $language);
     }
 
     /**
@@ -41,7 +41,7 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
      *
      * @return array
      */
-    protected function getDefaultPath()
+    protected function getRelativeEntryPath()
     {
         return array(
             'http://ltsc.ieee.org/xsd/LOM#taxon',
@@ -50,4 +50,20 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
         );
     }
 
+    /**
+     * Get default entry path into DomDocument
+     *
+     * @return array
+     */
+    static public function getEntryPath()
+    {
+        return [
+            'http://ltsc.ieee.org/xsd/LOM#lom',
+            'http://ltsc.ieee.org/xsd/LOM#classification',
+            'http://ltsc.ieee.org/xsd/LOM#taxonPath',
+            'http://ltsc.ieee.org/xsd/LOM#taxon',
+            'http://ltsc.ieee.org/xsd/LOM#entry',
+            'http://ltsc.ieee.org/xsd/LOM#string'
+        ];
+    }
 }
