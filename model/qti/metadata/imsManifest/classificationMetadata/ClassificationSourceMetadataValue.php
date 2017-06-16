@@ -41,13 +41,13 @@ class ClassificationSourceMetadataValue extends SimpleMetadataValue implements C
      */
     protected function getDefaultPath()
     {
-        return  array(
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#classification',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#taxonpath',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#source',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#langstring'
-        );
+        return [
+            'http://ltsc.ieee.org/xsd/LOM#lom',
+            'http://ltsc.ieee.org/xsd/LOM#classification',
+            'http://ltsc.ieee.org/xsd/LOM#taxonPath',
+            'http://ltsc.ieee.org/xsd/LOM#source',
+            'http://ltsc.ieee.org/xsd/LOM#string'
+        ];
     }
 
 }
