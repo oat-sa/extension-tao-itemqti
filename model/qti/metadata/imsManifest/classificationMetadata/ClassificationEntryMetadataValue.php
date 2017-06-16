@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata;
 
+use oat\taoQtiItem\model\qti\metadata\LomMetadata;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class ClassificationEntryMetadataValue extends SimpleMetadataValue implements ClassificationValue
@@ -44,9 +45,9 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
     protected function getRelativeEntryPath()
     {
         return array(
-            'http://ltsc.ieee.org/xsd/LOM#taxon',
-            'http://ltsc.ieee.org/xsd/LOM#entry',
-            'http://ltsc.ieee.org/xsd/LOM#string'
+            LomMetadata::LOM_NAMESPACE . '#taxon',
+            LomMetadata::LOM_NAMESPACE . '#entry',
+            LomMetadata::LOM_NAMESPACE . '#string'
         );
     }
 
@@ -58,12 +59,12 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
     static public function getEntryPath()
     {
         return [
-            'http://ltsc.ieee.org/xsd/LOM#lom',
-            'http://ltsc.ieee.org/xsd/LOM#classification',
-            'http://ltsc.ieee.org/xsd/LOM#taxonPath',
-            'http://ltsc.ieee.org/xsd/LOM#taxon',
-            'http://ltsc.ieee.org/xsd/LOM#entry',
-            'http://ltsc.ieee.org/xsd/LOM#string'
+            LomMetadata::LOM_NAMESPACE . '#lom',
+            LomMetadata::LOM_NAMESPACE . '#classification',
+            LomMetadata::LOM_NAMESPACE . '#taxonPath',
+            LomMetadata::LOM_NAMESPACE . '#taxon',
+            LomMetadata::LOM_NAMESPACE . '#entry',
+            LomMetadata::LOM_NAMESPACE . '#string'
         ];
     }
 }

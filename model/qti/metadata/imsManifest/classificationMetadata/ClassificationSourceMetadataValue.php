@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata;
 
+use oat\taoQtiItem\model\qti\metadata\LomMetadata;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class ClassificationSourceMetadataValue extends SimpleMetadataValue implements ClassificationValue
@@ -42,11 +43,11 @@ class ClassificationSourceMetadataValue extends SimpleMetadataValue implements C
     static public function getSourcePath()
     {
         return [
-            'http://ltsc.ieee.org/xsd/LOM#lom',
-            'http://ltsc.ieee.org/xsd/LOM#classification',
-            'http://ltsc.ieee.org/xsd/LOM#taxonPath',
-            'http://ltsc.ieee.org/xsd/LOM#source',
-            'http://ltsc.ieee.org/xsd/LOM#string'
+            LomMetadata::LOM_NAMESPACE . '#lom',
+            LomMetadata::LOM_NAMESPACE . '#classification',
+            LomMetadata::LOM_NAMESPACE . '#taxonPath',
+            LomMetadata::LOM_NAMESPACE . '#source',
+            LomMetadata::LOM_NAMESPACE . '#string'
         ];
     }
 

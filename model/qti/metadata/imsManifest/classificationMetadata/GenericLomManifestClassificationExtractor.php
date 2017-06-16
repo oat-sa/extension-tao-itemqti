@@ -22,6 +22,7 @@ namespace oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata;
 
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataValue;
+use oat\taoQtiItem\model\qti\metadata\LomMetadata;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
@@ -60,7 +61,7 @@ class GenericLomManifestClassificationExtractor extends ImsManifestMetadataExtra
                 if ($entryMetadata->getPath() === ClassificationEntryMetadataValue::getEntryPath() && $entryMetadata->getValue() !== '') {
                     $newValues[$resourceIdentifier][] = new SimpleMetadataValue(
                         $resourceIdentifier,
-                        array('http://ltsc.ieee.org/xsd/LOM#lom', $metadataValue->getValue()),
+                        array(LomMetadata::LOM_NAMESPACE . '#lom', $metadataValue->getValue()),
                         $entryMetadata->getValue()
                     );
                 }
