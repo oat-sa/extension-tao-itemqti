@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata;
 
+use oat\taoQtiItem\model\qti\metadata\LomMetadata;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class ClassificationEntryMetadataValue extends SimpleMetadataValue implements ClassificationValue
@@ -33,7 +34,7 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
      */
     public function __construct($resourceIdentifier, $value, $language = DEFAULT_LANG)
     {
-        parent::__construct($resourceIdentifier, $this->getDefaultPath(), $value, $language);
+        parent::__construct($resourceIdentifier, $this->getRelativeEntryPath(), $value, $language);
     }
 
     /**
@@ -41,13 +42,29 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
      *
      * @return array
      */
-    protected function getDefaultPath()
+    protected function getRelativeEntryPath()
     {
         return array(
-            'http://ltsc.ieee.org/xsd/LOM#taxon',
-            'http://ltsc.ieee.org/xsd/LOM#entry',
-            'http://ltsc.ieee.org/xsd/LOM#string'
+            LomMetadata::LOM_NAMESPACE . '#taxon',
+            LomMetadata::LOM_NAMESPACE . '#entry',
+            LomMetadata::LOM_NAMESPACE . '#string'
         );
     }
 
+    /**
+     * Get default entry path into DomDocument
+     *
+     * @return array
+     */
+    static public function getEntryPath()
+    {
+        return [
+            LomMetadata::LOM_NAMESPACE . '#lom',
+            LomMetadata::LOM_NAMESPACE . '#classification',
+            LomMetadata::LOM_NAMESPACE . '#taxonPath',
+            LomMetadata::LOM_NAMESPACE . '#taxon',
+            LomMetadata::LOM_NAMESPACE . '#entry',
+            LomMetadata::LOM_NAMESPACE . '#string'
+        ];
+    }
 }
