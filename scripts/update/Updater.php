@@ -21,7 +21,6 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use League\Flysystem\Adapter\Local;
-use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -34,10 +33,9 @@ use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
-use oat\tao\model\ThemeRegistry;
-use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
@@ -509,5 +507,19 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('8.9.0', '8.10.1');
+
+        if ($this->isVersion('8.10.1')) {
+            foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+                $portableElementRegistry = $model->getRegistry();
+                $registeredPortableElements = array_keys($portableElementRegistry->getLatestRuntimes());
+                foreach($registeredPortableElements as $typeIdentifier){
+                    $portableElement = $portableElementRegistry->fetch($typeIdentifier);
+                    $portableElement->enable();
+                    $portableElementRegistry->update($portableElement);
+                }
+            }
+            $this->setVersion('8.11.0');
+        }
+
     }
 }
