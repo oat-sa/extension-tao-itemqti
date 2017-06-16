@@ -32,9 +32,11 @@ define([
     return function customInteractionRegistry(){
 
         return portableElementRegistry({
-            getAuthoringData : function getAuthoringData(typeIdentifier, version){
-                var pciModel = this.get(typeIdentifier, version);
-                if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon && pciModel.enabled){
+            getAuthoringData : function getAuthoringData(typeIdentifier, options){
+                var pciModel;
+                options = _.defaults(options || {}, {version : 0, enabledOnly : false});
+                pciModel = this.get(typeIdentifier, options.version);
+                if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon && (pciModel.enabled || !options.enabledOnly)){
                     return {
                         label : pciModel.label, //currently no translation available
                         icon : pciModel.creator.icon.replace(new RegExp('^' + typeIdentifier + '\/'), pciModel.baseUrl),

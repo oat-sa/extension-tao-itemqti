@@ -178,19 +178,20 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 options = _.defaults(options||{}, _defaultLoadingOptions);
 
                 loadPromise = self.loadRuntimes(options).then(function(){
-                    var requiredCreators = [];
+                    var requiredCreatorHooks = [];
+                    var requiredCreators = _.isArray(options.runtimeOnly) ? options.runtimeOnly : [];
 
                     _.forIn(self._registry, function (versions, typeIdentifier){
                         var pciModel = self.get(typeIdentifier);//currently use the latest version only
-                        if(pciModel.creator && pciModel.creator.hook && pciModel.enabled){
-                            requiredCreators.push(pciModel.creator.hook.replace(/\.js$/, ''));
+                        if(pciModel.creator && pciModel.creator.hook && (pciModel.enabled || requiredCreators.indexOf(typeIdentifier) !== false)){
+                            requiredCreatorHooks.push(pciModel.creator.hook.replace(/\.js$/, ''));
                         }
                     });
 
-                    if(requiredCreators.length){
+                    if(requiredCreatorHooks.length){
                         return new Promise(function(resolve, reject){
                             //@todo support caching?
-                            _requirejs(requiredCreators, function (){
+                            _requirejs(requiredCreatorHooks, function (){
                                 var creators = {};
                                 _.each(arguments, function (creatorHook){
                                     var id = creatorHook.getTypeIdentifier();
