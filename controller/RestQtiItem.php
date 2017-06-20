@@ -71,7 +71,7 @@ class RestQtiItem extends \tao_actions_RestController
      */
     protected function getDestinationClass()
     {
-        return $this->getClass(TAO_ITEM_CLASS);
+        return $this->getClassFromRequest(new \core_kernel_classes_Class(TAO_ITEM_CLASS));
     }
 
     /**
@@ -225,5 +225,4 @@ class RestQtiItem extends \tao_actions_RestController
     }
 }
 
-		    
-		    
+

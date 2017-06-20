@@ -23,13 +23,14 @@ namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 class LomInjector extends ImsManifestMetadataInjector
 {
-    public function __construct()
+    public function __construct($version = null)
     {
         $mappings = [];
+
         $mappings[] = new ImsManifestMapping(
-            'http://www.imsglobal.org/xsd/imsmd_v1p2',
+            'http://ltsc.ieee.org/xsd/LOM',
             'imsmd',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd'
+            'http://www.imsglobal.org/xsd/imsmd_loose_v1p3p2.xsd'
         );
         parent::__construct($mappings);
     }

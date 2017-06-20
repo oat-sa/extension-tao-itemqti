@@ -35,6 +35,8 @@ use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetEx
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\ExportException;
+use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use Psr\Http\Message\StreamInterface;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -51,6 +53,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     private static $BLACKLIST = array(
         '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
     );
+
+    /**
+     * @var MetadataExporter Service to export metadata to IMSManifest
+     */
+    protected $metadataExporter;
 
     abstract public function buildBasePath();
     
@@ -423,6 +430,19 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getServiceManager()
     {
         return ServiceManager::getServiceManager();
+    }
+
+    /**
+     * Get the service to export Metadata
+     *
+     * @return MetadataExporter
+     */
+    protected function getMetadataExporter()
+    {
+        if (! $this->metadataExporter) {
+            $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
+        }
+        return $this->metadataExporter;
     }
 
 }
