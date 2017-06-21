@@ -305,6 +305,8 @@ define([
         var $discovery, $challenger, $pathfinder, $atlantis, $endeavour;
         var shuffled;
 
+        QUnit.expect(11);
+
         //hack the item data to set the eliminable behaviour on
         shuffled = _.cloneDeep(choiceData);
         shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.class = 'eliminable';
@@ -327,7 +329,7 @@ define([
                 assert.ok(!$endeavour.hasClass('eliminated'), 'Endeavour starts not eliminated');
 
                 // click 'eliminate'
-                $discovery.find('[data-eliminable="trigger"').click();
+                $discovery.find('[data-eliminable=trigger]').click();
 
                 // set 'eliminated' state manually
                 this.setState({
@@ -357,6 +359,8 @@ define([
         var $choice;
         var $container = $('#' + fixtureContainerId);
         var shuffled;
+
+        QUnit.expect(3);
 
         //hack the item data to set the eliminable behaviour on
         shuffled = _.cloneDeep(choiceData);
