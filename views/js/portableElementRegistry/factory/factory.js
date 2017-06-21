@@ -183,7 +183,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                     _.forIn(self._registry, function (versions, typeIdentifier){
                         var pciModel = self.get(typeIdentifier);//currently use the latest version only
-                        if(pciModel.creator && pciModel.creator.hook && (pciModel.enabled || requiredCreators.indexOf(typeIdentifier) !== false)){
+                        if(pciModel.creator && pciModel.creator.hook && (pciModel.enabled || requiredCreators.indexOf(typeIdentifier) !== -1)){
                             requiredCreatorHooks.push(pciModel.creator.hook.replace(/\.js$/, ''));
                         }
                     });
