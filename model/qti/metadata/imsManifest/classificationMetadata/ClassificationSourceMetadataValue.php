@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata;
 
+use oat\taoQtiItem\model\qti\metadata\LomMetadata;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class ClassificationSourceMetadataValue extends SimpleMetadataValue implements ClassificationValue
@@ -33,21 +34,21 @@ class ClassificationSourceMetadataValue extends SimpleMetadataValue implements C
      */
     public function __construct($resourceIdentifier, $value, $language = DEFAULT_LANG)
     {
-        parent::__construct($resourceIdentifier, $this->getDefaultPath(), $value, $language);
+        parent::__construct($resourceIdentifier, self::getSourcePath(), $value, $language);
     }
 
     /**
      * Get the default classification source path
      */
-    protected function getDefaultPath()
+    static public function getSourcePath()
     {
-        return  array(
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#classification',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#taxonpath',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#source',
-            'http://www.imsglobal.org/xsd/imsmd_v1p2#langstring'
-        );
+        return [
+            LomMetadata::LOM_NAMESPACE . '#lom',
+            LomMetadata::LOM_NAMESPACE . '#classification',
+            LomMetadata::LOM_NAMESPACE . '#taxonPath',
+            LomMetadata::LOM_NAMESPACE . '#source',
+            LomMetadata::LOM_NAMESPACE . '#string'
+        ];
     }
 
 }
