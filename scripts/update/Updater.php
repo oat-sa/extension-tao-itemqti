@@ -27,6 +27,7 @@ use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
@@ -506,9 +507,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.9.0');
         }
 
-        $this->skip('8.9.0', '8.10.1');
+        $this->skip('8.9.0', '8.12.1');
 
-        if ($this->isVersion('8.10.1')) {
+        if ($this->isVersion('8.12.1')) {
             foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
                 $portableElementRegistry = $model->getRegistry();
                 $registeredPortableElements = array_keys($portableElementRegistry->getLatestRuntimes());
@@ -518,7 +519,7 @@ class Updater extends \common_ext_ExtensionUpdater
                     $portableElementRegistry->update($portableElement);
                 }
             }
-            $this->setVersion('8.11.0');
+            $this->setVersion('8.13.0');
         }
 
     }

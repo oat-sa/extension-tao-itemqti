@@ -236,7 +236,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
 
         $uniqNodes = [];
         if ($metadata instanceof ClassificationValue) {
-            $uniqNodes = array('taxonpath', 'source');
+            $uniqNodes = array('taxonPath', 'source');
         }
 
         $oldChildNode = null;
@@ -250,13 +250,13 @@ class ImsManifestMetadataInjector implements MetadataInjector
                 $node = $metadataNode->getElementsByTagName($map[$base].':'.$name)->item(0);
             }
 
-            if($name === 'langstring'){
+            if($name == 'string'){
                 $node->setAttribute('xml:lang', $metadata->getLanguage());
             }
 
             if(isset($oldChildNode)){
                 $node->appendChild($oldChildNode);
-                if ($name == 'taxonpath' && $metadata instanceof ClassificationMetadataValue) {
+                if ($name == 'taxonPath' && $metadata instanceof ClassificationMetadataValue) {
                     foreach ($metadata->getEntries() as $entry) {
                         $this->createMetadataElement($entry, $node, $map, $imsManifest);
                     }
