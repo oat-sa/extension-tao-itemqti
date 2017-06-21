@@ -48,6 +48,7 @@ abstract class PortableElementObject
     protected $runtime = array();
     /** @var array */
     protected $creator = array();
+    /** @var boolean */
     protected $enabled;
 
     /**
