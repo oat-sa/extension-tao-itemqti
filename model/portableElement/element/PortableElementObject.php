@@ -450,15 +450,28 @@ abstract class PortableElementObject
         return $this->creator[$key] = $value;
     }
 
-    public function isEnabled(){
+    /**
+     * Check if the portable element is enabled
+     * @return bool
+     */
+    public function isEnabled()
+    {
         return ($this->enabled === true);
     }
 
-    public function enable(){
+    /**
+     * Enable the portable element
+     */
+    public function enable()
+    {
         $this->enabled = true;
     }
 
-    public function disable(){
+    /**
+     * Disable the portable element
+     */
+    public function disable()
+    {
         $this->enabled = false;
     }
 }

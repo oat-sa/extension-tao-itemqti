@@ -43,7 +43,7 @@ define([
                         short : pciModel.short,
                         description : pciModel.description,
                         qtiClass : 'customInteraction.' + pciModel.typeIdentifier, //custom interaction is block type
-                        tags : _.union(['Custom Interactions'], pciModel.tags),
+                        tags : _.union(['Custom Interactions'], pciModel.tags)
                     };
                 }
             }

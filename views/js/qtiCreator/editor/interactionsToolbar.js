@@ -20,11 +20,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'ui/hider',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltip'
-], function($, _, __, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+], function($, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     'use strict';
 
     /**
@@ -109,11 +110,11 @@ define([
     }
 
     function disable($sidebar, interactionClass){
-        $sidebar.find('li[data-qti-class="' + interactionClass + '"]').addClass('hidden');
+        hider.hide($sidebar.find('li[data-qti-class="' + interactionClass + '"]'));
     }
 
     function enable($sidebar, interactionClass){
-        $sidebar.find('li[data-qti-class="' + interactionClass + '"]').removeClass('hidden');
+        hider.show($sidebar.find('li[data-qti-class="' + interactionClass + '"]'));
     }
     
     function exists($sidebar, interactionClass){
