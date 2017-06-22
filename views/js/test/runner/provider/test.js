@@ -1,3 +1,25 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -144,7 +166,7 @@ define([
     QUnit.asyncTest('Clear a rendered item', function(assert){
         var container = document.getElementById(containerId);
 
-        QUnit.expect(4);
+        QUnit.expect(6);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
         assert.equal(container.children.length, 0, 'the container has no children');
@@ -153,6 +175,7 @@ define([
 
         itemRunner('qti', itemData)
             .on('render', function(){
+                assert.equal(typeof this._item, 'object', 'the item instance is attached to the runner');
                 assert.equal(container.children.length, 1, 'the container has children');
 
                 this.clear();
@@ -160,13 +183,13 @@ define([
             }).on('clear', function(){
 
                 assert.equal(container.children.length, 0, 'the container children are removed');
+                assert.equal(this._item, null, 'the item instance is also cleared');
 
                 QUnit.start();
             })
             .init()
             .render(container);
     });
-
 
 
     QUnit.module('Provider state', {

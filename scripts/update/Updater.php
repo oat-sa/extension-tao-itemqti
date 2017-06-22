@@ -507,9 +507,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.9.0');
         }
 
-        $this->skip('8.9.0', '8.12.1');
+        $this->skip('8.9.0', '8.12.3');
 
-        if ($this->isVersion('8.12.1')) {
+        if ($this->isVersion('8.12.3')) {
             //automatically enable all current installed portable elements
             foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
                 $portableElementRegistry = $model->getRegistry();
@@ -522,6 +522,5 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('8.13.0');
         }
-
     }
 }
