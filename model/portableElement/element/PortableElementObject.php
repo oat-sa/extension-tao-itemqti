@@ -48,6 +48,8 @@ abstract class PortableElementObject
     protected $runtime = array();
     /** @var array */
     protected $creator = array();
+    /** @var boolean */
+    protected $enabled;
 
     /**
      * PortableElementModel constructor with identifier & optional version
@@ -446,5 +448,30 @@ abstract class PortableElementObject
     public function setCreatorKey($key, $value)
     {
         return $this->creator[$key] = $value;
+    }
+
+    /**
+     * Check if the portable element is enabled
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return ($this->enabled === true);
+    }
+
+    /**
+     * Enable the portable element
+     */
+    public function enable()
+    {
+        $this->enabled = true;
+    }
+
+    /**
+     * Disable the portable element
+     */
+    public function disable()
+    {
+        $this->enabled = false;
     }
 }
