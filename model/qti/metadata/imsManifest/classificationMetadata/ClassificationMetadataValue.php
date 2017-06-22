@@ -21,30 +21,32 @@
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata;
 
 use oat\tao\model\metadata\exception\writer\MetadataWriterException;
+use oat\taoLom\model\schema\classification\LomClassificationEntryMetadata;
+use oat\taoLom\model\schema\classification\LomClassificationSourceMetadata;
 
 class ClassificationMetadataValue implements ClassificationValue
 {
     /**
-     * @var ClassificationSourceMetadataValue
+     * @var LomClassificationSourceMetadata
      */
     protected $source;
 
     /**
-     * @var ClassificationEntryMetadataValue[]
+     * @var LomClassificationEntryMetadata[]
      */
     protected $entries;
 
     /**
      * ClassificationMetadataValue constructor.
      *
-     * @param ClassificationSourceMetadataValue $source
+     * @param LomClassificationSourceMetadata $source
      * @param array $entries
      * @throws MetadataWriterException
      */
-    public function __construct(ClassificationSourceMetadataValue $source, array $entries)
+    public function __construct(LomClassificationSourceMetadata $source, array $entries)
     {
         foreach ($entries as $entry) {
-            if (! $entry instanceof ClassificationEntryMetadataValue) {
+            if (! $entry instanceof LomClassificationEntryMetadata) {
                 throw new MetadataWriterException(__('Classification entries have to be an instance of ClassificationEntryMetadataValue'));
             }
         }
@@ -55,7 +57,7 @@ class ClassificationMetadataValue implements ClassificationValue
     /**
      * Get all classification metadata entries
      *
-     * @return ClassificationEntryMetadataValue[]
+     * @return LomClassificationEntryMetadata[]
      */
     public function getEntries()
     {
