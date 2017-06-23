@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\controller;
 
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\taoQtiItem\controller\AbstractQtiItemRunner;
-use \core_kernel_file_File;
 use \core_kernel_classes_Resource;
 use \common_Exception;
 use \taoQtiCommon_helpers_PciVariableFiller;
@@ -108,7 +107,6 @@ class QtiItemRunner extends AbstractQtiItemRunner
     /**
      * Item's ResponseProcessing.
      * 
-     * @param core_kernel_file_File $itemPath The Item file resource you want to apply ResponseProcessing.
      * @throws RuntimeException If an error occurs while processing responses or transmitting results
      */
     protected function processResponses(core_kernel_classes_Resource $item) {

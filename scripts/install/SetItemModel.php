@@ -23,6 +23,7 @@
 namespace oat\taoQtiItem\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
+use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\Export\QtiPackage22ExportHandler;
 use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
 use oat\taoQtiItem\model\import\QtiItemImport;
@@ -41,6 +42,7 @@ class SetItemModel  extends InstallAction
 
         $options = [
             ItemModel::EXPORT_HANDLER => [
+                new ItemMetadataByClassExportHandler(),
                 new ApipPackageExportHandler(),
                 new QtiPackageExportHandler(),
                 new QtiPackage22ExportHandler()
