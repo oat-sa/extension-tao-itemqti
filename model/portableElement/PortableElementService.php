@@ -75,6 +75,10 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $this->validate($object, $source, $validationGroup);
 
         $registry = $object->getModel()->getRegistry();
+
+        //enable portable element immediately when registering it
+        $object->enable();
+
         $registry->register($object, $source);
 
         return true;
@@ -119,9 +123,6 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
         $source = $parser->extract($zipFile);
         $object = $parser->getModel()->createDataObject($parser->getManifestContent($zipFile));
-
-        //enable portable element immediately after adding it
-        $object->enable();
 
         $this->registerModel($object, $source);
 
