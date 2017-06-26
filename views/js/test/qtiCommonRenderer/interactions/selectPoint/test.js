@@ -111,7 +111,7 @@ define([
         QUnit.expect(3);
         assert.equal($container.length, 1, 'the item container exists');
 
-        qtiItemRunner('qti', selectPointData)
+        runner = qtiItemRunner('qti', selectPointData)
             .on('render', function() {
 
                 var interaction = this._item.getInteractions()[0];
@@ -166,7 +166,7 @@ define([
 
         QUnit.expect(2);
 
-        qtiItemRunner('qti', selectPointData)
+        runner = qtiItemRunner('qti', selectPointData)
             .on('render', function() {
                 var $canvas     = $('.main-image-box svg', $container);
 
@@ -198,7 +198,7 @@ define([
 
         QUnit.expect(2);
 
-        qtiItemRunner('qti', selectPointData)
+        runner = qtiItemRunner('qti', selectPointData)
             .on('render', function() {
                 var interaction = this._item.getInteractions()[0];
                 var $canvas     = $('.main-image-box svg', $container);
@@ -222,7 +222,7 @@ define([
 
         QUnit.expect(2);
 
-        qtiItemRunner('qti', selectPointData)
+        runner = qtiItemRunner('qti', selectPointData)
             .on('render', function() {
                 var interaction = this._item.getInteractions()[0];
                 var $canvas     = $('.main-image-box svg', $container);

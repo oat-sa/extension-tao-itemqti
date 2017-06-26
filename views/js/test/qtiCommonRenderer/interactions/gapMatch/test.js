@@ -12,7 +12,7 @@ define([
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('GapMatch Interaction', {
+    QUnit.module('GapMatch Interaction', {
         teardown : function(){
             if(runner){
                 runner.clear();
@@ -21,9 +21,9 @@ define([
     });
 
     QUnit.asyncTest('renders correclty', function(assert){
-        QUnit.expect(30);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(30);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
@@ -72,22 +72,25 @@ define([
     });
 
     QUnit.asyncTest('enables to activate a choice', function(assert){
-        QUnit.expect(10);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(10);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
+                var $at;
+                var $gap;
+
                 assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
                 assert.equal($container.find('.qti-gapMatchInteraction .qti-choice').length, 16, 'the interaction has 16 choices including gaps');
 
-                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
+                $at = $('.qti-choice[data-identifier="Text_1"]', $container);
                 assert.equal($at.length, 1, 'the Authoring tool choice exists');
 
-                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
+                $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
                 assert.ok( ! $at.hasClass('active'), 'The choice is not active');
@@ -115,13 +118,16 @@ define([
 
         runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
+                var $at;
+                var $gap;
+
                 assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
                 assert.equal($container.find('.qti-gapMatchInteraction .qti-choice').length, 16, 'the interaction has 16 choices including gaps');
 
-                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
+                $at = $('.qti-choice[data-identifier="Text_1"]', $container);
                 assert.equal($at.length, 1, 'the Authoring tool choice exists');
 
-                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
+                $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
                 interactUtils.tapOn($at, function(){
@@ -140,28 +146,30 @@ define([
     });
 
     QUnit.asyncTest('set the default response', function(assert){
-        QUnit.expect(9);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(9);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
+                var $at;
+                var $gap;
 
                 assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
                 assert.equal($container.find('.qti-gapMatchInteraction .qti-choice').length, 16, 'the interaction has 16 choices including gaps');
 
-                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
+                $at = $('.qti-choice[data-identifier="Text_1"]', $container);
                 assert.equal($at.length, 1, 'the Authoring tool choice exists');
 
-                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
+                $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
                 assert.ok( ! $gap.hasClass('filled'), 'The gap is not filled');
 
-                  this.setState({ RESPONSE : { response : { list  : { directedPair : [ ['Text_1', 'Gap_6'] ] } } } });
+                this.setState({ RESPONSE : { response : { list  : { directedPair : [ ['Text_1', 'Gap_6'] ] } } } });
 
                 _.delay(function(){
                     assert.ok($gap.hasClass('filled'), 'The gap is now filled');
@@ -175,25 +183,27 @@ define([
     });
 
     QUnit.asyncTest('destroys', function(assert){
-        QUnit.expect(5);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(5);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', gapMatchData)
+        runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
                 var self = this;
+                var $at;
+                var $gap;
 
                 //call destroy manually
                 var interaction = this._item.getInteractions()[0];
                 interaction.renderer.destroy(interaction);
 
-                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
+                $at = $('.qti-choice[data-identifier="Text_1"]', $container);
                 assert.equal($at.length, 1, 'the Authoring tool choice exists');
 
-                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
+                $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
                 interactUtils.tapOn($at, function(){
@@ -211,9 +221,9 @@ define([
     });
 
     QUnit.asyncTest('resets the response', function(assert){
-        QUnit.expect(10);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(10);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
@@ -221,11 +231,13 @@ define([
         runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
                 var self = this;
+                var $gap;
+                var $at;
 
-                var $at = $('.qti-choice[data-identifier="Text_1"]', $container);
+                $at = $('.qti-choice[data-identifier="Text_1"]', $container);
                 assert.equal($at.length, 1, 'the Authoring tool choice exists');
 
-                var $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
+                $gap = $('.gapmatch-content[data-identifier="Gap_6"]', $container);
                 assert.equal($gap.length, 1, 'the gap exists');
 
                 interactUtils.tapOn($at, function(){
@@ -236,10 +248,12 @@ define([
                         assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
 
                         interactUtils.tapOn($gap, function() {
+                            var interaction;
+
                             assert.ok($gap.hasClass('active'), 'The gap is now active');
 
                             //call destroy manually
-                            var interaction = self._item.getInteractions()[0];
+                            interaction = self._item.getInteractions()[0];
                             interaction.renderer.resetResponse(interaction);
 
                             _.delay(function(){
@@ -259,20 +273,20 @@ define([
     });
 
     QUnit.asyncTest('restores order of shuffled choices', function(assert){
-        QUnit.expect(14);
-
         var $container = $('#' + fixtureContainerId);
+        var shuffled;
+
+        QUnit.expect(14);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         //hack the item data to set the shuffle attr to true
-        var shuffled = _.cloneDeep(gapMatchData);
+        shuffled = _.cloneDeep(gapMatchData);
         shuffled.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817.attributes.shuffle = true;
 
         runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
-                var self = this;
 
                 assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
                 assert.equal($container.find('.qti-gapMatchInteraction .qti-choice').length, 16, 'the interaction has 16 choices including gaps');
@@ -304,12 +318,12 @@ define([
             .render($container);
     });
 
-    module('Visual Test');
+    QUnit.module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
-        QUnit.expect(4);
-
         var $container = $('#' + outsideContainerId);
+
+        QUnit.expect(4);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
