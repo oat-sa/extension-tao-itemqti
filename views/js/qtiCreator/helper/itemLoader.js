@@ -62,14 +62,14 @@ define([
 
                         //set default namespaces
                         newItem.setNamespaces({
-                            '' : 'http://www.imsglobal.org/xsd/imsqti_v2p1',
+                            '' : 'http://www.imsglobal.org/xsd/imsqti_v2p2',
                             'xsi' : 'http://www.w3.org/2001/XMLSchema-instance',
                             'm' :'http://www.w3.org/1998/Math/MathML'
                         });//note : always add math element : since it has become difficult to know when a math element has been added to the item
 
                         //set default schema locations
                         newItem.setSchemaLocations({
-                            'http://www.imsglobal.org/xsd/imsqti_v2p1' : 'http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd'
+                            'http://www.imsglobal.org/xsd/imsqti_v2p2' : 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
                         });
 
                         //tag the item as a new one
