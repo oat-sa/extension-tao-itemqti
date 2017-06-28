@@ -144,6 +144,8 @@ define([
                 if(this._renderer){
                     this._renderer.unload();
                 }
+
+                this._item = null;
             }
             done();
         },

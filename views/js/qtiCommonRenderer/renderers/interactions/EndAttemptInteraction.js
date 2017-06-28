@@ -40,7 +40,7 @@ define([
      * @param {object} interaction
      * @fires endattempt with the response identifier
      */
-    var render = function render(interaction, options){
+    function render(interaction, options){
 
         var $container = containerHelper.get(interaction);
 
@@ -52,7 +52,7 @@ define([
 
             $container.trigger('endattempt', [interaction.attr('responseIdentifier')]);
         });
-    };
+    }
 
     /**
      * Set the response to the rendered interaction.
@@ -66,10 +66,10 @@ define([
      * @param {object} interaction
      * @param {object} response
      */
-    var setResponse = function setResponse(interaction, response){
+    function setResponse(interaction, response){
 
         _setVal(interaction, pciResponse.unserialize(response, interaction)[0]);
-    };
+    }
 
 
     /**
@@ -84,43 +84,74 @@ define([
      * @param {object} interaction
      * @returns {object}
      */
-    var getResponse = function getResponse(interaction){
+    function getResponse(interaction){
         var val = containerHelper.get(interaction).val();
         val = (val && val !== 'false' && val !== '0');
         return pciResponse.serialize([val], interaction);
-    };
+    }
 
     /**
      * Reset the response ... wondering if it is useful ...
 
      * @param {type} interaction
      */
-    var resetResponse = function resetResponse(interaction){
+    function resetResponse(interaction){
         _setVal(interaction, false);
-    };
+    }
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    function setState(interaction, state){
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+        }
+    }
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    function getState(interaction){
+        var state = {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
+    }
 
     /**
      *
      * @param {Object} interaction
      * @param {Boolean} val
      */
-    var _setVal = function(interaction, val){
+    function _setVal(interaction, val){
 
         containerHelper.get(interaction)
             .val(val)
             .change();
 
-    };
+    }
 
     /**
      * Destroy the interaction to restore the dom as it is before render() is called
      *
      * @param {Object} interaction
      */
-    var destroy = function destroy(interaction){
+    function destroy(interaction){
         //remove event
         containerHelper.get(interaction).off('.commonRenderer');
-    };
+    }
 
     /**
      * Define default template data
@@ -129,12 +160,12 @@ define([
      * @param {Object} data
      * @returns {Object}
      */
-    var getCustomData = function getCustomData(interaction, data){
+    function getCustomData(interaction, data){
         if(!data.attributes.title){
             data.attributes.title = __('End Attempt');
         }
         return data;
-    };
+    }
 
     return {
         qtiClass : 'endAttemptInteraction',
@@ -145,6 +176,8 @@ define([
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });

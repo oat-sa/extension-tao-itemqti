@@ -100,7 +100,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $itemClass = $this->itemService->getRootClass();
         
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemXml.zip'),
-            $itemClass, true, null, true);
+            $itemClass, true, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
     }
 
@@ -113,7 +113,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $itemClass = $this->itemService->getRootClass();
 
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemInTheMiddleXml.zip'),
-            $itemClass, true, null, false, true);
+            $itemClass, true, false, true);
         $this->assertEquals(\common_report_Report::TYPE_WARNING, $report->getType());
 
     }
@@ -127,7 +127,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
 
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedManifest.zip'),
-            $itemClass, true, null, true);
+            $itemClass, true, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
 
 
@@ -141,7 +141,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $itemClass = $this->itemService->getRootClass();
 
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/WrongManifestFileItemHref.zip'),
-            $itemClass, true, null, true);
+            $itemClass, true, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
     }
 
