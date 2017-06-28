@@ -41,9 +41,31 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
     use PortableElementModelTrait;
 
+    /** @var PortableElementFileStorage  */
     protected $storage;
 
     protected $fileSystemId;
+
+    /**
+     *
+     * @var array
+     */
+    private static $registries = array();
+
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @return PortableElementRegistry
+     */
+    public static function getRegistry()
+    {
+        $class = get_called_class();
+        if (! isset(self::$registries[$class])) {
+            self::$registries[$class] = new $class();
+        }
+
+        return self::$registries[$class];
+    }
 
     /**
      * Fetch a portable element with identifier & version
@@ -107,7 +129,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $fileSystem= $this->getConfigFileSystem();
 
         if($fileSystem->has($identifier)){
-            return $fileSystem->read($identifier);
+            return json_decode($fileSystem->read($identifier),true);
         }
 
         return false;
@@ -115,11 +137,16 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
     private function getAll()
     {
+        $elements = [];
         $contents = $this->getConfigFileSystem()->listContents();
+
         foreach ($contents as $file){
-
+            if($file['type'] === 'file'){
+                $identifier = $file['filename'];
+                $elements[$identifier] = $this->get($identifier);
+            }
         }
-
+        return $elements;
     }
 
 
@@ -131,7 +158,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     private function set($identifier, $value)
     {
-        $this->getConfigFileSystem()->write($identifier, $value);
+        $this->getConfigFileSystem()->put($identifier, json_encode($value));
     }
 
     /**
