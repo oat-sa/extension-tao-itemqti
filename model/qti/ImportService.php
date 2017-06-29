@@ -377,6 +377,13 @@ class ImportService extends tao_models_classes_GenerisService
                     );
                 }
 
+                $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
+
+                if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
+                    \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
+                    return $validationReport;
+                }
+
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
 
                 $qtiFile = $folder . helpers_File::urlToPath($qtiItemResource->getFile());
