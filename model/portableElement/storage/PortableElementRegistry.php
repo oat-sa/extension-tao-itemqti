@@ -44,7 +44,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     /** @var PortableElementFileStorage  */
     protected $storage;
 
-    protected $fileSystemId;
+    protected $fileSystemId = 'taoQtiItem';
 
     /**
      *
