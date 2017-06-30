@@ -208,7 +208,7 @@ abstract class AbstractMetadataService extends ConfigurableService
     {
         if (is_a($name, $interface, true)) {
             $instances = $this->getOption($key);
-            if (array_search($name, $instances) === false) {
+            if ($instances === null || array_search($name, $instances) === false) {
                 $instances[] = $name;
                 $this->setOption($key, $instances);
                 $this->registerService();
