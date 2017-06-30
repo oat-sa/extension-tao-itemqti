@@ -380,7 +380,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
 
                 if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
-                    \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
+                    \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
                     return $validationReport;
                 }
 
