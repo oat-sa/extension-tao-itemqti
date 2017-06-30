@@ -104,7 +104,12 @@ class RestQtiItem extends \tao_actions_RestController
             
             \tao_helpers_File::remove($package);
             if ($report->getType() !== \common_report_Report::TYPE_SUCCESS) {
-                $this->returnFailure(new \common_Exception(__("An unexpected error occured during the import of the IMS QTI Item Package.")));
+                $message = __("An unexpected error occurred during the import of the IMS QTI Item Package. ");
+                //get message of first error report
+                if (!empty($report->getErrors())) {
+                    $message .= $report->getErrors()[0]->getMessage();
+                }
+                $this->returnFailure(new \common_Exception($message));
             } else {
                 $itemIds = [];
                 /** @var \common_report_Report $subReport */
