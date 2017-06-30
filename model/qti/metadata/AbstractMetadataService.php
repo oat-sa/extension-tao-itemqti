@@ -243,7 +243,7 @@ abstract class AbstractMetadataService extends ConfigurableService
      * @param $identifier
      * @return bool
      */
-    protected function hasMetadataValue($identifier)
+    public function hasMetadataValue($identifier)
     {
         return array_key_exists($identifier, $this->getMetadataValues());
     }
@@ -254,7 +254,7 @@ abstract class AbstractMetadataService extends ConfigurableService
      * @param $identifier
      * @return mixed|null
      */
-    protected function getMetadataValue($identifier)
+    public function getMetadataValue($identifier)
     {
         $metadata = $this->getMetadataValues();
         return isset($metadata[$identifier]) ? $metadata[$identifier] : null;
