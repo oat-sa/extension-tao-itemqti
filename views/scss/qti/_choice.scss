@@ -136,18 +136,6 @@
 
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
-
-
-            .label-content {
-                display: inline-block;
-                padding-left: 30px;
-                .qti-block {
-                    img {
-                        width: 100%;
-                    }
-                }
-            }
-
             p, div, li {
                 &::before {
                     position: absolute;
@@ -157,6 +145,16 @@
                 &.add-option:before {
                     content: '';
                     display:inline;
+                }
+            }
+        }
+
+        .label-content {
+            display: inline-block;
+
+            .qti-block {
+                div img {
+                    width: 100%;
                 }
             }
         }
