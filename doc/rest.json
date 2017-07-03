@@ -98,7 +98,24 @@
                         "description": "file attachemnt zip format supported",
                         "required": true,
                         "type": "file"
+                    },
+                    {
+                        "name": "class-uri",
+                        "in": "formData",
+                        "description": "Class uri to import item. If not specified root class will be used.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "class-label",
+                        "in": "formData",
+                        "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
+                        "type": "string",
+                        "required": false
                     }
+                ],
+                "consumes" : [
+                    "multipart/form-data"
                 ],
                 "responses": {
                     "200": {
@@ -191,7 +208,24 @@
                         "required": true,
                         "type": "string",
                         "format": "string"
+                    },
+                    {
+                        "name": "class-uri",
+                        "in": "formData",
+                        "description": "Class uri to import item. If not specified root class will be used.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "class-label",
+                        "in": "formData",
+                        "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
+                        "type": "string",
+                        "required": false
                     }
+                ],
+                "consumes" : [
+                    "multipart/form-data"
                 ],
                 "responses": {
                     "200": {
