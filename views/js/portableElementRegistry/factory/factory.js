@@ -223,6 +223,22 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
 
                 return loadPromise;
+            },
+            enable: function enable(typeIdentifier, version){
+                var pci = this.get(typeIdentifier, version);
+                if(pci){
+                    pci.enabled = true;
+                }
+            },
+            disable: function disable(typeIdentifier, version){
+                var pci = this.get(typeIdentifier, version);
+                if(pci){
+                    pci.enabled = false;
+                }
+            },
+            isEnabled: function isEnabled(typeIdentifier, version){
+                var pci = this.get(typeIdentifier, version);
+                return (pci && pci.enabled === true);
             }
         }));
     };
