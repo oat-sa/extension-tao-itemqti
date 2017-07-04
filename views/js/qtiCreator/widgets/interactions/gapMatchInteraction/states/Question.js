@@ -18,6 +18,8 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
+    'ui/feedback',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
@@ -25,13 +27,15 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/selectionWrapper',
-    'taoQtiItem/qtiCreator/model/choices/GapText', //todo: is this legal?
+    'taoQtiItem/qtiCreator/model/choices/GapText',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/gapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/gap-create',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(
     $,
     _,
+    __,
+    feedback,
     stateFactory,
     Question,
     htmlEditor,
@@ -102,7 +106,8 @@ define([
     GapMatchInteractionStateQuestion.prototype.destroyEditor = function destroyEditor(){
 
         var $container = this.widget.$container,
-            $flowContainer = $container.find('.qti-flow-container');
+            $flowContainer = $container.find('.qti-flow-container'),
+            $editable = $container.find('.qti-flow-container [data-html-editable]');
 
         //hack : prevent ckeditor from removing empty spans
         $container.find('.gapmatch-content').html('...');
@@ -115,6 +120,9 @@ define([
 
         //remove toolbar
         $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]').remove();
+
+        //remove listeners
+        $editable.off('gapcreator');
     };
 
     GapMatchInteractionStateQuestion.prototype.initGapCreator = function initGapCreator(){
@@ -141,7 +149,7 @@ define([
         $newGapBtn.hide();
 
         $editable
-            .on('mouseup.gapcreator', function() { // todo: destroy gapcreator listeners
+            .on('mouseup.gapcreator', function() {
                 if (wrapper.canWrap()) {
                     $newGapBtn.show();
                 } else {
@@ -153,14 +161,12 @@ define([
             });
 
         $newGapBtn.on('mousedown.gapcreator', function() {
-            var $newGapClone;
             $newGapBtn.hide();
             if (wrapper.wrapWith($newGap)) {
-                $newGapClone = $newGap.clone(); // todo: why is that ?!
-                self.createChoiceFromSelection($newGapClone);
+                self.createChoiceFromSelection($newGap);
                 self.replaceSelectionWithGap();
             } else {
-                //todo: we should find a way to feedback the wrapping failure for partially selected nodes
+                feedback().error(__('Cannot create gap from this selection. Please check that you do not have partially selected elements.'));
             }
         });
     };
@@ -178,10 +184,9 @@ define([
             newChoiceBody,
             newChoiceWidget,
 
-            serial;
+            serial,
 
-
-        var regexp = /{{(\w+?)}}/gm;
+            qtiEltsRegexp = /{{(\w+?)}}/gm;
 
         // look for nested elements by searching for their widgets in the markup
         $nestedWidgets = $newChoiceContent.find('[class^="widget-"],[class*=" widget-"]');
@@ -203,7 +208,7 @@ define([
 
         // update interaction model:
         // the nested elements are moved from the interaction body to the new choice body
-        while ((nestedElts = regexp.exec(newChoiceBody)) !== null) {
+        while ((nestedElts = qtiEltsRegexp.exec(newChoiceBody)) !== null) {
             serial = nestedElts[1];
             newChoiceElt.setElement(interaction.getElement(serial));
             interaction.removeElement(serial);
