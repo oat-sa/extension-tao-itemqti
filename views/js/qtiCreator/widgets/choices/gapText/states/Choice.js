@@ -69,9 +69,23 @@ define([
                 qtiInclude: false
             });
         }
+
+        $editableContainer.on('keypress.qti-widget', function(e){
+            if(e.which === 13){
+                e.preventDefault();
+                $(this).blur();
+                _widget.changeState('question');
+            }
+
+        });
     };
 
     GapTextStateChoice.prototype.destroyEditor = function(){
+        var _widget = this.widget,
+            $editableContainer = _widget.$container;
+
+        $editableContainer.off('.qti-widget');
+
         //search and destroy the editor
         htmlEditor.destroyEditor(this.widget.$container);
     };
