@@ -203,7 +203,7 @@ define([
             });
         }
 
-        newChoiceBody = $newChoiceContent.text();
+        newChoiceBody = $newChoiceContent.html();
         newChoiceElt = interaction.createChoice(newChoiceBody);
 
         // update interaction model:
