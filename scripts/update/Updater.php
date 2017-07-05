@@ -532,5 +532,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(ImportService::SERVICE_ID, $itemImportService);
             $this->setVersion('8.16.0');
         }
+
+        $this->skip('8.16.0', '8.17.0');
     }
 }
