@@ -524,13 +524,13 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.13.0');
         }
 
-        $this->skip('8.13.0', '8.14.1');
+        $this->skip('8.13.0', '8.15.0');
 
-        if ($this->isVersion('8.14.0')) {
+        if ($this->isVersion('8.15.0')) {
             $itemImportService = new ImportService([]);
-            $itemImportService->getServiceLocator($this->getServiceManager());
+            $itemImportService->setServiceLocator($this->getServiceManager());
             $this->getServiceManager()->register(ImportService::SERVICE_ID, $itemImportService);
-            $this->setVersion('8.15.0');
+            $this->setVersion('8.16.0');
         }
     }
 }
