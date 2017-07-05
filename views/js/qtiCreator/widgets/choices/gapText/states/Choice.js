@@ -56,7 +56,17 @@ define([
                     container : container,
                     widget : _widget
                 },
-                hideTriggerOnBlur: true
+                hideTriggerOnBlur: true,
+                toolbar: [{
+                    name : 'basicstyles',
+                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                }, {
+                    name : 'insert',
+                    items : ['SpecialChar']
+                }],
+                qtiMedia: false,
+                qtiImage: false,
+                qtiInclude: false
             });
         }
     };

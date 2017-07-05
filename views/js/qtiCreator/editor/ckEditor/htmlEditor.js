@@ -233,7 +233,12 @@ define([
                     if(typeof options.qtiMedia !== 'undefined'){
                         ckConfig.qtiMedia = options.qtiMedia;
                     }
-
+                    if(typeof options.qtiImage !== 'undefined'){
+                        ckConfig.qtiImage = options.qtiImage;
+                    }
+                    if(typeof options.qtiInclude !== 'undefined'){
+                        ckConfig.qtiInclude = options.qtiInclude;
+                    }
                     if(typeof options.highlight !== 'undefined'){
                         ckConfig.highlight = options.highlight;
                     }
