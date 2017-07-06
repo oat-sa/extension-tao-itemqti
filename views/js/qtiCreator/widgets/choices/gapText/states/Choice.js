@@ -74,7 +74,6 @@ define([
             if(e.which === 13){
                 e.preventDefault();
                 $(this).blur();
-                _widget.changeState('question');
             }
 
         });
