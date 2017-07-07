@@ -47,10 +47,10 @@ use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\storage\xml\XmlStorageException;
 use tao_helpers_File;
-use tao_models_classes_GenerisService;
 use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -59,8 +59,18 @@ use oat\oatbox\service\ServiceManager;
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
  */
-class ImportService extends tao_models_classes_GenerisService
+class ImportService extends ConfigurableService
 {
+
+    const SERVICE_ID = 'taoQtiItem/ImportService';
+
+    /**
+     * @return ImportService
+     */
+    public static function singleton() {
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
+    }
+
     /**
      * @var MetadataImporter Service to manage Lom metadata during package import
      */
@@ -101,12 +111,13 @@ class ImportService extends tao_models_classes_GenerisService
     /**
      *
      * @param core_kernel_classes_Class $itemClass
-     * @param oat\taoQtiItem\model\qti\Item $qtiModel
+     * @param Item $qtiModel
+     * @param Resource $qtiItemResource
      * @throws common_exception_Error
      * @throws \common_Exception
      * @return core_kernel_classes_Resource
      */
-    protected function createRdfItem(core_kernel_classes_Class $itemClass, Item $qtiModel)
+    protected function createRdfItem(core_kernel_classes_Class $itemClass, Item $qtiModel, Resource $qtiItemResource)
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
@@ -377,6 +388,13 @@ class ImportService extends tao_models_classes_GenerisService
                     );
                 }
 
+                $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
+
+                if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
+                    \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
+                    return $validationReport;
+                }
+
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
 
                 $qtiFile = $folder . helpers_File::urlToPath($qtiItemResource->getFile());
@@ -384,7 +402,7 @@ class ImportService extends tao_models_classes_GenerisService
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
-                $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
+                $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel, $qtiItemResource);
 
                 $itemAssetManager = new AssetManager();
                 $itemAssetManager->setItemContent($qtiModel->toXML());
@@ -501,11 +519,11 @@ class ImportService extends tao_models_classes_GenerisService
      *
      * @deprecated use MetadataService::getImporter::inject()
      *
-     * @param oat\taoQtiItem\model\qti\metadata\MetadataValue[] $metadataValues An array of MetadataValue objects.
+     * @param MetadataValue[] $metadataValues An array of MetadataValue objects.
      * @param Resource $qtiResource The object representing the QTI Resource, from an IMS Manifest perspective.
      * @param core_kernel_classes_Resource $resource The object representing the target QTI Item in the Ontology.
-     * @param oat\taoQtiItem\model\qti\metadata\MetadataInjector[] $ontologyInjectors Implementations of MetadataInjector that will take care to inject the metadata values in the appropriate Ontology Resource Properties.
-     * @throws oat\taoQtiItem\model\qti\metadata\MetadataInjectionException If an error occurs while importing the metadata.
+     * @param MetadataInjector[] $ontologyInjectors Implementations of MetadataInjector that will take care to inject the metadata values in the appropriate Ontology Resource Properties.
+     * @throws MetadataInjectionException If an error occurs while importing the metadata.
      */
     public function importResourceMetadata(
         array $metadataValues,
