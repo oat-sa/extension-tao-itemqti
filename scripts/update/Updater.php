@@ -50,6 +50,7 @@ use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
+use oat\taoQtiItem\model\qti\ImportService;
 
 /**
  *
@@ -526,7 +527,15 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.13.0');
         }
 
-        $this->skip('8.13.0', '9.0.0');
+        $this->skip('8.13.0', '8.15.0');
 
+        if ($this->isVersion('8.15.0')) {
+            $itemImportService = new ImportService([]);
+            $itemImportService->setServiceLocator($this->getServiceManager());
+            $this->getServiceManager()->register(ImportService::SERVICE_ID, $itemImportService);
+            $this->setVersion('8.16.0');
+        }
+
+        $this->skip('8.16.0', '9.0.0');
     }
 }

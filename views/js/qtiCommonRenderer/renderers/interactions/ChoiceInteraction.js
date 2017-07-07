@@ -43,28 +43,28 @@ define([
     /**
      * Propagate the checked state to the actual input.
      * @type {Function}
-     * @param {jQuery} $choiceBox
+     * @param {jQuery} $choiceBox - list element with the class `.qti-choice`
      * @param {Boolean} state
      * @private
      */
     var _triggerInput = function _triggerInput($choiceBox, state){
 
-        var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+        var $input       = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+        var $choiceBoxes = $choiceBox.add($choiceBox.siblings());
+
+        if(!$input.length){
+            return;
+        }
 
         if(!_.isBoolean(state)) {
             state = !$input.prop('checked');
         }
 
-        $choiceBox.toggleClass('user-selected', state);
+        $input.prop('checked', state);
+        $input.trigger('change');
 
-        if ($input[0] && $input[0].type === 'radio') {
-            $choiceBox.siblings().filter('.user-selected').removeClass('user-selected');
-        }
-
-        if($input.length){
-            $input.prop('checked', state);
-            $input.trigger('change');
-        }
+        $choiceBoxes.removeClass('user-selected');
+        $choiceBoxes.find('input:checked').not('[disabled]').not('.disabled').parents('.qti-choice').addClass('user-selected');
     };
 
     /**

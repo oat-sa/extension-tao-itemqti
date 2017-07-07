@@ -36,6 +36,9 @@ define([
         {name: 'loadRuntimes', title: 'loadRuntimes'},
         {name: 'loadCreators', title: 'loadCreators'},
         {name: 'getAuthoringData', title: 'getAuthoringData'},
+        {name: 'enable', title: 'enable'},
+        {name: 'disable', title: 'disable'},
+        {name: 'isEnabled', title: 'isEnabled'},
     ];
 
     QUnit.module('Custom Interaction Registry');
@@ -110,6 +113,26 @@ define([
         });
     });
 
+    QUnit.asyncTest('enable/disable', function (assert) {
+
+        QUnit.expect(3);
+
+        var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
+
+        registry.loadCreators().then(function () {
+
+            assert.equal(registry.isEnabled('samplePci'), true, 'sample ci is enabled');
+
+            registry.disable('samplePci');
+            assert.equal(registry.isEnabled('samplePci'), false, 'sample ci disabled enabled');
+
+            registry.enable('samplePci');
+            assert.equal(registry.isEnabled('samplePci'), true, 'sample ci is enabled again');
+
+            QUnit.start();
+        });
+
+    });
 
 });
 
