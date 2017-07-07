@@ -33,6 +33,9 @@ define([
 ], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
     'use strict';
 
+    var _pciStandard = true;
+    //var _pciStandard = true;
+
     /**
      * Get the PCI instance associated to the interaction object
      * If none exists, create a new one based on the PCI typeIdentifier
@@ -77,33 +80,42 @@ define([
      *
      * @param {Object} interaction
      */
-    var render = function(interaction, options){
+    var render = function render(interaction, options){
         var self = this;
 
         options = options || {};
         return new Promise(function(resolve, reject){
-            var state              = {}; //@todo pass state and response to renderer here:
-            var response           = { base : null};
+
             var id                 = interaction.attr('responseIdentifier');
+
             var typeIdentifier     = interaction.typeIdentifier;
-            var config             = _.clone(interaction.properties); //pass a clone instead
+            var properties             = _.clone(interaction.properties); //pass a clone instead
             var $dom               = containerHelper.get(interaction).children();
             var assetManager       = self.getAssetManager();
 
+            //@todo pass state and response to renderer here:
+            var state              = options.state || {};
+            var response           = options.response ||{};
+
+            response[id] = {base : null};
+
             ciRegistry.loadRuntimes().then(function(){
 
+                var config = {};
                 var requireEntries = [];
                 var runtime = ciRegistry.getRuntime(typeIdentifier);
 
-                if(!runtime || !runtime.hook){
+                if(!runtime){
                     return reject('The runtime for the pci cannot be found : ' + typeIdentifier);
                 }
 
-                //load the entrypoint
-                requireEntries.push(runtime.hook.replace(/\.js$/, ''));
+                //load the modules
+                _.forEach(runtime.modules, function(module){
+                    requireEntries.push(module.replace(/\.js$/, ''));
+                });
 
                 //load stylesheets
-                _.each(runtime.stylesheets, function(stylesheet){
+                _.forEach(runtime.stylesheets, function(stylesheet){
                     requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
                 });
 
@@ -123,11 +135,22 @@ define([
                     };
 
                     if(pci){
-                        //call pci initialize() to render the pci
-                        pci.initialize(id, $dom[0], config, pciAssetManager);
-                        //restore context (state + response)
-                        pci.setSerializedState(state);
-                        pci.setResponse(response);
+
+                        if(_pciStandard){
+                            config = {
+                                properties : properties,
+                                templateVariables : {},//not supported yet
+                                boundTo : response,
+                                onready : _.noop,
+                                ondone : _.noop,
+                                status : 'interacting',//only support interacting state right now (TODO: solution, review),
+                                assetManager : pciAssetManager
+                            };
+                            pci.getInstance($dom[0], config, state);
+                        }else{
+                            //call pci initialize() to render the pci
+                            pci.initialize(id, $dom[0], properties, pciAssetManager);
+                        }
 
                         //forward internal PCI event responseChange
                         interaction.onPci('responseChange', function(){
@@ -197,7 +220,13 @@ define([
      * @param {Object} serializedState - json format
      */
     var setState = function(interaction, serializedState){
-        _getPci(interaction).setSerializedState(serializedState);
+        if(_pciStandard){
+            _getPci(interaction).setSerializedState(serializedState);
+            //destroy(interaction);
+            //render.call(this, interaction , {});
+        }else{
+            _getPci(interaction).setSerializedState(serializedState);
+        }
     };
 
     /**
@@ -208,7 +237,11 @@ define([
      * @returns {Object} json format
      */
     var getState = function(interaction){
-        return _getPci(interaction).getSerializedState();
+        if(_pciStandard){
+            return _getPci(interaction).getState();
+        }else{
+            return _getPci(interaction).getSerializedState();
+        }
     };
 
     return {
