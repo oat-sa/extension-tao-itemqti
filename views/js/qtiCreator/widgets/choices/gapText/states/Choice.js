@@ -1,12 +1,13 @@
 define([
     'jquery',
+    'ckeditor',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
     'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/states/Choice',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function($, stateFactory, Choice, SimpleAssociableChoice, Element, htmlEditor, contentHelper){
+], function($, CKEditor, stateFactory, Choice, SimpleAssociableChoice, Element, htmlEditor, contentHelper){
     'use strict';
 
     var GapTextStateChoice = stateFactory.extend(Choice, function(){
@@ -66,7 +67,8 @@ define([
                 }],
                 qtiMedia: false,
                 qtiImage: false,
-                qtiInclude: false
+                qtiInclude: false,
+                enterMode : CKEditor.ENTER_BR
             });
         }
 
