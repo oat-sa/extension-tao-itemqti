@@ -66,7 +66,6 @@ define([
                     items : ['SpecialChar']
                 }],
                 qtiMedia: false,
-                qtiImage: false,
                 qtiInclude: false,
                 enterMode : CKEditor.ENTER_BR
             });
