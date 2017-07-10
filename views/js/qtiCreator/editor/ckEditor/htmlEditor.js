@@ -179,7 +179,6 @@ define([
                     editor.on('change', _.debounce(function markupChanged(){
                         _detectWidgetDeletion($editable, widgets, editor);
                         if(_.isFunction(options.change)){
-                            console.log('debouncing change with ', editor.getData());
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
                     }, 100));
