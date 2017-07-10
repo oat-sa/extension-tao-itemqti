@@ -43,6 +43,22 @@ define([
                 cardinality : 'multiple'
             });
         },
+        getNextPlaceholder : function getNextPlaceholder() {
+            var allChoices = this.getChoices(),
+                existingChoicesLabels = _.map(allChoices, function(choice) {
+                    var choiceBody = choice.getBody() || {};
+                    return choiceBody.bdy;
+                }),
+                placeHolderIndex = 1,
+                placeHolderPrefix = 'choice #',
+                placeHolder = placeHolderPrefix + placeHolderIndex;
+
+            while (existingChoicesLabels.indexOf(placeHolder) !== -1) {
+                placeHolderIndex++;
+                placeHolder = placeHolderPrefix + placeHolderIndex;
+            }
+            return placeHolder;
+        },
         createChoice : function(text){
 
             var choice = new Choice();
@@ -50,7 +66,7 @@ define([
             this.addChoice(choice);
 
             choice
-                .body(text || 'choice #' + _.size(this.getChoices()))
+                .body(text || this.getNextPlaceholder())
                 .buildIdentifier('choice');
 
             if(this.getRenderer()){
