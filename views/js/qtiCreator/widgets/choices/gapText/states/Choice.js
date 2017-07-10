@@ -1,5 +1,6 @@
 define([
     'jquery',
+    'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
@@ -7,7 +8,7 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function($, CKEditor, stateFactory, Choice, SimpleAssociableChoice, Element, htmlEditor, contentHelper){
+], function($, _, CKEditor, stateFactory, Choice, SimpleAssociableChoice, Element, htmlEditor, contentHelper){
     'use strict';
 
     var GapTextStateChoice = stateFactory.extend(Choice, function(){
@@ -82,7 +83,20 @@ define([
 
     GapTextStateChoice.prototype.destroyEditor = function(){
         var _widget = this.widget,
-            $editableContainer = _widget.$container;
+            interaction = _widget.interaction,
+            $editableContainer = _widget.$container,
+            $editable = $editableContainer.find('[data-html-editable]'),
+            placeholder;
+
+        /**
+         * Workaround for ckEditor. When adding text to an empty choice, when initialising the widget on an empty content,
+         * ck automatically wraps it in a <p>, which breaks QTI compatibility.
+         * Therefore, we replace an empty choice with a placeholder text.
+         */
+        if (! htmlEditor.getData($editable) || htmlEditor.getData($editable) === '') {
+            placeholder = interaction.getNextPlaceholder();
+            htmlEditor.setData($editable, placeholder);
+        }
 
         $editableContainer.off('.qti-widget');
 
