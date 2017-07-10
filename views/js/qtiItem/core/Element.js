@@ -310,7 +310,7 @@ define([
 
             if(typeof this.initContainer === 'function'){
                 //allow body to have a different renderer if it has its own renderer set
-                postRenderers = this.getBody().postRender({}, '', renderer);
+                postRenderers = this.getBody().postRender(data, '', renderer);
             }
 
             if(_renderer){
