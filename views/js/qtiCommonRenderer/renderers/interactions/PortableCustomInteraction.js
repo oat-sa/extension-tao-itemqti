@@ -36,6 +36,14 @@ define([
     var _pciStandard = true;
     //var _pciStandard = true;
 
+    function pciReadyCallback(pci, state){
+        console.log('pciReadyCallback', pci, state);
+    }
+
+    function pciDoneCallback(pci, response, state, status){
+        console.log('pciDoneCallback', pci, response, state, status);
+    }
+
     /**
      * Get the PCI instance associated to the interaction object
      * If none exists, create a new one based on the PCI typeIdentifier
@@ -141,8 +149,8 @@ define([
                                 properties : properties,
                                 templateVariables : {},//not supported yet
                                 boundTo : response,
-                                onready : _.noop,
-                                ondone : _.noop,
+                                onready : pciReadyCallback,
+                                ondone : pciDoneCallback,
                                 status : 'interacting',//only support interacting state right now (TODO: solution, review),
                                 assetManager : pciAssetManager
                             };
