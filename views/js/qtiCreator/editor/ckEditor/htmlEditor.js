@@ -81,7 +81,7 @@ define([
         var ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
-            enterMode : CKEditor.ENTER_P,
+            enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
                 insert : function(){
@@ -179,6 +179,7 @@ define([
                     editor.on('change', _.debounce(function markupChanged(){
                         _detectWidgetDeletion($editable, widgets, editor);
                         if(_.isFunction(options.change)){
+                            console.log('debouncing change with ', editor.getData());
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
                     }, 100));
@@ -585,6 +586,9 @@ define([
                     if(_.isFunction(options.change)){
                         options.change.call(editor, _htmlEncode(editor.getData()));
                     }
+                    editor.on('destroy', function () {
+                        $container.trigger('editordestroyed');
+                    });
 
                     editor.focusManager.blur(true);
                     editor.destroy();
@@ -605,6 +609,22 @@ define([
             var editor = $editable.data('editor');
             if(editor){
                 return _htmlEncode(editor.getData());
+            }else{
+                throw new Error('no editor attached to the DOM element');
+            }
+        },
+        /**
+         * Allow to set the editor content. Works only with plain text for now.
+         *
+         * @param {JQuery} $editable
+         * @param {String} data
+         */
+        setData : function($editable, data) {
+            var editor = $editable.data('editor');
+            if(editor){
+                if (_.isString(data)) {
+                    editor.setData(_.escape(data));
+                }
             }else{
                 throw new Error('no editor attached to the DOM element');
             }
