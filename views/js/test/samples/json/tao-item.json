@@ -103,7 +103,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "authoring tool"
+                        "body": {
+                            "serial": "_container_text_1",
+                            "body": "authoring tool",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24dfb9192086011": {
                         "identifier": "Text_2",
@@ -115,7 +122,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "math"
+                        "body": {
+                            "serial": "_container_text_2",
+                            "body": "math",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e0b0165472547": {
                         "identifier": "Text_3",
@@ -127,7 +141,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "MCQ"
+                        "body": {
+                            "serial": "_container_text_3",
+                            "body": "MCQ",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e179383165127": {
                         "identifier": "Text_4",
@@ -139,7 +160,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "preview tab"
+                        "body": {
+                            "serial": "_container_text_4",
+                            "body": "preview tab",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e238974723564": {
                         "identifier": "Text_5",
@@ -151,7 +179,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "popup preview"
+                        "body": {
+                            "serial": "_container_text_5",
+                            "body": "popup preview",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e2f2383454538": {
                         "identifier": "Text_6",
@@ -163,7 +198,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "items extensions"
+                        "body": {
+                            "serial": "_container_text_6",
+                            "body": "items extensions",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e3a9171342821": {
                         "identifier": "Text_7",
@@ -175,7 +217,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "tests extensions"
+                        "body": {
+                            "serial": "_container_text_7",
+                            "body": "tests extensions",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e45c636073250": {
                         "identifier": "Text_8",
@@ -187,7 +236,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "settings"
+                        "body": {
+                            "serial": "_container_text_8",
+                            "body": "settings",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e50e054901745": {
                         "identifier": "Text_9",
@@ -199,7 +255,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "word"
+                        "body": {
+                            "serial": "_container_text_9",
+                            "body": "word",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     },
                     "choice_gaptext_547dd4d24e5d0796786352": {
                         "identifier": "Text_10",
@@ -211,7 +274,14 @@
                             "matchMax": 0,
                             "matchMin": 0
                         },
-                        "text": "select box"
+                        "body": {
+                            "serial": "_container_text_10",
+                            "body": "select box",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_547dd4d24b648093442045"
+                            }
+                        }
                     }
                 },
                 "prompt": {
