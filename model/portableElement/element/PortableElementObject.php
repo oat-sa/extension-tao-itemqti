@@ -474,4 +474,12 @@ abstract class PortableElementObject
     {
         $this->enabled = false;
     }
+
+    /**
+     * Check if the enabled property has already been set
+     */
+    public function hasEnabled()
+    {
+        return ! is_null($this->enabled);
+    }
 }
