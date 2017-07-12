@@ -511,23 +511,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.9.0');
         }
 
-        $this->skip('8.9.0', '8.12.3');
-
-        if ($this->isVersion('8.12.3')) {
-            //automatically enable all current installed portable elements
-            foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
-                $portableElementRegistry = $model->getRegistry();
-                $registeredPortableElements = array_keys($portableElementRegistry->getLatestRuntimes());
-                foreach($registeredPortableElements as $typeIdentifier){
-                    $portableElement = $portableElementRegistry->fetch($typeIdentifier);
-                    $portableElement->enable();
-                    $portableElementRegistry->update($portableElement);
-                }
-            }
-            $this->setVersion('8.13.0');
-        }
-
-        $this->skip('8.13.0', '8.15.0');
+        $this->skip('8.9.0', '8.15.0');
 
         if ($this->isVersion('8.15.0')) {
             $itemImportService = new ImportService([]);
@@ -536,6 +520,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.16.0');
         }
 
-        $this->skip('8.16.0', '9.1.0');
+        $this->skip('8.16.0', '9.2.2');
     }
 }
