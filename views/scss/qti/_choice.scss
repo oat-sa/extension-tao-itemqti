@@ -1,6 +1,9 @@
 @import "inc/bootstrap";
 
 .qti-choiceInteraction {
+    .overlay-answer-eliminator {
+        display: none;
+    }
 
     $elimCbOffsetLeft: 50;
     $captionOffsetLeft: 17;
@@ -75,8 +78,30 @@
             // when checked
             &.eliminated {
                 .label-box {
-                    font-style: italic;
-                    text-decoration: line-through;
+                    .label-content {
+                        position: relative;
+
+                        .qti-block {
+                            &:after {
+                                content:' ';
+                                width: 100%;
+                                position: relative;
+                                top: -21px;
+                            }
+                        }
+
+                        .overlay-answer-eliminator {
+                            stroke:rgb(0,0,0);
+                            stroke-width:1;
+                            display: inline;
+                            height: 100%;
+                            left: 0;
+                            overflow: hidden;
+                            position: absolute;
+                            top: 0;
+                            width: 100%;
+                        }
+                    }
                 }
                 [data-eliminable="container"] {
                     width: 100%;
@@ -111,12 +136,6 @@
 
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
-
-
-            .label-content {
-                padding-left: 30px;
-            }
-
             p, div, li {
                 &::before {
                     position: absolute;
@@ -126,6 +145,16 @@
                 &.add-option:before {
                     content: '';
                     display:inline;
+                }
+            }
+        }
+
+        .label-content {
+            display: inline-block;
+
+            .qti-block {
+                div img {
+                    width: 100%;
                 }
             }
         }

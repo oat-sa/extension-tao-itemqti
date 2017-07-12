@@ -210,6 +210,25 @@ define([
         };
 
         /**
+         * Registers a QTI renderer class
+         * @param {String} qtiClass
+         * @param {Array} list
+         * @returns {Boolean} `true` if the class has been successfully registered
+         */
+        function registerRendererClass(qtiClass, list) {
+            var success = false;
+            if (_locations[qtiClass] === false) {
+                //mark this class as not renderable
+                _renderers[qtiClass] = false;
+                success = true;
+            } else if (_locations[qtiClass]) {
+                list.push(_locations[qtiClass]);
+                success = true;
+            }
+            return success;
+        }
+
+        /**
          * Set the renderer options
          * @param {String} key - the name of the option
          * @param {*} value - the option vallue
@@ -544,20 +563,12 @@ define([
                         if(_renderableSubclasses[qtiClass]){
                             var requiredSubClasses = _.intersection(requiredClasses, _renderableSubclasses[qtiClass]);
                             _.each(requiredSubClasses, function(subclass){
-                                if(_locations[qtiClass + '.' + subclass]){
-                                    required.push(_locations[qtiClass + '.' + subclass]);
-                                }else if(_locations[qtiClass]){
-                                    required.push(_locations[qtiClass]);
-                                }else{
+                                if (!registerRendererClass(qtiClass + '.' + subclass, required) && !registerRendererClass(qtiClass, required)) {
                                     throw new Error(self.name + ' : missing qti class location declaration: ' + qtiClass + ', subclass: ' + subclass);
                                 }
                             });
                         } else {
-                            if(_locations[qtiClass] === false){
-                                _renderers[qtiClass] = false;//mark this class as not renderable
-                            }else if(_locations[qtiClass]){
-                                required.push(_locations[qtiClass]);
-                            }else{
+                            if (!registerRendererClass(qtiClass, required)) {
                                 throw new Error(self.name + ' : missing qti class location declaration: ' + qtiClass);
                             }
                         }
@@ -727,6 +738,16 @@ define([
                     return baseUrl + relUrl;
                 }
 
+            }
+        };
+
+        this.setAreaBroker = function setAreaBroker(areaBroker) {
+            this._areaBroker = areaBroker;
+        };
+
+        this.getAreaBroker = function getAreaBroker() {
+            if (this._areaBroker) {
+                return this._areaBroker;
             }
         };
     };

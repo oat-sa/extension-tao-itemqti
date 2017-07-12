@@ -75,8 +75,11 @@ define([
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    var loadCustomInteractions = function loadCustomInteractions(){
-        return ciRegistry.loadCreators();
+    var loadCustomInteractions = function loadCustomInteractions(interactionsIds){
+        return ciRegistry.loadCreators({
+            enabledOnly : true,
+            runtimeOnly : interactionsIds
+        });
     };
 
     /**
@@ -154,7 +157,7 @@ define([
                 var self = this;
 
                 //instantiate the plugins first
-                _.forEach(pluginFactories, function(pluginFactory, pluginName){
+                _.forEach(pluginFactories, function(pluginFactory){
                     var plugin = pluginFactory(self, areaBroker);
                     plugins[plugin.getName()] = plugin;
                 });
@@ -186,36 +189,40 @@ define([
                         self.trigger('saved');
                     }).catch(function(err){
                         self.trigger('error', err);
-                        self.trigger('saveerror', err);
                     });
                 });
 
-                //performs the loadings in parallel
-                Promise.all([
-                    loadCustomInteractions(),
-                    loadInfoControls(),
-                    loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
-                ]).then(function(results){
-
-                    if(_.isArray(results) && results.length === 3){
-
-                        if(! _.isObject(results[2])){
-                            self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
-                            return;
-                        }
-                        self.item = results[2];
-
-                        //initialize all the plugins
-                        return pluginRun('init').then(function(){
-
-                            /**
-                             * @event itemCreator#init the initialization is done
-                             * @param {Object} item - the loaded item
-                             */
-                            self.trigger('init', self.item);
-                        });
-
+                var usedCustomInteractionIds = [];
+                loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl).then(function(item){
+                    if(! _.isObject(item)){
+                        self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
+                        return;
                     }
+
+                    _.forEach(item.getComposingElements(), function(element){
+                        if(element.is('customInteraction')){
+                            usedCustomInteractionIds.push(element.typeIdentifier);
+                        }
+                    });
+                    
+                    self.item = item;
+                    return true;
+                }).then(function(){
+                    //load custom elements
+                    return Promise.all([
+                        loadCustomInteractions(usedCustomInteractionIds),
+                        loadInfoControls()
+                    ]);
+                }).then(function(){
+                    //initialize all the plugins
+                    return pluginRun('init').then(function(){
+
+                        /**
+                         * @event itemCreator#init the initialization is done
+                         * @param {Object} item - the loaded item
+                         */
+                        self.trigger('init', self.item);
+                    });
                 }).catch(function(err){
                     self.trigger('error', err);
                 });
@@ -238,9 +245,12 @@ define([
                     return this.trigger('error', new Error('We need an item to render.'));
                 }
 
-                //configure commonRenderer for the preview
-                commonRenderer.setOption('baseUrl', config.properties.baseUrl);
+                //configure commonRenderer for the preview and initial qti element rendering
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
+                commonRenderer
+                    .get(true, config)
+                    .setOption('baseUrl', config.properties.baseUrl);
+
                 interactionPanel(areaBroker.getInteractionPanelArea());
 
                 //the renderers' widgets do not handle async yet, so we rely on this event
@@ -252,7 +262,7 @@ define([
                 });
 
                 creatorRenderer
-                    .get(true, config)
+                    .get(true, config, areaBroker)
                     .setOptions(config.properties)
                     .load(function(){
                         var widget;
@@ -268,28 +278,28 @@ define([
                          .all(item.postRender(_.clone(config.properties)))
                          .then(function(){
 
-                            //set reference to item widget object
-                            areaBroker.getContainer().data('widget', item);
+                             //set reference to item widget object
+                             areaBroker.getContainer().data('widget', item);
 
-                            widget = item.data('widget');
-                            _.each(item.getComposingElements(), function(element){
-                                if(element.qtiClass === 'include'){
-                                    xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
-                                }
-                            });
+                             widget = item.data('widget');
+                             _.each(item.getComposingElements(), function(element){
+                                 if(element.qtiClass === 'include'){
+                                     xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                                 }
+                             });
 
-                            propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
+                             propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
 
-                            //init event listeners:
-                            eventHelper.initElementToWidgetListeners();
+                             //init event listeners:
+                             eventHelper.initElementToWidgetListeners();
 
-                            return pluginRun('render').then(function(){
-                                self.trigger('render');
-                            });
-                        })
-                        .catch(function(err){
-                            self.trigger('error', err);
-                        });
+                             return pluginRun('render').then(function(){
+                                 self.trigger('render');
+                             });
+                         })
+                         .catch(function(err){
+                             self.trigger('error', err);
+                         });
 
                     }, item.getUsedClasses());
 
@@ -302,7 +312,16 @@ define([
              * @returns {itemCreator} chains
              */
             destroy : function destroy(){
-                //not yet implemented
+                var self = this;
+
+                $(document).off('.qti-widget');
+
+                pluginRun('destroy').then(function(){
+                    self.trigger('destroy');
+                })
+                .catch(function(err){
+                    self.trigger('error', err);
+                });
                 return this;
             },
 
@@ -323,9 +342,7 @@ define([
             getConfig : function getConfig(){
                 return config;
             }
-
         });
-
 
         return itemCreator;
     };

@@ -6,6 +6,11 @@
     .tlb-wrapper{
         top : -26px;
     }
+    &.edit-norp{
+        .qti-inlineChoiceInteraction{
+            padding: 20px 30px 10px 30px;
+        }
+    }
 }
 
 .inlineChoiceInteraction-placeholder {
@@ -114,7 +119,8 @@
             width:30px;
         }
         .icon-radio{
-            left:6px;
+            left:10px;
+            top:8px;
         }
     }
     

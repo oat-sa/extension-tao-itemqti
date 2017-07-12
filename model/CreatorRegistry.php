@@ -39,7 +39,7 @@ abstract class CreatorRegistry
     abstract protected function getBaseDevDir();
 
     /**
-     * @return string - e.g. BASE_WWW/js/pciCreator/dev/
+     * @return string - e.g. base_www/js/pciCreator/dev/
      */
     abstract protected function getBaseDevUrl();
 

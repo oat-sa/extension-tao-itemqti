@@ -16,11 +16,11 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['module'], function (module){
+define([], function (){
 
     'use strict';
 
-    var baseUrl = module.uri.substring(0, module.uri.indexOf('testProvider'));
+    var baseUrl = window.location.origin + '/taoQtiItem/views/js/test/ciRegistry/data/';
     var _registry0 = {
         samplePci : [
             {
@@ -66,7 +66,56 @@ define(['module'], function (module){
                         'samplePci/creator/widget/states/Question.js',
                         'samplePci/creator/widget/states/states.js'
                     ]
-                }
+                },
+                'enabled' : true
+            }
+        ],
+        samplePciDisabled : [
+            {
+                'baseUrl' : baseUrl+'samplePciDisabled',
+                'typeIdentifier' : 'samplePciDisabled',
+                'label' : 'Disabled Pci',
+                'short' : 'disabled',
+                'description' : 'A simple implementation of custom interaction that is disabled',
+                'version' : '1.0.0',
+                'author' : 'Sam Sipasseuth',
+                'email' : 'sam@taotesting.com',
+                'tags' : [
+                    'mcq',
+                    'likert'
+                ],
+                'response' : {
+                    'baseType' : 'integer',
+                    'cardinality' : 'single'
+                },
+                'runtime' : {
+                    'hook' : 'samplePci/runtime/samplePci.amd.js',
+                    'libraries' : [
+                        'IMSGlobal/jquery_2_1_1',
+                        'samplePci/runtime/js/renderer.js'
+                    ],
+                    'stylesheets' : [
+                        'samplePci/runtime/css/base.css',
+                        'samplePci/runtime/css/samplePci.css'
+                    ],
+                    'mediaFiles' : [
+                        'samplePci/runtime/assets/ThumbDown.png',
+                        'samplePci/runtime/assets/ThumbUp.png',
+                        'samplePci/runtime/css/img/bg.png'
+                    ]
+                },
+                'creator' : {
+                    'icon' : 'samplePci/creator/img/icon.svg',
+                    'hook' : 'samplePci/pciCreator.js',
+                    'libraries' : [
+                        'samplePci/creator/tpl/markup.tpl',
+                        'samplePci/creator/tpl/propertiesForm.tpl',
+                        'samplePci/creator/widget/Widget.js',
+                        'samplePci/creator/widget/states/Question.js',
+                        'samplePci/creator/widget/states/states.js'
+                    ]
+                },
+                'enabled' : false
             }
         ]
     };

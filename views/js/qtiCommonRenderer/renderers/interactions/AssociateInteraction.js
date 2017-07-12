@@ -139,6 +139,7 @@ define([
         var $choice         = $container.find('.choice-area [data-serial=' + choiceSerial + ']');
         var usage           = $choice.data('usage') || 0;
         var $parent         = $filledChoice.parent();
+        var $sibling        = $container.find('.choice-area [data-serial=' + $filledChoice.siblings('.target').data('serial') + ']');
 
         //decrease the  use for this choice
         usage--;
@@ -163,6 +164,10 @@ define([
                 });
                 instructionMgr.validateInstructions(interaction, {choice : $choice});
             }
+
+            //if we are to remove the sibling too, update its usage:
+            $sibling.data('usage', $sibling.data('usage') - 1).removeClass('deactivated');
+
             //completely empty pair:
             if(!$choice.siblings('div').hasClass('filled') && (parseInt(interaction.attr('maxAssociations')) === 0 || interaction.responseMappingMode)){
                 //shall we remove it?

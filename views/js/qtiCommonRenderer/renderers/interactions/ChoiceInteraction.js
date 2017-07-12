@@ -31,14 +31,41 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
 ], function (_, $, __, tpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
-
     'use strict';
 
     var KEY_CODE_SPACE = 32;
     var KEY_CODE_ENTER = 13;
+    var KEY_CODE_LEFT  = 37;
     var KEY_CODE_UP    = 38;
+    var KEY_CODE_RIGHT = 39;
     var KEY_CODE_DOWN  = 40;
-    var KEY_CODE_TAB   = 9;
+
+    /**
+     * Propagate the checked state to the actual input.
+     * @type {Function}
+     * @param {jQuery} $choiceBox - list element with the class `.qti-choice`
+     * @param {Boolean} state
+     * @private
+     */
+    var _triggerInput = function _triggerInput($choiceBox, state){
+
+        var $input       = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+        var $choiceBoxes = $choiceBox.add($choiceBox.siblings());
+
+        if(!$input.length){
+            return;
+        }
+
+        if(!_.isBoolean(state)) {
+            state = !$input.prop('checked');
+        }
+
+        $input.prop('checked', state);
+        $input.trigger('change');
+
+        $choiceBoxes.removeClass('user-selected');
+        $choiceBoxes.find('input:checked').not('[disabled]').not('.disabled').parents('.qti-choice').addClass('user-selected');
+    };
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
@@ -48,30 +75,29 @@ define([
      * @param {Object} interaction - the interaction instance
      * @param {jQueryElement} $container
      */
-    var _pseudoLabel = function(interaction, $container){
-
+    var _pseudoLabel = function _pseudoLabel(interaction, $container){
+        var inputSelector = '.qti-choice input:radio:not([disabled]):not(.disabled), .qti-choice input:checkbox:not([disabled]):not(.disabled)';
         $container.off('.commonRenderer');
 
-        var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-
-        $choiceInputs.on('keydown.commonRenderer', function(e){
+        $container.on('keydown.commonRenderer.keyNavigation', inputSelector, function(e){
             var $qtiChoice = $(this).closest('.qti-choice');
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
 
-            if (keyCode === KEY_CODE_UP){
+            if (keyCode === KEY_CODE_UP || keyCode === KEY_CODE_LEFT){
                 e.preventDefault();
+                e.stopPropagation();
                 $qtiChoice.prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
-            } else if (keyCode === KEY_CODE_DOWN){
+            } else if (keyCode === KEY_CODE_DOWN || keyCode === KEY_CODE_RIGHT){
                 e.preventDefault();
+                e.stopPropagation();
                 $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
             }
-        });
-
-        $choiceInputs.on('keyup.commonRenderer', function(e){
+        }).on('keyup.commonRenderer.keyNavigation', inputSelector, function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
                 e.preventDefault();
+                e.stopPropagation();
                 _triggerInput($(this).closest('.qti-choice'));
             }
         });
@@ -79,7 +105,8 @@ define([
         $container.on('click.commonRenderer', '.qti-choice', function(e){
             var $choiceBox = $(this);
             var state;
-            var eliminator = e.target.dataset.eliminable;
+            var eliminator = e.target.dataset && e.target.dataset.eliminable;
+            var input = this.querySelector('.real-label > input');
 
             // if the click has been triggered by a keyboard check, prevent this listener to cancel this check
             if (e.originalEvent && $(e.originalEvent.target).is('input')) {
@@ -89,14 +116,22 @@ define([
             e.preventDefault();
             e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
 
-           if(!_.isUndefined(eliminator)) {
-               state = false;
-               if(eliminator === 'trigger') {
-                   this.classList.toggle('eliminated');
-               }
-           }
+
+            if(!_.isUndefined(eliminator)) {
+                state = false;
+                if(eliminator === 'trigger') {
+                    this.classList.toggle('eliminated');
+                }
+            }
 
             _triggerInput($choiceBox, state);
+
+            if(this.classList.contains('eliminated')) {
+                input.setAttribute('disabled', 'disabled');
+            }
+            else {
+                input.removeAttribute('disabled');
+            }
 
             instructionMgr.validateInstructions(interaction, {choice : $choiceBox});
             containerHelper.triggerResponseChangeEvent(interaction);
@@ -104,43 +139,18 @@ define([
     };
 
     /**
-     * Propagate the checked state to the actual input.
-     * @type {Function}
-     * @param {jQuery} $choiceBox
-     * @param {Boolean} state
+     * Get the responses from the DOM.
      * @private
-     */
-    var _triggerInput = function($choiceBox, state){
-
-        var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-
-        if(!_.isBoolean(state)) {
-            state = !$input.prop('checked');
-        }
-
-        if($input.length){
-            $input.prop('checked', state);
-            $input.trigger('change');
-        }
-    };
-
-    /**
-     * Init rendering, called after template injected into the DOM
-     * All options are listed in the QTI v2.1 information model:
-     * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
-     *
      * @param {Object} interaction - the interaction instance
+     * @returns {Array} the list of choices identifiers
      */
-    var render = function(interaction){
+    var _getRawResponse = function _getRawResponse(interaction){
+        var values = [];
         var $container = containerHelper.get(interaction);
-
-        _pseudoLabel(interaction, $container);
-
-        _setInstructions(interaction);
-
-        if(interaction.attr('orientation') === 'horizontal') {
-            sizeAdapter.adaptSize($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
-        }
+        $('.real-label > input[name=response-' + interaction.getSerial() + ']:checked', $container).each(function(){
+            values.push($(this).val());
+        });
+        return values;
     };
 
     /**
@@ -148,7 +158,7 @@ define([
      * @private
      * @param {Object} interaction - the interaction instance
      */
-    var _setInstructions = function(interaction){
+    var _setInstructions = function _setInstructions(interaction){
 
         var min = interaction.attr('minChoices'),
             max = interaction.attr('maxChoices'),
@@ -156,28 +166,28 @@ define([
             choiceCount = _.size(interaction.getChoices()),
             minInstructionSet = false;
 
+        var highlightInvalidInput = function highlightInvalidInput($choice){
+            var $input = $choice.find('.real-label > input'),
+                $li = $choice.css('color', '#BA122B'),
+                $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
+            var timeout = interaction.data('__instructionTimeout');
+
+            if(timeout){
+                clearTimeout(timeout);
+            }
+            timeout = setTimeout(function(){
+                $input.prop('checked', false);
+                $li.removeAttr('style');
+                $icon.removeAttr('style').removeClass('cross');
+                $li.toggleClass('user-selected', false);
+                containerHelper.triggerResponseChangeEvent(interaction);
+            }, 150);
+            interaction.data('__instructionTimeout', timeout);
+        };
+
         //if maxChoice = 1, use the radio group behaviour
         //if maxChoice = 0, infinite choice possible
         if(max > 1 && max < choiceCount){
-
-            var highlightInvalidInput = function($choice){
-                var $input = $choice.find('.real-label > input'),
-                    $li = $choice.css('color', '#BA122B'),
-                    $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
-                var timeout = interaction.data('__instructionTimeout');
-
-                if(timeout){
-                    clearTimeout(timeout);
-                }
-                timeout = setTimeout(function(){
-                    $input.prop('checked', false);
-                    $li.removeAttr('style');
-                    $icon.removeAttr('style').removeClass('cross');
-                    containerHelper.triggerResponseChangeEvent(interaction);
-                }, 150);
-                interaction.data('__instructionTimeout', timeout);
-            };
-
             if(max === min){
                 minInstructionSet = true;
                 msg = __('You must select exactly %s choices', max);
@@ -244,11 +254,30 @@ define([
     };
 
     /**
+     * Init rendering, called after template injected into the DOM
+     * All options are listed in the QTI v2.1 information model:
+     * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
+     *
+     * @param {Object} interaction - the interaction instance
+     */
+    var render = function render(interaction){
+        var $container = containerHelper.get(interaction);
+
+        _pseudoLabel(interaction, $container);
+
+        _setInstructions(interaction);
+
+        if(interaction.attr('orientation') === 'horizontal') {
+            sizeAdapter.adaptSize($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
+        }
+    };
+
+    /**
      * Reset the responses previously set
      *
      * @param {Object} interaction - the interaction instance
      */
-    var resetResponse = function(interaction){
+    var resetResponse = function resetResponse(interaction){
         var $container = containerHelper.get(interaction);
 
         $('.real-label > input', $container).prop('checked', false);
@@ -267,32 +296,18 @@ define([
      * @param {Object} interaction - the interaction instance
      * @param {0bject} response - the PCI formated response
      */
-    var setResponse = function(interaction, response){
+    var setResponse = function setResponse(interaction, response){
         var $container = containerHelper.get(interaction);
 
         try{
-            _.each(pciResponse.unserialize(response, interaction), function(identifier){
-                $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
+            _.forEach(pciResponse.unserialize(response, interaction), function(identifier){
+                var $input = $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
+                $input.closest('.qti-choice').toggleClass('user-selected', true);
             });
             instructionMgr.validateInstructions(interaction);
         }catch(e){
             throw new Error('wrong response format in argument : ' + e);
         }
-    };
-
-    /**
-     * Get the responses from the DOM.
-     * @private
-     * @param {Object} interaction - the interaction instance
-     * @returns {Array} the list of choices identifiers
-     */
-    var _getRawResponse = function(interaction){
-        var values = [];
-        var $container = containerHelper.get(interaction);
-        $('.real-label > input[name=response-' + interaction.getSerial() + ']:checked', $container).each(function(){
-            values.push($(this).val());
-        });
-        return values;
     };
 
     /**
@@ -307,8 +322,18 @@ define([
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the response formatted in PCI
      */
-    var getResponse = function(interaction){
+    var getResponse = function getResponse(interaction){
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
+    };
+
+    /**
+     * Check if a choice interaction is choice-eliminable
+     *
+     * @param {Object} interaction
+     * @returns {boolean}
+     */
+    var isEliminable = function isEliminable(interaction){
+        return (/\beliminable\b/).test(interaction.attr('class'));
     };
 
     /**
@@ -317,17 +342,14 @@ define([
      * @param {Object} [data] - interaction custom data
      * @returns {Object} custom data
      */
-    var getCustomData = function(interaction, data) {
+    var getCustomData = function getCustomData(interaction, data) {
         var listStyles = (interaction.attr('class') || '').match(/\blist-style-[\w-]+/) || [];
         return _.merge(data || {}, {
             horizontal : (interaction.attr('orientation') === 'horizontal'),
             listStyle: listStyles.pop(),
-            eliminable: (/\beliminable\b/).test(interaction.attr('class'))
+            eliminable: isEliminable(interaction)
         });
     };
-
-
-
 
     /**
      * Destroy the interaction by leaving the DOM exactly in the same state it was before loading the interaction.
@@ -368,11 +390,10 @@ define([
                 interaction.setResponse(state.response);
             }
 
+            $container = containerHelper.get(interaction);
+
             //restore order of previously shuffled choices
             if(_.isArray(state.order) && state.order.length === _.size(interaction.getChoices())){
-
-                $container = containerHelper.get(interaction);
-
                 $('.qti-simpleChoice', $container)
                     .sort(function(a, b){
                         var aIndex = _.indexOf(state.order, $(a).data('identifier'));
@@ -388,6 +409,13 @@ define([
                     .detach()
                     .appendTo($('.choice-area', $container));
             }
+
+            //restore eliminated choices
+            if(isEliminable(interaction) && _.isArray(state.eliminated) && state.eliminated.length){
+                _.forEach(state.eliminated, function(identifier){
+                    $container.find('.qti-simpleChoice[data-identifier=' + identifier + ']').addClass('eliminated');
+                });
+            }
         }
     };
 
@@ -398,7 +426,7 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
+        var $container = containerHelper.get(interaction);
         var state =  {};
         var response =  interaction.getResponse();
 
@@ -408,13 +436,20 @@ define([
 
         //we store also the choice order if shuffled
         if(interaction.attr('shuffle') === true){
-            $container = containerHelper.get(interaction);
-
             state.order = [];
             $('.qti-simpleChoice', $container).each(function(){
-               state.order.push($(this).data('identifier'));
+                state.order.push($(this).data('identifier'));
             });
         }
+
+        //store the eliminated choices
+        if(isEliminable(interaction)){
+            state.eliminated = [];
+            $container.find('.qti-simpleChoice.eliminated').each(function(){
+                state.eliminated.push($(this).data('identifier'));
+            });
+        }
+
         return state;
     };
 
@@ -423,16 +458,16 @@ define([
      * @exports qtiCommonRenderer/renderers/interactions/ChoiceInteraction
      */
     return {
-        qtiClass : 'choiceInteraction',
-        template : tpl,
-        getData : getCustomData,
-        render : render,
-        getContainer : containerHelper.get,
-        setResponse : setResponse,
-        getResponse : getResponse,
-        resetResponse : resetResponse,
-        destroy : destroy,
-        setState : setState,
-        getState : getState
+        qtiClass:      'choiceInteraction',
+        template:      tpl,
+        getData:       getCustomData,
+        render:        render,
+        getContainer:  containerHelper.get,
+        setResponse:   setResponse,
+        getResponse:   getResponse,
+        resetResponse: resetResponse,
+        destroy:       destroy,
+        setState:      setState,
+        getState:      getState
     };
 });

@@ -25,10 +25,8 @@ namespace oat\taoQtiItem\scripts;
  * This post-installation script creates a new local file source for file uploaded
  * by end-users through the TAO GUI.
  */
-use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\websource\FlyTokenWebSource;
-use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\ActionWebSource;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 
 class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
@@ -42,22 +40,20 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
             return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Portable file storage already registered, skipped.');
         }
 
+        $fsId = 'portableElementStorage';
+        /** @var FileSystemService $fsm */
         $fsm = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsPortableElement = $fsm->createFileSystem('portableElementStorage', 'portableElement');
-
-        if ($fsPortableElement->getAdapter() instanceof Local) {
-            $websource = TokenWebSource::spawnWebsource('portableElementStorage', $fsPortableElement->getAdapter()->getPathPrefix());
-        } else {
-            $websource = FlyTokenWebSource::spawnWebsource('portableElementStorage','');
+        if (! $fsm->hasDirectory('portableElement')) {
+            $fsm->createFileSystem($fsId, 'portableElement');
+            $this->registerService(FileSystemService::SERVICE_ID, $fsm);
         }
 
         $portableElementStorage = new PortableElementFileStorage(array(
-            PortableElementFileStorage::OPTION_FILESYSTEM => 'portableElementStorage',
-            PortableElementFileStorage::OPTION_WEBSOURCE => $websource->getId()
+            PortableElementFileStorage::OPTION_FILESYSTEM => $fsId,
+            PortableElementFileStorage::OPTION_WEBSOURCE => ActionWebSource::spawnWebsource($fsId)->getId()
         ));
 
         $this->getServiceManager()->register(PortableElementFileStorage::SERVICE_ID, $portableElementStorage);
-        $this->getServiceLocator()->register(FileSystemService::SERVICE_ID, $fsm);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Portable file storage registered.');
     }

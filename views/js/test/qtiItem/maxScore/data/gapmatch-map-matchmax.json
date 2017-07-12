@@ -1,0 +1,284 @@
+{
+    "identifier": "i1496326012103773",
+    "serial": "item_5930219fca4f2010398033",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "i1496326012103773",
+        "title": "Item 12",
+        "label": "",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.2.0-sprint52",
+        "class": ""
+    },
+    "body": {
+        "serial": "container_containeritembody_5930219fca4d0542092830",
+        "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                {{interaction_gapmatchinteraction_5930219fed70b732896556}}\n            <\/div>\n        <\/div>\n    ",
+        "elements": {
+            "interaction_gapmatchinteraction_5930219fed70b732896556": {
+                "serial": "interaction_gapmatchinteraction_5930219fed70b732896556",
+                "qtiClass": "gapMatchInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE",
+                    "shuffle": false
+                },
+                "body": {
+                    "serial": "container_containergap_5930219ff2744567210225",
+                    "body": "\n                    \n                    \n                    \n                    \n                    <p>Lorem\n\n                        {{choice_gap_593021a00679b319057676}} dolor sit\n\n                        {{choice_gap_593021a007a0e953251879}}, consectetur\n\n                        {{choice_gap_593021a007a40308615323}} ...\n\n                    <\/p>\n                ",
+                    "elements": {
+                        "choice_gap_593021a00679b319057676": {
+                            "identifier": "gap_1",
+                            "serial": "choice_gap_593021a00679b319057676",
+                            "qtiClass": "gap",
+                            "attributes": {
+                                "identifier": "gap_1",
+                                "fixed": false,
+                                "required": false
+                            },
+                            "debug": {
+                                "relatedItem": "item_5930219fca4f2010398033"
+                            }
+                        },
+                        "choice_gap_593021a007a0e953251879": {
+                            "identifier": "gap_2",
+                            "serial": "choice_gap_593021a007a0e953251879",
+                            "qtiClass": "gap",
+                            "attributes": {
+                                "identifier": "gap_2",
+                                "fixed": false,
+                                "required": false
+                            },
+                            "debug": {
+                                "relatedItem": "item_5930219fca4f2010398033"
+                            }
+                        },
+                        "choice_gap_593021a007a40308615323": {
+                            "identifier": "gap_3",
+                            "serial": "choice_gap_593021a007a40308615323",
+                            "qtiClass": "gap",
+                            "attributes": {
+                                "identifier": "gap_3",
+                                "fixed": false,
+                                "required": false
+                            },
+                            "debug": {
+                                "relatedItem": "item_5930219fca4f2010398033"
+                            }
+                        }
+                    },
+                    "debug": {
+                        "relatedItem": "item_5930219fca4f2010398033"
+                    }
+                },
+                "debug": {
+                    "relatedItem": "item_5930219fca4f2010398033"
+                },
+                "choices": {
+                    "choice_gaptext_593021a00075e849553908": {
+                        "identifier": "choice_2",
+                        "serial": "choice_gaptext_593021a00075e849553908",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_2",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_5930219fca4f2010398033"
+                        },
+                        "text": "ipsum"
+                    },
+                    "choice_gaptext_593021a005979558618867": {
+                        "identifier": "choice_3",
+                        "serial": "choice_gaptext_593021a005979558618867",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_3",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_5930219fca4f2010398033"
+                        },
+                        "text": "amet"
+                    },
+                    "choice_gaptext_593021a0059de518877248": {
+                        "identifier": "choice_4",
+                        "serial": "choice_gaptext_593021a0059de518877248",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "choice_4",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "debug": {
+                            "relatedItem": "item_5930219fca4f2010398033"
+                        },
+                        "text": "adipisicing"
+                    }
+                },
+                "prompt": {
+                    "serial": "container_containerstatic_5930219ff1c43478899988",
+                    "body": "",
+                    "elements": {},
+                    "debug": {
+                        "relatedItem": "item_5930219fca4f2010398033"
+                    }
+                }
+            }
+        },
+        "debug": {
+            "relatedItem": "item_5930219fca4f2010398033"
+        }
+    },
+    "debug": {
+        "relatedItem": "item_5930219fca4f2010398033"
+    },
+    "namespaces": {
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1",
+        "m": "http:\/\/www.w3.org\/1998\/Math\/MathML",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
+    },
+    "stylesheets": {
+        "stylesheet_5930219fd60f3961354579": {
+            "serial": "stylesheet_5930219fd60f3961354579",
+            "qtiClass": "stylesheet",
+            "attributes": {
+                "href": "style\/custom\/tao-user-styles.css",
+                "type": "text\/css",
+                "media": "all",
+                "title": ""
+            },
+            "debug": {
+                "relatedItem": "item_5930219fca4f2010398033"
+            }
+        }
+    },
+    "outcomes": {
+        "outcomedeclaration_5930219fe29e1966430648": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_5930219fe29e1966430648",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_5930219fca4f2010398033"
+            },
+            "defaultValue": null
+        },
+        "outcomedeclaration_5930219fe8e7f079484912": {
+            "identifier": "MAXSCORE",
+            "serial": "outcomedeclaration_5930219fe8e7f079484912",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "MAXSCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_5930219fca4f2010398033"
+            },
+            "defaultValue": "0"
+        }
+    },
+    "responses": {
+        "responsedeclaration_5930219fdcc0b406038032": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_5930219fdcc0b406038032",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "multiple",
+                "baseType": "directedPair"
+            },
+            "debug": {
+                "relatedItem": "item_5930219fca4f2010398033"
+            },
+            "defaultValue": [],
+            "mapping": {
+                "choice_2 gap_1": "2",
+                "choice_3 gap_2": "2",
+                "choice_4 gap_3": "2"
+            },
+            "areaMapping": [],
+            "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/map_response",
+            "correctResponses": [],
+            "mappingAttributes": {
+                "defaultValue": 2
+            },
+            "feedbackRules": {}
+        }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+        "serial": "response_templatesdriven_593021a00d2fe510205964",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "debug": {
+            "relatedItem": "item_5930219fca4f2010398033"
+        },
+        "processingType": "templateDriven",
+        "responseRules": [
+            {
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "isNull",
+                        "expressions": [
+                            {
+                                "qtiClass": "variable",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        ]
+                    },
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "0.0"
+                            }
+                        }
+                    ]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "mapResponse",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "apipAccessibility": ""
+}

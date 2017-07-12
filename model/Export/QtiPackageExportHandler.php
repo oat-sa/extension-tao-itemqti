@@ -21,6 +21,13 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use League\Flysystem\FileNotFoundException;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\PhpSerializeStateless;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use \tao_models_classes_export_ExportHandler;
 use \core_kernel_classes_Resource;
 use \core_kernel_classes_Class;
@@ -30,7 +37,6 @@ use \Exception;
 use \ZipArchive;
 use \DomDocument;
 use \common_Logger;
-use oat\taoQtiItem\model\ItemModel;
 
 /**
  * Short description of class oat\taoQtiItem\model\ItemModel
@@ -40,8 +46,14 @@ use oat\taoQtiItem\model\ItemModel;
  * @package taoQTI
  
  */
-class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
+class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler, PhpSerializable
 {
+    use PhpSerializeStateless;
+
+    /**
+     * @var MetadataExporter Service to export metadata to IMSManifest
+     */
+    protected $metadataExporter;
 
     /**
      * (non-PHPdoc)
@@ -61,7 +73,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
         } else {
             $formData= array('instance' => $resource);
         }
-    	$form = new ExportForm($formData);
+    	$form = new Qti21ExportForm($formData);
     	return $form->getForm();
     }
     
@@ -93,10 +105,16 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 					$item = new core_kernel_classes_Resource($instance);
 					if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
 						$exporter = $this->createExporter($item, $zipArchive, $manifest);
-                        
-						$subReport = $exporter->export();
-						$manifest = $exporter->getManifest();
-                        $report->add($subReport);
+                        try {
+                            $subReport = $exporter->export();
+                            $manifest = $exporter->getManifest();
+
+                            $report->add($subReport);
+						} catch (FileNotFoundException $e){
+							$report->add(\common_report_Report::createFailure(__('Item "%s" has no xml document', $item->getLabel())));
+                        } catch (\Exception $e) {
+							common_Logger::i(__('Error to export item %s: %s', $instance, $e->getMessage()));
+						}
 					}
 				}
 				
@@ -117,5 +135,23 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
     protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null)
     {
         return new QTIPackedItemExporter($item, $zipArchive, $manifest);
+    }
+
+    /**
+     * Get the service to export Metadata
+     *
+     * @return MetadataExporter
+     */
+    protected function getMetadataExporter()
+    {
+        if (! $this->metadataExporter) {
+            $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
+        }
+        return $this->metadataExporter;
+    }
+
+    protected function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }

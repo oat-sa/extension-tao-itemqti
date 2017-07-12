@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use League\Flysystem\FileNotFoundException;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
@@ -34,6 +35,8 @@ use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetEx
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\ExportException;
+use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use Psr\Http\Message\StreamInterface;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -50,6 +53,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     private static $BLACKLIST = array(
         '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
     );
+
+    /**
+     * @var MetadataExporter Service to export metadata to IMSManifest
+     */
+    protected $metadataExporter;
 
     abstract public function buildBasePath();
     
@@ -78,9 +86,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $basePath = $this->buildBasePath();
 
         if(is_null($this->getItemModel())){
-            throw new ExportException('', 'No Item Model found for item : '.$this->getItem()->getUri());
+            $report->setMessage($this->getExportErrorMessage(__('not a QTI item')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
+            return $report;
         }
-        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
+        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
 	    $replacementList = array();
         $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
@@ -152,7 +162,15 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
-        $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
+
+        try{
+            $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
+        }catch(FileNotFoundException $e){
+            $report->setMessage($this->getExportErrorMessage(__('cannot find QTI XML')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
+            return $report;
+        }
+
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
@@ -175,13 +193,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->exportPortableAssets($dom, 'portableCustomInteraction', 'customInteractionTypeIdentifier', 'pci', $portableElementsToExport, $portableAssetsToExport);
             $this->exportPortableAssets($dom, 'portableInfoControl', 'infoControlTypeIdentifier', 'pic', $portableElementsToExport, $portableAssetsToExport);
         } else {
-            throw new ExportException($this->getItem()->getLabel(), 'Unable to load XML');
+            $report->setMessage($this->getExportErrorMessage(__('cannot load QTI XML')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
+            return $report;
         }
 
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         if(($content = $dom->saveXML()) === false){
-            throw new ExportException($this->getItem()->getLabel(), 'Unable to save XML');
+            $report->setMessage($this->getExportErrorMessage(__('invalid QTI XML')));
+            $report->setType(\common_report_Report::TYPE_ERROR);
         }
 
         // Possibility to delegate (if necessary) some item content post-processing to sub-classes.
@@ -191,10 +212,20 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
 
         if (! $report->getMessage()) {
-            $report->setMessage(__('Item ' . $this->getItem()->getLabel() . ' exported.'));
+            $report->setMessage(__('Item "%s" is ready to be exported', $this->getItem()->getLabel()));
         }
 
         return $report;
+    }
+
+    /**
+     * Format a consistent error reporting message
+     *
+     * @param string $errorMessage
+     * @return string
+     */
+    private function getExportErrorMessage($errorMessage){
+        return __('Item "%s" cannot be exported: %s', $this->getItem()->getLabel(), $errorMessage);
     }
 
     /**
@@ -347,7 +378,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
-
+        if (is_null($qtiItem)) {
+            return [];
+        }
         $assetParser = new AssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
         $assetParser->setGetSharedLibraries(false);
         $returnValue = array();
@@ -367,6 +400,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getPortableElementAssets(\core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
+        if (is_null($qtiItem)) {
+            return [];
+        }
         $directory = $this->getStorageDirectory($item, $lang);
         $assetParser = new AssetParser($qtiItem, $directory);
         $assetParser->setGetCustomElementDefinition(true);
@@ -394,6 +430,19 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected function getServiceManager()
     {
         return ServiceManager::getServiceManager();
+    }
+
+    /**
+     * Get the service to export Metadata
+     *
+     * @return MetadataExporter
+     */
+    protected function getMetadataExporter()
+    {
+        if (! $this->metadataExporter) {
+            $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
+        }
+        return $this->metadataExporter;
     }
 
 }

@@ -86,9 +86,11 @@ define([
          * update height and enable the field
          */
         var switchToVideo = function switchToVideo(){
-            isAudio = false;
-            interaction.object.attr('height', defaultVideoHeight);
-            $heightContainer.show();
+            if(isAudio){
+                isAudio = false;
+                interaction.object.attr('height', defaultVideoHeight);
+                $heightContainer.show();
+            }
         };
 
         /**
@@ -129,9 +131,9 @@ define([
                         if(files && files.length){
                             // set data field content and maybe detect and set media type here
                             interaction.object.attr('type', files[0].mime);
-                            $form.find('input[name=data]')
-                                .val(files[0].file)
-                                .trigger('change');
+                            $src.val(files[0].file).trigger('change');
+                        }else{
+                            $src.trigger('noselection');
                         }
                     },
                     open : function(){

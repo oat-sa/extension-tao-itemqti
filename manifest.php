@@ -25,15 +25,14 @@ $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
 
 return array(
-    'name' => 'taoQtiItem',
-    'label' => 'QTI item model',
-    'description' => 'TAO QTI item model',
-    'license' => 'GPL-2.0',
-    'version' => '6.4.2',
-    'author' => 'Open Assessment Technologies',
+    'name'        => 'taoQtiItem',
+    'label'       => 'QTI item model',
+    'license'     => 'GPL-2.0',
+    'version'     => '9.2.1',
+    'author'      => 'Open Assessment Technologies',
     'requires' => array(
-        'taoItems' => '>=2.23.0',
-        'tao'      => '>=7.18.0'
+        'taoItems' => '>=4.2.4',
+        'tao'      => '>=10.22.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -56,7 +55,9 @@ return array(
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
 			'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
 			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
-                        'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
+            'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
+            \oat\taoQtiItem\scripts\install\InitMetadataService::class,
+            \oat\taoQtiItem\scripts\install\SetItemModel::class,
 		)
 	),
 	'local'	=> array(
@@ -92,9 +93,6 @@ return array(
 
 		#BASE URL (usually the domain root)
 		'BASE_URL'				=> ROOT_URL	.'taoQtiItem/',
-
-		#BASE WWW the web resources path
-		'BASE_WWW'				=> ROOT_URL	.'taoQtiItem/views/',
 	),
     'extra' => array(
         'structures' => dirname(__FILE__).DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.'structures.xml',

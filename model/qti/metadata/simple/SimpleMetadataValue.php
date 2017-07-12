@@ -62,7 +62,7 @@ class SimpleMetadataValue implements MetadataValue
      * Create a new SimpleMetadataValue object.
      * 
      * @param string $resourceIdentifier The Identifier of the resource the MetadataValue describes.
-     * @param string $path The descriptive path of the metadata.
+     * @param array $path The descriptive path of the metadata.
      * @param string $value The intrinsic value of the MetadataValue.
      * @param string $language A string. If no specific language, an empty string is accepted.
      * @throws InvalidArgumentException If one of the argument contains an invalid value.

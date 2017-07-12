@@ -31,7 +31,8 @@ define([
     var moduleConfig = module.config();
 
     //Create asset manager stack
-    var assetManager = assetManagerFactory([{
+    var assetManager = assetManagerFactory([
+        {
             name : 'theme',
             handle : function handleTheme(url){
                 if(itemThemes && url.path && (url.path === itemThemes.base || _.contains(_.pluck(itemThemes.available, 'path'), url.path))){
@@ -42,9 +43,10 @@ define([
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
+        assetStrategies.itemCssNoCache,
         assetStrategies.baseUrl,
         portableAssetStrategy
-    ], {baseUrl : ''});
+    ], {baseUrl : ''});//baseUrl is not predefined in the config, but should be set upon renderer instantiating
 
     //renderers locations
     var locations = {

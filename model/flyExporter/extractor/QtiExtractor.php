@@ -20,6 +20,7 @@
  */
 
 namespace oat\taoQtiItem\model\flyExporter\extractor;
+use League\Flysystem\FileNotFoundException;
 use oat\taoQtiItem\model\qti\Service;
 
 /**
@@ -96,11 +97,15 @@ class QtiExtractor implements Extractor
      */
     private function loadXml(\core_kernel_classes_Resource $item)
     {
-
         $itemService = Service::singleton();
-        $xml = $itemService->getXmlByRdfItem($item);
-        if (empty($xml)) {
-            throw new ExtractorException('No content found for item ' . $item->getUri());
+
+        try {
+            $xml = $itemService->getXmlByRdfItem($item);
+            if (empty($xml)) {
+                throw new ExtractorException('No content found for item ' . $item->getUri());
+            }
+        } catch (FileNotFoundException $e) {
+            throw new ExtractorException('qti.xml file was not found for item '. $item->getUri() .'; The item might be empty.');
         }
 
         $this->dom   = new \DOMDocument();
@@ -222,6 +227,10 @@ class QtiExtractor implements Extractor
                 'xpathChoice'      => 'descendant::*[@class="qti-choice"]'
             ],
 
+            // Custom PCI interactions; Proper interaction type name will be determined by an xpath query
+            'Custom Interaction' => [
+                'domInteraction' => 'customInteraction'
+            ],
 
             // Simple interaction
             'Extended text' => ['domInteraction' => 'extendedTextInteraction'],
@@ -258,6 +267,14 @@ class QtiExtractor implements Extractor
                 $interaction['type'] = $element;
                 $interaction['choices'] = [];
                 $interaction['responses'] = [];
+
+                if ($parser['domInteraction'] == 'customInteraction') {
+                    // figure out the proper type name of a custom interaction
+                    $portableCustomNode = $this->xpath->query('./pci:portableCustomInteraction', $interactionNode->item($i));
+                    if ($portableCustomNode->length) {
+                        $interaction['type'] = ucfirst(str_replace('Interaction', '', $portableCustomNode->item(0)->getAttribute('customInteractionTypeIdentifier')));
+                    }
+                }
 
                 /**
                  * Interaction right answers

@@ -1,3 +1,20 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ */
 define([
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
@@ -26,20 +43,36 @@ define([
                 cardinality : 'multiple'
             });
         },
+        getNextPlaceholder : function getNextPlaceholder() {
+            var allChoices = this.getChoices(),
+                existingChoicesLabels = _.map(allChoices, function(choice) {
+                    var choiceBody = choice.getBody() || {};
+                    return choiceBody.bdy;
+                }),
+                placeHolderIndex = 1,
+                placeHolderPrefix = 'choice #',
+                placeHolder = placeHolderPrefix + placeHolderIndex;
+
+            while (existingChoicesLabels.indexOf(placeHolder) !== -1) {
+                placeHolderIndex++;
+                placeHolder = placeHolderPrefix + placeHolderIndex;
+            }
+            return placeHolder;
+        },
         createChoice : function(text){
-        
+
             var choice = new Choice();
 
             this.addChoice(choice);
 
             choice
-                .val(text || 'choice #' + _.size(this.getChoices()))
+                .body(text || this.getNextPlaceholder())
                 .buildIdentifier('choice');
 
             if(this.getRenderer()){
                 choice.setRenderer(this.getRenderer());
             }
-            
+
             event.choiceCreated(choice, this);
 
             return choice;
@@ -62,7 +95,7 @@ define([
         },
         removeChoice : function(element){
             var serial = '', c;
-            
+
             if(typeof(element) === 'string'){
                 serial = element;
             }else if(Element.isA(element, 'gap')){
@@ -70,27 +103,27 @@ define([
             }else if(Element.isA(element, 'gapText')){
                 serial = element.serial;
             }
-            
+
             if(c = this.getBody().getElement(serial)){
                 //remove choice
                 this.getBody().removeElement(c);
-                
+
                 //update the response
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
-                
+
                 //trigger event
                 event.deleted(c, this);
             }else if(c = this.getChoice(serial)){
                 //remove choice
                 delete this.choices[serial];
-                
+
                 //update the response
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
-                
+
                 //trigger event
                 event.deleted(c, this);
             }
-            
+
             return this;
         }
     });

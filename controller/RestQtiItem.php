@@ -71,7 +71,7 @@ class RestQtiItem extends \tao_actions_RestController
      */
     protected function getDestinationClass()
     {
-        return $this->getClass(TAO_ITEM_CLASS);
+        return $this->getClassFromRequest(new \core_kernel_classes_Class(TAO_ITEM_CLASS));
     }
 
     /**
@@ -104,7 +104,12 @@ class RestQtiItem extends \tao_actions_RestController
             
             \tao_helpers_File::remove($package);
             if ($report->getType() !== \common_report_Report::TYPE_SUCCESS) {
-                $this->returnFailure(new \common_Exception(__("An unexpected error occured during the import of the IMS QTI Item Package.")));
+                $message = __("An unexpected error occurred during the import of the IMS QTI Item Package. ");
+                //get message of first error report
+                if (!empty($report->getErrors())) {
+                    $message .= $report->getErrors()[0]->getMessage();
+                }
+                $this->returnFailure(new \common_Exception($message));
             } else {
                 $itemIds = [];
                 /** @var \common_report_Report $subReport */
@@ -223,7 +228,38 @@ class RestQtiItem extends \tao_actions_RestController
             $this->returnFailure($e);
         }
     }
+
+    /**
+     * Create an Item Class
+     *
+     * Label parameter is mandatory
+     * If parent class parameter is an uri of valid test class, new class will be created under it
+     * If not parent class parameter is provided, class will be created under root class
+     * Comment parameter is not mandatory, used to describe new created class
+     *
+     * @return \core_kernel_classes_Class
+     */
+    public function createClass()
+    {
+        try {
+            $class = $this->createSubClass(new \core_kernel_classes_Class(TAO_ITEM_CLASS));
+
+            $result = [
+                'message' => __('Class successfully created.'),
+                'class-uri' => $class->getUri(),
+            ];
+
+            $this->returnSuccess($result);
+        } catch (\common_exception_ClassAlreadyExists $e) {
+            $result = [
+                'message' => $e->getMessage(),
+                'class-uri' => $e->getClass()->getUri(),
+            ];
+            $this->returnSuccess($result);
+        } catch (\Exception $e) {
+            $this->returnFailure($e);
+        }
+    }
 }
 
-		    
-		    
+

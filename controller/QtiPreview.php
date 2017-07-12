@@ -22,6 +22,8 @@
 namespace oat\taoQtiItem\controller;
 
 //use oat\taoQtiItem\controller\QtiPreview;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\asset\AssetService;
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Item;
@@ -37,6 +39,7 @@ use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_PciStateOutput;
 use \taoQtiCommon_helpers_Utils;
 use \common_ext_ExtensionsManager;
+use qtism\common\datatypes\files\FileSystemFileManager;
 use qtism\runtime\common\State;
 use qtism\runtime\tests\SessionManager;
 use qtism\runtime\tests\AssessmentItemSession;
@@ -107,7 +110,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
                 // Do not take into account QTI Files at preview time.
                 // Simply delete the created file.
                 if (taoQtiCommon_helpers_Utils::isQtiFile($var, false) === true) {
-                    $fileManager = taoQtiCommon_helpers_Utils::getFileDatatypeManager();
+                    $fileManager = new FileSystemFileManager();
                     $fileManager->delete($var->getValue());
                 }
                 else {
@@ -181,8 +184,11 @@ class QtiPreview extends taoItems_actions_ItemPreview
         if ($qtiItem) {
             $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
 
-            $taoBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
-            $qtiBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
+            /** @var AssetService $assetService */
+            $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+
+            $taoBaseUrl = $assetService->getJsBaseWww( 'tao' );
+            $qtiBaseUrl = $assetService->getJsBaseWww( 'taoQtiItem' );
 
             $taoLibUrl = $taoBaseUrl.'js/lib/';
             $taoQtiItemLibUrl = $qtiBaseUrl.'js/runtime/';

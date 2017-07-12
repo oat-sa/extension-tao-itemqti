@@ -177,6 +177,14 @@ img.dragging.ui-draggable-dragging {
 
 }
 
+.item-editor-response-related {
+    .response-mapping-info {
+        .feedback-info {
+            padding: 5px;
+        }
+    }
+}
+
 .item-editor-css-editor {
     select {
         min-width: 0 !important;
@@ -190,7 +198,9 @@ img.dragging.ui-draggable-dragging {
     display: none;
 }
 
+@import "qtiCreator/_outcome-editor";
 @import "qtiCreator/_interaction-sidebar";
+@import "qtiCreator/_math-input";
 
 .item-editor-sidebar-wrapper {
     background: $canvas;
@@ -1200,6 +1210,14 @@ img.dragging.ui-draggable-dragging {
                 min-width:25px;
                 height:20px;
                 margin:0;
+            }
+
+        }
+        // hack to implement TAO-4554 and avoid overlapping toolbars
+        .widget-box {
+            .mini-tlb {
+                top: 0 !important;
+                right:-30px !important;
             }
         }
     }

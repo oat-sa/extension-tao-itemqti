@@ -1,0 +1,57 @@
+@import "inc/bootstrap";
+
+.window-popup {
+
+    .window-component-body {
+        display: flex; // this is useful to have the input field fill the whole height of the popup
+
+
+        // popup for large latex/mathml input
+        .math-popup-input {
+            width: 100%;
+            max-width: none;
+            resize: none;
+        }
+
+        // wysiwyg editor
+        .math-input {
+            display: flex;
+            flex-direction: column;
+
+            .math-input-toolbar {
+                .math-input-toolgroup {
+                    float: left;
+                    border-right: 1px solid $darkBlueGrey;
+                    margin-right: 10px;
+                    padding-right: 10px;
+                    margin-bottom: 5px;
+
+                    &:last-child {
+                        margin-right: 0;
+                        padding-right: 0;
+                        border-right: none;
+                    }
+
+                    .math-input-tool {
+                        margin: 1px;
+                    }
+                }
+            }
+
+            .math-input-form {
+                clear: both;
+                flex: 1;
+                margin-top: 10px;
+
+                .math-input-mathquill {
+                    width: 100%;
+                    height: 100%;
+
+                    border-color: $uiGeneralContentBorder;
+                    background: white(1);
+                }
+            }
+        }
+    }
+}
+

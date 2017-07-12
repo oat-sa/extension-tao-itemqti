@@ -38,7 +38,7 @@ define([
      * @param {object} config - the configuration object of the creatorRenderer
      * @returns {module.exports.properties|Function.properties|config.properties}
      */
-    function _extractInteractionsConfig(config){
+    var _extractInteractionsConfig = function _extractInteractionsConfig(config){
         var ret = {};
         if(config && config.properties){
             _.each(_configurableInteractions, function(interactionName){
@@ -48,18 +48,18 @@ define([
             });
         }
         return ret;
-    }
+    };
 
     /**
      * Get a preconfigured renderer singleton
      *
      * @param {Boolean} reset
      * @param {Object} config
+     * @param {Object} areaBroker - the QtiCreator area broker
      * @returns {Object} - a configured instance of creatorRenderer
      */
-    var get = function(reset, config){
-        var assetManager,
-            $bodyEltForm;
+    var get = function(reset, config, areaBroker){
+        var $bodyEltForm;
 
         if(!_creatorRenderer || reset){
 
@@ -96,6 +96,7 @@ define([
                 //update the resolver baseUrl
                 _creatorRenderer.getAssetManager().setData({baseUrl : config.properties.baseUrl || '' });
 
+                _creatorRenderer.setAreaBroker(areaBroker);
             }
         }
 
@@ -104,9 +105,8 @@ define([
 
 
     return {
-        get : function(reset, config){
-            return get(reset, config);
-        },
+        get : get,
+
         setOption : function(name, value){
             return get().setOption(name, value);
         },

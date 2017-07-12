@@ -19,23 +19,38 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Math',
-    'taoQtiItem/qtiCreator/widgets/static/math/Widget'
-], function(_, Renderer, Widget){
+    'taoQtiItem/qtiCreator/widgets/static/math/Widget',
+    'taoQtiItem/qtiItem/core/Element'
+], function(_, Renderer, Widget, Element){
     'use strict';
 
     var CreatorMath = _.clone(Renderer);
 
+    /**
+     * This could serve as a basis for a helper if generic support is needed for non-editable element rendering
+     * Here, we simply check that the math element is not nested inside a hottext element
+     * @param {Element} element
+     * @returns {boolean}
+     */
+    function isEditable(element) {
+        var parent = element.parent();
+        return ! Element.isA(parent, 'hottext');
+    }
+
     CreatorMath.render = function(math, options){
 
         //initial rendering:
-        Renderer.render(math);
+        if (isEditable(math)) {
+            Renderer.render(math);
 
-        Widget.build(
-            math,
-            Renderer.getContainer(math),
-            this.getOption('bodyElementOptionForm'),
-            options
-        );
+            Widget.build(
+                math,
+                Renderer.getContainer(math),
+                this.getOption('bodyElementOptionForm'),
+                options
+            );
+        }
+
     };
 
     return CreatorMath;

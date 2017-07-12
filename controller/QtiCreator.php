@@ -162,6 +162,7 @@ class QtiCreator extends tao_actions_CommonModule
             //check if the item is QTI item
             if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
                 try {
+                    Authoring::checkEmptyMedia($xml);
                     $returnValue['success'] = $itemService->saveXmlItemToRdfItem($xml, $rdfItem);
                 } catch (QtiModelException $e) {
                     $returnValue = array(
@@ -243,7 +244,7 @@ class QtiCreator extends tao_actions_CommonModule
         $config->setProperty('baseUrl', $url);
 
         //map the multi column config to the plugin
-        //TODO migrate the config 
+        //TODO migrate the config
         if($config->getProperty('multi-column') == true){
             $config->addPlugin('blockAdder', 'taoQtiItem/qtiCreator/plugins/content/blockAdder', 'content');
         }

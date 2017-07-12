@@ -28,7 +28,9 @@ define([
     'taoQtiItem/qtiCreator/plugins/menu/preview',
     'taoQtiItem/qtiCreator/plugins/menu/print',
     'taoQtiItem/qtiCreator/plugins/content/title',
-], function(pluginLoader, save, preview, print, title){
+    'taoQtiItem/qtiCreator/plugins/content/changeTracker',
+    'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor',
+], function(pluginLoader, save, preview, print, title, changeTracker, outcomeEditor){
     'use strict';
 
     /**
@@ -36,6 +38,7 @@ define([
      */
     return pluginLoader({
         menu       : [save, preview, print],
-        content    : [title],
+        content    : [title, changeTracker],
+        panel : [outcomeEditor]
     });
 });

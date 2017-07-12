@@ -47,22 +47,29 @@ define([
 
     "use strict";
 
+    var GraphicGapMatchInteractionStateQuestion;
+
     /**
-     * Media size runs not in automated mode, this applies the values manually
+     * Apply size changes manually to mediasizer's target.
      *
-     * @param params
-     * @param factor
+     * @param {Object} params
+     * @param {number} factor
      */
     function applyMediasizerValues(params, factor) {
         factor = factor || 1;
 
-        // css() + attr() for consistency
-        params.$target.css({
-            width: params.width * factor,
-            height: params.height * factor
-        })
-            .attr('width', params.width * factor)
-            .attr('height', params.height * factor);
+        // The mediasizer target maintains a height and width (i.e. attributes)
+        // but is displayed according to a factor (i.e. styles). This matches
+        // the behavior of hotspots.
+        // This is because resize events utilize factor to adjust images, thus,
+        // the target's dimensions need to be maintained.
+        params.$target
+            .css({
+                width: params.width * factor,
+                height: params.height * factor
+            })
+            .attr('width', params.width)
+            .attr('height', params.height);
     }
 
 
@@ -70,7 +77,9 @@ define([
     /**
      * Question State initialization: set up side bar, editors and shae factory
      */
-    var initQuestionState = function initQuestionState() {
+    function initQuestionState() {
+        var $choiceForm, $formChoicePanel, $formInteractionPanel;
+        var $left, $top, $width, $height;
 
         var widget = this.widget;
         var interaction = widget.element;
@@ -87,11 +96,9 @@ define([
             return;
         }
 
-        var $choiceForm = widget.choiceForm;
-        var $formInteractionPanel = $('#item-editor-interaction-property-bar');
-        var $formChoicePanel = $('#item-editor-choice-property-bar');
-
-        var $left, $top, $width, $height;
+        $choiceForm = widget.choiceForm;
+        $formInteractionPanel = $('#item-editor-interaction-property-bar');
+        $formChoicePanel = $('#item-editor-choice-property-bar');
 
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
@@ -227,7 +234,7 @@ define([
          */
         function enterChoiceForm(serial) {
             var choice = interaction.getChoice(serial);
-            var element, bbox;
+            var element, bbox, callbacks;
 
             if (choice) {
 
@@ -253,7 +260,7 @@ define([
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                var callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
 
@@ -292,6 +299,7 @@ define([
 
             var callbacks,
                 gapImg = interaction.getGapImg(serial),
+                initMediasizer,
                 $gapImgBox,
                 $gapImgElem,
                 $mediaSizer;
@@ -321,19 +329,39 @@ define([
                 //init media sizer
                 $mediaSizer = $choiceForm.find('.media-sizer-panel')
                     .on('create.mediasizer', function(e, params) {
+                        // On creation, mediasizer uses style properties to set
+                        // width and height, but our image needs to use the
+                        // it's attributes to set and resize properly.
+                        params.width = $gapImgElem.attr('width');
+                        params.height = $gapImgElem.attr('height');
+
                         applyMediasizerValues(params, widget.$original.data('factor'));
                     });
 
-                $mediaSizer.empty().mediasizer({
-                    target: $gapImgElem,
-                    showResponsiveToggle: false,
-                    showSync: false,
-                    responsive: false,
-                    parentSelector: $gapImgBox,
-                    // needs to be done on.sizechange.mediasizer to take in account the scale factor
-                    applyToMedium: false,
-                    maxWidth: interaction.object.attr('width')
-                });
+                initMediasizer = function () {
+                    // Hack to manually set mediasizer to use gapImg's height
+                    // and width attributes (instead of it's style properties).
+                    $gapImgElem.width($gapImgElem.attr('width'));
+                    $gapImgElem.height($gapImgElem.attr('height'));
+
+                    $mediaSizer.empty().mediasizer({
+                        target: $gapImgElem,
+                        showResponsiveToggle: false,
+                        showSync: false,
+                        responsive: false,
+                        parentSelector: $gapImgBox,
+                        // needs to be done on.sizechange.mediasizer to take in account the scale factor
+                        applyToMedium: false,
+                        maxWidth: interaction.object.attr('width')
+                    });
+                };
+
+                // Wait for image to load before initializing mediasizer
+                if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
+                    initMediasizer();
+                } else {
+                    $gapImgElem.one('load', initMediasizer);
+                }
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
 
@@ -376,12 +404,12 @@ define([
                 }
             }
         }
-    };
+    }
 
     /**
      * Exit the question state, leave the room cleaned up
      */
-    var exitQuestionState = function exitQuestionState() {
+    function exitQuestionState() {
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
@@ -407,14 +435,14 @@ define([
         widget.$container.find('.qti-gapImg').removeClass('active')
             .find('.mini-tlb').remove();
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
-    };
+    }
 
     /**
      * The question state for the graphicGapMatch interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
      * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/Question
      */
-    var GraphicGapMatchInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
+    GraphicGapMatchInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
      * Initialize the form linked to the interaction
@@ -425,10 +453,6 @@ define([
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
-        var $container = widget.$original;
-        var isResponsive = $container.hasClass('responsive');
-        var $mediaSizer;
-        var $bgImage;
 
         $form.html(formTpl({
             baseUrl: options.baseUrl,

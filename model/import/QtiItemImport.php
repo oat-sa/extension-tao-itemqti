@@ -21,6 +21,10 @@
 
 namespace oat\taoQtiItem\model\import;
 
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\PhpSerializeStateless;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -35,10 +39,10 @@ use \common_exception_Error;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoQTIItem
- 
  */
-class QtiItemImport implements tao_models_classes_import_ImportHandler
+class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSerializable
 {
+    use PhpSerializeStateless;
 
     /**
      * (non-PHPdoc)
@@ -60,6 +64,12 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
+     * @param \core_kernel_classes_Class $class
+     * @param \tao_helpers_form_Form $form
+     * @return common_report_Report
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
+     * @throws common_exception_Error
      */
     public function import($class, $form){
 
@@ -67,11 +77,13 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
 
         if(isset($fileInfo['uploaded_file'])){
 
-            $uploadedFile = $fileInfo['uploaded_file'];
-            
+            /** @var  UploadService $uploadService */
+            $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+            $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
+
             try{
                 $importService = ImportService::singleton();
-                $report = $importService->importQTIFile($uploadedFile, $class, true, null);
+                $report = $importService->importQTIFile($uploadedFile, $class, true);
             }catch(UnsupportedQtiElement $e){
                 $report = common_report_Report::createFailure(__('The "%s" QTI component is not supported.', $e->getType()));
             }catch(ParsingException $e){
@@ -80,7 +92,7 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
                 $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the QTI Item. The system returned the following error:", $e->getMessage()));
             }
 
-            @unlink($uploadedFile);
+            $uploadService->remove($uploadService->getUploadedFlyFile($fileInfo['uploaded_file']));
         }else{
             throw new common_exception_Error('No source file for import');
         }

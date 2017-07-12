@@ -14,24 +14,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\taoQtiItem\scripts\update;
 
+use League\Flysystem\Adapter\Local;
+use oat\qtiItemPci\model\portableElement\dataObject\PciDataObject;
+use oat\tao\model\websource\ActionWebSource;
+use oat\tao\model\websource\WebsourceManager;
+use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
+use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
-use oat\tao\model\ThemeRegistry;
-use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
@@ -40,6 +48,9 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\scripts\install\InitMetadataService;
+use oat\taoQtiItem\scripts\install\SetItemModel;
+use oat\taoQtiItem\model\qti\ImportService;
 
 /**
  *
@@ -147,16 +158,6 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if($currentVersion == '2.7.7'){
 
-            $itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
-            $itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Theme FileSource', $itemThemesDataPath);
-
-            $websource = TokenWebSource::spawnWebsource($itemThemesDataPathFs);
-            ThemeRegistry::getRegistry()->setWebSource($websource->getId());
-
-            ThemeRegistry::getRegistry()->createTarget('items', 'taoQtiItem/views/css/qti-runner.css');
-            ThemeRegistry::getRegistry()->registerTheme('tao', 'TAO', 'taoQtiItem/views/css/themes/default.css', array('items'));
-            ThemeRegistry::getRegistry()->setDefaultTheme('items', 'tao');
-
         	$currentVersion = '2.7.8';
         }
 
@@ -218,8 +219,14 @@ class Updater extends \common_ext_ExtensionUpdater
                 )
             );
 
-            $fs = \taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
-            $itemUpdater = new ItemUpdateInlineFeedback($fs->getPath());
+            $dir = \taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
+
+            // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
+            $adapter = $dir->getFileSystem()->getAdapter();
+            if (!$adapter instanceof Local) {
+                throw new \Exception(__CLASS__.' can only handle local files');
+            }
+            $itemUpdater = new ItemUpdateInlineFeedback($adapter->getPathPrefix());
             $itemUpdater->update(true);
 
             $this->setVersion('2.14.0');
@@ -433,8 +440,102 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(ItemCategoriesService::SERVICE_ID, $categoriesService);
             $this->setVersion('5.8.0');
         }
-        
-        $this->skip('5.8.0', '6.4.2');
-    }
 
+        $this->skip('5.8.0', '6.8.1');
+
+        if ($this->isVersion('6.8.1')) {
+            $option = [
+                'flipDirectedPair' => true
+            ];
+            $registry = \oat\tao\model\ClientLibConfigRegistry::getRegistry();
+            $registry->register('taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction', $option);
+
+            $this->setVersion('6.8.2');
+        }
+
+        $this->skip('6.8.2', '6.10.1');
+
+        if ($this->isVersion('6.10.1')) {
+            $sharedLibRegistry->registerFromFile('OAT/mediaPlayer', $installBasePath . '/OAT/mediaPlayer.js');
+            $this->setVersion('6.11.0');
+        }
+
+        $this->skip('6.11.0', '6.18.1');
+
+        if ($this->isVersion('6.18.1')) {
+            $updater = new InitMetadataService();
+            $updater->setServiceLocator($this->getServiceManager());
+            $updater([]);
+            $this->setVersion('6.19.0');
+        }
+
+        $this->skip('6.19.0', '8.0.2');
+
+        if ($this->isVersion('8.0.2')) {
+            OntologyUpdater::syncModels();
+            $this->runExtensionScript(SetItemModel::class);
+            $this->setVersion('8.1.0');
+        }
+
+        $this->skip('8.1.0', '8.2.0');
+
+        if ($this->isVersion('8.2.0')){
+
+            $fsId = 'portableElementStorage';
+
+            //create a new web source of ActionWebSource (without token requirement)
+            $websource = ActionWebSource::spawnWebsource($fsId);
+
+            //assign the new web source to the existing PortableElementFileStorage while leaving existing filesystem intact
+            $portableElementStorage = $this->getServiceManager()->get(PortableElementFileStorage::SERVICE_ID);
+            $oldWebsourceId = $portableElementStorage->getOption(PortableElementFileStorage::OPTION_WEBSOURCE);
+            $portableElementStorage->setOption(PortableElementFileStorage::OPTION_WEBSOURCE, $websource->getId());
+            $this->getServiceManager()->register(PortableElementFileStorage::SERVICE_ID, $portableElementStorage);
+
+            //remove old websource
+            $oldWebsource = WebsourceManager::singleton()->getWebsource($oldWebsourceId);
+            WebsourceManager::singleton()->removeWebsource($oldWebsource);
+
+            $this->setVersion('8.3.0');
+        }
+
+        $this->skip('8.3.0', '8.8.0');
+
+        if ($this->isVersion('8.8.0')) {
+            $itemModelService = $this->getServiceManager()->get(ItemModel::SERVICE_ID);
+            $exportHandlers = $itemModelService->getOption(ItemModel::EXPORT_HANDLER);
+            array_unshift($exportHandlers, new ItemMetadataByClassExportHandler());
+            $itemModelService->setOption(ItemModel::EXPORT_HANDLER, $exportHandlers);
+            $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
+
+            $this->setVersion('8.9.0');
+        }
+
+        $this->skip('8.9.0', '8.12.3');
+
+        if ($this->isVersion('8.12.3')) {
+            //automatically enable all current installed portable elements
+            foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+                $portableElementRegistry = $model->getRegistry();
+                $registeredPortableElements = array_keys($portableElementRegistry->getLatestRuntimes());
+                foreach($registeredPortableElements as $typeIdentifier){
+                    $portableElement = $portableElementRegistry->fetch($typeIdentifier);
+                    $portableElement->enable();
+                    $portableElementRegistry->update($portableElement);
+                }
+            }
+            $this->setVersion('8.13.0');
+        }
+
+        $this->skip('8.13.0', '8.15.0');
+
+        if ($this->isVersion('8.15.0')) {
+            $itemImportService = new ImportService([]);
+            $itemImportService->setServiceLocator($this->getServiceManager());
+            $this->getServiceManager()->register(ImportService::SERVICE_ID, $itemImportService);
+            $this->setVersion('8.16.0');
+        }
+
+        $this->skip('8.16.0', '9.2.0');
+    }
 }

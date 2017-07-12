@@ -27,13 +27,14 @@ define([
     'jquery',
     'lodash',
     'module',
+    'core/logger',
     'core/promise',
     'ui/feedback',
     'layout/loading-bar',
     'taoQtiItem/qtiCreator/itemCreator',
     'taoQtiItem/qtiCreator/editor/areaBroker',
     'taoQtiItem/qtiCreator/plugins/loader'
-], function($, _, module, Promise, feedback, loadingBar, itemCreatorFactory, areaBrokerFactory, pluginLoader){
+], function($, _, module, loggerFactory, Promise, feedback, loadingBar, itemCreatorFactory, areaBrokerFactory, pluginLoader){
     'use strict';
 
     /**
@@ -69,13 +70,17 @@ define([
             //TODO move module config away from controllers
             var config = module.config();
 
+            var logger = loggerFactory('controller/creator');
+
             /**
              * Report errors
              * @param {Error} err - the error to report
              */
             var reportError = function reportError(err){
                 loadingBar.stop();
-                window.console.error(err);
+
+                logger.error(err);
+
                 if(err instanceof Error){
                     feedback().error(err.message);
                 }
@@ -88,7 +93,7 @@ define([
                 if(config.plugins){
                     _.forEach(config.plugins, function (plugin) {
                         if(plugin && plugin.module){
-                            pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                            pluginLoader.add(plugin);
                         }
                     });
                 }
@@ -98,7 +103,7 @@ define([
                             if(plugin.exclude){
                                 pluginLoader.remove(plugin.module);
                             } else {
-                                pluginLoader.add(plugin.module, plugin.category, plugin.position);
+                                pluginLoader.add(plugin);
                             }
                         }
                     });

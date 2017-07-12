@@ -35,7 +35,7 @@ define([
 
     var Item = IdentifiedElement.extend({
         qtiClass : 'assessmentItem',
-        init : function(serial, attributes){
+        init : function init(serial, attributes){
             this._super(serial, attributes);
             this.relatedItem = this;
             this.stylesheets = {};
@@ -47,7 +47,7 @@ define([
             this.responseProcessing = null;
             this.apipAccessibility = null;
         },
-        getInteractions : function(){
+        getInteractions : function getInteractions(){
             var interactions = [];
             var elts = this.getComposingElements();
             for(var serial in elts){
@@ -57,7 +57,7 @@ define([
             }
             return interactions;
         },
-        addResponseDeclaration : function(response){
+        addResponseDeclaration : function addResponseDeclaration(response){
             if(Element.isA(response, 'responseDeclaration')){
                 response.setRelatedItem(this);
                 this.responses[response.getSerial()] = response;
@@ -66,7 +66,7 @@ define([
             }
             return this;
         },
-        getResponseDeclaration : function(identifier){
+        getResponseDeclaration : function getResponseDeclaration(identifier){
             for(var i in this.responses){
                 if(this.responses[i].attr('identifier') === identifier){
                     return this.responses[i];
@@ -74,7 +74,7 @@ define([
             }
             return null;
         },
-        addOutcomeDeclaration : function(outcome){
+        addOutcomeDeclaration : function addOutcomeDeclaration(outcome){
             if(Element.isA(outcome, 'outcomeDeclaration')){
                 outcome.setRelatedItem(this);
                 this.outcomes[outcome.getSerial()] = outcome;
@@ -83,7 +83,26 @@ define([
             }
             return this;
         },
-        addModalFeedback : function(feedback){
+        getOutcomeDeclaration : function getOutcomeDeclaration(identifier){
+            var found;
+            _.forEach(this.outcomes, function (outcome) {
+                if (outcome.id() === identifier) {
+                    found = outcome;
+                    return false;
+                }
+            });
+            return found;
+        },
+        getOutcomes : function getOutcomes(){
+            return _.clone(this.outcomes);
+        },
+        removeOutcome : function removeOutcome(identifier){
+            var outcome = this.getOutcomeDeclaration(identifier);
+            if(outcome){
+                this.outcomes = _.omit(this.outcomes, outcome.getSerial());
+            }
+        },
+        addModalFeedback : function addModalFeedback(feedback){
             if(Element.isA(feedback, 'modalFeedback')){
                 feedback.setRelatedItem(this);
                 this.modalFeedbacks[feedback.getSerial()] = feedback;
@@ -92,9 +111,9 @@ define([
             }
             return this;
         },
-        getComposingElements : function(){
+        getComposingElements : function getComposingElements(){
             var elts = this._super(), _this = this;
-            _.each(['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], function(elementCollection){
+            _.forEach(['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], function(elementCollection){
                 for(var i in _this[elementCollection]){
                     var elt = _this[elementCollection][i];
                     elts[i] = elt;
@@ -106,7 +125,7 @@ define([
             }
             return elts;
         },
-        find : function(serial){
+        find : function find(serial){
 
             var found = this._super(serial);
 
@@ -116,34 +135,34 @@ define([
 
             return found;
         },
-        getResponses : function(){
+        getResponses : function getResponses(){
             return _.clone(this.responses);
         },
-        getRelatedItem : function(){
+        getRelatedItem : function getRelatedItem(){
             return this;
         },
-        addNamespace : function(name, uri){
+        addNamespace : function addNamespace(name, uri){
             this.namespaces[name] = uri;
         },
-        setNamespaces : function(namespaces){
+        setNamespaces : function setNamespaces(namespaces){
             this.namespaces = namespaces;
         },
-        getNamespaces : function(){
+        getNamespaces : function getNamespaces(){
             return _.clone(this.namespaces);
         },
-        setSchemaLocations : function(locations){
+        setSchemaLocations : function setSchemaLocations(locations){
             this.schemaLocations = locations;
         },
-        getSchemaLocations : function(){
+        getSchemaLocations : function getSchemaLocations(){
             return _.clone(this.schemaLocations);
         },
-        setApipAccessibility : function(apip){
+        setApipAccessibility : function setApipAccessibility(apip){
             this.apipAccessibility = apip || null;
         },
-        getApipAccessibility : function(){
+        getApipAccessibility : function getApipAccessibility(){
             return this.apipAccessibility;
         },
-        addStylesheet : function(stylesheet){
+        addStylesheet : function addStylesheet(stylesheet){
             if(Element.isA(stylesheet, 'stylesheet')){
                 stylesheet.setRelatedItem(this);
                 this.stylesheets[stylesheet.getSerial()] = stylesheet;
@@ -152,13 +171,13 @@ define([
             }
             return this;
         },
-        removeStyleSheet : function(stylesheet){
+        removeStyleSheet : function removeStyleSheet(stylesheet){
             delete this.stylesheets[stylesheet.getSerial()];
             return this;
         },
-        stylesheetExists : function(href){
+        stylesheetExists : function stylesheetExists(href){
             var exists = false;
-            _.each(this.stylesheets, function(stylesheet){
+            _.forEach(this.stylesheets, function(stylesheet){
                 if(stylesheet.attr('href') === href){
                     exists = true;
                     return false;//break each loop
@@ -166,7 +185,7 @@ define([
             });
             return exists;
         },
-        setResponseProcessing : function(rp){
+        setResponseProcessing : function setResponseProcessing(rp){
             if(Element.isA(rp, 'responseProcessing')){
                 rp.setRelatedItem(this);
                 this.responseProcessing = rp;
@@ -175,7 +194,7 @@ define([
             }
             return this;
         },
-        toArray : function(){
+        toArray : function toArray(){
             var arr = this._super();
             var toArray = function(elt){
                 return elt.toArray();
@@ -189,7 +208,7 @@ define([
             arr.responseProcessing = this.responseProcessing.toArray();
             return arr;
         },
-        isEmpty : function(){
+        isEmpty : function isEmpty(){
 
             var body = this.body().trim();
 
@@ -213,7 +232,7 @@ define([
          * Clean up an item rendering.
          * Ask the renderer to run destroy if exists.
          */
-        clear : function(){
+        clear : function clear(){
             var renderer = this.getRenderer();
             if(renderer){
                 if(_.isFunction(renderer.destroy)){

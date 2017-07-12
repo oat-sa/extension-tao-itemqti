@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ *
+ */
 define([
     'lodash',
     'jquery',
@@ -6,6 +24,7 @@ define([
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/qtiClasses',
+    'taoQtiItem/qtiCreator/helper/commonRenderer',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiItem/helper/simpleParser',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -13,7 +32,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
-], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor, toolbarTpl){
+], function(_, $, Loader, Container, Item, event, qtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor, toolbarTpl){
     "use strict";
 
     var _ns = 'containereditor';
@@ -62,21 +81,25 @@ define([
      */
     function create($container, options){
 
+        var html, htmls, data, loader;
+
         options = _.defaults(options || {}, _defaults);
 
         //assign proper markup
         if(options.markup){
-            var html = options.markup;
+            html = options.markup;
             if(options.markupSelector){
-                var htmls = extractHtmlFromMarkup(html, options.markupSelector);
+                htmls = extractHtmlFromMarkup(html, options.markupSelector);
                 html = htmls[0] || '';
             }
             $container.html(html);
         }
 
-        var data = parser($container);
-        var loader = new Loader().setClassesLocation(qtiClasses);
+        data = parser($container);
+        loader = new Loader().setClassesLocation(qtiClasses);
         loader.loadRequiredClasses(data, function(){
+
+            var item, containerEditors;
 
             //create a new container object
             var container = new Container();
@@ -88,12 +111,12 @@ define([
 
             //need to attach a container to the item to enable innserElement.remove()
             //@todo fix this
-            var item = new Item().setElement(container);
+            item = new Item().setElement(container);
             container.setRelatedItem(item);
 
             //associate it to the interaction?
             if(options.related){
-                var containerEditors = options.related.data('container-editors') || [];
+                containerEditors = options.related.data('container-editors') || [];
                 containerEditors.push(container);
                 options.related.data('container-editors', containerEditors);
             }
@@ -165,17 +188,20 @@ define([
     }
 
     function cleanup($container){
+        var $toolbar, container;
 
         //remove the text toolbar
-        var $toolbar = $container.data('editor-toolbar');
+        $toolbar = $container.data('editor-toolbar');
         if($toolbar){
             $toolbar.remove();
         }
 
-        var container = $container.data('container');
+        container = $container.data('container');
         if(container){
             $(document).off('.' + container.serial);
-            $container.html(container.render());
+            commonRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){
+                $container.html(container.render(this));
+            });
         }
 
         $container.removeData('container');

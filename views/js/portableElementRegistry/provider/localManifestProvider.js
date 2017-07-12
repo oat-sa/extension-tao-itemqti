@@ -98,7 +98,8 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                                 ok = false;
                                 return false;
                             }
-                            manifest.baseUrl = context.root_url + _portableElementManifests[id].replace(/^([a-zA-Z]*)\/(.*)\/(pciCreator.json$)/, '$1/views/js/$2');
+                            manifest.baseUrl = window.location.origin + '/' +
+                                _portableElementManifests[id].replace(/^([a-zA-Z]*)\/(.*)\/(pciCreator.json$)/, '$1/views/js/$2');
                             _registry[id] = [setPortableElementPrefix(manifest, id)];
                         }
                     });
@@ -108,5 +109,5 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                 }, reject);
             });
         }
-    }
+    };
 });

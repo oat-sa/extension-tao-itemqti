@@ -23,8 +23,9 @@
  */
 define([
     'util/url',
+    'util/image',
     'ui/mediasizer'
-], function (url) {
+], function (url, imageUtil) {
     'use strict';
 
     /**
@@ -86,8 +87,10 @@ define([
         }
 
         if (!!$bgImage.length) {
+            // TODO: This was removed becaus it is not likely needed after adjusting the svg.
+            // It was left just in case an issue arrives and needs to be reinstated.
             // handle images larger than the canvas
-            handleOversizedImages(widget);
+            // handleOversizedImages(widget);
 
             // setup media sizer
             setupMediaSizer(widget);
@@ -139,10 +142,16 @@ define([
         callbacks = callbacks || {};
         callbacks.data = function (interaction, value) {
             interaction.object.attr('data', url.encodeAsXmlAttr(value));
-            widget.rebuild({
-                ready: function (widget) {
-                    widget.changeState('question');
+            imageUtil.getSize(widget.options.assetManager.resolve(value), function (size) {
+                if (size) {
+                    interaction.object.attr('width', size.width);
+                    interaction.object.attr('height', size.height);
                 }
+                widget.rebuild({
+                    ready: function (widgetReady) {
+                        widgetReady.changeState('question');
+                    }
+                });
             });
         };
         callbacks.width = function (interaction, value) {

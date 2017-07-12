@@ -26,6 +26,15 @@ define([
 
     var contentHelper = {};
 
+    /**
+     * Create elements from a widget box having the 'data-new=true' attribute
+     *  - render the elements at their placeholder in $container
+     *  - apply callback on each widget
+     * @param container - element that will contain the new ones
+     * @param $container - DOM container where the new elements are created
+     * @param data - corresponding HTML (?)
+     * @param callback - will be triggered for each new created element
+     */
     contentHelper.createElements = function(container, $container, data, callback){
 
         var $dummy = $('<div>').html(data);
