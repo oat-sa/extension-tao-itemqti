@@ -136,6 +136,12 @@
 
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
+
+
+            .label-content {
+                margin-left: 30px;
+            }
+
             p, div, li {
                 &::before {
                     position: absolute;
