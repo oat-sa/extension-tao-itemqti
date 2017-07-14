@@ -8,9 +8,7 @@ module.exports = function (grunt) {
 
     // Override include paths
     sass.taoqtiitem = {
-        options : {
-            includePaths : [ '../scss', '../js/lib', root + 'scss/inc', root + 'scss/qti' ]
-        },
+        options : {},
         files : {}
     };
 
