@@ -6,10 +6,10 @@ module.exports = function (grunt) {
     var notify  = grunt.config('notify') || {};
     var root    = grunt.option('root') + '/taoQtiItem/views/';
 
-    // Add include paths
+    // Override include paths
     sass.taoqtiitem = {
         options : {
-            includePaths : [ root + 'scss/inc', root + 'scss/qti' ]
+            includePaths : [ '../scss', '../js/lib', root + 'scss/inc', root + 'scss/qti' ]
         },
         files : {}
     };
