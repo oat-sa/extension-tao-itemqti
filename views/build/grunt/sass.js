@@ -1,4 +1,5 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+    'use strict';
 
     var sass    = grunt.config('sass') || {};
     var watch   = grunt.config('watch') || {};
