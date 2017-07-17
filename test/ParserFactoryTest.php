@@ -20,14 +20,12 @@
  */
 namespace oat\taoQtiItem\test;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\Item;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class ParserFactoryTest extends TaoPhpUnitTestRunner {
-
+class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @param string $file
@@ -56,4 +54,34 @@ class ParserFactoryTest extends TaoPhpUnitTestRunner {
         ];
     }
 
+    /**
+     * Test array parsing
+     */
+    public function testParseArray() {
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/xml/qtiv2p1/table.xml');
+        $parser = new ParserFactory($xml);
+        $result = $parser->load();
+
+        $body = $result->getBody();
+        $bodyElements = $body->getElements();
+
+        $bodyElementsSerials     = array_keys($bodyElements);
+        $tableSerial             = $bodyElementsSerials[0];
+        $choiceInteractionSerial = $bodyElementsSerials[1];
+
+        $this->assertEquals(2, count($bodyElements), 'item body contains 2 top level elements');
+        $this->assertTrue(strpos($tableSerial, 'table_') === 0, 'first element is a table, with serial: ' . $tableSerial);
+        $this->assertTrue(strpos($choiceInteractionSerial, 'interaction_choiceinteraction_') === 0, 'second element is a choice interaction, with serial: ' . $choiceInteractionSerial);
+
+        $choiceInteraction = $body->getElement($choiceInteractionSerial);
+
+        $tableChoice = $choiceInteraction->getChoiceByIdentifier('choice_6');
+        $tableChoiceBody = $tableChoice->getBody();
+        $tableChoiceElements = $tableChoiceBody->getElements();
+        $nestedTableSerial = array_keys($tableChoiceElements)[0];
+
+        $this->assertEquals(1, count($tableChoiceElements), 'choice body contains 1 element');
+        $this->assertTrue(strpos($nestedTableSerial, 'table_') === 0, 'first choice element is a table, with serial: ' . $nestedTableSerial);
+    }
 }

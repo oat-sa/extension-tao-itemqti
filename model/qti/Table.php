@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,50 +16,45 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- *
  */
 
-namespace oat\taoQtiItem\model\qti\container;
+namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\container\Container;
+use oat\taoQtiItem\model\qti\container\ContainerTable;
+use oat\taoQtiItem\model\qti\container\FlowContainer;
 
 /**
- * The QTI_Container object represents the generic element container
- *
  * @access public
- * @author Sam, <sam@taotesting.com>
+ * @author Christophe Noël <christophe@taotesting.com>
  * @package taoQTI
 
  */
-class ContainerStatic extends Container
+class Table extends ContainerTable implements FlowContainer
 {
+    protected $body = null;
+
+    public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
+        parent::__construct($attributes, $relatedItem, $serial);
+        $this->body = new ContainerTable();
+    }
+
+    public function getBody(){
+        return $this->body;
+    }
 
     /**
-     * return the list of available element classes
+     * the QTI tag name as defined in QTI standard
      *
-     * @access public
-     * @author Sam, <sam@taotesting.com>
-     * @return array
+     * @access protected
+     * @var string
      */
-    public function getValidElementTypes(){
+    protected static $qtiTagName = 'table';
+
+    public function getUsedAttributes(){
         return array(
-            'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Table',
-            'oat\\taoQtiItem\\model\\qti\\Math',
-            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            'oat\\taoQtiItem\\model\\qti\\Object',
-            'oat\\taoQtiItem\\model\\qti\\XInclude'
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Summary'
         );
     }
 
 
-
-    /**
-     * Fix erroneously self-closing elements
-     *
-     * @return string
-     */
-    public function getBody(){
-        return $this->fixNonvoidTags(parent::getBody());
-    }
 }

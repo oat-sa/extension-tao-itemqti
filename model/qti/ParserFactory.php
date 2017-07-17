@@ -4,19 +4,19 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -166,11 +166,11 @@ class ParserFactory
 
         return $this->queryXPath($query, $contextNode);
     }
-    
+
     public function loadContainerStatic(DOMElement $data, Container $container){
         $this->parseContainerStatic($data, $container);
     }
-    
+
     protected function parseContainerStatic(DOMElement $data, Container $container){
 
         //initialize elements array to collect all QTI elements
@@ -208,6 +208,17 @@ class ParserFactory
                 $bodyElements[$img->getSerial()] = $img;
 
                 $this->replaceNode($imgNode, $img);
+            }
+        }
+
+        // parse the remaining tables, those that does not contain any interaction
+        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
+        foreach($tableNodes as $tableNode){
+            $table = $this->buildTable($tableNode);
+            if(!is_null($table)){
+                $bodyElements[$table->getSerial()] = $table;
+
+                $this->replaceNode($tableNode, $table);
             }
         }
 
@@ -294,7 +305,7 @@ class ParserFactory
             }
         }
 
-        //parse for feedback elements interactive! 
+        //parse for feedback elements interactive!
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
         foreach($feedbackNodes as $feedbackNode){
             $feedback = $this->buildFeedback($feedbackNode, true);
@@ -350,6 +361,20 @@ class ParserFactory
             if(!is_null($infoControl)){
                 $bodyElements[$infoControl->getSerial()] = $infoControl;
                 $this->replaceNode($infoControlNode, $infoControl);
+            }
+        }
+
+        // parse for tables, but only the ones containing interactions
+        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
+        foreach($tableNodes as $tableNode){
+            $interactionsNodes = $this->queryXPath(".//*[contains(name(.), 'Interaction')]", $tableNode);
+            if ($interactionsNodes->length > 0) {
+                $table = $this->buildTable($tableNode);
+                if(!is_null($table)){
+                    $bodyElements[$table->getSerial()] = $table;
+                    $this->replaceNode($tableNode, $table);
+                    $this->parseContainerInteractive($tableNode, $table);
+                }
             }
         }
 
@@ -482,7 +507,7 @@ class ParserFactory
         //load xml ns and schema locations
         $this->loadNamespaces();
         $this->loadSchemaLocations($data);
-        
+
         //load stylesheets
         $styleSheetNodes = $this->queryXPath("*[name(.) = 'stylesheet']", $data);
         foreach($styleSheetNodes as $styleSheetNode){
@@ -558,10 +583,10 @@ class ParserFactory
         }
 
         $this->buildApipAccessibility($data);
-        
+
         return $this->item;
     }
-    
+
     /**
      * Load xml namespaces into the item model
      */
@@ -578,10 +603,10 @@ class ParserFactory
             $this->item->addNamespace($name, $uri);
         }
     }
-    
+
     /**
      * Load xml schema locations into the item model
-     * 
+     *
      * @param DOMElement $itemData
      * @throws ParsingException
      */
@@ -596,7 +621,7 @@ class ParserFactory
             $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i+1]);
         }
     }
-    
+
     protected function buildApipAccessibility(DOMElement $data){
         $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']|*[name(.) = 'apip:apipAccessibility']", $data);
         if($ApipNodes->length > 0){
@@ -606,7 +631,7 @@ class ParserFactory
             $this->item->setApipAccessibility($apipXml);
         }
     }
-    
+
     /**
      * Build a QTI_Interaction from a DOMElement (the root tag of this is an 'interaction' node)
      *
@@ -1206,7 +1231,7 @@ class ParserFactory
         $patternFeedbackMatchChoicesEmptyWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoicesEmpty.$subPatternFeedbackElse;
         $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoice;
         $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoice.$subPatternFeedbackElse;
-        
+
         $rules = array();
         $simpleFeedbackRules = array();
         $data = simplexml_import_dom($data);
@@ -1220,7 +1245,7 @@ class ParserFactory
 
                 $responseIdentifier = (string) $subtree->responseIf->match->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MATCH_CORRECT;
-                
+
             }elseif(count($subtree->xpath($patternMappingTAO)) > 0){
 
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable['identifier'];
@@ -1273,7 +1298,7 @@ class ParserFactory
                 $choices = array((string)$subtree->responseIf->match->baseValue);
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
 
-                
+
             }else{
                 throw new UnexpectedResponseProcessing('Not template driven, unknown rule');
             }
@@ -1305,7 +1330,7 @@ class ParserFactory
         if(count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
             throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
         }
-        
+
         $templatesDrivenRP = new TemplatesDriven();
         foreach($interactions as $interaction){
             //if a rule has been found for an interaction, apply it. Default to the template NONE otherwise
@@ -1381,6 +1406,14 @@ class ParserFactory
 
         $attributes = $this->extractAttributes($data);
         $returnValue = new Img($attributes);
+
+        return $returnValue;
+    }
+
+    private function buildTable(DOMElement $data){
+
+        $attributes = $this->extractAttributes($data);
+        $returnValue = new Table($attributes);
 
         return $returnValue;
     }
@@ -1469,7 +1502,7 @@ class ParserFactory
 
     /**
      * Check if the node is dom element is a valid portable custom interaction one
-     * 
+     *
      * @param DOMElement $data
      * @return boolean
      */
@@ -1481,7 +1514,7 @@ class ParserFactory
 
     /**
      * Parse and build a custom interaction object
-     * 
+     *
      * @param DOMElement $data
      * @return CustomInteraction
      * @throws ParsingException
@@ -1521,7 +1554,7 @@ class ParserFactory
 
     /**
      * Get the namespace of the portable custom interaction
-     * 
+     *
      * @return string
      */
     public function getPciNamespace(){
@@ -1531,7 +1564,7 @@ class ParserFactory
 
     /**
      * Check if the node is dom element is a valid portable info control one
-     * 
+     *
      * @param DOMElement $data
      * @return boolean
      */
@@ -1543,7 +1576,7 @@ class ParserFactory
 
     /**
      * Parse and build a info control
-     * 
+     *
      * @param DOMElement $data
      * @return InfoControl
      * @throws ParsingException
@@ -1584,7 +1617,7 @@ class ParserFactory
 
     /**
      * Get the namespace of the portable info control
-     * 
+     *
      * @return string
      */
     public function getPicNamespace(){

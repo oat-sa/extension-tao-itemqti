@@ -21,45 +21,32 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\Container;
-
 /**
- * The QTI_Container object represents the generic element container
+ * The ContainerTable represents a QTI table
  *
  * @access public
- * @author Sam, <sam@taotesting.com>
+ * @author Christophe Noël <christophe@taotesting.com>
  * @package taoQTI
-
  */
-class ContainerStatic extends Container
+class ContainerTable extends ContainerInteractive
 {
 
     /**
      * return the list of available element classes
      *
      * @access public
-     * @author Sam, <sam@taotesting.com>
      * @return array
      */
     public function getValidElementTypes(){
         return array(
             'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Table',
             'oat\\taoQtiItem\\model\\qti\\Math',
             'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
             'oat\\taoQtiItem\\model\\qti\\Object',
+            'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
+            'oat\\taoQtiItem\\model\\qti\\RubricBlock',
+            'oat\\taoQtiItem\\model\\qti\\InfoControl',
             'oat\\taoQtiItem\\model\\qti\\XInclude'
         );
-    }
-
-
-
-    /**
-     * Fix erroneously self-closing elements
-     *
-     * @return string
-     */
-    public function getBody(){
-        return $this->fixNonvoidTags(parent::getBody());
     }
 }
