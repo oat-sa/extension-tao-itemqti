@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\container\ContainerStatic;
 use oat\taoQtiItem\model\qti\container\ContainerTable;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 
@@ -29,11 +30,18 @@ use oat\taoQtiItem\model\qti\container\FlowContainer;
  * @package taoQTI
 
  */
-class Table extends ContainerTable implements FlowContainer
+class Table extends Element implements FlowContainer
 {
+    /**
+     * the QTI tag name as defined in QTI standard
+     * @access protected
+     * @var string
+     */
+    protected static $qtiTagName = 'table';
+
     protected $body = null;
 
-    public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
+    public function __construct($attributes, Item $relatedItem = null, $serial = ''){
         parent::__construct($attributes, $relatedItem, $serial);
         $this->body = new ContainerTable();
     }
@@ -41,14 +49,6 @@ class Table extends ContainerTable implements FlowContainer
     public function getBody(){
         return $this->body;
     }
-
-    /**
-     * the QTI tag name as defined in QTI standard
-     *
-     * @access protected
-     * @var string
-     */
-    protected static $qtiTagName = 'table';
 
     public function getUsedAttributes(){
         return array(

@@ -373,7 +373,7 @@ class ParserFactory
                 if(!is_null($table)){
                     $bodyElements[$table->getSerial()] = $table;
                     $this->replaceNode($tableNode, $table);
-                    $this->parseContainerInteractive($tableNode, $table);
+                    $this->parseContainerInteractive($tableNode, $table->getBody());
                 }
             }
         }
@@ -1413,9 +1413,10 @@ class ParserFactory
     private function buildTable(DOMElement $data){
 
         $attributes = $this->extractAttributes($data);
-        $returnValue = new Table($attributes);
+        $table = new Table($attributes);
+        $this->parseContainerStatic($data, $table->getBody());
 
-        return $returnValue;
+        return $table;
     }
 
     private function buildMath(DOMElement $data){
