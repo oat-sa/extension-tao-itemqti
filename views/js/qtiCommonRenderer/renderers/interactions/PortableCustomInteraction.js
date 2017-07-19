@@ -95,15 +95,22 @@ define([
                 var requireEntries = [];
                 var runtime = ciRegistry.getRuntime(typeIdentifier);
 
-                if(!runtime || !runtime.hook){
+                if(!runtime){
                     return reject('The runtime for the pci cannot be found : ' + typeIdentifier);
                 }
 
-                //load the entrypoint
-                requireEntries.push(runtime.hook.replace(/\.js$/, ''));
+                //load the entrypoint, becomes optional per IMS QTI v1
+                if(runtime.hook){
+                    requireEntries.push(runtime.hook.replace(/\.js$/, ''));
+                }
+
+                //load required libraries
+                _.forEach(runtime.libraries, function(module){
+                    requireEntries.push(module.replace(/\.js$/, ''));
+                });
 
                 //load stylesheets
-                _.each(runtime.stylesheets, function(stylesheet){
+                _.forEach(runtime.stylesheets, function(stylesheet){
                     requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
                 });
 
