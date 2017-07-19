@@ -242,6 +242,9 @@ define([
                     if(typeof options.highlight !== 'undefined'){
                         ckConfig.highlight = options.highlight;
                     }
+                    if(typeof options.qtiTable !== 'undefined'){
+                        ckConfig.qtiTable = options.qtiTable;
+                    }
 
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },
@@ -491,9 +494,9 @@ define([
     /**
      * Special encoding of ouput html generated from ie8 : moved to xmlRenderer
      */
-    var _htmlEncode = function(encodedStr){
+    function _htmlEncode(encodedStr){
         return encodedStr;
-    };
+    }
 
     /**
      * Focus the editor and set the cursor to the end
