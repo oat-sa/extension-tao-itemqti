@@ -19,37 +19,37 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiItem/mixin/ContainerTable'
-    /*,
     'lodash',
-    'taoQtiItem/qtiItem/helper/rendererConfig'
-    */
-], function(Element, Container /*, _, rendererConfig*/){
+    'taoQtiItem/qtiCommonRenderer/renderers/Table',
+    'taoQtiItem/qtiCreator/widgets/static/table/Widget'
+], function(_, Renderer, Widget){
     'use strict';
 
-    var Table = Element.extend({
-        qtiClass : 'table'
-        /*,
-        render : function(){
+    var CreatorTable = _.clone(Renderer);
 
-            var args = rendererConfig.getOptionsFromArguments(arguments),
-                renderer = args.renderer || this.getRenderer(),
-                defaultData = {};
+    CreatorTable.render = function(table, options){
 
-            defaultData.attributes = {
-                src : renderer.resolveUrl(this.attr('src'))
-            };
+        /*
+        //initial rendering:
+        Renderer.render(object);
 
-            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
-        },
-        isEmpty : function(){
-            return (!this.attr('src'));
-        }
+         options.baseUrl = this.getOption('baseUrl');
+         options.uri = this.getOption('uri');
+         options.lang = this.getOption('lang');
+        options.mediaManager = this.getOption('mediaManager');
+        options.assetManager = this.getAssetManager();
         */
-    });
+        options = options || {};
 
-    Container.augment(Table);
+//        debugger;
 
-    return Table;
+        Widget.build(
+            table,
+            Renderer.getContainer(table),
+            this.getOption('bodyElementOptionForm'), // todo: wtf ?
+            options
+        );
+    };
+
+    return CreatorTable;
 });

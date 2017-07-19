@@ -19,37 +19,25 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiItem/mixin/ContainerTable'
-    /*,
-    'lodash',
-    'taoQtiItem/qtiItem/helper/rendererConfig'
-    */
-], function(Element, Container /*, _, rendererConfig*/){
+    'taoQtiItem/qtiItem/mixin/Mixin',
+    'taoQtiItem/qtiItem/mixin/Container',
+    'lodash'
+], function(Mixin, Container, _){
     'use strict';
 
-    var Table = Element.extend({
-        qtiClass : 'table'
-        /*,
-        render : function(){
-
-            var args = rendererConfig.getOptionsFromArguments(arguments),
-                renderer = args.renderer || this.getRenderer(),
-                defaultData = {};
-
-            defaultData.attributes = {
-                src : renderer.resolveUrl(this.attr('src'))
-            };
-
-            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
-        },
-        isEmpty : function(){
-            return (!this.attr('src'));
+    var methods = {};
+    _.extend(methods, Container.methods);
+    _.extend(methods, {
+        initContainer:function(body){
+            Container.methods.initContainer.call(this, body);
+            this.bdy.contentModel = 'table';
         }
-        */
     });
 
-    Container.augment(Table);
-
-    return Table;
+    return {
+        augment : function(targetClass){
+            Mixin.augment(targetClass, methods);
+        },
+        methods : methods
+    };
 });

@@ -39,25 +39,9 @@
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <div class="colrow">
-                    <p>
-                        <strong>Demographics</strong>
-                    </p>
-                </div>
-                <div class="colrow">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>
-                </div>
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="col-12">
-                <p>
-                    Fill in the missing data
-                </p>
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="col-12">
+                <p><strong>Demographics</strong></p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>
+                <p>Fill in the missing data</p>
                 <table>
                     <thead>
                         <tr>

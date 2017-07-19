@@ -39,6 +39,7 @@ define([
         'img' : 'taoQtiItem/qtiCreator/renderers/Img',
         'math' : 'taoQtiItem/qtiCreator/renderers/Math',
         'object' : 'taoQtiItem/qtiCreator/renderers/Object',
+        'table' : 'taoQtiItem/qtiCreator/renderers/Table',
         'modalFeedback' : 'taoQtiItem/qtiCreator/renderers/ModalFeedback',
         'choiceInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/ChoiceInteraction',
         'orderInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/OrderInteraction',
