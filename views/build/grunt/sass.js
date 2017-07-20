@@ -1,15 +1,14 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+    'use strict';
 
     var sass    = grunt.config('sass') || {};
     var watch   = grunt.config('watch') || {};
     var notify  = grunt.config('notify') || {};
     var root    = grunt.option('root') + '/taoQtiItem/views/';
 
-    //override load path
+    // Override include paths
     sass.taoqtiitem = {
-        options : {
-            loadPath : ['../scss/', '../js/lib/', root + 'scss/inc', root + 'scss/qti']
-        },
+        options : {},
         files : {}
     };
 
