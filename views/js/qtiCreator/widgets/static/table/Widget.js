@@ -19,12 +19,12 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/table/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/inline'
-], function(Widget, states, helper, toolbarTpl, inlineHelper) {
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock'
+], function($, Widget, states, helper, toolbarTpl) {
     'use strict';
 
     var TableWidget = Widget.clone();
@@ -34,8 +34,6 @@ define([
         this.registerStates(states);
 
         Widget.initCreator.call(this);
-
-//        inlineHelper.togglePlaceholder(this);
     };
 
     TableWidget.buildContainer = function(){
@@ -45,9 +43,20 @@ define([
         return this;
     };
 
-    TableWidget.createToolbar = function() {
+    TableWidget.createToolbar = function(){
 
-        // helper.createToolbar(this, toolbarTpl);
+        var self = this,
+            $tlb = $(toolbarTpl({
+                serial : this.serial,
+                state : 'active'
+            }));
+
+        this.$container.append($tlb);
+
+        $tlb.find('[data-role="delete"]').on('click.widget-box', function(e){
+            e.stopPropagation();//to prevent direct deleting;
+            self.changeState('deleting');
+        });
 
         return this;
     };

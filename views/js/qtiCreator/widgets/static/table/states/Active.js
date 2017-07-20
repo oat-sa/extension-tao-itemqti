@@ -20,80 +20,54 @@ define([
     'lodash',
     'jquery',
     'i18n',
+    'ckeditor',
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/states/Active' //todo: restore static ns
-], function(_, $, __, stateFactory, Active){
+    'taoQtiItem/qtiCreator/widgets/static/states/Active',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content'
+], function(_, $, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper){
     'use strict';
-    console.log('loading Tables/Static/Active state');
 
-    var TableStateActive = stateFactory.extend(Active, function(){
-        //this.initForm();
-        console.log('entering Tables/Static/Active state');
+    var TableStateActive = stateFactory.extend(Active, function create(){
+        this.buildEditor();
 
-    }, function(){
-        //this.widget.$form.empty(); //todo: really?
-        console.log('exiting Tables/Static/Active state');
-
+    }, function exit(){
+        this.destroyEditor();
     });
 
-
-        /*
-    TableStateActive.prototype.initForm = function(){
+    TableStateActive.prototype.buildEditor = function(){
 
         var _widget = this.widget,
-            $form = _widget.$form,
-            qtiObject = _widget.element,
-            baseUrl = _widget.options.baseUrl;
+            container = _widget.element.getBody(),
+            $editableContainer = _widget.$container;
 
-        $form.html(formTpl({
-            baseUrl : baseUrl || '',
-            src : qtiObject.attr('data'),
-            alt : qtiObject.attr('alt'),
-            height : qtiObject.attr('height'),
-            width : qtiObject.attr('width')
-        }));
+        $editableContainer.attr('data-html-editable-container', true);
 
-        //init resource manager
-        _initUpload(_widget);
+        window.CKEDITOR.dtd.$editable.table = 1; //fixme: why is this still needed ?
 
-        //init standard ui widget
-        formElement.initWidget($form);
+        if(!htmlEditor.hasEditor($editableContainer)){
 
-        //init data change callbacks
-        formElement.setChangeCallbacks($form, qtiObject, {
-            src : function(object, value){
-                qtiObject.attr('data', value);
-                inlineHelper.togglePlaceholder(_widget);
-                refreshRendering(_widget);
-            },
-            width : function(object, value){
-                var val = parseInt(value, 10);
-                if(_.isNaN(val)){
-                    qtiObject.removeAttr('width');
-                }else{
-                    qtiObject.attr('width', val);
-                }
-                refreshRendering(_widget);
-            },
-            height : function(object, value){
-                var val = parseInt(value, 10);
-                if(_.isNaN(val)){
-                    qtiObject.removeAttr('height');
-                }else{
-                    qtiObject.attr('height', val);
-                }
-                refreshRendering(_widget);
-            },
-            alt : function(qtiObject, value){
-                qtiObject.attr('alt', value);
-            },
-            align : function(qtiObject, value){
-                inlineHelper.positionFloat(_widget, value);
-            }
-        });
-
+            htmlEditor.buildEditor($editableContainer, {
+                change : contentHelper.getChangeCallback(container),
+                data : {
+                    container : container,
+                    widget : _widget
+                },
+                blur : function(){
+                    _widget.changeState('sleep');
+                },
+                hideTriggerOnBlur: true
+            });
+        }
     };
-        */
+
+    TableStateActive.prototype.destroyEditor = function(){
+        var _widget = this.widget,
+            $editableContainer = _widget.$container;
+
+        //search and destroy the editor
+        htmlEditor.destroyEditor($editableContainer);
+    };
 
     return TableStateActive;
 });

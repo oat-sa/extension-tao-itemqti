@@ -541,21 +541,22 @@ define([
          * @param {Boolean} [editorOptions.shieldInnerContent] - define if the inner widget content should be protected or not
          * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
          * @param {Boolean} [editorOptions.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
+         * @param {Boolean} [editorOptions.enterMode] - what is the behavior of the "Enter" key (see ENTER_MODE_xxx in ckEditor configuration)
          * @returns {undefined}
          */
         buildEditor : function($container, editorOptions){
 
             _find($container, 'html-editable-container').each(function(){
 
-                var editor,
-                    $editableContainer = $(this),
+                var $editableContainer = $(this),
                     $editable = $editableContainer.find('[data-html-editable]');
 
                 //need to make the element html editable to enable ck inline editing:
                 $editable.attr('contenteditable', true);
 
                 //build it
-                editor = _buildEditor($editable, $editableContainer, editorOptions);
+                _buildEditor($editable, $editableContainer, editorOptions);
+
             });
 
         },

@@ -21,11 +21,14 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Table',
-    'taoQtiItem/qtiCreator/widgets/static/table/Widget'
-], function(_, Renderer, Widget){
+    'taoQtiItem/qtiCreator/widgets/static/table/Widget',
+    'tpl!taoQtiItem/qtiCreator/tpl/table'
+], function(_, Renderer, Widget, tpl){
     'use strict';
 
     var CreatorTable = _.clone(Renderer);
+
+    CreatorTable.template = tpl;
 
     CreatorTable.render = function(table, options){
 

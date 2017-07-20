@@ -18,15 +18,28 @@
  */
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/states/Sleep' // todo: resetore static/
+    'taoQtiItem/qtiCreator/widgets/static/states/Sleep'
 ], function(stateFactory, SleepState){
     'use strict';
 
-    var TableStateSleep = stateFactory.create(SleepState, function(){
-        console.log('entering Tables/Static/Sleep state of ', this.widget.element.qtiClass);
+    var TableStateSleep = stateFactory.extend(SleepState, function(){
+        var _widget = this.widget,
+            $container = _widget.$container;
 
+        //add listener to display proper hover style
+        $container.on('mouseenter.tablesleep', function(e){
+            e.stopPropagation();
+            $container.addClass('hover');
+            $container.parent().trigger('mouseleave.sleep');
+        }).on('mouseleave.tablesleep', function(){
+            $container.removeClass('hover');
+            $container.parent().trigger('mouseenter.sleep');
+        });
     }, function(){
+        var _widget = this.widget,
+            $container = _widget.$container;
 
+        $container.off('*.tablesleep');
     });
 
     return TableStateSleep;
