@@ -26,6 +26,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class MetadataImporter extends AbstractMetadataService
 {
@@ -73,6 +74,7 @@ class MetadataImporter extends AbstractMetadataService
      * If a guardian does not allow the import, the target guardian is returned
      *
      * @param $identifier
+     *
      * @return bool
      */
     public function guard($identifier)
@@ -85,6 +87,7 @@ class MetadataImporter extends AbstractMetadataService
                 }
             }
         }
+
         return false;
     }
 
@@ -99,6 +102,7 @@ class MetadataImporter extends AbstractMetadataService
      *
      * @param $identifier
      * @param $createdClasses
+     *
      * @return bool
      */
     public function classLookUp($identifier, &$createdClasses)
@@ -131,8 +135,11 @@ class MetadataImporter extends AbstractMetadataService
      *
      * @param $key
      * @param $name
+     *
      * @return bool
+     *
      * @throws \InvalidArgumentException
+     * @throws \common_Exception
      */
     public function register($key, $name)
     {
@@ -192,6 +199,9 @@ class MetadataImporter extends AbstractMetadataService
 
     /**
      * Allow to register, into the config, the current importer service
+     *
+     * @throws ServiceNotFoundException
+     * @throws \common_Exception
      */
     protected function registerService()
     {

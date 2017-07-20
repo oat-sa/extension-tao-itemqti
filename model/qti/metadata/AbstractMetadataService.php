@@ -62,14 +62,18 @@ abstract class AbstractMetadataService extends ConfigurableService
      * Extract metadata values by calling each extractors
      *
      * @param $source
+     *
      * @return array
+     *
+     * @throws MetadataExtractionException
      */
     public function extract($source)
     {
         $metadata = [];
         foreach ($this->getExtractors() as $extractor) {
-            $metadata = array_merge($metadata, $extractor->extract($source));
+            $metadata = array_merge_recursive($metadata, $extractor->extract($source));
         }
+
         \common_Logger::i(__('%s metadata values found in source by extractor(s).', count($metadata)));
 
         return $metadata;
@@ -83,6 +87,8 @@ abstract class AbstractMetadataService extends ConfigurableService
      *
      * @param $identifier
      * @param $target
+     *
+     * @throws MetadataInjectionException
      */
     public function inject($identifier, $target)
     {

@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\model\qti\metadata;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 
@@ -49,6 +50,8 @@ class MetadataService extends ConfigurableService
      * Return metadata importer to handle metadata
      *
      * @return MetadataImporter
+     *
+     * @throws ServiceNotFoundException
      */
     public function getImporter()
     {
@@ -59,6 +62,8 @@ class MetadataService extends ConfigurableService
      * Return metadata exporter to handle metadata
      *
      * @return MetadataExporter
+     *
+     * @throws ServiceNotFoundException
      */
     public function getExporter()
     {

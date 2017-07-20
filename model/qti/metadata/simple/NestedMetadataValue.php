@@ -28,51 +28,68 @@ use \InvalidArgumentException;
  * 
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  */
-class SimpleMetadataValue implements MetadataValue
+class NestedMetadataValue implements MetadataValue
 {
     /**
      * The Resource Identifier the MetadataValue belongs to.
-     * 
+     *
      * @var string
      */
     private $resourceIdentifier;
-    
+
     /**
-     * The language of the MetadatValue.
+     * The language of the MetadataValue.
      * 
      * @var string
      */
     private $language;
-    
+
     /**
-     * The Path of the MetadataValue.
-     * 
+     * The relative path of the MetadataValue.
+     *
      * @var array
      */
     private $path;
-    
+
+    /**
+     * The base path of the child nodes and the MetadataValue.
+     *
+     * @var array
+     */
+    private $basePath;
+
     /**
      * The intrinsic value of the MetadataValue.
      * 
      * @var string
      */
     private $value;
+
+    /**
+     * @var SimpleMetadataValue[]
+     */
+    private $childNodes;
     
     /**
      * Create a new SimpleMetadataValue object.
      * 
-     * @param string $resourceIdentifier The Identifier of the resource the MetadataValue describes.
-     * @param array $path The descriptive path of the metadata.
-     * @param string $value The intrinsic value of the MetadataValue.
-     * @param string $language A string. If no specific language, an empty string is accepted.
+     * @param string $resourceIdentifier   The Identifier of the resource the MetadataValue describes.
+     * @param array  $path                 The relative descriptive path of the metadata.
+     * @param string $value                The intrinsic value of the MetadataValue.
+     * @param string $language             A string. If no specific language, an empty string is accepted.
+     * @param string $basePath             The base path of the child nodes.
+     * @param array  $childNodes           The child nodes.
+     *
      * @throws InvalidArgumentException If one of the argument contains an invalid value.
      */
-    public function __construct($resourceIdentifier, $path, $value, $language = '')
+    public function __construct($resourceIdentifier, $path, $value, $language = '', $basePath, array $childNodes)
     {
         $this->setResourceIdentifier($resourceIdentifier);
         $this->setPath($path);
         $this->setValue($value);
         $this->setLanguage($language);
+        $this->setBasePath($basePath);
+        $this->setChildNodes($childNodes);
     }
     
     /**
@@ -113,6 +130,7 @@ class SimpleMetadataValue implements MetadataValue
         if (count($path) === 0) {
             throw new InvalidArgumentException('The path argument must be a non-empty array.');
         }
+
         $this->path = $path;
     }
     
@@ -121,7 +139,38 @@ class SimpleMetadataValue implements MetadataValue
      */
     public function getPath()
     {
+        return array_merge_recursive(
+            $this->getBasePath(),
+            $this->path
+        );
+    }
+
+    /**
+     * @see \oat\taoQtiItem\model\qti\metadata\MetadataValue::getPath()
+     */
+    public function getRelativePath()
+    {
         return $this->path;
+    }
+
+    /**
+     * Returns the base path of the child nodes.
+     *
+     * @return array
+     */
+    public function getBasePath()
+    {
+        return $this->basePath;
+    }
+
+    /**
+     * Sets the base path of the child nodes.
+     *
+     * @param array $basePath
+     */
+    public function setBasePath(array $basePath)
+    {
+        $this->basePath = $basePath;
     }
     
     /**
@@ -159,5 +208,25 @@ class SimpleMetadataValue implements MetadataValue
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * Returns the child nodes.
+     *
+     * @return array
+     */
+    public function getChildNodes()
+    {
+        return $this->childNodes;
+    }
+
+    /**
+     * Sets the child nodes.
+     *
+     * @param SimpleMetadataValue[] $childNodes
+     */
+    public function setChildNodes(array $childNodes)
+    {
+        $this->childNodes = $childNodes;
     }
 }

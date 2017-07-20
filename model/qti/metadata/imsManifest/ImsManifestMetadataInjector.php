@@ -22,12 +22,11 @@ namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use \DOMDocument;
 use \DOMElement;
-use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
-use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use \InvalidArgumentException;
+use oat\taoQtiItem\model\qti\metadata\simple\NestedMetadataValue;
 
 /**
  * A MetadataExtractor implementation.
@@ -233,10 +232,16 @@ class ImsManifestMetadataInjector implements MetadataInjector
     {
         $path = $metadata->getPath();
         $path = array_reverse($path);
+        $forceNodeCreationElements = [];
 
-        $uniqNodes = [];
-        if ($metadata instanceof ClassificationValue) {
-            $uniqNodes = array('taxonPath', 'source');
+        if ($metadata instanceof NestedMetadataValue) {
+            $basePath = $metadata->getBasePath();
+            $basePathName = end($basePath);
+            $basePathName = substr($basePathName, (strpos($basePathName, '#') + 1));
+            $nestedParentPath = $metadata->getRelativePath();
+            $nestedParentPathName = reset($nestedParentPath);
+            $nestedParentPathName = substr($nestedParentPathName, (strpos($nestedParentPathName, '#') + 1));
+            $forceNodeCreationElements = [$basePathName, $nestedParentPathName];
         }
 
         $oldChildNode = null;
@@ -244,7 +249,9 @@ class ImsManifestMetadataInjector implements MetadataInjector
             $name = substr($element,(strpos($element,'#') + 1));
             $base = substr($element,0,(strpos($element,'#')));
 
-            if (in_array($name, $uniqNodes) || is_null($oldChildNode) || $metadataNode->getElementsByTagName($map[$base].':'.$name)->length === 0) {
+            if (($metadata instanceof NestedMetadataValue && in_array($name, $forceNodeCreationElements)) ||
+                is_null($oldChildNode) || $metadataNode->getElementsByTagName($map[$base].':'.$name)->length === 0
+            ) {
                 $node = $imsManifest->createElement($map[$base].':'.$name);
             } else {
                 $node = $metadataNode->getElementsByTagName($map[$base].':'.$name)->item(0);
@@ -256,8 +263,8 @@ class ImsManifestMetadataInjector implements MetadataInjector
 
             if(isset($oldChildNode)){
                 $node->appendChild($oldChildNode);
-                if ($name == 'taxonPath' && $metadata instanceof ClassificationMetadataValue) {
-                    foreach ($metadata->getEntries() as $entry) {
+                if ($metadata instanceof NestedMetadataValue && $name === $basePathName) {
+                    foreach ($metadata->getChildNodes() as $entry) {
                         $this->createMetadataElement($entry, $node, $map, $imsManifest);
                     }
                 }
@@ -269,5 +276,4 @@ class ImsManifestMetadataInjector implements MetadataInjector
 
         $metadataNode->appendChild($oldChildNode);
     }
-
 }
