@@ -25,6 +25,7 @@ use oat\taoQtiItem\model\qti\metadata\AbstractMetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
+use oat\taoQtiItem\model\qti\metadata\ContextualMetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataValidator;
 
@@ -81,9 +82,14 @@ class MetadataImporter extends AbstractMetadataService
      * @param $identifier
      * @return bool
      */
-    public function guard($identifier)
+    public function guard($identifier, $context = '')
     {
         foreach ($this->getGuardians() as $guardian) {
+            
+            if ($guardian instanceof ContextualMetadataGuardian && $guardian->getContext() !== $context) {
+                continue;
+            }
+            
             if ($this->hasMetadataValue($identifier)) {
                 \common_Logger::i(__('Guard for resource "%s"...', $identifier));
                 if (($guard = $guardian->guard($this->getMetadataValue($identifier))) !== false) {
