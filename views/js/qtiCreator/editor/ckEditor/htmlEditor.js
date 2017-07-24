@@ -84,9 +84,22 @@ define([
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
-                insert : function(){
+                insert : function(newDomEl){
+                    var $newContent = $(newDomEl).children().clone();
                     if(options.data && options.data.container && options.data.widget){
                         contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
+                            var createdElement = createdWidget.element || {},
+                                newBody = '';
+
+                            $newContent.each(function() {
+                                newBody += $(this).html();
+                            });
+                            //fixme: does this belong here?!?
+                            if (createdElement.qtiClass === 'table') {
+                                createdElement.body(newBody);
+                                createdElement.render(createdElement.getContainer());
+                                createdElement.postRender();
+                            }
                             _activateInnerWidget(options.data.widget, createdWidget);
                         });
                     }
@@ -515,6 +528,26 @@ define([
     }
 
     var editorFactory = {
+        /**
+         * Get the first editor found in the $container
+         *
+         * @param {type} $container
+         * @returns {Objet|undefined} CkEditor instance if found
+         */
+        getEditor : function getEditor($container) {
+            var editor;
+
+            _find($container, 'html-editable').each(function(){
+                var $editable = $(this);
+                if ($editable.data('editor')) {
+                    editor = $editable.data('editor');
+                    return false; //break the loop
+                }
+            });
+
+            return editor;
+        },
+
         /**
          * Check if all data-html-editable has an editor
          *
