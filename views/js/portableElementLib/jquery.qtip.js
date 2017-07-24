@@ -22,7 +22,7 @@
 	(function( factory ) {
 		"use strict";
 		if(typeof define === 'function' && define.amd) {
-			define(['IMSGlobal/jquery_2_1_1'], factory);
+			define(['taoQtiItem/portableElementLib/jquery_2_1_1'], factory);
 		}
 		else if(jQuery && !jQuery.fn.qtip) {
 			factory(jQuery);
