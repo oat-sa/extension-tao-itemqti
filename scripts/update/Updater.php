@@ -392,5 +392,33 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('8.16.0', '9.3.0');
+
+        if($this->isVersion('9.3.0')){
+            $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/portableLib';
+            $clientLibRegistry = ClientLibRegistry::getRegistry();
+            $clientLibRegistry->register('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1.js');
+            $clientLibRegistry->register('OAT/lodash', $portableSafeLibPath . '/lodash.js');
+            $clientLibRegistry->register('OAT/async', $portableSafeLibPath . '/async.js');
+            $clientLibRegistry->register('OAT/raphael', $portableSafeLibPath . '/raphael.js');
+            $clientLibRegistry->register('OAT/scale.raphael', $portableSafeLibPath . '/OAT/scale.raphael.js');
+            $clientLibRegistry->register('OAT/jquery.qtip', $portableSafeLibPath . '/jquery.qtip.js');
+            $clientLibRegistry->register('OAT/util/xml', $portableSafeLibPath . '/OAT/util/xml.js');
+            $clientLibRegistry->register('OAT/util/math', $portableSafeLibPath . '/OAT/util/math.js');
+            $clientLibRegistry->register('OAT/util/html', $portableSafeLibPath . '/OAT/util/html.js');
+            $clientLibRegistry->register('OAT/util/EventMgr', $portableSafeLibPath . '/OAT/util/EventMgr.js');
+            $clientLibRegistry->register('OAT/util/event', $portableSafeLibPath . '/OAT/util/event.js');
+            $clientLibRegistry->register('OAT/util/asset', $portableSafeLibPath . '/OAT/util/asset.js');
+            $clientLibRegistry->register('OAT/util/tpl', $portableSafeLibPath . '/OAT/util/tpl.js');
+            $clientLibRegistry->register('OAT/sts/common', $portableSafeLibPath . '/OAT/sts/common.js');
+            $clientLibRegistry->register('OAT/interact', $portableSafeLibPath . '/interact.js');
+            $clientLibRegistry->register('OAT/interact-rotate', $portableSafeLibPath . '/OAT/interact-rotate.js');
+            $clientLibRegistry->register('OAT/sts/transform-helper', $portableSafeLibPath . '/OAT/sts/transform-helper.js');
+            $clientLibRegistry->register('OAT/handlebars', $portableSafeLibPath . '/handlebars.js');
+            $clientLibRegistry->register('OAT/sts/stsEventManager', $portableSafeLibPath . '/OAT/sts/stsEventManager.js');
+            $clientLibRegistry->register('OAT/waitForMedia', $portableSafeLibPath . '/OAT/waitForMedia.js');
+            $clientLibRegistry->register('OAT/customEvent', $portableSafeLibPath . '/OAT/customEvent.js');
+            $clientLibRegistry->register('OAT/mediaPlayer', $portableSafeLibPath . '/OAT/mediaPlayer.js');
+            $this->setVersion('10.0.0');
+        }
     }
 }
