@@ -18,7 +18,7 @@
  * @author Sam Sipasseuth <sam@taotesting.com>
  * @requires IMSGlobal/jquery_2_1_1
  */
-define(['taoQtiItem/portableElementLib/jquery_2_1_1'], function($){
+define(['taoQtiItem/portableLib/jquery_2_1_1'], function($){
     'use strict';
 
     var _ns = '.wait';

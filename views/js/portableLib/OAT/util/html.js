@@ -1,4 +1,4 @@
-define(['taoQtiItem/portableElementLib/OAT/util/xml', 'taoQtiItem/portableElementLib/OAT/util/math'], function(xml, math){
+define(['taoQtiItem/portableLib/OAT/util/xml', 'taoQtiItem/portableLib/OAT/util/math'], function(xml, math){
     
     return {
         render : function render($container){

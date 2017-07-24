@@ -1,7 +1,7 @@
 define([
-    'taoQtiItem/portableElementLib/jquery_2_1_1',
-    'taoQtiItem/portableElementLib/interact',
-    'taoQtiItem/portableElementLib/OAT/sts/transform-helper'
+    'taoQtiItem/portableLib/jquery_2_1_1',
+    'taoQtiItem/portableLib/interact',
+    'taoQtiItem/portableLib/OAT/sts/transform-helper'
 ], function(
     $,
     interact,

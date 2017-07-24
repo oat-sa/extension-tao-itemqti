@@ -1,4 +1,4 @@
-define(['taoQtiItem/portableElementLib/OAT/util/EventMgr'], function(EventMgr){
+define(['taoQtiItem/portableLib/OAT/util/EventMgr'], function(EventMgr){
 
     return {
         addEventMgr : function(instance){

@@ -17,7 +17,7 @@
  *
  */
 
-define(['OAT/util/event'], function(event){
+define(['taoQtiItem/portableLib/OAT/util/event'], function(event){
     'use strict';
     
     if (!window._stsEventManager) {

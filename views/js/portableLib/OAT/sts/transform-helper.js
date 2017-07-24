@@ -1,5 +1,5 @@
 define([
-    'IMSGlobal/jquery_2_1_1'
+    'taoQtiItem/portableLib/jquery_2_1_1'
 ], function(
     $
     ){

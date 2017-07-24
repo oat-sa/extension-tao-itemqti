@@ -1,4 +1,4 @@
-define(['taoQtiItem/portableElementLib/jquery_2_1_1', 'mathJax'], function($, MathJax){
+define(['taoQtiItem/portableLib/jquery_2_1_1', 'mathJax'], function($, MathJax){
     'use strict';
     return {
         render : function render($container){

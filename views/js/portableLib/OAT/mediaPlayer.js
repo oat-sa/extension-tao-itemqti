@@ -19,13 +19,12 @@
  * This is a wrapper around the TAO media player, suitable for media rendering inside a PCI
  */
 define([
-    'jquery',
-    'lodash',
+    'taoQtiItem/portableLib/jquery_2_1_1',
+    'taoQtiItem/portableLib/lodash',
 
     // fixme: we should package a lightweight media player as a proper PCI shared lib with no dependencies
     'core/promise',
     'ui/mediaplayer'
-
 ], function($, _, Promise, mediaplayer) {
     'use strict';
 

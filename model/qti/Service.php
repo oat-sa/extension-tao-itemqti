@@ -26,7 +26,6 @@ use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
-use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use \tao_models_classes_Service;
 use \core_kernel_classes_Resource;
@@ -216,21 +215,8 @@ class Service extends tao_models_classes_Service
     }
 
     /**
-     * Obtain a reference on the PCI/PIC Shared Library Registry.
-     * 
-     * @return \oat\taoQtiItem\model\SharedLibrariesRegistry
-     */
-    public function getSharedLibrariesRegistry()
-    {
-        $basePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
-        $baseUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
-        
-        return new SharedLibrariesRegistry($basePath, $baseUrl);
-    }
-    
-    /**
      * Obtain a reference on the Metadata Injector/Extractor Registry.
-     * 
+     *
      * @return \oat\taoQtiItem\model\qti\metadata\MetadataRegistry
      */
     public function getMetadataRegistry()

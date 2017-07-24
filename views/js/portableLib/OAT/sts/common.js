@@ -18,10 +18,10 @@
 */
 
 define([
-    'IMSGlobal/jquery_2_1_1',
-    'OAT/lodash',
-    'OAT/interact',
-    'OAT/interact-rotate'
+    'taoQtiItem/portableLib/jquery_2_1_1',
+    'taoQtiItem/portableLib/lodash',
+    'taoQtiItem/portableLib/interact',
+    'taoQtiItem/portableLib/interact-rotate'
 ], function(
     $,
     _,

@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['taoQtiItem/portableElementLib/jquery_2_1_1', 'taoQtiItem/portableElementLib/handlebars'], function($, handlebars){
+define(['taoQtiItem/portableLib/jquery_2_1_1', 'taoQtiItem/portableLib/handlebars'], function($, handlebars){
     
     'use strict';
     
