@@ -1,0 +1,18 @@
+@import "inc/bootstrap";
+//.widget-table {
+    //todo: those styles should be splitted between generic and widget-specific styles
+    table {
+        border: 1px solid grey;
+        border-spacing: 3px;
+
+        th {
+            background-color: #ccc;
+            font-weight: bold;
+        }
+
+        th, td {
+            border: 1px solid grey;
+            min-width: 30px;
+        }
+    }
+//}
