@@ -99,7 +99,7 @@ define([
                     return reject('The runtime for the pci cannot be found : ' + typeIdentifier);
                 }
 
-                //load the entrypoint, becomes optional per IMS QTI v1
+                //load the entrypoint, becomes optional per IMS PCI v1
                 if(runtime.hook){
                     requireEntries.push(runtime.hook.replace(/\.js$/, ''));
                 }
