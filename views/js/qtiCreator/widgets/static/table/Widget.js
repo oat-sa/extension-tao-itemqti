@@ -23,7 +23,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/table/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/table'
 ], function($, Widget, states, helper, toolbarTpl) {
     'use strict';
 

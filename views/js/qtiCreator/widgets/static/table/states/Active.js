@@ -28,6 +28,8 @@ define([
 ], function(_, $, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper){
     'use strict';
 
+    var $tablePropTrigger;
+
     var TableStateActive = stateFactory.extend(Active, function create(){
         this.buildEditor();
 
@@ -39,7 +41,8 @@ define([
 
         var _widget = this.widget,
             container = _widget.element.getBody(),
-            $editableContainer = _widget.$container;
+            $editableContainer = _widget.$container,
+            $editable = $editableContainer.find('[data-html-editable="true"]');
 
         $editableContainer.attr('data-html-editable-container', true);
 
@@ -59,6 +62,18 @@ define([
                 hideTriggerOnBlur: true
             });
         }
+
+        $tablePropTrigger = $editableContainer.find('[data-role="cke-table-properties"]');
+
+        $editable.on('editorready', function(event, editor) {
+            $tablePropTrigger.on('mousedown.table-widget', function(e){
+                var cmd = editor.getCommand('taoqtitableProperties');
+                cmd.setState(1); //fixme: can we do better?!
+                e.stopPropagation();
+                editor.execCommand('taoqtitableProperties', { test: 'data parameter' });
+            });
+
+        });
     };
 
     TableStateActive.prototype.destroyEditor = function(){
