@@ -21,7 +21,7 @@ define([
     'taoQtiItem/portableLib/jquery_2_1_1',
     'taoQtiItem/portableLib/lodash',
     'taoQtiItem/portableLib/interact',
-    'taoQtiItem/portableLib/interact-rotate'
+    'taoQtiItem/portableLib/OAT/interact-rotate'
 ], function(
     $,
     _,
