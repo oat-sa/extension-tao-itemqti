@@ -57,7 +57,7 @@ return array(
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
             \oat\taoQtiItem\scripts\install\InitMetadataService::class,
             \oat\taoQtiItem\scripts\install\SetItemModel::class,
-            \oat\taoQtiItem\scripts\install\RegisterPortableLibraries::class,
+            \oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries::class,
 		)
 	),
 	'local'	=> array(
