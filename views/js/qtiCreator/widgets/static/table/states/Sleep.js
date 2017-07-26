@@ -22,25 +22,7 @@ define([
 ], function(stateFactory, SleepState){
     'use strict';
 
-    var TableStateSleep = stateFactory.extend(SleepState, function(){
-        var _widget = this.widget,
-            $container = _widget.$container;
-
-        //add listener to display proper hover style
-        $container.on('mouseenter.tablesleep', function(e){
-            e.stopPropagation();
-            $container.addClass('hover');
-            $container.parent().trigger('mouseleave.sleep');
-        }).on('mouseleave.tablesleep', function(){
-            $container.removeClass('hover');
-            $container.parent().trigger('mouseenter.sleep');
-        });
-    }, function(){
-        var _widget = this.widget,
-            $container = _widget.$container;
-
-        $container.off('*.tablesleep');
-    });
+    var TableStateSleep = stateFactory.extend(SleepState, function init() {}, function exit() {});
 
     return TableStateSleep;
 });
