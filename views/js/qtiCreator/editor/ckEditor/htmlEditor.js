@@ -85,17 +85,18 @@ define([
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
                 insert : function(newDomEl){
-                    var $newContent = $(newDomEl).children().clone();
+                    var $newDomEl = $(newDomEl).clone(); // we clone the DOM so we keep the original content if needed later
+
                     if(options.data && options.data.container && options.data.widget){
                         contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
                             var createdElement = createdWidget.element || {},
-                                newBody = '';
+                                newBody;
 
-                            $newContent.each(function() {
-                                newBody += $(this).html();
-                            });
-                            //fixme: does this belong here?!?
-                            if (createdElement.qtiClass === 'table') {
+                            if (_.isFunction(createdElement.initContainer)) {
+                                newBody = '';
+                                $newDomEl.children().each(function() {
+                                    newBody += $(this).html();
+                                });
                                 createdElement.body(newBody);
                                 createdElement.render(createdElement.getContainer());
                                 createdElement.postRender();
