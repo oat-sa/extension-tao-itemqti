@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     'use strict';
 
     var root = grunt.option('root');
-    var requirejs = require(root + '/tao/views/build/node_modules/requirejs/bin/r');
+    var requirejs = grunt.option('requirejsModule');
     var portableModels = [
         {
             type : 'PCI',
