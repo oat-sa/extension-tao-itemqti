@@ -98,7 +98,24 @@
                         "description": "file attachemnt zip format supported",
                         "required": true,
                         "type": "file"
+                    },
+                    {
+                        "name": "class-uri",
+                        "in": "formData",
+                        "description": "Class uri to import item. If not specified root class will be used.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "class-label",
+                        "in": "formData",
+                        "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
+                        "type": "string",
+                        "required": false
                     }
+                ],
+                "consumes" : [
+                    "multipart/form-data"
                 ],
                 "responses": {
                     "200": {
@@ -191,7 +208,24 @@
                         "required": true,
                         "type": "string",
                         "format": "string"
+                    },
+                    {
+                        "name": "class-uri",
+                        "in": "formData",
+                        "description": "Class uri to import item. If not specified root class will be used.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "class-label",
+                        "in": "formData",
+                        "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
+                        "type": "string",
+                        "required": false
                     }
+                ],
+                "consumes" : [
+                    "multipart/form-data"
                 ],
                 "responses": {
                     "200": {
@@ -253,6 +287,134 @@
                     }
                 }
             }
+        },
+        "/taoQtiItem/RestQtiItem/createClass": {
+          "post": {
+            "description": "Create an item class",
+            "tags": [
+              "item"
+            ],
+            "parameters": [
+              {
+                "name": "class-label",
+                "in": "formData",
+                "description": "Item class label to create",
+                "required": true,
+                "type": "string"
+              },{
+                "name": "parent-class-uri",
+                "in": "formData",
+                "description": "Parent item class uri. If not specified or not exists then root item class will be used",
+                "required": false,
+                "type": "string"
+              },{
+                "name": "class-comment",
+                "in": "formData",
+                "description": "The comment of new created class",
+                "required": false,
+                "type": "string"
+              }
+            ],
+            "consumes" : [
+              "multipart/form-data"
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful response",
+                "schema": {
+                  "title": "response",
+                  "format": "json",
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "version"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "false on failure, true on success"
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "tao version"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message" : {
+                          "type": "string",
+                          "description": "A message to explain if class is newly created or it already exists"
+                        },
+                        "class-uri" : {
+                          "type": "string",
+                          "description": "The uri of newly created item class"
+                        }
+                      }
+                    },
+                    "errorCode": {
+                      "type": "string",
+                      "description": "error code. it appear if success value is false"
+                    },
+                    "errorMsg": {
+                      "type": "string",
+                      "description": "error description. it appear if success value is false"
+                    }
+                  }
+                },
+                "examples": {
+                  "application/json": {
+                    "success": true,
+                    "data": {
+                      "class-uri": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
+                    },
+                    "version": "3.1.0"
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request if you send invalid parameters. class-label uri is mandatory.",
+                "examples": {
+                  "application/json": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                    "version": "3.1.0"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/definitions/errorModel"
+                }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "examples": {
+                  "application/json": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "You don't have permission to access this resource.",
+                    "version": "3.1.0"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/definitions/errorModel"
+                }
+              },
+              "500": {
+                "description": "Internal error, if class-parent-uri is not a valid item class.",
+                "examples": {
+                  "application/json": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Exception error description",
+                    "version": "3.1.0"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/definitions/errorModel"
+                }
+              }
+            }
+          }
         }
     },
 

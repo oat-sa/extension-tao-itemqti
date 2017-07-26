@@ -1211,6 +1211,14 @@ img.dragging.ui-draggable-dragging {
                 height:20px;
                 margin:0;
             }
+
+        }
+        // hack to implement TAO-4554 and avoid overlapping toolbars
+        .widget-box {
+            .mini-tlb {
+                top: 0 !important;
+                right:-30px !important;
+            }
         }
     }
 }

@@ -100,7 +100,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                             _this.item.addStylesheet(stylesheet);
                         }
                     }
-                    
+
                     //important : build responses after all modal feedbacks and outcomes has been loaded, because the simple feedback rules need to reference them
                     for(i in data.responses){
                         var response = _this.buildResponse(data.responses[i]);
@@ -115,7 +115,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                             }
                         }
                     }
-                    
+
                     if(data.responseProcessing){
                         _this.item.setResponseProcessing(_this.buildResponseProcessing(data.responseProcessing));
                     }
@@ -212,14 +212,14 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         buildSimpleFeedbackRule : function(data, response){
 
             var feedbackRule = this.buildElement(data);
-            
+
             feedbackRule.setCondition(response, data.condition, data.comparedValue || null);
-            
+
 //            feedbackRule.comparedOutcome = this.item.responses[data.comparedOutcome] || null;
             feedbackRule.feedbackOutcome = this.item.outcomes[data.feedbackOutcome] || null;
             feedbackRule.feedbackThen = this.item.modalFeedbacks[data.feedbackThen] || null;
             feedbackRule.feedbackElse = this.item.modalFeedbacks[data.feedbackElse] || null;
-            
+
             //associate the compared outcome to the feedbacks if applicable
             var response = feedbackRule.comparedOutcome;
             if(feedbackRule.feedbackThen){
@@ -228,7 +228,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             if(feedbackRule.feedbackElse){
                 feedbackRule.feedbackElse.data('relatedResponse', response);
             }
-            
+
             return feedbackRule;
         },
         buildOutcome : function(data){
@@ -370,6 +370,11 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 choice.val(data.text);
             }else if(Element.isA(choice, 'gapImg')){
                 //has already been taken care of in buildElement()
+            }else if(Element.isA(choice, 'gapText')){
+                // this ensure compatibility of Qti 2.1 items
+                if (! choice.body()) {
+                    choice.body(data.text);
+                }
             }else if(Element.isA(choice, 'containerChoice')){
                 //has already been taken care of in buildElement()
             }

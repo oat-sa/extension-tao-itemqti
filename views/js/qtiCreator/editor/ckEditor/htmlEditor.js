@@ -81,7 +81,7 @@ define([
         var ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
-            enterMode : CKEditor.ENTER_P,
+            enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
                 insert : function(){
@@ -233,7 +233,12 @@ define([
                     if(typeof options.qtiMedia !== 'undefined'){
                         ckConfig.qtiMedia = options.qtiMedia;
                     }
-
+                    if(typeof options.qtiImage !== 'undefined'){
+                        ckConfig.qtiImage = options.qtiImage;
+                    }
+                    if(typeof options.qtiInclude !== 'undefined'){
+                        ckConfig.qtiInclude = options.qtiInclude;
+                    }
                     if(typeof options.highlight !== 'undefined'){
                         ckConfig.highlight = options.highlight;
                     }
@@ -580,6 +585,9 @@ define([
                     if(_.isFunction(options.change)){
                         options.change.call(editor, _htmlEncode(editor.getData()));
                     }
+                    editor.on('destroy', function () {
+                        $container.trigger('editordestroyed');
+                    });
 
                     editor.focusManager.blur(true);
                     editor.destroy();
@@ -600,6 +608,22 @@ define([
             var editor = $editable.data('editor');
             if(editor){
                 return _htmlEncode(editor.getData());
+            }else{
+                throw new Error('no editor attached to the DOM element');
+            }
+        },
+        /**
+         * Allow to set the editor content. Works only with plain text for now.
+         *
+         * @param {JQuery} $editable
+         * @param {String} data
+         */
+        setData : function($editable, data) {
+            var editor = $editable.data('editor');
+            if(editor){
+                if (_.isString(data)) {
+                    editor.setData(_.escape(data));
+                }
             }else{
                 throw new Error('no editor attached to the DOM element');
             }

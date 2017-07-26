@@ -61,7 +61,12 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
                 $path = $metadataValue->getPath();
                 $valuePath = end($path);
                 if (in_array($valuePath, $properties)) {
-                    $target->setPropertyValueByLg($this->getProperty($valuePath), $metadataValue->getValue(), $lang);
+                    $prop = $this->getProperty($valuePath);
+                    if ($target->getPropertyValuesByLg($prop, $lang)->count() > 0) {
+                        $target->editPropertyValueByLg($prop, $metadataValue->getValue(), $lang);
+                    } else {
+                        $target->setPropertyValueByLg($prop, $metadataValue->getValue(), $lang);
+                    }
                 }
             }
         }

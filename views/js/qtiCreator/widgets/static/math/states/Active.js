@@ -172,7 +172,9 @@ define([
                     m.setAnnotation('latex', value);
 
                     //update mathML
-                    self.fields.$mathml.val(mathEditor.mathML);
+                    if (self.fields) {
+                        self.fields.$mathml.val(mathEditor.mathML);
+                    }
                     m.setMathML(mathEditor.mathML);
 
                     inlineHelper.togglePlaceholder(_widget);
@@ -194,7 +196,9 @@ define([
 
                     //clear tex if mathml has changed
                     if (hasChanged) {
-                        self.fields.$latex.val('');
+                        if (self.fields) {
+                            self.fields.$latex.val('');
+                        }
                         m.removeAnnotation('latex');
                     }
 

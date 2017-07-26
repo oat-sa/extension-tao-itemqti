@@ -19,6 +19,14 @@
         }
     }
 
+    .choice-area {
+        .qti-choice {
+            @include simple-border();
+            border-color: #ddd !important;
+            min-width: 80px;
+        }
+    }
+
     .gap-info {
         color: $info;
         font-style: italic;

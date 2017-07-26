@@ -233,7 +233,7 @@ define([
 
             // makes gaps droppables
             interact(gapSelector).dropzone({
-                overlap: 0.15,
+                overlap: 0.05,
                 ondragenter: function(e) {
                     var $target = $(e.target),
                         $dragged = $(e.relatedTarget);
