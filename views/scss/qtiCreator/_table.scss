@@ -16,3 +16,10 @@
         }
     }
 //}
+
+.table-tlb {
+    @extend %mini-tlb;
+    display: block;
+    right: auto;
+    top: auto;
+}
