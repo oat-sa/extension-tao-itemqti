@@ -31,7 +31,7 @@ class RegisterLegacyPortableLibraries  extends InstallAction
     public function __invoke($params)
     {
         //register location of portable libs to legacy share lib aliases for backward compatibility
-        $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/portableLib';
+        $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
         $clientLibRegistry = ClientLibRegistry::getRegistry();
         $clientLibRegistry->set('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
         $clientLibRegistry->set('OAT/lodash', $portableSafeLibPath . '/lodash');
