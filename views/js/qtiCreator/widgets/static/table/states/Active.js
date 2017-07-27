@@ -53,6 +53,7 @@ define([
         if(!htmlEditor.hasEditor($editableContainer)){
 
             htmlEditor.buildEditor($editableContainer, {
+                placeholder: '',
                 change : contentHelper.getChangeCallback(container),
                 data : {
                     container : container,

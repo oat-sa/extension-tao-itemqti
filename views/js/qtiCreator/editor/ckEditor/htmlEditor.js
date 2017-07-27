@@ -77,7 +77,9 @@ define([
         }
 
         $trigger = getTrigger($editableContainer);
-        $editable.attr('placeholder', options.placeholder);
+        if (options.placeholder && options.placeholder !== '') {
+            $editable.attr('placeholder', options.placeholder);
+        }
         var ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
