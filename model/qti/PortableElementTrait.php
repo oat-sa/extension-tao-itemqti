@@ -98,6 +98,7 @@ trait PortableElementTrait
             if($prop instanceof DOMElement){
                 switch($prop->tagName){
                     case $ns.'entry':
+                    case $ns.'property':
                         $key = $prop->getAttribute('key');
                         $properties[$key] = $prop->nodeValue;
                         break;

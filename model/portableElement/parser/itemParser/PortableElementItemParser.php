@@ -205,6 +205,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             }
         }
 
+        //register the files here
         $data = [
             'typeIdentifier' => $typeId,
             'version' => $portableElement->getVersion(),

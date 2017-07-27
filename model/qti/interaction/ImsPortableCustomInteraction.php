@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
 use oat\taoQtiItem\model\qti\PortableElementTrait;
@@ -35,14 +36,14 @@ use oat\taoQtiItem\model\qti\PortableElementTrait;
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10267
 
  */
-class PortableCustomInteraction extends CustomInteraction
+class ImsPortableCustomInteraction extends CustomInteraction
 {
     use PortableElementTrait;
 
-    const NS_NAME = 'pci';
-    const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction';
+    const NS_NAME = 'imspci';
+    const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1p0';
 
-    protected $markupNs = 'html5';
+    protected $markupNs = 'http://www.w3.org/1999/xhtml';
     protected $properties = array();
     protected $libraries = array();
     protected $stylesheets = array();
@@ -50,23 +51,23 @@ class PortableCustomInteraction extends CustomInteraction
     protected $typeIdentifier = '';
     protected $entryPoint = '';
     protected $version = '0.0.0';
-    
+
     public function setTypeIdentifier($typeIdentifier){
         $this->typeIdentifier = $typeIdentifier;
     }
-    
+
     public function setEntryPoint($entryPoint){
         $this->entryPoint = $entryPoint;
     }
-    
+
     public function getTypeIdentifier(){
         return $this->typeIdentifier;
     }
-    
+
     public function getEntryPoint(){
         return $this->entryPoint;
     }
-    
+
     public function getProperties(){
         return $this->properties;
     }
@@ -82,19 +83,19 @@ class PortableCustomInteraction extends CustomInteraction
     public function getStylesheets(){
         return $this->stylesheets;
     }
-    
+
     public function setStylesheets($stylesheets){
         $this->stylesheets = $stylesheets;
     }
-    
+
     public function getMediaFiles(){
         return $this->mediaFiles;
     }
-    
+
     public function setMediaFiles($mediaFiles){
         $this->mediaFiles = $mediaFiles;
     }
-    
+
     public function getVersion(){
         return $this->version;
     }
@@ -121,10 +122,7 @@ class PortableCustomInteraction extends CustomInteraction
 
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
         $returnValue['version'] = $this->version;
-        $returnValue['entryPoint'] = $this->entryPoint;
-        $returnValue['libraries'] = $this->libraries;
-        $returnValue['stylesheets'] = $this->stylesheets;
-        $returnValue['mediaFiles'] = $this->mediaFiles;
+        $returnValue['libraries'] = $this->modules;
         $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
 
         return $returnValue;
@@ -137,14 +135,11 @@ class PortableCustomInteraction extends CustomInteraction
     protected function getTemplateQtiVariables(){
 
         $variables = parent::getTemplateQtiVariables();
-        $variables['libraries'] = $this->libraries;
-        $variables['stylesheets'] = $this->stylesheets;
-        $variables['mediaFiles'] = $this->mediaFiles;
-        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties, self::NS_NAME, self::NS_URI);
-        $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
+        $variables['libraries'] = $this->modules;
+        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties, self::NS_NAME, self::NS_URI);
         $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$this->markupNs.':$2', $variables['markup']);
-        $this->getRelatedItem()->addNamespace($this->markupNs, $this->markupNs);
+        $this->getRelatedItem()->addNamespace('xhtml1', $this->markupNs);
         return $variables;
     }
     
@@ -169,33 +164,18 @@ class PortableCustomInteraction extends CustomInteraction
         }else{
             $this->setTypeIdentifier($typeIdentifier);
         }
-        $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
 
-        $version = $pciNodes->item(0)->getAttribute('version');
+        $version = $pciNodes->item(0)->getAttribute('data-version');
         if($version){
             $this->setVersion($version);
         }
 
-        $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $xmlns);
-        $libs = array();
-        foreach($libNodes as $libNode){
-            $libs[] = $libNode->getAttribute('id');
+        $moduleNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'modules', 'module'), $data, $xmlns);
+        $modules = array();
+        foreach($moduleNodes as $libNode){
+            $modules[] = $libNode->getAttribute('id');
         }
-        $this->setLibraries($libs);
-
-        $stylesheetNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'stylesheets', 'link'), $data, $xmlns);
-        $stylesheets = array();
-        foreach($stylesheetNodes as $styleNode){
-            $stylesheets[] = $styleNode->getAttribute('href');
-        }
-        $this->setStylesheets($stylesheets);
-
-        $mediaNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'mediaFiles', 'file'), $data, $xmlns);
-        $media = array();
-        foreach($mediaNodes as $mediaNode){
-            $media[] = $mediaNode->getAttribute('src');
-        }
-        $this->setMediaFiles($media);
+        $this->setLibraries($modules);
 
         $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $xmlns);
         if($propertyNodes->length){

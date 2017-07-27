@@ -74,7 +74,7 @@ abstract class CustomInteraction extends Interaction
         return $variables;
     }
     
-    public function feed(ParserFactory $parser, DOMElement $data){
+    public function feed(ParserFactory $parser, DOMElement $data, $xmlns = ''){
         
         $markup = $parser->getBodyData($data->item(0), true);
         $this->setMarkup($markup);
