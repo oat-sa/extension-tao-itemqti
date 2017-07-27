@@ -1,21 +1,11 @@
 @import "inc/bootstrap";
-//.widget-table {
-    //todo: those styles should be splitted between generic and widget-specific styles
+.widget-table {
     table {
-        border: 1px solid grey;
-        border-spacing: 3px;
+        &.qti-table {
 
-        th {
-            background-color: #ccc;
-            font-weight: bold;
-        }
-
-        th, td {
-            border: 1px solid grey;
-            min-width: 30px;
         }
     }
-//}
+}
 
 .table-tlb {
     @extend %mini-tlb;
