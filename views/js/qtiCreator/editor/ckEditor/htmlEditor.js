@@ -84,20 +84,26 @@ define([
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
-                insert : function(newDomEl){
-                    var $newDomEl = $(newDomEl).clone(); // we clone the DOM so we keep the original content if needed later
+                /**
+                 * @param {DOM} tempWidget - this contains the DOM nodes created by a ckEditor plugin,
+                 *                           wrapped in a temporary widget container (= a widget container with a [data-new="true"] attribute)
+                 */
+                insert : function(tempWidget){
+                    var $newContent = $(tempWidget).clone().contents(); // we keep the original content, without the widget wrapper, for later use
 
                     if(options.data && options.data.container && options.data.widget){
                         contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
-                            var createdElement = createdWidget.element || {},
-                                newBody;
+                            var createdElement = createdWidget.element,
+                                allAttributes = $newContent[0].attributes;
+
+                            $.each(allAttributes, function() {
+                                if (this.specified) {
+                                    createdElement.attr(this.name, this.value);
+                                }
+                            });
 
                             if (_.isFunction(createdElement.initContainer)) {
-                                newBody = '';
-                                $newDomEl.children().each(function() {
-                                    newBody += $(this).html();
-                                });
-                                createdElement.body(newBody);
+                                createdElement.body($newContent.html());
                                 createdElement.render(createdElement.getContainer());
                                 createdElement.postRender();
                             }
