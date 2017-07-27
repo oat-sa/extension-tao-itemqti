@@ -153,6 +153,9 @@ define([
                 enteredStates,
                 i;
 
+            // uncomment to see what's going on
+            // console.log('changing state of ', this.serial, ': ', (currentState || {}).name, ' => ', stateName);
+
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName]();
             }else{

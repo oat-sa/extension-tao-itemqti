@@ -256,9 +256,6 @@ define([
                     if(typeof options.highlight !== 'undefined'){
                         ckConfig.highlight = options.highlight;
                     }
-                    if(typeof options.qtiTable !== 'undefined'){
-                        ckConfig.qtiTable = options.qtiTable;
-                    }
 
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },

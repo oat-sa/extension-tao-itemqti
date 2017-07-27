@@ -60,7 +60,6 @@ define([
             htmlEditor.buildEditor($editableContainer, {
                 placeholder : __('define prompt'),
                 change : contentHelper.getChangeCallback(container),
-                qtiTable : true,
                 data : {
                     container : container,
                     widget : _widget
