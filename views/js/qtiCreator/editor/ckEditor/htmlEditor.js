@@ -527,26 +527,6 @@ define([
 
     var editorFactory = {
         /**
-         * Get the first editor found in the $container
-         *
-         * @param {type} $container
-         * @returns {Objet|undefined} CkEditor instance if found
-         */
-        getEditor : function getEditor($container) {
-            var editor;
-
-            _find($container, 'html-editable').each(function(){
-                var $editable = $(this);
-                if ($editable.data('editor')) {
-                    editor = $editable.data('editor');
-                    return false; //break the loop
-                }
-            });
-
-            return editor;
-        },
-
-        /**
          * Check if all data-html-editable has an editor
          *
          * @param {type} $container
