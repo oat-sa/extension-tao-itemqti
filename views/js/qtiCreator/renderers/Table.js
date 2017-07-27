@@ -32,25 +32,11 @@ define([
 
     CreatorTable.render = function(table, options){
 
-        /*
-        //initial rendering:
-        Renderer.render(object);
-
-         options.baseUrl = this.getOption('baseUrl');
-         options.uri = this.getOption('uri');
-         options.lang = this.getOption('lang');
-        options.mediaManager = this.getOption('mediaManager');
-        options.assetManager = this.getAssetManager();
-        */
-        options = options || {};
-
-//        debugger;
-
         Widget.build(
             table,
             Renderer.getContainer(table),
-            this.getOption('bodyElementOptionForm'), // todo: wtf ?
-            options
+            this.getOption('bodyElementOptionForm'),
+            options || {}
         );
     };
 
