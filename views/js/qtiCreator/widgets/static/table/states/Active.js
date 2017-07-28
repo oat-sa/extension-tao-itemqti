@@ -1,4 +1,4 @@
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -13,8 +13,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  *
+ */
+/**
+ * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
     'lodash',
@@ -23,13 +26,15 @@ define([
     'ckeditor',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
-    'taoQtiItem/qtiCreator/widgets/static/table/components/colActions',
+    'taoQtiItem/qtiCreator/widgets/static/table/components/tableActions',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function(_, $, __, ckEditor, stateFactory, Active, colActionsFactory, htmlEditor, contentHelper){
+], function(_, $, __, ckEditor, stateFactory, Active, tableActionsFactory, htmlEditor, contentHelper){
     'use strict';
 
-    var $tablePropTrigger;
+    var $tablePropTrigger,
+        colActions,
+        rowActions;
 
     var TableStateActive = stateFactory.extend(Active, function create(){
         this.buildEditor();
@@ -39,16 +44,14 @@ define([
     });
 
     TableStateActive.prototype.buildEditor = function(){
-
         var self = this,
             _widget = this.widget,
             container = _widget.element.getBody(),
             $editableContainer = _widget.$container,
-            $editable = $editableContainer.find('[data-html-editable="true"]');
+            $editable = $editableContainer.find('[data-html-editable="true"]'),
+            $itemPanel = _widget.getAreaBroker().getItemPanelArea();
 
         $editableContainer.attr('data-html-editable-container', true);
-
-        window.CKEDITOR.dtd.$editable.table = 1; //fixme: why is this still needed ?
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
@@ -68,126 +71,135 @@ define([
 
         $tablePropTrigger = $editableContainer.find('[data-role="cke-table-properties"]');
 
-        $editable.on('editorready', function(event, editor) {
-            $tablePropTrigger.on('mousedown.table-widget', function(e){
-                var cmd = editor.getCommand('taoqtitableProperties');
-                cmd.setState(1); //fixme: can we do better?!
-                e.stopPropagation();
-                editor.execCommand('taoqtitableProperties');
-            });
+        $editable
+            .on('editorready.tableActive', function(event, editor) {
+                $tablePropTrigger.on('click.tableActive', function(e){
+                    e.stopPropagation();
+                    editor.execCommand('taoqtitableProperties');
+                });
 
-            self.addTableActions(editor);
-        });
+                colActions = tableActionsFactory({ insertCol: true })
+                    .on('delete', function() {
+                        editor.execCommand('columnDelete');
+                        this.hide();
+                        rowActions.hide();
+                    })
+                    .on('insertCol', function() {
+                        editor.execCommand('columnInsertAfter');
+                    })
+                    .render($itemPanel)
+                    .hide();
+
+                rowActions = tableActionsFactory({ insertRow: true })
+                    .on('delete', function() {
+                        editor.execCommand('rowDelete');
+                        this.hide();
+                        colActions.hide();
+                    })
+                    .on('insertRow', function() {
+                        editor.execCommand('rowInsertAfter');
+                    })
+                    .render($itemPanel)
+                    .hide();
+
+                $editableContainer.on('keyup.tableActive', _displayTableActions.bind(this, editor, $editableContainer));
+                $editableContainer.on('click.tableActive', _displayTableActions.bind(this, editor, $editableContainer));
+            })
+            .on('editordestroyed.tableActive', function() {
+                if ($tablePropTrigger.length) {
+                    $tablePropTrigger.off('.tableActive');
+                }
+            });
     };
 
     TableStateActive.prototype.destroyEditor = function(){
         var _widget = this.widget,
-            $editableContainer = _widget.$container;
+            $editableContainer = _widget.$container,
+            $editable = $editableContainer.find('[data-html-editable="true"]');
 
         //search and destroy the editor
+        $editableContainer.off('.tableActive');
+        $editable.off('.tableActive');
         htmlEditor.destroyEditor($editableContainer);
+
+        // destroy the actions toolbars
+        if (colActions) {
+            colActions.destroy();
+            colActions = null;
+        }
+
+        if (rowActions) {
+            rowActions.destroy();
+            rowActions = null;
+        }
     };
 
-    TableStateActive.prototype.addTableActions = function addTableActions(editor){
-        var _widget = this.widget,
-            $tableContainer = _widget.$container,
-            $itemPanel = _widget.getAreaBroker().getItemPanelArea(),
-            colsCount = 0,
-            rowsCount = 0,
-            $allRows,
-            $firstRow,
+    TableStateActive.prototype.enableTableActions = function enableTableActions(){
+
+
+
+    };
+
+    function _displayTableActions(editor, $editableContainer) {
+        var selection = editor.getSelection();
+        var selectedCells = window.CKEDITOR.plugins.tabletools.getSelectedCells(selection),
+            currentCell;
+
+        if (selectedCells.length > 0) {
+            currentCell = selectedCells[0].$;
+
+            colActions
+                .show()
+                .hAlignWith($(currentCell), 'center')
+                .vAlignWith($editableContainer, 'top');
+
+            rowActions
+                .show()
+                .hAlignWith($editableContainer, 'left')
+                .vAlignWith($(currentCell), 'center');
+        }
+    }
+
+
+
+    /*
+    Getting this data has proven to be useful during the development of the first iteration of the table widget and deleting this breaks my heart.
+    I keep this for now in case we find a use for it during the next iterations, in that case it could serve as a basis for a nice table helper.
+    If not, it should be deleted at some point.
+
+    function _getTableModel($table) {
+        var $firstRow,
             $firstRowCells,
-            firstColCells = [];
+            firstColCells,
+            colsCount,
+            rowsCount;
 
-        var $allCells = $tableContainer.find('td,th');
-
-        var colActions = colActionsFactory($itemPanel);
-        colActions.hide();
-        colActions.on('deleteCol', function() {
-            var cmd = editor.getCommand('columnDelete');
-            cmd.setState(1); //fixme: can we do better?!
-            editor.execCommand('columnDelete');
-        });
-        colActions.on('insertCol', function() {
-            var cmd = editor.getCommand('columnInsertAfter');
-            cmd.setState(1); //fixme: can we do better?!
-            editor.execCommand('columnInsertAfter');
-        });
-
-        $firstRow = $tableContainer.find('thead tr').eq(0);
+        $firstRow = $table.find('thead tr').eq(0);
         if ($firstRow.length === 0) {
-            $firstRow = $tableContainer.find('tbody tr').eq(0);
+            $firstRow = $table.find('tbody tr').eq(0);
         }
         $firstRowCells = $firstRow.find('td, th');
-
 
         function addFirstCellOfRow() {
             firstColCells.push($(this).children().eq(0));
         }
 
-        $tableContainer.find('thead tr').each(addFirstCellOfRow);
-        $tableContainer.find('tbody tr').each(addFirstCellOfRow);
-        $tableContainer.find('tfoot tr').each(addFirstCellOfRow);
+        // we want the rows in order, but with a <tfoot>, they are out of order in the markup...
+        $table.find('thead tr').each(addFirstCellOfRow);
+        $table.find('tbody tr').each(addFirstCellOfRow);
+        $table.find('tfoot tr').each(addFirstCellOfRow);
 
         colsCount = $firstRowCells.length;
         rowsCount = firstColCells.length;
 
-        console.log('table ', colsCount, 'x', rowsCount);
-
-
-        function getCurrentCell() {
-            var selection = editor.getSelection();
-            var selectedCells = window.CKEDITOR.plugins.taoqtitabletools.getSelectedCells(selection),
-                currentCell,
-                currentCellPos = {},
-                currentCellCoords,
-                tableCoords = $tableContainer.offset();
-
-            var tooltip, tooltipApi;
-
-            // var $colActions = $(colTpl());
-
-            if (selectedCells.length > 0) {
-                currentCell = selectedCells[0].$;
-                $allCells.css({'background-color': 'transparent'});
-                $(currentCell).css({'background-color': 'red'});
-                currentCellCoords = $(currentCell).offset();
-
-                currentCellPos = {
-                    x: currentCell.cellIndex,
-                    y: currentCell.parentNode.rowIndex
-                };
-
-                $firstRowCells.eq(currentCellPos.x).css({'background-color': 'yellow'});
-                $(firstColCells[currentCellPos.y]).css({'background-color': 'yellow'});
-                console.log('in: ', currentCell.cellIndex, ' - ', currentCell.parentNode.rowIndex);
-
-                // tooltip = $(currentCell).qtip({
-                //     content: {
-                //         text: 'tooltip'
-                //     },
-                //     style: {
-                //         classes: 'qtip-light'
-                //     }
-                //
-                // });
-                // tooltipApi = tooltip.qtip('api');
-                // tooltipApi.show();
-
-                colActions.show();
-
-                colActions.moveTo(
-                    currentCellCoords.left - $itemPanel.offset().left + $(currentCell).width() / 2 - colActions.getOuterSize().width / 2,
-                    tableCoords.top - $itemPanel.offset().top - colActions.getOuterSize().height /* height of toolbar */
-                );
-            }
-            console.dir(selectedCells);
-        }
-
-        $tableContainer.on('keyup', getCurrentCell);
-        $tableContainer.on('click', getCurrentCell);
-    };
-
+        return {
+            $firstRowCells: $firstRowCells,
+            firstCollCells: firstColCells, // fixme: make this consitent between rows & cell. Either jQuery collection or table.
+            rowCount: rowsCount,
+            colsCount: colsCount
+        };
+    }
+     */
 
 
     return TableStateActive;
