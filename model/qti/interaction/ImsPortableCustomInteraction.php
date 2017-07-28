@@ -51,6 +51,8 @@ class ImsPortableCustomInteraction extends CustomInteraction
     protected $typeIdentifier = '';
     protected $entryPoint = '';
     protected $version = '0.0.0';
+    protected $config = array();
+    protected $modules = array();
 
     public function setTypeIdentifier($typeIdentifier){
         $this->typeIdentifier = $typeIdentifier;
@@ -116,6 +118,41 @@ class ImsPortableCustomInteraction extends CustomInteraction
         }
     }
 
+    public function getConfig(){
+        return $this->libraries;
+    }
+
+    public function setConfig($configFiles){
+        if(is_array($configFiles)){
+            $this->config = $configFiles;
+        }else{
+            throw new InvalidArgumentException('config files should be an array');
+        }
+    }
+
+    public function addModule($id, $paths){
+        if(is_string($paths)){
+            $paths = [$paths];
+        }
+        if(is_array($paths)){
+            $this->modules[$id] = $paths;
+        }else{
+            throw new InvalidArgumentException('modue paths should be an array');
+        }
+    }
+
+    public function setModules($paths){
+        if(is_array($paths)){
+            $this->modules = $paths;
+        }else{
+            throw new InvalidArgumentException('modue paths should be an array');
+        }
+    }
+
+    public function getModules(){
+        return $this->modules;
+    }
+
     public function toArray($filterVariableContent = false, &$filtered = array()){
         
         $returnValue = parent::toArray($filterVariableContent, $filtered);
@@ -124,6 +161,8 @@ class ImsPortableCustomInteraction extends CustomInteraction
         $returnValue['version'] = $this->version;
         $returnValue['libraries'] = $this->modules;
         $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+        $returnValue['config'] = $this->config;
+        $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection($this->getModules(), $filterVariableContent, $filtered);
 
         return $returnValue;
     }
@@ -170,12 +209,30 @@ class ImsPortableCustomInteraction extends CustomInteraction
             $this->setVersion($version);
         }
 
-        $moduleNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'modules', 'module'), $data, $xmlns);
-        $modules = array();
-        foreach($moduleNodes as $libNode){
-            $modules[] = $libNode->getAttribute('id');
+        $rootModulesNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules'), $data, $xmlns);
+        foreach($rootModulesNodes as $rootModulesNode){
+            $config = [];
+            if($rootModulesNode->getAttribute('primaryConfiguration')){
+                $config[] = $rootModulesNode->getAttribute('primaryConfiguration');
+            }
+            if($rootModulesNode->getAttribute('fallbackConfiguration')){
+                $config[] = $rootModulesNode->getAttribute('fallbackConfiguration');
+            }
+            $this->setConfig($config);
         }
-        $this->setLibraries($modules);
+
+        $moduleNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules', 'module'), $data, $xmlns);
+        foreach($moduleNodes as $libNode){
+            $id = $libNode->getAttribute('id');
+            $paths = [];
+            if($libNode->getAttribute('primaryPath')){
+                $paths[] = $libNode->getAttribute('primaryPath');
+            }
+            if($libNode->getAttribute('fallbackPath')){
+                $paths[] = $libNode->getAttribute('fallbackPath');
+            }
+            $this->addModule($id, $paths);
+        }
 
         $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $xmlns);
         if($propertyNodes->length){
