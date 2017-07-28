@@ -205,6 +205,16 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             }
         }
 
+        $moduleFiles = [];
+        foreach($portableElement->getModules() as $id => $paths){
+            foreach($paths as $path){
+                if(strpos($path, 'http') !== 0){
+                    //only copy into data the relative files
+                    $moduleFiles[] = $path;
+                }
+            }
+        }
+
         //register the files here
         $data = [
             'typeIdentifier' => $typeId,
@@ -216,6 +226,8 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 'libraries' => $libs,
                 'stylesheets' => $portableElement->getStylesheets(),
                 'mediaFiles' => $portableElement->getMediaFiles(),
+                'config' => $portableElement->getConfig(),
+                'modules' => $portableElement->getModules()
             ]
         ];
 
@@ -240,8 +252,10 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $files = array_merge(
             [$portableObject->getRuntimeKey('hook')],
             $requiredLibFiles,
+            $moduleFiles,
             $portableObject->getRuntimeKey('stylesheets'),
-            $portableObject->getRuntimeKey('mediaFiles')
+            $portableObject->getRuntimeKey('mediaFiles'),
+            $portableObject->getRuntimeKey('config')
         );
         $this->requiredFiles = array_merge($this->requiredFiles, array_fill_keys($files, $typeId));
     }

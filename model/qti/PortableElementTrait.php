@@ -27,6 +27,45 @@ use \DOMElement;
  */
 trait PortableElementTrait
 {
+
+    protected $config = array();
+    protected $modules = array();
+
+    public function getConfig(){
+        return $this->config;
+    }
+
+    public function setConfig($configFiles){
+        if(is_array($configFiles)){
+            $this->config = $configFiles;
+        }else{
+            throw new InvalidArgumentException('config files should be an array');
+        }
+    }
+
+    public function addModule($id, $paths){
+        if(is_string($paths)){
+            $paths = [$paths];
+        }
+        if(is_array($paths)){
+            $this->modules[$id] = $paths;
+        }else{
+            throw new InvalidArgumentException('modue paths should be an array');
+        }
+    }
+
+    public function setModules($paths){
+        if(is_array($paths)){
+            $this->modules = $paths;
+        }else{
+            throw new InvalidArgumentException('modue paths should be an array');
+        }
+    }
+
+    public function getModules(){
+        return $this->modules;
+    }
+
     /**
      * Serialize an associative array of pci properties into a pci xml
      *
@@ -63,8 +102,8 @@ trait PortableElementTrait
                 $this->serializePortableProperties($value, $ns, $nsUri, $name, $element);
             } else {
                 $entryElement = $ns ?
-                    $element->ownerDocument->createElementNS($nsUri, $ns . ':entry') :
-                    $element->ownerDocument->createElementNS('entry');
+                    $element->ownerDocument->createElementNS($nsUri, $ns . ':property') :
+                    $element->ownerDocument->createElement('property');
 
                 $entryElement->setAttribute('key', $name);
                 $entryElement->appendChild(new \DOMText($value));

@@ -1492,10 +1492,8 @@ class ParserFactory
         //start searching from globally declared namespace
         foreach($this->item->getNamespaces() as $name => $uri){
             foreach($this->getAvailablePciModels() as $class){
-                var_dump(__LINE__, $class::NS_URI);
                 if($uri === $class::NS_URI
                     && $this->queryXPathChildren(array('portableCustomInteraction'), $data, $name)->length){
-                    var_dump(__LINE__);
                     return $class;
                 }
             }

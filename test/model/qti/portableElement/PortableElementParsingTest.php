@@ -110,7 +110,18 @@ class PortableElementParsingTest extends TaoPhpUnitTestRunner {
 		$pci = array_pop($pcis);
 
 		$this->assertEquals('likertScaleInteraction', $pci->getTypeIdentifier());
-//		$this->assertEquals(['IMSGlobal/jquery_2_1_1', 'likertScaleInteraction/runtime/renderer'], $pci->getLibraries());
+
+		$modules = $pci->getModules();
+		$this->assertEquals(['likertScaleInteraction/runtime/js/likertScaleInteraction.js'], $modules['likertScaleInteraction/runtime/js/likertScaleInteraction']);
+		$this->assertEquals([
+			'likertScaleInteraction/runtime/js/renderer-unexisting.js',
+			'likertScaleInteraction/runtime/js/renderer.js'
+		], $modules['likertScaleInteraction/runtime/js/renderer']);
+		$this->assertEquals([], $modules['jquery_2_1_1']);
+
+		$this->assertEquals(['oat-pci-unexisting.json', 'oat-pci.json'], $pci->getConfig());
 		$this->assertEquals(['level' => '5', 'label-min' => 'min', 'label-max' => 'max'], $pci->getProperties());
+
+		var_dump($item->toXML());
 	}
 }
