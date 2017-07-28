@@ -32,8 +32,7 @@ define([
 ], function(_, $, __, ckEditor, stateFactory, Active, tableActionsFactory, htmlEditor, contentHelper){
     'use strict';
 
-    var $tablePropTrigger,
-        colActions,
+    var colActions,
         rowActions;
 
     var TableStateActive = stateFactory.extend(Active, function create(){
@@ -44,17 +43,17 @@ define([
     });
 
     TableStateActive.prototype.buildEditor = function(){
-        var self = this,
-            _widget = this.widget,
+        var _widget   = this.widget,
             container = _widget.element.getBody(),
-            $editableContainer = _widget.$container,
-            $editable = $editableContainer.find('[data-html-editable="true"]'),
-            $itemPanel = _widget.getAreaBroker().getItemPanelArea();
+
+            $itemPanel          = _widget.getAreaBroker().getItemPanelArea(),
+            $editableContainer  = _widget.$container,
+            $editable           = $editableContainer.find('[data-html-editable="true"]'),
+            $tablePropTrigger   = $editableContainer.find('[data-role="cke-table-properties"]');
 
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
-
             htmlEditor.buildEditor($editableContainer, {
                 placeholder: '',
                 change : contentHelper.getChangeCallback(container),
@@ -69,11 +68,9 @@ define([
             });
         }
 
-        $tablePropTrigger = $editableContainer.find('[data-role="cke-table-properties"]');
-
         $editable
             .on('editorready.tableActive', function(event, editor) {
-                $tablePropTrigger.on('click.tableActive', function(e){
+                $tablePropTrigger.on('click.tableActive', function openTableProperties(e){
                     e.stopPropagation();
                     editor.execCommand('taoqtitableProperties');
                 });
@@ -81,8 +78,7 @@ define([
                 colActions = tableActionsFactory({ insertCol: true })
                     .on('delete', function() {
                         editor.execCommand('columnDelete');
-                        this.hide();
-                        rowActions.hide();
+                        hideTableActions();
                     })
                     .on('insertCol', function() {
                         editor.execCommand('columnInsertAfter');
@@ -93,8 +89,7 @@ define([
                 rowActions = tableActionsFactory({ insertRow: true })
                     .on('delete', function() {
                         editor.execCommand('rowDelete');
-                        this.hide();
-                        colActions.hide();
+                        hideTableActions();
                     })
                     .on('insertRow', function() {
                         editor.execCommand('rowInsertAfter');
@@ -102,8 +97,8 @@ define([
                     .render($itemPanel)
                     .hide();
 
-                $editableContainer.on('keyup.tableActive', _displayTableActions.bind(this, editor, $editableContainer));
-                $editableContainer.on('click.tableActive', _displayTableActions.bind(this, editor, $editableContainer));
+                $editableContainer.on('keyup.tableActive', displayTableActions.bind(this, editor, $editableContainer));
+                $editableContainer.on('click.tableActive', displayTableActions.bind(this, editor, $editableContainer));
             })
             .on('editordestroyed.tableActive', function() {
                 if ($tablePropTrigger.length) {
@@ -134,73 +129,36 @@ define([
         }
     };
 
-    TableStateActive.prototype.enableTableActions = function enableTableActions(){
 
-
-
-    };
-
-    function _displayTableActions(editor, $editableContainer) {
-        var selection = editor.getSelection();
-        var selectedCells = window.CKEDITOR.plugins.tabletools.getSelectedCells(selection),
-            currentCell;
-
-        if (selectedCells.length > 0) {
-            currentCell = selectedCells[0].$;
-
-            colActions
-                .show()
-                .hAlignWith($(currentCell), 'center')
-                .vAlignWith($editableContainer, 'top');
-
-            rowActions
-                .show()
-                .hAlignWith($editableContainer, 'left')
-                .vAlignWith($(currentCell), 'center');
-        }
+    function hideTableActions() {
+        colActions.hide();
+        rowActions.hide();
     }
 
+    function displayTableActions(editor, $tableContainer) {
+        var selection = editor.getSelection(),
+            tabletools = window.CKEDITOR.plugins.tabletools,
+            selectedCells,
+            $currentCell;
 
+        if (selection && tabletools) {
+            selectedCells = tabletools.getSelectedCells(selection);
 
-    /*
-    Getting this data has proven to be useful during the development of the first iteration of the table widget and deleting this breaks my heart.
-    I keep this for now in case we find a use for it during the next iterations, in that case it could serve as a basis for a nice table helper.
-    If not, it should be deleted at some point.
+            if (selectedCells.length > 0) {
+                $currentCell = $(selectedCells[0].$);
 
-    function _getTableModel($table) {
-        var $firstRow,
-            $firstRowCells,
-            firstColCells,
-            colsCount,
-            rowsCount;
+                colActions
+                    .show()
+                    .hAlignWith($currentCell, 'center')
+                    .vAlignWith($tableContainer, 'top');
 
-        $firstRow = $table.find('thead tr').eq(0);
-        if ($firstRow.length === 0) {
-            $firstRow = $table.find('tbody tr').eq(0);
+                rowActions
+                    .show()
+                    .hAlignWith($tableContainer, 'left')
+                    .vAlignWith($currentCell, 'center');
+            }
         }
-        $firstRowCells = $firstRow.find('td, th');
-
-        function addFirstCellOfRow() {
-            firstColCells.push($(this).children().eq(0));
-        }
-
-        // we want the rows in order, but with a <tfoot>, they are out of order in the markup...
-        $table.find('thead tr').each(addFirstCellOfRow);
-        $table.find('tbody tr').each(addFirstCellOfRow);
-        $table.find('tfoot tr').each(addFirstCellOfRow);
-
-        colsCount = $firstRowCells.length;
-        rowsCount = firstColCells.length;
-
-        return {
-            $firstRowCells: $firstRowCells,
-            firstCollCells: firstColCells, // fixme: make this consitent between rows & cell. Either jQuery collection or table.
-            rowCount: rowsCount,
-            colsCount: colsCount
-        };
     }
-     */
-
 
     return TableStateActive;
 });
