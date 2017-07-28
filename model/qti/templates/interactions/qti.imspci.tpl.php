@@ -21,7 +21,7 @@
 $config = get_data('config');
 ?>
 <customInteraction <?=get_data('attributes')?>>
-    <portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" data-version="<?=get_data('version')?>" xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction_v1p0">
+    <portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" data-version="<?=get_data('version')?>" xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction_v1">
         <responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
         <?=get_data('serializedProperties')?>
         <modules<?if(isset($config[0])):?> primaryConfiguration="<?=$config[0]?>"<?endif;?><?if(isset($config[1])):?> fallbackConfiguration="<?=$config[1]?>"<?endif;?>>

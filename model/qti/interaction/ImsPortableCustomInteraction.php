@@ -41,7 +41,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
     use PortableElementTrait;
 
     const NS_NAME = 'imspci';
-    const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1p0';
+    const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1';
 
     protected $markupNs = 'http://www.w3.org/1999/xhtml';
     protected $properties = array();
