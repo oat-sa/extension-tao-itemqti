@@ -78,21 +78,21 @@ define([
                     $insertCol = $component.find('[data-role="insertCol"]');
 
                 if (this.config.delete) {
-                    $delete.on('mousedown', mousedown.call());
+                    $delete.on('mousedown', mousedown());
                     $delete.on('click', click.call(self, 'delete'));
                 } else {
                     $delete.hide();
                 }
 
                 if (this.config.insertRow) {
-                    $insertRow.on('mousedown', mousedown.call());
+                    $insertRow.on('mousedown', mousedown());
                     $insertRow.on('click', click.call(self, 'insertRow'));
                 } else {
                     $insertRow.hide();
                 }
 
                 if (this.config.insertCol) {
-                    $insertCol.on('mousedown', mousedown.call());
+                    $insertCol.on('mousedown', mousedown());
                     $insertCol.on('click', click.call(self, 'insertCol'));
                 } else {
                     $insertCol.hide();
