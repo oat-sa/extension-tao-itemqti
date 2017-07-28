@@ -1,9 +1,15 @@
 @import "inc/bootstrap";
 .widget-table {
+    display: inline-block;
+
     table {
         &.qti-table {
 
         }
+    }
+    .mini-tlb {
+        width: 28px;
+        right: -32px;
     }
 }
 
