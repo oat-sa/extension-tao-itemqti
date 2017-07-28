@@ -42,7 +42,7 @@ define([
         this.destroyEditor();
     });
 
-    TableStateActive.prototype.buildEditor = function(){
+    TableStateActive.prototype.buildEditor = function buildEditor(){
         var _widget   = this.widget,
             container = _widget.element.getBody(),
 
@@ -70,11 +70,13 @@ define([
 
         $editable
             .on('editorready.tableActive', function(event, editor) {
+                // listener for table properties
                 $tablePropTrigger.on('click.tableActive', function openTableProperties(e){
                     e.stopPropagation();
                     editor.execCommand('taoqtitableProperties');
                 });
 
+                // listeners for columns actions
                 colActions = tableActionsFactory({ insertCol: true })
                     .on('delete', function() {
                         editor.execCommand('columnDelete');
@@ -86,6 +88,7 @@ define([
                     .render($itemPanel)
                     .hide();
 
+                // listeners for row actions
                 rowActions = tableActionsFactory({ insertRow: true })
                     .on('delete', function() {
                         editor.execCommand('rowDelete');
@@ -97,8 +100,9 @@ define([
                     .render($itemPanel)
                     .hide();
 
-                $editableContainer.on('keyup.tableActive', displayTableActions.bind(this, editor, $editableContainer));
-                $editableContainer.on('click.tableActive', displayTableActions.bind(this, editor, $editableContainer));
+                $editableContainer.on('keyup.tableActive mouseup.tableActive', function() {
+                    displayTableActions(editor, $editableContainer);
+                });
             })
             .on('editordestroyed.tableActive', function() {
                 if ($tablePropTrigger.length) {
@@ -107,7 +111,7 @@ define([
             });
     };
 
-    TableStateActive.prototype.destroyEditor = function(){
+    TableStateActive.prototype.destroyEditor = function destroyEditor(){
         var _widget = this.widget,
             $editableContainer = _widget.$container,
             $editable = $editableContainer.find('[data-html-editable="true"]');
@@ -129,12 +133,19 @@ define([
         }
     };
 
-
+    /**
+     * hide components containing row and column actions
+     */
     function hideTableActions() {
         colActions.hide();
         rowActions.hide();
     }
 
+    /**
+     * Display row and columns actions at the correct position, depending of where the user has the cursor
+     * @param {ckEditor} editor - editor instance to access the current selection
+     * @param {jQuery} $tableContainer - the table DOM element, so we can align the toolbars on it
+     */
     function displayTableActions(editor, $tableContainer) {
         var selection = editor.getSelection(),
             tabletools = window.CKEDITOR.plugins.tabletools,
@@ -144,7 +155,12 @@ define([
         if (selection && tabletools) {
             selectedCells = tabletools.getSelectedCells(selection);
 
-            if (selectedCells.length > 0) {
+            if (selectedCells.length !== 1) {
+                // when none or more than one cells are selected, then we do not display the toolbars as the expected behavior is not obvious.
+                // for example, it's difficult to define the expected behavior of deleting a column when cells from multiple columns are selected...
+                hideTableActions();
+
+            } else {
                 $currentCell = $(selectedCells[0].$);
 
                 colActions
