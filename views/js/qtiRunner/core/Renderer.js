@@ -81,6 +81,7 @@ define([
         'img',
         'math',
         'object',
+        'table',
         'modalFeedback',
         'rubricBlock',
         'associateInteraction',

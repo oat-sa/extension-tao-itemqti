@@ -21,8 +21,9 @@ define([
     'jquery',
     'core/promise',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/model/helper/invalidator'
-], function(_, $, Promise, Element, invalidator){
+    'taoQtiItem/qtiCreator/model/helper/invalidator',
+    'core/logger'
+], function(_, $, Promise, Element, invalidator, loggerFactory){
     'use strict';
 
     var _pushState = function(widget, stateName){
@@ -37,6 +38,11 @@ define([
             state.exit();
         }
     };
+
+    /**
+     * Create a logger
+     */
+    var logger = loggerFactory('taoQtiItem/qtiCreator/widget');
 
     var Widget = {
         /**
@@ -152,6 +158,8 @@ define([
                 exitedStates,
                 enteredStates,
                 i;
+
+            logger.trace('changing state of ' + this.serial + ': ' + (currentState || {}).name + ' => ' + stateName);
 
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName]();

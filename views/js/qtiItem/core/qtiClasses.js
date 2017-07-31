@@ -44,6 +44,7 @@ define([], function(){
         'modalFeedback' : 'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
         'customInteraction' : 'taoQtiItem/qtiItem/core/interactions/CustomInteraction',
         'infoControl' : 'taoQtiItem/qtiItem/core/PortableInfoControl',
-        'include' : 'taoQtiItem/qtiItem/core/Include'
+        'include' : 'taoQtiItem/qtiItem/core/Include',
+        'table' : 'taoQtiItem/qtiItem/core/Table'
     };
 });
