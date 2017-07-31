@@ -1,4 +1,5 @@
 @import "inc/bootstrap";
+
 .widget-table {
     display: inline-block;
 
@@ -6,18 +7,20 @@
         &.qti-table {
             th.hoverDelete,
             td.hoverDelete {
-                border-color: $danger;
-                background-color: whiten($danger, 0.85);
+                //border-color: $warning;
+                background-color: whiten($warning, 0.85);
             }
 
             th.insertColAfter,
             td.insertColAfter {
-                border-right-color: $info;
+                border-right-color: whiten($info, 0.5);
+                border-right-width: 3px;
             }
 
             th.insertRowAfter,
             td.insertRowAfter {
-                border-bottom-color: $info;
+                border-bottom-color: whiten($info, 0.5);
+                border-bottom-width: 3px;
             }
         }
     }

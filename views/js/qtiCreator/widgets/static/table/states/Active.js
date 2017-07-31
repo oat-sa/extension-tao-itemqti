@@ -100,17 +100,19 @@ define([
                         addClassOnCurrentCol(editor, css.deleteColRow);
                     })
                     .on('deleteMouseLeave', function() {
-                        clearCellClasses($editable,  css.deleteColRow);
+                        clearCellClasses($editable, css.deleteColRow);
                     })
                     .on('insertCol', function() {
                         editor.execCommand('columnInsertAfter');
+                        clearCellClasses($editable, css.insertColAfter);    // this is because ck clone the current cells to insert the new ones
+                        this.trigger('insertColMouseEnter');                // so we don't want him to clone the "insert style"
                         updateTable();
                     })
                     .on('insertColMouseEnter', function() {
                         addClassOnCurrentCol(editor, css.insertColAfter);
                     })
                     .on('insertColMouseLeave', function() {
-                        clearCellClasses($editable,  css.insertColAfter);
+                        clearCellClasses($editable, css.insertColAfter);
                     })
                     .render($itemPanel)
                     .hide();
@@ -129,17 +131,19 @@ define([
                         addClassOnCurrentRow(editor, css.deleteColRow);
                     })
                     .on('deleteMouseLeave', function() {
-                        clearCellClasses($editable,  css.deleteColRow);
+                        clearCellClasses($editable, css.deleteColRow);
                     })
                     .on('insertRow', function() {
                         editor.execCommand('rowInsertAfter');
+                        clearCellClasses($editable, css.insertRowAfter);    // this is because ck clone the current cells to insert the new ones
+                        this.trigger('insertRowMouseEnter');                // so we don't want him to clone the "insert style"
                         updateTable();
                     })
                     .on('insertRowMouseEnter', function() {
                         addClassOnCurrentRow(editor, css.insertRowAfter);
                     })
                     .on('insertRowMouseLeave', function() {
-                        clearCellClasses($editable,  css.insertRowAfter);
+                        clearCellClasses($editable, css.insertRowAfter);
                     })
                     .render($itemPanel)
                     .hide();
