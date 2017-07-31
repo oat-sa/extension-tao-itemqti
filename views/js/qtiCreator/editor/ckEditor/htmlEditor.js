@@ -77,16 +77,38 @@ define([
         }
 
         $trigger = getTrigger($editableContainer);
-        $editable.attr('placeholder', options.placeholder);
+        if (options.placeholder && options.placeholder !== '') {
+            $editable.attr('placeholder', options.placeholder);
+        }
         var ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
-                insert : function(){
+                /**
+                 * @param {DOM} tempWidget - this contains the DOM nodes created by a ckEditor plugin,
+                 *                           wrapped in a temporary widget container (= a widget container with a [data-new="true"] attribute)
+                 */
+                insert : function(tempWidget){
+                    var $newContent = $(tempWidget).clone().contents(); // we keep the original content, without the widget wrapper, for later use
+
                     if(options.data && options.data.container && options.data.widget){
                         contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
+                            var createdElement = createdWidget.element,
+                                allAttributes = $newContent[0].attributes;
+
+                            $.each(allAttributes, function() {
+                                if (this.specified) {
+                                    createdElement.attr(this.name, this.value);
+                                }
+                            });
+
+                            if (_.isFunction(createdElement.initContainer)) {
+                                createdElement.body($newContent.html());
+                                createdElement.render(createdElement.getContainer());
+                                createdElement.postRender();
+                            }
                             _activateInnerWidget(options.data.widget, createdWidget);
                         });
                     }
@@ -491,9 +513,9 @@ define([
     /**
      * Special encoding of ouput html generated from ie8 : moved to xmlRenderer
      */
-    var _htmlEncode = function(encodedStr){
+    function _htmlEncode(encodedStr){
         return encodedStr;
-    };
+    }
 
     /**
      * Focus the editor and set the cursor to the end
@@ -538,21 +560,22 @@ define([
          * @param {Boolean} [editorOptions.shieldInnerContent] - define if the inner widget content should be protected or not
          * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
          * @param {Boolean} [editorOptions.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
+         * @param {Boolean} [editorOptions.enterMode] - what is the behavior of the "Enter" key (see ENTER_MODE_xxx in ckEditor configuration)
          * @returns {undefined}
          */
         buildEditor : function($container, editorOptions){
 
             _find($container, 'html-editable-container').each(function(){
 
-                var editor,
-                    $editableContainer = $(this),
+                var $editableContainer = $(this),
                     $editable = $editableContainer.find('[data-html-editable]');
 
                 //need to make the element html editable to enable ck inline editing:
                 $editable.attr('contenteditable', true);
 
                 //build it
-                editor = _buildEditor($editable, $editableContainer, editorOptions);
+                _buildEditor($editable, $editableContainer, editorOptions);
+
             });
 
         },

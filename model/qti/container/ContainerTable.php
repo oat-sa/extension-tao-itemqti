@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,52 +14,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
  */
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\Container;
-
 /**
- * The QTI_Container object represents the generic element container
+ * The ContainerTable represents a QTI table content
  *
  * @access public
- * @author Sam, <sam@taotesting.com>
+ * @author Christophe Noël <christophe@taotesting.com>
  * @package taoQTI
-
  */
-class ContainerStatic extends Container
+class ContainerTable extends ContainerInteractive
 {
 
     /**
      * return the list of available element classes
      *
      * @access public
-     * @author Sam, <sam@taotesting.com>
      * @return array
      */
     public function getValidElementTypes(){
         return array(
             'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Table',
             'oat\\taoQtiItem\\model\\qti\\Math',
             'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
             'oat\\taoQtiItem\\model\\qti\\Object',
+            'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
+            'oat\\taoQtiItem\\model\\qti\\RubricBlock',
+            'oat\\taoQtiItem\\model\\qti\\InfoControl',
             'oat\\taoQtiItem\\model\\qti\\XInclude'
         );
-    }
-
-
-
-    /**
-     * Fix erroneously self-closing elements
-     *
-     * @return string
-     */
-    public function getBody(){
-        return $this->fixNonvoidTags(parent::getBody());
     }
 }

@@ -1,0 +1,1 @@
+<table{{#if attributes}} {{{join attributes '=' ' ' '"'}}}{{/if}}>{{{body}}}</table>

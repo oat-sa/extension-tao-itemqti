@@ -10,6 +10,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'img' : 'taoQtiItem/qtiCreator/model/Img',
         'math' : 'taoQtiItem/qtiCreator/model/Math',
         'object' : 'taoQtiItem/qtiCreator/model/Object',
+        'table' : 'taoQtiItem/qtiCreator/model/Table',
         'rubricBlock' : 'taoQtiItem/qtiCreator/model/RubricBlock',
         'modalFeedback' : 'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback',
         'choiceInteraction' : 'taoQtiItem/qtiCreator/model/interactions/ChoiceInteraction',

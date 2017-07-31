@@ -60,6 +60,7 @@ define([
         'img' : 'taoQtiItem/qtiCommonRenderer/renderers/Img',
         'math' : 'taoQtiItem/qtiCommonRenderer/renderers/Math',
         'object' : 'taoQtiItem/qtiCommonRenderer/renderers/Object',
+        'table' : 'taoQtiItem/qtiCommonRenderer/renderers/Table',
         'rubricBlock' : 'taoQtiItem/qtiCommonRenderer/renderers/RubricBlock',
         'modalFeedback' : 'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
         'prompt' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/Prompt',
