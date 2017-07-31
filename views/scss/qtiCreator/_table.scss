@@ -4,7 +4,21 @@
 
     table {
         &.qti-table {
+            th.hoverDelete,
+            td.hoverDelete {
+                border-color: $danger;
+                background-color: whiten($danger, 0.85);
+            }
 
+            th.insertColAfter,
+            td.insertColAfter {
+                border-right-color: $info;
+            }
+
+            th.insertRowAfter,
+            td.insertRowAfter {
+                border-bottom-color: $info;
+            }
         }
     }
     .mini-tlb {

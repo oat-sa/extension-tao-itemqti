@@ -5,7 +5,7 @@
     <div class="rgt tlb-button" title="Insert Column" data-role="insertCol">
         <span class="icon-column"></span>
     </div>
-    <div class="rgt tlb-button" title="Delete" data-role="colRowDelete">
+    <div class="rgt tlb-button" title="{{deleteTitle}}" data-role="colRowDelete">
         <span class="icon-bin"></span>
     </div>
 </div>

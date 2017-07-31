@@ -30,26 +30,27 @@ define([
     var defaultConfig = {
         'delete': true,
         'insertRow': false,
-        'insertCol': false
+        'insertCol': false,
+        'deleteTitle': 'Delete'
     };
 
     var tableActionsApi = {
         hideDelete: function hideDelete() {
             var $component = this.getElement(),
-                $delete = $component.find('[data-role="delete"]');
+                $delete = $component.find('[data-role="colRowDelete"]');
 
             $delete.hide();
         },
 
         showDelete: function hideDelete() {
             var $component = this.getElement(),
-                $delete = $component.find('[data-role="delete"]');
+                $delete = $component.find('[data-role="colRowDelete"]');
 
             $delete.show();
         }
     };
 
-    function click(eventName) {
+    function triggerEvent(eventName) {
         var self = this;
         return function(event) {
             event.stopPropagation();
@@ -78,22 +79,29 @@ define([
                     $insertCol = $component.find('[data-role="insertCol"]');
 
                 if (this.config.delete) {
-                    $delete.on('mousedown', mousedown());
-                    $delete.on('click', click.call(self, 'delete'));
+                    $delete
+                        .on('mousedown', mousedown())
+                        .on('click', triggerEvent.call(self, 'delete'))
+                        .on('mouseenter', triggerEvent.call(self, 'deleteMouseEnter'))
+                        .on('mouseleave', triggerEvent.call(self, 'deleteMouseLeave'));
                 } else {
                     $delete.hide();
                 }
 
                 if (this.config.insertRow) {
-                    $insertRow.on('mousedown', mousedown());
-                    $insertRow.on('click', click.call(self, 'insertRow'));
+                    $insertRow.on('mousedown', mousedown())
+                        .on('click', triggerEvent.call(self, 'insertRow'))
+                        .on('mouseenter', triggerEvent.call(self, 'insertRowMouseEnter'))
+                        .on('mouseleave', triggerEvent.call(self, 'insertRowMouseLeave'));
                 } else {
                     $insertRow.hide();
                 }
 
                 if (this.config.insertCol) {
-                    $insertCol.on('mousedown', mousedown());
-                    $insertCol.on('click', click.call(self, 'insertCol'));
+                    $insertCol.on('mousedown', mousedown())
+                        .on('click', triggerEvent.call(self, 'insertCol'))
+                        .on('mouseenter', triggerEvent.call(self, 'insertColMouseEnter'))
+                        .on('mouseleave', triggerEvent.call(self, 'insertColMouseLeave'));
                 } else {
                     $insertCol.hide();
                 }
