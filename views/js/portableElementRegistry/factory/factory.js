@@ -29,17 +29,50 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
     var loadModuleConfig = function loadModuleConfig(manifest){
         return new Promise(function(resolve, reject){
             var requireConfigAliases = {};
-            var baseUrl = manifest.baseUrl;
-            if(manifest.model === 'IMSPCI'){
-                _.forEach(manifest.runtime.modules, function(paths, id){
-                    requireConfigAliases[id] = _.map(paths, function(path){
-                        return baseUrl+'/'+path.replace(/\.js$/, '');
-                    });
-                });
-            }else{
-                requireConfigAliases[manifest.typeIdentifier] = baseUrl;
+            var baseUrl;
+            var reqConfigs = [];
+
+            if(!manifest || !manifest.runtime){
+                return reject('invalid manifest');
             }
-            resolve(requireConfigAliases);
+
+            baseUrl = manifest.baseUrl;
+
+            if(_.isArray(manifest.runtime.config) && manifest.runtime.config.length){
+                reqConfigs = _.map(manifest.runtime.config, function(configFile){
+                    return 'json!' + baseUrl + '/' + configFile;
+                });
+            }
+
+            require(reqConfigs, function(){
+                var modules;
+
+                if(manifest.model === 'IMSPCI'){
+
+                    modules = _.reduce(arguments, function(acc, conf){
+                        _.forEach(conf.paths || [], function(path, id){
+                            acc[id] = _.isArray(path) ? path : [path];
+                        });
+                        return acc;
+                    }, {});
+
+                    modules = _.merge(modules, manifest.runtime.modules || {});
+
+                    console.log(modules);
+
+                    _.forEach(modules, function(paths, id){
+                        requireConfigAliases[id] = _.map(paths, function(path){
+                            return baseUrl+'/'+path.replace(/\.js$/, '');
+                        });
+                    });
+                }else{
+                    requireConfigAliases[manifest.typeIdentifier] = baseUrl;
+                }
+                resolve(requireConfigAliases);
+
+            }, reject);
+
+
         });
     };
 
@@ -175,12 +208,12 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 });
 
                                 return Promise.all(configLoadingStack).then(function(moduleConfigs){
-                                    var requireConfigAliases = _.reduce(moduleConfigs, function(paths, acc){
+                                    var requireConfigAliases = _.reduce(moduleConfigs, function(acc, paths){
                                         return _.merge(acc, paths);
                                     }, {});
 
-                                    console.log(moduleConfigs, requireConfigAliases);
-
+                                    //save the required libs name => path to global require alias
+                                    //@TODO change this to a local require context to solve conflicts in third party module naming
                                     _requirejs.config({paths : requireConfigAliases});
 
                                     _loaded = true;
