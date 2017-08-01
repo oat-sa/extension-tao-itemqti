@@ -11,7 +11,7 @@ define([
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Associate Interaction', {
+    QUnit.module('Associate Interaction', {
         teardown : function(){
             if(runner){
                 runner.clear();
@@ -20,9 +20,9 @@ define([
     });
 
     QUnit.asyncTest('renders correclty', function(assert){
-        QUnit.expect(21);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(21);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
@@ -71,12 +71,15 @@ define([
 
         runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
+                var $antonio;
+                var $target;
+
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains an associate interaction .qti-associateInteraction');
 
-                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 assert.equal($antonio.length, 1, 'the A choice exists');
 
-                var $target = $('.result-area .target', $container).first();
+                $target = $('.result-area .target', $container).first();
                 assert.equal($target.length, 1, 'the target exists');
 
                 assert.ok( ! $antonio.hasClass('active'), 'The choice is not active');
@@ -93,34 +96,38 @@ define([
                         QUnit.start();
                     }, 100);
                 }, 100);
-
             })
             .init()
             .render($container);
     });
 
     QUnit.asyncTest('enables to create a pair', function(assert){
-        QUnit.expect(20);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(20);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
+                var $antonio;
+                var $capulet;
+                var $target1;
+                var $target2;
+
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains an associate interaction .qti-associateInteraction');
 
-                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 assert.equal($antonio.length, 1, 'the A choice exists');
 
-                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+                $capulet = $('.qti-choice[data-identifier="C"]', $container);
                 assert.equal($capulet.length, 1, 'the C choice exists');
 
-                var $target1 = $('.result-area li:first-child .lft', $container);
+                $target1 = $('.result-area li:first-child .lft', $container);
                 assert.equal($target1.length, 1, 'the target exists');
 
-                var $target2 = $('.result-area li:first-child .rgt', $container);
+                $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
 
                 interactUtils.tapOn($antonio, function(){
@@ -133,21 +140,25 @@ define([
 
             })
             .on('statechange', function(state){
+                var $antonio;
+                var $capulet;
+                var $target1;
+                var $target2;
 
-                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 assert.equal($antonio.length, 1, 'the A choice exists');
                 assert.ok($antonio.hasClass('deactivated'), 'the A choice is deactivated');
 
-                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+                $capulet = $('.qti-choice[data-identifier="C"]', $container);
                 assert.equal($capulet.length, 1, 'the C choice exists');
                 assert.ok($capulet.hasClass('deactivated'), 'the C choice is deactivated');
 
-                var $target1 = $('.result-area li:first-child .lft', $container);
+                $target1 = $('.result-area li:first-child .lft', $container);
                 assert.equal($target1.length, 1, 'the target exists');
                 assert.ok($target1.hasClass('filled'), 'the target is filled');
                 assert.equal($target1.text(), 'Antonio', 'the target contains the choice text');
 
-                var $target2 = $('.result-area li:first-child .rgt', $container);
+                $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
                 assert.ok($target2.hasClass('filled'), 'the target is filled');
                 assert.equal($target2.text(), 'Capulet', 'the target contains the choice text');
@@ -164,28 +175,33 @@ define([
 
 
     QUnit.asyncTest('enables to use a choice multiple times', function(assert){
-        QUnit.expect(14);
-
+        var pChoiceMatchMax;
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(14);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        var pChoiceMatchMax = associateData.body.elements.interaction_associateinteraction_54787e6dad70d437146538.choices.choice_simpleassociablechoice_54787e6dadcdd949770698.attributes.matchMax;
+        pChoiceMatchMax = associateData.body.elements.interaction_associateinteraction_54787e6dad70d437146538.choices.choice_simpleassociablechoice_54787e6dadcdd949770698.attributes.matchMax;
         assert.equal(pChoiceMatchMax, 2, "The matchMax attributes of the P choice is set at 2");
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
+                var $prospero;
+                var $target1;
+                var $target2;
+
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains an associate interaction .qti-associateInteraction');
 
-                var $prospero = $('.qti-choice[data-identifier="P"]', $container);
+                $prospero = $('.qti-choice[data-identifier="P"]', $container);
                 assert.equal($prospero.length, 1, 'the A choice exists');
                 assert.ok( ! $prospero.hasClass('deactivated'), 'the P choice is not deactivated');
 
-                var $target1 = $('.result-area li:first-child .lft', $container);
+                $target1 = $('.result-area li:first-child .lft', $container);
                 assert.equal($target1.length, 1, 'the target exists');
 
-                var $target2 = $('.result-area li:first-child .rgt', $container);
+                $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
 
                 interactUtils.tapOn($prospero, function(){
@@ -213,13 +229,13 @@ define([
     });
 
     QUnit.asyncTest('enables to replace a choice', function(assert){
-        QUnit.expect(10);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(10);
 
         assert.equal($container.length, 1, 'the item container exists');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
                 var $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 var $capulet = $('.qti-choice[data-identifier="C"]', $container);
@@ -260,14 +276,14 @@ define([
     });
 
     QUnit.asyncTest('enables to switch pairs', function(assert){
-        QUnit.expect(4);
-
         var $container = $('#' + fixtureContainerId),
             stateChangeCounter = 0;
 
+        QUnit.expect(4);
+
         assert.equal($container.length, 1, 'the item container exists');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
                 var $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 var $capulet = $('.qti-choice[data-identifier="C"]', $container);
@@ -324,14 +340,14 @@ define([
     });
 
     QUnit.asyncTest('enables remove a choice', function(assert){
-        QUnit.expect(5);
-
         var $container = $('#' + fixtureContainerId),
             stateChangeCounter = 0;
 
+        QUnit.expect(5);
+
         assert.equal($container.length, 1, 'the item container exists');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
                 var $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 var $capulet = $('.qti-choice[data-identifier="C"]', $container);
@@ -357,8 +373,8 @@ define([
 
             })
             .on('statechange', function(state){
-                stateChangeCounter++;
                 var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                stateChangeCounter++;
 
                 if (stateChangeCounter === 1) {
                     assert.ok($antonio.hasClass('deactivated'), 'Antonio is deactivated');
@@ -375,34 +391,39 @@ define([
     });
 
     QUnit.asyncTest('set the default response', function(assert){
-        QUnit.expect(17);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(17);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', associateData)
-            .on('error', function(e) {
-                console.log(e);
+        runner = qtiItemRunner('qti', associateData)
+            .on('error', function(err) {
+                assert.ok(false, err.message);
+                QUnit.start();
             })
             .on('render', function(){
+                var $antonio;
+                var $capulet;
+                var $target1;
+                var $target2;
 
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains an associate interaction .qti-associateInteraction');
 
-                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 assert.equal($antonio.length, 1, 'the A choice exists');
                 assert.ok( ! $antonio.hasClass('deactivated'), 'the A choice is not deactivated');
 
-                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+                $capulet = $('.qti-choice[data-identifier="C"]', $container);
                 assert.equal($capulet.length, 1, 'the C choice exists');
                 assert.ok( ! $capulet.hasClass('deactivated'), 'the C choice is not deactivated');
 
-                var $target1 = $('.result-area li:first-child .lft', $container);
+                $target1 = $('.result-area li:first-child .lft', $container);
                 assert.equal($target1.length, 1, 'the target exists');
                 assert.ok( ! $target1.hasClass('filled'), 'the target is not filled');
 
-                var $target2 = $('.result-area li:first-child .rgt', $container);
+                $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
                 assert.ok( ! $target2.hasClass('filled'), 'the target is not filled');
 
@@ -425,22 +446,23 @@ define([
     });
 
     QUnit.asyncTest('destroys', function(assert){
-        QUnit.expect(4);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(4);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
                 var self = this;
+                var $antonio;
 
                 //call destroy manually
                 var interaction = this._item.getInteractions()[0];
                 interaction.renderer.destroy(interaction);
 
-                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 assert.equal($antonio.length, 1, 'the A choice exists');
 
                 interactUtils.tapOn($antonio, function(){
@@ -455,33 +477,38 @@ define([
     });
 
     QUnit.asyncTest('resets the response', function(assert){
-        QUnit.expect(14);
-
         var $container = $('#' + fixtureContainerId);
+
+        QUnit.expect(14);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
                 var self = this;
+                var $antonio;
+                var $capulet;
+                var $target1;
+                var $target2;
 
-                var $antonio = $('.qti-choice[data-identifier="A"]', $container);
+                $antonio = $('.qti-choice[data-identifier="A"]', $container);
                 assert.equal($antonio.length, 1, 'the A choice exists');
 
-                var $capulet = $('.qti-choice[data-identifier="C"]', $container);
+                $capulet = $('.qti-choice[data-identifier="C"]', $container);
                 assert.equal($capulet.length, 1, 'the C choice exists');
 
-                var $target1 = $('.result-area li:first-child .lft', $container);
+                $target1 = $('.result-area li:first-child .lft', $container);
                 assert.equal($target1.length, 1, 'the target exists');
 
-                var $target2 = $('.result-area li:first-child .rgt', $container);
+                $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
 
                 interactUtils.tapOn($antonio, function(){
                     interactUtils.tapOn($target1, function(){
                         interactUtils.tapOn($capulet, function(){
                             interactUtils.tapOn($target2, function() {
+                                var interaction;
 
                                 assert.ok($antonio.hasClass('deactivated'), 'the A choice is deactivated');
                                 assert.ok($capulet.hasClass('deactivated'), 'the C choice is deactivated');
@@ -489,7 +516,7 @@ define([
                                 assert.ok($target2.hasClass('filled'), 'the target is filled');
 
                                 //call reset Response manually
-                                var interaction = self._item.getInteractions()[0];
+                                interaction = self._item.getInteractions()[0];
                                 interaction.renderer.resetResponse(interaction);
 
                                 _.delay(function(){
@@ -511,20 +538,20 @@ define([
     });
 
     QUnit.asyncTest('restores order of shuffled choices', function(assert){
-        QUnit.expect(10);
-
         var $container = $('#' + fixtureContainerId);
+        var shuffled;
+
+        QUnit.expect(10);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         //hack the item data to set the shuffle attributes to true
-        var shuffled = _.cloneDeep(associateData);
+        shuffled = _.cloneDeep(associateData);
         shuffled.body.elements.interaction_associateinteraction_54787e6dad70d437146538.attributes.shuffle = true;
 
-        qtiItemRunner('qti', shuffled)
+        runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
-                var self = this;
 
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains a choice interaction .qti-associateInteraction');
                 assert.equal($container.find('.qti-associateInteraction .qti-choice').length, 6, 'the interaction has 6 choices');
@@ -552,17 +579,17 @@ define([
             .render($container);
     });
 
-    module('Visual Test');
+    QUnit.module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
-        QUnit.expect(4);
-
         var $container = $('#' + outsideContainerId);
+
+        QUnit.expect(4);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
 
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains a choice interaction .qti-associateInteraction');
@@ -573,8 +600,9 @@ define([
             .on('statechange', function(state) {
                 document.getElementById('display-response').textContent = JSON.stringify(state);
             })
-            .on('error', function(error) {
-                console.log(error);
+            .on('error', function(err) {
+                assert.ok(false, err.message);
+                QUnit.start();
             })
             .init()
             .render($container);

@@ -40,7 +40,7 @@ define([
         var interactions = qtiElements.getAvailableAuthoringElements();
 
         _.forIn(ciRegistry.getAllVersions(), function(versions, typeId){
-            var data = ciRegistry.getAuthoringData(typeId);
+            var data = ciRegistry.getAuthoringData(typeId, {enabledOnly : true});
             if(data && data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                 interactions[data.qtiClass] = data;
             }

@@ -89,17 +89,19 @@ define(['jquery'], function($) {
              * @returns {boolean|*}
              */
             canWrap: function canWrap() {
-                var range = selection.getRangeAt(0);
+                var range = !selection.isCollapsed && selection.getRangeAt(0);
 
-                containQtiElement = false;
-                if (! allowQtiElements) {
-                    searchQtiElement(range.cloneContents());
+                if (range) {
+                    containQtiElement = false;
+                    if (! allowQtiElements) {
+                        searchQtiElement(range.cloneContents());
+                    }
+
+                    return range.toString().trim() !== ''
+                        && isRangeValid(range)
+                        && !containQtiElement;
                 }
-
-                return !selection.isCollapsed
-                    && range.toString().trim() !== ''
-                    && isRangeValid(range)
-                    && !containQtiElement;
+                return false;
             },
 
             /**
@@ -115,6 +117,7 @@ define(['jquery'], function($) {
                 if (this.canWrap()) {
                     try {
                         range.surroundContents($wrapper[0]);
+                        selection.removeAllRanges();
                         return true;
                     } catch (err) {
                         // this happens when wrapping of partially selected nodes is attempted, which would result in an invalid markup

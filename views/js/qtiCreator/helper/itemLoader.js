@@ -27,6 +27,12 @@ define([
         return uri.substr(pos + 1);
     };
 
+    var qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
+
+    var qtiSchemaLocation = {
+        'http://www.imsglobal.org/xsd/imsqti_v2p2' : 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
+    };
+
     var creatorLoader = {
         loadItem : function loadItem(config, callback){
 
@@ -46,11 +52,18 @@ define([
                         itemData = data.itemData;
 
                         loader.loadItemData(itemData, function(loadedItem){
+                            var namespaces;
 
                             //hack to fix #2652
                             if(loadedItem.isEmpty()){
                                 loadedItem.body('');
                             }
+
+                            // convert item to current QTI version
+                            namespaces = loadedItem.getNamespaces();
+                            namespaces[''] = qtiNamespace;
+                            loadedItem.setNamespaces(namespaces);
+                            loadedItem.setSchemaLocations(qtiSchemaLocation);
 
                             callback(loadedItem, this.getLoadedClasses());
                         });
@@ -62,15 +75,13 @@ define([
 
                         //set default namespaces
                         newItem.setNamespaces({
-                            '' : 'http://www.imsglobal.org/xsd/imsqti_v2p1',
+                            '' : qtiNamespace,
                             'xsi' : 'http://www.w3.org/2001/XMLSchema-instance',
                             'm' :'http://www.w3.org/1998/Math/MathML'
                         });//note : always add math element : since it has become difficult to know when a math element has been added to the item
 
-                        //set default schema locations
-                        newItem.setSchemaLocations({
-                            'http://www.imsglobal.org/xsd/imsqti_v2p1' : 'http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd'
-                        });
+                        //set default schema location
+                        newItem.setSchemaLocations(qtiSchemaLocation);
 
                         //tag the item as a new one
                         newItem.data('new', true);

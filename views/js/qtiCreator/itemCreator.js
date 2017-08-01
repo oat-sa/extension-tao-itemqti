@@ -75,8 +75,11 @@ define([
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    var loadCustomInteractions = function loadCustomInteractions(){
-        return ciRegistry.loadCreators();
+    var loadCustomInteractions = function loadCustomInteractions(interactionsIds){
+        return ciRegistry.loadCreators({
+            enabledOnly : true,
+            runtimeOnly : interactionsIds
+        });
     };
 
     /**
@@ -189,19 +192,28 @@ define([
                     });
                 });
 
-                //performs the loadings in parallel
-                Promise.all([
-                    loadCustomInteractions(),
-                    loadInfoControls()
-                ]).then(function(){
-                    return loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl);
-                }).then(function(item){
+                var usedCustomInteractionIds = [];
+                loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl).then(function(item){
                     if(! _.isObject(item)){
                         self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
                         return;
                     }
-                    self.item = item;
 
+                    _.forEach(item.getComposingElements(), function(element){
+                        if(element.is('customInteraction')){
+                            usedCustomInteractionIds.push(element.typeIdentifier);
+                        }
+                    });
+                    
+                    self.item = item;
+                    return true;
+                }).then(function(){
+                    //load custom elements
+                    return Promise.all([
+                        loadCustomInteractions(usedCustomInteractionIds),
+                        loadInfoControls()
+                    ]);
+                }).then(function(){
                     //initialize all the plugins
                     return pluginRun('init').then(function(){
 

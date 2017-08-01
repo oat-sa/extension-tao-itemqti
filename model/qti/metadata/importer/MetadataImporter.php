@@ -25,7 +25,9 @@ use oat\taoQtiItem\model\qti\metadata\AbstractMetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
+use oat\taoQtiItem\model\qti\metadata\ContextualMetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metadata\MetadataValidator;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class MetadataImporter extends AbstractMetadataService
@@ -39,6 +41,11 @@ class MetadataImporter extends AbstractMetadataService
      * Config key to store classLookup classes
      */
     const CLASS_LOOKUP_KEY = 'classLookups';
+
+    /**
+     * Config key to store validator classes
+     */
+    const VALIDATOR_KEY = 'validators';
 
     /**
      * Extract metadata value from a DomManifest
@@ -77,9 +84,14 @@ class MetadataImporter extends AbstractMetadataService
      *
      * @return bool
      */
-    public function guard($identifier)
+    public function guard($identifier, $context = '')
     {
         foreach ($this->getGuardians() as $guardian) {
+            
+            if ($guardian instanceof ContextualMetadataGuardian && $guardian->getContext() !== $context) {
+                continue;
+            }
+            
             if ($this->hasMetadataValue($identifier)) {
                 \common_Logger::i(__('Guard for resource "%s"...', $identifier));
                 if (($guard = $guardian->guard($this->getMetadataValue($identifier))) !== false) {
@@ -127,6 +139,24 @@ class MetadataImporter extends AbstractMetadataService
     }
 
     /**
+     * @param $identifier
+     * @return \common_report_Report
+     */
+    public function validate($identifier)
+    {
+        $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
+        foreach ($this->getValidators() as $validator) {
+            $report = $validator->validate($this->getMetadataValue($identifier));
+            if ($report->getType() === \common_report_Report::TYPE_ERROR) {
+                break;
+            }
+        }
+        return $report;
+    }
+
+
+
+    /**
      * Register an importer instance
      *
      * Register an instance e.q. Injectors, Extractors, Guardians or LooUpClass
@@ -158,6 +188,10 @@ class MetadataImporter extends AbstractMetadataService
                 break;
             case self::CLASS_LOOKUP_KEY:
                 $this->registerInstance(self::CLASS_LOOKUP_KEY, $name, MetadataClassLookup::class);
+                return true;
+                break;
+            case self::VALIDATOR_KEY:
+                $this->registerInstance(self::VALIDATOR_KEY, $name, MetadataValidator::class);
                 return true;
                 break;
         }
@@ -232,5 +266,15 @@ class MetadataImporter extends AbstractMetadataService
     protected function getClassLookUp()
     {
         return $this->getInstances(self::CLASS_LOOKUP_KEY, MetadataClassLookup::class);
+    }
+
+    /**
+     * Return all validators stored into config
+     *
+     * @return MetadataValidator[]
+     */
+    protected function getValidators()
+    {
+        return $this->getInstances(self::VALIDATOR_KEY, MetadataValidator::class);
     }
 }
