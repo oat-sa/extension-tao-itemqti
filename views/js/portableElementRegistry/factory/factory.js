@@ -26,6 +26,23 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
         runtimeOnly : []
     };
 
+    var loadModuleConfig = function loadModuleConfig(manifest){
+        return new Promise(function(resolve, reject){
+            var requireConfigAliases = {};
+            var baseUrl = manifest.baseUrl;
+            if(manifest.model === 'IMSPCI'){
+                _.forEach(manifest.runtime.modules, function(paths, id){
+                    requireConfigAliases[id] = _.map(paths, function(path){
+                        return baseUrl+'/'+path.replace(/\.js$/, '');
+                    });
+                });
+            }else{
+                requireConfigAliases[manifest.typeIdentifier] = baseUrl;
+            }
+            resolve(requireConfigAliases);
+        });
+    };
+
     return function portableElementRegistry(methods){
 
         var _loaded = false;
@@ -134,42 +151,47 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                         var loadStack = [];
 
-                        _.each(__providers, function (provider){
+                        _.forEach(__providers, function (provider){
                             if(provider){//check that the provider is loaded
                                 loadStack.push(provider.load());
                             }
                         });
 
                         //performs the loadings in parallel
-                        return Promise.all(loadStack).then(function (results){
+                        return new Promise(function(resolve, reject){
+                            Promise.all(loadStack).then(function (results){
 
-                            var requireConfigAliases = {};
+                                var configLoadingStack = [];
 
-                            //update registry
-                            self._registry = _.reduce(results, function (acc, _pcis){
-                                return _.merge(acc, _pcis);
-                            }, {});
+                                //update registry
+                                self._registry = _.reduce(results, function (acc, _pcis){
+                                    return _.merge(acc, _pcis);
+                                }, {});
 
-                            //pre-configuring the baseUrl of the portable element's source
-                            _.forIn(self._registry, function (versions, typeIdentifier){
-                                //currently use latest runtime only
-                                var manifest = self.get(typeIdentifier);
-                                var baseUrl = self.getBaseUrl(typeIdentifier);
-                                if(manifest.model === 'IMSPCI'){
-                                    _.forEach(manifest.runtime.modules, function(paths, id){
-                                        requireConfigAliases[id] = _.map(paths, function(path){
-                                            return baseUrl+'/'+path.replace(/\.js$/, '');
-                                        });
-                                    });
-                                }else{
-                                    requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
-                                }
+                                //pre-configuring the baseUrl of the portable element's source
+                                _.forIn(self._registry, function (versions, typeIdentifier){
+                                    //currently use latest runtime only
+                                    configLoadingStack.push(loadModuleConfig(self.get(typeIdentifier)));
+                                });
+
+                                return Promise.all(configLoadingStack).then(function(moduleConfigs){
+                                    var requireConfigAliases = _.reduce(moduleConfigs, function(paths, acc){
+                                        return _.merge(acc, paths);
+                                    }, {});
+
+                                    console.log(moduleConfigs, requireConfigAliases);
+
+                                    _requirejs.config({paths : requireConfigAliases});
+
+                                    _loaded = true;
+
+                                    resolve();
+                                }).catch(function(err){
+                                    reject('error loading module config ' + err);
+                                });
                             });
-
-                            _requirejs.config({paths : requireConfigAliases});
-
-                            _loaded = true;
                         });
+
                     });
                 }
 

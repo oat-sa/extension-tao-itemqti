@@ -33,9 +33,6 @@ define([
 ], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
     'use strict';
 
-    var _pciStandard = true;
-    var _pciStandard = false;
-
     function pciReadyCallback(pci, state){
         console.log('pciReadyCallback', pci, state);
     }
@@ -197,12 +194,12 @@ define([
                         return resolve();
                     }
 
-                    return reject('Unable to initialize pci : ' + id);
+                    return reject('Unable to initialize pci "' + id + '": '+error);
 
                 }, reject);
 
             }).catch(function(error){
-                reject('Error loading runtime : ' + id);
+                reject('Error loading runtime "' + id + '": '+error);
             });
         });
     };
