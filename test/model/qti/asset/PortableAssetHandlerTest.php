@@ -48,9 +48,9 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
 
     public function testConstruct()
     {
-        $baseDir = dirname(__FILE__).'/samples/pci_likert/i150107567172373';
-        $qtiParser = new Parser($baseDir.'/qti.xml');
-        $portableAssetHandler = new PortableAssetHandler($qtiParser->load(), $baseDir);
+        $packageDir = dirname(__FILE__).'/samples/pci_likert/';
+        $qtiParser = new Parser($packageDir.'/i150107567172373/qti.xml');
+        $portableAssetHandler = new PortableAssetHandler($qtiParser->load(), $packageDir);
 
         $portableElementService = new PortableElementService();
 
@@ -71,7 +71,7 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         //check that required files are
         foreach($reqs as $req){
             $this->assertEquals(true, $portableAssetHandler->isApplicable($req));
-            $absPath = $baseDir. '/' . $req;
+            $absPath = $packageDir. '/' . $req;
             $this->assertEquals(false, empty($portableAssetHandler->handle($absPath, $req)));
         }
 
