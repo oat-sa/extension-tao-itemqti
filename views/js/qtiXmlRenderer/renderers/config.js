@@ -54,6 +54,7 @@ define([
             'math' : 'taoQtiItem/qtiXmlRenderer/renderers/Math',
             'img' : 'taoQtiItem/qtiXmlRenderer/renderers/Img',
             'object' : 'taoQtiItem/qtiXmlRenderer/renderers/Object',
+            'table' : 'taoQtiItem/qtiXmlRenderer/renderers/Table',
             'modalFeedback' : 'taoQtiItem/qtiXmlRenderer/renderers/feedbacks/ModalFeedback',
             'rubricBlock' : 'taoQtiItem/qtiXmlRenderer/renderers/RubricBlock',
             'associateInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/AssociateInteraction',
