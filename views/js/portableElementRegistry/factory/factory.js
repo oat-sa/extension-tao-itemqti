@@ -86,7 +86,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     return _.assign(pci.runtime, {
                         id : pci.typeIdentifier,
                         label : pci.label,
-                        baseUrl : pci.baseUrl
+                        baseUrl : pci.baseUrl,
+                        model : pci.model
                     });
                 }else{
                     this.trigger('error', {
@@ -151,9 +152,20 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                             //pre-configuring the baseUrl of the portable element's source
                             _.forIn(self._registry, function (versions, typeIdentifier){
-                                //currently use latest runtime path
-                                requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
+                                //currently use latest runtime only
+                                var manifest = self.get(typeIdentifier);
+                                var baseUrl = self.getBaseUrl(typeIdentifier);
+                                if(manifest.model === 'IMSPCI'){
+                                    _.forEach(manifest.runtime.modules, function(paths, id){
+                                        requireConfigAliases[id] = _.map(paths, function(path){
+                                            return baseUrl+'/'+path.replace(/\.js$/, '');
+                                        });
+                                    });
+                                }else{
+                                    requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
+                                }
                             });
+
                             _requirejs.config({paths : requireConfigAliases});
 
                             _loaded = true;

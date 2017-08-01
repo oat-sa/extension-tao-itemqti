@@ -100,7 +100,16 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                             }
                             manifest.baseUrl = window.location.origin + '/' +
                                 _portableElementManifests[id].replace(/^([a-zA-Z]*)\/(.*)\/(pciCreator.json$)/, '$1/views/js/$2');
+
                             _registry[id] = [setPortableElementPrefix(manifest, id)];
+
+                            return;
+                            if(manifest.model === 'IMSPCI'){
+                                _registry[id] = [manifest];
+                            }else{
+                                _registry[id] = [setPortableElementPrefix(manifest, id)];
+                            }
+
                         }
                     });
                     if(ok){
