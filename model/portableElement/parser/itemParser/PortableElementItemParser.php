@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\parser\itemParser;
 
+use oat\qtiItemPci\model\portableElement\dataObject\IMSPciDataObject;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
@@ -194,6 +195,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $typeId = $portableElement->getTypeIdentifier();
         $libs = [];
         $requiredLibFiles = [];
+        $entryPoint = [];
 
         //Adjust file resource entries where {QTI_NS}/xxx/yyy is equivalent to {QTI_NS}/xxx/yyy.js
         foreach($portableElement->getLibraries() as $lib){
@@ -206,13 +208,39 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         }
 
         $moduleFiles = [];
+        $emptyModules = [];//list of modules that are referenced directly in the module node
         foreach($portableElement->getModules() as $id => $paths){
+            if(empty($paths)){
+                $emptyModules[] = $id;
+                continue;
+            }
             foreach($paths as $path){
                 if(strpos($path, 'http') !== 0){
                     //only copy into data the relative files
                     $moduleFiles[] = $path;
                 }
             }
+        }
+
+        //TODO add strategy to portable Elements...
+        foreach($portableElement->getConfig() as $configFile){
+            //only read local config file
+            if(strpos($configFile, 'http') !== 0){
+                $confFile = $this->source.'/'.$configFile;
+                $configData = json_decode(file_get_contents($confFile), true);
+                if(isset($configData['paths'])){
+                    foreach($configData['paths'] as $id => $path){
+                        if(strpos($path, 'http') !== 0){
+                            //only copy into data the relative files
+                            $moduleFiles[] = $path;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(!empty($portableElement->getEntryPoint())){
+            $entryPoint[] = $portableElement->getEntryPoint();
         }
 
         //register the files here
@@ -250,7 +278,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $this->portableObjects[$typeId] = $portableObject;
 
         $files = array_merge(
-            [$portableObject->getRuntimeKey('hook')],
+            $entryPoint,
             $requiredLibFiles,
             $moduleFiles,
             $portableObject->getRuntimeKey('stylesheets'),
@@ -272,6 +300,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     public function importPortableElements()
     {
         if (count($this->importingFiles) != count($this->requiredFiles)) {
+            var_dump(__LINE__, $this->importingFiles, $this->requiredFiles);
             throw new \common_Exception('Needed files are missing during Portable Element asset files');
         }
 
@@ -283,17 +312,31 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             );
             //only register a pci that has not been register yet, subsequent update must be done through pci package import
             if (is_null($lastVersionModel)){
-                $this->replaceLibAliases($object);
-                $this->getService()->registerModel(
-                    $object,
-                    $this->source . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
-                );
+
+                //TODO add strategy to PCI data obj
+                if($object instanceof IMSPciDataObject){
+                    $this->getService()->registerModel(
+                        $object,
+                        $this->source . DIRECTORY_SEPARATOR
+                    );
+                }else{
+                    $this->replaceLibAliases($object);
+                    $this->getService()->registerModel(
+                        $object,
+                        $this->source . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
+                    );
+                }
+
             } else {
                 \common_Logger::i('The imported item contains the portable element '.$object->getTypeIdentifier()
                     .' in a version '.$object->getVersion().' compatible with the current '.$lastVersionModel->getVersion());
             }
         }
         return true;
+    }
+
+    public function getPortableObjects(){
+        return $this->portableObjects;
     }
 
     /**

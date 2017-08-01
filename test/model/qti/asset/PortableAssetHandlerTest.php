@@ -20,10 +20,14 @@
 
 namespace oat\taoQtiItem\test\model\qti\asset;
 
-use oat\qtiItemPci\model\common\parser\PortableElementItemParser;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\taoQtiItem\controller\PortableElement;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\Parser;
+use oat\taoQtiItem\model\portableElement\parser\itemParser\PortableElementItemParser;
 
 class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
 {
@@ -34,7 +38,7 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
 
     public function setUp()
     {
-        $this->instance = new PortableAssetHandler();
+
     }
 
     public function tearDown()
@@ -44,21 +48,64 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
 
     public function testConstruct()
     {
+        $baseDir = dirname(__FILE__).'/samples/pci_likert/i150107567172373';
+        $qtiParser = new Parser($baseDir.'/qti.xml');
+        $portableAssetHandler = new PortableAssetHandler($qtiParser->load(), $baseDir);
+
+        $portableElementService = new PortableElementService();
+
         $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
         $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
         $reflectionProperty->setAccessible(true);
-        $this->assertInstanceOf(PortableElementItemParser::class, $reflectionProperty->getValue($this->instance));
+        $this->assertInstanceOf(PortableElementItemParser::class, $reflectionProperty->getValue($portableAssetHandler));
+
+        $portableItemParser = $reflectionProperty->getValue($portableAssetHandler);
+
+        $reqs = [
+            'likertScaleInteractionSample/runtime/js/likertScaleInteractionSample.js',
+            'likertScaleInteractionSample/runtime/js/renderer.js',
+            'portableLib/jquery_2_1_1.js',
+            'oat-pci.json'
+        ];
+
+        //check that required files are
+        foreach($reqs as $req){
+            $this->assertEquals(true, $portableAssetHandler->isApplicable($req));
+            $absPath = $baseDir. '/' . $req;
+            $this->assertEquals(false, empty($portableAssetHandler->handle($absPath, $req)));
+        }
+
+        //check that not required files are not
+        $this->assertEquals(false, $portableAssetHandler->isApplicable('likertScaleInteractionSample/runtime/js/renderer-unexisting.js'));
+        $this->assertEquals(false, $portableAssetHandler->isApplicable('oat-pci-unexisting.json'));
+
+        $portableObjects = $portableItemParser->getPortableObjects();
+
+        foreach($portableObjects as $portableObject) {
+            try{
+                $portableElementService->unregisterModel($portableObject);
+            }catch(PortableElementNotFoundException $e){
+
+            }
+
+        }
+
+        $portableAssetHandler->finalize();
+
+        foreach($portableObjects as $portableObject){
+            $retrivedElement = $portableElementService->getPortableElementByIdentifier($portableObject->getModel()->getId(), $portableObject->getTypeIdentifier());
+            $this->assertEquals($portableObject->getTypeIdentifier(), $retrivedElement->getTypeIdentifier());
+
+//            $portableElementService->unregisterModel($retrivedElement);
+        }
     }
 
-    /**
-     * @dataProvider isApplicableProvider
-     */
-    public function testIsApplicable($isPciFixture, $isPciFileFixture, $expected)
+    public function _testIsApplicable($isPciFixture, $isPciFileFixture, $expected)
     {
         $relPathFixture = 'polop/polop/fixture.txt';
 
         $mock = $this->getMockBuilder(PortableElementItemParser::class)
-            ->setMethods(array('isPci', 'isPciAsset'))
+            ->setMethods(array('isPci', 'isPciAsset', 'hasPortableElement'))
             ->getMock();
 
         $mock->expects($this->once())
@@ -70,12 +117,16 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
             ->with($relPathFixture)
             ->willReturn($isPciFileFixture);
 
+        $mock->expects($this->any())
+            ->method('hasPortableElement')
+            ->willReturn(true);
+
         $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
         $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->instance, $mock);
 
-        $this->instance->setQtiModel(new Item());
+//        $this->instance->setQtiModel(new Item());
         $this->assertEquals($expected, $this->instance->isApplicable($relPathFixture));
     }
 
@@ -89,19 +140,19 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         ];
     }
 
-    public function testHandle()
+    public function _testHandle()
     {
         $absolutePath = 'fixture1';
         $relativePath = 'fixture2';
         $modelFixture = 'polopModel';
 
         $mock = $this->getMockBuilder(PortableElementItemParser::class)
-            ->setMethods(array('setQtiModel', 'importPciFile'))
+            ->setMethods(array('importPciFile'))
             ->getMock();
 
-        $mock->expects($this->once())
-            ->method('setQtiModel')
-            ->with($modelFixture);
+//        $mock->expects($this->once())
+//            ->method('setQtiModel')
+//            ->with($modelFixture);
 
         $mock->expects($this->once())
             ->method('importPciFile')
@@ -112,14 +163,7 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->instance, $mock);
 
-        $this->instance->setQtiModel($modelFixture);
+//        $this->instance->setQtiModel($modelFixture);
         $this->instance->handle($absolutePath, $relativePath);
-    }
-
-    public function testSetGetQtiModel()
-    {
-        $fixture = 'polop';
-        $this->assertInstanceOf(PortableAssetHandler::class, $this->instance->setQtiModel($fixture));
-        $this->assertEquals($fixture, $this->instance->getQtiModel());
     }
 }

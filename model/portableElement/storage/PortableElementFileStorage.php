@@ -24,6 +24,7 @@ use GuzzleHttp\Psr7\Stream;
 use League\Flysystem\Filesystem;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+use oat\qtiItemPci\model\portableElement\dataObject\IMSPciDataObject;
 use oat\tao\model\websource\WebsourceManager;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;
@@ -91,18 +92,31 @@ class PortableElementFileStorage extends ConfigurableService
         $source = $this->sanitizeSourceAsDirectory($source);
 
         foreach ($files as $file) {
-            if (substr($file, 0, 2)!='./' && !preg_match('/^' . $object->getTypeIdentifier() . '/', $file)) {
-                // File is not relative, it's a shared libraries
-                // Ignore this file, front have fallBack
-                continue;
+
+            //TODO add strategy to PCI data obj
+            if($object instanceof IMSPciDataObject){
+
+            }else{
+                if (substr($file, 0, 2)!='./' && !preg_match('/^' . $object->getTypeIdentifier() . '/', $file)) {
+                    // File is not relative, it's a shared libraries
+                    // Ignore this file, front have fallBack
+                    continue;
+                }
             }
+
 
             $filePath = $source . ltrim($file, DIRECTORY_SEPARATOR);
             if (!file_exists($filePath) || ($resource = fopen($filePath, 'r'))===false) {
                 throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }
 
-            $fileId = $this->getPrefix($object) . preg_replace('/^' . $object->getTypeIdentifier() . '/', '.', $file);
+            //TODO add strategy to PCI data obj
+            if($object instanceof IMSPciDataObject){
+                $fileId = $this->getPrefix($object) . $file;
+            }else{
+                $fileId = $this->getPrefix($object) . preg_replace('/^' . $object->getTypeIdentifier() . '/', '.', $file);
+            }
+
             //Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.js
             if ($fileSystem->has($fileId)) {
                 $registered = $fileSystem->updateStream($fileId, $resource);
