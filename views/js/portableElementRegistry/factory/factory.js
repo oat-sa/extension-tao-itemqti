@@ -31,6 +31,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             var requireConfigAliases = {};
             var baseUrl;
             var reqConfigs = [];
+            var modules = {};
 
             if(!manifest || !manifest.runtime){
                 return reject('invalid manifest');
@@ -39,28 +40,35 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             baseUrl = manifest.baseUrl;
 
             if(_.isArray(manifest.runtime.config) && manifest.runtime.config.length){
-                reqConfigs = _.map(manifest.runtime.config, function(configFile){
-                    return 'json!' + baseUrl + '/' + configFile;
+                _.forEach(manifest.runtime.config, function(pciConfig){
+                    if(pciConfig.data){
+                        modules = _.defaults(modules, pciConfig.data.paths || {});
+                    }else if(pciConfig.file){
+                        reqConfigs.push('json!' + baseUrl + '/' + pciConfig.file);
+                    }
                 });
             }
 
             require(reqConfigs, function(){
-                var modules;
+
+                var runtimeModules = {};
 
                 if(manifest.model === 'IMSPCI'){
 
                     modules = _.reduce(arguments, function(acc, conf){
-                        _.forEach(conf.paths || [], function(path, id){
-                            acc[id] = _.isArray(path) ? path : [path];
-                        });
-                        return acc;
-                    }, {});
+                        return _.defaults(acc, conf.paths || {});
+                    }, modules);
 
-                    modules = _.merge(modules, manifest.runtime.modules || {});
+                    _.forEach(manifest.runtime.modules || {}, function(paths, id){
+                        if(paths && (_.isString(paths) || (_.isArray(paths) && paths.length))){
+                            runtimeModules[id] = paths;
+                        }
+                    });
 
-                    console.log(modules);
+                    modules = _.merge(modules, runtimeModules);
 
                     _.forEach(modules, function(paths, id){
+                        paths = _.isArray(paths) ? paths : [paths];
                         requireConfigAliases[id] = _.map(paths, function(path){
                             return baseUrl+'/'+path.replace(/\.js$/, '');
                         });
@@ -68,6 +76,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 }else{
                     requireConfigAliases[manifest.typeIdentifier] = baseUrl;
                 }
+
                 resolve(requireConfigAliases);
 
             }, reject);

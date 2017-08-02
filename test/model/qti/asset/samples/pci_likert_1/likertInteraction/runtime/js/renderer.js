@@ -24,10 +24,10 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/util/html'], function($, html){
         var $li,
             level = parseInt(config.level) || 5,
             $ul = $container.find('ul.likert');
-        
+
         //ensure that renderChoices() is idempotent
         $ul.empty();
-        
+
         //add levels
         for(var i = 1; i <= level; i++){
 
@@ -44,10 +44,8 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/util/html'], function($, html){
         var $labelMin = $('<span>', {'class' : 'likert-label likert-label-min'}).html(config['label-min']);
         var $labelMax = $('<span>', {'class' : 'likert-label likert-label-max'}).html(config['label-max']);
 
-        if(assetManager){
-            $labelMin.append($('<img>', {src: assetManager.resolve('likertInteraction/runtime/assets/ThumbDown.png')}).css({top: 6, marginLeft:12}));
-            $labelMax.prepend($('<img>', {src: assetManager.resolve('likertInteraction/runtime/assets/ThumbUp.png')}).css({top: 2, marginRight:12}));
-        }
+        $labelMin.append($container.find('.assets .ThumbDown').css({top: 6, marginLeft:12}));
+        $labelMax.prepend($container.find('.assets .ThumbUp').css({top: 2, marginRight:12}));
 
         $ul.before($labelMin);
         $ul.after($labelMax);
@@ -60,7 +58,7 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/util/html'], function($, html){
 
             renderChoices(id, $container, config);
             renderLabels(id, $container, config, assetManager);
-            
+
             //render rich text content in prompt
             html.render($container.find('.prompt'));
         },

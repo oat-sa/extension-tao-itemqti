@@ -194,13 +194,13 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     {
         $typeId = $portableElement->getTypeIdentifier();
         $libs = [];
-        $requiredLibFiles = [];
+        $librariesFiles = [];
         $entryPoint = [];
 
         //Adjust file resource entries where {QTI_NS}/xxx/yyy is equivalent to {QTI_NS}/xxx/yyy.js
         foreach($portableElement->getLibraries() as $lib){
             if(preg_match('/^'.$typeId.'.*\.js$/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
-                $requiredLibFiles[] = $lib.'.js';//amd modules
+                $librariesFiles[] = $lib.'.js';//amd modules
                 $libs[] = $lib.'.js';
             }else{
                 $libs[] = $lib;
@@ -222,12 +222,21 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             }
         }
 
-        //TODO add strategy to portable Elements...
+        //TODO add strategy to portable Elements... move to validator get assets
+        $configArray = [];
+        $configFiles = [];
         foreach($portableElement->getConfig() as $configFile){
             //only read local config file
             if(strpos($configFile, 'http') !== 0){
-                $confFile = $this->source.'/'.$configFile;
-                $configData = json_decode(file_get_contents($confFile), true);
+                //read the config file content
+                $configData = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR . $configFile), true);
+
+                //save the content and file config data in registry, to allow later retrival
+                $configFiles[] = $configFile;
+                $configArray[] =[
+                    'file' => $configFile,
+                    'data' => $configData
+                ] ;
                 if(isset($configData['paths'])){
                     foreach($configData['paths'] as $id => $path){
                         if(strpos($path, 'http') !== 0){
@@ -236,6 +245,8 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                         }
                     }
                 }
+            }else{
+                $configArray[] = ['file' => $configFile];
             }
         }
 
@@ -254,7 +265,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 'libraries' => $libs,
                 'stylesheets' => $portableElement->getStylesheets(),
                 'mediaFiles' => $portableElement->getMediaFiles(),
-                'config' => $portableElement->getConfig(),
+                'config' => $configArray,
                 'modules' => $portableElement->getModules()
             ]
         ];
@@ -279,11 +290,11 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
 
         $files = array_merge(
             $entryPoint,
-            $requiredLibFiles,
+            $librariesFiles,
+            $configFiles,
             $moduleFiles,
             $portableObject->getRuntimeKey('stylesheets'),
-            $portableObject->getRuntimeKey('mediaFiles'),
-            $portableObject->getRuntimeKey('config')
+            $portableObject->getRuntimeKey('mediaFiles')
         );
         $this->requiredFiles = array_merge($this->requiredFiles, array_fill_keys($files, $typeId));
     }
