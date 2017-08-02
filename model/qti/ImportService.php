@@ -414,7 +414,7 @@ class ImportService extends ConfigurableService
                  */
 
                 /** Portable element handler */
-                $peHandler = new PortableAssetHandler($qtiModel, dirname($qtiFile));
+                $peHandler = new PortableAssetHandler($qtiModel, $folder);
                 $itemAssetManager->loadAssetHandler($peHandler);
 
                 /** Shared stimulus handler */
