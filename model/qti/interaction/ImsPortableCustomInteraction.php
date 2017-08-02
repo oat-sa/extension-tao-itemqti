@@ -157,7 +157,11 @@ class ImsPortableCustomInteraction extends CustomInteraction
 
         $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
         if(!$pciNodes->length) {
-            throw new QtiModelException('no portableCustomInteraction node found');
+            $xmlns = '';//even if a namespace has been defined, it may not be used
+            $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
+        }
+        if(!$pciNodes->length) {
+            throw new QtiModelException('no ims portableCustomInteraction node found');
         }
 
         $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');

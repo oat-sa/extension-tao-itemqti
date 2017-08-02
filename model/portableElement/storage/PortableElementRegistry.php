@@ -177,10 +177,10 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      *
      * @param string $identifier
      */
-    private function remove($identifier)
+    private function remove(PortableElementObject $object)
     {
-        $this->getConfigFileSystem()->delete($identifier);
-
+        $this->getConfigFileSystem()->delete($object->getTypeIdentifier());
+        $this->getFileSystem()->unregisterAllFiles($object);
     }
 
     /**
@@ -229,7 +229,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         unset($portableElements[$object->getVersion()]);
         if (empty($portableElements)) {
-            $this->remove($object->getTypeIdentifier());
+            $this->remove($object);
         } else {
             $this->set($object->getTypeIdentifier(), $portableElements);
         }
@@ -354,6 +354,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         $runtime = $object->toArray();
+        $runtime['model'] = $object->getModelId();
         $runtime['runtime'] = $object->getRuntimeAliases();
         $runtime['creator'] = $object->getCreatorAliases();
         $runtime['baseUrl'] = $this->getBaseUrl($object);

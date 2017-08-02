@@ -151,6 +151,15 @@ class PortableElementFileStorage extends ConfigurableService
         return $deleted;
     }
 
+    /**
+     * Remove all the portable element files and dir
+     * @param PortableElementObject $object
+     * @return bool
+     */
+    public function unregisterAllFiles(PortableElementObject $object){
+        return $this->getFileStorage()->deleteDir($this->getPrefix($object));
+    }
+
     public function getFileContentFromModelStorage(PortableElementObject $object, $file)
     {
         $filePath = $this->getPrefix($object) . $file;

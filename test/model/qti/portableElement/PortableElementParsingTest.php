@@ -90,7 +90,8 @@ class PortableElementParsingTest extends TaoPhpUnitTestRunner {
 
 	public function testParseImsPci(){
 
-		$qtiParser = new Parser(dirname(__FILE__).'/samples/ims/likert.xml');
+//		$qtiParser = new Parser(dirname(__FILE__).'/samples/ims/likert-global-ns.xml');
+//		$qtiParser = new Parser(dirname(__FILE__).'/samples/ims/likert-v1.xml');
 		$qtiParser = new Parser(dirname(__FILE__).'/samples/ims/likert-inline-ns.xml');
 
 		$qtiParser->validate();
@@ -121,7 +122,35 @@ class PortableElementParsingTest extends TaoPhpUnitTestRunner {
 
 		$this->assertEquals(['oat-pci-unexisting.json', 'oat-pci.json'], $pci->getConfig());
 		$this->assertEquals(['level' => '5', 'label-min' => 'min', 'label-max' => 'max'], $pci->getProperties());
+	}
 
-		var_dump($item->toXML());
+	public function testParseImsPciWithConfig(){
+		$qtiParser = new Parser(dirname(__FILE__).'/samples/ims/likert-v1.xml');
+
+		$qtiParser->validate();
+		if(!$qtiParser->isValid()){
+			echo $qtiParser->displayErrors();
+		}
+
+		$item = $qtiParser->load();
+		$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+
+		$pcis = $item->getComposingElements('\\oat\\taoQtiItem\\model\\qti\\interaction\\ImsPortableCustomInteraction');
+		$this->assertEquals(1, count($pcis));
+
+		/**
+		 * @var $pci \oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction
+		 */
+		$pci = array_pop($pcis);
+
+		$this->assertEquals('likertInteraction', $pci->getTypeIdentifier());
+
+		$modules = $pci->getModules();
+
+		$this->assertEquals(['likertInteraction/runtime/js/likertInteraction.js'], $modules['likertInteraction/runtime/js/likertInteraction']);
+		$this->assertEquals([], $modules['likertInteraction/runtime/js/renderer']);
+
+		$this->assertEquals(['likertInteraction/runtime/likertConfig.json'], $pci->getConfig());
+		$this->assertEquals(['level' => '5', 'label-min' => 'min', 'label-max' => 'max'], $pci->getProperties());
 	}
 }

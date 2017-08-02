@@ -16,8 +16,7 @@
             </pci:properties>
             <pci:modules primaryConfiguration="likertInteraction/runtime/likertConfig.json">
               <pci:module id="likertInteraction/runtime/js/likertInteraction" primaryPath="likertInteraction/runtime/js/likertInteraction.js"/>
-              <pci:module id="likertInteraction/runtime/js/renderer" primaryPath="likertInteraction/runtime/js/renderer.js"/>
-              <pci:module id="jquery_2_1_1"/>
+              <pci:module id="likertInteraction/runtime/js/renderer"/>
             </pci:modules>
             <pci:markup>
               <html5:div class="likertInteraction">
