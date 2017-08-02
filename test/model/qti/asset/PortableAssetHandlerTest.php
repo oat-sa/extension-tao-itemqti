@@ -46,9 +46,9 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $this->instance = null;
     }
 
-    public function testConstruct()
+    public function _testLikertV0()
     {
-        $packageDir = dirname(__FILE__).'/samples/pci_likert/';
+        $packageDir = dirname(__FILE__).'/samples/pci_likert_0/';
         $qtiParser = new Parser($packageDir.'/i150107567172373/qti.xml');
         $portableAssetHandler = new PortableAssetHandler($qtiParser->load(), $packageDir);
 
@@ -96,7 +96,57 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
             $retrivedElement = $portableElementService->getPortableElementByIdentifier($portableObject->getModel()->getId(), $portableObject->getTypeIdentifier());
             $this->assertEquals($portableObject->getTypeIdentifier(), $retrivedElement->getTypeIdentifier());
 
-//            $portableElementService->unregisterModel($retrivedElement);
+            $portableElementService->unregisterModel($retrivedElement);
+        }
+    }
+
+    public function testLikertV1()
+    {
+        $packageDir = dirname(__FILE__).'/samples/pci_likert_1/';
+        $qtiParser = new Parser($packageDir.'/i150107567172373/qti.xml');
+        $portableAssetHandler = new PortableAssetHandler($qtiParser->load(), $packageDir);
+
+        $portableElementService = new PortableElementService();
+
+        $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
+        $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
+        $reflectionProperty->setAccessible(true);
+        $this->assertInstanceOf(PortableElementItemParser::class, $reflectionProperty->getValue($portableAssetHandler));
+
+        $portableItemParser = $reflectionProperty->getValue($portableAssetHandler);
+
+        $reqs = [
+            'likertInteraction/runtime/js/likertInteraction.js',
+            'likertInteraction/runtime/js/renderer.js',
+            'likertInteraction/runtime/likertConfig.json'
+        ];
+
+        //check that required files are
+        foreach($reqs as $req){
+            $this->assertEquals(true, $portableAssetHandler->isApplicable($req));
+            $absPath = $packageDir. '/' . $req;
+            $this->assertEquals(false, empty($portableAssetHandler->handle($absPath, $req)));
+        }
+
+        //check that not required files are not
+        $this->assertEquals(false, $portableAssetHandler->isApplicable('likertScaleInteractionSample/runtime/js/renderer-unexisting.js'));
+        $this->assertEquals(false, $portableAssetHandler->isApplicable('oat-pci-unexisting.json'));
+
+        $portableObjects = $portableItemParser->getPortableObjects();
+
+        foreach($portableObjects as $portableObject) {
+            try{
+                $portableElementService->unregisterModel($portableObject);
+            }catch(PortableElementNotFoundException $e){}
+        }
+
+        $portableAssetHandler->finalize();
+
+        foreach($portableObjects as $portableObject){
+            $retrivedElement = $portableElementService->getPortableElementByIdentifier($portableObject->getModel()->getId(), $portableObject->getTypeIdentifier());
+            $this->assertEquals($portableObject->getTypeIdentifier(), $retrivedElement->getTypeIdentifier());
+
+            $portableElementService->unregisterModel($retrivedElement);
         }
     }
 
