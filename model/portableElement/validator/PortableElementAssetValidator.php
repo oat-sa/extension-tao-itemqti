@@ -106,7 +106,7 @@ abstract class PortableElementAssetValidator implements Validatable
                     //get a flat list out of the structure of file data
                     $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($asset[$constraint]));
                     foreach($it as $k => $v) {
-                        if(!in_array(strval($k), $object->getExcludedKey()) && !empty($v)){
+                        if(!in_array(strval($k), $object->getRegistrationExcludedKey()) && !empty($v)){
                             $files[] = $v;
                         }
                     }

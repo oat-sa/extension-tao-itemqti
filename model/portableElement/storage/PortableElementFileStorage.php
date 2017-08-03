@@ -93,31 +93,16 @@ class PortableElementFileStorage extends ConfigurableService
 
         foreach ($files as $file) {
 
-            //TODO add strategy to PCI data obj
-            if($object instanceof IMSPciDataObject){
-
-            }else{
-                if (substr($file, 0, 2)!='./' && !preg_match('/^' . $object->getTypeIdentifier() . '/', $file)) {
-                    // File is not relative, it's a shared libraries
-                    // Ignore this file, front have fallBack
-                    continue;
-                }
+            if(!$object->isRegistrableFile()){
+                continue;
             }
-
 
             $filePath = $source . ltrim($file, DIRECTORY_SEPARATOR);
             if (!file_exists($filePath) || ($resource = fopen($filePath, 'r'))===false) {
                 throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }
 
-            //TODO add strategy to PCI data obj
-            if($object instanceof IMSPciDataObject){
-                $fileId = $this->getPrefix($object) . $file;
-            }else{
-                $fileId = $this->getPrefix($object) . preg_replace('/^' . $object->getTypeIdentifier() . '/', '.', $file);
-            }
-
-            //Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.js
+            $fileId = $this->getPrefix($object) . $object->getRegistrationFileId($file);
             if ($fileSystem->has($fileId)) {
                 $registered = $fileSystem->updateStream($fileId, $resource);
             } else {

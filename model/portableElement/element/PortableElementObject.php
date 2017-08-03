@@ -489,15 +489,34 @@ abstract class PortableElementObject
      * @param $itemPath - absolute path to the root of the item folder
      * @return string
      */
-    public function getRegistrationPath($packagePath, $itemPath){
+    public function getRegistrationSourcePath($packagePath, $itemPath){
         return $itemPath . DIRECTORY_SEPARATOR . $this->getTypeIdentifier() . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Get the registration file entry
+     * @param $file - the relative path to the file
+     * @return string
+     */
+    public function getRegistrationFileId($file){
+        //Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.j
+        return preg_replace('/^' . $this->getTypeIdentifier() . '/', '.', $file);
+    }
+
+    /**
+     * Check the given file entry should be registered or not
+     * @param $file
+     * @return bool
+     */
+    public function isRegistrableFile($file){
+        return (substr($file, 0, 2) =='./' || preg_match('/^' . $this->getTypeIdentifier() . '/', $file));
     }
 
     /**
      * Get the array of key in the portable element model that should not be registered as files
      * @return array
      */
-    public function getExcludedKey(){
+    public function getRegistrationExcludedKey(){
         return [];
     }
 }

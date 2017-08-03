@@ -369,7 +369,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             if (is_null($lastVersionModel)){
                 $this->getService()->registerModel(
                     $object,
-                    $object->getRegistrationPath($this->source, $this->itemDir)
+                    $object->getRegistrationSourcePath($this->source, $this->itemDir)
                 );
             } else {
                 \common_Logger::i('The imported item contains the portable element '.$object->getTypeIdentifier()

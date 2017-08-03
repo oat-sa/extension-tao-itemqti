@@ -1602,11 +1602,10 @@ class ParserFactory
     /**
      * Get the namespace of the portable custom interaction
      *
-     * @deprecated
+     * @deprecated should instead use item name space and registered PciModels like getPciClasses()
      * @return string
      */
     public function getPciNamespace(){
-        //@todo : implement this properly
         return 'pci';
     }
 
