@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -24,21 +24,26 @@
 define([
     'lodash',
     'core/promise',
+    'core/logger',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/portableElementRegistry/ciRegistry'
-], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
+], function(_, Promise, loggerFactory, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
     'use strict';
 
-    function pciReadyCallback(pci, state){
-        console.log('pciReadyCallback', pci, state);
+    var logger = loggerFactory('taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction');
+
+    var pciReadyCallback = function pciReadyCallback(pci, state){
+        //standard callback function to be implemented in a future story
+        logger.info('pciReadyCallback called on PCI '+pci.typeIdentifier);
     }
 
-    function pciDoneCallback(pci, response, state, status){
-        console.log('pciDoneCallback', pci, response, state, status);
+    var pciDoneCallback = function pciDoneCallback(pci, response, state, status){
+        //standard callback function to be implemented in a future story
+        logger.info('pciDoneCallback called on PCI '+pci.typeIdentifier);
     }
 
     /**
