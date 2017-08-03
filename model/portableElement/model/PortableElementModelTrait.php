@@ -42,4 +42,11 @@ trait PortableElementModelTrait
     {
         $this->model = $model;
     }
+
+    /**
+     * @return string
+     */
+    public function getModelId(){
+        return $this->model->getId();
+    }
 }

@@ -38,6 +38,15 @@ define(function(){
         notifyDone : function(pciInstance){
             //@todo add pciIntance as event data and notify event to delivery engine
         },
+
+        onready : function onready(customInteraction, state){
+
+        },
+        ondone : function ondone(customInteraction, response, state, status){
+
+        },
+
+
         /**
          * Get a cloned object representing the PCI model
          * 

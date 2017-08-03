@@ -22,7 +22,6 @@
 namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
 use oat\taoQtiItem\model\qti\PortableElementTrait;
@@ -43,6 +42,7 @@ class PortableCustomInteraction extends CustomInteraction
     const NS_NAME = 'pci';
     const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction';
 
+    protected $markupNs = 'html5';
     protected $properties = array();
     protected $libraries = array();
     protected $stylesheets = array();
@@ -136,7 +136,6 @@ class PortableCustomInteraction extends CustomInteraction
     
     protected function getTemplateQtiVariables(){
 
-        $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
         $variables['libraries'] = $this->libraries;
         $variables['stylesheets'] = $this->stylesheets;
@@ -144,8 +143,8 @@ class PortableCustomInteraction extends CustomInteraction
         $variables['serializedProperties'] = $this->serializePortableProperties($this->properties, self::NS_NAME, self::NS_URI);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
-        $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$nsMarkup.':$2', $variables['markup']);
-        $this->getRelatedItem()->addNamespace($nsMarkup, $nsMarkup);
+        $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$this->markupNs.':$2', $variables['markup']);
+        $this->getRelatedItem()->addNamespace($this->markupNs, $this->markupNs);
         return $variables;
     }
     
@@ -157,13 +156,15 @@ class PortableCustomInteraction extends CustomInteraction
      * @throws InvalidArgumentException
      * @throws QtiModelException
      */
-    public function feed(ParserFactory $parser, DOMElement $data){
+    public function feed(ParserFactory $parser, DOMElement $data, $xmlns = ''){
 
-        $ns = $parser->getPciNamespace();
-
-        $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $ns);
+        $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
         if(!$pciNodes->length) {
-            throw new QtiModelException('no portableCustomInteraction node found');
+            $xmlns = '';//even if a namespace has been defined, it may not be used
+            $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
+        }
+        if(!$pciNodes->length) {
+            throw new QtiModelException('no oat portableCustomInteraction node found');
         }
 
         $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
@@ -179,34 +180,34 @@ class PortableCustomInteraction extends CustomInteraction
             $this->setVersion($version);
         }
 
-        $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
+        $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $xmlns);
         $libs = array();
         foreach($libNodes as $libNode){
             $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
 
-        $stylesheetNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'stylesheets', 'link'), $data, $ns);
+        $stylesheetNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'stylesheets', 'link'), $data, $xmlns);
         $stylesheets = array();
         foreach($stylesheetNodes as $styleNode){
             $stylesheets[] = $styleNode->getAttribute('href');
         }
         $this->setStylesheets($stylesheets);
 
-        $mediaNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'mediaFiles', 'file'), $data, $ns);
+        $mediaNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'mediaFiles', 'file'), $data, $xmlns);
         $media = array();
         foreach($mediaNodes as $mediaNode){
             $media[] = $mediaNode->getAttribute('src');
         }
         $this->setMediaFiles($media);
 
-        $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $ns);
+        $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $xmlns);
         if($propertyNodes->length){
-            $properties = $this->extractProperties($propertyNodes->item(0), $ns);
+            $properties = $this->extractProperties($propertyNodes->item(0), $xmlns);
             $this->setProperties($properties);
         }
 
-        $markupNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'markup'), $data, $ns);
+        $markupNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'markup'), $data, $xmlns);
         if($markupNodes->length){
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);

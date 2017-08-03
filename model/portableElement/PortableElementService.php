@@ -85,6 +85,19 @@ class PortableElementService implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Unregister the portable element
+     *
+     * @param PortableElementObject $object
+     * @return bool
+     * @throws PortableElementVersionIncompatibilityException
+     */
+    public function unregisterModel(PortableElementObject $object){
+        $registry = $object->getModel()->getRegistry();
+        $registry->delete($object);
+        return true;
+    }
+
+    /**
      * Export a model with files into a ZIP
      *
      * @param $type

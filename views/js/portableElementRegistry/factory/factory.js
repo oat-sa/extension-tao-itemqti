@@ -26,6 +26,65 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
         runtimeOnly : []
     };
 
+    var loadModuleConfig = function loadModuleConfig(manifest){
+        return new Promise(function(resolve, reject){
+            var requireConfigAliases = {};
+            var baseUrl;
+            var reqConfigs = [];
+            var modules = {};
+
+            if(!manifest || !manifest.runtime){
+                return reject('invalid manifest');
+            }
+
+            baseUrl = manifest.baseUrl;
+
+            if(_.isArray(manifest.runtime.config) && manifest.runtime.config.length){
+                _.forEach(manifest.runtime.config, function(pciConfig){
+                    if(pciConfig.data){
+                        modules = _.defaults(modules, pciConfig.data.paths || {});
+                    }else if(pciConfig.file){
+                        reqConfigs.push('json!' + baseUrl + '/' + pciConfig.file);
+                    }
+                });
+            }
+
+            require(reqConfigs, function(){
+
+                var runtimeModules = {};
+
+                if(manifest.model === 'IMSPCI'){
+
+                    modules = _.reduce(arguments, function(acc, conf){
+                        return _.defaults(acc, conf.paths || {});
+                    }, modules);
+
+                    _.forEach(manifest.runtime.modules || {}, function(paths, id){
+                        if(paths && (_.isString(paths) || (_.isArray(paths) && paths.length))){
+                            runtimeModules[id] = paths;
+                        }
+                    });
+
+                    modules = _.merge(modules, runtimeModules);
+
+                    _.forEach(modules, function(paths, id){
+                        paths = _.isArray(paths) ? paths : [paths];
+                        requireConfigAliases[id] = _.map(paths, function(path){
+                            return baseUrl+'/'+path.replace(/\.js$/, '');
+                        });
+                    });
+                }else{
+                    requireConfigAliases[manifest.typeIdentifier] = baseUrl;
+                }
+
+                resolve(requireConfigAliases);
+
+            }, reject);
+
+
+        });
+    };
+
     return function portableElementRegistry(methods){
 
         var _loaded = false;
@@ -86,7 +145,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     return _.assign(pci.runtime, {
                         id : pci.typeIdentifier,
                         label : pci.label,
-                        baseUrl : pci.baseUrl
+                        baseUrl : pci.baseUrl,
+                        model : pci.model
                     });
                 }else{
                     this.trigger('error', {
@@ -133,31 +193,47 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                         var loadStack = [];
 
-                        _.each(__providers, function (provider){
+                        _.forEach(__providers, function (provider){
                             if(provider){//check that the provider is loaded
                                 loadStack.push(provider.load());
                             }
                         });
 
                         //performs the loadings in parallel
-                        return Promise.all(loadStack).then(function (results){
+                        return new Promise(function(resolve, reject){
+                            Promise.all(loadStack).then(function (results){
 
-                            var requireConfigAliases = {};
+                                var configLoadingStack = [];
 
-                            //update registry
-                            self._registry = _.reduce(results, function (acc, _pcis){
-                                return _.merge(acc, _pcis);
-                            }, {});
+                                //update registry
+                                self._registry = _.reduce(results, function (acc, _pcis){
+                                    return _.merge(acc, _pcis);
+                                }, {});
 
-                            //pre-configuring the baseUrl of the portable element's source
-                            _.forIn(self._registry, function (versions, typeIdentifier){
-                                //currently use latest runtime path
-                                requireConfigAliases[typeIdentifier] = self.getBaseUrl(typeIdentifier);
+                                //pre-configuring the baseUrl of the portable element's source
+                                _.forIn(self._registry, function (versions, typeIdentifier){
+                                    //currently use latest runtime only
+                                    configLoadingStack.push(loadModuleConfig(self.get(typeIdentifier)));
+                                });
+
+                                return Promise.all(configLoadingStack).then(function(moduleConfigs){
+                                    var requireConfigAliases = _.reduce(moduleConfigs, function(acc, paths){
+                                        return _.merge(acc, paths);
+                                    }, {});
+
+                                    //save the required libs name => path to global require alias
+                                    //@TODO change this to a local require context to solve conflicts in third party module naming
+                                    _requirejs.config({paths : requireConfigAliases});
+
+                                    _loaded = true;
+
+                                    resolve();
+                                }).catch(function(err){
+                                    reject('error loading module config ' + err);
+                                });
                             });
-                            _requirejs.config({paths : requireConfigAliases});
-
-                            _loaded = true;
                         });
+
                     });
                 }
 

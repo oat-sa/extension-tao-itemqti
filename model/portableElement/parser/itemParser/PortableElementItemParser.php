@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\parser\itemParser;
 
+use oat\qtiItemPci\model\portableElement\dataObject\IMSPciDataObject;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
@@ -193,18 +194,67 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     {
         $typeId = $portableElement->getTypeIdentifier();
         $libs = [];
-        $requiredLibFiles = [];
+        $librariesFiles = [];
+        $entryPoint = [];
 
         //Adjust file resource entries where {QTI_NS}/xxx/yyy is equivalent to {QTI_NS}/xxx/yyy.js
         foreach($portableElement->getLibraries() as $lib){
             if(preg_match('/^'.$typeId.'.*\.js$/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
-                $requiredLibFiles[] = $lib.'.js';//amd modules
+                $librariesFiles[] = $lib.'.js';//amd modules
                 $libs[] = $lib.'.js';
             }else{
                 $libs[] = $lib;
             }
         }
 
+        $moduleFiles = [];
+        $emptyModules = [];//list of modules that are referenced directly in the module node
+        foreach($portableElement->getModules() as $id => $paths){
+            if(empty($paths)){
+                $emptyModules[] = $id;
+                continue;
+            }
+            foreach($paths as $path){
+                if(strpos($path, 'http') !== 0){
+                    //only copy into data the relative files
+                    $moduleFiles[] = $path;
+                }
+            }
+        }
+
+        //TODO add strategy to portable Elements... move to validator get assets
+        $configArray = [];
+        $configFiles = [];
+        foreach($portableElement->getConfig() as $configFile){
+            //only read local config file
+            if(strpos($configFile, 'http') !== 0){
+                //read the config file content
+                $configData = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR . $configFile), true);
+
+                //save the content and file config data in registry, to allow later retrival
+                $configFiles[] = $configFile;
+                $configArray[] =[
+                    'file' => $configFile,
+                    'data' => $configData
+                ] ;
+                if(isset($configData['paths'])){
+                    foreach($configData['paths'] as $id => $path){
+                        if(strpos($path, 'http') !== 0){
+                            //only copy into data the relative files
+                            $moduleFiles[] = $path;
+                        }
+                    }
+                }
+            }else{
+                $configArray[] = ['file' => $configFile];
+            }
+        }
+
+        if(!empty($portableElement->getEntryPoint())){
+            $entryPoint[] = $portableElement->getEntryPoint();
+        }
+
+        //register the files here
         $data = [
             'typeIdentifier' => $typeId,
             'version' => $portableElement->getVersion(),
@@ -215,6 +265,8 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 'libraries' => $libs,
                 'stylesheets' => $portableElement->getStylesheets(),
                 'mediaFiles' => $portableElement->getMediaFiles(),
+                'config' => $configArray,
+                'modules' => $portableElement->getModules()
             ]
         ];
 
@@ -237,8 +289,10 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $this->portableObjects[$typeId] = $portableObject;
 
         $files = array_merge(
-            [$portableObject->getRuntimeKey('hook')],
-            $requiredLibFiles,
+            $entryPoint,
+            $librariesFiles,
+            $configFiles,
+            $moduleFiles,
             $portableObject->getRuntimeKey('stylesheets'),
             $portableObject->getRuntimeKey('mediaFiles')
         );
@@ -257,6 +311,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     public function importPortableElements()
     {
         if (count($this->importingFiles) != count($this->requiredFiles)) {
+            var_dump(__LINE__, $this->importingFiles, $this->requiredFiles);
             throw new \common_Exception('Needed files are missing during Portable Element asset files');
         }
 
@@ -268,17 +323,31 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             );
             //only register a pci that has not been register yet, subsequent update must be done through pci package import
             if (is_null($lastVersionModel)){
-                $this->replaceLibAliases($object);
-                $this->getService()->registerModel(
-                    $object,
-                    $this->source . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
-                );
+
+                //TODO add strategy to PCI data obj
+                if($object instanceof IMSPciDataObject){
+                    $this->getService()->registerModel(
+                        $object,
+                        $this->source . DIRECTORY_SEPARATOR
+                    );
+                }else{
+                    $this->replaceLibAliases($object);
+                    $this->getService()->registerModel(
+                        $object,
+                        $this->source . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
+                    );
+                }
+
             } else {
                 \common_Logger::i('The imported item contains the portable element '.$object->getTypeIdentifier()
                     .' in a version '.$object->getVersion().' compatible with the current '.$lastVersionModel->getVersion());
             }
         }
         return true;
+    }
+
+    public function getPortableObjects(){
+        return $this->portableObjects;
     }
 
     /**

@@ -33,9 +33,13 @@ class PortableAssetHandler implements AssetHandler
     /**
      * PciAssetHandler constructor.
      * Set PortableElementItemParser
+     *
+     * @param Item $item
+     * @param $sourceDir - root dir where the qti manifest.xml is located
      */
     public function __construct(Item $item, $sourceDir)
     {
+        //how to get manifest dir
         $this->portableItemParser = new PortableElementItemParser();
         $this->portableItemParser->setServiceLocator(ServiceManager::getServiceManager());
         $this->portableItemParser->setSource(rtrim($sourceDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
@@ -50,9 +54,10 @@ class PortableAssetHandler implements AssetHandler
      */
     public function isApplicable($relativePath)
     {
-        $relativePath = str_replace('./', '', $relativePath);
+        $relativePathAdapted = str_replace('../', '', $relativePath);
+        $relativePathAdapted = str_replace('./', '', $relativePathAdapted);
         if ($this->portableItemParser->hasPortableElement()
-            && $this->portableItemParser->isPortableElementAsset($relativePath)
+            && $this->portableItemParser->isPortableElementAsset($relativePathAdapted)
         ) {
             return true;
         }
@@ -68,8 +73,9 @@ class PortableAssetHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
-        $relativePath = str_replace('./', '', $relativePath);
-        return $this->portableItemParser->importPortableElementFile($absolutePath, $relativePath);
+        $relativePathAdapted = str_replace('../', '', $relativePath);
+        $relativePathAdapted = str_replace('./', '', $relativePathAdapted);
+        return $this->portableItemParser->importPortableElementFile($absolutePath, $relativePathAdapted);
     }
 
     /**
