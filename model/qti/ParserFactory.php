@@ -1502,30 +1502,34 @@ class ParserFactory
     }
 
     /**
-     * Check if the node is dom element is a valid portable custom interaction one
-     *
-     * @deprecated
-     * @param DOMElement $data
-     * @return boolean
+     * Return the list of registered PCI php subclasses
+     * @return array
      */
-    private function isPciNode(DOMElement $data){
-        $ns = $this->getPciNamespace();
-        return (boolean) $this->queryXPathChildren(array('portableCustomInteraction'), $data, $ns)->length;
+    private function getPciClasses(){
+        $pciClasses = [];
+        foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+            $portableElementClass = $model->getQtiElementClassName();
+            if(is_subclass_of($portableElementClass, '\\oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction')){
+                $pciClasses[] = $portableElementClass;
+            }
+        }
+        return $pciClasses;
     }
 
-    private function getAvailablePciModels(){
-        //todo load from portable model registry!
-        return [
-            '\\oat\\taoQtiItem\\model\\qti\\interaction\\PortableCustomInteraction',
-            '\\oat\\taoQtiItem\\model\\qti\\interaction\\ImsPortableCustomInteraction'
-        ];
-    }
-
+    /**
+     * Get the PCI class associated to a dom node based on its namespace
+     * Returns null if not a known PCI model
+     *
+     * @param DOMElement $data
+     * @return null
+     */
     private function getPciClass(DOMElement $data){
+
+        $pciClasses = $this->getPciClasses();
 
         //start searching from globally declared namespace
         foreach($this->item->getNamespaces() as $name => $uri){
-            foreach($this->getAvailablePciModels() as $class){
+            foreach($pciClasses as $class){
                 if($uri === $class::NS_URI
                     && $this->queryXPathChildren(array('portableCustomInteraction'), $data, $name)->length){
                     return $class;
@@ -1537,7 +1541,7 @@ class ParserFactory
         if($this->queryXPathChildren(array('portableCustomInteraction'), $data)->length){
             $pciNode = $this->queryXPathChildren(array('portableCustomInteraction'), $data)[0];
             $xmlns = $pciNode->getAttribute('xmlns');
-            foreach($this->getAvailablePciModels() as $pciClass){
+            foreach($pciClasses as $pciClass){
                 if($pciClass::NS_URI === $xmlns){
                     return $pciClass;
                 }
@@ -1562,8 +1566,6 @@ class ParserFactory
         $pciClass = $this->getPciClass($data);
 
         if (!empty($pciClass)) {
-            // throws an exception if pci not present
-            $pciModel = PortableModelRegistry::getRegistry()->getModel('PCI');
 
             $xmlns = '';
             foreach($this->item->getNamespaces() as $name => $uri){
