@@ -24,7 +24,6 @@ use GuzzleHttp\Psr7\Stream;
 use League\Flysystem\Filesystem;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
-use oat\qtiItemPci\model\portableElement\dataObject\IMSPciDataObject;
 use oat\tao\model\websource\WebsourceManager;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;

@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\portableElement\parser\itemParser;
 
-use oat\qtiItemPci\model\portableElement\dataObject\IMSPciDataObject;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
