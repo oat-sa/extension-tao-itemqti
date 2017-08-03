@@ -46,6 +46,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     protected $picModels = [];
 
     protected $source;
+    protected $itemDir;
 
     /**
      * @var PortableElementService
@@ -305,6 +306,12 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         return $this;
     }
 
+    public function setItemDir($itemDir)
+    {
+        $this->itemDir = $itemDir;
+        return $this;
+    }
+
     /**
      * Do the import of portable elements
      */
@@ -334,7 +341,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                     $this->replaceLibAliases($object);
                     $this->getService()->registerModel(
                         $object,
-                        $this->source . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
+                        $this->itemDir . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
                     );
                 }
 

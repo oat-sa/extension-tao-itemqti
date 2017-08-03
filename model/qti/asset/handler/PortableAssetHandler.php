@@ -36,13 +36,15 @@ class PortableAssetHandler implements AssetHandler
      *
      * @param Item $item
      * @param $sourceDir - root dir where the qti manifest.xml is located
+     * @param $itemDir - the dir where the qti item qti.xml file is located
      */
-    public function __construct(Item $item, $sourceDir)
+    public function __construct(Item $item, $sourceDir, $itemDir)
     {
         //how to get manifest dir
         $this->portableItemParser = new PortableElementItemParser();
         $this->portableItemParser->setServiceLocator(ServiceManager::getServiceManager());
         $this->portableItemParser->setSource(rtrim($sourceDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+        $this->portableItemParser->setItemDir(rtrim($itemDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
         $this->portableItemParser->setQtiModel($item);
     }
 
