@@ -40,10 +40,10 @@ define(function(){
         },
 
         onready : function onready(customInteraction, state){
-
+            //to be implemented in future story
         },
         ondone : function ondone(customInteraction, response, state, status){
-
+            //to be implemented in future story
         },
 
 

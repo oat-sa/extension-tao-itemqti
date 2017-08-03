@@ -222,7 +222,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     }, {});
 
                                     //save the required libs name => path to global require alias
-                                    //@TODO change this to a local require context to solve conflicts in third party module naming
+                                    //TODO in future planned user story : change this to a local require context to solve conflicts in third party module naming
                                     _requirejs.config({paths : requireConfigAliases});
 
                                     _loaded = true;
