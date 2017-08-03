@@ -223,34 +223,51 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             }
         }
 
-        //TODO add strategy to portable Elements... move to validator get assets
-        $configArray = [];
+        /**
+         * Parse the standard portable configuration if applicable.
+         * Local config files will be preloaded into the registry itself and the registered modules will be included as required dependency files.
+         * Per standard, every config file have the following structure:
+         *  {
+         *  "waitSeconds": 15,
+         *      "paths": {
+         *          "graph": "https://example.com/js/modules/graph1.01/graph.js",
+         *          "foo": "foo/bar1.2/foo.js"
+         *      }
+         *  }
+         */
+        $configDataArray = [];
         $configFiles = [];
         foreach($portableElement->getConfig() as $configFile){
             //only read local config file
             if(strpos($configFile, 'http') !== 0){
+
+                //save the content and file config data in registry, to allow later retrieval
+                $configFiles[] = $configFile;
+
                 //read the config file content
                 $configData = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR . $configFile), true);
-
-                //save the content and file config data in registry, to allow later retrival
-                $configFiles[] = $configFile;
-                $configArray[] =[
-                    'file' => $configFile,
-                    'data' => $configData
-                ] ;
-                if(isset($configData['paths'])){
-                    foreach($configData['paths'] as $id => $path){
-                        if(strpos($path, 'http') !== 0){
-                            //only copy into data the relative files
-                            $moduleFiles[] = $path;
+                if(!empty($configData)){
+                    $configDataArray[] =[
+                        'file' => $configFile,
+                        'data' => $configData
+                    ] ;
+                    if(isset($configData['paths'])){
+                        foreach($configData['paths'] as $id => $path){
+                            if(strpos($path, 'http') !== 0){
+                                //only copy into data the relative files
+                                $moduleFiles[] = $path;
+                            }
                         }
                     }
                 }
             }else{
-                $configArray[] = ['file' => $configFile];
+                $configDataArray[] = ['file' => $configFile];
             }
         }
 
+        /**
+         * In the standard IMS PCI, entry points become optionnal
+         */
         if(!empty($portableElement->getEntryPoint())){
             $entryPoint[] = $portableElement->getEntryPoint();
         }
@@ -266,7 +283,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 'libraries' => $libs,
                 'stylesheets' => $portableElement->getStylesheets(),
                 'mediaFiles' => $portableElement->getMediaFiles(),
-                'config' => $configArray,
+                'config' => $configDataArray,
                 'modules' => $portableElement->getModules()
             ]
         ];
