@@ -482,4 +482,14 @@ abstract class PortableElementObject
     {
         return ! is_null($this->enabled);
     }
+
+    /**
+     * Get the registration path for the source within a standard QTI package
+     * @param $packagePath - absolute path to the root of the item package
+     * @param $itemPath - absolute path to the root of the item folder
+     * @return string
+     */
+    public function getRegistrationPath($packagePath, $itemPath){
+        return $itemPath . DIRECTORY_SEPARATOR . $this->getTypeIdentifier() . DIRECTORY_SEPARATOR;
+    }
 }

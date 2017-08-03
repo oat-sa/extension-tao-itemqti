@@ -350,21 +350,10 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             );
             //only register a pci that has not been register yet, subsequent update must be done through pci package import
             if (is_null($lastVersionModel)){
-
-                //TODO add strategy to PCI data obj
-                if($object instanceof IMSPciDataObject){
-                    $this->getService()->registerModel(
-                        $object,
-                        $this->source . DIRECTORY_SEPARATOR
-                    );
-                }else{
-                    $this->replaceLibAliases($object);
-                    $this->getService()->registerModel(
-                        $object,
-                        $this->itemDir . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
-                    );
-                }
-
+                $this->getService()->registerModel(
+                    $object,
+                    $object->getRegistrationPath($this->source, $this->itemDir)
+                );
             } else {
                 \common_Logger::i('The imported item contains the portable element '.$object->getTypeIdentifier()
                     .' in a version '.$object->getVersion().' compatible with the current '.$lastVersionModel->getVersion());
