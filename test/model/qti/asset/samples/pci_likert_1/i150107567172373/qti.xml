@@ -25,7 +25,7 @@
                 <html5:div class="hidden assets">
                     <html5:img class="ThumbDown" src="likertInteraction/runtime/assets/ThumbDown.png" alt="thumb down"/>
                     <html5:img class="ThumbUp" src="likertInteraction/runtime/assets/ThumbUp.png" alt="thumb up"/>
-                    <html5:img class="bg" src="likertInteraction/runtime/css/img/bg.png" alt=""/>
+                    <html5:img class="bg" src="likertInteraction/runtime/css/bg.png" alt=""/>
                 </html5:div>
               </html5:div>
             </pci:markup>

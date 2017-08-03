@@ -13,9 +13,9 @@
             <file href="likertInteraction/runtime/likertConfig.json"/>
             <file href="likertInteraction/runtime/css/base.css"/>
             <file href="likertInteraction/runtime/css/likertInteraction.css"/>
+            <file href="likertInteraction/runtime/css/bg.png"/>
             <file href="likertInteraction/runtime/assets/ThumbDown.png"/>
             <file href="likertInteraction/runtime/assets/ThumbUp.png"/>
-            <file href="likertInteraction/runtime/css/img/bg.png"/>
             <file href="i150107567172373/style/custom/tao-user-styles.css"/>
         </resource>
     </resources>
