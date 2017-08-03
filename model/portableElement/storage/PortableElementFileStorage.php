@@ -92,7 +92,7 @@ class PortableElementFileStorage extends ConfigurableService
 
         foreach ($files as $file) {
 
-            if(!$object->isRegistrableFile()){
+            if(!$object->isRegistrableFile($file)){
                 continue;
             }
 
