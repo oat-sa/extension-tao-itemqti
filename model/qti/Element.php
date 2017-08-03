@@ -676,9 +676,9 @@ abstract class Element implements Exportable
     protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = array()){
         
         if(empty($elements)){
-            $data = [];
+            $data = new stdClass();
         }else{
-            $data = [];
+            $data = array();
             foreach($elements as $element){
                 $data[$element->getSerial()] = $element->toArray($filterVariableContent, $filtered);
             }
@@ -689,9 +689,9 @@ abstract class Element implements Exportable
     protected function getArraySerializedPrimitiveCollection($elements){
         
         if(empty($elements)){
-            $data = [];
+            $data = new stdClass();
         }else{
-            $data = [];
+            $data = array();
             foreach($elements as $key => $value){
                 if(is_array($value)){
                     $data[$key] = $this->getArraySerializedPrimitiveCollection($value);
