@@ -492,4 +492,12 @@ abstract class PortableElementObject
     public function getRegistrationPath($packagePath, $itemPath){
         return $itemPath . DIRECTORY_SEPARATOR . $this->getTypeIdentifier() . DIRECTORY_SEPARATOR;
     }
+
+    /**
+     * Get the array of key in the portable element model that should not be registered as files
+     * @return array
+     */
+    public function getExcludedKey(){
+        return [];
+    }
 }
