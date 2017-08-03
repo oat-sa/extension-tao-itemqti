@@ -135,7 +135,8 @@ abstract class PortableElementAssetValidator implements Validatable
             throw new PortableElementParserException('Unable to locate extracted zip file.');
         }
 
-        $filePath = $source . $file;
+        $filePath = rtrim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . str_replace('./', '', $file);
+
         if (file_exists($filePath) || file_exists($filePath . '.js')) {
             return true;
         }

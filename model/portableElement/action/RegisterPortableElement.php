@@ -52,6 +52,9 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
 
         try {
             $model = $service->getValidPortableElementFromDirectorySource($sourceDirectory);
+            if(empty($model)){
+                return Report::createFailure('no valid portable element found in directory "'.$sourceDirectory. '"');
+            }
             if(!empty($params)){
                 $minRequiredVersion = $params[0];
                 // if the minimal required version number string "x.y.z" is given in the parameter, the new target version should be equal or higher than it
