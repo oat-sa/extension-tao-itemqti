@@ -136,8 +136,8 @@ trait PortableElementTrait
 
             if($prop instanceof DOMElement){
                 switch($prop->tagName){
-                    case $ns.'entry':
-                    case $ns.'property':
+                    case $ns.'entry'://OAT PCI uses entry as property node
+                    case $ns.'property'://IMS PCI uses entry as property node
                         $key = $prop->getAttribute('key');
                         $properties[$key] = $prop->nodeValue;
                         break;

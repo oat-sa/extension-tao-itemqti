@@ -1,5 +1,0 @@
-{   "waitSeconds": 60,
-    "paths": {
-        "jquery_2_1_1": "portableLib/jquery_2_1_1.js"
-    }
-}

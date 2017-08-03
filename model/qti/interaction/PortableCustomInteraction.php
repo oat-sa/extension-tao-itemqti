@@ -27,7 +27,7 @@ use \DOMElement;
 use oat\taoQtiItem\model\qti\PortableElementTrait;
 
 /**
- * The QTI custom interaction is a subclass of the main QTI Interaction class
+ * The PortableCustomInteraction is the class of the OAT specific PCI implementation
  *
  * @access public
  * @author Sam, <sam@taotesting.com>

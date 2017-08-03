@@ -300,16 +300,37 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $this->requiredFiles = array_merge($this->requiredFiles, array_fill_keys($files, $typeId));
     }
 
+    /**
+     * Set the root directory of the QTI package, where the qti manifest.xml is located
+     *
+     * @param $source
+     * @return $this
+     */
     public function setSource($source)
     {
         $this->source = $source;
         return $this;
     }
 
+    /**
+     * Set the directory where the qti item qti.xml file is locate
+     *
+     * @param $itemDir
+     * @return $this
+     */
     public function setItemDir($itemDir)
     {
         $this->itemDir = $itemDir;
         return $this;
+    }
+
+    /**
+     * Get the parsed portable objects
+     *
+     * @return array
+     */
+    public function getPortableObjects(){
+        return $this->portableObjects;
     }
 
     /**
@@ -318,7 +339,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     public function importPortableElements()
     {
         if (count($this->importingFiles) != count($this->requiredFiles)) {
-            var_dump(__LINE__, $this->importingFiles, $this->requiredFiles);
             throw new \common_Exception('Needed files are missing during Portable Element asset files');
         }
 
@@ -351,10 +371,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             }
         }
         return true;
-    }
-
-    public function getPortableObjects(){
-        return $this->portableObjects;
     }
 
     /**
