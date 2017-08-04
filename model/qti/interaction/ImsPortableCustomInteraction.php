@@ -14,32 +14,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
+ * 
  */
 
-namespace oat\taoQtiItem\model\qti;
+namespace oat\taoQtiItem\model\qti\interaction;
 
+use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
+use oat\taoQtiItem\model\qti\PortableElementTrait;
 
 /**
- * Class representing a QTI portable InfoControl
- * 
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10433a
+ * The ImsPortableCustomInteraction is the class of the official IMS PCI v1 implementation
+ *
  * @access public
- * @author Sam, <sam@taotestin.com>
- * @package taoQtiItem
+ * @author Sam, <sam@taotesting.com>
+ * @package taoQTI
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10267
 
  */
-class PortableInfoControl extends InfoControl
+class ImsPortableCustomInteraction extends CustomInteraction
 {
-
     use PortableElementTrait;
 
-    const NS_NAME = 'pic';
-    const NS_URI = 'http://www.imsglobal.org/xsd/portableInfoControl';
+    const NS_NAME = 'imspci';
+    const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1';
 
+    protected $markupNs = 'http://www.w3.org/1999/xhtml';
     protected $properties = array();
     protected $libraries = array();
     protected $stylesheets = array();
@@ -113,89 +117,95 @@ class PortableInfoControl extends InfoControl
     }
 
     public function toArray($filterVariableContent = false, &$filtered = array()){
-
+        
         $returnValue = parent::toArray($filterVariableContent, $filtered);
 
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
         $returnValue['version'] = $this->version;
-        $returnValue['entryPoint'] = $this->entryPoint;
-        $returnValue['libraries'] = $this->libraries;
-        $returnValue['stylesheets'] = $this->stylesheets;
-        $returnValue['mediaFiles'] = $this->mediaFiles;
         $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+        $returnValue['config'] = $this->config;
+        $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection($this->getModules(), $filterVariableContent, $filtered);
 
         return $returnValue;
     }
 
     public static function getTemplateQti(){
-        return static::getTemplatePath().'qti.portableInfoControl.tpl.php';
+        return static::getTemplatePath().'interactions/qti.imspci.tpl.php';
     }
-
+    
     protected function getTemplateQtiVariables(){
 
-        $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
-        $variables['libraries'] = $this->libraries;
-        $variables['stylesheets'] = $this->stylesheets;
-        $variables['mediaFiles'] = $this->mediaFiles;
-        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties, self::NS_NAME, self::NS_URI);
-        $variables['entryPoint'] = $this->entryPoint;
-        $variables['typeIdentifier'] = $this->typeIdentifier;
-        $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$nsMarkup.':$2', $variables['markup']);
-        $this->getRelatedItem()->addNamespace($nsMarkup, $nsMarkup);
+        $variables['typeIdentifier'] = $this->getTypeIdentifier();
+        $variables['modules'] = $this->getModules();
+        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties);
+        $variables['config'] = $this->getConfig();
         return $variables;
     }
+    
+    /**
+     * Feed the pci instance with data provided in the pci dom node
+     *
+     * @param ParserFactory $parser
+     * @param DOMElement $data
+     * @throws InvalidArgumentException
+     * @throws QtiModelException
+     */
+    public function feed(ParserFactory $parser, DOMElement $data, $xmlns = ''){
 
-    public function feed(ParserFactory $parser, DOMElement $data){
-
-        $ns = $parser->getPicNamespace();
-
-        $pciNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $ns);
+        $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
         if(!$pciNodes->length) {
-            throw new QtiModelException('no portableInfoControl node found');
+            $xmlns = '';//even if a namespace has been defined, it may not be used
+            $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
+        }
+        if(!$pciNodes->length) {
+            throw new QtiModelException('no ims portableCustomInteraction node found');
         }
 
-        $typeIdentifier = $pciNodes->item(0)->getAttribute('infoControlTypeIdentifier');
+        $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
         if(empty($typeIdentifier)){
-            throw new QtiModelException('the type identifier of the pic is missing');
+            throw new QtiModelException('the type identifier of the pci is missing');
         }else{
             $this->setTypeIdentifier($typeIdentifier);
         }
-        $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
 
-        $version = $pciNodes->item(0)->getAttribute('version');
+        $version = $pciNodes->item(0)->getAttribute('data-version');
         if($version){
             $this->setVersion($version);
         }
 
-        $libNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'libraries', 'lib'), $data, $ns);
-        $libs = array();
-        foreach($libNodes as $libNode){
-            $libs[] = $libNode->getAttribute('id');
+        $rootModulesNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules'), $data, $xmlns);
+        foreach($rootModulesNodes as $rootModulesNode){
+            $config = [];
+            if($rootModulesNode->getAttribute('primaryConfiguration')){
+                $config[] = $rootModulesNode->getAttribute('primaryConfiguration');
+            }
+            if($rootModulesNode->getAttribute('fallbackConfiguration')){
+                $config[] = $rootModulesNode->getAttribute('fallbackConfiguration');
+            }
+            $this->setConfig($config);
         }
-        $this->setLibraries($libs);
 
-        $stylesheetNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'stylesheets', 'link'), $data, $ns);
-        $stylesheets = array();
-        foreach($stylesheetNodes as $styleNode){
-            $stylesheets[] = $styleNode->getAttribute('href');
+        $moduleNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules', 'module'), $data, $xmlns);
+        foreach($moduleNodes as $libNode){
+            $id = $libNode->getAttribute('id');
+            $paths = [];
+            if($libNode->getAttribute('primaryPath')){
+                $paths[] = $libNode->getAttribute('primaryPath');
+            }
+            if($libNode->getAttribute('fallbackPath')){
+                $paths[] = $libNode->getAttribute('fallbackPath');
+            }
+            $this->addModule($id, $paths);
         }
-        $this->setStylesheets($stylesheets);
 
-        $mediaNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'mediaFiles', 'file'), $data, $ns);
-        $media = array();
-        foreach($mediaNodes as $mediaNode){
-            $media[] = $mediaNode->getAttribute('src');
-        }
-        $this->setMediaFiles($media);
-
-        $propertyNodes = $parser->queryXPathChildren(array('portableInfoControl', 'properties'), $data, $ns);
+        $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $xmlns);
         if($propertyNodes->length){
-            $properties = $this->extractProperties($propertyNodes->item(0), $ns);
+            $properties = $this->extractProperties($propertyNodes->item(0), $xmlns);
             $this->setProperties($properties);
         }
 
-        $markupNodes = $parser->queryXPathChildren(array('portableInfoControl', 'markup'), $data, $ns);
+        $markupNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'markup'), $data, $xmlns);
         if($markupNodes->length){
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);
