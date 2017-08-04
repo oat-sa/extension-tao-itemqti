@@ -57,8 +57,8 @@ class PortableAssetHandler implements AssetHandler
     public function isApplicable($relativePath)
     {
         //adapt the file path before comparing them to expected files
-        $relativePathAdapted = ltrim($relativePath, '../');
-        $relativePathAdapted = ltrim($relativePathAdapted, './');
+        $relativePathAdapted = preg_replace('/^\.\.\//', '', $relativePath);
+        $relativePathAdapted = preg_replace('/^\.\//', '', $relativePathAdapted);
         if ($this->portableItemParser->hasPortableElement()
             && $this->portableItemParser->isPortableElementAsset($relativePathAdapted)
         ) {
@@ -77,8 +77,8 @@ class PortableAssetHandler implements AssetHandler
     public function handle($absolutePath, $relativePath)
     {
         //adapt the file path before comparing them to expected files
-        $relativePathAdapted = ltrim($relativePath, '../');
-        $relativePathAdapted = ltrim($relativePathAdapted, './');
+        $relativePathAdapted = preg_replace('/^\.\.\//', '', $relativePath);
+        $relativePathAdapted = preg_replace('/^\.\//', '', $relativePathAdapted);
         return $this->portableItemParser->importPortableElementFile($absolutePath, $relativePathAdapted);
     }
 
