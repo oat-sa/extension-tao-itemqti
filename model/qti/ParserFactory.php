@@ -1502,15 +1502,54 @@ class ParserFactory
     }
 
     /**
-     * Check if the node is dom element is a valid portable custom interaction one
+     * Return the list of registered PCI php subclasses
+     * @return array
+     */
+    private function getPciClasses(){
+        $pciClasses = [];
+        foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+            $portableElementClass = $model->getQtiElementClassName();
+            if(is_subclass_of($portableElementClass, '\\oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction')){
+                $pciClasses[] = $portableElementClass;
+            }
+        }
+        return $pciClasses;
+    }
+
+    /**
+     * Get the PCI class associated to a dom node based on its namespace
+     * Returns null if not a known PCI model
      *
      * @param DOMElement $data
-     * @return boolean
+     * @return null
      */
-    private function isPciNode(DOMElement $data){
+    private function getPciClass(DOMElement $data){
 
-        $ns = $this->getPciNamespace();
-        return (boolean) $this->queryXPathChildren(array('portableCustomInteraction'), $data, $ns)->length;
+        $pciClasses = $this->getPciClasses();
+
+        //start searching from globally declared namespace
+        foreach($this->item->getNamespaces() as $name => $uri){
+            foreach($pciClasses as $class){
+                if($uri === $class::NS_URI
+                    && $this->queryXPathChildren(array('portableCustomInteraction'), $data, $name)->length){
+                    return $class;
+                }
+            }
+        }
+
+        //not found as a global namespace definition, try local namespace
+        if($this->queryXPathChildren(array('portableCustomInteraction'), $data)->length){
+            $pciNode = $this->queryXPathChildren(array('portableCustomInteraction'), $data)[0];
+            $xmlns = $pciNode->getAttribute('xmlns');
+            foreach($pciClasses as $pciClass){
+                if($pciClass::NS_URI === $xmlns){
+                    return $pciClass;
+                }
+            }
+        }
+
+        //not a known PCI type
+        return null;
     }
 
     /**
@@ -1524,18 +1563,25 @@ class ParserFactory
 
         $interaction = null;
 
-        if ($this->isPciNode($data)) {
-            // throws an exception if pci not present
-            PortableModelRegistry::getRegistry()->getModel('PCI');
+        $pciClass = $this->getPciClass($data);
+
+        if (!empty($pciClass)) {
+
+            $xmlns = '';
+            foreach($this->item->getNamespaces() as $name => $uri){
+                if($pciClass::NS_URI === $uri){
+                    $xmlns = $name;
+                }
+            }
 
             //use tao's implementation of portable custom interaction
-            $interaction = new PortableCustomInteraction($this->extractAttributes($data), $this->item);
-            $interaction->feed($this, $data);
+            $interaction = new $pciClass($this->extractAttributes($data), $this->item);
+            $interaction->feed($this, $data, $xmlns);
         }else{
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
-            $classeNames = split('/\s+/', $classes);
+            $classeNames = preg_split('/\s+/', $classes);
             foreach($classeNames as $classeName){
                 $ciClass = CustomInteractionRegistry::getCustomInteractionByName($classeName);
                 if($ciClass){
@@ -1556,10 +1602,10 @@ class ParserFactory
     /**
      * Get the namespace of the portable custom interaction
      *
+     * @deprecated should instead use item name space and registered PciModels like getPciClasses()
      * @return string
      */
     public function getPciNamespace(){
-        //@todo : implement this properly
         return 'pci';
     }
 

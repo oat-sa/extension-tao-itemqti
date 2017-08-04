@@ -45,6 +45,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     protected $picModels = [];
 
     protected $source;
+    protected $itemDir;
 
     /**
      * @var PortableElementService
@@ -193,18 +194,84 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     {
         $typeId = $portableElement->getTypeIdentifier();
         $libs = [];
-        $requiredLibFiles = [];
+        $librariesFiles = [];
+        $entryPoint = [];
 
         //Adjust file resource entries where {QTI_NS}/xxx/yyy is equivalent to {QTI_NS}/xxx/yyy.js
         foreach($portableElement->getLibraries() as $lib){
             if(preg_match('/^'.$typeId.'.*\.js$/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
-                $requiredLibFiles[] = $lib.'.js';//amd modules
+                $librariesFiles[] = $lib.'.js';//amd modules
                 $libs[] = $lib.'.js';
             }else{
                 $libs[] = $lib;
             }
         }
 
+        $moduleFiles = [];
+        $emptyModules = [];//list of modules that are referenced directly in the module node
+        foreach($portableElement->getModules() as $id => $paths){
+            if(empty($paths)){
+                $emptyModules[] = $id;
+                continue;
+            }
+            foreach($paths as $path){
+                if(strpos($path, 'http') !== 0){
+                    //only copy into data the relative files
+                    $moduleFiles[] = $path;
+                }
+            }
+        }
+
+        /**
+         * Parse the standard portable configuration if applicable.
+         * Local config files will be preloaded into the registry itself and the registered modules will be included as required dependency files.
+         * Per standard, every config file have the following structure:
+         *  {
+         *  "waitSeconds": 15,
+         *      "paths": {
+         *          "graph": "https://example.com/js/modules/graph1.01/graph.js",
+         *          "foo": "foo/bar1.2/foo.js"
+         *      }
+         *  }
+         */
+        $configDataArray = [];
+        $configFiles = [];
+        foreach($portableElement->getConfig() as $configFile){
+            //only read local config file
+            if(strpos($configFile, 'http') !== 0){
+
+                //save the content and file config data in registry, to allow later retrieval
+                $configFiles[] = $configFile;
+
+                //read the config file content
+                $configData = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR . $configFile), true);
+                if(!empty($configData)){
+                    $configDataArray[] =[
+                        'file' => $configFile,
+                        'data' => $configData
+                    ] ;
+                    if(isset($configData['paths'])){
+                        foreach($configData['paths'] as $id => $path){
+                            if(strpos($path, 'http') !== 0){
+                                //only copy into data the relative files
+                                $moduleFiles[] = $path;
+                            }
+                        }
+                    }
+                }
+            }else{
+                $configDataArray[] = ['file' => $configFile];
+            }
+        }
+
+        /**
+         * In the standard IMS PCI, entry points become optionnal
+         */
+        if(!empty($portableElement->getEntryPoint())){
+            $entryPoint[] = $portableElement->getEntryPoint();
+        }
+
+        //register the files here
         $data = [
             'typeIdentifier' => $typeId,
             'version' => $portableElement->getVersion(),
@@ -215,6 +282,8 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 'libraries' => $libs,
                 'stylesheets' => $portableElement->getStylesheets(),
                 'mediaFiles' => $portableElement->getMediaFiles(),
+                'config' => $configDataArray,
+                'modules' => $portableElement->getModules()
             ]
         ];
 
@@ -237,18 +306,47 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $this->portableObjects[$typeId] = $portableObject;
 
         $files = array_merge(
-            [$portableObject->getRuntimeKey('hook')],
-            $requiredLibFiles,
+            $entryPoint,
+            $librariesFiles,
+            $configFiles,
+            $moduleFiles,
             $portableObject->getRuntimeKey('stylesheets'),
             $portableObject->getRuntimeKey('mediaFiles')
         );
         $this->requiredFiles = array_merge($this->requiredFiles, array_fill_keys($files, $typeId));
     }
 
+    /**
+     * Set the root directory of the QTI package, where the qti manifest.xml is located
+     *
+     * @param $source
+     * @return $this
+     */
     public function setSource($source)
     {
         $this->source = $source;
         return $this;
+    }
+
+    /**
+     * Set the directory where the qti item qti.xml file is locate
+     *
+     * @param $itemDir
+     * @return $this
+     */
+    public function setItemDir($itemDir)
+    {
+        $this->itemDir = $itemDir;
+        return $this;
+    }
+
+    /**
+     * Get the parsed portable objects
+     *
+     * @return array
+     */
+    public function getPortableObjects(){
+        return $this->portableObjects;
     }
 
     /**
@@ -268,10 +366,9 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
             );
             //only register a pci that has not been register yet, subsequent update must be done through pci package import
             if (is_null($lastVersionModel)){
-                $this->replaceLibAliases($object);
                 $this->getService()->registerModel(
                     $object,
-                    $this->source . DIRECTORY_SEPARATOR . $object->getTypeIdentifier() . DIRECTORY_SEPARATOR
+                    $object->getRegistrationSourcePath($this->source, $this->itemDir)
                 );
             } else {
                 \common_Logger::i('The imported item contains the portable element '.$object->getTypeIdentifier()

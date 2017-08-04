@@ -73,8 +73,15 @@ abstract class CustomInteraction extends Interaction
         
         return $variables;
     }
-    
-    public function feed(ParserFactory $parser, DOMElement $data){
+
+    /**
+     * Feed the custom interaction model with data from its XML DOM
+     *
+     * @param ParserFactory $parser
+     * @param DOMElement $data - the custom interaction dom element
+     * @param string $xmlns (optional) the name space used in inner custom interaction elements
+     */
+    public function feed(ParserFactory $parser, DOMElement $data, $xmlns = ''){
         
         $markup = $parser->getBodyData($data->item(0), true);
         $this->setMarkup($markup);

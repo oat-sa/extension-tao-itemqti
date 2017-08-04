@@ -33,12 +33,18 @@ class PortableAssetHandler implements AssetHandler
     /**
      * PciAssetHandler constructor.
      * Set PortableElementItemParser
+     *
+     * @param Item $item
+     * @param $sourceDir - root dir where the qti manifest.xml is located
+     * @param $itemDir - the dir where the qti item qti.xml file is located
      */
-    public function __construct(Item $item, $sourceDir)
+    public function __construct(Item $item, $sourceDir, $itemDir)
     {
+        //how to get manifest dir
         $this->portableItemParser = new PortableElementItemParser();
         $this->portableItemParser->setServiceLocator(ServiceManager::getServiceManager());
         $this->portableItemParser->setSource(rtrim($sourceDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+        $this->portableItemParser->setItemDir(rtrim($itemDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
         $this->portableItemParser->setQtiModel($item);
     }
 
@@ -50,9 +56,11 @@ class PortableAssetHandler implements AssetHandler
      */
     public function isApplicable($relativePath)
     {
-        $relativePath = str_replace('./', '', $relativePath);
+        //adapt the file path before comparing them to expected files
+        $relativePathAdapted = ltrim($relativePath, '../');
+        $relativePathAdapted = ltrim($relativePathAdapted, './');
         if ($this->portableItemParser->hasPortableElement()
-            && $this->portableItemParser->isPortableElementAsset($relativePath)
+            && $this->portableItemParser->isPortableElementAsset($relativePathAdapted)
         ) {
             return true;
         }
@@ -68,8 +76,10 @@ class PortableAssetHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
-        $relativePath = str_replace('./', '', $relativePath);
-        return $this->portableItemParser->importPortableElementFile($absolutePath, $relativePath);
+        //adapt the file path before comparing them to expected files
+        $relativePathAdapted = ltrim($relativePath, '../');
+        $relativePathAdapted = ltrim($relativePathAdapted, './');
+        return $this->portableItemParser->importPortableElementFile($absolutePath, $relativePathAdapted);
     }
 
     /**

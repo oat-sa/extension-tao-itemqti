@@ -45,7 +45,8 @@ abstract class PortableElementAssetValidator implements Validatable
     public function validateAssets(PortableElementObject $object, $source, array $files=[])
     {
         if (empty($files)) {
-            $files = $this->getAssets($object, $files);
+            //if no files requested, get all all assets
+            $files = $this->getAssets($object);
         }
         if (empty($files)) {
             return false;
@@ -102,9 +103,17 @@ abstract class PortableElementAssetValidator implements Validatable
                     throw new PortableElementInvalidAssetException('Missing asset file for ' . $key . ':' . $constraint);
                 }
                 if (is_array($asset[$constraint])) {
-                    $files = array_merge($files, $asset[$constraint]);
+                    //get a flat list out of the structure of file data
+                    $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($asset[$constraint]));
+                    foreach($it as $k => $v) {
+                        if(!in_array(strval($k), $object->getRegistrationExcludedKey()) && !empty($v)){
+                            $files[] = $v;
+                        }
+                    }
                 } else {
-                    $files[] = $asset[$constraint];
+                    if(!empty($asset[$constraint])){
+                        $files[] = $asset[$constraint];
+                    }
                 }
             }
         }
@@ -126,7 +135,8 @@ abstract class PortableElementAssetValidator implements Validatable
             throw new PortableElementParserException('Unable to locate extracted zip file.');
         }
 
-        $filePath = $source . $file;
+        $filePath = rtrim($source, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . str_replace('./', '', $file);
+
         if (file_exists($filePath) || file_exists($filePath . '.js')) {
             return true;
         }
@@ -136,7 +146,7 @@ abstract class PortableElementAssetValidator implements Validatable
         }
 
         throw new PortableElementInvalidAssetException(
-            'Asset ' . $file . ' is not found in archive neither through alias'
+            'Asset "' . $file . '" is not found in the source "'.$source.'"" neither through alias'
         );
     }
 }

@@ -91,9 +91,8 @@ class PortableElementFileStorage extends ConfigurableService
         $source = $this->sanitizeSourceAsDirectory($source);
 
         foreach ($files as $file) {
-            if (substr($file, 0, 2)!='./' && !preg_match('/^' . $object->getTypeIdentifier() . '/', $file)) {
-                // File is not relative, it's a shared libraries
-                // Ignore this file, front have fallBack
+
+            if(!$object->isRegistrableFile($file)){
                 continue;
             }
 
@@ -102,8 +101,7 @@ class PortableElementFileStorage extends ConfigurableService
                 throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }
 
-            $fileId = $this->getPrefix($object) . preg_replace('/^' . $object->getTypeIdentifier() . '/', '.', $file);
-            //Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.js
+            $fileId = $this->getPrefix($object) . $object->getRegistrationFileId($file);
             if ($fileSystem->has($fileId)) {
                 $registered = $fileSystem->updateStream($fileId, $resource);
             } else {
@@ -135,6 +133,15 @@ class PortableElementFileStorage extends ConfigurableService
             $deleted = $filesystem->delete($fileId);
         }
         return $deleted;
+    }
+
+    /**
+     * Remove all the portable element files and dir
+     * @param PortableElementObject $object
+     * @return bool
+     */
+    public function unregisterAllFiles(PortableElementObject $object){
+        return $this->getFileStorage()->deleteDir($this->getPrefix($object));
     }
 
     public function getFileContentFromModelStorage(PortableElementObject $object, $file)
