@@ -22,6 +22,8 @@ namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use \DOMDocument;
 use \DOMElement;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
@@ -232,8 +234,16 @@ class ImsManifestMetadataInjector implements MetadataInjector
     {
         $path = $metadata->getPath();
         $path = array_reverse($path);
-        $forceNodeCreationElements = [];
 
+        /**
+         * @deprecated Use NestedMetadataValue instead!
+         */
+        $uniqNodes = [];
+        if ($metadata instanceof ClassificationValue) {
+            $uniqNodes = array('taxonPath', 'source');
+        }
+
+        $forceNodeCreationElements = [];
         if ($metadata instanceof NestedMetadataValue) {
             $basePath = $metadata->getBasePath();
             $basePathName = end($basePath);
@@ -253,7 +263,16 @@ class ImsManifestMetadataInjector implements MetadataInjector
                 is_null($oldChildNode) || $metadataNode->getElementsByTagName($map[$base].':'.$name)->length === 0
             ) {
                 $node = $imsManifest->createElement($map[$base].':'.$name);
-            } else {
+            }
+
+            /**
+             * @deprecated Use NestedMetadataValue instead!
+             */
+            elseif (in_array($name, $uniqNodes) || is_null($oldChildNode) || $metadataNode->getElementsByTagName($map[$base].':'.$name)->length === 0) {
+                $node = $imsManifest->createElement($map[$base].':'.$name);
+            }
+
+            else {
                 $node = $metadataNode->getElementsByTagName($map[$base].':'.$name)->item(0);
             }
 
@@ -268,6 +287,16 @@ class ImsManifestMetadataInjector implements MetadataInjector
                         $this->createMetadataElement($entry, $node, $map, $imsManifest);
                     }
                 }
+
+                /**
+                 * @deprecated Use NestedMetadataValue instead!
+                 */
+                elseif ($name == 'taxonPath' && $metadata instanceof ClassificationMetadataValue) {
+                    foreach ($metadata->getEntries() as $entry) {
+                        $this->createMetadataElement($entry, $node, $map, $imsManifest);
+                    }
+                }
+
             } else{
                 $node->nodeValue = $metadata->getValue();
             }
