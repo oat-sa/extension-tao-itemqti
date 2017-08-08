@@ -194,6 +194,182 @@
                 }
             }
         },
+        "/taoQtiItem/RestQtiItem/importDeferred/": {
+          "post": {
+            "description": "Asynchronous import QTI item entry point from uploaded package Check POST method & get valid uploaded file",
+            "tags": [
+              "item"
+            ],
+            "parameters": [
+              {
+                "name": "content",
+                "in": "formData",
+                "description": "file attachemnt zip format supported",
+                "required": true,
+                "type": "file"
+              },
+              {
+                "name": "class-uri",
+                "in": "formData",
+                "description": "Class uri to import item. If not specified root class will be used.",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "class-label",
+                "in": "formData",
+                "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
+                "type": "string",
+                "required": false
+              }
+            ],
+            "consumes" : [
+              "multipart/form-data"
+            ],
+            "responses": {
+              "200": {
+                "description": "Request was correctly handled, task to import item was created",
+                "schema": {
+                  "title": "response",
+                  "format": "json",
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "version",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "True on success"
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "Tao version"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "reference_id" : {
+                          "type": "string",
+                          "description": "Identifier of the task in the task queue"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "application/json": {
+                    "success": true,
+                    "data": {
+                      "reference_id": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
+                    },
+                    "version": "3.2.0"
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request if you send invalid parameters",
+                "examples": {
+                  "application/json": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                    "version": "3.2.0"
+                  }
+                },
+                "schema": {
+                  "$ref" : "#/definitions/errorModel"
+                }
+              },
+              "401": {
+                "description": "Unauthorized"
+              },
+              "403": {
+                "description": "User isn't authorized to access to this functionality"
+
+              },
+              "500": {
+                "description": "Internal error (should not occur)"
+
+              }
+            }
+          }
+        },
+        "/taoQtiItem/RestQtiItem/getStatus": {
+          "get": {
+            "description": "Check status of import item package task. Available since Tao 3.2",
+            "tags": [
+              "item"
+            ],
+            "responses": {
+              "200": {
+                "description": "Request was correctly handled, task found",
+                "schema": {
+                  "title": "response",
+                  "format": "json",
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "version",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "True on success"
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "Tao version"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status" : {
+                          "type": "string",
+                          "description": "Task execution status"
+                        },
+                        "itemIds" : {
+                          "type": "array",
+                          "description": "List of identifiers of imported items"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "application/json": {
+                    "success": true,
+                    "data": {
+                      "status": "Success",
+                      "itemIds": ["http://tao.local/mytao.rdf#xxxxxxxxxxxxx"]
+                    },
+                    "version": "3.2.0"
+                  }
+                }
+              },
+              "404": {
+                "description": "Task with given id was not found"
+              },
+              "500": {
+                "description": "Internal error (should not occur)"
+              }
+            },
+            "parameters": [
+              {
+                "name": "id",
+                "in": "query",
+                "description": "job reference",
+                "type": "string",
+                "required": true
+              }
+            ],
+            "consumes" : [
+              "application/x-www-form-urlencoded"
+            ]
+          }
+        },
         "/taoQtiItem/RestQtiItem/createQtiItem/": {
             "post": {
                 "description": "Create an empty QTI item",

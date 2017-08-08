@@ -25,30 +25,20 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
+use oat\taoQtiItem\model\tasks\ImportQtiItem;
 
 /**
  * End point of Rest item API
  *
  * @author Absar Gilani, absar.gilani6@gmail.com
  */
-class RestQtiItem extends \tao_actions_RestController
+class RestQtiItem extends AbstractRestQti
 {
     use OntologyAwareTrait;
-    
+
     const RESTITEM_PACKAGE_NAME = 'content';
 
-    /**
-     * Accepted archive types
-     *
-     * @var array
-     */
-    private static $accepted_types = array(
-        'application/zip',
-        'application/x-zip-compressed',
-        'multipart/x-zip',
-        'application/x-compressed'
-    );
-    
+    const IMPORT_TASK_CLASS = 'oat\taoQtiItem\model\tasks\ImportQtiItem';
     /**
      * @inherit
      */
@@ -125,6 +115,55 @@ class RestQtiItem extends \tao_actions_RestController
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
+    }
+
+    /**
+     * Import item package through the task queue.
+     */
+    public function importDeferred()
+    {
+        try {
+            $file = $this->getUploadedPackage();
+            $task = ImportQtiItem::createTask($file, $this->getDestinationClass());
+            $result = [
+                'reference_id' => $task->getId()
+            ];
+            $report = $task->getReport();
+            if (!empty($report)) {
+                if ($report instanceof \common_report_Report) {
+                    //serialize report to array
+                    $report = json_encode($report);
+                    $report = json_decode($report);
+                }
+                $result['report'] = $report;
+            }
+            return $this->returnSuccess($result);
+        } catch (\Exception $e) {
+            return $this->returnFailure($e);
+        }
+    }
+
+    /**
+     * @param $taskId
+     * @return array
+     */
+    protected function getTaskData($taskId)
+    {
+        $data = $this->traitGetTaskData($taskId);
+        $task = $this->getTask($taskId);
+        $report = \common_report_Report::jsonUnserialize($task->getReport());
+        if ($report) {
+            $plainReport = $this->getPlainReport($report);
+            //the third report is report of import test
+            $itemsReport = array_slice($plainReport, 2);
+            foreach ($itemsReport as $itemReport) {
+                if (isset($itemReport->getData()['uriResource'])) {
+                    $data['itemIds'][] = $itemReport->getData()['uriResource'];
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**
