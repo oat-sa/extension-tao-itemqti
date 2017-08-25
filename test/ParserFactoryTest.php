@@ -57,7 +57,7 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
     /**
      * Test table parsing
      */
-    public function testParseTable() {
+    public function testParseTableWithNestedInteractions() {
         $xml = new \DOMDocument();
         $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableInteractions.xml');
         $parser = new ParserFactory($xml);
@@ -98,10 +98,7 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($nestedTableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index');
     }
 
-    /**
-     * Test table parsing
-     */
-    public function testParseTableRichContent() {
+    public function testParseTableWithNoNestedInteractions() {
         $xml = new \DOMDocument();
         $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableNoInteractions.xml');
         $parser = new ParserFactory($xml);
