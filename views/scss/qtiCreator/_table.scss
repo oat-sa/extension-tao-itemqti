@@ -3,11 +3,14 @@
 .widget-table {
     display: inline-block;
 
+    .qti-table-container {
+        border: 0;
+    }
+
     table {
         &.qti-table {
             th.hoverDelete,
             td.hoverDelete {
-                //border-color: $warning;
                 background-color: whiten($warning, 0.85);
             }
 
