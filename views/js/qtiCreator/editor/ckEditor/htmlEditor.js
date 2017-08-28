@@ -95,14 +95,7 @@ define([
 
                     if(options.data && options.data.container && options.data.widget){
                         contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
-                            var createdElement = createdWidget.element,
-                                allAttributes = $newContent[0].attributes;
-
-                            $.each(allAttributes, function() {
-                                if (this.specified) {
-                                    createdElement.attr(this.name, this.value);
-                                }
-                            });
+                            var createdElement = createdWidget.element;
 
                             if (_.isFunction(createdElement.initContainer)) {
                                 createdElement.body($newContent.html());

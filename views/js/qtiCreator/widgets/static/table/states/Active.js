@@ -78,7 +78,7 @@ define([
 
         $editable
             .on('editorready.tableActive', function(event, editor) {
-                tableModel = tableModelFactory($editable);
+                tableModel = tableModelFactory($editable.find('table'));
 
                 // listener for table properties
                 $tablePropTrigger.on('click.tableActive', function openTableProperties(e){
