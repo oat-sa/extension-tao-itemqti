@@ -37,6 +37,8 @@ define([
 
     var gpeToggler = groupToggler();
 
+    var editorFactory;
+
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
 
@@ -62,10 +64,11 @@ define([
      * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {Boolean} [options.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
+     * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var $trigger;
+        var $trigger, ckConfig;
 
         options = _.defaults(options, _defaults);
 
@@ -80,7 +83,7 @@ define([
         if (options.placeholder && options.placeholder !== '') {
             $editable.attr('placeholder', options.placeholder);
         }
-        var ckConfig = {
+        ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
             removePlugins : options.removePlugins || '',
@@ -359,11 +362,12 @@ define([
 
         var deleted = [];
         var container = $container.data('qti-container');
+        var $widget;
 
         _.each(widgets, function(w){
 
             if(!w.element.data('removed')){
-                var $widget = _findWidgetContainer($container, w.serial);
+                $widget = _findWidgetContainer($container, w.serial);
                 if(!$widget.length){
                     deleted.push(w);
                 }
@@ -456,25 +460,26 @@ define([
      * @returns {undefined}
      */
     function _activateInnerWidget(containerWidget, innerWidget){
+        var listenToWidgetCreation;
 
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
 
-            var listenToWidgetCreation = function(){
+            listenToWidgetCreation = function(){
                 containerWidget.$container
-                  .off('widgetCreated')
-                  .one('widgetCreated', function(e, widgets){
-                    var targetWidget = widgets[innerWidget.serial];
-                    if(targetWidget){
-                        //FIXME potential race condition ? (debounce the enclosing event handler ?)
-                        _.delay(function(){
-                            if(Element.isA(targetWidget.element, 'interaction')){
-                                targetWidget.changeState('question');
-                            } else{
-                                targetWidget.changeState('active');
-                            }
-                        }, 100);
-                    }
-                });
+                    .off('widgetCreated')
+                    .one('widgetCreated', function(e, widgets){
+                        var targetWidget = widgets[innerWidget.serial];
+                        if(targetWidget){
+                            //FIXME potential race condition ? (debounce the enclosing event handler ?)
+                            _.delay(function(){
+                                if(Element.isA(targetWidget.element, 'interaction')){
+                                    targetWidget.changeState('question');
+                                } else{
+                                    targetWidget.changeState('active');
+                                }
+                            }, 100);
+                        }
+                    });
 
             };
 
@@ -527,7 +532,7 @@ define([
         }
     }
 
-    var editorFactory = {
+    editorFactory = {
         /**
          * Check if all data-html-editable has an editor
          *

@@ -65,7 +65,7 @@ define([
             htmlEditor.buildEditor($editableContainer, {
                 placeholder: '',
                 change : contentHelper.getChangeCallback(container),
-                removePlugins: 'taoqtitable,magicline',
+                removePlugins: 'magicline',
                 data : {
                     container : container,
                     widget : _widget
