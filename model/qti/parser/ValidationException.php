@@ -14,13 +14,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\taoQtiItem\model\qti\parser;
 
 use common_report_Report;
+use oat\oatbox\filesystem\File;
 
 class ValidationException extends \common_Exception {
     
@@ -32,8 +33,11 @@ class ValidationException extends \common_Exception {
      */
     public function __construct($file, $errors)
     {
+        if ($file instanceof File) {
+            $file = $file->getPrefix();
+        }
         $this->errors = $errors;
-        parent::__construct('Failed to validate '.$file);
+        parent::__construct('Failed to validate ' . $file);
     }
     
     /**

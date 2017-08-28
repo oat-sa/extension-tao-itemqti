@@ -1,5 +1,5 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,9 +14,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
- * 
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -39,13 +38,12 @@ use \oat\oatbox\filesystem\File;
  * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_intgv2p0.html#section10003
  
  */
-class PackageParser
-    extends tao_models_classes_Parser
+class PackageParser extends tao_models_classes_Parser
 {
     protected $extracted;
 
     /**
-     * Short description of method validate
+     * Validate the source as a valid ZIP file
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -55,27 +53,27 @@ class PackageParser
      */
     public function validate($schema = '')
     {
-        
         $forced = $this->valid;
         $this->valid = true;
-        
+
         try{
         	switch($this->sourceType){
         		case self::SOURCE_FILE:
-	        		//check file
-			   		if(!file_exists($this->source)){
-			    		throw new Exception("File {$this->source} not found.");
-			    	}
-			    	if(!is_readable($this->source)){
-			    		throw new Exception("Unable to read file {$this->source}.");
-			    	}
-			   		if(!preg_match("/\.zip$/", basename($this->source))){
-			    		throw new Exception("Wrong file extension in {$this->source}, zip extension is expected");
-			    	}
-			   		if(!tao_helpers_File::securityCheck($this->source)){
-			    		throw new Exception("{$this->source} seems to contain some security issues");
-			    	}
-			    	break;
+                    //check file
+                    if (!file_exists($this->source)) {
+                        throw new Exception('File "' . $this->source . '" not found.');
+                    }
+                    if (!is_readable($this->source)) {
+                        throw new Exception('Unable to read file "' . $this->source . '".');
+                    }
+                    if (!preg_match("/\.zip$/", basename($this->source))) {
+                        throw new Exception('Wrong file extension in "' . $this->source . '", zip extension is expected');
+                    }
+                    if (!tao_helpers_File::securityCheck($this->source)) {
+                        throw new Exception($this->source . ' seems to contain some security issues');
+                    }
+                    break;
+
                 case self::SOURCE_FLYFILE:
                     //check file
                     if (!$this->source->exists()) {
@@ -90,59 +88,55 @@ class PackageParser
 	        		throw new Exception("Only regular files are allowed as package source");
 	        		break;
         	}
+        } catch (Exception $e) {
+            if ($forced) {
+                throw $e;
+            } else {
+                $this->addError($e);
+            }
         }
-        catch(Exception $e){
-        	if($forced){
-        		throw $e;
-        	}
-        	else{
-        		$this->addError($e);
-        	}
-        }   
-             
-        if($this->valid && !$forced){	//valida can be true if forceValidation has been called
-        	
-        	$this->valid = false;
-        	
-			try{
-	    		$zip = new ZipArchive();
-	    		//check the archive opening and the consistency
-	    		$res = $zip->open($this->source, ZIPARCHIVE::CHECKCONS);
-				if( $res !== true){
-				   
-				    switch($res) {
-				        case ZipArchive::ER_NOZIP :
-				             $msg = 'not a zip archive';
-				             break;
-				        case ZipArchive::ER_INCONS :
-				            $msg ='consistency check failed';
-				            break;
-				        case ZipArchive::ER_CRC :
-				            $msg = 'checksum failed';
-				            break;
-				        default:
-				            $msg ='Bad Zip file';
-				    }
-					throw new Exception($msg);
-				}
-				else{
-					//check if the manifest is there
-					if($zip->locateName("imsmanifest.xml") === false){
-						throw new Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
-					}
-					
-					$this->valid = true;
-				}
-				$zip->close();
-			}
-			catch(Exception $e){
-				$this->addError($e);
-			}
+
+        if ($this->valid && !$forced) {    //valida can be true if forceValidation has been called
+
+            $this->valid = false;
+
+            try {
+
+                $zip = new ZipArchive();
+                //check the archive opening and the consistency
+                $res = $zip->open($this->source, ZIPARCHIVE::CHECKCONS);
+
+                if ($res !== true) {
+
+                    switch ($res) {
+                        case ZipArchive::ER_NOZIP :
+                            $msg = 'not a zip archive';
+                            break;
+                        case ZipArchive::ER_INCONS :
+                            $msg = 'consistency check failed';
+                            break;
+                        case ZipArchive::ER_CRC :
+                            $msg = 'checksum failed';
+                            break;
+                        default:
+                            $msg = 'Bad Zip file';
+                    }
+                    throw new Exception($msg);
+                } else {
+                    //check if the manifest is there
+                    if ($zip->locateName("imsmanifest.xml") === false) {
+                        throw new Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
+                    }
+
+                    $this->valid = true;
+                }
+                $zip->close();
+            } catch (Exception $e) {
+                $this->addError($e);
+            }
         }
-        
-    	$returnValue = $this->valid;
-        
-        return (bool) $returnValue;
+
+        return (bool)$this->valid;
     }
 
     /**

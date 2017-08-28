@@ -79,7 +79,7 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
 
             /** @var  UploadService $uploadService */
             $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-            $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
+            $uploadedFile = $uploadService->getUploadedFlyFile($fileInfo['uploaded_file']);
 
             try{
                 $importService = ImportService::singleton();

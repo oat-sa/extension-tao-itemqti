@@ -91,12 +91,10 @@ class ImportService extends ConfigurableService
      */
     public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true)
     {
-        $report = null;
-
         try {
 
             $qtiModel = $this->createQtiItemModel($qtiFile, $validate);
-            $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
+            $rdfItem = $this->createRdfItem($itemClass, $qtiModel, null);
 
             $report = \common_report_Report::createSuccess(__('The IMS QTI Item was successfully imported.'), $rdfItem);
 
