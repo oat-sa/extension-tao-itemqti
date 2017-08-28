@@ -83,6 +83,7 @@ define([
         var ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
+            removePlugins : options.removePlugins || '',
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
