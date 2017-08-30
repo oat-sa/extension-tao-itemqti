@@ -50,6 +50,17 @@ define([
         this.destroyEditor();
     });
 
+    // the element body should only contain the <table> tag content, and not the <table> tag itself.
+    // as the ckeditor instance is bound to a wrapping <div>, we need to go through an extra step to remove the <table> tag.
+    function getChangeCallback(container){
+        return _.throttle(function(data){
+            var $tableTagContent = $(data).children(), // might a mix of tbody / thead / tfoot
+                $pseudoContainer = $('<div>').html($tableTagContent),
+                newBody = contentHelper.getContent($pseudoContainer);
+            container.body(newBody);
+        }, 800);
+    }
+
     TableStateActive.prototype.buildEditor = function buildEditor(){
         var _widget   = this.widget,
             container = _widget.element.getBody(),
@@ -64,7 +75,7 @@ define([
         if(!htmlEditor.hasEditor($editableContainer)){
             htmlEditor.buildEditor($editableContainer, {
                 placeholder: '',
-                change : contentHelper.getChangeCallback(container),
+                change : getChangeCallback(container),
                 removePlugins: 'magicline',
                 data : {
                     container : container,
@@ -165,10 +176,13 @@ define([
             $editableContainer = _widget.$container,
             $editable = $editableContainer.find('[data-html-editable="true"]');
 
+
         //search and destroy the editor
         $editableContainer.off('.tableActive');
         $editable.off('.tableActive');
+        console.log('BEFORE EXIT ACTIVE = ', _widget.element.body());
         htmlEditor.destroyEditor($editableContainer);
+        console.log('AFTER EXIT ACTIVE = ', _widget.element.body());
 
         tableModel = null;
 
