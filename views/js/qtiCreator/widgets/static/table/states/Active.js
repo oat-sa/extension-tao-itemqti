@@ -178,11 +178,9 @@ define([
 
 
         //search and destroy the editor
+        htmlEditor.destroyEditor($editableContainer);
         $editableContainer.off('.tableActive');
         $editable.off('.tableActive');
-        console.log('BEFORE EXIT ACTIVE = ', _widget.element.body());
-        htmlEditor.destroyEditor($editableContainer);
-        console.log('AFTER EXIT ACTIVE = ', _widget.element.body());
 
         tableModel = null;
 
