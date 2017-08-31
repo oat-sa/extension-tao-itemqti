@@ -177,6 +177,9 @@ define([
             $editableContainer = _widget.$container,
             $editable = $editableContainer.find('[data-html-editable="true"]');
 
+        _.forEach(css, function(classId) {
+            clearCellClasses($editable, css[classId]);
+        });
 
         //search and destroy the editor
         htmlEditor.destroyEditor($editableContainer);
