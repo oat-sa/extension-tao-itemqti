@@ -67,10 +67,11 @@ define([
 
             $itemPanel          = _widget.getAreaBroker().getItemPanelArea(),
             $editableContainer  = _widget.$container,
-            $editable           = $editableContainer.find('[data-html-editable="true"]'),
+            $editable           = $editableContainer.find('.qti-table-container'),
             $tablePropTrigger   = $editableContainer.find('[data-role="cke-table-properties"]');
 
         $editableContainer.attr('data-html-editable-container', true);
+        $editable.attr('data-html-editable', true); // DO NOT move in template to avoid creation of nested ckInstances when container editor is created
 
         if(!htmlEditor.hasEditor($editableContainer)){
             htmlEditor.buildEditor($editableContainer, {
@@ -181,6 +182,9 @@ define([
         htmlEditor.destroyEditor($editableContainer);
         $editableContainer.off('.tableActive');
         $editable.off('.tableActive');
+
+        $editable.attr('data-html-editable', false);
+        $editableContainer.attr('data-html-editable-container', false);
 
         tableModel = null;
 

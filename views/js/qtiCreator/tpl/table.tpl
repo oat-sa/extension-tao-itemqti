@@ -1,6 +1,5 @@
 <div
     class="qti-table-container"
-    data-html-editable="true"
     data-serial="{{serial}}"
     data-qti-class="table"
     >

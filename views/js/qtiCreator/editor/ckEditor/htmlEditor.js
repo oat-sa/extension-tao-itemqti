@@ -489,6 +489,11 @@ define([
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
 
+            }else if(Element.isA(containerWidget.element, 'interaction')){
+
+                listenToWidgetCreation();
+                containerWidget.changeState('sleep');
+
             }else if(Element.isA(containerWidget.element, 'choice')){
 
                 listenToWidgetCreation();
@@ -608,7 +613,7 @@ define([
                         options.change.call(editor, _htmlEncode(editor.getData()));
                     }
                     editor.on('destroy', function () {
-                        $container.trigger('editordestroyed');
+                        $editable.trigger('editordestroyed');
                     });
 
                     editor.focusManager.blur(true);
