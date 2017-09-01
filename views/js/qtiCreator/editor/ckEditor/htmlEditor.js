@@ -568,9 +568,6 @@ define([
          * @returns {undefined}
          */
         buildEditor : function($container, editorOptions){
-
-            console.log('buildEditor');
-
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
@@ -592,10 +589,6 @@ define([
          * @returns {undefined}
          */
         destroyEditor : function($container){
-
-
-            console.log('destroyEditor');
-
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
