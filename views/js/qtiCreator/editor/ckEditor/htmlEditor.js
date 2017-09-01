@@ -37,6 +37,8 @@ define([
 
     var gpeToggler = groupToggler();
 
+    var editorFactory;
+
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
 
@@ -50,7 +52,7 @@ define([
         if($toolbar && $toolbar.length){
             return $toolbar.find('[data-role="cke-launcher"]');
         }else{
-            return $editableContainer.find('[data-role="cke-launcher"]');
+            return $editableContainer.children('.mini-tlb').find('[data-role="cke-launcher"]');
         }
     }
 
@@ -62,10 +64,11 @@ define([
      * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {Boolean} [options.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
+     * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var $trigger;
+        var $trigger, ckConfig;
 
         options = _.defaults(options, _defaults);
 
@@ -80,9 +83,10 @@ define([
         if (options.placeholder && options.placeholder !== '') {
             $editable.attr('placeholder', options.placeholder);
         }
-        var ckConfig = {
+        ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
+            removePlugins : options.removePlugins || '',
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
@@ -95,14 +99,7 @@ define([
 
                     if(options.data && options.data.container && options.data.widget){
                         contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
-                            var createdElement = createdWidget.element,
-                                allAttributes = $newContent[0].attributes;
-
-                            $.each(allAttributes, function() {
-                                if (this.specified) {
-                                    createdElement.attr(this.name, this.value);
-                                }
-                            });
+                            var createdElement = createdWidget.element;
 
                             if (_.isFunction(createdElement.initContainer)) {
                                 createdElement.body($newContent.html());
@@ -365,11 +362,12 @@ define([
 
         var deleted = [];
         var container = $container.data('qti-container');
+        var $widget;
 
         _.each(widgets, function(w){
 
             if(!w.element.data('removed')){
-                var $widget = _findWidgetContainer($container, w.serial);
+                $widget = _findWidgetContainer($container, w.serial);
                 if(!$widget.length){
                     deleted.push(w);
                 }
@@ -462,31 +460,37 @@ define([
      * @returns {undefined}
      */
     function _activateInnerWidget(containerWidget, innerWidget){
+        var listenToWidgetCreation;
 
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
 
-            var listenToWidgetCreation = function(){
+            listenToWidgetCreation = function(){
                 containerWidget.$container
-                  .off('widgetCreated')
-                  .one('widgetCreated', function(e, widgets){
-                    var targetWidget = widgets[innerWidget.serial];
-                    if(targetWidget){
-                        //FIXME potential race condition ? (debounce the enclosing event handler ?)
-                        _.delay(function(){
-                            if(Element.isA(targetWidget.element, 'interaction')){
-                                targetWidget.changeState('question');
-                            } else{
-                                targetWidget.changeState('active');
-                            }
-                        }, 100);
-                    }
-                });
+                    .off('widgetCreated')
+                    .one('widgetCreated', function(e, widgets){
+                        var targetWidget = widgets[innerWidget.serial];
+                        if(targetWidget){
+                            //FIXME potential race condition ? (debounce the enclosing event handler ?)
+                            _.delay(function(){
+                                if(Element.isA(targetWidget.element, 'interaction')){
+                                    targetWidget.changeState('question');
+                                } else{
+                                    targetWidget.changeState('active');
+                                }
+                            }, 100);
+                        }
+                    });
 
             };
 
             if(Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')){
 
                 //only _container that are NOT stateless need to change its state to sleep before activating the new one.
+                listenToWidgetCreation();
+                containerWidget.changeState('sleep');
+
+            }else if(Element.isA(containerWidget.element, 'interaction')){
+
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
 
@@ -533,7 +537,7 @@ define([
         }
     }
 
-    var editorFactory = {
+    editorFactory = {
         /**
          * Check if all data-html-editable has an editor
          *
@@ -564,7 +568,6 @@ define([
          * @returns {undefined}
          */
         buildEditor : function($container, editorOptions){
-
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
@@ -586,7 +589,6 @@ define([
          * @returns {undefined}
          */
         destroyEditor : function($container){
-
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
@@ -609,7 +611,7 @@ define([
                         options.change.call(editor, _htmlEncode(editor.getData()));
                     }
                     editor.on('destroy', function () {
-                        $container.trigger('editordestroyed');
+                        $editable.trigger('editordestroyed');
                     });
 
                     editor.focusManager.blur(true);
