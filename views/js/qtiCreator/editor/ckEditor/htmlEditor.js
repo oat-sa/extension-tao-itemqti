@@ -52,7 +52,7 @@ define([
         if($toolbar && $toolbar.length){
             return $toolbar.find('[data-role="cke-launcher"]');
         }else{
-            return $editableContainer.find('[data-role="cke-launcher"]');
+            return $editableContainer.children('.mini-tlb').find('[data-role="cke-launcher"]');
         }
     }
 
@@ -569,6 +569,8 @@ define([
          */
         buildEditor : function($container, editorOptions){
 
+            console.log('buildEditor');
+
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
@@ -590,6 +592,9 @@ define([
          * @returns {undefined}
          */
         destroyEditor : function($container){
+
+
+            console.log('destroyEditor');
 
             _find($container, 'html-editable-container').each(function(){
 
