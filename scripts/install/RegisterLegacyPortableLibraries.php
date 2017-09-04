@@ -33,28 +33,28 @@ class RegisterLegacyPortableLibraries  extends InstallAction
         //register location of portable libs to legacy share lib aliases for backward compatibility
         $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
         $clientLibRegistry = ClientLibRegistry::getRegistry();
-        $clientLibRegistry->set('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
-        $clientLibRegistry->set('OAT/lodash', $portableSafeLibPath . '/lodash');
-        $clientLibRegistry->set('OAT/async', $portableSafeLibPath . '/async');
-        $clientLibRegistry->set('OAT/raphael', $portableSafeLibPath . '/raphael');
-        $clientLibRegistry->set('OAT/scale.raphael', $portableSafeLibPath . '/OAT/scale.raphael');
-        $clientLibRegistry->set('OAT/jquery.qtip', $portableSafeLibPath . '/jquery.qtip');
-        $clientLibRegistry->set('OAT/util/xml', $portableSafeLibPath . '/OAT/util/xml');
-        $clientLibRegistry->set('OAT/util/math', $portableSafeLibPath . '/OAT/util/math');
-        $clientLibRegistry->set('OAT/util/html', $portableSafeLibPath . '/OAT/util/html');
-        $clientLibRegistry->set('OAT/util/EventMgr', $portableSafeLibPath . '/OAT/util/EventMgr');
-        $clientLibRegistry->set('OAT/util/event', $portableSafeLibPath . '/OAT/util/event');
-        $clientLibRegistry->set('OAT/util/asset', $portableSafeLibPath . '/OAT/util/asset');
-        $clientLibRegistry->set('OAT/util/tpl', $portableSafeLibPath . '/OAT/util/tpl');
-        $clientLibRegistry->set('OAT/sts/common', $portableSafeLibPath . '/OAT/sts/common');
-        $clientLibRegistry->set('OAT/interact', $portableSafeLibPath . '/interact');
-        $clientLibRegistry->set('OAT/interact-rotate', $portableSafeLibPath . '/OAT/interact-rotate');
-        $clientLibRegistry->set('OAT/sts/transform-helper', $portableSafeLibPath . '/OAT/sts/transform-helper');
-        $clientLibRegistry->set('OAT/handlebars', $portableSafeLibPath . '/handlebars');
-        $clientLibRegistry->set('OAT/sts/stsEventManager', $portableSafeLibPath . '/OAT/sts/stsEventManager');
-        $clientLibRegistry->set('OAT/waitForMedia', $portableSafeLibPath . '/OAT/waitForMedia');
-        $clientLibRegistry->set('OAT/customEvent', $portableSafeLibPath . '/OAT/customEvent');
-        $clientLibRegistry->set('OAT/mediaPlayer', $portableSafeLibPath . '/OAT/mediaPlayer');
+        $clientLibRegistry->register('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
+        $clientLibRegistry->register('OAT/lodash', $portableSafeLibPath . '/lodash');
+        $clientLibRegistry->register('OAT/async', $portableSafeLibPath . '/async');
+        $clientLibRegistry->register('OAT/raphael', $portableSafeLibPath . '/raphael');
+        $clientLibRegistry->register('OAT/scale.raphael', $portableSafeLibPath . '/OAT/scale.raphael');
+        $clientLibRegistry->register('OAT/jquery.qtip', $portableSafeLibPath . '/jquery.qtip');
+        $clientLibRegistry->register('OAT/util/xml', $portableSafeLibPath . '/OAT/util/xml');
+        $clientLibRegistry->register('OAT/util/math', $portableSafeLibPath . '/OAT/util/math');
+        $clientLibRegistry->register('OAT/util/html', $portableSafeLibPath . '/OAT/util/html');
+        $clientLibRegistry->register('OAT/util/EventMgr', $portableSafeLibPath . '/OAT/util/EventMgr');
+        $clientLibRegistry->register('OAT/util/event', $portableSafeLibPath . '/OAT/util/event');
+        $clientLibRegistry->register('OAT/util/asset', $portableSafeLibPath . '/OAT/util/asset');
+        $clientLibRegistry->register('OAT/util/tpl', $portableSafeLibPath . '/OAT/util/tpl');
+        $clientLibRegistry->register('OAT/sts/common', $portableSafeLibPath . '/OAT/sts/common');
+        $clientLibRegistry->register('OAT/interact', $portableSafeLibPath . '/interact');
+        $clientLibRegistry->register('OAT/interact-rotate', $portableSafeLibPath . '/OAT/interact-rotate');
+        $clientLibRegistry->register('OAT/sts/transform-helper', $portableSafeLibPath . '/OAT/sts/transform-helper');
+        $clientLibRegistry->register('OAT/handlebars', $portableSafeLibPath . '/handlebars');
+        $clientLibRegistry->register('OAT/sts/stsEventManager', $portableSafeLibPath . '/OAT/sts/stsEventManager');
+        $clientLibRegistry->register('OAT/waitForMedia', $portableSafeLibPath . '/OAT/waitForMedia');
+        $clientLibRegistry->register('OAT/customEvent', $portableSafeLibPath . '/OAT/customEvent');
+        $clientLibRegistry->register('OAT/mediaPlayer', $portableSafeLibPath . '/OAT/mediaPlayer');
     }
 }
 
