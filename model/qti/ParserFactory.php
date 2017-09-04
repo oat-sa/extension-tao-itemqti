@@ -4,19 +4,19 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -166,18 +166,18 @@ class ParserFactory
 
         return $this->queryXPath($query, $contextNode);
     }
-    
+
     public function loadContainerStatic(DOMElement $data, Container $container){
         $this->parseContainerStatic($data, $container);
     }
-    
+
     protected function parseContainerStatic(DOMElement $data, Container $container){
 
         //initialize elements array to collect all QTI elements
         $bodyElements = array();
 
         //parse for feedback elements
-        //warning: parse feddback elements before any other because ifeddbacks may contain them!
+        //warning: parse feedback elements before any other because feedback may contain them!
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
         foreach($feedbackNodes as $feedbackNode){
             $feedback = $this->buildFeedback($feedbackNode);
@@ -188,6 +188,18 @@ class ParserFactory
         }
 
         // parse for QTI elements within item body
+
+        // parse the remaining tables, those that does not contain any interaction.
+        //warning: parse table elements before any other because table may contain them!
+        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
+        foreach($tableNodes as $tableNode){
+            $table = $this->buildTable($tableNode);
+            if(!is_null($table)){
+                $bodyElements[$table->getSerial()] = $table;
+
+                $this->replaceNode($tableNode, $table);
+            }
+        }
 
         $objectNodes = $this->queryXPath(".//*[name(.)='object']", $data);
         foreach($objectNodes as $objectNode){
@@ -294,7 +306,7 @@ class ParserFactory
             }
         }
 
-        //parse for feedback elements interactive! 
+        //parse for feedback elements interactive!
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
         foreach($feedbackNodes as $feedbackNode){
             $feedback = $this->buildFeedback($feedbackNode, true);
@@ -350,6 +362,20 @@ class ParserFactory
             if(!is_null($infoControl)){
                 $bodyElements[$infoControl->getSerial()] = $infoControl;
                 $this->replaceNode($infoControlNode, $infoControl);
+            }
+        }
+
+        // parse for tables, but only the ones containing interactions
+        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
+        foreach($tableNodes as $tableNode){
+            $interactionsNodes = $this->queryXPath(".//*[contains(name(.), 'Interaction')]", $tableNode);
+            if ($interactionsNodes->length > 0) {
+                $table = $this->buildTable($tableNode);
+                if(!is_null($table)){
+                    $bodyElements[$table->getSerial()] = $table;
+                    $this->replaceNode($tableNode, $table);
+                    $this->parseContainerInteractive($tableNode, $table->getBody());
+                }
             }
         }
 
@@ -482,7 +508,7 @@ class ParserFactory
         //load xml ns and schema locations
         $this->loadNamespaces();
         $this->loadSchemaLocations($data);
-        
+
         //load stylesheets
         $styleSheetNodes = $this->queryXPath("*[name(.) = 'stylesheet']", $data);
         foreach($styleSheetNodes as $styleSheetNode){
@@ -558,10 +584,10 @@ class ParserFactory
         }
 
         $this->buildApipAccessibility($data);
-        
+
         return $this->item;
     }
-    
+
     /**
      * Load xml namespaces into the item model
      */
@@ -578,10 +604,10 @@ class ParserFactory
             $this->item->addNamespace($name, $uri);
         }
     }
-    
+
     /**
      * Load xml schema locations into the item model
-     * 
+     *
      * @param DOMElement $itemData
      * @throws ParsingException
      */
@@ -596,7 +622,7 @@ class ParserFactory
             $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i+1]);
         }
     }
-    
+
     protected function buildApipAccessibility(DOMElement $data){
         $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']|*[name(.) = 'apip:apipAccessibility']", $data);
         if($ApipNodes->length > 0){
@@ -606,7 +632,7 @@ class ParserFactory
             $this->item->setApipAccessibility($apipXml);
         }
     }
-    
+
     /**
      * Build a QTI_Interaction from a DOMElement (the root tag of this is an 'interaction' node)
      *
@@ -1206,7 +1232,7 @@ class ParserFactory
         $patternFeedbackMatchChoicesEmptyWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoicesEmpty.$subPatternFeedbackElse;
         $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoice;
         $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoice.$subPatternFeedbackElse;
-        
+
         $rules = array();
         $simpleFeedbackRules = array();
         $data = simplexml_import_dom($data);
@@ -1220,7 +1246,7 @@ class ParserFactory
 
                 $responseIdentifier = (string) $subtree->responseIf->match->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MATCH_CORRECT;
-                
+
             }elseif(count($subtree->xpath($patternMappingTAO)) > 0){
 
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable['identifier'];
@@ -1273,7 +1299,7 @@ class ParserFactory
                 $choices = array((string)$subtree->responseIf->match->baseValue);
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
 
-                
+
             }else{
                 throw new UnexpectedResponseProcessing('Not template driven, unknown rule');
             }
@@ -1305,7 +1331,7 @@ class ParserFactory
         if(count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
             throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
         }
-        
+
         $templatesDrivenRP = new TemplatesDriven();
         foreach($interactions as $interaction){
             //if a rule has been found for an interaction, apply it. Default to the template NONE otherwise
@@ -1383,6 +1409,15 @@ class ParserFactory
         $returnValue = new Img($attributes);
 
         return $returnValue;
+    }
+
+    private function buildTable(DOMElement $data){
+
+        $attributes = $this->extractAttributes($data);
+        $table = new Table($attributes);
+        $this->parseContainerStatic($data, $table->getBody());
+
+        return $table;
     }
 
     private function buildMath(DOMElement $data){
@@ -1468,20 +1503,59 @@ class ParserFactory
     }
 
     /**
-     * Check if the node is dom element is a valid portable custom interaction one
-     * 
-     * @param DOMElement $data
-     * @return boolean
+     * Return the list of registered PCI php subclasses
+     * @return array
      */
-    private function isPciNode(DOMElement $data){
+    private function getPciClasses(){
+        $pciClasses = [];
+        foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+            $portableElementClass = $model->getQtiElementClassName();
+            if(is_subclass_of($portableElementClass, '\\oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction')){
+                $pciClasses[] = $portableElementClass;
+            }
+        }
+        return $pciClasses;
+    }
 
-        $ns = $this->getPciNamespace();
-        return (boolean) $this->queryXPathChildren(array('portableCustomInteraction'), $data, $ns)->length;
+    /**
+     * Get the PCI class associated to a dom node based on its namespace
+     * Returns null if not a known PCI model
+     *
+     * @param DOMElement $data
+     * @return null
+     */
+    private function getPciClass(DOMElement $data){
+
+        $pciClasses = $this->getPciClasses();
+
+        //start searching from globally declared namespace
+        foreach($this->item->getNamespaces() as $name => $uri){
+            foreach($pciClasses as $class){
+                if($uri === $class::NS_URI
+                    && $this->queryXPathChildren(array('portableCustomInteraction'), $data, $name)->length){
+                    return $class;
+                }
+            }
+        }
+
+        //not found as a global namespace definition, try local namespace
+        if($this->queryXPathChildren(array('portableCustomInteraction'), $data)->length){
+            $pciNode = $this->queryXPathChildren(array('portableCustomInteraction'), $data)[0];
+            $xmlns = $pciNode->getAttribute('xmlns');
+            foreach($pciClasses as $pciClass){
+                if($pciClass::NS_URI === $xmlns){
+                    return $pciClass;
+                }
+            }
+        }
+
+        //not a known PCI type
+        return null;
     }
 
     /**
      * Parse and build a custom interaction object
-     * 
+     *
      * @param DOMElement $data
      * @return CustomInteraction
      * @throws ParsingException
@@ -1490,18 +1564,25 @@ class ParserFactory
 
         $interaction = null;
 
-        if ($this->isPciNode($data)) {
-            // throws an exception if pci not present
-            PortableModelRegistry::getRegistry()->getModel('PCI');
+        $pciClass = $this->getPciClass($data);
+
+        if (!empty($pciClass)) {
+
+            $xmlns = '';
+            foreach($this->item->getNamespaces() as $name => $uri){
+                if($pciClass::NS_URI === $uri){
+                    $xmlns = $name;
+                }
+            }
 
             //use tao's implementation of portable custom interaction
-            $interaction = new PortableCustomInteraction($this->extractAttributes($data), $this->item);
-            $interaction->feed($this, $data);
+            $interaction = new $pciClass($this->extractAttributes($data), $this->item);
+            $interaction->feed($this, $data, $xmlns);
         }else{
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
-            $classeNames = split('/\s+/', $classes);
+            $classeNames = preg_split('/\s+/', $classes);
             foreach($classeNames as $classeName){
                 $ciClass = CustomInteractionRegistry::getCustomInteractionByName($classeName);
                 if($ciClass){
@@ -1521,17 +1602,17 @@ class ParserFactory
 
     /**
      * Get the namespace of the portable custom interaction
-     * 
+     *
+     * @deprecated should instead use item name space and registered PciModels like getPciClasses()
      * @return string
      */
     public function getPciNamespace(){
-        //@todo : implement this properly
         return 'pci';
     }
 
     /**
      * Check if the node is dom element is a valid portable info control one
-     * 
+     *
      * @param DOMElement $data
      * @return boolean
      */
@@ -1543,7 +1624,7 @@ class ParserFactory
 
     /**
      * Parse and build a info control
-     * 
+     *
      * @param DOMElement $data
      * @return InfoControl
      * @throws ParsingException
@@ -1584,7 +1665,7 @@ class ParserFactory
 
     /**
      * Get the namespace of the portable info control
-     * 
+     *
      * @return string
      */
     public function getPicNamespace(){

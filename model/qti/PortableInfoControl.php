@@ -21,9 +21,6 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\taoQtiItem\model\qti\InfoControl;
-use oat\taoQtiItem\model\qti\PortableElementTrait;
 use \DOMElement;
 
 /**

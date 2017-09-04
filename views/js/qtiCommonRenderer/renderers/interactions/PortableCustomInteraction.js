@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -24,14 +24,27 @@
 define([
     'lodash',
     'core/promise',
+    'core/logger',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/portableElementRegistry/ciRegistry'
-], function(_, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
+], function(_, Promise, loggerFactory, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util, ciRegistry){
     'use strict';
+
+    var logger = loggerFactory('taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction');
+
+    var pciReadyCallback = function pciReadyCallback(pci, state){
+        //standard callback function to be implemented in a future story
+        logger.info('pciReadyCallback called on PCI '+pci.typeIdentifier);
+    }
+
+    var pciDoneCallback = function pciDoneCallback(pci, response, state, status){
+        //standard callback function to be implemented in a future story
+        logger.info('pciDoneCallback called on PCI '+pci.typeIdentifier);
+    }
 
     /**
      * Get the PCI instance associated to the interaction object
@@ -40,7 +53,7 @@ define([
      * @param {Object} interaction - the js object representing the interaction
      * @returns {Object} PCI instance
      */
-    var _getPci = function(interaction){
+    var _getPci = function _getPci(interaction, model){
 
         var pciTypeIdentifier,
             pci = interaction.data('pci') || undefined;
@@ -56,6 +69,10 @@ define([
                 interaction.data('pci', pci);
                 pci._taoCustomInteraction = interaction;
 
+                if(model){
+                    interaction.data('pci-model', model);
+                }
+
             }else{
                 throw 'no custom interaction hook found for the type ' + pciTypeIdentifier;
             }
@@ -63,6 +80,10 @@ define([
 
         return pci;
     };
+
+    var _isPciModel = function _isPciModel(interaction, model){
+        return (model && interaction.data('pci-model') === model);
+    }
 
     /**
      * Execute javascript codes to bring the interaction to life.
@@ -77,21 +98,31 @@ define([
      *
      * @param {Object} interaction
      */
-    var render = function(interaction, options){
+    var render = function render(interaction, options){
         var self = this;
 
         options = options || {};
         return new Promise(function(resolve, reject){
-            var state              = {}; //@todo pass state and response to renderer here:
-            var response           = { base : null};
+
             var id                 = interaction.attr('responseIdentifier');
+
             var typeIdentifier     = interaction.typeIdentifier;
-            var config             = _.clone(interaction.properties); //pass a clone instead
+            var properties         = _.clone(interaction.properties);//clone properties to prevent modification
             var $dom               = containerHelper.get(interaction).children();
             var assetManager       = self.getAssetManager();
 
+            //restore state and response to renderer here:
+            var state;
+            var response = {};
+
+            if(options.state && options.state[id]){
+                state = options.state[id];
+            }
+            response[id] = {base : null};
+
             ciRegistry.loadRuntimes().then(function(){
 
+                var config = {};
                 var requireEntries = [];
                 var runtime = ciRegistry.getRuntime(typeIdentifier);
 
@@ -99,14 +130,19 @@ define([
                     return reject('The runtime for the pci cannot be found : ' + typeIdentifier);
                 }
 
-                //load the entrypoint, becomes optional per IMS PCI v1
+                //load hook if applicable
                 if(runtime.hook){
                     requireEntries.push(runtime.hook.replace(/\.js$/, ''));
                 }
 
-                //load required libraries
-                _.forEach(runtime.libraries, function(module){
-                    requireEntries.push(module.replace(/\.js$/, ''));
+                //load libs
+                _.forEach(runtime.libraries, function(lib) {
+                    requireEntries.push(lib.replace(/\.js$/, ''));
+                });
+
+                //load modules
+                _.forEach(runtime.modules, function(module, id){
+                    requireEntries.push(id);
                 });
 
                 //load stylesheets
@@ -114,10 +150,12 @@ define([
                     requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
                 });
 
+                //console.log(requireEntries);
+
                 //load the entrypoint+stylesheets
                 require(requireEntries, function(){
 
-                    var pci = _getPci(interaction);
+                    var pci = _getPci(interaction, runtime.model);
                     var pciAssetManager = {
                         resolve : function resolve(url){
                             var resolved = assetManager.resolveBy('portableElementLocation', url);
@@ -130,11 +168,23 @@ define([
                     };
 
                     if(pci){
-                        //call pci initialize() to render the pci
-                        pci.initialize(id, $dom[0], config, pciAssetManager);
-                        //restore context (state + response)
-                        pci.setSerializedState(state);
-                        pci.setResponse(response);
+
+                        if(_isPciModel(interaction, 'IMSPCI')){
+                            config = {
+                                properties : properties,
+                                templateVariables : {},//not supported yet
+                                boundTo : response,
+                                onready : pciReadyCallback,
+                                ondone : pciDoneCallback,
+                                status : 'interacting',//only support interacting state currently(TODO: solution, review),
+                                assetManager : pciAssetManager
+                            };
+
+                            pci.getInstance($dom[0], config, state);
+                        }else{
+                            //call pci initialize() to render the pci
+                            pci.initialize(id, $dom[0], properties, pciAssetManager);
+                        }
 
                         //forward internal PCI event responseChange
                         interaction.onPci('responseChange', function(){
@@ -144,12 +194,12 @@ define([
                         return resolve();
                     }
 
-                    return reject('Unable to initialize pci : ' + id);
+                    return reject('Unable to initialize pci "' + id + '": '+error);
 
                 }, reject);
 
             }).catch(function(error){
-                reject('Error loading runtime : ' + id);
+                reject('Error loading runtime "' + id + '": '+error);
             });
         });
     };
@@ -204,7 +254,9 @@ define([
      * @param {Object} serializedState - json format
      */
     var setState = function(interaction, serializedState){
-        _getPci(interaction).setSerializedState(serializedState);
+        if(!_isPciModel(interaction, 'IMSPCI')){
+            _getPci(interaction).setSerializedState(serializedState);
+        }
     };
 
     /**
@@ -215,7 +267,11 @@ define([
      * @returns {Object} json format
      */
     var getState = function(interaction){
-        return _getPci(interaction).getSerializedState();
+        if(_isPciModel(interaction, 'IMSPCI')){
+            return _getPci(interaction).getState();
+        }else{
+            return _getPci(interaction).getSerializedState();
+        }
     };
 
     return {

@@ -21,8 +21,9 @@ define([
     'jquery',
     'core/promise',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/model/helper/invalidator'
-], function(_, $, Promise, Element, invalidator){
+    'taoQtiItem/qtiCreator/model/helper/invalidator',
+    'core/logger'
+], function(_, $, Promise, Element, invalidator, loggerFactory){
     'use strict';
 
     var _pushState = function(widget, stateName){
@@ -37,6 +38,11 @@ define([
             state.exit();
         }
     };
+
+    /**
+     * Create a logger
+     */
+    var logger = loggerFactory('taoQtiItem/qtiCreator/widget');
 
     var Widget = {
         /**
@@ -153,6 +159,8 @@ define([
                 enteredStates,
                 i;
 
+            logger.info('changing state of ' + this.serial + ': ' + (currentState || {}).name + ' => ' + stateName);
+
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName]();
             }else{
@@ -243,6 +251,8 @@ define([
             this.$container.off('resize.itemResizer');
         },
         destroy : function(){
+
+            logger.info('destroying widget ' + this.serial);
 
             //to call exit method and clean up listeners
             this.changeState('sleep');

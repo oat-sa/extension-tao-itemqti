@@ -62,7 +62,9 @@ define([
         function destroy(){
             _.invoke(this.popups, 'destroy');
             this.popups = null;
-            this.fields.$mathml.qtip('destroy', true);
+            if (this.fields && this.fields.$mathml) {
+                this.fields.$mathml.qtip('destroy', true);
+            }
             this.fields = null;
             this.widget.$form.empty();
         }

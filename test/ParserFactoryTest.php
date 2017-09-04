@@ -20,14 +20,12 @@
  */
 namespace oat\taoQtiItem\test;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\Item;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class ParserFactoryTest extends TaoPhpUnitTestRunner {
-
+class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @param string $file
@@ -56,4 +54,83 @@ class ParserFactoryTest extends TaoPhpUnitTestRunner {
         ];
     }
 
+    /**
+     * Test table parsing
+     */
+    public function testParseTableWithNestedInteractions() {
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableInteractions.xml');
+        $parser = new ParserFactory($xml);
+        $result = $parser->load();
+
+        $body                = $result->getBody();
+        $bodyElements        = $body->getElements();
+        $bodyElementsSerials = array_keys($bodyElements);
+
+        $choiceInteractionSerial = $bodyElementsSerials[1];
+
+        $tableSerial  = $bodyElementsSerials[0];
+        $tableElement = $bodyElements[$tableSerial];
+
+        $this->assertEquals(2, count($bodyElements), 'item body contains 2 top level elements');
+        $this->assertTrue(strpos($tableSerial, 'table_') === 0, 'first element is a table, with serial: ' . $tableSerial);
+        $this->assertTrue(strpos($choiceInteractionSerial, 'interaction_choiceinteraction_') === 0, 'second element is a choice interaction, with serial: ' . $choiceInteractionSerial);
+        $this->assertEquals($tableElement->getQtiTag(), 'table', 'table has the right Qti Class: ' . $tableElement->getQtiTag());
+        $this->assertEquals($tableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index with the correct value');
+
+        $tableBody = $tableElement->getBody();
+
+        $this->assertTrue(strpos($tableBody->getSerial(), 'container_containertable_') === 0, 'tableBody is a containerTable with serial ' . $tableBody->getSerial());
+        $this->assertTrue(strpos($tableBody->getBody(), 'Female') !== false, 'tableBody contains the expected string ');
+
+        $choiceInteraction = $body->getElement($choiceInteractionSerial);
+
+        $tableChoice         = $choiceInteraction->getChoiceByIdentifier('choice_6');
+        $tableChoiceBody     = $tableChoice->getBody();
+        $tableChoiceElements = $tableChoiceBody->getElements();
+
+        $nestedTableSerial  = array_keys($tableChoiceElements)[0];
+        $nestedTableElement = $tableChoiceElements[$nestedTableSerial];
+
+        $this->assertEquals(1, count($tableChoiceElements), 'choice body contains 1 element');
+        $this->assertTrue(strpos($nestedTableSerial, 'table_') === 0, 'first choice element is a table, with serial: ' . $nestedTableSerial);
+        $this->assertEquals($nestedTableElement->getQtiTag(), 'table', 'table has the right Qti Class: ' . $nestedTableElement->getQtiTag());
+        $this->assertEquals($nestedTableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index');
+    }
+
+    public function testParseTableWithNoNestedInteractions() {
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableNoInteractions.xml');
+        $parser = new ParserFactory($xml);
+        $result = $parser->load();
+
+        $body                = $result->getBody();
+        $bodyElements        = $body->getElements();
+        $bodyElementsSerials = array_keys($bodyElements);
+
+
+        $tableSerial  = $bodyElementsSerials[0];
+        $tableElement = $bodyElements[$tableSerial];
+
+        $this->assertEquals(1, count($bodyElements), 'item body contains 1 top level element');
+        $this->assertTrue(strpos($tableSerial, 'table_') === 0, 'first element is a table, with serial: ' . $tableSerial);
+        $this->assertEquals($tableElement->getQtiTag(), 'table', 'table has the right Qti Class: ' . $tableElement->getQtiTag());
+        $this->assertEquals($tableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index with the correct value');
+
+        $tableBody = $tableElement->getBody();
+
+        $this->assertTrue(strpos($tableBody->getSerial(), 'container_containertable_') === 0, 'tableBody is a containerTable with serial ' . $tableBody->getSerial());
+        $this->assertTrue(strpos($tableBody->getBody(), 'Female') !== false, 'tableBody contains the expected string ');
+
+        $tableElements          = $tableBody->getElements();
+        $tableElementsSerials   = array_keys($tableElements);
+        $this->assertEquals(2, count($tableElements), 'table body contains 2 elements');
+
+        $imgSerial  = $tableElementsSerials[0];
+        $mathSerial = $tableElementsSerials[1];
+
+        $this->assertTrue(strpos($imgSerial, 'img_') === 0, 'first element is an image, with serial: ' . $imgSerial);
+        $this->assertTrue(strpos($mathSerial, 'math_') === 0, 'second element is a math, with serial: ' . $mathSerial);
+
+    }
 }

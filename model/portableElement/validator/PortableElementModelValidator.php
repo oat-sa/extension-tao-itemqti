@@ -45,6 +45,8 @@ abstract class PortableElementModelValidator extends PortableElementAssetValidat
             'libraries',
             'stylesheets',
             'mediaFiles',
+            'modules',
+            'config',
             'src'
         ],
         'creator' => [

@@ -1,0 +1,41 @@
+@import "inc/bootstrap";
+
+.widget-table {
+    display: inline-block;
+
+    .qti-table-container {
+        border: 0;
+    }
+
+    table {
+        &.qti-table {
+            th.hoverDelete,
+            td.hoverDelete {
+                background-color: whiten($warning, 0.85);
+            }
+
+            th.insertColAfter,
+            td.insertColAfter {
+                border-right-color: whiten($info, 0.5);
+                border-right-width: 3px;
+            }
+
+            th.insertRowAfter,
+            td.insertRowAfter {
+                border-bottom-color: whiten($info, 0.5);
+                border-bottom-width: 3px;
+            }
+        }
+    }
+    .mini-tlb {
+        width: 28px;
+        right: -32px;
+    }
+}
+
+.table-tlb {
+    @extend %mini-tlb;
+    display: block;
+    right: auto;
+    top: auto;
+}

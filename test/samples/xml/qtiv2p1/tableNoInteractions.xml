@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="i1480524045593249086" title="TABLES_ITEM" label="Sample table bis" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.2.0-sprint55">
+    <responseDeclaration identifier="TABLES_ITEM_A1" cardinality="single" baseType="string">
+        <correctResponse>
+            <value><![CDATA[
+        308653
+      ]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <responseDeclaration identifier="TABLES_ITEM_B3" cardinality="single" baseType="string">
+        <correctResponse>
+            <value><![CDATA[
+        4067
+      ]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <responseDeclaration identifier="TABLES_ITEM_C2" cardinality="single" baseType="string">
+        <correctResponse>
+            <value><![CDATA[
+        25
+      ]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <responseDeclaration identifier="TABLES_ITEM_D2" cardinality="single" baseType="string">
+        <correctResponse>
+            <value><![CDATA[
+        4
+      ]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <responseDeclaration identifier="RESPONSE_1" cardinality="multiple" baseType="identifier"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="4"/>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>4</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <p><strong>Demographics</strong></p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>
+                <p>Fill in the missing data</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><img alt="image" src="/path/to/img.png" /></th>
+                            <th>Male</th>
+                            <th>Female</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <td>308 994</td>
+                            <td>291 785</td>
+                            <td>600 779</td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <th>Never married</th>
+                            <td>xxx</td>
+                            <td>288 014</td>
+                            <td>596 667</td>
+                        </tr>
+                        <tr>
+                            <th>Married</th>
+                            <td>325</td>
+                            <td>3742</td>
+                            <td>xxx</td>
+                        </tr>
+                        <tr>
+                            <th>Divorced</th>
+                            <td>14</td>
+                            <td><m:math ><m:semantics>  <m:mstyle displaystyle="true" scriptlevel="0">
+                                <m:mrow class="MJX-TeXAtom-ORD">
+                                    <m:mfrac>
+                                        <m:mn>1</m:mn>
+                                        <m:mn>2</m:mn>
+                                    </m:mfrac>
+                                    <m:mo>+</m:mo>
+                                    <m:mn>45</m:mn>
+                                    <m:mi>y</m:mi>
+                                </m:mrow>
+                            </m:mstyle><m:annotation encoding="latex">\frac{1}{2}+45y</m:annotation></m:semantics></m:math></td>
+                            <td>39</td>
+                        </tr>
+                        <tr>
+                            <th>Widow</th>
+                            <td>2</td>
+                            <td>xxx</td>
+                            <td>6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="TABLES_ITEM_A1"/>
+                    <correct identifier="TABLES_ITEM_A1"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="integer">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="TABLES_ITEM_B3"/>
+                    <correct identifier="TABLES_ITEM_B3"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="integer">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="TABLES_ITEM_C2"/>
+                    <correct identifier="TABLES_ITEM_C2"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="integer">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="TABLES_ITEM_D2"/>
+                    <correct identifier="TABLES_ITEM_D2"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="integer">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="RESPONSE_1"/>
+                    <correct identifier="RESPONSE_1"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="integer">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+</assessmentItem>

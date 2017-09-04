@@ -1,0 +1,27 @@
+@import "inc/bootstrap";
+table {
+    &.qti-table {
+        border: 1px solid $websiteBorder;
+
+        tr {
+            &:nth-child(even) {
+                background: white;
+            }
+            &:nth-child(odd) {
+                background: whiten($uiHeaderBg,0.7)
+            }
+        }
+
+        th {
+            background-color: $uiHeaderBg;
+            font-weight: bold;
+        }
+
+        th, td {
+            border: 1px solid $websiteBorder;
+            min-width: 30px;
+            padding: 3px 5px;
+        }
+
+    }
+}

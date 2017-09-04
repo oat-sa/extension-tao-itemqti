@@ -10,7 +10,7 @@ define([
             container = _widget.$container[0],
             item = this.widget.element.getRelatedItem();
 
-        //move to sleep state by clicking anywhere outside the interaction 
+        //move to sleep state by clicking anywhere outside the interaction
         $('#item-editor-panel').on('mousedown.active.' + _widget.serial, function(e){
             if (
                 container !== e.target
@@ -34,16 +34,16 @@ define([
         }
 
     }, function(){
-        
+
         contentHelper.changeInnerWidgetState(this.widget, 'sleep');
-        
+
         this.widget.$container.off('.active');
         $('#item-editor-panel').off('.active.'+ this.widget.serial);
-        
+
         var item = this.widget.element.getRelatedItem();
         if(item && item.data('widget')){
             item.data('widget').$container.off('.active');
         }
-        
+
     });
 });
