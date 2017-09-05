@@ -124,6 +124,7 @@ module.exports = function (grunt) {
                 model.id = model.manifest.typeIdentifier;
                 model.runtimeHook = getHookFileName(model.manifest.runtime, model.id);
                 model.minRuntimeFile = getMinHookFile(model.manifest.runtime);
+                return false;
             }
         });
         return model;
