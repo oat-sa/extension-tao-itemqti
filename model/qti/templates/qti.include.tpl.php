@@ -21,5 +21,4 @@
 $attributes = get_data('attributes');
 $attributes = empty($attributes) ? '' : ' '.$attributes;//add space if not empty
 ?>
-
 <<?=get_data('tag')?><?=$attributes?>/>

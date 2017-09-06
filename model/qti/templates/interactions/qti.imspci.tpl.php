@@ -16,8 +16,7 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-?>
-<?php
+
 $config = get_data('config');
 ?>
 <customInteraction <?=get_data('attributes')?>>
