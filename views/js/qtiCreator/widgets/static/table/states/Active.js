@@ -50,21 +50,34 @@ define([
         this.destroyEditor();
     });
 
+    // the element body should only contain the <table> tag content, and not the <table> tag itself.
+    // as the ckeditor instance is bound to a wrapping <div>, we need to go through an extra step to remove the <table> tag.
+    function getChangeCallback(container){
+        return _.throttle(function(data){
+            var $tableTagContent = $(data).children(), // might a mix of tbody / thead / tfoot
+                $pseudoContainer = $('<div>').html($tableTagContent),
+                newBody = contentHelper.getContent($pseudoContainer);
+            container.body(newBody);
+        }, 800);
+    }
+
     TableStateActive.prototype.buildEditor = function buildEditor(){
         var _widget   = this.widget,
             container = _widget.element.getBody(),
 
             $itemPanel          = _widget.getAreaBroker().getItemPanelArea(),
             $editableContainer  = _widget.$container,
-            $editable           = $editableContainer.find('[data-html-editable="true"]'),
+            $editable           = $editableContainer.find('.qti-table-container'),
             $tablePropTrigger   = $editableContainer.find('[data-role="cke-table-properties"]');
 
         $editableContainer.attr('data-html-editable-container', true);
+        $editable.attr('data-html-editable', true); // DO NOT move in template to avoid creation of nested ckInstances when container editor is created
 
         if(!htmlEditor.hasEditor($editableContainer)){
             htmlEditor.buildEditor($editableContainer, {
                 placeholder: '',
-                change : contentHelper.getChangeCallback(container),
+                change : getChangeCallback(container),
+                removePlugins: 'magicline',
                 data : {
                     container : container,
                     widget : _widget
@@ -78,7 +91,7 @@ define([
 
         $editable
             .on('editorready.tableActive', function(event, editor) {
-                tableModel = tableModelFactory($editable);
+                tableModel = tableModelFactory($editable.find('table'));
 
                 // listener for table properties
                 $tablePropTrigger.on('click.tableActive', function openTableProperties(e){
@@ -164,10 +177,17 @@ define([
             $editableContainer = _widget.$container,
             $editable = $editableContainer.find('[data-html-editable="true"]');
 
+        _.forEach(css, function(classId) {
+            clearCellClasses($editable, css[classId]);
+        });
+
         //search and destroy the editor
+        htmlEditor.destroyEditor($editableContainer);
         $editableContainer.off('.tableActive');
         $editable.off('.tableActive');
-        htmlEditor.destroyEditor($editableContainer);
+
+        $editable.attr('data-html-editable', false);
+        $editableContainer.attr('data-html-editable-container', false);
 
         tableModel = null;
 

@@ -159,7 +159,7 @@ define([
                 enteredStates,
                 i;
 
-            logger.trace('changing state of ' + this.serial + ': ' + (currentState || {}).name + ' => ' + stateName);
+            logger.info('changing state of ' + this.serial + ': ' + (currentState || {}).name + ' => ' + stateName);
 
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName]();
@@ -251,6 +251,8 @@ define([
             this.$container.off('resize.itemResizer');
         },
         destroy : function(){
+
+            logger.info('destroying widget ' + this.serial);
 
             //to call exit method and clean up listeners
             this.changeState('sleep');

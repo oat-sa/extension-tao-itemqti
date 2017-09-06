@@ -1,9 +1,9 @@
-<table
-    data-qti-class="table"
-    class="qti-table"
-    data-html-editable="true"
+<div
+    class="qti-table-container"
     data-serial="{{serial}}"
-    {{#if attributes.summary}}summary="{{attributes.summary}}"{{/if}}
+    data-qti-class="table"
     >
-    {{{body}}}
-</table>
+    <table class="qti-table"{{#if attributes.summary}} summary="{{attributes.summary}}"{{/if}}>
+        {{{body}}}
+    </table>
+</div>

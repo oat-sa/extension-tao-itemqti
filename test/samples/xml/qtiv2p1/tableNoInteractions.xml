@@ -45,7 +45,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th> </th>
+                            <th><img alt="image" src="/path/to/img.png" /></th>
                             <th>Male</th>
                             <th>Female</th>
                             <th>Total</th>
@@ -62,9 +62,7 @@
                     <tbody>
                         <tr>
                             <th>Never married</th>
-                            <td>
-                                <textEntryInteraction responseIdentifier="TABLES_ITEM_A1" base="10" placeholderText=""/>
-                            </td>
+                            <td>xxx</td>
                             <td>288 014</td>
                             <td>596 667</td>
                         </tr>
@@ -72,72 +70,32 @@
                             <th>Married</th>
                             <td>325</td>
                             <td>3742</td>
-                            <td>
-                                <textEntryInteraction responseIdentifier="TABLES_ITEM_B3" base="10" placeholderText=""/>
-                            </td>
+                            <td>xxx</td>
                         </tr>
                         <tr>
                             <th>Divorced</th>
                             <td>14</td>
-                            <td>
-                                <textEntryInteraction responseIdentifier="TABLES_ITEM_C2" base="10" placeholderText=""/>
-                            </td>
+                            <td><m:math ><m:semantics>  <m:mstyle displaystyle="true" scriptlevel="0">
+                                <m:mrow class="MJX-TeXAtom-ORD">
+                                    <m:mfrac>
+                                        <m:mn>1</m:mn>
+                                        <m:mn>2</m:mn>
+                                    </m:mfrac>
+                                    <m:mo>+</m:mo>
+                                    <m:mn>45</m:mn>
+                                    <m:mi>y</m:mi>
+                                </m:mrow>
+                            </m:mstyle><m:annotation encoding="latex">\frac{1}{2}+45y</m:annotation></m:semantics></m:math></td>
                             <td>39</td>
                         </tr>
                         <tr>
                             <th>Widow</th>
                             <td>2</td>
-                            <td>
-                                <textEntryInteraction responseIdentifier="TABLES_ITEM_D2" base="10" placeholderText=""/>
-                            </td>
+                            <td>xxx</td>
                             <td>6</td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="col-12">
-                <choiceInteraction responseIdentifier="RESPONSE_1" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
-                    <prompt>
-                        <p>Was the previous exercise difficult ?</p>
-                    </prompt>
-                    <simpleChoice identifier="choice_4" fixed="false" showHide="show">yes</simpleChoice>
-                    <simpleChoice identifier="choice_5" fixed="false" showHide="show">no</simpleChoice>
-                    <simpleChoice identifier="choice_6" fixed="false" showHide="show">
-                        <p>I don't know yet, let me draw a table:</p>
-                        <table class="gamma-table width_100">
-                            <tbody>
-                                <tr>
-                                    <td> </td>
-                                    <td>Something</td>
-                                    <td>Else</td>
-                                </tr>
-                                <tr>
-                                    <th>My first answer</th>
-                                    <td>Y</td>
-                                    <td>N</td>
-                                </tr>
-                                <tr>
-                                    <th>My second answer</th>
-                                    <td>N</td>
-                                    <td>Y</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </simpleChoice>
-                    <simpleChoice identifier="choice_7" fixed="false" showHide="show">The answer might be <m:math ><m:semantics>  <m:mstyle displaystyle="true" scriptlevel="0">
-                        <m:mrow class="MJX-TeXAtom-ORD">
-                            <m:mfrac>
-                                <m:mn>1</m:mn>
-                                <m:mn>2</m:mn>
-                            </m:mfrac>
-                            <m:mo>+</m:mo>
-                            <m:mn>45</m:mn>
-                            <m:mi>y</m:mi>
-                        </m:mrow>
-                    </m:mstyle><m:annotation encoding="latex">\frac{1}{2}+45y</m:annotation></m:semantics></m:math></simpleChoice>
-                </choiceInteraction>
             </div>
         </div>
     </itemBody>

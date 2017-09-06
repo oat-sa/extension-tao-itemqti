@@ -177,7 +177,7 @@ class ParserFactory
         $bodyElements = array();
 
         //parse for feedback elements
-        //warning: parse feddback elements before any other because ifeddbacks may contain them!
+        //warning: parse feedback elements before any other because feedback may contain them!
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
         foreach($feedbackNodes as $feedbackNode){
             $feedback = $this->buildFeedback($feedbackNode);
@@ -188,6 +188,18 @@ class ParserFactory
         }
 
         // parse for QTI elements within item body
+
+        // parse the remaining tables, those that does not contain any interaction.
+        //warning: parse table elements before any other because table may contain them!
+        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
+        foreach($tableNodes as $tableNode){
+            $table = $this->buildTable($tableNode);
+            if(!is_null($table)){
+                $bodyElements[$table->getSerial()] = $table;
+
+                $this->replaceNode($tableNode, $table);
+            }
+        }
 
         $objectNodes = $this->queryXPath(".//*[name(.)='object']", $data);
         foreach($objectNodes as $objectNode){
@@ -208,17 +220,6 @@ class ParserFactory
                 $bodyElements[$img->getSerial()] = $img;
 
                 $this->replaceNode($imgNode, $img);
-            }
-        }
-
-        // parse the remaining tables, those that does not contain any interaction
-        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
-        foreach($tableNodes as $tableNode){
-            $table = $this->buildTable($tableNode);
-            if(!is_null($table)){
-                $bodyElements[$table->getSerial()] = $table;
-
-                $this->replaceNode($tableNode, $table);
             }
         }
 
