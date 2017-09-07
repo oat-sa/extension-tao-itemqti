@@ -15,6 +15,7 @@ define([
             if (
                 container !== e.target
                 && !$.contains(container, e.target)
+                && !$.contains($('#item-editor-panel .toolbar-container').get(0), e.target)
                 && !$.contains($('#modalFeedbacks')[0], e.target) //if click triggered inside the #modalFeedback then state must not be changed.
                 && ($(e.target).data('role') !== 'restore')
             ){

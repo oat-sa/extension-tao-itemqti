@@ -7,7 +7,14 @@ use oat\tao\helpers\Template;
 <link rel="stylesheet" href="<?= Template::css('item-creator.css') ?>" />
 <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
 
-
+<style>
+    #item-editor-panel{
+        overflow: hidden;
+    }
+    #item-editor-scoll-container{
+        overflow: auto;
+    }
+</style>
 <div id="item-editor-scope" data-content-target="wide">
 
     <nav class="action-bar plain content-action-bar horizontal-action-bar">
@@ -35,13 +42,20 @@ use oat\tao\helpers\Template;
     <!-- item panel -->
     <main id="item-editor-panel" class="clearfix">
 
-        <h1 class="truncate"></h1>
+        <!-- <h1 class="truncate"></h1> -->
+        <div class="toolbar-container">
+            <div id="toolbar-top"></div>
+            <div id="toolbar-bottom"></div>
+        </div>
 
-        <div id="item-editor-scroll-outer">
-            <div id="item-editor-scroll-inner">
-                <!-- item goes here -->
+        <div id="item-editor-scoll-container">
+            <div id="item-editor-scroll-outer">
+                <div id="item-editor-scroll-inner">
+                    <!-- item goes here -->
+                </div>
             </div>
         </div>
+
     </main>
 
     <!-- properties panel -->

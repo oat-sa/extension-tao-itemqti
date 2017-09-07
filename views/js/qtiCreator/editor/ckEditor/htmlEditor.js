@@ -89,6 +89,9 @@ define([
             removePlugins : options.removePlugins || '',
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
+            sharedSpaces : {
+                top: 'toolbar-top'
+            },
             taoQtiItem : {
                 /**
                  * @param {DOM} tempWidget - this contains the DOM nodes created by a ckEditor plugin,
@@ -111,7 +114,7 @@ define([
                     }
                 }
             },
-            floatSpace : {
+            floatSpaceX : {
                 debug : true,
                 initialHide : true,
                 centerElement : function(){
