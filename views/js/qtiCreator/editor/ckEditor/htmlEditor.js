@@ -20,12 +20,11 @@ define([
     'i18n',
     'jquery',
     'ckeditor',
-    'taoQtiItem/qtiCreator/editor/ckEditor/groupToggler',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function(_, __, $, CKEditor, groupToggler, ckConfigurator, Element, contentHelper, deletingHelper){
+], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
     "use strict";
 
     var _defaults = {
@@ -35,26 +34,10 @@ define([
         hideTriggerOnBlur : false
     };
 
-    var gpeToggler = groupToggler();
-
     var editorFactory;
 
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
-
-    /**
-     * Find the ck launcher (the trigger that toggle visibility of the editor) in the editor's container
-     *
-     * @param {JQuery} $editableContainer
-     */
-    function getTrigger($editableContainer){
-        var $toolbar = $editableContainer.data('editor-toolbar');
-        if($toolbar && $toolbar.length){
-            return $toolbar.find('[data-role="cke-launcher"]');
-        }else{
-            return $editableContainer.children('.mini-tlb').find('[data-role="cke-launcher"]');
-        }
-    }
 
     /**
      * @param {JQuery} $editable - the element to be transformed into an editor
@@ -68,7 +51,7 @@ define([
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var $trigger, ckConfig;
+        var ckConfig;
 
         options = _.defaults(options, _defaults);
 
@@ -79,7 +62,6 @@ define([
             throw new Error('invalid jquery element for $editableContainer');
         }
 
-        $trigger = getTrigger($editableContainer);
         if (options.placeholder && options.placeholder !== '') {
             $editable.attr('placeholder', options.placeholder);
         }
@@ -110,76 +92,6 @@ define([
                                 createdElement.postRender();
                             }
                             _activateInnerWidget(options.data.widget, createdWidget);
-                        });
-                    }
-                }
-            },
-            floatSpaceX : {
-                debug : true,
-                initialHide : true,
-                centerElement : function(){
-                    //cke initialize the config too early.. so need to provide a callback to initialize it...
-                    return getTrigger($editableContainer)[0];
-                },
-                on : {
-                    ready : function(floatSpaceApi){
-
-                        // works around tiny bug in tao floating space
-                        // nose must be in .cke_toolbox rather than .cke
-                        // otherwise z-indexing will fail
-                        var nose = $(this).find('.cke_nose'),
-                            oldParent = nose.parent(),
-                            newParent = $(this).find('.cke_toolbox');
-                        if(oldParent.is('.cke')){
-                            newParent.append(nose);
-                        }
-
-                        floatSpaceApi.hide();
-                        //@todo namespace this event: .editor.qti-widget or stuff...
-                        $trigger.on('click', function(){
-                            if($trigger.hasClass('active')){
-                                $trigger.removeClass('active');
-                                floatSpaceApi.hide();
-                            }else{
-                                $trigger.addClass('active').trigger('show.grouptoggler');
-                                floatSpaceApi.show();
-                            }
-                        });
-                        $trigger.on('showanother.grouptoggler', function(){
-                            floatSpaceApi.hide();
-                        });
-
-                        gpeToggler.register($trigger);
-                    },
-                    changeMode : function(oldYMode, newYMode){
-                        var element = this,
-                            $element = $(element),
-                            $nose = $element.find('.cke_nose');
-
-                        var xModeIsReady = function(domElem){
-                            var dfd = new $.Deferred(),
-                                counter = 0,
-                                check = setInterval(function(){
-                                    var style = domElem.getAttribute('style');
-                                    if(counter > 5 || style.indexOf('left') > -1 || style.indexOf('right') > -1){
-                                        dfd.resolve();
-                                        clearInterval(check);
-                                    }
-                                    counter++;
-                                }, 1000);
-                            return dfd.promise();
-                        };
-
-                        if(oldYMode !== newYMode){
-                            $nose.removeClass('float-space-' + oldYMode).addClass('float-space-' + newYMode);
-                        }
-
-                        $.when(xModeIsReady(element)).done(function(){
-                            if(!!element.style.left && !element.style.right){
-                                $nose.removeClass('float-space-right').addClass('float-space-left');
-                            }else{
-                                $nose.removeClass('float-space-left').addClass('float-space-right');
-                            }
                         });
                     }
                 }
@@ -228,17 +140,12 @@ define([
                 },
                 focus : function(){
 
-                    //show trigger
-                    $trigger.show();
-
                     //callback:
                     if(_.isFunction(options.focus)){
                         options.focus.call(this, _htmlEncode(this.getData()));
                     }
 
                     $('.qti-item').trigger('toolbarchange');
-
-
                 },
                 blur : function(){
                     return false;
@@ -594,20 +501,16 @@ define([
         destroyEditor : function($container){
             _find($container, 'html-editable-container').each(function(){
 
-                var $editableContainer = $(this),
-                    $editable = $editableContainer.find('[data-html-editable]'),
-                    $trigger = getTrigger($editableContainer);
-
-                $trigger
-                    .off()
-                    .removeClass('active')
-                    .hide();
+                var editor,
+                    options,
+                    $editableContainer = $(this),
+                    $editable = $editableContainer.find('[data-html-editable]');
 
                 $editable.removeAttr('contenteditable');
                 if($editable.data('editor')){
 
-                    var editor = $editable.data('editor'),
-                        options = $editable.data('editor-options');
+                    editor = $editable.data('editor');
+                    options = $editable.data('editor-options');
 
                     //before destroying, ensure that data is stored
                     if(_.isFunction(options.change)){
