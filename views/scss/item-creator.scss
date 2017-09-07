@@ -713,6 +713,7 @@ img.dragging.ui-draggable-dragging {
         background: mix(#fff, $websiteBorder, 70%);
         border-top: 1px solid white;
         border-bottom: 1px solid mix(#fff, $websiteBorder, 30%);
+        @include box-shadow(0px, 2px, 6px, 1px, mix(#fff, $darkBrown, 50%));
         .cke_toolbar{
             .cke_button_icon, .cke_button{
                 height: 20px;
@@ -751,26 +752,23 @@ img.dragging.ui-draggable-dragging {
 
 #item-editor-scoll-container{
     position: relative;
+    height: 100%;
     @include simple-flex-box(auto);
     overflow: auto;
-}
-
-#item-editor-scroll-inner {
-    padding: 80px 60px 20px;
-}
-
-#item-editor-scroll-outer {
-    background-image: url(data:image/gif;base64,R0lGODlhKwALAPEAAN3d3TMzM4mJiTMzMyH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAKwALAAACMoSOCMuW2diD88UKG95W88uF4DaGWFmhZid93pq+pwxnLUnXh8ou+sSz+T64oCAyTBUAACH5BAkKAAAALAAAAAArAAsAAAI9xI4IyyAPYWOxmoTHrHzzmGHe94xkmJifyqFKQ0pwLLgHa82xrekkDrIBZRQab1jyfY7KTtPimixiUsevAAAh+QQJCgAAACwAAAAAKwALAAACPYSOCMswD2FjqZpqW9xv4g8KE7d54XmMpNSgqLoOpgvC60xjNonnyc7p+VKamKw1zDCMR8rp8pksYlKorgAAIfkECQoAAAAsAAAAACsACwAAAkCEjgjLltnYmJS6Bxt+sfq5ZUyoNJ9HHlEqdCfFrqn7DrE2m7Wdj/2y45FkQ13t5itKdshFExC8YCLOEBX6AhQAADsAAAAAAAAAAAA=);
-    background-position: center 250px;
-    background-repeat: no-repeat;
-    position:relative;
+    #item-editor-scroll-inner {
+        padding: 80px 60px 20px;
+    }
+    #item-editor-scroll-outer {
+        background-image: url(data:image/gif;base64,R0lGODlhKwALAPEAAN3d3TMzM4mJiTMzMyH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAKwALAAACMoSOCMuW2diD88UKG95W88uF4DaGWFmhZid93pq+pwxnLUnXh8ou+sSz+T64oCAyTBUAACH5BAkKAAAALAAAAAArAAsAAAI9xI4IyyAPYWOxmoTHrHzzmGHe94xkmJifyqFKQ0pwLLgHa82xrekkDrIBZRQab1jyfY7KTtPimixiUsevAAAh+QQJCgAAACwAAAAAKwALAAACPYSOCMswD2FjqZpqW9xv4g8KE7d54XmMpNSgqLoOpgvC60xjNonnyc7p+VKamKw1zDCMR8rp8pksYlKorgAAIfkECQoAAAAsAAAAACsACwAAAkCEjgjLltnYmJS6Bxt+sfq5ZUyoNJ9HHlEqdCfFrqn7DrE2m7Wdj/2y45FkQ13t5itKdshFExC8YCLOEBX6AhQAADsAAAAAAAAAAAA=);
+        background-position: center 250px;
+        background-repeat: no-repeat;
+        position:relative;
+    }
 }
 
 .item-editor-item {
     @include simple-border();
-    -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-    -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-    box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+    @include box-shadow(0px, 0px, 8px, 0px, mix(#fff, $darkBrown, 50%));
     [class*=" col-"], [class^="col-"] {
         position: relative;
     }
