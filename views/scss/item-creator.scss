@@ -705,24 +705,38 @@ img.dragging.ui-draggable-dragging {
 .toolbar-container{
     position : absolute;
     width: 100%;
+    min-height:31px;
+    z-index: 2;
+    background: mix(#fff, $websiteBorder, 70%);
+    border-top: 1px solid white;
+    border-bottom: 0;
+    @include box-shadow(0px, 6px, 10px, -5px, mix(#fff, $darkBrown, 50%));
+    > h1{
+        position : absolute;
+        width: 100%;
+        text-align: center;
+        @include font-size(15);
+        line-height: 28px;
+        padding: 0 10px;
+        margin: 0;
+    }
     .cke_top{
         border:none;
         padding: 0;
         margin:0;
         width: 100%;
         background: mix(#fff, $websiteBorder, 70%);
-        border-top: 1px solid white;
-        border-bottom: 1px solid mix(#fff, $websiteBorder, 30%);
-        @include box-shadow(0px, 2px, 6px, 1px, mix(#fff, $darkBrown, 50%));
+        box-shadow: unset;
         .cke_toolbar{
             .cke_button_icon, .cke_button{
-                height: 20px;
+                height: 21px;
                 font-size: 14px;
                 line-height: 16px;
             }
             .cke_toolgroup{
                 background: transparent;
                 border:none;
+                margin-bottom:1px;
             }
             .cke_toolbar_end{
                 border-right: 1px solid whiten($textColor, 0.65);
@@ -768,7 +782,7 @@ img.dragging.ui-draggable-dragging {
 
 .item-editor-item {
     @include simple-border();
-    @include box-shadow(0px, 0px, 8px, 0px, mix(#fff, $darkBrown, 50%));
+    @include box-shadow(0px, 6px, 8px, 0px, mix(#fff, $darkBrown, 50%));
     [class*=" col-"], [class^="col-"] {
         position: relative;
     }

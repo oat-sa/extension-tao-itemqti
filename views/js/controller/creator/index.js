@@ -47,7 +47,7 @@ define([
             'menu':              $('.menu', $container),
             'menuLeft':          $('.menu-left', $container),
             'menuRight':         $('.menu-right', $container),
-            'title':             $('#item-editor-panel > h1', $container),
+            'title':             $('#item-editor-panel .toolbar-container h1', $container),
             'interactionPanel':  $('#item-editor-interaction-bar', $container),
             'propertyPanel':     $('#item-editor-item-widget-bar', $container),
             'itemPanel':         $('#item-editor-scroll-inner', $container),

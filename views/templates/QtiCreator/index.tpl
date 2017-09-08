@@ -8,12 +8,15 @@ use oat\tao\helpers\Template;
 <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
 
 <style>
-    #item-editor-panel{
-        overflow: hidden;
+    #item-editor-panel h2{
+        display: inline-block;
+        display: none;
+        float: right;
+        margin: 0;
     }
-    #item-editor-scoll-container{
-        overflow: auto;
-    }
+    /*#item-editor-scoll-container{*/
+        /*overflow: auto;*/
+    /*}*/
 </style>
 <div id="item-editor-scope" data-content-target="wide">
 
@@ -42,8 +45,8 @@ use oat\tao\helpers\Template;
     <!-- item panel -->
     <main id="item-editor-panel" class="clearfix">
 
-        <!-- <h1 class="truncate"></h1> -->
         <div class="toolbar-container">
+            <h1 class="truncate"></h1>
             <div id="toolbar-top"></div>
             <div id="toolbar-bottom"></div>
         </div>
