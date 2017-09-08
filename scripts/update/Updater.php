@@ -21,6 +21,8 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use League\Flysystem\Adapter\Local;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\qtiItemPci\model\portableElement\dataObject\PciDataObject;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
@@ -158,10 +160,10 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if($currentVersion == '2.7.7'){
 
-        	$currentVersion = '2.7.8';
+            $currentVersion = '2.7.8';
         }
 
-		if($currentVersion == '2.7.8'){
+        if($currentVersion == '2.7.8'){
 
             $clientLibRegistry = ClientLibRegistry::getRegistry();
             $clientLibRegistry->register('qtiCustomInteractionContext', '../../../taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
@@ -170,7 +172,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.7.9';
         }
         if($currentVersion == '2.7.9'){
-             $currentVersion = '2.8.0';
+            $currentVersion = '2.8.0';
         }
 
         if($currentVersion == '2.8.0'){
@@ -210,7 +212,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.13.0');
         }
 
-	    if($this->isVersion('2.13.0')) {
+        if($this->isVersion('2.13.0')) {
 
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -232,7 +234,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.14.0');
         }
 
-		$this->skip('2.14.0','2.15.1');
+        $this->skip('2.14.0','2.15.1');
 
         if($this->isVersion('2.15.1')){
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
@@ -263,9 +265,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.0');
         }
 
-		if($this->isVersion('2.17.0')){
-			$this->setVersion('2.17.1');
-		}
+        if($this->isVersion('2.17.0')){
+            $this->setVersion('2.17.1');
+        }
 
         if($this->isVersion('2.17.1')){
             $service = new addValidationSettings();
@@ -273,7 +275,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.2');
         }
 
-		$this->skip('2.17.2', '2.19.0');
+        $this->skip('2.17.2', '2.19.0');
 
         if ($this->isVersion('2.19.0')) {
 
@@ -332,7 +334,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.20.0');
         }
 
-	$this->skip('2.20.0', '2.22.0');
+        $this->skip('2.20.0', '2.22.0');
 
         if ($this->isVersion('2.22.0')) {
             $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
@@ -391,7 +393,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('2.27.0', '2.28.2');
 
-	    if($this->isVersion('2.28.2')){
+        if($this->isVersion('2.28.2')){
             $setDragAndDropConfig = new SetDragAndDropConfig();
             $setDragAndDropConfig([]);
             $this->setVersion('2.29.0');
@@ -486,15 +488,28 @@ class Updater extends \common_ext_ExtensionUpdater
             //create a new web source of ActionWebSource (without token requirement)
             $websource = ActionWebSource::spawnWebsource($fsId);
 
+            /** @var FileSystemService $fsm */
+            $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+            if (! $fsm->hasDirectory($fsId)) {
+                $fsm->createFileSystem($fsId, $fsId);
+                $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+            }
+
             //assign the new web source to the existing PortableElementFileStorage while leaving existing filesystem intact
-            $portableElementStorage = $this->getServiceManager()->get(PortableElementFileStorage::SERVICE_ID);
-            $oldWebsourceId = $portableElementStorage->getOption(PortableElementFileStorage::OPTION_WEBSOURCE);
+            try{
+                $portableElementStorage = $this->getServiceManager()->get(PortableElementFileStorage::SERVICE_ID);
+                $oldWebsourceId = $portableElementStorage->getOption(PortableElementFileStorage::OPTION_WEBSOURCE);
+                //remove old websource
+                $oldWebsource = WebsourceManager::singleton()->getWebsource($oldWebsourceId);
+                WebsourceManager::singleton()->removeWebsource($oldWebsource);
+
+            } catch (ServiceNotFoundException $e){
+                $portableElementStorage = new PortableElementFileStorage();
+            }
             $portableElementStorage->setOption(PortableElementFileStorage::OPTION_WEBSOURCE, $websource->getId());
+            $portableElementStorage->setOption(PortableElementFileStorage::OPTION_FILESYSTEM, $fsId);
             $this->getServiceManager()->register(PortableElementFileStorage::SERVICE_ID, $portableElementStorage);
 
-            //remove old websource
-            $oldWebsource = WebsourceManager::singleton()->getWebsource($oldWebsourceId);
-            WebsourceManager::singleton()->removeWebsource($oldWebsource);
 
             $this->setVersion('8.3.0');
         }
@@ -520,6 +535,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.16.0');
         }
 
-        $this->skip('8.16.0', '9.9.3');
+        $this->skip('8.16.0', '9.10.0');
     }
 }
