@@ -37,10 +37,12 @@
         .mini-tlb{
             width:auto;
             margin:0;
+            padding: 0;
             [class^="icon-"], [class*=" icon-"]{
                 padding:0;
                 position: relative;
                 top: 3px;
+                left: 5px;
             }
             .tlb-button{
                 margin:0;

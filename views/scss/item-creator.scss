@@ -662,23 +662,6 @@ img.dragging.ui-draggable-dragging {
     position: relative;
     @include simple-flex-box(auto);
 
-    //item title/label
-    & > h1 {
-        position : absolute;
-        width: 100%;
-        background-color: rgba(mix(#fff, $websiteBorder, 70%), .7);
-        text-align: center;
-        @include font-size(15);
-        line-height: 32px;
-        height: 32px;
-        padding: 0 10px;
-        margin: 0;
-        border-top: 1px solid white;
-        border-bottom: 1px solid mix(#fff, $websiteBorder, 75%);
-        //border-style: solid;
-        //border-color: white;
-    }
-
     &.has-item {
         #item-editor-scroll-outer {
             background-image: none;
