@@ -7,17 +7,6 @@ use oat\tao\helpers\Template;
 <link rel="stylesheet" href="<?= Template::css('item-creator.css') ?>" />
 <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
 
-<style>
-    #item-editor-panel h2{
-        display: inline-block;
-        display: none;
-        float: right;
-        margin: 0;
-    }
-    /*#item-editor-scoll-container{*/
-        /*overflow: auto;*/
-    /*}*/
-</style>
 <div id="item-editor-scope" data-content-target="wide">
 
     <nav class="action-bar plain content-action-bar horizontal-action-bar">

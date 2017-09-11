@@ -19,11 +19,8 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/modalFeedback/states/states',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
-    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function($, Widget, states, okButtonTpl, formElement, htmlEditor, contentHelper){
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton'
+], function($, Widget, states, okButtonTpl){
     'use strict';
 
     var ModalFeedbackWidget = Widget.clone();
@@ -33,8 +30,6 @@ define([
         Widget.initCreator.call(this);
 
         this.registerStates(states);
-
-        this.buildEditor();
 
         this.createOkButton();
     };
@@ -48,28 +43,6 @@ define([
         //no toolbar required for now
         //createToolbar() is a required method so we leave it empty for now
         return this;
-    };
-
-    ModalFeedbackWidget.buildEditor = function(){
-
-        var _this = this,
-            $editableContainer = _this.$container.find('.modal-body'),
-            element = _this.element,
-            container = element.getBody();
-
-        $editableContainer.attr('data-html-editable-container', true);
-
-        if(!htmlEditor.hasEditor($editableContainer)){
-            htmlEditor.buildEditor($editableContainer, {
-                change : contentHelper.getChangeCallback(container),
-                data : {
-                    container : container,
-                    widget : _this
-                }
-            });
-        }
-
-        formElement.initTitle(this.$original.find('.qti-title'), element);
     };
 
     ModalFeedbackWidget.createOkButton = function(){

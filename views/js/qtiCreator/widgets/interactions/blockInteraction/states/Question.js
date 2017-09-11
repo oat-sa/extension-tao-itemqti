@@ -58,9 +58,7 @@ define([
     };
 
     BlockInteractionStateQuestion.prototype.destroyPromptEditor = function(){
-
         var $editableContainer = this.widget.$container.find('.qti-prompt-container');
-        $editableContainer.find('.mini-tlb').remove();
         htmlEditor.destroyEditor($editableContainer);
     };
 
