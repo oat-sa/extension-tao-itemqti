@@ -30,9 +30,8 @@ define([
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
-], function(_, $, Loader, Container, Item, event, qtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor, toolbarTpl){
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'
+], function(_, $, Loader, Container, Item, event, qtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
     "use strict";
 
     var _ns = 'containereditor';
@@ -74,7 +73,6 @@ define([
      * @param {Function} [options.change] - the callback called when the editor content has been modified
      * @param {Function} [options.hideTriggerOnBlur] - define if the trigger <A> should be hidden when the editor is blurred or not
      * @param {Function} [options.placeholder] - the placeholder text of the container editor when
-     * @param {Function} [options.$toolbarLocation] - the location of the toolbar
      * @param {Function} [options.toolbar] - the ck toolbar
      * @param {Function} [options.qtiMedia=false] - allow insert media object
      * @returns {undefined}
@@ -139,7 +137,6 @@ define([
                 });
 
                 buildContainer($container);
-                createToolbar($container, options.$toolbarLocation);
                 buildEditor($container, container, {
                     hideTriggerOnBlur: !!options.hideTriggerOnBlur,
                     placeholder : options.placeholder || undefined,
@@ -168,35 +165,8 @@ define([
         $container.wrapInner($('<div>', {'class' : 'container-editor', 'data-html-editable' : true}));
     }
 
-    function createToolbar($container, $appendTo){
-
-        var $tlb = $(toolbarTpl({
-            serial : 'serial123456',
-            state : 'active'
-        }));
-
-        if(!$appendTo || !$appendTo.length){
-            $appendTo = $container;
-        }
-
-        $appendTo.append($tlb);
-        $tlb.show();
-
-        $container.data('editor-toolbar', $tlb);
-
-        return this;
-    }
-
     function cleanup($container){
-        var $toolbar, container;
-
-        //remove the text toolbar
-        $toolbar = $container.data('editor-toolbar');
-        if($toolbar){
-            $toolbar.remove();
-        }
-
-        container = $container.data('container');
+        var container = $container.data('container');
         if(container){
             $(document).off('.' + container.serial);
             commonRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){

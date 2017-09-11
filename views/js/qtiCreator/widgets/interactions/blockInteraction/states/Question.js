@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  */
 define([
     'jquery',
@@ -21,9 +21,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'i18n'
-], function($, stateFactory, Question, htmlEditor, contentHelper, promptToolbarTpl, __){
+], function($, stateFactory, Question, htmlEditor, contentHelper, __){
     'use strict';
 
     var BlockInteractionStateQuestion = stateFactory.extend(Question, function(){
@@ -47,16 +46,6 @@ define([
         $editable.attr('data-html-editable', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
-
-            var $promptTlb = $(promptToolbarTpl({
-                serial : _widget.serial,
-                state : 'question'
-            }));
-
-            //add toolbar once only:
-            $editableContainer.append($promptTlb);
-            $promptTlb.show();
-
             htmlEditor.buildEditor($editableContainer, {
                 placeholder : __('define prompt'),
                 change : contentHelper.getChangeCallback(container),
