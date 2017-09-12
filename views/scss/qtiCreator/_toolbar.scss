@@ -26,7 +26,7 @@
             background: mix(#fff, $websiteBorder, 70%);
             box-shadow: unset;
             .cke_toolbar {
-                .cke_button_disabled:hover {
+                .cke_combo_disabled .cke_combo_button:hover, .cke_button_disabled:hover {
                     background: transparent !important;
                     color: $textColor !important;
                     cursor: default;
