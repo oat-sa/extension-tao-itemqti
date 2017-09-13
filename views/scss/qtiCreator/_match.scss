@@ -13,9 +13,10 @@
             .mini-tlb{
                  top:-32px;
                 [class^="icon-"], [class*=" icon-"]{
-                    padding:0;
+                    padding: 0;
                     position: relative;
-                    top: 3px;
+                    top: 5px;
+                    left: 8px;
                 }
              }
         }
@@ -41,8 +42,8 @@
             [class^="icon-"], [class*=" icon-"]{
                 padding:0;
                 position: relative;
-                top: 3px;
-                left: 5px;
+                top: 4px;
+                left: 8px;
             }
             .tlb-button{
                 margin:0;

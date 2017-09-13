@@ -40,26 +40,48 @@ img.dragging.ui-draggable-dragging {
     top: 0;
     right: 0;
     padding: 0;
-    background: whiten($uiClickableDefaultBg, .5);
-    @include simple-border();
     margin-bottom: 5px;
     overflow: hidden;
     z-index: 5000;
     @include font-size(13, true);
 
-    &:before, &:after {
-        //display: block;
+    border: 1px mix(#fff, $info, 20%) solid !important;
+    list-style-type: none;
+    cursor: pointer !important;
+    border-radius: 0;
+    background-color: mix(#fff, $info, 95%);
+
+    [class^="icon-"], [class*=" icon-"] {
+        @include font-size(16);
+        position: relative;
+        top: 4px;
+        color: $info;
     }
+
+    .tlb-button:hover {
+        background-color: $info;
+        [class^="icon-"], [class*=" icon-"] {
+            color: mix(#fff, $info, 90%);
+        }
+    }
+
+    &[data-edit="answer"]{
+        .tlb-button:hover {
+            background-color: mix(#fff, $info, 90%);
+            [class^="icon-"], [class*=" icon-"] {
+                color: inherit;
+            }
+        }
+    }
+
     .tlb-button {
-        min-width: 24px;
-        height: 22px;
-        //line-height: 26px;
+        width: 26px;
+        height: 24px;
         text-align: center;
         cursor: pointer;
-        margin: 0 2px;
+        margin: 0;
         display: inline-block;
-        color: $textColor !important;
-        padding-top: 3px;
+        color: $info !important;
         [class^="icon-"], [class*=" icon-"] {
             font-size: 14px !important;
         }
@@ -74,8 +96,8 @@ img.dragging.ui-draggable-dragging {
             min-width: 0;
             width: 35px !important;
             position: relative;
-            top: 0;
-            height: 18px;
+            top: 1px;
+            height: 22px;
             padding: 0px 4px
         }
         &[data-role="cke-launcher"] {
@@ -1078,12 +1100,11 @@ img.dragging.ui-draggable-dragging {
             width: 100%;
             position: relative;
             top: -2px;
-            text-shadow: 1px 1px 0px #ccc;
         }
         & ~ span.mini-tlb[data-edit]{
             position: absolute !important;
             top: -2px !important;
-            right: -32px !important;
+            right: -30px !important;
             .tlb-button {
                 margin: 0 !important;
                 padding: 0 !important;
@@ -1094,6 +1115,10 @@ img.dragging.ui-draggable-dragging {
         .mini-tlb[data-edit]{
             right:-32px !important;
         }
+    }
+
+    .qti-gap{
+        margin-right: 30px;
     }
 
     @import "qtiCreator/_object";
@@ -1120,7 +1145,7 @@ img.dragging.ui-draggable-dragging {
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
     .qti-simpleChoice {
         .mini-tlb[data-edit="question"] {
-            right: -45px !important;
+            right: -38px !important;
             top: 3px;
         }
     }
@@ -1142,7 +1167,8 @@ img.dragging.ui-draggable-dragging {
 
     .widget-textBlock {
         .mini-tlb {
-            right: 0px;
+            right: -36px;
+            top: -2px;
         }
     }
 
@@ -1197,11 +1223,10 @@ img.dragging.ui-draggable-dragging {
             white-space: nowrap;
 
             /* !important added because another important override it... */
-            top:-22px !important;
-            right:-2px !important;
+            top:-28px !important;
+            right:-1px !important;
             .tlb-button{
-                min-width:25px;
-                height:20px;
+                display: block;
                 margin:0;
             }
 

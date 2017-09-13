@@ -56,14 +56,14 @@
     }
     
     .icon-bin, .icon-pin, .icon-shuffle {
+        color: $info;
         text-align:center;
         padding: 0 5px;
         cursor: pointer;
         vertical-align: middle;
-    }
-    
-    .icon-bin:hover, .icon-pin:hover, .icon-shuffle:hover {
-        color: $uiClickableHoverBg;
+        &:hover{
+            color: whiten($info, .5);
+        }
     }
     
     .icon-down {
