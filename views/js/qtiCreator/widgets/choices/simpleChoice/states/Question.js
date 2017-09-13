@@ -17,6 +17,7 @@
  *
  */
 define([
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/choice',
@@ -24,7 +25,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function(stateFactory, Question, formTpl, formElement, identifierHelper, htmlEditor, contentHelper){
+], function(_, stateFactory, Question, formTpl, formElement, identifierHelper, htmlEditor, contentHelper){
     'use strict';
 
     var SimpleChoiceStateChoice = stateFactory.extend(Question, function(){
@@ -33,9 +34,7 @@ define([
         this.destroyEditor();
     });
 
-    SimpleChoiceStateChoice.prototype.initForm = function(){
-
-    };
+    SimpleChoiceStateChoice.prototype.initForm = _.noop();
     
     SimpleChoiceStateChoice.prototype.buildEditor = function(){
 
@@ -43,7 +42,6 @@ define([
             container = _widget.element.getBody(),
             $editableContainer = _widget.$container;
 
-        //@todo set them in the tpl
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
@@ -59,7 +57,6 @@ define([
     };
 
     SimpleChoiceStateChoice.prototype.destroyEditor = function(){
-        
         //search and destroy the editor
         htmlEditor.destroyEditor(this.widget.$container);
     };
