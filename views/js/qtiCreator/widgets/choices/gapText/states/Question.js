@@ -42,7 +42,6 @@ define([
             container = _widget.element.getBody(),
             $editableContainer = _widget.$container;
 
-        //@todo set them in the tpl
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){

@@ -20,7 +20,7 @@
                 @include simple-border();
                 //border-color: #ddd !important;
                 &:hover {
-                    border-color: mix(#fff, $info, 20%);
+                    border-color: $itemCreatorWidgetElementBorderColor;
                 }
             }
             & .mini-tlb[data-edit]{

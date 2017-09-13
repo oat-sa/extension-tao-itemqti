@@ -136,10 +136,6 @@ define([
                     $editable.trigger('editorready', [editor]);
 
                     $('.qti-item').trigger('toolbarchange');
-
-                    editor.setReadOnly();
-                    editor.setReadOnly(false);
-
                 },
                 focus : function(){
 
