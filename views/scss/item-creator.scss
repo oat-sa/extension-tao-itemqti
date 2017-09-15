@@ -1,19 +1,18 @@
 @import "inc/bootstrap";
 @import "inc/farbtastic";
 
-//
-$itemCreatorLightBlue: mix(#fff, $info, 90%);
-$itemCreatorVeryLightBlue: mix(#fff, $info, 95%);
-$itemCreatorBorderBlue : mix(#fff, $info, 20%);
-
+//all shades of colors
+$itemCreatorBlue90: mix(#fff, $info, 90%);
+$itemCreatorBlue95: mix(#fff, $info, 95%);
+$itemCreatorBlue20 : mix(#fff, $info, 20%);
 
 //colors used accross the item creator
 $itemCreatorSideBarBgColor: mix(#fff, $grey, 85%);
 $itemCreatorSideBarHeaderColor: mix(#fff, $websiteBorder, 70%);
-$itemCreatorAddOptionBorderColor: $itemCreatorBorderBlue;
-$itemCreatorAddOptionBgColor: $itemCreatorLightBlue;
-$itemCreatorMiniTlbBorderColor: $itemCreatorBorderBlue;
-$itemCreatorMiniTlbBgColor: $itemCreatorVeryLightBlue;
+$itemCreatorAddOptionBorderColor: $itemCreatorBlue20;
+$itemCreatorAddOptionBgColor: $itemCreatorBlue90;
+$itemCreatorMiniTlbBorderColor: $itemCreatorBlue20;
+$itemCreatorMiniTlbBgColor: $itemCreatorBlue95;
 
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
@@ -132,6 +131,27 @@ img.dragging.ui-draggable-dragging {
                 }
             }
         }
+    }
+}
+
+%add-option{
+    color: $info;
+    border: 1px $itemCreatorAddOptionBorderColor dashed !important;
+    list-style-type: none;
+    position: relative;
+    cursor: pointer !important;
+    border-radius: 3px;
+    background-color: $itemCreatorAddOptionBgColor;
+    [class^="icon-"], [class*=" icon-"] {
+        @include font-size(16);
+        position: relative;
+        top: 1px;
+        left: 2px;
+        color: $info;
+        padding-right: 5px
+    }
+    &:hover {
+        opacity: .8;
     }
 }
 
@@ -689,7 +709,7 @@ img.dragging.ui-draggable-dragging {
 
 #item-editor-panel {
     @import "qtiCreator/_table"; // table toolbars are included in the panel container, so those styles cannot go at a lower level
-    @import "qtiCreator/_toolbar";
+    @import "qtiCreator/_editor-bar";
 
     padding: 0;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAAAAAA7VNdtAAAFQElEQVR42iXWW45kSREEUDN/xM3M6h4GJCT2vyl2gVBPV1XeCHc3PjirOPFvQE0HWecC3rZ4D9JFcpqSEy4MRO2Cw6M7y6xFY/xaz9fuThJGVSVNpvK7jL3Ggoyp4NsDzjd8dYJS+H8/HtNCo1HjRoNxoto8Wj1xntjG41srvQ7S67JC9UN30vz3snNpfBrEyNaOi5g3ctJFeluZra4rgwJIpMema9qCmEWtsK/I+fpbeDfSXe+AlQMoSxlwreFXRifYhNd4DL6erzoImTTg83iJFbCoM2Z3QqoGeLSmix3Hcvp11yzyax6ujkMEaV02MD/xYB1j2/SoK+IOi738OidmWCrfzwa2zy975XQeOMxNu1+kFS2esEGHrU+vR48LNyVTyQnrz4WK6oVmkaProfD3o1bvRcfywb4/Xsf9IBi70Ethc9qdj2dJXrNiazeN1XDJ+rdbtHkNE/b6/v6JAALjhrn1YHy9A68JGAQCZ/IfIMyaz7OZZjjBQbg0mo3Hd8RnXKSp348L3cdc+6qF6ePCvPPPniFkFIka9P7jn9GVhx5WeT7jB+qOmTRD0xzec/OaovsMn1/TDyBk8/2Rfnq5E0debzcsHwgqNNkS2ylitYcsytui5a14jaCrYp1kjxPHTa/9zqRGxOd6lqgw79pJoX01SPCpW1edJSW3aiwJVifmfk77O1Lx6ESH4Nh5m8e46RzDxYMnzLBd49Lj7u44gRtXb99uRqoTJlicX/FY7O1mU2QjOfIXH7/19zhujmIxUeU+Y1QKf6YTLa8Oo6YHwLmkaAszyLJfczoMUJK0Ssfo6KM+OetMDtBI2/NUhw3uDJi2X7px2XGNqcjTafYRezNhNrERruMnbpiZXFwxjBmQaEouS1RfvtrwJmjhkNe7Yruln4DMBIEDOQ4uFA/O9jLTjJs1j7tcEYZK2NhqsD6f+5rqyB4ddCnj/R2ewSHpjuOPHdf00AChWR4EYtu0hRXEq97FqHFqbFTz/FZs9/eHVIYJpKPdeVdYw/DE8AKNFyGU7E7MBFDZ5kQ1zX0KzEDPwC7zz35dN4ygpi67/DaP19ij7ycgo6M3hZOvrnzPC4pq0F0wFaCAeYWFYFadZibt79fomJg38vbsoV2ghpuL3RO00EC6vjsc1sRrlaJbpnTUODAa2poFTr0XnfHuH7qtftuDGJPB5vfPPM6AQou7fIzWM4p4XMDEG2D1j8Bk70tqWVqbOzTHDco5l4rs4RA8O5aG6z62mfY6CIgvb8OACvvGIgC1Qx7Y1ExcLWmlHb0t8QBcYYAoeY/Y5t7lbY9uu+7xZwANoTKzaoYO63EvBFqYtK3rasyS/Db5ZIfPROCMjQlJoLuYBNkTENIk9JnLtGBdZwUQGvNmPRxdEfdb50cLevs1Elk7c50Rre4n/vOvQPqRPIRDmbEjsuAiImQDk9gpdlKw/fyh8K4JSMxmGXFfD3doyOvux32enindFoDMb3MF0IGK8gHTZgxoqggpTInvH9ao9B6Td9oo5qyBw8eBBntCRj5GOuTktVxz//XHk+p2mXrifiMokq5BR94DNkPCsJBt3f4071kDOQwd/hPz/rnHgbGRns3vxTOOy2ff5uf7mReOgQ4K8gDID62De5VRZe/rfuSMYKOrdsczymEhx4hTJyZvrbYYie0QBj/1V4agcVV4JXqmYgFb8sxYQ95BFdsNyPPHoadIqM1fLYdiT4gQ+P00xZfZih5YtkFn7Xdw7P/FIeltYjSfW+Q1IZ7wcQgU4DupThfe9aN3wtCUjJoLktqBD27/HztqGm4EFwGoAAAAAElFTkSuQmCC);
@@ -964,20 +984,7 @@ img.dragging.ui-draggable-dragging {
             }
             .qti-interaction {
                 .add-option {
-                    border: 1px $itemCreatorAddOptionBorderColor dashed !important;
-                    list-style-type: none;
-                    position: relative;
-                    cursor: pointer !important;
-                    border-radius: 3px;
-                    background-color: $itemCreatorAddOptionBgColor;
-                    [class^="icon-"], [class*=" icon-"] {
-                        @include font-size(16);
-                        position: relative;
-                        top: 1px;
-                        left: 2px;
-                        color: $info;
-                        padding-right: 5px
-                    }
+                    @extend %add-option;
                     & > div {
                         display: table;
                         width: 100%;
@@ -994,9 +1001,6 @@ img.dragging.ui-draggable-dragging {
                             left: auto;
                             padding: 0;
                         }
-                    }
-                    &:hover {
-                        opacity: .8;
                     }
                 }
                 .qti-prompt .cke_editable{
@@ -1022,14 +1026,6 @@ img.dragging.ui-draggable-dragging {
     }
     [data-edit] {
         display: none;
-        //fix issue #2678
-        /*            ::selection {
-            background: transparent;
-            }
-            ::-moz-selection {
-            background: transparent;
-            text-shadow: none;
-        }*/
         & > [class*=" col-"], [class^="col-"] {
             margin-bottom: 0 !important;
         }
@@ -1063,7 +1059,7 @@ img.dragging.ui-draggable-dragging {
         color: white;
         padding: 0;
         display: inline-block;
-        line-height: 20px;
+        line-height: 24px;
         cursor: default;
         [class^="icon-"], [class*=" icon-"] {
             font-size: inherit;
@@ -1090,7 +1086,7 @@ img.dragging.ui-draggable-dragging {
             .tlb-button {
                 margin: 0 !important;
                 padding: 0 !important;
-                height: 18px !important;
+                height: 24px !important;
                 width: 24px !important;
             }
         }
@@ -1119,7 +1115,7 @@ img.dragging.ui-draggable-dragging {
             .tlb-button {
                 margin: 0 !important;
                 padding: 0 !important;
-                height: 18px !important;
+                height: 24px !important;
                 width: 24px !important;
             }
         }

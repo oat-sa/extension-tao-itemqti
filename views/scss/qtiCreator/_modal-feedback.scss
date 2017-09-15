@@ -72,13 +72,14 @@
             }
         }
         .feedbackRule-button-delete{
+            color: $info;
             position:absolute;
             top:12px;
             right:10px;
             cursor:pointer;
             @include font-size(13);
             &:hover{
-                color: $uiClickableHoverBg;
+                color: whiten($info, .5);
             }
         }
         .feedbackRule-compared-value{

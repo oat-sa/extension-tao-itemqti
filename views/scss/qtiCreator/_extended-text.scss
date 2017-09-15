@@ -20,6 +20,9 @@
                 color: $textColor !important;
                 cursor: default;
             }
+            .cke_button_on {
+                background: $uiClickableHoverBg !important;
+            }
         }
     }
 }
