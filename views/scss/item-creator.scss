@@ -392,6 +392,9 @@ img.dragging.ui-draggable-dragging {
                 margin: 5px 0;
                 @include font-size(13);
             }
+            .icon-help.tooltipstered{
+                color: $info;
+            }
         }
     }
 
@@ -1279,6 +1282,10 @@ img.dragging.ui-draggable-dragging {
             width: 50px !important // 10px more than the default 40px value
         }
     }
+}
+
+.item-editor-interaction-property-bar{
+
 }
 
 @media print {
