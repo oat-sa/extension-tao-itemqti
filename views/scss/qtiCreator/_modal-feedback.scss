@@ -10,9 +10,6 @@
     }
     .modal-body{
         position:relative;
-        .cke_editable{
-            margin-right:30px;
-        }
     }
     .widget-ok{
         margin: 30px 0px 0px;
@@ -25,6 +22,23 @@
         }
         &.edit-active{
             @extend %editActive;
+        }
+    }
+    .qti-modalFeedback{
+        .modal-title{
+            border: solid 1px transparent;
+            &.inplace{
+                &:hover, &:focus {
+                    border: dotted 1px $uiClickableHoverBg;
+                }
+                input{
+                    font-size: 2rem;
+                    width: 100% !important;
+                    max-width: 100%;
+                    border:none;
+                    padding: 0;
+                }
+            }
         }
     }
 }
@@ -58,13 +72,14 @@
             }
         }
         .feedbackRule-button-delete{
+            color: $info;
             position:absolute;
             top:12px;
             right:10px;
             cursor:pointer;
             @include font-size(13);
             &:hover{
-                color: $uiClickableHoverBg;
+                color: whiten($info, .5);
             }
         }
         .feedbackRule-compared-value{
