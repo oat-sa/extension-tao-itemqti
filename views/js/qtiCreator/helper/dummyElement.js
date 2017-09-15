@@ -28,7 +28,7 @@ define([
                 icon: 'maths',
                 css: {
                     width : 40,
-                    height : 22
+                    height : 24
                 }
             },
             image: {
@@ -129,7 +129,7 @@ define([
                 ? (css.height * .8)
                 : 14;
 
-            css['line-height'] = css['font-size'].toString() + 'px';
+            css['line-height'] = (css['font-size'] + 2).toString() + 'px';//adding 2px of extra padding
 
             if(css['height'] > 30) {
                 css['padding-top'] = ((css['height'] - css['font-size']) / 2) * .9;

@@ -3,10 +3,19 @@
     .real-label input[disabled] ~ [class^="icon-"]{
         cursor:pointer !important;
     }
+    .choice-area .label-content{
+        display: block;
+    }
     .mini-tlb[data-edit=answer]{
+        width: 38px;
+        background: transparent;
+        border-color: transparent !important;
         .tlb-button{
             margin:0;
             padding:0;
+            &:hover{
+                background: transparent;
+            }
         }
     }
     .add-option{

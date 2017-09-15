@@ -77,7 +77,7 @@
         @include simple-border();
         text-align:right;
         min-width: 40px;
-        max-width: 60px;
+        max-width: 40px;
         position: relative;
         top: -5px
     }
@@ -90,5 +90,10 @@
     }
     .icon-checkbox {
         margin-left: 20px
+    }
+    .pairs{
+        img{
+            max-width: 100%;
+        }
     }
 }
