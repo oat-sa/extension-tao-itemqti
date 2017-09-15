@@ -34,10 +34,9 @@ use oat\tao\helpers\Template;
     <!-- item panel -->
     <main id="item-editor-panel" class="clearfix">
 
-        <div class="toolbar-container">
+        <div class="item-editor-bar">
             <h1 class="truncate"></h1>
             <div id="toolbar-top"></div>
-            <div id="toolbar-bottom"></div>
         </div>
 
         <div id="item-editor-scoll-container">

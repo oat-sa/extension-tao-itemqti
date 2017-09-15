@@ -99,7 +99,7 @@
                     "relatedItem": "item_556f08e1e8b38617090200"
                 },
                 "typeIdentifier": "studentToolbar",
-                "markup": "<div class=\"sts-scope\">\n            <div id=\"sts-studentToolbar\" class=\"sts-container sts-studentToolbar-container sts-movable-container\">\n              <div class=\"sts-title-bar\">\n                <div class=\"sts-title\">Student Toolbar<\/div>\n              <\/div>\n              <div class=\"sts-content\">\n                <!-- Actual tools go here -->\n              <\/div>\n            <\/div>\n          <\/div>",
+                "markup": "<div class=\"sts-scope\">\n            <div id=\"sts-studentToolbar\" class=\"sts-container sts-studentitem-editor-bar sts-movable-container\">\n              <div class=\"sts-title-bar\">\n                <div class=\"sts-title\">Student Toolbar<\/div>\n              <\/div>\n              <div class=\"sts-content\">\n                <!-- Actual tools go here -->\n              <\/div>\n            <\/div>\n          <\/div>",
                 "libraries": [
 
                 ],
