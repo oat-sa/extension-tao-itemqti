@@ -1,11 +1,19 @@
 @import "inc/bootstrap";
 @import "inc/farbtastic";
 
+//
+$itemCreatorLightBlue: mix(#fff, $info, 90%);
+$itemCreatorVeryLightBlue: mix(#fff, $info, 95%);
+$itemCreatorBorderBlue : mix(#fff, $info, 20%);
+
+
 //colors used accross the item creator
 $itemCreatorSideBarBgColor: mix(#fff, $grey, 85%);
 $itemCreatorSideBarHeaderColor: mix(#fff, $websiteBorder, 70%);
-$itemCreatorWidgetElementBorderColor: mix(#fff, $info, 20%);
-$itemCreatorWidgetElementBackgroundColor: mix(#fff, $info, 90%);
+$itemCreatorAddOptionBorderColor: $itemCreatorBorderBlue;
+$itemCreatorAddOptionBgColor: $itemCreatorLightBlue;
+$itemCreatorMiniTlbBorderColor: $itemCreatorBorderBlue;
+$itemCreatorMiniTlbBgColor: $itemCreatorVeryLightBlue;
 
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
@@ -48,11 +56,11 @@ img.dragging.ui-draggable-dragging {
     z-index: 5000;
     @include font-size(13, true);
 
-    border: 1px $itemCreatorWidgetElementBorderColor solid !important;
+    border: 1px $itemCreatorMiniTlbBorderColor solid !important;
     list-style-type: none;
     cursor: pointer !important;
     border-radius: 0;
-    background-color: mix(#fff, $info, 95%);
+    background-color: $itemCreatorMiniTlbBgColor;
 
     [class^="icon-"], [class*=" icon-"] {
         @include font-size(16);
@@ -64,13 +72,13 @@ img.dragging.ui-draggable-dragging {
     .tlb-button:hover {
         background-color: $info;
         [class^="icon-"], [class*=" icon-"] {
-            color: $itemCreatorWidgetElementBackgroundColor;
+            color: $itemCreatorMiniTlbBgColor;
         }
     }
 
     &[data-edit="answer"]{
         .tlb-button:hover {
-            background-color: $itemCreatorWidgetElementBackgroundColor;
+            background-color: $itemCreatorMiniTlbBgColor;
             [class^="icon-"], [class*=" icon-"] {
                 color: inherit;
             }
@@ -956,12 +964,12 @@ img.dragging.ui-draggable-dragging {
             }
             .qti-interaction {
                 .add-option {
-                    border: 1px $itemCreatorWidgetElementBorderColor dashed !important;
+                    border: 1px $itemCreatorAddOptionBorderColor dashed !important;
                     list-style-type: none;
                     position: relative;
                     cursor: pointer !important;
                     border-radius: 3px;
-                    background-color: $itemCreatorWidgetElementBackgroundColor;
+                    background-color: $itemCreatorAddOptionBgColor;
                     [class^="icon-"], [class*=" icon-"] {
                         @include font-size(16);
                         position: relative;

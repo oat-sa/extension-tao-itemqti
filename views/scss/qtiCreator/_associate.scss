@@ -18,9 +18,8 @@
             &:not(th) {
                 azimuth: nonsense;
                 @include simple-border();
-                //border-color: #ddd !important;
                 &:hover {
-                    border-color: $itemCreatorWidgetElementBorderColor;
+                    border-color: $itemCreatorAddOptionBorderColor;
                 }
             }
             & .mini-tlb[data-edit]{
