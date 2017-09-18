@@ -51,7 +51,7 @@ class LomIdentifierGuardian implements MetadataGuardian {
             if ($path === $expectedPath) {
                 // Check for such a value in database...
                 $prop = new \core_kernel_classes_Property('http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
-                $class = new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS);
+                $class = new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI);
                 $instances = $class->searchInstances(array($prop->getUri() => $metadataValue->getValue()), array('like' => false, 'recursive' => true));
                 
                 if (count($instances) > 0) {

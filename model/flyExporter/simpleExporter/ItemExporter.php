@@ -280,7 +280,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function getDefaultUriClass()
     {
-        return TaoOntology::ITEM_CLASS;
+        return TaoOntology::ITEM_CLASS_URI;
     }
 
     /**
