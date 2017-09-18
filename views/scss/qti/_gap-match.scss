@@ -8,6 +8,7 @@
         &:hover {
             @extend %selectableHover;
         }
+        border: solid 1px transparent;
         background: $uiClickableDefaultBg;
         color: $textColor;
         @include border-radius();

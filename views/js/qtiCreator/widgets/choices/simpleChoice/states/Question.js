@@ -13,41 +13,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 Open Assessment Technologies SA;
+ *
  */
 define([
-    'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Question',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/choice',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'i18n'
-], function($, stateFactory, Question, htmlEditor, contentHelper, __){
+    'taoQtiItem/qtiCreator/editor/gridEditor/content'
+], function(_, stateFactory, Question, formTpl, formElement, identifierHelper, htmlEditor, contentHelper){
     'use strict';
 
-    var BlockInteractionStateQuestion = stateFactory.extend(Question, function(){
-
-        this.buildPromptEditor();
-
+    var SimpleChoiceStateChoice = stateFactory.extend(Question, function(){
+        this.buildEditor();
     }, function(){
-
-        this.destroyPromptEditor();
+        this.destroyEditor();
     });
 
-    BlockInteractionStateQuestion.prototype.buildPromptEditor = function(){
+    SimpleChoiceStateChoice.prototype.initForm = _.noop();
+    
+    SimpleChoiceStateChoice.prototype.buildEditor = function(){
 
         var _widget = this.widget,
-            $editableContainer = _widget.$container.find('.qti-prompt-container'),
-            $editable = $editableContainer.find('.qti-prompt'),
-            container = _widget.element.prompt.getBody();
+            container = _widget.element.getBody(),
+            $editableContainer = _widget.$container;
 
-        //@todo set them in the tpl
         $editableContainer.attr('data-html-editable-container', true);
-        $editable.attr('data-html-editable', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
+            
             htmlEditor.buildEditor($editableContainer, {
-                placeholder : __('define prompt'),
                 change : contentHelper.getChangeCallback(container),
                 data : {
                     container : container,
@@ -57,10 +56,10 @@ define([
         }
     };
 
-    BlockInteractionStateQuestion.prototype.destroyPromptEditor = function(){
-        var $editableContainer = this.widget.$container.find('.qti-prompt-container');
-        htmlEditor.destroyEditor($editableContainer);
+    SimpleChoiceStateChoice.prototype.destroyEditor = function(){
+        //search and destroy the editor
+        htmlEditor.destroyEditor(this.widget.$container);
     };
 
-    return BlockInteractionStateQuestion;
+    return SimpleChoiceStateChoice;
 });

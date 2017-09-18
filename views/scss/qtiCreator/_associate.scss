@@ -18,21 +18,22 @@
             &:not(th) {
                 azimuth: nonsense;
                 @include simple-border();
-                //border-color: #ddd !important;
                 &:hover {
-                    border-color: mix(#fff, $info, 20%);
+                    border-color: $itemCreatorAddOptionBorderColor;
                 }
             }
             & .mini-tlb[data-edit]{
-                top:-30px !important;
+                top: -33px !important;
+                right: -7px !important;
             }
         }
     }
 
     .result-area > li {
         & > .mini-tlb[data-edit]{
-            top:40%;
-            right:-150px;
+            top: 22%;
+            right: -80px;
+            width: 70px;
         }
         & > .target[data-edit] {
             float: none;

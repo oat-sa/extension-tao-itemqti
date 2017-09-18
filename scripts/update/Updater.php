@@ -21,6 +21,8 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use League\Flysystem\Adapter\Local;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -357,15 +359,28 @@ class Updater extends \common_ext_ExtensionUpdater
             //create a new web source of ActionWebSource (without token requirement)
             $websource = ActionWebSource::spawnWebsource($fsId);
 
+            /** @var FileSystemService $fsm */
+            $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+            if (! $fsm->hasDirectory($fsId)) {
+                $fsm->createFileSystem($fsId, $fsId);
+                $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+            }
+
             //assign the new web source to the existing PortableElementFileStorage while leaving existing filesystem intact
-            $portableElementStorage = $this->getServiceManager()->get(PortableElementFileStorage::SERVICE_ID);
-            $oldWebsourceId = $portableElementStorage->getOption(PortableElementFileStorage::OPTION_WEBSOURCE);
+            try{
+                $portableElementStorage = $this->getServiceManager()->get(PortableElementFileStorage::SERVICE_ID);
+                $oldWebsourceId = $portableElementStorage->getOption(PortableElementFileStorage::OPTION_WEBSOURCE);
+                //remove old websource
+                $oldWebsource = WebsourceManager::singleton()->getWebsource($oldWebsourceId);
+                WebsourceManager::singleton()->removeWebsource($oldWebsource);
+
+            } catch (ServiceNotFoundException $e){
+                $portableElementStorage = new PortableElementFileStorage();
+            }
             $portableElementStorage->setOption(PortableElementFileStorage::OPTION_WEBSOURCE, $websource->getId());
+            $portableElementStorage->setOption(PortableElementFileStorage::OPTION_FILESYSTEM, $fsId);
             $this->getServiceManager()->register(PortableElementFileStorage::SERVICE_ID, $portableElementStorage);
 
-            //remove old websource
-            $oldWebsource = WebsourceManager::singleton()->getWebsource($oldWebsourceId);
-            WebsourceManager::singleton()->removeWebsource($oldWebsource);
 
             $this->setVersion('8.3.0');
         }
@@ -391,9 +406,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.16.0');
         }
 
-        $this->skip('8.16.0', '9.9.2');
+        $this->skip('8.16.0', '9.11.0');
 
-        if($this->isVersion('9.9.2')){
+        if($this->isVersion('9.11.0')){
 
             //register location of portable libs to legacy share lib aliases for backward compatibility
             $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';

@@ -111,19 +111,6 @@ define([
             $form.off('.databinding');
             $form.find(':input[data-hasqtip]').qtip('destroy', true);
         },
-        initTitle : function initTitle($form, element){
-
-            var $title = $form.hasClass('qti-title') ? $form : $form.find('.qti-title');
-
-            $title
-                .inplacer({
-                    target : $('#qti-title')
-                })
-                .attr('title', __('Edit modal feedback title'))
-                .on('change', function(){
-                    element.attr('title', $(this).text());
-                });
-        },
         /**
          * the simplest form of save callback used in setChangeCallbacks()
          * @param {boolean} allowEmpty
