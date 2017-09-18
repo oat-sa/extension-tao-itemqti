@@ -11,7 +11,7 @@
  * of jQuery.
  */
 
-define([], function() {
+define(function() {
 
 // BEGIN JQUERY SOURCE
 

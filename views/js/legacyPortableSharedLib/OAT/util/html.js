@@ -11,8 +11,6 @@ define(['OAT/util/xml', 'OAT/util/math'], function(xml, math){
             
             //render math
             math.render($container);
-            
-            //@todo render media files
         }
     };
 });

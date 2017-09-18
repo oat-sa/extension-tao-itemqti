@@ -1,11 +1,11 @@
 define(['OAT/lodash'], function(_){
-    
-    //@todo : complete with namespace managements
-    function EventMgr(){
+    'use strict';
+
+    return function EventMgr(){
         
         var events = {};
         
-        this.get = function(event){
+        this.get = function get(event){
             if(event && events[event]){
                 return _.clone(events[event]);
             }else{
@@ -13,10 +13,11 @@ define(['OAT/lodash'], function(_){
             }
         };
         
-        this.on = function(event, callback){
+        this.on = function on(event, callback){
+            var name;
             var tokens = event.split('.');
             if(tokens[0]){
-                var name = tokens.shift();
+                name = tokens.shift();
                 events[name] = events[name] || [];
                 events[name].push({
                     ns : tokens,
@@ -25,16 +26,15 @@ define(['OAT/lodash'], function(_){
             }
         };
         
-        this.off = function(event){
+        this.off = function off(event){
             if(event && events[event]){
                 events[event] = [];
             }
         };
         
-        this.trigger = function(event, data){
+        this.trigger = function trigger(event, data){
             if(events[event]){
-                _.each(events[event], function(e){
-                    //@todo check ns:
+                _.forEach(events[event], function(e){
                     e.callback.apply({
                         type : event,
                         ns : []
@@ -42,8 +42,5 @@ define(['OAT/lodash'], function(_){
                 });
             }
         };
-    }
-    
-    
-    return EventMgr;
+    };
 });

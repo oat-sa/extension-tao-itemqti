@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\scripts\update;
 use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
-use oat\qtiItemPci\model\portableElement\dataObject\PciDataObject;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -37,11 +36,7 @@ use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\ItemModel;
-use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
-use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
-use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
-use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
@@ -70,73 +65,9 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $currentVersion = $initialVersion;
 
-        //add portable shared libraries:
-        $libBasePath = ROOT_PATH.'taoQtiItem/views/js/portableSharedLibraries';
-        $libRootUrl = ROOT_URL.'taoQtiItem/views/js/portableSharedLibraries';
-        $installBasePath = ROOT_PATH.'taoQtiItem/install/scripts/portableSharedLibraries';
-        $sharedLibRegistry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
+        $this->setVersion($currentVersion);
 
-        //migrate from 2.6 to 2.7.0
-        if($currentVersion == '2.6'){
-
-            $sharedLibRegistry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
-            $sharedLibRegistry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
-            $sharedLibRegistry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
-            $sharedLibRegistry->registerFromFile('OAT/raphael', $installBasePath.'/OAT/raphael.js');
-            $sharedLibRegistry->registerFromFile('OAT/scale.raphael', $installBasePath.'/OAT/scale.raphael.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/xml', $installBasePath.'/OAT/util/xml.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/math', $installBasePath.'/OAT/util/math.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/html', $installBasePath.'/OAT/util/html.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/EventMgr', $installBasePath.'/OAT/util/EventMgr.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
-
-            $currentVersion = '2.7.0';
-        }
-
-        //migrate from 2.7.0 to 2.7.1
-        if($currentVersion == '2.7.0'){
-
-            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
-            $sharedLibRegistry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
-            $sharedLibRegistry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
-
-            $currentVersion = '2.7.1';
-        }
-
-        //migrate from 2.7.0 to 2.7.1
-        if($currentVersion == '2.7.1'){
-
-            $sharedLibRegistry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
-
-            $currentVersion = '2.7.2';
-        }
-
-        //migrate from 2.7.2 to 2.7.3
-        if($currentVersion == '2.7.2'){
-
-            $sharedLibRegistry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
-            $sharedLibRegistry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
-            $sharedLibRegistry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
-            $sharedLibRegistry->registerFromFile('OAT/raphael', $installBasePath.'/OAT/raphael.js');
-            $sharedLibRegistry->registerFromFile('OAT/scale.raphael', $installBasePath.'/OAT/scale.raphael.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/xml', $installBasePath.'/OAT/util/xml.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/math', $installBasePath.'/OAT/util/math.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/html', $installBasePath.'/OAT/util/html.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/EventMgr', $installBasePath.'/OAT/util/EventMgr.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
-            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
-            $sharedLibRegistry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
-            $sharedLibRegistry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
-            $sharedLibRegistry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
-
-            $currentVersion = '2.7.3';
-        }
-
-        //migrate from 2.7.3 to 2.7.4
-        if($currentVersion == '2.7.3'){
-            $sharedLibRegistry->registerFromFile('OAT/handlebars', $installBasePath.'/OAT/handlebars.js');
-            $currentVersion = '2.7.4';
-        }
+        $this->skip('2.6', '2.7.4');
 
         if($currentVersion == '2.7.4'){
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
@@ -144,26 +75,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.7.5';
         }
 
-        if($currentVersion == '2.7.5'){
+        $this->skip('2.7.5', '2.7.8');
 
-            $sharedLibRegistry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
-
-            $currentVersion = '2.7.6';
-        }
-
-        if($currentVersion == '2.7.6'){
-
-            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
-
-            $currentVersion = '2.7.7';
-        }
-
-        if($currentVersion == '2.7.7'){
-
-            $currentVersion = '2.7.8';
-        }
-
-        if($currentVersion == '2.7.8'){
+		if($currentVersion == '2.7.8'){
 
             $clientLibRegistry = ClientLibRegistry::getRegistry();
             $clientLibRegistry->register('qtiCustomInteractionContext', '../../../taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
@@ -171,14 +85,8 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $currentVersion = '2.7.9';
         }
-        if($currentVersion == '2.7.9'){
-            $currentVersion = '2.8.0';
-        }
 
-        if($currentVersion == '2.8.0'){
-            $currentVersion = '2.8.1';
-            $sharedLibRegistry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
-        }
+        $this->skip('2.7.9', '2.8.1');
 
         if ($currentVersion == '2.8.1') {
             $qtiItem = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
@@ -186,23 +94,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.9.0';
         }
 
-        if ($currentVersion === '2.9.0') {
-            $sharedLibRegistry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
-            $currentVersion = '2.9.1';
-        }
-        if ($currentVersion === '2.9.1') {
-            $currentVersion = '2.10.0';
-        }
-        if($currentVersion === '2.10.0') {
-            $currentVersion = '2.11.0';
-        }
-        if($currentVersion === '2.11.0') {
-            $sharedLibRegistry->registerFromFile('OAT/util/asset', $installBasePath . '/OAT/util/asset.js');
-            $sharedLibRegistry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
-            $currentVersion = '2.12.0';
-        }
-
-        $this->setVersion($currentVersion);
+        $this->skip('2.9.0', '2.12.0');
 
         if($this->isBetween('2.12.0','2.13.0')) {
             $itemQtiExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
@@ -212,7 +104,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.13.0');
         }
 
-        if($this->isVersion('2.13.0')) {
+	    if($this->isVersion('2.13.0')) {
 
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -234,7 +126,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.14.0');
         }
 
-        $this->skip('2.14.0','2.15.1');
+		$this->skip('2.14.0','2.15.1');
 
         if($this->isVersion('2.15.1')){
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
@@ -265,9 +157,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.0');
         }
 
-        if($this->isVersion('2.17.0')){
-            $this->setVersion('2.17.1');
-        }
+		if($this->isVersion('2.17.0')){
+			$this->setVersion('2.17.1');
+		}
 
         if($this->isVersion('2.17.1')){
             $service = new addValidationSettings();
@@ -275,7 +167,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.2');
         }
 
-        $this->skip('2.17.2', '2.19.0');
+		$this->skip('2.17.2', '2.19.0');
 
         if ($this->isVersion('2.19.0')) {
 
@@ -334,7 +226,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.20.0');
         }
 
-        $this->skip('2.20.0', '2.22.0');
+	$this->skip('2.20.0', '2.22.0');
 
         if ($this->isVersion('2.22.0')) {
             $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
@@ -393,7 +285,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('2.27.0', '2.28.2');
 
-        if($this->isVersion('2.28.2')){
+	    if($this->isVersion('2.28.2')){
             $setDragAndDropConfig = new SetDragAndDropConfig();
             $setDragAndDropConfig([]);
             $this->setVersion('2.29.0');
@@ -407,21 +299,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.31.0');
         }
 
-        $this->skip('2.31.0', '5.1.2');
-
-        if ($this->isVersion('5.1.2')) {
-            $sharedLibRegistry->registerFromFile('OAT/jquery.qtip', $installBasePath . '/OAT/jquery.qtip.js');
-            $this->setVersion('5.2.0');
-        }
-
-        $this->skip('5.2.0', '5.3.0');
-
-        if ($this->isVersion('5.3.0')) {
-            $sharedLibRegistry->registerFromFile('OAT/customEvent', $installBasePath . '/OAT/customEvent.js');
-            $this->setVersion('5.4.0');
-        }
-
-        $this->skip('5.4.0', '5.7.0');
+        $this->skip('2.31.0', '5.7.0');
 
         if ($this->isVersion('5.7.0')) {
 
@@ -455,14 +333,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('6.8.2');
         }
 
-        $this->skip('6.8.2', '6.10.1');
-
-        if ($this->isVersion('6.10.1')) {
-            $sharedLibRegistry->registerFromFile('OAT/mediaPlayer', $installBasePath . '/OAT/mediaPlayer.js');
-            $this->setVersion('6.11.0');
-        }
-
-        $this->skip('6.11.0', '6.18.1');
+        $this->skip('6.8.2', '6.18.1');
 
         if ($this->isVersion('6.18.1')) {
             $updater = new InitMetadataService();
@@ -536,5 +407,36 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('8.16.0', '9.11.0');
+
+        if($this->isVersion('9.11.0')){
+
+            //register location of portable libs to legacy share lib aliases for backward compatibility
+            $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
+            $clientLibRegistry = ClientLibRegistry::getRegistry();
+            $clientLibRegistry->register('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
+            $clientLibRegistry->register('OAT/lodash', $portableSafeLibPath . '/lodash');
+            $clientLibRegistry->register('OAT/async', $portableSafeLibPath . '/async');
+            $clientLibRegistry->register('OAT/raphael', $portableSafeLibPath . '/raphael');
+            $clientLibRegistry->register('OAT/scale.raphael', $portableSafeLibPath . '/OAT/scale.raphael');
+            $clientLibRegistry->register('OAT/jquery.qtip', $portableSafeLibPath . '/jquery.qtip');
+            $clientLibRegistry->register('OAT/util/xml', $portableSafeLibPath . '/OAT/util/xml');
+            $clientLibRegistry->register('OAT/util/math', $portableSafeLibPath . '/OAT/util/math');
+            $clientLibRegistry->register('OAT/util/html', $portableSafeLibPath . '/OAT/util/html');
+            $clientLibRegistry->register('OAT/util/EventMgr', $portableSafeLibPath . '/OAT/util/EventMgr');
+            $clientLibRegistry->register('OAT/util/event', $portableSafeLibPath . '/OAT/util/event');
+            $clientLibRegistry->register('OAT/util/asset', $portableSafeLibPath . '/OAT/util/asset');
+            $clientLibRegistry->register('OAT/util/tpl', $portableSafeLibPath . '/OAT/util/tpl');
+            $clientLibRegistry->register('OAT/sts/common', $portableSafeLibPath . '/OAT/sts/common');
+            $clientLibRegistry->register('OAT/interact', $portableSafeLibPath . '/interact');
+            $clientLibRegistry->register('OAT/interact-rotate', $portableSafeLibPath . '/OAT/interact-rotate');
+            $clientLibRegistry->register('OAT/sts/transform-helper', $portableSafeLibPath . '/OAT/sts/transform-helper');
+            $clientLibRegistry->register('OAT/handlebars', $portableSafeLibPath . '/handlebars');
+            $clientLibRegistry->register('OAT/sts/stsEventManager', $portableSafeLibPath . '/OAT/sts/stsEventManager');
+            $clientLibRegistry->register('OAT/waitForMedia', $portableSafeLibPath . '/OAT/waitForMedia');
+            $clientLibRegistry->register('OAT/customEvent', $portableSafeLibPath . '/OAT/customEvent');
+            $clientLibRegistry->register('OAT/mediaPlayer', $portableSafeLibPath . '/OAT/mediaPlayer');
+
+            $this->setVersion('10.0.0');
+        }
     }
 }

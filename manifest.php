@@ -28,7 +28,7 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '9.11.0',
+    'version'     => '10.0.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=4.2.4',
@@ -49,7 +49,6 @@ return array(
 	    'php' => array(
 			dirname(__FILE__).'/install/local/setDefaultTheme.php',
 			dirname(__FILE__).'/install/local/addPortableContexts.php',
-			dirname(__FILE__).'/install/scripts/addPortableSharedLibraries.php',
 			dirname(__FILE__).'/install/scripts/setQtiRunnerConfig.php',
 			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
 			'oat\\taoQtiItem\\install\\scripts\\createExportDirectory',
@@ -58,6 +57,7 @@ return array(
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
             \oat\taoQtiItem\scripts\install\InitMetadataService::class,
             \oat\taoQtiItem\scripts\install\SetItemModel::class,
+            \oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries::class,
 		)
 	),
 	'local'	=> array(
