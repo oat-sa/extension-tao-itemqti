@@ -1,6 +1,6 @@
 define([
-    'IMSGlobal/jquery_2_1_1',
-    'OAT/sts/common',
+    'taoQtiItem/portableLib/jquery_2_1_1',
+    'taoQtiItem/portableLib/OAT/sts/common',
     'qtiInfoControlContext'
 ],
 function ($, common, qtiInfoControlContext) {

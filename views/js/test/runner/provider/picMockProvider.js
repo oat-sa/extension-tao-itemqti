@@ -16,63 +16,78 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-
-define(['module', 'core/promise'], function(module, Promise) {
+define(['module', 'lodash', 'core/promise'], function(module, _, Promise) {
     'use strict';
 
     var baseUrl = module.uri.substring(0, module.uri.indexOf('picMockProvider'));
 
+    /**
+     * Add the type identifier as the prefix of the relative path
+     * The provider must indeed return the module definition this way
+     *
+     * @param {Object} obj
+     * @param {String} [prefix]
+     * @returns {Object}
+     */
+    var setPortableElementPrefix = function setPortableElementPrefix(obj, prefix){
+        var ret;
+        if(!prefix && obj.typeIdentifier){
+            prefix = obj.typeIdentifier;
+        }
+        if(_.isArray(obj)){
+            ret = _.map(obj, function(v){
+                return setPortableElementPrefix(v, prefix);
+            });
+        }else if(_.isPlainObject(obj)){
+            ret = {};
+            _.forIn(obj, function(v, k){
+                ret[k] = setPortableElementPrefix(v, prefix);
+            });
+        }else if(_.isString(obj)){
+            ret = obj.replace('./', prefix+'/');
+        }
+        return ret;
+    };
+
     return {
         load: function load() {
             return Promise.resolve({
-                picMock1: [{
+                picMock1: [setPortableElementPrefix({
                     'baseUrl': baseUrl,
                     'typeIdentifier': 'picMock1',
                     'label': 'PIC MOCK 1',
                     'version': '1.0.0',
                     'runtime': {
-                        'hook': 'pic-mock-1.js',
-                        'libraries': [
-                            'pick-mock.js'
-                        ],
+                        'hook': './pic-mock-1.js'
                     }
-                }],
-                picMock2: [{
+                })],
+                picMock2: [setPortableElementPrefix({
                     'baseUrl': baseUrl,
                     'typeIdentifier': 'picMock2',
                     'label': 'PIC MOCK 2',
                     'version': '1.0.0',
                     'runtime': {
-                        'hook': 'pic-mock-2.js',
-                        'libraries': [
-                            'pick-mock.js'
-                        ],
+                        'hook': './pic-mock-2.js'
                     }
-                }],
-                picMock3: [{
+                })],
+                picMock3: [setPortableElementPrefix({
                     'baseUrl': baseUrl,
                     'typeIdentifier': 'picMock3',
                     'label': 'PIC MOCK 3',
                     'version': '1.0.0',
                     'runtime': {
-                        'hook': 'pic-mock-3.js',
-                        'libraries': [
-                            'pick-mock.js'
-                        ],
+                        'hook': './pic-mock-3.js'
                     }
-                }],
-                studentToolbar: [{
+                })],
+                studentToolbar: [setPortableElementPrefix({
                     'baseUrl': baseUrl,
                     'typeIdentifier': 'studentToolbar',
                     'label': 'PIC MOCK TOOLBAR',
                     'version': '1.0.0',
                     'runtime': {
-                        'hook': 'pic-mock-studentToolbar.js',
-                        'libraries': [
-                            'pick-mock.js'
-                        ],
+                        'hook': './pic-mock-studentToolbar.js'
                     }
-                }]
+                })]
             });
         }
     };
