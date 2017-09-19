@@ -41,6 +41,8 @@ define([
         'menuLeft',
         'menuRight',
         'title',
+        'editorBar',
+        'toolbar',
         'interactionPanel',
         'itemPanel',
         'propertyPanel',
