@@ -16,10 +16,10 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['module', 'lodash', 'core/promise'], function(module, _, Promise) {
+define(['module', 'lodash', 'core/promise', 'util/url'], function(module, _, Promise, url) {
     'use strict';
 
-    var baseUrl = module.uri.substring(0, module.uri.indexOf('picMockProvider'));
+    var baseUrl = window.location.origin + '/taoQtiItem/views/js/test/runner/provider';
 
     /**
      * Add the type identifier as the prefix of the relative path
