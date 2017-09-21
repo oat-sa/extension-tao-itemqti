@@ -43,7 +43,7 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
         $fsId = 'portableElementStorage';
         /** @var FileSystemService $fsm */
         $fsm = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        if (! $fsm->hasDirectory('portableElement')) {
+        if (! $fsm->hasDirectory($fsId)) {
             $fsm->createFileSystem($fsId, 'portableElement');
             $this->registerService(FileSystemService::SERVICE_ID, $fsm);
         }
