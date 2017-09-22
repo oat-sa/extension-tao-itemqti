@@ -47,6 +47,7 @@ define([
             'menu':              $('.menu', $container),
             'menuLeft':          $('.menu-left', $container),
             'menuRight':         $('.menu-right', $container),
+            'creatorPanel':      $('#item-editor-panel', $container),
             'editorBar':         $('#item-editor-panel .item-editor-bar', $container),
             'title':             $('#item-editor-panel .item-editor-bar h1', $container),
             'toolbar':           $('#item-editor-panel .item-editor-bar .toolbar-top', $container),
@@ -55,7 +56,7 @@ define([
             'itemPanel':         $('#item-editor-scroll-inner', $container),
             'itemPropertyPanel': $('#sidebar-right-item-properties', $container),
             'itemStylePanel':    $('#item-style-editor-bar', $container),
-            'modalContainer':    $('#modal-container', $container),
+            'modalContainer':    $('#modal-container', $container)
         });
     };
 
