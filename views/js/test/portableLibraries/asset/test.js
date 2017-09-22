@@ -1,12 +1,14 @@
 define([
     'jquery',
     'lodash',
-    'OAT/util/asset'
+    'taoQtiItem/portableLib/OAT/util/asset'
 ], function($, _, assetMgr){
+    'use strict';
 
     var containerId = 'interaction-container';
     
     QUnit.test('api', function(assert){
+        QUnit.expect(3);
         
         var asset,
             $container = $('#'+containerId);
@@ -20,6 +22,7 @@ define([
     });
     
     QUnit.test('exists', function(assert){
+        QUnit.expect(2);
         var $container = $('#'+containerId);
         var asset = assetMgr($container);
         assert.equal(_.size(asset.getAll()), 8, 'all assets identified');
@@ -27,6 +30,7 @@ define([
     });
     
     QUnit.test('get', function(assert){
+        QUnit.expect(2);
         var $container = $('#'+containerId);
         var asset = assetMgr($container);
         assert.equal(_.size(asset.getAll()), 8, 'all assets identified');

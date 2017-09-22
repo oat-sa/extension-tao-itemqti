@@ -44,6 +44,8 @@ define([
             'menuLeft',
             'menuRight',
             'title',
+            'editorBar',
+            'toolbar',
             'interactionPanel',
             'itemPanel',
             'propertyPanel',
@@ -53,7 +55,7 @@ define([
         ];
         var broker = areaBrokerMock();
 
-        QUnit.expect(29);
+        QUnit.expect(33);
 
         assert.equal(typeof broker, 'object', "The factory creates an object");
         assert.equal(broker.getContainer().length, 1, "The container exists");
@@ -86,6 +88,8 @@ define([
             'menuLeft',
             'menuRight',
             'title',
+            'editorBar',
+            'toolbar',
             'interactionPanel',
             'itemPanel',
             'propertyPanel',
@@ -113,6 +117,8 @@ define([
             'menuLeft',
             'menuRight',
             'title',
+            'editorBar',
+            'toolbar',
             'interactionPanel',
             'itemPanel',
             'propertyPanel',
@@ -122,7 +128,7 @@ define([
         ];
         var broker = areaBrokerMock($container, areas);
 
-        QUnit.expect(12);
+        QUnit.expect(14);
 
         assert.equal(broker.getContainer().length, 1, "The container exists");
         assert.equal(broker.getContainer().children().length, areas.length, "The container contains the exact number of areas");

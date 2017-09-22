@@ -19,16 +19,8 @@
             //load the config
             require(['/tao/ClientConfig/config'], function(){
                 
-                require.config({
-                    paths : {
-                        'IMSGlobal/jquery_2_1_1':   '../../../taoQtiItem/views/js/portableSharedLibraries/IMSGlobal/jquery_2_1_1',
-                        'OAT/lodash':               '../../../taoQtiItem/views/js/portableSharedLibraries/OAT/lodash',
-                        'OAT/util/asset':               '../../../taoQtiItem/views/js/portableSharedLibraries/OAT/util/asset'
-                    }
-                });
-                
                 //load the test
-                require(['taoQtiItem/test/portableSharedLibraries/asset/test'], function(){
+                require(['taoQtiItem/test/portableLibraries/asset/test'], function(){
 
                     //Tests loaded, run tests
                     QUnit.config.reorder = false;
