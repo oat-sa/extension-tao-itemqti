@@ -105,7 +105,7 @@ define([
             var newStateVariables = JSON.stringify(itemApi.stateVariables);
 
             // Store the results.
-            if (oldStateVariables !== newStateVariables) {
+            if ((oldStateVariables !== newStateVariables) || (typeof top.stateError !== 'undefined' && top.stateError === true)) {
                 itemApi.submit(function() {
                     // Send successful signal.
                     killCallback(0);
