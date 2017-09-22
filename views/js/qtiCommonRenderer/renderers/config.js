@@ -61,6 +61,7 @@ define([
         'math' : 'taoQtiItem/qtiCommonRenderer/renderers/Math',
         'object' : 'taoQtiItem/qtiCommonRenderer/renderers/Object',
         'table' : 'taoQtiItem/qtiCommonRenderer/renderers/Table',
+        'printedVariable' : 'taoQtiItem/qtiCommonRenderer/renderers/PrintedVariable',
         'rubricBlock' : 'taoQtiItem/qtiCommonRenderer/renderers/RubricBlock',
         'modalFeedback' : 'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
         'prompt' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/Prompt',

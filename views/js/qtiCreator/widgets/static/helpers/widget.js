@@ -2,14 +2,14 @@ define(['jquery', 'lodash'], function($, _){
 
     var helper = {
         buildInlineContainer : function(widget){
-            
+
             var float = '';
             if(widget.element.hasClass('lft')){
                 float = ' lft';
             }else if(widget.element.hasClass('rgt')){
                 float = ' rgt';
             }
-            
+
             var $wrap = $('<span>', {
                 'data-serial' : widget.element.serial,
                 'class' : 'widget-box widget-inline widget-'+widget.element.qtiClass+float,
@@ -26,7 +26,7 @@ define(['jquery', 'lodash'], function($, _){
             }
         },
         buildBlockContainer : function(widget){
-            
+
             //absolutely need a div here (not span), otherwise mathjax will break
             var $wrap = $('<div>', {
                 'data-serial' : widget.element.serial,
@@ -36,7 +36,7 @@ define(['jquery', 'lodash'], function($, _){
             widget.$container = widget.$original.wrap($wrap).parent();
         },
         createToolbar : function(widget, toolbarTpl){
-        
+
             if(_.isFunction(toolbarTpl)){
 
                 var $tlb = $(toolbarTpl({

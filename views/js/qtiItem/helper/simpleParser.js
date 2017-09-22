@@ -6,9 +6,10 @@ define([
 ], function(_, $, util, Loader){
     "use strict";
 
-    var _parsableElements = ['img', 'object'];
+    var _parsableElements = ['img', 'object', 'printedVariable'];
     var _qtiClassNames = {
-        rubricblock : 'rubricBlock'
+        rubricblock : 'rubricBlock',
+        printedvariable : 'printedVariable'
     };
 
     var _defaultOptions = {
@@ -115,6 +116,16 @@ define([
         });
 
         $container.find(_getElementSelector('include', options.ns.include)).each(function(){
+
+            var $qtiElement = $(this);
+            var element = buildElement($qtiElement, opts);
+
+            ret.elements[element.serial] = element;
+            $qtiElement.replaceWith(_placeholder(element));
+
+        });
+
+        $container.find(_getElementSelector('printedVariable', options.ns.printedVariable)).each(function(){
 
             var $qtiElement = $(this);
             var element = buildElement($qtiElement, opts);
