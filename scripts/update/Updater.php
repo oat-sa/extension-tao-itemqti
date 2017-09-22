@@ -406,9 +406,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.16.0');
         }
 
-        $this->skip('8.16.0', '9.11.0');
+        $this->skip('8.16.0', '9.11.3');
 
-        if($this->isVersion('9.11.0')){
+        if($this->isVersion('9.11.3')){
 
             //register location of portable libs to legacy share lib aliases for backward compatibility
             $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
@@ -439,6 +439,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('10.0.0');
         }
 
-        $this->skip('10.0.0', '10.0.2');
+        $this->skip('10.0.0', '10.0.4');
     }
 }
