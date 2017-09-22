@@ -75,6 +75,7 @@ define([
      * @param {Function} [options.placeholder] - the placeholder text of the container editor when
      * @param {Function} [options.toolbar] - the ck toolbar
      * @param {Function} [options.qtiMedia=false] - allow insert media object
+     * @param {Function} [options.areaBroker] - allow to set a custom areaBroker on the renderer
      * @returns {undefined}
      */
     function create($container, options){
@@ -122,12 +123,16 @@ define([
             this.loadContainer(container, data);
 
             //apply common renderer :
-            creatorRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){
+            creatorRenderer.load(['img', 'object', 'math', 'include', 'printedVariable', '_container'], function(){
 
                 var baseUrl = this.getOption('baseUrl');
                 container.setRenderer(this);
                 $container.html(container.render());
                 container.postRender();
+
+                if (options.areaBroker) {
+                    this.setAreaBroker(options.areaBroker);
+                }
 
                 //resolve xinclude
                 _.each(container.getComposingElements(), function(element){
