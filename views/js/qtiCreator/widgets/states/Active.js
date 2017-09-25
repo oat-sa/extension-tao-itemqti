@@ -25,18 +25,19 @@ define([
 
     return stateFactory.create('active', function(){
 
-        var _widget = this.widget,
-            container = _widget.$container[0],
-            item = this.widget.element.getRelatedItem(),
-            areaBroker = this.widget.getAreaBroker();
+        var _widget     = this.widget,
+            container   = _widget.$container[0],
+            item        = _widget.element.getRelatedItem(),
+            areaBroker  = _widget.getAreaBroker(),
+            $modalFeedbacksArea = $('#modalFeedbacks');
 
         //move to sleep state by clicking anywhere outside the interaction
-        $('#item-editor-panel').on('mousedown.active.' + _widget.serial, function(e){
+        areaBroker.getCreatorPanelArea().on('mousedown.active.' + _widget.serial, function(e){
             if (
                 container !== e.target
                 && !$.contains(container, e.target)
-                && !$.contains(areaBroker.getEditorBarArea().get(0), e.target)
-                && !$.contains($('#modalFeedbacks')[0], e.target) //if click triggered inside the #modalFeedback then state must not be changed.
+                && (!areaBroker || !areaBroker.getEditorBarArea || !$.contains(areaBroker.getEditorBarArea().get(0), e.target))
+                && (!$modalFeedbacksArea.length || !$.contains($modalFeedbacksArea[0], e.target)) //if click triggered inside the #modalFeedback then state must not be changed.
                 && ($(e.target).data('role') !== 'restore')
             ){
                 _widget.changeState('sleep');
@@ -55,13 +56,15 @@ define([
         }
 
     }, function(){
+        var item,
+            areaBroker = this.widget.getAreaBroker();
 
         contentHelper.changeInnerWidgetState(this.widget, 'sleep');
 
         this.widget.$container.off('.active');
-        $('#item-editor-panel').off('.active.'+ this.widget.serial);
+        areaBroker.getCreatorPanelArea().off('.active.'+ this.widget.serial);
 
-        var item = this.widget.element.getRelatedItem();
+        item = this.widget.element.getRelatedItem();
         if(item && item.data('widget')){
             item.data('widget').$container.off('.active');
         }

@@ -3,6 +3,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active'
 ], function($, stateFactory, Active){
+    'use strict';
 
     return stateFactory.extend(Active, function(){
 
@@ -10,13 +11,14 @@ define([
             $container = _widget.$container;
 
         _widget.beforeStateInit(function(e, element, state){
+            var serial = element.getSerial(),
+                composingElts;
 
-            var serial = element.getSerial();
             if((state.name === 'active' && serial !== _widget.serial) || state.name === 'choice'){
 
                 if(_widget.element.qtiClass === 'rubricBlock'){
                     //exclude
-                    var composingElts = _widget.element.getComposingElements();
+                    composingElts = _widget.element.getComposingElements();
                     if(!composingElts[element.serial]){
                         _widget.changeState('sleep');
                     }
@@ -40,11 +42,13 @@ define([
         });
 
     }, function(){
+        var _widget = this.widget,
+            areaBroker = _widget.getAreaBroker();
 
-        this.widget.$container.off('.active');
-        $('#item-editor-panel').off('.active.' + this.widget.serial);
+        _widget.$container.off('.active');
+        areaBroker.getCreatorPanelArea().off('.active.' + _widget.serial);
 
-        this.widget.offEvents('otherActive');
+        _widget.offEvents('otherActive');
     });
 
 });
