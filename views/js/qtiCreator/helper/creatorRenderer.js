@@ -61,6 +61,9 @@ define([
     var get = function(reset, config, areaBroker){
         var $bodyEltForm;
 
+        config = config || {};
+        config.properties = config.properties || {};
+
         if(!_creatorRenderer || reset){
 
             $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
