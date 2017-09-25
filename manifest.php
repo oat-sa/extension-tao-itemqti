@@ -43,7 +43,6 @@ return array(
 		    dirname(__FILE__). '/install/ontology/qtiItemRunner.rdf'
 		),
 		'checks' => array(
-		    array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoQtiItem_views_js_portableSharedLibraries', 'location' => 'taoQtiItem/views/js/portableSharedLibraries', 'rights' => 'rw')),
 		    array('type' => 'CheckCustom', 'value' => array('id' => 'taoQtiItem_custom_mathjax', 'name' => 'mathjax', 'extension' => 'taoQtiItem', 'optional' => true))
 		),
 	    'php' => array(
