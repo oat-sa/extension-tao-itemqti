@@ -28,8 +28,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.score',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.label',
-    'polyfill/placeholders'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.label'
 ], function($, _, __, commonRenderer, instructionMgr, pciResponse, formElement, answerStateHelper, sizeAdapter, scoreTpl, labelTpl){
 
     'use strict';
