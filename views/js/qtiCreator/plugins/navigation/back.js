@@ -29,9 +29,8 @@ define([
     'core/plugin',
     'ui/hider',
     'layout/section',
-    'html5-history-api',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
-], function($, __, pluginFactory, hider, section, history, buttonTpl){
+], function($, __, pluginFactory, hider, section, buttonTpl){
     'use strict';
 
     /**
@@ -55,7 +54,7 @@ define([
                 if(itemSection){
                     itemSection.activate();
                 } else{
-                    history.back();
+                    window.history.back();
                 }
             });
 
