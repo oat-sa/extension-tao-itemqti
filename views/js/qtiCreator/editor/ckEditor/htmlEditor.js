@@ -98,12 +98,11 @@ define([
             },
             on : {
                 instanceReady : function(e){
-
                     var widgets = {},
                         editor = e.editor;
 
                     //fix ck editor combo box display issue
-                    $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
+                    //$('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
@@ -146,9 +145,9 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
-                blur : function(){
-                    return false;
-                },
+                // blur : function(){
+                    // return false;
+                // },
                 configLoaded : function(e){
                     //@todo : do we really have to wait here to initialize the config?
                     var toolbarType = '';
@@ -486,7 +485,10 @@ define([
                 $editable.attr('contenteditable', true);
 
                 //build it
-                _buildEditor($editable, $editableContainer, editorOptions);
+                var editor = _buildEditor($editable, $editableContainer, editorOptions);
+                editor.on('blur', function() {
+                    console.log('BLUR ON EDITOR');
+                });
 
             });
 
