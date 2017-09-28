@@ -48,7 +48,7 @@ define([
         'toolbar',
         'interactionPanel',
         'itemPanel',
-        'creatorPanel',
+        'contentCreatorPanel',
         'propertyPanel',
         'itemPropertyPanel',
         'itemStylePanel',

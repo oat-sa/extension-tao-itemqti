@@ -58,6 +58,13 @@ define([
                     width : '100%',
                     height : 100
                 }
+            },
+            printedVariable: {
+                icon: 'variable',
+                css: {
+                    width : 40,
+                    height : 24
+                }
             }
         };
 

@@ -187,7 +187,7 @@ define([
     }
 
     /**
-     * create a fase widget that is required in html editor
+     * create a false widget that is required in html editor
      *
      * @param {JQuery} $editableContainer
      * @param {Object} container

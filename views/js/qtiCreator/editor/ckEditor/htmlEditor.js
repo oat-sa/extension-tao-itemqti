@@ -145,9 +145,9 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
-                // blur : function(){
-                    // return false;
-                // },
+                blur : function(){
+                    return false;
+                },
                 configLoaded : function(e){
                     //@todo : do we really have to wait here to initialize the config?
                     var toolbarType = '';
@@ -486,9 +486,6 @@ define([
 
                 //build it
                 var editor = _buildEditor($editable, $editableContainer, editorOptions);
-                editor.on('blur', function() {
-                    console.log('BLUR ON EDITOR');
-                });
 
             });
 
