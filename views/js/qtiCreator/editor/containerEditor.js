@@ -76,6 +76,7 @@ define([
      * @param {Function} [options.toolbar] - the ck toolbar
      * @param {Function} [options.qtiMedia=false] - allow insert media object
      * @param {Function} [options.areaBroker] - allow to set a custom areaBroker on the renderer
+     * @param {Function} [options.removePlugins] - a coma-separated plugin list that should not be loaded
      * @returns {undefined}
      */
     function create($container, options){
@@ -147,7 +148,8 @@ define([
                     placeholder : options.placeholder || undefined,
                     toolbar : options.toolbar || undefined,
                     qtiMedia : options.qtiMedia,
-                    highlight : options.highlight
+                    highlight : options.highlight,
+                    removePlugins : options.removePlugins || ''
                 });
 
                 $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
@@ -158,6 +160,7 @@ define([
                     }
                 }, 600));
 
+                //todo: this event is useless, already triggered by htmlEditor
                 $container.trigger('editorready.containereditor');
             });
 
