@@ -46,7 +46,7 @@ define([
             areaBroker = _widget.getAreaBroker();
 
         _widget.$container.off('.active');
-        areaBroker.getCreatorPanelArea().off('.active.' + _widget.serial);
+        areaBroker.getContentCreatorPanelArea().off('.active.' + _widget.serial);
 
         _widget.offEvents('otherActive');
     });

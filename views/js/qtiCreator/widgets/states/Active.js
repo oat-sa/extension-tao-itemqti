@@ -32,7 +32,7 @@ define([
             $modalFeedbacksArea = $('#modalFeedbacks');
 
         //move to sleep state by clicking anywhere outside the interaction
-        areaBroker.getCreatorPanelArea().on('mousedown.active.' + _widget.serial, function(e){
+        areaBroker.getContentCreatorPanelArea().on('mousedown.active.' + _widget.serial, function(e){
             if (
                 container !== e.target
                 && !$.contains(container, e.target)
@@ -62,7 +62,7 @@ define([
         contentHelper.changeInnerWidgetState(this.widget, 'sleep');
 
         this.widget.$container.off('.active');
-        areaBroker.getCreatorPanelArea().off('.active.'+ this.widget.serial);
+        areaBroker.getContentCreatorPanelArea().off('.active.'+ this.widget.serial);
 
         item = this.widget.element.getRelatedItem();
         if(item && item.data('widget')){

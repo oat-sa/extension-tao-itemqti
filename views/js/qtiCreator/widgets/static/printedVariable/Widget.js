@@ -28,23 +28,15 @@ define([
 
     var PrintedVariable = Widget.clone();
 
-    PrintedVariable.initCreator = function initCreator(options){
+    PrintedVariable.initCreator = function initCreator(){
 
         this.registerStates(states);
 
         Widget.initCreator.call(this);
 
-        // inlineHelper.togglePlaceholder(this);
+        inlineHelper.togglePlaceholder(this);
 
     };
-
-    // PrintedVariable.destroy = function destroy(){
-    //     $('#item-editor-scope').off('.' + this.element.serial);
-    // };
-
-    // PrintedVariable.getRequiredOptions = function(){
-    //     return ['baseUrl', 'uri', 'lang', 'mediaManager', 'assetManager'];
-    // };
 
     PrintedVariable.buildContainer = function buildContainer(){
 
