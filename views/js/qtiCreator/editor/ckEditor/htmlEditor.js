@@ -143,6 +143,8 @@ define([
                         options.focus.call(this, _htmlEncode(this.getData()));
                     }
 
+                    $editable.trigger('editorfocus');
+
                     $('.qti-item').trigger('toolbarchange');
                 },
                 // blur : function(){
