@@ -33,7 +33,7 @@ define([
         Widget.build(
             printedVariable,
             Renderer.getContainer(printedVariable),
-            $('.qti-element-props'), // todo: use area broker !!!
+            this.getOption('bodyElementOptionForm'),
             null,
             options
         );

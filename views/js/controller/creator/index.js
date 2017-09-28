@@ -44,19 +44,20 @@ define([
     var loadAreaBroker = function loadAreaBroker(){
         var $container = $('#item-editor-scope');
         return areaBrokerFactory($container, {
-            'menu':              $('.menu', $container),
-            'menuLeft':          $('.menu-left', $container),
-            'menuRight':         $('.menu-right', $container),
-            'contentCreatorPanel': $('#item-editor-panel', $container),
-            'editorBar':         $('#item-editor-panel .item-editor-bar', $container),
-            'title':             $('#item-editor-panel .item-editor-bar h1', $container),
-            'toolbar':           $('#item-editor-panel .item-editor-bar .toolbar-top', $container),
-            'interactionPanel':  $('#item-editor-interaction-bar', $container),
-            'propertyPanel':     $('#item-editor-item-widget-bar', $container),
-            'itemPanel':         $('#item-editor-scroll-inner', $container),
-            'itemPropertyPanel': $('#sidebar-right-item-properties', $container),
-            'itemStylePanel':    $('#item-style-editor-bar', $container),
-            'modalContainer':    $('#modal-container', $container)
+            'menu':                 $('.menu', $container),
+            'menuLeft':             $('.menu-left', $container),
+            'menuRight':            $('.menu-right', $container),
+            'contentCreatorPanel':  $('#item-editor-panel', $container),
+            'editorBar':            $('#item-editor-panel .item-editor-bar', $container),
+            'title':                $('#item-editor-panel .item-editor-bar h1', $container),
+            'toolbar':              $('#item-editor-panel .item-editor-bar .toolbar-top', $container),
+            'interactionPanel':     $('#item-editor-interaction-bar', $container),
+            'propertyPanel':        $('#item-editor-item-widget-bar', $container),
+            'itemPanel':            $('#item-editor-scroll-inner', $container),
+            'itemPropertyPanel':    $('#sidebar-right-item-properties', $container),
+            'itemStylePanel':       $('#item-style-editor-bar', $container),
+            'modalContainer':       $('#modal-container', $container),
+            'qtiElementProperties': $('#item-editor-body-element-property-bar .panel', $container)
         });
     };
 

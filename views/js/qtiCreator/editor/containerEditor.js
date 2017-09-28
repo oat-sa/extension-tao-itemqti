@@ -99,7 +99,10 @@ define([
         loader = new Loader().setClassesLocation(qtiClasses);
         loader.loadRequiredClasses(data, function(){
 
-            var item, containerEditors;
+            var item,
+                containerEditors,
+                renderer,
+                qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container'];
 
             //create a new container object
             var container = new Container();
@@ -124,16 +127,13 @@ define([
             this.loadContainer(container, data);
 
             //apply common renderer :
-            creatorRenderer.load(['img', 'object', 'math', 'include', 'printedVariable', '_container'], function(){
+            renderer = creatorRenderer.get(false, {}, options.areaBroker);
+            renderer.load(function(){
 
                 var baseUrl = this.getOption('baseUrl');
                 container.setRenderer(this);
                 $container.html(container.render());
                 container.postRender();
-
-                if (options.areaBroker) {
-                    this.setAreaBroker(options.areaBroker);
-                }
 
                 //resolve xinclude
                 _.each(container.getComposingElements(), function(element){
@@ -162,7 +162,8 @@ define([
 
                 //todo: this event is useless, already triggered by htmlEditor
                 $container.trigger('editorready.containereditor');
-            });
+
+            }, qtiClasses);
 
         });
 

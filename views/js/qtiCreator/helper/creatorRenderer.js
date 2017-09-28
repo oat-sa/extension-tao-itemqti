@@ -81,7 +81,7 @@ define([
                     interactionOptionForm : $('#item-editor-interaction-property-bar .panel'),
                     choiceOptionForm : $('#item-editor-choice-property-bar .panel'),
                     responseOptionForm : $('#item-editor-response-property-bar .panel'),
-                    bodyElementOptionForm : $('#item-editor-body-element-property-bar .panel'),
+                    bodyElementOptionForm : areaBroker.getQtiElementPropertiesArea(),
                     textOptionForm : $('#item-editor-text-property-bar .panel'),
                     modalFeedbackOptionForm : $('#item-editor-modal-feedback-property-bar .panel'),
                     mediaManager : {
