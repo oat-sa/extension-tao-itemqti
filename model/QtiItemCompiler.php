@@ -116,17 +116,17 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         $service = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource(self::INSTANCE_ITEMRUNNER));
         $service->addInParameter(new tao_models_classes_service_ConstantParameter(
-                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::PROPERTY_INSTANCE_FORMAL_PARAM_ITEM_PATH), $publicDirectory->getId()
+                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_PATH), $publicDirectory->getId()
             )
         );
         $service->addInParameter(
             new tao_models_classes_service_ConstantParameter(
-                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::PROPERTY_INSTANCE_FORMAL_PARAM_ITEM_DATA_PATH), $privateDirectory->getId()
+                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_DATA_PATH), $privateDirectory->getId()
             )
         );
         $service->addInParameter(
             new tao_models_classes_service_ConstantParameter(
-                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::PROPERTY_INSTANCE_FORMAL_PARAM_ITEM_URI), $item
+                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_URI), $item
             )
         );
 

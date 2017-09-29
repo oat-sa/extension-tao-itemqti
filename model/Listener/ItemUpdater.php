@@ -43,7 +43,7 @@ class ItemUpdater {
         /*@var $directory \oat\oatbox\filesystem\Directory */
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $itemModel = $rdfItem->getPropertyValues($type);
-        if($directory->exists() && in_array(taoItems_models_classes_itemModel::PROPERTY_QTI, $itemModel)  ) {
+        if($directory->exists() && in_array(taoItems_models_classes_itemModel::CLASS_URI_QTI, $itemModel)  ) {
             /* @var $file File */
             $file = $directory->getFile(Service::QTI_ITEM_FILE);
                 
