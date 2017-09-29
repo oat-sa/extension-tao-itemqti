@@ -93,15 +93,22 @@ define([
                 var requireEntries = [];
                 var runtime = icRegistry.getRuntime(typeIdentifier);
 
-                if(!runtime || !runtime.hook){
+                if(!runtime){
                     return reject('The runtime for the pic cannot be found : ' + typeIdentifier);
                 }
 
-                //load the entrypoint
-                requireEntries = [runtime.hook.replace(/\.js$/, '')];
+                //load the entrypoint, becomes optional per IMS PCI v1
+                if(runtime.hook){
+                    requireEntries.push(runtime.hook.replace(/\.js$/, ''));
+                }
+
+                //load required libraries
+                _.forEach(runtime.libraries, function(module){
+                    requireEntries.push(module.replace(/\.js$/, ''));
+                });
 
                 //load stylesheets
-                _.each(runtime.stylesheets, function(stylesheet){
+                _.forEach(runtime.stylesheets, function(stylesheet){
                     requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
                 });
 

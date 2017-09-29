@@ -49,6 +49,24 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
     }
 
     /**
+     * Use portable element source if exists
+     *
+     * @param {Object} manifest - the manifest of the pci to be modified
+     * @returns {Object} the modified manifest
+     */
+    function useSource(manifest){
+        if(manifest.runtime && _.isArray(manifest.runtime.src)){
+            delete manifest.runtime.hook;//hook is going to be removed with the support of IMS PCI v1
+            manifest.runtime.libraries = manifest.runtime.src;
+        }
+        if(manifest.creator && _.isArray(manifest.creator.src)){
+            delete manifest.creator.hook;//hook is going to be removed with the support of IMS PCI v1
+            manifest.creator.libraries = manifest.creator.src;
+        }
+        return manifest;
+    }
+
+    /**
      * Generic portable element provider than loads portable elements from their manifest.
      * It is useful for testing if the portable element source location is easily accessible.
      *
@@ -98,6 +116,9 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                                 ok = false;
                                 return false;
                             }
+
+                            manifest = useSource(manifest);
+
                             manifest.baseUrl = window.location.origin + '/' +
                                 _portableElementManifests[id].replace(/^([a-zA-Z]*)\/(.*)\/(pciCreator.json$)/, '$1/views/js/$2');
                             _registry[id] = [setPortableElementPrefix(manifest, id)];

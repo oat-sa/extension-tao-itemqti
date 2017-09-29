@@ -140,11 +140,6 @@ define([
                     requireEntries.push(lib.replace(/\.js$/, ''));
                 });
 
-                //load libs
-                _.forEach(runtime.libraries, function(lib) {
-                    requireEntries.push(lib.replace(/\.js$/, ''));
-                });
-
                 //load modules
                 _.forEach(runtime.modules, function(module, id){
                     requireEntries.push(id);

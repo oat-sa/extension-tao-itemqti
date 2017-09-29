@@ -28,13 +28,15 @@ abstract class PortableElementModelValidator extends PortableElementAssetValidat
             'libraries',
             'stylesheets',
             'mediaFiles',
+            'src'
         ],
         'creator' => [
             'icon',
             'hook',
             'libraries',
             'stylesheets',
-            'mediaFiles'
+            'mediaFiles',
+            'src'
         ]
     ];
 
@@ -45,11 +47,13 @@ abstract class PortableElementModelValidator extends PortableElementAssetValidat
             'mediaFiles',
             'modules',
             'config',
+            'src'
         ],
         'creator' => [
             'libraries',
             'stylesheets',
             'mediaFiles',
+            'src'
         ]
     ];
 

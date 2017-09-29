@@ -284,7 +284,7 @@ abstract class PortableElementObject
     {
         $paths = [];
         foreach ($this->getRuntime() as $key => $value) {
-            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon', 'src'])) {
                 $paths[$key] = preg_replace('/^' . $this->getTypeIdentifier() . '/', '.', $value);
             }
         }
@@ -300,7 +300,7 @@ abstract class PortableElementObject
     {
         $paths = [];
         foreach ($this->getRuntime() as $key => $value) {
-            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon', 'src'])) {
                 $paths[$key] = preg_replace('/^(.\/)(.*)/', $this->getTypeIdentifier() . "/$2", $this->getRuntimeKey($key));
             }
         }
@@ -316,7 +316,7 @@ abstract class PortableElementObject
     {
         $paths = [];
         foreach ($this->getCreator() as $key => $value) {
-            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon', 'src'])) {
                 $paths[$key] = preg_replace('/^' . $this->getTypeIdentifier() . '/', '.', $value);
             }
         }
@@ -332,7 +332,7 @@ abstract class PortableElementObject
     {
         $paths = [];
         foreach ($this->getCreator() as $key => $value) {
-            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon'])) {
+            if (in_array($key, ['hook', 'libraries', 'stylesheets', 'mediaFiles', 'icon', 'src'])) {
                 $paths[$key] = preg_replace('/^(.\/)(.*)/', $this->getTypeIdentifier() . "/$2", $this->getCreatorKey($key));
             }
         }
