@@ -439,6 +439,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('10.0.0');
         }
 
-        $this->skip('10.0.0', '10.2.0');
+        $this->skip('10.0.0', '10.3.0');
     }
 }
