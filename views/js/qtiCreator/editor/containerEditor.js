@@ -43,6 +43,8 @@ define([
         qtiMedia : false
     };
 
+    event.initElementToWidgetListeners();
+
     function parser($container){
 
         //detect math ns :
@@ -159,13 +161,16 @@ define([
                     removePlugins : options.removePlugins || ''
                 });
 
-                $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
-                    var html = container.render(xmlRenderer.get());
-                    $container.trigger('containerchange.' + _ns, [html]);
-                    if(_.isFunction(options.change)){
-                        options.change(html);
-                    }
-                }, 600));
+                $container
+                    .off('.' + _ns)
+                    .on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(){
+                        var editorContent = container.render(xmlRenderer.get());
+                        $container.trigger('containerchange.' + _ns, [editorContent]);
+
+                        if(_.isFunction(options.change)){
+                            options.change(editorContent);
+                        }
+                    }, 600));
 
                 //todo: this event is useless, already triggered by htmlEditor
                 $container.trigger('editorready.containereditor');

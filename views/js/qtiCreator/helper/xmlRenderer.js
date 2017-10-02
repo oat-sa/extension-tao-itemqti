@@ -18,7 +18,7 @@
 define([
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
     'taoQtiItem/qtiItem/helper/maxScore',
-    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/core/Element'
 ], function(XmlRenderer, maxScore, Element){
     'use strict';
 
@@ -37,7 +37,7 @@ define([
                 xml = element.render(_xmlRenderer);
             }
         }catch(e){
-            console.log(e);
+            window.console.log(e);
         }
         return xml;
     };
