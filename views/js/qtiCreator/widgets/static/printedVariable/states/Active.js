@@ -44,23 +44,33 @@ define([
         var _widget = this.widget,
             $printedVariable = _widget.$original,
             $form = _widget.$form,
-            img = _widget.element,
-            variable = $printedVariable.html();
+            printedVariable = _widget.element,
+            relatedItem = printedVariable.getRelatedItem(),
+            outcomes;
+
+        outcomes = (relatedItem.data('outcomes') || []).map(function(entry) {
+            var selected = (printedVariable.attr('identifier') === entry);
+            return {
+                value: entry,
+                name: entry,
+                selected: selected
+            };
+        });
 
         $form.html(formTpl({
-            variable : variable || ''
+            outcomes: outcomes
         }));
 
         //... init standard ui widget
         formElement.initWidget($form);
 
         //init data change callbacks
-        formElement.setChangeCallbacks($form, img, {
-            variable : _.throttle(function(name, value) {
+        formElement.setChangeCallbacks($form, printedVariable, {
+            identifier: function(pv, value, name) {
+                printedVariable.attr(name, value);
                 $printedVariable.html(value);
-
                 inlineHelper.togglePlaceholder(_widget);
-            }, 300)
+            }
         });
 
     };

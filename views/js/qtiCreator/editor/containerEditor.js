@@ -71,12 +71,13 @@ define([
      * @param {String} [options.markupSelector] - the element in $xontainer that holds the html to be used as the initial editor content
      * @param {Object} [options.related] - define the qti element object this editor is attached too. Very important to edit a picture or math element inside it because prevents leaving the editing state of the related element.
      * @param {Function} [options.change] - the callback called when the editor content has been modified
-     * @param {Function} [options.hideTriggerOnBlur] - define if the trigger <A> should be hidden when the editor is blurred or not
-     * @param {Function} [options.placeholder] - the placeholder text of the container editor when
-     * @param {Function} [options.toolbar] - the ck toolbar
-     * @param {Function} [options.qtiMedia=false] - allow insert media object
-     * @param {Function} [options.areaBroker] - allow to set a custom areaBroker on the renderer
-     * @param {Function} [options.removePlugins] - a coma-separated plugin list that should not be loaded
+     * @param {Boolean} [options.hideTriggerOnBlur] - define if the trigger <A> should be hidden when the editor is blurred or not
+     * @param {String} [options.placeholder] - the placeholder text of the container editor when
+     * @param {Array} [options.toolbar] - the ck toolbar
+     * @param {Boolean} [options.qtiMedia=false] - allow insert media object
+     * @param {Object} [options.areaBroker] - allow to set a custom areaBroker on the renderer
+     * @param {String} [options.removePlugins] - a coma-separated plugin list that should not be loaded
+     * @param {Object} [options.metadata] - some metadata to attach to the root element (ex: { myDataName: 'myDataValue' })
      * @returns {undefined}
      */
     function create($container, options){
@@ -116,6 +117,12 @@ define([
             //@todo fix this
             item = new Item().setElement(container);
             container.setRelatedItem(item);
+
+            if (options.metadata) {
+                _.each(options.metadata, function (value, name) {
+                    item.data(name, value);
+                });
+            }
 
             //associate it to the interaction?
             if(options.related){
