@@ -29,7 +29,6 @@ define([
     CreatorPrintedVariable.render = function(printedVariable, options){
         options = options || {};
 
-        //(element, $container, $form, options)
         Widget.build(
             printedVariable,
             Renderer.getContainer(printedVariable),

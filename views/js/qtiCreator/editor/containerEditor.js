@@ -80,6 +80,7 @@ define([
      * @param {Object} [options.areaBroker] - allow to set a custom areaBroker on the renderer
      * @param {String} [options.removePlugins] - a coma-separated plugin list that should not be loaded
      * @param {Object} [options.metadata] - some metadata to attach to the root element (ex: { myDataName: 'myDataValue' })
+     * @param {Boolean} [options.resetRenderer] - force resetting the renderer
      * @returns {undefined}
      */
     function create($container, options){
@@ -136,7 +137,7 @@ define([
             this.loadContainer(container, data);
 
             //apply common renderer :
-            renderer = creatorRenderer.get(false, {}, options.areaBroker);
+            renderer = creatorRenderer.get(options.resetRenderer, {}, options.areaBroker);
             renderer.load(function(){
 
                 var baseUrl = this.getOption('baseUrl');
@@ -190,7 +191,7 @@ define([
         var container = $container.data('container');
         if(container){
             $(document).off('.' + container.serial);
-            commonRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){
+            commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable'], function(){
                 $container.html(container.render(this));
             });
         }
