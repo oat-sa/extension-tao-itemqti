@@ -1,16 +1,39 @@
-define(['jquery', 'lodash'], function($, _){
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ */
+define([
+    'jquery',
+    'lodash'
+], function($, _) {
+    'use strict';
 
     var helper = {
         buildInlineContainer : function(widget){
+            var $wrap,
+                textNode,
+                float = '';
 
-            var float = '';
             if(widget.element.hasClass('lft')){
                 float = ' lft';
             }else if(widget.element.hasClass('rgt')){
                 float = ' rgt';
             }
 
-            var $wrap = $('<span>', {
+            $wrap = $('<span>', {
                 'data-serial' : widget.element.serial,
                 'class' : 'widget-box widget-inline widget-'+widget.element.qtiClass+float,
                 'data-qti-class' : widget.element.qtiClass,
@@ -18,7 +41,7 @@ define(['jquery', 'lodash'], function($, _){
             });
             widget.$container = widget.$original.wrap($wrap).parent();
             if(widget.$container.length){
-                var textNode = widget.$container[0].nextSibling;
+                textNode = widget.$container[0].nextSibling;
                 if(textNode){
                     //@todo : make text cursor positioning after an inline widget easier
                     textNode.nodeValue = ' '+textNode.nodeValue;
@@ -36,10 +59,11 @@ define(['jquery', 'lodash'], function($, _){
             widget.$container = widget.$original.wrap($wrap).parent();
         },
         createToolbar : function(widget, toolbarTpl){
+            var $tlb;
 
             if(_.isFunction(toolbarTpl)){
 
-                var $tlb = $(toolbarTpl({
+                $tlb = $(toolbarTpl({
                     serial : widget.serial,
                     state : 'active'
                 }));
@@ -52,7 +76,7 @@ define(['jquery', 'lodash'], function($, _){
                 });
 
             }else{
-                throw 'the toolbarTpl must be a handlebars function';
+                throw new Error('the toolbarTpl must be a handlebars function');
             }
         }
     };
