@@ -21,10 +21,10 @@ class StrategyFactory
     {
         if (static::isFormatAsColumns($config)) {
 
-            return new LineStrategy(count($metaDataProperties) === 1, $column);
+            return new ColumnStrategy(count($metaDataProperties) === 1, $column);
         }
 
-        return new ColumnStrategy($column);
+        return new DefaultStrategy($column);
     }
 
 

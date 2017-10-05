@@ -1,5 +1,4 @@
 <?php
-
 namespace oat\taoQtiItem\test\model\Export\Extractor\Strategy;
 
 use oat\taoQtiItem\model\Export\Extractor\HashEntry;
@@ -8,22 +7,40 @@ use PHPUnit\Framework\TestCase;
 
 class ColumnStrategyTest extends TestCase
 {
-    public function testColumnStrategyBehavior()
+    public function testLineStrategyBehaviorWithMoreProperty()
     {
-        $columnStrategy = new ColumnStrategy('column1');
+        $lineStrategy = new ColumnStrategy(false, 'column1');
 
-        $columnStrategy->addHashEntry($this->buildHashEntry('myKey1', 'myValue1'));
-        $columnStrategy->addHashEntry($this->buildHashEntry('myKey2', 'myValue2'));
+        $lineStrategy->addHashEntry($this->buildHashEntry('myKey1', 'myValue1'));
+        $lineStrategy->addHashEntry($this->buildHashEntry('myKey2', 'myValue2'));
 
         $this->assertEquals([
-            'column1' => 'myValue1|myValue2'
-        ], $columnStrategy->toArray());
+                'column1' =>
+                    [
+                        'myKey1' => 'myValue1',
+                        'myKey2' => 'myValue2',
+                    ]
+            ], $lineStrategy->toArray());
+    }
+
+    public function testLineStrategyBehaviorWithOneProperty()
+    {
+        $lineStrategy = new ColumnStrategy(true, 'column1');
+        $lineStrategy->addHashEntry($this->buildHashEntry('myKey1', 'myValue1'));
+
+        $this->assertEquals([
+            'myKey1' => 'myValue1'
+        ], $lineStrategy->toArray());
     }
 
     protected function buildHashEntry($key, $value)
     {
         $hashEntry = $this->getMockBuilder(HashEntry::class)->disableOriginalConstructor()->getMock();
 
+        $hashEntry
+            ->expects($this->once())
+            ->method('getKey')
+            ->willReturn($key);
         $hashEntry
             ->expects($this->once())
             ->method('getValue')

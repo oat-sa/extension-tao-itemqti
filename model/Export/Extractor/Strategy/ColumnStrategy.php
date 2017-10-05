@@ -1,30 +1,46 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ionut
- * Date: 04/10/17
- * Time: 14:39
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\Export\Extractor\Strategy;
 
 use oat\taoQtiItem\model\Export\Extractor\HashEntry;
-use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 
 class ColumnStrategy implements Strategy
 {
-    /** @var array  */
+    /** @var array */
     private $dataArray = [];
-
 
     /** @var  string */
     private $column;
 
+    /** @var  boolean */
+    private $hasOnlyOneProperty;
+
     /**
+     * @param bool $hasOnlyOneProperty
      * @param string $column
      */
-    public function __construct($column)
+    public function __construct($hasOnlyOneProperty, $column)
     {
+        $this->hasOnlyOneProperty = $hasOnlyOneProperty;
         $this->column = $column;
     }
 
@@ -33,10 +49,7 @@ class ColumnStrategy implements Strategy
      */
     public function addHashEntry(HashEntry $hashEntry)
     {
-        $value = $hashEntry->getValue();
-        if (!empty($value)) {
-            $this->dataArray[] = $value;
-        }
+        $this->dataArray[$hashEntry->getKey()] = $hashEntry->getValue();
     }
 
     /**
@@ -44,8 +57,11 @@ class ColumnStrategy implements Strategy
      */
     public function toArray()
     {
+        if ($this->hasOnlyOneProperty) {
+            return $this->dataArray;
+        }
         return [
-            $this->column => implode(OntologyExtractor::DEFAULT_PROPERTY_DELIMITER, $this->dataArray)
+            $this->column => $this->dataArray
         ];
     }
 }

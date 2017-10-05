@@ -22,25 +22,22 @@
 namespace oat\taoQtiItem\model\Export\Extractor\Strategy;
 
 use oat\taoQtiItem\model\Export\Extractor\HashEntry;
+use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 
-class LineStrategy implements Strategy
+class DefaultStrategy implements Strategy
 {
-    /** @var array */
+    /** @var array  */
     private $dataArray = [];
+
 
     /** @var  string */
     private $column;
 
-    /** @var  boolean */
-    private $hasOnlyOneProperty;
-
     /**
-     * @param bool $hasOnlyOneProperty
      * @param string $column
      */
-    public function __construct($hasOnlyOneProperty, $column)
+    public function __construct($column)
     {
-        $this->hasOnlyOneProperty = $hasOnlyOneProperty;
         $this->column = $column;
     }
 
@@ -49,7 +46,10 @@ class LineStrategy implements Strategy
      */
     public function addHashEntry(HashEntry $hashEntry)
     {
-        $this->dataArray[$hashEntry->getKey()] = $hashEntry->getValue();
+        $value = $hashEntry->getValue();
+        if (!empty($value)) {
+            $this->dataArray[] = $value;
+        }
     }
 
     /**
@@ -57,11 +57,8 @@ class LineStrategy implements Strategy
      */
     public function toArray()
     {
-        if ($this->hasOnlyOneProperty) {
-            return $this->dataArray;
-        }
         return [
-            $this->column => $this->dataArray
+            $this->column => implode(OntologyExtractor::DEFAULT_PROPERTY_DELIMITER, $this->dataArray)
         ];
     }
 }
