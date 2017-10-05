@@ -114,7 +114,9 @@ define([
                         if(_.isFunction(options.change)){
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
-                    }, 100));
+                    }, 100, {
+                        leading: true
+                    }));
 
                     if(options.data && options.data.container){
 
