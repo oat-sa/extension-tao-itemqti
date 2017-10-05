@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -30,9 +30,9 @@ define([
 
     'use strict';
 
-    var ChoiceInteractionStateQuestion = stateFactory.extend(Question);
+    var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
-    ChoiceInteractionStateQuestion.prototype.initForm = function(updateCardinality){
+    OrderInteractionStateQuestion.prototype.initForm = function(updateCardinality){
 
         var _widget = this.widget,
             $form = _widget.$form,
@@ -98,5 +98,5 @@ define([
         });
     };
 
-    return ChoiceInteractionStateQuestion;
+    return OrderInteractionStateQuestion;
 });
