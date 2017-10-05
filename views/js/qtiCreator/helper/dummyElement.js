@@ -63,7 +63,7 @@ define([
                 icon: 'variable',
                 css: {
                     width : 40,
-                    height : 24
+                    height : 16
                 }
             }
         };
