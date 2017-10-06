@@ -41,15 +41,16 @@ define([
 
     PrintedVariableStateActive.prototype.initForm = function(){
 
-        var _widget = this.widget,
-            $printedVariable = _widget.$original,
-            $form = _widget.$form,
-            printedVariable = _widget.element,
-            relatedItem = printedVariable.getRelatedItem(),
-            outcomes;
+        var _widget          = this.widget,
+            printedVarEl     = _widget.element,
+            $printedVarDom   = _widget.$original,
+            $form            = _widget.$form,
+            rootElement      = printedVarEl.getRelatedItem();
 
-        outcomes = (relatedItem.data('outcomes') || []).map(function(entry) {
-            var selected = (printedVariable.attr('identifier') === entry);
+        var outcomes = rootElement.data('getOutcomes') && rootElement.data('getOutcomes')();
+
+        outcomes = (outcomes || []).map(function(entry) {
+            var selected = (printedVarEl.attr('identifier') === entry);
             return {
                 value: entry,
                 name: entry,
@@ -65,10 +66,10 @@ define([
         formElement.initWidget($form);
 
         //init data change callbacks
-        formElement.setChangeCallbacks($form, printedVariable, {
+        formElement.setChangeCallbacks($form, printedVarEl, {
             identifier: function(pv, value, name) {
-                printedVariable.attr(name, value);
-                $printedVariable.html(value);
+                printedVarEl.attr(name, value);
+                $printedVarDom.html(value);
                 inlineHelper.togglePlaceholder(_widget);
             }
         });
