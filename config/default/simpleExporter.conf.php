@@ -19,6 +19,8 @@
  *
  */
 
+use oat\generis\model\OntologyRdfs;
+
 return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
     'fileSystem' => 'taoQtiItem',
     'fileLocation' => 'export' . DIRECTORY_SEPARATOR . 'export.csv',
@@ -30,7 +32,7 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
         'label' => array (
             'extractor' => 'OntologyExtractor',
             'parameters' => array (
-                'property' => RDFS_LABEL
+                'property' => OntologyRdfs::RDFS_LABEL
             )
         ),
         'type' => array (

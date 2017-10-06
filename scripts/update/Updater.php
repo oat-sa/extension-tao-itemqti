@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use League\Flysystem\Adapter\Local;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\websource\ActionWebSource;
@@ -183,7 +184,7 @@ class Updater extends \common_ext_ExtensionUpdater
                         'label' => array (
                             'extractor' => 'OntologyExtractor',
                             'parameters' => array (
-                                'property' => RDFS_LABEL
+                                'property' => OntologyRdfs::RDFS_LABEL
                             )
                         ),
                         'type' => array (

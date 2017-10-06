@@ -21,6 +21,8 @@
 namespace oat\taoQtiItem\model\qti\metadata\ontology;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationEntryMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationSourceMetadataValue;
@@ -32,8 +34,8 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
     use OntologyAwareTrait;
 
     static $excludedProperties = [
-        RDF_TYPE,
-        RDFS_LABEL,
+		OntologyRdf::RDF_TYPE,
+        OntologyRdfs::RDFS_LABEL,
         \taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
         \taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
         \taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
