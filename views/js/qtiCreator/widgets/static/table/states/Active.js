@@ -84,8 +84,7 @@ define([
                 },
                 blur : function(){
                     _widget.changeState('sleep');
-                },
-                hideTriggerOnBlur: true
+                }
             });
         }
 
