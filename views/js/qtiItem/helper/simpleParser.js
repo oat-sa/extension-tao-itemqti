@@ -11,6 +11,10 @@ define([
         rubricblock : 'rubricBlock',
         printedvariable : 'printedVariable'
     };
+    var _qtiAttributesNames = {
+        powerform: 'powerForm',
+        mappingindicator: 'mappingIndicator'
+    };
 
     var _defaultOptions = {
         ns : {
@@ -46,8 +50,10 @@ define([
         };
 
         $.each($elt[0].attributes, function(){
+            var attrName;
             if(this.specified){
-                elt.attributes[this.name] = this.value;
+                attrName = _qtiAttributesNames[this.name] || this.name;
+                elt.attributes[attrName] = this.value;
             }
         });
 

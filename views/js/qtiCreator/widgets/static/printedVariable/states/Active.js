@@ -22,12 +22,13 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'util/typeCaster',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/printedVariable',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline'
-], function($, _, __, stateFactory, Active, formTpl, formElement, inlineHelper){
+], function($, _, __, typeCaster, stateFactory, Active, formTpl, formElement, inlineHelper){
     'use strict';
 
     var PrintedVariableStateActive = stateFactory.extend(Active, function(){
@@ -59,7 +60,14 @@ define([
         });
 
         $form.html(formTpl({
-            outcomes: outcomes
+            outcomes:         outcomes,
+            format:           printedVarEl.attr('format'),
+            powerForm:        typeCaster.strToBool(printedVarEl.attr('powerForm')),
+            base:             printedVarEl.attr('base'),
+            index:            printedVarEl.attr('index'),
+            delimiter:        printedVarEl.attr('delimiter'),
+            field:            printedVarEl.attr('field'),
+            mappingIndicator: printedVarEl.attr('mappingIndicator')
         }));
 
         //... init standard ui widget
@@ -71,7 +79,14 @@ define([
                 printedVarEl.attr(name, value);
                 $printedVarDom.html(value);
                 inlineHelper.togglePlaceholder(_widget);
-            }
+            },
+            format:           formElement.getAttributeChangeCallback(),
+            powerForm:        formElement.getAttributeChangeCallback(),
+            base:             formElement.getAttributeChangeCallback(),
+            index:            formElement.getAttributeChangeCallback(),
+            delimiter:        formElement.getAttributeChangeCallback(),
+            field:            formElement.getAttributeChangeCallback(),
+            mappingIndicator: formElement.getAttributeChangeCallback()
         });
 
     };

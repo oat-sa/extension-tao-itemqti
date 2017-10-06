@@ -7,12 +7,17 @@ define([
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
-        // getDefaultAttributes : function(){
-        //     return {
-        //         src : '',
-        //         alt : ''
-        //     };
-        // }
+        getDefaultAttributes : function(){
+            return {
+                format:           '',
+                powerForm:        false,
+                base:             10,
+                index:            -1,
+                delimiter:        ';',
+                field:            '',
+                mappingIndicator: '='
+            };
+        }
     });
     return PrintedVariable.extend(methods);
 });
