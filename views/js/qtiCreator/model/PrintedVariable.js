@@ -9,7 +9,7 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-                format:           '',
+                format:           '%2g',
                 powerForm:        false,
                 base:             10,
                 index:            -1,
