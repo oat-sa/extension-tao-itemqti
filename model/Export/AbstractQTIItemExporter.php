@@ -178,7 +178,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if ($dom->loadXML($xml) === true) {
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
-            $portableEntryNodes = $xpath->query("//*[local-name()='entry']") ?: [];
+            $portableEntryNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
             unset($xpath);
 
             foreach ($attributeNodes as $node) {
@@ -362,7 +362,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
 
         // To check if replacement is to replace basename ???
-        $this->addFile($stream, $basePath . '/' . preg_replace( '/^(.\/)/', '',$baseName));
+        // Please check it seriously next time!
+        $this->addFile($stream, $basePath . '/' . preg_replace( '/^(.\/)/', '',$replacement));
         $stream->close();
         return $replacement;
     }

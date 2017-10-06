@@ -283,9 +283,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.27.0');
         }
 
-        $this->skip('2.27.0', '2.28.2');
+        $this->skip('2.27.0', '2.28.4');
 
-	    if($this->isVersion('2.28.2')){
+	    if($this->isVersion('2.28.4')){
             $setDragAndDropConfig = new SetDragAndDropConfig();
             $setDragAndDropConfig([]);
             $this->setVersion('2.29.0');
@@ -406,9 +406,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('8.16.0');
         }
 
-        $this->skip('8.16.0', '9.11.0');
+        $this->skip('8.16.0', '9.11.4');
 
-        if($this->isVersion('9.11.0')){
+        if($this->isVersion('9.11.4')){
 
             //register location of portable libs to legacy share lib aliases for backward compatibility
             $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
@@ -438,5 +438,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('10.0.0');
         }
+
+        $this->skip('10.0.0', '10.4.1');
     }
 }

@@ -27,8 +27,7 @@ define([
     'ui/selecter',
     'ui/inplacer',
     'ui/groupvalidator',
-    'taoQtiItem/qtiCreator/widgets/helpers/validators',
-    'polyfill/placeholders'
+    'taoQtiItem/qtiCreator/widgets/helpers/validators'
 ], function($, _, __, Element, dom, spinner, tooltip, select2){
     'use strict';
 

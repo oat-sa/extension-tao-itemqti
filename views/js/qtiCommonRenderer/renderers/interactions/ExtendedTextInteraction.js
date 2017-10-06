@@ -31,8 +31,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
-    'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
-    'polyfill/placeholders'
+    'taoQtiItem/qtiCommonRenderer/helpers/patternMask'
 ], function($, _, __, Promise, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
     'use strict';
 

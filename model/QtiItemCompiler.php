@@ -275,10 +275,14 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 }
             }
 
-            $attributeNodes = $xpath->query("//*[local-name()='entry']") ?: [];
+            //@TODO : Fix me please
+            $attributeNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
             unset($xpath);
             foreach ($attributeNodes as $node) {
-                $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
+                if ($node->nodeValue) {
+                    $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
+                }
+
             }
         } else {
             throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');
