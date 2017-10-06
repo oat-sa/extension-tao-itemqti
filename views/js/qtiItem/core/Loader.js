@@ -35,7 +35,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         getRequiredClasses : function(data){
             var ret = [];
             for(var i in data){
-                if(i === 'qtiClass' && data[i] !== '_container' && i !== 'relatedItem'){//although a _container is a concrete class in TAO, it is not defined in QTI standard
+                if(i === 'qtiClass' && data[i] !== '_container' && i !== 'rootElement'){//although a _container is a concrete class in TAO, it is not defined in QTI standard
                     ret.push(data[i]);
                 }else if(typeof(data[i]) === 'object' && i !== 'responseRules'){    //responseRules should'nt be part of the parsing
                     ret = _.union(ret, this.getRequiredClasses(data[i]));
