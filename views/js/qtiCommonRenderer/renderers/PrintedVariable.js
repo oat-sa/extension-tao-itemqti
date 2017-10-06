@@ -28,10 +28,6 @@ define([
     return {
         qtiClass : 'printedVariable',
         template : tpl,
-        // getContainer : containerHelper.get
-        getContainer : function(element, $scope) {
-            containerHelper.clear();
-            return containerHelper.get.call(this, element, $scope);
-        }
+        getContainer : containerHelper.get
     };
 });

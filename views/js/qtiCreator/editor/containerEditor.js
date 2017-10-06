@@ -189,15 +189,19 @@ define([
 
     function cleanup($container){
         var container = $container.data('container');
-        if(container){
-            $(document).off('.' + container.serial);
-            commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable'], function(){
-                $container.html(container.render(this));
-            });
-        }
+        return new Promise(function (resolve) {
+            if(container){
+                $(document).off('.' + container.serial);
+                commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable'], function(){
+                    $container.html(container.render(this));
+                    resolve();
+                });
 
-        $container.removeData('container');
-
+                $container.removeData('container');
+            } else {
+                resolve();
+            }
+        });
     }
 
     /**
@@ -238,14 +242,12 @@ define([
         }
     }
 
-    function destroyEditor($editableContainer){
-        htmlEditor.destroyEditor($editableContainer);
-        $editableContainer.removeAttr('data-html-editable-container');
-    }
-
-    function destroy($container){
-        destroyEditor($container);
-        cleanup($container);
+    function destroy($editableContainer){
+        return htmlEditor.destroyEditor($editableContainer)
+            .then(function() {
+                $editableContainer.removeAttr('data-html-editable-container');
+                return cleanup($editableContainer);
+            });
     }
 
     function extractHtmlFromMarkup(markupStr, selector){

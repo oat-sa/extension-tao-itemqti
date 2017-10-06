@@ -20,11 +20,12 @@ define([
     'i18n',
     'jquery',
     'ckeditor',
+    'core/promise',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
+], function(_, __, $, CKEditor, Promise, ckConfigurator, Element, contentHelper, deletingHelper){
     "use strict";
 
     var _defaults = {
@@ -501,6 +502,7 @@ define([
          * @returns {undefined}
          */
         destroyEditor : function($container){
+            var destructTasks = [];
             _find($container, 'html-editable-container').each(function(){
 
                 var editor,
@@ -511,26 +513,30 @@ define([
                 $editable.removeAttr('contenteditable');
                 if($editable.data('editor')){
 
-                    editor = $editable.data('editor');
-                    options = $editable.data('editor-options');
+                    destructTasks.push(new Promise(function (resolve) {
+                        editor = $editable.data('editor');
+                        options = $editable.data('editor-options');
 
-                    //before destroying, ensure that data is stored
-                    if(_.isFunction(options.change)){
-                        options.change.call(editor, _htmlEncode(editor.getData()));
-                    }
-                    editor.on('destroy', function () {
-                        $editable.trigger('editordestroyed');
-                    });
+                        //before destroying, ensure that data is stored
+                        if(_.isFunction(options.change)){
+                            options.change.call(editor, _htmlEncode(editor.getData()));
+                        }
+                        editor.on('destroy', function () {
+                            $editable.removeData('editor').removeData('editor-options');
+                            if($editable.data('qti-container')){
+                                _rebuildWidgets($editable.data('qti-container'), $editable);
+                            }
 
-                    editor.focusManager.blur(true);
-                    editor.destroy();
+                            $editable.trigger('editordestroyed');
+                            resolve();
+                        });
 
-                    $editable.removeData('editor').removeData('editor-options');
-                    if($editable.data('qti-container')){
-                        _rebuildWidgets($editable.data('qti-container'), $editable);
-                    }
+                        editor.focusManager.blur(true);
+                        editor.destroy();
+                    }));
                 }
             });
+            return Promise.all(destructTasks);
         },
         /**
          * Get the editor content
