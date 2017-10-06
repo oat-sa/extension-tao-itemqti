@@ -27,7 +27,7 @@ define([
 
         var _widget = this.widget,
             container = _widget.$container[0],
-            item = this.widget.element.getRelatedItem(),
+            item = this.widget.element.getRootElement(),
             areaBroker = this.widget.getAreaBroker();
 
         //move to sleep state by clicking anywhere outside the interaction
@@ -61,7 +61,7 @@ define([
         this.widget.$container.off('.active');
         $('#item-editor-panel').off('.active.'+ this.widget.serial);
 
-        var item = this.widget.element.getRelatedItem();
+        var item = this.widget.element.getRootElement();
         if(item && item.data('widget')){
             item.data('widget').$container.off('.active');
         }

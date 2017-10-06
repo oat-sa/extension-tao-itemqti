@@ -37,7 +37,7 @@ define([
         qtiClass : 'assessmentItem',
         init : function init(serial, attributes){
             this._super(serial, attributes);
-            this.relatedItem = this;
+            this.rootElement = this;
             this.stylesheets = {};
             this.responses = {};
             this.outcomes = {};
@@ -59,7 +59,7 @@ define([
         },
         addResponseDeclaration : function addResponseDeclaration(response){
             if(Element.isA(response, 'responseDeclaration')){
-                response.setRelatedItem(this);
+                response.setRootElement(this);
                 this.responses[response.getSerial()] = response;
             }else{
                 throw 'is not a qti response declaration';
@@ -76,7 +76,7 @@ define([
         },
         addOutcomeDeclaration : function addOutcomeDeclaration(outcome){
             if(Element.isA(outcome, 'outcomeDeclaration')){
-                outcome.setRelatedItem(this);
+                outcome.setRootElement(this);
                 this.outcomes[outcome.getSerial()] = outcome;
             }else{
                 throw 'is not a qti outcome declaration';
@@ -104,7 +104,7 @@ define([
         },
         addModalFeedback : function addModalFeedback(feedback){
             if(Element.isA(feedback, 'modalFeedback')){
-                feedback.setRelatedItem(this);
+                feedback.setRootElement(this);
                 this.modalFeedbacks[feedback.getSerial()] = feedback;
             }else{
                 throw 'is not a qti modal feedback';
@@ -138,7 +138,7 @@ define([
         getResponses : function getResponses(){
             return _.clone(this.responses);
         },
-        getRelatedItem : function getRelatedItem(){
+        getRootElement : function getRootElement(){
             return this;
         },
         addNamespace : function addNamespace(name, uri){
@@ -164,7 +164,7 @@ define([
         },
         addStylesheet : function addStylesheet(stylesheet){
             if(Element.isA(stylesheet, 'stylesheet')){
-                stylesheet.setRelatedItem(this);
+                stylesheet.setRootElement(this);
                 this.stylesheets[stylesheet.getSerial()] = stylesheet;
             }else{
                 throw 'is not a qti stylesheet declaration';
@@ -187,7 +187,7 @@ define([
         },
         setResponseProcessing : function setResponseProcessing(rp){
             if(Element.isA(rp, 'responseProcessing')){
-                rp.setRelatedItem(this);
+                rp.setRootElement(this);
                 this.responseProcessing = rp;
             }else{
                 throw 'is not a response processing';

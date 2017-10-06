@@ -18,7 +18,7 @@
  */
 define(['taoQtiItem/qtiItem/core/variables/VariableDeclaration', 'lodash'], function(VariableDeclaration, _){
     'use strict';
-    
+
     var ResponseDeclaration = VariableDeclaration.extend({
         qtiClass : 'responseDeclaration',
         init : function(serial, attributes){
@@ -60,7 +60,7 @@ define(['taoQtiItem/qtiItem/core/variables/VariableDeclaration', 'lodash'], func
         getInteraction : function(){
             var interaction = null;
             var responseId = this.id();
-            var item = this.getRelatedItem();
+            var item = this.getRootElement();
             var interactions = item.getInteractions();
             _.each(interactions, function(i){
                 if(i.attributes.responseIdentifier === responseId){

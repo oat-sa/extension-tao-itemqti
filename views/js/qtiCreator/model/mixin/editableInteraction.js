@@ -9,7 +9,7 @@ define([
     var methods = {
         /**
          * Remove a choice from the interaction
-         * 
+         *
          * @param {string|choice} choice
          * @returns {object} this
          */
@@ -46,7 +46,7 @@ define([
             }
 
             //we assume in the context of edition, every element is created from the api so alwayd bound to an item:
-            item = this.getRelatedItem();
+            item = this.getRootElement();
             item.addResponseDeclaration(response);
 
             //assign responseIdentifier only after attaching it to the item to generate a unique id
@@ -82,28 +82,28 @@ define([
 
             var response = this.getResponseDeclaration();
             if(response){
-                this.getRelatedItem().deleteResponseDeclaration(response);
+                this.getRootElement().deleteResponseDeclaration(response);
             }
             this.removeAttr('responseIdentifier');
             return this;
         },
         beforeRemove : function beforeRemove(){
-            
+
             var serial = this.serial,
-                interactions = this.getRelatedItem().getInteractions();
-            
+                interactions = this.getRootElement().getInteractions();
+
             //delete its response
             this.deleteResponse();
-            
+
             //when there is only one interaction remaining, its reponseIdentifier must be RESPONSE to be able to use one of the standard rp
             if(_.size(interactions) === 2){
                 _.forEach(interactions, function(interaction){
-                    
+
                     var response = interaction.getResponseDeclaration();
-                    
+
                     //find the other interaction, which will be the last remaining one
                     if(response && interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
-                        
+
                         interaction.attr('responseIdentifier', 'RESPONSE');
                         response.id('RESPONSE');
                     }

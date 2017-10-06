@@ -7,7 +7,7 @@ define(['taoQtiItem/qtiItem/mixin/Mixin', 'lodash'], function(Mixin, _){
                 return _.clone(this.ns);
             }else{
 
-                var relatedItem = this.getRelatedItem();
+                var relatedItem = this.getRootElement();
                 if(relatedItem){
                     var namespaces = relatedItem.getNamespaces();
                     for(var ns in namespaces){

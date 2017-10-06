@@ -46,7 +46,7 @@ define([
         }
         return ret;
     };
-    
+
     var _renderFeedbackRules = function _renderFeedbackRules(renderer, response){
         var ret = [];
         _.forEach(response.getFeedbackRules(), function(rule){
@@ -54,7 +54,7 @@ define([
         });
         return ret;
     };
-    
+
     return {
         qtiClass : 'responseProcessing',
         template : tpl,
@@ -62,14 +62,14 @@ define([
             var defaultData = {},
                 self = this,
                 interactions, response;
-            
+
             switch(responseProcessing.processingType){
                 case 'custom':
                     defaultData.custom = true;
                     defaultData.xml = responseProcessing.xml;
                     break;
                 case 'templateDriven':
-                    interactions = responseProcessing.getRelatedItem().getInteractions();
+                    interactions = responseProcessing.getRootElement().getInteractions();
                     if(interactions.length === 1){
                         response = interactions[0].getResponseDeclaration();
                         if(_.size(response.getFeedbackRules()) === 0 && response.id() === 'RESPONSE'){
@@ -88,7 +88,7 @@ define([
                             defaultData.responseRules.push(responseRule);
                         }
                     });
-                    
+
                     defaultData.feedbackRules = [];
                     _.forEach(interactions, function(interaction){
                         defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(self, interaction.getResponseDeclaration()));

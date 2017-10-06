@@ -60,7 +60,7 @@ define([
                         body += elt.placeholder();//append the element if no placeholder found
                     }
 
-                    elt.setRelatedItem(this.getRelatedItem() || null);
+                    elt.setRootElement(this.getRootElement() || null);
                     this.elements[elt.getSerial()] = elt;
                     $(document).trigger('containerElementAdded', {
                         element : elt,

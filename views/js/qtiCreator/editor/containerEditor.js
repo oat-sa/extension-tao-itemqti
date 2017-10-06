@@ -110,7 +110,7 @@ define([
             //need to attach a container to the item to enable innserElement.remove()
             //@todo fix this
             item = new Item().setElement(container);
-            container.setRelatedItem(item);
+            container.setRootElement(item);
 
             //associate it to the interaction?
             if(options.related){

@@ -30,7 +30,7 @@ define([
     var Element = Class.extend({
         qtiClass : '',
         serial : '',
-        relatedItem : null,
+        rootElement : null,
         init : function(serial, attributes){
 
             //init own attributes
@@ -224,7 +224,7 @@ define([
             return found;
         },
         parent : function(){
-            var item = this.getRelatedItem();
+            var item = this.getRootElement();
             if(item){
                 var found = item.find(this.getSerial());
                 if(found){
@@ -233,23 +233,23 @@ define([
             }
             return null;
         },
-        setRelatedItem : function(item, recursive){
+        setRootElement : function(item, recursive){
 
             recursive = (typeof recursive === 'undefined') ? true : recursive;
 
             if(Element.isA(item, 'assessmentItem')){
-                this.relatedItem = item;
+                this.rootElement = item;
                 var composingElts = this.getComposingElements();
                 for(var i in composingElts){
-                    composingElts[i].setRelatedItem(item, false);
+                    composingElts[i].setRootElement(item, false);
                 }
             }
 
         },
-        getRelatedItem : function(){
+        getRootElement : function(){
             var ret = null;
-            if(Element.isA(this.relatedItem, 'assessmentItem')){
-                ret = this.relatedItem;
+            if(Element.isA(this.rootElement, 'assessmentItem')){
+                ret = this.rootElement;
             }
             return ret;
         },
