@@ -18,7 +18,7 @@ define([
 
         //reference to the dom element(s) to be remove on delete
         this.$elementToRemove = this.getElementToRemove();
-        
+
         this.hideWidget();
 
         this.showMessage(element);
@@ -27,9 +27,9 @@ define([
 
         //trigger resizing
         if(this.updateBody){
-            
+
             //store reference to the item and its container:
-            this.item = element.getRelatedItem();
+            this.item = element.getRootElement();
             this.$item = this.item.data('widget').$container.find('.qti-itemBody');
 
             //call for resize action
@@ -49,13 +49,13 @@ define([
 
     /**
      * @todo move widget specific code to their respective location
-     * 
+     *
      * @returns {jQuery} container
      */
     DeletingState.prototype.getElementToRemove = function(){
 
         var $container = this.widget.$container;
-        
+
         //if is a choice widget:
         if($container.hasClass('qti-choice')){
 
@@ -86,18 +86,18 @@ define([
         if($container.hasClass('widget-inline')){
             return $container.add(this.widget.$original);
         }
-        
+
         /**
          * block widget
          */
         var $col = $container.parent();
-        
+
         //check sub-column condition
         var $subCol = $container.parent('.colrow');
         if($subCol.length){
-            
+
             this.updateBody = true;
-            
+
             var $colMulti = $subCol.parent();
             if($colMulti.find('.colrow').length === 1){
                 //this is the only sub-column remaining, hide the entire col
@@ -107,7 +107,7 @@ define([
                 return $subCol;
             }
         }
-        
+
         //check if we should hide the col only or the whole row
         var $row = $col.parent('.grid-row');
         if($row.length){
@@ -123,8 +123,8 @@ define([
             //rubric block:
             this.updateBody = true;
             return $container;
-        } 
-                
+        }
+
         //other block widgets:
         if($container.hasClass('widget-block') || $container.hasClass('widget-blockInteraction')){
             return $container;

@@ -52,7 +52,6 @@ define([
                     container : container,
                     widget : _widget
                 },
-                hideTriggerOnBlur: true,
                 toolbar: [{
                     name : 'basicstyles',
                     items : ['Bold', 'Italic', 'Subscript', 'Superscript']
