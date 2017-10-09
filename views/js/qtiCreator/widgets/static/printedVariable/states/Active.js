@@ -46,7 +46,7 @@ define([
             printedVarEl     = _widget.element,
             $printedVarDom   = _widget.$original,
             $form            = _widget.$form,
-            rootElement      = printedVarEl.getRelatedItem();
+            rootElement      = printedVarEl.getRootElement();
 
         var outcomes = rootElement.data('getOutcomes') && rootElement.data('getOutcomes')();
 
