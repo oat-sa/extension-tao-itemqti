@@ -30,8 +30,7 @@ define([
     var _defaults = {
         placeholder : __('some text ...'),
         shieldInnerContent : true,
-        passthroughInnerContent : false,
-        hideTriggerOnBlur : false
+        passthroughInnerContent : false
     };
 
     var editorFactory;
@@ -46,7 +45,6 @@ define([
      * @param {String} [options.placeholder] - the place holder text
      * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
-     * @param {Boolean} [options.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
      * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
      */
     function _buildEditor($editable, $editableContainer, options){
@@ -472,7 +470,6 @@ define([
          * @param {String} [editorOptions.placeholder] - the place holder text
          * @param {Boolean} [editorOptions.shieldInnerContent] - define if the inner widget content should be protected or not
          * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
-         * @param {Boolean} [editorOptions.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
          * @param {Boolean} [editorOptions.enterMode] - what is the behavior of the "Enter" key (see ENTER_MODE_xxx in ckEditor configuration)
          * @returns {undefined}
          */

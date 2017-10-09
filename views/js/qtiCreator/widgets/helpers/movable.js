@@ -7,7 +7,7 @@ define([
     var movable = {
         create : function(widget){
 
-            var item = widget.element.getRelatedItem(),
+            var item = widget.element.getRootElement(),
                 $container = widget.$container,
                 $itemBody;
 
@@ -33,6 +33,6 @@ define([
             });
         }
     }
-    
+
     return movable;
 });

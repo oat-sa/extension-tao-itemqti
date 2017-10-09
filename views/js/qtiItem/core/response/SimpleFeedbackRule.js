@@ -18,11 +18,11 @@
  */
 define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
     'use strict';
-    
+
     var SimpleFeedbackRule = Element.extend({
         qtiClass : '_simpleFeedbackRule',
         serial : '',
-        relatedItem : null,
+        rootElement : null,
         init : function(serial, feedbackOutcome, feedbackThen, feedbackElse){
 
             this._super(serial, {});
@@ -87,7 +87,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                                     });
                                 }
                             });
-                            
+
                             this.comparedValue = _comparedValues;
                         }else{
                             throw 'compared value must not be null';

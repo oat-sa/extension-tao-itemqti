@@ -134,7 +134,7 @@ define([
         },
         createFeedbackRule : function(){
 
-            var item = this.getRelatedItem();
+            var item = this.getRootElement();
 
             var outcome = item.createOutcomeDeclaration({
                 identifier : 'FEEDBACK',
@@ -176,7 +176,7 @@ define([
         },
         deleteFeedbackRule : function(rule){
 
-            var item = this.getRelatedItem(), ret;
+            var item = this.getRootElement(), ret;
 
             item.remove('outcomes', rule.feedbackOutcome);
             item.remove('modalFeedbacks', rule.feedbackThen);
@@ -194,7 +194,7 @@ define([
 
             if(Element.isA(rule, '_simpleFeedbackRule')){
 
-                modalFeedback = this.getRelatedItem().createModalFeedback({
+                modalFeedback = this.getRootElement().createModalFeedback({
                     identifier : 'feedbackModal',
                     outcomeIdentifier : rule.feedbackOutcome.id()
                 }, this);
@@ -214,7 +214,7 @@ define([
         },
         deleteFeedbackElse : function(rule){
 
-            this.getRelatedItem().remove('modalFeedbacks', rule.feedbackElse);
+            this.getRootElement().remove('modalFeedbacks', rule.feedbackElse);
             rule.feedbackElse = null;
 
             $(document).trigger('feedbackRuleElseRemoved.qti-widget', {element : this, rule : rule});

@@ -40,7 +40,7 @@ define([
          * @returns {Object} for chaining
          */
         buildIdentifier : function buildIdentifier(prefix, useSuffix){
-            var item = this.getRelatedItem();
+            var item = this.getRootElement();
             var id = util.buildIdentifier(item, prefix || this.qtiClass, useSuffix);
             if(id){
                 this.attr('identifier', id);
