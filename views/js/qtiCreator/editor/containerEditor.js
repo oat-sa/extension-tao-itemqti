@@ -19,6 +19,7 @@
 define([
     'lodash',
     'jquery',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Container',
     'taoQtiItem/qtiCreator/model/Item',
@@ -31,7 +32,7 @@ define([
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'
-], function(_, $, Loader, Container, Item, event, qtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
+], function(_, $, Promise, Loader, Container, Item, event, qtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
     "use strict";
 
     var _ns = 'containereditor';
@@ -171,7 +172,6 @@ define([
                         }
                     }, 600));
 
-                //todo: this event is useless, already triggered by htmlEditor
                 $container.trigger('editorready.containereditor');
 
             }, qtiClasses);

@@ -481,7 +481,7 @@ define([
                 $editable.attr('contenteditable', true);
 
                 //build it
-                var editor = _buildEditor($editable, $editableContainer, editorOptions);
+                _buildEditor($editable, $editableContainer, editorOptions);
 
             });
 
