@@ -8,7 +8,7 @@ define(['taoQtiItem/qtiItem/core/IdentifiedElement'], function(IdentifiedElement
             return (qtiClass === 'choice') || this._super(qtiClass);
         },
         getInteraction : function(){
-            var found, ret = null, item = this.getRelatedItem();
+            var found, ret = null, item = this.getRootElement();
             if(item){
                 found = item.find(this.serial);
                 if(found){

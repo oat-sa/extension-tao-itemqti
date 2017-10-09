@@ -15,11 +15,11 @@ define([
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
     _.extend(methods, {
-        
+
         /**
          * Set the default values for the model
-         * @returns {Object} the default attributes 
-         */ 
+         * @returns {Object} the default attributes
+         */
         getDefaultAttributes : function(){
             return {
                 'maxAssociations' : 0,
@@ -28,11 +28,11 @@ define([
         },
 
         /**
-         * Once the interaction model is created, 
-         * we set the responsivness and create a default response 
-         */ 
+         * Once the interaction model is created,
+         * we set the responsivness and create a default response
+         */
         afterCreate : function(){
-            var relatedItem = this.getRelatedItem();
+            var relatedItem = this.getRootElement();
             var isResponsive = relatedItem.data('responsive');
 
             if(isResponsive === true){
@@ -55,13 +55,13 @@ define([
 
             this.addChoice(choice);
             choice.buildIdentifier('associablehotspot');
-            
+
             if(this.getRenderer()){
                 choice.setRenderer(this.getRenderer());
             }
-            
+
             $(document).trigger('choiceCreated.qti-widget', {'choice' : choice, 'interaction' : this});
-           
+
             return choice;
         }
     });

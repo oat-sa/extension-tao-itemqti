@@ -60,7 +60,7 @@ define([
      */
     var _getAvailableRpTemplates = function _getAvailableRpTemplates(interaction, filteredTemplates){
 
-        var rp = interaction.getRelatedItem().responseProcessing;
+        var rp = interaction.getRootElement().responseProcessing;
         var allTemplates = getAvailableTemplates();
         var templates = {};
         if(!_.isEmpty(filteredTemplates)){
@@ -176,7 +176,7 @@ define([
         initResponseForm : function initResponseForm(widget, options){
 
             var interaction = widget.element,
-                item = interaction.getRelatedItem(),
+                item = interaction.getRootElement(),
                 rp = item.responseProcessing,
                 response = interaction.getResponseDeclaration(),
                 template = responseHelper.getTemplateNameFromUri(response.template),

@@ -71,7 +71,6 @@ define([
      * @param {String} [options.markupSelector] - the element in $xontainer that holds the html to be used as the initial editor content
      * @param {Object} [options.related] - define the qti element object this editor is attached too. Very important to edit a picture or math element inside it because prevents leaving the editing state of the related element.
      * @param {Function} [options.change] - the callback called when the editor content has been modified
-     * @param {Function} [options.hideTriggerOnBlur] - define if the trigger <A> should be hidden when the editor is blurred or not
      * @param {Function} [options.placeholder] - the placeholder text of the container editor when
      * @param {Function} [options.toolbar] - the ck toolbar
      * @param {Function} [options.qtiMedia=false] - allow insert media object
@@ -110,7 +109,7 @@ define([
             //need to attach a container to the item to enable innserElement.remove()
             //@todo fix this
             item = new Item().setElement(container);
-            container.setRelatedItem(item);
+            container.setRootElement(item);
 
             //associate it to the interaction?
             if(options.related){
@@ -138,7 +137,6 @@ define([
 
                 buildContainer($container);
                 buildEditor($container, container, {
-                    hideTriggerOnBlur: !!options.hideTriggerOnBlur,
                     placeholder : options.placeholder || undefined,
                     toolbar : options.toolbar || undefined,
                     qtiMedia : options.qtiMedia,

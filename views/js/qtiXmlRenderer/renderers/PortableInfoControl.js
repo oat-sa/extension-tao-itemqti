@@ -15,7 +15,7 @@ define([
 
             //ensure infoControl have an id, otherwise generate one in order to be able to identify it for the state
             if(!infoControl.attr('id')){
-                infoControl.attr('id', util.buildId(infoControl.getRelatedItem(), infoControl.typeIdentifier ));
+                infoControl.attr('id', util.buildId(infoControl.getRootElement(), infoControl.typeIdentifier ));
             }
 
             return data;
