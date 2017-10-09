@@ -444,9 +444,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('10.0.0');
         }
 
-        $this->skip('10.0.0', '10.3.2');
+        $this->skip('10.0.0', '10.4.1');
 
-        if($this->isVersion('10.3.2')){
+        if($this->isVersion('10.4.1')){
 
             $service = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
             $options = $service->getOptions();
@@ -470,7 +470,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
 
-            $this->setVersion('10.3.3');
+            $this->setVersion('10.4.2');
         }
     }
 }

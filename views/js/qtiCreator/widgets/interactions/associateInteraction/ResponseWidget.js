@@ -22,8 +22,9 @@ define([
     'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function(_, __, commonRenderer, sizeAdapter, instructionMgr){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCreator/widgets/helpers/placeholder'
+], function(_, __, commonRenderer, sizeAdapter, instructionMgr, placeholder){
 
     'use strict';
 
@@ -38,20 +39,27 @@ define([
             if(responseMappingMode){
                 instructionMgr.appendInstruction(widget.element, __('Please define association pairs and their scores below.'));
                 interaction.responseMappingMode = true;
+
+                widget.on('mappingAttributeChange', function(data){
+                    if(data.key === 'defaultValue'){
+                        placeholder.score(widget, data.value);
+                    }
+                });
+                placeholder.score(widget);
             }else{
                 instructionMgr.appendInstruction(widget.element, __('Please define the correct association pairs below.'));
             }
 
             commonRenderer.render(interaction);
-            
+
             sizeAdapter.adaptSize(widget);
         },
         setResponse : function(interaction, response){
             var responseDeclaration = interaction.getResponseDeclaration();
             commonRenderer.setResponse(interaction, ResponseWidget.formatResponse(response, responseDeclaration.attr('cardinality')));
-            
+
             sizeAdapter.adaptSize(interaction.data('widget'));
-            
+
         },
         destroy : function(widget){
 
@@ -63,15 +71,15 @@ define([
             delete interaction.responseMappingMode;
 
             commonRenderer.renderEmptyPairs(interaction);
-            
+
             sizeAdapter.adaptSize(widget);
         },
         getResponseSummary : function(responseDeclaration){
-            
+
             var pairs = [],
                 correctResponse = _.values(responseDeclaration.getCorrect()),
                 mapEntries = responseDeclaration.getMapEntries();
-            
+
             _.each(correctResponse, function(pair) {
 
                 var sortedIdPair = pair.split(' ').sort(),
@@ -99,7 +107,7 @@ define([
                     pairs[sortedIdPairKey].score = score;
                 }
             });
-            
+
             return pairs;
         },
         formatResponse : function(response, cardinality){
@@ -110,7 +118,7 @@ define([
             } else {
                 formatedRes = {list : { pair : [] }};
             }
-            
+
             _.each(response, function(pairString){
                 var pair = pairString.split(' ');
                 if(cardinality === 'single'){
