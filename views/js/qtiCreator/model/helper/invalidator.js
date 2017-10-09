@@ -2,20 +2,20 @@ define(['lodash'], function(_){
     "use strict";
     var invalidator = {
         completelyValid : function(element){
-            
-            var item = element.getRelatedItem();
+
+            var item = element.getRootElement();
             var serial, invalidElements;
             if(item){
                 serial = element.getSerial();
                 invalidElements = item.data('invalid') || {};
-            
+
                 delete invalidElements[serial];
                 item.data('invalid', invalidElements);
             }
         },
         valid : function(element, key){
 
-            var item = element.getRelatedItem();
+            var item = element.getRootElement();
             var serial = element.getSerial();
             var invalidElements;
 
@@ -40,7 +40,7 @@ define(['lodash'], function(_){
         },
         invalid : function(element, key, message, stateName){
 
-            var item = element.getRelatedItem();
+            var item = element.getRootElement();
             var serial = element.getSerial();
             var invalidElements;
 
@@ -66,7 +66,7 @@ define(['lodash'], function(_){
         },
         isValid : function(element){
 
-            var item = element.getRelatedItem();
+            var item = element.getRootElement();
             var serial = element.getSerial();
             var invalidElements;
 

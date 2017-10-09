@@ -40,16 +40,16 @@ define([
         render : function(modalFeedback, data){
 
             data = data || {};
-            
+
             var $modal = containerHelper.get(modalFeedback);
-            
+
             $modal.waitForMedia(function(){
 
                 //when we are sure that media is loaded:
                 $modal.on('opened.modal', function(){
 
                     //set item body height
-                    var $itemBody = containerHelper.get(modalFeedback.getRelatedItem()).children('.qti-itemBody');
+                    var $itemBody = containerHelper.get(modalFeedback.getRootElement()).children('.qti-itemBody');
                     var requiredHeight = $modal.outerHeight() + parseInt($modal.css('top'));
                     if(requiredHeight > $itemBody.height()){
                         $itemBody.height(requiredHeight);

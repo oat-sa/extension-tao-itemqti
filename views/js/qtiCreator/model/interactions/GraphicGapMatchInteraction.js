@@ -15,20 +15,20 @@ define([
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
     _.extend(methods, {
-        
+
 
         /**
-         * Once the interaction model is created, 
-         * we set the responsivness and create a default response 
-         */ 
+         * Once the interaction model is created,
+         * we set the responsivness and create a default response
+         */
         afterCreate : function(){
-            var relatedItem = this.getRelatedItem();
+            var relatedItem = this.getRootElement();
             var isResponsive = relatedItem.data('responsive');
 
             if(isResponsive === true){
                 this.addClass('responsive');
             }
-            
+
             this.createResponse({
                 baseType : 'directedPair',
                 cardinality : 'multiple'
@@ -46,9 +46,9 @@ define([
          */
         createGapImg : function(object, label){
             var gapImg = new GapImg();
-            gapImg.object.attributes = object; 
+            gapImg.object.attributes = object;
             if(label){
-                gapImg.attr('objectLabel', label); 
+                gapImg.attr('objectLabel', label);
             }
             if(!this.gapImgs){
                 this.gapImgs = [];
@@ -75,13 +75,13 @@ define([
 
             this.addChoice(choice);
             choice.buildIdentifier('associablehotspot');
-            
+
             if(this.getRenderer()){
                 choice.setRenderer(this.getRenderer());
             }
-            
+
             $(document).trigger('choiceCreated.qti-widget', {'choice' : choice, 'interaction' : this});
-           
+
             return choice;
         }
     });

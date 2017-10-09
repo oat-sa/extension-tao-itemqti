@@ -44,7 +44,7 @@ define([
                 if (options.serial) {
                     var element = Element.getElementBySerial(options.serial);
                     if (element && typeof callback === 'function') {
-                        var ids = element.getRelatedItem().getUsedIdentifiers();
+                        var ids = element.getRootElement().getUsedIdentifiers();
                         var available = (!ids[value] || ids[value].serial === element.serial);
                         callback(available);
                     }
@@ -61,7 +61,7 @@ define([
                 if (options.serial) {
                     var element = Element.getElementBySerial(options.serial);
                     if (element && typeof callback === 'function') {
-                        var ids = element.getRelatedItem().getUsedIdentifiers();
+                        var ids = element.getRootElement().getUsedIdentifiers();
                         var available = (!ids[value] || ids[value].serial === element.serial || !ids[value].is('variableDeclaration'));
                         callback(available);
                     }

@@ -27,7 +27,7 @@ define([
 
         var _widget     = this.widget,
             container   = _widget.$container[0],
-            item        = _widget.element.getRelatedItem(),
+            item        = _widget.element.getRootElement(),
             areaBroker  = _widget.getAreaBroker(),
             $modalFeedbacksArea = $('#modalFeedbacks');
 
@@ -64,7 +64,7 @@ define([
         this.widget.$container.off('.active');
         areaBroker.getContentCreatorPanelArea().off('.active.'+ this.widget.serial);
 
-        item = this.widget.element.getRelatedItem();
+        var item = this.widget.element.getRootElement();
         if(item && item.data('widget')){
             item.data('widget').$container.off('.active');
         }
