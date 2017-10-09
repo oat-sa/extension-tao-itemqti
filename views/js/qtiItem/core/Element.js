@@ -262,7 +262,7 @@ define([
         /**
          * @deprecated - use getRootElement() instead
          */
-        getReleatedItem : function(){
+        getRelatedItem : function(){
             logger.warn('Deprecated use of getRelatedItem()');
             return this.getRootElement();
         },
