@@ -100,9 +100,6 @@ define([
                     var widgets = {},
                         editor = e.editor;
 
-                    //fix ck editor combo box display issue
-                    //$('#cke_' + e.editor.name + ' .cke_combopanel').hide();
-
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
                     $editable.data('editor-options', options);
@@ -148,9 +145,6 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
-                // blur : function(){
-                //     return false;
-                // },
                 configLoaded : function(e){
                     //@todo : do we really have to wait here to initialize the config?
                     var toolbarType = '';
