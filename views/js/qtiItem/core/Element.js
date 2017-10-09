@@ -20,12 +20,18 @@ define([
     'jquery',
     'lodash',
     'class',
+    'core/logger',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/qtiItem/helper/rendererConfig'
-], function($, _, Class, util, rendererConfig){
+], function($, _, Class, loggerFactory, util, rendererConfig){
     'use strict';
 
     var _instances = {};
+
+    /**
+     * Create a logger
+     */
+    var logger = loggerFactory('taoQtiItem/qtiItem/core/Element');
 
     var Element = Class.extend({
         qtiClass : '',
@@ -233,18 +239,32 @@ define([
             }
             return null;
         },
-        setRootElement : function(item, recursive){
-
-            recursive = (typeof recursive === 'undefined') ? true : recursive;
+        /**
+         * @deprecated - use setRootElement() instead
+         */
+        setRelatedItem : function(item) {
+            logger.warn('Deprecated use of setRelatedItem()');
+            this.setRootElement(item);
+        },
+        setRootElement : function(item){
+            var composingElts,
+                i;
 
             if(Element.isA(item, 'assessmentItem')){
                 this.rootElement = item;
-                var composingElts = this.getComposingElements();
-                for(var i in composingElts){
-                    composingElts[i].setRootElement(item, false);
+                composingElts = this.getComposingElements();
+                for(i in composingElts){
+                    composingElts[i].setRootElement(item);
                 }
             }
 
+        },
+        /**
+         * @deprecated - use getRootElement() instead
+         */
+        getReleatedItem : function(){
+            logger.warn('Deprecated use of getRelatedItem()');
+            return this.getRootElement();
         },
         getRootElement : function(){
             var ret = null;
