@@ -44,21 +44,26 @@ abstract class PortableElementAssetValidator implements Validatable
      */
     public function validateAssets(PortableElementObject $object, $source, array $files=[])
     {
+        $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
+
         if (empty($files)) {
             //if no files requested, get all all assets
-            $files = $this->getAssets($object);
-        }
-        if (empty($files)) {
-            return false;
+            try{
+                $files = $this->getAssets($object);
+            }catch(PortableElementInvalidAssetException $e){
+                $subReport = \common_report_Report::createFailure($e->getMessage());
+                $errorReport->add($subReport);
+            }
         }
 
-        $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
-        foreach ($files as $key => $file) {
-            try {
-                $this->validFile($source, $file);
-            } catch (PortableElementInvalidAssetException $e) {
-                $subReport = \common_report_Report::createFailure(__('Cannot locate the file "%s"', $file));
-                $errorReport->add($subReport);
+        if (!empty($files)) {
+            foreach ($files as $key => $file) {
+                try {
+                    $this->validFile($source, $file);
+                } catch (PortableElementInvalidAssetException $e) {
+                    $subReport = \common_report_Report::createFailure(__('Cannot locate the file "%s"', $file));
+                    $errorReport->add($subReport);
+                }
             }
         }
 
@@ -95,6 +100,8 @@ abstract class PortableElementAssetValidator implements Validatable
         $files = [];
         foreach ($assets as $key => $asset) {
             $constraints = $this->getAssetConstraints($key);
+//            \common_Logger::w(print_r($object, true));
+//            \common_Logger::w(print_r($constraints, true));
             foreach ($constraints as $constraint) {
                 if (! isset($asset[$constraint])) {
                     if ($this->isOptionalConstraint($key, $constraint)) {
