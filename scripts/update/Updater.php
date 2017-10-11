@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\scripts\update;
 use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
+use oat\tao\model\asset\AssetService;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -411,7 +412,8 @@ class Updater extends \common_ext_ExtensionUpdater
         if($this->isVersion('9.11.4')){
 
             //register location of portable libs to legacy share lib aliases for backward compatibility
-            $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+            $portableSafeLibPath = $assetService->getJsBaseWww('taoQtiItem').'js/legacyPortableSharedLib';
             $clientLibRegistry = ClientLibRegistry::getRegistry();
             $clientLibRegistry->register('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
             $clientLibRegistry->register('OAT/lodash', $portableSafeLibPath . '/lodash');
@@ -439,6 +441,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('10.0.0');
         }
 
-        $this->skip('10.0.0', '10.3.0');
+        $this->skip('10.0.0', '10.3.1');
     }
 }
