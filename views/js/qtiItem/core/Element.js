@@ -20,10 +20,13 @@ define([
     'jquery',
     'lodash',
     'class',
+    'core/logger',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/qtiItem/helper/rendererConfig'
-], function($, _, Class, util, rendererConfig){
+], function($, _, Class, loggerFactory, util, rendererConfig){
     'use strict';
+
+    var logger = loggerFactory('taoQtiItem/core/Element');
 
     var _instances = {};
 
@@ -155,6 +158,9 @@ define([
             return this.removeAttributes(name);
         },
         setAttributes : function(attributes){
+            if (!_.isPlainObject(attributes)) {
+                logger.warn('attributes should be a plain object');
+            }
             this.attributes = attributes;
             return this;
         },
