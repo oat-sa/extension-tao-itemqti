@@ -37,8 +37,13 @@ define([
     };
 
     TableWidget.buildContainer = function(){
+        var table = this.element;
 
         helper.buildBlockContainer(this);
+
+        if (table.attr('class')) {
+            this.$container.addClass(table.attr('class'));
+        }
 
         return this;
     };

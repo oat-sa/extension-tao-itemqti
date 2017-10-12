@@ -48,8 +48,9 @@ define([
             object : 'Media',
             rubricBlock : 'Rubric Block',
             math : 'Math',
+            table : 'Table',
             include : 'Shared Stimulus',
-            infoControl : 'Student Tool',
+            infoControl : 'Student Tool'
         };
 
         // all sections on the right sidebar are invisible by default
