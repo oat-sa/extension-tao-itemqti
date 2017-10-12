@@ -137,10 +137,16 @@ $mainContainer : '.qti-item';
         overflow-wrap: break-word;
     }
 
+
     // MathJax reset
-    .MathJax span {
-        line-height: inherit;
-        font-size: inherit;
+    .MathJax {
+        &:focus {
+            outline: 0;
+        }
+        span {
+            line-height: inherit;
+            font-size: inherit;
+        }
     }
 
     //scope all hover, active style for delivery under the runtime class
