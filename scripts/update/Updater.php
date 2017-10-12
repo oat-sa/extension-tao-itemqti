@@ -461,8 +461,6 @@ class Updater extends \common_ext_ExtensionUpdater
                     'excludedProperties' => array(
                         taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
                         taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
-                        taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
-                        taoTests_models_classes_TestsService::TEST_TESTCONTENT_PROP,
                         taoItems_actions_form_RestItemForm::PROPERTY_ITEM_CONTENT_SRC,
                         TaoOntology::PROPERTY_LOCK,
                     ),
@@ -473,7 +471,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
 
-            $this->setVersion('10.5.3');
+            $this->setVersion('10.6.0');
         }
     }
 }

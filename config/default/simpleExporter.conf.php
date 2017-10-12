@@ -79,8 +79,6 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
                 'excludedProperties' => array(
                     taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
                     taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
-                    taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
-                    taoTests_models_classes_TestsService::TEST_TESTCONTENT_PROP,
                     taoItems_actions_form_RestItemForm::PROPERTY_ITEM_CONTENT_SRC,
                     TaoOntology::PROPERTY_LOCK,
                 ),
