@@ -29,8 +29,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/widgets/static/table/components/tableActions',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function(_, $, __, ckEditor, tableModelFactory, stateFactory, Active, tableActionsFactory, htmlEditor, contentHelper){
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/table'
+], function(_, $, __, ckEditor, tableModelFactory, stateFactory, Active, tableActionsFactory, htmlEditor, contentHelper, formElement, formTpl){
     'use strict';
 
     var tableModel,
@@ -38,15 +40,20 @@ define([
         rowActions;
 
     var css = {
-        deleteColRow: 'hoverDelete',
+        deleteColRow:   'hoverDelete',
         insertRowAfter: 'insertRowAfter',
-        insertColAfter: 'insertColAfter'
+        insertColAfter: 'insertColAfter',
+
+        hAlignCenter:   'table-center',
+        hAlignRight:    'table-right'
     };
 
     var TableStateActive = stateFactory.extend(Active, function create(){
+        this.initForm();
         this.buildEditor();
 
     }, function exit(){
+        this.widget.$form.empty();
         this.destroyEditor();
     });
 
@@ -60,6 +67,61 @@ define([
             container.body(newBody);
         }, 800);
     }
+
+    TableStateActive.prototype.initForm = function initForm(){
+        var _widget = this.widget,
+            $form   = _widget.$form,
+            table   = _widget.element,
+
+            $editableContainer  = _widget.$container,
+            $editable           = $editableContainer.find('.qti-table-container'),
+            hAlignOptions;
+
+        hAlignOptions = [{
+            name: __('Left'),
+            value: 'left'
+        }, {
+            name: __('Center'),
+            value: 'center',
+            selected: table.hasClass(css.hAlignCenter)
+        }, {
+            name: __('Right'),
+            value: 'right',
+            selected: table.hasClass(css.hAlignRight)
+        }] ;
+
+
+        $form.html(formTpl({
+            hAlignOptions: hAlignOptions
+        }));
+
+        //... init standard ui widget
+        formElement.initWidget($form);
+
+        //init data change callbacks
+        formElement.setChangeCallbacks($form, table, {
+            hAlign : function(t, value){
+                hideTableActions();
+                t.removeClass(css.hAlignRight);
+                t.removeClass(css.hAlignCenter);
+                t.removeClass('table-rgt'); //todo: remove me
+                $editableContainer.removeClass(css.hAlignRight + ' ' + css.hAlignCenter);
+                switch (value) {
+                    case 'center': {
+                        t.addClass(css.hAlignCenter);
+                        $editableContainer.addClass(css.hAlignCenter);
+                        break;
+                    }
+                    case 'right': {
+                        t.addClass(css.hAlignRight);
+                        $editableContainer.addClass(css.hAlignRight);
+                        break;
+                    }
+                }
+            }
+        });
+
+    };
 
     TableStateActive.prototype.buildEditor = function buildEditor(){
         var _widget   = this.widget,
@@ -84,8 +146,7 @@ define([
                 },
                 blur : function(){
                     _widget.changeState('sleep');
-                },
-                hideTriggerOnBlur: true
+                }
             });
         }
 
@@ -96,6 +157,7 @@ define([
                 // listener for table properties
                 $tablePropTrigger.on('click.tableActive', function openTableProperties(e){
                     e.stopPropagation();
+                    hideTableActions();
                     editor.execCommand('taoqtitableProperties');
                 });
 
@@ -119,6 +181,7 @@ define([
                         editor.execCommand('columnInsertAfter');
                         clearCellClasses($editable, css.insertColAfter);    // this is because ck clone the current cells to insert the new ones
                         this.trigger('insertColMouseEnter');                // so we don't want him to clone the "insert style"
+                        displayTableActions(editor, $editableContainer);    // we may need to reposition the toolbars in case the table is centered or right-aligned
                         updateTable();
                     })
                     .on('insertColMouseEnter', function() {
@@ -243,8 +306,12 @@ define([
      * hide components containing row and column actions
      */
     function hideTableActions() {
-        colActions.hide();
-        rowActions.hide();
+        if (colActions) {
+            colActions.hide();
+        }
+        if (rowActions) {
+            rowActions.hide();
+        }
     }
 
     /**
