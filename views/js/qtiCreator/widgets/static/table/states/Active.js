@@ -65,16 +65,14 @@ define([
                 $pseudoContainer = $('<div>').html($tableTagContent),
                 newBody = contentHelper.getContent($pseudoContainer);
             container.body(newBody);
-        }, 800);
+        }, 400);
     }
 
     TableStateActive.prototype.initForm = function initForm(){
-        var _widget = this.widget,
-            $form   = _widget.$form,
-            table   = _widget.element,
-
-            $editableContainer  = _widget.$container,
-            $editable           = $editableContainer.find('.qti-table-container'),
+        var _widget     = this.widget,
+            $form       = _widget.$form,
+            table       = _widget.element,
+            $container  = _widget.$container,
             hAlignOptions;
 
         hAlignOptions = [{
@@ -104,17 +102,16 @@ define([
                 hideTableActions();
                 t.removeClass(css.hAlignRight);
                 t.removeClass(css.hAlignCenter);
-                t.removeClass('table-rgt'); //todo: remove me
-                $editableContainer.removeClass(css.hAlignRight + ' ' + css.hAlignCenter);
+                $container.removeClass(css.hAlignRight + ' ' + css.hAlignCenter);
                 switch (value) {
                     case 'center': {
                         t.addClass(css.hAlignCenter);
-                        $editableContainer.addClass(css.hAlignCenter);
+                        $container.addClass(css.hAlignCenter);
                         break;
                     }
                     case 'right': {
                         t.addClass(css.hAlignRight);
-                        $editableContainer.addClass(css.hAlignRight);
+                        $container.addClass(css.hAlignRight);
                         break;
                     }
                 }
@@ -168,8 +165,8 @@ define([
                 })
                     .on('delete', function() {
                         editor.execCommand('columnDelete');
+                        updateTable(editor, $editableContainer);
                         hideTableActions();
-                        updateTable();
                     })
                     .on('deleteMouseEnter', function() {
                         addClassOnCurrentCol(editor, css.deleteColRow);
@@ -181,8 +178,7 @@ define([
                         editor.execCommand('columnInsertAfter');
                         clearCellClasses($editable, css.insertColAfter);    // this is because ck clone the current cells to insert the new ones
                         this.trigger('insertColMouseEnter');                // so we don't want him to clone the "insert style"
-                        displayTableActions(editor, $editableContainer);    // we may need to reposition the toolbars in case the table is centered or right-aligned
-                        updateTable();
+                        updateTable(editor, $editableContainer);
                     })
                     .on('insertColMouseEnter', function() {
                         addClassOnCurrentCol(editor, css.insertColAfter);
@@ -200,8 +196,8 @@ define([
                 })
                     .on('delete', function() {
                         editor.execCommand('rowDelete');
+                        updateTable(editor, $editableContainer);
                         hideTableActions();
-                        updateTable();
                     })
                     .on('deleteMouseEnter', function() {
                         addClassOnCurrentRow(editor, css.deleteColRow);
@@ -213,7 +209,7 @@ define([
                         editor.execCommand('rowInsertAfter');
                         clearCellClasses($editable, css.insertRowAfter);    // this is because ck clone the current cells to insert the new ones
                         this.trigger('insertRowMouseEnter');                // so we don't want him to clone the "insert style"
-                        updateTable();
+                        updateTable(editor, $editableContainer);
                     })
                     .on('insertRowMouseEnter', function() {
                         addClassOnCurrentRow(editor, css.insertRowAfter);
@@ -240,9 +236,9 @@ define([
             $editableContainer = _widget.$container,
             $editable = $editableContainer.find('[data-html-editable="true"]');
 
-        _.forEach(css, function(classId) {
-            clearCellClasses($editable, css[classId]);
-        });
+        clearCellClasses($editable, css.insertColAfter);
+        clearCellClasses($editable, css.insertRowAfter);
+        clearCellClasses($editable, css.deleteColRow);
 
         //search and destroy the editor
         htmlEditor.destroyEditor($editableContainer);
@@ -288,7 +284,10 @@ define([
         $editable.find('th, td').removeClass(className);
     }
 
-    function updateTable() {
+    /**
+     * Update the table model and the available actions on rows/columns
+     */
+    function updateTable(editor, $editableContainer) {
         tableModel.update();
         if (tableModel.getRowCount() === 1) {
             rowActions.hideDelete();
@@ -300,6 +299,8 @@ define([
         } else {
             colActions.showDelete();
         }
+        // reposition toolbars as their dimensions might have change
+        displayTableActions(editor, $editableContainer);
     }
 
     /**
