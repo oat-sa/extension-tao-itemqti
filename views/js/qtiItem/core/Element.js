@@ -30,10 +30,15 @@ define([
 
     var _instances = {};
 
+    /**
+     * Create a logger
+     */
+    var logger = loggerFactory('taoQtiItem/qtiItem/core/Element');
+
     var Element = Class.extend({
         qtiClass : '',
         serial : '',
-        relatedItem : null,
+        rootElement : null,
         init : function(serial, attributes){
 
             //init own attributes
@@ -230,7 +235,7 @@ define([
             return found;
         },
         parent : function(){
-            var item = this.getRelatedItem();
+            var item = this.getRootElement();
             if(item){
                 var found = item.find(this.getSerial());
                 if(found){
@@ -239,23 +244,37 @@ define([
             }
             return null;
         },
-        setRelatedItem : function(item, recursive){
-
-            recursive = (typeof recursive === 'undefined') ? true : recursive;
+        /**
+         * @deprecated - use setRootElement() instead
+         */
+        setRelatedItem : function(item) {
+            logger.warn('Deprecated use of setRelatedItem()');
+            this.setRootElement(item);
+        },
+        setRootElement : function(item){
+            var composingElts,
+                i;
 
             if(Element.isA(item, 'assessmentItem')){
-                this.relatedItem = item;
-                var composingElts = this.getComposingElements();
-                for(var i in composingElts){
-                    composingElts[i].setRelatedItem(item, false);
+                this.rootElement = item;
+                composingElts = this.getComposingElements();
+                for(i in composingElts){
+                    composingElts[i].setRootElement(item);
                 }
             }
 
         },
+        /**
+         * @deprecated - use getRootElement() instead
+         */
         getRelatedItem : function(){
+            logger.warn('Deprecated use of getRelatedItem()');
+            return this.getRootElement();
+        },
+        getRootElement : function(){
             var ret = null;
-            if(Element.isA(this.relatedItem, 'assessmentItem')){
-                ret = this.relatedItem;
+            if(Element.isA(this.rootElement, 'assessmentItem')){
+                ret = this.rootElement;
             }
             return ret;
         },

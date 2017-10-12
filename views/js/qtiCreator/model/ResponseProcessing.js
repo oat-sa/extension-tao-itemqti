@@ -11,17 +11,17 @@ define([
             return {};
         },
         setProcessingType : function(processingType){
-        
+
             if(this.processingType !== processingType){
-                
+
                 if(this.processingType === 'custom'){
 
                     //change all response template to default : "correct"
-                    _.each(this.getRelatedItem().getResponses(), function(r){
+                    _.each(this.getRootElement().getResponses(), function(r){
                          r.setTemplate('MATCH_CORRECT');
                     });
                 }
-                
+
                 this.processingType = processingType;
             }
 

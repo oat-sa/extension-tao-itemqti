@@ -31,7 +31,6 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'util/locale',
-    'polyfill/placeholders',
     'ui/tooltip'
 ], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale){
     'use strict';

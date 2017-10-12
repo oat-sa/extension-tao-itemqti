@@ -43,7 +43,7 @@ define([
                 return {};
             },
             getDefaultProperties : function(){
-                
+
                 var creator = registry.getCreator(this.typeIdentifier);
                 if(creator && creator.module && _.isFunction(creator.module.getDefaultProperties)){
                     return creator.getDefaultProperties(this);
@@ -70,7 +70,7 @@ define([
                     response = this.createResponse({
                         cardinality : creator.response.cardinality
                     });
-                    
+
                     //the base type is optional
                     if(creator.response.baseType){
                         response.attr('baseType', creator.response.baseType);
@@ -81,7 +81,7 @@ define([
 
                     //we ensure the info control has an identifier
                     if(!this.attr('id')){
-                        this.attr('id', util.buildId(this.getRelatedItem(), typeId));
+                        this.attr('id', util.buildId(this.getRootElement(), typeId));
                     }
                 }
 

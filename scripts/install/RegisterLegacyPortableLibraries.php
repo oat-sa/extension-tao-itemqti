@@ -22,6 +22,7 @@ namespace oat\taoQtiItem\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\asset\AssetService;
 
 /**
  * Register former portable shared libraries to make existing PCI implementation compatible
@@ -31,7 +32,8 @@ class RegisterLegacyPortableLibraries  extends InstallAction
     public function __invoke($params)
     {
         //register location of portable libs to legacy share lib aliases for backward compatibility
-        $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
+        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+        $portableSafeLibPath = $assetService->getJsBaseWww('taoQtiItem').'js/legacyPortableSharedLib';
         $clientLibRegistry = ClientLibRegistry::getRegistry();
         $clientLibRegistry->register('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
         $clientLibRegistry->register('OAT/lodash', $portableSafeLibPath . '/lodash');
