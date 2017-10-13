@@ -34,12 +34,12 @@ module.exports = function (grunt) {
     /**
      * Remove bundled and bundling files
      */
-    clean.taoqtiitembundle = [out];
+    clean.taoqtiitem_bundle = [out];
 
     /**
      * Controller
      */
-    requirejs.taoqtiitembundle = {
+    requirejs.taoqtiitem_bundle = {
         options: {
             baseUrl: '../js',
             dir: out,
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
     /**
      * Compile the qti runtime
      */
-    requirejs.qtiruntime = {
+    requirejs.taoqtiitem_runtime_bundle = {
         options: {
             baseUrl: '../js',
             dir: out,
@@ -137,7 +137,7 @@ module.exports = function (grunt) {
     /**
      * copy the bundles to the right place
      */
-    copy.taoqtiitembundle = {
+    copy.taoqtiitem_bundle = {
         files: [
             { src: [ out + '/taoQtiItem/controller/routes.js'],     dest: root + '/taoQtiItem/views/js/controllers.min.js' },
             { src: [ out + '/taoQtiItem/controller/routes.js.map'], dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
@@ -147,7 +147,7 @@ module.exports = function (grunt) {
     /**
      * copy the bundles to the right place
      */
-    copy.qtiruntime = {
+    copy.taoqtiitem_runtime_bundle = {
         files: [
             { src: [ out + '/taoQtiItem/runtime/qtiBootstrap.js.map'], dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js.map' }
         ]
@@ -187,7 +187,24 @@ module.exports = function (grunt) {
     grunt.config('replace', replace);
 
     // bundle task
-    grunt.registerTask('qtiruntime', ['clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime', 'copy:qtiruntime']);
-    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime', 'copy:qtiruntime']);
+    grunt.registerTask('qtiruntime', [
+        'clean:taoqtiitem_bundle',
+        'requirejs:taoqtiitem_runtime_bundle',
+        'uglify:qtiruntime',
+        'replace:qtiruntime',
+        'copy:taoqtiitem_runtime_bundle'
+    ]);
+    grunt.registerTask('taoqtiitembundle', [
+        // taoqtiitem_bundle
+        'clean:taoqtiitem_bundle',
+        'requirejs:taoqtiitem_bundle',
+        'copy:taoqtiitem_bundle',
+        // taoqtiitem_runtime_bundle
+        'clean:taoqtiitem_bundle',
+        'requirejs:taoqtiitem_runtime_bundle',
+        'uglify:qtiruntime',
+        'replace:qtiruntime',
+        'copy:taoqtiitem_runtime_bundle'
+    ]);
 
 };
