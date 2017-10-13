@@ -176,7 +176,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
             if ($model->getDirectoryParser() instanceof PortableElementDirectoryParser) {
                 $parsers[] = $model->getDirectoryParser();
             } else {
-                \common_Logger::e('Invalid DirectoryParser for model '.$key);
+                \common_Logger::w('Invalid DirectoryParser for model '.$key);
             }
         }
         return $parsers;

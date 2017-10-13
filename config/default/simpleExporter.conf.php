@@ -19,12 +19,16 @@
  *
  */
 
+use oat\tao\model\TaoOntology;
+use oat\taoQtiItem\model\Export\Extractor\MetaDataOntologyExtractor;
+
 return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
     'fileSystem' => 'taoQtiItem',
     'fileLocation' => 'export' . DIRECTORY_SEPARATOR . 'export.csv',
     'extractors' => array (
         'OntologyExtractor' => new \oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor(),
-        'QtiExtractor' => new \oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor()
+        'QtiExtractor' => new \oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor(),
+        'MetaDataOntologyExtractor' => new MetaDataOntologyExtractor,
     ),
     'columns' => array (
         'label' => array (
@@ -66,6 +70,18 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
             'parameters' => array (
                 'callback' => 'getChoices',
                 'valuesAsColumns' => true,
+            )
+        ),
+        'metadataProperties' => array(
+            'extractor' => 'MetaDataOntologyExtractor',
+            'parameters' => array(
+                'valuesAsColumns' => true,
+                'excludedProperties' => array(
+                    taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
+                    taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
+                    taoItems_actions_form_RestItemForm::PROPERTY_ITEM_CONTENT_SRC,
+                    TaoOntology::PROPERTY_LOCK,
+                ),
             )
         ),
     )

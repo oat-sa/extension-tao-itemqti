@@ -14,46 +14,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\model;
+namespace oat\taoQtiItem\model\Export\Extractor;
 
-trait PortableElementModelTrait
+class HashEntry
 {
-    /**
-     * @var PortableElementModel
-     */
-    protected $model;
+    /** @var  string */
+    private $key;
+
+    /** @var  array */
+    private $value;
 
     /**
-     * @return PortableElementModel
+     * @param string $key
+     * @param mixed $data
      */
-    public function getModel()
+    public function __construct($key, $data)
     {
-        return $this->model;
-    }
-
-    /**
-     * @param PortableElementModel $model
-     */
-    public function setModel(PortableElementModel $model)
-    {
-        $this->model = $model;
+        $this->key = $key;
+        $this->value = $data;
     }
 
     /**
      * @return string
      */
-    public function getModelId(){
-        return $this->model->getId();
+    public function getKey()
+    {
+        return $this->key;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getModelLabel(){
-        return $this->model->getLabel();
+    public function getValue()
+    {
+        return $this->value;
     }
 }
