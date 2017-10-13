@@ -55,7 +55,7 @@ module.exports = function (grunt) {
         options: {
             exclude: ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'],
             include: runtimeLibs,
-            out: out + '/taoQtiItem/qtiBoostrap.min.js',
+            out: out + '/taoQtiItem/qtiBootstrap.min.js',
             paths: paths
         }
     };
@@ -145,27 +145,27 @@ module.exports = function (grunt) {
             force: true
         },
         files: [
-            { dest: out + '/qtiLoader.min.js', src: ['../js/lib/require.js', root + '/taoQtiItem/views/js/runtime/qtiLoader.js'] }
+            { src: ['../js/lib/require.js', root + '/taoQtiItem/views/js/runtime/qtiLoader.js'], dest: out + '/qtiLoader.min.js', }
         ]
     };
 
     //we need to change the names of AMD modules to referr to minimified verrsions
     // todo: evaluate this. is it needed anymore?
-    replace.qtiruntime = {
-        options: {
-            patterns: [{
-                match: 'qtiBootstrap',
-                replacement: 'qtiBootstrap.min',
-                expression: false
-            }],
-            force: true,
-            prefix: ''
-        },
-        files: [
-             { src: [ out + '/taoQtiItem/runtime/qtiBootstrap.js'], dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
-             { src: [ out + '/qtiLoader.min.js'],                   dest: root + '/taoQtiItem/views/js/runtime/qtiLoader.min.js' }
-        ]
-    };
+    // replace.qtiruntime = {
+    //     options: {
+    //         patterns: [{
+    //             match: 'qtiBootstrap',
+    //             replacement: 'qtiBootstrap.min',
+    //             expression: false
+    //         }],
+    //         force: true,
+    //         prefix: ''
+    //     },
+    //     files: [
+    //          { src: [ out + '/taoQtiItem/runtime/qtiBootstrap.js'], dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
+    //          { src: [ out + '/qtiLoader.min.js'],                   dest: root + '/taoQtiItem/views/js/runtime/qtiLoader.min.js' }
+    //     ]
+    // };
 
     grunt.config('clean', clean);
     grunt.config('requirejs', requirejs);
@@ -178,19 +178,16 @@ module.exports = function (grunt) {
         'clean:taoqtiitem_bundle',
         'requirejs:taoqtiitem_runtime_bundle',
         'uglify:qtiruntime',
-        'replace:qtiruntime',
+        // 'replace:qtiruntime',
         'copy:taoqtiitem_runtime_bundle'
     ]);
     grunt.registerTask('taoqtiitembundle', [
-        // taoqtiitem_bundle
         'clean:taoqtiitem_bundle',
-        'requirejs:taoqtiitem_bundle',
+        'requirejs:taoqtiitem_bundle', // taoqtiitem_bundle
         'copy:taoqtiitem_bundle',
-        // taoqtiitem_runtime_bundle
-        'clean:taoqtiitem_bundle',
-        'requirejs:taoqtiitem_runtime_bundle',
+        'requirejs:taoqtiitem_runtime_bundle', // taoqtiitem_runtime_bundle
         'uglify:qtiruntime',
-        'replace:qtiruntime',
+        // 'replace:qtiruntime',
         'copy:taoqtiitem_runtime_bundle'
     ]);
 
