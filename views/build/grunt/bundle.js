@@ -41,13 +41,10 @@ module.exports = function (grunt) {
      */
     requirejs.taoqtiitem_bundle = {
         options: {
-            dir: out,
-            paths: paths,
-            modules: [{
-                name: 'taoQtiItem/controller/routes',
-                include: ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
-                exclude: ['mathJax'].concat(libs)
-            }]
+            exclude: ['mathJax'].concat(libs),
+            include: ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
+            out: out + '/taoQtiItem/controllers.min.js',
+            paths: paths
         }
     };
 
@@ -56,13 +53,10 @@ module.exports = function (grunt) {
      */
     requirejs.taoqtiitem_runtime_bundle = {
         options: {
-            dir: out,
-            paths: paths,
-            modules: [{
-                name: 'taoQtiItem/runtime/qtiBootstrap',
-                include: runtimeLibs,
-                exclude: ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'],
-            }]
+            exclude: ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'],
+            include: runtimeLibs,
+            out: out + '/taoQtiItem/qtiBoostrap.min.js',
+            paths: paths
         }
     };
 
@@ -129,8 +123,8 @@ module.exports = function (grunt) {
      */
     copy.taoqtiitem_bundle = {
         files: [
-            { src: [ out + '/taoQtiItem/controller/routes.js'],     dest: root + '/taoQtiItem/views/js/controllers.min.js' },
-            { src: [ out + '/taoQtiItem/controller/routes.js.map'], dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
+            { src: [ out + '/taoQtiItem/controllers.min.js'],     dest: root + '/taoQtiItem/views/js/controllers.min.js' },
+            { src: [ out + '/taoQtiItem/controllers.min.js.map'], dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
         ]
     };
 
@@ -139,11 +133,12 @@ module.exports = function (grunt) {
      */
     copy.taoqtiitem_runtime_bundle = {
         files: [
-            { src: [ out + '/taoQtiItem/runtime/qtiBootstrap.js.map'], dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js.map' }
+            { src: [ out + '/taoQtiItem/qtiBootstrap.min.js.map'], dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js.map' }
         ]
     };
 
     //the qti loader is uglify outside the r.js to split the file loading (qtiLoader.min published within the item and qtiBootstrap shared)
+    // todo: evaluate this
     uglify.qtiruntime = {
         options: {
             force: true
@@ -154,11 +149,12 @@ module.exports = function (grunt) {
     };
 
     //we need to change the names of AMD modules to referr to minimified verrsions
+    // todo: evaluate this. is it needed anymore?
     replace.qtiruntime = {
         options: {
             patterns: [{
                 match: 'qtiBootstrap',
-                replacement:  'qtiBootstrap.min',
+                replacement: 'qtiBootstrap.min',
                 expression: false
             }],
             force: true,
