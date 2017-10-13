@@ -123,8 +123,8 @@ module.exports = function (grunt) {
      */
     copy.taoqtiitem_bundle = {
         files: [
-            { src: [ out + '/taoQtiItem/controllers.min.js'],     dest: root + '/taoQtiItem/views/js/controllers.min.js' },
-            { src: [ out + '/taoQtiItem/controllers.min.js.map'], dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
+            { src: [ out + '/taoQtiItem/controllers.min.js'],     dest: root + '/taoQtiItem/views/dist/controllers.min.js' },
+            { src: [ out + '/taoQtiItem/controllers.min.js.map'], dest: root + '/taoQtiItem/views/dist/controllers.min.js.map' }
         ]
     };
 
@@ -133,7 +133,8 @@ module.exports = function (grunt) {
      */
     copy.taoqtiitem_runtime_bundle = {
         files: [
-            { src: [ out + '/taoQtiItem/qtiBootstrap.min.js.map'], dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js.map' }
+            { src: [ out + '/taoQtiItem/qtiBootstrap.min.js'],     dest: root + '/taoQtiItem/views/dist/qtiBootstrap.min.js' },
+            { src: [ out + '/taoQtiItem/qtiBootstrap.min.js.map'], dest: root + '/taoQtiItem/views/dist/qtiBootstrap.min.js.map' }
         ]
     };
 
