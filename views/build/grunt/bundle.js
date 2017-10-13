@@ -41,7 +41,7 @@ module.exports = function (grunt) {
      */
     requirejs.taoqtiitem_bundle = {
         options: {
-            exclude: ['mathJax'].concat(libs),
+            exclude: ['mathJax'].concat(libs).concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'])),
             include: ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
             out: out + '/taoQtiItem/controllers.min.js',
             paths: paths
@@ -53,7 +53,7 @@ module.exports = function (grunt) {
      */
     requirejs.taoqtiitem_runtime_bundle = {
         options: {
-            exclude: ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'],
+            exclude: ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'].concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'])),
             include: runtimeLibs,
             out: out + '/taoQtiItem/qtiBootstrap.min.js',
             paths: paths
