@@ -68,6 +68,10 @@ class Service extends tao_models_classes_Service
             $file = $this->getXmlByRdfItem($item, $langCode);
             $qtiParser = new Parser($file);
             $returnValue = $qtiParser->load();
+
+            if(is_null($returnValue) && !empty($qtiParser->getErrors())){
+                common_Logger::w($qtiParser->displayErrors(false));
+            }
             
             if($resolveXInclude && !empty($langCode)){
                 try{

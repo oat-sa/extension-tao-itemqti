@@ -226,6 +226,10 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     {
         $qtiItem  = Service::singleton()->getDataItemByRdfItem($item, $lang);
 
+        if(is_null($qtiItem)){
+            throw new taoItems_models_classes_CompilationFailedException(__('Unable to retrieve item : ' . $item->getLabel()));
+        }
+
         $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
