@@ -34,6 +34,12 @@ interface PortableElementModel extends PhpSerializable
     public function getId();
 
     /**
+     * Get the user friendly name of the model
+     * @return string
+     */
+    public function getLabel();
+
+    /**
      * @return array
      */
     public function getDefinitionFiles();

@@ -49,4 +49,11 @@ trait PortableElementModelTrait
     public function getModelId(){
         return $this->model->getId();
     }
+
+    /**
+     * @return string
+     */
+    public function getModelLabel(){
+        return $this->model->getLabel();
+    }
 }
