@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    'use strict';
 
     var watch       = grunt.config('watch') || {};
     var qunit       = grunt.config('qunit') || {};
