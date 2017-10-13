@@ -41,9 +41,7 @@ module.exports = function (grunt) {
      */
     requirejs.taoqtiitem_bundle = {
         options: {
-            baseUrl: '../js',
             dir: out,
-            mainConfigFile: './config/requirejs.build.js',
             paths: paths,
             modules: [{
                 name: 'taoQtiItem/controller/routes',
@@ -58,9 +56,7 @@ module.exports = function (grunt) {
      */
     requirejs.taoqtiitem_runtime_bundle = {
         options: {
-            baseUrl: '../js',
             dir: out,
-            mainConfigFile: './config/requirejs.build.js',
             paths: paths,
             modules: [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
@@ -75,9 +71,6 @@ module.exports = function (grunt) {
      */
     requirejs.qtinewrunner = {
         options: {
-            baseUrl: '../js',
-            mainConfigFile: './config/requirejs.build.js',
-            findNestedDependencies: true,
             uglify2: {
                 mangle: false,
                 output: {
@@ -112,10 +105,7 @@ module.exports = function (grunt) {
      */
     requirejs.qtiscorer = {
         options: {
-            baseUrl: '../js',
-            mainConfigFile: './config/requirejs.build.js',
             //optimize: 'none',
-            findNestedDependencies: true,
             uglify2: {
                 mangle: false,
                 output: {
