@@ -35,7 +35,7 @@ define([
         addChoice : function addChoice(choice, matchSet){
             matchSet = parseInt(matchSet);
             if(this.choices[matchSet]){
-                choice.setRelatedItem(this.getRelatedItem() || null);
+                choice.setRootElement(this.getRootElement() || null);
                 this.choices[matchSet][choice.getSerial()] = choice;
             }
         },

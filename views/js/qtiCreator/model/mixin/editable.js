@@ -29,7 +29,7 @@ define([
     var _removeSelf = function(element){
 
         var removed = false,
-            related = element.getRelatedItem();
+            related = element.getRootElement();
 
         if(related){
 

@@ -34,7 +34,7 @@ define([
         },
         addGapImg : function addGapImg(gapImg){
             if(Element.isA(gapImg, 'gapImg')){
-                gapImg.setRelatedItem(this.getRelatedItem() || null);
+                gapImg.setRootElement(this.getRootElement() || null);
                 this.gapImgs[gapImg.getSerial()] = gapImg;
             }
         },

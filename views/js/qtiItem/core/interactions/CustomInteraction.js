@@ -60,7 +60,7 @@ define([
             if(this.markupNs && this.markupNs.name && this.markupNs.uri){
                 return _.clone(this.markupNs);
             }else{
-                var relatedItem = this.getRelatedItem();
+                var relatedItem = this.getRootElement();
                 if(relatedItem){
                     //set the default one:
                     relatedItem.namespaces[this.defaultMarkupNsName] = this.defaultMarkupNsUri;
@@ -97,13 +97,13 @@ define([
                 _.each(this.pciReadyCallbacks, function(fn){
                     fn.call(_this, pci);
                 });
-                
+
                 //empty the stack of ready callbacks
                 this.pciReadyCallbacks = [];
-                
+
                 //mark the interaction as ready
                 this.data('pciReady', true);
-                
+
             }else{
                 throw 'cannot trigger pci ready when no pci is actually attached to the interaction';
             }
@@ -140,11 +140,11 @@ define([
             return this;
         }
     });
-    
+
     //add portable element standard functions
     CustomElement.augment(CustomInteraction);
     NamespacedElement.augment(CustomInteraction);
-    
+
     return CustomInteraction;
 });
 

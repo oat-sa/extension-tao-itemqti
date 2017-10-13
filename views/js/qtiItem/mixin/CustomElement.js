@@ -42,7 +42,7 @@ define([
             if(this.markupNs && this.markupNs.name && this.markupNs.uri){
                 return _.clone(this.markupNs);
             }else{
-                var relatedItem = this.getRelatedItem();
+                var relatedItem = this.getRootElement();
                 if(relatedItem){
                     //set the default one:
                     relatedItem.namespaces[this.defaultMarkupNsName] = this.defaultMarkupNsUri;
