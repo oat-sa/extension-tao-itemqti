@@ -53,7 +53,7 @@ module.exports = function (grunt) {
      */
     requirejs.taoqtiitem_runtime_bundle = {
         options: {
-            exclude: ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'].concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'])),
+            exclude: ['json!i18ntr/messages.json', 'mathJax'].concat(libs).concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'])),
             include: runtimeLibs,
             out: out + '/taoQtiItem/qtiBootstrap.min.js',
             paths: paths
