@@ -4,7 +4,7 @@ define([
     'i18n',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/helper/popup',
-    'lib/farbtastic/farbtastic'
+    'farbtastic'
 ], function ($, _, __, styleEditor, popup) {
     'use strict';
 
