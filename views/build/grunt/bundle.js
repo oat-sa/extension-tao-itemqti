@@ -15,13 +15,6 @@ module.exports = function (grunt) {
     var uglify    = grunt.config('uglify') || {};
 
     ext = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-
-    /**
-     * Resolve AMD modules in the current extension
-     */
-    creatorLibs = ext.getExtensionSources('taoQtiItem', ['views/js/qtiCreator/**/*.js', 'views/js/qtiXmlRenderer/renderers/**/*.js', '!views/js/qtiCreator/test/**/*.js'], true);
-    runtimeLibs = ext.getExtensionSources('taoQtiItem', ['views/js/qtiItem/core/**/*.js', 'views/js/qtiCommonRenderer/renderers/**/*.js', 'views/js/qtiCommonRenderer/helpers/**/*.js'], true);
-
     paths = {
         taoQtiItem:                  root + '/taoQtiItem/views/js',
         taoQtiItemCss:               root + '/taoQtiItem/views/css',
@@ -30,6 +23,12 @@ module.exports = function (grunt) {
         qtiCustomInteractionContext: root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
         qtiInfoControlContext:       root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
     };
+
+    /**
+     * Resolve AMD modules in the current extension
+     */
+    creatorLibs = ext.getExtensionSources('taoQtiItem', ['views/js/qtiCreator/**/*.js', 'views/js/qtiXmlRenderer/renderers/**/*.js', '!views/js/qtiCreator/test/**/*.js'], true);
+    runtimeLibs = ext.getExtensionSources('taoQtiItem', ['views/js/qtiItem/core/**/*.js', 'views/js/qtiCommonRenderer/renderers/**/*.js', 'views/js/qtiCommonRenderer/helpers/**/*.js'], true);
 
     /**
      * Remove bundled and bundling files
