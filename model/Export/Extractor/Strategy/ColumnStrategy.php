@@ -57,6 +57,10 @@ class ColumnStrategy implements Strategy
      */
     public function toArray()
     {
+        if (empty($this->dataArray)) {
+            return [];
+        }
+
         if ($this->hasOnlyOneProperty) {
             return $this->dataArray;
         }
