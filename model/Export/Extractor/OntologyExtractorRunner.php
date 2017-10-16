@@ -32,6 +32,8 @@ class OntologyExtractorRunner
      * @param core_kernel_classes_Property $classProperty
      *
      * @return HashEntry
+     * @throws \oat\taoQtiItem\model\flyExporter\extractor\ExtractorException
+     * @throws \Exception
      */
     public static function run(core_kernel_classes_Resource $item, core_kernel_classes_Property $classProperty)
     {

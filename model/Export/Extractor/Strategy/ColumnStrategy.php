@@ -34,6 +34,9 @@ class ColumnStrategy implements Strategy
     /** @var  boolean */
     private $hasOnlyOneProperty;
 
+    /** @var  int */
+    private $keyOccurence;
+
     /**
      * @param bool $hasOnlyOneProperty
      * @param string $column
@@ -42,6 +45,7 @@ class ColumnStrategy implements Strategy
     {
         $this->hasOnlyOneProperty = $hasOnlyOneProperty;
         $this->column = $column;
+        $this->keyOccurence = 1;
     }
 
     /**
@@ -49,7 +53,13 @@ class ColumnStrategy implements Strategy
      */
     public function addHashEntry(HashEntry $hashEntry)
     {
-        $this->dataArray[$hashEntry->getKey()] = $hashEntry->getValue();
+        $key = $hashEntry->getKey();
+        if (array_key_exists($key, $this->dataArray)) {
+            $newKeyName = $this->generateDuplicateName($key);
+            $this->dataArray[$newKeyName] = $hashEntry->getValue();
+        }else{
+            $this->dataArray[$key] = $hashEntry->getValue();
+        }
     }
 
     /**
@@ -67,5 +77,21 @@ class ColumnStrategy implements Strategy
         return [
             $this->column => $this->dataArray
         ];
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    protected function generateDuplicateName($key)
+    {
+        $newKey = $key . ' ('.$this->keyOccurence.')';
+
+        if (array_key_exists($newKey, $this->dataArray)) {
+            $this->keyOccurence++;
+            return $this->generateDuplicateName($key);
+        }
+
+        return $newKey;
     }
 }
