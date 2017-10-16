@@ -57,6 +57,10 @@ class DefaultStrategy implements Strategy
      */
     public function toArray()
     {
+        if (empty($this->dataArray)) {
+            return [];
+        }
+
         return [
             $this->column => implode(OntologyExtractor::DEFAULT_PROPERTY_DELIMITER, $this->dataArray)
         ];
