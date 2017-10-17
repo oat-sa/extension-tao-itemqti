@@ -41,7 +41,8 @@ abstract class CustomInteraction extends Interaction
     
     protected $typeIdentifier = '';//to be set in advance, read only, non editable
     protected $markup = '';
-    
+    protected $ns = null;
+
     public function getMarkup(){
         return $this->markup;
     }
@@ -85,7 +86,14 @@ abstract class CustomInteraction extends Interaction
         
         $markup = $parser->getBodyData($data->item(0), true);
         $this->setMarkup($markup);
-
     }
 
+    public function setNs($xmlns){
+        //rename to getNamespace() ?
+        $this->ns = $xmlns;
+    }
+
+    public function getNs(){
+        return $this->ns;
+    }
 }

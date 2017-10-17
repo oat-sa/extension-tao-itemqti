@@ -411,6 +411,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         portableElement.entryPoint = data.entryPoint;
         portableElement.properties = data.properties;
         portableElement.libraries = data.libraries;
+        portableElement.xmlns = data.xmlns;
     }
 
     return Loader;

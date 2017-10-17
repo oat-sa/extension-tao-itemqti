@@ -91,6 +91,9 @@ define([
                 //set pci namespace to item
                 this.getNamespace();
 
+                //TODO fix this
+                this.xmlns = creator.xmlns;
+
                 //after create
                 //@todo need afterCreate() to return a promise
                 if(_.isFunction(creatorModule.afterCreate)){

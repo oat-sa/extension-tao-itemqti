@@ -1568,16 +1568,22 @@ class ParserFactory
 
         if (!empty($pciClass)) {
 
-            $xmlns = '';
+            $ns = null;
             foreach($this->item->getNamespaces() as $name => $uri){
                 if($pciClass::NS_URI === $uri){
-                    $xmlns = $name;
+                    $ns = new QtiNamespace($uri, $name);
+                }
+            }
+            if(is_null($ns)){
+                $pciNodes = $this->queryXPathChildren(array('portableCustomInteraction'), $data);
+                if($pciNodes->length){
+                    $ns = new QtiNamespace($pciNodes->item(0)->getAttribute('xmlns'));
                 }
             }
 
             //use tao's implementation of portable custom interaction
             $interaction = new $pciClass($this->extractAttributes($data), $this->item);
-            $interaction->feed($this, $data, $xmlns);
+            $interaction->feed($this, $data, $ns);
         }else{
 
             $ciClass = '';

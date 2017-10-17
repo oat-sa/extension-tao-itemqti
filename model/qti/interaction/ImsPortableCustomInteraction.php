@@ -26,6 +26,7 @@ use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
 use oat\taoQtiItem\model\qti\PortableElementTrait;
+use oat\taoQtiItem\model\qti\QtiNamespace;
 
 /**
  * The ImsPortableCustomInteraction is the class of the official IMS PCI v1 implementation
@@ -125,6 +126,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
         $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
         $returnValue['config'] = $this->config;
         $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection($this->getModules(), $filterVariableContent, $filtered);
+        $returnValue['xmlns']  = $this->getNs()->getUri();
 
         return $returnValue;
     }
@@ -151,12 +153,15 @@ class ImsPortableCustomInteraction extends CustomInteraction
      * @throws InvalidArgumentException
      * @throws QtiModelException
      */
-    public function feed(ParserFactory $parser, DOMElement $data, $xmlns = ''){
+    public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null){
 
-        $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
+        $this->setNs($xmlns);
+        $xmlnsName = $xmlns->getName();
+
+        $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlnsName);
         if(!$pciNodes->length) {
-            $xmlns = '';//even if a namespace has been defined, it may not be used
-            $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlns);
+            $xmlnsName = '';//even if a namespace has been defined, it may not be used
+            $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlnsName);
         }
         if(!$pciNodes->length) {
             throw new QtiModelException('no ims portableCustomInteraction node found');
@@ -174,7 +179,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
             $this->setVersion($version);
         }
 
-        $rootModulesNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules'), $data, $xmlns);
+        $rootModulesNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules'), $data, $xmlnsName);
         foreach($rootModulesNodes as $rootModulesNode){
             $config = [];
             if($rootModulesNode->getAttribute('primaryConfiguration')){
@@ -186,7 +191,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
             $this->setConfig($config);
         }
 
-        $moduleNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules', 'module'), $data, $xmlns);
+        $moduleNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'modules', 'module'), $data, $xmlnsName);
         foreach($moduleNodes as $libNode){
             $id = $libNode->getAttribute('id');
             $paths = [];
@@ -199,13 +204,13 @@ class ImsPortableCustomInteraction extends CustomInteraction
             $this->addModule($id, $paths);
         }
 
-        $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $xmlns);
+        $propertyNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $xmlnsName);
         if($propertyNodes->length){
-            $properties = $this->extractProperties($propertyNodes->item(0), $xmlns);
+            $properties = $this->extractProperties($propertyNodes->item(0), $xmlnsName);
             $this->setProperties($properties);
         }
 
-        $markupNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'markup'), $data, $xmlns);
+        $markupNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'markup'), $data, $xmlnsName);
         if($markupNodes->length){
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);
