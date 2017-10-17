@@ -20,11 +20,14 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/PrintedVariable',
-    'taoQtiItem/qtiCreator/widgets/static/printedVariable/Widget'
-], function($, _, Renderer, Widget){
+    'taoQtiItem/qtiCreator/widgets/static/printedVariable/Widget',
+    'tpl!taoQtiItem/qtiCreator/tpl/printedVariable'
+], function($, _, Renderer, Widget, tpl){
     'use strict';
 
     var CreatorPrintedVariable = _.clone(Renderer);
+
+    CreatorPrintedVariable.template = tpl;
 
     CreatorPrintedVariable.render = function(printedVariable, options){
         options = options || {};
