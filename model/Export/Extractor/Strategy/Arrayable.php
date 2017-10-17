@@ -14,46 +14,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  *
  */
 
-namespace oat\taoQtiItem\model\portableElement\model;
+namespace oat\taoQtiItem\model\Export\Extractor\Strategy;
 
-trait PortableElementModelTrait
+interface Arrayable
 {
     /**
-     * @var PortableElementModel
+     * Get the instance as an array.
+     *
+     * @return array
      */
-    protected $model;
-
-    /**
-     * @return PortableElementModel
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * @param PortableElementModel $model
-     */
-    public function setModel(PortableElementModel $model)
-    {
-        $this->model = $model;
-    }
-
-    /**
-     * @return string
-     */
-    public function getModelId(){
-        return $this->model->getId();
-    }
-
-    /**
-     * @return string
-     */
-    public function getModelLabel(){
-        return $this->model->getLabel();
-    }
+    public function toArray();
 }

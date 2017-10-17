@@ -3,6 +3,16 @@
 .widget-table {
     display: inline-block;
 
+    &.table-center {
+        display: table;
+        margin: 0 auto;
+    }
+
+    &.table-right {
+        display: table;
+        margin: 0 0 0 auto;
+    }
+
     .qti-table-container {
         border: 0;
     }

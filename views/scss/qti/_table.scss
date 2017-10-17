@@ -3,6 +3,16 @@ table {
     &.qti-table {
         border: 1px solid $websiteBorder;
 
+        &.table-center {
+            display: table;
+            margin: 0 auto;
+        }
+
+        &.table-right {
+            display: table;
+            margin: 0 0 0 auto;
+        }
+
         tr {
             &:nth-child(even) {
                 background: white;
