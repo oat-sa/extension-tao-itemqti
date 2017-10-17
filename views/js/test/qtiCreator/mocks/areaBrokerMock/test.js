@@ -53,7 +53,7 @@ define([
             'itemPropertyPanel',
             'itemStylePanel',
             'modalContainer',
-            'qtiElementProperties'
+            'elementPropertyPanel'
         ];
         var broker = areaBrokerMock();
 
@@ -99,7 +99,7 @@ define([
             'itemPropertyPanel',
             'itemStylePanel',
             'modalContainer',
-            'qtiElementProperties'
+            'elementPropertyPanel'
         ];
         var broker = areaBrokerMock($container, areas);
 
@@ -130,7 +130,7 @@ define([
             'itemPropertyPanel',
             'itemStylePanel',
             'modalContainer',
-            'qtiElementProperties'
+            'elementPropertyPanel'
         ];
         var broker = areaBrokerMock($container, areas);
 

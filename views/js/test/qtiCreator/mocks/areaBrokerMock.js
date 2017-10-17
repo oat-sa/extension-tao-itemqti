@@ -50,7 +50,7 @@ define([
         'itemPropertyPanel',
         'itemStylePanel',
         'modalContainer',
-        'qtiElementProperties'
+        'elementPropertyPanel'
     ];
 
     /**

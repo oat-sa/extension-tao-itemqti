@@ -51,9 +51,9 @@ define([
         'contentCreatorPanel',
         'propertyPanel',
         'itemPropertyPanel',
+        'elementPropertyPanel',
         'itemStylePanel',
-        'modalContainer',
-        'qtiElementProperties'
+        'modalContainer'
     ];
 
     /**
