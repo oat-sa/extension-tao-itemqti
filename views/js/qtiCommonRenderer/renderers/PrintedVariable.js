@@ -19,10 +19,9 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/printedVariable',
     'taoQtiItem/qtiCommonRenderer/helpers/container'
-], function(Promise, tpl, containerHelper){
+], function(tpl, containerHelper){
     'use strict';
 
     return {
