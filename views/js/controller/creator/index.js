@@ -57,7 +57,7 @@ define([
             'itemPropertyPanel':    $('#sidebar-right-item-properties', $container),
             'itemStylePanel':       $('#item-style-editor-bar', $container),
             'modalContainer':       $('#modal-container', $container),
-            'qtiElementProperties': $('#item-editor-body-element-property-bar .panel', $container)
+            'elementPropertyPanel': $('#item-editor-body-element-property-bar .panel', $container)
         });
     };
 
