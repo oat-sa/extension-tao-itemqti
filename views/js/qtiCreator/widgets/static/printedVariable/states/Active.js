@@ -48,7 +48,7 @@ define([
             $form            = _widget.$form,
             rootElement      = printedVarEl.getRootElement();
 
-        var outcomes = rootElement.data('getOutcomes') && rootElement.data('getOutcomes')();
+        var outcomes = _.isFunction(rootElement.data('getOutcomes')) && rootElement.data('getOutcomes')();
 
         outcomes = (outcomes || []).map(function(entry) {
             var selected = (printedVarEl.attr('identifier') === entry);
