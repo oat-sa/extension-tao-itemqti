@@ -38,6 +38,10 @@ define([
                 field:            '',
                 mappingIndicator: '='
             };
+        },
+
+        isEmpty: function isEmpty() {
+            return !this.attr('identifier');
         }
     });
     return PrintedVariable.extend(methods);

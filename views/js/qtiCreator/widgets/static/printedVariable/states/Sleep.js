@@ -24,7 +24,7 @@ define([
 ], function(stateFactory, SleepState){
     'use strict';
 
-    var PrintedVariableStateSleep = stateFactory.extend(SleepState, function(){}, function(){});
+    var PrintedVariableStateSleep = stateFactory.extend(SleepState);
 
     return PrintedVariableStateSleep;
 });

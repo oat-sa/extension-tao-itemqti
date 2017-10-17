@@ -24,11 +24,7 @@ define([
     'use strict';
 
     var PrintedVariable = Element.extend({
-        qtiClass : 'printedVariable',
-
-        isEmpty: function isEmpty() {
-            return !this.attr('identifier');
-        }
+        qtiClass : 'printedVariable'
     });
 
     return PrintedVariable;
