@@ -355,7 +355,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     public function importPortableElements()
     {
         if (count($this->importingFiles) != count($this->requiredFiles)) {
-            throw new \common_Exception('Needed files are missing during Portable Element asset files');
+            throw new \common_Exception('Needed files are missing during Portable Element asset files '.print_r($this->requiredFiles, true). ' '.print_r($this->importingFiles, true));
         }
 
         /** @var PortableElementObject $object */
