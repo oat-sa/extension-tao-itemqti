@@ -18,7 +18,7 @@ define(function(){
          */
         register : function(pciHook){
             //@todo check pciHook validity
-            window._pciHooks[pciHook.getTypeIdentifier()] = pciHook;
+            window._pciHooks[typeof pciHook.getTypeIdentifier === 'function' ? pciHook.getTypeIdentifier() : pciHook.typeIdentifier] = pciHook;
         },
         /**
          * notify when a custom interaction is ready for test taker interaction
