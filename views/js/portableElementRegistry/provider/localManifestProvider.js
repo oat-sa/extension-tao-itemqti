@@ -120,7 +120,7 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                             manifest = useSource(manifest);
 
                             manifest.baseUrl = window.location.origin + '/' +
-                                _portableElementManifests[id].replace(/^([a-zA-Z]*)\/(.*)\/(pciCreator.json$)/, '$1/views/js/$2');
+                                _portableElementManifests[id].replace(/^([a-zA-Z]*)\/(.*)\/([a-zA-Z]*)(Creator.json$)/, '$1/views/js/$2');
                             _registry[id] = [setPortableElementPrefix(manifest, id)];
                         }
                     });
