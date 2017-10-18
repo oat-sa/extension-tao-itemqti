@@ -21,8 +21,4 @@
 $attributes = get_data('attributes');
 $attributes = empty($attributes) ? '' : ' '.$attributes;//add space if not empty
 ?>
-<?php if(trim(get_data('body') == '')):?>
-<<?=get_data('tag')?><?=$attributes?>/>
-<?php else:?>
-<<?=get_data('tag')?><?=$attributes?>><?=get_data('body')?></<?=get_data('tag')?>>
-<?php endif;?>
+<?php if(trim(get_data('body') == '')):?><<?=get_data('tag')?><?=$attributes?>/><?php else:?><<?=get_data('tag')?><?=$attributes?>><?=get_data('body')?></<?=get_data('tag')?>><?php endif;?>
