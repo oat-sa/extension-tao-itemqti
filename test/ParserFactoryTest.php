@@ -194,6 +194,8 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(substr_count($bodyContent, 'tooltip-content'), 1, 'Tooltip content tags have been parsed and removed from body except one');
         $this->assertTrue(strpos($bodyContent, '<span data-role="tooltip-content" aria-hidden="true" id="tooltip_ORPHAN">') !== false, 'The remaining tooltip content tag is the correct one');
+        $this->assertTrue(strpos($bodyContent, '<span data-role="tooltip-target" aria-describedby="tooltip_IDONTEXIST">') !== false, 'Tooltip with no corresponding content has not been parsed');
+        $this->assertTrue(strpos($bodyContent, '<span data-role="tooltip-target" aria-describedby="">I\'m orphan</span>') !== false, 'Tooltip with no content id has not been parsed');
     }
 
     public function testParseTooltipInPrompt() {
