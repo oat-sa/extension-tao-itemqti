@@ -201,6 +201,16 @@ class ParserFactory
             }
         }
 
+        $tooltipNodes = $this->queryXPath(".//*[@data-role='tooltip-target']", $data);
+        foreach($tooltipNodes as $tooltipNode){
+            $tooltip = $this->buildTooltip($tooltipNode);
+            if(!is_null($tooltip)){
+                $bodyElements[$tooltip->getSerial()] = $tooltip;
+
+                $this->replaceNode($tooltipNode, $tooltip);
+            }
+        }
+
         $objectNodes = $this->queryXPath(".//*[name(.)='object']", $data);
         foreach($objectNodes as $objectNode){
             if(!in_array('object', $this->getAncestors($objectNode))){
@@ -1407,6 +1417,14 @@ class ParserFactory
 
         $attributes = $this->extractAttributes($data);
         $returnValue = new Img($attributes);
+
+        return $returnValue;
+    }
+
+    private function buildTooltip(DOMElement $data){
+
+        $attributes = $this->extractAttributes($data);
+        $returnValue = new Tooltip($attributes);
 
         return $returnValue;
     }

@@ -133,4 +133,49 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue(strpos($mathSerial, 'math_') === 0, 'second element is a math, with serial: ' . $mathSerial);
 
     }
+
+    public function testParseTooltipInItemBody() {
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/xml/qtiv2p2/tooltip.xml');
+        $parser = new ParserFactory($xml);
+        $result = $parser->load();
+
+        $body                = $result->getBody();
+        $bodyElements        = $body->getElements();
+        $bodyElementsSerials = array_keys($bodyElements);
+
+        $choiceInteractionSerial = $bodyElementsSerials[0];
+        $tooltip1Serial          = $bodyElementsSerials[1];
+
+        $this->assertEquals(2, count($bodyElements), 'item body contains 2 top level elements');
+        $this->assertTrue(strpos($choiceInteractionSerial, 'interaction_choiceinteraction') === 0, 'first element is a choice interaction, with serial: ' . $choiceInteractionSerial);
+        $this->assertTrue(strpos($tooltip1Serial, '_tooltip') === 0, 'second element is a tooltip, with serial: ' . $tooltip1Serial);
+
+
+        /*
+
+        $this->assertEquals(1, count($bodyElements), 'item body contains 1 top level element');
+        $this->assertEquals($tableElement->getQtiTag(), 'table', 'table has the right Qti Class: ' . $tableElement->getQtiTag());
+        $this->assertEquals($tableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index with the correct value');
+
+        $tableBody = $tableElement->getBody();
+
+        $this->assertTrue(strpos($tableBody->getSerial(), 'container_containertable_') === 0, 'tableBody is a containerTable with serial ' . $tableBody->getSerial());
+        $this->assertTrue(strpos($tableBody->getBody(), 'Female') !== false, 'tableBody contains the expected string ');
+
+        $tableElements          = $tableBody->getElements();
+        $tableElementsSerials   = array_keys($tableElements);
+        $this->assertEquals(2, count($tableElements), 'table body contains 2 elements');
+
+        $imgSerial  = $tableElementsSerials[0];
+        $mathSerial = $tableElementsSerials[1];
+
+        $this->assertTrue(strpos($imgSerial, 'img_') === 0, 'first element is an image, with serial: ' . $imgSerial);
+        $this->assertTrue(strpos($mathSerial, 'math_') === 0, 'second element is a math, with serial: ' . $mathSerial);
+        */
+
+    }
+
+    // Test Tooltip parsing
+
 }
