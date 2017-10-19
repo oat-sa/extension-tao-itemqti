@@ -24,11 +24,20 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-class Tooltip extends Element
+use oat\taoQtiItem\model\qti\container\ContainerTooltip;
+use oat\taoQtiItem\model\qti\container\FlowContainer;
+
+class Tooltip extends Element implements FlowContainer
 {
 
     protected static $qtiTagName = '_tooltip';
     protected $content = '';
+    protected $body = null;
+
+    public function __construct($attributes, Item $relatedItem = null, $serial = ''){
+        parent::__construct($attributes, $relatedItem, $serial);
+        $this->body = new ContainerTooltip();
+    }
 
     public function getUsedAttributes(){
         return array();
@@ -58,6 +67,10 @@ class Tooltip extends Element
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $returnValue['content'] = (string) $this->content;
         return $returnValue;
+    }
+
+    public function getBody() {
+        return $this->body;
     }
 
 }

@@ -1442,6 +1442,9 @@ class ParserFactory
 
                 // remove the tooltip content node so it does not pollute the markup
                 $tooltipContent->parentNode->removeChild($tooltipContent);
+
+                // Set the tooltip target
+                $this->parseContainerStatic($data, $tooltip->getBody());
             }
         }
         return $tooltip;

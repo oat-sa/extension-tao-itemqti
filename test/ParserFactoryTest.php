@@ -162,11 +162,12 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
         $tooltip1Content = 'This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.';
         $tooltip2Content = 'Some say that the word "tooltip" does not really exist.';
 
+        $this->assertEquals('inline interaction container', $tooltip1->getBody(), 'tooltip 1 target is ' . $tooltip1->getBody());
         $this->assertEquals('_tooltip', $tooltip1->getQtiTag(), 'tooltip 1 QtiTag is ' . $tooltip1->getQtiTag());
         $this->assertEquals('tooltip-target', $tooltip1->getAttributeValue('data-role'), 'tooltip 1 data-role attribute is ' . $tooltip1->getAttributeValue('data-role'));
         $this->assertEquals('tooltip_1', $tooltip1->getAttributeValue('aria-describedby'), 'tooltip 1 aria-describedby attribute is ' . $tooltip1->getAttributeValue('aria-describedby'));
         $this->assertEquals(
-            'This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.',
+            $tooltip1Content,
             $tooltip1->getContent(),
             'tooltip 1 has the right content'
         );
@@ -175,11 +176,12 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($tooltip1Content, $tooltip1Array['content'], 'tooltip 1 content has been serialized correctly');
         $this->assertEquals('_tooltip', $tooltip1Array['qtiClass'], 'tooltip 1 qtiClass is correct');
 
+        $this->assertEquals('tooltip', $tooltip2->getBody(), 'tooltip 2 target is ' . $tooltip2->getBody());
         $this->assertEquals('_tooltip', $tooltip2->getQtiTag(), 'tooltip 2 QtiTag is ' . $tooltip2->getQtiTag());
         $this->assertEquals('tooltip-target', $tooltip2->getAttributeValue('data-role'), 'tooltip 2 data-role attribute is ' . $tooltip2->getAttributeValue('data-role'));
         $this->assertEquals('tooltip_4', $tooltip2->getAttributeValue('aria-describedby'), 'tooltip 2 aria-describedby attribute is ' . $tooltip2->getAttributeValue('aria-describedby'));
         $this->assertEquals(
-            'Some say that the word "tooltip" does not really exist.',
+            $tooltip2Content,
             $tooltip2->getContent(),
             'toolip 2 has the right content'
         );
@@ -191,6 +193,99 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
         $bodyContent = $body->getBody();
 
         $this->assertTrue(strpos($bodyContent, 'tooltip-content') === false, 'Tooltip content tags have been parsed and removed from body');
+    }
+
+    public function testParseTooltipInPrompt() {
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/xml/qtiv2p2/tooltip.xml');
+        $parser = new ParserFactory($xml);
+        $result = $parser->load();
+
+        $body                = $result->getBody();
+        $bodyElements        = $body->getElements();
+        $bodyElementsSerials = array_keys($bodyElements);
+
+        $choiceInteractionSerial = $bodyElementsSerials[0];
+
+        $choiceInteraction = $bodyElements[$choiceInteractionSerial];
+
+        $prompt                 = $choiceInteraction->getPrompt();
+        $promptElements         = $prompt->getElements();
+        $promptElementsSerials  = array_keys($promptElements);
+
+        $tooltipSerial = $promptElementsSerials[0];
+
+        $this->assertEquals(1, count($promptElements), 'prompt body contains 1 element');
+        $this->assertTrue(strpos($tooltipSerial, '_tooltip') === 0, 'element is a tooltip, with serial: ' . $tooltipSerial);
+
+        $tooltip = $promptElements[$tooltipSerial];
+
+        $tooltipContent = 'The text before the question.';
+
+        $this->assertEquals('prompt', $tooltip->getBody(), 'tooltip target is ' . $tooltip->getBody());
+        $this->assertEquals('_tooltip', $tooltip->getQtiTag(), 'tooltip QtiTag is ' . $tooltip->getQtiTag());
+        $this->assertEquals('tooltip-target', $tooltip->getAttributeValue('data-role'), 'tooltip data-role attribute is ' . $tooltip->getAttributeValue('data-role'));
+        $this->assertEquals('tooltip_3', $tooltip->getAttributeValue('aria-describedby'), 'tooltip aria-describedby attribute is ' . $tooltip->getAttributeValue('aria-describedby'));
+        $this->assertEquals(
+            $tooltipContent,
+            $tooltip->getContent(),
+            'tooltip has the right content'
+        );
+
+        $tooltip1Array = $tooltip->toArray();
+        $this->assertEquals($tooltipContent, $tooltip1Array['content'], 'tooltip content has been serialized correctly');
+        $this->assertEquals('_tooltip', $tooltip1Array['qtiClass'], 'tooltip qtiClass is correct');
+
+        $promptContent = $prompt->getBody();
+
+        $this->assertTrue(strpos($promptContent, 'tooltip-content') === false, 'Tooltip content tags have been parsed and removed from prompt body');
+    }
+
+    public function testParseTooltipInChoice() {
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/xml/qtiv2p2/tooltip.xml');
+        $parser = new ParserFactory($xml);
+        $result = $parser->load();
+
+        $body                = $result->getBody();
+        $bodyElements        = $body->getElements();
+        $bodyElementsSerials = array_keys($bodyElements);
+
+        $choiceInteractionSerial = $bodyElementsSerials[0];
+
+        $allChoices        = $bodyElements[$choiceInteractionSerial]->getChoices();
+        $allChoicesSerials = array_keys($allChoices);
+
+        $choice                 = $allChoices[$allChoicesSerials[0]]; // get first choice
+        $choiceElements         = $choice->getBody()->getElements();
+        $choiceElementsSerials  = array_keys($choiceElements);
+
+        $tooltipSerial = $choiceElementsSerials[0];
+
+        $this->assertEquals(1, count($choiceElements), 'choice body contains 1 element');
+        $this->assertTrue(strpos($tooltipSerial, '_tooltip') === 0, 'element is a tooltip, with serial: ' . $tooltipSerial);
+
+        $tooltip = $choiceElements[$tooltipSerial];
+
+        $tooltipContent = 'But it will <i>not</i> be revealed here.';
+
+        $this->assertEquals('word', $tooltip->getBody(), 'tooltip target is ' . $tooltip->getBody());
+        $this->assertEquals('_tooltip', $tooltip->getQtiTag(), 'tooltip QtiTag is ' . $tooltip->getQtiTag());
+        $this->assertEquals('tooltip-target', $tooltip->getAttributeValue('data-role'), 'tooltip data-role attribute is ' . $tooltip->getAttributeValue('data-role'));
+        $this->assertEquals('tooltip_2', $tooltip->getAttributeValue('aria-describedby'), 'tooltip aria-describedby attribute is ' . $tooltip->getAttributeValue('aria-describedby'));
+        $this->assertEquals(
+            $tooltipContent,
+            $tooltip->getContent(),
+            'tooltip has the right content'
+        );
+
+        $tooltip1Array = $tooltip->toArray();
+        $this->assertEquals($tooltipContent, $tooltip1Array['content'], 'tooltip content has been serialized correctly');
+        $this->assertEquals('_tooltip', $tooltip1Array['qtiClass'], 'tooltip qtiClass is correct');
+
+        $promptContent = $choice->getBody();
+
+        $this->assertTrue(strpos($promptContent, 'tooltip-content') === false, 'Tooltip content tags have been parsed and removed from choice body');
     }
 
 }
