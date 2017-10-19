@@ -18,25 +18,46 @@
  *
  */
 
+/**
+ * @author Christophe Noël <christophe@taotesting.com>
+ */
+
 namespace oat\taoQtiItem\model\qti;
 
 class Tooltip extends Element
 {
 
     protected static $qtiTagName = '_tooltip';
+    protected $content = '';
 
-    //remark: Longdesc attribute not supported
     public function getUsedAttributes(){
-        return array(
-//            'oat\\taoQtiItem\\model\\qti\\attribute\\Src',
-//            'oat\\taoQtiItem\\model\\qti\\attribute\\Alt',
-//            'oat\\taoQtiItem\\model\\qti\\attribute\\Width',
-//            'oat\\taoQtiItem\\model\\qti\\attribute\\Height'
-        );
+        return array();
     }
 
     public function getSerial() {
         return '_' . parent::getSerial();
+    }
+
+    public function getContent(){
+        return $this->content;
+    }
+
+    public function setContent($content){
+        if(empty($content)){
+            $content = strval($content);
+        }
+        if(is_string($content)){
+            $this->content = $content;
+
+        }else{
+            throw new InvalidArgumentException('a Tooltip content can only be text');
+        }
+    }
+
+    public function toArray($filterVariableContent = false, &$filtered = array()){
+        $returnValue = parent::toArray($filterVariableContent, $filtered);
+        $returnValue['content'] = (string) $this->content;
+        return $returnValue;
     }
 
 }
