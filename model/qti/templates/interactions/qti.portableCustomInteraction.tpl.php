@@ -21,8 +21,7 @@
 ?>
 <customInteraction <?=get_data('attributes')?>>
     <portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>" xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction">
-        <responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
-        <resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
+        <resources>
             <libraries>
                 <?php foreach(get_data('libraries') as $lib):?>
                 <lib id="<?=$lib?>"/>
