@@ -192,7 +192,8 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
 
         $bodyContent = $body->getBody();
 
-        $this->assertTrue(strpos($bodyContent, 'tooltip-content') === false, 'Tooltip content tags have been parsed and removed from body');
+        $this->assertEquals(substr_count($bodyContent, 'tooltip-content'), 1, 'Tooltip content tags have been parsed and removed from body except one');
+        $this->assertTrue(strpos($bodyContent, '<span data-role="tooltip-content" aria-hidden="true" id="tooltip_ORPHAN">') !== false, 'The remaining tooltip content tag is the correct one');
     }
 
     public function testParseTooltipInPrompt() {

@@ -15,6 +15,7 @@
         <p>This tooltip has no content <span data-role="tooltip-target" aria-describedby="tooltip_IDONTEXIST">I'm undefined</span></p>
         <p>This tooltip does not reference any content <span data-role="tooltip-target" aria-describedby="">I'm orphan</span></p>
         <p>This valid tooltip <span data-role="tooltip-target" aria-describedby="tooltip_4">tooltip</span>, has a content in a div far, far away.</p>
+        <p>This tooltip content does not have any target. <span data-role="tooltip-content" aria-hidden="true" id="tooltip_ORPHAN">No one will ever see me...</span></p>
       </div>
     </div>
     <div class="grid-row">
