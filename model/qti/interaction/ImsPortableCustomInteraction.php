@@ -126,7 +126,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
         $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
         $returnValue['config'] = $this->config;
         $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection($this->getModules(), $filterVariableContent, $filtered);
-        $returnValue['xmlns']  = $this->getNs()->getUri();
+        $returnValue['xmlns']  = $this->getNamespace()->getUri();
 
         return $returnValue;
     }
@@ -155,7 +155,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
      */
     public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null){
 
-        $this->setNs($xmlns);
+        $this->setNamespace($xmlns);
         $xmlnsName = $xmlns->getName();
 
         $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlnsName);

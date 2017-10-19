@@ -21,9 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
-use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use \DOMElement;
+use oat\taoQtiItem\model\qti\QtiNamespace;
 
 /**
  * The QTI custom interaction is a subclass of the main QTI Interaction class
@@ -41,6 +41,10 @@ abstract class CustomInteraction extends Interaction
     
     protected $typeIdentifier = '';//to be set in advance, read only, non editable
     protected $markup = '';
+
+    /**
+     * @var QtiNamespace
+     */
     protected $ns = null;
 
     public function getMarkup(){
@@ -88,12 +92,19 @@ abstract class CustomInteraction extends Interaction
         $this->setMarkup($markup);
     }
 
-    public function setNs($xmlns){
-        //rename to getNamespace() ?
+    /**
+     * Set the namespace used by this custom interaction
+     * @param QtiNamespace $xmlns
+     */
+    public function setNamespace(QtiNamespace $xmlns){
         $this->ns = $xmlns;
     }
 
-    public function getNs(){
+    /**
+     * Get the namespace used by this custom interaction
+     * @return QtiNamespace
+     */
+    public function getNamespace(){
         return $this->ns;
     }
 }

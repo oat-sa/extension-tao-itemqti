@@ -127,7 +127,7 @@ class PortableCustomInteraction extends CustomInteraction
         $returnValue['stylesheets'] = $this->stylesheets;
         $returnValue['mediaFiles'] = $this->mediaFiles;
         $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
-        $returnValue['xmlns']  = $this->getNs()->getUri();
+        $returnValue['xmlns']  = $this->getNamespace()->getUri();
 
         return $returnValue;
     }
@@ -160,7 +160,7 @@ class PortableCustomInteraction extends CustomInteraction
      */
     public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null){
 
-        $this->setNs($xmlns);
+        $this->setNamespace($xmlns);
         $xmlnsName = $xmlns->getName();
 
         $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $xmlnsName);
