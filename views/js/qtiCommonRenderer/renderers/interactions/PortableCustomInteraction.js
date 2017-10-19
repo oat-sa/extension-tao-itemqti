@@ -39,12 +39,12 @@ define([
     var pciReadyCallback = function pciReadyCallback(pci, state){
         //standard callback function to be implemented in a future story
         logger.info('pciReadyCallback called on PCI '+pci.typeIdentifier);
-    }
+    };
 
     var pciDoneCallback = function pciDoneCallback(pci, response, state, status){
         //standard callback function to be implemented in a future story
         logger.info('pciDoneCallback called on PCI '+pci.typeIdentifier);
-    }
+    };
 
     /**
      * Get the PCI instance associated to the interaction object
@@ -56,7 +56,7 @@ define([
     var _getPci = function _getPci(interaction, model){
 
         var pciTypeIdentifier,
-            pci = interaction.data('pci') || undefined;
+            pci = interaction.data('pci');
 
         if(!pci){
 
@@ -74,7 +74,7 @@ define([
                 }
 
             }else{
-                throw 'no custom interaction hook found for the type ' + pciTypeIdentifier;
+                throw new Error('no custom interaction hook found for the type ' + pciTypeIdentifier);
             }
         }
 
@@ -83,7 +83,7 @@ define([
 
     var _isPciModel = function _isPciModel(interaction, model){
         return (model && interaction.data('pci-model') === model);
-    }
+    };
 
     /**
      * Execute javascript codes to bring the interaction to life.
@@ -141,8 +141,8 @@ define([
                 });
 
                 //load modules
-                _.forEach(runtime.modules, function(module, id){
-                    requireEntries.push(id);
+                _.forEach(runtime.modules, function(module, name){
+                    requireEntries.push(name);
                 });
 
                 //load stylesheets
@@ -150,14 +150,12 @@ define([
                     requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
                 });
 
-                //console.log(requireEntries);
-
                 //load the entrypoint+stylesheets
                 require(requireEntries, function(){
 
                     var pci = _getPci(interaction, runtime.model);
                     var pciAssetManager = {
-                        resolve : function resolve(url){
+                        resolve : function pciAssetResolve(url){
                             var resolved = assetManager.resolveBy('portableElementLocation', url);
                             if(resolved === url || _.isUndefined(resolved)){
                                 return assetManager.resolve(url);
@@ -187,14 +185,16 @@ define([
                         }
 
                         //forward internal PCI event responseChange
-                        interaction.onPci('responseChange', function(){
-                            containerHelper.triggerResponseChangeEvent(interaction);
-                        });
+                        if(_.isFunction(pci.on)){
+                            interaction.onPci('responseChange', function(){
+                                containerHelper.triggerResponseChangeEvent(interaction);
+                            });
+                        }
 
                         return resolve();
                     }
 
-                    return reject('Unable to initialize pci "' + id + '": '+error);
+                    return reject('Unable to initialize pci "' + id + '"');
 
                 }, reject);
 

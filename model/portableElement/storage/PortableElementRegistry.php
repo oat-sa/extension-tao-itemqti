@@ -223,7 +223,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         if (! isset($portableElements[$object->getVersion()])) {
             throw new PortableElementVersionIncompatibilityException(
                 $this->getModel()->getId() . ' with identifier ' . $object->getTypeIdentifier(). ' found, '
-                . 'but version ' . $object->getVersion() . 'does not exist. Deletion impossible.'
+                . 'but version ' . $object->getVersion() . ' does not exist. Deletion impossible.'
             );
         }
 
