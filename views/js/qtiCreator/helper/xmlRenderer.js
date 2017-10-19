@@ -16,11 +16,14 @@
  * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA ;
  */
 define([
+    'core/logger',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
     'taoQtiItem/qtiItem/helper/maxScore',
-    'taoQtiItem/qtiItem/core/Element',
-], function(XmlRenderer, maxScore, Element){
+    'taoQtiItem/qtiItem/core/Element'
+], function(loggerFactory, XmlRenderer, maxScore, Element){
     'use strict';
+
+    var logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
 
     var _xmlRenderer = new XmlRenderer({
         shuffleChoices : false
@@ -37,7 +40,7 @@ define([
                 xml = element.render(_xmlRenderer);
             }
         }catch(e){
-            console.log(e);
+            logger.error(e);
         }
         return xml;
     };

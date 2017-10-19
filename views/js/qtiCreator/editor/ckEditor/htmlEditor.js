@@ -20,11 +20,12 @@ define([
     'i18n',
     'jquery',
     'ckeditor',
+    'core/promise',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
+], function(_, __, $, CKEditor, Promise, ckConfigurator, Element, contentHelper, deletingHelper){
     "use strict";
 
     var _defaults = {
@@ -96,12 +97,8 @@ define([
             },
             on : {
                 instanceReady : function(e){
-
                     var widgets = {},
                         editor = e.editor;
-
-                    //fix ck editor combo box display issue
-                    $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
@@ -113,7 +110,9 @@ define([
                         if(_.isFunction(options.change)){
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
-                    }, 100));
+                    }, 100, {
+                        leading: true
+                    }));
 
                     if(options.data && options.data.container){
 
@@ -142,10 +141,9 @@ define([
                         options.focus.call(this, _htmlEncode(this.getData()));
                     }
 
+                    $editable.trigger('editorfocus');
+
                     $('.qti-item').trigger('toolbarchange');
-                },
-                blur : function(){
-                    return false;
                 },
                 configLoaded : function(e){
                     //@todo : do we really have to wait here to initialize the config?
@@ -495,6 +493,7 @@ define([
          * @returns {undefined}
          */
         destroyEditor : function($container){
+            var destructTasks = [];
             _find($container, 'html-editable-container').each(function(){
 
                 var editor,
@@ -505,26 +504,30 @@ define([
                 $editable.removeAttr('contenteditable');
                 if($editable.data('editor')){
 
-                    editor = $editable.data('editor');
-                    options = $editable.data('editor-options');
+                    destructTasks.push(new Promise(function (resolve) {
+                        editor = $editable.data('editor');
+                        options = $editable.data('editor-options');
 
-                    //before destroying, ensure that data is stored
-                    if(_.isFunction(options.change)){
-                        options.change.call(editor, _htmlEncode(editor.getData()));
-                    }
-                    editor.on('destroy', function () {
-                        $editable.trigger('editordestroyed');
-                    });
+                        //before destroying, ensure that data is stored
+                        if(_.isFunction(options.change)){
+                            options.change.call(editor, _htmlEncode(editor.getData()));
+                        }
+                        editor.on('destroy', function () {
+                            $editable.removeData('editor').removeData('editor-options');
+                            if($editable.data('qti-container')){
+                                _rebuildWidgets($editable.data('qti-container'), $editable);
+                            }
 
-                    editor.focusManager.blur(true);
-                    editor.destroy();
+                            $editable.trigger('editordestroyed');
+                            resolve();
+                        });
 
-                    $editable.removeData('editor').removeData('editor-options');
-                    if($editable.data('qti-container')){
-                        _rebuildWidgets($editable.data('qti-container'), $editable);
-                    }
+                        editor.focusManager.blur(true);
+                        editor.destroy();
+                    }));
                 }
             });
+            return Promise.all(destructTasks);
         },
         /**
          * Get the editor content

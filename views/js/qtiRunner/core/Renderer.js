@@ -114,7 +114,8 @@ define([
         'simpleAssociableChoice',
         'simpleChoice',
         'infoControl',
-        'include'
+        'include',
+        'printedVariable'
     ];
 
     /**

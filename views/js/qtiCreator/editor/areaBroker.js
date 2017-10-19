@@ -48,8 +48,10 @@ define([
         'toolbar',
         'interactionPanel',
         'itemPanel',
+        'contentCreatorPanel',
         'propertyPanel',
         'itemPropertyPanel',
+        'elementPropertyPanel',
         'itemStylePanel',
         'modalContainer'
     ];
