@@ -33,10 +33,10 @@ define([
         qtiClass : 'customInteraction',
         template : tpl,
         getData : function getData(interaction, data){
+            var ns = interaction.getNamespace();
             var markupNs = interaction.getMarkupNamespace();
             data.markup = util.addMarkupNamespace(interaction.markup, markupNs ? markupNs.name : '');
-
-            data.portableCustomInteraction = _.isFunction(templates[interaction.xmlns]) ? templates[interaction.xmlns].call(null, data) : '';
+            data.portableCustomInteraction = _.isFunction(templates[ns.uri]) ? templates[ns.uri].call(null, data) : '';
             return data;
         }
     };

@@ -355,6 +355,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         $runtime = $object->toArray();
         $runtime['model'] = $object->getModelId();
+        $runtime['xmlns'] = $object->getNamespace();
         $runtime['runtime'] = $object->getRuntimeAliases();
         $runtime['creator'] = $object->getCreatorAliases();
         $runtime['baseUrl'] = $this->getBaseUrl($object);

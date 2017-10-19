@@ -26,11 +26,6 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
         runtimeOnly : []
     };
 
-    var models = {
-        IMSPCI : 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1',
-        OATPCI : 'http://www.imsglobal.org/xsd/portableCustomInteraction'
-    };
-
     var loadModuleConfig = function loadModuleConfig(manifest){
         return new Promise(function(resolve, reject){
             var requireConfigAliases = {};
@@ -173,9 +168,9 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         label : pci.label,
                         baseUrl : pci.baseUrl,
                         response : pci.response,
-                        xmlns : models[pci.model] || models['OATPCI']
+                        model : pci.model,
+                        xmlns : pci.xmlns
                     });
-                    //TODO fix xmlns declaration
                 }else{
                     this.trigger('error', {
                         message : 'no portable element runtime found',
