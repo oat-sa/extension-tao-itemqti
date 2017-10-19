@@ -87,7 +87,8 @@ define([
             'customInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/PortableCustomInteraction',
             'endAttemptInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/EndAttemptInteraction',
             'infoControl' : 'taoQtiItem/qtiXmlRenderer/renderers/PortableInfoControl',
-            'include' : 'taoQtiItem/qtiXmlRenderer/renderers/Include'
+            'include' : 'taoQtiItem/qtiXmlRenderer/renderers/Include',
+            'printedVariable' : 'taoQtiItem/qtiXmlRenderer/renderers/PrintedVariable'
         },
         options : {
             assetManager : assetManager

@@ -43,19 +43,21 @@ define([
             'menu',
             'menuLeft',
             'menuRight',
-            'title',
             'editorBar',
+            'title',
             'toolbar',
             'interactionPanel',
             'itemPanel',
+            'contentCreatorPanel',
             'propertyPanel',
             'itemPropertyPanel',
             'itemStylePanel',
-            'modalContainer'
+            'modalContainer',
+            'elementPropertyPanel'
         ];
         var broker = areaBrokerMock();
 
-        QUnit.expect(33);
+        QUnit.expect(37);
 
         assert.equal(typeof broker, 'object', "The factory creates an object");
         assert.equal(broker.getContainer().length, 1, "The container exists");
@@ -87,15 +89,17 @@ define([
             'menu',
             'menuLeft',
             'menuRight',
-            'title',
             'editorBar',
+            'title',
             'toolbar',
             'interactionPanel',
             'itemPanel',
+            'contentCreatorPanel',
             'propertyPanel',
             'itemPropertyPanel',
             'itemStylePanel',
-            'modalContainer'
+            'modalContainer',
+            'elementPropertyPanel'
         ];
         var broker = areaBrokerMock($container, areas);
 
@@ -116,19 +120,21 @@ define([
             'menu',
             'menuLeft',
             'menuRight',
-            'title',
             'editorBar',
+            'title',
             'toolbar',
             'interactionPanel',
             'itemPanel',
+            'contentCreatorPanel',
             'propertyPanel',
             'itemPropertyPanel',
             'itemStylePanel',
-            'modalContainer'
+            'modalContainer',
+            'elementPropertyPanel'
         ];
         var broker = areaBrokerMock($container, areas);
 
-        QUnit.expect(14);
+        QUnit.expect(16);
 
         assert.equal(broker.getContainer().length, 1, "The container exists");
         assert.equal(broker.getContainer().children().length, areas.length, "The container contains the exact number of areas");
