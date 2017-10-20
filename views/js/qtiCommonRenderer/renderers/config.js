@@ -53,6 +53,7 @@ define([
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
         '_simpleFeedbackRule' : false,
+        '_tooltip' : 'taoQtiItem/qtiCommonRenderer/renderers/Tooltip',
         'stylesheet' : 'taoQtiItem/qtiCommonRenderer/renderers/Stylesheet',
         'outcomeDeclaration' : false,
         'responseDeclaration' : false,
