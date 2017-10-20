@@ -26,8 +26,6 @@ define([
 ], function($, _, Class, loggerFactory, util, rendererConfig){
     'use strict';
 
-    var logger = loggerFactory('taoQtiItem/core/Element');
-
     var _instances = {};
 
     /**

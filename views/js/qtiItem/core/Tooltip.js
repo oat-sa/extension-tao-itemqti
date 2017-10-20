@@ -25,7 +25,19 @@ define([
     'use strict';
 
     var Tooltip = Element.extend({
-        qtiClass : '_tooltip'
+        qtiClass: '_tooltip',
+        content : function content(newContent){
+            if(typeof newContent === 'undefined'){
+                return this.tooltipContent;
+            }else{
+                if(typeof newContent === 'string'){
+                    this.tooltipContent = newContent;
+                }else{
+                    throw new Error('newContent must be a string');
+                }
+            }
+            return this;
+        }
     });
 
     ContainerInline.augment(Tooltip);

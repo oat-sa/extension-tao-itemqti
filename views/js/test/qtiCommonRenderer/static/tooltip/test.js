@@ -20,9 +20,10 @@
  */
 define([
     'jquery',
+    'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/static/tooltip.json'
-], function ($, qtiItemRunner, itemData) {
+], function ($, _, qtiItemRunner, itemData) {
     'use strict';
 
     var runner;
@@ -42,22 +43,69 @@ define([
     QUnit.asyncTest('renders correctly', function(assert){
         var $container = $(fixtureContainerId);
 
-        QUnit.expect(4);
+        QUnit.expect(12);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemData)
             .on('render', function(){
-                var $tooltips;
+                var $allTooltips,
+                    $tooltipContent,
+                    contentId;
 
                 assert.equal($container.children().length, 1, 'the container has an element');
 
-                $tooltips = $container.find('[data-qti-class="_tooltip"]');
+                $allTooltips = $container.find('[data-qti-class="_tooltip"]');
 
-                assert.equal($tooltips.length, 4, '4 tooltips have been found');
+                assert.equal($allTooltips.length, 4, '4 tooltips have been found');
 
-                QUnit.start();
+                $allTooltips.get(0).dispatchEvent(new Event('mouseenter'));
+                $allTooltips.trigger('mouseenter');
+
+                _.delay(function() {
+                    contentId = $allTooltips.eq(0).attr('aria-describedby');
+                    $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltipContent.length, 1, 'tooltip 1 has a content');
+                    assert.equal(
+                        $tooltipContent.text(),
+                        'This is a container for inline choices and inline text entries.',
+                        'tooltip content is correct'
+                    );
+
+                    contentId = $allTooltips.eq(1).attr('aria-describedby');
+                    $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltipContent.length, 1, 'tooltip 2 has a content');
+                    assert.equal(
+                        $tooltipContent.text(),
+                        'Some say that the word "tooltip" does not really exist.',
+                        'tooltip content is correct'
+                    );
+
+                    contentId = $allTooltips.eq(2).attr('aria-describedby');
+                    $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltipContent.length, 1, 'tooltip 3 has a content');
+                    assert.equal(
+                        $tooltipContent.text(),
+                        'The text before the question.',
+                        'tooltip content is correct'
+                    );
+
+                    contentId = $allTooltips.eq(3).attr('aria-describedby');
+                    $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltipContent.length, 1, 'tooltip 4 has a content');
+                    assert.equal(
+                        $tooltipContent.text(),
+                        'But it will not be revealed here.',
+                        'tooltip content is correct'
+                    );
+
+                    QUnit.start();
+                }, 200);
+
+            })
+            .on('error', function(err) {
+                window.console.log(err);
             })
             .init()
             .render($container);
@@ -79,6 +127,9 @@ define([
                 assert.equal($container.children().length, 1, 'the container has an element');
 
                 QUnit.start();
+            })
+            .on('error', function(err) {
+                window.console.log(err);
             })
             .init()
             .render($container);

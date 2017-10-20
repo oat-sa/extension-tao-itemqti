@@ -20,13 +20,23 @@
  */
 define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/tooltip',
-    'taoQtiItem/qtiCommonRenderer/helpers/container'
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'ui/tooltip'
 ], function(tpl, containerHelper){
     'use strict';
 
     return {
         qtiClass : '_tooltip',
         template : tpl,
-        getContainer : containerHelper.get
+        getContainer : containerHelper.get,
+        render: function render(tooltip) {
+            var $container = containerHelper.get(tooltip);
+            $container.qtip({
+                theme : 'default',
+                content: {
+                    text: tooltip.content()
+                }
+            });
+        }
     };
 });
