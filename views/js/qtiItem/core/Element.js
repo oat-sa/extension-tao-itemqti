@@ -293,10 +293,10 @@ define([
         /**
          * Render the element. Arguments are all optional and can be given in any order.
          * Argument parsing is based on argument type and is done by taoQtiItem/qtiItem/core/helpers/rendererConfig
-         * @param {Renderer} renderer - will use the given renderer to perform rendering
+         * @param {Renderer} renderer - specify which renderer to use
          * @param {jQuery} placeholder - DOM element that will be replaced by the rendered element
-         * @param {String} subclass - ???????????? If somebody knows...
          * @param {Object} data - template data for the rendering
+         * @param {String} subclass - ???????????? If somebody knows...
          * @returns {String} - the rendered element as an HTML string
          */
         render : function render(){
