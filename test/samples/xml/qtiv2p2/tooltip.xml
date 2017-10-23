@@ -22,7 +22,7 @@
       <div class="col-12">
         <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
           <prompt>
-            <p>This is a text inside a <span data-role="tooltip-target" aria-describedby="tooltip_3">QTI <strong>prompt</strong></span>    <span data-role="tooltip-content" aria-hidden="true" id="tooltip_3">The text before the question.</span></p>
+            <p>This is a text inside a <span data-role="tooltip-target" aria-describedby="tooltip_3">QTI <strong>prompt</strong></span><span data-role="tooltip-content" aria-hidden="true" id="tooltip_3">The text before the question.</span>.</p>
           </prompt>
           <simpleChoice identifier="choice_1" fixed="false" showHide="show">This choice has a <span data-role="tooltip-target" aria-describedby="tooltip_2"><i>strange</i> word</span>   <span data-role="tooltip-content" aria-hidden="true" id="tooltip_2">But it will <i>not</i> be revealed here.</span> with a strange meaning</simpleChoice>
           <simpleChoice identifier="choice_2" fixed="false" showHide="show">Not this one</simpleChoice>
