@@ -43,7 +43,7 @@ define([
                     tooltip = new Tooltip(tooltipSerial, attributes, tooltipContent),
 
                     expectedXml =
-                        '<span data-role="tooltip-target" aria-describedby="' + tooltipId + '">' + tooltipTarget + '</span>\n' +
+                        '<span data-role="tooltip-target" aria-describedby="' + tooltipId + '">' + tooltipTarget + '</span>' +
                         '<span data-role="tooltip-content" aria-hidden="true" id="' + tooltipId + '">' + tooltipContent + '</span>';
 
                 tooltip.body(tooltipTarget);
