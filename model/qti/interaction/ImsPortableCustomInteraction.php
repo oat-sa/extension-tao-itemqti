@@ -22,7 +22,6 @@
 namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
 use oat\taoQtiItem\model\qti\PortableElementTrait;
