@@ -43,7 +43,7 @@ define([
     QUnit.asyncTest('renders correctly', function(assert){
         var $container = $(fixtureContainerId);
 
-        QUnit.expect(12);
+        QUnit.expect(16);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
@@ -52,6 +52,7 @@ define([
             .on('render', function(){
                 var $allTooltips,
                     $tooltipContent,
+                    $tooltip,
                     contentId;
 
                 assert.equal($container.children().length, 1, 'the container has an element');
@@ -64,8 +65,10 @@ define([
                 $allTooltips.trigger('mouseenter');
 
                 _.delay(function() {
-                    contentId = $allTooltips.eq(0).attr('aria-describedby');
+                    $tooltip = $allTooltips.eq(0);
+                    contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltip.html().trim(), 'inline <i>interaction</i> container', 'tooltip 1 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 1 has a content');
                     assert.equal(
                         $tooltipContent.text(),
@@ -73,8 +76,10 @@ define([
                         'tooltip content is correct'
                     );
 
-                    contentId = $allTooltips.eq(1).attr('aria-describedby');
+                    $tooltip = $allTooltips.eq(1);
+                    contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltip.html().trim(), 'tooltip', 'tooltip 2 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 2 has a content');
                     assert.equal(
                         $tooltipContent.text(),
@@ -82,8 +87,10 @@ define([
                         'tooltip content is correct'
                     );
 
-                    contentId = $allTooltips.eq(2).attr('aria-describedby');
+                    $tooltip = $allTooltips.eq(2);
+                    contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltip.html().trim(), 'QTI <strong>prompt</strong>', 'tooltip 3 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 3 has a content');
                     assert.equal(
                         $tooltipContent.text(),
@@ -91,8 +98,10 @@ define([
                         'tooltip content is correct'
                     );
 
-                    contentId = $allTooltips.eq(3).attr('aria-describedby');
+                    $tooltip = $allTooltips.eq(3);
+                    contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
+                    assert.equal($tooltip.html().trim(), '<i>strange</i> word', 'tooltip 4 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 4 has a content');
                     assert.equal(
                         $tooltipContent.text(),

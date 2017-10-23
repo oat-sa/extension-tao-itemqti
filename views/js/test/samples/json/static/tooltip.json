@@ -53,7 +53,7 @@
                   },
                   "body": {
                     "serial": "container_containertooltip_59e9b565ac507824646132",
-                    "body": "word",
+                    "body": "<i>strange</i> word",
                     "elements": {},
                     "debug": {
                       "relatedItem": "item_59e9b565a9b14814497792"
@@ -129,7 +129,7 @@
               },
               "body": {
                 "serial": "container_containertooltip_59e9b565abf19328341890",
-                "body": "prompt",
+                "body": "QTI <strong>prompt</strong>",
                 "elements": {},
                 "debug": {
                   "relatedItem": "item_59e9b565a9b14814497792"
@@ -155,7 +155,7 @@
         },
         "body": {
           "serial": "container_containertooltip_59e9b565ac8cc252151254",
-          "body": "inline interaction container",
+          "body": "inline <i>interaction</i> container",
           "elements": {},
           "debug": {
             "relatedItem": "item_59e9b565a9b14814497792"
