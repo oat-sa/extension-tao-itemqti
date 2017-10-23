@@ -199,11 +199,11 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
 
         //Adjust file resource entries where {QTI_NS}/xxx/yyy is equivalent to {QTI_NS}/xxx/yyy.js
         foreach($portableElement->getLibraries() as $lib){
-            if(preg_match('/^'.$typeId.'.*\.js$/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
+            if(preg_match('/^'.$typeId.'/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
                 $librariesFiles[] = $lib.'.js';//amd modules
                 $libs[] = $lib.'.js';
             }else{
-                $libs[] = $lib;
+                $libs[] = $lib;//shared libs
             }
         }
 
