@@ -19,13 +19,26 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiItem/mixin/ContainerInline'
-], function(Element, ContainerInline){
+    'taoQtiItem/qtiItem/mixin/ContainerInline',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function(_, Element, ContainerInline, rendererConfig){
     'use strict';
 
     var Tooltip = Element.extend({
         qtiClass: '_tooltip',
+
+        init : function(serial, attributes, newContent){
+            this._super(serial, attributes);
+            this.content(newContent || '');
+        },
+
+        /**
+         * Set/get the content of the tooltip
+         * @param {String} newContent - as HTML
+         * @returns {Element|String}
+         */
         content : function content(newContent){
             if(typeof newContent === 'undefined'){
                 return this.tooltipContent;
@@ -37,6 +50,20 @@ define([
                 }
             }
             return this;
+        },
+
+        /**
+         * Adds the tooltip content to the template data
+         * @returns {*}
+         */
+        render : function(){
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer(),
+                defaultData = {
+                    'tooltipContent' : this.tooltipContent
+                };
+
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }
     });
 

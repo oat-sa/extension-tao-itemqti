@@ -290,10 +290,19 @@ define([
         getRenderer : function(){
             return this.renderer;
         },
-        render : function(){
-
+        /**
+         * Render the element. Arguments are all optional and can be given in any order.
+         * Argument parsing is based on argument type and is done by taoQtiItem/qtiItem/core/helpers/rendererConfig
+         * @param {Renderer} renderer - will use the given renderer to perform rendering
+         * @param {jQuery} placeholder - DOM element that will be replaced by the rendered element
+         * @param {String} subclass - ???????????? If somebody knows...
+         * @param {Object} data - template data for the rendering
+         * @returns {String} - the rendered element as an HTML string
+         */
+        render : function render(){
             var args = rendererConfig.getOptionsFromArguments(arguments);
             var _renderer = args.renderer || this.getRenderer();
+            var rendering;
 
             var tplData = {},
                 defaultData = {
@@ -303,7 +312,7 @@ define([
                 };
 
             if(!_renderer){
-                throw 'render: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
+                throw new Error('render: no renderer found for the element ' + this.qtiClass + ':' + this.serial);
             }
 
             if(typeof this.initContainer === 'function'){
@@ -319,7 +328,7 @@ define([
 
             tplData = _.merge(defaultData, args.data || {});
             tplData = _renderer.getData(this, tplData, args.subclass);
-            var rendering = _renderer.renderTpl(this, tplData, args.subclass);
+            rendering = _renderer.renderTpl(this, tplData, args.subclass);
             if(args.placeholder){
                 args.placeholder.replaceWith(rendering);
             }
