@@ -28,6 +28,8 @@ use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\Classif
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationSourceMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
+use taoItems_models_classes_ItemsService;
+use taoTests_models_classes_TestsService;
 
 class GenericLomOntologyClassificationExtractor implements MetadataExtractor
 {
@@ -36,10 +38,10 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
     static $excludedProperties = [
 		OntologyRdf::RDF_TYPE,
         OntologyRdfs::RDFS_LABEL,
-        \taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
-        \taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
-        \taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
-        \taoTests_models_classes_TestsService::TEST_TESTCONTENT_PROP,
+        taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
+        taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
+        taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
+        taoTests_models_classes_TestsService::PROPERTY_TEST_CONTENT,
     ];
 
     /**

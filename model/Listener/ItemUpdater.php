@@ -24,6 +24,7 @@ use oat\oatbox\filesystem\File;
 use oat\taoItems\model\event\ItemRdfUpdatedEvent;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
+use taoItems_models_classes_itemModel;
 use taoItems_models_classes_ItemsService;
 
 /**
@@ -38,11 +39,11 @@ class ItemUpdater {
      */
     public static function catchItemRdfUpdatedEvent(ItemRdfUpdatedEvent $event) {
         $rdfItem = new core_kernel_classes_Resource($event->getItemUri());
-        $type = $rdfItem->getProperty(TAO_ITEM_MODEL_PROPERTY);
+        $type = $rdfItem->getProperty(taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL);
         /*@var $directory \oat\oatbox\filesystem\Directory */
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $itemModel = $rdfItem->getPropertyValues($type);
-        if($directory->exists() && in_array(TAO_ITEM_MODEL_QTI, $itemModel)  ) {
+        if($directory->exists() && in_array(taoItems_models_classes_itemModel::CLASS_URI_QTI, $itemModel)  ) {
             /* @var $file File */
             $file = $directory->getFile(Service::QTI_ITEM_FILE);
                 
