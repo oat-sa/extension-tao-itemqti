@@ -11,7 +11,7 @@
   <itemBody>
     <div class="grid-row">
       <div class="col-12">
-        <p>This text is inside a <span data-role="tooltip-target" aria-describedby="tooltip_1">inline interaction container</span><span data-role="tooltip-content" aria-hidden="true" id="tooltip_1">This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.</span>.</p>
+        <p>This text is inside a <span data-role="tooltip-target" aria-describedby="tooltip_1">inline <i>interaction</i> container</span><span data-role="tooltip-content" aria-hidden="true" id="tooltip_1">This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.</span>.</p>
         <p>This tooltip has no content <span data-role="tooltip-target" aria-describedby="tooltip_IDONTEXIST">I'm undefined</span></p>
         <p>This tooltip does not reference any content <span data-role="tooltip-target" aria-describedby="">I'm orphan</span></p>
         <p>This valid <span data-role="tooltip-target" aria-describedby="tooltip_4">tooltip</span>, has a content in a div far, far away.</p>
@@ -22,9 +22,9 @@
       <div class="col-12">
         <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
           <prompt>
-            <p>This is a text inside a <span data-role="tooltip-target" aria-describedby="tooltip_3">prompt</span>    <span data-role="tooltip-content" aria-hidden="true" id="tooltip_3">The text before the question.</span></p>
+            <p>This is a text inside a <span data-role="tooltip-target" aria-describedby="tooltip_3">QTI <strong>prompt</strong></span>    <span data-role="tooltip-content" aria-hidden="true" id="tooltip_3">The text before the question.</span></p>
           </prompt>
-          <simpleChoice identifier="choice_1" fixed="false" showHide="show">This choice has a <span data-role="tooltip-target" aria-describedby="tooltip_2">word</span>   <span data-role="tooltip-content" aria-hidden="true" id="tooltip_2">But it will <i>not</i> be revealed here.</span> with a strange meaning</simpleChoice>
+          <simpleChoice identifier="choice_1" fixed="false" showHide="show">This choice has a <span data-role="tooltip-target" aria-describedby="tooltip_2"><i>strange</i> word</span>   <span data-role="tooltip-content" aria-hidden="true" id="tooltip_2">But it will <i>not</i> be revealed here.</span> with a strange meaning</simpleChoice>
           <simpleChoice identifier="choice_2" fixed="false" showHide="show">Not this one</simpleChoice>
           <simpleChoice identifier="choice_3" fixed="false" showHide="show">Neither has this one</simpleChoice>
         </choiceInteraction>

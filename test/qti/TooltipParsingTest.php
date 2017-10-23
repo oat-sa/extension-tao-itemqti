@@ -53,7 +53,7 @@ class TooltipParsingTest extends \PHPUnit_Framework_TestCase {
         $tooltip1Content = 'This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.';
         $tooltip2Content = 'Some say that the word "tooltip" does not really exist.';
 
-        $this->assertEquals('inline interaction container', $tooltip1->getBody(), 'tooltip 1 target is ' . $tooltip1->getBody());
+        $this->assertEquals('inline <i>interaction</i> container', $tooltip1->getBody(), 'tooltip 1 target is ' . $tooltip1->getBody());
         $this->assertEquals('_tooltip', $tooltip1->getQtiTag(), 'tooltip 1 QtiTag is ' . $tooltip1->getQtiTag());
         $this->assertEquals('tooltip-target', $tooltip1->getAttributeValue('data-role'), 'tooltip 1 data-role attribute is ' . $tooltip1->getAttributeValue('data-role'));
         $this->assertEquals('tooltip_1', $tooltip1->getAttributeValue('aria-describedby'), 'tooltip 1 aria-describedby attribute is ' . $tooltip1->getAttributeValue('aria-describedby'));
@@ -116,7 +116,7 @@ class TooltipParsingTest extends \PHPUnit_Framework_TestCase {
 
         $tooltipContent = 'The text before the question.';
 
-        $this->assertEquals('prompt', $tooltip->getBody(), 'tooltip target is ' . $tooltip->getBody());
+        $this->assertEquals('QTI <strong>prompt</strong>', $tooltip->getBody(), 'tooltip target is ' . $tooltip->getBody());
         $this->assertEquals('_tooltip', $tooltip->getQtiTag(), 'tooltip QtiTag is ' . $tooltip->getQtiTag());
         $this->assertEquals('tooltip-target', $tooltip->getAttributeValue('data-role'), 'tooltip data-role attribute is ' . $tooltip->getAttributeValue('data-role'));
         $this->assertEquals('tooltip_3', $tooltip->getAttributeValue('aria-describedby'), 'tooltip aria-describedby attribute is ' . $tooltip->getAttributeValue('aria-describedby'));
@@ -163,7 +163,7 @@ class TooltipParsingTest extends \PHPUnit_Framework_TestCase {
 
         $tooltipContent = 'But it will <i>not</i> be revealed here.';
 
-        $this->assertEquals('word', $tooltip->getBody(), 'tooltip target is ' . $tooltip->getBody());
+        $this->assertEquals('<i>strange</i> word', $tooltip->getBody(), 'tooltip target is ' . $tooltip->getBody());
         $this->assertEquals('_tooltip', $tooltip->getQtiTag(), 'tooltip QtiTag is ' . $tooltip->getQtiTag());
         $this->assertEquals('tooltip-target', $tooltip->getAttributeValue('data-role'), 'tooltip data-role attribute is ' . $tooltip->getAttributeValue('data-role'));
         $this->assertEquals('tooltip_2', $tooltip->getAttributeValue('aria-describedby'), 'tooltip aria-describedby attribute is ' . $tooltip->getAttributeValue('aria-describedby'));

@@ -63,6 +63,22 @@ class Tooltip extends Element implements FlowContainer
         }
     }
 
+    /**
+     * Add tooltip id & content to template variables
+     */
+    protected function getTemplateQtiVariables(){
+        // this is necessary because the QTI template gets a serialized string for attributes and cannot address a specific attribute
+        $tooltipId = $this->getAttributeValue('aria-describedby');
+
+        $variables = parent::getTemplateQtiVariables();
+        $variables['tooltipId'] = $tooltipId;
+        $variables['content'] = (string) $this->getContent();
+        return $variables;
+    }
+
+    /**
+     * Add tooltip content to element serialization
+     */
     public function toArray($filterVariableContent = false, &$filtered = array()){
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $returnValue['content'] = (string) $this->content;
