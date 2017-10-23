@@ -31,15 +31,20 @@ define([
         var renderer = xmlRenderer
             .get()
             .load(function() {
-                var tooltipTarget = 'my target',
-                    tooltipContent = 'my tooltip content',
-                    tooltipSerial = '_tooltip_4568613547893',
+                var tooltipTarget   = 'my target',
+                    tooltipContent  = 'my tooltip content',
+                    tooltipSerial   = '_tooltip_4568613547893',
+                    tooltipId       = '_tooltip_ID',
+                    attributes      = {
+                        'aria-describedby': tooltipId,
+                        'data-role': 'tooltip-target'
+                    },
 
-                    tooltip = new Tooltip(tooltipSerial, {}, tooltipContent),
+                    tooltip = new Tooltip(tooltipSerial, attributes, tooltipContent),
 
                     expectedXml =
-                        '<span data-role="tooltip-target" aria-describedby="' + tooltipSerial + '">' + tooltipTarget + '</span>\n' +
-                        '<span data-role="tooltip-content" aria-hidden="true" id="' + tooltipSerial + '">' + tooltipContent + '</span>';
+                        '<span data-role="tooltip-target" aria-describedby="' + tooltipId + '">' + tooltipTarget + '</span>\n' +
+                        '<span data-role="tooltip-content" aria-hidden="true" id="' + tooltipId + '">' + tooltipContent + '</span>';
 
                 tooltip.body(tooltipTarget);
                 tooltip.setRenderer(renderer);
