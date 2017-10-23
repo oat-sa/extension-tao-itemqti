@@ -60,7 +60,7 @@ define([
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 defaultData = {
-                    'tooltipContent' : this.tooltipContent
+                    'content' : this.tooltipContent
                 };
 
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
