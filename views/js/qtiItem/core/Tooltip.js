@@ -54,7 +54,6 @@ define([
 
         /**
          * Adds the tooltip content to the template data
-         * @returns {*}
          */
         render : function(){
             var args = rendererConfig.getOptionsFromArguments(arguments),
