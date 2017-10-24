@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use DOMNode;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
@@ -198,8 +199,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             return $report;
         }
 
-        $dom->preserveWhiteSpace = true;
-        $dom->formatOutput = true;
         if(($content = $dom->saveXML()) === false){
             $report->setMessage($this->getExportErrorMessage(__('invalid QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
@@ -284,6 +283,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             /** @var \DOMElement $resourcesNode */
             $resourcesNode = $currentPortableNode->getElementsByTagName('resources')->item(0);
 
+            $this->removeOldNode($resourcesNode, 'libraries');
+            $this->removeOldNode($resourcesNode, 'stylesheets');
+            $this->removeOldNode($resourcesNode, 'mediaFiles');
+
             // Portable libraries
             $librariesNode = $dom->createElement($localNs . 'libraries');
             foreach ($portableElement->getRuntimeKey('libraries') as $library) {
@@ -295,7 +298,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 );
                 $librariesNode->appendChild($libraryNode);
             }
-            $this->removeOldNode($xpath, $resourcesNode, $ns, 'libraries');
             if ($librariesNode->hasChildNodes()) {
                 $resourcesNode->appendChild($librariesNode);
             }
@@ -314,7 +316,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $stylesheetNode->setAttribute('title', basename($stylesheet, '.' . $info['extension']));
                 $stylesheetsNode->appendChild($stylesheetNode);
             }
-            $this->removeOldNode($xpath, $resourcesNode, $ns, 'stylesheets');
             if ($stylesheetsNode->hasChildNodes()) {
                 $resourcesNode->appendChild($stylesheetsNode);
             }
@@ -332,7 +333,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 ));
                 $mediaFilesNode->appendChild($mediaFileNode);
             }
-            $this->removeOldNode($xpath, $resourcesNode, $ns, 'mediaFiles');
             if ($mediaFilesNode->hasChildNodes()) {
                 $resourcesNode->appendChild($mediaFilesNode);
             }
@@ -439,13 +439,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return $this->metadataExporter;
     }
 
-    protected function removeOldNode($xpath, $resourcesNode, $ns, $nodeName){
-        $oldLibrariesNode = $xpath->query('.//'.$nodeName, $resourcesNode);
-        if($oldLibrariesNode->length === 0){
-            $oldLibrariesNode = $xpath->query('.//'.$ns . ':' . $nodeName, $resourcesNode);
+    protected function removeOldNode(DOMNode $resourcesNode, $nodeName){
+        $xpath = new \DOMXPath($resourcesNode->ownerDocument);
+        $oldNodeList = $xpath->query('.//*[local-name(.) = "'.$nodeName.'"]', $resourcesNode);
+        if ($oldNodeList->length > 0) {
+            foreach($oldNodeList as $oldNode){
+                $resourcesNode->removeChild($oldNode);
+            }
         }
-        if ($oldLibrariesNode->length > 0) {
-            $resourcesNode->removeChild($oldLibrariesNode->item(0));
-        }
+        unset($xpath);
     }
 }
