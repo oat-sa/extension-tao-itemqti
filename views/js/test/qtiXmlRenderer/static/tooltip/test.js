@@ -19,10 +19,9 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Tooltip',
     'taoQtiItem/qtiCreator/helper/xmlRenderer'
-], function(Loader, Tooltip, xmlRenderer) {
+], function(Tooltip, xmlRenderer) {
     'use strict';
 
     QUnit.module('XML Renderer');

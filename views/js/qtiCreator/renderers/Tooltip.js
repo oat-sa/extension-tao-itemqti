@@ -21,8 +21,8 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Tooltip',
-    'taoQtiItem/qtiCreator/widgets/static/tooltip/Widget',
-    // 'tpl!taoQtiItem/qtiCreator/tpl/table'
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/Widget'
+    // 'tpl!taoQtiItem/qtiCreator/tpl/tooltip'
 ], function(_, Renderer, Widget/*, tpl*/){
     'use strict';
 
@@ -31,7 +31,6 @@ define([
     // CreatorTooltip.template = tpl;
 
     CreatorTooltip.render = function(tooltip, options){
-
         Widget.build(
             tooltip,
             Renderer.getContainer(tooltip),
