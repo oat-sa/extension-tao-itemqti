@@ -17,6 +17,5 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 $attributes = get_data('attributes');
-$attributes = empty($attributes) ? '' : ' '.$attributes;//add space if not empty
 ?>
 <span<?=$attributes ?>><?=get_data('body')?></span><span data-role="tooltip-content" aria-hidden="true" id="<?= get_data('tooltipId') ?>"><?=get_data('content')?></span>
