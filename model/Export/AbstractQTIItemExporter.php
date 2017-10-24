@@ -284,12 +284,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             /** @var \DOMElement $resourcesNode */
             $resourcesNode = $currentPortableNode->getElementsByTagName('resources')->item(0);
 
-
-            $this->removeOldNode($xpath, $resourcesNode, $ns, 'libraries');
-
             // Portable libraries
             $librariesNode = $dom->createElement($localNs . 'libraries');
             foreach ($portableElement->getRuntimeKey('libraries') as $library) {
+                $library = preg_replace('/^'.$identifier.'\//', './', $library);
                 $libraryNode = $dom->createElement($localNs . 'lib');
                 //the exported lib id must be adapted from a href mode to an amd name mode
                 $libraryNode->setAttribute(
@@ -297,14 +295,15 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 );
                 $librariesNode->appendChild($libraryNode);
             }
+            $this->removeOldNode($xpath, $resourcesNode, $ns, 'libraries');
             if ($librariesNode->hasChildNodes()) {
                 $resourcesNode->appendChild($librariesNode);
             }
 
-
             // Portable stylesheets
             $stylesheetsNode = $dom->createElement($localNs . 'stylesheets');
             foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
+                $stylesheet = preg_replace('/^'.$identifier.'\//', './', $stylesheet);
                 $stylesheetNode = $dom->createElement($localNs . 'link');
                 $stylesheetNode->setAttribute(
                     'href', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$stylesheet]
@@ -320,10 +319,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $resourcesNode->appendChild($stylesheetsNode);
             }
 
-
             // Portable mediaFiles
             $mediaFilesNode = $dom->createElement($localNs . 'mediaFiles');
             foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
+                $mediaFile = preg_replace('/^'.$identifier.'\//', './', $mediaFile);
                 $mediaFileNode = $dom->createElement($localNs . 'file');
                 $mediaFileNode->setAttribute(
                     'src', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
