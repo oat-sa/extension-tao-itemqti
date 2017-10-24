@@ -22,25 +22,21 @@
 <customInteraction <?=get_data('attributes')?>>
     <portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>" xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction">
         <resources>
-            <libraries>
+            <?php if(count(get_data('libraries'))):?><libraries>
                 <?php foreach(get_data('libraries') as $lib):?>
                 <lib id="<?=$lib?>"/>
                 <?php endforeach;?>
-            </libraries>
-            <?php if(count(get_data('stylesheets'))):?>
-            <stylesheets>
+            </libraries><?php endif;?>
+            <?php if(count(get_data('stylesheets'))):?><stylesheets>
                 <?php foreach(get_data('stylesheets') as $stylesheet):?>
                 <link href="<?=$stylesheet?>" type="text/css" title="base"/>
                 <?php endforeach;?>
-            </stylesheets>
-            <?php endif;?>
-            <?php if(count(get_data('mediaFiles'))):?>
-            <mediaFiles>
+            </stylesheets><?php endif;?>
+            <?php if(count(get_data('mediaFiles'))):?><mediaFiles>
                 <?php foreach(get_data('mediaFiles') as $file):?>
                 <file src="<?=$file?>"/>
                 <?php endforeach;?>
-            </mediaFiles>
-            <?php endif;?>
+            </mediaFiles><?php endif;?>
         </resources>
         <?=get_data('serializedProperties')?>
         <markup>

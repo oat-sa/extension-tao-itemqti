@@ -1,19 +1,15 @@
 <infoControl {{{join attributes '=' ' ' '"'}}}>
-    <{{ns.pic}}portableInfoControl infoControlTypeIdentifier="{{typeIdentifier}}" hook="{{entryPoint}}">
-
-        <{{ns.pic}}resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
-            <{{ns.pic}}libraries>
+    <portableInfoControl infoControlTypeIdentifier="{{typeIdentifier}}" hook="{{entryPoint}}" xmlns="http://www.imsglobal.org/xsd/portableInfoControl">
+        <resources>
+            <libraries>
                 {{#each libraries}}
-                <{{../ns.pic}}lib id="{{.}}"/>
+                <lib id="{{.}}"/>
                 {{/each}}
-            </{{ns.pic}}libraries>
-        </{{ns.pic}}resources>
-
-        {{{portableElementProperties properties ns.pic}}}
-
-        <{{ns.pic}}markup>
+            </libraries>
+        </resources>
+        {{{portableElementProperties properties ''}}}
+        <markup>
             {{{markup}}}
-        </{{ns.pic}}markup>
-
-    </{{ns.pic}}portableInfoControl>
+        </markup>
+    </portableInfoControl>
 </infoControl>

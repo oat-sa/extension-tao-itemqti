@@ -31,6 +31,11 @@ trait PortableElementTrait
     protected $config = array();
     protected $modules = array();
 
+    /**
+     * @var QtiNamespace
+     */
+    protected $ns = null;
+
     public function getConfig(){
         return $this->config;
     }
@@ -150,5 +155,21 @@ trait PortableElementTrait
         }
 
         return $properties;
+    }
+
+    /**
+     * Set the namespace used by this custom interaction
+     * @param QtiNamespace $xmlns
+     */
+    public function setNamespace(QtiNamespace $xmlns){
+        $this->ns = $xmlns;
+    }
+
+    /**
+     * Get the namespace used by this custom interaction
+     * @return QtiNamespace
+     */
+    public function getNamespace(){
+        return $this->ns;
     }
 }

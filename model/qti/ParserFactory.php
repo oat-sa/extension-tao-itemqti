@@ -1503,18 +1503,18 @@ class ParserFactory
     }
 
     /**
-     * Return the list of registered PCI php subclasses
+     * Return the list of registered php portable element subclasses
      * @return array
      */
-    private function getPciClasses(){
-        $pciClasses = [];
+    private function getPortableElementSubclasses($superClassName){
+        $subClasses = [];
         foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
             $portableElementClass = $model->getQtiElementClassName();
-            if(is_subclass_of($portableElementClass, '\\oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction')){
-                $pciClasses[] = $portableElementClass;
+            if(is_subclass_of($portableElementClass, $superClassName)){
+                $subClasses[] = $portableElementClass;
             }
         }
-        return $pciClasses;
+        return $subClasses;
     }
 
     /**
@@ -1524,33 +1524,41 @@ class ParserFactory
      * @param DOMElement $data
      * @return null
      */
-    private function getPciClass(DOMElement $data){
+    private function getPortableElementClass(DOMElement $data, $superClassName, $portableElementNodeName){
 
-        $pciClasses = $this->getPciClasses();
+        $portableElementClasses = $this->getPortableElementSubclasses($superClassName);
 
         //start searching from globally declared namespace
         foreach($this->item->getNamespaces() as $name => $uri){
-            foreach($pciClasses as $class){
+            foreach($portableElementClasses as $class){
                 if($uri === $class::NS_URI
-                    && $this->queryXPathChildren(array('portableCustomInteraction'), $data, $name)->length){
+                    && $this->queryXPathChildren(array($portableElementNodeName), $data, $name)->length){
                     return $class;
                 }
             }
         }
 
         //not found as a global namespace definition, try local namespace
-        if($this->queryXPathChildren(array('portableCustomInteraction'), $data)->length){
-            $pciNode = $this->queryXPathChildren(array('portableCustomInteraction'), $data)[0];
+        if($this->queryXPathChildren(array($portableElementNodeName), $data)->length){
+            $pciNode = $this->queryXPathChildren(array($portableElementNodeName), $data)[0];
             $xmlns = $pciNode->getAttribute('xmlns');
-            foreach($pciClasses as $pciClass){
-                if($pciClass::NS_URI === $xmlns){
-                    return $pciClass;
+            foreach($portableElementClasses as $phpClass){
+                if($phpClass::NS_URI === $xmlns){
+                    return $phpClass;
                 }
             }
         }
 
-        //not a known PCI type
+        //not a known portable element type
         return null;
+    }
+
+    private function getPciClass(DOMElement $data){
+        return $this->getPortableElementClass($data, 'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction', 'portableCustomInteraction');
+    }
+
+    private function getPicClass(DOMElement $data){
+        return $this->getPortableElementClass($data, 'oat\\taoQtiItem\\model\\qti\\InfoControl', 'portableInfoControl');
     }
 
     /**
@@ -1607,28 +1615,6 @@ class ParserFactory
     }
 
     /**
-     * Get the namespace of the portable custom interaction
-     *
-     * @deprecated should instead use item name space and registered PciModels like getPciClasses()
-     * @return string
-     */
-    public function getPciNamespace(){
-        return 'pci';
-    }
-
-    /**
-     * Check if the node is dom element is a valid portable info control one
-     *
-     * @param DOMElement $data
-     * @return boolean
-     */
-    private function isPicNode(DOMElement $data){
-
-        $ns = $this->getPicNamespace();
-        return (boolean) $this->queryXPathChildren(array('portableInfoControl'), $data, $ns)->length;
-    }
-
-    /**
      * Parse and build a info control
      *
      * @param DOMElement $data
@@ -1639,14 +1625,26 @@ class ParserFactory
 
         $infoControl = null;
 
-        if($this->isPicNode($data)){
+        $picClass = $this->getPicClass($data);
 
-            // throws an exception if pic not present
-            PortableModelRegistry::getRegistry()->getModel('PIC');
+        if(!empty($picClass)){
+
+            $ns = null;
+            foreach($this->item->getNamespaces() as $name => $uri){
+                if($picClass::NS_URI === $uri){
+                    $ns = new QtiNamespace($uri, $name);
+                }
+            }
+            if(is_null($ns)){
+                $pciNodes = $this->queryXPathChildren(array('portableInfoControl'), $data);
+                if($pciNodes->length){
+                    $ns = new QtiNamespace($pciNodes->item(0)->getAttribute('xmlns'));
+                }
+            }
 
             //use tao's implementation of portable custom interaction
             $infoControl = new PortableInfoControl($this->extractAttributes($data), $this->item);
-            $infoControl->feed($this, $data);
+            $infoControl->feed($this, $data, $ns);
         }else{
 
             $ciClass = '';
@@ -1668,15 +1666,4 @@ class ParserFactory
 
         return $infoControl;
     }
-
-    /**
-     * Get the namespace of the portable info control
-     *
-     * @return string
-     */
-    public function getPicNamespace(){
-        //@todo : implement this properly
-        return 'pic';
-    }
-
 }

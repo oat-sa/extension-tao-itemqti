@@ -138,7 +138,7 @@ class PortableInfoControl extends InfoControl
         $variables['libraries'] = $this->libraries;
         $variables['stylesheets'] = $this->stylesheets;
         $variables['mediaFiles'] = $this->mediaFiles;
-        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties, self::NS_NAME, self::NS_URI);
+        $variables['serializedProperties'] = $this->serializePortableProperties($this->properties);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
         $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$nsMarkup.':$2', $variables['markup']);
@@ -146,56 +146,66 @@ class PortableInfoControl extends InfoControl
         return $variables;
     }
 
-    public function feed(ParserFactory $parser, DOMElement $data){
+    public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null){
 
-        $ns = $parser->getPicNamespace();
+        $this->setNamespace($xmlns);
+        $xmlnsName = $xmlns->getName();
 
-        $pciNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $ns);
-        if(!$pciNodes->length) {
+        $picNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $xmlnsName);
+        if(!$picNodes->length) {
+            $xmlnsName = '';//even if a namespace has been defined, it may not be used
+            $picNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $xmlnsName);
+        }
+        if(!$picNodes->length) {
+            throw new QtiModelException('no oat portableInfoControl node found');
+        }
+
+        $picNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $xmlnsName);
+        if(!$picNodes->length) {
             throw new QtiModelException('no portableInfoControl node found');
         }
 
-        $typeIdentifier = $pciNodes->item(0)->getAttribute('infoControlTypeIdentifier');
+        $typeIdentifier = $picNodes->item(0)->getAttribute('infoControlTypeIdentifier');
         if(empty($typeIdentifier)){
             throw new QtiModelException('the type identifier of the pic is missing');
         }else{
             $this->setTypeIdentifier($typeIdentifier);
         }
-        $this->setEntryPoint($pciNodes->item(0)->getAttribute('hook'));
+        $this->setEntryPoint($picNodes->item(0)->getAttribute('hook'));
 
-        $version = $pciNodes->item(0)->getAttribute('version');
+        $version = $picNodes->item(0)->getAttribute('version');
         if($version){
             $this->setVersion($version);
         }
 
-        $libNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'libraries', 'lib'), $data, $ns);
+        $libNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'libraries', 'lib'), $data, $xmlnsName);
         $libs = array();
         foreach($libNodes as $libNode){
             $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
 
-        $stylesheetNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'stylesheets', 'link'), $data, $ns);
+        $stylesheetNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'stylesheets', 'link'), $data, $xmlnsName);
         $stylesheets = array();
         foreach($stylesheetNodes as $styleNode){
             $stylesheets[] = $styleNode->getAttribute('href');
         }
         $this->setStylesheets($stylesheets);
 
-        $mediaNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'mediaFiles', 'file'), $data, $ns);
+        $mediaNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'mediaFiles', 'file'), $data, $xmlnsName);
         $media = array();
         foreach($mediaNodes as $mediaNode){
             $media[] = $mediaNode->getAttribute('src');
         }
         $this->setMediaFiles($media);
 
-        $propertyNodes = $parser->queryXPathChildren(array('portableInfoControl', 'properties'), $data, $ns);
+        $propertyNodes = $parser->queryXPathChildren(array('portableInfoControl', 'properties'), $data, $xmlnsName);
         if($propertyNodes->length){
-            $properties = $this->extractProperties($propertyNodes->item(0), $ns);
+            $properties = $this->extractProperties($propertyNodes->item(0), $xmlnsName);
             $this->setProperties($properties);
         }
 
-        $markupNodes = $parser->queryXPathChildren(array('portableInfoControl', 'markup'), $data, $ns);
+        $markupNodes = $parser->queryXPathChildren(array('portableInfoControl', 'markup'), $data, $xmlnsName);
         if($markupNodes->length){
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);

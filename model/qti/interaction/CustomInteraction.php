@@ -42,11 +42,6 @@ abstract class CustomInteraction extends Interaction
     protected $typeIdentifier = '';//to be set in advance, read only, non editable
     protected $markup = '';
 
-    /**
-     * @var QtiNamespace
-     */
-    protected $ns = null;
-
     public function getMarkup(){
         return $this->markup;
     }
@@ -90,21 +85,5 @@ abstract class CustomInteraction extends Interaction
         
         $markup = $parser->getBodyData($data->item(0), true);
         $this->setMarkup($markup);
-    }
-
-    /**
-     * Set the namespace used by this custom interaction
-     * @param QtiNamespace $xmlns
-     */
-    public function setNamespace(QtiNamespace $xmlns){
-        $this->ns = $xmlns;
-    }
-
-    /**
-     * Get the namespace used by this custom interaction
-     * @return QtiNamespace
-     */
-    public function getNamespace(){
-        return $this->ns;
     }
 }
