@@ -251,6 +251,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             /** @var \DOMElement $currentPortableNode */
             $currentPortableNode = $portableElementNodes->item($i);
 
+            //get the local namespace prefix to be used in new node creation
+            $localNs = $currentPortableNode->hasAttribute('xmlns') ? '' : $ns.':';
+
+            //get the portable element type identifier
             $identifier = $currentPortableNode->getAttribute($typeIdentifierAttributeName);
 
             if (! isset($portableElementsToExport[$identifier])) {
@@ -281,20 +285,17 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $resourcesNode = $currentPortableNode->getElementsByTagName('resources')->item(0);
 
 
+            $this->removeOldNode($xpath, $resourcesNode, $ns, 'libraries');
+
             // Portable libraries
-            $librariesNode = $dom->createElement($ns.':libraries');
+            $librariesNode = $dom->createElement($localNs . 'libraries');
             foreach ($portableElement->getRuntimeKey('libraries') as $library) {
-                $libraryNode = $dom->createElement($ns.':lib');
+                $libraryNode = $dom->createElement($localNs . 'lib');
                 //the exported lib id must be adapted from a href mode to an amd name mode
                 $libraryNode->setAttribute(
                     'id', preg_replace('/\.js$/', '', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$library])
                 );
                 $librariesNode->appendChild($libraryNode);
-            }
-
-            $oldLibrariesNode = $xpath->query('.//'.$ns.':libraries', $resourcesNode);
-            if ($oldLibrariesNode->length > 0) {
-                $resourcesNode->removeChild($oldLibrariesNode->item(0));
             }
             if ($librariesNode->hasChildNodes()) {
                 $resourcesNode->appendChild($librariesNode);
@@ -302,9 +303,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
 
             // Portable stylesheets
-            $stylesheetsNode = $dom->createElement($ns.':stylesheets');
+            $stylesheetsNode = $dom->createElement($localNs . 'stylesheets');
             foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
-                $stylesheetNode = $dom->createElement($ns.':link');
+                $stylesheetNode = $dom->createElement($localNs . 'link');
                 $stylesheetNode->setAttribute(
                     'href', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$stylesheet]
                 );
@@ -314,19 +315,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $stylesheetNode->setAttribute('title', basename($stylesheet, '.' . $info['extension']));
                 $stylesheetsNode->appendChild($stylesheetNode);
             }
-            $oldStylesheetsNode = $xpath->query('.//'.$ns.':stylesheets', $resourcesNode);
-            if ($oldStylesheetsNode->length > 0) {
-                $resourcesNode->removeChild($oldStylesheetsNode->item(0));
-            }
+            $this->removeOldNode($xpath, $resourcesNode, $ns, 'stylesheets');
             if ($stylesheetsNode->hasChildNodes()) {
                 $resourcesNode->appendChild($stylesheetsNode);
             }
 
 
             // Portable mediaFiles
-            $mediaFilesNode = $dom->createElement($ns.':mediaFiles');
+            $mediaFilesNode = $dom->createElement($localNs . 'mediaFiles');
             foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
-                $mediaFileNode = $dom->createElement($ns.':file');
+                $mediaFileNode = $dom->createElement($localNs . 'file');
                 $mediaFileNode->setAttribute(
                     'src', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
                 );
@@ -335,11 +333,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 ));
                 $mediaFilesNode->appendChild($mediaFileNode);
             }
-            $oldMediaFilesNode = $xpath->query('.//'.$ns.':mediaFiles', $resourcesNode);
-            if ($oldMediaFilesNode->length > 0) {
-                $resourcesNode->removeChild($oldMediaFilesNode->item(0));
-            }
-
+            $this->removeOldNode($xpath, $resourcesNode, $ns, 'mediaFiles');
             if ($mediaFilesNode->hasChildNodes()) {
                 $resourcesNode->appendChild($mediaFilesNode);
             }
@@ -446,4 +440,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return $this->metadataExporter;
     }
 
+    protected function removeOldNode($xpath, $resourcesNode, $ns, $nodeName){
+        $oldLibrariesNode = $xpath->query('.//'.$nodeName, $resourcesNode);
+        if($oldLibrariesNode->length === 0){
+            $oldLibrariesNode = $xpath->query('.//'.$ns . ':' . $nodeName, $resourcesNode);
+        }
+        if ($oldLibrariesNode->length > 0) {
+            $resourcesNode->removeChild($oldLibrariesNode->item(0));
+        }
+    }
 }
