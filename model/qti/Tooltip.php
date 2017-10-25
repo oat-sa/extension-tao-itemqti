@@ -81,7 +81,7 @@ class Tooltip extends Element implements FlowContainer
      */
     public function toArray($filterVariableContent = false, &$filtered = array()){
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        $returnValue['content'] = (string) $this->content;
+        $returnValue['content'] = (string) $this->getContent();
         return $returnValue;
     }
 
