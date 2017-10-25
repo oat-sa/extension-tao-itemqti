@@ -296,7 +296,7 @@ define([
          * @param {Renderer} renderer - specify which renderer to use
          * @param {jQuery} placeholder - DOM element that will be replaced by the rendered element
          * @param {Object} data - template data for the rendering
-         * @param {String} subclass - ???????????? If somebody knows...
+         * @param {String} subclass - subclass enables different behaviour of the same qti class in different contexts (eg. we could have different rendering for simpleChoice according to where it is being used: simpleChoice.orderInteraction, simpleChoice.choiceInteraction...)
          * @returns {String} - the rendered element as an HTML string
          */
         render : function render(){
