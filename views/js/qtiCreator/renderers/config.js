@@ -34,6 +34,7 @@ define([
 
     var locations = _.defaults({
         '_container' : 'taoQtiItem/qtiCreator/renderers/Container',
+        '_tooltip' : 'taoQtiItem/qtiCreator/renderers/Tooltip',
         'assessmentItem' : 'taoQtiItem/qtiCreator/renderers/Item',
         'rubricBlock' : 'taoQtiItem/qtiCreator/renderers/RubricBlock',
         'img' : 'taoQtiItem/qtiCreator/renderers/Img',

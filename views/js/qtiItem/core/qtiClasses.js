@@ -46,6 +46,7 @@ define([], function(){
         'infoControl' : 'taoQtiItem/qtiItem/core/PortableInfoControl',
         'include' : 'taoQtiItem/qtiItem/core/Include',
         'table' : 'taoQtiItem/qtiItem/core/Table',
-        'printedVariable' : 'taoQtiItem/qtiItem/core/PrintedVariable'
+        'printedVariable' : 'taoQtiItem/qtiItem/core/PrintedVariable',
+        '_tooltip' : 'taoQtiItem/qtiItem/core/Tooltip'
     };
 });
