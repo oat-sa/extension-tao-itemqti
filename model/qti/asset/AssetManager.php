@@ -194,6 +194,8 @@ class AssetManager
      */
     protected function getRelativePath($qtiFile, $absolutePath)
     {
+        $ret = str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
+        \common_Logger::d("?????????? $qtiFile - $absolutePath - $ret");
         return str_replace(DIRECTORY_SEPARATOR, '/', \helpers_File::getRelPath($qtiFile, $absolutePath));
     }
 

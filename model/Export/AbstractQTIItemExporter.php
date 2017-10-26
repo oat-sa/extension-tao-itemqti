@@ -28,6 +28,7 @@ use DOMNode;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
+use oat\qtiItemPci\model\portableElement\dataObject\IMSPciDataObject;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
@@ -100,6 +101,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         $portableElementsToExport = $portableAssetsToExport = [];
 
+//        print_r($modelsAssets);
+
         foreach ($modelsAssets as $key => $portableElements) {
 
             /** @var  $element */
@@ -109,6 +112,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     continue;
                 }
 
+//                var_dump($key, $element->getTypeIdentifier());
                 try {
                     $object = $service->retrieve($key, $element->getTypeIdentifier());
                 } catch (PortableElementException $e) {
@@ -119,28 +123,49 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                 $files = $object->getModel()->getValidator()->getAssets($object, 'runtime');
 
-                $baseUrl = $basePath . DIRECTORY_SEPARATOR . $object->getTypeIdentifier();
+
                 $portableAssetsToExport[$object->getTypeIdentifier()] = [];
 
-                foreach ($files as $url) {
-                    try {
-                        // Skip shared libraries into portable element
-                        if (strpos($url, './') !== 0) {
-                            \common_Logger::i('Shared libraries skipped : ' . $url);
-                            $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $url;
-                            continue;
+                if($object instanceof IMSPciDataObject){
+                    $baseUrl = $object->getTypeIdentifier();
+//                    \common_Logger::w('********** '.'/^'+$object->getTypeIdentifier()+'\// '.print_r($files, true));
+                    foreach ($files as $url) {
+                        try {
+                            $stream = $service->getFileStream($object, $url);
+                            $rootApdatedUrl = preg_replace('/^'.$object->getTypeIdentifier().'\//', '', $url);
+                            $replacement = $this->copyAssetFile($stream, $baseUrl, $rootApdatedUrl, $replacementList);
+                            $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $replacement;
+                            \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
+                        } catch (\tao_models_classes_FileNotFoundException $e) {
+                            \common_Logger::i($e->getMessage());
+                            $report->setMessage('Missing resource for ' . $url);
+                            $report->setType(\common_report_Report::TYPE_ERROR);
                         }
-                        $stream = $service->getFileStream($object, $url);
-                        $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
-                        $portableAssetToExport = preg_replace('/^(.\/)(.*)/', $object->getTypeIdentifier() . "/$2", $replacement);
-                        $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $portableAssetToExport;
-                        \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
-                    } catch (\tao_models_classes_FileNotFoundException $e) {
-                        \common_Logger::i($e->getMessage());
-                        $report->setMessage('Missing resource for ' . $url);
-                        $report->setType(\common_report_Report::TYPE_ERROR);
+                    }
+                }else{
+                    $baseUrl = $basePath . DIRECTORY_SEPARATOR . $object->getTypeIdentifier();
+                    foreach ($files as $url) {
+                        try {
+                            // Skip shared libraries into portable element
+                            if (strpos($url, './') !== 0) {
+                                //wrong !
+                                \common_Logger::i('Shared libraries skipped : ' . $url);
+                                $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $url;
+                                continue;
+                            }
+                            $stream = $service->getFileStream($object, $url);
+                            $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
+                            $portableAssetToExport = preg_replace('/^(.\/)(.*)/', $object->getTypeIdentifier() . "/$2", $replacement);
+                            $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $portableAssetToExport;
+                            \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
+                        } catch (\tao_models_classes_FileNotFoundException $e) {
+                            \common_Logger::i($e->getMessage());
+                            $report->setMessage('Missing resource for ' . $url);
+                            $report->setType(\common_report_Report::TYPE_ERROR);
+                        }
                     }
                 }
+
             }
         }
 
@@ -262,80 +287,137 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             /** @var PortableElementObject $portableElement */
             $portableElement = $portableElementsToExport[$identifier];
 
-            // Add hook and version as attributes
-            if ($portableElement->hasRuntimeKey('hook'))
-                $currentPortableNode->setAttribute(
-                    'hook',
-                    preg_replace(
-                        '/^(.\/)(.*)/', $portableElement->getTypeIdentifier() . "/$2",
-                        $portableElement->getRuntimeKey('hook')
-                    )
-                );
-            $currentPortableNode->setAttribute('version', $portableElement->getVersion());
+            if($currentPortableNode->getAttribute('xmlns') === 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1') {
 
-            // If asset files list is empty for current identifier skip
-            if ( (! isset($portableAssetsToExport))
-                || (! isset($portableAssetsToExport[$portableElement->getTypeIdentifier()]))
-            ) {
-                continue;
+                //set version
+                $currentPortableNode->setAttribute('data-version', $portableElement->getVersion());
+
+                // If asset files list is empty for current identifier skip
+                if ( !isset($portableAssetsToExport) || !isset($portableAssetsToExport[$portableElement->getTypeIdentifier()]) ){
+                    continue;
+                }
+
+                /** @var \DOMElement $resourcesNode */
+                $modulesNode = $currentPortableNode->getElementsByTagName('modules')->item(0);
+
+                $this->removeOldNode($modulesNode, 'module');
+
+                $runtime = $portableElement->getRuntime();
+                if(isset($runtime['config'])){
+                    $configs = $runtime['config'];
+                    if(isset($configs[0])){
+                        $file = $configs[0]['file'];
+                        $finalRelPath = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file];
+                        $modulesNode->setAttribute('primaryConfiguration', $finalRelPath);
+
+                        if(isset($configs[0]['data']) && isset($configs[0]['data']['paths'])){
+                            foreach($configs[0]['data']['paths'] as $id => $paths){
+                                if(is_string($paths)){
+                                    $paths = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths];
+                                }else if(is_array($paths)){
+                                    for($i = 0; $i< count($paths) ; $i ++){
+                                        $file = $paths[$i];
+                                        $paths[$i] = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file];
+                                    }
+                                }
+                                $configs[0]['data']['paths'][$id] = $paths;
+                            }
+
+                            $stream = fopen('php://memory','r+');
+                            fwrite($stream, json_encode($configs[0]['data'], JSON_UNESCAPED_SLASHES));
+                            rewind($stream);
+                            $this->addFile($stream, $finalRelPath);
+                            fclose($stream);
+                        }
+                    }
+                    if(isset($configs[1])){
+                        $file = $configs[1]['file'];
+                        $modulesNode->setAttribute('fallbackConfiguration', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
+                    }
+                }
+
+                foreach ($portableElement->getRuntimeKey('modules') as $id => $modules) {
+                    $moduleNode = $dom->createElement($localNs . 'module');
+                    $moduleNode->setAttribute('id', $id);
+                    if(isset($modules[0])){
+                        $file = $modules[0];
+                        $moduleNode->setAttribute('primaryPath', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
+                    }
+                    if(isset($modules[1])){
+                        $file = $modules[1];
+                        $moduleNode->setAttribute('fallbackPath', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
+                    }
+                    $modulesNode->appendChild($moduleNode);
+                }
+//                var_dump($runtime, $portableAssetsToExport);
+
+            }else{
+
+                // Add hook and version as attributes
+                if ($portableElement->hasRuntimeKey('hook'))
+                    $currentPortableNode->setAttribute('hook',
+                        preg_replace('/^(.\/)(.*)/', $portableElement->getTypeIdentifier() . "/$2",
+                            $portableElement->getRuntimeKey('hook')
+                        )
+                    );
+
+                //set version
+                $currentPortableNode->setAttribute('version', $portableElement->getVersion());
+
+                // If asset files list is empty for current identifier skip
+                if ( !isset($portableAssetsToExport) || !isset($portableAssetsToExport[$portableElement->getTypeIdentifier()]) ){
+                    continue;
+                }
+
+                /** @var \DOMElement $resourcesNode */
+                $resourcesNode = $currentPortableNode->getElementsByTagName('resources')->item(0);
+
+                $this->removeOldNode($resourcesNode, 'libraries');
+                $this->removeOldNode($resourcesNode, 'stylesheets');
+                $this->removeOldNode($resourcesNode, 'mediaFiles');
+
+                // Portable libraries
+                $librariesNode = $dom->createElement($localNs . 'libraries');
+                foreach ($portableElement->getRuntimeKey('libraries') as $library) {
+                    $libraryNode = $dom->createElement($localNs . 'lib');
+                    //the exported lib id must be adapted from a href mode to an amd name mode
+                    $libraryNode->setAttribute('id', preg_replace('/\.js$/', '', $library));
+                    $librariesNode->appendChild($libraryNode);
+                }
+                if ($librariesNode->hasChildNodes()) {
+                    $resourcesNode->appendChild($librariesNode);
+                }
+
+                // Portable stylesheets
+                $stylesheetsNode = $dom->createElement($localNs . 'stylesheets');
+                foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
+                    $stylesheetNode = $dom->createElement($localNs . 'link');
+                    $stylesheetNode->setAttribute('href', $stylesheet);
+                    $stylesheetNode->setAttribute('type', 'text/css');
+
+                    $info = pathinfo($stylesheet);
+                    $stylesheetNode->setAttribute('title', basename($stylesheet, '.' . $info['extension']));
+                    $stylesheetsNode->appendChild($stylesheetNode);
+                }
+                if ($stylesheetsNode->hasChildNodes()) {
+                    $resourcesNode->appendChild($stylesheetsNode);
+                }
+
+                // Portable mediaFiles
+                $mediaFilesNode = $dom->createElement($localNs . 'mediaFiles');
+                foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
+                    $mediaFileNode = $dom->createElement($localNs . 'file');
+                    $mediaFileNode->setAttribute('src', $mediaFile);
+                    $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType(
+                        $portableAssetsToExport[$portableElement->getTypeIdentifier()][preg_replace('/^'.$identifier.'\//', './', $mediaFile)]
+                    ));
+                    $mediaFilesNode->appendChild($mediaFileNode);
+                }
+                if ($mediaFilesNode->hasChildNodes()) {
+                    $resourcesNode->appendChild($mediaFilesNode);
+                }
             }
 
-            /** @var \DOMElement $resourcesNode */
-            $resourcesNode = $currentPortableNode->getElementsByTagName('resources')->item(0);
-
-            $this->removeOldNode($resourcesNode, 'libraries');
-            $this->removeOldNode($resourcesNode, 'stylesheets');
-            $this->removeOldNode($resourcesNode, 'mediaFiles');
-
-            // Portable libraries
-            $librariesNode = $dom->createElement($localNs . 'libraries');
-            foreach ($portableElement->getRuntimeKey('libraries') as $library) {
-                $library = preg_replace('/^'.$identifier.'\//', './', $library);
-                $libraryNode = $dom->createElement($localNs . 'lib');
-                //the exported lib id must be adapted from a href mode to an amd name mode
-                $libraryNode->setAttribute(
-                    'id', preg_replace('/\.js$/', '', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$library])
-                );
-                $librariesNode->appendChild($libraryNode);
-            }
-            if ($librariesNode->hasChildNodes()) {
-                $resourcesNode->appendChild($librariesNode);
-            }
-
-            // Portable stylesheets
-            $stylesheetsNode = $dom->createElement($localNs . 'stylesheets');
-            foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
-                $stylesheet = preg_replace('/^'.$identifier.'\//', './', $stylesheet);
-                $stylesheetNode = $dom->createElement($localNs . 'link');
-                $stylesheetNode->setAttribute(
-                    'href', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$stylesheet]
-                );
-                $stylesheetNode->setAttribute('type', 'text/css');
-
-                $info = pathinfo($stylesheet);
-                $stylesheetNode->setAttribute('title', basename($stylesheet, '.' . $info['extension']));
-                $stylesheetsNode->appendChild($stylesheetNode);
-            }
-            if ($stylesheetsNode->hasChildNodes()) {
-                $resourcesNode->appendChild($stylesheetsNode);
-            }
-
-            // Portable mediaFiles
-            $mediaFilesNode = $dom->createElement($localNs . 'mediaFiles');
-            foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
-                $mediaFile = preg_replace('/^'.$identifier.'\//', './', $mediaFile);
-                $mediaFileNode = $dom->createElement($localNs . 'file');
-                $mediaFileNode->setAttribute(
-                    'src', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
-                );
-                $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType(
-                    $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
-                ));
-                $mediaFilesNode->appendChild($mediaFileNode);
-            }
-            if ($mediaFilesNode->hasChildNodes()) {
-                $resourcesNode->appendChild($mediaFilesNode);
-            }
         }
 
         unset($xpath);
@@ -356,9 +438,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // To check if replacement is to replace basename ???
         // Please check it seriously next time!
-        $this->addFile($stream, $basePath . '/' . preg_replace( '/^(.\/)/', '',$replacement));
+        $newRelPath = $basePath . '/' . preg_replace( '/^(.\/)/', '',$replacement);
+        $this->addFile($stream, $newRelPath);
         $stream->close();
-        return $replacement;
+        return $newRelPath;
     }
 
     /**

@@ -26,6 +26,7 @@ use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
 use \SimpleXMLElement;
 
 /**
@@ -271,6 +272,12 @@ class AssetParser
     private function loadCustomElementAssets(Element $element)
     {
         if($this->getGetCustomElementDefinition()) {
+
+            //TODO use dynamic model switcher
+            if ($element instanceof ImsPortableCustomInteraction) {
+                $this->assets['IMSPCI'][$element->getTypeIdentifier()] = $element;
+            }
+
             if ($element instanceof PortableCustomInteraction) {
                 $this->assets['PCI'][$element->getTypeIdentifier()] = $element;
             }
