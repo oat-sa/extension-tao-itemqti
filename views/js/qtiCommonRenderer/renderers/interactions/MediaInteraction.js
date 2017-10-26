@@ -123,6 +123,10 @@ define([
                         * @event playerready
                         */
                         $container.trigger('playerready');
+
+                        if (!canBePlayed() ) {
+                            this.disable();
+                        }
                     })
                     .on('ended', function() {
                         $container.data('timesPlayed', $container.data('timesPlayed') + 1);
