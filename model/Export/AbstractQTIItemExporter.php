@@ -416,7 +416,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $mediaFilesNode = $dom->createElement($localNs . 'mediaFiles');
                 foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
                     $mediaFileNode = $dom->createElement($localNs . 'file');
-                    $mediaFileNode->setAttribute('src', $mediaFile);
+                    $mediaFileNode->setAttribute('src', $this->getOatPciExportPath($portableAssetsToExport, $mediaFile, $portableElement));
                     $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType($this->getOatPciExportPath($portableAssetsToExport, $mediaFile, $portableElement)));
                     $mediaFilesNode->appendChild($mediaFileNode);
                 }
