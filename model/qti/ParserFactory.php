@@ -201,6 +201,16 @@ class ParserFactory
             }
         }
 
+        $tooltipNodes = $this->queryXPath(".//*[@data-role='tooltip-target']", $data);
+        foreach($tooltipNodes as $tooltipNode){
+            $tooltip = $this->buildTooltip($tooltipNode, $data);
+            if(!is_null($tooltip)){
+                $bodyElements[$tooltip->getSerial()] = $tooltip;
+
+                $this->replaceNode($tooltipNode, $tooltip);
+            }
+        }
+
         $objectNodes = $this->queryXPath(".//*[name(.)='object']", $data);
         foreach($objectNodes as $objectNode){
             if(!in_array('object', $this->getAncestors($objectNode))){
@@ -1409,6 +1419,44 @@ class ParserFactory
         $returnValue = new Img($attributes);
 
         return $returnValue;
+    }
+
+    private function buildTooltip(DOMElement $data, DOMElement $context){
+
+        $tooltip = null;
+        $attributes = $this->extractAttributes($data);
+
+        // Look for tooltip content
+        $contentId = $attributes['aria-describedby'];
+        if (!empty($contentId)) {
+
+            $tooltipContentNodes = $this->queryXPath(".//*[@id='$contentId']", $context);
+            $tooltipContent = $tooltipContentNodes[0];
+
+            if (!is_null($tooltipContent)) {
+                $content = $this->getNodeContentAsHtml($this->data, $tooltipContent);
+
+                // Content has been found, we can build the tooltip
+                $tooltip = new Tooltip($attributes);
+                $tooltip->setContent($content);
+
+                // remove the tooltip content node so it does not pollute the markup
+                $tooltipContent->parentNode->removeChild($tooltipContent);
+
+                // Set the tooltip target
+                $this->parseContainerStatic($data, $tooltip->getBody());
+            }
+        }
+        return $tooltip;
+    }
+
+    private function getNodeContentAsHtml(DOMDocument $document, DOMElement $node) {
+        $html = "";
+        $children = $node->childNodes;
+        foreach ($children as $childNode) {
+            $html .= $document->saveHTML($childNode);
+        }
+        return $html;
     }
 
     private function buildTable(DOMElement $data){

@@ -51,6 +51,7 @@ define([
             'outcomeDeclaration' : 'taoQtiItem/qtiXmlRenderer/renderers/OutcomeDeclaration',
             'responseProcessing' : 'taoQtiItem/qtiXmlRenderer/renderers/ResponseProcessing',
             '_simpleFeedbackRule' : 'taoQtiItem/qtiXmlRenderer/renderers/responses/SimpleFeedbackRule',
+            '_tooltip' : 'taoQtiItem/qtiXmlRenderer/renderers/Tooltip',
             'math' : 'taoQtiItem/qtiXmlRenderer/renderers/Math',
             'img' : 'taoQtiItem/qtiXmlRenderer/renderers/Img',
             'object' : 'taoQtiItem/qtiXmlRenderer/renderers/Object',

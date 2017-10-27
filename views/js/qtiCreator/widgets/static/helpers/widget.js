@@ -40,13 +40,6 @@ define([
                 'contenteditable' : 'false'
             });
             widget.$container = widget.$original.wrap($wrap).parent();
-            if(widget.$container.length){
-                textNode = widget.$container[0].nextSibling;
-                if(textNode){
-                    //@todo : make text cursor positioning after an inline widget easier
-                    textNode.nodeValue = ' '+textNode.nodeValue;
-                }
-            }
         },
         buildBlockContainer : function(widget){
 
