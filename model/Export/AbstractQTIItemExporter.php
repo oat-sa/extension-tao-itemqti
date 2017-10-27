@@ -101,8 +101,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         $portableElementsToExport = $portableAssetsToExport = [];
 
-//        print_r($modelsAssets);
-
         foreach ($modelsAssets as $key => $portableElements) {
 
             /** @var  $element */
@@ -112,7 +110,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     continue;
                 }
 
-//                var_dump($key, $element->getTypeIdentifier());
                 try {
                     $object = $service->retrieve($key, $element->getTypeIdentifier());
                 } catch (PortableElementException $e) {
@@ -123,25 +120,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                 $files = $object->getModel()->getValidator()->getAssets($object, 'runtime');
 
-
                 $portableAssetsToExport[$object->getTypeIdentifier()] = [];
 
                 if($object instanceof IMSPciDataObject){
-                    $baseUrl = $object->getTypeIdentifier();
                     $baseUrl = '';//add pcis to the root of the package
-//                    \common_Logger::w('********** '.'/^'+$object->getTypeIdentifier()+'\// '.print_r($files, true));
                     foreach ($files as $url) {
                         try {
                             $stream = $service->getFileStream($object, $url);
-//                            $rootApdatedUrl = preg_replace('/^'.$object->getTypeIdentifier().'\//', '', $url);
-                            $rootApdatedUrl = $url;
-                            $replacement = $this->copyAssetFile($stream, $baseUrl, $rootApdatedUrl, $replacementList);
-
-//                            $pciBasePath = \helpers_File::getRelPath($basePath, '');
-//                            \common_Logger::d("portableAssetsToExportportableAssetsToExport $pciBasePath $basePath $baseUrl $rootApdatedUrl $replacement ");
-
-
-                            //TODO fix this !!!
+                            $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
                             $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $replacement;
                             \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
                         } catch (\tao_models_classes_FileNotFoundException $e) {
@@ -188,7 +174,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $stream = $mediaSource->getFileStream($link);
                     $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
-                    $replacementList[$assetUrl] = substr($replacement, strlen($basePath) + 1);//TODO revert this!!!
+                    $replacementList[$assetUrl] = $replacement;
                 }
             } catch(\tao_models_classes_FileNotFoundException $e){
                 $replacementList[$assetUrl] = '';
@@ -196,8 +182,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
-
-//        var_dump($replacementList);exit;
 
         try{
             $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
@@ -266,6 +250,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     private function getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement){
         return $itemRelPath.($portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
     }
+
+    private function getOatPciExportPath($portableAssetsToExport, $file, $portableElement){
+        return $portableAssetsToExport[$portableElement->getTypeIdentifier()][preg_replace('/^'.$portableElement->getTypeIdentifier().'\//', './', $file)];
+    }
+
+    private function getRelPath($from, $to){
+        return ($from === basename($from)) ? $to : \helpers_File::getRelPath($from, $to);
+    }
     /**
      * Reconstruct PortableElement XML from PortableElementStorage data
      *
@@ -331,7 +323,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                         if(isset($configs[0]['data']) && isset($configs[0]['data']['paths'])){
                             foreach($configs[0]['data']['paths'] as $id => $paths){
                                 if(is_string($paths)){
-                                    $paths = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths];
+                                    $adaptedPath = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths];
+                                    $paths = $this->getRelPath($file, $adaptedPath);
                                 }else if(is_array($paths)){
                                     for($i = 0; $i< count($paths) ; $i ++){
                                         $paths[$i] = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths[$i]];
@@ -408,7 +401,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $stylesheetsNode = $dom->createElement($localNs . 'stylesheets');
                 foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
                     $stylesheetNode = $dom->createElement($localNs . 'link');
-                    $stylesheetNode->setAttribute('href', $stylesheet);
+                    $stylesheetNode->setAttribute('href', $this->getOatPciExportPath($portableAssetsToExport, $stylesheet, $portableElement));
                     $stylesheetNode->setAttribute('type', 'text/css');
 
                     $info = pathinfo($stylesheet);
@@ -424,9 +417,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
                     $mediaFileNode = $dom->createElement($localNs . 'file');
                     $mediaFileNode->setAttribute('src', $mediaFile);
-                    $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType(
-                        $portableAssetsToExport[$portableElement->getTypeIdentifier()][preg_replace('/^'.$identifier.'\//', './', $mediaFile)]
-                    ));
+                    $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType($this->getOatPciExportPath($portableAssetsToExport, $mediaFile, $portableElement)));
                     $mediaFilesNode->appendChild($mediaFileNode);
                 }
                 if ($mediaFilesNode->hasChildNodes()) {
@@ -457,7 +448,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $newRelPath = (empty($basePath) ? '' : $basePath.'/' ) . preg_replace( '/^(.\/)/', '',$replacement);
         $this->addFile($stream, $newRelPath);
         $stream->close();
-        return $newRelPath;
+        return $replacement;
     }
 
     /**

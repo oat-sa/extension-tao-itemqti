@@ -74,8 +74,6 @@ class PortableElementService implements ServiceLocatorAwareInterface
         $validationGroup = array('typeIdentifier', 'version', 'runtime');
         $this->validate($object, $source, $validationGroup);
 
-        \common_Logger::d('registerModelregisterModel '.$source . ' '. print_r($object, true));
-
         $registry = $object->getModel()->getRegistry();
 
         //enable portable element immediately when registering it

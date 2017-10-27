@@ -91,7 +91,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
 
             //@todo remove qti file used by PCI
 
-            \common_Logger::w("importPortableElementFileimportPortableElementFile $absolutePath $relativePath");
             return $this->getFileInfo($absolutePath, $relativePath);
         } else {
             throw new \common_Exception('trying to import an asset that is not part of the portable element asset list');
@@ -267,14 +266,11 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                         foreach($configData['paths'] as $id => $path){
                             //only copy the relative files to local portable element filesystem, absolute ones are loaded dynamically
                             if($this->isRelativePath($path)){
-                                \common_Logger::w('$this->isRelativePath($configFile)$this->isRelativePath($configFile) '.$this->itemDir. ' ' . $configFile . ' '.$path);
-
                                 //resolution of path, relative to the current config file it has been defined in
                                 $path = dirname($configFile) . DIRECTORY_SEPARATOR . $path;
                                 if(file_exists($this->itemDir . DIRECTORY_SEPARATOR . $path)){
                                     $moduleFiles[] = $path;
                                     $configData['paths'][$id] = $this->getSourceAdjustedNodulePath($path);;
-                                    \common_Logger::d('$configDataArray$co' .print_r($configData, true));
                                 }else{
                                     throw new FileNotFoundException("The portable config {$configFile} references a missing module file {$id} => {$path}");
                                 }
