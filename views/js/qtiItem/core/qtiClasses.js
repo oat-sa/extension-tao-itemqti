@@ -45,6 +45,8 @@ define([], function(){
         'customInteraction' : 'taoQtiItem/qtiItem/core/interactions/CustomInteraction',
         'infoControl' : 'taoQtiItem/qtiItem/core/PortableInfoControl',
         'include' : 'taoQtiItem/qtiItem/core/Include',
-        'table' : 'taoQtiItem/qtiItem/core/Table'
+        'table' : 'taoQtiItem/qtiItem/core/Table',
+        'printedVariable' : 'taoQtiItem/qtiItem/core/PrintedVariable',
+        '_tooltip' : 'taoQtiItem/qtiItem/core/Tooltip'
     };
 });

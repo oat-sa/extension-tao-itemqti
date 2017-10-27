@@ -34,6 +34,7 @@ define([
 
     var locations = _.defaults({
         '_container' : 'taoQtiItem/qtiCreator/renderers/Container',
+        '_tooltip' : 'taoQtiItem/qtiCreator/renderers/Tooltip',
         'assessmentItem' : 'taoQtiItem/qtiCreator/renderers/Item',
         'rubricBlock' : 'taoQtiItem/qtiCreator/renderers/RubricBlock',
         'img' : 'taoQtiItem/qtiCreator/renderers/Img',
@@ -68,7 +69,8 @@ define([
         'include' : 'taoQtiItem/qtiCreator/renderers/Include',
         'gap' : 'taoQtiItem/qtiCreator/renderers/choices/Gap',
         'gapText' : 'taoQtiItem/qtiCreator/renderers/choices/GapText',
-        'hottext' : 'taoQtiItem/qtiCreator/renderers/choices/Hottext'
+        'hottext' : 'taoQtiItem/qtiCreator/renderers/choices/Hottext',
+        'printedVariable' : 'taoQtiItem/qtiCreator/renderers/PrintedVariable'
     }, commonRenderConfig.locations);
 
     return {

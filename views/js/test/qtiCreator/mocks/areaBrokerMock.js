@@ -40,15 +40,17 @@ define([
         'menu',
         'menuLeft',
         'menuRight',
-        'title',
         'editorBar',
+        'title',
         'toolbar',
         'interactionPanel',
         'itemPanel',
+        'contentCreatorPanel',
         'propertyPanel',
         'itemPropertyPanel',
         'itemStylePanel',
-        'modalContainer'
+        'modalContainer',
+        'elementPropertyPanel'
     ];
 
     /**
