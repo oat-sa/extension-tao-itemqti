@@ -128,12 +128,20 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                 if($object instanceof IMSPciDataObject){
                     $baseUrl = $object->getTypeIdentifier();
+                    $baseUrl = '';//add pcis to the root of the package
 //                    \common_Logger::w('********** '.'/^'+$object->getTypeIdentifier()+'\// '.print_r($files, true));
                     foreach ($files as $url) {
                         try {
                             $stream = $service->getFileStream($object, $url);
-                            $rootApdatedUrl = preg_replace('/^'.$object->getTypeIdentifier().'\//', '', $url);
+//                            $rootApdatedUrl = preg_replace('/^'.$object->getTypeIdentifier().'\//', '', $url);
+                            $rootApdatedUrl = $url;
                             $replacement = $this->copyAssetFile($stream, $baseUrl, $rootApdatedUrl, $replacementList);
+
+//                            $pciBasePath = \helpers_File::getRelPath($basePath, '');
+//                            \common_Logger::d("portableAssetsToExportportableAssetsToExport $pciBasePath $basePath $baseUrl $rootApdatedUrl $replacement ");
+
+
+                            //TODO fix this !!!
                             $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $replacement;
                             \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
                         } catch (\tao_models_classes_FileNotFoundException $e) {
@@ -180,7 +188,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $stream = $mediaSource->getFileStream($link);
                     $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
-                    $replacementList[$assetUrl] = $replacement;
+                    $replacementList[$assetUrl] = substr($replacement, strlen($basePath) + 1);//TODO revert this!!!
                 }
             } catch(\tao_models_classes_FileNotFoundException $e){
                 $replacementList[$assetUrl] = '';
@@ -188,6 +196,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
+
+//        var_dump($replacementList);exit;
 
         try{
             $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
@@ -252,6 +262,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return __('Item "%s" cannot be exported: %s', $this->getItem()->getLabel(), $errorMessage);
     }
 
+
+    private function getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement){
+        return $itemRelPath.($portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
+    }
     /**
      * Reconstruct PortableElement XML from PortableElementStorage data
      *
@@ -289,6 +303,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
             if($currentPortableNode->getAttribute('xmlns') === 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1') {
 
+                $basePath = $this->buildBasePath();
+                $itemRelPath = \helpers_File::getRelPath($basePath, '');
+
                 //set version
                 $currentPortableNode->setAttribute('data-version', $portableElement->getVersion());
 
@@ -307,7 +324,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $configs = $runtime['config'];
                     if(isset($configs[0])){
                         $file = $configs[0]['file'];
-                        $finalRelPath = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file];
+                        $finalRelPath = $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement);
+                        //make this path relative to the item !
                         $modulesNode->setAttribute('primaryConfiguration', $finalRelPath);
 
                         if(isset($configs[0]['data']) && isset($configs[0]['data']['paths'])){
@@ -316,8 +334,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                                     $paths = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths];
                                 }else if(is_array($paths)){
                                     for($i = 0; $i< count($paths) ; $i ++){
-                                        $file = $paths[$i];
-                                        $paths[$i] = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file];
+                                        $paths[$i] = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths[$i]];
                                     }
                                 }
                                 $configs[0]['data']['paths'][$id] = $paths;
@@ -326,13 +343,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                             $stream = fopen('php://memory','r+');
                             fwrite($stream, json_encode($configs[0]['data'], JSON_UNESCAPED_SLASHES));
                             rewind($stream);
-                            $this->addFile($stream, $finalRelPath);
+                            $this->addFile($stream, $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
                             fclose($stream);
                         }
                     }
                     if(isset($configs[1])){
                         $file = $configs[1]['file'];
-                        $modulesNode->setAttribute('fallbackConfiguration', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
+                        $modulesNode->setAttribute('fallbackConfiguration', $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement));
                     }
                 }
 
@@ -341,15 +358,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $moduleNode->setAttribute('id', $id);
                     if(isset($modules[0])){
                         $file = $modules[0];
-                        $moduleNode->setAttribute('primaryPath', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
+                        $moduleNode->setAttribute('primaryPath', $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement));
                     }
                     if(isset($modules[1])){
                         $file = $modules[1];
-                        $moduleNode->setAttribute('fallbackPath', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
+                        $moduleNode->setAttribute('fallbackPath', $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement));
                     }
                     $modulesNode->appendChild($moduleNode);
                 }
-//                var_dump($runtime, $portableAssetsToExport);
 
             }else{
 
@@ -438,7 +454,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // To check if replacement is to replace basename ???
         // Please check it seriously next time!
-        $newRelPath = $basePath . '/' . preg_replace( '/^(.\/)/', '',$replacement);
+        $newRelPath = (empty($basePath) ? '' : $basePath.'/' ) . preg_replace( '/^(.\/)/', '',$replacement);
         $this->addFile($stream, $newRelPath);
         $stream->close();
         return $newRelPath;
