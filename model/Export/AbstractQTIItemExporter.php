@@ -28,10 +28,8 @@ use DOMNode;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
-use oat\qtiItemPci\model\portableElement\dataObject\IMSPciDataObject;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
-use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
@@ -99,7 +97,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
-        $portableElementsToExport = $portableAssetsToExport = [];
+        $portableElementsToExport = [];
 
         foreach ($modelsAssets as $key => $portableElements) {
 
@@ -116,50 +114,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
                     return \common_report_Report::createFailure($message);
                 }
-                $portableElementsToExport[$element->getTypeIdentifier()] = $object;
 
-                $files = $object->getModel()->getValidator()->getAssets($object, 'runtime');
-
-                $portableAssetsToExport[$object->getTypeIdentifier()] = [];
-
-                if($object instanceof IMSPciDataObject){
-                    $baseUrl = '';//add pcis to the root of the package
-                    foreach ($files as $url) {
-                        try {
-                            $stream = $service->getFileStream($object, $url);
-                            $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
-                            $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $replacement;
-                            \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
-                        } catch (\tao_models_classes_FileNotFoundException $e) {
-                            \common_Logger::i($e->getMessage());
-                            $report->setMessage('Missing resource for ' . $url);
-                            $report->setType(\common_report_Report::TYPE_ERROR);
-                        }
-                    }
-                }else{
-                    $baseUrl = $basePath . DIRECTORY_SEPARATOR . $object->getTypeIdentifier();
-                    foreach ($files as $url) {
-                        try {
-                            // Skip shared libraries into portable element
-                            if (strpos($url, './') !== 0) {
-                                //wrong !
-                                \common_Logger::i('Shared libraries skipped : ' . $url);
-                                $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $url;
-                                continue;
-                            }
-                            $stream = $service->getFileStream($object, $url);
-                            $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
-                            $portableAssetToExport = preg_replace('/^(.\/)(.*)/', $object->getTypeIdentifier() . "/$2", $replacement);
-                            $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $portableAssetToExport;
-                            \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
-                        } catch (\tao_models_classes_FileNotFoundException $e) {
-                            \common_Logger::i($e->getMessage());
-                            $report->setMessage('Missing resource for ' . $url);
-                            $report->setType(\common_report_Report::TYPE_ERROR);
-                        }
-                    }
+                $portableElementExporter = $object->getModel()->getExporter($object, $this);
+                $portableElementsToExport[$element->getTypeIdentifier()] = $portableElementExporter;
+                try {
+                    $portableElementExporter->copyAssetFiles($replacementList);
+                } catch (\tao_models_classes_FileNotFoundException $e) {
+                    \common_Logger::i($e->getMessage());
+                    $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' .  $e->getMessage());
+                    $report->setType(\common_report_Report::TYPE_ERROR);
                 }
-
             }
         }
 
@@ -209,9 +173,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             foreach ($portableEntryNodes as $node) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
             }
+            foreach ($portableElementsToExport as $portableElementExporter){
+                $portableElementExporter->exportDom($dom);
+            }
 
-            $this->exportPortableAssets($dom, 'portableCustomInteraction', 'customInteractionTypeIdentifier', 'pci', $portableElementsToExport, $portableAssetsToExport);
-            $this->exportPortableAssets($dom, 'portableInfoControl', 'infoControlTypeIdentifier', 'pic', $portableElementsToExport, $portableAssetsToExport);
         } else {
             $report->setMessage($this->getExportErrorMessage(__('cannot load QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
@@ -244,190 +209,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      */
     private function getExportErrorMessage($errorMessage){
         return __('Item "%s" cannot be exported: %s', $this->getItem()->getLabel(), $errorMessage);
-    }
-
-
-    private function getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement){
-        return $itemRelPath.($portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
-    }
-
-    private function getOatPciExportPath($portableAssetsToExport, $file, $portableElement){
-        return $portableAssetsToExport[$portableElement->getTypeIdentifier()][preg_replace('/^'.$portableElement->getTypeIdentifier().'\//', './', $file)];
-    }
-
-    private function getRelPath($from, $to){
-        return ($from === basename($from)) ? $to : \helpers_File::getRelPath($from, $to);
-    }
-    /**
-     * Reconstruct PortableElement XML from PortableElementStorage data
-     *
-     * @param DOMDocument $dom
-     * @param $nodeName
-     * @param $typeIdentifierAttributeName
-     * @param $ns
-     * @param $portableElementsToExport
-     * @param $portableAssetsToExport
-     * @throws \common_Exception
-     */
-    private function exportPortableAssets(DOMDocument $dom, $nodeName, $typeIdentifierAttributeName, $ns, $portableElementsToExport, $portableAssetsToExport){
-
-        $xpath = new DOMXPath($dom);
-
-        // Get all portable element from qti.xml
-        $portableElementNodes = $dom->getElementsByTagName($nodeName);
-
-        for ($i=0; $i<$portableElementNodes->length; $i++) {
-
-            /** @var \DOMElement $currentPortableNode */
-            $currentPortableNode = $portableElementNodes->item($i);
-
-            //get the local namespace prefix to be used in new node creation
-            $localNs = $currentPortableNode->hasAttribute('xmlns') ? '' : $ns.':';
-
-            //get the portable element type identifier
-            $identifier = $currentPortableNode->getAttribute($typeIdentifierAttributeName);
-
-            if (! isset($portableElementsToExport[$identifier])) {
-                throw new \common_Exception('Unable to find loaded portable element.');
-            }
-            /** @var PortableElementObject $portableElement */
-            $portableElement = $portableElementsToExport[$identifier];
-
-            if($currentPortableNode->getAttribute('xmlns') === 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1') {
-
-                $basePath = $this->buildBasePath();
-                $itemRelPath = \helpers_File::getRelPath($basePath, '');
-
-                //set version
-                $currentPortableNode->setAttribute('data-version', $portableElement->getVersion());
-
-                // If asset files list is empty for current identifier skip
-                if ( !isset($portableAssetsToExport) || !isset($portableAssetsToExport[$portableElement->getTypeIdentifier()]) ){
-                    continue;
-                }
-
-                /** @var \DOMElement $resourcesNode */
-                $modulesNode = $currentPortableNode->getElementsByTagName('modules')->item(0);
-
-                $this->removeOldNode($modulesNode, 'module');
-
-                $runtime = $portableElement->getRuntime();
-                if(isset($runtime['config'])){
-                    $configs = $runtime['config'];
-                    if(isset($configs[0])){
-                        $file = $configs[0]['file'];
-                        $finalRelPath = $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement);
-                        //make this path relative to the item !
-                        $modulesNode->setAttribute('primaryConfiguration', $finalRelPath);
-
-                        if(isset($configs[0]['data']) && isset($configs[0]['data']['paths'])){
-                            foreach($configs[0]['data']['paths'] as $id => $paths){
-                                if(is_string($paths)){
-                                    $adaptedPath = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths];
-                                    $paths = $this->getRelPath($file, $adaptedPath);
-                                }else if(is_array($paths)){
-                                    for($i = 0; $i< count($paths) ; $i ++){
-                                        $paths[$i] = $portableAssetsToExport[$portableElement->getTypeIdentifier()][$paths[$i]];
-                                    }
-                                }
-                                $configs[0]['data']['paths'][$id] = $paths;
-                            }
-
-                            $stream = fopen('php://memory','r+');
-                            fwrite($stream, json_encode($configs[0]['data'], JSON_UNESCAPED_SLASHES));
-                            rewind($stream);
-                            $this->addFile($stream, $portableAssetsToExport[$portableElement->getTypeIdentifier()][$file]);
-                            fclose($stream);
-                        }
-                    }
-                    if(isset($configs[1])){
-                        $file = $configs[1]['file'];
-                        $modulesNode->setAttribute('fallbackConfiguration', $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement));
-                    }
-                }
-
-                foreach ($portableElement->getRuntimeKey('modules') as $id => $modules) {
-                    $moduleNode = $dom->createElement($localNs . 'module');
-                    $moduleNode->setAttribute('id', $id);
-                    if(isset($modules[0])){
-                        $file = $modules[0];
-                        $moduleNode->setAttribute('primaryPath', $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement));
-                    }
-                    if(isset($modules[1])){
-                        $file = $modules[1];
-                        $moduleNode->setAttribute('fallbackPath', $this->getImsPciExportPath($itemRelPath, $portableAssetsToExport, $file, $portableElement));
-                    }
-                    $modulesNode->appendChild($moduleNode);
-                }
-
-            }else{
-
-                // Add hook and version as attributes
-                if ($portableElement->hasRuntimeKey('hook'))
-                    $currentPortableNode->setAttribute('hook',
-                        preg_replace('/^(.\/)(.*)/', $portableElement->getTypeIdentifier() . "/$2",
-                            $portableElement->getRuntimeKey('hook')
-                        )
-                    );
-
-                //set version
-                $currentPortableNode->setAttribute('version', $portableElement->getVersion());
-
-                // If asset files list is empty for current identifier skip
-                if ( !isset($portableAssetsToExport) || !isset($portableAssetsToExport[$portableElement->getTypeIdentifier()]) ){
-                    continue;
-                }
-
-                /** @var \DOMElement $resourcesNode */
-                $resourcesNode = $currentPortableNode->getElementsByTagName('resources')->item(0);
-
-                $this->removeOldNode($resourcesNode, 'libraries');
-                $this->removeOldNode($resourcesNode, 'stylesheets');
-                $this->removeOldNode($resourcesNode, 'mediaFiles');
-
-                // Portable libraries
-                $librariesNode = $dom->createElement($localNs . 'libraries');
-                foreach ($portableElement->getRuntimeKey('libraries') as $library) {
-                    $libraryNode = $dom->createElement($localNs . 'lib');
-                    //the exported lib id must be adapted from a href mode to an amd name mode
-                    $libraryNode->setAttribute('id', preg_replace('/\.js$/', '', $library));
-                    $librariesNode->appendChild($libraryNode);
-                }
-                if ($librariesNode->hasChildNodes()) {
-                    $resourcesNode->appendChild($librariesNode);
-                }
-
-                // Portable stylesheets
-                $stylesheetsNode = $dom->createElement($localNs . 'stylesheets');
-                foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
-                    $stylesheetNode = $dom->createElement($localNs . 'link');
-                    $stylesheetNode->setAttribute('href', $this->getOatPciExportPath($portableAssetsToExport, $stylesheet, $portableElement));
-                    $stylesheetNode->setAttribute('type', 'text/css');
-
-                    $info = pathinfo($stylesheet);
-                    $stylesheetNode->setAttribute('title', basename($stylesheet, '.' . $info['extension']));
-                    $stylesheetsNode->appendChild($stylesheetNode);
-                }
-                if ($stylesheetsNode->hasChildNodes()) {
-                    $resourcesNode->appendChild($stylesheetsNode);
-                }
-
-                // Portable mediaFiles
-                $mediaFilesNode = $dom->createElement($localNs . 'mediaFiles');
-                foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
-                    $mediaFileNode = $dom->createElement($localNs . 'file');
-                    $mediaFileNode->setAttribute('src', $mediaFile);
-                    $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType($this->getOatPciExportPath($portableAssetsToExport, $mediaFile, $portableElement)));
-                    $mediaFilesNode->appendChild($mediaFileNode);
-                }
-                if ($mediaFilesNode->hasChildNodes()) {
-                    $resourcesNode->appendChild($mediaFilesNode);
-                }
-            }
-
-        }
-
-        unset($xpath);
     }
 
     public function copyAssetFile(StreamInterface $stream, $basePath, $baseName, &$replacementList)
