@@ -1,0 +1,7 @@
+@import "inc/bootstrap";
+
+[data-qti-class="_tooltip"] {
+    color: $info;
+    text-decoration: dotted underline $info;
+    cursor: pointer;
+}

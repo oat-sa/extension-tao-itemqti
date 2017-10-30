@@ -17,7 +17,13 @@
  *
  */
 //@todo : move this to the ../helper directory
-define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qtiItem/core/Element'], function(_, Class, qtiClasses, Element){
+define([
+    'lodash',
+    'class',
+    'taoQtiItem/qtiItem/core/qtiClasses',
+    'taoQtiItem/qtiItem/core/Element'
+], function(_, Class, qtiClasses, Element){
+    'use strict';
 
     var Loader = Class.extend({
         init : function(item, classesLocation){
@@ -33,8 +39,8 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             return this;
         },
         getRequiredClasses : function(data){
-            var ret = [];
-            for(var i in data){
+            var ret = [], i;
+            for(i in data){
                 if(i === 'qtiClass' && data[i] !== '_container' && i !== 'rootElement'){//although a _container is a concrete class in TAO, it is not defined in QTI standard
                     ret.push(data[i]);
                 }else if(typeof(data[i]) === 'object' && i !== 'responseRules'){    //responseRules should'nt be part of the parsing
@@ -44,11 +50,12 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             return ret;
         },
         loadRequiredClasses : function(data, callback, reload){
+            var i;
+            var requiredClass,
+                requiredClasses = this.getRequiredClasses(data, reload), required = [];
 
-            var requiredClasses = this.getRequiredClasses(data, reload), required = [];
-
-            for(var i in requiredClasses){
-                var requiredClass = requiredClasses[i];
+            for(i in requiredClasses){
+                requiredClass = requiredClasses[i];
                 if(this.classesLocation[requiredClass]){
                     required.push(this.classesLocation[requiredClass]);
                 }else{
@@ -308,6 +315,8 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 this.loadMathData(element, data);
             }else if(Element.isA(element, 'infoControl')){
                 this.loadPicData(element, data);
+            }else if(Element.isA(element, '_tooltip')){
+                this.loadTooltipData(element, data);
             }
 
             return element;
@@ -396,6 +405,9 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             _.forIn(data.annotations || {}, function(value, encoding){
                 math.setAnnotation(encoding, value);
             });
+        },
+        loadTooltipData : function(tooltip, data){
+            tooltip.content(data.content);
         },
         loadPciData : function(pci, data){
             loadPortableCustomElementData(pci, data);

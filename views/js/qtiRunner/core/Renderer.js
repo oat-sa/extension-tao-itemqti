@@ -78,6 +78,7 @@ define([
         'outcomeDeclaration',
         'responseProcessing',
         '_simpleFeedbackRule',
+        '_tooltip',
         'img',
         'math',
         'object',

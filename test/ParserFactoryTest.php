@@ -55,7 +55,7 @@ class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Test table parsing
+     * Table parsing
      */
     public function testParseTableWithNestedInteractions() {
         $xml = new \DOMDocument();
