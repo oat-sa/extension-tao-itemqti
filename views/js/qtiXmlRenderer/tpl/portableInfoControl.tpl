@@ -8,7 +8,7 @@
             </libraries>
         </resources>
         {{{portableElementProperties properties ''}}}
-        <markup>
+        <markup xmlns="http://www.w3.org/1999/xhtml">
             {{{markup}}}
         </markup>
     </portableInfoControl>

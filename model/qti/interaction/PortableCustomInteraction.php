@@ -145,7 +145,6 @@ class PortableCustomInteraction extends CustomInteraction
         $variables['serializedProperties'] = $this->serializePortableProperties($this->properties);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
-        $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$this->markupNs.':$2', $variables['markup']);
         $this->getRelatedItem()->addNamespace($this->markupNs, $this->markupNs);
         return $variables;
     }

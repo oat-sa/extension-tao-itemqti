@@ -19,9 +19,8 @@ define([
     'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/main',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/oat',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/ims',
-    'taoQtiItem/qtiItem/helper/util'
-], function(_, tpl, oatTpl, imsTpl, util){
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/ims'
+], function(_, tpl, oatTpl, imsTpl){
     'use strict';
 
     var templates = {
@@ -34,8 +33,7 @@ define([
         template : tpl,
         getData : function getData(interaction, data){
             var ns = interaction.getNamespace();
-            var markupNs = interaction.getMarkupNamespace();
-            data.markup = util.addMarkupNamespace(interaction.markup, markupNs ? markupNs.name : '');
+            data.markup = interaction.markup;
             data.portableCustomInteraction = _.isFunction(templates[ns.uri]) ? templates[ns.uri].call(null, data) : '';
             return data;
         }

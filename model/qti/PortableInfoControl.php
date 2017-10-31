@@ -141,7 +141,6 @@ class PortableInfoControl extends InfoControl
         $variables['serializedProperties'] = $this->serializePortableProperties($this->properties);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
-        $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$nsMarkup.':$2', $variables['markup']);
         $this->getRelatedItem()->addNamespace($nsMarkup, $nsMarkup);
         return $variables;
     }

@@ -10,8 +10,7 @@ define([
         qtiClass : 'infoControl',
         template : tpl,
         getData : function(infoControl, data){
-            var markupNs = infoControl.getMarkupNamespace();
-            data.markup = util.addMarkupNamespace(infoControl.markup, markupNs ? markupNs.name : '');
+            data.markup = infoControl.markup;
 
             //ensure infoControl have an id, otherwise generate one in order to be able to identify it for the state
             if(!infoControl.attr('id')){

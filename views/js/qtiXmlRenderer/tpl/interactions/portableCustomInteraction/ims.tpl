@@ -5,7 +5,7 @@
         <module id="{{id}}"{{#if primaryPath}} primaryPath="{{primaryPath}}"{{/if}}{{#if fallbackPath}} fallbackPath="{{fallbackPath}}"{{/if}}/>
         {{/each}}
     </modules>
-    <markup>
+    <markup xmlns="http://www.w3.org/1999/xhtml">
         {{{markup}}}
     </markup>
 </portableCustomInteraction>

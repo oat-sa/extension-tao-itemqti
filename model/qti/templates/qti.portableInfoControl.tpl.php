@@ -31,7 +31,7 @@
             <?php endif;?>
         </resources>
         <?=get_data('serializedProperties')?>
-        <markup>
+        <markup xmlns="http://www.w3.org/1999/xhtml">
             <?=get_data('markup')?>
         </markup>
     </portableInfoControl>
