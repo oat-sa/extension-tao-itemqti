@@ -178,7 +178,7 @@ define([
                                 assetManager : pciAssetManager
                             };
 
-                            pci.getInstance($dom[0], config, state);
+                            pci.getInstance(containerHelper.get(interaction).get(0), config, state);
                         }else{
                             //call pci initialize() to render the pci
                             pci.initialize(id, $dom[0], properties, pciAssetManager);
