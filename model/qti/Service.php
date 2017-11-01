@@ -133,7 +133,12 @@ class Service extends tao_models_classes_Service
     {
         $label = mb_substr($rdfItem->getLabel(), 0, 256, 'UTF-8');
         //set the current data lang in the item content to keep the integrity
-        $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+        if ($qtiItem->hasAttribute('xml:lang') && !empty($qtiItem->getAttributeValue('xml:lang'))) {
+            $lang = $qtiItem->getAttributeValue('xml:lang');
+        } else {
+            $lang = \common_session_SessionManager::getSession()->getDataLanguage();
+        }
+        $qtiItem->setAttribute('xml:lang', $lang);
         $qtiItem->setAttribute('label', $label);
         
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
