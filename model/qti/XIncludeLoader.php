@@ -43,6 +43,8 @@ class XIncludeLoader
     protected $qtiItem = null;
     protected $resolver = null;
 
+    protected $additionalPath = null;
+
     public function __construct(Item $qtiItem, ItemMediaResolver $resolver){
         $this->qtiItem = $qtiItem;
         $this->resolver = $resolver;
@@ -67,6 +69,13 @@ class XIncludeLoader
                 try {
                     $asset = $this->resolver->resolve($href);
                     $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
+
+                    $explodedPath = explode('/', $href);
+                    if (count($explodedPath) > 2) {
+                        unset($explodedPath[count($explodedPath) - 1], $explodedPath[0]);
+                        $this->additionalPath = implode('/', $explodedPath) . '/';
+                    }
+
                     $this->loadXInclude($xinclude, $filePath);
                 } catch (\tao_models_classes_FileNotFoundException $exception) {
                     if ($removeUnfoundHref) {
@@ -148,7 +157,7 @@ class XIncludeLoader
         $node = $xml->documentElement;
         if($loadSuccess && !is_null($node)){
             //parse the href content
-            $parser = new ParserFactory($xml);
+            $parser = new ParserFactory($xml, $this->additionalPath);
             $parser->loadContainerStatic($node, $xinclude->getBody());
         }else{
             throw new XIncludeException('Cannot load the XInclude DOM XML', $xinclude);
