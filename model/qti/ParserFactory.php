@@ -84,9 +84,13 @@ class ParserFactory
     protected $item = null;
     protected $attributeMap = array('lang' => 'xml:lang');
 
-    public function __construct(DOMDocument $data){
+    protected $additionalPath = null;
+
+    public function __construct(DOMDocument $data, $additionalPath = null){
         $this->data = $data;
         $this->xpath = new DOMXPath($data);
+
+        $this->additionalPath = $additionalPath;
     }
 
     /**
@@ -425,6 +429,10 @@ class ParserFactory
         $options = array();
         foreach($data->attributes as $attr){
             if($attr->nodeName === 'xsi:schemaLocation'){
+                continue;
+            }
+            if ($attr->nodeName === 'src' && !empty($this->additionalPath) && false === strpos($this->additionalPath, 'mediamanager')) {
+                $options[isset($this->attributeMap[$attr->nodeName]) ? $this->attributeMap[$attr->nodeName] : $attr->nodeName] = $this->additionalPath . (string) $attr->nodeValue;
                 continue;
             }
             $options[isset($this->attributeMap[$attr->nodeName]) ? $this->attributeMap[$attr->nodeName] : $attr->nodeName] = (string) $attr->nodeValue;

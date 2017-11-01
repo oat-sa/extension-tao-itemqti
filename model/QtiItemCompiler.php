@@ -230,47 +230,15 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             throw new taoItems_models_classes_CompilationFailedException(__('Unable to retrieve item : ' . $item->getLabel()));
         }
 
-        $assetParser = new AssetParser($qtiItem, $publicDirectory);
-        $assetParser->setGetSharedLibraries(false);
-        $assetParser->setGetXinclude(false);
-        $resolver = new ItemMediaResolver($item, $lang);
         $replacementList = array();
-        foreach($assetParser->extract() as $type => $assets) {
-            foreach($assets as $assetUrl) {
-                foreach (self::$BLACKLIST as $blacklist) {
-                    if (preg_match($blacklist, $assetUrl) === 1) {
-                        continue(2);
-                    }
-                }
-                $mediaAsset = $resolver->resolve($assetUrl);
-                $mediaSource = $mediaAsset->getMediaSource();
+        $assetParser = new AssetParser($qtiItem, $publicDirectory);
 
-                $basename = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
-                $replacement = $basename;
-                $count = 0;
-                while (in_array($replacement, $replacementList)) {
-                    $dot = strrpos($basename, '.');
-                    $replacement = $dot !== false
-                        ? substr($basename, 0, $dot).'_'.$count.substr($basename, $dot)
-                        : $basename.$count;
-                    $count++;
-                }
-                $replacementList[$assetUrl] = $replacement;
-                $tmpfile = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $fh = fopen($tmpfile, 'r');
-                $publicDirectory->writeStream($lang.'/'.$replacement, $fh);
-                fclose($fh);
-                unlink($tmpfile);
-
-                //$fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
-                //$publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
-
-            }
-        }
+        //part of code moved to separate function as it is needed below for reuse
+        $resolver = $this->copyAssets($assetParser, $item, $lang, $publicDirectory, $replacementList);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         if ($dom->loadXML($qtiItem->toXml()) === true) {
-        
+
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
             foreach ($attributeNodes as $node) {
@@ -294,10 +262,14 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         $qtiParser = new Parser($dom->saveXML());
         $assetRetrievedQtiItem =  $qtiParser->load();
-        
+
          //loadxinclude
         $xincludeLoader = new XIncludeLoader($assetRetrievedQtiItem, $resolver);
         $xincludeLoader->load(true);
+
+        //retrieve and copy assets to public folder after xinclude loaded
+        $assetParser = new AssetParser($assetRetrievedQtiItem, $publicDirectory);
+        $this->copyAssets($assetParser, $item, $lang, $publicDirectory, $replacementList, false);
 
         return $assetRetrievedQtiItem;
     }
@@ -313,5 +285,63 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         if ($context && $context instanceof ItemCompilerIndex) {
             $context->setItem($uri, $language, $qtiItem->getAttributeValues());
         }
+    }
+
+    /**
+     * Copies assets to public folder
+     *
+     * @param AssetParser $assetParser
+     * @param core_kernel_classes_Resource $item
+     * @param $lang
+     * @param Directory $publicDirectory
+     * @param array $replacementList
+     * @param bool $basenameAsReplacement if set to true only filename will be used in compiled items, in other case - filename with dir path (needed for imported items with shared stimulus xincludes to work)
+     * 
+     * @return ItemMediaResolver
+     */
+    private function copyAssets(AssetParser $assetParser, core_kernel_classes_Resource $item, $lang, Directory $publicDirectory, array &$replacementList = [], $basenameAsReplacement = true)
+    {
+        $assetParser->setGetSharedLibraries(false);
+        $assetParser->setGetXinclude(false);
+        $resolver = new ItemMediaResolver($item, $lang);
+
+        foreach($assetParser->extract() as $type => $assets) {
+            foreach($assets as $assetUrl) {
+                foreach (self::$BLACKLIST as $blacklist) {
+                    if (preg_match($blacklist, $assetUrl) === 1) {
+                        continue(2);
+                    }
+                }
+                $mediaAsset = $resolver->resolve($assetUrl);
+                $mediaSource = $mediaAsset->getMediaSource();
+
+                if ($basenameAsReplacement) {
+                    $basename = $mediaSource->getBaseName($mediaAsset->getMediaIdentifier());
+                    $replacement = $basename;
+                } else {
+                    $replacement = $assetUrl;
+                }
+                $count = 0;
+                while (in_array($replacement, $replacementList)) {
+                    $dot = strrpos($basename, '.');
+                    $replacement = $dot !== false
+                        ? substr($basename, 0, $dot).'_'.$count.substr($basename, $dot)
+                        : $basename.$count;
+                    $count++;
+                }
+                $replacementList[$assetUrl] = $replacement;
+                $tmpfile = $mediaSource->download($mediaAsset->getMediaIdentifier());
+                $fh = fopen($tmpfile, 'r');
+                $publicDirectory->writeStream($lang.'/'.$replacement, $fh);
+                fclose($fh);
+                unlink($tmpfile);
+
+                //$fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
+                //$publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
+
+            }
+        }
+
+        return $resolver;
     }
 }
