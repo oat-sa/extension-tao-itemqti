@@ -22,9 +22,9 @@ define([
     'lodash',
     'jquery',
     'ui/component',
-    'ui/component/placeable',
+    'ui/component/alignable',
     'tpl!taoQtiItem/qtiCreator/widgets/static/table/components/tableActions'
-], function(_, $, componentFactory, makePlaceable, tpl) {
+], function(_, $, componentFactory, makeAlignable, tpl) {
     'use strict';
 
     var defaultConfig = {
@@ -107,7 +107,7 @@ define([
                 }
             });
 
-        makePlaceable(tableActionsComponent);
+        makeAlignable(tableActionsComponent);
 
         return tableActionsComponent.init();
     };
