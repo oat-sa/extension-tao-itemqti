@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>Tooltip creator renderer</title>
     <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti-runner.css">
+    <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/item-creator.css">
     <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
     <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
@@ -19,8 +21,17 @@
     </script>
 </head>
 <body>
-<div id="qunit"></div>
-<div id="qunit-fixture"></div>
-<div id="outside-container"></div>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <label for="state-switcher">State: </label>
+    <select id="state-switcher">
+        <option value="sleep" selected="selected">Sleep</option>
+        <option value="active">Active</option>
+    </select>
+    <div id="outside-container">
+        <div class="item-editor-item">
+            <div class="hoverable"></div>
+        </div>
+    </div>
 </body>
 </html>

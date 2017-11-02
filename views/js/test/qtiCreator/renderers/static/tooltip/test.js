@@ -30,7 +30,12 @@ define([
 
     QUnit.asyncTest('Display and play', function (assert) {
         var $outsideContainer = $('#outside-container'),
-            areaBroker = areaBrokerFactory($outsideContainer),
+            areaBroker = areaBrokerFactory({
+                $brokerContainer: $outsideContainer,
+                mapping: {
+                    itemPanel: $('.item-editor-item')
+                }
+            }),
             tooltipContent  = 'my tooltip <strong>content</strong>',
             tooltipSerial   = '_tooltip_4568613547893',
 
@@ -41,13 +46,18 @@ define([
         creatorRenderer
             .get(true, {}, areaBroker)
             .load(function() {
-                var $container = areaBroker.getItemPanelArea();
+                var $container = areaBroker.getItemPanelArea().find('.hoverable'); // fixme: a better approach would be needed...
 
                 tooltip.setRenderer(this);
                 tooltip.body('tootlip target');
 
                 $container.append(tooltip.render());
                 tooltip.postRender();
+
+                $('#state-switcher').on('change', function() {
+                    var widget = tooltip.data('widget');
+                    widget.changeState(this.value);
+                });
 
                 assert.equal($container.find('.widget-inline').length, 1, 'element has been wrapped in a inline widget container');
 
