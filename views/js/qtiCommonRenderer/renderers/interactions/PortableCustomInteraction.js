@@ -244,7 +244,11 @@ define([
      * @param {Object} interaction
      */
     var destroy = function(interaction){
-        _getPci(interaction).destroy();
+        if(!_isPciModel(interaction, 'IMSPCI')) {
+            _getPci(interaction).destroy();
+        }else{
+            _getPci(interaction).oncompleted();
+        }
     };
 
     /**
