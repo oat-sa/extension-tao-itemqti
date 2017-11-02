@@ -50,8 +50,6 @@ abstract class PortableElementObject
     protected $creator = array();
     /** @var boolean */
     protected $enabled;
-    /** @var string */
-    protected $basePath = '';
 
     /**
      * PortableElementModel constructor with identifier & optional version
@@ -483,16 +481,6 @@ abstract class PortableElementObject
     public function hasEnabled()
     {
         return ! is_null($this->enabled);
-    }
-
-    public function setBasePath($basePath)
-    {
-        $this->basePath = $basePath;
-    }
-
-    public function getBasePath()
-    {
-        return $this->basePath;
     }
 
     /**

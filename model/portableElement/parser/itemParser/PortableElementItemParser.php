@@ -182,8 +182,6 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 $this->parsePortableElement($model, $portableElementXml);
             }
         }
-
-//        var_dump('required files', $this->requiredFiles);
     }
 
     protected function getSourceAdjustedNodulePath($path){

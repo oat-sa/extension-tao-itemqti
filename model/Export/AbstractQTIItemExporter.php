@@ -309,15 +309,4 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
         return $this->metadataExporter;
     }
-
-    protected function removeOldNode(DOMNode $resourcesNode, $nodeName){
-        $xpath = new \DOMXPath($resourcesNode->ownerDocument);
-        $oldNodeList = $xpath->query('.//*[local-name(.) = "'.$nodeName.'"]', $resourcesNode);
-        if ($oldNodeList->length > 0) {
-            foreach($oldNodeList as $oldNode){
-                $resourcesNode->removeChild($oldNode);
-            }
-        }
-        unset($xpath);
-    }
 }
