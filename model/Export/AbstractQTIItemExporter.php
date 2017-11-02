@@ -93,37 +93,33 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
 	    $replacementList = array();
-        $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
+        $portableElements = $this->getPortableElementAssets($this->getItem(), $lang);
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
         $portableElementsToExport = [];
 
-        foreach ($modelsAssets as $key => $portableElements) {
+        foreach($portableElements as $element) {
 
-            /** @var  $element */
-            foreach($portableElements as $element) {
+            if (! $element instanceof Element) {
+                continue;
+            }
 
-                if (! $element instanceof Element) {
-                    continue;
-                }
+            try {
+                $object = $service->getPortableObjectFromInstance($element);
+            } catch (PortableElementException $e) {
+                $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
+                return \common_report_Report::createFailure($message);
+            }
 
-                try {
-                    $object = $service->retrieve($key, $element->getTypeIdentifier());
-                } catch (PortableElementException $e) {
-                    $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
-                    return \common_report_Report::createFailure($message);
-                }
-
-                $portableElementExporter = $object->getModel()->getExporter($object, $this);
-                $portableElementsToExport[$element->getTypeIdentifier()] = $portableElementExporter;
-                try {
-                    $portableElementExporter->copyAssetFiles($replacementList);
-                } catch (\tao_models_classes_FileNotFoundException $e) {
-                    \common_Logger::i($e->getMessage());
-                    $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' .  $e->getMessage());
-                    $report->setType(\common_report_Report::TYPE_ERROR);
-                }
+            $portableElementExporter = $object->getModel()->getExporter($object, $this);
+            $portableElementsToExport[$element->getTypeIdentifier()] = $portableElementExporter;
+            try {
+                $portableElementExporter->copyAssetFiles($replacementList);
+            } catch (\tao_models_classes_FileNotFoundException $e) {
+                \common_Logger::i($e->getMessage());
+                $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' .  $e->getMessage());
+                $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
 
