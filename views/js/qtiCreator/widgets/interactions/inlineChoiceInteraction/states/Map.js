@@ -2,10 +2,11 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
+    'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/ResponseWidget',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiItem/helper/interactionHelper',
     'lodash',
-], function($, stateFactory, Map, formElement, interactionHelper, _){
+], function($, stateFactory, Map, responseWidget, formElement, interactionHelper, _){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Map, function(){
 
@@ -25,6 +26,13 @@ define([
             }
         }
 
+        _.forEach(response.getMapEntries(), function(score, choice){
+            var element = interaction.getChoiceByIdentifier(choice);
+            if(element){
+                $container.find('input[name=score][data-for="' + element.serial + '"]').val(score);
+            }
+        });
+
         formElement.setChangeCallbacks($container, response, {
             correct : function(response, value){
                 response.setCorrect(interactionHelper.serialToIdentifier(interaction, value));
@@ -37,7 +45,25 @@ define([
             }
         });
 
+        //render commonRenderer.render()
+        responseWidget.create(_widget, true, function(){
+
+            //set response
+            responseWidget.setResponse(_widget, _.values(response.getCorrect()));
+
+            //save correct response on change
+            _widget.$container.on('responseChange.qti-widget', function(e, data){
+                response.setCorrect(responseWidget.unformatResponse(data.response));
+            });
+        });
+
     }, function(){
+
+        var $container = this.widget.$container;
+        $container.find('table').show();
+        $container.off('responseChange.qti-widget');
+
+        responseWidget.destroy(this.widget);
 
     });
 
