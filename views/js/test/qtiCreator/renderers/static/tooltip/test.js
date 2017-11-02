@@ -46,7 +46,9 @@ define([
         creatorRenderer
             .get(true, {}, areaBroker)
             .load(function() {
+                var widget;
                 var $container = areaBroker.getItemPanelArea().find('.hoverable'); // fixme: a better approach would be needed...
+
 
                 tooltip.setRenderer(this);
                 tooltip.body('tootlip target');
@@ -54,8 +56,11 @@ define([
                 $container.append(tooltip.render());
                 tooltip.postRender();
 
+                widget = tooltip.data('widget');
+                widget.on('change')
+
                 $('#state-switcher').on('change', function() {
-                    var widget = tooltip.data('widget');
+
                     widget.changeState(this.value);
                 });
 
