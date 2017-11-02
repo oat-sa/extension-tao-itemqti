@@ -55,7 +55,7 @@ define([
             'modalContainer',
             'elementPropertyPanel'
         ];
-        var broker = areaBrokerMock();
+        var broker = areaBrokerMock({ defaultAreas: areas });
 
         QUnit.expect(37);
 
@@ -67,7 +67,7 @@ define([
             assert.equal(broker.getContainer().find('.' + area).length, 1, "The container must contain an area related to " + area);
         });
 
-        broker = areaBrokerMock($container, [extraArea]);
+        broker = areaBrokerMock({ defaultAreas: areas, $brokerContainer: $container, areas: [extraArea] });
 
         assert.equal(typeof broker, 'object', "The factory creates an object");
         assert.equal(broker.getContainer().length, 1, "The container exists");
@@ -78,69 +78,8 @@ define([
             assert.equal(broker.getContainer().find('.' + area).length, 1, "The container must contain an area related to " + area);
         });
 
-        assert.notEqual(areaBrokerMock(), areaBrokerMock(), "The factory creates new instances");
-        assert.notEqual(areaBrokerMock().getContainer().get(0), areaBrokerMock().getContainer().get(0), 'The factory creates a new container for each instance');
+        assert.notEqual(areaBrokerMock({ defaultAreas: areas }), areaBrokerMock({ defaultAreas: areas }), "The factory creates new instances");
+        assert.notEqual(areaBrokerMock({ defaultAreas: areas }).getContainer().get(0), areaBrokerMock({ defaultAreas: areas }).getContainer().get(0), 'The factory creates a new container for each instance');
     });
 
-
-    QUnit.test('broker api', function (assert) {
-        var $container = $('#qunit-fixture');
-        var areas = [
-            'menu',
-            'menuLeft',
-            'menuRight',
-            'editorBar',
-            'title',
-            'toolbar',
-            'interactionPanel',
-            'itemPanel',
-            'contentCreatorPanel',
-            'propertyPanel',
-            'itemPropertyPanel',
-            'itemStylePanel',
-            'modalContainer',
-            'elementPropertyPanel'
-        ];
-        var broker = areaBrokerMock($container, areas);
-
-        QUnit.expect(5);
-
-        assert.equal(broker.getContainer().length, 1, "The container exists");
-        assert.equal(broker.getContainer().children().length, areas.length, "The container contains the exact number of areas");
-
-        assert.equal(typeof broker.defineAreas, 'function', 'The broker has a defineAreas function');
-        assert.equal(typeof broker.getContainer, 'function', 'The broker has a getContainer function');
-        assert.equal(typeof broker.getArea, 'function', 'The broker has a getArea function');
-    });
-
-
-    QUnit.test('retrieve', function (assert) {
-        var $container = $('#qunit-fixture');
-        var areas = [
-            'menu',
-            'menuLeft',
-            'menuRight',
-            'editorBar',
-            'title',
-            'toolbar',
-            'interactionPanel',
-            'itemPanel',
-            'contentCreatorPanel',
-            'propertyPanel',
-            'itemPropertyPanel',
-            'itemStylePanel',
-            'modalContainer',
-            'elementPropertyPanel'
-        ];
-        var broker = areaBrokerMock($container, areas);
-
-        QUnit.expect(16);
-
-        assert.equal(broker.getContainer().length, 1, "The container exists");
-        assert.equal(broker.getContainer().children().length, areas.length, "The container contains the exact number of areas");
-
-        _.forEach(areas, function (area) {
-            assert.equal(broker.getArea(area).length, 1, "The container can retrieve the area " + area);
-        });
-    });
 });
