@@ -1,7 +1,25 @@
 @import "inc/bootstrap";
 
-[data-qti-class="_tooltip"] {
+[data-role="tooltip-target"] {
     color: $info;
-    text-decoration: dotted underline $info;
+    text-decoration: dashed underline $info;
     cursor: pointer;
+
+    //background-color: $lightBlueGrey;
+    //@include border-radius(5);
+    //padding: 2px 5px;
+
+    &:after {
+        @include tao-icon-setup;
+        @include icon-help;
+
+        //font-size: 1.2rem;
+        //margin-left: 3px;
+        font-size: 0.9rem;
+        vertical-align: super;
+        margin-left: 2px;
+        //font-size: 1.2rem;
+        //margin-right: 3px;
+
+    }
 }

@@ -55,7 +55,8 @@ define([
             .alignWith($tooltipContainer, {
                 hPos: 'center',
                 vPos: 'top',
-                vOrigin: 'top'
+                vOrigin: 'top',
+                vOffset: -25
             });
 
     };

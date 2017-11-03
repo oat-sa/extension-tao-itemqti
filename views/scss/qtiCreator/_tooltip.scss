@@ -1,21 +1,32 @@
 @import "inc/bootstrap";
 
 .widget-_tooltip {
-    border: 1px solid #F1D031;
-    padding: 3px;
-    font-weight: bold;
-    background-color: #FFFFA3;
+    //border: 1px solid #F1D031;
+    //padding: 0px 3px;
+    //font-weight: bold;
+    //background-color: #FFFFA3;
 }
 
 .qti-tooltip-editor {
     background: rgba($uiClickableDefaultBg, .9);
     padding: 20px 20px;
 
-    textarea {
+    input {
         display: block;
         width: 100%;
-        border-width: 0;
-        margin-bottom: 10px;
+    }
+
+    .tooltip-editor-content {
+        background-color: #FFFFA3;
+        border: 1px solid #F1D031;
+        @include border-radius(5);
+        width: 100%;
+        margin: 10px 0;
+        padding: 5px;
+        font-weight: normal;
+        color: $textColor;
+        font-size: 1.4rem;
+        cursor: text;
     }
 
     .widget-ok {
