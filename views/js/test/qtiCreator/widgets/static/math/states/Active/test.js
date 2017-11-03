@@ -44,7 +44,7 @@ define([
         var $outsideContainer = $('#outside-container'),
             widget,
             mathEl = new mathElement(),
-            areaBroker = areaBrokerFactory($outsideContainer),
+            areaBroker = areaBrokerFactory({ $brokerContainer: $outsideContainer }),
             $widgetBox = $('<div>', { 'class': 'widget-box', 'data-serial': 'serial' }),
             $widgetForm = areaBroker.getItemPropertyPanelArea();
 

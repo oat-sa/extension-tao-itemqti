@@ -21,11 +21,12 @@ define([
     'lodash',
     'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
-], function($, _, __, CommonRenderer){
+    'taoQtiItem/qtiCreator/widgets/helpers/placeholder'
+], function($, _, __, CommonRenderer, placeholder){
     'use strict';
 
     var ResponseWidget = {
-        create : function(widget, callback){
+        create : function(widget, responseMappingMode, callback){
 
             var self = this;
             var interaction = widget.element;
@@ -37,6 +38,15 @@ define([
                 shuffleChoices : false,
                 themes : false
             });
+
+            if(responseMappingMode){
+                widget.on('mappingAttributeChange', function(data){
+                    if(data.key === 'defaultValue'){
+                        placeholder.score(widget, data.value);
+                    }
+                });
+                placeholder.score(widget);
+            }
 
             this.commonRenderer.load(function(){
 

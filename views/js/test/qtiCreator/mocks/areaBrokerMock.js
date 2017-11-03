@@ -22,8 +22,8 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiCreator/editor/areaBroker'
-], function ($, _, areaBrokerFactory) {
+    'tao/test/core/areaBroker/mock/areaBrokerMock'
+], function ($, _, areaBrokerMockFactory) {
     'use strict';
 
     /**
@@ -53,38 +53,14 @@ define([
         'elementPropertyPanel'
     ];
 
-    /**
-     * A counter utilised to generate the mock identifiers
-     * @type {Number}
-     */
-    var mockId = 0;
+    function areaBrokerMock(config) {
 
-    /**
-     * Builds and returns a new areaBroker with dedicated areas.
-     * @param $brokerContainer - where to create the area broker - default to #qunit-fixture
-     * @param areas - A list of areas to create
-     * @returns {areaBroker} - Returns the new areaBroker
-     */
-    function areaBrokerMock($brokerContainer, areas) {
-        var mapping = {};
-        var $areaBrokerDom = $('<div />').attr('id', 'area-broker-mock-' + (mockId++)).addClass('qti-creator');
-
-        if (!areas) {
-            areas = defaultAreas;
-        } else {
-            areas = _.keys(_.merge(_.object(areas), _.object(defaultAreas)));
-        }
-
-        _.forEach(areas, function (areaId) {
-            mapping[areaId] = $('<div />').addClass('test-area').addClass(areaId).appendTo($areaBrokerDom);
+        config = _.defaults(config || {}, {
+            defaultAreas: defaultAreas,
+            id: 'qti-creator'
         });
 
-        if (! $brokerContainer) {
-            $brokerContainer = $('#qunit-fixture');
-        }
-        $brokerContainer.append($areaBrokerDom);
-
-        areaBroker = areaBrokerFactory($areaBrokerDom, mapping);
+        areaBroker = areaBrokerMockFactory(config);
 
         return areaBroker;
     }
