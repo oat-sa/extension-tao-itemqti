@@ -33,7 +33,8 @@ define([
             areaBroker = areaBrokerFactory({
                 $brokerContainer: $outsideContainer,
                 mapping: {
-                    itemPanel: $('.item-editor-item')
+                    itemPanel: $('.item-editor-item'),
+                    contentCreatorPanel: $('#item-editor-panel')
                 }
             }),
             tooltipContent  = 'my tooltip <strong>content</strong>',
@@ -41,12 +42,12 @@ define([
 
             tooltip = new Tooltip(tooltipSerial, {}, tooltipContent);
 
-        QUnit.expect(1);
+
+            QUnit.expect(1);
 
         creatorRenderer
             .get(true, {}, areaBroker)
             .load(function() {
-                var widget;
                 var $tooltipPlaceholder = $('.tooltip-placeholder');
 
                 tooltip.setRenderer(this);
@@ -54,13 +55,6 @@ define([
 
                 tooltip.render($tooltipPlaceholder);
                 tooltip.postRender();
-
-                widget = tooltip.data('widget');
-
-                $('.state-switcher').on('click', function() {
-                    widget.changeState(this.value);
-                    // widget.refresh(); //todo: necessary?
-                });
 
                 // assert.equal($container.find('.widget-inline').length, 1, 'element has been wrapped in a inline widget container');
                 assert.ok(true);

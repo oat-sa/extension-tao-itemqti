@@ -50,8 +50,7 @@ define([
         tooltipEditor = tooltipEditorFactory({
             tooltip: tooltip
         })
-            // .setSize(300, 'auto')
-            .render($itemPanel)
+            .render($tooltipContainer)
             .show()
             .alignWith($tooltipContainer, {
                 hPos: 'center',

@@ -25,8 +25,9 @@ define([
     'ui/component/alignable',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorContent',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
-], function(_, $, componentFactory, makeAlignable, htmlEditor, contentHelper, tpl) {
+], function(_, $, componentFactory, makeAlignable, htmlEditor, contentHelper, tooltipEditorContentFactory, tpl) {
     'use strict';
 
 
@@ -64,38 +65,33 @@ define([
             .on('render', function() {
                 var self = this,
                     $component = self.getElement(),
+                    $contentEditorContainer = $('.tooltip-editor-content-container'),
                     $closeBtn = $component.find('.widget-ok');
-
-                var $editableContainer = $component.find('.tooltip-editor-content');
 
                 var bodyChangeCallback = _.throttle(function(newBody) {
                     tooltip.body(newBody);
                 }, 800);
 
+                self.contentEditor = tooltipEditorContentFactory({ tooltip: tooltip });
+
                 $closeBtn.on('click', function() {
                     self.hide(); // todo: put the widget to sleep
                 });
 
-
-
-                $('.tooltip-editor-target').on('change', function() {
+                $('.tooltip-editor-target').on('input', function() {
                     bodyChangeCallback(this.value);
                 });
 
-                if(!htmlEditor.hasEditor($component)){
-                    htmlEditor.buildEditor($component, {
-                        placeholder: '',
-                        change : contentHelper.getChangeCallback(tooltip),
-                        removePlugins: 'magicline',
-                        data : {
-                            container : tooltip,
-                            widget : widget
-                        },
-                        blur : function(){
-                            widget.changeState('sleep');
-                        }
-                    });
-                }
+                self.contentEditor.render($contentEditorContainer);
+
+                $contentEditorContainer.on('click', function() {
+                    self.contentEditor.buildEditor();
+                });
+                $component.on('click', function(e) {
+                    if (!$.contains($contentEditorContainer[0], e.target)) {
+                        self.contentEditor.destroyEditor();
+                    }
+                });
 
             })
             .on('destroy', function() {
@@ -104,6 +100,11 @@ define([
                     $closeBtn = $component.find('.widget-ok');
 
                 $closeBtn.off('click');
+
+                if (this.contentEditor) {
+                    this.contentEditor.destroy();
+                    this.contentEditor = null;
+                }
             });
 
         makeAlignable(tooltipEditorComponent);
