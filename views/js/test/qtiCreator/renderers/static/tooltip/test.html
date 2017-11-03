@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Tooltip creator renderer</title>
     <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css">
     <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti-runner.css">
     <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/item-creator.css">
     <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
@@ -23,19 +24,21 @@
         #outside-container {
             height: 300px;
         }
+        .states {
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
-    <label for="state-switcher">State: </label>
-    <select id="state-switcher">
-        <option value="sleep" selected="selected">Sleep</option>
-        <option value="active">Active</option>
-    </select>
+    <div class="states">
+        <button class="state-switcher small btn-info" value="sleep">Sleep</button>
+        <button class="state-switcher small btn-info" value="active">Active</button>
+    </div>
     <div id="outside-container">
         <div id="item-editor-panel" class="item-editor-item">
-            <div class="hoverable"></div>
+            <div class="qti-item hoverable">Hey look, this is a <span class="tooltip-placeholder">XXX</span>. Pretty cool huh?!</div>
         </div>
     </div>
 </body>
