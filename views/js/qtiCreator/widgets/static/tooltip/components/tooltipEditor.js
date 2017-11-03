@@ -23,9 +23,12 @@ define([
     'jquery',
     'ui/component',
     'ui/component/alignable',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
-], function(_, $, componentFactory, makeAlignable, tpl) {
+], function(_, $, componentFactory, makeAlignable, htmlEditor, contentHelper, tpl) {
     'use strict';
+
 
     var defaultConfig = {
 
@@ -36,20 +39,64 @@ define([
     };
 
     return function tooltipEditorFactory(config) {
-        var tooltipEditorComponent;
+        var tooltip,
+            tooltipEditorComponent,
+            widget;
 
         config = _.defaults(config || {}, defaultConfig);
 
+        /**
+         *
+         */
         tooltipEditorComponent = componentFactory(tooltipEditorApi, config)
             .setTemplate(tpl)
+            .on('init', function() {
+                if (!this.config.tooltip) {
+                    throw new Error('tooltip instance must be given in the config');
+                }
+                tooltip = this.config.tooltip;
+                widget = tooltip.data('widget');
+
+                // set templates variables
+                this.config.target  = tooltip.body();
+                this.config.content = tooltip.content();
+            })
             .on('render', function() {
                 var self = this,
                     $component = self.getElement(),
                     $closeBtn = $component.find('.widget-ok');
 
+                var $editableContainer = $component.find('.tooltip-editor-content');
+
+                var bodyChangeCallback = _.throttle(function(newBody) {
+                    tooltip.body(newBody);
+                }, 800);
+
                 $closeBtn.on('click', function() {
                     self.hide(); // todo: put the widget to sleep
                 });
+
+
+
+                $('.tooltip-editor-target').on('change', function() {
+                    bodyChangeCallback(this.value);
+                });
+
+                if(!htmlEditor.hasEditor($component)){
+                    htmlEditor.buildEditor($component, {
+                        placeholder: '',
+                        change : contentHelper.getChangeCallback(tooltip),
+                        removePlugins: 'magicline',
+                        data : {
+                            container : tooltip,
+                            widget : widget
+                        },
+                        blur : function(){
+                            widget.changeState('sleep');
+                        }
+                    });
+                }
+
             })
             .on('destroy', function() {
                 var self = this,

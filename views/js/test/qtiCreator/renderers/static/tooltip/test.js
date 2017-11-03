@@ -59,6 +59,7 @@ define([
 
                 $('.state-switcher').on('click', function() {
                     widget.changeState(this.value);
+                    // widget.refresh(); //todo: necessary?
                 });
 
                 // assert.equal($container.find('.widget-inline').length, 1, 'element has been wrapped in a inline widget container');

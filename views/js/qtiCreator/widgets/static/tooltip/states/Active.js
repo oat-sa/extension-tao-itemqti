@@ -48,21 +48,26 @@ define([
             tooltip = _widget.element;
 
         tooltipEditor = tooltipEditorFactory({
-            target: tooltip.body(),
-            content: tooltip.content()
+            tooltip: tooltip
         })
             // .setSize(300, 'auto')
             .render($itemPanel)
             .show()
             .alignWith($tooltipContainer, {
                 hPos: 'center',
-                vPos: 'center',
+                vPos: 'top',
                 vOrigin: 'top'
             });
 
     };
 
     TooltipStateActive.prototype.destroyEditor = function destroyEditor(){
+        var _widget = this.widget,
+            tooltip = _widget.element,
+            $tooltip = _widget.$original;
+
+        $tooltip.html(tooltip.body());
+
         if (tooltipEditor) {
             tooltipEditor.destroy();
             tooltipEditor = null;
