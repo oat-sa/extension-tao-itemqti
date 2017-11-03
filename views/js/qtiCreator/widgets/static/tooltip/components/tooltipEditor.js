@@ -25,9 +25,20 @@ define([
     'ui/component/alignable',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorTarget',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorContent',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
-], function(_, $, componentFactory, makeAlignable, htmlEditor, contentHelper, tooltipEditorContentFactory, tpl) {
+], function(
+    _,
+    $,
+    componentFactory,
+    makeAlignable,
+    htmlEditor,
+    contentHelper,
+    targetEditorFactory,
+    contentEditorFactory,
+    tpl
+) {
     'use strict';
 
 
@@ -41,8 +52,7 @@ define([
 
     return function tooltipEditorFactory(config) {
         var tooltip,
-            tooltipEditorComponent,
-            widget;
+            tooltipEditorComponent;
 
         config = _.defaults(config || {}, defaultConfig);
 
@@ -56,7 +66,6 @@ define([
                     throw new Error('tooltip instance must be given in the config');
                 }
                 tooltip = this.config.tooltip;
-                widget = tooltip.data('widget');
 
                 // set templates variables
                 this.config.target  = tooltip.body();
@@ -65,31 +74,33 @@ define([
             .on('render', function() {
                 var self = this,
                     $component = self.getElement(),
-                    $contentEditorContainer = $('.tooltip-editor-content-container'),
-                    $closeBtn = $component.find('.widget-ok');
 
-                var bodyChangeCallback = _.throttle(function(newBody) {
-                    tooltip.body(newBody);
-                }, 800);
-
-                self.contentEditor = tooltipEditorContentFactory({ tooltip: tooltip });
+                    $targetEditorContainer  = $component.find('.tooltip-editor-target-container'),
+                    $contentEditorContainer = $component.find('.tooltip-editor-content-container'),
+                    $closeBtn               = $component.find('.widget-ok');
 
                 $closeBtn.on('click', function() {
                     self.hide(); // todo: put the widget to sleep
                 });
 
-                $('.tooltip-editor-target').on('input', function() {
-                    bodyChangeCallback(this.value);
-                });
-
-                self.contentEditor.render($contentEditorContainer);
+                self.targetEditor = targetEditorFactory({ tooltip: tooltip })
+                    .render($targetEditorContainer);
+                self.contentEditor = contentEditorFactory({ tooltip: tooltip })
+                    .render($contentEditorContainer);
 
                 $contentEditorContainer.on('click', function() {
                     self.contentEditor.buildEditor();
                 });
+                $targetEditorContainer.on('click', function() {
+                    self.targetEditor.buildEditor();
+                });
+
                 $component.on('click', function(e) {
                     if (!$.contains($contentEditorContainer[0], e.target)) {
                         self.contentEditor.destroyEditor();
+
+                    } else if (!$.contains(targetEditorFactory[0], e.target)) {
+                        self.targetEditor.destroyEditor();
                     }
                 });
 
@@ -103,7 +114,11 @@ define([
 
                 if (this.contentEditor) {
                     this.contentEditor.destroy();
-                    this.contentEditor = null;
+                    this.contentEditor = null; // works well with async ?!
+                }
+                if (this.targetEditor) {
+                    this.targetEditor.destroy();
+                    this.targetEditor = null;
                 }
             });
 
