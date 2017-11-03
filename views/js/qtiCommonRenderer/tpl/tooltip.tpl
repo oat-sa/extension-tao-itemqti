@@ -1,1 +1,1 @@
-<span data-serial="{{serial}}" data-qti-class="_tooltip">{{{body}}}</span>
+<span data-serial="{{serial}}" data-qti-class="_tooltip"{{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}>{{{body}}}</span>

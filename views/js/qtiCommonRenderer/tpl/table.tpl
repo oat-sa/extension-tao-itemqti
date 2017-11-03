@@ -3,6 +3,7 @@
     data-qti-class="table"
     data-serial="{{serial}}"
     {{#if attributes.summary}}summary="{{attributes.summary}}"{{/if}}
+    {{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}
     >
     {{{body}}}
 </table>

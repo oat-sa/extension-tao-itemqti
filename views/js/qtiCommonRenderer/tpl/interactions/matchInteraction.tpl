@@ -1,4 +1,4 @@
-<div {{#if attributes.id}}id="{{attributes.id}}"{{/if}} class="qti-interaction qti-blockInteraction qti-matchInteraction{{#if attributes.class}} {{attributes.class}}{{/if}}" data-serial="{{serial}}" data-qti-class="matchInteraction">
+<div {{#if attributes.id}}id="{{attributes.id}}"{{/if}} class="qti-interaction qti-blockInteraction qti-matchInteraction{{#if attributes.class}} {{attributes.class}}{{/if}}" data-serial="{{serial}}" data-qti-class="matchInteraction"{{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}>
   {{#if prompt}}{{{prompt}}}{{/if}}
   <div class="instruction-container"></div>
   <div class="match-interaction-area">
