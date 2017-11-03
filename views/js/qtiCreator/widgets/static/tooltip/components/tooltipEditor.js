@@ -22,9 +22,9 @@ define([
     'lodash',
     'jquery',
     'ui/component',
-    'ui/component/placeable',
+    'ui/component/alignable',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
-], function(_, $, componentFactory, makePlaceable, tpl) {
+], function(_, $, componentFactory, makeAlignable, tpl) {
     'use strict';
 
     var defaultConfig = {
@@ -44,11 +44,22 @@ define([
             .setTemplate(tpl)
             .on('render', function() {
                 var self = this,
-                    $component = self.getElement();
+                    $component = self.getElement(),
+                    $closeBtn = $component.find('.widget-ok');
 
+                $closeBtn.on('click', function() {
+                    self.hide(); // todo: put the widget to sleep
+                });
+            })
+            .on('destroy', function() {
+                var self = this,
+                    $component = self.getElement(),
+                    $closeBtn = $component.find('.widget-ok');
+
+                $closeBtn.off('click');
             });
 
-        makePlaceable(tooltipEditorComponent);
+        makeAlignable(tooltipEditorComponent);
 
         return tooltipEditorComponent.init();
     };

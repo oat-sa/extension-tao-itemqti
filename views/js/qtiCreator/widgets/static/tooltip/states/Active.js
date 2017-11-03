@@ -44,16 +44,20 @@ define([
     TooltipStateActive.prototype.buildEditor = function buildEditor(){
         var _widget = this.widget,
             $itemPanel = _widget.getAreaBroker().getItemPanelArea(),
-            $tooltipContainer = _widget.$container;
+            $tooltipContainer = _widget.$container,
+            tooltip = _widget.element;
 
-        tooltipEditor = tooltipEditorFactory()
-            .setSize(300, 150)
+        tooltipEditor = tooltipEditorFactory({
+            target: tooltip.body(),
+            content: tooltip.content()
+        })
+            // .setSize(300, 'auto')
             .render($itemPanel)
             .show()
             .alignWith($tooltipContainer, {
-                hPos: 'left',
-                hOrigin: 'left',
-                vPos: 'bottom'
+                hPos: 'center',
+                vPos: 'center',
+                vOrigin: 'top'
             });
 
     };

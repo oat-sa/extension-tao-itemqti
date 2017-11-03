@@ -1,6 +1,25 @@
 @import "inc/bootstrap";
 
+.widget-_tooltip {
+    border: 1px solid #F1D031;
+    padding: 3px;
+    font-weight: bold;
+    background-color: #FFFFA3;
+}
+
 .qti-tooltip-editor {
     background: rgba($uiClickableDefaultBg, .9);
-    border: black 1px solid;
+    padding: 20px 20px;
+
+    textarea {
+        display: block;
+        width: 100%;
+        border-width: 0;
+        margin-bottom: 10px;
+    }
+
+    .widget-ok {
+        float: right;
+        position: relative;
+    }
 }

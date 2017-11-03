@@ -1,4 +1,5 @@
 <div class="qti-tooltip-editor">
-    <label for="qti-tooltip-editor-content">{{__ 'Tooltip content' }}</label>
-    <textarea name="qti-tooltip-editor-content" title="{{__ 'Tooltip content' }}" class="qti-tooltip-editor-content"></textarea>
+    <input title="{{__ 'Tooltip target' }}" type="text" value="{{target}}" class="tooltip-target" />
+    <div title="{{__ 'Tooltip content' }}" class="tooltip-content">{{{content}}}</div>
+    <button class="btn-info small widget-ok" data-edit="active" style="display: inline-block;">done</button>
 </div>
