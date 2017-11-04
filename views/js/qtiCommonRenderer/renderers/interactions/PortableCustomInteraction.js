@@ -130,25 +130,28 @@ define([
                     return reject('The runtime for the pci cannot be found : ' + typeIdentifier);
                 }
 
-                //load hook if applicable
-                if(runtime.hook){
-                    requireEntries.push(runtime.hook.replace(/\.js$/, ''));
+                if(runtime.model === 'IMSPCI'){//TODO fix this
+                    //load modules
+                    _.forEach(runtime.modules, function(module, name){
+                        requireEntries.push(name);
+                    });
+
+                }else{
+                    //load hook if applicable
+                    if(runtime.hook){
+                        requireEntries.push(runtime.hook.replace(/\.js$/, ''));
+                    }
+
+                    //load libs
+                    _.forEach(runtime.libraries, function(lib) {
+                        requireEntries.push(lib.replace(/\.js$/, ''));
+                    });
+
+                    //load stylesheets
+                    _.forEach(runtime.stylesheets, function(stylesheet){
+                        requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
+                    });
                 }
-
-                //load libs
-                _.forEach(runtime.libraries, function(lib) {
-                    requireEntries.push(lib.replace(/\.js$/, ''));
-                });
-
-                //load modules
-                _.forEach(runtime.modules, function(module, name){
-                    requireEntries.push(name);
-                });
-
-                //load stylesheets
-                _.forEach(runtime.stylesheets, function(stylesheet){
-                    requireEntries.push('css!'+stylesheet.replace(/\.css$/, ''));
-                });
 
                 //load the entrypoint+stylesheets
                 require(requireEntries, function(){
