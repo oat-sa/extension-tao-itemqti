@@ -107,6 +107,8 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     protected function getAllVersions($identifier)
     {
+
+        \common_Logger::w('getAllVersionsgetAllVersions');
         $portableElements = $this->get($identifier);
 
         // No portable element found
@@ -128,8 +130,12 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         $fileSystem= $this->getConfigFileSystem();
 
-        if($fileSystem->has($identifier)){
-            return json_decode($fileSystem->read($identifier),true);
+        $registrationFile = $this->getRegistrationFile($identifier);
+        if($fileSystem->has($registrationFile)){
+
+//            \common_Logger::d('sdsdskjalkjsajlasklöasd a '.$identifier. ' -- ' .print_r(json_decode($fileSystem->read($identifier),true), true));
+
+            return json_decode($fileSystem->read($registrationFile), true);
         }
 
         return false;
@@ -142,13 +148,31 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         foreach ($contents as $file){
             if($file['type'] === 'file'){
-                $identifier = $file['filename'];
-                $elements[$identifier] = $this->get($identifier);
+                $data = json_decode($this->getConfigFileSystem()->read($file['filename']), true);
+
+                \common_Logger::d('getAllgetAll '.print_r($data, true));
+
+                if(is_array($data) && count($data) > 0){
+                    $onePci = reset($data);
+                    if(isset($onePci['typeIdentifier'])){
+                        $identifier = $onePci['typeIdentifier'];
+                        $elements[$identifier] = $this->get($identifier);
+                        \common_Logger::d('sdsdskjalkjsajlasklöasd a '.$identifier. ' -- ' .print_r($elements[$identifier], true));
+                    }
+                }
             }
         }
         return $elements;
     }
 
+    private function getRegistrationFile($identifier){
+        $file = preg_replace('/[^a-z0-9-_]/i', '-', $identifier).'_'.md5($identifier);
+        if($this->getConfigFileSystem()->has($identifier)){
+            //backward compatibility to previous format before the support or URN
+            $file = $identifier;
+        }
+        return $file;
+    }
 
     /**
      * Add a value to the list with given id
@@ -158,7 +182,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     private function set($identifier, $value)
     {
-        $this->getConfigFileSystem()->put($identifier, json_encode($value));
+        $this->getConfigFileSystem()->put($this->getRegistrationFile($identifier), json_encode($value));
     }
 
     /**
@@ -179,7 +203,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     private function remove(PortableElementObject $object)
     {
-        $this->getConfigFileSystem()->delete($object->getTypeIdentifier());
+        $this->getConfigFileSystem()->delete($this->getRegistrationFile($object->getTypeIdentifier()));
         $this->getFileSystem()->unregisterAllFiles($object);
     }
 

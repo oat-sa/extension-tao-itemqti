@@ -192,7 +192,7 @@ class Validator
     public static function isTypeIdentifier($value)
     {
         //the IMS PCI standard recommends using the URN https://tools.ietf.org/html/rfc4198
-        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/[a-z0-9-_:]+/i'));
+        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/[a-z0-9-_:\.]+/i'));
         if (! is_null($value) && ! $validator->evaluate($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid type identifier.');
         }

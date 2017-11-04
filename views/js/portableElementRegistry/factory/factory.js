@@ -57,6 +57,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 var runtimeModules = {};
 
+                //change here
                 requireConfigAliases[manifest.typeIdentifier] = baseUrl;
 
                 if(manifest.model === 'IMSPCI'){
@@ -226,6 +227,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     var requireConfigAliases = _.reduce(moduleConfigs, function(acc, paths){
                                         return _.merge(acc, paths);
                                     }, {});
+
+                                    console.log('requireConfigAliases', requireConfigAliases);
 
                                     //save the required libs name => path to global require alias
                                     //TODO in future planned user story : change this to a local require context to solve conflicts in third party module naming
