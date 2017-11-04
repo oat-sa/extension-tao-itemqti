@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -38,33 +38,6 @@ define([
     'use strict';
 
     var logger = loggerFactory('taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction');
-
-    /**
-     * Get the PCI instance associated to the interaction object
-     * If none exists, create a new one based on the PCI typeIdentifier
-     *
-     * @param {Object} interaction - the js object representing the interaction
-     * @returns {Object} PCI instance
-     */
-    var _getPci = function _getPci(interaction){
-
-        var pciTypeIdentifier,
-            pci = interaction.data('pci');
-
-        if(!pci){
-            pciTypeIdentifier = interaction.typeIdentifier;
-            pci = qtiCustomInteractionContext.createPciInstance(pciTypeIdentifier);
-            if(pci){
-                //binds the PCI instance to TAO interaction object and vice versa
-                interaction.data('pci', pci);
-                pci._taoCustomInteraction = interaction;
-            }else{
-                throw new Error('no custom interaction hook found for the type ' + pciTypeIdentifier);
-            }
-        }
-
-        return pci;
-    };
 
     var _setPciModel = function _setPciModel(interaction, runtime){
         var pciRenderer;
@@ -124,7 +97,7 @@ define([
                 pciRenderer = _getPciRenderer(interaction);
 
                 require(pciRenderer.getRequiredModules(), function(){
-                    var pci = _getPci(interaction);
+                    var pci = instanciator.getPci(interaction);
                     if(pci){
                         pciRenderer.createInstance(interaction, {
                             response: response,
@@ -150,7 +123,7 @@ define([
      * @param {Object} response
      */
     var setResponse = function setResponse(interaction, response){
-        _getPci(interaction).setResponse(response);
+        instanciator.getPci(interaction).setResponse(response);
     };
 
     /**
@@ -161,7 +134,7 @@ define([
      * @returns {Object}
      */
     var getResponse = function getResponse(interaction){
-        return _getPci(interaction).getResponse();
+        return instanciator.getPci(interaction).getResponse();
     };
 
     /**
@@ -171,7 +144,7 @@ define([
      * @param {Object} interaction
      */
     var resetResponse = function resetResponse(interaction){
-        _getPci(interaction).resetResponse();
+        instanciator.getPci(interaction).resetResponse();
     };
 
     /**
