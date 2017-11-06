@@ -22,7 +22,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/pci/instanciator'
 ], function(_, containerHelper, instanciator){
     'use strict';
-    return function defaultPciRenderer(runtime){
+    return function commonPciRenderer(runtime){
        return {
            getRequiredModules : function getRequiredModules(){
                var requireEntries = [];
@@ -58,7 +58,7 @@ define([
                pci.initialize(id, containerHelper.get(interaction).children().get(0), properties, pciAssetManager);
            },
            destroy : function destroy(interaction){
-               instanciator.getPci(interaction).oncompleted();
+               instanciator.getPci(interaction).destroy();
            },
            setState : function setState(interaction, state){
                instanciator.getPci(interaction).setSerializedState(state);

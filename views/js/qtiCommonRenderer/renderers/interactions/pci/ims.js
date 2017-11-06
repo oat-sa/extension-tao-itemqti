@@ -58,7 +58,7 @@ define([
                     status : 'interacting',//only support interacting state currently(TODO: solution, review),
                 };
 
-                pci.getInstance(containerHelper.get(interaction).get(0), config, context.state || {});
+                pci.getInstance(containerHelper.get(interaction).get(0), config, context.state);
             },
             destroy : function destroy(interaction){
                 instanciator.getPci(interaction).oncompleted();
