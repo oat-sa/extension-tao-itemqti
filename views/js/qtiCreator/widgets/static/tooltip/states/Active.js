@@ -57,6 +57,10 @@ define([
                 vPos: 'top',
                 vOrigin: 'top',
                 vOffset: -25
+            })
+            .on('close', function() {
+                console.log('closing');
+                _widget.changeState('sleep');
             });
 
     };
@@ -69,6 +73,8 @@ define([
         $tooltip.html(tooltip.body());
 
         if (tooltipEditor) {
+            console.log('destroying');
+            tooltipEditor.hide();
             tooltipEditor.destroy();
             tooltipEditor = null;
         }

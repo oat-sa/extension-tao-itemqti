@@ -20,19 +20,29 @@
  */
 define([
     'lodash',
-    'jquery',
-    'ui/component',
-    'ui/component/alignable',
-    'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tip'
-], function(_, $, componentFactory, makeAlignable, tpl) {
-    'use strict';
+    'taoQtiItem/qtiCreator/model/mixin/editable',
+    'taoQtiItem/qtiItem/core/Tooltip'
+], function(_, editable, PrintedVariable){
+    "use strict";
 
-    return function tipFactory(config) {
-        return makeAlignable(componentFactory({}, config))
-            .setTemplate(tpl)
-            .on('render', function() {
-                this.setSize(10, 10);
-            })
-            .init();
-    };
+    var methods = {};
+    _.extend(methods, editable);
+    _.extend(methods, {
+        // getDefaultAttributes : function(){
+        //     return {
+        //         format:           '%2g',
+        //         powerForm:        false,
+        //         base:             10,
+        //         index:            -1,
+        //         delimiter:        ';',
+        //         field:            '',
+        //         mappingIndicator: '='
+        //     };
+        // },
+
+        isEmpty: function isEmpty() {
+            return !this.body();
+        }
+    });
+    return PrintedVariable.extend(methods);
 });

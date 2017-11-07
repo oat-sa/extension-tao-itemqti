@@ -8,29 +8,50 @@
 }
 
 .qti-tooltip-editor {
-    background: rgba($uiClickableDefaultBg, .9);
+    background: $uiClickableDefaultBg;
     padding: 20px 20px;
+    min-width: 250px;
 
     input {
         display: block;
         width: 100%;
     }
 
-    .tooltip-editor-content {
-        background-color: #FFFFA3;
-        border: 1px solid #F1D031;
-        @include border-radius(5);
-        width: 100%;
-        margin: 10px 0;
-        padding: 5px;
-        font-weight: normal;
-        color: $textColor;
-        font-size: 1.4rem;
+    .tooltip-editor-target {
+        text-align: center;
         cursor: text;
+        padding: 3px 5px;
+        background-color: #fff;
+        margin-bottom: 2px;
     }
+
+    .tooltip-editor-content-container {
+        position: relative;
+
+        .tooltip-editor-content {
+            background-color: #FFFFA3;
+            border: 1px solid #F1D031;
+            @include border-radius(5);
+            width: 100%;
+            margin: 10px 0;
+            padding: 5px;
+            font-weight: normal;
+            color: $textColor;
+            font-size: 1.4rem;
+            cursor: text;
+        }
+    }
+
+
 
     .widget-ok {
         float: right;
         position: relative;
+    }
+
+    .qti-tooltip-editor-tip {
+        background-color: #FFFFA3;
+        border-top: 1px solid #F1D031;
+        border-left: 1px solid #F1D031;
     }
 }

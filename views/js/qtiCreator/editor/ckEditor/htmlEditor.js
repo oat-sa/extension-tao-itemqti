@@ -93,6 +93,9 @@ define([
                             _activateInnerWidget(options.data.widget, createdWidget);
                         });
                     }
+                },
+                alert : function alert(message) {
+
                 }
             },
             on : {

@@ -25,6 +25,7 @@ define([
     'ui/component/alignable',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tip',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorTarget',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorContent',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
@@ -35,6 +36,7 @@ define([
     makeAlignable,
     htmlEditor,
     contentHelper,
+    tipFactory,
     targetEditorFactory,
     contentEditorFactory,
     tpl
@@ -79,14 +81,24 @@ define([
                     $contentEditorContainer = $component.find('.tooltip-editor-content-container'),
                     $closeBtn               = $component.find('.widget-ok');
 
-                $closeBtn.on('click', function() {
-                    self.hide(); // todo: put the widget to sleep
+                $closeBtn.on('click', function(e) {
+                    e.stopPropagation();
+                    self.trigger('close');
                 });
 
                 self.targetEditor = targetEditorFactory({ tooltip: tooltip })
                     .render($targetEditorContainer);
                 self.contentEditor = contentEditorFactory({ tooltip: tooltip })
                     .render($contentEditorContainer);
+
+                self.tip = tipFactory({
+                    renderTo: $contentEditorContainer
+                })
+                    .alignWith($contentEditorContainer, {
+                        hPos: 'center',
+                        vPos: 'top',
+                        vOrigin: 'center'
+                    });
 
                 $contentEditorContainer.on('click', function() {
                     self.contentEditor.buildEditor();
@@ -119,6 +131,10 @@ define([
                 if (this.targetEditor) {
                     this.targetEditor.destroy();
                     this.targetEditor = null;
+                }
+                if (this.tip) {
+                    this.tip.destroy();
+                    this.tip = null;
                 }
             });
 

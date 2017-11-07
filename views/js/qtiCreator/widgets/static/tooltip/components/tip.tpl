@@ -1,5 +1,1 @@
-<div class="qti-tooltip-editor" data-role="editor-popup">
-    <div class="tooltip-editor-target-container"></div>
-    <div class="tooltip-editor-content-container"></div>
-    <button class="btn-info small widget-ok" data-edit="active" style="display: inline-block;">done</button>
-</div>
+<div class="qti-tooltip-editor-tip" style="transform: rotate(45deg) skew(30deg, 30deg)"></div>
