@@ -1,0 +1,28 @@
+$titleBarTxt: white(1);
+$titleBarTxtShadow: 1px 1px 0 blacken($info, .2);
+$titleBarBg: whiten($info, .1);
+$bodyBg: $uiClickableDefaultBg;
+
+.window-component {
+    border: 0;
+    z-index: 999;
+
+    .window-component-title-bar {
+        background-color: $titleBarBg;
+        color: $titleBarTxt;
+        text-shadow: $titleBarTxtShadow;
+
+        .window-component-title {
+            padding: auto;
+        }
+
+        .window-component-controls {
+
+        }
+    }
+
+    .window-component-body {
+        background-color: $bodyBg;
+        padding: 0;
+    }
+}

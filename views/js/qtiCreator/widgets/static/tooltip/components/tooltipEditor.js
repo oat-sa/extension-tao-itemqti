@@ -22,9 +22,7 @@ define([
     'lodash',
     'i18n',
     'jquery',
-    'ui/component',
-    'ui/component/alignable',
-    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'taoQtiItem/qtiCreator/widgets/helpers/widgetPopup',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tip',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/editorField',
@@ -33,16 +31,13 @@ define([
     _,
     __,
     $,
-    componentFactory,
-    makeAlignable,
-    htmlEditor,
+    widgetPopupFactory,
     contentHelper,
     tipFactory,
     editorFieldFactory,
     tpl
 ) {
     'use strict';
-
 
     var defaultConfig = {
 
@@ -61,8 +56,7 @@ define([
         /**
          *
          */
-        tooltipEditorComponent = componentFactory(tooltipEditorApi, config)
-            .setTemplate(tpl)
+        tooltipEditorComponent = widgetPopupFactory(tooltipEditorApi, config)
             .on('init', function() {
                 if (!this.config.tooltip) {
                     throw new Error('tooltip instance must be given in the config');
@@ -75,11 +69,20 @@ define([
             })
             .on('render', function() {
                 var self = this,
-                    $component = self.getElement(),
+                    $component = this.getElement(),
+                    $body = self.getBody(),
 
-                    $targetEditorContainer  = $component.find('.tooltip-editor-target-container'),
-                    $contentEditorContainer = $component.find('.tooltip-editor-content-container'),
-                    $closeBtn               = $component.find('.widget-ok');
+                    $targetEditorContainer,
+                    $contentEditorContainer,
+                    $closeBtn;
+
+                $component.addClass('');
+
+                $body.append($(tpl()));
+
+                $targetEditorContainer  = $body.find('.tooltip-editor-target-container');
+                $contentEditorContainer = $body.find('.tooltip-editor-content-container');
+                $closeBtn               = $body.find('.widget-ok');
 
                 $closeBtn.on('click', function(e) {
                     e.stopPropagation();
@@ -107,15 +110,16 @@ define([
                     }
                 })
                     .render($contentEditorContainer);
-
+/*
                 self.tip = tipFactory({
                     renderTo: $contentEditorContainer
                 })
-                    .alignWith($contentEditorContainer, {
+                    .alignWith(self.contentEditor.getContainer(), {
                         hPos: 'center',
                         vPos: 'top',
                         vOrigin: 'center'
                     });
+                    */
             })
             .on('destroy', function() {
                 var self = this,
@@ -138,7 +142,6 @@ define([
                 }
             });
 
-        makeAlignable(tooltipEditorComponent);
 
         return tooltipEditorComponent.init();
     };

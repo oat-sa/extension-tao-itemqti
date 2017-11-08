@@ -49,7 +49,9 @@ define([
             tooltip = _widget.element;
 
         tooltipEditor = tooltipEditorFactory({
-            tooltip: tooltip
+            tooltip: tooltip,
+            windowTitle: __('Tooltip editor'),
+            hasCloser: false
         })
             .render($tooltipContainer)
             .show()
@@ -57,7 +59,9 @@ define([
                 hPos: 'center',
                 vPos: 'top',
                 vOrigin: 'top',
-                vOffset: -25
+                // the following are arbitrary values and gives a best result visually
+                hOffset: -5,
+                vOffset: -50
             })
             .on('close', function() {
                 _widget.changeState('sleep');
