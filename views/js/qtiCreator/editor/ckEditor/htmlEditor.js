@@ -21,11 +21,24 @@ define([
     'jquery',
     'ckeditor',
     'core/promise',
+    'taoQtiItem/qtiCreator/editor/ckEditor/editorMessages',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
-    'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function(_, __, $, CKEditor, Promise, ckConfigurator, Element, contentHelper, deletingHelper){
+    'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
+    'qtip'
+], function(
+    _,
+    __,
+    $,
+    CKEditor,
+    Promise,
+    editorMessages,
+    ckConfigurator,
+    Element,
+    contentHelper,
+    deletingHelper
+){
     "use strict";
 
     var _defaults = {
@@ -79,8 +92,7 @@ define([
                  *                           wrapped in a temporary widget container (= a widget container with a [data-new="true"] attribute)
                  */
                 insert : function(tempWidget){
-                    var $newContent = $(tempWidget).clone().contents(); // we keep the original content, without the widget wrapper, for later use
-
+                    var $newContent = $(tempWidget).clone(); // we keep the original content for later use
                     if(options.data && options.data.container && options.data.widget){
                         contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
                             var createdElement = createdWidget.element;
@@ -94,8 +106,28 @@ define([
                         });
                     }
                 },
-                alert : function alert(message) {
+                alert : function alert(elementSelector, messageId) {
+                    var $messageSrc = $(elementSelector);
 
+                    if ($messageSrc.length && editorMessages[messageId]) {
+                        $messageSrc.qtip({
+                            content: {
+                                text: editorMessages[messageId]
+                            },
+                            theme : 'qtip-rounded qtip-orange',
+                            show: {
+                                ready: true
+                            },
+                            hide: {
+                                event: 'mouseleave'
+                            },
+                            events: {
+                                hide: function(event, api) {
+                                    api.destroy();
+                                }
+                            }
+                        });
+                    }
                 }
             },
             on : {
