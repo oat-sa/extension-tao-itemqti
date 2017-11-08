@@ -28,8 +28,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
-], function(_, $, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper, tooltipEditorFactory){
+], function(_, $, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper, inlineHelper, tooltipEditorFactory){
     'use strict';
 
     var tooltipEditor;
@@ -59,8 +60,8 @@ define([
                 vOffset: -25
             })
             .on('close', function() {
-                console.log('closing');
                 _widget.changeState('sleep');
+                inlineHelper.togglePlaceholder(_widget);
             });
 
     };
@@ -73,7 +74,6 @@ define([
         $tooltip.html(tooltip.body());
 
         if (tooltipEditor) {
-            console.log('destroying');
             tooltipEditor.hide();
             tooltipEditor.destroy();
             tooltipEditor = null;
