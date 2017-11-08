@@ -20,28 +20,33 @@
  */
 define([
     'lodash',
+    'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Tooltip'
-], function(_, editable, PrintedVariable){
+], function(_, util, editable, PrintedVariable){
     "use strict";
 
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
-        // getDefaultAttributes : function(){
-        //     return {
-        //         format:           '%2g',
-        //         powerForm:        false,
-        //         base:             10,
-        //         index:            -1,
-        //         delimiter:        ';',
-        //         field:            '',
-        //         mappingIndicator: '='
-        //     };
-        // },
-
         isEmpty: function isEmpty() {
-            return !this.body();
+            return !this.body() || !this.bdy;
+        },
+        afterCreate : function(){
+            var tooltipContentId = util.buildSerial(this.qtiClass + '-');
+            this.attr('aria-describedby', tooltipContentId);
+        },
+        // As far as the Qti Creator is concerned, an empty tooltip is a tooltip containing a non-breaking space.
+        // We make sure that we never store an empty string as the body, so we remain friends with CK...
+        body: function(newBody) {
+            var body;
+            if (newBody === '') {
+                newBody = '&nbsp;';
+            }
+
+            body = this._super(newBody);
+
+            return (body === '&nbsp;') ? '' : body;
         }
     });
     return PrintedVariable.extend(methods);
