@@ -24,34 +24,39 @@ define([
     'ui/component',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorContent'
+    'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/editorField'
 ], function(_, $, componentFactory, htmlEditor, contentHelper, tpl) {
     'use strict';
 
-
-    var defaultConfig = {
-
-    };
-
-
-
-    return function tooltipEditorContentFactory(config) {
+    /**
+     * @param {Element} tooltip - the tooltip instance
+     * @param {String} config.content - content of the field
+     * @param {String} config.title - css class of the editable field
+     * @param {String} config.class - title attribute of the editable field
+     * @param {Function} config.change - the editor change callback
+     */
+    return function editorFieldFactory(config) {
         var tooltip,
-            tooltipEditorComponent,
+            EditorFieldComponent,
             widget;
 
-        var tooltipEditorApi = {
+        var EditorFieldApi = {
             buildEditor: function buildEditor() {
                 var self = this,
-                    $component = self.getElement();
+                    $component = self.getElement(),
+                    changeCallback = _.noop;
+
+                if (_.isFunction(self.config.change)) {
+                    changeCallback = _.throttle(function(data) {
+                        self.config.change.call(self, data);
+                    }, 500);
+                }
 
                 if(!htmlEditor.hasEditor($component)){
                     htmlEditor.buildEditor($component, {
                         placeholder: '',
-                        change : function(newContent) {
-                            tooltip.content(newContent); //todo: throttle this
-                        },
-                        removePlugins: 'magicline',
+                        change : changeCallback,
+                        removePlugins: 'magicline,taotooltip',
                         data : {
                             container : tooltip,
                             widget : widget
@@ -70,12 +75,8 @@ define([
                 htmlEditor.destroyEditor($component);
             }
         };
-        config = _.defaults(config || {}, defaultConfig);
 
-        /**
-         *
-         */
-        tooltipEditorComponent = componentFactory(tooltipEditorApi, config)
+        EditorFieldComponent = componentFactory(EditorFieldApi, config)
             .setTemplate(tpl)
             .on('init', function() {
                 if (!this.config.tooltip) {
@@ -83,18 +84,14 @@ define([
                 }
                 tooltip = this.config.tooltip;
                 widget = tooltip.data('widget');
-
-                // set templates variables
-                this.config.content = tooltip.content();
             })
             .on('render', function() {
-                // var self = this,
-                //     $component = self.getElement();
+                this.buildEditor();
             })
             .on('destroy', function() {
                 this.destroyEditor();
             });
 
-        return tooltipEditorComponent.init();
+        return EditorFieldComponent.init();
     };
 });

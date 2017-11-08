@@ -20,25 +20,25 @@
  */
 define([
     'lodash',
+    'i18n',
     'jquery',
     'ui/component',
     'ui/component/alignable',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tip',
-    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorTarget',
-    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditorContent',
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/editorField',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
 ], function(
     _,
+    __,
     $,
     componentFactory,
     makeAlignable,
     htmlEditor,
     contentHelper,
     tipFactory,
-    targetEditorFactory,
-    contentEditorFactory,
+    editorFieldFactory,
     tpl
 ) {
     'use strict';
@@ -86,9 +86,26 @@ define([
                     self.trigger('close');
                 });
 
-                self.targetEditor = targetEditorFactory({ tooltip: tooltip })
+                self.targetEditor = editorFieldFactory({
+                    tooltip: tooltip,
+                    title: __('Tooltip Target'),
+                    className: 'tooltip-editor-target',
+                    content: tooltip.body(),
+                    change: function(newBody) {
+                        tooltip.body(newBody);
+                    }
+                })
                     .render($targetEditorContainer);
-                self.contentEditor = contentEditorFactory({ tooltip: tooltip })
+
+                self.contentEditor = editorFieldFactory({
+                    tooltip: tooltip,
+                    title: __('Tooltip Content'),
+                    className: 'tooltip-editor-content',
+                    content: tooltip.content(),
+                    change: function(newContent) {
+                        tooltip.content(newContent);
+                    }
+                })
                     .render($contentEditorContainer);
 
                 self.tip = tipFactory({
@@ -99,23 +116,6 @@ define([
                         vPos: 'top',
                         vOrigin: 'center'
                     });
-
-                $contentEditorContainer.on('click', function() {
-                    self.contentEditor.buildEditor();
-                });
-                $targetEditorContainer.on('click', function() {
-                    self.targetEditor.buildEditor();
-                });
-
-                $component.on('click', function(e) {
-                    if (!$.contains($contentEditorContainer[0], e.target)) {
-                        self.contentEditor.destroyEditor();
-
-                    } else if (!$.contains(targetEditorFactory[0], e.target)) {
-                        self.targetEditor.destroyEditor();
-                    }
-                });
-
             })
             .on('destroy', function() {
                 var self = this,
