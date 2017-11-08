@@ -43,7 +43,9 @@ define([
     });
 
     TooltipStateActive.prototype.buildEditor = function buildEditor(){
-        var _widget = this.widget,
+        var self = this,
+            _widget = this.widget,
+            itemCreator = _widget.getItemCreator(),
             $itemPanel = _widget.getAreaBroker().getItemPanelArea(),
             $tooltipContainer = _widget.$container,
             tooltip = _widget.element;
@@ -53,25 +55,34 @@ define([
             windowTitle: __('Tooltip editor'),
             hasCloser: false
         })
-            .render($tooltipContainer)
-            .show()
-            .alignWith($tooltipContainer, {
+            .render($itemPanel)
+            .show();
+
+        this.alignEditorOn($tooltipContainer);
+
+        itemCreator.on('resize.tooltipEditor', function() {
+            self.alignEditorOn($tooltipContainer);
+        });
+    };
+
+    TooltipStateActive.prototype.alignEditorOn = function alignEditorOn($tooltipContainer) {
+        if (tooltipEditor) {
+            tooltipEditor.alignWith($tooltipContainer, {
                 hPos: 'center',
                 vPos: 'top',
                 vOrigin: 'top',
-                // the following are arbitrary values and gives a best result visually
+
+                // the following are arbitrary values
+                // that gives visually nice results
                 hOffset: -5,
                 vOffset: -50
-            })
-            .on('close', function() {
-                _widget.changeState('sleep');
-                inlineHelper.togglePlaceholder(_widget);
             });
-
+        }
     };
 
     TooltipStateActive.prototype.destroyEditor = function destroyEditor(){
         var _widget = this.widget,
+            itemCreator = _widget.getItemCreator(),
             tooltip = _widget.element,
             $tooltip = _widget.$original;
 
@@ -82,6 +93,8 @@ define([
             tooltipEditor.destroy();
             tooltipEditor = null;
         }
+
+        itemCreator.off('.tooltipeditor');
     };
 
     return TooltipStateActive;

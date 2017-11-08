@@ -204,7 +204,7 @@ define([
                             usedCustomInteractionIds.push(element.typeIdentifier);
                         }
                     });
-                    
+
                     self.item = item;
                     return true;
                 }).then(function(){
@@ -260,6 +260,9 @@ define([
                         self.trigger('ready');
                     }
                 });
+
+                // pass an itemCreator reference to the renderer
+                config.itemCreator = this;
 
                 creatorRenderer
                     .get(true, config, areaBroker)

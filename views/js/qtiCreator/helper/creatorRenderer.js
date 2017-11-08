@@ -93,7 +93,8 @@ define([
                         fileExistsUrl : config.properties.fileExistsUrl,
                         mediaSourcesUrl : config.properties.mediaSourcesUrl
                     },
-                    interactions : _extractInteractionsConfig(config)
+                    interactions : _extractInteractionsConfig(config),
+                    itemCreator : config.itemCreator
                 });
 
                 //update the resolver baseUrl

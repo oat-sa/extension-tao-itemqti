@@ -20,16 +20,20 @@
  */
 define([
     'jquery',
+    'taoQtiItem/test/qtiCreator/mocks/itemCreatorMock',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiItem/core/Tooltip'
-], function($, areaBrokerFactory, creatorRenderer, Tooltip) {
+], function($, itemCreatorMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
     'use strict';
 
     QUnit.module('Creator Renderer');
 
     QUnit.asyncTest('Display and play', function (assert) {
         var $outsideContainer = $('#outside-container'),
+            config = {
+                itemCreator: itemCreatorMockFactory()
+            },
             areaBroker = areaBrokerFactory({
                 $brokerContainer: $outsideContainer,
                 mapping: {
@@ -42,11 +46,10 @@ define([
 
             tooltip = new Tooltip(tooltipSerial, {}, tooltipContent);
 
-
-            QUnit.expect(1);
+        QUnit.expect(1);
 
         creatorRenderer
-            .get(true, {}, areaBroker)
+            .get(true, config, areaBroker)
             .load(function() {
                 var $tooltipPlaceholder = $('.tooltip-placeholder');
 
