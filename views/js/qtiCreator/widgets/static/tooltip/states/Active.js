@@ -52,6 +52,9 @@ define([
 
         tooltipEditor = tooltipEditorFactory({ tooltip: tooltip })
             .on('delete', self.destroyTooltip.bind(self))
+            .on('done', function() {
+                _widget.changeState('sleep');
+            })
             .render($itemPanel)
             .show();
 
