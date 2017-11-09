@@ -40,14 +40,13 @@ define([
     'use strict';
 
     var defaultConfig = {
-        titleControls: {
-            bin: true
-        },
         popupControls: {
             done: true
         },
         windowTitle: __('Tooltip editor'),
-        hasCloser: false
+        alignable: true,
+        hasCloser: false,
+        hasBin: true
     };
 
     /**

@@ -73,7 +73,7 @@ define([
                 vOrigin: 'top',
 
                 // the following are arbitrary values
-                // that gives visually nice results
+                // that gives visually nice results :-)
                 hOffset: -5,
                 vOffset: -50
             });

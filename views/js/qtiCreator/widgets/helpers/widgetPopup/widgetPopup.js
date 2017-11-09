@@ -34,29 +34,18 @@ define([
     var eventNs = '.wigetpopup';
 
     var defaultConfig = {
-        alignable: true,
-        titleControls: {
-            bin: false
-        },
+        alignable: false,
         popupControls: {
             done: false
-        }
-    };
-
-    var titleControlsPresets = {
-        bin: {
-            id: 'delete',
-            icon: 'bin',
-            event: 'delete'
-            // todo: add browser tooltip
         }
     };
 
     var popupControlsPresets = {
         done: {
             id: 'done',
+            event: 'done',
             text: __('done'),
-            event: 'done'
+            description: __('Done')
         }
     };
 
@@ -113,13 +102,6 @@ define([
         if (config.alignable) {
             makeAlignable(widgetPopup);
         }
-
-        // add controls
-        _.each(config.titleControls, function(isActive, controlId) {
-            if (isActive && titleControlsPresets[controlId]) {
-                widgetPopup.addControl(titleControlsPresets[controlId]);
-            }
-        });
 
         widgetPopup
             .on('render', function() {
