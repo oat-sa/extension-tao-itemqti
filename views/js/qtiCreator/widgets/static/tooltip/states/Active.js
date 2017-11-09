@@ -50,11 +50,7 @@ define([
             $tooltipContainer = _widget.$container,
             tooltip = _widget.element;
 
-        tooltipEditor = tooltipEditorFactory({
-            tooltip: tooltip,
-            windowTitle: __('Tooltip editor'),
-            hasCloser: false
-        })
+        tooltipEditor = tooltipEditorFactory({ tooltip: tooltip })
             .render($itemPanel)
             .show();
 

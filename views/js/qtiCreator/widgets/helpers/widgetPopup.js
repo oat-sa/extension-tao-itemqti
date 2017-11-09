@@ -27,14 +27,28 @@ define([
 ], function (_, $, componentFactory, makeAlignable, makeWindowed) {
     'use strict';
 
+    var windowClass = 'widget-popup';
+
     var defaultConfig = {
-        alignable : true
+        alignable : true,
+        titleControls : {
+            bin: false
+        }
+    };
+
+    var titleControlsPresets = {
+        bin: {
+            id: 'delete',
+            icon: 'bin',
+            event: 'delete'
+        }
     };
 
     /**
      * @param {Object} specs - extra functions to extend the component
      * @param {Object} config
-     * @param {Boolean} config.alignable - if the window should be alignable
+     * @param {Boolean} [config.alignable] - if the window should be alignable
+     * @param {Object} [config.titleControls] - to activate default controls presets in the title bar
      */
     return function widgetPopupFactory(specs, config) {
         var widgetPopup;
@@ -43,17 +57,24 @@ define([
 
         widgetPopup = componentFactory(specs, config);
 
+        makeWindowed(widgetPopup);
+
         if (config.alignable) {
             makeAlignable(widgetPopup);
         }
 
-        makeWindowed(widgetPopup);
+        // add controls
+        _.each(config.titleControls, function(isActive, controlId) {
+            if (isActive && titleControlsPresets[controlId]) {
+                widgetPopup.addControl(titleControlsPresets[controlId]);
+            }
+        });
 
         widgetPopup
             .on('render', function() {
                 var $component = this.getElement();
 
-                $component.addClass('widget-popup');
+                $component.addClass(windowClass);
             });
 
         return widgetPopup;

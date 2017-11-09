@@ -40,12 +40,13 @@ define([
     'use strict';
 
     var defaultConfig = {
-
+        titleControls: {
+            bin: true
+        },
+        windowTitle: __('Tooltip editor'),
+        hasCloser: false
     };
 
-    var tooltipEditorApi = {
-
-    };
 
     return function tooltipEditorFactory(config) {
         var tooltip,
@@ -53,10 +54,7 @@ define([
 
         config = _.defaults(config || {}, defaultConfig);
 
-        /**
-         *
-         */
-        tooltipEditorComponent = widgetPopupFactory(tooltipEditorApi, config)
+        tooltipEditorComponent = widgetPopupFactory({}, config)
             .on('init', function() {
                 if (!this.config.tooltip) {
                     throw new Error('tooltip instance must be given in the config');
