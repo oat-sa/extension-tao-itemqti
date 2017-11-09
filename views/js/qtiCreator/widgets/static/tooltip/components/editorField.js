@@ -61,6 +61,12 @@ define([
                             container : tooltip,
                             widget : widget
                         },
+                        toolbar : [
+                            {
+                                name : 'basicstyles',
+                                items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                            }
+                        ],
                         blur : function(){
                             widget.changeState('sleep');
                         }
