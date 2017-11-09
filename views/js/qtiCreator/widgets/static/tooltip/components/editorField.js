@@ -28,6 +28,12 @@ define([
 ], function(_, $, componentFactory, htmlEditor, contentHelper, tpl) {
     'use strict';
 
+    var ns = '.editorfield';
+
+    var defaultConfig = {
+        preventEnter: false
+    };
+
     /**
      * @param {Element} tooltip - the tooltip instance
      * @param {String} config.content - content of the field
@@ -72,6 +78,15 @@ define([
                         }
                     });
                 }
+
+                if (config.preventEnter) {
+                    $component.on('keypress' + ns, function(e){
+                        if(e.which === 13){
+                            e.preventDefault();
+                            $(this).blur();
+                        }
+                    });
+                }
             },
 
             destroyEditor: function destroyEditor() {
@@ -79,8 +94,11 @@ define([
                     $component = self.getElement();
 
                 htmlEditor.destroyEditor($component);
+                $component.off(ns);
             }
         };
+
+        config = _.defaults(config || {}, defaultConfig);
 
         EditorFieldComponent = componentFactory(EditorFieldApi, config)
             .setTemplate(tpl)

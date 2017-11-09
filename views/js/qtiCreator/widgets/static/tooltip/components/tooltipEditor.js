@@ -92,6 +92,7 @@ define([
                     title: __('Tooltip Target'),
                     className: 'tooltip-editor-target',
                     content: tooltip.body(),
+                    preventEnter: true,
                     change: function(newBody) {
                         tooltip.body(newBody);
                     }
