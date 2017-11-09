@@ -44,17 +44,18 @@ define([
 
     TooltipStateActive.prototype.buildEditor = function buildEditor(){
         var self = this,
-            _widget = this.widget,
+            _widget = self.widget,
             itemCreator = _widget.getItemCreator(),
             $itemPanel = _widget.getAreaBroker().getItemPanelArea(),
             $tooltipContainer = _widget.$container,
             tooltip = _widget.element;
 
         tooltipEditor = tooltipEditorFactory({ tooltip: tooltip })
+            .on('delete', self.destroyTooltip.bind(self))
             .render($itemPanel)
             .show();
 
-        this.alignEditorOn($tooltipContainer);
+        self.alignEditorOn($tooltipContainer);
 
         itemCreator.on('resize.tooltipEditor', function() {
             self.alignEditorOn($tooltipContainer);
@@ -74,6 +75,26 @@ define([
                 vOffset: -50
             });
         }
+    };
+
+    TooltipStateActive.prototype.destroyTooltip = function destroyTooltip() {
+        var self = this,
+            _widget = self.widget,
+            tooltip = _widget.element,
+            $tooltipContainer = _widget.$container;
+
+        var parent = tooltip.parent(),
+            newParentBody = parent.body().replace(tooltip.placeholder(), tooltip.body());
+
+        //properly destroy the old tooltip and its widget
+        _widget.destroy();
+        tooltip.remove();
+
+        //set the new body into the model of the parent
+        parent.body(newParentBody);
+
+        // Update the markup
+        $tooltipContainer.replaceWith(tooltip.body());
     };
 
     TooltipStateActive.prototype.destroyEditor = function destroyEditor(){

@@ -133,6 +133,7 @@ define([
                         return resolve();
                     }
                     asking = true;
+                    console.log('in changeTracker');
                     confirmDlg = dialog({
                         message: message,
                         buttons:  [{
