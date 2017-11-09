@@ -22,7 +22,7 @@ define([
     'lodash',
     'i18n',
     'jquery',
-    'taoQtiItem/qtiCreator/widgets/helpers/widgetPopup',
+    'taoQtiItem/qtiCreator/widgets/helpers/widgetPopup/widgetPopup',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tip',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/editorField',
@@ -43,11 +43,16 @@ define([
         titleControls: {
             bin: true
         },
+        popupControls: {
+            done: true
+        },
         windowTitle: __('Tooltip editor'),
         hasCloser: false
     };
 
-
+    /**
+     *
+     */
     return function tooltipEditorFactory(config) {
         var tooltip,
             tooltipEditorComponent;
@@ -129,7 +134,7 @@ define([
 
                 if (this.contentEditor) {
                     this.contentEditor.destroy();
-                    this.contentEditor = null; // works well with async ?!
+                    this.contentEditor = null; //todo: works well with async ?!
                 }
                 if (this.targetEditor) {
                     this.targetEditor.destroy();

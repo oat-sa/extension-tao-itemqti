@@ -3,9 +3,10 @@ $titleBarTxtShadow: 1px 1px 0 blacken($info, .2);
 $titleBarBg: whiten($info, .1);
 $bodyBg: $uiClickableDefaultBg;
 
-.window-component {
+.window-component.widget-popup {
     border: 0;
     z-index: 999;
+    background-color: $bodyBg;
 
     .window-component-title-bar {
         background-color: $titleBarBg;
@@ -22,7 +23,12 @@ $bodyBg: $uiClickableDefaultBg;
     }
 
     .window-component-body {
-        background-color: $bodyBg;
-        padding: 0;
+        padding: 20px 20px 0;
+    }
+
+    .widget-popup-controls-area {
+        padding: 10px 10px;
+        display: flex;
+        justify-content: flex-end;
     }
 }

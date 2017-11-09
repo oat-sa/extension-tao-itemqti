@@ -20,19 +20,26 @@
  */
 define([
     'lodash',
+    'i18n',
     'jquery',
     'ui/component',
     'ui/component/alignable',
-    'ui/component/windowed'
-], function (_, $, componentFactory, makeAlignable, makeWindowed) {
+    'ui/component/windowed',
+    'tpl!taoQtiItem/qtiCreator/widgets/helpers/widgetPopup/popupControl'
+], function (_, __, $, componentFactory, makeAlignable, makeWindowed, popupControlTpl) {
     'use strict';
 
     var windowClass = 'widget-popup';
 
+    var eventNs = '.wigetpopup';
+
     var defaultConfig = {
-        alignable : true,
-        titleControls : {
+        alignable: true,
+        titleControls: {
             bin: false
+        },
+        popupControls: {
+            done: false
         }
     };
 
@@ -41,6 +48,49 @@ define([
             id: 'delete',
             icon: 'bin',
             event: 'delete'
+            // todo: add browser tooltip
+        }
+    };
+
+    var popupControlsPresets = {
+        done: {
+            id: 'done',
+            text: __('done'),
+            event: 'done'
+        }
+    };
+
+    var widgetPopupApi = {
+        /**
+         * Very basic popup control management for now.
+         * If needed one day, this could be extended in a similar fashion as the controls of ui/component/windowed
+         */
+        renderPopupControls: function renderPopupControls() {
+            var self = this,
+                controlsEvents = {},
+                control,
+                $controlsArea = this.$popupControls;
+
+            _.each(this.config.popupControls, function(isActive, controlId) {
+                control = popupControlsPresets[controlId];
+
+                if (isActive && control) {
+                    $controlsArea.append($(popupControlTpl(control)));
+                    controlsEvents[controlId] = control.event;
+                }
+            });
+
+            // add behavior
+            $controlsArea
+                .off('click' + eventNs)
+                .on('click' + eventNs, function(e) {
+                    var controlId = $(e.target).data('control');
+                    e.stopPropagation();
+
+                    if (_.isString(controlsEvents[controlId])) {
+                        self.trigger(controlsEvents[controlId]);
+                    }
+                });
         }
     };
 
@@ -54,6 +104,7 @@ define([
         var widgetPopup;
 
         config = _.defaults(config || {}, defaultConfig);
+        specs = _.defaults(specs || {}, widgetPopupApi);
 
         widgetPopup = componentFactory(specs, config);
 
@@ -75,6 +126,18 @@ define([
                 var $component = this.getElement();
 
                 $component.addClass(windowClass);
+
+                this.$popupControls = $('<div>', {
+                    'class': 'widget-popup-controls-area'
+                });
+                $component.append(this.$popupControls);
+
+                this.renderPopupControls();
+            })
+            .on('destroy', function() {
+                var $controlsArea = this.$popupControls;
+
+                $controlsArea.off(eventNs);
             });
 
         return widgetPopup;

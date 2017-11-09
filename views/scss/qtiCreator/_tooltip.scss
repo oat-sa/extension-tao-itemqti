@@ -4,13 +4,8 @@ $tooltipBg: #ffffa3;
 $tooltipBorder: #f1d031;
 
 .qti-tooltip-editor {
-    padding: 20px 20px;
     min-width: 250px;
-
-    input {
-        display: block;
-        width: 100%;
-    }
+    max-width: 350px;
 
     .tooltip-editor-target {
         border: 1px $uiGeneralContentBorder solid;
@@ -19,6 +14,8 @@ $tooltipBorder: #f1d031;
         padding: 3px 5px;
         background-color: #fff;
         margin-bottom: 2px;
+        display: block;
+        width: 100%;
     }
 
     .tooltip-editor-content-container {
@@ -36,11 +33,6 @@ $tooltipBorder: #f1d031;
             font-size: 1.4rem;
             cursor: text;
         }
-    }
-
-    .widget-ok {
-        float: right;
-        position: relative;
     }
 
     .qti-tooltip-editor-tip {
