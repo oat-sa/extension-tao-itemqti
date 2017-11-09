@@ -7,37 +7,58 @@ $tooltipBorder: #f1d031;
     min-width: 250px;
     max-width: 350px;
 
-    .tooltip-editor-target {
-        border: 1px $uiGeneralContentBorder solid;
-        text-align: center;
-        cursor: text;
-        padding: 3px 5px;
-        background-color: #fff;
-        margin-bottom: 2px;
-        display: block;
-        width: 100%;
+    .tooltip-editor-target-container {
+        margin-bottom: 5px;
+
+        .tooltip-editor-target {
+            border: 1px $uiGeneralContentBorder solid;
+            text-align: center;
+            cursor: text;
+            padding: 3px 5px;
+            background-color: #fff;
+            margin-bottom: 2px;
+            display: block;
+            width: 100%;
+        }
     }
 
     .tooltip-editor-content-container {
         position: relative;
+        margin-bottom: 10px;
 
-        .tooltip-editor-content {
+        .tooltip-editor-tip {
+            transform: rotate(45deg) skew(20deg, 20deg);
+            position: absolute;
+            top: 0;
+            left: calc(50% - 5px);
+            width: 10px;
+            height: 10px;
             background-color: $tooltipBg;
-            border: 1px solid $tooltipBorder;
-            @include border-radius(5);
-            width: 100%;
-            margin: 10px 0;
-            padding: 5px;
-            font-weight: normal;
-            color: $textColor;
-            font-size: 1.4rem;
-            cursor: text;
+            border-top: 1px solid $tooltipBorder;
+            border-left: 1px solid $tooltipBorder;
         }
+
+        // the component's div
+        div {
+            padding-top: 5px;
+
+            .tooltip-editor-content {
+                background-color: $tooltipBg;
+                border: 1px solid $tooltipBorder;
+                @include border-radius(5);
+                width: 100%;
+                padding: 5px;
+                font-weight: normal;
+                color: $textColor;
+                font-size: 1.4rem;
+                cursor: text;
+            }
+        }
+
+
     }
 
     .qti-tooltip-editor-tip {
-        background-color: $tooltipBg;
-        border-top: 1px solid $tooltipBorder;
-        border-left: 1px solid $tooltipBorder;
+
     }
 }

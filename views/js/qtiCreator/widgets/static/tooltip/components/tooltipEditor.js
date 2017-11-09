@@ -24,7 +24,6 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/helpers/widgetPopup/widgetPopup',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tip',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/editorField',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
 ], function(
@@ -33,7 +32,6 @@ define([
     $,
     widgetPopupFactory,
     contentHelper,
-    tipFactory,
     editorFieldFactory,
     tpl
 ) {
@@ -113,16 +111,7 @@ define([
                     }
                 })
                     .render($contentEditorContainer);
-/*
-                self.tip = tipFactory({
-                    renderTo: $contentEditorContainer
-                })
-                    .alignWith(self.contentEditor.getContainer(), {
-                        hPos: 'center',
-                        vPos: 'top',
-                        vOrigin: 'center'
-                    });
-                    */
+
             })
             .on('destroy', function() {
                 var self = this,
@@ -131,20 +120,12 @@ define([
 
                 $closeBtn.off('click');
 
-                if (this.contentEditor) {
-                    this.contentEditor.destroy();
-                    this.contentEditor = null; //todo: works well with async ?!
-                }
-                if (this.targetEditor) {
-                    this.targetEditor.destroy();
-                    this.targetEditor = null;
-                }
-                if (this.tip) {
-                    this.tip.destroy();
-                    this.tip = null;
-                }
-            });
+                this.contentEditor.destroy();
+                this.targetEditor.destroy();
 
+                this.contentEditor = null; //todo: works well with async ?!
+                this.targetEditor = null;
+            });
 
         return tooltipEditorComponent.init();
     };
