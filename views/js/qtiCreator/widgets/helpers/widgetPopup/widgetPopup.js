@@ -24,9 +24,10 @@ define([
     'jquery',
     'ui/component',
     'ui/component/alignable',
+    'ui/component/containable',
     'ui/component/windowed',
     'tpl!taoQtiItem/qtiCreator/widgets/helpers/widgetPopup/popupControl'
-], function (_, __, $, componentFactory, makeAlignable, makeWindowed, popupControlTpl) {
+], function (_, __, $, componentFactory, makeAlignable, makeContainable, makeWindowed, popupControlTpl) {
     'use strict';
 
     var windowClass = 'widget-popup';
@@ -35,6 +36,7 @@ define([
 
     var defaultConfig = {
         alignable: false,
+        containable: false,
         popupControls: {
             done: false
         }
@@ -101,6 +103,9 @@ define([
 
         if (config.alignable) {
             makeAlignable(widgetPopup);
+        }
+        if (config.containable) {
+            makeContainable(widgetPopup);
         }
 
         widgetPopup

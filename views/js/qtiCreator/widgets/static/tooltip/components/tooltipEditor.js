@@ -43,6 +43,7 @@ define([
         },
         windowTitle: __('Tooltip editor'),
         alignable: true,
+        containable: true,
         hasCloser: false,
         hasBin: true
     };

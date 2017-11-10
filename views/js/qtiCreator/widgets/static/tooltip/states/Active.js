@@ -56,6 +56,7 @@ define([
                 _widget.changeState('sleep');
             })
             .render($itemPanel)
+            .containIn($itemPanel, { padding: 10 })
             .show();
 
         self.alignEditorOn($tooltipContainer);
