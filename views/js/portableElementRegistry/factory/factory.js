@@ -167,7 +167,9 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         id : pci.typeIdentifier,
                         label : pci.label,
                         baseUrl : pci.baseUrl,
-                        response : pci.response
+                        response : pci.response,
+                        model : pci.model,
+                        xmlns : pci.xmlns
                     });
                 }else{
                     this.trigger('error', {

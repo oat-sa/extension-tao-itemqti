@@ -64,8 +64,6 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	public function export($options = array()) {
         if (!$this->containsItem()) {
             $report = parent::export($options);
-
-
             if ($report->getType() !== \common_report_Report::TYPE_ERROR || !$report->containsError()) {
                 try{
                     $this->exportManifest($options);
@@ -120,15 +118,12 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		
 		for ($i = 0; $i < $zipArchive->numFiles; $i++) {
       		$fileName = $zipArchive->getNameIndex($i);
-      		
-      		if (preg_match("@^" . preg_quote($base) . "@", $fileName)) {
-      			if (basename($fileName) == 'qti.xml') {
-      				$qtiFile = $fileName;
-      			}
-      			else {
-      				$qtiResources[] = $fileName;
-      			}
-      		}
+      		//allow file to be added at the root of the zip archive
+			if (basename($fileName) == 'qti.xml') {
+				$qtiFile = $fileName;
+			}else if(!empty($fileName)){//TODO check why it is empty after rewrite
+				$qtiResources[] = $fileName;
+			}
  		}
 
 		$qtiItemService = Service::singleton();

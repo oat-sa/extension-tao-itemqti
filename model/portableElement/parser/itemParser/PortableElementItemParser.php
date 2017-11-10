@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\parser\itemParser;
 
+use League\Flysystem\FileNotFoundException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
@@ -183,6 +184,12 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         }
     }
 
+    protected function getSourceAdjustedNodulePath($path){
+        $realpath = realpath($this->itemDir . DIRECTORY_SEPARATOR . $path);
+        $sourcePath = realpath($this->source);
+        return str_replace($sourcePath.DIRECTORY_SEPARATOR, '', $realpath);
+    }
+
     /**
      * Parse individual portable element into the given portable model
      * @param PortableElementModel $model
@@ -199,27 +206,33 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
 
         //Adjust file resource entries where {QTI_NS}/xxx/yyy is equivalent to {QTI_NS}/xxx/yyy.js
         foreach($portableElement->getLibraries() as $lib){
-            if(preg_match('/^'.$typeId.'.*\.js$/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
+            if(preg_match('/^'.$typeId.'/', $lib) && substr($lib, -3) != '.js') {//filter shared stimulus
                 $librariesFiles[] = $lib.'.js';//amd modules
                 $libs[] = $lib.'.js';
             }else{
-                $libs[] = $lib;
+                $libs[] = $lib;//shared libs
             }
         }
 
         $moduleFiles = [];
         $emptyModules = [];//list of modules that are referenced directly in the module node
+        $adjustedModules = [];
         foreach($portableElement->getModules() as $id => $paths){
+            $adjustedPaths = [];
             if(empty($paths)){
                 $emptyModules[] = $id;
                 continue;
             }
             foreach($paths as $path){
-                if(strpos($path, 'http') !== 0){
+                if($this->isRelativePath($path)){
                     //only copy into data the relative files
                     $moduleFiles[] = $path;
+                    $adjustedPaths[] = $this->getSourceAdjustedNodulePath($path);
+                }else{
+                    $adjustedPaths[] = $path;
                 }
             }
+            $adjustedModules[$id] = $adjustedPaths;
         }
 
         /**
@@ -238,26 +251,34 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         $configFiles = [];
         foreach($portableElement->getConfig() as $configFile){
             //only read local config file
-            if(strpos($configFile, 'http') !== 0){
+            if($this->isRelativePath($configFile)){
 
                 //save the content and file config data in registry, to allow later retrieval
                 $configFiles[] = $configFile;
 
+
                 //read the config file content
-                $configData = json_decode(file_get_contents($this->source . DIRECTORY_SEPARATOR . $configFile), true);
+                $configData = json_decode(file_get_contents($this->itemDir . DIRECTORY_SEPARATOR . $configFile), true);
                 if(!empty($configData)){
-                    $configDataArray[] =[
-                        'file' => $configFile,
-                        'data' => $configData
-                    ] ;
                     if(isset($configData['paths'])){
                         foreach($configData['paths'] as $id => $path){
-                            if(strpos($path, 'http') !== 0){
-                                //only copy into data the relative files
-                                $moduleFiles[] = $path;
+                            //only copy the relative files to local portable element filesystem, absolute ones are loaded dynamically
+                            if($this->isRelativePath($path)){
+                                //resolution of path, relative to the current config file it has been defined in
+                                $path = dirname($configFile) . DIRECTORY_SEPARATOR . $path;
+                                if(file_exists($this->itemDir . DIRECTORY_SEPARATOR . $path)){
+                                    $moduleFiles[] = $path;
+                                    $configData['paths'][$id] = $this->getSourceAdjustedNodulePath($path);;
+                                }else{
+                                    throw new FileNotFoundException("The portable config {$configFile} references a missing module file {$id} => {$path}");
+                                }
                             }
                         }
                     }
+                    $configDataArray[] =[
+                        'file' => $this->getSourceAdjustedNodulePath($configFile),
+                        'data' => $configData
+                    ];
                 }
             }else{
                 $configDataArray[] = ['file' => $configFile];
@@ -283,7 +304,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 'stylesheets' => $portableElement->getStylesheets(),
                 'mediaFiles' => $portableElement->getMediaFiles(),
                 'config' => $configDataArray,
-                'modules' => $portableElement->getModules()
+                'modules' => $adjustedModules
             ]
         ];
 
@@ -355,7 +376,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     public function importPortableElements()
     {
         if (count($this->importingFiles) != count($this->requiredFiles)) {
-            throw new \common_Exception('Needed files are missing during Portable Element asset files');
+            throw new \common_Exception('Needed files are missing during Portable Element asset files '.print_r($this->requiredFiles, true). ' '.print_r($this->importingFiles, true));
         }
 
         /** @var PortableElementObject $object */
@@ -396,5 +417,9 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         }, $object->getRuntimeKey('libraries')));
 
         return $object;
+    }
+
+    private function isRelativePath($path){
+        return (strpos($path, 'http') !== 0);
     }
 }
