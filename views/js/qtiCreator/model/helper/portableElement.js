@@ -88,8 +88,8 @@ define([
                 //set markup
                 this.markup = this.renderMarkup();
 
-                //set pci namespace to item
-                this.getNamespace();
+                //set local pci namespace
+                this.setNamespace(creator.model, creator.xmlns);
 
                 //after create
                 //@todo need afterCreate() to return a promise

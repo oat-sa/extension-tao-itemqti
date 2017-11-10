@@ -20,17 +20,19 @@
  */
 ?>
 <infoControl <?=get_data('attributes')?>>
-    <pic:portableInfoControl infoControlTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>">
-        <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
-            <pic:libraries>
+    <portableInfoControl infoControlTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>" xmlns="http://www.imsglobal.org/xsd/portableInfoControl">
+        <resources>
+            <?php if(count(get_data('libraries'))):?>
+            <libraries>
                 <?php foreach(get_data('libraries') as $lib):?>
-                <pic:lib id="<?=$lib?>"/>
+                <lib id="<?=$lib?>"/>
                 <?php endforeach;?>
-            </pic:libraries>
-        </pic:resources>
+            </libraries>
+            <?php endif;?>
+        </resources>
         <?=get_data('serializedProperties')?>
-        <pic:markup>
+        <markup xmlns="http://www.w3.org/1999/xhtml">
             <?=get_data('markup')?>
-        </pic:markup>
-    </pic:portableInfoControl>
+        </markup>
+    </portableInfoControl>
 </infoControl>

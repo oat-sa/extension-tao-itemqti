@@ -21,9 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
-use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use \DOMElement;
+use oat\taoQtiItem\model\qti\QtiNamespace;
 
 /**
  * The QTI custom interaction is a subclass of the main QTI Interaction class
@@ -41,7 +41,7 @@ abstract class CustomInteraction extends Interaction
     
     protected $typeIdentifier = '';//to be set in advance, read only, non editable
     protected $markup = '';
-    
+
     public function getMarkup(){
         return $this->markup;
     }
@@ -81,11 +81,9 @@ abstract class CustomInteraction extends Interaction
      * @param DOMElement $data - the custom interaction dom element
      * @param string $xmlns (optional) the name space used in inner custom interaction elements
      */
-    public function feed(ParserFactory $parser, DOMElement $data, $xmlns = ''){
+    public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null){
         
         $markup = $parser->getBodyData($data->item(0), true);
         $this->setMarkup($markup);
-
     }
-
 }

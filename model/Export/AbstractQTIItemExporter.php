@@ -24,12 +24,12 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use DOMNode;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\LocalItemSource;
-use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
@@ -93,53 +93,33 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
 	    $replacementList = array();
-        $modelsAssets = $this->getPortableElementAssets($this->getItem(), $lang);
+        $portableElements = $this->getPortableElementAssets($this->getItem(), $lang);
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
-        $portableElementsToExport = $portableAssetsToExport = [];
+        $portableElementsToExport = [];
 
-        foreach ($modelsAssets as $key => $portableElements) {
+        foreach($portableElements as $element) {
 
-            /** @var  $element */
-            foreach($portableElements as $element) {
+            if (! $element instanceof Element) {
+                continue;
+            }
 
-                if (! $element instanceof Element) {
-                    continue;
-                }
+            try {
+                $object = $service->getPortableObjectFromInstance($element);
+            } catch (PortableElementException $e) {
+                $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
+                return \common_report_Report::createFailure($message);
+            }
 
-                try {
-                    $object = $service->retrieve($key, $element->getTypeIdentifier());
-                } catch (PortableElementException $e) {
-                    $message = __('Fail to export item') . ' (' . $this->getItem()->getLabel() . '): ' . $e->getMessage();
-                    return \common_report_Report::createFailure($message);
-                }
-                $portableElementsToExport[$element->getTypeIdentifier()] = $object;
-
-                $files = $object->getModel()->getValidator()->getAssets($object, 'runtime');
-
-                $baseUrl = $basePath . DIRECTORY_SEPARATOR . $object->getTypeIdentifier();
-                $portableAssetsToExport[$object->getTypeIdentifier()] = [];
-
-                foreach ($files as $url) {
-                    try {
-                        // Skip shared libraries into portable element
-                        if (strpos($url, './') !== 0) {
-                            \common_Logger::i('Shared libraries skipped : ' . $url);
-                            $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $url;
-                            continue;
-                        }
-                        $stream = $service->getFileStream($object, $url);
-                        $replacement = $this->copyAssetFile($stream, $baseUrl, $url, $replacementList);
-                        $portableAssetToExport = preg_replace('/^(.\/)(.*)/', $object->getTypeIdentifier() . "/$2", $replacement);
-                        $portableAssetsToExport[$object->getTypeIdentifier()][$url] = $portableAssetToExport;
-                        \common_Logger::i('File copied: "' . $url . '" for portable element ' . $object->getTypeIdentifier());
-                    } catch (\tao_models_classes_FileNotFoundException $e) {
-                        \common_Logger::i($e->getMessage());
-                        $report->setMessage('Missing resource for ' . $url);
-                        $report->setType(\common_report_Report::TYPE_ERROR);
-                    }
-                }
+            $portableElementExporter = $object->getModel()->getExporter($object, $this);
+            $portableElementsToExport[$element->getTypeIdentifier()] = $portableElementExporter;
+            try {
+                $portableElementExporter->copyAssetFiles($replacementList);
+            } catch (\tao_models_classes_FileNotFoundException $e) {
+                \common_Logger::i($e->getMessage());
+                $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' .  $e->getMessage());
+                $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
 
@@ -189,17 +169,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             foreach ($portableEntryNodes as $node) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
             }
+            foreach ($portableElementsToExport as $portableElementExporter){
+                $portableElementExporter->exportDom($dom);
+            }
 
-            $this->exportPortableAssets($dom, 'portableCustomInteraction', 'customInteractionTypeIdentifier', 'pci', $portableElementsToExport, $portableAssetsToExport);
-            $this->exportPortableAssets($dom, 'portableInfoControl', 'infoControlTypeIdentifier', 'pic', $portableElementsToExport, $portableAssetsToExport);
         } else {
             $report->setMessage($this->getExportErrorMessage(__('cannot load QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
         }
 
-        $dom->preserveWhiteSpace = true;
-        $dom->formatOutput = true;
         if(($content = $dom->saveXML()) === false){
             $report->setMessage($this->getExportErrorMessage(__('invalid QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
@@ -228,126 +207,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return __('Item "%s" cannot be exported: %s', $this->getItem()->getLabel(), $errorMessage);
     }
 
-    /**
-     * Reconstruct PortableElement XML from PortableElementStorage data
-     *
-     * @param DOMDocument $dom
-     * @param $nodeName
-     * @param $typeIdentifierAttributeName
-     * @param $ns
-     * @param $portableElementsToExport
-     * @param $portableAssetsToExport
-     * @throws \common_Exception
-     */
-    private function exportPortableAssets(DOMDocument $dom, $nodeName, $typeIdentifierAttributeName, $ns, $portableElementsToExport, $portableAssetsToExport){
-
-        $xpath = new DOMXPath($dom);
-
-        // Get all portable element from qti.xml
-        $portableElementNodes = $dom->getElementsByTagName($nodeName);
-
-        for ($i=0; $i<$portableElementNodes->length; $i++) {
-
-            /** @var \DOMElement $currentPortableNode */
-            $currentPortableNode = $portableElementNodes->item($i);
-
-            $identifier = $currentPortableNode->getAttribute($typeIdentifierAttributeName);
-
-            if (! isset($portableElementsToExport[$identifier])) {
-                throw new \common_Exception('Unable to find loaded portable element.');
-            }
-            /** @var PortableElementObject $portableElement */
-            $portableElement = $portableElementsToExport[$identifier];
-
-            // Add hook and version as attributes
-            if ($portableElement->hasRuntimeKey('hook'))
-                $currentPortableNode->setAttribute(
-                    'hook',
-                    preg_replace(
-                        '/^(.\/)(.*)/', $portableElement->getTypeIdentifier() . "/$2",
-                        $portableElement->getRuntimeKey('hook')
-                    )
-                );
-            $currentPortableNode->setAttribute('version', $portableElement->getVersion());
-
-            // If asset files list is empty for current identifier skip
-            if ( (! isset($portableAssetsToExport))
-                || (! isset($portableAssetsToExport[$portableElement->getTypeIdentifier()]))
-            ) {
-                continue;
-            }
-
-            /** @var \DOMElement $resourcesNode */
-            $resourcesNode = $currentPortableNode->getElementsByTagName('resources')->item(0);
-
-
-            // Portable libraries
-            $librariesNode = $dom->createElement($ns.':libraries');
-            foreach ($portableElement->getRuntimeKey('libraries') as $library) {
-                $libraryNode = $dom->createElement($ns.':lib');
-                //the exported lib id must be adapted from a href mode to an amd name mode
-                $libraryNode->setAttribute(
-                    'id', preg_replace('/\.js$/', '', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$library])
-                );
-                $librariesNode->appendChild($libraryNode);
-            }
-
-            $oldLibrariesNode = $xpath->query('.//'.$ns.':libraries', $resourcesNode);
-            if ($oldLibrariesNode->length > 0) {
-                $resourcesNode->removeChild($oldLibrariesNode->item(0));
-            }
-            if ($librariesNode->hasChildNodes()) {
-                $resourcesNode->appendChild($librariesNode);
-            }
-
-
-            // Portable stylesheets
-            $stylesheetsNode = $dom->createElement($ns.':stylesheets');
-            foreach ($portableElement->getRuntimeKey('stylesheets') as $stylesheet) {
-                $stylesheetNode = $dom->createElement($ns.':link');
-                $stylesheetNode->setAttribute(
-                    'href', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$stylesheet]
-                );
-                $stylesheetNode->setAttribute('type', 'text/css');
-
-                $info = pathinfo($stylesheet);
-                $stylesheetNode->setAttribute('title', basename($stylesheet, '.' . $info['extension']));
-                $stylesheetsNode->appendChild($stylesheetNode);
-            }
-            $oldStylesheetsNode = $xpath->query('.//'.$ns.':stylesheets', $resourcesNode);
-            if ($oldStylesheetsNode->length > 0) {
-                $resourcesNode->removeChild($oldStylesheetsNode->item(0));
-            }
-            if ($stylesheetsNode->hasChildNodes()) {
-                $resourcesNode->appendChild($stylesheetsNode);
-            }
-
-
-            // Portable mediaFiles
-            $mediaFilesNode = $dom->createElement($ns.':mediaFiles');
-            foreach ($portableElement->getRuntimeKey('mediaFiles') as $mediaFile) {
-                $mediaFileNode = $dom->createElement($ns.':file');
-                $mediaFileNode->setAttribute(
-                    'src', $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
-                );
-                $mediaFileNode->setAttribute('type', \tao_helpers_File::getMimeType(
-                    $portableAssetsToExport[$portableElement->getTypeIdentifier()][$mediaFile]
-                ));
-                $mediaFilesNode->appendChild($mediaFileNode);
-            }
-            $oldMediaFilesNode = $xpath->query('.//'.$ns.':mediaFiles', $resourcesNode);
-            if ($oldMediaFilesNode->length > 0) {
-                $resourcesNode->removeChild($oldMediaFilesNode->item(0));
-            }
-
-            if ($mediaFilesNode->hasChildNodes()) {
-                $resourcesNode->appendChild($mediaFilesNode);
-            }
-        }
-
-        unset($xpath);
-    }
-
     public function copyAssetFile(StreamInterface $stream, $basePath, $baseName, &$replacementList)
     {
         $replacement = $baseName;
@@ -363,7 +222,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // To check if replacement is to replace basename ???
         // Please check it seriously next time!
-        $this->addFile($stream, $basePath . '/' . preg_replace( '/^(.\/)/', '',$replacement));
+        $newRelPath = (empty($basePath) ? '' : $basePath.'/' ) . preg_replace( '/^(.\/)/', '',$replacement);
+        $this->addFile($stream, $newRelPath);
         $stream->close();
         return $replacement;
     }
@@ -445,5 +305,4 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
         return $this->metadataExporter;
     }
-
 }

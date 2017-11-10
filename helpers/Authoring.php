@@ -157,7 +157,7 @@ class Authoring
 
         $ids = array();
         /** @var \DOMElement $elementWithId */
-        foreach ($xpath->query("//*[not(local-name()='lib') and @id]") as $elementWithId) {
+        foreach ($xpath->query("//*[not(local-name()='lib') and not(local-name()='module') and @id]") as $elementWithId) {
             $id = $elementWithId->getAttribute('id');
             if(in_array($id, $ids)){
                 $elementWithId->removeAttribute('id');
