@@ -105,29 +105,6 @@ define([
                             _activateInnerWidget(options.data.widget, createdWidget);
                         });
                     }
-                },
-                alert : function alert(elementSelector, messageId) {
-                    var $messageSrc = $(elementSelector);
-
-                    if ($messageSrc.length && editorMessages[messageId]) {
-                        $messageSrc.qtip({
-                            content: {
-                                text: editorMessages[messageId]
-                            },
-                            theme : 'qtip-rounded qtip-orange',
-                            show: {
-                                ready: true
-                            },
-                            hide: {
-                                event: 'mouseleave'
-                            },
-                            events: {
-                                hide: function(event, api) {
-                                    api.destroy();
-                                }
-                            }
-                        });
-                    }
                 }
             },
             on : {
