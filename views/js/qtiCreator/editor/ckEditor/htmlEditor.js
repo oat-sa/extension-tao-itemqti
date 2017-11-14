@@ -21,7 +21,6 @@ define([
     'jquery',
     'ckeditor',
     'core/promise',
-    'taoQtiItem/qtiCreator/editor/ckEditor/editorMessages',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
@@ -33,7 +32,6 @@ define([
     $,
     CKEditor,
     Promise,
-    editorMessages,
     ckConfigurator,
     Element,
     contentHelper,
@@ -63,7 +61,9 @@ define([
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var ckConfig;
+        var ckConfig,
+            widget = (options.data || {}).widget,
+            areaBroker = widget && widget.getAreaBroker();
 
         options = _.defaults(options, _defaults);
 
@@ -84,7 +84,7 @@ define([
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             sharedSpaces : {
-                top: 'toolbar-top'
+                top: areaBroker && areaBroker.getToolbarArea().attr('id')
             },
             taoQtiItem : {
                 /**

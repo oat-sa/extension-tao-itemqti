@@ -38,7 +38,8 @@ define([
                 $brokerContainer: $outsideContainer,
                 mapping: {
                     itemPanel: $('.item-editor-item'),
-                    contentCreatorPanel: $('#item-editor-panel')
+                    contentCreatorPanel: $('#item-editor-panel'),
+                    toolbar: $('#toolbar-top')
                 }
             }),
             tooltipContent  = 'my tooltip <strong>content</strong>',
