@@ -63,7 +63,8 @@ define([
 
         var ckConfig,
             widget = (options.data || {}).widget,
-            areaBroker = widget && widget.getAreaBroker();
+            areaBroker = widget && widget.getAreaBroker(),
+            $toolbarArea = areaBroker && areaBroker.getToolbarArea && areaBroker.getToolbarArea();
 
         options = _.defaults(options, _defaults);
 
@@ -84,7 +85,7 @@ define([
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             sharedSpaces : {
-                top: areaBroker && areaBroker.getToolbarArea().attr('id')
+                top: $toolbarArea && $toolbarArea.attr('id')
             },
             taoQtiItem : {
                 /**
@@ -146,7 +147,15 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
+                blur : function() {
+                    if ($toolbarArea) {
+                        $toolbarArea.hide();
+                    }
+                },
                 focus : function(){
+                    if ($toolbarArea) {
+                        $toolbarArea.show();
+                    }
 
                     //callback:
                     if(_.isFunction(options.focus)){
