@@ -45,7 +45,7 @@ define([
         init : function init(){
             var itemCreator = this.getHost();
 
-            $window.on('resize.' + ns, _.throttle(function() {
+            $window.on('resize' + ns, _.throttle(function() {
                 itemCreator.trigger('resize');
             }, throttleDelayMs));
         },

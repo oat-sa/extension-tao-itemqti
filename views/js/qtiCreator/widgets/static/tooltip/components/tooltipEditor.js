@@ -37,7 +37,7 @@ define([
 ) {
     'use strict';
 
-    var defaultConfig = {
+    var widgetPopupConfig = {
         popupControls: {
             done: true
         },
@@ -49,13 +49,14 @@ define([
     };
 
     /**
-     *
+     * @param {Object} config
+     * @param {Element} config.tooltip - the tooltip element
      */
     return function tooltipEditorFactory(config) {
         var tooltip,
             tooltipEditorComponent;
 
-        config = _.defaults(config || {}, defaultConfig);
+        config = _.defaults(config || {}, widgetPopupConfig);
 
         tooltipEditorComponent = widgetPopupFactory({}, config)
             .on('init', function() {
@@ -70,14 +71,11 @@ define([
             })
             .on('render', function() {
                 var self = this,
-                    $component = this.getElement(),
                     $body = self.getBody(),
 
                     $targetEditorContainer,
                     $contentEditorContainer,
                     $closeBtn;
-
-                $component.addClass('');
 
                 $body.append($(tpl()));
 

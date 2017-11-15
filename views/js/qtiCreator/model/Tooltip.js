@@ -29,6 +29,9 @@ define([
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
+        init : function(serial, attributes, newContent){
+            this._super(serial, attributes, newContent);
+        },
         isEmpty: function isEmpty() {
             return !this.body() || !this.bdy;
         },

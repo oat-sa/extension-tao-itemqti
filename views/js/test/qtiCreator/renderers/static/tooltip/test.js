@@ -60,7 +60,6 @@ define([
                 tooltip.render($tooltipPlaceholder);
                 tooltip.postRender();
 
-                // assert.equal($container.find('.widget-inline').length, 1, 'element has been wrapped in a inline widget container');
                 assert.ok(true);
 
                 QUnit.start();

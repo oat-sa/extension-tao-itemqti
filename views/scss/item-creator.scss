@@ -712,7 +712,7 @@ img.dragging.ui-draggable-dragging {
 
 #item-editor-panel {
     @import "qtiCreator/_editor-bar";
-    // those elements cannot go lower as they build markup in the panel container
+    // those elements cannot go lower as they style markup in the panel container
     @import "qtiCreator/_table";
     @import "qtiCreator/_widget-popup";
     @import "qtiCreator/_tooltip";

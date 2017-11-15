@@ -36,6 +36,7 @@ define([
 
     /**
      * @param {Element} tooltip - the tooltip instance
+     * @param {Boolean} config.preventEnter - If "enter" key should be prohibited
      * @param {String} config.content - content of the field
      * @param {String} config.title - css class of the editable field
      * @param {String} config.class - title attribute of the editable field

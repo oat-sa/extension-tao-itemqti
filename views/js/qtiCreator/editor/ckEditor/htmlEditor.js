@@ -24,8 +24,7 @@ define([
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
-    'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
-    'qtip'
+    'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
 ], function(
     _,
     __,

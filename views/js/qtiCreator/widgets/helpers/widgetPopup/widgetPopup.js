@@ -89,6 +89,7 @@ define([
      * @param {Object} specs - extra functions to extend the component
      * @param {Object} config
      * @param {Boolean} [config.alignable] - if the window should be alignable
+     * @param {Boolean} [config.containable] - if the window should be contained in its container
      * @param {Object} [config.titleControls] - to activate default controls presets in the title bar
      */
     return function widgetPopupFactory(specs, config) {
