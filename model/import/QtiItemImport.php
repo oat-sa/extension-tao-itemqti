@@ -48,7 +48,8 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getLabel()
      */
-    public function getLabel(){
+    public function getLabel()
+    {
         return __('QTI/APIP XML Item Document');
     }
 
@@ -56,7 +57,8 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getForm()
      */
-    public function getForm(){
+    public function getForm()
+    {
         $form = new QtiItemImportForm();
         return $form->getForm();
     }
@@ -71,32 +73,33 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
      * @throws \common_Exception
      * @throws common_exception_Error
      */
-    public function import($class, $form){
+    public function import($class, $form)
+    {
 
         $fileInfo = $form->getValue('source');
 
-        if(isset($fileInfo['uploaded_file'])){
+        if (isset($fileInfo['uploaded_file'])) {
 
             /** @var  UploadService $uploadService */
             $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
             $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
 
-            try{
+            try {
                 $importService = ImportService::singleton();
                 $report = $importService->importQTIFile($uploadedFile, $class, true);
-            }catch(UnsupportedQtiElement $e){
+            } catch (UnsupportedQtiElement $e) {
                 $report = common_report_Report::createFailure(__('The "%s" QTI component is not supported.', $e->getType()));
-            }catch(ParsingException $e){
+            } catch (ParsingException $e) {
                 $report = common_report_Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
-            }catch(common_Exception $e){
+            } catch(common_Exception $e) {
                 $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the QTI Item. The system returned the following error:", $e->getMessage()));
             }
 
             $uploadService->remove($uploadService->getUploadedFlyFile($fileInfo['uploaded_file']));
-        }else{
+        } else {
             throw new common_exception_Error('No source file for import');
         }
+        
         return $report;
     }
-
 }
