@@ -20,28 +20,27 @@
  */
 ?>
 <customInteraction <?=get_data('attributes')?>>
-    <pci:portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>">
-        <pci:responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
-        <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
-            <pci:libraries>
+    <portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>" version="<?=get_data('version')?>" xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction">
+        <resources>
+            <?php if(count(get_data('libraries'))):?><libraries>
                 <?php foreach(get_data('libraries') as $lib):?>
-                <pci:lib id="<?=$lib?>"/>
+                <lib id="<?=$lib?>"/>
                 <?php endforeach;?>
-            </pci:libraries>
-            <pci:stylesheets>
+            </libraries><?php endif;?>
+            <?php if(count(get_data('stylesheets'))):?><stylesheets>
                 <?php foreach(get_data('stylesheets') as $stylesheet):?>
-                <pci:lib id="<?=$stylesheet?>"/>
+                <link href="<?=$stylesheet?>" type="text/css" title="base"/>
                 <?php endforeach;?>
-            </pci:stylesheets>
-            <pci:mediaFiles>
+            </stylesheets><?php endif;?>
+            <?php if(count(get_data('mediaFiles'))):?><mediaFiles>
                 <?php foreach(get_data('mediaFiles') as $file):?>
-                <pci:lib id="<?=$file?>"/>
+                <file src="<?=$file?>"/>
                 <?php endforeach;?>
-            </pci:mediaFiles>
-        </pci:resources>
+            </mediaFiles><?php endif;?>
+        </resources>
         <?=get_data('serializedProperties')?>
-        <pci:markup>
+        <markup xmlns="http://www.w3.org/1999/xhtml">
             <?=get_data('markup')?>
-        </pci:markup>
-    </pci:portableCustomInteraction>
+        </markup>
+    </portableCustomInteraction>
 </customInteraction>

@@ -20,4 +20,65 @@
 
 namespace oat\taoQtiItem\model\portableElement\exception;
 
-class PortableElementException extends \common_Exception {}
+class PortableElementException extends \common_Exception {
+
+    protected $report;
+
+    /**
+     * PortableElementInvalidModelException constructor.
+     * Set default message is $message is null
+     *
+     * @param null $message
+     * @param int $code
+     * @param \Exception|null $previous
+     */
+    public function __construct($message = null, $code = 0, \Exception $previous = null)
+    {
+        if (is_null($message)) {
+            $message = 'Portable element validation failed';
+        }
+        parent::__construct($message, $code, $previous);
+    }
+
+    /**
+     * Set report
+     *
+     * @param $report
+     */
+    public function setReport(\common_report_Report $report)
+    {
+        $this->report = $report;
+    }
+
+    /**
+     * Return the report
+     *
+     * @return \common_report_Report
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    /**
+     * Extract all report messages to simple array
+     *
+     * @return array
+     */
+    public function getReportMessages()
+    {
+        $messages = array();
+        /** @var \common_report_Report $subReport */
+        foreach ($this->report as $subReport) {
+            $errors = [];
+            if ($subReport->containsError()) {
+                $errors = $subReport->getErrors();
+            }
+            $messages[] = array(
+                'message' => $subReport->getMessage(),
+                'details' => $errors
+            );
+        }
+        return $messages;
+    }
+}

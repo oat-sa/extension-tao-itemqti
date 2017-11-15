@@ -48,8 +48,10 @@ class Validator
     const isArray          = 'isArray';
     const isString         = 'isString';
     const isVersion        = 'isVersion';
+    const isTypeIdentifier = 'isTypeIdentifier';
 
     protected static $customValidators = [
+        self::isTypeIdentifier => 'isTypeIdentifier',
         self::isArray        => 'isValidArray',
         self::isString       => 'isValidString',
         self::isVersion      => 'isValidVersion'
@@ -178,6 +180,21 @@ class Validator
         $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/\d+(?:\.\d+)+/'));
         if (! is_null($value) && ! $validator->evaluate($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid version.');
+        }
+        return true;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     * @throws PortableElementInvalidFieldException
+     */
+    public static function isTypeIdentifier($value)
+    {
+        //the IMS PCI standard recommends using the URN https://tools.ietf.org/html/rfc4198
+        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/[a-z0-9-_:]+/i'));
+        if (! is_null($value) && ! $validator->evaluate($value)) {
+            throw new PortableElementInvalidFieldException('Unable to validate the given value as valid type identifier.');
         }
         return true;
     }

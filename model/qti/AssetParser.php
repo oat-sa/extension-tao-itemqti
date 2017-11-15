@@ -22,10 +22,12 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\oatbox\filesystem\Directory;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
 use \SimpleXMLElement;
 
 /**
@@ -271,13 +273,7 @@ class AssetParser
     private function loadCustomElementAssets(Element $element)
     {
         if($this->getGetCustomElementDefinition()) {
-            if ($element instanceof PortableCustomInteraction) {
-                $this->assets['PCI'][$element->getTypeIdentifier()] = $element;
-            }
-
-            if ($element instanceof PortableInfoControl) {
-                $this->assets['PIC'][$element->getTypeIdentifier()] = $element;
-            }
+            $this->assets[$element->getTypeIdentifier()] = $element;
         }
 
         $xmls = array();
