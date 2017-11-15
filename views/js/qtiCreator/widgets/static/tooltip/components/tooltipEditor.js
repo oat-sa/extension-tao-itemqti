@@ -123,9 +123,6 @@ define([
 
                 this.contentEditor.destroy();
                 this.targetEditor.destroy();
-
-                this.contentEditor = null; //todo: works well with async ?!
-                this.targetEditor = null;
             });
 
         return tooltipEditorComponent.init();

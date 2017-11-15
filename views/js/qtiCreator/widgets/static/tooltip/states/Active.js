@@ -107,13 +107,16 @@ define([
             tooltip = _widget.element,
             $tooltip = _widget.$original;
 
-        $tooltip.html(tooltip.body());
+        // We never leave the tooltip markup empty, so ckEditor stays our friend
+        $tooltip.html(tooltip.body() || '&nbsp;');
 
         if (tooltipEditor) {
             tooltipEditor.hide();
             tooltipEditor.destroy();
             tooltipEditor = null;
         }
+
+        inlineHelper.togglePlaceholder(_widget);
 
         itemCreator.off('.tooltipeditor');
     };

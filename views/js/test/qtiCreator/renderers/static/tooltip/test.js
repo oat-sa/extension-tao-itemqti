@@ -23,7 +23,7 @@ define([
     'taoQtiItem/test/qtiCreator/mocks/itemCreatorMock',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiItem/core/Tooltip'
+    'taoQtiItem/qtiCreator/model/Tooltip'
 ], function($, itemCreatorMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
     'use strict';
 

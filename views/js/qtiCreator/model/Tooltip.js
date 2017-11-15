@@ -36,17 +36,12 @@ define([
             var tooltipContentId = util.buildSerial(this.qtiClass + '-');
             this.attr('aria-describedby', tooltipContentId);
         },
-        // As far as the Qti Creator is concerned, an empty tooltip is a tooltip containing a non-breaking space.
-        // We make sure that we never store an empty string as the body, so we remain friends with CK...
+        // As CK does not play well with empty tags, we might receive here a non-breaking space instead of an empty content
         body: function(newBody) {
-            var body;
-            if (newBody === '') {
-                newBody = '&nbsp;';
+            if (newBody === '&nbsp;') {
+                newBody = '';
             }
-
-            body = this._super(newBody);
-
-            return (body === '&nbsp;') ? '' : body;
+            return this._super(newBody);
         }
     });
     return PrintedVariable.extend(methods);
