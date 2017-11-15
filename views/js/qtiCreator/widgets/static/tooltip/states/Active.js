@@ -75,8 +75,8 @@ define([
 
                 // the following are arbitrary values
                 // that gives visually nice results
-                hOffset: -4,
-                vOffset: -48
+                hOffset: -5,
+                vOffset: -49
             });
         }
     };
