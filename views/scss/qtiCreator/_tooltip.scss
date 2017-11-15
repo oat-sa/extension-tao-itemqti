@@ -8,6 +8,8 @@ $tooltipBorder: #f1d031;
     max-width: 350px;
 
     .tooltip-editor-target-container {
+        display: flex;
+        justify-content: center;
         margin-bottom: 5px;
 
         .tooltip-editor-target {
@@ -17,8 +19,7 @@ $tooltipBorder: #f1d031;
             padding: 3px 5px;
             background-color: #fff;
             margin-bottom: 2px;
-            display: block;
-            width: 100%;
+            display: inline-block;
         }
     }
 
@@ -54,11 +55,5 @@ $tooltipBorder: #f1d031;
                 cursor: text;
             }
         }
-
-
-    }
-
-    .qti-tooltip-editor-tip {
-
     }
 }

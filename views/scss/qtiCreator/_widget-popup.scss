@@ -1,7 +1,7 @@
 $titleBarTxt: white(1);
 $titleBarTxtShadow: 1px 1px 0 blacken($info, .2);
 $titleBarBg: whiten($info, .1);
-$bodyBg: $uiClickableDefaultBg;
+$bodyBg: rgba($uiClickableDefaultBg, .9);;
 
 .window-component.widget-popup {
     border: 0;
@@ -24,6 +24,7 @@ $bodyBg: $uiClickableDefaultBg;
 
     .window-component-body {
         padding: 20px 20px 0;
+        background-color: transparent;
     }
 
     .widget-popup-controls-area {
