@@ -28,6 +28,7 @@ use oat\tao\model\upload\UploadService;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \tao_models_classes_import_ImportHandler;
 use \common_report_Report;
 use \common_Exception;
@@ -88,7 +89,9 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
                 $importService = ImportService::singleton();
                 $report = $importService->importQTIFile($uploadedFile, $class, true);
             } catch (UnsupportedQtiElement $e) {
-                $report = common_report_Report::createFailure(__('The "%s" QTI component is not supported.', $e->getType()));
+                $report = common_report_Report::createFailure(__("A QTI component is not supported. The system returned the following error: %s\n", $e->getUserMessage()));
+            } catch (QtiModelException $e) {
+                $report = common_report_Report::createFailure(__("One or more QTI components are not supported by the system. The system returned the following error: %s\n", $e->getUserMessage()));
             } catch (ParsingException $e) {
                 $report = common_report_Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
             } catch(common_Exception $e) {
