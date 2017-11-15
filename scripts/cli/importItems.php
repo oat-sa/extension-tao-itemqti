@@ -63,8 +63,6 @@ class importItems implements Action, ServiceLocatorAwareInterface
      */
     public function __invoke($params = [])
     {
-        \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-
         $fileName = null;
         $className = null;
 
