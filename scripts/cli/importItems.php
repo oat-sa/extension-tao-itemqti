@@ -28,6 +28,7 @@ use Exception;
 use helpers_TimeOutHelper;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
+use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\ImportService;
@@ -49,8 +50,6 @@ class importItems implements Action, ServiceLocatorAwareInterface
     use OntologyAwareTrait;
     use ServiceLocatorAwareTrait;
     
-    const ITEM_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
-
     protected $rollbackOnError = false;
     protected $rollbackOnWarning = false;
     protected $recurse = false;
@@ -144,7 +143,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
      * @param string $parentClass
      * @return core_kernel_classes_Class|null
      */
-    protected function getItemClass($className = null, $parentClass = self::ITEM_CLASS_URI) {
+    protected function getItemClass($className = null, $parentClass = TaoOntology::ITEM_CLASS_URI) {
         $parentClass = $this->getClass($parentClass);
         
         if ($className) {
