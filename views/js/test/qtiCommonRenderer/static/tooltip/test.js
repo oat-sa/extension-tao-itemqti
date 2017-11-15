@@ -22,8 +22,10 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
+    'taoQtiItem/qtiItem/core/Tooltip',
+    'taoQtiItem/qtiCreator/helper/commonRenderer',
     'json!taoQtiItem/test/samples/json/static/tooltip.json'
-], function ($, _, qtiItemRunner, itemData) {
+], function ($, _, qtiItemRunner, Tooltip, commonRenderer, itemData) {
     'use strict';
 
     var runner;
@@ -120,6 +122,40 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('A tooltip with no content is rendered as normal text', function (assert) {
+        var $container = $(fixtureContainerId),
+
+            tooltipTarget   = 'tooltip target',
+            tooltipContent  = '',
+            tooltipSerial   = '_tooltip_4568613547893',
+
+            $tooltipPlaceholder = $('<span>'),
+
+            tooltip = new Tooltip(tooltipSerial, {}, tooltipContent);
+
+        QUnit.expect(2);
+
+        $container.append($tooltipPlaceholder);
+
+        commonRenderer
+            .get(true)
+            .load(function() {
+                var $allTooltips;
+
+                tooltip.setRenderer(this);
+                tooltip.body(tooltipTarget);
+
+                tooltip.render($tooltipPlaceholder);
+                tooltip.postRender();
+
+                $allTooltips = $container.find('[data-qti-class="_tooltip"]');
+
+                assert.equal($container.text().trim(), tooltipTarget, 'tooltip has been rendered as pure text');
+                assert.equal($allTooltips.length, 0, 'no tooltip has been rendered');
+
+                QUnit.start();
+            }, [ '_tooltip', '_container' ]);
+    });
 
     QUnit.module('Visual test');
 
