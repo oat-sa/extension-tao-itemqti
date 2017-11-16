@@ -62,7 +62,7 @@ define([
 
         var ckConfig,
             widget = (options.data || {}).widget,
-            areaBroker = widget && widget.getAreaBroker(),
+            areaBroker = widget && widget.getAreaBroker && widget.getAreaBroker(),
             $toolbarArea = areaBroker && areaBroker.getToolbarArea && areaBroker.getToolbarArea();
 
         options = _.defaults(options, _defaults);
@@ -84,7 +84,7 @@ define([
             enterMode : options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             sharedSpaces : {
-                top: $toolbarArea && $toolbarArea.attr('id')
+                top: ($toolbarArea && $toolbarArea.attr('id')) || 'toolbar-top'
             },
             taoQtiItem : {
                 /**
