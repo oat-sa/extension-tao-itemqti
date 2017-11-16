@@ -473,7 +473,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('10.7.0');
         }
 
-        $this->skip('10.7.0', '12.0.0');
+        $this->skip('10.7.0', '11.1.0');
 
     }
 }
