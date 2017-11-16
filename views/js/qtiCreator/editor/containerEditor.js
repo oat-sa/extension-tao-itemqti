@@ -32,7 +32,7 @@ define([
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'
-], function(_, $, Promise, Loader, Container, Item, event, qtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
+], function(_, $, Promise, Loader, Container, Item, event, allQtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
     "use strict";
 
     var _ns = 'containereditor';
@@ -100,7 +100,7 @@ define([
         }
 
         data = parser($container);
-        loader = new Loader().setClassesLocation(qtiClasses);
+        loader = new Loader().setClassesLocation(allQtiClasses);
         loader.loadRequiredClasses(data, function(){
 
             var item,
@@ -158,7 +158,8 @@ define([
                     toolbar : options.toolbar || undefined,
                     qtiMedia : options.qtiMedia,
                     highlight : options.highlight,
-                    removePlugins : options.removePlugins || ''
+                    removePlugins : options.removePlugins || '',
+                    areaBroker : options.areaBroker
                 });
 
                 $container
@@ -207,14 +208,19 @@ define([
      *
      * @param {JQuery} $editableContainer
      * @param {Object} container
+     * @param {Object} options
+     * @param {Object} options.areaBroker
      * @returns {Object} The fake widget object
      */
-    function createFakeWidget($editableContainer, container){
+    function createFakeWidget($editableContainer, container, options){
 
         var widget = {
             $container : $editableContainer,
             element : container,
-            changeState : _.noop
+            changeState : _.noop,
+            getAreaBroker : function getAreaBroker() {
+                return options.areaBroker;
+            }
         };
         //associate the widget to the container
         container.data('widget', widget);
@@ -233,7 +239,7 @@ define([
                 passthroughInnerContent : false,
                 change : content.getChangeCallback(container),
                 data : {
-                    widget : createFakeWidget($editableContainer, container),
+                    widget : createFakeWidget($editableContainer, container, options),
                     container : container
                 }
             }));
