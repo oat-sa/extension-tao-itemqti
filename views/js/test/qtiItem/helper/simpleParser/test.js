@@ -154,7 +154,7 @@ define([
                 serial = bodyElementsSerials[0],
                 tooltip = body.elements[serial];
 
-            QUnit.expect(6);
+            QUnit.expect(8);
 
             assert.equal(bodyElementsSerials.length, 1, '1 element has been found');
             assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
@@ -163,6 +163,8 @@ define([
 
             assert.equal(tooltip.content, data.expectedContent, 'tooltip has the correct content');
             assert.equal(tooltip.body.body, data.expectedTarget, 'tooltip has the correct target');
+            assert.ok(! _.isUndefined(tooltip.elements), 'tooltip has an element property');
+            assert.ok(! _.isUndefined(tooltip.body.elements), 'tooltip body has an element property');
         });
 
     QUnit

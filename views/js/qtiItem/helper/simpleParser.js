@@ -93,6 +93,7 @@ define([
         var qtiClass = '_tooltip';
 
         return {
+            elements : {},
             qtiClass : qtiClass,
             serial : util.buildSerial(qtiClass + '_'),
             attributes : {
@@ -100,6 +101,7 @@ define([
             },
             content: contentHtml,
             body: {
+                elements : {},
                 serial: util.buildSerial('container'),
                 body: targetHtml
             }
