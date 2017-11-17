@@ -97,7 +97,7 @@ define([
                 }
             }
         ])
-        .test('Elements parsing: ', function(data, assert) {
+        .test('Simple elements parsing: ', function(data, assert) {
             var parsed = simpleParser.parse(data.xml);
             var serialRegexp = /{{([a-z_]+)_[0-9a-z]*}}/i;
 
@@ -106,10 +106,93 @@ define([
                 bodyElementsSerials = Object.keys(body.elements),
                 serial = bodyElementsSerials[0];
 
+            QUnit.expect(4);
+
             assert.equal(bodyElementsSerials.length, 1, '1 element has been found');
             assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
             assert.equal(serial.indexOf(data.expectedElement), 0, 'element is of the expected type, with serial ' + bodyElementsSerials[0]);
             assert.deepEqual(body.elements[serial].attributes, data.expectedAttributes, 'element has the expected attributes');
+        });
+
+    QUnit
+        .cases([
+            {
+                title: 'regular tooltip',
+                xml: '<div>this is a tooltip: '
+                    + '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>'
+                    + '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>'
+                    + '. How cool is that???</div>',
+                expectedBody: 'this is a tooltip: {{_tooltip_XXX}}. How cool is that???',
+                expectedElement: '_tooltip',
+                expectedAttributes: {
+                    "aria-describedBy": "_tooltip-63etvf7pktf2jb16d2a09y"
+                },
+                expectedTarget: 'my <strong>Target</strong>',
+                expectedContent: 'my <strong>Content</strong>'
+            }, {
+                title: 'empty tooltip',
+                xml: '<div>this is a tooltip: '
+                    + '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y"></span>'
+                    + '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y"></span>'
+                    + '. How cool is that???</div>',
+                expectedBody: 'this is a tooltip: {{_tooltip_XXX}}. How cool is that???',
+                expectedElement: '_tooltip',
+                expectedAttributes: {
+                    "aria-describedBy": "_tooltip-63etvf7pktf2jb16d2a09y"
+                },
+                expectedTarget: '',
+                expectedContent: ''
+            }
+        ])
+        .test('Valid tooltip parsing: ', function(data, assert) {
+            var parsed = simpleParser.parse(data.xml);
+            var serialRegexp = /{{([a-z_]+)_[0-9a-z]*}}/i;
+
+            var body = parsed.body,
+                parsedBody = body.body.replace(serialRegexp, '{{$1_XXX}}'),
+                bodyElementsSerials = Object.keys(body.elements),
+                serial = bodyElementsSerials[0],
+                tooltip = body.elements[serial];
+
+            QUnit.expect(6);
+
+            assert.equal(bodyElementsSerials.length, 1, '1 element has been found');
+            assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
+            assert.equal(serial.indexOf(data.expectedElement), 0, 'element is of the expected type, with serial ' + bodyElementsSerials[0]);
+            assert.deepEqual(tooltip.attributes, data.expectedAttributes, 'element has the expected attributes');
+
+            assert.equal(tooltip.content, data.expectedContent, 'tooltip has the correct content');
+            assert.equal(tooltip.body.body, data.expectedTarget, 'tooltip has the correct target');
+        });
+
+    QUnit
+        .cases([
+            {
+                title: 'orphan target',
+                xml: '<div>this is a tooltip: '
+                    + '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>'
+                    + '. How cool is that???</div>',
+                expectedBody: 'this is a tooltip: <span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>. How cool is that???'
+            }, {
+                title: 'orphan content',
+                xml: '<div>this is a tooltip: '
+                    + '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>'
+                    + '. How cool is that???</div>',
+                expectedBody: 'this is a tooltip: <span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>. How cool is that???'
+            }
+        ])
+        .test('Incomplete tooltip parsing: ', function(data, assert) {
+            var parsed = simpleParser.parse(data.xml);
+            var serialRegexp = /{{([a-z_]+)_[0-9a-z]*}}/i;
+
+            var body = parsed.body,
+                parsedBody = body.body.replace(serialRegexp, '{{$1_XXX}}'),
+                bodyElementsSerials = Object.keys(body.elements || {});
+
+            QUnit.expect(2);
+
+            assert.equal(bodyElementsSerials.length, 0, 'no elements have been found');
+            assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
         });
 
 });

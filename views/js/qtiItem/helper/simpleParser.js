@@ -89,6 +89,24 @@ define([
         return elt;
     }
 
+    function buildTooltip(targetHtml, contentId, contentHtml){
+        var qtiClass = '_tooltip';
+
+        return {
+            qtiClass : qtiClass,
+            serial : util.buildSerial(qtiClass + '_'),
+            attributes : {
+                'aria-describedBy': contentId
+            },
+            content: contentHtml,
+            body: {
+                serial: util.buildSerial('container'),
+                body: targetHtml
+            }
+
+        };
+    }
+
     function parseContainer($container, options){
 
         var ret = {
@@ -129,6 +147,27 @@ define([
             ret.elements[element.serial] = element;
             $qtiElement.replaceWith(_placeholder(element));
 
+        });
+
+        $container.find('[data-role="tooltip-target"]').each(function(){
+            var element,
+                $target = $(this),
+                $content,
+                contentId = $target.attr('aria-describedBy'),
+                contentHtml;
+
+            if (contentId) {
+                $content = $container.find('#' + contentId);
+                if ($content.length) {
+                    contentHtml = $content.html();
+
+                    element = buildTooltip($target.html(), contentId, contentHtml);
+
+                    ret.elements[element.serial] = element;
+                    $target.replaceWith(_placeholder(element));
+                    $content.remove();
+                }
+            }
         });
 
         ret.body = $container.html();
