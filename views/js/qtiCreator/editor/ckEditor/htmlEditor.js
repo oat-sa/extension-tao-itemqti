@@ -99,8 +99,8 @@ define([
 
                             if (_.isFunction(createdElement.initContainer)) {
                                 createdElement.body($newContent.html());
-                                createdElement.render(createdElement.getContainer());
-                                createdElement.postRender();
+                                createdWidget.rebuild();
+                                createdWidget = createdElement.data('widget');
                             }
                             _activateInnerWidget(options.data.widget, createdWidget);
                         });
