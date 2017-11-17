@@ -21,12 +21,37 @@
 define([
     'taoQtiItem/portableLib/jquery_2_1_1',
     'taoQtiItem/portableLib/jquery.qtip'
-], function() {
+], function($) {
     'use strict';
 
     return {
         render: function render($container) {
-            console.log($container.html());
+            $container.find('[data-role="tooltip-target"]').each(function(){
+                var $target = $(this),
+                    $content,
+                    contentId = $target.attr('aria-describedBy'),
+                    contentHtml;
+
+                if (contentId) {
+                    $content = $container.find('#' + contentId);
+                    if ($content.length) {
+                        contentHtml = $content.html();
+
+                        $target.qtip({
+                            overwrite: true,
+                            theme: 'default',
+                            content: {
+                                text: contentHtml
+                            },
+                            position: {
+                                target: 'event',
+                                my: 'bottom center',
+                                at: 'top center'
+                            }
+                        });
+                    }
+                }
+            });
         }
     };
 });
