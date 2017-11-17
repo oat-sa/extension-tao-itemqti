@@ -125,7 +125,7 @@ define([
                 expectedBody: 'this is a tooltip: {{_tooltip_XXX}}. How cool is that???',
                 expectedElement: '_tooltip',
                 expectedAttributes: {
-                    "aria-describedBy": "_tooltip-63etvf7pktf2jb16d2a09y"
+                    "aria-describedby": "_tooltip-63etvf7pktf2jb16d2a09y"
                 },
                 expectedTarget: 'my <strong>Target</strong>',
                 expectedContent: 'my <strong>Content</strong>'
@@ -138,7 +138,7 @@ define([
                 expectedBody: 'this is a tooltip: {{_tooltip_XXX}}. How cool is that???',
                 expectedElement: '_tooltip',
                 expectedAttributes: {
-                    "aria-describedBy": "_tooltip-63etvf7pktf2jb16d2a09y"
+                    "aria-describedby": "_tooltip-63etvf7pktf2jb16d2a09y"
                 },
                 expectedTarget: '',
                 expectedContent: ''

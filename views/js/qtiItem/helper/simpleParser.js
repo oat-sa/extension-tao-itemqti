@@ -97,7 +97,7 @@ define([
             qtiClass : qtiClass,
             serial : util.buildSerial(qtiClass + '_'),
             attributes : {
-                'aria-describedBy': contentId
+                'aria-describedby': contentId
             },
             content: contentHtml,
             body: {

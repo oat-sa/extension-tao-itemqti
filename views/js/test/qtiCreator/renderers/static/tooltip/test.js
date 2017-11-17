@@ -44,8 +44,9 @@ define([
             }),
             tooltipContent  = 'my tooltip <strong>content</strong>',
             tooltipSerial   = '_tooltip_4568613547893',
+            tooltipId       = 'tooltip_123456',
 
-            tooltip = new Tooltip(tooltipSerial, {}, tooltipContent);
+            tooltip = new Tooltip(tooltipSerial, { 'aria-describedby': tooltipId }, tooltipContent);
 
         QUnit.expect(1);
 

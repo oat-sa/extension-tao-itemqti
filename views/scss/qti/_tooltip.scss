@@ -16,3 +16,9 @@
         display: inline-block;
     }
 }
+
+[data-role="tooltip-content"] {
+    &[aria-hidden="true"] {
+        display: none;
+    }
+}
