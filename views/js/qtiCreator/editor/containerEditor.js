@@ -1,4 +1,4 @@
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -106,7 +106,7 @@ define([
             var item,
                 containerEditors,
                 renderer,
-                qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container'];
+                qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container', '_tooltip'];
 
             //create a new container object
             var container = new Container();
@@ -191,7 +191,7 @@ define([
         return new Promise(function (resolve) {
             if(container){
                 $(document).off('.' + container.serial);
-                commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable'], function(){
+                commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable', '_tooltip'], function(){
                     $container.html(container.render(this));
                     resolve();
                 });
