@@ -144,7 +144,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
     }
 
     public function getBody(){
-        return $this->body;
+        return $this->stripNamespaces($this->body);
     }
 
     /**
@@ -366,4 +366,14 @@ abstract class Container extends Element implements IdentifiedElementContainer
         return $data;
     }
 
+    /**
+     * Remove xhtml elements which have namespace example. <ht5:ruby>element</ht5>.
+     *
+     * @param $html
+     * @return null|string|string[]
+     */
+    protected function stripNamespaces($html)
+    {
+        return preg_replace('/[a-zA-Z0-9]+:([a-zA-Z0-9]+[=>])/', '$1', $html);
+    }
 }
