@@ -21,10 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
-use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
-use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\interaction\Prompt;
 
 /**
  * The QTI block interaction is a subclass of the main QTI Interaction class
