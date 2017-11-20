@@ -140,8 +140,9 @@ define([
                     'value' : entity.encode(value)
                 });
             }
-            return entity.decode(ret);
+            return _.isString(ret) ? entity.decode(ret) : ret;
         },
+
         removeAttr : function(key){
             var ret = this._super(key);
             $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : null});
