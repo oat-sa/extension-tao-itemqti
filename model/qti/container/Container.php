@@ -144,7 +144,13 @@ abstract class Container extends Element implements IdentifiedElementContainer
     }
 
     public function getBody(){
-        return $this->stripNamespaces($this->body);
+        $namespacesToStrip = $this->checkNamespaces();
+
+        if (empty($namespacesToStrip)) {
+            return $this->body;
+        }
+
+        return $this->stripNamespaces($this->body, $namespacesToStrip);
     }
 
     /**
@@ -370,10 +376,42 @@ abstract class Container extends Element implements IdentifiedElementContainer
      * Remove xhtml elements which have namespace example. <ht5:ruby>element</ht5>.
      *
      * @param $html
+     * @param array $namespaces
      * @return null|string|string[]
      */
-    protected function stripNamespaces($html)
+    protected function stripNamespaces($html, $namespaces)
     {
-        return preg_replace('/[a-zA-Z0-9]+:([a-zA-Z0-9]+[=>])/', '$1', $html);
+        $regexArray = [];
+
+        foreach ($namespaces as $namespace) {
+            $regexArray[] = "/[$namespace]+:([$namespace]+[=>])/";
+        }
+
+        return preg_replace($regexArray, '$1', $html);
+    }
+
+    /**
+     * @return array
+     */
+    protected function checkNamespaces()
+    {
+        /** @var Item $qtiItem */
+        $qtiItem = $this->relatedItem;
+        $namespaces = $qtiItem->getNamespaces();
+        $defaultNamespaces = ['xsi'];
+
+        $namespacesToBeEscaped = [];
+        foreach ($namespaces as $key => $namespace)
+        {
+            if (empty($key)){
+                continue;
+            }
+
+            if (!in_array($key, $defaultNamespaces)) {
+                $namespacesToBeEscaped[] = $key;
+            }
+        }
+
+        return $namespacesToBeEscaped;
     }
 }
