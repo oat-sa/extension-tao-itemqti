@@ -37,6 +37,7 @@ define([
     var defaultConfig = {
         alignable: false,
         containable: false,
+        autoContain: true,
         popupControls: {
             done: false
         }
@@ -82,6 +83,20 @@ define([
                         self.trigger(controlsEvents[controlId]);
                     }
                 });
+        },
+
+        /**
+         * Ensure that the popup never goes out of the creator area
+         */
+        autoContain: function autoContain() {
+            var $container;
+
+            if (!this.config.areaBroker) {
+                throw new Error('an areaBroker must be given to enable autoContain');
+            }
+
+            $container = this.config.areaBroker.getItemPanelArea();
+            this.containIn($container, { padding: 10, paddingTop: 40 });
         }
     };
 
@@ -121,6 +136,10 @@ define([
                 $component.append(this.$popupControls);
 
                 this.renderPopupControls();
+
+                if (config.containable && config.autoContain) {
+                    this.autoContain();
+                }
             })
             .on('destroy', function() {
                 var $controlsArea = this.$popupControls;
