@@ -44,6 +44,8 @@ define([
         passthroughInnerContent : false
     };
 
+    var placeholderClass = 'cke-placeholder';
+
     var editorFactory;
 
     //prevent auto inline editor creation:
@@ -75,8 +77,13 @@ define([
         }
 
         if (options.placeholder && options.placeholder !== '') {
-            $editable.attr('placeholder', options.placeholder);
+            if ($editable.is('input')) {
+                $editable.attr('placeholder', options.placeholder);
+            } else {
+                $editable.attr('data-placeholder', options.placeholder);
+            }
         }
+
         ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
@@ -125,6 +132,8 @@ define([
                     }, 100, {
                         leading: true
                     }));
+
+                    managePlaceholder($editable, editor);
 
                     if(options.data && options.data.container){
 
@@ -196,6 +205,40 @@ define([
         };
 
         return CKEditor.inline($editable[0], ckConfig);
+    }
+
+    /**
+     * Handle the placeholder for non-input elements.
+     * To avoid CK nasty side-effects of using the placeholder attribute on non-input elements,
+     * we handle the placeholder with css.
+     */
+    function managePlaceholder($editable, editor) {
+        if (!$editable.is('input')) {
+            togglePlaceholder($editable);
+
+            editor.on('change', function() {
+                togglePlaceholder($editable);
+            });
+        }
+    }
+
+    /**
+     * Toggle the placeholder class on the editable depending on its content
+     */
+    function togglePlaceholder($editable) {
+        var nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target'];
+
+        if ($editable.text().trim() === ''
+            && ! $editable.find(nonEmptyContent.join(',')).length
+        ) {
+            $editable.addClass(placeholderClass);
+        } else {
+            removePlaceholder($editable);
+        }
+    }
+
+    function removePlaceholder($editable) {
+        $editable.removeClass(placeholderClass);
     }
 
     /**
@@ -532,6 +575,9 @@ define([
                         if(_.isFunction(options.change)){
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
+
+                        removePlaceholder($editable);
+
                         editor.on('destroy', function () {
                             $editable.removeData('editor').removeData('editor-options');
                             if($editable.data('qti-container')){

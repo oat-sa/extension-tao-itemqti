@@ -92,6 +92,7 @@ define([
                     tooltip: tooltip,
                     title: __('Tooltip Target'),
                     className: 'tooltip-editor-target',
+                    placeholder: __('Enter tooltip target'),
                     content: tooltip.body(),
                     preventEnter: true,
                     change: function(newBody) {
@@ -104,6 +105,7 @@ define([
                     tooltip: tooltip,
                     title: __('Tooltip Content'),
                     className: 'tooltip-editor-content',
+                    placeholder: __('Enter tooltip content'),
                     content: tooltip.content(),
                     change: function(newContent) {
                         tooltip.content(newContent);
