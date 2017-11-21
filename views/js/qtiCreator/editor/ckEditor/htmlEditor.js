@@ -470,6 +470,11 @@ define([
                 listenToWidgetCreation();
                 containerWidget.changeState('question');
 
+            }else if(Element.isA(containerWidget.element, 'table')){
+
+                listenToWidgetCreation();
+                containerWidget.changeState('sleep');
+
             }else if(Element.isA(innerWidget.element, 'choice')){
 
                 innerWidget.changeState('choice');
