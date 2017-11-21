@@ -42,6 +42,7 @@ define([
      * @param {String} config.class - css class of the editable field
      * @param {String} config.title - title attribute of the editable field
      * @param {String} config.placeholder - to be displayed in an empty field
+     * @param {String} config.focus - if the editor should be focused
      * @param {Function} config.change - the editor change callback
      */
     return function editorFieldFactory(config) {
@@ -64,20 +65,25 @@ define([
                 if(!htmlEditor.hasEditor($component)){
                     htmlEditor.buildEditor($component, {
                         placeholder: config.placeholder || '',
-                        change : changeCallback,
+                        change: changeCallback,
                         removePlugins: 'magicline,taotooltip',
-                        data : {
-                            container : tooltip,
-                            widget : widget
+                        data: {
+                            container: tooltip,
+                            widget: widget
                         },
-                        toolbar : [
+                        toolbar: [
                             {
-                                name : 'basicstyles',
-                                items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                                name: 'basicstyles',
+                                items: ['Bold', 'Italic', 'Subscript', 'Superscript']
                             }
                         ],
-                        blur : function(){
+                        noFocus: true,
+                        blur: function(){
                             widget.changeState('sleep');
+                        }
+                    }).then(function() {
+                        if (config.focus === true) {
+                            htmlEditor.focus($component);
                         }
                     });
                 }
@@ -93,8 +99,7 @@ define([
             },
 
             destroyEditor: function destroyEditor() {
-                var self = this,
-                    $component = self.getElement();
+                var $component = this.getElement();
 
                 htmlEditor.destroyEditor($component);
                 $component.off(ns);

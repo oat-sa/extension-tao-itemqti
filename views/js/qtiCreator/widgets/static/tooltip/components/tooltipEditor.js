@@ -75,7 +75,9 @@ define([
 
                     $targetEditorContainer,
                     $contentEditorContainer,
-                    $closeBtn;
+                    $closeBtn,
+
+                    fieldToFocus = (! tooltip.body()) ? 'target' : 'content';
 
                 $body.append($(tpl()));
 
@@ -94,6 +96,7 @@ define([
                     className: 'tooltip-editor-target',
                     placeholder: __('Enter tooltip target'),
                     content: tooltip.body(),
+                    focus: (fieldToFocus === 'target'),
                     preventEnter: true,
                     change: function(newBody) {
                         tooltip.body(newBody);
@@ -107,6 +110,7 @@ define([
                     className: 'tooltip-editor-content',
                     placeholder: __('Enter tooltip content'),
                     content: tooltip.content(),
+                    focus: (fieldToFocus === 'content'),
                     change: function(newContent) {
                         tooltip.content(newContent);
                     }
