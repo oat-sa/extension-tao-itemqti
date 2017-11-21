@@ -51,7 +51,7 @@ define([
     TooltipStateActive.prototype.buildEditor = function buildEditor(){
         var self = this,
             _widget = self.widget,
-            itemCreator = _widget.getItemCreator(),
+            creatorContext = _widget.getCreatorContext(),
             $itemPanel = _widget.getAreaBroker().getItemPanelArea(),
             $tooltipContainer = _widget.$container,
             tooltip = _widget.element;
@@ -69,7 +69,7 @@ define([
 
         self.alignEditorOn($tooltipContainer);
 
-        itemCreator.on('resize.tooltipEditor', function() {
+        creatorContext.on('resize.tooltipEditor', function() {
             self.alignEditorOn($tooltipContainer);
         });
     };
@@ -111,7 +111,7 @@ define([
 
     TooltipStateActive.prototype.destroyEditor = function destroyEditor(){
         var _widget = this.widget,
-            itemCreator = _widget.getItemCreator(),
+            creatorContext = _widget.getCreatorContext(),
             tooltip = _widget.element,
             $tooltip = _widget.$original;
 
@@ -126,7 +126,7 @@ define([
 
         inlineHelper.togglePlaceholder(_widget);
 
-        itemCreator.off('.tooltipeditor');
+        creatorContext.off('.tooltipeditor');
     };
 
     return TooltipStateActive;
