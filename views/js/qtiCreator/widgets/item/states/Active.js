@@ -62,9 +62,7 @@ define([
                 areaBroker.getTitleArea().html(title);
             },
             timeDependent : formElement.getAttributeChangeCallback(),
-            'xml:lang' : formElement.getAttributeChangeCallback()/*function languageChange(i, value) {
-                item.attr('xml:lang', value);
-            }*/
+            'xml:lang' : formElement.getAttributeChangeCallback()
         });
     };
 
