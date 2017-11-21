@@ -381,11 +381,22 @@ define([
             // Point & click handlers
 
             interact($container.selector).on('tap', function() {
+                //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+                if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+                    return;
+                }
+
                 _resetSelection();
             });
 
             interact($choiceArea.selector + ' >li').on('tap', function(e) {
                 var $target = $(e.currentTarget);
+
+                //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+                if ($target.parents('.qti-item').hasClass('prevent-click-handler')) {
+                    return;
+                }
+
                 e.stopPropagation();
                 _handleChoiceActivate($target);
                 e.preventDefault();
@@ -393,12 +404,23 @@ define([
 
             interact($resultArea.selector + ' >li>div').on('tap', function(e) {
                 var $target = $(e.currentTarget);
+
+                //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+                if ($target.parents('.qti-item').hasClass('prevent-click-handler')) {
+                    return;
+                }
+
                 e.stopPropagation();
                 _handleResultActivate($target);
                 e.preventDefault();
             });
 
             interact(binSelector).on('tap', function (e) {
+                //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+                if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+                    return;
+                }
+
                 e.stopPropagation();
                 _unsetChoice($activeChoice);
                 _resetSelection();

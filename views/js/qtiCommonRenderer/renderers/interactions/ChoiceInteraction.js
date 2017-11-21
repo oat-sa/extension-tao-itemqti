@@ -114,7 +114,7 @@ define([
             }
 
             //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
-            if ($('[data-control=tts]').length > 0 && $('.click-to-speak').length > 0 && $('.click-to-speak').hasClass('active')) {
+            if ($choiceBox.parents('.qti-item').hasClass('prevent-click-handler')) {
                 return;
             }
 

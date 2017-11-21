@@ -160,6 +160,12 @@ define([
 
         interact(choiceSelector).on('tap', function (e) {
             var $target = $(e.currentTarget);
+
+            //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+            if ($target.parents('.qti-item').hasClass('prevent-click-handler')) {
+                return;
+            }
+
             e.stopPropagation();
 
             $iconAdd.addClass('triggered');
@@ -172,21 +178,42 @@ define([
 
         interact(resultSelector).on('tap', function (e) {
             var $target = $(e.currentTarget);
+
+            //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+            if ($target.parents('.qti-item').hasClass('prevent-click-handler')) {
+                return;
+            }
+
             e.stopPropagation();
             _toggleResultSelection($target);
         });
 
         interact($iconRemove.selector).on('tap', function (e) {
+            //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+            if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+                return;
+            }
+
             e.stopPropagation();
             _removeChoice();
         });
 
         interact($iconBefore.selector).on('tap', function (e) {
+            //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+            if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+                return;
+            }
+
             e.stopPropagation();
             _moveResultBefore();
         });
 
         interact($iconAfter.selector).on('tap', function (e) {
+            //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+            if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+                return;
+            }
+
             e.stopPropagation();
             _moveResultAfter();
         });
