@@ -59,6 +59,7 @@ define([
      * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
+     * @param {String} [options.noFocus] - do not automatically focus
      */
     function _buildEditor($editable, $editableContainer, options){
 
@@ -149,7 +150,9 @@ define([
                         }
                     }
 
-                    _focus(editor);
+                    if (options.noFocus !== true) {
+                        _focus(editor);
+                    }
 
                     $editable.trigger('editorready', [editor]);
 
@@ -497,7 +500,7 @@ define([
      */
     function _focus(editor){
         var range;
-        if (editor.editable() && editor.editable().parentNode){
+        if (editor.editable() && editor.editable().$.parentNode){
             editor.focus();
             range = editor.createRange();
             range.moveToElementEditablePosition(editor.editable(), true);
@@ -535,19 +538,23 @@ define([
          * @returns {undefined}
          */
         buildEditor : function($container, editorOptions){
+            var buildTasks = [];
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
                     $editable = $editableContainer.find('[data-html-editable]');
 
-                //need to make the element html editable to enable ck inline editing:
-                $editable.attr('contenteditable', true);
+                buildTasks.push(new Promise(function (resolve) {
+                    //need to make the element html editable to enable ck inline editing:
+                    $editable.attr('contenteditable', true);
 
-                //build it
-                _buildEditor($editable, $editableContainer, editorOptions);
+                    //build it
+                    _buildEditor($editable, $editableContainer, editorOptions);
 
+                    $editable.on('editorready', resolve);
+                }));
             });
-
+            return Promise.all(buildTasks);
         },
         /**
          * Destroy the editor
