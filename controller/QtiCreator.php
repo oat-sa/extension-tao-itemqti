@@ -25,12 +25,14 @@ use common_exception_Error;
 use core_kernel_classes_Resource;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\event\ItemCreatorLoad;
 use oat\taoQtiItem\model\HookRegistry;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\Resource;
 use oat\taoQtiItem\model\qti\Service;
 use tao_actions_CommonModule;
 use tao_helpers_File;
@@ -137,10 +139,14 @@ class QtiCreator extends tao_actions_CommonModule
             $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
+
             $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);//do not resolve xinclude here, leave it to the client side
             if (!is_null($item)) {
                 $returnValue['itemData'] = $item->toArray();
             }
+
+            $availableLangs = \tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA));
+            $returnValue['languagesList'] = $availableLangs;
         }
 
         $this->returnJson($returnValue);
