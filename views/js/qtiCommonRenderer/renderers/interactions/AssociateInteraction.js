@@ -382,7 +382,7 @@ define([
 
             interact($container.selector).on('tap', function() {
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
-                if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+                if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
                     return;
                 }
 
@@ -393,7 +393,7 @@ define([
                 var $target = $(e.currentTarget);
 
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
-                if ($target.parents('.qti-item').hasClass('prevent-click-handler')) {
+                if ($target.closest('.qti-item').hasClass('prevent-click-handler')) {
                     return;
                 }
 
@@ -406,7 +406,7 @@ define([
                 var $target = $(e.currentTarget);
 
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
-                if ($target.parents('.qti-item').hasClass('prevent-click-handler')) {
+                if ($target.closest('.qti-item').hasClass('prevent-click-handler')) {
                     return;
                 }
 
@@ -417,7 +417,7 @@ define([
 
             interact(binSelector).on('tap', function (e) {
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
-                if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+                if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
                     return;
                 }
 

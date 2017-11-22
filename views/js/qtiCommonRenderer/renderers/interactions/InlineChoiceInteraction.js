@@ -80,13 +80,12 @@ define([
         $container.on('change', function(e){
             //if tts component is loaded and click-to-speak function is activated - we must fix the situation when select2 prevents tts from working
             //for this a "one-moment" handler of option click is added and removed after event fired
-            if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+            if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
                 var $selectedIndex = $(e.currentTarget)[0].options.selectedIndex ? $(e.currentTarget)[0].options.selectedIndex : null;
-                $container.find('option').on('click', function(e) {
+                $container.find('option').one('click', function(e) {
                     e.stopPropagation();
                 });
                 $container.find('option').eq($selectedIndex).trigger('click');
-                $container.find('option').off('click');
             }
 
             if(required && $container.val() !== "") {

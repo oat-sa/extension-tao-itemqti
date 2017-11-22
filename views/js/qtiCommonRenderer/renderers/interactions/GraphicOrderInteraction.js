@@ -95,7 +95,7 @@ define([
         })
         .click(function(e){
             //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
-            if ($(e.currentTarget).parents('.qti-item').hasClass('prevent-click-handler')) {
+            if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
                 return;
             }
             if(this.active){
