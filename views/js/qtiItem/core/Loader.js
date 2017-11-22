@@ -416,8 +416,8 @@ define([
             loadPortableCustomElementData(pic, data);
         },
 
-        stripNamespaces: function (body) {
-           return body.replace(new RegExp('(".*?")|(?:[^\s\/<]+?:)', 'g'), '');
+        stripNamespaces: function stripNamespaces(body) {
+            return body.replace(/(".*?")|(?:[^\s\/<]+?:)/g, '$1');
         }
     });
 
