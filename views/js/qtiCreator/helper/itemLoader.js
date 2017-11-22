@@ -67,7 +67,7 @@ define([
 
                             //add languages list to the item
                             if (data.languagesList) {
-                                loadedItem.attr('languagesList', data.languagesList);
+                                loadedItem.data('languagesList', data.languagesList);
                             }
 
                             callback(loadedItem, this.getLoadedClasses());
@@ -93,7 +93,7 @@ define([
 
                         //add languages list to the item
                         if (data.languagesList) {
-                            newItem.attr('languagesList', data.languagesList);
+                            newItem.data('languagesList', data.languagesList);
                         }
 
                         callback(newItem);

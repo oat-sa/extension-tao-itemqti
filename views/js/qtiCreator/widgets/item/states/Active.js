@@ -47,9 +47,8 @@ define([
             title : item.attr('title'),
             timeDependent : !!item.attr('timeDependent'),
             'xml:lang' : item.attr('xml:lang'),
-            languagesList : item.attr('languagesList')
+            languagesList : item.data('languagesList')
         }));
-        item.removeAttributes('languagesList');
         
         //init widget
         formElement.initWidget($form);
