@@ -218,16 +218,23 @@ define([
         find : function(serial){
 
             var found = null;
+            var object,
+                body;
 
             if(typeof this.initObject === 'function'){
-                var object = this.getObject();
+                object = this.getObject();
                 if(object.serial === serial){
                     found = {'parent' : this, 'element' : object, 'location' : 'object'};
                 }
             }
 
             if(!found && typeof this.initContainer === 'function'){
-                found = this.getBody().find(serial, this);
+                body = this.getBody();
+                if (body.serial === serial) {
+                    found = {'parent' : this, 'element' : body, 'location' : 'body'};
+                } else {
+                    found = this.getBody().find(serial, this);
+                }
             }
 
             return found;
