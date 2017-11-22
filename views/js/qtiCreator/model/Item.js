@@ -37,8 +37,7 @@ define([
                 title : 'Item title',
                 adaptive : false,
                 timeDependent : false,
-                'xml:lang' : 'en-US',
-                languagesList: {'en-US': 'English'}
+                'xml:lang' : 'en-US'
             };
         },
         createResponseProcessing : function(){
