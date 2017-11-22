@@ -41,7 +41,8 @@ define([
     var _defaults = {
         placeholder : __('some text ...'),
         shieldInnerContent : true,
-        passthroughInnerContent : false
+        passthroughInnerContent : false,
+        autofocus : true
     };
 
     var placeholderClass = 'cke-placeholder';
@@ -59,7 +60,7 @@ define([
      * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
-     * @param {String} [options.noFocus] - do not automatically focus
+     * @param {Boolean} [options.autofocus] - automatically focus
      */
     function _buildEditor($editable, $editableContainer, options){
 
@@ -150,7 +151,7 @@ define([
                         }
                     }
 
-                    if (options.noFocus !== true) {
+                    if (options.autofocus) {
                         _focus(editor);
                     }
 

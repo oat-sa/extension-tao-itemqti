@@ -77,7 +77,7 @@ define([
                                 items: ['Bold', 'Italic', 'Subscript', 'Superscript']
                             }
                         ],
-                        noFocus: true,
+                        autofocus: false,
                         blur: function(){
                             widget.changeState('sleep');
                         }
