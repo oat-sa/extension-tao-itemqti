@@ -113,6 +113,11 @@ define([
                 return;
             }
 
+            //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
+            if ($choiceBox.closest('.qti-item').hasClass('prevent-click-handler')) {
+                return;
+            }
+
             e.preventDefault();
             e.stopPropagation();//required otherwise any tao scoped, form initialization might prevent it from working
 
