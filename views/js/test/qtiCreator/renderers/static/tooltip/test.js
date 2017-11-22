@@ -20,11 +20,11 @@
  */
 define([
     'jquery',
-    'taoQtiItem/test/qtiCreator/mocks/itemCreatorMock',
+    'taoQtiItem/test/qtiCreator/mocks/qtiCreatorContextMock',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/Tooltip'
-], function($, itemCreatorMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
+], function($, qtiCreatorContextMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
     'use strict';
 
     QUnit.module('Creator Renderer');
@@ -32,7 +32,7 @@ define([
     QUnit.asyncTest('Display and play', function (assert) {
         var $outsideContainer = $('#outside-container'),
             config = {
-                itemCreator: itemCreatorMockFactory()
+                qtiCreatorContext: qtiCreatorContextMockFactory()
             },
             areaBroker = areaBrokerFactory({
                 $brokerContainer: $outsideContainer,

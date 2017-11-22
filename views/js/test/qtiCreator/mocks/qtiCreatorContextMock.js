@@ -23,7 +23,7 @@ define([
 ], function(eventifier) {
     'use strict';
 
-    return function itemCreatorMockFactory() {
+    return function qtiCreatorContextMockFactory() {
         return eventifier();
     };
 });
