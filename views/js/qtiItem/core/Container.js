@@ -41,7 +41,8 @@ define([
                     this.bdy = body;
                     $(document).trigger('containerBodyChange', {
                         body : body,
-                        container : this.parent()
+                        container : this,
+                        parent : this.parent()
                     });
                 }else{
                     throw 'body must be a string';
