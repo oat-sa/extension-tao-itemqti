@@ -45,7 +45,7 @@
         <span class="tooltip-content">
             {{__ "Define item language."}}
         </span>
-        <select name="xml:lang">
+        <select name="xml:lang" class="select2" data-has-search="false">
             {{#each languagesList}}
                 <option value="{{@key}}"{{#equal @key ../xml:lang}} selected="selected"{{/equal}}>{{this}}</option>
             {{/each}}
