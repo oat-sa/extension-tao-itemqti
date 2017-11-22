@@ -15,26 +15,15 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
+/**
+ * @author Christophe Noël <christophe@taotesting.com>
+ */
 define([
-    'taoQtiItem/portableLib/OAT/util/xml',
-    'taoQtiItem/portableLib/OAT/util/math',
-    'taoQtiItem/portableLib/OAT/util/tooltip'
-], function(xml, math, tooltip){
+    'core/eventifier'
+], function(eventifier) {
     'use strict';
 
-    return {
-        render : function render($container){
-            var markup = $container.html();
-
-            //remove xml ns (would break jquery selector otherwise)
-            markup = xml.removeNamespace(markup);
-            $container.html(markup);
-
-            //render math
-            math.render($container);
-
-            //render tooltip
-            tooltip.render($container);
-        }
+    return function qtiCreatorContextMockFactory() {
+        return eventifier();
     };
 });

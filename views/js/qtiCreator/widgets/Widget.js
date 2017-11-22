@@ -116,12 +116,12 @@ define([
                 return renderer.getAreaBroker();
             }
         },
-        getItemCreator : function getItemCreator() {
+        getCreatorContext : function getCreatorContext() {
             var element = this.element,
                 renderer = element.getRenderer();
 
             if (renderer) {
-                return renderer.getItemCreator();
+                return renderer.getCreatorContext();
             }
         },
         getRequiredOptions : function(){

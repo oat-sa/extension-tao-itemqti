@@ -21,11 +21,12 @@
 define([
     'lodash',
     'jquery',
+    'ckeditor',
     'ui/component',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/editorField'
-], function(_, $, componentFactory, htmlEditor, contentHelper, tpl) {
+], function(_, $, ckEditor, componentFactory, htmlEditor, contentHelper, tpl) {
     'use strict';
 
     var ns = '.editorfield';
@@ -35,11 +36,13 @@ define([
     };
 
     /**
-     * @param {Element} tooltip - the tooltip instance
+     * @param {Element} config.tooltip - the tooltip instance
      * @param {Boolean} config.preventEnter - If "enter" key should be prohibited
      * @param {String} config.content - content of the field
-     * @param {String} config.title - css class of the editable field
-     * @param {String} config.class - title attribute of the editable field
+     * @param {String} config.class - css class of the editable field
+     * @param {String} config.title - title attribute of the editable field
+     * @param {String} config.placeholder - to be displayed in an empty field
+     * @param {String} config.focus - if the editor should be focused
      * @param {Function} config.change - the editor change callback
      */
     return function editorFieldFactory(config) {
@@ -61,21 +64,26 @@ define([
 
                 if(!htmlEditor.hasEditor($component)){
                     htmlEditor.buildEditor($component, {
-                        placeholder: '',
-                        change : changeCallback,
+                        placeholder: config.placeholder || '',
+                        change: changeCallback,
                         removePlugins: 'magicline,taotooltip',
-                        data : {
-                            container : tooltip,
-                            widget : widget
+                        data: {
+                            container: tooltip,
+                            widget: widget
                         },
-                        toolbar : [
+                        toolbar: [
                             {
-                                name : 'basicstyles',
-                                items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                                name: 'basicstyles',
+                                items: ['Bold', 'Italic', 'Subscript', 'Superscript']
                             }
                         ],
-                        blur : function(){
+                        autofocus: false,
+                        blur: function(){
                             widget.changeState('sleep');
+                        }
+                    }).then(function() {
+                        if (config.focus === true) {
+                            htmlEditor.focus($component);
                         }
                     });
                 }
@@ -91,8 +99,7 @@ define([
             },
 
             destroyEditor: function destroyEditor() {
-                var self = this,
-                    $component = self.getElement();
+                var $component = this.getElement();
 
                 htmlEditor.destroyEditor($component);
                 $component.off(ns);

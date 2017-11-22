@@ -13,17 +13,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 /**
+ * The plugin loader with the "required" plugins
+ *
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'core/eventifier'
-], function(eventifier) {
+    'core/pluginLoader',
+    'taoQtiItem/qtiCreator/context/plugins/content/windowResizer'
+], function(pluginLoader, windowResizer){
     'use strict';
 
-    return function itemCreatorMockFactory() {
-        return eventifier();
-    };
+    /**
+     * Instantiate the plugin loader with all the required plugins configured
+     */
+    return pluginLoader({
+        content: [windowResizer]
+    });
 });

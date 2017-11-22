@@ -20,11 +20,11 @@
  */
 define([
     'jquery',
-    'taoQtiItem/test/qtiCreator/mocks/itemCreatorMock',
+    'taoQtiItem/test/qtiCreator/mocks/qtiCreatorContextMock',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/Tooltip'
-], function($, itemCreatorMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
+], function($, qtiCreatorContextMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
     'use strict';
 
     QUnit.module('Creator Renderer');
@@ -32,7 +32,7 @@ define([
     QUnit.asyncTest('Display and play', function (assert) {
         var $outsideContainer = $('#outside-container'),
             config = {
-                itemCreator: itemCreatorMockFactory()
+                qtiCreatorContext: qtiCreatorContextMockFactory()
             },
             areaBroker = areaBrokerFactory({
                 $brokerContainer: $outsideContainer,
@@ -44,8 +44,9 @@ define([
             }),
             tooltipContent  = 'my tooltip <strong>content</strong>',
             tooltipSerial   = '_tooltip_4568613547893',
+            tooltipId       = 'tooltip_123456',
 
-            tooltip = new Tooltip(tooltipSerial, {}, tooltipContent);
+            tooltip = new Tooltip(tooltipSerial, { 'aria-describedby': tooltipId }, tooltipContent);
 
         QUnit.expect(1);
 

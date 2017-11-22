@@ -41,8 +41,11 @@ define([
     var _defaults = {
         placeholder : __('some text ...'),
         shieldInnerContent : true,
-        passthroughInnerContent : false
+        passthroughInnerContent : false,
+        autofocus : true
     };
+
+    var placeholderClass = 'cke-placeholder';
 
     var editorFactory;
 
@@ -57,6 +60,7 @@ define([
      * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
+     * @param {Boolean} [options.autofocus] - automatically focus
      */
     function _buildEditor($editable, $editableContainer, options){
 
@@ -75,8 +79,13 @@ define([
         }
 
         if (options.placeholder && options.placeholder !== '') {
-            $editable.attr('placeholder', options.placeholder);
+            if ($editable.is('input')) {
+                $editable.attr('placeholder', options.placeholder);
+            } else {
+                $editable.attr('data-placeholder', options.placeholder);
+            }
         }
+
         ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
@@ -99,8 +108,8 @@ define([
 
                             if (_.isFunction(createdElement.initContainer)) {
                                 createdElement.body($newContent.html());
-                                createdElement.render(createdElement.getContainer());
-                                createdElement.postRender();
+                                createdWidget.rebuild();
+                                createdWidget = createdElement.data('widget');
                             }
                             _activateInnerWidget(options.data.widget, createdWidget);
                         });
@@ -126,6 +135,8 @@ define([
                         leading: true
                     }));
 
+                    managePlaceholder($editable, editor);
+
                     if(options.data && options.data.container){
 
                         //store in data-qti-container attribute the editor instance as soon as it is ready
@@ -140,7 +151,9 @@ define([
                         }
                     }
 
-                    _focus(editor);
+                    if (options.autofocus) {
+                        _focus(editor);
+                    }
 
                     $editable.trigger('editorready', [editor]);
 
@@ -196,6 +209,40 @@ define([
         };
 
         return CKEditor.inline($editable[0], ckConfig);
+    }
+
+    /**
+     * Handle the placeholder for non-input elements.
+     * To avoid CK nasty side-effects of using the placeholder attribute on non-input elements,
+     * we handle the placeholder with css.
+     */
+    function managePlaceholder($editable, editor) {
+        if (!$editable.is('input')) {
+            togglePlaceholder($editable);
+
+            editor.on('change', function() {
+                togglePlaceholder($editable);
+            });
+        }
+    }
+
+    /**
+     * Toggle the placeholder class on the editable depending on its content
+     */
+    function togglePlaceholder($editable) {
+        var nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target'];
+
+        if ($editable.text().trim() === ''
+            && ! $editable.find(nonEmptyContent.join(',')).length
+        ) {
+            $editable.addClass(placeholderClass);
+        } else {
+            removePlaceholder($editable);
+        }
+    }
+
+    function removePlaceholder($editable) {
+        $editable.removeClass(placeholderClass);
     }
 
     /**
@@ -424,6 +471,11 @@ define([
                 listenToWidgetCreation();
                 containerWidget.changeState('question');
 
+            }else if(Element.isA(containerWidget.element, 'table')){
+
+                listenToWidgetCreation();
+                containerWidget.changeState('sleep');
+
             }else if(Element.isA(innerWidget.element, 'choice')){
 
                 innerWidget.changeState('choice');
@@ -454,7 +506,7 @@ define([
      */
     function _focus(editor){
         var range;
-        if (editor.editable() && editor.editable().parentNode){
+        if (editor.editable() && editor.editable().$.parentNode){
             editor.focus();
             range = editor.createRange();
             range.moveToElementEditablePosition(editor.editable(), true);
@@ -492,19 +544,23 @@ define([
          * @returns {undefined}
          */
         buildEditor : function($container, editorOptions){
+            var buildTasks = [];
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
                     $editable = $editableContainer.find('[data-html-editable]');
 
-                //need to make the element html editable to enable ck inline editing:
-                $editable.attr('contenteditable', true);
+                buildTasks.push(new Promise(function (resolve) {
+                    //need to make the element html editable to enable ck inline editing:
+                    $editable.attr('contenteditable', true);
 
-                //build it
-                _buildEditor($editable, $editableContainer, editorOptions);
+                    //build it
+                    _buildEditor($editable, $editableContainer, editorOptions);
 
+                    $editable.on('editorready', resolve);
+                }));
             });
-
+            return Promise.all(buildTasks);
         },
         /**
          * Destroy the editor
@@ -532,6 +588,9 @@ define([
                         if(_.isFunction(options.change)){
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
+
+                        removePlaceholder($editable);
+
                         editor.on('destroy', function () {
                             $editable.removeData('editor').removeData('editor-options');
                             if($editable.data('qti-container')){

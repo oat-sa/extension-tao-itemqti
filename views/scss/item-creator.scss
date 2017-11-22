@@ -1278,6 +1278,11 @@ img.dragging.ui-draggable-dragging {
     margin: 0 !important;
 }
 
+.cke-placeholder:not(:focus)::before {
+    content:attr(data-placeholder);
+    color: #999;
+}
+
 .extendedText{
     .incrementer-ctrl-wrapper{
         right: 10px; // to compensate the next change below

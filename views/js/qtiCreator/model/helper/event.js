@@ -51,9 +51,17 @@ define(['jquery', 'lodash'], function($, _){
 
             //forward all event to the widget $container
             $(document).off(ns).on(event.getList(ns).join(' '), function(e, data){
-                var element = data.element || data.container || null;
-                if(data && element && element.data('widget')){
-                    element.data('widget').$container.trigger(e.type + _ns + _ns_model, data);
+                var element = data.element || data.container || null,
+                    widget = data && element && element.data('widget');
+
+                // for backward compatibility reasons, we only look for the widget in parent as the last resort
+                if (!widget && data.parent) {
+                    element = data.parent;
+                    widget = element.data('widget');
+                }
+
+                if(widget){
+                    widget.$container.trigger(e.type + _ns + _ns_model, data);
                 }
             });
 

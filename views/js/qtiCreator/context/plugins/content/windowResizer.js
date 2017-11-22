@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 /**
- * This plugin triggers the resize event on the item creator.
+ * This plugin triggers the resize event on the qti creator context.
  * It allows other creator components to listen to this event rather than binding their events directly on window
  *
  * @author Christophe Noël <christophe@taotesting.com>
@@ -43,10 +43,10 @@ define([
         name : pluginName,
 
         init : function init(){
-            var itemCreator = this.getHost();
+            var qtiCreatorContext = this.getHost();
 
             $window.on('resize' + ns, _.throttle(function() {
-                itemCreator.trigger('resize');
+                qtiCreatorContext.trigger('resize');
             }, throttleDelayMs));
         },
 

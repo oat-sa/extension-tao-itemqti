@@ -29,39 +29,47 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
-    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
-], function(_, $, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper, inlineHelper, tooltipEditorFactory){
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/tooltip'
+], function(_, $, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper, inlineHelper, tooltipEditorFactory, formTpl){
     'use strict';
 
     var tooltipEditor;
 
     var TooltipStateActive = stateFactory.extend(Active, function create(){
+        this.initForm();
         this.buildEditor();
 
     }, function exit(){
         this.destroyEditor();
     });
 
+    TooltipStateActive.prototype.initForm = function(){
+        this.widget.$form.html(formTpl());
+    };
+
     TooltipStateActive.prototype.buildEditor = function buildEditor(){
         var self = this,
             _widget = self.widget,
-            itemCreator = _widget.getItemCreator(),
+            creatorContext = _widget.getCreatorContext(),
             $itemPanel = _widget.getAreaBroker().getItemPanelArea(),
             $tooltipContainer = _widget.$container,
             tooltip = _widget.element;
 
-        tooltipEditor = tooltipEditorFactory({ tooltip: tooltip })
+        tooltipEditor = tooltipEditorFactory({
+            tooltip: tooltip,
+            areaBroker: _widget.getAreaBroker()
+        })
             .on('delete', self.destroyTooltip.bind(self))
             .on('done', function() {
                 _widget.changeState('sleep');
             })
             .render($itemPanel)
-            .containIn($itemPanel, { padding: 10 })
             .show();
 
         self.alignEditorOn($tooltipContainer);
 
-        itemCreator.on('resize.tooltipEditor', function() {
+        creatorContext.on('resize.tooltipEditor', function() {
             self.alignEditorOn($tooltipContainer);
         });
     };
@@ -70,13 +78,13 @@ define([
         if (tooltipEditor) {
             tooltipEditor.alignWith($tooltipContainer, {
                 hPos: 'center',
-                vPos: 'top',
-                vOrigin: 'top',
+                vPos: 'bottom',
+                vOrigin: 'bottom',
 
                 // the following are arbitrary values
                 // that gives visually nice results
                 hOffset: -5,
-                vOffset: -49
+                vOffset: 53
             });
         }
     };
@@ -103,7 +111,7 @@ define([
 
     TooltipStateActive.prototype.destroyEditor = function destroyEditor(){
         var _widget = this.widget,
-            itemCreator = _widget.getItemCreator(),
+            creatorContext = _widget.getCreatorContext(),
             tooltip = _widget.element,
             $tooltip = _widget.$original;
 
@@ -118,7 +126,7 @@ define([
 
         inlineHelper.togglePlaceholder(_widget);
 
-        itemCreator.off('.tooltipeditor');
+        creatorContext.off('.tooltipeditor');
     };
 
     return TooltipStateActive;
