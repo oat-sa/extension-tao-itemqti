@@ -19,25 +19,27 @@
 define([
     'lodash',
     'jquery',
+    'core/encoder/entity',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/event',
-    'taoQtiItem/qtiCreator/model/helper/invalidator',
-    'util/url'
-], function(_, $, Element, event, invalidator, url){
+    'taoQtiItem/qtiCreator/model/helper/invalidator'
+], function(_, $, entity, Element, event, invalidator){
     "use strict";
 
     var _removeSelf = function(element){
 
-        var removed = false,
-            related = element.getRootElement();
+        var removed = false;
+        var related = element.getRootElement();
+        var found;
+        var parent;
 
         if(related){
 
-            var found = related.find(element.getSerial());
+            found = related.find(element.getSerial());
 
             if(found){
 
-                var parent = found.parent;
+                parent = found.parent;
                 if(Element.isA(parent, 'interaction')){
 
                     if(element.qtiClass === 'gapImg'){
@@ -73,19 +75,18 @@ define([
                     event.deleted(element, parent);
                 }
             }
-        }else{
-            throw 'no related item found';
+        } else {
+            throw new Error('no related item found');
         }
 
         return removed;
     };
 
     var _removeElement = function(element, containerPropName, eltToBeRemoved){
+        var targetSerial = '',
+            targetElt;
 
         if(element[containerPropName]){
-
-            var targetSerial = '',
-                targetElt;
 
             if(typeof (eltToBeRemoved) === 'string'){
                 targetSerial = eltToBeRemoved;
@@ -107,14 +108,13 @@ define([
 
     var methods = {
         init : function(serial, attributes){
+            var attr = {};
 
             //init call in the format init(attributes)
             if(typeof (serial) === 'object'){
                 attributes = serial;
                 serial = '';
             }
-
-            var attr = {};
 
             if(_.isFunction(this.getDefaultAttributes)){
                 _.extend(attr, this.getDefaultAttributes());
@@ -123,13 +123,26 @@ define([
 
             this._super(serial, attr);
         },
+
+        /**
+         * Get or set an attribute
+         * @param {String} key - the attribute name
+         * @param {String} [value] - only to set the new value, let empty for a get
+         * @returns {String} the attribute value
+         */
         attr : function(key, value){
             var ret = this._super(key, value);
-            if(key !== undefined && value !== undefined){
-                $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : value});
+
+            if(typeof key !== 'undefined' && typeof value !== 'undefined'){
+                $(document).trigger('attributeChange.qti-widget', {
+                    'element' : this,
+                    'key' : key,
+                    'value' : entity.encode(value)
+                });
             }
-            return url.encodeAsXmlAttr(ret);
+            return _.isString(ret) ? entity.decode(ret) : ret;
         },
+
         removeAttr : function(key){
             var ret = this._super(key);
             $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : null});
@@ -141,7 +154,7 @@ define([
             }else if(arguments.length === 2){
                 return _removeElement(this, arguments[0], arguments[1]);
             }else{
-                throw 'invalid number of argument given';
+                throw new Error('invalid number of argument given');
             }
         }
     };
