@@ -269,7 +269,7 @@ define([
                         bodyObject.setElement(element, bodyData.body);
                     }
                 }
-                bodyObject.body(bodyData.body);
+                bodyObject.body(this.stripNamespaces(bodyData.body));
             }else{
                 throw 'wrong bodydata format';
             }
@@ -414,6 +414,10 @@ define([
         },
         loadPicData : function(pic, data){
             loadPortableCustomElementData(pic, data);
+        },
+
+        stripNamespaces: function stripNamespaces(body) {
+            return body.replace(/(".*?")|(?:[^\s\/<]+?:)/g, '$1');
         }
     });
 
