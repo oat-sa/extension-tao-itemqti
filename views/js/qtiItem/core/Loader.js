@@ -423,6 +423,7 @@ define([
         portableElement.entryPoint = data.entryPoint;
         portableElement.properties = data.properties;
         portableElement.libraries = data.libraries;
+        portableElement.setNamespace('', data.xmlns);
     }
 
     return Loader;

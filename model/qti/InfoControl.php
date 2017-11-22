@@ -85,7 +85,7 @@ abstract class InfoControl extends Element
         return $variables;
     }
     
-    public function feed(ParserFactory $parser, DOMElement $data){
+    public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null){
         
         $markup = $parser->getBodyData($data->item(0), true);
         $this->setMarkup($markup);
