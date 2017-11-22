@@ -39,6 +39,7 @@ define([
                 && (!areaBroker || !areaBroker.getEditorBarArea || !$.contains(areaBroker.getEditorBarArea().get(0), e.target))
                 && (!$modalFeedbacksArea.length || !$.contains($modalFeedbacksArea[0], e.target)) //if click triggered inside the #modalFeedback then state must not be changed.
                 && ($(e.target).data('role') !== 'restore')
+                && !($(e.target).closest('.widget-popup').length)
             ){
                 _widget.changeState('sleep');
             }

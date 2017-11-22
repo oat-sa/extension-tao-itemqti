@@ -21,14 +21,14 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Tooltip',
-    'taoQtiItem/qtiCreator/widgets/static/tooltip/Widget'
-    // 'tpl!taoQtiItem/qtiCreator/tpl/tooltip'
-], function(_, Renderer, Widget/*, tpl*/){
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/Widget',
+    'tpl!taoQtiItem/qtiCreator/tpl/tooltip'
+], function(_, Renderer, Widget, tpl){
     'use strict';
 
     var CreatorTooltip = _.clone(Renderer);
 
-    // CreatorTooltip.template = tpl;
+    CreatorTooltip.template = tpl;
 
     CreatorTooltip.render = function(tooltip, options){
         Widget.build(

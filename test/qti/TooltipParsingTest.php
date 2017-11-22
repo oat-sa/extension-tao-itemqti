@@ -50,7 +50,7 @@ class TooltipParsingTest extends \PHPUnit_Framework_TestCase {
         $tooltip1 = $bodyElements[$tooltip1Serial];
         $tooltip2 = $bodyElements[$tooltip2Serial];
 
-        $tooltip1Content = 'This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.';
+        $tooltip1Content = 'This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.<br/>Now you know';
         $tooltip2Content = 'Some say that the word "tooltip" does not really exist.';
 
         $this->assertEquals('inline <i>interaction</i> container', $tooltip1->getBody(), 'tooltip 1 target is ' . $tooltip1->getBody());

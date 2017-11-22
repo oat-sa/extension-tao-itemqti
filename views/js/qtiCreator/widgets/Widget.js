@@ -116,6 +116,14 @@ define([
                 return renderer.getAreaBroker();
             }
         },
+        getCreatorContext : function getCreatorContext() {
+            var element = this.element,
+                renderer = element.getRenderer();
+
+            if (renderer) {
+                return renderer.getCreatorContext();
+            }
+        },
         getRequiredOptions : function(){
             return [];
         },

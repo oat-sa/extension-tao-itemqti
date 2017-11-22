@@ -25,6 +25,8 @@ define([
         model : null
     };
 
+    var parser;
+
     function _getElementSelector(qtiClass, ns){
         return ns ? ns + "\\:" + qtiClass + ','+qtiClass : qtiClass;
     }
@@ -87,9 +89,27 @@ define([
         return elt;
     }
 
-    function parseContainer($container, opts){
+    function buildTooltip(targetHtml, contentId, contentHtml){
+        var qtiClass = '_tooltip';
 
-        var options = _.merge(_.clone(_defaultOptions), opts || {});
+        return {
+            elements : {},
+            qtiClass : qtiClass,
+            serial : util.buildSerial(qtiClass + '_'),
+            attributes : {
+                'aria-describedby': contentId
+            },
+            content: contentHtml,
+            body: {
+                elements : {},
+                serial: util.buildSerial('container'),
+                body: targetHtml
+            }
+
+        };
+    }
+
+    function parseContainer($container, options){
 
         var ret = {
             serial : util.buildSerial('_container_'),
@@ -102,7 +122,7 @@ define([
             $container.find(qtiClass).each(function(){
 
                 var $qtiElement = $(this);
-                var element = buildElement($qtiElement, opts);
+                var element = buildElement($qtiElement, options);
 
                 ret.elements[element.serial] = element;
                 $qtiElement.replaceWith(_placeholder(element));
@@ -114,7 +134,7 @@ define([
         $container.find(_getElementSelector('math', options.ns.math)).each(function(){
 
             var $qtiElement = $(this);
-            var element = buildMath($qtiElement, opts);
+            var element = buildMath($qtiElement, options);
 
             ret.elements[element.serial] = element;
             $qtiElement.replaceWith(_placeholder(element));
@@ -124,21 +144,32 @@ define([
         $container.find(_getElementSelector('include', options.ns.include)).each(function(){
 
             var $qtiElement = $(this);
-            var element = buildElement($qtiElement, opts);
+            var element = buildElement($qtiElement, options);
 
             ret.elements[element.serial] = element;
             $qtiElement.replaceWith(_placeholder(element));
 
         });
 
-        $container.find(_getElementSelector('printedVariable', options.ns.printedVariable)).each(function(){
+        $container.find('[data-role="tooltip-target"]').each(function(){
+            var element,
+                $target = $(this),
+                $content,
+                contentId = $target.attr('aria-describedBy'),
+                contentHtml;
 
-            var $qtiElement = $(this);
-            var element = buildElement($qtiElement, opts);
+            if (contentId) {
+                $content = $container.find('#' + contentId);
+                if ($content.length) {
+                    contentHtml = $content.html();
 
-            ret.elements[element.serial] = element;
-            $qtiElement.replaceWith(_placeholder(element));
+                    element = buildTooltip($target.html(), contentId, contentHtml);
 
+                    ret.elements[element.serial] = element;
+                    $target.replaceWith(_placeholder(element));
+                    $content.remove();
+                }
+            }
         });
 
         ret.body = $container.html();
@@ -150,8 +181,9 @@ define([
         return '{{' + element.serial + '}}';
     }
 
-    var parser = {
-        parse : function(xmlStr, options){
+    parser = {
+        parse : function(xmlStr, opts){
+            var options = _.merge(_.clone(_defaultOptions), opts || {});
 
             var $container = $(xmlStr);
 
@@ -159,12 +191,14 @@ define([
 
             var data = parseContainer($container, options);
 
-            if(data.body !== undefined){
+            var loader;
+
+            if(!_.isUndefined(data.body)){
                 element.body = data;
             }
 
             if(_.isFunction(options.loaded) && options.model){
-                var loader = new Loader().setClassesLocation(options.model);
+                loader = new Loader().setClassesLocation(options.model);
                 loader.loadAndBuildElement(element, options.loaded);
             }
 

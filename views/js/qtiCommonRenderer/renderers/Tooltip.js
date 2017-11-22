@@ -32,9 +32,14 @@ define([
         render: function render(tooltip) {
             var $container = containerHelper.get(tooltip);
             $container.qtip({
-                theme : 'default',
+                theme: 'default',
                 content: {
                     text: tooltip.content()
+                },
+                position: {
+                    target: 'event',
+                    my: 'bottom center',
+                    at: 'top center'
                 }
             });
         }

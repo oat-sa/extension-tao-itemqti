@@ -35,6 +35,7 @@ define([
     'core/promise',
     'taoQtiItem/portableElementRegistry/ciRegistry',
     'taoQtiItem/portableElementRegistry/icRegistry',
+    'taoQtiItem/qtiCreator/context/qtiCreatorContext',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for read-only element : preview + xinclude
@@ -43,7 +44,7 @@ define([
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
-], function($, _, __, module, eventifier, Promise, ciRegistry, icRegistry, itemLoader,
+], function($, _, __, module, eventifier, Promise, ciRegistry, icRegistry, qtiCreatorContextFactory, itemLoader,
             creatorRenderer, commonRenderer, xincludeRenderer,
             interactionPanel, propertiesPanel, eventHelper, styleEditor){
     'use strict';
@@ -107,6 +108,7 @@ define([
     var itemCreatorFactory = function itemCreatorFactory(config, areaBroker, pluginFactories){
 
         var itemCreator;
+        var qtiCreatorContext = qtiCreatorContextFactory();
         var plugins = {};
 
         /**
@@ -204,7 +206,7 @@ define([
                             usedCustomInteractionIds.push(element.typeIdentifier);
                         }
                     });
-                    
+
                     self.item = item;
                     return true;
                 }).then(function(){
@@ -223,6 +225,12 @@ define([
                          */
                         self.trigger('init', self.item);
                     });
+                }).then(function() {
+                    // forward context error
+                    qtiCreatorContext.on('error', function(err) {
+                        self.trigger('error', err);
+                    });
+                    return qtiCreatorContext.init();
                 }).catch(function(err){
                     self.trigger('error', err);
                 });
@@ -260,6 +268,9 @@ define([
                         self.trigger('ready');
                     }
                 });
+
+                // pass an context reference to the renderer
+                config.qtiCreatorContext = qtiCreatorContext;
 
                 creatorRenderer
                     .get(true, config, areaBroker)
@@ -316,10 +327,11 @@ define([
 
                 $(document).off('.qti-widget');
 
-                pluginRun('destroy').then(function(){
+                pluginRun('destroy').then(function() {
+                    return qtiCreatorContext.destroy();
+                }).then(function() {
                     self.trigger('destroy');
-                })
-                .catch(function(err){
+                }).catch(function(err){
                     self.trigger('error', err);
                 });
                 return this;

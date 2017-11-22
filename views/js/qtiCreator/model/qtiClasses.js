@@ -46,7 +46,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'endAttemptInteraction' : 'taoQtiItem/qtiCreator/model/interactions/EndAttemptInteraction',
         'infoControl' : 'taoQtiItem/qtiCreator/model/PortableInfoControl',
         'include' : 'taoQtiItem/qtiCreator/model/Include',
-        'printedVariable' : 'taoQtiItem/qtiCreator/model/PrintedVariable'
+        'printedVariable' : 'taoQtiItem/qtiCreator/model/PrintedVariable',
+        '_tooltip' : 'taoQtiItem/qtiCreator/model/Tooltip'
     }, qtiClasses);
 
 });
