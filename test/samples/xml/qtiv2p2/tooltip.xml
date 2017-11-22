@@ -11,7 +11,7 @@
   <itemBody>
     <div class="grid-row">
       <div class="col-12">
-        <p>This text is inside a <span data-role="tooltip-target" aria-describedby="tooltip_1">inline <i>interaction</i> container</span><span data-role="tooltip-content" aria-hidden="true" id="tooltip_1">This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.</span>.</p>
+        <p>This text is inside a <span data-role="tooltip-target" aria-describedby="tooltip_1">inline <i>interaction</i> container</span><span data-role="tooltip-content" aria-hidden="true" id="tooltip_1">This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.<br/>Now you know</span>.</p>
         <p>This tooltip has no content <span data-role="tooltip-target" aria-describedby="tooltip_IDONTEXIST">I'm undefined</span></p>
         <p>This tooltip does not reference any content <span data-role="tooltip-target" aria-describedby="">I'm orphan</span></p>
         <p>This valid <span data-role="tooltip-target" aria-describedby="tooltip_4">tooltip</span>, has a content in a div far, far away.</p>
