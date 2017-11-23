@@ -112,7 +112,6 @@ class ImportService extends ConfigurableService
      *
      * @param core_kernel_classes_Class $itemClass
      * @param Item $qtiModel
-     * @param Resource $qtiItemResource
      * @throws common_exception_Error
      * @throws \common_Exception
      * @return core_kernel_classes_Resource
@@ -402,7 +401,7 @@ class ImportService extends ConfigurableService
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
-                $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel, $qtiItemResource);
+                $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
 
                 $itemAssetManager = new AssetManager();
                 $itemAssetManager->setItemContent($qtiModel->toXML());
