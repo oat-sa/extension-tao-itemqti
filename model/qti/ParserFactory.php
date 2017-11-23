@@ -1454,7 +1454,7 @@ class ParserFactory
         $html = "";
         $children = $node->childNodes;
         foreach ($children as $childNode) {
-            $html .= $document->saveHTML($childNode);
+            $html .= $document->saveXML($childNode);
         }
         return $html;
     }

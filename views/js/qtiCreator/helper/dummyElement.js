@@ -65,6 +65,13 @@ define([
                     width : 40,
                     height : 16
                 }
+            },
+            _tooltip: {
+                icon: 'tooltip',
+                css: {
+                    width : 40,
+                    height : 24
+                }
             }
         };
 

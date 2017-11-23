@@ -20,36 +20,48 @@
  */
 define([
     'jquery',
+    'taoQtiItem/test/qtiCreator/mocks/qtiCreatorContextMock',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiItem/core/Tooltip'
-], function($, areaBrokerFactory, creatorRenderer, Tooltip) {
+    'taoQtiItem/qtiCreator/model/Tooltip'
+], function($, qtiCreatorContextMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
     'use strict';
 
     QUnit.module('Creator Renderer');
 
     QUnit.asyncTest('Display and play', function (assert) {
         var $outsideContainer = $('#outside-container'),
-            areaBroker = areaBrokerFactory($outsideContainer),
+            config = {
+                qtiCreatorContext: qtiCreatorContextMockFactory()
+            },
+            areaBroker = areaBrokerFactory({
+                $brokerContainer: $outsideContainer,
+                mapping: {
+                    itemPanel: $('.item-editor-item'),
+                    contentCreatorPanel: $('#item-editor-panel'),
+                    toolbar: $('#toolbar-top')
+                }
+            }),
             tooltipContent  = 'my tooltip <strong>content</strong>',
             tooltipSerial   = '_tooltip_4568613547893',
+            tooltipId       = 'tooltip_123456',
 
-            tooltip = new Tooltip(tooltipSerial, {}, tooltipContent);
+            tooltip = new Tooltip(tooltipSerial, { 'aria-describedby': tooltipId }, tooltipContent);
 
         QUnit.expect(1);
 
         creatorRenderer
-            .get(true, {}, areaBroker)
+            .get(true, config, areaBroker)
             .load(function() {
-                var $container = areaBroker.getItemPanelArea();
+                var $tooltipPlaceholder = $('.tooltip-placeholder');
 
                 tooltip.setRenderer(this);
                 tooltip.body('tootlip target');
 
-                $container.append(tooltip.render());
+                tooltip.render($tooltipPlaceholder);
                 tooltip.postRender();
 
-                assert.equal($container.find('.widget-inline').length, 1, 'element has been wrapped in a inline widget container');
+                assert.ok(true);
 
                 QUnit.start();
             }, [ '_tooltip', '_container' ]);

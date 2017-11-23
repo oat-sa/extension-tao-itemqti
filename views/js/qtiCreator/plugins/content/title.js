@@ -24,9 +24,10 @@
  */
 define([
     'jquery',
+    'lodash',
     'i18n',
     'core/plugin'
-], function($, __, pluginFactory){
+], function($, _, __, pluginFactory){
     'use strict';
 
     /**
@@ -42,8 +43,12 @@ define([
          */
         init : function init(){
             var config = this.getHost().getConfig();
+            var item   = this.getHost().getItem();
 
-            if(config && config.properties && config.properties.label){
+            if(item && !_.isEmpty(item.attr('title'))){
+                this.title = item.attr('title');
+            }
+            else if(config && config.properties && config.properties.label){
                 this.title = config.properties.label;
             }
         },
