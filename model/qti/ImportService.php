@@ -117,7 +117,7 @@ class ImportService extends ConfigurableService
      * @throws \common_Exception
      * @return core_kernel_classes_Resource
      */
-    protected function createRdfItem(core_kernel_classes_Class $itemClass, Item $qtiModel, Resource $qtiItemResource)
+    protected function createRdfItem(core_kernel_classes_Class $itemClass, Item $qtiModel)
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
