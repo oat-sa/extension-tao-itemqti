@@ -44,6 +44,7 @@ define([
         var $itemContainer = _getItemContainer();
 
         var _staticElements = {
+            _tooltip : 'Tooltip',
             img : 'Image',
             object : 'Media',
             rubricBlock : 'Rubric Block',

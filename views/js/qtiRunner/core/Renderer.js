@@ -753,6 +753,10 @@ define([
                 return this._areaBroker;
             }
         };
+
+        this.getItemCreator = function getItemCreator() {
+            return this.getOption('itemCreator');
+        };
     };
 
     /**

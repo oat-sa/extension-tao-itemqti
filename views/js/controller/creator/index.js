@@ -50,7 +50,7 @@ define([
             'contentCreatorPanel':  $('#item-editor-panel', $container),
             'editorBar':            $('#item-editor-panel .item-editor-bar', $container),
             'title':                $('#item-editor-panel .item-editor-bar h1', $container),
-            'toolbar':              $('#item-editor-panel .item-editor-bar .toolbar-top', $container),
+            'toolbar':              $('#item-editor-panel .item-editor-bar #toolbar-top', $container),
             'interactionPanel':     $('#item-editor-interaction-bar', $container),
             'propertyPanel':        $('#item-editor-item-widget-bar', $container),
             'itemPanel':            $('#item-editor-scroll-inner', $container),
