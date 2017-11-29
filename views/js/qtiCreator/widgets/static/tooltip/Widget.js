@@ -23,8 +23,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media'
-], function($, Widget, states, helper, toolbarTpl){
+    'taoQtiItem/qtiCreator/widgets/static/helpers/inline'
+], function($, Widget, states, helper, inlineHelper){
     'use strict';
 
     var TooltipWidget = Widget.clone();
@@ -34,18 +34,13 @@ define([
         this.registerStates(states);
 
         Widget.initCreator.call(this);
+
+        inlineHelper.togglePlaceholder(this);
     };
 
     TooltipWidget.buildContainer = function buildContainer(){
 
         helper.buildInlineContainer(this);
-
-        return this;
-    };
-
-    TooltipWidget.createToolbar = function createToolbar(){
-
-        // helper.createToolbar(this, toolbarTpl);
 
         return this;
     };

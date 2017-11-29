@@ -60,7 +60,7 @@ abstract class PortableElementModelValidator extends PortableElementAssetValidat
     public function getConstraints()
     {
         return [
-            'typeIdentifier' => [Validator::AlphaNum, Validator::NotEmpty],
+            'typeIdentifier' => [Validator::isTypeIdentifier, Validator::NotEmpty],
             'short'          => [Validator::isString, Validator::NotEmpty],
             'description'    => [Validator::isString, Validator::NotEmpty],
             'version'        => [Validator::isVersion],

@@ -64,9 +64,11 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
             
             data = _.merge({}, data || {}, defaultData);
             delete data.attributes.class;
-            
-            data.attributes.title = _.escape(data.attributes.title);
-            
+
+            data.attributes = _.mapValues(data.attributes, function (val) {
+                return _.isString(val) ? _.escape(val) : val;
+            });
+
             return data;
         }
     };

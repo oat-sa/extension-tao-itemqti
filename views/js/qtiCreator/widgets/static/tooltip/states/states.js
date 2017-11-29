@@ -18,8 +18,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/states',
-    'taoQtiItem/qtiCreator/widgets/static/tooltip/states/Sleep'
-    // 'taoQtiItem/qtiCreator/widgets/static/tooltip/states/Active'
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/states/Sleep',
+    'taoQtiItem/qtiCreator/widgets/static/tooltip/states/Active'
 ], function(factory, states){
     'use strict';
 

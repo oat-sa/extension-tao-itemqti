@@ -56,4 +56,8 @@ trait PortableElementModelTrait
     public function getModelLabel(){
         return $this->model->getLabel();
     }
+
+    public function getNamespace(){
+        return $this->model->getNamespace();
+    }
 }

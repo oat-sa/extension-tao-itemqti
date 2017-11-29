@@ -93,13 +93,21 @@ define([
                         fileExistsUrl : config.properties.fileExistsUrl,
                         mediaSourcesUrl : config.properties.mediaSourcesUrl
                     },
-                    interactions : _extractInteractionsConfig(config)
+                    interactions : _extractInteractionsConfig(config),
+                    qtiCreatorContext : config.qtiCreatorContext
                 });
 
                 //update the resolver baseUrl
                 _creatorRenderer.getAssetManager().setData({baseUrl : config.properties.baseUrl || '' });
 
                 _creatorRenderer.setAreaBroker(areaBroker);
+
+                // extend creator renderer to give access to the creator context
+                _.assign(_creatorRenderer, {
+                    getCreatorContext: function getCreatorContext() {
+                        return this.getOption('qtiCreatorContext');
+                    }
+                });
             }
         }
 

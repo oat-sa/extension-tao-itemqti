@@ -22,8 +22,10 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
+    'taoQtiItem/qtiItem/core/Tooltip',
+    'taoQtiItem/qtiCreator/helper/commonRenderer',
     'json!taoQtiItem/test/samples/json/static/tooltip.json'
-], function ($, _, qtiItemRunner, itemData) {
+], function ($, _, qtiItemRunner, Tooltip, commonRenderer, itemData) {
     'use strict';
 
     var runner;
@@ -119,7 +121,6 @@ define([
             .init()
             .render($container);
     });
-
 
     QUnit.module('Visual test');
 

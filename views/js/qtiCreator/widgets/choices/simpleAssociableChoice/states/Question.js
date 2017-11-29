@@ -21,17 +21,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',
-    'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
-    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function ($, stateFactory, QuestionState, contentToolbarTpl, formElement, htmlEditor, contentHelper) {
+    'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
+], function ($, stateFactory, QuestionState, contentToolbarTpl, formElement) {
     'use strict';
 
-    var SimpleAssociableChoiceStateQuestion = stateFactory.extend(QuestionState, function () {
-        this.buildEditor();
-    }, function () {
-        this.destroyEditor();
-    });
+    var SimpleAssociableChoiceStateQuestion = stateFactory.extend(QuestionState);
 
     SimpleAssociableChoiceStateQuestion.prototype.createToolbar = function () {
 
@@ -61,32 +55,6 @@ define([
         }
 
         return $toolbar;
-    };
-
-    SimpleAssociableChoiceStateQuestion.prototype.buildEditor = function () {
-
-        var _widget = this.widget,
-            container = _widget.element.getBody(),
-            $editableContainer = _widget.$container;
-
-        $editableContainer.attr('data-html-editable-container', true);
-
-        if (!htmlEditor.hasEditor($editableContainer)) {
-
-            htmlEditor.buildEditor($editableContainer, {
-                change: contentHelper.getChangeCallback(container),
-                data: {
-                    container: container,
-                    widget: _widget
-                }
-            });
-        }
-    };
-
-    SimpleAssociableChoiceStateQuestion.prototype.destroyEditor = function () {
-
-        //search and destroy the editor
-        htmlEditor.destroyEditor(this.widget.$container);
     };
 
     return SimpleAssociableChoiceStateQuestion;
