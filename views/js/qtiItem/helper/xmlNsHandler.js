@@ -54,7 +54,7 @@ define([
          *
          * @param body
          */
-        stripNs : function(body) {
+        stripNs : function stripNs(body) {
             var pattern    = '([\\w]+)\\:(' + prefixed + ')';
             var openRegEx  = new RegExp('(<' + pattern + ')', 'gi');
             var closeRegEx = new RegExp('(<\\/' + pattern + '>)', 'gi');
@@ -68,7 +68,7 @@ define([
          * @param namespaces
          * @returns {*}
          */
-        restoreNs : function restoreNameSpaces(xml, namespaces) {
+        restoreNs : function restoreNs(xml, namespaces) {
             var xmlRe    = new RegExp('(<(' + prefixed + ')[^>]*>|<\\/(' + prefixed + ')>)', 'gi');
             var tagRe    = new RegExp('((<)(' + prefixed + ')([^>]*)(>)|(<\\/)(' + prefixed + ')(>))', 'i');
             var xmlMatch = xml.match(xmlRe);
