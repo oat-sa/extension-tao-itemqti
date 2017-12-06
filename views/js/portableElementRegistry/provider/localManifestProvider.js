@@ -55,13 +55,49 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
      * @returns {Object} the modified manifest
      */
     function useSource(manifest){
-        if(manifest.runtime && _.isArray(manifest.runtime.src)){
-            delete manifest.runtime.hook;//hook is going to be removed with the support of IMS PCI v1
-            manifest.runtime.libraries = manifest.runtime.src;
-        }
-        if(manifest.creator && _.isArray(manifest.creator.src)){
-            delete manifest.creator.hook;//hook is going to be removed with the support of IMS PCI v1
-            manifest.creator.libraries = manifest.creator.src;
+        var runtimeModules,
+            runtimeSrc,
+            typeIdentifier;
+
+        // Make sure that we use the unbundled runtime
+        if (manifest.model === "IMSPCI") {
+            runtimeModules = (manifest.runtime || {}).modules;
+            runtimeSrc = (manifest.runtime || {}).src || [];
+            typeIdentifier = manifest.typeIdentifier || '';
+
+            // first redirect existing minified modules to their non-min version
+            _.forOwn(runtimeModules, function(allModulesFiles, moduleKey) {
+                if (moduleKey.indexOf('.min') === (moduleKey.length - '.min'.length)) {
+                    runtimeModules[moduleKey] = allModulesFiles.map(function(filePath) {
+                        return filePath.replace('.min.js', '.js');
+                    });
+                }
+            });
+
+            // then add other dependencies, from the "src" entry, to the modules
+            runtimeSrc.forEach(function(srcFile, index) {
+                var moduleKey,
+                    filePath;
+                // we skip the first index, which is, by convention, the main runtime
+                if (index !== 0) {
+                    moduleKey = srcFile
+                        .replace('./', typeIdentifier + '/')
+                        .replace('.js', '');
+                    filePath = srcFile
+                        .replace('./', '');
+                    runtimeModules[moduleKey] = filePath;
+                }
+            });
+
+        } else {
+            if(manifest.runtime && _.isArray(manifest.runtime.src)){
+                delete manifest.runtime.hook;//hook is going to be removed with the support of IMS PCI v1
+                manifest.runtime.libraries = manifest.runtime.src;
+            }
+            if(manifest.creator && _.isArray(manifest.creator.src)){
+                delete manifest.creator.hook;//hook is going to be removed with the support of IMS PCI v1
+                manifest.creator.libraries = manifest.creator.src;
+            }
         }
         return manifest;
     }
