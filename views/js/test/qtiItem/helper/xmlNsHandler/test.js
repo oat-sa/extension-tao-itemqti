@@ -16,15 +16,10 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 define([
-    'jquery',
-    'lodash',
     'taoQtiItem/qtiItem/helper/xmlNsHandler',
     'text!taoQtiItem/test/samples/qtiv2p2/xml_namespaces/with-ns.xml',
-    'text!taoQtiItem/test/samples/qtiv2p2/xml_namespaces/without-ns.xml',
-    'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiItem/core/Container',
-    'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
-], function($, _, xmlNsHandler, nsXml, noNsXml, Container, XmlRenderer){
+    'text!taoQtiItem/test/samples/qtiv2p2/xml_namespaces/without-ns.xml'
+], function(xmlNsHandler, nsXml, noNsXml){
     'use strict';
 
 
