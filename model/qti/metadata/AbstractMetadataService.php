@@ -54,7 +54,7 @@ abstract class AbstractMetadataService extends ConfigurableService
     /**
      * Allow to register into config a metadataService
      */
-    abstract protected function registerService();
+    abstract protected function registerMetadataService();
 
     /**
      * Extract metadata value of a given $source
@@ -211,7 +211,7 @@ abstract class AbstractMetadataService extends ConfigurableService
             if ($instances === null || array_search($name, $instances) === false) {
                 $instances[] = $name;
                 $this->setOption($key, $instances);
-                $this->registerService();
+                $this->registerMetadataService();
             }
         }
     }
@@ -232,7 +232,7 @@ abstract class AbstractMetadataService extends ConfigurableService
             if (($index = array_search($name, $instances)) !== false) {
                 unset($instances[$index]);
                 $this->setOption($key, $instances);
-                $this->registerService();
+                $this->registerMetadataService();
             }
         }
     }
