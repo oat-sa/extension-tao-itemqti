@@ -32,6 +32,7 @@ define([
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiItem/helper/xmlNsHandler',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
 ], function(
@@ -50,6 +51,7 @@ define([
     devTools,
     TextWidget,
     styleEditor,
+    xmlNsHandler,
     genericFeedbackPopup
     ){
 
@@ -99,7 +101,7 @@ define([
 
     /**
      * Save the item by sending the XML in a POST request to the server
-     *TODO saving mechanism should be indenpendant, ie. moved into the itemCreator, in order to configure endpoint, etc.
+     * @TODO saving mechanism should be independent, ie. moved into the itemCreator, in order to configure endpoint, etc.
      *
      * @returns {Promise} that wraps the request
      */
@@ -116,7 +118,7 @@ define([
                 reject(err);
             }
 
-            xml = xmlRenderer.render(self.element);
+            xml = xmlNsHandler.restoreNs(xmlRenderer.render(self.element), self.element.getNamespaces());
 
             //@todo : remove this hotfix : prevent unsupported custom interaction to be saved
             if(hasUnsupportedInteraction(xml)){
