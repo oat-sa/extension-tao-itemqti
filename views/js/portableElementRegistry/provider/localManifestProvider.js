@@ -63,31 +63,18 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
         if (manifest.model === "IMSPCI") {
             runtimeModules = (manifest.runtime || {}).modules;
             runtimeSrc = (manifest.runtime || {}).src || [];
-            typeIdentifier = manifest.typeIdentifier || '';
 
-            // first redirect existing minified modules to their non-min version
-            _.forOwn(runtimeModules, function(allModulesFiles, moduleKey) {
-                if (moduleKey.indexOf('.min') === (moduleKey.length - '.min'.length)) {
-                    runtimeModules[moduleKey] = allModulesFiles.map(function(filePath) {
-                        return filePath.replace('.min.js', '.js');
-                    });
-                }
-            });
-
-            // then add other dependencies, from the "src" entry, to the modules
-            runtimeSrc.forEach(function(srcFile, index) {
-                var moduleKey,
-                    filePath;
-                // we skip the first index, which is, by convention, the main runtime
-                if (index !== 0) {
-                    moduleKey = srcFile
-                        .replace('./', typeIdentifier + '/')
-                        .replace('.js', '');
-                    filePath = srcFile
-                        .replace('./', '');
-                    runtimeModules[moduleKey] = filePath;
-                }
-            });
+            // in case of a TAO bundled PCI (= we have a "src" entry),
+            // we redirect the module to the entry point of the PCI instead of its minified version
+            if (runtimeSrc.length) {
+                _.forOwn(runtimeModules, function(allModulesFiles, moduleKey) {
+                    if (moduleKey.indexOf('.min') === (moduleKey.length - '.min'.length)) {
+                        runtimeModules[moduleKey] = allModulesFiles.map(function(filePath) {
+                            return filePath.replace('.min.js', '.js');
+                        });
+                    }
+                });
+            }
 
         } else {
             if(manifest.runtime && _.isArray(manifest.runtime.src)){
