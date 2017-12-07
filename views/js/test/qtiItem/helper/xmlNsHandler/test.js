@@ -95,10 +95,17 @@ define([
             true,
             'Initially the XML has no namespace for HTML5 elements'
         );
+        assert.equal(
+            xml.documentElement.getAttribute('xmlns'),
+            'http://www.imsglobal.org/xsd/imsqti_v2p1',
+            'Initially the QTI version is 2.1'
+        );
 
         // Add some code that requires namespacing. In real life this would for instance come from CK-Editor
         noNsXml = noNsXml.replace('__PLACEHOLDER__', '<ruby><rb>北海道</rb><rt>ほっかいどう</rt></ruby>');
         noNsXml = xmlNsHandler.restoreNs(noNsXml, {});
+
+        console.log(noNsXml);
 
         // qh5 is the default prefix
         xml = getXmlDoc(noNsXml);
@@ -108,11 +115,17 @@ define([
             'After adding elements that require an HTML5 namespace XML has the attribute "xmlns:qh5"'
         );
 
+        assert.equal(
+            xml.documentElement.getAttribute('xmlns'),
+            'http://www.imsglobal.org/xsd/imsqti_v2p2',
+            'The QTI version is now 2.2'
+        );
+
         prefixed = xml.querySelectorAll('ruby, rt, rb');
         i = prefixed.length;
         while(i--) {
             assert.equal(
-                prefixed[i].prefix, 'qh5', '<' + prefixed[i].localName + '> element has the default prefix "qh5"'
+                prefixed[i].prefix, 'qh5', '<' + prefixed[i].localName + '> element has the prefix "qh5"'
             );
         }
     });

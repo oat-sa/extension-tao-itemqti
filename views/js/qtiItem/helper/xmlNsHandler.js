@@ -19,25 +19,26 @@
 /**
  * XML namespace handling
  */
-define([
-], function(){
+define([], function(){
     'use strict';
 
 
     /**
-     * Default prefix
+     * Find a possibly existing prefix
      *
-     * @see http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
-     * @type {string}
+     * @param namespaces
+     * @param html5Ns
+     * @returns {*}
      */
-    var defaultPrefix = 'qh5';
-
-    /**
-     * Default namespace
-     *
-     * @type {string}
-     */
-    var defaultNs = 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0';
+    function getPrefix(namespaces, html5Ns) {
+        for(var key in namespaces) {
+            if(namespaces[key] === html5Ns) {
+                return key;
+            }
+        }
+        return 'qh5';
+    }
+    
 
     /**
      * Elements that need to be prefixed
@@ -45,7 +46,7 @@ define([
      * @see http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
      * @type {string}
      */
-    var prefixed = ['article','aside','bdi','figure','footer','header','nav','rb','rp','rt','rtc','ruby','section'].join('|');
+    var prefixed = 'article|aside|bdi|figure|footer|header|nav|rb|rp|rt|rtc|ruby|section';
 
     return {
 
@@ -69,25 +70,18 @@ define([
          * @returns {*}
          */
         restoreNs : function restoreNs(xml, namespaces) {
-            var xmlRe    = new RegExp('(<(' + prefixed + ')[^>]*>|<\\/(' + prefixed + ')>)', 'gi');
-            var tagRe    = new RegExp('((<)(' + prefixed + ')([^>]*)(>)|(<\\/)(' + prefixed + ')(>))', 'i');
-            var xmlMatch = xml.match(xmlRe);
-            var i        = xmlMatch.length || 0;
+            var xmlRe     = new RegExp('(<(' + prefixed + ')[^>]*>|<\\/(' + prefixed + ')>)', 'gi');
+            var tagRe     = new RegExp('((<)(' + prefixed + ')([^>]*)(>)|(<\\/)(' + prefixed + ')(>))', 'i');
+            var xmlMatch  = xml.match(xmlRe);
+            var imsXsd    = 'http://www.imsglobal.org/xsd';
+            var html5Ns   = imsXsd + '/imsqtiv2p2_html5_v1p0';
+            var prefix    = getPrefix(namespaces, html5Ns);
+            var prefixAtt = 'xmlns:' + prefix + '="' + html5Ns + '"';
+            var i         = xmlMatch ? xmlMatch.length : 0;
             var tagMatch;
-            var prefix   = (function() {
-                var key;
-                for(key in namespaces) {
-                    if(/https?:\/\/([\w]+\.)?imsglobal.org\/xsd\/[\w]+html5/.test(namespaces[key])){
-                        break;
-                    }
-                }
-                return key;
-            }(namespaces));
 
-            // we found matches but no namespace has been set
-            if(i && !prefix) {
-                prefix = defaultPrefix;
-                xml = xml.replace('<assessmentItem', '<assessmentItem xmlns:' + prefix + '="' + defaultNs + '"');
+            if(!xmlMatch) {
+                return xml;
             }
 
             while(i--) {
@@ -98,6 +92,19 @@ define([
                         : '</' + prefix + ':' + tagMatch[7] + '>'
                 )
             }
+
+            // we found matches but no namespace has been set
+            if(xmlMatch.length && xml.indexOf(prefixAtt) === -1) {
+                xml = xml.replace('<assessmentItem', '<assessmentItem ' + prefixAtt);
+            }
+
+            // make sure the item is set to qti 2.2
+            xml = xml.replace('xmlns="' + imsXsd + '/imsqti_v2p1"', 'xmlns="' + imsXsd + '/imsqti_v2p2"');
+            xml = xml.replace(
+                'xsi:schemaLocation="' + imsXsd + '/imsqti_v2p1 imsqti_v2p1.xsd"',
+                'xsi:schemaLocation="' + imsXsd + '/imsqti_v2p2 ' + imsXsd + '/qti/qtiv2p2/imsqti_v2p2.xsd"'
+            );
+            
             return xml;
         }
     };
