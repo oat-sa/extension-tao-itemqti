@@ -105,8 +105,6 @@ define([
         noNsXml = noNsXml.replace('__PLACEHOLDER__', '<ruby><rb>北海道</rb><rt>ほっかいどう</rt></ruby>');
         noNsXml = xmlNsHandler.restoreNs(noNsXml, {});
 
-        console.log(noNsXml);
-
         // qh5 is the default prefix
         xml = getXmlDoc(noNsXml);
         assert.equal(
