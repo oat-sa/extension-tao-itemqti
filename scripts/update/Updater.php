@@ -475,14 +475,14 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('10.7.0', '11.3.0');
 
-        if ($this->isVersion('11.2.1')) {
+        if ($this->isVersion('11.3.0')) {
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
             $ext->setConfig('XMLParser', [
                 'preserveWhiteSpace' => false,
                 'formatOutput'       => true,
                 'validateOnParse'    => false,
             ]);
-            $this->setVersion('11.3.0');
+            $this->setVersion('11.4.0');
         }
 
     }
