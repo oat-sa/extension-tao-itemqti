@@ -21,8 +21,9 @@ define([
     'lodash',
     'class',
     'taoQtiItem/qtiItem/core/qtiClasses',
-    'taoQtiItem/qtiItem/core/Element'
-], function(_, Class, qtiClasses, Element){
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/xmlNsHandler'
+], function(_, Class, qtiClasses, Element, xmlNsHandler){
     'use strict';
 
     var Loader = Class.extend({
@@ -269,7 +270,7 @@ define([
                         bodyObject.setElement(element, bodyData.body);
                     }
                 }
-                bodyObject.body(bodyData.body);
+                bodyObject.body(xmlNsHandler.stripNs(bodyData.body));
             }else{
                 throw 'wrong bodydata format';
             }

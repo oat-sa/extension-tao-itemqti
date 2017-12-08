@@ -28,7 +28,7 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '11.2.1',
+    'version'     => '11.4.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=4.2.4',
@@ -54,6 +54,7 @@ return array(
 			'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
 			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
+            'oat\\taoQtiItem\\install\\scripts\\setXMLParserConfig',
             \oat\taoQtiItem\scripts\install\InitMetadataService::class,
             \oat\taoQtiItem\scripts\install\SetItemModel::class,
             \oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries::class,
