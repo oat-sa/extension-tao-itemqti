@@ -54,6 +54,7 @@ return array(
 			'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
 			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
+            'oat\\taoQtiItem\\install\\scripts\\setXMLParserConfig',
             \oat\taoQtiItem\scripts\install\InitMetadataService::class,
             \oat\taoQtiItem\scripts\install\SetItemModel::class,
             \oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries::class,
