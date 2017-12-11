@@ -22,16 +22,15 @@
 namespace oat\taoQtiItem\controller;
 
 use oat\taoQtiItem\helpers\QtiFile;
-use oat\taoQtiItem\controller\AbstractQtiItemRunner;
 use \core_kernel_classes_Resource;
 use \common_Exception;
+use oat\taoResultServer\models\classes\ResultServerService;
 use \taoQtiCommon_helpers_PciVariableFiller;
 use \taoQtiCommon_helpers_PciStateOutput;
 use \taoQtiCommon_helpers_Utils;
 use \common_Logger;
 use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_ResultTransmitter;
-use \taoResultServer_models_classes_ResultServerStateFull;
 use qtism\runtime\common\State;
 use qtism\runtime\tests\SessionManager;
 use qtism\runtime\tests\AssessmentItemSession;
@@ -185,8 +184,8 @@ class QtiItemRunner extends AbstractQtiItemRunner
      * @param AssessmentItemSession $itemSession The AssessmentItemSession objects from where the results must be extracted.
      * @throws taoQtiCommon_helpers_ResultTransmissionException If an error occurs while transmitting results to the ResultServer.
      */
-    protected function transmitResults(core_kernel_classes_Resource $item, AssessmentItemSession $itemSession) { 
-        $resultTransmitter = new taoQtiCommon_helpers_ResultTransmitter(taoResultServer_models_classes_ResultServerStateFull::singleton());
+    protected function transmitResults(core_kernel_classes_Resource $item, AssessmentItemSession $itemSession) {
+        $resultTransmitter = new taoQtiCommon_helpers_ResultTransmitter($this->getServiceManager()->get(ResultServerService::SERVICE_ID));
 
         foreach ($itemSession->getKeys() as $identifier) {
             // QTI built-in variables not suitable for this standalone QTI item execution case.
