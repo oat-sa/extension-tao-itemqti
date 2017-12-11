@@ -51,6 +51,7 @@ define([
             'outcomeDeclaration' : 'taoQtiItem/qtiXmlRenderer/renderers/OutcomeDeclaration',
             'responseProcessing' : 'taoQtiItem/qtiXmlRenderer/renderers/ResponseProcessing',
             '_simpleFeedbackRule' : 'taoQtiItem/qtiXmlRenderer/renderers/responses/SimpleFeedbackRule',
+            '_tooltip' : 'taoQtiItem/qtiXmlRenderer/renderers/Tooltip',
             'math' : 'taoQtiItem/qtiXmlRenderer/renderers/Math',
             'img' : 'taoQtiItem/qtiXmlRenderer/renderers/Img',
             'object' : 'taoQtiItem/qtiXmlRenderer/renderers/Object',
@@ -87,7 +88,8 @@ define([
             'customInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/PortableCustomInteraction',
             'endAttemptInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/EndAttemptInteraction',
             'infoControl' : 'taoQtiItem/qtiXmlRenderer/renderers/PortableInfoControl',
-            'include' : 'taoQtiItem/qtiXmlRenderer/renderers/Include'
+            'include' : 'taoQtiItem/qtiXmlRenderer/renderers/Include',
+            'printedVariable' : 'taoQtiItem/qtiXmlRenderer/renderers/PrintedVariable'
         },
         options : {
             assetManager : assetManager

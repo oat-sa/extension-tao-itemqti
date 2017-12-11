@@ -30,6 +30,7 @@ use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\parser\element\PortableElementDirectoryParser;
 use oat\taoQtiItem\model\portableElement\parser\element\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
+use oat\taoQtiItem\model\qti\Element;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -37,7 +38,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    protected function getPortableFactory()
+    protected function getPortableModelRegistry()
     {
         return PortableModelRegistry::getRegistry();
     }
@@ -110,7 +111,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function export($type, $identifier, $version=null)
     {
-        $model = $this->getPortableFactory()->getModel($type);
+        $model = $this->getPortableModelRegistry()->getModel($type);
         $object = $model->getRegistry()->fetch($identifier, $version);
 
         if (is_null($object)) {
@@ -133,7 +134,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     public function import($type, $zipFile)
     {
         /** @var PortableElementPackageParser $parser */
-        $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
+        $parser = $this->getPortableModelRegistry()->getModel($type)->getPackageParser();
         $source = $parser->extract($zipFile);
         $object = $parser->getModel()->createDataObject($parser->getManifestContent($zipFile));
 
@@ -155,7 +156,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     public function getValidPortableElementFromZipSource($type, $zipFile)
     {
         /** @var PortableElementPackageParser $parser */
-        $parser = $this->getPortableFactory()->getModel($type)->getPackageParser();
+        $parser = $this->getPortableModelRegistry()->getModel($type)->getPackageParser();
         $source = $parser->extract($zipFile);
         $object = $parser->getModel()->createDataObject($parser->getManifestContent($zipFile));
         $this->validate($object, $source);
@@ -171,12 +172,12 @@ class PortableElementService implements ServiceLocatorAwareInterface
     protected function getDirectoryParsers()
     {
         $parsers = array();
-        $models = $this->getPortableFactory()->getModels();
+        $models = $this->getPortableModelRegistry()->getModels();
         foreach ($models as $key => $model) {
             if ($model->getDirectoryParser() instanceof PortableElementDirectoryParser) {
                 $parsers[] = $model->getDirectoryParser();
             } else {
-                \common_Logger::e('Invalid DirectoryParser for model '.$key);
+                \common_Logger::w('Invalid DirectoryParser for model '.$key);
             }
         }
         return $parsers;
@@ -234,7 +235,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function getPortableElementByIdentifier($type, $identifier, $version=null)
     {
-        $model = $this->getPortableFactory()->getModel($type);
+        $model = $this->getPortableModelRegistry()->getModel($type);
         $registry = $model->getRegistry();
 
         if($registry->has($identifier, $version)){
@@ -272,7 +273,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function retrieve($type, $identifier, $version=null)
     {
-        $model = $this->getPortableFactory()->getModel($type);
+        $model = $this->getPortableModelRegistry()->getModel($type);
         return $model->getRegistry()->fetch($identifier, $version);
     }
 
@@ -287,5 +288,19 @@ class PortableElementService implements ServiceLocatorAwareInterface
     public function getFileStream(PortableElementObject $object, $file)
     {
         return $object->getModel()->getRegistry()->getFileStream($object, $file);
+    }
+
+    /**
+     * @param Element $element
+     * @return PortableElementObject|null
+     */
+    public function getPortableObjectFromInstance(Element $element){
+        foreach($this->getPortableModelRegistry()->getModels() as $model){
+            $portableElementClass = $model->getQtiElementClassName();
+            if($element instanceof $portableElementClass){
+                return $this->retrieve($model->getId(), $element->getTypeIdentifier());
+            }
+        }
+        return null;
     }
 }

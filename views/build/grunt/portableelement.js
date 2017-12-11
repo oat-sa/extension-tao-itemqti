@@ -22,6 +22,11 @@ module.exports = function (grunt) {
             searchPattern : '/views/js/pciCreator/**/pciCreator.json'
         },
         {
+            type : 'IMSPCI',
+            file : 'imsPciCreator.json',
+            searchPattern : '/views/js/pciCreator/**/imsPciCreator.json'
+        },
+        {
             type : 'PIC',
             file : 'picCreator.json',
             searchPattern : '/views/js/picCreator/**/picCreator.json'

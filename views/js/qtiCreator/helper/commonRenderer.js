@@ -73,7 +73,8 @@ define([
              _$previousContext = null;
         },
         load : function(qtiClasses, done){
-            return _renderer.load(function(){
+            var renderer = _renderer || this.get();
+            return renderer.load(function(){
                 if(_.isFunction(done)){
                     done.apply(this, arguments);
                 }

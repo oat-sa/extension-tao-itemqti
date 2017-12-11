@@ -58,6 +58,20 @@ define([
                     width : '100%',
                     height : 100
                 }
+            },
+            printedVariable: {
+                icon: 'variable',
+                css: {
+                    width : 40,
+                    height : 16
+                }
+            },
+            _tooltip: {
+                icon: 'tooltip',
+                css: {
+                    width : 40,
+                    height : 24
+                }
             }
         };
 
@@ -84,23 +98,23 @@ define([
          *    </div>
          *
          *
-         * @param arg {} | string
+         * @param {Object|String} arg
          * @returns {*|HTMLElement}
          */
         var get = function (arg) {
             var options = {
-                element: 'span',
-                'class': 'dummy-element',
-                css: {
-                    width : 80,
-                    height : 22
-                }
-            },
-            element,
-            $element,
-            $icon,
-            css,
-            finalOptions;
+                    element: 'span',
+                    'class': 'dummy-element',
+                    css: {
+                        width : 80,
+                        height : 22
+                    }
+                },
+                element,
+                $element,
+                $icon,
+                css,
+                finalOptions;
 
             if(arg) {
                 if($.isPlainObject(arg)) {
@@ -155,7 +169,7 @@ define([
 
         return {
             get: get
-        }
+        };
 
     }());
     return dummyElement;

@@ -61,6 +61,9 @@ define([
     var get = function(reset, config, areaBroker){
         var $bodyEltForm;
 
+        config = config || {};
+        config.properties = config.properties || {};
+
         if(!_creatorRenderer || reset){
 
             $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
@@ -78,7 +81,7 @@ define([
                     interactionOptionForm : $('#item-editor-interaction-property-bar .panel'),
                     choiceOptionForm : $('#item-editor-choice-property-bar .panel'),
                     responseOptionForm : $('#item-editor-response-property-bar .panel'),
-                    bodyElementOptionForm : $('#item-editor-body-element-property-bar .panel'),
+                    bodyElementOptionForm : areaBroker.getElementPropertyPanelArea(),
                     textOptionForm : $('#item-editor-text-property-bar .panel'),
                     modalFeedbackOptionForm : $('#item-editor-modal-feedback-property-bar .panel'),
                     mediaManager : {
@@ -90,13 +93,21 @@ define([
                         fileExistsUrl : config.properties.fileExistsUrl,
                         mediaSourcesUrl : config.properties.mediaSourcesUrl
                     },
-                    interactions : _extractInteractionsConfig(config)
+                    interactions : _extractInteractionsConfig(config),
+                    qtiCreatorContext : config.qtiCreatorContext
                 });
 
                 //update the resolver baseUrl
                 _creatorRenderer.getAssetManager().setData({baseUrl : config.properties.baseUrl || '' });
 
                 _creatorRenderer.setAreaBroker(areaBroker);
+
+                // extend creator renderer to give access to the creator context
+                _.assign(_creatorRenderer, {
+                    getCreatorContext: function getCreatorContext() {
+                        return this.getOption('qtiCreatorContext');
+                    }
+                });
             }
         }
 

@@ -25,7 +25,7 @@ define([
 
     return stateFactory.create(NoRp, function initStateNoRp(){
         var interaction = this.widget.element;
-        var item = interaction.getRelatedItem();
+        var item = interaction.getRootElement();
         var rp = item.responseProcessing;
         var rpXml = xmlRenderer.render(rp);
 
@@ -37,7 +37,7 @@ define([
 
     }, function exitStateNoRp(){
         var interaction = this.widget.element;
-        var item = interaction.getRelatedItem();
+        var item = interaction.getRootElement();
         var outcomeScore = item.getOutcomeDeclaration('SCORE');
         var rp = item.responseProcessing;
         var rpXml = xmlRenderer.render(rp);

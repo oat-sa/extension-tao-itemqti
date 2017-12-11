@@ -20,17 +20,23 @@ define([
     'jquery',
     'lodash',
     'class',
+    'core/logger',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/qtiItem/helper/rendererConfig'
-], function($, _, Class, util, rendererConfig){
+], function($, _, Class, loggerFactory, util, rendererConfig){
     'use strict';
 
     var _instances = {};
 
+    /**
+     * Create a logger
+     */
+    var logger = loggerFactory('taoQtiItem/qtiItem/core/Element');
+
     var Element = Class.extend({
         qtiClass : '',
         serial : '',
-        relatedItem : null,
+        rootElement : null,
         init : function(serial, attributes){
 
             //init own attributes
@@ -155,6 +161,9 @@ define([
             return this.removeAttributes(name);
         },
         setAttributes : function(attributes){
+            if (!_.isPlainObject(attributes)) {
+                logger.warn('attributes should be a plain object');
+            }
             this.attributes = attributes;
             return this;
         },
@@ -209,22 +218,29 @@ define([
         find : function(serial){
 
             var found = null;
+            var object,
+                body;
 
             if(typeof this.initObject === 'function'){
-                var object = this.getObject();
+                object = this.getObject();
                 if(object.serial === serial){
                     found = {'parent' : this, 'element' : object, 'location' : 'object'};
                 }
             }
 
             if(!found && typeof this.initContainer === 'function'){
-                found = this.getBody().find(serial, this);
+                body = this.getBody();
+                if (body.serial === serial) {
+                    found = {'parent' : this, 'element' : body, 'location' : 'body'};
+                } else {
+                    found = this.getBody().find(serial, this);
+                }
             }
 
             return found;
         },
         parent : function(){
-            var item = this.getRelatedItem();
+            var item = this.getRootElement();
             if(item){
                 var found = item.find(this.getSerial());
                 if(found){
@@ -233,23 +249,37 @@ define([
             }
             return null;
         },
-        setRelatedItem : function(item, recursive){
-
-            recursive = (typeof recursive === 'undefined') ? true : recursive;
+        /**
+         * @deprecated - use setRootElement() instead
+         */
+        setRelatedItem : function(item) {
+            logger.warn('Deprecated use of setRelatedItem()');
+            this.setRootElement(item);
+        },
+        setRootElement : function(item){
+            var composingElts,
+                i;
 
             if(Element.isA(item, 'assessmentItem')){
-                this.relatedItem = item;
-                var composingElts = this.getComposingElements();
-                for(var i in composingElts){
-                    composingElts[i].setRelatedItem(item, false);
+                this.rootElement = item;
+                composingElts = this.getComposingElements();
+                for(i in composingElts){
+                    composingElts[i].setRootElement(item);
                 }
             }
 
         },
+        /**
+         * @deprecated - use getRootElement() instead
+         */
         getRelatedItem : function(){
+            logger.warn('Deprecated use of getRelatedItem()');
+            return this.getRootElement();
+        },
+        getRootElement : function(){
             var ret = null;
-            if(Element.isA(this.relatedItem, 'assessmentItem')){
-                ret = this.relatedItem;
+            if(Element.isA(this.rootElement, 'assessmentItem')){
+                ret = this.rootElement;
             }
             return ret;
         },
@@ -267,10 +297,19 @@ define([
         getRenderer : function(){
             return this.renderer;
         },
-        render : function(){
-
+        /**
+         * Render the element. Arguments are all optional and can be given in any order.
+         * Argument parsing is based on argument type and is done by taoQtiItem/qtiItem/core/helpers/rendererConfig
+         * @param {Renderer} renderer - specify which renderer to use
+         * @param {jQuery} placeholder - DOM element that will be replaced by the rendered element
+         * @param {Object} data - template data for the rendering
+         * @param {String} subclass - subclass enables different behaviour of the same qti class in different contexts (eg. we could have different rendering for simpleChoice according to where it is being used: simpleChoice.orderInteraction, simpleChoice.choiceInteraction...)
+         * @returns {String} - the rendered element as an HTML string
+         */
+        render : function render(){
             var args = rendererConfig.getOptionsFromArguments(arguments);
             var _renderer = args.renderer || this.getRenderer();
+            var rendering;
 
             var tplData = {},
                 defaultData = {
@@ -280,7 +319,7 @@ define([
                 };
 
             if(!_renderer){
-                throw 'render: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
+                throw new Error('render: no renderer found for the element ' + this.qtiClass + ':' + this.serial);
             }
 
             if(typeof this.initContainer === 'function'){
@@ -296,7 +335,7 @@ define([
 
             tplData = _.merge(defaultData, args.data || {});
             tplData = _renderer.getData(this, tplData, args.subclass);
-            var rendering = _renderer.renderTpl(this, tplData, args.subclass);
+            rendering = _renderer.renderTpl(this, tplData, args.subclass);
             if(args.placeholder){
                 args.placeholder.replaceWith(rendering);
             }

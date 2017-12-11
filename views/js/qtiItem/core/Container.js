@@ -41,7 +41,8 @@ define([
                     this.bdy = body;
                     $(document).trigger('containerBodyChange', {
                         body : body,
-                        container : this
+                        container : this,
+                        parent : this.parent()
                     });
                 }else{
                     throw 'body must be a string';
@@ -60,7 +61,7 @@ define([
                         body += elt.placeholder();//append the element if no placeholder found
                     }
 
-                    elt.setRelatedItem(this.getRelatedItem() || null);
+                    elt.setRootElement(this.getRootElement() || null);
                     this.elements[elt.getSerial()] = elt;
                     $(document).trigger('containerElementAdded', {
                         element : elt,

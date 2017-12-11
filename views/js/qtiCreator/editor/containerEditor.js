@@ -1,4 +1,4 @@
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,6 +19,7 @@
 define([
     'lodash',
     'jquery',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Container',
     'taoQtiItem/qtiCreator/model/Item',
@@ -31,7 +32,7 @@ define([
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'
-], function(_, $, Loader, Container, Item, event, qtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
+], function(_, $, Promise, Loader, Container, Item, event, allQtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
     "use strict";
 
     var _ns = 'containereditor';
@@ -42,6 +43,8 @@ define([
         markupSelector : '',
         qtiMedia : false
     };
+
+    event.initElementToWidgetListeners();
 
     function parser($container){
 
@@ -71,10 +74,13 @@ define([
      * @param {String} [options.markupSelector] - the element in $xontainer that holds the html to be used as the initial editor content
      * @param {Object} [options.related] - define the qti element object this editor is attached too. Very important to edit a picture or math element inside it because prevents leaving the editing state of the related element.
      * @param {Function} [options.change] - the callback called when the editor content has been modified
-     * @param {Function} [options.hideTriggerOnBlur] - define if the trigger <A> should be hidden when the editor is blurred or not
-     * @param {Function} [options.placeholder] - the placeholder text of the container editor when
-     * @param {Function} [options.toolbar] - the ck toolbar
-     * @param {Function} [options.qtiMedia=false] - allow insert media object
+     * @param {String} [options.placeholder] - the placeholder text of the container editor when
+     * @param {Array} [options.toolbar] - the ck toolbar
+     * @param {Boolean} [options.qtiMedia=false] - allow insert media object
+     * @param {Object} [options.areaBroker] - allow to set a custom areaBroker on the renderer
+     * @param {String} [options.removePlugins] - a coma-separated plugin list that should not be loaded
+     * @param {Object} [options.metadata] - some metadata to attach to the root element (ex: { myDataName: 'myDataValue' })
+     * @param {Boolean} [options.resetRenderer] - force resetting the renderer
      * @returns {undefined}
      */
     function create($container, options){
@@ -94,10 +100,13 @@ define([
         }
 
         data = parser($container);
-        loader = new Loader().setClassesLocation(qtiClasses);
+        loader = new Loader().setClassesLocation(allQtiClasses);
         loader.loadRequiredClasses(data, function(){
 
-            var item, containerEditors;
+            var item,
+                containerEditors,
+                renderer,
+                qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container', '_tooltip'];
 
             //create a new container object
             var container = new Container();
@@ -110,7 +119,13 @@ define([
             //need to attach a container to the item to enable innserElement.remove()
             //@todo fix this
             item = new Item().setElement(container);
-            container.setRelatedItem(item);
+            container.setRootElement(item);
+
+            if (options.metadata) {
+                _.each(options.metadata, function (value, name) {
+                    item.data(name, value);
+                });
+            }
 
             //associate it to the interaction?
             if(options.related){
@@ -122,7 +137,8 @@ define([
             this.loadContainer(container, data);
 
             //apply common renderer :
-            creatorRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){
+            renderer = creatorRenderer.get(options.resetRenderer, {}, options.areaBroker);
+            renderer.load(function(){
 
                 var baseUrl = this.getOption('baseUrl');
                 container.setRenderer(this);
@@ -138,23 +154,28 @@ define([
 
                 buildContainer($container);
                 buildEditor($container, container, {
-                    hideTriggerOnBlur: !!options.hideTriggerOnBlur,
                     placeholder : options.placeholder || undefined,
                     toolbar : options.toolbar || undefined,
                     qtiMedia : options.qtiMedia,
-                    highlight : options.highlight
+                    highlight : options.highlight,
+                    removePlugins : options.removePlugins || '',
+                    areaBroker : options.areaBroker
                 });
 
-                $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
-                    var html = container.render(xmlRenderer.get());
-                    $container.trigger('containerchange.' + _ns, [html]);
-                    if(_.isFunction(options.change)){
-                        options.change(html);
-                    }
-                }, 600));
+                $container
+                    .off('.' + _ns)
+                    .on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(){
+                        var editorContent = container.render(xmlRenderer.get());
+                        $container.trigger('containerchange.' + _ns, [editorContent]);
+
+                        if(_.isFunction(options.change)){
+                            options.change(editorContent);
+                        }
+                    }, 600));
 
                 $container.trigger('editorready.containereditor');
-            });
+
+            }, qtiClasses);
 
         });
 
@@ -167,30 +188,39 @@ define([
 
     function cleanup($container){
         var container = $container.data('container');
-        if(container){
-            $(document).off('.' + container.serial);
-            commonRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){
-                $container.html(container.render(this));
-            });
-        }
+        return new Promise(function (resolve) {
+            if(container){
+                $(document).off('.' + container.serial);
+                commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable', '_tooltip'], function(){
+                    $container.html(container.render(this));
+                    resolve();
+                });
 
-        $container.removeData('container');
-
+                $container.removeData('container');
+            } else {
+                resolve();
+            }
+        });
     }
 
     /**
-     * create a fase widget that is required in html editor
+     * create a false widget that is required in html editor
      *
      * @param {JQuery} $editableContainer
      * @param {Object} container
+     * @param {Object} options
+     * @param {Object} options.areaBroker
      * @returns {Object} The fake widget object
      */
-    function createFakeWidget($editableContainer, container){
+    function createFakeWidget($editableContainer, container, options){
 
         var widget = {
             $container : $editableContainer,
             element : container,
-            changeState : _.noop
+            changeState : _.noop,
+            getAreaBroker : function getAreaBroker() {
+                return options.areaBroker;
+            }
         };
         //associate the widget to the container
         container.data('widget', widget);
@@ -209,21 +239,19 @@ define([
                 passthroughInnerContent : false,
                 change : content.getChangeCallback(container),
                 data : {
-                    widget : createFakeWidget($editableContainer, container),
+                    widget : createFakeWidget($editableContainer, container, options),
                     container : container
                 }
             }));
         }
     }
 
-    function destroyEditor($editableContainer){
-        htmlEditor.destroyEditor($editableContainer);
-        $editableContainer.removeAttr('data-html-editable-container');
-    }
-
-    function destroy($container){
-        destroyEditor($container);
-        cleanup($container);
+    function destroy($editableContainer){
+        return htmlEditor.destroyEditor($editableContainer)
+            .then(function() {
+                $editableContainer.removeAttr('data-html-editable-container');
+                return cleanup($editableContainer);
+            });
     }
 
     function extractHtmlFromMarkup(markupStr, selector){

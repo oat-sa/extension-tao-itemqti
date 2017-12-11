@@ -43,7 +43,7 @@ define([
                 return {};
             },
             getDefaultProperties : function(){
-                
+
                 var creator = registry.getCreator(this.typeIdentifier);
                 if(creator && creator.module && _.isFunction(creator.module.getDefaultProperties)){
                     return creator.getDefaultProperties(this);
@@ -70,7 +70,7 @@ define([
                     response = this.createResponse({
                         cardinality : creator.response.cardinality
                     });
-                    
+
                     //the base type is optional
                     if(creator.response.baseType){
                         response.attr('baseType', creator.response.baseType);
@@ -81,15 +81,15 @@ define([
 
                     //we ensure the info control has an identifier
                     if(!this.attr('id')){
-                        this.attr('id', util.buildId(this.getRelatedItem(), typeId));
+                        this.attr('id', util.buildId(this.getRootElement(), typeId));
                     }
                 }
 
                 //set markup
                 this.markup = this.renderMarkup();
 
-                //set pci namespace to item
-                this.getNamespace();
+                //set local pci namespace
+                this.setNamespace(creator.model, creator.xmlns);
 
                 //after create
                 //@todo need afterCreate() to return a promise

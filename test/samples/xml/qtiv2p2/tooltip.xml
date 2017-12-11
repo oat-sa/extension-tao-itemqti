@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="i150833872240374" title="Tooltip" label="Tooltip" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.2.0-sprint62">
+  <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"/>
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+  <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+    <defaultValue>
+      <value>0</value>
+    </defaultValue>
+  </outcomeDeclaration>
+  <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+  <itemBody>
+    <div class="grid-row">
+      <div class="col-12">
+        <p>This text is inside a <span data-role="tooltip-target" aria-describedby="tooltip_1">inline <i>interaction</i> container</span><span data-role="tooltip-content" aria-hidden="true" id="tooltip_1">This is a container for <strong>inline choices</strong> and <strong>inline text entries</strong>.<br/>Now you know</span>.</p>
+        <p>This tooltip has no content <span data-role="tooltip-target" aria-describedby="tooltip_IDONTEXIST">I'm undefined</span></p>
+        <p>This tooltip does not reference any content <span data-role="tooltip-target" aria-describedby="">I'm orphan</span></p>
+        <p>This valid <span data-role="tooltip-target" aria-describedby="tooltip_4">tooltip</span>, has a content in a div far, far away.</p>
+        <p>This tooltip content does not have any target. <span data-role="tooltip-content" aria-hidden="true" id="tooltip_ORPHAN">No one will ever see me...</span></p>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="col-12">
+        <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
+          <prompt>
+            <p>This is a text inside a <span data-role="tooltip-target" aria-describedby="tooltip_3">QTI <strong>prompt</strong></span><span data-role="tooltip-content" aria-hidden="true" id="tooltip_3">The text before the question.</span>.</p>
+          </prompt>
+          <simpleChoice identifier="choice_1" fixed="false" showHide="show">This choice has a <span data-role="tooltip-target" aria-describedby="tooltip_2"><i>strange</i> word</span>   <span data-role="tooltip-content" aria-hidden="true" id="tooltip_2">But it will <i>not</i> be revealed here.</span> with a strange meaning</simpleChoice>
+          <simpleChoice identifier="choice_2" fixed="false" showHide="show">Not this one</simpleChoice>
+          <simpleChoice identifier="choice_3" fixed="false" showHide="show">Neither has this one</simpleChoice>
+        </choiceInteraction>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="col-12">
+        <p>This is another inline container.</p>
+        <span data-role="tooltip-content" aria-hidden="true" id="tooltip_4">Some say that the word "tooltip" does not really exist.</span>.
+      </div>
+    </div>
+  </itemBody>
+  <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+</assessmentItem>

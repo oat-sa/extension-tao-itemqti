@@ -78,6 +78,7 @@ define([
         'outcomeDeclaration',
         'responseProcessing',
         '_simpleFeedbackRule',
+        '_tooltip',
         'img',
         'math',
         'object',
@@ -114,7 +115,8 @@ define([
         'simpleAssociableChoice',
         'simpleChoice',
         'infoControl',
-        'include'
+        'include',
+        'printedVariable'
     ];
 
     /**
@@ -750,6 +752,10 @@ define([
             if (this._areaBroker) {
                 return this._areaBroker;
             }
+        };
+
+        this.getItemCreator = function getItemCreator() {
+            return this.getOption('itemCreator');
         };
     };
 

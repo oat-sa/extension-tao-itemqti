@@ -3,7 +3,7 @@ define(['taoQtiItem/qtiItem/mixin/Mixin', 'taoQtiItem/qtiItem/core/Container'], 
     var methods = {
         initContainer : function(body){
             this.bdy = new Container(body || '');
-            this.bdy.setRelatedItem(this.getRelatedItem() || null);
+            this.bdy.setRootElement(this.getRootElement() || null);
             this.bdy.contentModel = 'blockStatic';
         },
         getBody : function(){

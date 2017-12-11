@@ -41,10 +41,14 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
             if(_.isArray(manifest.runtime.config) && manifest.runtime.config.length){
                 _.forEach(manifest.runtime.config, function(pciConfig){
-                    if(pciConfig.data){
-                        modules = _.defaults(modules, pciConfig.data.paths || {});
-                    }else if(pciConfig.file){
-                        reqConfigs.push('json!' + baseUrl + '/' + pciConfig.file);
+                    if(_.isString(pciConfig)){
+                        reqConfigs.push('json!' + baseUrl + '/' + pciConfig);
+                    }else{
+                        if(pciConfig.data){
+                            modules = _.defaults(modules, pciConfig.data.paths || {});
+                        }else if(pciConfig.file){
+                            reqConfigs.push('json!' + baseUrl + '/' + pciConfig.file);
+                        }
                     }
                 });
             }
@@ -52,6 +56,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             require(reqConfigs, function(){
 
                 var runtimeModules = {};
+
+                requireConfigAliases[manifest.typeIdentifier] = baseUrl;
 
                 if(manifest.model === 'IMSPCI'){
 
@@ -73,8 +79,6 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                             return baseUrl+'/'+path.replace(/\.js$/, '');
                         });
                     });
-                }else{
-                    requireConfigAliases[manifest.typeIdentifier] = baseUrl;
                 }
 
                 resolve(requireConfigAliases);
@@ -163,7 +167,9 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         id : pci.typeIdentifier,
                         label : pci.label,
                         baseUrl : pci.baseUrl,
-                        response : pci.response
+                        response : pci.response,
+                        model : pci.model,
+                        xmlns : pci.xmlns
                     });
                 }else{
                     this.trigger('error', {

@@ -25,6 +25,7 @@ use oat\taoQtiItem\model\portableElement\parser\element\PortableElementDirectory
 use oat\taoQtiItem\model\portableElement\parser\element\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
 use oat\taoQtiItem\model\portableElement\validator\PortableElementModelValidator;
+use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
 
 interface PortableElementModel extends PhpSerializable
 {
@@ -32,6 +33,12 @@ interface PortableElementModel extends PhpSerializable
      * @return string
      */
     public function getId();
+
+    /**
+     * Get the user friendly name of the model
+     * @return string
+     */
+    public function getLabel();
 
     /**
      * @return array
@@ -68,6 +75,8 @@ interface PortableElementModel extends PhpSerializable
      * @return PortableElementPackageParser
      */
     public function getPackageParser();
+
+    public function getExporter(PortableElementObject $dataObject, AbstractQTIItemExporter $qtiItemExporter);
 
     /**
      * Return the classname of Element representing

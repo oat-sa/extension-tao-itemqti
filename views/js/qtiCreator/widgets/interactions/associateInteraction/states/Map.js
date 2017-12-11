@@ -18,12 +18,13 @@
  */
 define([
     'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
-    'lodash',
+    'taoQtiItem/qtiCreator/widgets/helpers/placeholder',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/associableChoice.answer'
-], function($, stateFactory, Map, responseWidget, _, responseToolbarTpl){
+], function($, _, stateFactory, Map, responseWidget, placeholder, responseToolbarTpl){
 
     'use strict';
 
@@ -41,7 +42,7 @@ define([
 
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.keys(responseWidget.getResponseSummary(response)));
-
+        placeholder.score(_widget);
     }, function(){
 
         this.widget.$container.off('responseChange.qti-widget');
@@ -56,9 +57,6 @@ define([
         var _widget = this.widget,
             interaction = _widget.element,
             response = interaction.getResponseDeclaration();
-
-        //@todo to be mapped to actual value
-        var _defaultMappingValue = 0;
 
         var _saveCorrect = function(){
             var correct = [];
@@ -121,9 +119,6 @@ define([
                     var $score = $miniToolbar.find('[data-role=score]').data('pairIdentifier', pairIdentifier);
                     if(pairs[pairIdentifier] && pairs[pairIdentifier].score){
                         $score.val(pairs[pairIdentifier].score);
-                    }else{
-                        //@todo set _defaultMappingValue as placeholder text:
-                        $score.val(_defaultMappingValue);
                     }
                 }
 
@@ -138,19 +133,22 @@ define([
 
                 $miniToolbar.removeData('pairIdentifier');
                 $miniToolbar.find('[data-role=correct]').prop('checked', false).removeData('pairIdentifier');
-                $miniToolbar.find('[data-role=score]').val(_defaultMappingValue).removeData('pairIdentifier');
+                $miniToolbar.find('[data-role=score]').val('').removeData('pairIdentifier');
 
                 //finally update the correct response
                 _saveCorrect();
             }
+
+            placeholder.score(_widget);
         });
 
+        placeholder.score(_widget);
         _widget.$container.find('.result-area')
             .on('change', '[data-role=correct]', _saveCorrect)
             .on('keyup', '[data-role=score]', function(){
-            var $score = $(this);
-            response.setMapEntry($score.data('pairIdentifier'), $score.val());
-        });
+                var $score = $(this);
+                response.setMapEntry($score.data('pairIdentifier'), $score.val());
+            });
     };
 
     return AssociateInteractionStateCorrect;

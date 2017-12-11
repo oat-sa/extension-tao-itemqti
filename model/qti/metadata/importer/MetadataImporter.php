@@ -227,7 +227,7 @@ class MetadataImporter extends AbstractMetadataService
     /**
      * Allow to register, into the config, the current importer service
      */
-    protected function registerService()
+    protected function registerMetadataService()
     {
         if ($this->getServiceLocator()->has(MetadataService::SERVICE_ID)) {
             $metadataService = $this->getServiceLocator()->get(MetadataService::SERVICE_ID);

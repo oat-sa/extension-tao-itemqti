@@ -24,12 +24,15 @@ use League\Flysystem\Adapter\Local;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\asset\AssetService;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\model\Export\Extractor\MetaDataOntologyExtractor;
 use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
 use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
@@ -49,6 +52,9 @@ use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
+use taoItems_actions_form_RestItemForm;
+use taoItems_models_classes_ItemsService;
+use taoTests_models_classes_TestsService;
 
 /**
  *
@@ -412,7 +418,8 @@ class Updater extends \common_ext_ExtensionUpdater
         if($this->isVersion('9.11.4')){
 
             //register location of portable libs to legacy share lib aliases for backward compatibility
-            $portableSafeLibPath = ROOT_URL.'taoQtiItem/views/js/legacyPortableSharedLib';
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+            $portableSafeLibPath = $assetService->getJsBaseWww('taoQtiItem').'js/legacyPortableSharedLib';
             $clientLibRegistry = ClientLibRegistry::getRegistry();
             $clientLibRegistry->register('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
             $clientLibRegistry->register('OAT/lodash', $portableSafeLibPath . '/lodash');
@@ -440,6 +447,45 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('10.0.0');
         }
 
-        $this->skip('10.0.0', '10.3.1');
+        $this->skip('10.0.0', '10.6.0');
+
+        if($this->isVersion('10.6.0')){
+
+            $service = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $options = $service->getOptions();
+            $options['extractors']['MetaDataOntologyExtractor'] = new MetaDataOntologyExtractor();
+            $options['columns']['metadataProperties'] = [
+                'extractor' => 'MetaDataOntologyExtractor',
+                'parameters' => array(
+                    'valuesAsColumns' => true,
+                    'excludedProperties' => array(
+                        taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
+                        taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
+                        taoItems_actions_form_RestItemForm::PROPERTY_ITEM_CONTENT_SRC,
+                        TaoOntology::PROPERTY_LOCK,
+                    ),
+                )
+            ];
+
+            $service->setOptions($options);
+
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
+
+            $this->setVersion('10.7.0');
+        }
+
+        $this->skip('10.7.0', '11.3.0');
+
+        if ($this->isVersion('11.3.0')) {
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $ext->setConfig('XMLParser', [
+                'preserveWhiteSpace' => false,
+                'formatOutput'       => true,
+                'validateOnParse'    => false,
+            ]);
+            $this->setVersion('11.4.0');
+        }
+
+        $this->skip('11.4.0', '11.5.0');
     }
 }

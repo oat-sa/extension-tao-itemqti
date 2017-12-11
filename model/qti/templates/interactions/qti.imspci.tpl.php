@@ -27,7 +27,7 @@ $config = get_data('config');
                 <module id="<?=$id?>"<?php if(isset($paths[0])):?> primaryPath="<?=$paths[0]?>"<?php endif;?><?php if(isset($paths[1])):?> fallbackPath="<?=$paths[1]?>"<?php endif;?>/>
             <?php endforeach;?>
         </modules>
-        <markup>
+        <markup xmlns="http://www.w3.org/1999/xhtml">
             <?=get_data('markup')?>
         </markup>
     </portableCustomInteraction>

@@ -15,7 +15,7 @@ define([
             return (qtiClass === 'interaction') || this._super(qtiClass);
         },
         addChoice : function(choice){
-            choice.setRelatedItem(this.getRelatedItem() || null);
+            choice.setRootElement(this.getRootElement() || null);
             this.choices[choice.getSerial()] = choice;
             return this;
         },
@@ -63,7 +63,7 @@ define([
             var response = null;
             var responseId = this.attr('responseIdentifier');
             if(responseId){
-                var item = this.getRelatedItem();
+                var item = this.getRootElement();
                 if(item){
                     response = item.getResponseDeclaration(responseId);
                 }else{
@@ -91,7 +91,7 @@ define([
             if(!renderer){
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
-            
+
             var choices = (this.attr('shuffle') && renderer.getOption('shuffleChoices')) ? renderer.getShuffledChoices(this) : this.getChoices();
             var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};
             var _this = this;
@@ -105,9 +105,9 @@ define([
                     }
                 }
             });
-            
+
             var tplName = args.subclass ? this.qtiClass + '.' + args.subclass : this.qtiClass;
-            
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, tplName, renderer);
         },
         postRender : function(data, altClassName, renderer){
@@ -156,11 +156,11 @@ define([
         },
 
         /**
-         * Retrieve the state of the interaction. 
+         * Retrieve the state of the interaction.
          * The state is provided by the interaction's renderer.
-         * 
+         *
          * @returns {Object} the interaction's state
-         * @throws {Error} if no renderer is found 
+         * @throws {Error} if no renderer is found
          */
         getState : function(){
             var ret = null;
@@ -176,11 +176,11 @@ define([
         },
 
         /**
-         * Retrieve the state of the interaction. 
+         * Retrieve the state of the interaction.
          * The state will be given to the interaction's renderer.
-         * 
+         *
          * @param {Object} state - the interaction's state
-         * @throws {Error} if no renderer is found 
+         * @throws {Error} if no renderer is found
          */
         setState : function(state){
             var renderer = this.getRenderer();
@@ -196,8 +196,8 @@ define([
         /**
          * Clean up an interaction rendering.
          * Ask the renderer to run destroy if exists.
-         * 
-         * @throws {Error} if no renderer is found 
+         *
+         * @throws {Error} if no renderer is found
          */
         clear : function(){
             var renderer = this.getRenderer();

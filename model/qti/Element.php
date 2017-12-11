@@ -27,7 +27,7 @@ use \stdClass;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
- 
+
  */
 abstract class Element implements Exportable
 {
@@ -78,10 +78,10 @@ abstract class Element implements Exportable
         $this->resetAttributes();
 
         $this->setAttributes($attributes);
-        
+
         self::$instances[$this->getSerial()] = $this;
     }
-    
+
     /**
      * Provide the list of attributes of the Qti Element Class
      */
@@ -108,7 +108,7 @@ abstract class Element implements Exportable
 
     /**
      * Remove the actual value of an attribute, distinguish from empty value
-     * 
+     *
      * @param string $name
      */
     public function removeAttributeValue($name){
@@ -116,16 +116,16 @@ abstract class Element implements Exportable
             $this->attributes[$name]->setNull();
         }
     }
-    
+
     /**
      * Set the attributes for the the Qti Element
      * Argument format: array(attributeName => value)
-     * 
+     *
      * @param array $values
      * @throws InvalidArgumentException
      */
     public function setAttributes($values){
-        
+
         if(is_array($values)){
             foreach($values as $name => $value){
                 $this->setAttribute($name, $value);
@@ -133,12 +133,12 @@ abstract class Element implements Exportable
         }else{
             throw new InvalidArgumentException('"values" must be an array');
         }
-        
+
     }
-    
+
     /**
      * Set the value of an attribute
-     * 
+     *
      * @param string $name
      * @param mixed $value
      * @return boolean
@@ -196,8 +196,8 @@ abstract class Element implements Exportable
      * Validate an attribute of the element, at the element level
      * (the validator of the attributes are on the attribute level)
      *
-     * @param string $name            
-     * @param mixed $value            
+     * @param string $name
+     * @param mixed $value
      * @return boolean
      * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
@@ -212,7 +212,7 @@ abstract class Element implements Exportable
 
             $datatypeClass = $this->attributes[$name]->getType();
             if(is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')){
-                
+
             }else{
                 $returnValue = $datatypeClass::validate($value);
             }
@@ -245,8 +245,8 @@ abstract class Element implements Exportable
      * Find the identified object corresponding to the identifier string
      * The optional argument $elementClasses search a specific QTI element class
      *
-     * @param string $identifier            
-     * @param array $elementClasses            
+     * @param string $identifier
+     * @param array $elementClasses
      * @return \oat\taoQtiItem\model\qti\IdentifiedElement
      */
     public function getIdentifiedElement($identifier, $elementClasses = array()){
@@ -275,10 +275,10 @@ abstract class Element implements Exportable
 
         return $returnValue;
     }
-    
+
     /**
      * Check if an attribute exists within the Qti Element
-     * 
+     *
      * @param string $name
      * @return boolean
      */
@@ -288,7 +288,7 @@ abstract class Element implements Exportable
 
     /**
      * Short handy method to get/set an attribute value
-     * 
+     *
      * @param string $name
      * @param mixed $value
      * @return mixed
@@ -331,17 +331,17 @@ abstract class Element implements Exportable
 
     /**
      * Get the attribute as an Attribute object
-     * 
+     *
      * @param type $name
      * @return \oat\taoQtiItem\model\qti\attribute\Attribute
      */
     protected function getAttribute($name){
         return $this->hasAttribute($name) ? $this->attributes[$name] : null;
     }
-    
+
     /**
      * Get the attribute's actual value (not as an Attribute object)
-     * 
+     *
      * @param string $name
      * @return mixed
      */
@@ -352,10 +352,10 @@ abstract class Element implements Exportable
         }
         return $returnValue;
     }
-    
+
     /**
      * Get all attributes' values
-     * 
+     *
      * @return array
      */
     public function getAttributeValues($filterNull = true){
@@ -370,7 +370,7 @@ abstract class Element implements Exportable
 
     /**
      * Get the placeholder of the Qti Element to used in a Container
-     * 
+     *
      * @see oat\taoQtiItem\model\qti\container\Container
      * @return string
      */
@@ -380,7 +380,7 @@ abstract class Element implements Exportable
 
     /**
      * Get the absolute path of the template of the qti.xml
-     * 
+     *
      * @return string
      * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
@@ -395,10 +395,10 @@ abstract class Element implements Exportable
 
         return $template;
     }
-    
+
     /**
      * Get the variables to be used in the qti.xml template
-     * 
+     *
      * @return array
      */
     protected function getTemplateQtiVariables(){
@@ -429,7 +429,7 @@ abstract class Element implements Exportable
 
         return (string) $returnValue;
     }
-    
+
     /**
      * Get the array representation of the Qti Element.
      * Particularly helpful for data transformation, e.g. json
@@ -446,12 +446,13 @@ abstract class Element implements Exportable
         if(!empty($tag)){
             $data['qtiClass'] = $tag;
         }
-        $data['attributes'] = $this->getAttributeValues();
+        $attributes = $this->getAttributeValues();
+        $data['attributes'] = empty($attributes) ? new StdClass() : $attributes;
 
         if($this instanceof FlowContainer){
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
-        
+
         if(DEBUG_MODE){
             //in debug mode, add debug data, such as the related item
             $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
@@ -481,7 +482,7 @@ abstract class Element implements Exportable
      * Set the item the current Qti Element belongs to.
      * The related item assignment is propagated to all containing Qti Element of the current one.
      * The "force" option allows changing the associated item (even if it has already been defined)
-     * 
+     *
      * @param \oat\taoQtiItem\model\qti\Item $item
      * @param boolean $force
      * @return boolean
@@ -527,7 +528,7 @@ abstract class Element implements Exportable
 
         return $returnValue;
     }
-    
+
     /**
      * Recursively get all Qti Elements contained within the current Qti Element
      *
@@ -575,7 +576,7 @@ abstract class Element implements Exportable
 
     /**
      * Get the Qti Item the current Qti Element belongs to
-     * 
+     *
      * @return \oat\taoQtiItem\model\qti\Item
      */
     public function getRelatedItem(){
@@ -630,10 +631,10 @@ abstract class Element implements Exportable
                 }
             }
         }
-            
+
         return (string) $returnValue;
     }
-   
+
     /**
      * Obtain a serial for the instance of the class that implements the
      *
@@ -658,7 +659,7 @@ abstract class Element implements Exportable
      * @return string
      */
     protected function buildSerial(){
-        
+
         if(DEBUG_MODE){
             //in debug mode, use more meaningful serials
             $clazz = strtolower(get_class($this));
@@ -669,12 +670,12 @@ abstract class Element implements Exportable
             //build a short unique id for memory saving
             $serial = uniqid('i');
         }
-        
+
         return (string) $serial;
     }
-    
+
     protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = array()){
-        
+
         if(empty($elements)){
             $data = new stdClass();
         }else{
@@ -685,9 +686,9 @@ abstract class Element implements Exportable
         }
         return $data;
     }
-    
+
     protected function getArraySerializedPrimitiveCollection($elements){
-        
+
         if(empty($elements)){
             $data = new stdClass();
         }else{
