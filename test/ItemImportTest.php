@@ -86,7 +86,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
      */
     public function testWrongClass()
     {
-        $itemClass = new \core_kernel_classes_Class(TAO_ITEM_MODEL_PROPERTY);
+        $itemClass = new \core_kernel_classes_Class(taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL);
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/package.zip'),
             $itemClass);
 
