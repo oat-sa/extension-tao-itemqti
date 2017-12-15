@@ -51,7 +51,7 @@ define([
         _.forIn(properties, function(value, key){
             entries.push({
                 key : key,
-                value : _.isObject(value) ? JSON.stringify(value) : value
+                value : (_.isObject(value) || _.isArray(value)) ? JSON.stringify(value) : value
             });
         });
 
