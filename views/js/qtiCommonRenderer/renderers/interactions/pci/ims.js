@@ -48,14 +48,23 @@ define([
             },
             createInstance : function createInstance(interaction, context){
                 var pci = instanciator.getPci(interaction);
+                var config;
+                var properties = _.clone(interaction.properties);
 
-                var config = {
-                    properties : _.clone(interaction.properties),
+                // serialize any array or object properties
+                _.forOwn(properties, function(propVal, propKey) {
+                    properties[propKey] = (_.isArray(propVal) || _.isObject(propVal))
+                        ? JSON.stringify(propVal)
+                        : propVal;
+                });
+
+                config = {
+                    properties : properties,
                     templateVariables : {},//not supported yet
                     boundTo : context.response || {},
                     onready : pciReadyCallback,
                     ondone : pciDoneCallback,
-                    status : 'interacting',//only support interacting state currently(TODO: solution, review),
+                    status : 'interacting'//only support interacting state currently(TODO: solution, review),
                 };
 
                 pci.getInstance(containerHelper.get(interaction).get(0), config, context.state);

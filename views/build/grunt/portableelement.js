@@ -195,6 +195,9 @@ module.exports = function (grunt) {
                     //(note: the option "insertRequire" does not work because it is resolved asynchronously)
                 });
 
+                // Add the path to the given extension for portableLib resolution
+                config.paths[extension] = root + '/' + extension + '/views/js';
+
                 config.paths[model.id] = model.basePath;
 
                 requirejs.optimize(config, function (buildResponse) {
