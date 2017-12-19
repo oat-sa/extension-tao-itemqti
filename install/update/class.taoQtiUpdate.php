@@ -18,6 +18,7 @@
  * 
  */
 
+use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\ItemModel;
@@ -34,7 +35,7 @@ class taoQTI_scripts_update_taoQtiUpdate extends tao_scripts_Runner
     public function run()
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
-        $itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
+        $itemClass = new core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI);
         $items = $itemClass->getInstances(true);
 
         foreach($items as $item){

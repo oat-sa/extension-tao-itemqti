@@ -19,6 +19,7 @@
  *
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\Export\Extractor\MetaDataOntologyExtractor;
 
@@ -34,7 +35,7 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
         'label' => array (
             'extractor' => 'OntologyExtractor',
             'parameters' => array (
-                'property' => RDFS_LABEL
+                'property' => OntologyRdfs::RDFS_LABEL
             )
         ),
         'type' => array (

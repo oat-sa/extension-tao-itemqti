@@ -37,8 +37,6 @@ define([
 ], function(_, Promise, loggerFactory, tpl, containerHelper, PortableElement, instanciator, commonPciRenderer, imsPciRenderer, qtiCustomInteractionContext, util, ciRegistry){
     'use strict';
 
-    var logger = loggerFactory('taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction');
-
     var _setPciModel = function _setPciModel(interaction, runtime){
         var pciRenderer;
         if(runtime.model === 'IMSPCI'){
@@ -104,6 +102,12 @@ define([
                             state: state,
                             assetManager: assetManager
                         });
+                        //forward internal PCI event responseChange
+                        if(_.isFunction(pci.on)){
+                            interaction.onPci('responseChange', function(){
+                                containerHelper.triggerResponseChangeEvent(interaction);
+                            });
+                        }
                         return resolve();
                     }
                     return reject('Unable to initialize pci "' + id + '"');
