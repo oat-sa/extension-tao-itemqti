@@ -84,8 +84,6 @@ class QtiCreator extends tao_actions_CommonModule
                 'label'	=> $item->getLabel(),
                 'uri' 	=> $item->getUri()
             );
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->trigger(new ResourceUpdated($item));
         } else {
             $response = false;
         }
