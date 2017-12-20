@@ -18,6 +18,7 @@
 
 namespace oat\taoQtiItem\controller;
 
+use oat\tao\model\TaoOntology;
 use \Request;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\ItemModel;
@@ -61,7 +62,7 @@ class RestQtiItem extends AbstractRestQti
      */
     protected function getDestinationClass()
     {
-        return $this->getClassFromRequest(new \core_kernel_classes_Class(TAO_ITEM_CLASS));
+        return $this->getClassFromRequest(new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI));
     }
 
     /**
@@ -281,7 +282,7 @@ class RestQtiItem extends AbstractRestQti
     public function createClass()
     {
         try {
-            $class = $this->createSubClass(new \core_kernel_classes_Class(TAO_ITEM_CLASS));
+            $class = $this->createSubClass(new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI));
 
             $result = [
                 'message' => __('Class successfully created.'),

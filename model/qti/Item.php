@@ -582,9 +582,20 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         // render and clean the xml
         $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
-        $dom->preserveWhiteSpace = false;
-        $dom->validateOnParse = false;
+
+        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('XMLParser');
+
+        if (is_array($domDocumentConfig) && !empty($domDocumentConfig)) {
+            foreach ($domDocumentConfig as $param => $value) {
+                if (property_exists($dom, $param)) {
+                    $dom->$param = $value;
+                }
+            }
+        } else {
+            $dom->formatOutput = true;
+            $dom->preserveWhiteSpace = false;
+            $dom->validateOnParse = false;
+        }
 
         if($dom->loadXML($qti)){
             $returnValue = $dom->saveXML();

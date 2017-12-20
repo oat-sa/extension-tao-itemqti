@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,26 +15,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- *
+ * Copyright (c) 2017 Open Assessment Technologies, S.A.
  */
 
-namespace oat\taoQtiItem\model\qti\metadata\ontology;
+namespace oat\taoQtiItem\install\scripts;
 
-use oat\generis\model\OntologyRdfs;
-use oat\taoQtiItem\model\qti\metadata\extractors\ontology\LiteralPropertyExtractor;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\ValidationService;
 
-class LomExtractor extends OntologyMetadataExtractor
+class setXMLParserConfig extends \common_ext_action_InstallAction
 {
-    public function __construct()
+    public function __invoke($params)
     {
-        $this->addRule(new LiteralPropertyExtractor(array(
-                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-            ),
-            OntologyRdfs::RDFS_LABEL
-        ));
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
+        $ext->setConfig('XMLParser', [
+            'preserveWhiteSpace' => false,
+            'formatOutput'       => true,
+            'validateOnParse'    => false,
+        ]);
+
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'XML Parser config has been succesfully set up');
     }
 }
