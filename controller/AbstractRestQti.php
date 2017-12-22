@@ -21,20 +21,18 @@
 
 namespace oat\taoQtiItem\controller;
 
-use oat\tao\model\TaskQueueActionTrait;
-use oat\oatbox\task\Task;
+use oat\taoTaskQueue\model\Entity\TaskLogEntity;
+use oat\taoTaskQueue\model\TaskLogActionTrait;
 
 /**
  * Class AbstractRestQti
  * @package oat\taoQtiItem\controller
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
+ * @author Gyula Szucs <gyula@taotesting.com>
  */
 abstract class AbstractRestQti extends \tao_actions_RestController
 {
-    use TaskQueueActionTrait {
-        getTask as parentGetTask;
-        getTaskData as traitGetTaskData;
-    }
+    use TaskLogActionTrait;
 
     const TASK_ID_PARAM = 'id';
 
@@ -46,6 +44,13 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     );
 
     /**
+     * Name of the task created by the child.
+     *
+     * @return string
+     */
+    abstract protected function getTaskName();
+
+    /**
      * Action to retrieve test import status from queue
      */
     public function getStatus()
@@ -54,7 +59,12 @@ abstract class AbstractRestQti extends \tao_actions_RestController
             if (!$this->hasRequestParameter(self::TASK_ID_PARAM)) {
                 throw new \common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
             }
-            $data = $this->getTaskData($this->getRequestParameter(self::TASK_ID_PARAM));
+
+            $data = $this->getTaskLogReturnData(
+                $this->getRequestParameter(self::TASK_ID_PARAM),
+                $this->getTaskName()
+            );
+
             $this->returnSuccess($data);
         } catch (\Exception $e) {
             $this->returnFailure($e);
@@ -62,60 +72,19 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     }
 
     /**
-     * @param Task $taskId
-     * @return Task
-     * @throws \common_exception_BadRequest
-     */
-    protected function getTask($taskId)
-    {
-        $task = $this->parentGetTask($taskId);
-        if ($task->getInvocable() !== static::IMPORT_TASK_CLASS) {
-            throw new \common_exception_BadRequest("Wrong task type");
-        }
-        return $task;
-    }
-
-    /**
-     * @param Task $task
+     * Return 'Success' instead of 'Completed', required by the specified API.
+     *
+     * @param TaskLogEntity $taskLogEntity
      * @return string
      */
-    protected function getTaskStatus(Task $task)
+    protected function getTaskStatus(TaskLogEntity $taskLogEntity)
     {
-        $report = $task->getReport();
-        if (in_array(
-            $task->getStatus(),
-            [Task::STATUS_CREATED, Task::STATUS_RUNNING, Task::STATUS_STARTED])
-        ) {
-            $result = 'In Progress';
-        } else if ($report) {
-            $report = \common_report_Report::jsonUnserialize($report);
-            $plainReport = $this->getPlainReport($report);
-            $success = true;
-            foreach ($plainReport as $r) {
-                $success = $success && $r->getType() != \common_report_Report::TYPE_ERROR;
-            }
-            $result = $success ? 'Success' : 'Failed';
+        if ($taskLogEntity->getStatus()->isCreated()) {
+            return 'In Progress';
+        } else if ($taskLogEntity->getStatus()->isCompleted()){
+            return 'Success';
         }
-        return $result;
-    }
 
-    /**
-     * @param Task $task
-     * @return array
-     */
-    protected function getTaskReport(Task $task)
-    {
-        $report = \common_report_Report::jsonUnserialize($task->getReport());
-        $result = [];
-        if ($report) {
-            $plainReport = $this->getPlainReport($report);
-            foreach ($plainReport as $r) {
-                $result[] = [
-                    'type' => $r->getType(),
-                    'message' => $r->getMessage(),
-                ];
-            }
-        }
-        return $result;
+        return $taskLogEntity->getStatus()->getLabel();
     }
 }
