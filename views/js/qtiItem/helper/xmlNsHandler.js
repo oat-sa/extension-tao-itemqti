@@ -22,6 +22,14 @@
 define([], function(){
     'use strict';
 
+    /**
+     * Elements that need to be prefixed
+     *
+     * @see http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
+     * @type {string}
+     */
+    var prefixed = 'article|aside|bdi|figure|footer|header|nav|rb|rp|rt|rtc|ruby|section';
+
 
     /**
      * Find a possibly existing prefix
@@ -31,22 +39,14 @@ define([], function(){
      * @returns {*}
      */
     function getPrefix(namespaces, html5Ns) {
-        for(var key in namespaces) {
+        var key;
+        for(key in namespaces) {
             if(namespaces[key] === html5Ns) {
                 return key;
             }
         }
         return 'qh5';
     }
-    
-
-    /**
-     * Elements that need to be prefixed
-     *
-     * @see http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
-     * @type {string}
-     */
-    var prefixed = 'article|aside|bdi|figure|footer|header|nav|rb|rp|rt|rtc|ruby|section';
 
     return {
 
@@ -90,7 +90,7 @@ define([], function(){
                     tagMatch[5]
                         ? '<' + prefix + ':' + tagMatch[3] + tagMatch[4] + '>'
                         : '</' + prefix + ':' + tagMatch[7] + '>'
-                )
+                );
             }
 
             // we found matches but no namespace has been set
@@ -104,7 +104,7 @@ define([], function(){
                 'xsi:schemaLocation="' + imsXsd + '/imsqti_v2p1 imsqti_v2p1.xsd"',
                 'xsi:schemaLocation="' + imsXsd + '/imsqti_v2p2 ' + imsXsd + '/qti/qtiv2p2/imsqti_v2p2.xsd"'
             );
-            
+
             return xml;
         }
     };

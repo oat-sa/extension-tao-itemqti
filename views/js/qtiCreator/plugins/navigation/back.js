@@ -28,9 +28,8 @@ define([
     'i18n',
     'core/plugin',
     'ui/hider',
-    'layout/section',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
-], function($, __, pluginFactory, hider, section, buttonTpl){
+], function($, __, pluginFactory, hider, buttonTpl){
     'use strict';
 
     /**
@@ -49,13 +48,7 @@ define([
             var itemCreator = this.getHost();
 
             itemCreator.on('exit', function(){
-                var itemSection = section.get('manage_items');
-
-                if(itemSection){
-                    itemSection.activate();
-                } else{
-                    window.history.back();
-                }
+                window.history.back();
             });
 
             this.$element = $(buttonTpl({
