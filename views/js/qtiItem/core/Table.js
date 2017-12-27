@@ -19,9 +19,10 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/mixin/ContainerTable'
-], function(Element, Container){
+], function(_, Element, Container){
     'use strict';
 
     var Table = Element.extend({
@@ -29,6 +30,18 @@ define([
     });
 
     Container.augment(Table);
+
+    Table = Table.extend({
+        // on table creation, we might get a body wrapped in a table element, that we need to get rid of
+        body: function(newBody) {
+            if (_.isString(newBody)) {
+                newBody = newBody
+                    .replace('<table>', '')
+                    .replace('</table>', '');
+            }
+            return this._super(newBody);
+        }
+    });
 
     return Table;
 });

@@ -190,9 +190,20 @@ class Authoring
         $errors = array();
         
         $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
-        $dom->preserveWhiteSpace = false;
-        $dom->validateOnParse = false;
+
+        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('XMLParser');
+
+        if (is_array($domDocumentConfig) && !empty($domDocumentConfig)) {
+            foreach ($domDocumentConfig as $param => $value) {
+                if (property_exists($dom, $param)) {
+                    $dom->$param = $value;
+                }
+            }
+        } else {
+            $dom->formatOutput = true;
+            $dom->preserveWhiteSpace = false;
+            $dom->validateOnParse = false;
+        }
         
         libxml_use_internal_errors(true);
         

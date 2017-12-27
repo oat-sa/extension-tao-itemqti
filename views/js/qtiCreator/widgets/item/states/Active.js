@@ -17,28 +17,19 @@
  *
  */
 define([
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement'
-], function(stateFactory, Active, formTpl, formElement){
-    
+], function(_, stateFactory, Active, formTpl, formElement){
     'use strict';
-    
-    var ItemStateActive = stateFactory.create(Active, function(){
 
-        this.initForm();
-
-    }, function(){
-
-    });
-
-    ItemStateActive.prototype.initForm = function(){
-
-        var _widget = this.widget,
-            item = _widget.element,
-            $form = _widget.$form,
-            areaBroker = this.widget.getAreaBroker();
+    var ItemStateActive = stateFactory.create(Active, function enterActiveState(){
+        var _widget = this.widget;
+        var item = _widget.element;
+        var $form = _widget.$form;
+        var areaBroker = this.widget.getAreaBroker();
 
         //build form:
         $form.html(formTpl({
@@ -49,7 +40,7 @@ define([
             'xml:lang' : item.attr('xml:lang'),
             languagesList : item.data('languagesList')
         }));
-        
+
         //init widget
         formElement.initWidget($form);
 
@@ -58,12 +49,13 @@ define([
             identifier : formElement.getAttributeChangeCallback(),
             title : function titleChange(i, title){
                 item.attr('title', title);
-                areaBroker.getTitleArea().html(title);
+                areaBroker.getTitleArea().text(item.attr('title'));
             },
             timeDependent : formElement.getAttributeChangeCallback(),
             'xml:lang' : formElement.getAttributeChangeCallback()
         });
-    };
+
+    }, _.noop);
 
     return ItemStateActive;
 });

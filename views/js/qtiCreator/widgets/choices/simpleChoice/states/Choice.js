@@ -20,11 +20,17 @@ define([
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/choice',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/helpers/identifier'
-], function(stateFactory, Choice, formTpl, formElement, identifierHelper){
+    'taoQtiItem/qtiCreator/widgets/helpers/identifier',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content'
+], function(stateFactory, Choice, formTpl, formElement, identifierHelper, htmlEditor, contentHelper){
     'use strict';
 
-    var SimpleChoiceStateChoice = stateFactory.extend(Choice);
+    var SimpleChoiceStateChoice = stateFactory.extend(Choice, function(){
+        this.buildEditor();
+    }, function(){
+        this.destroyEditor();
+    });
 
     SimpleChoiceStateChoice.prototype.initForm = function(){
 
@@ -43,6 +49,32 @@ define([
             identifier : identifierHelper.updateChoiceIdentifier
         });
     };
+
+    SimpleChoiceStateChoice.prototype.buildEditor = function(){
+
+        var _widget = this.widget,
+            container = _widget.element.getBody(),
+            $editableContainer = _widget.$container;
+
+        $editableContainer.attr('data-html-editable-container', true);
+
+        if(!htmlEditor.hasEditor($editableContainer)){
+
+            htmlEditor.buildEditor($editableContainer, {
+                change : contentHelper.getChangeCallback(container),
+                data : {
+                    container : container,
+                    widget : _widget
+                }
+            });
+        }
+    };
+
+    SimpleChoiceStateChoice.prototype.destroyEditor = function(){
+        //search and destroy the editor
+        htmlEditor.destroyEditor(this.widget.$container);
+    };
+
 
     return SimpleChoiceStateChoice;
 });

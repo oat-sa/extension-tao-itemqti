@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\flyExporter\simpleExporter;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\flyExporter\extractor\Extractor;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 
@@ -279,7 +280,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function getDefaultUriClass()
     {
-        return TAO_ITEM_CLASS;
+        return TaoOntology::ITEM_CLASS_URI;
     }
 
     /**

@@ -21,8 +21,9 @@ define([
     'lodash',
     'class',
     'taoQtiItem/qtiItem/core/qtiClasses',
-    'taoQtiItem/qtiItem/core/Element'
-], function(_, Class, qtiClasses, Element){
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/xmlNsHandler'
+], function(_, Class, qtiClasses, Element, xmlNsHandler){
     'use strict';
 
     var Loader = Class.extend({
@@ -269,7 +270,7 @@ define([
                         bodyObject.setElement(element, bodyData.body);
                     }
                 }
-                bodyObject.body(bodyData.body);
+                bodyObject.body(xmlNsHandler.stripNs(bodyData.body));
             }else{
                 throw 'wrong bodydata format';
             }
@@ -421,9 +422,26 @@ define([
         portableElement.typeIdentifier = data.typeIdentifier;
         portableElement.markup = data.markup;
         portableElement.entryPoint = data.entryPoint;
-        portableElement.properties = data.properties;
         portableElement.libraries = data.libraries;
         portableElement.setNamespace('', data.xmlns);
+
+        loadPortableCustomElementProperties(portableElement, data.properties);
+    }
+
+    /**
+     * If a property is given as a serialized JSON object, parse it directly to a JS object
+     */
+    function loadPortableCustomElementProperties(portableElement, rawProperties) {
+        var properties = {};
+
+        _.forOwn(rawProperties, function(value, key) {
+            try {
+                properties[key] = JSON.parse(value);
+            } catch (e) {
+                properties[key] = value;
+            }
+        });
+        portableElement.properties = properties;
     }
 
     return Loader;

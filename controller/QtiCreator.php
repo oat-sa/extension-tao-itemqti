@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\controller;
 
 use common_exception_Error;
 use core_kernel_classes_Resource;
+use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\TaoOntology;
@@ -170,6 +171,8 @@ class QtiCreator extends tao_actions_CommonModule
                 try {
                     Authoring::checkEmptyMedia($xml);
                     $returnValue['success'] = $itemService->saveXmlItemToRdfItem($xml, $rdfItem);
+                    $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+                    $eventManager->trigger(new ResourceUpdated($rdfItem));
                 } catch (QtiModelException $e) {
                     $returnValue = array(
                         'success' => false,

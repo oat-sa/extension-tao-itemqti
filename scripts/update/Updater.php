@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use League\Flysystem\Adapter\Local;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
@@ -189,7 +190,7 @@ class Updater extends \common_ext_ExtensionUpdater
                         'label' => array (
                             'extractor' => 'OntologyExtractor',
                             'parameters' => array (
-                                'property' => RDFS_LABEL
+                                'property' => OntologyRdfs::RDFS_LABEL
                             )
                         ),
                         'type' => array (
@@ -473,7 +474,18 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('10.7.0');
         }
 
-        $this->skip('10.7.0', '11.2.0');
+        $this->skip('10.7.0', '11.3.0');
 
+        if ($this->isVersion('11.3.0')) {
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $ext->setConfig('XMLParser', [
+                'preserveWhiteSpace' => false,
+                'formatOutput'       => true,
+                'validateOnParse'    => false,
+            ]);
+            $this->setVersion('11.4.0');
+        }
+
+        $this->skip('11.4.0', '12.3.0');
     }
 }

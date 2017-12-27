@@ -67,7 +67,7 @@ define(['jquery'], function($) {
          * @returns {boolean}
          */
         function isQtiElement(node) {
-            return node.className && node.className.indexOf('qti-choice') > -1;
+            return node.className && (node.className.indexOf('qti-choice') > -1 || node.className.indexOf('_tooltip') > -1);
         }
 
         /**

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:originalPrefix="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="choice" title="出身地" label="出身地" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.3.0-sprint65">
+    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
+        <correctResponse>
+            <value><![CDATA[ChoiceHK]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <p>村田<originalPrefix:ruby><originalPrefix:rb>真</originalPrefix:rb><originalPrefix:rt>まこと</originalPrefix:rt></originalPrefix:ruby>の出身地はどこですか</p>
+            </div>
+        </div>
+    </itemBody>
+</assessmentItem>

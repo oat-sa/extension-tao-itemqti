@@ -71,7 +71,7 @@ class MetadataExporter extends AbstractMetadataService
     /**
      * Allow to register, into the config, the current exporter service
      */
-    protected function registerService()
+    protected function registerMetadataService()
     {
         $metadataService = $this->getServiceLocator()->get(MetadataService::SERVICE_ID);
         $metadataService->setOption(MetadataService::EXPORTER_KEY, $this);

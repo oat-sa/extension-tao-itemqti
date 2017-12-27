@@ -1,7 +1,7 @@
 <div {{#if attributes.id}}id="{{attributes.id}}"{{/if}} class="qti-interaction qti-blockInteraction qti-orderInteraction{{#if horizontal}} qti-horizontal{{else}} qti-vertical{{/if}}{{#if attributes.class}} {{attributes.class}}{{/if}}"
      data-serial="{{serial}}"
      data-qti-class="orderInteraction"
-     data-orientation="{{#if horizontal}}horizontal{{else}}vertical{{/if}}">
+     data-orientation="{{#if horizontal}}horizontal{{else}}vertical{{/if}}"{{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}>
     {{#if prompt}}{{{prompt}}}{{/if}}
     <div class="instruction-container"></div>
     <div class="order-interaction-area">

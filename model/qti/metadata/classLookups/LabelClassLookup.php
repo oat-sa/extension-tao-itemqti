@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\classLookups;
 
+use oat\generis\model\OntologyRdfs;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 
 /**
@@ -40,13 +41,13 @@ class LabelClassLookup implements MetadataClassLookup {
             
             $path = $metadataValue->getPath();
             $expectedPath = array(
-                RDFS_LABEL
+                OntologyRdfs::RDFS_LABEL
             );
             
             if ($path === $expectedPath) {
                 // Check for such a value in database...
-                $prop = new \core_kernel_classes_Property(RDFS_LABEL);
-                $class = new \core_kernel_classes_Class(RDFS_CLASS);
+                $prop = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
+                $class = new \core_kernel_classes_Class(OntologyRdfs::RDFS_CLASS);
                 $instances = $class->searchInstances(array($prop->getUri() => $metadataValue->getValue()), array('like' => false, 'recursive' => true));
                 
                 if (count($instances) > 0) {

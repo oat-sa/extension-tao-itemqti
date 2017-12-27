@@ -25,41 +25,12 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function(_, stateFactory, Question, formTpl, formElement, identifierHelper, htmlEditor, contentHelper){
+], function(_, stateFactory, Question){
     'use strict';
 
-    var SimpleChoiceStateChoice = stateFactory.extend(Question, function(){
-        this.buildEditor();
-    }, function(){
-        this.destroyEditor();
-    });
+    var SimpleChoiceStateQuestion = stateFactory.extend(Question);
 
-    SimpleChoiceStateChoice.prototype.initForm = _.noop();
-    
-    SimpleChoiceStateChoice.prototype.buildEditor = function(){
+    SimpleChoiceStateQuestion.prototype.initForm = _.noop();
 
-        var _widget = this.widget,
-            container = _widget.element.getBody(),
-            $editableContainer = _widget.$container;
-
-        $editableContainer.attr('data-html-editable-container', true);
-
-        if(!htmlEditor.hasEditor($editableContainer)){
-            
-            htmlEditor.buildEditor($editableContainer, {
-                change : contentHelper.getChangeCallback(container),
-                data : {
-                    container : container,
-                    widget : _widget
-                }
-            });
-        }
-    };
-
-    SimpleChoiceStateChoice.prototype.destroyEditor = function(){
-        //search and destroy the editor
-        htmlEditor.destroyEditor(this.widget.$container);
-    };
-
-    return SimpleChoiceStateChoice;
+    return SimpleChoiceStateQuestion;
 });
