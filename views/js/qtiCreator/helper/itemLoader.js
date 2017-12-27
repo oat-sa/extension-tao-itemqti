@@ -65,6 +65,11 @@ define([
                             loadedItem.setNamespaces(namespaces);
                             loadedItem.setSchemaLocations(qtiSchemaLocation);
 
+                            //add languages list to the item
+                            if (data.languagesList) {
+                                loadedItem.data('languagesList', data.languagesList);
+                            }
+
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     }else{
@@ -85,6 +90,11 @@ define([
 
                         //tag the item as a new one
                         newItem.data('new', true);
+
+                        //add languages list to the item
+                        if (data.languagesList) {
+                            newItem.data('languagesList', data.languagesList);
+                        }
 
                         callback(newItem);
                     }
