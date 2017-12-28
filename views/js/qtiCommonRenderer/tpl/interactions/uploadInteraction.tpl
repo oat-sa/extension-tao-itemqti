@@ -1,4 +1,4 @@
-<div class="qti-interaction qti-blockInteraction qti-uploadInteraction" data-serial="{{serial}}">
+<div class="qti-interaction qti-blockInteraction qti-uploadInteraction" data-serial="{{serial}}"{{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}>
 	{{#if prompt}}{{{prompt}}}{{/if}}
 	<div class="instruction-container"></div>
     <div class="file-upload fixed-grid-row lft">

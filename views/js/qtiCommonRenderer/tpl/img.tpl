@@ -7,4 +7,5 @@
     {{#if attributes.class}}class="{{attributes.class}}"{{/if}}
     {{#if attributes.height}}height="{{attributes.height}}" {{/if}}
     {{#if attributes.width}}width="{{attributes.width}}" {{/if}}
+    {{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}
     />
