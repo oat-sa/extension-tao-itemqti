@@ -81,6 +81,7 @@ define([
      * @param {String} [options.removePlugins] - a coma-separated plugin list that should not be loaded
      * @param {Object} [options.metadata] - some metadata to attach to the root element (ex: { myDataName: 'myDataValue' })
      * @param {Boolean} [options.resetRenderer] - force resetting the renderer
+     * @param {Boolean} [options.autofocus] - automatically focus the editor
      * @returns {undefined}
      */
     function create($container, options){
@@ -159,7 +160,8 @@ define([
                     qtiMedia : options.qtiMedia,
                     highlight : options.highlight,
                     removePlugins : options.removePlugins || '',
-                    areaBroker : options.areaBroker
+                    areaBroker : options.areaBroker,
+                    autofocus : options.autofocus || false
                 });
 
                 $container
