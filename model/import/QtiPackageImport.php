@@ -67,7 +67,7 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
      * @param \core_kernel_classes_Class $class
-     * @param \tao_helpers_form_Form $form
+     * @param \tao_helpers_form_Form|array $form
      * @return common_report_Report
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
@@ -75,21 +75,17 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
      */
     public function import($class, $form)
     {
-        $fileInfo = $form->getValue('source');
-        $rollbackInfo = $form->getValue('rollback');
-
-        if (isset($fileInfo['uploaded_file'])) {
-
+        if (isset($form['fly_file'])) {
             /** @var  UploadService $uploadService */
             $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-            $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
+            $uploadedFile = $uploadService->getUploadDir()->getFile($form['fly_file']);
 
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);	//the zip extraction is a long process that can exced the 30s timeout
 
             try {
                 $importService = ImportService::singleton();
-                $rollbackOnError = in_array('error', $rollbackInfo);
-                $rollbackOnWarning = in_array('warning', $rollbackInfo);
+                $rollbackOnError = in_array('error', $form['rollback']);
+                $rollbackOnWarning = in_array('warning', $form['rollback']);
                 $report = $importService->importQTIPACKFile($uploadedFile, $class, true, $rollbackOnError, $rollbackOnWarning);
             } catch (ExtractException $e) {
                 $report = common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
@@ -100,12 +96,12 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
             }
 
             helpers_TimeOutHelper::reset();
-            $uploadService->remove($uploadService->getUploadedFlyFile($fileInfo['uploaded_file']));
+
+            $uploadService->remove($uploadedFile);
+
+            return $report;
         } else {
             throw new common_exception_Error('No source file for import');
         }
-        return $report;
     }
-
-
 }

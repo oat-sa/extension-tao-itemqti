@@ -68,7 +68,7 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
      * @param \core_kernel_classes_Class $class
-     * @param \tao_helpers_form_Form $form
+     * @param \tao_helpers_form_Form|array $form
      * @return common_report_Report
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
@@ -76,14 +76,11 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
      */
     public function import($class, $form)
     {
-
-        $fileInfo = $form->getValue('source');
-
-        if (isset($fileInfo['uploaded_file'])) {
+        if (isset($form['fly_file'])) {
 
             /** @var  UploadService $uploadService */
             $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-            $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
+            $uploadedFile = $uploadService->getUploadDir()->getFile($form['fly_file']);
 
             try {
                 $importService = ImportService::singleton();
@@ -98,11 +95,11 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
                 $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the QTI Item. The system returned the following error:", $e->getMessage()));
             }
 
-            $uploadService->remove($uploadService->getUploadedFlyFile($fileInfo['uploaded_file']));
+            $uploadService->remove($uploadedFile);
+
+            return $report;
         } else {
             throw new common_exception_Error('No source file for import');
         }
-        
-        return $report;
     }
 }

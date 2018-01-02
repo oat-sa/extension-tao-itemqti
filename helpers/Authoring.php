@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\helpers;
 //use oat\taoQtiItem\helpers\Authoring;
 use common_Logger;
 use DOMDocument;
+use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Parser;
 use \core_kernel_classes_Resource;
@@ -168,20 +169,24 @@ class Authoring
 
         return $doc->saveXML();
     }
-    
+
     /**
-     * Load QTI xml and return DOMDocument instance. 
+     * Load QTI xml and return DOMDocument instance.
      * If string is not valid xml then QtiModelException will be thrown.
-     * @param string $file File path or XML string
-     * @throws QtiModelException
-     * @throws common_exception_Error
+     *
+     * @param string|File $file If it's a string it can be a file path or an XML string
      * @return DOMDocument
+     * @throws QtiModelException
+     * @throws \common_ext_ExtensionException
+     * @throws common_exception_Error
      */
     public static function loadQtiXml($file) 
     {
-        if (preg_match("/^<\?xml(.*)?/m", trim($file))) {
+        if ($file instanceof File) {
+            $qti = $file->read();
+        } elseif (preg_match("/^<\?xml(.*)?/m", trim($file))) {
             $qti = $file;
-        } elseif (is_file($file)){
+        } elseif (is_file($file)) {
             $qti = file_get_contents($file);
         } else {
             throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got ".substr($file, 0, 500));
