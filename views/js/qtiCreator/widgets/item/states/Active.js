@@ -36,7 +36,9 @@ define([
             serial : item.getSerial(),
             identifier : item.id(),
             title : item.attr('title'),
-            timeDependent : !!item.attr('timeDependent')
+            timeDependent : !!item.attr('timeDependent'),
+            'xml:lang' : item.attr('xml:lang'),
+            languagesList : item.data('languagesList')
         }));
 
         //init widget
@@ -49,7 +51,8 @@ define([
                 item.attr('title', title);
                 areaBroker.getTitleArea().text(item.attr('title'));
             },
-            timeDependent : formElement.getAttributeChangeCallback()
+            timeDependent : formElement.getAttributeChangeCallback(),
+            'xml:lang' : formElement.getAttributeChangeCallback()
         });
 
     }, _.noop);
