@@ -46,6 +46,7 @@ class ExporterAction extends ConfigurableService implements Action
         try {
             \common_ext_ExtensionsManager::singleton()->getExtensionById('taoItems');
 
+            /** @var SimpleExporter $exporterService */
             $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
 
             $uri = isset($params[0]) ? $params[0] : null;

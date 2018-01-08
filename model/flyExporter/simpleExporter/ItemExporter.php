@@ -29,7 +29,6 @@ use oat\taoQtiItem\model\flyExporter\extractor\Extractor;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 
 /**
- *
  * Class ItemExporter
  * @package oat\taoQtiItem\model\flyExporter\simpleExporter
  */
@@ -84,18 +83,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected $extractors = [];
 
-    /**
-     * Fileystem File to manage exported file storage
-     *
-     * @var File
-     */
-    protected $exportFile;
-
     public function __construct(array $options)
     {
         parent::__construct($options);
 
-        if (! $this->hasOption('fileLocation')) {
+        if (! $this->hasOption(self::OPTION_FILE_LOCATION)) {
             throw new ExtractorException('File location config is not correctly set.');
         }
 
@@ -231,7 +223,12 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             }
         }
 
-        $file = $this->getExportFile();
+        /** @var File $file */
+        $file = $this->getServiceManager()
+            ->get(FileSystemService::SERVICE_ID)
+            ->getDirectory(self::EXPORT_FILESYSTEM)
+            ->getFile($this->getOption(self::OPTION_FILE_LOCATION));
+
         $file->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
         return $asFile ? $file : $file->getPrefix();
     }
@@ -244,22 +241,6 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     public function getHeaders()
     {
         return $this->headers;
-    }
-
-    /**
-     * Get the file from config
-     *
-     * @return File
-     */
-    protected function getExportFile()
-    {
-        if (! $this->exportFile) {
-            $this->exportFile = $this->exportFile = $this->getServiceManager()
-                ->get(FileSystemService::SERVICE_ID)
-                ->getDirectory(self::EXPORT_FILESYSTEM)
-                ->getFile($this->getOption('fileLocation'));
-        }
-        return $this->exportFile;
     }
 
     /**

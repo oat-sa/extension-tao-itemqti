@@ -33,13 +33,16 @@ interface SimpleExporter
 {
     const SERVICE_ID = 'taoQtiItem/simpleExporter';
 
+    const OPTION_FILE_LOCATION = 'fileLocation';
+
     /**
      * Main action to launch export
      *
      * @param \core_kernel_classes_Resource[] $items
-     * @return mixed
+     * @param bool                            $asFile
+     * @return File|string
      */
-    public function export(array $items = null);
+    public function export(array $items = null, $asFile = false);
 
     /**
      * Extract data from items

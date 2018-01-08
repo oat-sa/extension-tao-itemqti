@@ -20,20 +20,23 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use common_report_Report as Report;
 use core_kernel_classes_Resource;
+use oat\generis\model\fileReference\UrlFileSerializer;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\File;
-use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemModel;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class ItemMetadataByClassExportHandler implements \tao_models_classes_export_ExportHandler, PhpSerializable
+class ItemMetadataByClassExportHandler implements \tao_models_classes_export_ExportHandler, PhpSerializable, ServiceLocatorAwareInterface
 {
-    use OntologyAwareTrait, PhpSerializeStateless;
+    use OntologyAwareTrait, PhpSerializeStateless, ServiceLocatorAwareTrait;
 
     /**
      * Get label form
@@ -63,34 +66,55 @@ class ItemMetadataByClassExportHandler implements \tao_models_classes_export_Exp
     }
 
     /**
-     * After form submitting, export data & output file
-     *
      * @param array $formValues
-     * @param string $destPath
-     * @return \common_report_Report|void
-     * @throws \common_Exception
+     * @param string $destination
+     * @return \common_report_Report|File
+     * @throws \Exception
      * @throws \common_exception_BadRequest
      */
-    public function export($formValues, $destPath)
+    public function export($formValues, $destination)
     {
+        $report = Report::createInfo();
+
         if (isset($formValues['filename']) && isset($formValues['classUri'])) {
             $classToExport = $this->getClassToExport($formValues['classUri']);
 
             if ($classToExport->exists()) {
                 try {
+                    $fileName = $formValues['filename'].'_'.time().'.csv';
+                    if(!\tao_helpers_File::securityCheck($fileName, true)){
+                        throw new \Exception('Unauthorized file name');
+                    }
+
                     /** @var ItemExporter $exporterService */
-                    $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
-                    $this->output(
-                        $exporterService->export($this->getInstances($classToExport), true),
-                        $formValues['filename']
-                    );
+                    $exporterService = $this->getServiceLocator()->get(SimpleExporter::SERVICE_ID);
+                    $exporterService->setOption(SimpleExporter::OPTION_FILE_LOCATION, 'metadataExport/'. $fileName);
+
+                    $file = $exporterService->export($this->getInstances($classToExport), true);
+
+                    $uriSerializer = new UrlFileSerializer();
+                    $uriSerializer->setServiceLocator($this->getServiceLocator());
+
+                    $serial = $uriSerializer->serialize($file);
+
+                    $report->setData($serial);
+                    $report->setType(Report::TYPE_SUCCESS);
+                    $report->setMessage(__('Metadata are successfully exported.'));
                 } catch (ExtractorException $e) {
-                    return \common_report_Report::createFailure('Selected object does not have any item to export.');
+                    $report = Report::createFailure('Selected object does not have any item to export.');
                 }
+            }
+        } else {
+            if (!isset($formValues['filename'])) {
+                $report->add(Report::createFailure('Missing filename for export using ' . __CLASS__));
+            }
+
+            if (!isset($formValues['classUri'])) {
+                $report->add(Report::createFailure('Missing classUri for export using ' . __CLASS__));
             }
         }
 
-        return;
+        return $report;
     }
 
     protected function getInstances($classToExport)
@@ -103,17 +127,6 @@ class ItemMetadataByClassExportHandler implements \tao_models_classes_export_Exp
             }
         }
         return $instances;
-    }
-
-    /**
-     * @param File $file
-     * @param string $exportFileName Name of the exported file
-     * @throws \common_Exception
-     */
-    protected function output(File $file, $exportFileName)
-    {
-        header('Content-Disposition: attachment; filename="'. $exportFileName .'.csv"');
-        \tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
     }
 
     /**
@@ -135,13 +148,5 @@ class ItemMetadataByClassExportHandler implements \tao_models_classes_export_Exp
         }
 
         return $classToExport;
-    }
-
-    /**
-     * @return ServiceManager
-     */
-    protected function getServiceManager()
-    {
-        return ServiceManager::getServiceManager();
     }
 }

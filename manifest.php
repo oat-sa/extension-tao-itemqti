@@ -37,7 +37,7 @@ return array(
     'requires' => array(
         'taoItems' => '>=4.2.4',
         'tao'      => '>=14.17.0',
-        'taoTaskQueue' => '>=0.13.1'
+        'taoTaskQueue' => '>=0.14.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
