@@ -173,7 +173,7 @@ define([
 
                 _.delay(function(){
                     assert.ok($gap.hasClass('filled'), 'The gap is now filled');
-                    assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
+                    assert.equal($gap.text().trim(), 'authoring tool', 'The gap contains the choice text');
 
                     QUnit.start();
                 }, 10);
@@ -245,7 +245,7 @@ define([
                     interactUtils.tapOn($gap, function(){
 
                         assert.ok($gap.hasClass('filled'), 'The gap is now filled');
-                        assert.equal($gap.text(), 'authoring tool', 'The gap contains the choice text');
+                        assert.equal($gap.text().trim(), 'authoring tool', 'The gap contains the choice text');
 
                         interactUtils.tapOn($gap, function() {
                             var interaction;
