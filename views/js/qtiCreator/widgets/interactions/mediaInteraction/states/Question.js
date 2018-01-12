@@ -13,8 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technlogies SA
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  */
 
 /**
@@ -30,6 +29,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'ui/resourcemgr',
+    'ui/mediasizer',
     'ui/tooltip'
 ], function($, _, __, stateFactory, Question, formElement, formTpl){
     'use strict';
@@ -65,7 +65,6 @@ define([
          */
         var reRender = _.debounce(function reRender(){
             interaction.attr('responseIdentifier', interaction.attr('responseIdentifier'));
-
             widget.destroyInteraction();
             widget.renderInteraction();
         }, 1000);
@@ -167,17 +166,33 @@ define([
             loop:      !!interaction.attr('loop'),
             maxPlays:  parseInt(interaction.attr('maxPlays'), 10),
             pause:     interaction.hasClass('pause'),
-            //tpl data for the "object", this part is going to be reused by the "objectWidget", http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
+            // tpl data for the "object", this part is going to be reused by the "objectWidget"
+            // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
             data:      interaction.object.attr('data'),
             type:      interaction.object.attr('type'), //use the same as the uploadInteraction, contact jerome@taotesting.com for this
             width:     interaction.object.attr('width'),
             height:    interaction.object.attr('height')
-
         }));
 
         formElement.initWidget($form);
 
         $heightContainer = $('.height-container', $form);
+
+        // Initialize MediaSizer
+        $form.find('.media-sizer-panel').on('sizechange.mediasizer', function() {
+            $(this).find('input').trigger('change');
+        }).mediasizer({
+            showResponsiveToggle: false,
+            showSync: false,
+            showReset: false,
+            responsive: false,
+            applyToMedium: false,
+            width: interaction.object.attr('width'),
+            height: interaction.object.attr('height'),
+            minWidth: 50,
+            maxWidth: $container.innerWidth()
+        });
+
 
         switchMode();
 
@@ -238,7 +253,8 @@ define([
                         switchToVideo();
                     }
 
-                    if(interaction.object && (!interaction.object.attr('width') || parseInt(interaction.object.attr('width'), 10) <= 0)){
+                    if(interaction.object && (!interaction.object.attr('width')
+                            || parseInt(interaction.object.attr('width'), 10) <= 0)){
                         interaction.object.attr('width', widget.$original.innerWidth());
                     }
 
@@ -247,7 +263,9 @@ define([
             }
         };
 
-        formElement.setChangeCallbacks($form, interaction, callbacks, {invalidate : true});
+        formElement.setChangeCallbacks($form, interaction, callbacks, {
+            invalidate : true
+        });
 
         setUpUploader();
     };
