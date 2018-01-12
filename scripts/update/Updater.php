@@ -32,6 +32,7 @@ use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\Export\Extractor\MetaDataOntologyExtractor;
 use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
@@ -487,5 +488,17 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('11.4.0', '12.5.0');
+
+        if ($this->isVersion('12.5.0')) {
+            $assetBlacklistService = new QtiItemCompilerAssetBlacklist([
+                QtiItemCompilerAssetBlacklist::BLACKLIST => [
+                    '/^https?:\/\/(www\.youtube\.[a-zA-Z]*|youtu\.be)\//',
+                    '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
+                ]
+            ]);
+
+            $this->getServiceManager()->register(QtiItemCompilerAssetBlacklist::SERVICE_ID, $assetBlacklistService);
+            $this->setVersion('12.6.0');
+        }
     }
 }
