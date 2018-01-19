@@ -47,6 +47,11 @@ abstract class PortableElementExporter
         $this->qtiItemExporter = $qtiItemExporter;
     }
 
+    /**
+     * Copy the asset files of the PCI to the item exporter and return the list of copied assets
+     * @param $replacementList
+     * @return array
+     */
     abstract public function copyAssetFiles(&$replacementList);
 
     protected function removeOldNode(DOMNode $resourcesNode, $nodeName){
