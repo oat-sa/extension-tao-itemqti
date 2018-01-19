@@ -500,5 +500,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(QtiItemCompilerAssetBlacklist::SERVICE_ID, $assetBlacklistService);
             $this->setVersion('12.6.0');
         }
+
+        $this->skip('12.6.0', '12.7.0');
     }
 }
