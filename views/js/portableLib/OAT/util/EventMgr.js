@@ -2,9 +2,9 @@ define(['taoQtiItem/portableLib/lodash'], function(_){
     'use strict';
 
     return function EventMgr(){
-        
+
         var events = {};
-        
+
         this.get = function get(event){
             if(event && events[event]){
                 return _.clone(events[event]);
@@ -12,26 +12,28 @@ define(['taoQtiItem/portableLib/lodash'], function(_){
                 return [];
             }
         };
-        
-        this.on = function on(event, callback){
+
+        this.on = function on(allEvents, callback){
             var name;
-            var tokens = event.split('.');
-            if(tokens[0]){
-                name = tokens.shift();
-                events[name] = events[name] || [];
-                events[name].push({
-                    ns : tokens,
-                    callback : callback
-                });
-            }
+            allEvents.split(' ').forEach(function (event) {
+                var tokens = event.split('.');
+                if(tokens[0]){
+                    name = tokens.shift();
+                    events[name] = events[name] || [];
+                    events[name].push({
+                        ns : tokens,
+                        callback : callback
+                    });
+                }
+            });
         };
-        
+
         this.off = function off(event){
             if(event && events[event]){
                 events[event] = [];
             }
         };
-        
+
         this.trigger = function trigger(event, data){
             if(events[event]){
                 _.forEach(events[event], function(e){
