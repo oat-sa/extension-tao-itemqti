@@ -8,14 +8,9 @@
         </label>
     </div>
 
-    <div>
-        <label for="width" class="spinner">Width</label>
-        <input name="width" value="{{width}}" type="text" class="large" data-increment="1" data-min="50" data-max="1920" />
-    </div>
 
-    <div class="height-container">
-        <label for="height" class="spinner">Height</label>
-        <input name="height" value="{{height}}" type="text" class="large" data-increment="1" data-min="30" data-max="1080" />
+    <div class="panel media-sizer-panel">
+      <!-- media sizer goes here -->
     </div>
 
 </div>

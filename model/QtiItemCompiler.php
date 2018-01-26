@@ -24,6 +24,7 @@ use common_report_Report;
 use core_kernel_classes_Resource;
 use oat\oatbox\filesystem\Directory;
 use oat\taoItems\model\ItemCompilerIndex;
+use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
@@ -37,6 +38,8 @@ use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The QTI Item Compiler
@@ -45,21 +48,15 @@ use oat\taoItems\model\media\ItemMediaResolver;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoItems
  */
-class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
+class QtiItemCompiler extends taoItems_models_classes_ItemCompiler implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * instance representing the service to run the QTI item
      * @var string
      */
     const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
-    
-    /**
-     * List of regexp of media that should be excluded from retrieval
-     */
-    private static $BLACKLIST = array(
-        '/^https?:\/\/(www\.youtube\.[a-zA-Z]*|youtu\.be)\//',
-        '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
-    );
     
     /**
      * Compile qti item
@@ -237,11 +234,13 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $replacementList = array();
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
-                foreach (self::$BLACKLIST as $blacklist) {
-                    if (preg_match($blacklist, $assetUrl) === 1) {
-                        continue(2);
-                    }
+
+                /** @var QtiItemCompilerAssetBlacklist $blacklistService */
+                $blacklistService = $this->getServiceLocator()->get(QtiItemCompilerAssetBlacklist::SERVICE_ID);
+                if($blacklistService->isBlacklisted($assetUrl)){
+                    continue(2);
                 }
+
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
 

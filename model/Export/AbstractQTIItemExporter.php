@@ -4,20 +4,20 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2015 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 namespace oat\taoQtiItem\model\Export;
 
@@ -60,9 +60,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     protected $metadataExporter;
 
     abstract public function buildBasePath();
-    
+
     abstract protected function renderManifest(array $options, array $qtiItemData);
-    
+
     abstract protected function itemContentPostProcessing($content);
 
     /**
@@ -81,7 +81,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     {
         $report = \common_report_Report::createSuccess();
         $asApip = isset($options['apip']) && $options['apip'] === true;
-        
+
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $basePath = $this->buildBasePath();
 
@@ -98,6 +98,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $service->setServiceLocator(ServiceManager::getServiceManager());
 
         $portableElementsToExport = [];
+        $portableAssets = [];
 
         foreach($portableElements as $element) {
 
@@ -115,7 +116,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $portableElementExporter = $object->getModel()->getExporter($object, $this);
             $portableElementsToExport[$element->getTypeIdentifier()] = $portableElementExporter;
             try {
-                $portableElementExporter->copyAssetFiles($replacementList);
+                $portableAssets = array_merge($portableAssets, $portableElementExporter->copyAssetFiles($replacementList));
             } catch (\tao_models_classes_FileNotFoundException $e) {
                 \common_Logger::i($e->getMessage());
                 $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' .  $e->getMessage());
@@ -186,13 +187,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // Possibility to delegate (if necessary) some item content post-processing to sub-classes.
         $content = $this->itemContentPostProcessing($content);
-        
+
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
 
         if (! $report->getMessage()) {
             $report->setMessage(__('Item "%s" is ready to be exported', $this->getItem()->getLabel()));
         }
+
+        ///return some useful data to the export report
+        $report->setData(['portableAssets' => $portableAssets]);
 
         return $report;
     }
