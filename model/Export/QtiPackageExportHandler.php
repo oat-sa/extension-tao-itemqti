@@ -4,19 +4,19 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\Export;
@@ -44,7 +44,7 @@ use \common_Logger;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoQTI
- 
+
  */
 class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler, PhpSerializable
 {
@@ -62,7 +62,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
     public function getLabel() {
     	return __('QTI Package 2.1');
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_export_ExportHandler::getExportForm()
@@ -76,7 +76,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
     	$form = new Qti21ExportForm($formData);
     	return $form->getForm();
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_export_ExportHandler::export()
@@ -117,7 +117,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 						}
 					}
 				}
-				
+
 				$zipArchive->close();
 				$report->setData($path);
 			}
@@ -131,7 +131,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 		}
 		return $report;
     }
-    
+
     protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null)
     {
         return new QTIPackedItemExporter($item, $zipArchive, $manifest);
