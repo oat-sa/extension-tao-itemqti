@@ -380,10 +380,15 @@ define([
 
             // Point & click handlers
 
-            interact($container.selector).on('tap', function() {
+            interact($container.selector).on('tap', function(e) {
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
                 if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
+                    isDragAndDropEnabled = false;
                     return;
+                } else {
+                    if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
+                        isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
+                    }
                 }
 
                 _resetSelection();
@@ -394,7 +399,12 @@ define([
 
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
                 if ($target.closest('.qti-item').hasClass('prevent-click-handler')) {
+                    isDragAndDropEnabled = false;
                     return;
+                } else {
+                    if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
+                        isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
+                    }
                 }
 
                 e.stopPropagation();
@@ -407,7 +417,12 @@ define([
 
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
                 if ($target.closest('.qti-item').hasClass('prevent-click-handler')) {
+                    isDragAndDropEnabled = false;
                     return;
+                } else {
+                    if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
+                        isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
+                    }
                 }
 
                 e.stopPropagation();
@@ -418,7 +433,12 @@ define([
             interact(binSelector).on('tap', function (e) {
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
                 if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
+                    isDragAndDropEnabled = false;
                     return;
+                } else {
+                    if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
+                        isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
+                    }
                 }
 
                 e.stopPropagation();
