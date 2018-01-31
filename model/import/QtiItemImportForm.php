@@ -21,7 +21,7 @@
 
 namespace oat\taoQtiItem\model\import;
 
-use oat\tao\helpers\ApplicationHelper;
+use oat\generis\Helper\SystemHelper;
 use \tao_helpers_form_FormContainer;
 use \tao_helpers_form_xhtml_Form;
 use \tao_helpers_form_FormFactory;
@@ -76,7 +76,7 @@ class QtiItemImportForm
 		}
 		$fileElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/xml', 'application/xml', 'application/x-xml'), 'extension' => array('xml'))),
-			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => ApplicationHelper::getFileUploadLimit()))
+			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => SystemHelper::getFileUploadLimit()))
 		));
     	
 		$this->form->addElement($fileElt);
