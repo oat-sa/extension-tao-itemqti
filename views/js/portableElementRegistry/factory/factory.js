@@ -89,6 +89,15 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
         });
     };
 
+    /**
+     * Evaluate if the given object is a proper portable element provider
+     * @param {Object} provider
+     * @returns {Boolean}
+     */
+    var isPortableElementProvider = function isPortableElementProvider(provider){
+        return (provider && _.isFunction(provider.load));
+    };
+
     return function portableElementRegistry(methods){
 
         var _loaded = false;
@@ -108,8 +117,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     }
                 }
             },
-            registerProvider : function registerProvider(moduleName){
-                __providers[moduleName] = null;
+            registerProvider : function registerProvider(moduleName, provider){
+                __providers[moduleName] = isPortableElementProvider(provider) ? provider : null;
                 return this;
             },
             resetProviders : function resetProviders(){
@@ -127,7 +136,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
                     _requirejs(providerLoadingStack, function(){
                         _.each([].slice.call(arguments), function(provider){
-                            if(provider && _.isFunction(provider.load)){
+                            if(isPortableElementProvider(provider)){
                                 __providers[providerLoadingStack.shift()] = provider;
                             }
                         });
