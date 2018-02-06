@@ -123,6 +123,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             },
             resetProviders : function resetProviders(){
                 __providers = {};
+                _loaded = false;
                 return this;
             },
             loadProviders : function loadProviders(){
