@@ -85,6 +85,19 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             return $this->getModel()->createDataObject(reset($portableElements));
         }
 
+        //when we only want the latest bug fix
+        if(preg_match('/^[0-9]+\.[0-9]+\.\*$/', $version)){
+
+            list($major, $minor) = explode('.', $version);
+
+            $this->krsortByVersion($portableElements);
+            foreach($portableElements as $ver => $data){
+                if(preg_match('/'.$major. '\.' . $minor . '\.[0-9]+/', $ver)){
+                    return $this->getModel()->createDataObject($portableElements[$ver]);
+                }
+            }
+        }
+
         // Version is set, return associated record
         if (isset($portableElements[$version])) {
             return $this->getModel()->createDataObject($portableElements[$version]);
@@ -517,7 +530,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @return string
      * @throws PortableElementNotFoundException
      */
-    protected function getBaseUrl(PortableElementObject $object)
+    public function getBaseUrl(PortableElementObject $object)
     {
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         return $this->getFileSystem()->getFileUrl($object);
@@ -542,7 +555,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     protected function krsortByVersion(array &$array)
     {
         uksort($array, function($a, $b) {
-            return version_compare($a, $b, '<');
+            return version_compare($a, $b, '<') ? 1 : -1;
         });
     }
 

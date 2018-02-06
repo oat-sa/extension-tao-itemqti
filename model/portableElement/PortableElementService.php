@@ -38,6 +38,9 @@ class PortableElementService implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    const PORTABLE_CLASS_INTERACTION = 'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction';
+    const PORTABLE_CLASS_INFOCONTROL = 'oat\\taoQtiItem\\model\\qti\\InfoControl';
+
     protected function getPortableModelRegistry()
     {
         return PortableModelRegistry::getRegistry();
@@ -302,5 +305,28 @@ class PortableElementService implements ServiceLocatorAwareInterface
             }
         }
         return null;
+    }
+
+    public function getPortableElementByClass($portableElementClass, $qtiItem){
+        $portableElements = [];
+
+        $identifiers = array_map(function($portableElement){
+            return $portableElement->getTypeIdentifier();
+        }, $qtiItem->getComposingElements($portableElementClass));
+
+        foreach($this->getPortableModelRegistry()->getModels() as $model){
+            $phpClass = $model->getQtiElementClassName();
+            if(is_subclass_of($phpClass, $portableElementClass)){
+                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes(), function($data) use ($identifiers){
+                    $portableElement = reset($data);
+                    if(!empty($portableElement) && in_array($portableElement['typeIdentifier'], $identifiers)){
+                        return true;
+                    }
+                    return false;
+                }));
+            }
+        }
+
+        return $portableElements;
     }
 }
