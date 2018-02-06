@@ -26,6 +26,7 @@ use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
 use tao_models_classes_service_StorageDirectory;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 
 /**
  * The QTI Json Item Compiler
@@ -39,6 +40,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
     const ITEM_FILE_NAME = 'item.json';
     const VAR_ELT_FILE_NAME = 'variableElements.json';
+    const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
 
     /**
      * @var string json from the item packed
@@ -83,6 +85,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $this->itemJson['data'] = $data['core'];
 
             $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::ITEM_FILE_NAME, json_encode($this->itemJson));
+            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::PORTABLE_ELEMENT_FILE_NAME, json_encode($this->getItemPortableElements($qtiItem)));
 
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
@@ -101,5 +104,35 @@ class QtiJsonItemCompiler extends QtiItemCompiler
                 common_report_Report::TYPE_ERROR, $e->getMessage()
             );
         }
+    }
+
+    private function getPortableElementByClass($portableElementClass, $qtiItem){
+        $portableElements = [];
+
+        $identifiers = array_map(function($portableElement){
+            return $portableElement->getTypeIdentifier();
+        }, $qtiItem->getComposingElements($portableElementClass));
+
+        foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+            $phpClass = $model->getQtiElementClassName();
+            if(is_subclass_of($phpClass, $portableElementClass)){
+                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes(), function($data) use ($identifiers){
+                    $portableElement = reset($data);
+                    if(!empty($portableElement) && in_array($portableElement['typeIdentifier'], $identifiers)){
+                        return true;
+                    }
+                    return false;
+                }));
+            }
+        }
+
+        return $portableElements;
+    }
+
+    private function getItemPortableElements($qtiItem){
+        return [
+            'pci' => $this->getPortableElementByClass('oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction', $qtiItem),
+            'pic' => $this->getPortableElementByClass('oat\\taoQtiItem\\model\\qti\\InfoControl', $qtiItem)
+        ];
     }
 }
