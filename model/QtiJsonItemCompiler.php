@@ -26,7 +26,7 @@ use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
 use tao_models_classes_service_StorageDirectory;
-use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 /**
  * The QTI Json Item Compiler
@@ -106,33 +106,12 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         }
     }
 
-    private function getPortableElementByClass($portableElementClass, $qtiItem){
-        $portableElements = [];
-
-        $identifiers = array_map(function($portableElement){
-            return $portableElement->getTypeIdentifier();
-        }, $qtiItem->getComposingElements($portableElementClass));
-
-        foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
-            $phpClass = $model->getQtiElementClassName();
-            if(is_subclass_of($phpClass, $portableElementClass)){
-                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes(), function($data) use ($identifiers){
-                    $portableElement = reset($data);
-                    if(!empty($portableElement) && in_array($portableElement['typeIdentifier'], $identifiers)){
-                        return true;
-                    }
-                    return false;
-                }));
-            }
-        }
-
-        return $portableElements;
-    }
-
     private function getItemPortableElements($qtiItem){
+        $portableElementService = new PortableElementService();
+        $portableElementService->setServiceLocator($this->getServiceLocator());
         return [
-            'pci' => $this->getPortableElementByClass('oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction', $qtiItem),
-            'pic' => $this->getPortableElementByClass('oat\\taoQtiItem\\model\\qti\\InfoControl', $qtiItem)
+            'pci' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem),
+            'pic' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem)
         ];
     }
 }

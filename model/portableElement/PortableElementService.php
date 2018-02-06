@@ -307,7 +307,13 @@ class PortableElementService implements ServiceLocatorAwareInterface
         return null;
     }
 
-    public function getPortableElementByClass($portableElementClass, $qtiItem){
+    /**
+     * Get the array of portable elements used in qti item object by its php class
+     * @param string $portableElementClass - PORTABLE_CLASS_INTERACTION or PORTABLE_CLASS_INFOCONTROL
+     * @param Element $qtiItem
+     * @return array
+     */
+    public function getPortableElementByClass($portableElementClass, Element $qtiItem){
         $portableElements = [];
 
         $identifiers = array_map(function($portableElement){
