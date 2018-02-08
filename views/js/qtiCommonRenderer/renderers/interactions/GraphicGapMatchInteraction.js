@@ -528,18 +528,18 @@ define([
         _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
             if(element && _.isArray(element.data('matching'))){
-                _.forEach(element.data('matching'), function(match){
+                _.forEach(element.data('matching'), function(gapImg){
 
                     //backward support of previous order
                     if(isDirectedPairFlipped){
-                        pairs.push([choice.id(), match]);
+                        pairs.push([choice.id(), gapImg]);
                     } else {
-                        pairs.push([match, choice.id()]);
+                        pairs.push([gapImg, choice.id()]);
                     }
                 });
             }
         });
-        return pairs;
+        return _.sortBy(pairs, [0, 1]);
     };
 
     /**
