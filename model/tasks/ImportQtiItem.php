@@ -22,11 +22,11 @@
 namespace oat\taoQtiItem\model\tasks;
 
 use oat\oatbox\task\AbstractTaskAction;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoTaskQueue\model\QueueDispatcher;
 use oat\taoTaskQueue\model\Task\TaskInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ImportQtiItem
@@ -67,19 +67,21 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
 
     /**
      * Create task in queue
-     * @param string $packageFile uploaded file path
-     * @param \core_kernel_classes_Class $class uploaded file
+     *
+     * @param string                     $packageFile uploaded file path
+     * @param \core_kernel_classes_Class $class       uploaded file
+     * @param ServiceLocatorInterface    $serviceManager
      * @return TaskInterface
      */
-    public static function createTask($packageFile, \core_kernel_classes_Class $class)
+    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager)
     {
         $action = new self();
-        $action->setServiceLocator(ServiceManager::getServiceManager());
+        $action->setServiceLocator($serviceManager);
 
         $fileUri = $action->saveFile($packageFile, basename($packageFile));
 
         /** @var QueueDispatcher $queueDispatcher */
-        $queueDispatcher = ServiceManager::getServiceManager()->get(QueueDispatcher::SERVICE_ID);
+        $queueDispatcher = $serviceManager->get(QueueDispatcher::SERVICE_ID);
 
         return $queueDispatcher->createTask(
             $action,

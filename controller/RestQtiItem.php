@@ -137,7 +137,7 @@ class RestQtiItem extends AbstractRestQti
                 throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
             }
 
-            $task = ImportQtiItem::createTask($this->getUploadedPackage(), $this->getDestinationClass());
+            $task = ImportQtiItem::createTask($this->getUploadedPackage(), $this->getDestinationClass(), $this->getServiceLocator());
 
             $result = [
                 'reference_id' => $task->getId()

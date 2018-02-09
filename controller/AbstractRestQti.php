@@ -80,9 +80,9 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     protected function getTaskStatus(TaskLogEntity $taskLogEntity)
     {
         if ($taskLogEntity->getStatus()->isCreated()) {
-            return 'In Progress';
+            return __('In Progress');
         } else if ($taskLogEntity->getStatus()->isCompleted()){
-            return 'Success';
+            return __('Success');
         }
 
         return $taskLogEntity->getStatus()->getLabel();
