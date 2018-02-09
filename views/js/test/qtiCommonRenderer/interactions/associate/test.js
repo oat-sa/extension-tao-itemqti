@@ -156,12 +156,12 @@ define([
                 $target1 = $('.result-area li:first-child .lft', $container);
                 assert.equal($target1.length, 1, 'the target exists');
                 assert.ok($target1.hasClass('filled'), 'the target is filled');
-                assert.equal($target1.text(), 'Antonio', 'the target contains the choice text');
+                assert.equal($target1.text().trim(), 'Antonio', 'the target contains the choice text');
 
                 $target2 = $('.result-area li:first-child .rgt', $container);
                 assert.equal($target2.length, 1, 'the target exists');
                 assert.ok($target2.hasClass('filled'), 'the target is filled');
-                assert.equal($target2.text(), 'Capulet', 'the target contains the choice text');
+                assert.equal($target2.text().trim(), 'Capulet', 'the target contains the choice text');
 
                 assert.ok(typeof state === 'object', 'The state is an object');
                 assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
@@ -207,14 +207,14 @@ define([
                 interactUtils.tapOn($prospero, function(){
                     interactUtils.tapOn($target1, function(){
                         assert.ok($target1.hasClass('filled'), 'the target is filled');
-                        assert.equal($target1.text(), 'Prospero', 'the target contains the choice text');
+                        assert.equal($target1.text().trim(), 'Prospero', 'the target contains the choice text');
                         assert.ok( ! $prospero.hasClass('deactivated'), 'the P choice is still not deactivated');
 
                         interactUtils.tapOn($prospero, function(){
 
                             interactUtils.tapOn($target2, function(){
                                 assert.ok($target2.hasClass('filled'), 'the target is filled');
-                                assert.equal($target2.text(), 'Prospero', 'the target contains the choice text');
+                                assert.equal($target2.text().trim(), 'Prospero', 'the target contains the choice text');
                                 assert.ok($prospero.hasClass('deactivated'), 'the P choice is now deactivated');
 
                                 QUnit.start();
@@ -434,9 +434,9 @@ define([
                     assert.ok($antonio.hasClass('deactivated'), 'the A choice is deactivated');
                     assert.ok($capulet.hasClass('deactivated'), 'the C choice is deactivated');
                     assert.ok($target1.hasClass('filled'), 'the target is filled');
-                    assert.equal($target1.text(), 'Antonio', 'the target contains the choice text');
+                    assert.equal($target1.text().trim(), 'Antonio', 'the target contains the choice text');
                     assert.ok($target2.hasClass('filled'), 'the target is filled');
-                    assert.equal($target2.text(), 'Capulet', 'the target contains the choice text');
+                    assert.equal($target2.text().trim(), 'Capulet', 'the target contains the choice text');
 
                     QUnit.start();
                 }, 100);

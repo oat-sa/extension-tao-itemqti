@@ -24,6 +24,7 @@ use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
+use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -36,7 +37,7 @@ return array(
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=4.2.4',
-        'tao'      => '>=14.17.0',
+        'tao'      => '>=15.4.0',
         'taoTaskQueue' => '>=0.13.1'
     ),
     'models' => array(
@@ -63,7 +64,8 @@ return array(
             InitMetadataService::class,
             SetItemModel::class,
             RegisterLegacyPortableLibraries::class,
-            SetUpQueueTasks::class
+            SetUpQueueTasks::class,
+            RegisterItemCompilerBlacklist::class
 		)
 	),
 	'local'	=> array(
