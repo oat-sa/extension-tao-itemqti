@@ -25,6 +25,7 @@ use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\qti\Element;
 use tao_models_classes_service_StorageDirectory;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 
@@ -106,12 +107,36 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         }
     }
 
-    private function getItemPortableElements($qtiItem){
+    /**
+     * Get the portable elements data in use in the item
+     * @param Element $qtiItem
+     * @return array
+     */
+    private function getItemPortableElements(Element $qtiItem){
         $portableElementService = new PortableElementService();
         $portableElementService->setServiceLocator($this->getServiceLocator());
+
+        $pcis = $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem);
+        $this->assignAliasVersion($pcis);
+
+        $pics = $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem);
+        $this->assignAliasVersion($pics);
+
         return [
-            'pci' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem),
-            'pic' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem)
+            'pci' => $pcis,
+            'pic' => $pics
         ];
+    }
+
+    /**
+     * Replace the version of compiled portable elements in data with the alias 0.0.*
+     * @param $portableElementArray
+     */
+    private function assignAliasVersion(&$portableElementArray){
+        foreach($portableElementArray as &$data){
+            if(isset($data[0]) && isset($data[0]['version'])){
+                $data[0]['version'] = preg_replace('/^([0-9]+\.[0-9]+\.)([0-9]+)$/', '$1*', $data[0]['version']);
+            }
+        }
     }
 }

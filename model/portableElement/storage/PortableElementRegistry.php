@@ -85,19 +85,6 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             return $this->getModel()->createDataObject(reset($portableElements));
         }
 
-        //when we only want the latest bug fix
-        if(preg_match('/^[0-9]+\.[0-9]+\.\*$/', $version)){
-
-            list($major, $minor) = explode('.', $version);
-
-            $this->krsortByVersion($portableElements);
-            foreach($portableElements as $ver => $data){
-                if(preg_match('/'.$major. '\.' . $minor . '\.[0-9]+/', $ver)){
-                    return $this->getModel()->createDataObject($portableElements[$ver]);
-                }
-            }
-        }
-
         // Version is set, return associated record
         if (isset($portableElements[$version])) {
             return $this->getModel()->createDataObject($portableElements[$version]);
@@ -327,7 +314,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             $latestVersion = $this->getLatestVersion($object->getTypeIdentifier());
             if(version_compare($object->getVersion(), $latestVersion->getVersion(), '<')){
                 throw new PortableElementVersionIncompatibilityException(
-                    'A newer version of the code already exists ' . $latestVersion->getVersion()
+                    'A newer version of the code already exists ' . $latestVersion->getVersion() . ' > ' . $object->getVersion()
                 );
             }
         } catch (PortableElementNotFoundException $e) {
@@ -341,6 +328,13 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $this->getFileSystem()->registerFiles($object, $files, $source);
 
         $this->update($object);
+
+        //register alias with the exact same files
+        $aliasVersion = preg_replace('/^([0-9]+\.[0-9]+\.)([0-9]+)$/', '$1*', $object->getVersion());
+        $aliasObject = clone $object;
+        $aliasObject->setVersion($aliasVersion);
+        $this->getFileSystem()->registerFiles($aliasObject, $files, $source);
+        $this->update($aliasObject);
     }
 
     /**
@@ -555,7 +549,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     protected function krsortByVersion(array &$array)
     {
         uksort($array, function($a, $b) {
-            return version_compare($a, $b, '<') ? 1 : -1;
+            return -version_compare($a, $b);
         });
     }
 
