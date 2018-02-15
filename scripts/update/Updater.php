@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\scripts\update;
 use League\Flysystem\Adapter\Local;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
@@ -504,9 +503,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('12.6.0');
         }
 
-        $this->skip('12.6.0', '12.7.1');
+        $this->skip('12.6.0', '12.7.4');
 
-        if ($this->isVersion('12.7.1')) {
+        if ($this->isVersion('12.7.4')) {
             /** @var TaskLogInterface|ConfigurableService $taskLogService */
             $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
 
