@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\compile;
 
-use oat\awsTools\AwsClient;
 use oat\oatbox\service\ConfigurableService;
 
 /**
