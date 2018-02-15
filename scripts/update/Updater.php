@@ -43,6 +43,7 @@ use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\QtiJsonItemCloudFrontReplacement;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -502,5 +503,13 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('12.6.0', '12.7.3');
+
+
+        if ($this->isVersion('12.7.3')) {
+            $cloudFrontService = new QtiJsonItemCloudFrontReplacement();
+
+            $this->getServiceManager()->register(QtiJsonItemCloudFrontReplacement::SERVICE_ID, $cloudFrontService);
+            $this->setVersion('12.8.0');
+        }
     }
 }

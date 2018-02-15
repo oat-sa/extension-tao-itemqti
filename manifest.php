@@ -28,7 +28,7 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '12.7.3',
+    'version'     => '12.8.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=4.2.4',
@@ -59,6 +59,7 @@ return array(
             \oat\taoQtiItem\scripts\install\SetItemModel::class,
             \oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries::class,
             \oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist::class,
+            \oat\taoQtiItem\scripts\install\RegisterItemCloudFrontReplacement::class,
 		)
 	),
 	'local'	=> array(
