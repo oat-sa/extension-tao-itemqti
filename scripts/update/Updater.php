@@ -41,6 +41,8 @@ use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
@@ -502,5 +504,21 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('12.6.0', '12.7.1');
+
+        if($this->isVersion('12.7.1')){
+
+            $portableElementService = new PortableElementService();
+            $portableElementService->setServiceLocator($this->getServiceManager());
+
+            foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+                $portableElements = $model->getRegistry()->getLatest();
+                foreach($portableElements as $portableElement){
+                    $path = $model->getRegistry()->export($portableElement);
+                    $portableElementService->import($model->getId(), $path);
+                }
+            }
+
+            $this->setVersion('12.8.0');
+        }
     }
 }
