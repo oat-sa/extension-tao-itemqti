@@ -115,28 +115,9 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private function getItemPortableElements(Element $qtiItem){
         $portableElementService = new PortableElementService();
         $portableElementService->setServiceLocator($this->getServiceLocator());
-
-        $pcis = $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem);
-        $this->assignAliasVersion($pcis);
-
-        $pics = $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem);
-        $this->assignAliasVersion($pics);
-
         return [
-            'pci' => $pcis,
-            'pic' => $pics
+            'pci' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem, true),
+            'pic' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem, true)
         ];
-    }
-
-    /**
-     * Replace the version of compiled portable elements in data with the alias 0.0.*
-     * @param $portableElementArray
-     */
-    private function assignAliasVersion(&$portableElementArray){
-        foreach($portableElementArray as &$data){
-            if(isset($data[0]) && isset($data[0]['version'])){
-                $data[0]['version'] = preg_replace('/^([0-9]+\.[0-9]+\.)([0-9]+)$/', '$1*', $data[0]['version']);
-            }
-        }
     }
 }

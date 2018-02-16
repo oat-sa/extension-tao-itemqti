@@ -313,7 +313,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @param Element $qtiItem
      * @return array
      */
-    public function getPortableElementByClass($portableElementClass, Element $qtiItem){
+    public function getPortableElementByClass($portableElementClass, Element $qtiItem, $useVersionAlias = false){
         $portableElements = [];
 
         $identifiers = array_map(function($portableElement){
@@ -323,7 +323,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
         foreach($this->getPortableModelRegistry()->getModels() as $model){
             $phpClass = $model->getQtiElementClassName();
             if(is_subclass_of($phpClass, $portableElementClass)){
-                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes(), function($data) use ($identifiers){
+                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes($useVersionAlias), function($data) use ($identifiers){
                     $portableElement = reset($data);
                     if(!empty($portableElement) && in_array($portableElement['typeIdentifier'], $identifiers)){
                         return true;

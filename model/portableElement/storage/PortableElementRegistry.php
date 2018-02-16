@@ -369,11 +369,33 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         return $runtime;
     }
 
+    private function getAliasVersion($versionString){
+        return preg_replace('/^([0-9]+\.[0-9]+\.)([0-9]+)$/', '$1*', $versionString);
+    }
+
+    public function getLatest($useVersionAlias = false){
+        $all = [];
+        foreach ($this->getAll() as $typeIdentifier => $versions) {
+
+            if (empty($versions)) {
+                continue;
+            }
+
+            $this->krsortByVersion($versions);
+            $object = $this->getModel()->createDataObject(reset($versions));
+            if($useVersionAlias){
+                $object->setVersion($this->getAliasVersion($object->getVersion()));
+            }
+            $all[$typeIdentifier] = $object;
+        }
+        return $all;
+    }
+
     /**
      * @return array
      * @throws PortableElementInconsistencyModelException
      */
-    public function getLatestRuntimes()
+    public function getLatestRuntimes($useVersionAlias = false)
     {
         $all = [];
         foreach ($this->getAll() as $typeIdentifier => $versions) {
@@ -384,6 +406,9 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
             $this->krsortByVersion($versions);
             $object = $this->getModel()->createDataObject(reset($versions));
+            if($useVersionAlias){
+                $object->setVersion(preg_replace('/^([0-9]+\.[0-9]+\.)([0-9]+)$/', '$1*', $object->getVersion()));
+            }
             $all[$typeIdentifier] = [$this->getRuntime($object)];
         }
         return $all;
@@ -394,7 +419,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @return PortableElementObject[]
      * @throws PortableElementInconsistencyModelException
      */
-    public function getLatestCreators()
+    public function getLatestCreators($useVersionAlias = false)
     {
         $all = [];
         foreach ($this->getAll() as $typeIdentifier => $versions) {
@@ -405,6 +430,9 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
             $this->krsortByVersion($versions);
             $object = $this->getModel()->createDataObject(reset($versions));
+            if($useVersionAlias){
+                $object->setVersion(preg_replace('/^([0-9]+\.[0-9]+\.)([0-9]+)$/', '$1*', $object->getVersion()));
+            }
             if (! empty($object->getCreator())) {
                 $all[$typeIdentifier] = $object;
             }
