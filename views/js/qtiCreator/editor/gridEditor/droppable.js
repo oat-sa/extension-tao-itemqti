@@ -1,3 +1,21 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ *
+ */
 define([
     'jquery',
     'lodash',
@@ -207,7 +225,7 @@ define([
 
             e.stopPropagation();
 
-        }).on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e){
+        }).on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(){
 
             var $col = $(this), $previousCol = $placeholder.parent('.new-col');
 
@@ -259,11 +277,13 @@ define([
         //listen to the end of the dragging
         //on element drop (mouseout in the drop area $el)
         $el.one('dragoverstop.gridEdit', function(){
+            var $selectedCol;
+            var dropped;
 
             $el.off('.gridEdit.gridDragDrop');
 
-            var $selectedCol = $placeholder.parent('.new-col'),
-                dropped = !!$selectedCol.length;
+            $selectedCol = $placeholder.parent('.new-col');
+            dropped = !!$selectedCol.length;
 
             if(dropped){//has been properly dropped:
 
@@ -325,12 +345,12 @@ define([
     };
 
     var _pulseTimer = null;
-    var _pulse = function($el){
+    var _pulse = function _pulse($el){
+        var intervalDuration = 1000;
 
         if(_pulseTimer){
             clearInterval(_pulseTimer);
         }
-        var intervalDuration = 1000;
 
         setInterval(function(){
 
@@ -352,6 +372,16 @@ define([
             data = options.data || {},
             $targets = targetFinder.getTargetsFor(qtiClass, $el),
             dropped = false;
+        var $placeholder;
+        var _resetPlaceholder = function _resetPlaceholder(){
+            $placeholder.detach();
+            dropped = false;
+        };
+        var _showPlaceholder = function _showPlaceholder(){
+            dropped = true;
+            return $placeholder;
+        };
+
 
         $targets.addClass('drop-target');
 
@@ -364,19 +394,10 @@ define([
             }
         });
 
-        var $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'data-inline' : true});
+        $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'data-inline' : true});
         $placeholder.append($('<span>', {'class' : 'cursor-h'})).append($('<span>', {'class' : 'cursor-v'}));
         _pulse($placeholder);
-        var _resetPlaceholder = function($el){
-            $placeholder.detach();
-            dropped = false;
-        };
         _resetPlaceholder($el);
-
-        var _showPlaceholder = function(){
-            dropped = true;
-            return $placeholder;
-        };
 
         $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', function(e){
 
@@ -392,15 +413,15 @@ define([
             }
 
         }).on('mouseover.gridEdit.gridDragDrop', function(e){
-            
+            var $target;
             e.stopPropagation();
-            var $target = $(e.target);
-            
+            $target = $(e.target);
+
             if($target.hasClass('drop-target') && !$target.find($placeholder).length){
-                
+
                 //make first insertion easier
                 $target.append(_showPlaceholder());
-                
+
             }else if($target[0] !== $placeholder[0]
                 && !$target.hasClass('qti-word-wrap')
                 && !$target.children('.qti-word-wrap').length){
@@ -409,9 +430,9 @@ define([
             }
         });
 
-        //listen to the end of the dragging 
+        //listen to the end of the dragging
         $el.one('dragoverstop.gridEdit', function(){
-            
+
             //make placeholder permanent
             if(dropped){
                 $placeholder.removeAttr('id').removeAttr('class');
@@ -437,24 +458,18 @@ define([
         _destroyDroppableBlocks($el);
     };
 
-    var _destroyDroppableInlines = function($el){
+    function _destroyDroppableInlines($el){
 
         $el.off('.gridEdit.gridDragDrop');
 
         $el.find('span.qti-word-wrap').replaceWith(function(){
-            return $(this).text();
+            return _.escape($(this).text());
         });
-        
+
         $el.find('.drop-target').removeClass('drop-target');
-    };
+    }
 
-    var _destroyDroppableBlocks = function($el){
-
-        $el.removeClass('dropping').off('.gridEdit.gridDragDrop');
-
-        $el.find('[class^="col-"], [class*=" col-"]').removeAttr('style');
-
-        _restoreTmpCol($el);
+    function _destroyDroppableBlocks($el){
 
         var _toBeRemoved = [
             '#qti-block-element-placeholder',
@@ -463,26 +478,32 @@ define([
             '.grid-edit-insert-box'
         ];
 
+        $el.removeClass('dropping').off('.gridEdit.gridDragDrop');
+
+        $el.find('[class^="col-"], [class*=" col-"]').removeAttr('style');
+
+        _restoreTmpCol($el);
+
         $el.find(_toBeRemoved.join(',')).remove();
+    }
 
-    };
-
-    var _getNewRow = function _getNewRow(){
+    function _getNewRow(){
         return $('<div>', {'class' : 'grid-row grid-row-new', 'data-units' : 0});
-    };
+    }
 
-    var _getNewCol = function _getNewCol(){
+    function _getNewCol(){
         return $('<div>', {'class' : 'new-col'});
-    };
+    }
 
-    var _restoreTmpCol = function _restoreTmpCol($el){
+    function _restoreTmpCol($el){
         $el.find('.grid-row').each(function(){
+            var $children;
             var $row = $(this);
             $row.children('.new-col').attr('class', 'new-col').removeAttr('style');//reset all column
 
             //restore location of overflown cols
             if($row.hasClass('grid-row-new')){
-                var $children = $row.children();
+                $children = $row.children();
                 if($children.length > 1){
                     $row.prev().append($children);
                     $row.append($children.first());
@@ -498,7 +519,7 @@ define([
             });
             $row.removeAttr('data-active');
         });
-    };
+    }
 
     return droppableGridEditor;
 });

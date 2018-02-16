@@ -20,6 +20,11 @@
 use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\scripts\install\InitMetadataService;
+use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
+use oat\taoQtiItem\scripts\install\SetItemModel;
+use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
+use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -28,11 +33,12 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '12.8.0',
+    'version'     => '13.1.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=4.2.4',
-        'tao'      => '>=15.4.0'
+        'tao'      => '>=15.4.0',
+        'taoTaskQueue' => '>=0.13.1'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -55,10 +61,11 @@ return array(
 			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
             'oat\\taoQtiItem\\install\\scripts\\setXMLParserConfig',
-            \oat\taoQtiItem\scripts\install\InitMetadataService::class,
-            \oat\taoQtiItem\scripts\install\SetItemModel::class,
-            \oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries::class,
-            \oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist::class,
+            InitMetadataService::class,
+            SetItemModel::class,
+            RegisterLegacyPortableLibraries::class,
+            SetUpQueueTasks::class,
+            RegisterItemCompilerBlacklist::class
 		)
 	),
 	'local'	=> array(
