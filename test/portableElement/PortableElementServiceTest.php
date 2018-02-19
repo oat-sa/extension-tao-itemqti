@@ -24,6 +24,8 @@ use oat\oatbox\service\ServiceManager;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\Service;
 
 class PortableElementServiceTest extends TaoPhpUnitTestRunner
 {
@@ -84,6 +86,65 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertNotFalse(strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.1]'));
 
         //remove all
+        $pciLast->getModel()->getRegistry()->removeAllVersions('pciSampleA');
+        $this->assertEquals(null, $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA'));
+    }
+
+    public function testGetPortableElementByClass(){
+
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/item/pci_pic_sample_1.xml');
+        $parser = new ParserFactory($xml);
+        $item = $parser->load();
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
+
+        $this->assertEquals(2, count($pcis));
+        $this->assertTrue(isset($pcis['likertScaleInteraction']));
+        $this->assertEquals(1, count($pcis['likertScaleInteraction']));
+        $this->assertTrue(isset($pcis['liquidsInteraction']));
+        $this->assertEquals(1, count($pcis['liquidsInteraction']));
+
+        $pics = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $item);
+
+        $this->assertEquals(2, count($pics));
+        $this->assertTrue(isset($pics['studentToolSample']));
+        $this->assertEquals(1, count($pics['studentToolSample']));
+        $this->assertTrue(isset($pics['studentToolbar']));
+        $this->assertEquals(1, count($pics['studentToolbar']));
+    }
+
+    public function testGetPortableElementByClassAlias(){
+
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $parser = new ParserFactory($xml);
+        $item = $parser->load();
+
+        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir040');
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
+        $this->assertEquals(1, count($pcis));
+        $this->assertTrue(isset($pcis['pciSampleA']));
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertEquals('0.4.0', $pci['version']);
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item, true);
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertEquals('0.4.*', $pci['version']);
+
+        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir041');
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertEquals('0.4.0', $pci['version']);
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item, true);
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertEquals('0.4.*', $pci['version']);
+
+        //remove all
+        $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
         $pciLast->getModel()->getRegistry()->removeAllVersions('pciSampleA');
         $this->assertEquals(null, $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA'));
     }

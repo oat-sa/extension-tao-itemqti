@@ -88,6 +88,7 @@ define([
                 try {
 
                     if(options.portableElements){
+                        console.log(options.portableElements);
                         //if the option to directly load portable elements is provided, use only this one
                         if(options.portableElements.pci){
                             ciRegistry.resetProviders();

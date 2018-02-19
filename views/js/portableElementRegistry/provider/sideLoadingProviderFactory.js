@@ -42,13 +42,6 @@ define(function(){
                 return this;
             },
             /**
-             * Get the amd module name
-             * @returns {string}
-             */
-            getModuleName : function getModuleName(){
-                return name;
-            },
-            /**
              * Implementation of the mandatory method load() of a portable element provider
              *
              * @returns {Promise} resolved when the added pci registered through their manifest are loaded

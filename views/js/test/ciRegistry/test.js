@@ -134,5 +134,60 @@ define([
 
     });
 
+    QUnit.asyncTest('registerProvider', function(assert){
+
+        var sampleProvider = {
+            load: function load() {
+                return {
+                    "samplePciA01": [
+                        {
+                            "response": {"baseType": "integer", "cardinality": "single"},
+                            "creator": {
+                                "icon": "likertScaleInteraction/creator/img/icon.svg",
+                                "hook": "likertScaleInteraction/pciCreator.js",
+                                "libraries": ["likertScaleInteraction/creator/tpl/markup.tpl", "likertScaleInteraction/creator/tpl/propertiesForm.tpl", "likertScaleInteraction/creator/widget/Widget.js", "likertScaleInteraction/creator/widget/states/Question.js", "likertScaleInteraction/creator/widget/states/Answer.js", "likertScaleInteraction/creator/widget/states/states.js"]
+                            },
+                            "typeIdentifier": "samplePciA01",
+                            "label": "Likert Scale",
+                            "short": "Likert",
+                            "description": "A simple implementation of likert scale.",
+                            "version": "0.4.*",
+                            "author": "Sam Sipasseuth",
+                            "email": "sam@taotesting.com",
+                            "tags": ["mcq", "likert"],
+                            "runtime": {
+                                "hook": "likertScaleInteraction/runtime/likertScaleInteraction.min.js",
+                                "libraries": [],
+                                "stylesheets": ["likertScaleInteraction/runtime/css/base.css", "likertScaleInteraction/runtime/css/likertScaleInteraction.css"],
+                                "mediaFiles": ["likertScaleInteraction/runtime/assets/ThumbDown.png", "likertScaleInteraction/runtime/assets/ThumbUp.png", "likertScaleInteraction/runtime/css/img/bg.png"],
+                                "src": ["likertScaleInteraction/runtime/js/likertScaleInteraction.js", "likertScaleInteraction/runtime/js/renderer.js"]
+                            },
+                            "enabled": true,
+                            "model": "PCI",
+                            "xmlns": "http://www.imsglobal.org/xsd/portableCustomInteraction",
+                            "baseUrl": "http://tao.docker:8086/tao/File/accessFile/NWE4NmU1NTljNmM3YiBQQ0kvYzJmNzQ4MjI1ZjIzOWYxMGRhMDZlNmY4NjUwMDhkYWI=/"
+                        }
+                    ]
+                };
+            }
+        };
+
+        var registry = ciRegistry().registerProvider('sampleProvider', sampleProvider);
+
+        registry.loadRuntimes().then(function(){
+
+            var pci;
+
+            assert.ok(_.isPlainObject(registry.get('samplePciA01')), 'runtime data is loaded');
+
+            pci = registry.get('samplePciA01');
+
+            assert.equal(pci.typeIdentifier, 'samplePciA01', 'type identifier ok');
+            assert.equal(pci.version, '0.4.*', 'type version ok');
+
+            QUnit.start();
+        });
+    });
+
 });
 

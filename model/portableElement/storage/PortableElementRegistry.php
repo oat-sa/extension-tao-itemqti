@@ -401,6 +401,8 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Get the last version of portable element runtimes
+     *
      * @return array
      * @throws PortableElementInconsistencyModelException
      */
@@ -413,6 +415,8 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
 
     /**
+     * Get the last version of portable element creators
+     *
      * @return PortableElementObject[]
      * @throws PortableElementInconsistencyModelException
      */
@@ -535,7 +539,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @return string
      * @throws PortableElementNotFoundException
      */
-    public function getBaseUrl(PortableElementObject $object)
+    protected function getBaseUrl(PortableElementObject $object)
     {
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         return $this->getFileSystem()->getFileUrl($object);
