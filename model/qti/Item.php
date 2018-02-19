@@ -93,23 +93,23 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @var array
      */
     protected $namespaces = array();
-    
+
     /**
      * The schema locations defined in the original qti.xml file,
      *
      * @var array
      */
     protected $schemaLocations = array();
-    
+
     /**
      * The information on apip accessibility.
      * It is currently stored as an xml string.
      * This opens opprtunity to manage APIP accessibility more thouroughly in the future
-     * 
-     * @var type 
+     *
+     * @var type
      */
     protected $apipAccessibility =  '';
-    
+
     /**
      * Short description of method __construct
      *
@@ -140,7 +140,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function getNamespace($uri){
         return array_search($uri, $this->namespaces);
     }
-    
+
     public function addSchemaLocation($uri, $url){
         $this->schemaLocations[$uri] = $url;
     }
@@ -152,15 +152,15 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function getSchemaLocation($uri){
         return $this->schemaLocations[$uri];
     }
-    
+
     public function setApipAccessibility($apipXml){
         $this->apipAccessibility = $apipXml;
     }
-    
+
     public function getApipAccessibility(){
         return $this->apipAccessibility;
     }
-    
+
     protected function getUsedAttributes(){
         return array(
             'oat\\taoQtiItem\\model\\qti\\attribute\\Title',
@@ -215,8 +215,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     }
 
     public function getInteractions(){
-        // @todo: make it recursive when adding support of nested interactions
-        return $this->body->getElements('oat\\taoQtiItem\\model\\qti\\interaction\\Interaction');
+        return $this->getComposingElements('oat\taoQtiItem\model\qti\interaction\Interaction');
     }
 
     public function getObjects(){
@@ -276,7 +275,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
     /**
      * add an outcome declaration to the item
-     * 
+     *
      * @param \oat\taoQtiItem\model\qti\OutcomeDeclaration $outcome
      */
     public function addOutcome(OutcomeDeclaration $outcome){
@@ -493,11 +492,11 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         return (string) $returnValue;
     }
-    
+
     protected function getUserScripts()
     {
         $userScripts = array();
-        
+
         $userScriptConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('userScripts');
         if (is_array($userScriptConfig )) {
             foreach($userScriptConfig as $data){
@@ -513,7 +512,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
     protected function getTemplateQtiVariables(){
         $variables = parent::getTemplateQtiVariables();
-        
+
         $variables['stylesheets'] = '';
         foreach($this->stylesheets as $stylesheet){
             $variables['stylesheets'] .= $stylesheet->toQTI();
@@ -542,7 +541,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $variables['schemaLocations'] = trim($schemaLocations);
         $nsXsi = $this->getNamespace('http://www.w3.org/2001/XMLSchema-instance');
         $variables['xsi'] = $nsXsi ? $nsXsi.':' : 'xsi:';
-        
+
         // render the responseProcessing
         $renderedResponseProcessing = '';
         $responseProcessing = $this->getResponseProcessing();
@@ -559,9 +558,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         unset($variables['attributes']['class']);
 
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
-        
+
         $variables['apipAccessibility'] = $this->getApipAccessibility();
-        
+
         return $variables;
     }
 
@@ -618,7 +617,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         return (string) $returnValue;
     }
-    
+
     /**
      * Serialize item object into json format, handy to be used in js
      */
