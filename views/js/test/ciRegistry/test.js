@@ -174,6 +174,8 @@ define([
 
         var registry = ciRegistry().registerProvider('sampleProvider', sampleProvider);
 
+        QUnit.expect(3);
+
         registry.loadRuntimes().then(function(){
 
             var pci;
