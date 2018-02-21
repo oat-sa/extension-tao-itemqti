@@ -38,11 +38,21 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
     {
         $this->service = new PortableElementService();
         $this->service->setServiceLocator(ServiceManager::getServiceManager());
+        $this->clearSamplePortableElements();
     }
 
     public function tearDown()
     {
+        $this->clearSamplePortableElements();
         $this->service = null;
+    }
+
+    private function clearSamplePortableElements(){
+        $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
+        if(!is_null($pciLast)){
+            $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
+            $pciLast->getModel()->getRegistry()->removeAllVersions('pciSampleA');
+        }
     }
 
     public function testRegisterFromDirectorySource(){
@@ -84,10 +94,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
         $this->assertEquals('0.4.1', $pciLast->getVersion());
         $this->assertNotFalse(strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.1]'));
-
-        //remove all
-        $pciLast->getModel()->getRegistry()->removeAllVersions('pciSampleA');
-        $this->assertEquals(null, $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA'));
     }
 
     public function testGetPortableElementByClass(){
@@ -137,15 +143,10 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
 
         $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
         $pci = reset($pcis['pciSampleA']);
-        $this->assertEquals('0.4.0', $pci['version']);
+        $this->assertEquals('0.4.1', $pci['version']);
 
         $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item, true);
         $pci = reset($pcis['pciSampleA']);
         $this->assertEquals('0.4.*', $pci['version']);
-
-        //remove all
-        $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
-        $pciLast->getModel()->getRegistry()->removeAllVersions('pciSampleA');
-        $this->assertEquals(null, $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA'));
     }
 }
