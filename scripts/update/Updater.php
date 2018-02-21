@@ -518,7 +518,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('13.0.0');
         }
 
-        if($this->isVersion('13.0.0')){
+        $this->skip('13.0.0', '13.0.1');
+
+        if($this->isVersion('13.0.1')){
 
             $portableElementService = new PortableElementService();
             $portableElementService->setServiceLocator($this->getServiceManager());
