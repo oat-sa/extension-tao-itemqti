@@ -31,6 +31,8 @@ use oat\taoQtiItem\model\portableElement\parser\element\PortableElementDirectory
 use oat\taoQtiItem\model\portableElement\parser\element\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
 use oat\taoQtiItem\model\qti\Element;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
+use oat\taoQtiItem\model\qti\InfoControl;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -38,8 +40,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    const PORTABLE_CLASS_INTERACTION = 'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction';
-    const PORTABLE_CLASS_INFOCONTROL = 'oat\\taoQtiItem\\model\\qti\\InfoControl';
+    const PORTABLE_CLASS_INTERACTION = CustomInteraction::class;
+    const PORTABLE_CLASS_INFOCONTROL = InfoControl::class;
 
     protected function getPortableModelRegistry()
     {
