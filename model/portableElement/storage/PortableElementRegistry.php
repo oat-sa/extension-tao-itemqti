@@ -30,6 +30,7 @@ use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Naneau\SemVer\Parser as SemVerParser;
 
 /**
  * CreatorRegistry stores reference to
@@ -374,7 +375,8 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @return mixed
      */
     private function getAliasVersion($versionString){
-        return preg_replace('/^([0-9]+\.[0-9]+\.)([0-9]+)$/', '$1*', $versionString);
+        $version = SemVerParser::parse($versionString);
+        return $version->getMajor().'.'.$version->getMinor().'.*';
     }
 
     /**
