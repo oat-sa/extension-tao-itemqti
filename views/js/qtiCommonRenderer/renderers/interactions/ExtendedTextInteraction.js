@@ -26,13 +26,14 @@ define([
     'lodash',
     'i18n',
     'core/promise',
+    'util/strLimiter',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/extendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask'
-], function($, _, __, Promise, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
+], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
     'use strict';
 
 
@@ -465,10 +466,10 @@ define([
 
                     // limit by word or character count if required
                     if(!_.isNull(maxWords)) {
-                        newValue = self.limitByWordCount(newValue);
+                        newValue = strLimiter.limitByWordCount(newValue, maxWords - self.getWordsCount());
                     }
                     else if(!_.isNull(maxLength)){
-                        newValue = self.limitByCharCount(newValue);
+                        newValue = strLimiter.limitByCharCount(newValue, maxLength - self.getCharsCount());
                     }
 
                     // insert the cut-off text
@@ -499,38 +500,6 @@ define([
             },
 
             /**
-             * Limit a string by word count
-             * @param  {string} str pasted/dropped string
-             * @returns {string} remaining string
-             */
-            limitByWordCount : function limitByWordCount(str) {
-                var remainingWords = maxWords - this.getWordsCount();
-                // contains alternating a word and whitespace
-                // to make sure the original whitespace is retained
-                var textArr  = str.match(/(([\S]+)|([\s]+))/g);
-                var newText  = /\s+/.test(textArr[0]) ? textArr.shift() : '';
-                while(remainingWords && textArr.length) {
-                    newText += textArr.shift(); // word
-                    if(textArr.length){
-                        newText += textArr.shift(); // white space
-                    }
-                    remainingWords--;
-                }
-                newText = newText.replace(/\s+$/,''); // remove trailing space
-                return newText;
-            },
-
-            /**
-             * Limit a string by character count
-             * @param  {string} str pasted/dropped string
-             * @returns {string} remaining string
-             */
-            limitByCharCount : function limitByCharCount(str) {
-                var remainingChars = maxLength - this.getCharsCount();
-                return str.substr(0, remainingChars);
-            },
-
-            /**
              * Get the number of words that are actually written in the response field
              * @return {Number} number of words
              */
@@ -539,7 +508,7 @@ define([
                 if(_.isEmpty(value)){
                     return 0;
                 }
-                // leading and trailing white space doesn't qualify as word
+                // leading and trailing white space don't qualify as words
                 return value.trim().replace(/\s+/gi, ' ').split(' ').length;
             },
 
@@ -854,6 +823,7 @@ define([
         enable : enable,
         disable : disable,
         clearText : clearText,
-        setText : setText
+        setText : setText,
+        foo: function(){console.log(1239778674696435493)}
     };
 });
