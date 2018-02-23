@@ -25,7 +25,9 @@ use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\qti\Element;
 use tao_models_classes_service_StorageDirectory;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 /**
  * The QTI Json Item Compiler
@@ -39,6 +41,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
     const ITEM_FILE_NAME = 'item.json';
     const VAR_ELT_FILE_NAME = 'variableElements.json';
+    const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
 
     /**
      * @var string json from the item packed
@@ -83,6 +86,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $this->itemJson['data'] = $data['core'];
 
             $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::ITEM_FILE_NAME, json_encode($this->itemJson));
+            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::PORTABLE_ELEMENT_FILE_NAME, json_encode($this->getItemPortableElements($qtiItem)));
 
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
@@ -101,5 +105,19 @@ class QtiJsonItemCompiler extends QtiItemCompiler
                 common_report_Report::TYPE_ERROR, $e->getMessage()
             );
         }
+    }
+
+    /**
+     * Get the portable elements data in use in the item
+     * @param Element $qtiItem
+     * @return array
+     */
+    private function getItemPortableElements(Element $qtiItem){
+        $portableElementService = new PortableElementService();
+        $portableElementService->setServiceLocator($this->getServiceLocator());
+        return [
+            'pci' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem, true),
+            'pic' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem, true)
+        ];
     }
 }
