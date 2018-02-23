@@ -823,7 +823,6 @@ define([
         enable : enable,
         disable : disable,
         clearText : clearText,
-        setText : setText,
-        foo: function(){console.log(1239778674696435493)}
+        setText : setText
     };
 });
