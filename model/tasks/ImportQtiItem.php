@@ -22,11 +22,11 @@
 namespace oat\taoQtiItem\model\tasks;
 
 use oat\oatbox\task\AbstractTaskAction;
-use oat\oatbox\service\ServiceManager;
-use oat\oatbox\task\Queue;
-use oat\oatbox\task\Task;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoTaskQueue\model\QueueDispatcher;
+use oat\taoTaskQueue\model\Task\TaskInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ImportQtiItem
@@ -52,9 +52,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             throw new \common_exception_MissingParameter('Missing parameter `' . self::PARAM_FILE . '` in ' . self::class);
         }
 
-        //\common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-
         $file = $this->getFileReferenceSerializer()->unserializeFile($params['file']);
+
         return ImportService::singleton()->importQTIPACKFile($file, $this->getClass($params));
     }
 
@@ -68,19 +67,30 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
 
     /**
      * Create task in queue
-     * @param array $packageFile uploaded file path
-     * @param \core_kernel_classes_Class $class uploaded file
-     * @return Task created task id
+     *
+     * @param string                     $packageFile uploaded file path
+     * @param \core_kernel_classes_Class $class       uploaded file
+     * @param ServiceLocatorInterface    $serviceManager
+     * @return TaskInterface
      */
-    public static function createTask($packageFile, \core_kernel_classes_Class $class)
+    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager)
     {
         $action = new self();
-        $action->setServiceLocator(ServiceManager::getServiceManager());
+        $action->setServiceLocator($serviceManager);
 
         $fileUri = $action->saveFile($packageFile, basename($packageFile));
-        $queue = ServiceManager::getServiceManager()->get(Queue::SERVICE_ID);
 
-        return $queue->createTask($action, [self::PARAM_FILE => $fileUri, self::PARAM_CLASS_URI => $class->getUri()]);
+        /** @var QueueDispatcher $queueDispatcher */
+        $queueDispatcher = $serviceManager->get(QueueDispatcher::SERVICE_ID);
+
+        return $queueDispatcher->createTask(
+            $action,
+            [
+                self::PARAM_FILE => $fileUri,
+                self::PARAM_CLASS_URI => $class->getUri()
+            ],
+            __('Import QTI ITEM into "%s"', $class->getLabel())
+        );
     }
 
     /**

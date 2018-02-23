@@ -43,6 +43,7 @@ use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -53,6 +54,7 @@ use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoTaskQueue\model\TaskLogInterface;
 use taoItems_actions_form_RestItemForm;
 use taoItems_models_classes_ItemsService;
 use taoTests_models_classes_TestsService;
@@ -501,6 +503,17 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('12.6.0');
         }
 
-        $this->skip('12.6.0', '12.7.3');
+        $this->skip('12.6.0', '12.7.4');
+
+        if ($this->isVersion('12.7.4')) {
+            /** @var TaskLogInterface|ConfigurableService $taskLogService */
+            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
+
+            $taskLogService->linkTaskToCategory(ImportQtiItem::class, TaskLogInterface::CATEGORY_IMPORT);
+
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+
+            $this->setVersion('13.0.0');
+        }
     }
 }

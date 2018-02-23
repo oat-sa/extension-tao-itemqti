@@ -1,6 +1,4 @@
-
-        
-        {
+{
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
@@ -13,17 +11,16 @@
         }
     ],
     "paths": {
-      "/taoQtiItem/RestQtiItem/export/": {
+        "/taoQtiItem/RestQtiItem/export/": {
             "get": {
                 "description": "Exports an existing QTI Item as a QTI 2.1 package",
                 "tags": [
                     "item"
                 ],
                 "produces": [
-                    
-                            "application/json",
-                            "application/zip"
-                        ],
+                    "application/json",
+                    "application/zip"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -33,18 +30,16 @@
                         "type": "string",
                         "format": "string"
                     }
-                    
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response return QTI zip package content",
                         "schema": {
-                          "type": "file",
-                          "format": "application/zip"
+                            "type": "file",
+                            "format": "application/zip"
                         }
-                        
                     },
-                     "400": {
+                    "400": {
                         "description": "Bad request if you send invalid parameters",
                         "examples": {
                             "application/json": {
@@ -55,7 +50,7 @@
                             }
                         },
                         "schema": {
-                             "$ref" : "#/definitions/errorModel"
+                            "$ref": "#/definitions/errorModel"
                         }
                     },
                     "401": {
@@ -75,12 +70,11 @@
                             }
                         },
                         "schema": {
-                            "$ref" : "#/definitions/errorModel"
+                            "$ref": "#/definitions/errorModel"
                         }
                     },
                     "500": {
                         "description": "Internal error (should not occur)"
-                       
                     }
                 }
             }
@@ -114,14 +108,14 @@
                         "required": false
                     }
                 ],
-                "consumes" : [
+                "consumes": [
                     "multipart/form-data"
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "schema": {
-                           "title": "response",
+                            "title": "response",
                             "format": "json",
                             "type": "object",
                             "required": [
@@ -138,18 +132,17 @@
                                     "description": "tao version"
                                 },
                                 "data": {
-                                    "$ref" : "#/definitions/data"
+                                    "$ref": "#/definitions/data"
                                 },
                                 "errorCode": {
                                     "type": "string",
-                                    "description" :  "error code. it appear if success value is false"
+                                    "description": "error code. it appear if success value is false"
                                 },
-                                "errorMsg" : {
+                                "errorMsg": {
                                     "type": "string",
-                                    "description" :  "error description. it appear if success value is false"
+                                    "description": "error description. it appear if success value is false"
                                 }
-                            } 
-                            
+                            }
                         },
                         "examples": {
                             "application/json": {
@@ -160,7 +153,7 @@
                                         "http://tao.local/mytao.rdf#xxxxxxxxxxxxx2",
                                         "http://tao.local/mytao.rdf#xxxxxxxxxxxxx3",
                                         "http://tao.local/mytao.rdf#xxxxxxxxxxxxx4"
-                                        ]
+                                    ]
                                 },
                                 "version": "3.1.0"
                             }
@@ -177,7 +170,7 @@
                             }
                         },
                         "schema": {
-                             "$ref" : "#/definitions/errorModel"
+                            "$ref": "#/definitions/errorModel"
                         }
                     },
                     "401": {
@@ -185,190 +178,188 @@
                     },
                     "403": {
                         "description": "User isn't authorized to access to this functionality"
-                    
                     },
                     "500": {
                         "description": "Internal error (should not occur)"
-
                     }
                 }
             }
         },
         "/taoQtiItem/RestQtiItem/importDeferred/": {
-          "post": {
-            "description": "Asynchronous import QTI item entry point from uploaded package Check POST method & get valid uploaded file",
-            "tags": [
-              "item"
-            ],
-            "parameters": [
-              {
-                "name": "content",
-                "in": "formData",
-                "description": "file attachemnt zip format supported",
-                "required": true,
-                "type": "file"
-              },
-              {
-                "name": "class-uri",
-                "in": "formData",
-                "description": "Class uri to import item. If not specified root class will be used.",
-                "type": "string",
-                "required": false
-              },
-              {
-                "name": "class-label",
-                "in": "formData",
-                "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
-                "type": "string",
-                "required": false
-              }
-            ],
-            "consumes" : [
-              "multipart/form-data"
-            ],
-            "responses": {
-              "200": {
-                "description": "Request was correctly handled, task to import item was created",
-                "schema": {
-                  "title": "response",
-                  "format": "json",
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "version",
-                    "data"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "description": "True on success"
+            "post": {
+                "description": "Asynchronous import QTI item entry point from uploaded package Check POST method & get valid uploaded file",
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "file attachemnt zip format supported",
+                        "required": true,
+                        "type": "file"
                     },
-                    "version": {
-                      "type": "string",
-                      "description": "Tao version"
+                    {
+                        "name": "class-uri",
+                        "in": "formData",
+                        "description": "Class uri to import item. If not specified root class will be used.",
+                        "type": "string",
+                        "required": false
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "reference_id" : {
-                          "type": "string",
-                          "description": "Identifier of the task in the task queue"
-                        }
-                      }
+                    {
+                        "name": "class-label",
+                        "in": "formData",
+                        "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
+                        "type": "string",
+                        "required": false
                     }
-                  }
-                },
-                "examples": {
-                  "application/json": {
-                    "success": true,
-                    "data": {
-                      "reference_id": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request was correctly handled, task to import item was created",
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "required": [
+                                "success",
+                                "version",
+                                "data"
+                            ],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "True on success"
+                                },
+                                "version": {
+                                    "type": "string",
+                                    "description": "Tao version"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reference_id": {
+                                            "type": "string",
+                                            "description": "Identifier of the task in the task queue"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "success": true,
+                                "data": {
+                                    "reference_id": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
+                                },
+                                "version": "3.2.0"
+                            }
+                        }
                     },
-                    "version": "3.2.0"
-                  }
+                    "400": {
+                        "description": "Bad request if you send invalid parameters",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                                "version": "3.2.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "User isn't authorized to access to this functionality"
+                    },
+                    "500": {
+                        "description": "Internal error (should not occur)"
+                    }
                 }
-              },
-              "400": {
-                "description": "Bad request if you send invalid parameters",
-                "examples": {
-                  "application/json": {
-                    "success": false,
-                    "errorCode": 0,
-                    "errorMsg": "At least one mandatory parameter was required but found missing in your request",
-                    "version": "3.2.0"
-                  }
-                },
-                "schema": {
-                  "$ref" : "#/definitions/errorModel"
-                }
-              },
-              "401": {
-                "description": "Unauthorized"
-              },
-              "403": {
-                "description": "User isn't authorized to access to this functionality"
-
-              },
-              "500": {
-                "description": "Internal error (should not occur)"
-
-              }
             }
-          }
         },
         "/taoQtiItem/RestQtiItem/getStatus": {
-          "get": {
-            "description": "Check status of import item package task. Available since Tao 3.2",
-            "tags": [
-              "item"
-            ],
-            "responses": {
-              "200": {
-                "description": "Request was correctly handled, task found",
-                "schema": {
-                  "title": "response",
-                  "format": "json",
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "version",
-                    "data"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "description": "True on success"
-                    },
-                    "version": {
-                      "type": "string",
-                      "description": "Tao version"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "status" : {
-                          "type": "string",
-                          "description": "Task execution status"
+            "get": {
+                "description": "Check status of import item package task. Available since Tao 3.2",
+                "tags": [
+                    "item"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request was correctly handled, task found",
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "required": [
+                                "success",
+                                "version",
+                                "data"
+                            ],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "description": "True on success"
+                                },
+                                "version": {
+                                    "type": "string",
+                                    "description": "Tao version"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Task execution status"
+                                        },
+                                        "itemIds": {
+                                            "type": "array",
+                                            "description": "List of identifiers of imported items"
+                                        }
+                                    }
+                                }
+                            }
                         },
-                        "itemIds" : {
-                          "type": "array",
-                          "description": "List of identifiers of imported items"
+                        "examples": {
+                            "application/json": {
+                                "success": true,
+                                "data": {
+                                    "status": "Success",
+                                    "itemIds": [
+                                        "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
+                                    ]
+                                },
+                                "version": "3.2.0"
+                            }
                         }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "application/json": {
-                    "success": true,
-                    "data": {
-                      "status": "Success",
-                      "itemIds": ["http://tao.local/mytao.rdf#xxxxxxxxxxxxx"]
                     },
-                    "version": "3.2.0"
-                  }
-                }
-              },
-              "404": {
-                "description": "Task with given id was not found"
-              },
-              "500": {
-                "description": "Internal error (should not occur)"
-              }
-            },
-            "parameters": [
-              {
-                "name": "id",
-                "in": "query",
-                "description": "job reference",
-                "type": "string",
-                "required": true
-              }
-            ],
-            "consumes" : [
-              "application/x-www-form-urlencoded"
-            ]
-          }
+                    "404": {
+                        "description": "Task with given id was not found"
+                    },
+                    "500": {
+                        "description": "Internal error (should not occur)"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "job reference",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ]
+            }
         },
         "/taoQtiItem/RestQtiItem/createQtiItem/": {
             "post": {
@@ -400,7 +391,7 @@
                         "required": false
                     }
                 ],
-                "consumes" : [
+                "consumes": [
                     "multipart/form-data"
                 ],
                 "responses": {
@@ -448,7 +439,7 @@
                             }
                         },
                         "schema": {
-                             "$ref" : "#/definitions/errorModel"
+                            "$ref": "#/definitions/errorModel"
                         }
                     },
                     "401": {
@@ -459,181 +450,179 @@
                     },
                     "500": {
                         "description": "Internal error (should not occur)"
-                       
                     }
                 }
             }
         },
         "/taoQtiItem/RestQtiItem/createClass": {
-          "post": {
-            "description": "Create an item class",
-            "tags": [
-              "item"
-            ],
-            "parameters": [
-              {
-                "name": "class-label",
-                "in": "formData",
-                "description": "Item class label to create",
-                "required": true,
-                "type": "string"
-              },{
-                "name": "parent-class-uri",
-                "in": "formData",
-                "description": "Parent item class uri. If not specified or not exists then root item class will be used",
-                "required": false,
-                "type": "string"
-              },{
-                "name": "class-comment",
-                "in": "formData",
-                "description": "The comment of new created class",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "consumes" : [
-              "multipart/form-data"
-            ],
-            "responses": {
-              "200": {
-                "description": "Successful response",
-                "schema": {
-                  "title": "response",
-                  "format": "json",
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "version"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "description": "false on failure, true on success"
+            "post": {
+                "description": "Create an item class",
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "name": "class-label",
+                        "in": "formData",
+                        "description": "Item class label to create",
+                        "required": true,
+                        "type": "string"
                     },
-                    "version": {
-                      "type": "string",
-                      "description": "tao version"
+                    {
+                        "name": "parent-class-uri",
+                        "in": "formData",
+                        "description": "Parent item class uri. If not specified or not exists then root item class will be used",
+                        "required": false,
+                        "type": "string"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "message" : {
-                          "type": "string",
-                          "description": "A message to explain if class is newly created or it already exists"
-                        },
-                        "class-uri" : {
-                          "type": "string",
-                          "description": "The uri of newly created item class"
-                        }
-                      }
-                    },
-                    "errorCode": {
-                      "type": "string",
-                      "description": "error code. it appear if success value is false"
-                    },
-                    "errorMsg": {
-                      "type": "string",
-                      "description": "error description. it appear if success value is false"
+                    {
+                        "name": "class-comment",
+                        "in": "formData",
+                        "description": "The comment of new created class",
+                        "required": false,
+                        "type": "string"
                     }
-                  }
-                },
-                "examples": {
-                  "application/json": {
-                    "success": true,
-                    "data": {
-                      "class-uri": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
-                    },
-                    "version": "3.1.0"
-                  }
-                }
-              },
-              "400": {
-                "description": "Bad request if you send invalid parameters. class-label uri is mandatory.",
-                "examples": {
-                  "application/json": {
-                    "success": false,
-                    "errorCode": 0,
-                    "errorMsg": "At least one mandatory parameter was required but found missing in your request",
-                    "version": "3.1.0"
-                  }
-                },
-                "schema": {
-                  "$ref": "#/definitions/errorModel"
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "examples": {
-                  "application/json": {
-                    "success": false,
-                    "errorCode": 0,
-                    "errorMsg": "You don't have permission to access this resource.",
-                    "version": "3.1.0"
-                  }
-                },
-                "schema": {
-                  "$ref": "#/definitions/errorModel"
-                }
-              },
-              "500": {
-                "description": "Internal error, if class-parent-uri is not a valid item class.",
-                "examples": {
-                  "application/json": {
-                    "success": false,
-                    "errorCode": 0,
-                    "errorMsg": "Exception error description",
-                    "version": "3.1.0"
-                  }
-                },
-                "schema": {
-                  "$ref": "#/definitions/errorModel"
-                }
-              }
-            }
-          }
-        }
-    },
-
-    "definitions": {
-        "errorModel" : {
-            "type": "object",
-            "description": "contain error",
-            "required": [
-              "success",
-              "version",
-              "errorCode",
-              "errorMsg"
-            ],
-            "properties": {
-               
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "title": "response",
+                            "format": "json",
+                            "type": "object",
+                            "required": [
+                                "success",
+                                "version"
+                            ],
+                            "properties": {
                                 "success": {
                                     "type": "boolean",
-                                    "description": "false on failure",
-                                    "default" : false
+                                    "description": "false on failure, true on success"
                                 },
                                 "version": {
                                     "type": "string",
-                                    "description" : "tao version"
+                                    "description": "tao version"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A message to explain if class is newly created or it already exists"
+                                        },
+                                        "class-uri": {
+                                            "type": "string",
+                                            "description": "The uri of newly created item class"
+                                        }
+                                    }
                                 },
                                 "errorCode": {
-                                    "type": "integer",
-                                    "description": "error code"
+                                    "type": "string",
+                                    "description": "error code. it appear if success value is false"
                                 },
                                 "errorMsg": {
                                     "type": "string",
-                                    "description": "error description"
+                                    "description": "error description. it appear if success value is false"
                                 }
-                            
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "success": true,
+                                "data": {
+                                    "class-uri": "http://tao.local/mytao.rdf#xxxxxxxxxxxxx"
+                                },
+                                "version": "3.1.0"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request if you send invalid parameters. class-label uri is mandatory.",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "You don't have permission to access this resource.",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error, if class-parent-uri is not a valid item class.",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "Exception error description",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "errorModel": {
+            "type": "object",
+            "description": "contain error",
+            "required": [
+                "success",
+                "version",
+                "errorCode",
+                "errorMsg"
+            ],
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "description": "false on failure",
+                    "default": false
+                },
+                "version": {
+                    "type": "string",
+                    "description": "tao version"
+                },
+                "errorCode": {
+                    "type": "integer",
+                    "description": "error code"
+                },
+                "errorMsg": {
+                    "type": "string",
+                    "description": "error description"
+                }
             }
         },
-        "data" : {
+        "data": {
             "type": "object",
             "description": "output user data, it appear if success value is true",
             "properties": {
                 "items": {
-                   "type": "array",
-                   "items": {
-                      "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     }
                 }
             }
