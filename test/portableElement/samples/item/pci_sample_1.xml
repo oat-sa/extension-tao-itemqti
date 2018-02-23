@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:m="http://www.w3.org/1998/Math/MathML"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
+        identifier="i15190271204456110" title="Item 14" adaptive="false" timeDependent="false" xml:lang="en-US">
+    <responseDeclaration cardinality="single" identifier="RESPONSE" baseType="integer"/>
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <customInteraction responseIdentifier="RESPONSE">
+                    <portableCustomInteraction customInteractionTypeIdentifier="pciSampleA" hook=""
+                                               xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction">
+                        <resources>
+                            <libraries></libraries>
+                        </resources>
+                        <properties>
+                            <entry key="level">5</entry>
+                            <entry key="label-min">min</entry>
+                            <entry key="label-max">max</entry>
+                        </properties>
+                        <markup
+                                xmlns="http://www.w3.org/1999/xhtml">
+                            <div class="pciSampleA">
+                                <div class="prompt"></div>
+                                <ul class="likert"></ul>
+                            </div>
+                        </markup>
+                    </portableCustomInteraction>
+                </customInteraction>
+            </div>
+        </div>
+    </itemBody>
+</assessmentItem>

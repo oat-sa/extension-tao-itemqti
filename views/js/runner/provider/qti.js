@@ -27,12 +27,15 @@ define([
     'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/portableElementRegistry/ciRegistry',
+    'taoQtiItem/portableElementRegistry/icRegistry',
+    'taoQtiItem/portableElementRegistry/provider/sideLoadingProviderFactory',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoQtiItem/runner/provider/manager/userModules',
     'taoQtiItem/qtiItem/helper/modalFeedback',
     'taoItems/assets/manager'
-], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, userModules, modalFeedbackHelper){
+], function($, _, context, Promise, QtiLoader, Element, ciRegistry, icRegistry, sideLoadingProviderFactory, QtiRenderer, picManager, userModules, modalFeedbackHelper){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -83,6 +86,19 @@ define([
                     self.trigger('error', 'Error in template rendering : ' +  e.message);
                 }
                 try {
+
+                    if(options.portableElements){
+                        //if the option to directly load portable elements is provided, use only this one
+                        if(options.portableElements.pci){
+                            ciRegistry.resetProviders();
+                            ciRegistry.registerProvider('pciDeliveryProvider', sideLoadingProviderFactory(options.portableElements.pci));
+                        }
+                        if(options.portableElements.pic){
+                            icRegistry.resetProviders();
+                            icRegistry.registerProvider('picDeliveryProvider', sideLoadingProviderFactory(options.portableElements.pic));
+                        }
+                    }
+
                     // Race between postRendering and timeout
                     // postRendering waits for everything to be resolved or one reject
                     Promise.race([
