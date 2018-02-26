@@ -491,7 +491,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Export a pci to a zip package
+     * Export a portable element to a zip package
      *
      * @param PortableElementObject $object
      * @return string
@@ -510,9 +510,13 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $zip->addFromString($this->getModel()->getManifestName(), $manifest);
 
         $files = $this->getFilesFromPortableElement($object);
+
         $filesystem = $this->getFileSystem();
         foreach ($files as $file) {
-            $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
+            if(strpos($file, './') === 0){
+                //only export the files that are in the portable element package (exclude the shared libraries)
+                $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
+            }
         }
 
         $zip->close();
