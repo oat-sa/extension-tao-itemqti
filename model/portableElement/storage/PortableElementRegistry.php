@@ -375,8 +375,13 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @return mixed
      */
     private function getAliasVersion($versionString){
-        $version = SemVerParser::parse($versionString);
-        return $version->getMajor().'.'.$version->getMinor().'.*';
+        if(preg_match('/^[0-9]+\.[0-9]+\.\*$/', $versionString)){
+            //already an alias version string
+            return $versionString;
+        }else{
+            $version = SemVerParser::parse($versionString);
+            return $version->getMajor().'.'.$version->getMinor().'.*';
+        }
     }
 
     /**
