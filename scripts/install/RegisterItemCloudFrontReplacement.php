@@ -38,5 +38,6 @@ class RegisterItemCloudFrontReplacement  extends InstallAction
 
         $this->getServiceManager()->register(QtiJsonItemCloudFrontReplacement::SERVICE_ID, $cloudFrontService);
 
+        return \common_report_Report::createSuccess('Config');
     }
 }

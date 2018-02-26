@@ -42,14 +42,13 @@ class QtiJsonItemCloudFrontReplacement extends ConfigurableService
     const CLOUDFRONT_KEYPAIR = 'cloudFrontKeyPair';
     const CLOUDFRONT_KEYFILE = 'cloudFrontKeyFile';
     const CLOUDFRONT_KEYTMPFILE = 'tmpFile';
-    const CLOUDFRONT_KEYS3FILE = 's3File';
     const BUCKET = 'bucket';
     const PREFIX = 'prefix';
 
 
     public function hasCloudFrontAssets($content)
     {
-        if($this->hasOption(self::CLOUDFRONT_PATTERN) && preg_match(self::CLOUDFRONT_PATTERN,$content) === 1){
+        if($this->hasOption(self::CLOUDFRONT_PATTERN) && preg_match($this->getOption(self::CLOUDFRONT_PATTERN),$content) === 1){
             return true;
         }
         return false;
@@ -62,18 +61,18 @@ class QtiJsonItemCloudFrontReplacement extends ConfigurableService
 
         if(!file_exists(self::CLOUDFRONT_KEYTMPFILE) && $this->hasOption(self::CLOUDFRONT_KEYFILE)){
             $s3Client = $awsClient->getS3Client();
-            $s3Adapter = new AwsS3Adapter($s3Client, self::BUCKET, self::PREFIX);
-            $response = $s3Adapter->read(self::CLOUDFRONT_KEYS3FILE);
+            $s3Adapter = new AwsS3Adapter($s3Client, $this->getOption(self::BUCKET), $this->getOption(self::PREFIX));
+            $response = $s3Adapter->read($this->getOption(self::CLOUDFRONT_KEYFILE));
             if($response !== false){
-                file_put_contents(self::CLOUDFRONT_KEYTMPFILE, $response['contents']);
-                chmod(self::CLOUDFRONT_KEYTMPFILE, 700);
+                file_put_contents($this->getOption(self::CLOUDFRONT_KEYTMPFILE), $response['contents']);
+                chmod($this->getOption(self::CLOUDFRONT_KEYTMPFILE), 700);
             } else {
                 return $content;
             }
         }
 
         $matches = [];
-        preg_match_all(self::CLOUDFRONT_PATTERN, $content, $matches);
+        preg_match_all($this->getOption(self::CLOUDFRONT_PATTERN), $content, $matches);
 
         if(!empty($matches[0])){
             $changed = preg_replace('#\\\/#','/', $matches[0]);
@@ -81,11 +80,12 @@ class QtiJsonItemCloudFrontReplacement extends ConfigurableService
                 $cloudFront = $awsClient->getCloudFrontClient();
 
                 $resourceUrl = $match.'?user='.\common_session_SessionManager::getSession()->getUserLabel();
-                $expires = time() + ($this->hasOption(self::CLOUDFRONT_EXPIRATION)) ? $this->getOption(self::CLOUDFRONT_EXPIRATION) : 3600;
+                $expiration = ($this->hasOption(self::CLOUDFRONT_EXPIRATION)) ? $this->getOption(self::CLOUDFRONT_EXPIRATION) : 3600;
+                $expires = time() + $expiration;
 
                 $signedUrlCannedPolicy = $cloudFront->getSignedUrl(array(
-                    'private_key' => self::CLOUDFRONT_KEYTMPFILE,
-                    'key_pair_id' => self::CLOUDFRONT_KEYPAIR,
+                    'private_key' => $this->getOption(self::CLOUDFRONT_KEYTMPFILE),
+                    'key_pair_id' => $this->getOption(self::CLOUDFRONT_KEYPAIR),
                     'url'     => $resourceUrl,
                     'expires' => $expires,
                 ));
