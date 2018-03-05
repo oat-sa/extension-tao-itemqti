@@ -33,12 +33,13 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '13.3.1',
+    'version'     => '13.4.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=4.2.4',
         'tao'      => '>=17.4.0',
-        'taoTaskQueue' => '>=0.13.1'
+        'taoTaskQueue' => '>=0.13.1',
+        'taoDevTools' => '>=3.9.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'

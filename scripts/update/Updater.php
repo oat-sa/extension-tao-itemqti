@@ -536,6 +536,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('13.1.0');
         }
 
-        $this->skip('13.1.0', '13.3.1');
+        $this->skip('13.1.0', '13.4.0');
     }
 }
