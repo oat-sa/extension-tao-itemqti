@@ -247,8 +247,8 @@ class clearLanguageVersionsScript extends ScriptAction
         if (!$this->isTaoRevisionInstalled()) {
             $filteredCopy = $filtered;
 
-            foreach ($filteredCopy as $key => &$itemInfo) {
-                $this->checkDirsExistence($itemInfo['uri'], $itemInfo['langs']);
+            foreach ($filteredCopy as $key => &$itemDataArray) {
+                $this->checkDirsExistence($itemDataArray['uri'], $itemDataArray['langs']);
             }
 
             foreach ($filteredCopy as $key => $itemInfo) {
