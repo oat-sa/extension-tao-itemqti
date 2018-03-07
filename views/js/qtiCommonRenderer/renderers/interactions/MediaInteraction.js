@@ -283,18 +283,15 @@ define([
         var restorePlayerState = function restorePlayerState(playerState){
             if(playerState && interaction.mediaElement){
 
-                //Muted state
-                if(typeof playerState.muted !== 'undefined'){
-                    if(playerState.muted === true){
-                        interaction.mediaElement.mute();
-                    } else {
-                        interaction.mediaElement.unmute();
-                    }
-                }
-
                 //Volume
                 if(_.isNumber(playerState.volume)){
                     interaction.mediaElement.setVolume(playerState.volume);
+                }
+
+                //Muted state (always after the volume)
+                if(_.isBoolean(playerState.muted)){
+                    interaction.mediaElement.mute(playerState.muted);
+                    interaction.mediaElement.startMuted = playerState.muted;
                 }
 
                 //Position
@@ -314,14 +311,15 @@ define([
             }
 
             if (_.isPlainObject(state.player) && interaction.mediaElement) {
-                if(interaction.mediaElement.is('ready')){
-                    restorePlayerState(state.player);
-                } else {
+                //if(interaction.mediaElement.is('ready')){
+                    //restorePlayerState(state.player);
+                //} else {
                     interaction.mediaElement.on('ready.state', function(){
                         interaction.mediaElement.off('ready.state');
                         restorePlayerState(state.player);
+                        console.log('READY CALLED');
                     });
-                }
+                //}
             }
         }
     };
