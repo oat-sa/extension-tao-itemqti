@@ -13,12 +13,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technlogies SA
  *
  */
 
 /**
- * @author Martin for OAT S.A. <code@taotesting.com>
+ * Common renderer for the QTI media interaction.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -128,6 +129,9 @@ define([
                             this.disable();
                         }
                     })
+                    .on('update', _.throttle(function(){
+                        containerHelper.triggerResponseChangeEvent(interaction);
+                    }, 1000))
                     .on('ended', function() {
                         $container.data('timesPlayed', $container.data('timesPlayed') + 1);
                         containerHelper.triggerResponseChangeEvent(interaction);
@@ -267,10 +271,54 @@ define([
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
+
+        /**
+         * Restore the media player state
+         * @private
+         * @param {Object} [state]
+         * @param {Boolean} [state.muted] - is the player muted
+         * @param {Number} [state.volume] - the current volume
+         * @param {Number} [state.position] - the position to seek to
+         */
+        var restorePlayerState = function restorePlayerState(playerState){
+            if(playerState && interaction.mediaElement){
+
+                //Volume
+                if(_.isNumber(playerState.volume)){
+                    interaction.mediaElement.setVolume(playerState.volume);
+                }
+
+                //Muted state (always after the volume)
+                if(_.isBoolean(playerState.muted)){
+                    interaction.mediaElement.mute(playerState.muted);
+                    interaction.mediaElement.startMuted = playerState.muted;
+                }
+
+                //Position
+                if(playerState.position && playerState.position > 0){
+                    interaction.mediaElement.seek(playerState.position);
+                    if(!interaction.attr('autostart')){
+                        interaction.mediaElement.pause();
+                    }
+                }
+            }
+        };
+
         if(_.isObject(state)){
             if(state.response){
                 interaction.resetResponse();
                 interaction.setResponse(state.response);
+            }
+
+            if (_.isPlainObject(state.player) && interaction.mediaElement) {
+                if(interaction.mediaElement.is('ready')){
+                    restorePlayerState(state.player);
+                } else {
+                    interaction.mediaElement.on('ready.state', function(){
+                        interaction.mediaElement.off('ready.state');
+                        restorePlayerState(state.player);
+                    });
+                }
             }
         }
     };
@@ -287,6 +335,15 @@ define([
 
         if(response){
             state.response = response;
+        }
+
+        //collect player's state
+        if(interaction.mediaElement) {
+            state.player = {
+                position : interaction.mediaElement.getPosition(),
+                muted    : interaction.mediaElement.is('muted'),
+                volume   : interaction.mediaElement.getVolume()
+            };
         }
         return state;
     };
