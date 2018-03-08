@@ -311,15 +311,14 @@ define([
             }
 
             if (_.isPlainObject(state.player) && interaction.mediaElement) {
-                //if(interaction.mediaElement.is('ready')){
-                    //restorePlayerState(state.player);
-                //} else {
+                if(interaction.mediaElement.is('ready')){
+                    restorePlayerState(state.player);
+                } else {
                     interaction.mediaElement.on('ready.state', function(){
                         interaction.mediaElement.off('ready.state');
                         restorePlayerState(state.player);
-                        console.log('READY CALLED');
                     });
-                //}
+                }
             }
         }
     };
