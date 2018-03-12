@@ -537,9 +537,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('13.1.0');
         }
 
-        $this->skip('13.1.0', '13.3.1');
+        $this->skip('13.1.0', '13.3.2');
 
-        if ($this->isVersion('13.3.1')) {
+        if ($this->isVersion('13.3.2')) {
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'taoQtiItem', 'mod' => 'RestQtiItem')));
             $this->setVersion('13.4.0');
         }
