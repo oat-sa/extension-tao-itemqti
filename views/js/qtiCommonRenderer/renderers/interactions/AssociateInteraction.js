@@ -166,7 +166,7 @@ define([
             }
 
             //if we are to remove the sibling too, update its usage:
-            $sibling.data('usage', $sibling.data('usage') - 1).removeClass('deactivated');
+            // $sibling.data('usage', $sibling.data('usage') - 1).removeClass('deactivated');
 
             //completely empty pair:
             if(!$choice.siblings('div').hasClass('filled') && (parseInt(interaction.attr('maxAssociations')) === 0 || interaction.responseMappingMode)){
