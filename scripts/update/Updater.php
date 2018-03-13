@@ -26,6 +26,7 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -536,6 +537,13 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('13.1.0');
         }
 
-        $this->skip('13.1.0', '13.3.3');
+        $this->skip('13.1.0', '13.3.2');
+
+        if ($this->isVersion('13.3.2')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'taoQtiItem', 'mod' => 'RestQtiItem')));
+            $this->setVersion('13.4.0');
+        }
+      
+        $this->skip('13.4.0', '13.4.1');
     }
 }
