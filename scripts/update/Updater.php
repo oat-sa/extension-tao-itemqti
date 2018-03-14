@@ -61,6 +61,7 @@ use oat\taoTaskQueue\model\TaskLogInterface;
 use taoItems_actions_form_RestItemForm;
 use taoItems_models_classes_ItemsService;
 use taoTests_models_classes_TestsService;
+use oat\taoQtiItem\model\QtiJsonItemCloudFrontReplacement;
 
 /**
  *
@@ -545,5 +546,12 @@ class Updater extends \common_ext_ExtensionUpdater
         }
       
         $this->skip('13.4.0', '13.4.1');
+
+        if ($this->isVersion('13.4.1')) {
+            $cloudFrontService = new QtiJsonItemCloudFrontReplacement();
+
+            $this->getServiceManager()->register(QtiJsonItemCloudFrontReplacement::SERVICE_ID, $cloudFrontService);
+            $this->setVersion('12.5.0');
+        }
     }
 }
