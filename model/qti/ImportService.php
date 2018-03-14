@@ -64,6 +64,8 @@ class ImportService extends ConfigurableService
 
     const SERVICE_ID = 'taoQtiItem/ImportService';
 
+    const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
+
     /**
      * @return ImportService
      */
@@ -403,6 +405,10 @@ class ImportService extends ConfigurableService
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
                 $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel, $qtiItemResource);
+
+                // Setting qtiIdentifier property
+                $qtiIdentifierProperty = new \core_kernel_classes_Property(self::PROPERTY_QTI_ITEM_IDENTIFIER);
+                $rdfItem->editPropertyValues($qtiIdentifierProperty, $resourceIdentifier);
 
                 $itemAssetManager = new AssetManager();
                 $itemAssetManager->setItemContent($qtiModel->toXML());
