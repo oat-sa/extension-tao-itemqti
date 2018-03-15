@@ -20,6 +20,11 @@
 use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\scripts\install\InitMetadataService;
+use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
+use oat\taoQtiItem\scripts\install\SetItemModel;
+use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
+use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -28,12 +33,13 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '12.8.0',
+    'version'     => '13.5.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=4.2.4',
-    	'generis' => '>=6.9.0',
-        'tao'      => '>=15.4.0'
+    	  'generis' => '>=6.9.0',
+        'tao'      => '>=17.9.0',
+        'taoTaskQueue' => '>=0.13.1'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -56,10 +62,11 @@ return array(
 			'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
             'oat\\taoQtiItem\\install\\scripts\\setXMLParserConfig',
-            \oat\taoQtiItem\scripts\install\InitMetadataService::class,
-            \oat\taoQtiItem\scripts\install\SetItemModel::class,
-            \oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries::class,
-            \oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist::class,
+            InitMetadataService::class,
+            SetItemModel::class,
+            RegisterLegacyPortableLibraries::class,
+            SetUpQueueTasks::class,
+            RegisterItemCompilerBlacklist::class
 		)
 	),
 	'local'	=> array(
@@ -71,14 +78,14 @@ return array(
     'routes' => array(
         '/taoQtiItem' => 'oat\\taoQtiItem\\controller'
     ),
-	'managementRole' => 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole',
+    'managementRole' => 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole', array('ext'=>'taoQtiItem')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiItemRunner')),
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class),
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class),
-        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class)
-
+        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class),
+        array('grant', \oat\tao\model\user\TaoRoles::REST_PUBLISHER, array('ext'=>'taoQtiItem', 'mod' => 'RestQtiItem')),
     ),
 	'constants' => array(
 		# views directory

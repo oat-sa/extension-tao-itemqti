@@ -26,13 +26,14 @@ define([
     'lodash',
     'i18n',
     'core/promise',
+    'util/strLimiter',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/extendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask'
-], function($, _, __, Promise, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
+], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
     'use strict';
 
 
@@ -90,7 +91,7 @@ define([
                         editor.config = ckConfigurator.getConfig(editor, toolbarType, ckOptions);
 
                         if(limiter.enabled){
-                            limiter.listenKeyPress();
+                            limiter.listenTextInput();
                         }
                     });
                     editor.on('change', function(e) {
@@ -104,7 +105,7 @@ define([
                     });
 
                     if(limiter.enabled){
-                        limiter.listenKeyPress();
+                        limiter.listenTextInput();
                     }
 
                     resolve();
@@ -362,9 +363,9 @@ define([
             enabled : enabled,
 
             /**
-             * Listen for a key press in the interaction and limit the input if necessary
+             * Listen for text input into the interaction and limit it if necessary
              */
-            listenKeyPress : function listenKeyPress(){
+            listenTextInput : function listenTextInput(){
                 var self = this;
 
                 var ignoreKeyCodes = [
@@ -403,9 +404,15 @@ define([
                     13, // enter
                     2228237 // shift + enter in ckEditor
                 ];
+                var cke;
 
-
-                var limitHandler = function limitHandler(e){
+                /**
+                 * This part works on keyboard input
+                 *
+                 * @param e
+                 * @returns {boolean}
+                 */
+                var keyLimitHandler = function keyLimitHandler(e){
                     var keyCode = e && e.data ? e.data.keyCode : e.which ;
                     if ( (!_.contains(ignoreKeyCodes, keyCode) ) &&
                          (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
@@ -423,10 +430,72 @@ define([
                     });
                 };
 
+                /**
+                 * This part works on drop or paste
+                 * @param e
+                 */
+                var nonKeyLimitHandler = function nonKeyLimitHandler(e){
+                    var newValue;
+                    var oldValue = _getTextareaValue(interaction);
+                    var isCke = _getFormat(interaction) === 'xhtml';
+
+                    if(isCke) {
+                        // cke has its own object structure
+                        newValue = e.data.dataValue;
+                    }
+                    else {
+                        // covers input via paste or drop
+                        newValue = e.originalEvent.clipboardData ?
+                            e.originalEvent.clipboardData.getData('text') :
+                            (e.originalEvent.dataTransfer.getData('text') ||
+                                e.originalEvent.dataTransfer.getData('text/plain') ||
+                                '');
+                    }
+
+                    // prevent insertion of non-limited data
+                    if (e.cancel){
+                        e.cancel();
+                    } else {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
+
+                    if(!newValue) {
+                        return false;
+                    }
+
+                    // limit by word or character count if required
+                    if(!_.isNull(maxWords)) {
+                        newValue = strLimiter.limitByWordCount(newValue, maxWords - self.getWordsCount());
+                    }
+                    else if(!_.isNull(maxLength)){
+                        newValue = strLimiter.limitByCharCount(newValue, maxLength - self.getCharsCount());
+                    }
+
+                    // insert the cut-off text
+                    if (isCke) {
+                        _getCKEditor(interaction).insertText(newValue);
+                    }
+                    else {
+                        containerHelper.get(interaction).find('textarea').val(oldValue + newValue);
+                    }
+
+                    _.defer(function(){
+                        self.updateCounter();
+                    });
+                };
+
                 if (_getFormat(interaction) === "xhtml") {
-                    _getCKEditor(interaction).on('key', limitHandler);
+                    cke = _getCKEditor(interaction);
+                    cke.on('key', keyLimitHandler);
+                    cke.on('paste', nonKeyLimitHandler);
+                    // @todo: drop requires cke 4.5
+                    // cke.on('drop', nonKeyLimitHandler);
+
                 } else {
-                    $textarea.on('keydown.commonRenderer', limitHandler);
+                    $textarea
+                        .on('keydown.commonRenderer', keyLimitHandler)
+                        .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
                 }
             },
 
@@ -439,7 +508,8 @@ define([
                 if(_.isEmpty(value)){
                     return 0;
                 }
-                return value.replace(/\s+/gi, ' ').split(' ').length;
+                // leading and trailing white space don't qualify as words
+                return value.trim().replace(/\s+/gi, ' ').split(' ').length;
             },
 
             /**
@@ -645,11 +715,11 @@ define([
         var limiter = inputLimiter(interaction);
         if ( _getFormat(interaction) === 'xhtml') {
             try{
-            _getCKEditor(interaction).setData(text, function(){
-                if(limiter.enabled){
-                    limiter.updateCounter();
-                }
-            });
+                _getCKEditor(interaction).setData(text, function(){
+                    if(limiter.enabled){
+                        limiter.updateCounter();
+                    }
+                });
             } catch(e){
                 console.error('setText error', e);
             }

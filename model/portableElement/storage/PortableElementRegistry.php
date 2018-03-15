@@ -30,6 +30,7 @@ use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Naneau\SemVer\Parser as SemVerParser;
 
 /**
  * CreatorRegistry stores reference to
@@ -314,7 +315,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             $latestVersion = $this->getLatestVersion($object->getTypeIdentifier());
             if(version_compare($object->getVersion(), $latestVersion->getVersion(), '<')){
                 throw new PortableElementVersionIncompatibilityException(
-                    'A newer version of the code already exists ' . $latestVersion->getVersion()
+                    'A newer version of the code already exists ' . $latestVersion->getVersion() . ' > ' . $object->getVersion()
                 );
             }
         } catch (PortableElementNotFoundException $e) {
@@ -328,6 +329,12 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $this->getFileSystem()->registerFiles($object, $files, $source);
 
         $this->update($object);
+
+        //register alias with the exact same files
+        $aliasObject = clone $object;
+        $aliasObject->setVersion($this->getAliasVersion($object->getVersion()));
+        $this->getFileSystem()->registerFiles($aliasObject, $files, $source);
+        $this->update($aliasObject);
     }
 
     /**
@@ -363,11 +370,26 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @return array
-     * @throws PortableElementInconsistencyModelException
+     * Get the alias version for a given version number, e.g. 2.1.5 becomes 2.1.*
+     * @param $versionString
+     * @return mixed
      */
-    public function getLatestRuntimes()
-    {
+    private function getAliasVersion($versionString){
+        if(preg_match('/^[0-9]+\.[0-9]+\.\*$/', $versionString)){
+            //already an alias version string
+            return $versionString;
+        }else{
+            $version = SemVerParser::parse($versionString);
+            return $version->getMajor().'.'.$version->getMinor().'.*';
+        }
+    }
+
+    /**
+     * Get the latest registered portable element data object
+     * @param bool $useVersionAlias
+     * @return PortableElementObject[]
+     */
+    public function getLatest($useVersionAlias = false){
         $all = [];
         foreach ($this->getAll() as $typeIdentifier => $versions) {
 
@@ -377,32 +399,39 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
             $this->krsortByVersion($versions);
             $object = $this->getModel()->createDataObject(reset($versions));
-            $all[$typeIdentifier] = [$this->getRuntime($object)];
+            if($useVersionAlias){
+                $object->setVersion($this->getAliasVersion($object->getVersion()));
+            }
+            $all[$typeIdentifier] = $object;
         }
         return $all;
     }
 
+    /**
+     * Get the last version of portable element runtimes
+     *
+     * @return array
+     * @throws PortableElementInconsistencyModelException
+     */
+    public function getLatestRuntimes($useVersionAlias = false)
+    {
+        return array_map(function($portableElementDataObject){
+            return [$this->getRuntime($portableElementDataObject)];
+        }, $this->getLatest($useVersionAlias));
+    }
+
 
     /**
+     * Get the last version of portable element creators
+     *
      * @return PortableElementObject[]
      * @throws PortableElementInconsistencyModelException
      */
-    public function getLatestCreators()
+    public function getLatestCreators($useVersionAlias = false)
     {
-        $all = [];
-        foreach ($this->getAll() as $typeIdentifier => $versions) {
-
-            if (empty($versions)) {
-                continue;
-            }
-
-            $this->krsortByVersion($versions);
-            $object = $this->getModel()->createDataObject(reset($versions));
-            if (! empty($object->getCreator())) {
-                $all[$typeIdentifier] = $object;
-            }
-        }
-        return $all;
+        return array_filter($this->getLatest($useVersionAlias), function($portableElementDataObject){
+            return !empty($portableElementDataObject->getCreator());
+        });
     }
 
     /**
@@ -467,7 +496,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Export a pci to a zip package
+     * Export a portable element to a zip package
      *
      * @param PortableElementObject $object
      * @return string
@@ -486,9 +515,13 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $zip->addFromString($this->getModel()->getManifestName(), $manifest);
 
         $files = $this->getFilesFromPortableElement($object);
+
         $filesystem = $this->getFileSystem();
         foreach ($files as $file) {
-            $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
+            if(strpos($file, './') === 0){
+                //only export the files that are in the portable element package (exclude the shared libraries)
+                $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
+            }
         }
 
         $zip->close();
@@ -542,7 +575,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     protected function krsortByVersion(array &$array)
     {
         uksort($array, function($a, $b) {
-            return version_compare($a, $b, '<');
+            return -version_compare($a, $b);
         });
     }
 

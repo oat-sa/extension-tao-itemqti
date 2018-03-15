@@ -31,12 +31,17 @@ use oat\taoQtiItem\model\portableElement\parser\element\PortableElementDirectory
 use oat\taoQtiItem\model\portableElement\parser\element\PortableElementPackageParser;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
 use oat\taoQtiItem\model\qti\Element;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
+use oat\taoQtiItem\model\qti\InfoControl;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class PortableElementService implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
+
+    const PORTABLE_CLASS_INTERACTION = CustomInteraction::class;
+    const PORTABLE_CLASS_INFOCONTROL = InfoControl::class;
 
     protected function getPortableModelRegistry()
     {
@@ -302,5 +307,34 @@ class PortableElementService implements ServiceLocatorAwareInterface
             }
         }
         return null;
+    }
+
+    /**
+     * Get the array of portable elements used in qti item object by its php class
+     * @param string $portableElementClass - PORTABLE_CLASS_INTERACTION or PORTABLE_CLASS_INFOCONTROL
+     * @param Element $qtiItem
+     * @return array
+     */
+    public function getPortableElementByClass($portableElementClass, Element $qtiItem, $useVersionAlias = false){
+        $portableElements = [];
+
+        $identifiers = array_map(function($portableElement){
+            return $portableElement->getTypeIdentifier();
+        }, $qtiItem->getComposingElements($portableElementClass));
+
+        foreach($this->getPortableModelRegistry()->getModels() as $model){
+            $phpClass = $model->getQtiElementClassName();
+            if(is_subclass_of($phpClass, $portableElementClass)){
+                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes($useVersionAlias), function($data) use ($identifiers){
+                    $portableElement = reset($data);
+                    if(!empty($portableElement) && in_array($portableElement['typeIdentifier'], $identifiers)){
+                        return true;
+                    }
+                    return false;
+                }));
+            }
+        }
+
+        return $portableElements;
     }
 }

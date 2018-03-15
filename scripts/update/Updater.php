@@ -26,6 +26,7 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -41,8 +42,11 @@ use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -53,6 +57,7 @@ use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoTaskQueue\model\TaskLogInterface;
 use taoItems_actions_form_RestItemForm;
 use taoItems_models_classes_ItemsService;
 use taoTests_models_classes_TestsService;
@@ -501,6 +506,44 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('12.6.0');
         }
 
-        $this->skip('12.6.0', '12.8.0');
+        $this->skip('12.6.0', '12.7.4');
+
+        if ($this->isVersion('12.7.4')) {
+            /** @var TaskLogInterface|ConfigurableService $taskLogService */
+            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
+
+            $taskLogService->linkTaskToCategory(ImportQtiItem::class, TaskLogInterface::CATEGORY_IMPORT);
+
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+
+            $this->setVersion('13.0.0');
+        }
+
+        $this->skip('13.0.0', '13.0.1');
+
+        if($this->isVersion('13.0.1')){
+
+            $portableElementService = new PortableElementService();
+            $portableElementService->setServiceLocator($this->getServiceManager());
+
+            foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+                $portableElements = $model->getRegistry()->getLatest();
+                foreach($portableElements as $portableElement){
+                    $path = $model->getRegistry()->export($portableElement);
+                    $portableElementService->import($model->getId(), $path);
+                }
+            }
+
+            $this->setVersion('13.1.0');
+        }
+
+        $this->skip('13.1.0', '13.3.2');
+
+        if ($this->isVersion('13.3.2')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'taoQtiItem', 'mod' => 'RestQtiItem')));
+            $this->setVersion('13.4.0');
+        }
+      
+        $this->skip('13.4.0', '13.5.0');
     }
 }

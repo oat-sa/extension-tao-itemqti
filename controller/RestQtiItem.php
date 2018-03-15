@@ -19,6 +19,8 @@
 namespace oat\taoQtiItem\controller;
 
 use oat\tao\model\TaoOntology;
+use oat\taoTaskQueue\model\Entity\TaskLogEntity;
+use oat\taoTaskQueue\model\TaskLogInterface;
 use \Request;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\ItemModel;
@@ -31,7 +33,8 @@ use oat\taoQtiItem\model\tasks\ImportQtiItem;
 /**
  * End point of Rest item API
  *
- * @author Absar Gilani, absar.gilani6@gmail.com
+ * @author Absar Gilani, <absar.gilani6@gmail.com>
+ * @author Gyula Szucs <gyula@taotesting.com>
  */
 class RestQtiItem extends AbstractRestQti
 {
@@ -39,7 +42,6 @@ class RestQtiItem extends AbstractRestQti
 
     const RESTITEM_PACKAGE_NAME = 'content';
 
-    const IMPORT_TASK_CLASS = 'oat\taoQtiItem\model\tasks\ImportQtiItem';
     /**
      * @inherit
      */
@@ -80,8 +82,7 @@ class RestQtiItem extends AbstractRestQti
     public function import()
     {
         try {
-            // Check if it's post method
-            if ($this->getRequestMethod()!=Request::HTTP_POST) {
+            if ($this->getRequestMethod() != Request::HTTP_POST) {
                 throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
             }
 
@@ -119,25 +120,36 @@ class RestQtiItem extends AbstractRestQti
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function getTaskName()
+    {
+        return ImportQtiItem::class;
+    }
+
+    /**
      * Import item package through the task queue.
      */
     public function importDeferred()
     {
         try {
-            $file = $this->getUploadedPackage();
-            $task = ImportQtiItem::createTask($file, $this->getDestinationClass());
+            if ($this->getRequestMethod() != Request::HTTP_POST) {
+                throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
+            }
+
+            $task = ImportQtiItem::createTask($this->getUploadedPackage(), $this->getDestinationClass(), $this->getServiceLocator());
+
             $result = [
                 'reference_id' => $task->getId()
             ];
-            $report = $task->getReport();
-            if (!empty($report)) {
-                if ($report instanceof \common_report_Report) {
-                    //serialize report to array
-                    $report = json_encode($report);
-                    $report = json_decode($report);
-                }
-                $result['report'] = $report;
+
+            /** @var TaskLogInterface $taskLog */
+            $taskLog = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
+
+            if ($report = $taskLog->getReport($task->getId())) {
+                $result['report'] = $report->toArray();
             }
+
             return $this->returnSuccess($result);
         } catch (\Exception $e) {
             return $this->returnFailure($e);
@@ -145,16 +157,18 @@ class RestQtiItem extends AbstractRestQti
     }
 
     /**
-     * @param $taskId
+     * Add extra values to the JSON returned.
+     *
+     * @param TaskLogEntity $taskLogEntity
      * @return array
      */
-    protected function getTaskData($taskId)
+    protected function addExtraReturnData(TaskLogEntity $taskLogEntity)
     {
-        $data = $this->traitGetTaskData($taskId);
-        $task = $this->getTask($taskId);
-        $report = \common_report_Report::jsonUnserialize($task->getReport());
-        if ($report) {
-            $plainReport = $this->getPlainReport($report);
+        $data = [];
+
+        if ($taskLogEntity->getReport()) {
+            $plainReport = $this->getPlainReport($taskLogEntity->getReport());
+
             //the third report is report of import test
             $itemsReport = array_slice($plainReport, 2);
             foreach ($itemsReport as $itemReport) {

@@ -26,9 +26,10 @@ define([
     'taoItems/runner/api/itemRunner',
     'taoQtiItem/runner/provider/qti',
     'taoQtiItem/portableElementRegistry/icRegistry',
+    'taoQtiItem/test/runner/provider/picMockProvider',
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
     'json!taoQtiItem/test/samples/json/space-shuttle-pic.json'
-], function($, _, itemRunner, qtiRuntimeProvider, icRegistry, itemData, itemDataPic){
+], function($, _, itemRunner, qtiRuntimeProvider, icRegistry, picMockProvider, itemData, itemDataPic){
     'use strict';
 
     var runner;
@@ -554,6 +555,48 @@ define([
             })
             .init()
             .render(container);
+    });
+
+    QUnit.asyncTest('Portable element side loading', function(assert){
+        var container = document.getElementById(containerId);
+
+        QUnit.expect(7);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+
+        itemRunner.register('qti', qtiRuntimeProvider);
+
+        picMockProvider.load().then(function(pics){
+
+            //load the provider content first and inject the portable element data as the rendering option for the item runner
+            var options = {
+                portableElements: {
+                    pic : pics
+                }
+            };
+
+            runner = itemRunner('qti', itemDataPic)
+                .on('render', function(){
+                    var newState;
+                    var state = this.getState();
+                    assert.ok(typeof state === 'object', 'The state is an object');
+                    assert.ok(typeof state.pic === 'object', 'The state has a pic object');
+                    assert.ok(typeof state.pic['mock-1'] === 'object', 'The state of the mock-1 pic is an object');
+                    assert.ok(typeof state.pic['mock-2'] === 'object', 'The state of the mock-2 pic is an object');
+                    assert.ok(typeof state.pic['mock-3'] === 'object', 'The state of the mock-3 pic is an object');
+
+                    state.pic['mock-2'].foo = 'bar';
+
+                    this.setState(state);
+
+                    newState = this.getState();
+                    assert.equal(newState.pic['mock-2'].foo, 'bar', 'The state values is set and retrieved');
+
+                    QUnit.start();
+                })
+                .init()
+                .render(container, options);
+        });
     });
 });
 
