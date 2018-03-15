@@ -21,9 +21,11 @@
 
 namespace oat\taoQtiItem\scripts\cli;
 
+
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\TaoOntology;
 use \common_report_Report as Report;
 use oat\taoDevTools\helper\DataGenerator;
 
@@ -34,10 +36,11 @@ use oat\taoDevTools\helper\DataGenerator;
  * @author Ilya Yarkavets <ilya.yarkavets@1pt.com>
  * @package oat\taoQtiItem\scripts\cli
  */
-class clearLanguageVersionsScript extends ScriptAction
+class ClearLanguageVersionsScript extends ScriptAction
 {
 
     const REVISION_EXTENSION_NAME = 'taoRevision';
+    const DEFAULT_LANG            = 'en-US';
 
     const ITEM_CONFIG_NAME        = 'defaultItemFileSource';
     const ITEM_CONTENT_DIR        = 'itemContent';
@@ -74,24 +77,13 @@ class clearLanguageVersionsScript extends ScriptAction
                 'description'   => 'Modifier whether to show timer message',
                 'defaultValue'  => 1
             ],
-            'test'          => [
-                'prefix'        => 't',
-                'longPrefix'    => 'test',
-                'cast'          => 'integer',
-                'required'      => false,
-                'description'   => 'Creates test data',
-                'defaultValue'  => 0
-            ],
             'dryRun'   => [
                 'prefix'        => 'd',
                 'longPrefix'    => 'dry-run',
                 'cast'          => 'boolean',
                 'required'      => false,
                 'description'   => (
-                    'Analyses and shows report for actual state without clearing.'
-                    . PHP_EOL . "\t\033[1;33m" .
-                    'Warning: will stop execution after analyzing.'
-                    . "\033[0m"
+                'Analyses and shows report for actual state without clearing.'
                 ),
                 'defaultValue'  => 0
             ],
@@ -100,7 +92,20 @@ class clearLanguageVersionsScript extends ScriptAction
                 'longPrefix'    => 'wet-run',
                 'cast'          => 'boolean',
                 'required'      => false,
-                'description'   => 'Clears and shows report',
+                'description'   => (
+                    'Clears and shows report'
+                    . PHP_EOL . "\t\033[1;33m" .
+                    'Warning: will work on actual data, unless `-fs 1` will be provided .'
+                    . "\033[0m"
+                ),
+                'defaultValue'  => 0
+            ],
+            'test'          => [
+                'prefix'        => 't',
+                'longPrefix'    => 'test',
+                'cast'          => 'integer',
+                'required'      => false,
+                'description'   => 'Creates test data',
                 'defaultValue'  => 0
             ],
             'failSafe' => [
@@ -108,7 +113,7 @@ class clearLanguageVersionsScript extends ScriptAction
                 'longPrefix'    => 'failsafe',
                 'cast'          => 'boolean',
                 'required'      => false,
-                'description'   => 'Work on copied folder on filesystem, and don\'t make any changes to actual item folder (Also will enable archiving, before removing)',
+                'description'   => 'Corrupted items will be copied to class `Backup of corrupted (Y-m-d H:i:s)`. Works only',
                 'defaultValue'  => 0
             ],
             'itemUri' => [
@@ -164,6 +169,7 @@ class clearLanguageVersionsScript extends ScriptAction
         }
 
         if ($this->getOption('dryRun')) {
+
             try {
                 $analyzeResults = $this->analyze();
 
@@ -171,99 +177,82 @@ class clearLanguageVersionsScript extends ScriptAction
 
                 return new Report(Report::TYPE_SUCCESS, 'Analysis completed. See report - ' . $fPath);
             } catch (\Exception $e) {
-                return new Report(Report::TYPE_ERROR, $e->getMessage());
+                $msg = 'There was an error during analyzing. Error message: ' . $e->getMessage() . '. Logs may contain more info.';
+                return new Report(Report::TYPE_ERROR, $msg);
             }
         }
 
         if ($this->getOption('wetRun')) {
+
             try {
                 $analyzeResults = $this->analyze();
-
                 $analyzeFPath = $this->createAnalyzeReport($analyzeResults['analyzeResult']);
+
+                $clearanceResults = $this->clear($analyzeResults);
+
+                $fPath = $this->createClearanceReport($analyzeResults, $clearanceResults);
+
+                $msg = 'Analysis and clearance completed. See reports: ' . PHP_EOL;
+                $msg .= $analyzeFPath . '(analyze report).' . PHP_EOL;
+                $msg .= $fPath . '(clearance report).' . PHP_EOL;
+
+                return new Report(Report::TYPE_SUCCESS, $msg);
             } catch (\Exception $e) {
-                return new Report(Report::TYPE_ERROR, $e->getMessage());
+                $msg = 'There was an error during analyzing and/or clearing. Error message: ' . $e->getMessage() . '. Logs may contain more info.';
+                return new Report(Report::TYPE_ERROR, $msg);
             }
-
-            $clearanceResults = $this->clear($analyzeResults);
-
-            $fPath = $this->createClearanceReport($analyzeResults, $clearanceResults);
-
-            $msg = 'Analysis and clearance completed. See reports: ' . PHP_EOL;
-            $msg .= $analyzeFPath . '(analyze report).' . PHP_EOL;
-            $msg .= $fPath . '(clearance report).' . PHP_EOL;
-
-            return new Report(Report::TYPE_SUCCESS, $msg);
         }
-
-        return new Report(Report::TYPE_ERROR, 'No command line arguments were provided');
     }
 
     /**
      * Analyze the situation with language versions
      *
      * @return array
+     *
      * @throws \Exception
      */
     private function analyze()
     {
-        if ($this->getOption('itemUri') !== '') {
-            $wherePart = "AND s0_.subject = '" . $this->getOption('itemUri') . "'";
-        } else {
-            $wherePart = "";
-        }
-
-        $query = "
-                    SELECT 
-                        DISTINCT(s0_.id) AS dbId,
-                        s0_.subject AS itemUri, 
-                        s0_.l_language AS itemLang,
-                        s0_.object AS object,
-                        s1_.object AS itemName
-                    FROM 
-                        `statements` AS s0_
-						INNER JOIN `statements` AS s1_
-							ON s1_.subject = s0_.subject AND s1_.predicate = 'http://www.w3.org/2000/01/rdf-schema#label'
-                    WHERE 
-                        s0_.predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'
-                        $wherePart;
-        ";
-
-        $result = $this->getPersistence()->query($query);
-
-        if (!$result) {
-            throw new \Exception('Error while fetching from storage');
-        }
-
-        $results = $result->fetchAll(\PDO::FETCH_ASSOC);
-
-        if (empty($results)) {
-            throw new \Exception('Nothing found in db, so nothing to analyze.');
-        }
+        $results = $this->queryForCorruptedItems();
 
         $filtered = $this->filterResults($results, true, true);
+
+        if ($this->getOption('failSafe') && $this->getOption('wetRun')) {
+            $this->failsafe($filtered);
+
+            $filteredSubjects = [];
+            foreach (array_keys($filtered) as $itemUri) {
+                $filteredSubjects[] = $itemUri;
+            }
+            unset($results, $filtered);
+
+            $results = $this->queryForCorruptedItems($filteredSubjects);
+
+            $filtered = $this->filterResults($results, true, true);
+        }
 
         $allLangFiles = [];
 
         if (!$this->isTaoRevisionInstalled()) {
             $filteredCopy = $filtered;
 
-            foreach ($filteredCopy as $key => &$itemDataArray) {
-                $this->checkDirsExistence($itemDataArray['uri'], $itemDataArray['langs']);
+            foreach ($filteredCopy as $key => &$itemInfo) {
+                $this->checkDirsExistence($itemInfo['uri'], $itemInfo['langs']);
             }
 
             foreach ($filteredCopy as $key => $itemInfo) {
 
                 $langFiles = [];
 
-                if ($itemInfo['langs'][DEFAULT_LANG]['fs'] === self::DIRECTORY_STATE_EXISTS) {
-                    $langFiles[DEFAULT_LANG] = $this->getDirectoryFiles($itemInfo['uri'], DEFAULT_LANG);
+                if ($itemInfo['langs'][self::DEFAULT_LANG]['fs'] === self::DIRECTORY_STATE_EXISTS) {
+                    $langFiles[self::DEFAULT_LANG] = $this->getDirectoryFiles($itemInfo['uri'], self::DEFAULT_LANG);
                 }
 
                 foreach ($itemInfo['langs'] as $langInfo) {
                     if (
                         $langInfo['fs'] === self::DIRECTORY_STATE_INEXISTENT
                         || $langInfo['fs'] === self::DIRECTORY_STATE_UNKNOWN
-                        || $langInfo['key'] === DEFAULT_LANG
+                        || $langInfo['key'] === self::DEFAULT_LANG
                     ) {
                         continue;
                     }
@@ -291,29 +280,24 @@ class clearLanguageVersionsScript extends ScriptAction
      * Will clear database and filesystem from unneded data
      *
      * @param array $analyzeResults
+     *
      * @return array
      */
     private function clear(array $analyzeResults = [])
     {
-//        $this->saveDumpData($analyzeResults);die();
-
         $clearanceResults = [];
         foreach ($analyzeResults['analyzeResult'] as $itemUri => $analyzeResult) {
-
-            if ($this->getOption('itemUri') !== '' && $itemUri !== $this->getOption('itemUri')) {
-                continue;
-            }
             if ($analyzeResult['report']['STATUS'] === 'copy') {
                 $fetchedData = $analyzeResults['fetchedData'][LOCAL_NAMESPACE . '#' . $itemUri];
 
-                if ($this->needsCleanup($itemUri, $analyzeResult['report']['RECENT'], $fetchedData)) {
+                if ($this->needsCleanup($analyzeResult['report']['RECENT'], $fetchedData)) {
                     $this->cleanFs($itemUri, $analyzeResult['report']['RECENT'], $fetchedData, $this->getOption('failSafe'), $this->getOption('failSafe'));
                     $clearanceResults[$itemUri]['fs_status'] = 'Filesystem cleared from unneeded languages.';
                 } else {
                     $clearanceResults[$itemUri]['fs_status'] = 'Filesystem does not need to be cleared.';
                 }
-                if ($this->needsCleanup($itemUri, $analyzeResult['report']['RECENT'], $fetchedData, 'db')) {
-                    $this->cleanStorage($itemUri, $fetchedData, DEFAULT_LANG);
+                if ($this->needsCleanup($analyzeResult['report']['RECENT'], $fetchedData, 'db')) {
+                    $this->cleanStorage($itemUri, $fetchedData, self::DEFAULT_LANG);
                     $clearanceResults[$itemUri]['storage_status'] = 'Storage cleared from unneeded languages';
                 } else {
                     $clearanceResults[$itemUri]['storage_status'] = 'Storage does not need to be cleared.';
@@ -330,17 +314,97 @@ class clearLanguageVersionsScript extends ScriptAction
     }
 
     /**
+     * Query for all the corrupted items
+     *
+     * @param array $previousResults
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    private function queryForCorruptedItems(array $previousResults = [])
+    {
+        $qb = $this->getQueryBuilder();
+        $qb->select('DISTINCT(s0_.id) AS dbId, s0_.subject AS itemUri, s0_.l_language AS itemLang, s0_.object AS object, s1_.object as itemName');
+        $qb->from('statements', 's0_');
+
+        $qb->innerJoin('s0_', 'statements', 's1_', 's1_.subject = s0_.subject AND s1_.predicate = :predicate')
+            ->setParameter('predicate', 'http://www.w3.org/2000/01/rdf-schema#label');
+
+        $qb->where('s0_.predicate = :predicateVal')
+            ->setParameter('predicateVal', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent');
+
+        if ($this->getOption('itemUri') !== '') {
+            $qb->andWhere('s0_.subject = :itemUri')
+                ->setParameter('itemUri', $this->getOption('itemUri'));
+        }
+
+        if (!empty($previousResults)) {
+
+            foreach ($previousResults as $key => &$val) {
+                $val = $qb->expr()->literal($val);
+            }
+
+            $qb->andWhere($qb->expr()->notIn('s0_.subject', $previousResults));
+        }
+
+        $query = $qb->getSQL();
+        $params = $qb->getParameters();
+
+        $result = $this->getPersistence()->query($query, $params);
+
+        if (!$result) {
+            throw new \Exception('Error while fetching from storage');
+        }
+
+        $results = $result->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (empty($results)) {
+            throw new \Exception('Nothing found in db, so nothing to analyze.');
+        }
+
+        return $results;
+    }
+
+    /**
+     * Doctrines' query builder getter
+     *
+     * @return \Doctrine\DBAL\Query\QueryBuilder
+     */
+    private function getQueryBuilder()
+    {
+        return $this->getPersistence()->getPlatForm()->getQueryBuilder();
+    }
+
+    /**
+     * Copies all fetched corrupted items to a backup class to lately operate on them, not on actual data
+     *
+     * @param array $results
+     */
+    private function failsafe(array $results = [])
+    {
+        $topClass = new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI);
+        $class = $topClass->createSubClass('Backup of corrupted (' . (new \DateTime())->format('Y-m-d H:i:s') . ')');
+
+        foreach (array_keys($results) as $itemUri) {
+            $uri = $itemUri;
+            $instance = new \core_kernel_classes_Resource($uri);
+            \taoItems_models_classes_ItemsService::singleton()->cloneInstance($instance, $class);
+        }
+    }
+
+    /**
      * Check if cleanup is needed
      *
-     * @param $itemUri
      * @param $mostRecentLanguage
      * @param $fetchedItemData
      * @param string $type `fs` or `db`
+     *
      * @return bool
      */
-    private function needsCleanup($itemUri, $mostRecentLanguage, $fetchedItemData, $type = 'fs')
+    private function needsCleanup($mostRecentLanguage, $fetchedItemData, $type = 'fs')
     {
-        $isMostRecentLangDefault = $mostRecentLanguage === DEFAULT_LANG;
+        $isMostRecentLangDefault = $mostRecentLanguage === self::DEFAULT_LANG;
 
         if ($isMostRecentLangDefault && count($fetchedItemData['langs']) === 1) {
             return false;
@@ -348,7 +412,7 @@ class clearLanguageVersionsScript extends ScriptAction
 
         $isOtherVersionsExistent = false;
         foreach ($fetchedItemData['langs'] as $langKey => $langData) {
-            if ($langKey === DEFAULT_LANG) continue;
+            if ($langKey === self::DEFAULT_LANG) continue;
 
             if ($langData[$type]) {
                 $isOtherVersionsExistent = true;
@@ -370,50 +434,29 @@ class clearLanguageVersionsScript extends ScriptAction
     private function cleanFs($itemUri, $mostRecentLanguage, array $fetchedItemData, $archiveBeforeCleaning = false, $failSafe = true)
     {
         $itemDir = $this->getSingleItemDir($itemUri);
-        if ($failSafe) {
-            $newItemDir = substr($itemDir, 0, -1) . '_1/';
-            $this->rCopy($itemDir, $newItemDir);
-            $itemDir = $newItemDir;
-            unset($newItemDir);
-        }
 
-        if ($archiveBeforeCleaning) {
-            $zip = new \ZipArchive();
+        $handler = opendir($itemDir);
 
-            $archiveName = 'archive.zip';
-
-            $zip->open($itemDir . $archiveName, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
-
-            /** @var \SplFileInfo[] $files */
-            $files = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($itemDir),
-                \RecursiveIteratorIterator::LEAVES_ONLY
-            );
-
-            foreach ($files as $name => $file)
-            {
-                // Skip directories (they would be added automatically)
-                if (!$file->isDir())
-                {
-                    // Get real and relative path for current file
-                    $filePath = $file->getRealPath();
-                    $relativePath = substr($filePath, strlen($itemDir));
-
-                    // Add current file to archive
-                    $zip->addFile($filePath, $relativePath);
+        while (false !== ($fHandler = readdir($handler))) {
+            if (
+                in_array($fHandler, ['.', '..'])
+                || (is_dir($itemDir . $fHandler) && $fHandler === $mostRecentLanguage)
+            ) {
+                continue;
+            } else {
+                if ($archiveBeforeCleaning && $fHandler === 'archive.zip') {
+                    continue;
+                } else {
+                    $this->rrmdir($itemDir . $fHandler);
                 }
             }
-
-            $zip->close();
         }
 
-        $this->cleanupItemFolder(
-            $itemDir,
-            $mostRecentLanguage,
-            $mostRecentLanguage !== DEFAULT_LANG,
-            DEFAULT_LANG,
-            $archiveBeforeCleaning
-        );
+        closedir($handler);
+
+        if ($mostRecentLanguage !== self::DEFAULT_LANG) {
+            rename($itemDir . $mostRecentLanguage, $itemDir . self::DEFAULT_LANG);
+        }
     }
 
     /**
@@ -481,6 +524,8 @@ class clearLanguageVersionsScript extends ScriptAction
      * @param $languageToLeave
      * @param bool $needRename
      * @param string $newName
+     *
+     * @throws \Exception
      */
     private function cleanStorage($itemUri, $fetchedData, $languageToLeave, $needRename = false, $newName = '')
     {
@@ -491,40 +536,40 @@ class clearLanguageVersionsScript extends ScriptAction
             $contentObject   = $langData['obj'];
             $langObject      = $itemUri . DIRECTORY_SEPARATOR . self::ITEM_CONTENT_DIR . DIRECTORY_SEPARATOR . $lang;
 
-            $query = "
-                        SELECT 
-                            DISTINCT(`subject`) AS deletionSubject
-                        FROM
-                            `statements` AS s0_
-                        WHERE
-                            `s0_`.`object` = '$langObject'
-            ";
+            $qb = $this->getQueryBuilder();
 
-            $result = $this->getPersistence()->query($query);
+            $qb->select('DISTINCT(s0_.subject) AS deletionSubject');
+
+            $qb->from('statements', 's0_');
+
+            $qb->where('s0_.object = :langObject')
+                ->setParameter('langObject', $qb->expr()->literal($langObject));
+
+            $result = $this->getPersistence()->query($qb->getSQL(), $qb->getParameters());
 
             if (!$result) {
-                die('fucked up on fetching from storage');
+                throw new \Exception('Error while fetching from storage');
             }
 
             $results = $result->fetchAll(\PDO::FETCH_COLUMN);
+            unset($qb);
+
+            $deletionQb = $this->getQueryBuilder();
+
+            $deletionQb->delete('statements', 's0_');
+            $deletionQb->where('s0_.id = :contentRecordId')->setParameter('contentRecordId', $contentRecordId);
+            $deletionQb->orWhere('s0_.subject = :contentObject')->setParameter('contentObject', $contentObject);
 
             if (!empty($results)) {
-                $deletionSubjects = '\'' . implode('\', \'', $results) . '\'';
-                $subjPart = "OR `subject` IN ($deletionSubjects)";
+
+                foreach ($results as $key => &$val) {
+                    $val = $deletionQb->expr()->literal($val);
+                }
+
+                $deletionQb->orWhere($deletionQb->expr()->in('s0_.subject', $results));
             }
 
-            $deletionQuery = "
-                                DELETE
-                                FROM
-                                    `statements`
-                                WHERE
-                                    `id` = $contentRecordId
-                                    OR `subject` = '$contentObject'
-                                    $subjPart
-                                ;
-            ";
-
-            $this->getPersistence()->query($deletionQuery);
+            $this->getPersistence()->query($deletionQb->getSQL(), $deletionQb->getParameters());
         }
 
     }
@@ -532,10 +577,11 @@ class clearLanguageVersionsScript extends ScriptAction
     /**
      * Copy a file, or recursively copy a folder and its contents
      *
-     * @param       string   $source    Source path
-     * @param       string   $dest      Destination path
-     * @param       int      $permissions New folder creation permissions
-     * @return      bool     Returns true on success, false on failure
+     * @param string $source Source path
+     * @param string $dest Destination path
+     * @param int $permissions New folder creation permissions
+     *
+     * @return bool Returns true on success, false on failure
      */
     private function rCopy($source, $dest, $permissions = 0755)
     {
@@ -588,6 +634,7 @@ class clearLanguageVersionsScript extends ScriptAction
      * @param array $dataset
      * @param bool $initial
      * @param bool $deep
+     *
      * @return array
      */
     private function filterResults(array $dataset = [], $initial = true, $deep = false)
@@ -599,7 +646,7 @@ class clearLanguageVersionsScript extends ScriptAction
         if ($initial) {
             $filtered = [];
             foreach ($dataset as $value) {
-                $key = $value['itemLang'];// === DEFAULT_LANG ? 'default' : count($filtered[$value['itemUri']]['langs']);
+                $key = $value['itemLang'];// === self::DEFAULT_LANG ? 'default' : count($filtered[$value['itemUri']]['langs']);
                 if (array_key_exists($value['itemUri'], $filtered)) {
                     $filtered[$value['itemUri']]['langs'][$key] = [
                         'key'   => $value['itemLang'],
@@ -634,7 +681,7 @@ class clearLanguageVersionsScript extends ScriptAction
 
         if ($deep) {
             foreach ($filtered as $key => $value) {
-                if (count($value['langs']) === 1 && array_key_exists(DEFAULT_LANG, $value['langs'])) {
+                if (count($value['langs']) === 1 && array_key_exists(self::DEFAULT_LANG, $value['langs'])) {
                     unset($filtered[$key]);
                 }
             }
@@ -654,7 +701,7 @@ class clearLanguageVersionsScript extends ScriptAction
     }
 
     /**
-     *
+     * Get items data root directory object
      *
      * @return Directory
      */
@@ -667,19 +714,6 @@ class clearLanguageVersionsScript extends ScriptAction
         return $this->getServiceLocator()
             ->get(FileSystemService::SERVICE_ID)
             ->getDirectory($filesystemId);
-    }
-
-    /**
-     * Check if taoRevision extension is installed
-     *
-     * @return bool
-     */
-    private function isTaoRevisionInstalled()
-    {
-        /** @var \common_ext_ExtensionsManager $extManager */
-        $extManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
-
-        return $extManager->isInstalled(self::REVISION_EXTENSION_NAME);
     }
 
     /**
@@ -703,9 +737,10 @@ class clearLanguageVersionsScript extends ScriptAction
      *
      * @param $itemUri
      * @param string $languageWith
+     *
      * @return array
      */
-    private function getDirectoryFiles($itemUri, $languageWith = DEFAULT_LANG)
+    private function getDirectoryFiles($itemUri, $languageWith = self::DEFAULT_LANG)
     {
         $path = $this->getItemsDataDir() . $itemUri
             . DIRECTORY_SEPARATOR . self::ITEM_CONTENT_DIR . DIRECTORY_SEPARATOR
@@ -721,6 +756,7 @@ class clearLanguageVersionsScript extends ScriptAction
      * Just returns single item directory
      *
      * @param $itemUri
+     *
      * @return string
      */
     private function getSingleItemDir($itemUri)
@@ -735,6 +771,7 @@ class clearLanguageVersionsScript extends ScriptAction
      * @param $path
      * @param int $lvl recursion level
      * @param array $files
+     *
      * @return array an array of files
      */
     private function scan($path, &$lvl = 0, array &$files = [])
@@ -788,6 +825,7 @@ class clearLanguageVersionsScript extends ScriptAction
      * Analyzes differences between language versions
      *
      * @param array $itemFilesInfo
+     *
      * @return array
      */
     private function analyzeDifferences(array $itemFilesInfo)
@@ -841,7 +879,7 @@ class clearLanguageVersionsScript extends ScriptAction
             } else {
                 $mostRecentLanguageVersion = array_flip($mTimes)[max($mTimes)];
                 $differences['RESULT'] = 'The most recent version is `' . $mostRecentLanguageVersion . '`. So it will be copied over '
-                    . DEFAULT_LANG . ' version (with all its files)';
+                    . self::DEFAULT_LANG . ' version (with all its files)';
                 $differences['STATUS'] = 'copy';
                 $differences['RECENT'] = $mostRecentLanguageVersion;
             }
@@ -854,7 +892,10 @@ class clearLanguageVersionsScript extends ScriptAction
      * Creates report after analyzing filesystem and storage
      *
      * @param array $analyzeResults
+     *
      * @return string
+     *
+     * @throws \Exception
      */
     private function createAnalyzeReport(array $analyzeResults)
     {
@@ -898,27 +939,34 @@ class clearLanguageVersionsScript extends ScriptAction
             }
 
             fclose($fHandler);
-        } catch (\Exception $e) {
-        }
 
-        return $filePath . DIRECTORY_SEPARATOR . $fileName;
+            return $filePath . DIRECTORY_SEPARATOR . $fileName;
+        } catch (\Exception $e) {
+            throw new \Exception('Analyze report could not be written to filesystem. Actual error: ' . $e->getMessage());
+        }
     }
 
     /**
      * Debugging function - just saves array of data to json
      *
      * @param array $dumped
+     *
+     * @throws \Exception
      */
     private function saveDumpData(array $dumped = [])
     {
-        $filePath = FILES_PATH . 'tmp/language-versions';
-        if (!is_dir($filePath)) {
-            mkdir($filePath);
+        try {
+            $filePath = FILES_PATH . 'tmp/language-versions';
+            if (!is_dir($filePath)) {
+                mkdir($filePath);
+            }
+            $fileName = 'dump.json';
+            $fHandler = fopen($filePath . DIRECTORY_SEPARATOR . $fileName, 'w');
+            fwrite($fHandler, json_encode($dumped));
+            fclose($fHandler);
+        } catch (\Exception $e) {
+            throw new \Exception('Data could not be dumped to filesystem. Actual error: ' . $e->getMessage());
         }
-        $fileName = 'dump.json';
-        $fHandler = fopen($filePath . DIRECTORY_SEPARATOR . $fileName, 'w');
-        fwrite($fHandler, json_encode($dumped));
-        fclose($fHandler);
     }
 
     /**
@@ -926,22 +974,29 @@ class clearLanguageVersionsScript extends ScriptAction
      *
      * @param $count
      * @param array $generationData
+     *
      * @return string
+     *
+     * @throws \Exception
      */
     private function createGenerationReport($count, array $generationData)
     {
-        $filePath = FILES_PATH . 'tmp/language-versions';
-        $fileName = 'generation-report.csv';
-        if (!is_dir($filePath)) {
-            mkdir($filePath);
-        }
-        $fHandler = fopen($filePath . DIRECTORY_SEPARATOR . $fileName, 'w');
-        foreach ($generationData as &$data) {
-            $data['langs'] = implode('|', $data['langs']);
-            fputcsv($fHandler, $data, ';');
-        }
+        try {
+            $filePath = FILES_PATH . 'tmp/language-versions';
+            $fileName = 'generation-report.csv';
+            if (!is_dir($filePath)) {
+                mkdir($filePath);
+            }
+            $fHandler = fopen($filePath . DIRECTORY_SEPARATOR . $fileName, 'w');
+            foreach ($generationData as &$data) {
+                $data['langs'] = implode('|', $data['langs']);
+                fputcsv($fHandler, $data, ';');
+            }
 
-        fclose($fHandler);
+            fclose($fHandler);
+        } catch (\Exception $e) {
+            throw new \Exception('Generation report could not be written to filesystem. Actual error: ' . $e->getMessage());
+        }
 
         return $filePath . DIRECTORY_SEPARATOR . $fileName;
     }
@@ -951,7 +1006,10 @@ class clearLanguageVersionsScript extends ScriptAction
      *
      * @param array $analyzeResults
      * @param array $clearanceResults
+     *
      * @return string
+     *
+     * @throws \Exception
      */
     private function createClearanceReport(array $analyzeResults, array $clearanceResults)
     {
@@ -962,7 +1020,7 @@ class clearLanguageVersionsScript extends ScriptAction
             $fetchedData = $analyzeResults['fetchedData'][$itemFullUri];
             $analyzeData = $analyzeResults['analyzeResult'][$itemUri];
 
-            $itemName = array_key_exists(DEFAULT_LANG, $fetchedData['langs']) ? $fetchedData['langs'][DEFAULT_LANG]['name'] : 'No name';
+            $itemName = array_key_exists(self::DEFAULT_LANG, $fetchedData['langs']) ? $fetchedData['langs'][self::DEFAULT_LANG]['name'] : 'No name';
 
             $reportArray[$itemUri] = [
                 $itemName,
@@ -988,19 +1046,23 @@ class clearLanguageVersionsScript extends ScriptAction
             $reportArray[$itemUri][] = 'Clearance result: ' . PHP_EOL . $clearanceResult;
         }
 
-        $filePath = FILES_PATH . 'tmp/language-versions';
-        $fileName = 'clearance-report.csv';
-        if (!is_dir($filePath)) {
-            mkdir($filePath);
-        }
-        $fHandler = fopen($filePath . DIRECTORY_SEPARATOR . $fileName, 'w');
-        foreach ($reportArray as &$data) {
-            fputcsv($fHandler, $data, ';');
-        }
+        try {
+            $filePath = FILES_PATH . 'tmp/language-versions';
+            $fileName = 'clearance-report.csv';
+            if (!is_dir($filePath)) {
+                mkdir($filePath);
+            }
+            $fHandler = fopen($filePath . DIRECTORY_SEPARATOR . $fileName, 'w');
+            foreach ($reportArray as &$data) {
+                fputcsv($fHandler, $data, ';');
+            }
 
-        fclose($fHandler);
+            fclose($fHandler);
 
-        return $filePath;
+            return $filePath;
+        } catch (\Exception $e) {
+            throw new \Exception('Clearance report could not be written to filesystem. Actual error: ' . $e->getMessage());
+        }
     }
 
 }
