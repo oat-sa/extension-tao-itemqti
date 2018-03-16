@@ -48,12 +48,9 @@ define([
         init : function(itemData, done){
             var self = this;
 
-            var rendererOptions = {
-                assetManager : this.assetManager
-            };
-            if(this.options.themes){
-                rendererOptions.themes = this.options.themes;
-            }
+            var rendererOptions = _.merge({
+                assetManager: this.assetManager
+            }, _.pick(this.options, ['themes', 'preload']));
 
             this._renderer = new QtiRenderer(rendererOptions);
             this._loader   = new QtiLoader();
