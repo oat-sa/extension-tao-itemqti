@@ -24,6 +24,7 @@ use oat\oatbox\service\ServiceManager;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
+use oat\taoQtiItem\model\portableElement\exception\PortableModelMissing;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\Service;
@@ -194,7 +195,29 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         //setting a version that does not exist
         $pci['version'] = '9.9.9';
         $this->service->setBaseUrlToPortableData($pci);
-
-        $this->assertTrue(isset($pci['baseUrl']));
     }
+
+    public function testSetBaseUrlToPortableDataUnknownModel(){
+
+        $this->setExpectedException(PortableModelMissing::class);
+
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $parser = new ParserFactory($xml);
+        $item = $parser->load();
+
+        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir040');
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
+        $this->assertEquals(1, count($pcis));
+        $this->assertTrue(isset($pcis['pciSampleA']));
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertFalse(isset($pci['baseUrl']));
+
+        //setting a version that does not exist
+        $pci['model'] = 'UNKNOWN_MODEL';
+        $this->service->setBaseUrlToPortableData($pci);
+    }
+
+
 }
