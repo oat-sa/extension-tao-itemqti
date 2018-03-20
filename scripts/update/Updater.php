@@ -543,7 +543,7 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'taoQtiItem', 'mod' => 'RestQtiItem')));
             $this->setVersion('13.4.0');
         }
-      
-        $this->skip('13.4.0', '13.5.0');
+
+        $this->skip('13.4.0', '13.5.1');
     }
 }
