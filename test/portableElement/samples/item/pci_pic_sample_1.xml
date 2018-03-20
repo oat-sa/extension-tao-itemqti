@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
-        xmlns:html5="html5"
-        xmlns:m="http://www.w3.org/1998/Math/MathML"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:pic="http://www.imsglobal.org/xsd/portableInfoControl"
         xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
         identifier="i1518790209427973" title="Item 12" adaptive="false" timeDependent="false" xml:lang="en-US" label="Item 12" toolName="TAO" toolVersion="3.3.0-sprint70">
     <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="integer"/>
@@ -12,56 +9,6 @@
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
     <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title="" />
     <itemBody>
-        <infoControl title="Hint" id="studentToolSample" class="sts-scope sts-tmp-element">
-            <portableInfoControl infoControlTypeIdentifier="studentToolSample" hook=""
-                                 xmlns="http://www.imsglobal.org/xsd/portableInfoControl">
-                <resources>
-                    <libraries></libraries>
-                </resources>
-                <properties>
-                    <entry key="shuffle"></entry>
-                    <properties key="hints">
-                        <entry key="0">You&#x27;re never too old to learn.</entry>
-                        <entry key="1">If there is no wind, row.</entry>
-                        <entry key="2">Fall seven times, stand up eight.</entry>
-                        <entry key="3">The journey is the reward.</entry>
-                    </properties>
-                    <entry key="position">101</entry>
-                    <entry key="toolbarId">sts-studentToolbar</entry>
-                </properties>
-                <markup
-                        xmlns="http://www.w3.org/1999/xhtml">
-                    <div id="sts-studentToolSample" class="sts-toolcontainer sts-studentToolSample" data-position="">
-                        <span class="sts-button sts-launch-button" data-typeIdentifier="studentToolSample" title="show a hint"></span>
-                    </div>
-                </markup>
-            </portableInfoControl>
-        </infoControl>
-        <infoControl title="Student Toolbar" id="studentToolbar" class="sts-scope">
-            <portableInfoControl infoControlTypeIdentifier="studentToolbar" hook=""
-                                 xmlns="http://www.imsglobal.org/xsd/portableInfoControl">
-                <resources>
-                    <libraries></libraries>
-                </resources>
-                <properties>
-                    <entry key="position">100</entry>
-                    <entry key="toolbarId">sts-studentToolbar</entry>
-                </properties>
-                <markup
-                        xmlns="http://www.w3.org/1999/xhtml">
-                    <div class="sts-scope">
-                        <div id="sts-studentToolbar" class="sts-container sts-studentToolbar-container sts-movable-container">
-                            <div class="sts-title-bar">
-                                <div class="sts-title">Student Toolbar</div>
-                            </div>
-                            <div class="sts-content">
-                                <!-- Actual tools go here -->
-                            </div>
-                        </div>
-                    </div>
-                </markup>
-            </portableInfoControl>
-        </infoControl>
         <div class="grid-row">
             <div class="col-12">
                 <customInteraction responseIdentifier="RESPONSE">
