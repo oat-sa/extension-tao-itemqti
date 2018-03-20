@@ -335,6 +335,25 @@ class PortableElementService implements ServiceLocatorAwareInterface
             }
         }
 
+        //remove base url
+        array_walk($portableElements, function(&$data){
+            foreach($data as &$version){
+                unset($version['baseUrl']);
+            }
+        });
+
         return $portableElements;
+    }
+
+    /**
+     * Set the base url to a portable element data array
+     * @param $data
+     * @return mixed
+     */
+    public function setBaseUrlToPortableData(&$data){
+        $model = PortableModelRegistry::getRegistry()->getModel($data['model']);
+        $portableObject = $model->createDataObject($data);
+        $data['baseUrl'] = $model->getRegistry()->getBaseUrl($portableObject);
+        return $data;
     }
 }
