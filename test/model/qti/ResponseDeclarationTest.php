@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -25,9 +25,14 @@ use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\Value;
 use oat\taoQtiItem\model\qti\Parser;
 
+/**
+ * Test Response Declaration Object
+ */
 class ResponseDeclarationTest extends TaoPhpUnitTestRunner
 {
-
+    /**
+     * Test that model to QTI serialization is correct
+     */
     public function testToQti(){
         $responseDeclaration = new ResponseDeclaration([
             'identifier' => 'RESPONSE',
@@ -46,6 +51,9 @@ class ResponseDeclarationTest extends TaoPhpUnitTestRunner
             </responseDeclaration>', $responseDeclaration->toQti());
     }
 
+    /**
+     * Test that the parsing and serialization leave the xml unchanged
+     */
     public function testXmlParsingAndSerialization(){
         $file = dirname(__FILE__).'/samples/xml/responseDeclarationTest.xml';
 
@@ -57,7 +65,7 @@ class ResponseDeclarationTest extends TaoPhpUnitTestRunner
 
     /**
      * Normalize the xml string for comparison
-     * @param $xml
+     * @param string $xml
      * @return string
      */
     protected function normalizeXml($xml)
