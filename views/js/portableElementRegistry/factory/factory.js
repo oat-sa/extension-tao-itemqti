@@ -22,8 +22,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
     var _requirejs = window.require;
     var _defaultLoadingOptions = {
         reload: false,
-        enabledOnly : false,
-        runtimeOnly : []
+        enabledOnly : false,//to be removed?
+        runtimeOnly : [],//replace by includeOnly,
+        reloadProvider : false,
+        reloadInteraction : false
     };
 
     var loadModuleConfig = function loadModuleConfig(manifest){
@@ -89,6 +91,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
         });
     };
 
+    var isCreatable = function isCreatable(pciModel){
+        return pciModel.creator && pciModel.creator.hook && pciModel.enabled;
+    };
+
     /**
      * Evaluate if the given object is a proper portable element provider
      * @param {Object} provider
@@ -126,25 +132,33 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 _loaded = false;
                 return this;
             },
-            loadProviders : function loadProviders(){
+            loadProviders : function loadProviders(options){
                 var self = this;
-                return new Promise(function(resolve, reject) {
-                    var providerLoadingStack = [];
-                    _.forIn(__providers, function(provider, id){
-                        if(provider === null){
-                            providerLoadingStack.push(id);
-                        }
-                    });
-                    _requirejs(providerLoadingStack, function(){
-                        _.each([].slice.call(arguments), function(provider){
-                            if(isPortableElementProvider(provider)){
-                                __providers[providerLoadingStack.shift()] = provider;
+                var loadPromise;
+
+                if(_loaded && !options.reloadProvider){//rename to reloadAll
+                    loadPromise = Promise.resolve();
+                } else {
+                    loadPromise = new Promise(function(resolve, reject) {
+                        var providerLoadingStack = [];
+                        _.forIn(__providers, function(provider, id){
+                            if(provider === null){
+                                providerLoadingStack.push(id);
                             }
                         });
-                        resolve();
-                        self.trigger('providersloaded');
-                    }, reject);
-                });
+                        _requirejs(providerLoadingStack, function(){
+                            _.each([].slice.call(arguments), function(provider){
+                                if(isPortableElementProvider(provider)){
+                                    __providers[providerLoadingStack.shift()] = provider;
+                                }
+                            });
+                            resolve();
+                            self.trigger('providersloaded');
+                        }, reject);
+                    });
+                }
+
+                return loadPromise;
             },
             getAllVersions : function getAllVersions(){
                 var all = {};
@@ -189,6 +203,16 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
                 }
             },
+            getLatestCreators : function getLatestCreators(){
+                var all = {};
+                _.forIn(this._registry, function (versions, id){
+                    var lastVersion = _.last(versions);
+                    if(isCreatable(lastVersion)){
+                        all[id] = lastVersion;
+                    }
+                });
+                return all;
+            },
             getBaseUrl : function getBaseUrl(typeIdentifier, version){
                 var runtime = this.get(typeIdentifier, version);
                 if(runtime){
@@ -202,10 +226,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 options = _.defaults(options||{}, _defaultLoadingOptions);
 
-                if(_loaded && !options.reload){
+                if(_loaded && !options.reload && !options.reloadProvider){//rename to reloadInteraction
                     loadPromise = Promise.resolve();
                 } else {
-                    loadPromise = self.loadProviders().then(function(){
+                    loadPromise = self.loadProviders(options).then(function(){
 
                         var loadStack = [];
 
@@ -229,8 +253,16 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 //pre-configuring the baseUrl of the portable element's source
                                 _.forIn(self._registry, function (versions, typeIdentifier){
                                     //currently use latest runtime only
+                                    //if(_.isArray(options.exclude) && _.indexOf(options.exclude, typeIdentifier) >= 0){
+                                    //    return true;
+                                    //}
+                                    if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
+                                        return true;
+                                    }
                                     configLoadingStack.push(loadModuleConfig(self.get(typeIdentifier)));
                                 });
+
+                                console.log(self._registry, configLoadingStack);
 
                                 return Promise.all(configLoadingStack).then(function(moduleConfigs){
                                     var requireConfigAliases = _.reduce(moduleConfigs, function(acc, paths){
@@ -271,11 +303,20 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 loadPromise = self.loadRuntimes(options).then(function(){
                     var requiredCreatorHooks = [];
-                    var requiredCreators = _.isArray(options.runtimeOnly) ? options.runtimeOnly : [];
+                    var requiredCreators = _.isArray(options.runtimeOnly) ? options.runtimeOnly : [];//this may go
 
                     _.forIn(self._registry, function (versions, typeIdentifier){
                         var pciModel = self.get(typeIdentifier);//currently use the latest version only
                         if(pciModel.creator && pciModel.creator.hook && (pciModel.enabled || requiredCreators.indexOf(typeIdentifier) !== -1)){
+
+                            //if(_.isArray(options.exclude) && _.indexOf(options.exclude, typeIdentifier) >= 0){
+                            //    return true;
+                            //}
+
+                            if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
+                                return true;
+                            }
+
                             requiredCreatorHooks.push(pciModel.creator.hook.replace(/\.js$/, ''));
                         }
                     });

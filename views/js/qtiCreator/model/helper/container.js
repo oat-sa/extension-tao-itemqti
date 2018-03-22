@@ -15,7 +15,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                         throw 'missing required class : ' + qtiClass;
                     }
                 });
-                
+
             //second pass after requiring classes:
             require(_.values(required), function(){
 
@@ -25,7 +25,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
 
                     return acc;
                 }, {});
-                
+
                 //create new elements
                 var newElts = {};
                 var newBody = body.replace(regex,
@@ -52,21 +52,27 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
 
                 //insert them:
                 container.setElements(newElts, newBody);
-                
+
                 //operations after insertions:
+                var promises = [];
                 var $doc = $(document);
                 _.each(newElts, function(elt){
                     if(_.isFunction(elt.buildIdentifier)){
                         elt.buildIdentifier();
                     }
                     if(_.isFunction(elt.afterCreate)){
-                        elt.afterCreate();
+                        promises.push(elt.afterCreate());
                     }
-                    $doc.trigger('elementCreated.qti-widget', {parent : container.parent(), element : elt});
                 });
 
                 if(typeof(callback) === 'function'){
-                    callback.call(container, newElts);
+                    Promise.all(promises).then(function(){
+                        console.log('all then');
+                        _.each(newElts, function(elt){
+                            $doc.trigger('elementCreated.qti-widget', {parent : container.parent(), element : elt});
+                        });
+                        callback.call(container, newElts);
+                    });
                 }
             });
 

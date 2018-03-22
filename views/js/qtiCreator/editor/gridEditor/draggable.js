@@ -46,7 +46,7 @@ define([
                 $(this).addClass('grid-draggable');
             },
             start : function(e, ui){
-                
+
                 $to.trigger('beforedragoverstart.gridEdit');
 
                 if(typeof(options.start) === 'function'){
@@ -57,26 +57,30 @@ define([
 
                 //define the type of draggable block/inline?
                 var qtiClass = $(this).data('qti-class');
+                console.log('60', qtiClass);
                 if(QtiElements.isInline(qtiClass)){
+                    console.log('62');
                     droppable.createDroppableInlines(qtiClass, $to, options);
                 }else if(QtiElements.isBlock(qtiClass)){
+                    console.log('63');
                     droppable.createDroppableBlocks(qtiClass, $to, options);
                 }else{
+                    console.log('64');
                     throw 'undefined qti class';
                 }
 
                 $to.trigger('dragoverstart.gridEdit');
             },
             stop : function(e, ui){
-                
+
                 //restore dom:
                 $('body').css('cursor', 'auto');
-                
+
                 //no longer needed
                 ui.helper.remove();
-                
+
                 //fire "stop" events
-                
+
                 if(typeof(options.stop) === 'function'){
                     options.stop.call(this, e, ui);
                 }

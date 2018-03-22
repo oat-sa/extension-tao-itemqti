@@ -62,5 +62,52 @@ define([
 
     };
 
+    CreatorCustomInteraction.render1 = function render(interaction, options){
+
+        var self = this;
+
+        options = options || {};
+        options.baseUrl = this.getOption('baseUrl');
+        options.mediaManager = this.getOption('mediaManager');
+        options.uri = this.getOption('uri');
+        options.lang = this.getOption('lang');
+
+        return new Promise(function(resolve, reject){
+
+            console.log('interaction', interaction);
+
+            ciRegistry.loadCreators({
+                include : [interaction.typeIdentifier]
+            }).then(function() {
+
+                    //dynamic load pci here
+                    var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier).module;
+
+                    //initial rendering:
+                    Renderer.render.call(commonRenderer.get(), interaction);
+
+                    if(pciCreator){
+                        pciCreator.getWidget().build(
+                            interaction,
+                            Renderer.getContainer(interaction),
+                            self.getOption('interactionOptionForm'),
+                            self.getOption('responseOptionForm'),
+                            options
+                        );
+                    }else{
+                        //in case the pci has been imported with a runtime only (no creator)
+                        //@todo allow deleting it
+                    }
+
+                    resolve();
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+
+
+        });
+    };
+
     return CreatorCustomInteraction;
 });
