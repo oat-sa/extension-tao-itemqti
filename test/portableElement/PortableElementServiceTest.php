@@ -23,6 +23,8 @@ namespace oat\taoQtiItem\portableElement\test;
 use oat\oatbox\service\ServiceManager;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
+use oat\taoQtiItem\model\portableElement\exception\PortableModelMissing;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\Service;
@@ -111,13 +113,12 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertTrue(isset($pcis['liquidsInteraction']));
         $this->assertEquals(1, count($pcis['liquidsInteraction']));
 
-        $pics = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $item);
-
-        $this->assertEquals(2, count($pics));
-        $this->assertTrue(isset($pics['studentToolSample']));
-        $this->assertEquals(1, count($pics['studentToolSample']));
-        $this->assertTrue(isset($pics['studentToolbar']));
-        $this->assertEquals(1, count($pics['studentToolbar']));
+        foreach($pcis['likertScaleInteraction'] as $version){
+            $this->assertFalse(isset($version['baseUrl']));
+        }
+        foreach($pcis['liquidsInteraction'] as $version){
+            $this->assertFalse(isset($version['baseUrl']));
+        }
     }
 
     public function testGetPortableElementByClassAlias(){
@@ -148,5 +149,75 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item, true);
         $pci = reset($pcis['pciSampleA']);
         $this->assertEquals('0.4.*', $pci['version']);
+
+        foreach($pcis['pciSampleA'] as $version){
+            $this->assertFalse(isset($version['baseUrl']));
+        }
     }
+
+    public function testSetBaseUrlToPortableData(){
+
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $parser = new ParserFactory($xml);
+        $item = $parser->load();
+
+        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir040');
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
+        $this->assertEquals(1, count($pcis));
+        $this->assertTrue(isset($pcis['pciSampleA']));
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertFalse(isset($pci['baseUrl']));
+
+        $this->service->setBaseUrlToPortableData($pci);
+
+        $this->assertTrue(isset($pci['baseUrl']));
+    }
+
+    public function testSetBaseUrlToPortableDataUnknownVersion(){
+
+        $this->setExpectedException(PortableElementNotFoundException::class);
+
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $parser = new ParserFactory($xml);
+        $item = $parser->load();
+
+        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir040');
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
+        $this->assertEquals(1, count($pcis));
+        $this->assertTrue(isset($pcis['pciSampleA']));
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertFalse(isset($pci['baseUrl']));
+
+        //setting a version that does not exist
+        $pci['version'] = '9.9.9';
+        $this->service->setBaseUrlToPortableData($pci);
+    }
+
+    public function testSetBaseUrlToPortableDataUnknownModel(){
+
+        $this->setExpectedException(PortableModelMissing::class);
+
+        $xml = new \DOMDocument();
+        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $parser = new ParserFactory($xml);
+        $item = $parser->load();
+
+        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir040');
+
+        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item);
+        $this->assertEquals(1, count($pcis));
+        $this->assertTrue(isset($pcis['pciSampleA']));
+        $pci = reset($pcis['pciSampleA']);
+        $this->assertFalse(isset($pci['baseUrl']));
+
+        //setting a version that does not exist
+        $pci['model'] = 'UNKNOWN_MODEL';
+        $this->service->setBaseUrlToPortableData($pci);
+    }
+
+
 }

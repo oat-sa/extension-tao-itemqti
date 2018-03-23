@@ -534,7 +534,7 @@ define([
         };
 
         this.load = function(callback, requiredClasses){
-           var self = this;
+            var self = this;
             var required = [];
 
             if(options.themes){
@@ -544,7 +544,7 @@ define([
                 _.forEach(options.themes.available, function(theme, index){
                     options.themes.available[index].path = self.resolveUrl(theme.path);
                 });
-                this.themeLoader = themeLoader(options.themes).load();
+                this.themeLoader = themeLoader(options.themes).load(options.preload);
             }
 
             if(requiredClasses){
@@ -562,9 +562,9 @@ define([
                     });
 
                     _.forEach(requiredClasses, function(qtiClass){
-
+                        var requiredSubClasses;
                         if(_renderableSubclasses[qtiClass]){
-                            var requiredSubClasses = _.intersection(requiredClasses, _renderableSubclasses[qtiClass]);
+                            requiredSubClasses = _.intersection(requiredClasses, _renderableSubclasses[qtiClass]);
                             _.each(requiredSubClasses, function(subclass){
                                 if (!registerRendererClass(qtiClass + '.' + subclass, required) && !registerRendererClass(qtiClass, required)) {
                                     throw new Error(self.name + ' : missing qti class location declaration: ' + qtiClass + ', subclass: ' + subclass);
@@ -584,7 +584,6 @@ define([
                 required = _.values(_locations);
             }
 
-            var _this = this;
             require(required, function(){
 
                 _.each(arguments, function(clazz){
@@ -594,7 +593,7 @@ define([
                 });
 
                 if(typeof (callback) === 'function'){
-                    callback.call(_this, _renderers);
+                    callback.call(self, _renderers);
                 }
             });
 

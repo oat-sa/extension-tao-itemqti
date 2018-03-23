@@ -32,9 +32,10 @@ define([
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
-    OrderInteractionStateQuestion.prototype.initForm = function(updateCardinality){
+    OrderInteractionStateQuestion.prototype.initForm = function(){
 
-        var _widget = this.widget,
+        var  callbacks,
+            _widget = this.widget,
             $form = _widget.$form,
             interaction = _widget.element,
             $choiceArea = _widget.$container.find('.choice-area');
@@ -51,7 +52,7 @@ define([
         formElement.initWidget($form);
 
         //data change callbacks with the usual min/maxChoices
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:updateCardinality});
+        callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:false});
 
         //data change for shuffle
         callbacks.shuffle = formElement.getAttributeChangeCallback();
@@ -69,22 +70,6 @@ define([
         formElement.setChangeCallbacks($form, interaction, callbacks);
 
         interactionFormElement.syncMaxChoices(_widget);
-
-        //modify the checkbox/radio input appearances
-        _widget.on('attributeChange', function(data){
-
-            var $checkboxIcons = _widget.$container.find('.real-label > span');
-
-            if(data.element.serial === interaction.serial && data.key === 'maxChoices'){
-                if(parseInt(data.value) === 1){
-                    //radio
-                    $checkboxIcons.removeClass('icon-checkbox').addClass('icon-radio');
-                }else{
-                    //checkbox
-                    $checkboxIcons.removeClass('icon-radio').addClass('icon-checkbox');
-                }
-            }
-        });
 
         //adapt size
         if(_widget.element.attr('orientation') === 'horizontal') {
