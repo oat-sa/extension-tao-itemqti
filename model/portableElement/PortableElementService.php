@@ -335,13 +335,9 @@ class PortableElementService implements ServiceLocatorAwareInterface
             }
         }
 
-        //remove base url
-        array_walk($portableElements, function(&$data){
-            foreach($data as &$version){
-                unset($version['baseUrl']);
-            }
-        });
-
+        /**
+         * @deprecated do not use the returned baseUrl
+         */
         return $portableElements;
     }
 
@@ -351,7 +347,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @return mixed
      */
     public function setBaseUrlToPortableData(&$data){
-        $model = PortableModelRegistry::getRegistry()->getModel($data['model']);
+        $model = $this->getPortableModelRegistry()->getModel($data['model']);
         $portableObject = $model->createDataObject($data);
         $data['baseUrl'] = $model->getRegistry()->getBaseUrl($portableObject);
         return $data;
