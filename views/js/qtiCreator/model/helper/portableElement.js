@@ -56,62 +56,55 @@ define([
                 var typeId = this.typeIdentifier;
                 var self = this;
 
-                return new Promise(function(resolve, reject){
+                var afterCreatePromise = registry.loadCreators({
+                    include : [typeId]
+                }).then(function() {
 
-                    registry.loadCreators({
-                        include : [typeId]
-                    }).then(function() {
+                    var creator = registry.getCreator(typeId),
+                        creatorModule = creator.module,
+                        response;
 
-                            var creator = registry.getCreator(typeId),
-                                creatorModule = creator.module,
-                                response;
+                    //set default markup (for initial rendering)
+                    creatorModule.getMarkupTemplate();
 
-                            //set default markup (for initial rendering)
-                            creatorModule.getMarkupTemplate();
+                    //set pci props
+                    self.properties = creatorModule.getDefaultProperties();
 
-                            //set pci props
-                            self.properties = creatorModule.getDefaultProperties();
-
-                            //@todo fix this !
-                            if(creator.response && _.size(creator.response)){//for custom interaciton only
-                                //create response
-                                response = self.createResponse({
-                                    cardinality : creator.response.cardinality
-                                });
-
-                                //the base type is optional
-                                if(creator.response.baseType){
-                                    response.attr('baseType', creator.response.baseType);
-                                }
-                            } else {
-                                //the attribute is mandatory for info control
-                                self.attr('title', creator.label);
-
-                                //we ensure the info control has an identifier
-                                if(!self.attr('id')){
-                                    self.attr('id', util.buildId(self.getRootElement(), typeId));
-                                }
-                            }
-
-                            //set markup
-                            self.markup = self.renderMarkup();
-
-                            //set local pci namespace
-                            self.setNamespace(creator.model, creator.xmlns);
-
-                            //after create
-                            //@todo need afterCreate() to return a promise
-                            if(_.isFunction(creatorModule.afterCreate)){
-                                creatorModule.afterCreate(self);
-                            }
-
-                            resolve();
-                        })
-                        .catch(function(err) {
-                            reject(err);
+                    //@todo fix this !
+                    if(creator.response && _.size(creator.response)){//for custom interaciton only
+                        //create response
+                        response = self.createResponse({
+                            cardinality : creator.response.cardinality
                         });
 
+                        //the base type is optional
+                        if(creator.response.baseType){
+                            response.attr('baseType', creator.response.baseType);
+                        }
+                    } else {
+                        //the attribute is mandatory for info control
+                        self.attr('title', creator.label);
+
+                        //we ensure the info control has an identifier
+                        if(!self.attr('id')){
+                            self.attr('id', util.buildId(self.getRootElement(), typeId));
+                        }
+                    }
+
+                    //set markup
+                    self.markup = self.renderMarkup();
+
+                    //set local pci namespace
+                    self.setNamespace(creator.model, creator.xmlns);
+
+                    //after create
+                    if(_.isFunction(creatorModule.afterCreate)){
+                        creatorModule.afterCreate(self);
+                    }
+
                 });
+
+                return afterCreatePromise;
             },
             renderMarkup : function(){
 

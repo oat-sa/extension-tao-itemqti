@@ -239,7 +239,6 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         });
 
                         //performs the loadings in parallel
-                        return new Promise(function(resolve, reject){
                             return Promise.all(loadStack).then(function (results){//TODO could remove one level of promise
 
                                 var configLoadingStack = [];
@@ -265,13 +264,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     //save the required libs name => path to global require alias
                                     //TODO in future planned user story : change this to a local require context to solve conflicts in third party module naming
                                     _requirejs.config({paths : requireConfigAliases});
-
-                                    resolve();
-                                }).catch(function(err){
-                                    reject('error loading module config ' + err);
                                 });
                             });
-                        });
 
                     });
 
@@ -294,14 +288,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 loadPromise = self.loadRuntimes(options).then(function(){
                     var requiredCreatorHooks = [];
-                    //var requiredCreators = _.isArray(options.runtimeOnly) ? options.runtimeOnly : [];//this may go
 
                     _.forIn(self._registry, function (versions, typeIdentifier){
                         var pciModel = self.get(typeIdentifier);//currently use the latest version only
                         if(pciModel.creator && pciModel.creator.hook){
-                            //if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) >= 0){
-                            //    return true;
-                            //}
                             if(pciModel.enabled){
                                 if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
                                     return true;
