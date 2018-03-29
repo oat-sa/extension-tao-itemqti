@@ -136,8 +136,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 var self = this;
                 var loadPromise;
 
-                if(_loaded && !options.reloadProvider){//rename to reloadAll
-                    loadPromise = Promise.resolve();
+                if(_loaded && !options.reloadProvider){
+                    loadPromise = Promise.resolve([]);
                 } else {
                     loadPromise = new Promise(function(resolve, reject) {
                         var providerLoadingStack = [];
@@ -152,8 +152,8 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     __providers[providerLoadingStack.shift()] = provider;
                                 }
                             });
-                            resolve();
-                            self.trigger('providersloaded');
+                            resolve(__providers);
+                            self.trigger('providersloaded', __providers);
                         }, reject);
                     });
                 }
@@ -234,17 +234,15 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 if(_loaded && !options.reloadInteraction && !options.reloadProvider){//rename to reloadInteraction, call for a clear registry instead
                     loadPromise = Promise.resolve();
                 } else {
-                    loadPromise = self.loadProviders(options).then(function(){
+                    loadPromise = self.loadProviders(options).then(function(providers){
 
                         var loadStack = [];
 
-                        if(!_loaded || options.reloadProvider){
-                            _.forEach(__providers, function (provider){
-                                if(provider){//check that the provider is loaded
-                                    loadStack.push(provider.load());
-                                }
-                            });
-                        }
+                        _.forEach(providers, function (provider){
+                            if(provider){//check that the provider is loaded
+                                loadStack.push(provider.load());
+                            }
+                        });
 
                         //performs the loadings in parallel
                         return new Promise(function(resolve, reject){
