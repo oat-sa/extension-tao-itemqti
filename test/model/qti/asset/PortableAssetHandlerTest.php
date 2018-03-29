@@ -20,7 +20,7 @@
 
 namespace oat\taoQtiItem\test\model\qti\asset;
 
-use oat\qtiItemPci\model\common\parser\PortableElementItemParser;
+use oat\taoQtiItem\model\portableElement\parser\itemParser\PortableElementItemParser;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\Item;
@@ -28,18 +28,11 @@ use oat\taoQtiItem\model\qti\Item;
 class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
 {
     /**
-     * @var PortableAssetHandler
+     * @return PortableAssetHandler
      */
-    protected $instance;
-
-    public function setUp()
+    public function getPortableAssetHandler($item)
     {
-        $this->instance = new PortableAssetHandler();
-    }
-
-    public function tearDown()
-    {
-        $this->instance = null;
+        return new PortableAssetHandler($item, '', '');
     }
 
     public function testConstruct()
@@ -47,7 +40,7 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
         $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
         $reflectionProperty->setAccessible(true);
-        $this->assertInstanceOf(PortableElementItemParser::class, $reflectionProperty->getValue($this->instance));
+        $this->assertInstanceOf(PortableElementItemParser::class, $reflectionProperty->getValue($this->getPortableAssetHandler(new Item())));
     }
 
     /**
@@ -58,10 +51,10 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $relPathFixture = 'polop/polop/fixture.txt';
 
         $mock = $this->getMockBuilder(PortableElementItemParser::class)
-            ->setMethods(array('isPci', 'isPciAsset'))
+            ->setMethods(array('isPci', 'isPciAsset','hasPortableElement'))
             ->getMock();
 
-        $mock->expects($this->once())
+        $mock->expects($this->any())
             ->method('isPci')
             ->willReturn($isPciFixture);
 
@@ -70,13 +63,13 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
             ->with($relPathFixture)
             ->willReturn($isPciFileFixture);
 
-        $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
-        $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->instance, $mock);
+        $mock->expects($this->once())
+            ->method('hasPortableElement')
+            ->willReturn($isPciFixture);
 
-        $this->instance->setQtiModel(new Item());
-        $this->assertEquals($expected, $this->instance->isApplicable($relPathFixture));
+        $instance = $this->getPortableAssetHandler(new Item());
+        $this->setInaccessibleProperty($instance, 'portableItemParser', $mock);
+        $this->assertEquals($expected, $instance->isApplicable($relPathFixture));
     }
 
     public function isApplicableProvider()
@@ -107,19 +100,9 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
             ->method('importPciFile')
             ->with($absolutePath, $relativePath);
 
-        $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
-        $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->instance, $mock);
+        $instance = $this->getPortableAssetHandler(new Item());
+        $this->setInaccessibleProperty($instance, 'portableItemParser', $mock);
 
-        $this->instance->setQtiModel($modelFixture);
-        $this->instance->handle($absolutePath, $relativePath);
-    }
-
-    public function testSetGetQtiModel()
-    {
-        $fixture = 'polop';
-        $this->assertInstanceOf(PortableAssetHandler::class, $this->instance->setQtiModel($fixture));
-        $this->assertEquals($fixture, $this->instance->getQtiModel());
+        $instance->handle($absolutePath, $relativePath);
     }
 }
