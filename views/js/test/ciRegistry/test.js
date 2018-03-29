@@ -19,11 +19,10 @@
 define([
     'jquery',
     'lodash',
-    'context',
     'taoQtiItem/portableElementRegistry/factory/ciRegistry',
     'taoQtiItem/test/ciRegistry/data/testProvider',
     'taoQtiItem/qtiCreator/helper/qtiElements'
-], function ($, _, context, ciRegistry, testProvider, qtiElements) {
+], function ($, _, ciRegistry, testProvider, qtiElements) {
     'use strict';
 
     var testReviewApi = [
@@ -49,7 +48,6 @@ define([
             var registry = ciRegistry();
             assert.equal(typeof registry[data.name], 'function', 'The registry exposes a "' + data.title + '" function');
         });
-
 
     QUnit.asyncTest('load creator', function (assert) {
 
@@ -99,13 +97,12 @@ define([
         var inexistingProvider = 'taoQtiItem/test/ciRegistry/data/inexistingProvider';
         var registry = ciRegistry().registerProvider(inexistingProvider);
 
-        QUnit.expect(4);
+        QUnit.expect(3);
 
         registry.loadCreators().then(function () {
             assert.ok(false, 'should not be resolved');
             QUnit.start();
         }).catch(function (err) {
-            assert.equal(err.requireType, 'scripterror', 'script error catched');
             assert.ok(_.isArray(err.requireModules), 'error module list ok');
             assert.equal(err.requireModules.length, 1, 'error module list count ok');
             assert.equal(err.requireModules[0], inexistingProvider, 'error module list count ok');

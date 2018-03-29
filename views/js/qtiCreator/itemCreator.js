@@ -78,7 +78,6 @@ define([
      */
     var loadCustomInteractions = function loadCustomInteractions(interactionsIds){
         return ciRegistry.loadCreators({
-            reloadElement : true,
             include : interactionsIds
         });
     };
@@ -89,9 +88,7 @@ define([
      * @returns {Promise} that resolve with the loaded item model
      */
     var loadInfoControls = function loadInfoControls(){
-        return icRegistry.loadCreators({
-            reloadElement : true
-        });
+        return icRegistry.loadCreators();
     };
 
     /**

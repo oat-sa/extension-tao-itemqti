@@ -21,11 +21,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
     var _requirejs = window.require;
     var _defaultLoadingOptions = {
-        reload: false,
-        enabledOnly : false,//to be removed?
-        //runtimeOnly : [],//replace by includeOnly,
-        reloadProvider : false, //TODO replace by reload
-        reloadElement : false //TODO remove
+        reload: false
     };
 
     var loadModuleConfig = function loadModuleConfig(manifest){
@@ -141,7 +137,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 var self = this;
                 var loadPromise;
 
-                if(_loaded && !options.reloadProvider){
+                if(_loaded && !options.reload){
                     loadPromise = Promise.resolve([]);
                 } else {
                     loadPromise = new Promise(function(resolve, reject) {
@@ -158,6 +154,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 }
                             });
                             resolve(__providers);
+                            _loaded = true;
                             self.trigger('providersloaded', __providers);
                         }, reject);
                     });
@@ -231,14 +228,6 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 options = _.defaults(options||{}, _defaultLoadingOptions);
 
-                if(options.reload){
-                    options.reloadElement = true;
-                    options.reloadProvider = true;
-                }
-
-                if(_loaded && !options.reloadElement && !options.reloadProvider){//rename to reloadElement, call for a clear registry instead
-                    loadPromise = Promise.resolve();
-                } else {
                     loadPromise = self.loadProviders(options).then(function(providers){
 
                         var loadStack = [];
@@ -251,7 +240,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                         //performs the loadings in parallel
                         return new Promise(function(resolve, reject){
-                            Promise.all(loadStack).then(function (results){//TODO could remove one level of promise
+                            return Promise.all(loadStack).then(function (results){//TODO could remove one level of promise
 
                                 var configLoadingStack = [];
 
@@ -277,8 +266,6 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     //TODO in future planned user story : change this to a local require context to solve conflicts in third party module naming
                                     _requirejs.config({paths : requireConfigAliases});
 
-                                    _loaded = true;
-
                                     resolve();
                                 }).catch(function(err){
                                     reject('error loading module config ' + err);
@@ -287,7 +274,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                         });
 
                     });
-                }
+
 
                 loadPromise
                     .then(function() {
