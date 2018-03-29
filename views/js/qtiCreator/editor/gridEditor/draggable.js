@@ -47,6 +47,8 @@ define([
             },
             start : function(e, ui){
 
+                var qtiClass = $(this).data('qti-class');
+
                 $to.trigger('beforedragoverstart.gridEdit');
 
                 if(typeof(options.start) === 'function'){
@@ -56,16 +58,11 @@ define([
                 $(this).removeClass('grid-draggable-active');
 
                 //define the type of draggable block/inline?
-                var qtiClass = $(this).data('qti-class');
-                console.log('60', qtiClass);
                 if(QtiElements.isInline(qtiClass)){
-                    console.log('62');
                     droppable.createDroppableInlines(qtiClass, $to, options);
                 }else if(QtiElements.isBlock(qtiClass)){
-                    console.log('63');
                     droppable.createDroppableBlocks(qtiClass, $to, options);
                 }else{
-                    console.log('64');
                     throw 'undefined qti class';
                 }
 

@@ -23,9 +23,9 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
     var _defaultLoadingOptions = {
         reload: false,
         enabledOnly : false,//to be removed?
-        runtimeOnly : [],//replace by includeOnly,
-        reloadProvider : false,
-        reloadInteraction : false
+        //runtimeOnly : [],//replace by includeOnly,
+        reloadProvider : false, //TODO replace by reload
+        reloadElement : false //TODO remove
     };
 
     var loadModuleConfig = function loadModuleConfig(manifest){
@@ -129,6 +129,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             },
             resetProviders : function resetProviders(){
                 __providers = {};
+                this.resetRegistry();
+                return this;
+            },
+            resetRegistry : function resetRegistry(){
+                this._registry = {};
                 _loaded = false;
                 return this;
             },
@@ -227,11 +232,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 options = _.defaults(options||{}, _defaultLoadingOptions);
 
                 if(options.reload){
-                    options.reloadInteraction = true;
+                    options.reloadElement = true;
                     options.reloadProvider = true;
                 }
 
-                if(_loaded && !options.reloadInteraction && !options.reloadProvider){//rename to reloadInteraction, call for a clear registry instead
+                if(_loaded && !options.reloadElement && !options.reloadProvider){//rename to reloadElement, call for a clear registry instead
                     loadPromise = Promise.resolve();
                 } else {
                     loadPromise = self.loadProviders(options).then(function(providers){
@@ -246,7 +251,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                         //performs the loadings in parallel
                         return new Promise(function(resolve, reject){
-                            Promise.all(loadStack).then(function (results){
+                            Promise.all(loadStack).then(function (results){//TODO could remove one level of promise
 
                                 var configLoadingStack = [];
 
@@ -302,13 +307,22 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 loadPromise = self.loadRuntimes(options).then(function(){
                     var requiredCreatorHooks = [];
-                    var requiredCreators = _.isArray(options.runtimeOnly) ? options.runtimeOnly : [];//this may go
+                    //var requiredCreators = _.isArray(options.runtimeOnly) ? options.runtimeOnly : [];//this may go
 
                     _.forIn(self._registry, function (versions, typeIdentifier){
                         var pciModel = self.get(typeIdentifier);//currently use the latest version only
-                        if(pciModel.creator && pciModel.creator.hook && (pciModel.enabled || requiredCreators.indexOf(typeIdentifier) !== -1)){
-                            if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
-                                return true;
+                        if(pciModel.creator && pciModel.creator.hook){
+                            //if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) >= 0){
+                            //    return true;
+                            //}
+                            if(pciModel.enabled){
+                                if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
+                                    return true;
+                                }
+                            }else{
+                                if(!_.isArray(options.include) || _.indexOf(options.include, typeIdentifier) < 0){
+                                    return true;
+                                }
                             }
                             requiredCreatorHooks.push(pciModel.creator.hook.replace(/\.js$/, ''));
                         }
