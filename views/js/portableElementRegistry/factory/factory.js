@@ -226,18 +226,25 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 options = _.defaults(options||{}, _defaultLoadingOptions);
 
-                if(_loaded && !options.reload && !options.reloadProvider){//rename to reloadInteraction
+                if(options.reload){
+                    options.reloadInteraction = true;
+                    options.reloadProvider = true;
+                }
+
+                if(_loaded && !options.reloadInteraction && !options.reloadProvider){//rename to reloadInteraction, call for a clear registry instead
                     loadPromise = Promise.resolve();
                 } else {
                     loadPromise = self.loadProviders(options).then(function(){
 
                         var loadStack = [];
 
-                        _.forEach(__providers, function (provider){
-                            if(provider){//check that the provider is loaded
-                                loadStack.push(provider.load());
-                            }
-                        });
+                        if(!_loaded || options.reloadProvider){
+                            _.forEach(__providers, function (provider){
+                                if(provider){//check that the provider is loaded
+                                    loadStack.push(provider.load());
+                                }
+                            });
+                        }
 
                         //performs the loadings in parallel
                         return new Promise(function(resolve, reject){
@@ -248,21 +255,15 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 //update registry
                                 self._registry = _.reduce(results, function (acc, _pcis){
                                     return _.merge(acc, _pcis);
-                                }, {});
+                                }, self._registry || {});//incremental loading
 
                                 //pre-configuring the baseUrl of the portable element's source
                                 _.forIn(self._registry, function (versions, typeIdentifier){
-                                    //currently use latest runtime only
-                                    //if(_.isArray(options.exclude) && _.indexOf(options.exclude, typeIdentifier) >= 0){
-                                    //    return true;
-                                    //}
                                     if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
                                         return true;
                                     }
                                     configLoadingStack.push(loadModuleConfig(self.get(typeIdentifier)));
                                 });
-
-                                console.log(self._registry, configLoadingStack);
 
                                 return Promise.all(configLoadingStack).then(function(moduleConfigs){
                                     var requireConfigAliases = _.reduce(moduleConfigs, function(acc, paths){
@@ -308,15 +309,9 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     _.forIn(self._registry, function (versions, typeIdentifier){
                         var pciModel = self.get(typeIdentifier);//currently use the latest version only
                         if(pciModel.creator && pciModel.creator.hook && (pciModel.enabled || requiredCreators.indexOf(typeIdentifier) !== -1)){
-
-                            //if(_.isArray(options.exclude) && _.indexOf(options.exclude, typeIdentifier) >= 0){
-                            //    return true;
-                            //}
-
                             if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
                                 return true;
                             }
-
                             requiredCreatorHooks.push(pciModel.creator.hook.replace(/\.js$/, ''));
                         }
                     });

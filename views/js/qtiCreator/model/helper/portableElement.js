@@ -60,7 +60,7 @@ define([
                 return new Promise(function(resolve, reject){
 
                     registry.loadCreators({
-                        reload : true,
+                        reloadInteraction : true,//change
                         include : [typeId]
                     }).then(function() {
 
