@@ -15,6 +15,7 @@ module.exports = function (grunt) {
 
     var root = grunt.option('root');
     var requirejs = grunt.option('requirejsModule');
+    var ext = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
     var portableModels = [
         {
             type : 'PCI',
@@ -32,6 +33,10 @@ module.exports = function (grunt) {
             searchPattern : '/views/js/picCreator/**/picCreator.json'
         }
     ];
+
+    var toExclude = []
+        .concat(ext.getExtensionSources('taoQtiItem', ['views/js/qtiItem/**/*.js', 'views/js/qtiCreator/**/*.js'], true))
+        .concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'], true));
 
     grunt.config.merge({
         portableelement: {
@@ -56,8 +61,10 @@ module.exports = function (grunt) {
                 baseUrl: '../js',
                 mainConfigFile: './config/requirejs.build.js',
                 excludeShallow: ['mathJax'],
-                exclude: ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
+                exclude: toExclude.concat(['qtiCustomInteractionContext', 'qtiInfoControlContext']),
                 paths: {
+                    'taoItems': root + '/taoItems/views/js',
+                    'taoItemsCss': root + '/taoItems/views/css',
                     'taoQtiItem': root + '/taoQtiItem/views/js',
                     'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
                     'qtiInfoControlContext': root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext'
@@ -127,8 +134,18 @@ module.exports = function (grunt) {
                 model.manifest = grunt.file.readJSON(file);
                 model.basePath = file.replace('/' + portableModel.file, '');
                 model.id = model.manifest.typeIdentifier;
-                model.runtimeHook = getHookFileName(model.manifest.runtime, model.id);
-                model.minRuntimeFile = getMinHookFile(model.manifest.runtime);
+                model.map = [
+                    {
+                        name : 'runtime',
+                        src : getHookFileName(model.manifest.runtime, model.id),
+                        min : getMinHookFile(model.manifest.runtime)
+                    },
+                    {
+                        name : 'creator',
+                        src : getHookFileName(model.manifest.creator, model.id),
+                        min : getMinHookFile(model.manifest.creator)
+                    }
+                ];
                 return false;
             }
         });
@@ -159,57 +176,63 @@ module.exports = function (grunt) {
         }, []);
 
         compileTasks = manifests.map(function(file){
-            return new Promise(function (resolve, reject) {
-                var report = [];
-                var config;
-                var model = getPortableModelFromFile(file);
 
-                if(!model){
-                    //not the targeted one
-                    return resolve([grunt.log.error.bind(null, 'invalid portable manifest file ' + file)]);
-                }
+            var config;
+            var model = getPortableModelFromFile(file);
+            var subcompilationPromises = [];
 
-                if(selectedId && selectedId !== model.id){
-                    //not the targeted one
-                    return resolve(report);
-                }
+            if(!model){
+                //not the targeted one
+                return Promise.resolve([grunt.log.error.bind(null, 'invalid portable manifest file ' + file)]);
+            }
 
-                report.push(grunt.log.subhead.bind(null, model.type + ' "' + model.id + '" found in manifest "' + file + '" ...'));
+            if(selectedId && selectedId !== model.id){
+                //not the targeted one
+                return Promise.resolve([]);
+            }
 
-                if (!model.runtimeHook) {
-                    //when no source file has been found, skip the compilation
-                    report.push(grunt.log.ok.bind(null, 'No source file for ' + model.type +' "' + model.id + '"'));
-                    return resolve(report);
-                }
+            subcompilationPromises.push([grunt.log.subhead.bind(null, model.type + ' "' + model.id + '" found in manifest "' + file + '" ...')]);
 
-                //extends the default configuration with portable element sepecific build config
-                config = self.options({
-                    name: model.runtimeHook,
-                    out: model.basePath + '/' + model.minRuntimeFile,
+            model.map.forEach(function(compilMap){
+                subcompilationPromises.push(new Promise(function(resolve, reject){
+                    var report = [];
 
-                    //this wrapping is required to allow self loading portable element module.
-                    wrap: {
-                        start: '',
-                        end: "define(['" + model.runtimeHook + "'],function(" + model.type + '){return ' + model.type + '});'
+                    if (!compilMap.src) {
+                        //when no source file has been found, skip the compilation
+                        report.push(grunt.log.ok.bind(null, 'No source file for ' + model.type +' "' + model.id + '"'));
+                        return resolve(report);
                     }
-                    //(note: the option "insertRequire" does not work because it is resolved asynchronously)
-                });
 
-                // Add the path to the given extension for portableLib resolution
-                config.paths[extension] = root + '/' + extension + '/views/js';
+                    //extends the default configuration with portable element specific build config
+                    config = self.options({
+                        name: compilMap.src,
+                        out: model.basePath + '/' + compilMap.min,
 
-                config.paths[model.id] = model.basePath;
+                        //this wrapping is required to allow self loading portable element module.
+                        wrap: {
+                            start: '',
+                            end: "define(['" + compilMap.src + "'],function(" + model.type + '){return ' + model.type + '});'
+                        }
+                        //(note: the option "insertRequire" does not work because it is resolved asynchronously)
+                    });
 
-                requirejs.optimize(config, function (buildResponse) {
-                    report.push(grunt.log.ok.bind(null, model.type + ' "' + model.id + '" compiled'));
-                    report.push(grunt.log.writeln.bind(null, buildResponse));
-                    resolve(report);
-                }, function (err) {
-                    report.push(grunt.log.error.bind(null, model.type + ' "' + model.id + '" cannot be compiled'));
-                    report.push(grunt.log.error.bind(null, err));
-                    reject(report);
-                });
+                    // Add the path to the given extension for portableLib resolution
+                    config.paths[extension] = root + '/' + extension + '/views/js';
+                    config.paths[model.id] = model.basePath;
+
+                    requirejs.optimize(config, function (buildResponse) {
+                        report.push(grunt.log.ok.bind(null, model.type + ' "' + model.id + '" ' + compilMap.name + ' compiled'));
+                        report.push(grunt.log.writeln.bind(null, buildResponse));
+                        resolve(report);
+                    }, function (err) {
+                        report.push(grunt.log.error.bind(null, model.type + ' "' + model.id + '" ' + compilMap.name + ' cannot be compiled'));
+                        report.push(grunt.log.error.bind(null, err));
+                        reject(report);
+                    });
+                }));
             });
+
+            return Promise.all(subcompilationPromises);
         });
 
         if (compileTasks.length) {
