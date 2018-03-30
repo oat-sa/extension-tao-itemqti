@@ -87,10 +87,6 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
         });
     };
 
-    var isCreatable = function isCreatable(pciModel){
-        return pciModel.creator && pciModel.creator.hook && pciModel.enabled;
-    };
-
     /**
      * Evaluate if the given object is a proper portable element provider
      * @param {Object} provider
@@ -105,34 +101,60 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
         var _loaded = false;
         var __providers = {};
 
+        /**
+         * The portable element registry instance
+         * @typedef {portableElementRegistry}
+         */
         return eventifier(_.defaults(methods || {}, {
             _registry : {},
+
+            /**
+             * Get a register portable element
+             * @param {String} typeIdentifier
+             * @param {String} version
+             * @returns {Object}
+             */
             get : function get(typeIdentifier, version){
 
                 if(this._registry[typeIdentifier]){
                     //check version
                     if(version){
-                        return _.find(this._registry[typeIdentifier], version);
+                        return _.find(this._registry[typeIdentifier], {version : version});
                     }else{
                         //latest
                         return _.last(this._registry[typeIdentifier]);
                     }
                 }
             },
+
+            /**
+             * Register a portable element provider
+             * @param moduleName
+             * @param {String|Object }provider - the portable provider object or module name
+             * @returns {portableElementRegistry}
+             */
             registerProvider : function registerProvider(moduleName, provider){
                 __providers[moduleName] = isPortableElementProvider(provider) ? provider : null;
-                return this;
-            },
-            resetProviders : function resetProviders(){
-                __providers = {};
-                this.resetRegistry();
-                return this;
-            },
-            resetRegistry : function resetRegistry(){
-                this._registry = {};
                 _loaded = false;
                 return this;
             },
+
+            /**
+             * Clear all previously registered providers
+             * @returns {portableElementRegistry}
+             */
+            resetProviders : function resetProviders(){
+                __providers = {};
+                _loaded = false;
+                return this;
+            },
+
+            /**
+             * Load the providers
+             * @param {Object} [options]
+             * @param {Boolean} [options.reload] - force to reload the registered providers
+             * @returns {Promise}
+             */
             loadProviders : function loadProviders(options){
                 var self = this;
                 var loadPromise;
@@ -162,6 +184,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 return loadPromise;
             },
+
+            /**
+             * Get all versions of all portable elements registered
+             * @returns {Object} - all portable elements and their versions
+             */
             getAllVersions : function getAllVersions(){
                 var all = {};
                 _.forIn(this._registry, function (versions, id){
@@ -169,14 +196,21 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 });
                 return all;
             },
+
+            /**
+             * Get the runtime for a given portable element
+             * @param {String} typeIdentifier
+             * @param {String} [version] - if the version is provided, the method will try to find that version
+             * @returns {Object} the runtime model
+             */
             getRuntime : function getRuntime(typeIdentifier, version){
-                var pci = this.get(typeIdentifier, version);
-                if(pci){
-                    return _.assign(pci.runtime, {
-                        id : pci.typeIdentifier,
-                        label : pci.label,
-                        baseUrl : pci.baseUrl,
-                        model : pci.model
+                var portableElement = this.get(typeIdentifier, version);
+                if(portableElement){
+                    return _.assign(portableElement.runtime, {
+                        id : portableElement.typeIdentifier,
+                        label : portableElement.label,
+                        baseUrl : portableElement.baseUrl,
+                        model : portableElement.model
                     });
                 }else{
                     this.trigger('error', {
@@ -186,16 +220,23 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
                 }
             },
+
+            /**
+             * Get the creator model for a given portable element
+             * @param {String} typeIdentifier
+             * @param {String} [version] - if the version is provided, the method will try to find that version
+             * @returns {Object} the creator model
+             */
             getCreator : function getCreator(typeIdentifier, version){
-                var pci = this.get(typeIdentifier, version);
-                if(pci && pci.creator){
-                    return _.assign(pci.creator, {
-                        id : pci.typeIdentifier,
-                        label : pci.label,
-                        baseUrl : pci.baseUrl,
-                        response : pci.response,
-                        model : pci.model,
-                        xmlns : pci.xmlns
+                var portableElement = this.get(typeIdentifier, version);
+                if(portableElement && portableElement.creator){
+                    return _.assign(portableElement.creator, {
+                        id : portableElement.typeIdentifier,
+                        label : portableElement.label,
+                        baseUrl : portableElement.baseUrl,
+                        response : portableElement.response,
+                        model : portableElement.model,
+                        xmlns : portableElement.xmlns
                     });
                 }else{
                     this.trigger('error', {
@@ -205,16 +246,30 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     });
                 }
             },
+
+            /**
+             * Returned all enabled created from the registry
+             * @returns {Object} the collection of creators
+             */
             getLatestCreators : function getLatestCreators(){
                 var all = {};
                 _.forIn(this._registry, function (versions, id){
                     var lastVersion = _.last(versions);
-                    if(isCreatable(lastVersion)){
+
+                    //check if the portable element is creatable:
+                    if(lastVersion.creator && lastVersion.creator.hook && lastVersion.enabled){
                         all[id] = lastVersion;
                     }
                 });
                 return all;
             },
+
+            /**
+             * Get the baseUrl for a given portable element
+             * @param {String} typeIdentifier
+             * @param {String} [version] - if the version is provided, the method will try to find that version
+             * @returns {String} the base url
+             */
             getBaseUrl : function getBaseUrl(typeIdentifier, version){
                 var runtime = this.get(typeIdentifier, version);
                 if(runtime){
@@ -222,6 +277,15 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 }
                 return '';
             },
+
+            /**
+             * Load the runtimes from registered portable element provider(s)
+             *
+             * @param {Object} [options]
+             * @param {Array} [options.include] - the exact lis of portable element typeIdentifier that should be loaded
+             * @param {Boolean} [options.reload] - tells if all interactions should be reloaded
+             * @returns {Promise}
+             */
             loadRuntimes : function loadRuntimes(options){
                 var self = this;
                 var loadPromise;
@@ -280,6 +344,15 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 return loadPromise;
             },
+
+            /**
+             * Load the creators from registered portable element provider(s)
+             *
+             * @param {Object} [options]
+             * @param {Array} [options.include] - the exact lis of portable element typeIdentifier that should be loaded
+             * @param {Boolean} [options.reload] - tells if all interactions should be reloaded
+             * @returns {Promise}
+             */
             loadCreators : function loadCreators(options){
                 var loadPromise;
                 var self = this;
@@ -290,9 +363,9 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     var requiredCreatorHooks = [];
 
                     _.forIn(self._registry, function (versions, typeIdentifier){
-                        var pciModel = self.get(typeIdentifier);//currently use the latest version only
-                        if(pciModel.creator && pciModel.creator.hook){
-                            if(pciModel.enabled){
+                        var portableElementModel = self.get(typeIdentifier);//currently use the latest version only
+                        if(portableElementModel.creator && portableElementModel.creator.hook){
+                            if(portableElementModel.enabled){
                                 if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
                                     return true;
                                 }
@@ -301,7 +374,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                     return true;
                                 }
                             }
-                            requiredCreatorHooks.push(pciModel.creator.hook.replace(/\.js$/, ''));
+                            requiredCreatorHooks.push(portableElementModel.creator.hook.replace(/\.js$/, ''));
                         }
                     });
 
@@ -312,10 +385,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 var creators = {};
                                 _.each(arguments, function (creatorHook){
                                     var id = creatorHook.getTypeIdentifier();
-                                    var pciModel = self.get(id);
-                                    var i = _.findIndex(self._registry[id], {version : pciModel.version});
+                                    var portableElementModel = self.get(id);
+                                    var i = _.findIndex(self._registry[id], {version : portableElementModel.version});
                                     if(i < 0){
-                                        self.trigger('error', 'no creator found for id/version ' + id + '/' + pciModel.version);
+                                        self.trigger('error', 'no creator found for id/version ' + id + '/' + portableElementModel.version);
                                     }else{
                                         self._registry[id][i].creator.module = creatorHook;
                                         creators[id] = creatorHook;
@@ -341,21 +414,44 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 return loadPromise;
             },
+
+            /**
+             * enable a portable element
+             * @param {String} typeIdentifier
+             * @param {String} [version] - if the version is provided, the method will try to find that version
+             * @returns {portableElementRegistry}
+             */
             enable: function enable(typeIdentifier, version){
-                var pci = this.get(typeIdentifier, version);
-                if(pci){
-                    pci.enabled = true;
+                var portableElement = this.get(typeIdentifier, version);
+                if(portableElement){
+                    portableElement.enabled = true;
                 }
+                return this;
             },
+
+            /**
+             * disable a portable element
+             * @param {String} typeIdentifier
+             * @param {String} [version] - if the version is provided, the method will try to find that version
+             * @returns {portableElementRegistry}
+             */
             disable: function disable(typeIdentifier, version){
-                var pci = this.get(typeIdentifier, version);
-                if(pci){
-                    pci.enabled = false;
+                var portableElement = this.get(typeIdentifier, version);
+                if(portableElement){
+                    portableElement.enabled = false;
                 }
+                return this;
             },
+
+            /**
+             * check is a portable element is enabled
+             * @param {String} typeIdentifier
+             * @param {String} [version] - if the version is provided, the method will try to find that version
+             * @returns {portableElementRegistry}
+             */
             isEnabled: function isEnabled(typeIdentifier, version){
-                var pci = this.get(typeIdentifier, version);
-                return (pci && pci.enabled === true);
+                var portableElement = this.get(typeIdentifier, version);
+                return (portableElement && portableElement.enabled === true);
             }
         }));
     };
