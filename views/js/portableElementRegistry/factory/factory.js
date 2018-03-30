@@ -282,7 +282,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
              * Load the runtimes from registered portable element provider(s)
              *
              * @param {Object} [options]
-             * @param {Array} [options.include] - the exact lis of portable element typeIdentifier that should be loaded
+             * @param {Array} [options.include] - the exact list of portable element typeIdentifier that should be loaded
              * @param {Boolean} [options.reload] - tells if all interactions should be reloaded
              * @returns {Promise}
              */
@@ -349,7 +349,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
              * Load the creators from registered portable element provider(s)
              *
              * @param {Object} [options]
-             * @param {Array} [options.include] - the exact lis of portable element typeIdentifier that should be loaded
+             * @param {Array} [options.include] - the exact list of portable element typeIdentifier that should be loaded
              * @param {Boolean} [options.reload] - tells if all interactions should be reloaded
              * @returns {Promise}
              */
