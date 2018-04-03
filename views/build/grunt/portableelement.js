@@ -34,10 +34,6 @@ module.exports = function (grunt) {
         }
     ];
 
-    var toExclude = []
-        .concat(ext.getExtensionSources('taoQtiItem', ['views/js/qtiItem/**/*.js', 'views/js/qtiCreator/**/*.js'], true))
-        .concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'], true));
-
     grunt.config.merge({
         portableelement: {
             options: {
@@ -61,7 +57,9 @@ module.exports = function (grunt) {
                 baseUrl: '../js',
                 mainConfigFile: './config/requirejs.build.js',
                 excludeShallow: ['mathJax'],
-                exclude: toExclude.concat(['qtiCustomInteractionContext', 'qtiInfoControlContext']),
+                exclude: ['qtiCustomInteractionContext', 'qtiInfoControlContext']
+                    .concat(ext.getExtensionSources('taoQtiItem', ['views/js/qtiItem/**/*.js', 'views/js/qtiCreator/**/*.js'], true))
+                    .concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'], true)),
                 paths: {
                     'taoItems': root + '/taoItems/views/js',
                     'taoItemsCss': root + '/taoItems/views/css',
@@ -136,12 +134,12 @@ module.exports = function (grunt) {
                 model.id = model.manifest.typeIdentifier;
                 model.map = [
                     {
-                        name : 'runtime',
+                        name : 'RUNTIME',
                         src : getHookFileName(model.manifest.runtime, model.id),
                         min : getMinHookFile(model.manifest.runtime)
                     },
                     {
-                        name : 'creator',
+                        name : 'CREATOR',
                         src : getHookFileName(model.manifest.creator, model.id),
                         min : getMinHookFile(model.manifest.creator)
                     }
@@ -199,7 +197,7 @@ module.exports = function (grunt) {
 
                     if (!compilMap.src) {
                         //when no source file has been found, skip the compilation
-                        report.push(grunt.log.ok.bind(null, 'No source file for ' + model.type +' "' + model.id + '"'));
+                        report.push(grunt.log.ok.bind(null, 'No source file defined for ' + model.type +' "' + model.id + '" - '+compilMap.name));
                         return resolve(report);
                     }
 
@@ -221,7 +219,7 @@ module.exports = function (grunt) {
                     config.paths[model.id] = model.basePath;
 
                     requirejs.optimize(config, function (buildResponse) {
-                        report.push(grunt.log.ok.bind(null, model.type + ' "' + model.id + '" ' + compilMap.name + ' compiled'));
+                        report.push(grunt.log.ok.bind(null, 'Compiled ' + model.type + ' "' + model.id + '" - ' + compilMap.name));
                         report.push(grunt.log.writeln.bind(null, buildResponse));
                         resolve(report);
                     }, function (err) {
