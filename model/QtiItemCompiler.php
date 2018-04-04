@@ -237,8 +237,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler implements Se
 
                 /** @var QtiItemCompilerAssetBlacklist $blacklistService */
                 $blacklistService = $this->getServiceLocator()->get(QtiItemCompilerAssetBlacklist::SERVICE_ID);
-                if($blacklistService->isBlacklisted($assetUrl)){
-                    continue(2);
+                if ($blacklistService->isBlacklisted($assetUrl)) {
+                    continue;
                 }
 
                 $mediaAsset = $resolver->resolve($assetUrl);
