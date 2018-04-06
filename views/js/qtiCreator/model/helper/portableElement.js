@@ -53,49 +53,58 @@ define([
             },
             afterCreate : function(){
 
-                var typeId = this.typeIdentifier,
-                    creator = registry.getCreator(typeId),
-                    creatorModule = creator.module,
-                    response;
+                var typeId = this.typeIdentifier;
+                var self = this;
 
-                //set default markup (for initial rendering)
-                creatorModule.getMarkupTemplate();
+                var afterCreatePromise = registry.loadCreators({
+                    include : [typeId]
+                }).then(function() {
 
-                //set pci props
-                this.properties = creatorModule.getDefaultProperties();
+                    var creator = registry.getCreator(typeId),
+                        creatorModule = creator.module,
+                        response;
 
-                //@todo fix this !
-                if(creator.response && _.size(creator.response)){//for custom interaciton only
-                    //create response
-                    response = this.createResponse({
-                        cardinality : creator.response.cardinality
-                    });
+                    //set default markup (for initial rendering)
+                    creatorModule.getMarkupTemplate();
 
-                    //the base type is optional
-                    if(creator.response.baseType){
-                        response.attr('baseType', creator.response.baseType);
+                    //set pci props
+                    self.properties = creatorModule.getDefaultProperties();
+
+                    //@todo fix this !
+                    if(creator.response && _.size(creator.response)){//for custom interaciton only
+                        //create response
+                        response = self.createResponse({
+                            cardinality : creator.response.cardinality
+                        });
+
+                        //the base type is optional
+                        if(creator.response.baseType){
+                            response.attr('baseType', creator.response.baseType);
+                        }
+                    } else {
+                        //the attribute is mandatory for info control
+                        self.attr('title', creator.label);
+
+                        //we ensure the info control has an identifier
+                        if(!self.attr('id')){
+                            self.attr('id', util.buildId(self.getRootElement(), typeId));
+                        }
                     }
-                } else {
-                    //the attribute is mandatory for info control
-                    this.attr('title', creator.label);
 
-                    //we ensure the info control has an identifier
-                    if(!this.attr('id')){
-                        this.attr('id', util.buildId(this.getRootElement(), typeId));
+                    //set markup
+                    self.markup = self.renderMarkup();
+
+                    //set local pci namespace
+                    self.setNamespace(creator.model, creator.xmlns);
+
+                    //after create
+                    if(_.isFunction(creatorModule.afterCreate)){
+                        creatorModule.afterCreate(self);
                     }
-                }
 
-                //set markup
-                this.markup = this.renderMarkup();
+                });
 
-                //set local pci namespace
-                this.setNamespace(creator.model, creator.xmlns);
-
-                //after create
-                //@todo need afterCreate() to return a promise
-                if(_.isFunction(creatorModule.afterCreate)){
-                    return creatorModule.afterCreate(this);
-                }
+                return afterCreatePromise;
             },
             renderMarkup : function(){
 
