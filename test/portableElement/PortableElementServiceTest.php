@@ -112,13 +112,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(1, count($pcis['likertScaleInteraction']));
         $this->assertTrue(isset($pcis['liquidsInteraction']));
         $this->assertEquals(1, count($pcis['liquidsInteraction']));
-
-        foreach($pcis['likertScaleInteraction'] as $version){
-            $this->assertFalse(isset($version['baseUrl']));
-        }
-        foreach($pcis['liquidsInteraction'] as $version){
-            $this->assertFalse(isset($version['baseUrl']));
-        }
     }
 
     public function testGetPortableElementByClassAlias(){
@@ -149,10 +142,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item, true);
         $pci = reset($pcis['pciSampleA']);
         $this->assertEquals('0.4.*', $pci['version']);
-
-        foreach($pcis['pciSampleA'] as $version){
-            $this->assertFalse(isset($version['baseUrl']));
-        }
     }
 
     public function testSetBaseUrlToPortableData(){
@@ -168,7 +157,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(1, count($pcis));
         $this->assertTrue(isset($pcis['pciSampleA']));
         $pci = reset($pcis['pciSampleA']);
-        $this->assertFalse(isset($pci['baseUrl']));
 
         $this->service->setBaseUrlToPortableData($pci);
 
@@ -190,7 +178,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(1, count($pcis));
         $this->assertTrue(isset($pcis['pciSampleA']));
         $pci = reset($pcis['pciSampleA']);
-        $this->assertFalse(isset($pci['baseUrl']));
 
         //setting a version that does not exist
         $pci['version'] = '9.9.9';
@@ -212,7 +199,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(1, count($pcis));
         $this->assertTrue(isset($pcis['pciSampleA']));
         $pci = reset($pcis['pciSampleA']);
-        $this->assertFalse(isset($pci['baseUrl']));
 
         //setting a version that does not exist
         $pci['model'] = 'UNKNOWN_MODEL';

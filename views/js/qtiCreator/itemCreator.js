@@ -78,8 +78,7 @@ define([
      */
     var loadCustomInteractions = function loadCustomInteractions(interactionsIds){
         return ciRegistry.loadCreators({
-            enabledOnly : true,
-            runtimeOnly : interactionsIds
+            include : interactionsIds
         });
     };
 

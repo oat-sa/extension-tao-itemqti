@@ -81,7 +81,7 @@ define([
             }
             response[id] = {base : null};
 
-            ciRegistry.loadRuntimes().then(function(){
+            ciRegistry.loadRuntimes({include : [typeIdentifier]}).then(function(){
 
                 var pciRenderer;
                 var runtime = ciRegistry.getRuntime(typeIdentifier);

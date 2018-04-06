@@ -1600,7 +1600,7 @@ msgid "this identifier is already in use"
 msgstr ""
 
 msgid "This is not a valid answer"
-msgstr "Validation de la réponse. Veuillez saisir une valeur numérique. Ok"
+msgstr "Validation de la réponse. Veuillez saisir une valeur numérique."
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr ""

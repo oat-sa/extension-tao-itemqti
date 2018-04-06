@@ -47,9 +47,10 @@ define([
                     };
                 }
             }
-        }).on('creatorsloaded', function(creators){
-            _.each(creators, function(creator){
-                qtiElements.classes['customInteraction.' + creator.getTypeIdentifier()] = {parents : ['customInteraction'], qti : true};
+        }).on('creatorsloaded', function(){
+            var creators = this.getLatestCreators();
+            _.forEach(creators, function(creator, typeIdentifier){
+                qtiElements.classes['customInteraction.' + typeIdentifier] = {parents : ['customInteraction'], qti : true};
             });
         });
     };
