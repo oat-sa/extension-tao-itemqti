@@ -75,12 +75,12 @@ define([
             //and no matter was it changed to lower value or not
 
             var width = this.$original[0].getAttribute('width');
-            if (typeof width === typeof undefined || width.indexOf('%') === -1) {
+            if (isNaN(width) && width.indexOf('%') === -1) {
                 width = '100%';
             }
 
             var height = this.$original[0].getAttribute('width');
-            if (typeof height === typeof undefined || height.indexOf('%') === -1) {
+            if (isNaN(height) && height.indexOf('%') === -1) {
                 height = '100%';
             }
 
