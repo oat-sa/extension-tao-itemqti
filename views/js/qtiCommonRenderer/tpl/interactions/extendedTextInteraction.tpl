@@ -52,5 +52,4 @@
             </div>
         {{/if}}
     {{/if}}
-  <ins class="interaction-cover"></ins>
 </div>
