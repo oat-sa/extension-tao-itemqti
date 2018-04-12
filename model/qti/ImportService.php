@@ -66,6 +66,9 @@ class ImportService extends ConfigurableService
 
     const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
+    const PROPERTY_OVERWRITE = 'isOverwrite';
+    const PROPERTY_MUST_EXIST = 'isMustExist';
+
     /**
      * @return ImportService
      */
@@ -369,7 +372,8 @@ class ImportService extends ConfigurableService
         array $metadataGuardians = array(),
         array $metadataClassLookups = array(),
         array $sharedFiles = array(),
-        &$createdClasses = array()
+        &$createdClasses = array(),
+        array $options = array()
     ) {
 
         try {
@@ -381,16 +385,52 @@ class ImportService extends ConfigurableService
 
                 $this->getMetadataImporter()->setMetadataValues($metadataValues);
 
-                $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
-                if ($guardian !== false) {
-                    \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
-                    return common_report_Report::createInfo(
-                        __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
-                        $guardian
-                    );
-                }
-
                 $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
+
+                $mustExist = isset($options[self::PROPERTY_MUST_EXIST]) ? (boolean) $options[self::PROPERTY_MUST_EXIST] : false;
+                $rewrite = isset($options[self::PROPERTY_OVERWRITE]) ? (boolean) $options[self::PROPERTY_OVERWRITE] : false;
+
+                $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
+
+                if ($mustExist) {
+                    if ($guardian === false) {
+                        \common_Logger::i('Resource "' . $resourceIdentifier . '" must be exist in the database and will not be imported.');
+                        return \common_report_Report::createFailure(
+                            __('The IMS QTI Item referenced as "%s" in the IMS Manifest file must be exist in the Item Bank.', $resourceIdentifier),
+                            $guardian
+                        );
+                    }
+                } elseif ($rewrite) {
+                    if ($guardian !== false) {
+                        \common_Logger::i('Resource "' . $resourceIdentifier . '" already exist in the database and will be rewrite.');
+                        return \common_report_Report::createInfo(
+                            __('The IMS QTI Item referenced as "%s" in the IMS Manifest file already exist in the database and will be rewrite in the Item Bank.', $resourceIdentifier),
+                            $guardian
+                        );
+                    }
+                } elseif ($mustExist && $rewrite) {
+                    if ($guardian !== false) {
+                        \common_Logger::i('Resource "' . $resourceIdentifier . '" already exist in the database and will be rewrite.');
+                        return \common_report_Report::createInfo(
+                            __('The IMS QTI Item referenced as "%s" in the IMS Manifest file already exist in the database and will be rewrite in the Item Bank.', $resourceIdentifier),
+                            $guardian
+                        );
+                    } else {
+                        \common_Logger::i('Resource "' . $resourceIdentifier . '" must be exist in the database and will not be imported.');
+                        return \common_report_Report::createFailure(
+                            __('The IMS QTI Item referenced as "%s" in the IMS Manifest file must be exist in the Item Bank.', $resourceIdentifier),
+                            $guardian
+                        );
+                    }
+                } else {
+                    if ($guardian !== false) {
+                        \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
+                        return common_report_Report::createInfo(
+                            __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
+                            $guardian
+                        );
+                    }
+                }
 
                 if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
                     \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
