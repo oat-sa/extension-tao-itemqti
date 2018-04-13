@@ -550,7 +550,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @return string
      * @throws PortableElementNotFoundException
      */
-    protected function getBaseUrl(PortableElementObject $object)
+    public function getBaseUrl(PortableElementObject $object)
     {
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         return $this->getFileSystem()->getFileUrl($object);
