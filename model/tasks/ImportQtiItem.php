@@ -38,6 +38,7 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
     const FILE_DIR = 'ImportQtiItemTask';
     const PARAM_CLASS_URI = 'class_uri';
     const PARAM_FILE = 'file';
+    const PARAM_GUARDIANS = 'enableMetadataGuardians';
 
     protected $service;
 
@@ -54,7 +55,15 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
 
         $file = $this->getFileReferenceSerializer()->unserializeFile($params['file']);
 
-        return ImportService::singleton()->importQTIPACKFile($file, $this->getClass($params));
+        return ImportService::singleton()->importQTIPACKFile(
+            $file,
+            $this->getClass($params),
+            true,
+            true,
+            true,
+            // Continue to support old tasks in the queue
+            (isset($params[self::PARAM_GUARDIANS])) ? $params[self::PARAM_GUARDIANS] : true
+         );
     }
 
     /**
@@ -71,9 +80,10 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
      * @param string                     $packageFile uploaded file path
      * @param \core_kernel_classes_Class $class       uploaded file
      * @param ServiceLocatorInterface    $serviceManager
+     * @param boolean                    $enableMetadataGuardians
      * @return TaskInterface
      */
-    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager)
+    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true)
     {
         $action = new self();
         $action->setServiceLocator($serviceManager);
@@ -87,7 +97,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             $action,
             [
                 self::PARAM_FILE => $fileUri,
-                self::PARAM_CLASS_URI => $class->getUri()
+                self::PARAM_CLASS_URI => $class->getUri(),
+                self::PARAM_GUARDIANS => $enableMetadataGuardians
             ],
             __('Import QTI ITEM into "%s"', $class->getLabel())
         );

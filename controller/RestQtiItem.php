@@ -91,7 +91,14 @@ class RestQtiItem extends AbstractRestQti
             
             // Call service to import package
             \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
-            $report = ImportService::singleton()->importQTIPACKFile($package, $this->getDestinationClass());
+            $report = ImportService::singleton()->importQTIPACKFile(
+                $package,
+                $this->getDestinationClass(),
+                true,
+                true,
+                true,
+                $this->isMetadataGuardiansEnabled()
+            );
             \helpers_TimeOutHelper::reset();
             
             \tao_helpers_File::remove($package);
@@ -137,7 +144,12 @@ class RestQtiItem extends AbstractRestQti
                 throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
             }
 
-            $task = ImportQtiItem::createTask($this->getUploadedPackage(), $this->getDestinationClass(), $this->getServiceLocator());
+            $task = ImportQtiItem::createTask(
+                $this->getUploadedPackage(),
+                $this->getDestinationClass(),
+                $this->getServiceLocator(),
+                $this->isMetadataGuardiansEnabled()
+            );
 
             $result = [
                 'reference_id' => $task->getId()

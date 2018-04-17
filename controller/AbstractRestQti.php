@@ -36,6 +36,8 @@ abstract class AbstractRestQti extends \tao_actions_RestController
 
     const TASK_ID_PARAM = 'id';
 
+    const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
+
     protected static $accepted_types = array(
         'application/zip',
         'application/x-zip-compressed',
@@ -86,5 +88,26 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         }
 
         return $taskLogEntity->getStatus()->getLabel();
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isMetadataGuardiansEnabled()
+    {
+        $enableMetadataGuardians = $this->getRequestParameter(self::ENABLE_METADATA_GUARDIANS);
+
+        if (is_null($enableMetadataGuardians)) {
+            return true; // default value if parameter not passed
+        }
+
+        if (!in_array($enableMetadataGuardians, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ENABLE_METADATA_GUARDIANS . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($enableMetadataGuardians, FILTER_VALIDATE_BOOLEAN);
     }
 }

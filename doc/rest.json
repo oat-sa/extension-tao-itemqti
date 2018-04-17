@@ -106,6 +106,13 @@
                         "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
                         "type": "string",
                         "required": false
+                    },
+                    {
+                        "name": "enableMetadataGuardians",
+                        "in": "formData",
+                        "description": "Boolean flag that indicates to use or not metadata guardians during the import. If parameter not specified, metadata guardians will be used by default.",
+                        "type": "boolean",
+                        "required": false
                     }
                 ],
                 "consumes": [
@@ -211,6 +218,13 @@
                         "in": "formData",
                         "description": "Label of class to import item. If not specified root class will be used. If label is not unique first match will be used.",
                         "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "enableMetadataGuardians",
+                        "in": "formData",
+                        "description": "Boolean flag that indicates to use or not metadata guardians during the import. If parameter not specified, metadata guardians will be used by default.",
+                        "type": "boolean",
                         "required": false
                     }
                 ],
