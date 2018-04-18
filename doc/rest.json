@@ -127,6 +127,13 @@
                         "description": "Boolean flag that indicates whether items must be found by one metadata guardian. In case of the item is not found by a metadata guardian, the import will fail. Default value is false.",
                         "type": "boolean",
                         "required": false
+                    },
+                    {
+                        "name": "itemMustBeOverwritten",
+                        "in": "formData",
+                        "description": "Boolean flag that indicates whether items found by guardians should be overwritten. Default value is false.",
+                        "type": "boolean",
+                        "required": false
                     }
                 ],
                 "consumes": [
@@ -249,9 +256,9 @@
                         "required": false
                     },
                     {
-                        "name": "itemMustExist",
+                        "name": "itemMustBeOverwritten",
                         "in": "formData",
-                        "description": "Boolean flag that indicates whether items must be found by one metadata guardian. In case of the item is not found by a metadata guardian, the import will fail. Default value is false.",
+                        "description": "Boolean flag that indicates whether items found by guardians should be overwritten. Default value is false.",
                         "type": "boolean",
                         "required": false
                     }

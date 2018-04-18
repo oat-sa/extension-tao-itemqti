@@ -42,6 +42,8 @@ abstract class AbstractRestQti extends \tao_actions_RestController
 
     const ITEM_MUST_EXIST = 'itemMustExist';
 
+    const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
+
     protected static $accepted_types = array(
         'application/zip',
         'application/x-zip-compressed',
@@ -155,5 +157,26 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         }
 
         return filter_var($itemMustExistEnabled, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isItemMustBeOverwrittenEnabled()
+    {
+        $isItemMustBeOverwrittenEnabled = $this->getRequestParameter(self::ITEM_MUST_BE_OVERWRITTEN);
+
+        if (is_null($isItemMustBeOverwrittenEnabled)) {
+            return true; // default value if parameter not passed
+        }
+
+        if (!in_array($isItemMustBeOverwrittenEnabled, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ITEM_MUST_BE_OVERWRITTEN . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($isItemMustBeOverwrittenEnabled, FILTER_VALIDATE_BOOLEAN);
     }
 }

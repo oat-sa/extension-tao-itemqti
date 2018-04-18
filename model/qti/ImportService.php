@@ -233,6 +233,7 @@ class ImportService extends ConfigurableService
      * @param bool $enableMetadataGuardians
      * @param bool $enableMetadataValidators
      * @param bool $itemMustExist
+     * @param bool $itemMustBeOverwritten
      * @throws Exception
      * @throws ExtractException
      * @throws ParsingException
@@ -249,7 +250,8 @@ class ImportService extends ConfigurableService
         $rollbackOnWarning = false,
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
-        $itemMustExist = false
+        $itemMustExist = false,
+        $itemMustBeOverwritten = false
     ) {
 
         //load and validate the package
@@ -300,7 +302,8 @@ class ImportService extends ConfigurableService
                     $createdClasses,
                     $enableMetadataGuardians,
                     $enableMetadataValidators,
-                    $itemMustExist
+                    $itemMustExist,
+                    $itemMustBeOverwritten
                 );
                 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -368,6 +371,7 @@ class ImportService extends ConfigurableService
      * @param boolean $enableMetadataGuardians
      * @param boolean $enableMetadataValidators
      * @param bool $itemMustExist
+     * @param bool $itemMustBeOverwritten
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -384,7 +388,8 @@ class ImportService extends ConfigurableService
         &$createdClasses = array(),
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
-        $itemMustExist = false
+        $itemMustExist = false,
+        $itemMustBeOverwritten = false
     ) {
 
         try {
@@ -395,6 +400,7 @@ class ImportService extends ConfigurableService
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
 
                 $this->getMetadataImporter()->setMetadataValues($metadataValues);
+                $guardian = false;
 
                 if ($enableMetadataGuardians === true) {
                     $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
@@ -431,7 +437,7 @@ class ImportService extends ConfigurableService
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
-                $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel, $qtiItemResource);
+                $rdfItem = ($guardian === false) ? $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel, $qtiItemResource) : $guardian;
 
                 // Setting qtiIdentifier property
                 $qtiIdentifierProperty = new \core_kernel_classes_Property(self::PROPERTY_QTI_ITEM_IDENTIFIER);
@@ -478,8 +484,13 @@ class ImportService extends ConfigurableService
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));
 
-                $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.',
-                    $qtiItemResource->getIdentifier());
+                // Build report message.
+                if ($guardian !== false) {
+                    $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully overwritten.', $qtiItemResource->getIdentifier());
+                } else {
+                    $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.', $qtiItemResource->getIdentifier());
+                }
+
                 $report = common_report_Report::createSuccess($msg, $rdfItem);
 
             } catch (ParsingException $e) {

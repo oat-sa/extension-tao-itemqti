@@ -41,6 +41,7 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
     const PARAM_GUARDIANS = 'enableMetadataGuardians';
     const PARAM_VALIDATORS = 'enableMetadataValidators';
     const PARAM_ITEM_MUST_EXIST = 'itemMustExist';
+    const PARAM_ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
     protected $service;
 
@@ -66,7 +67,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             // Continue to support old tasks in the queue
             (isset($params[self::PARAM_GUARDIANS])) ? $params[self::PARAM_GUARDIANS] : true,
             (isset($params[self::PARAM_VALIDATORS])) ? $params[self::PARAM_VALIDATORS] : true,
-            (isset($params[self::PARAM_ITEM_MUST_EXIST])) ? $params[self::PARAM_ITEM_MUST_EXIST] : false
+            (isset($params[self::PARAM_ITEM_MUST_EXIST])) ? $params[self::PARAM_ITEM_MUST_EXIST] : false,
+            (isset($params[self::PARAM_ITEM_MUST_BE_OVERWRITTEN])) ? $params[self::PARAM_ITEM_MUST_BE_OVERWRITTEN] : false
          );
     }
 
@@ -87,9 +89,10 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
      * @param boolean                    $enableMetadataGuardians
      * @param boolean                    $enableMetadataValidators
      * @param boolean                    $itemMustExist
+     * @param boolean                    $itemMustBeOverwritten
      * @return TaskInterface
      */
-    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true, $enableMetadataValidators = true, $itemMustExist = false)
+    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true, $enableMetadataValidators = true, $itemMustExist = false, $itemMustBeOverwritten = false)
     {
         $action = new self();
         $action->setServiceLocator($serviceManager);
@@ -106,7 +109,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
                 self::PARAM_CLASS_URI => $class->getUri(),
                 self::PARAM_GUARDIANS => $enableMetadataGuardians,
                 self::PARAM_VALIDATORS => $enableMetadataValidators,
-                self::PARAM_ITEM_MUST_EXIST => $itemMustExist
+                self::PARAM_ITEM_MUST_EXIST => $itemMustExist,
+                self::PARAM_ITEM_MUST_BE_OVERWRITTEN => $itemMustBeOverwritten
             ],
             __('Import QTI ITEM into "%s"', $class->getLabel())
         );
