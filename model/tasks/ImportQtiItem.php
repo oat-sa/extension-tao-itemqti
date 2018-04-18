@@ -39,6 +39,7 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
     const PARAM_CLASS_URI = 'class_uri';
     const PARAM_FILE = 'file';
     const PARAM_GUARDIANS = 'enableMetadataGuardians';
+    const PARAM_VALIDATORS = 'enableMetadataValidators';
 
     protected $service;
 
@@ -62,7 +63,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             true,
             true,
             // Continue to support old tasks in the queue
-            (isset($params[self::PARAM_GUARDIANS])) ? $params[self::PARAM_GUARDIANS] : true
+            (isset($params[self::PARAM_GUARDIANS])) ? $params[self::PARAM_GUARDIANS] : true,
+            (isset($params[self::PARAM_VALIDATORS])) ? $params[self::PARAM_VALIDATORS] : true
          );
     }
 
@@ -81,9 +83,10 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
      * @param \core_kernel_classes_Class $class       uploaded file
      * @param ServiceLocatorInterface    $serviceManager
      * @param boolean                    $enableMetadataGuardians
+     * @param boolean                    $enableMetadataValidators
      * @return TaskInterface
      */
-    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true)
+    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true, $enableMetadataValidators = true)
     {
         $action = new self();
         $action->setServiceLocator($serviceManager);
@@ -98,7 +101,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             [
                 self::PARAM_FILE => $fileUri,
                 self::PARAM_CLASS_URI => $class->getUri(),
-                self::PARAM_GUARDIANS => $enableMetadataGuardians
+                self::PARAM_GUARDIANS => $enableMetadataGuardians,
+                self::PARAM_VALIDATORS => $enableMetadataValidators
             ],
             __('Import QTI ITEM into "%s"', $class->getLabel())
         );

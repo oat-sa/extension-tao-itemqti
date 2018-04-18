@@ -38,6 +38,8 @@ abstract class AbstractRestQti extends \tao_actions_RestController
 
     const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
 
+    const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
+
     protected static $accepted_types = array(
         'application/zip',
         'application/x-zip-compressed',
@@ -109,5 +111,26 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         }
 
         return filter_var($enableMetadataGuardians, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isMetadataValidatorsEnabled()
+    {
+        $enableMetadataValidators = $this->getRequestParameter(self::ENABLE_METADATA_VALIDATORS);
+
+        if (is_null($enableMetadataValidators)) {
+            return true; // default value if parameter not passed
+        }
+
+        if (!in_array($enableMetadataValidators, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ENABLE_METADATA_VALIDATORS . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($enableMetadataValidators, FILTER_VALIDATE_BOOLEAN);
     }
 }

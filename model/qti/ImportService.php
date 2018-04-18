@@ -231,6 +231,7 @@ class ImportService extends ConfigurableService
      * @param bool $rollbackOnError
      * @param bool $rollbackOnWarning
      * @param bool $enableMetadataGuardians
+     * @param bool $enableMetadataValidators
      * @throws Exception
      * @throws ExtractException
      * @throws ParsingException
@@ -245,7 +246,8 @@ class ImportService extends ConfigurableService
         $validate = true,
         $rollbackOnError = false,
         $rollbackOnWarning = false,
-        $enableMetadataGuardians = true
+        $enableMetadataGuardians = true,
+        $enableMetadataValidators = true
     ) {
 
         //load and validate the package
@@ -294,7 +296,8 @@ class ImportService extends ConfigurableService
                     array(),
                     array(),
                     $createdClasses,
-                    $enableMetadataGuardians
+                    $enableMetadataGuardians,
+                    $enableMetadataValidators
                 );
                 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -358,8 +361,9 @@ class ImportService extends ConfigurableService
      * @param array $metadataGuardians
      * @param array $metadataClassLookups
      * @param array $sharedFiles
-     * @param array $createdClass
+     * @param array $createdClasses
      * @param boolean $enableMetadataGuardians
+     * @param boolean $enableMetadataValidators
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -374,7 +378,8 @@ class ImportService extends ConfigurableService
         array $metadataClassLookups = array(),
         array $sharedFiles = array(),
         &$createdClasses = array(),
-        $enableMetadataGuardians = true
+        $enableMetadataGuardians = true,
+        $enableMetadataValidators = true
     ) {
 
         try {
@@ -397,11 +402,13 @@ class ImportService extends ConfigurableService
                     }
                 }
 
-                $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
+                if ($enableMetadataValidators === true) {
+                    $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
 
-                if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
-                    \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
-                    return $validationReport;
+                    if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
+                        \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
+                        return $validationReport;
+                    }
                 }
 
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);

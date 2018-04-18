@@ -113,6 +113,13 @@
                         "description": "Boolean flag that indicates to use or not metadata guardians during the import. If parameter not specified, metadata guardians will be used by default.",
                         "type": "boolean",
                         "required": false
+                    },
+                    {
+                        "name": "enableMetadataValidators",
+                        "in": "formData",
+                        "description": "Boolean flag that indicates to use or not metadata validators during the import. If parameter not specified, metadata guardians will be used by default.",
+                        "type": "boolean",
+                        "required": false
                     }
                 ],
                 "consumes": [
@@ -224,6 +231,13 @@
                         "name": "enableMetadataGuardians",
                         "in": "formData",
                         "description": "Boolean flag that indicates to use or not metadata guardians during the import. If parameter not specified, metadata guardians will be used by default.",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "name": "enableMetadataValidators",
+                        "in": "formData",
+                        "description": "Boolean flag that indicates to use or not metadata validators during the import. If parameter not specified, metadata guardians will be used by default.",
                         "type": "boolean",
                         "required": false
                     }
