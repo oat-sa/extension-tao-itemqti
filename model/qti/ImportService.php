@@ -232,6 +232,7 @@ class ImportService extends ConfigurableService
      * @param bool $rollbackOnWarning
      * @param bool $enableMetadataGuardians
      * @param bool $enableMetadataValidators
+     * @param bool $itemMustExist
      * @throws Exception
      * @throws ExtractException
      * @throws ParsingException
@@ -247,7 +248,8 @@ class ImportService extends ConfigurableService
         $rollbackOnError = false,
         $rollbackOnWarning = false,
         $enableMetadataGuardians = true,
-        $enableMetadataValidators = true
+        $enableMetadataValidators = true,
+        $itemMustExist = false
     ) {
 
         //load and validate the package
@@ -297,7 +299,8 @@ class ImportService extends ConfigurableService
                     array(),
                     $createdClasses,
                     $enableMetadataGuardians,
-                    $enableMetadataValidators
+                    $enableMetadataValidators,
+                    $itemMustExist
                 );
                 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -364,6 +367,7 @@ class ImportService extends ConfigurableService
      * @param array $createdClasses
      * @param boolean $enableMetadataGuardians
      * @param boolean $enableMetadataValidators
+     * @param bool $itemMustExist
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -379,7 +383,8 @@ class ImportService extends ConfigurableService
         array $sharedFiles = array(),
         &$createdClasses = array(),
         $enableMetadataGuardians = true,
-        $enableMetadataValidators = true
+        $enableMetadataValidators = true,
+        $itemMustExist = false
     ) {
 
         try {
@@ -394,11 +399,19 @@ class ImportService extends ConfigurableService
                 if ($enableMetadataGuardians === true) {
                     $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
                     if ($guardian !== false) {
-                        \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
-                        return common_report_Report::createInfo(
-                            __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
-                            $guardian
-                        );
+                        if ($itemMustExist === false) {
+                            \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
+                            return common_report_Report::createInfo(
+                                __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
+                                $guardian
+                            );
+                        } else {
+                            \common_Logger::i('Resource "' . $resourceIdentifier . '" must be already stored in the database in order to proceed.');
+                            new common_report_Report(
+                                common_report_Report::TYPE_ERROR,
+                                __('The IMS QTI Item referenced as "%s" in the IMS Manifest file must be already stored in the Item Bank. Item not found.')
+                            );
+                        }
                     }
                 }
 

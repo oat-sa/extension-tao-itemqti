@@ -40,6 +40,7 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
     const PARAM_FILE = 'file';
     const PARAM_GUARDIANS = 'enableMetadataGuardians';
     const PARAM_VALIDATORS = 'enableMetadataValidators';
+    const PARAM_ITEM_MUST_EXIST = 'itemMustExist';
 
     protected $service;
 
@@ -64,7 +65,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             true,
             // Continue to support old tasks in the queue
             (isset($params[self::PARAM_GUARDIANS])) ? $params[self::PARAM_GUARDIANS] : true,
-            (isset($params[self::PARAM_VALIDATORS])) ? $params[self::PARAM_VALIDATORS] : true
+            (isset($params[self::PARAM_VALIDATORS])) ? $params[self::PARAM_VALIDATORS] : true,
+            (isset($params[self::PARAM_ITEM_MUST_EXIST])) ? $params[self::PARAM_ITEM_MUST_EXIST] : false
          );
     }
 
@@ -84,9 +86,10 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
      * @param ServiceLocatorInterface    $serviceManager
      * @param boolean                    $enableMetadataGuardians
      * @param boolean                    $enableMetadataValidators
+     * @param boolean                    $itemMustExist
      * @return TaskInterface
      */
-    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true, $enableMetadataValidators = true)
+    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true, $enableMetadataValidators = true, $itemMustExist = false)
     {
         $action = new self();
         $action->setServiceLocator($serviceManager);
@@ -102,7 +105,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
                 self::PARAM_FILE => $fileUri,
                 self::PARAM_CLASS_URI => $class->getUri(),
                 self::PARAM_GUARDIANS => $enableMetadataGuardians,
-                self::PARAM_VALIDATORS => $enableMetadataValidators
+                self::PARAM_VALIDATORS => $enableMetadataValidators,
+                self::PARAM_ITEM_MUST_EXIST => $itemMustExist
             ],
             __('Import QTI ITEM into "%s"', $class->getLabel())
         );

@@ -40,6 +40,8 @@ abstract class AbstractRestQti extends \tao_actions_RestController
 
     const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
 
+    const ITEM_MUST_EXIST = 'itemMustExist';
+
     protected static $accepted_types = array(
         'application/zip',
         'application/x-zip-compressed',
@@ -132,5 +134,26 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         }
 
         return filter_var($enableMetadataValidators, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isItemMustExistEnabled()
+    {
+        $itemMustExistEnabled = $this->getRequestParameter(self::ITEM_MUST_EXIST);
+
+        if (is_null($itemMustExistEnabled)) {
+            return true; // default value if parameter not passed
+        }
+
+        if (!in_array($itemMustExistEnabled, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ITEM_MUST_EXIST . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($itemMustExistEnabled, FILTER_VALIDATE_BOOLEAN);
     }
 }

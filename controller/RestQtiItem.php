@@ -98,7 +98,8 @@ class RestQtiItem extends AbstractRestQti
                 true,
                 true,
                 $this->isMetadataGuardiansEnabled(),
-                $this->isMetadataValidatorsEnabled()
+                $this->isMetadataValidatorsEnabled(),
+                $this->isItemMustExistEnabled()
             );
             \helpers_TimeOutHelper::reset();
             
@@ -150,7 +151,8 @@ class RestQtiItem extends AbstractRestQti
                 $this->getDestinationClass(),
                 $this->getServiceLocator(),
                 $this->isMetadataGuardiansEnabled(),
-                $this->isMetadataValidatorsEnabled()
+                $this->isMetadataValidatorsEnabled(),
+                $this->isItemMustExistEnabled()
             );
 
             $result = [
