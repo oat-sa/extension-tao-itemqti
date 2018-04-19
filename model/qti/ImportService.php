@@ -281,6 +281,7 @@ class ImportService extends ConfigurableService
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, '');
         $successItems = array();
         $allCreatedClasses = array();
+        $overwrittenItems = array();
         $itemCount = 0;
 
         try {
@@ -311,7 +312,8 @@ class ImportService extends ConfigurableService
                     $enableMetadataGuardians,
                     $enableMetadataValidators,
                     $itemMustExist,
-                    $itemMustBeOverwritten
+                    $itemMustBeOverwritten,
+                    $overwrittenItems
                 );
                 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -331,7 +333,7 @@ class ImportService extends ConfigurableService
             $report->setType(common_report_Report::TYPE_ERROR);
             $report->add($validationReport);
         } catch (common_exception_UserReadableException $e) {
-            $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
+            $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage());
             $report->add($e);
         }
 
@@ -350,11 +352,11 @@ class ImportService extends ConfigurableService
 
         if ($rollbackOnError === true) {
             if ($report->getType() === common_report_Report::TYPE_ERROR || $report->contains(common_report_Report::TYPE_ERROR)) {
-                $this->rollback($successItems, $report, $allCreatedClasses);
+                $this->rollback($successItems, $report, $allCreatedClasses, $overwrittenItems);
             }
         } elseif ($rollbackOnWarning === true) {
             if ($report->contains(common_report_Report::TYPE_WARNING)) {
-                $this->rollback($successItems, $report, $allCreatedClasses);
+                $this->rollback($successItems, $report, $allCreatedClasses, $overwrittenItems);
             }
         }
 
@@ -397,10 +399,12 @@ class ImportService extends ConfigurableService
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
         $itemMustExist = false,
-        $itemMustBeOverwritten = false
+        $itemMustBeOverwritten = false,
+        &$overwrittenItems = array()
     ) {
         try {
             $qtiService = Service::singleton();
+            $overWriting = false;
 
             //load the information about resources in the manifest
             try {
@@ -415,6 +419,7 @@ class ImportService extends ConfigurableService
                         // Item found by guardians.
                         if ($itemMustBeOverwritten === true) {
                             \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will be overwritten.');
+                            $overWriting = true;
                         } else {
                             \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
                             return common_report_Report::createInfo(
@@ -452,11 +457,10 @@ class ImportService extends ConfigurableService
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
                 if ($guardian !== false && $itemMustBeOverwritten) {
-                    // The item is overwritten, let's delete the content.
                     \common_Logger::d('Resource "' . $resourceIdentifier . '" will overwrite item with URI ' . $guardian->getUri());
                     $rdfItem = $guardian;
-                    $qtiService->deleteContentByRdfItem($rdfItem);
-
+                    $overwrittenItems[$guardian->getUri()]= $qtiService->backupContentByRdfItem($rdfItem);
+                    $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
                 } else {
                     $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
                 }
@@ -542,7 +546,7 @@ class ImportService extends ConfigurableService
             } catch (PortableElementInvalidModelException $pe) {
                 $report = common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
                 $report->add($pe->getReport());
-                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
+                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
                 }
             } catch (PortableElementException $e) {
@@ -554,13 +558,13 @@ class ImportService extends ConfigurableService
                     common_Logger::d($e->getMessage());
                 }
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,$msg);
-                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
+                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()  && !$overWriting) {
                     $rdfItem->delete();
                 }
             } catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
-                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()) {
+                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()  && !$overWriting) {
                     $rdfItem->delete();
                 }
                 common_Logger::e($e->getMessage());
@@ -618,10 +622,22 @@ class ImportService extends ConfigurableService
      * @param array $createdClasses (optional)
      * @throws common_exception_Error
      */
-    protected function rollback(array $items, common_report_Report $report, array $createdClasses = array())
+    protected function rollback(array $items, common_report_Report $report, array $createdClasses = array(), array $overwrittenItems = array())
     {
+        $overwrittenItemsIds = array_keys($overwrittenItems);
+        $qtiService = Service::singleton();
+
+        \common_Logger::i(var_export($overwrittenItemsIds, true));
+
         foreach ($items as $id => $item) {
-            @taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
+            if (!in_array($item->getUri(), $overwrittenItemsIds)) {
+                \common_Loggerr::d("Deleting item '${id}'...");
+                @taoItems_models_classes_ItemsService::singleton()->deleteResource($item);
+            } else {
+                \common_Logger::d("Restoring content of item '${id}'...");
+                @$qtiService->restoreContentByRdfItem($item, $overwrittenItems[$item->getUri()]);
+            }
+
             $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,
                 __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfully rolled back.', $id)));
         }
