@@ -253,6 +253,14 @@ class ImportService extends ConfigurableService
         $itemMustExist = false,
         $itemMustBeOverwritten = false
     ) {
+        $initialLogMsg = "Importing QTI Package with the following options:\n";
+        $initialLogMsg .= '- Rollback On Warning: ' . json_encode($rollbackOnWarning) . "\n";
+        $initialLogMsg .= '- Rollback On Error: ' . json_encode($rollbackOnError) . "\n";
+        $initialLogMsg .= '- Enable Metadata Guardians: ' . json_encode($enableMetadataGuardians) . "\n";
+        $initialLogMsg .= '- Enable Metadata Validators: ' . json_encode($enableMetadataValidators) . "\n";
+        $initialLogMsg .= '- Item Must Exist: ' . json_encode($itemMustExist) . "\n";
+        $initialLogMsg .= '- Item Must Be Overwritten: ' .json_encode($itemMustBeOverwritten) . "\n";
+        \common_Logger::d($initialLogMsg);
 
         //load and validate the package
         $qtiPackageParser = new PackageParser($file);
@@ -391,7 +399,6 @@ class ImportService extends ConfigurableService
         $itemMustExist = false,
         $itemMustBeOverwritten = false
     ) {
-
         try {
             $qtiService = Service::singleton();
 
@@ -405,17 +412,24 @@ class ImportService extends ConfigurableService
                 if ($enableMetadataGuardians === true) {
                     $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
                     if ($guardian !== false) {
-                        if ($itemMustExist === false) {
+                        // Item found by guardians.
+                        if ($itemMustBeOverwritten === true) {
+                            \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will be overwritten.');
+                        } else {
                             \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
                             return common_report_Report::createInfo(
                                 __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
                                 $guardian
                             );
-                        } else {
+                        }
+
+                    } else {
+                        // Item not found by guardians.
+                        if ($itemMustExist === true) {
                             \common_Logger::i('Resource "' . $resourceIdentifier . '" must be already stored in the database in order to proceed.');
-                            new common_report_Report(
+                            return new common_report_Report(
                                 common_report_Report::TYPE_ERROR,
-                                __('The IMS QTI Item referenced as "%s" in the IMS Manifest file must be already stored in the Item Bank. Item not found.')
+                                __('The IMS QTI Item referenced as "%s" in the IMS Manifest file should have been found the Item Bank. Item not found.', $resourceIdentifier)
                             );
                         }
                     }
@@ -437,7 +451,15 @@ class ImportService extends ConfigurableService
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
-                $rdfItem = ($guardian === false) ? $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel, $qtiItemResource) : $guardian;
+                if ($guardian !== false && $itemMustBeOverwritten) {
+                    // The item is overwritten, let's delete the content.
+                    \common_Logger::d('Resource "' . $resourceIdentifier . '" will overwrite item with URI ' . $guardian->getUri());
+                    $rdfItem = $guardian;
+                    $qtiService->deleteContentByRdfItem($rdfItem);
+
+                } else {
+                    $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
+                }
 
                 // Setting qtiIdentifier property
                 $qtiIdentifierProperty = new \core_kernel_classes_Property(self::PROPERTY_QTI_ITEM_IDENTIFIER);

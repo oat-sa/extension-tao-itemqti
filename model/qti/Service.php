@@ -237,4 +237,15 @@ class Service extends tao_models_classes_Service
     {
         return taoItems_models_classes_ItemsService::singleton()->hasItemModel($item, $models);
     }
+
+    /**
+     * Delete the contents of the item, but not the resource representing it.
+     *
+     * @param core_kernel_classes_Resource $item
+     * @return bool
+     */
+    public function deleteContentByRdfItem(core_kernel_classes_Resource $item)
+    {
+        return taoItems_models_classes_ItemsService::singleton()->deleteItemContent($item, true);
+    }
 }
