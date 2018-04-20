@@ -502,7 +502,7 @@ class ImportService extends ConfigurableService
 
                 $itemAssetManager->finalize();
 
-                $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
+                $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), true);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
                 $this->getMetadataImporter()->inject($resourceIdentifier, $rdfItem);
@@ -627,19 +627,21 @@ class ImportService extends ConfigurableService
         $overwrittenItemsIds = array_keys($overwrittenItems);
         $qtiService = Service::singleton();
 
-        \common_Logger::i(var_export($overwrittenItemsIds, true));
-
+        // 1. Simply delete items that were not involved in overwriting.
         foreach ($items as $id => $item) {
             if (!in_array($item->getUri(), $overwrittenItemsIds)) {
                 \common_Loggerr::d("Deleting item '${id}'...");
                 @taoItems_models_classes_ItemsService::singleton()->deleteResource($item);
-            } else {
-                \common_Logger::d("Restoring content of item '${id}'...");
-                @$qtiService->restoreContentByRdfItem($item, $overwrittenItems[$item->getUri()]);
-            }
 
-            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,
-                __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfully rolled back.', $id)));
+                $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,
+                    __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfully rolled back.', $id)));
+            }
+        }
+
+        // 2. Restore overwritten item contents.
+        foreach ($overwrittenItems as $overwrittenItemId => $backupName) {
+            common_Logger::d("Restoring content for item '${overwrittenItemId}'...");
+            @$qtiService->restoreContentByRdfItem(new core_kernel_classes_Resource($overwrittenItemId), $backupName);
         }
         
         foreach ($createdClasses as $createdClass) {
