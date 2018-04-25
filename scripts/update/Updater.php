@@ -467,7 +467,7 @@ class Updater extends \common_ext_ExtensionUpdater
                     'excludedProperties' => array(
                         taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
                         taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
-                        taoItems_actions_form_RestItemForm::PROPERTY_ITEM_CONTENT_SRC,
+                        taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT_SRC,
                         TaoOntology::PROPERTY_LOCK,
                     ),
                 )
@@ -544,6 +544,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('13.4.0');
         }
 
-        $this->skip('13.4.0', '14.1.0');
+        $this->skip('13.4.0', '14.1.1');
     }
 }
