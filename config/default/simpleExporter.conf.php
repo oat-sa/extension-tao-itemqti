@@ -80,7 +80,7 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
                 'excludedProperties' => array(
                     taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
                     taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
-                    taoItems_actions_form_RestItemForm::PROPERTY_ITEM_CONTENT_SRC,
+                    taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT_SRC,
                     TaoOntology::PROPERTY_LOCK,
                 ),
             )
