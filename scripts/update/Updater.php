@@ -58,9 +58,7 @@ use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoTaskQueue\model\TaskLogInterface;
-use taoItems_actions_form_RestItemForm;
 use taoItems_models_classes_ItemsService;
-use taoTests_models_classes_TestsService;
 
 /**
  *
@@ -545,6 +543,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('13.4.0');
         }
 
-        $this->skip('13.4.0', '14.1.3');
+        $this->skip('13.4.0', '14.2.0');
     }
 }
