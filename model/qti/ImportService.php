@@ -42,6 +42,7 @@ use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
@@ -424,7 +425,7 @@ class ImportService extends ConfigurableService
                             \common_Logger::i('Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.');
                             return common_report_Report::createInfo(
                                 __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
-                                $guardian
+                                new MetadataGuardianResource($guardian)
                             );
                         }
 
@@ -629,7 +630,7 @@ class ImportService extends ConfigurableService
 
         // 1. Simply delete items that were not involved in overwriting.
         foreach ($items as $id => $item) {
-            if (!in_array($item->getUri(), $overwrittenItemsIds)) {
+            if (!$item instanceof MetadataGuardianResource && !in_array($item->getUri(), $overwrittenItemsIds)) {
                 \common_Logger::d("Deleting item '${id}'...");
                 @taoItems_models_classes_ItemsService::singleton()->deleteResource($item);
 
