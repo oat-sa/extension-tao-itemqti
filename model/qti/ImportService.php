@@ -502,7 +502,7 @@ class ImportService extends ConfigurableService
 
                 $itemAssetManager->finalize();
 
-                $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), true);
+                $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
                 $this->getMetadataImporter()->inject($resourceIdentifier, $rdfItem);
