@@ -66,6 +66,7 @@ use \common_Logger;
 use \SimpleXMLElement;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * The ParserFactory provides some methods to build the QTI_Data objects from an
@@ -78,6 +79,8 @@ use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
  */
 class ParserFactory
 {
+
+    use LoggerAwareTrait;
 
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
@@ -510,7 +513,7 @@ class ParserFactory
         //check on the root tag.
         $itemId = (string) $data->getAttribute('identifier');
 
-        common_Logger::i('Started parsing of QTI item'.(isset($itemId) ? ' '.$itemId : ''), array('TAOITEMS'));
+        $this->logDebug('Started parsing of QTI item'.(isset($itemId) ? ' '.$itemId : ''), array('TAOITEMS'));
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
