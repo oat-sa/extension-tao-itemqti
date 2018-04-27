@@ -147,7 +147,7 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         $itemMustExistEnabled = $this->getRequestParameter(self::ITEM_MUST_EXIST);
 
         if (is_null($itemMustExistEnabled)) {
-            return true; // default value if parameter not passed
+            return false; // default value if parameter not passed
         }
 
         if (!in_array($itemMustExistEnabled, ['true', 'false'])) {
@@ -168,7 +168,7 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         $isItemMustBeOverwrittenEnabled = $this->getRequestParameter(self::ITEM_MUST_BE_OVERWRITTEN);
 
         if (is_null($isItemMustBeOverwrittenEnabled)) {
-            return true; // default value if parameter not passed
+            return false; // default value if parameter not passed
         }
 
         if (!in_array($isItemMustBeOverwrittenEnabled, ['true', 'false'])) {
