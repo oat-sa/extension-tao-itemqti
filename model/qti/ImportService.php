@@ -630,7 +630,7 @@ class ImportService extends ConfigurableService
         // 1. Simply delete items that were not involved in overwriting.
         foreach ($items as $id => $item) {
             if (!in_array($item->getUri(), $overwrittenItemsIds)) {
-                \common_Loggerr::d("Deleting item '${id}'...");
+                \common_Logger::d("Deleting item '${id}'...");
                 @taoItems_models_classes_ItemsService::singleton()->deleteResource($item);
 
                 $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,
