@@ -237,4 +237,37 @@ class Service extends tao_models_classes_Service
     {
         return taoItems_models_classes_ItemsService::singleton()->hasItemModel($item, $models);
     }
+
+    /**
+     * Delete the contents of the item, but not the resource representing it.
+     *
+     * @param core_kernel_classes_Resource $item
+     * @return bool
+     */
+    public function deleteContentByRdfItem(core_kernel_classes_Resource $item)
+    {
+        return taoItems_models_classes_ItemsService::singleton()->deleteItemContent($item);
+    }
+
+    public function backupContentByRdfItem(core_kernel_classes_Resource $item)
+    {
+        $storage = taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
+        $itemId = \tao_helpers_Uri::getUniqueId($item->getUri());
+        $itemDirectory = $storage->getDirectory($itemId);
+        $newName = $storage->getPrefix() . "${itemId}." . uniqid() . '.back';
+
+        if ($itemDirectory->rename($newName)) {
+            return $newName;
+        } else {
+            throw new \common_exception_FileSystemError("Unable to backup item with URI '" . $item->getUri() . "'.");
+        }
+    }
+
+    public function restoreContentByRdfItem(core_kernel_classes_Resource $item, $backUpName)
+    {
+        $storage = taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
+        $itemId = \tao_helpers_Uri::getUniqueId($item->getUri());
+        $storage->getDirectory($itemId)->deleteSelf();
+        $storage->getDirectory($backUpName)->rename($itemId);
+    }
 }

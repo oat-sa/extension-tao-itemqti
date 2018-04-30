@@ -72,22 +72,56 @@ class OntologyMetadataInjector implements MetadataInjector
             $msg = "The given target is not an instance of core_kernel_classes_Resource.";
             throw new MetadataInjectionException($msg);
         }
-        
+
+        $data = [];
+
         foreach ($values as $metadataValues) {
             foreach ($metadataValues as $metadataValue) {
                 $lang = $metadataValue->getLanguage() ?: DEFAULT_LANG;
-                
+
                 if (($rule = $this->getRuleByValue($metadataValue->getPath(), $metadataValue->getValue())) !== false) {
                     // Direct Mapping.
-                    $target->setPropertyValueByLg(new core_kernel_classes_Property($rule[0]), $rule[2], $lang);
+                    if (!isset($data[$rule[0]])) {
+                        $data[$rule[0]] = [];
+                    }
+                    if (!isset($data[$rule[0]][$lang])) {
+                        $data[$rule[0]][$lang] = [];
+                    }
+
+                    $data[$rule[0]][$lang][] = [$rule[2], $metadataValue];
+
                 } elseif (($rule = $this->getRuleByPath($metadataValue->getPath())) !== false) {
-                    // Direct Injection.
-                    $target->setPropertyValueByLg(new core_kernel_classes_Property($rule[0]), $metadataValue->getValue(), $lang);
+                    if (!isset($data[$rule[0]])) {
+                        $data[$rule[0]] = [];
+                    }
+                    if (!isset($data[$rule[0]][$lang])) {
+                        $data[$rule[0]][$lang] = [];
+                    }
+
+                    $data[$rule[0]][$lang][] = [$metadataValue->getValue(), $metadataValue];
                 }
-                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-                $metadata = $metadataValue->getPath();
-                $metadataUri = array_pop($metadata);
-                $eventManager->trigger(new MetadataModified($target, $metadataUri,$metadataValue->getValue()));
+            }
+        }
+
+        // Cleanup impacted metadata, in case the $target is being overwritten.
+        foreach ($data as $propertyUri => $perLangData) {
+            foreach (array_keys($perLangData) as $lang) {
+                $target->removePropertyValueByLg(new core_kernel_classes_Property($propertyUri), $lang);
+            }
+        }
+
+        // Inject new data in Ontology for target.
+        foreach ($data as $propertyUri => $perLangData) {
+            foreach ($perLangData as $lang => $d) {
+                foreach ($d as $actualData) {
+                    $target->setPropertyValueByLg(new core_kernel_classes_Property($propertyUri), $actualData[0], $lang);
+
+                    // Send events.
+                    $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
+                    $metadata = $actualData[1]->getPath();
+                    $metadataUri = array_pop($metadata);
+                    $eventManager->trigger(new MetadataModified($target, $metadataUri, $actualData[1]->getValue()));
+                }
             }
         }
     }
