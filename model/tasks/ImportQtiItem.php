@@ -38,6 +38,10 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
     const FILE_DIR = 'ImportQtiItemTask';
     const PARAM_CLASS_URI = 'class_uri';
     const PARAM_FILE = 'file';
+    const PARAM_GUARDIANS = 'enableMetadataGuardians';
+    const PARAM_VALIDATORS = 'enableMetadataValidators';
+    const PARAM_ITEM_MUST_EXIST = 'itemMustExist';
+    const PARAM_ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
     protected $service;
 
@@ -54,7 +58,18 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
 
         $file = $this->getFileReferenceSerializer()->unserializeFile($params['file']);
 
-        return ImportService::singleton()->importQTIPACKFile($file, $this->getClass($params));
+        return ImportService::singleton()->importQTIPACKFile(
+            $file,
+            $this->getClass($params),
+            true,
+            true,
+            true,
+            // Continue to support old tasks in the queue
+            (isset($params[self::PARAM_GUARDIANS])) ? $params[self::PARAM_GUARDIANS] : true,
+            (isset($params[self::PARAM_VALIDATORS])) ? $params[self::PARAM_VALIDATORS] : true,
+            (isset($params[self::PARAM_ITEM_MUST_EXIST])) ? $params[self::PARAM_ITEM_MUST_EXIST] : false,
+            (isset($params[self::PARAM_ITEM_MUST_BE_OVERWRITTEN])) ? $params[self::PARAM_ITEM_MUST_BE_OVERWRITTEN] : false
+         );
     }
 
     /**
@@ -71,9 +86,13 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
      * @param string                     $packageFile uploaded file path
      * @param \core_kernel_classes_Class $class       uploaded file
      * @param ServiceLocatorInterface    $serviceManager
+     * @param boolean                    $enableMetadataGuardians
+     * @param boolean                    $enableMetadataValidators
+     * @param boolean                    $itemMustExist
+     * @param boolean                    $itemMustBeOverwritten
      * @return TaskInterface
      */
-    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager)
+    public static function createTask($packageFile, \core_kernel_classes_Class $class, ServiceLocatorInterface $serviceManager, $enableMetadataGuardians = true, $enableMetadataValidators = true, $itemMustExist = false, $itemMustBeOverwritten = false)
     {
         $action = new self();
         $action->setServiceLocator($serviceManager);
@@ -87,7 +106,11 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             $action,
             [
                 self::PARAM_FILE => $fileUri,
-                self::PARAM_CLASS_URI => $class->getUri()
+                self::PARAM_CLASS_URI => $class->getUri(),
+                self::PARAM_GUARDIANS => $enableMetadataGuardians,
+                self::PARAM_VALIDATORS => $enableMetadataValidators,
+                self::PARAM_ITEM_MUST_EXIST => $itemMustExist,
+                self::PARAM_ITEM_MUST_BE_OVERWRITTEN => $itemMustBeOverwritten
             ],
             __('Import QTI ITEM into "%s"', $class->getLabel())
         );

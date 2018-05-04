@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
 use \DOMDocument;
 use \tao_helpers_Request;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * The QTI Parser enables you to parse QTI item xml files and build the
@@ -41,6 +42,8 @@ use \tao_helpers_Request;
  */
 class Parser extends tao_models_classes_Parser
 {
+
+    use LoggerAwareTrait;
 
     /**
      * Run the validation process
@@ -88,7 +91,7 @@ class Parser extends tao_models_classes_Parser
                 $servicemanager = $this->getServiceManager();
                 $validationService = $servicemanager->get(ValidationService::SERVICE_ID);
                 $schemas = $validationService->getContentValidationSchema($ns);
-                \common_Logger::i("The following schema will be used to validate: '" . $schemas[0] . "'.");
+                $this->logDebug("The following schema will be used to validate: '" . $schemas[0] . "'.");
 
                 $validSchema = $this->validateMultiple($schemas);
                 $returnValue = $validSchema !== '';
