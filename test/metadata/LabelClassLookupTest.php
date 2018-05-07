@@ -51,7 +51,7 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
     public function testLabelClassLookupTest()
     {
         $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
-        $this->assertEquals(1, count($class->countInstances()));
+        $this->assertEquals(1, $class->countInstances());
     }
     
     public static function tearDownAfterClass()
