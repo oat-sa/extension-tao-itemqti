@@ -47,7 +47,7 @@ class ContainerItemBody extends ContainerInteractive
 			'oat\\taoQtiItem\\model\\qti\\Table',
 			'oat\\taoQtiItem\\model\\qti\\Math',
 			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-			'oat\\taoQtiItem\\model\\qti\\Object',
+		    \oat\taoQtiItem\model\qti\QtiObject::class,
 			'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
 			'oat\\taoQtiItem\\model\\qti\\RubricBlock',
 			'oat\\taoQtiItem\\model\\qti\\InfoControl',

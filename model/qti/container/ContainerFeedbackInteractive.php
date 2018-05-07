@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\ContainerInteractive;
-
 /**
  * The QTI ContainerFeedbackInteractive represents the content of a feedback that allow nested interactions
  *
@@ -46,7 +44,7 @@ class ContainerFeedbackInteractive extends ContainerInteractive
                     'oat\\taoQtiItem\\model\\qti\\Img',
 			'oat\\taoQtiItem\\model\\qti\\Math',
 			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-			'oat\\taoQtiItem\\model\\qti\\Object',
+		    \oat\taoQtiItem\model\qti\QtiObject::class,
 			'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction'
 		);
 	}
