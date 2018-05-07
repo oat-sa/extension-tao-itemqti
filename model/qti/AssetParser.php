@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\qti;
 use oat\oatbox\filesystem\Directory;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\qti\container\Container;
-use oat\taoQtiItem\model\qti\Object as QtiObject;
+use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
@@ -126,7 +126,7 @@ class AssetParser
      */
     private function extractObject(Element $element){
         if($element instanceof Container){
-            foreach($element->getElements('oat\taoQtiItem\model\qti\Object') as $object){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\QtiObject') as $object){
                 $this->loadObjectAssets($object);
             }
         }

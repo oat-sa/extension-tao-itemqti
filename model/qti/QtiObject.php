@@ -20,18 +20,17 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Object;
 use oat\taoQtiItem\model\qti\Element;
 
 /**
- * Short description of class oat\taoQtiItem\model\qti\Object
+ * Short description of class oat\taoQtiItem\model\qti\QtiObject
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
  
  */
-class Object extends Element
+class QtiObject extends Element
 {
 
     /**
