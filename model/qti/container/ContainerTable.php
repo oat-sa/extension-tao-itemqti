@@ -42,7 +42,7 @@ class ContainerTable extends ContainerInteractive
             'oat\\taoQtiItem\\model\\qti\\Img',
             'oat\\taoQtiItem\\model\\qti\\Math',
             'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            'oat\\taoQtiItem\\model\\qti\\Object',
+            \oat\taoQtiItem\model\qti\QtiObject::class,
             'oat\\taoQtiItem\\model\\qti\\Tooltip',
             'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
             'oat\\taoQtiItem\\model\\qti\\RubricBlock',
