@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\qti\interaction;
 use oat\taoQtiItem\model\qti\interaction\GraphicGapMatchInteraction;
 use oat\taoQtiItem\model\qti\interaction\GraphicInteraction;
 use oat\taoQtiItem\model\qti\choice\GapImg;
-use oat\taoQtiItem\model\qti\Object;
+use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\choice\Choice;
 
 /**
@@ -60,7 +60,7 @@ class GraphicGapMatchInteraction extends GraphicInteraction
 
         if(!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')){
             $returnValue = new GapImg(empty($objectLabel) ? array() : array('objectLabel' => (string) $objectLabel));
-            $returnValue->setContent(new Object($objectAttributes));
+            $returnValue->setContent(new QtiObject($objectAttributes));
             $this->addGapImg($returnValue);
         }
 

@@ -51,7 +51,7 @@ use oat\taoQtiItem\model\qti\response\TakeoverFailedException;
 use oat\taoQtiItem\model\qti\response\Summation;
 use oat\taoQtiItem\model\qti\expression\ExpressionParserFactory;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
-use oat\taoQtiItem\model\qti\Object;
+use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Math;
 use oat\taoQtiItem\model\qti\XInclude;
@@ -1388,12 +1388,12 @@ class ParserFactory
      * @access private
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\Object
+     * @return \oat\taoQtiItem\model\qti\QtiObject
      */
     private function buildObject(DOMElement $data){
 
         $attributes = $this->extractAttributes($data);
-        $returnValue = new Object($attributes);
+        $returnValue = new QtiObject($attributes);
 
         if($data->hasChildNodes()){
             $nonEmptyChild = $this->getNonEmptyChildren($data);
