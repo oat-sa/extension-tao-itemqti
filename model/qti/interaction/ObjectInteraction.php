@@ -23,7 +23,7 @@ namespace oat\taoQtiItem\model\qti\interaction;
 use oat\taoQtiItem\model\qti\interaction\ObjectInteraction;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\Object;
+use oat\taoQtiItem\model\qti\QtiObject;
 
 /**
  * The QTI object interaction is a subclass of the QTI block interaction 
@@ -42,16 +42,16 @@ abstract class ObjectInteraction
 	/**
 	 * The main content of an ObjectInteraction is a QTI object
 	 * 
-	 * @var oat\taoQtiItem\model\qti\Object 
+	 * @var oat\taoQtiItem\model\qti\QtiObject
 	 */
 	protected $object = null;
 	
 	public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
 		parent::__construct($attributes, $relatedItem, $serial);
-		$this->object = new Object();
+		$this->object = new QtiObject();
 	}
 	
-	public function setObject(Object $object){
+	public function setObject(QtiObject $object){
 		$this->object = $object;
 	}
 	
