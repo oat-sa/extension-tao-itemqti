@@ -522,7 +522,7 @@ class ImportService extends ConfigurableService
 
             } catch (ParsingException $e) {
 
-                $message = $e->getUserMessage();
+                $message = __('Resource "' . $resourceIdentifier . 'has an error. ') . $e->getUserMessage();
 
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, $message);
 
@@ -541,6 +541,7 @@ class ImportService extends ConfigurableService
                     }
                     $message .= $error->message.' at line : '.$error->line.PHP_EOL;
                 }
+                $message .= __(' For Resource "' . $resourceIdentifier);
 
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     $message);
@@ -564,7 +565,7 @@ class ImportService extends ConfigurableService
                 }
             } catch (Exception $e) {
                 // an error occured during a specific item
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package."));
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package with identifier: ". $resourceIdentifier));
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()  && !$overWriting) {
                     $rdfItem->delete();
                 }
