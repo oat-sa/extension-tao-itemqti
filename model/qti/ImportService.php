@@ -445,6 +445,7 @@ class ImportService extends ConfigurableService
                     $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
 
                     if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
+                        $validationReport->setMessage(__('Item metadata with identifier "%s" is not valid: ', $resourceIdentifier).$validationReport->getMessage());
                         \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
                         return $validationReport;
                     }
