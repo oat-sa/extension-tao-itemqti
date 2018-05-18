@@ -46,7 +46,7 @@ abstract class Choice extends IdentifiedElement
     
     /**
      * Common method to get the content of a choice.
-     * The return value is mostly a string, but could also be a oat\taoQtiItem\model\qti\Object
+     * The return value is mostly a string, but could also be a oat\taoQtiItem\model\qti\QtiObject
      * 
      * @return mixed
      */
@@ -54,7 +54,7 @@ abstract class Choice extends IdentifiedElement
     
     /**
      * Common method to se the content of a choice.
-     * The content type is mostly a String, but could also be a oat\taoQtiItem\model\qti\Object or oat\taoQtiItem\model\qti\OutcomeDeclaration
+     * The content type is mostly a String, but could also be a oat\taoQtiItem\model\qti\QtiObject or oat\taoQtiItem\model\qti\OutcomeDeclaration
      * 
      * @param mixed content
      */

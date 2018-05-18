@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\qti\choice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
 use oat\taoQtiItem\model\qti\choice\Choice;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\Object;
+use oat\taoQtiItem\model\qti\QtiObject;
 
 /**
  * A choice is a kind of interaction's proposition.
@@ -48,13 +48,13 @@ class GapImg extends Choice
     /**
      * The image object of a gapImg must have a image MIME type
      * 
-     * @var oat\taoQtiItem\model\qti\Object
+     * @var oat\taoQtiItem\model\qti\QtiObject
      */
     protected $object = null;
     
     public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
 		parent::__construct($attributes, $relatedItem, $serial);
-		$this->object = new Object();
+		$this->object = new QtiObject();
 	}
     
     protected function getUsedAttributes(){
@@ -66,7 +66,7 @@ class GapImg extends Choice
     }
 
     public function setContent($content){
-        if($content instanceof Object){
+        if($content instanceof QtiObject){
             $this->setObject($content);
         }else{
             throw new InvalidArgumentException('a GapImg can contain taoQTI_models_classes_QTI_Object only');
@@ -77,7 +77,7 @@ class GapImg extends Choice
         return $this->getObject();
     }
 
-    public function setObject(Object $imgObject){
+    public function setObject(QtiObject $imgObject){
         //@todo: check MIME type
         $this->object = $imgObject;
     }

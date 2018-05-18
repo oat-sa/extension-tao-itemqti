@@ -23,8 +23,6 @@ namespace oat\taoQtiItem\model\qti;
 use oat\taoQtiItem\model\qti\Element;
 
 /**
- * Short description of class oat\taoQtiItem\model\qti\Object
- *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
