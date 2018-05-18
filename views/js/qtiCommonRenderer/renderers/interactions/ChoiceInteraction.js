@@ -306,7 +306,7 @@ define([
 
         try{
             _.forEach(pciResponse.unserialize(response, interaction), function(identifier){
-                var $input = $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
+                var $input = $container.find('.real-label > input[value="' + identifier + '"]').prop('checked', true);
                 $input.closest('.qti-choice').toggleClass('user-selected', true);
             });
             instructionMgr.validateInstructions(interaction);
