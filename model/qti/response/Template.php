@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
  * 
  */
@@ -22,11 +22,8 @@
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\response\ResponseProcessing;
-use oat\taoQtiItem\model\qti\response\Rule;
+use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\helpers\QtiSerializer;
-use \common_Exception;
-use \Exception;
 use \taoItems_models_classes_TemplateRenderer;
 
 /**
@@ -183,7 +180,8 @@ class Template extends ResponseProcessing implements Rule
      * @access public
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string uri
-     * @return mixed
+     * @throws QtiModelException
+     * @throws TemplateException
      */
     public function __construct($uri){
         //automatically transform to qti 2.1 templates:
@@ -207,7 +205,7 @@ class Template extends ResponseProcessing implements Rule
                 $this->uri = self::NONE;
                 break;
             default:
-                throw new common_Exception("Unknown response processing template '$uri'");
+                throw new TemplateException("Unknown response processing template '$uri'");
         }
 
         parent::__construct();

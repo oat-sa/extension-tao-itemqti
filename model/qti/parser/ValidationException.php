@@ -25,7 +25,8 @@ use common_report_Report;
 class ValidationException extends \common_Exception {
     
     private $errors;
-    
+    private $xmlFile;
+
     /**
      * @param string $file
      * @param array $errors
@@ -33,6 +34,7 @@ class ValidationException extends \common_Exception {
     public function __construct($file, $errors)
     {
         $this->errors = $errors;
+        $this->xmlFile  = $file;
         parent::__construct('Failed to validate '.$file);
     }
     
@@ -41,7 +43,7 @@ class ValidationException extends \common_Exception {
      */
     public function getReport()
     {
-        return common_report_Report::createFailure(__("Malformed XML:\n%s", implode("\n", $this->errors)));
+        return common_report_Report::createFailure(__("Malformed XML[%s]:\n%s", $this->xmlFile, implode("\n", $this->errors)));
     }
 
     public function getSeverity()
