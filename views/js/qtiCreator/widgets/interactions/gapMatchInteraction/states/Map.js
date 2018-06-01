@@ -110,7 +110,7 @@ define([
 
         //keep a map of choices descriptions for the formatLeft callback
         var formatedChoices = _.transform(interaction.getChoices(), function(acc, choice){
-            acc[choice.id] = choice.hasOwnProperty('bdy') ? choice.bdy.bdy : choice.val();
+            acc[choice.id()] = choice.id();
         }, {});
 
         var mappingChange = function mappingChange(){
@@ -130,7 +130,7 @@ define([
                 return _.map(interaction.getChoices(), function(choice){
                     return {
                         id : choice.id(),
-                        value : choice.hasOwnProperty('bdy') ? choice.bdy.bdy : choice.val()
+                        value : choice.id()
                     };
                 });
             },
