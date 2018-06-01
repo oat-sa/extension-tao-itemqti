@@ -41,6 +41,7 @@ use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
@@ -528,7 +529,7 @@ class ImportService extends ConfigurableService
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, $message);
 
             } catch (ValidationException $ve) {
-                $report = common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $qtiItemResource->getIdentifier()));
+                $report = common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $resourceIdentifier));
                 $report->add($ve->getReport());
             } catch (XmlStorageException $e){
 
@@ -547,25 +548,31 @@ class ImportService extends ConfigurableService
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
                     $message);
             } catch (PortableElementInvalidModelException $pe) {
-                $report = common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $qtiItemResource->getIdentifier()));
+                $report = common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $resourceIdentifier));
                 $report->add($pe->getReport());
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
                 }
             } catch (PortableElementException $e) {
-                // an error occured during a specific item
+                // an error occurred during a specific item
                 if ($e instanceof common_exception_UserReadableException) {
-                    $msg = __('Error on item %1$s : %2$s', $qtiItemResource->getIdentifier(), $e->getUserMessage());
+                    $msg = __('Error on item %1$s : %2$s', $resourceIdentifier, $e->getUserMessage());
                 } else {
-                    $msg = __('Error on item %s', $qtiItemResource->getIdentifier());
+                    $msg = __('Error on item %s', $resourceIdentifier);
                     common_Logger::d($e->getMessage());
                 }
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,$msg);
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()  && !$overWriting) {
                     $rdfItem->delete();
                 }
+            } catch (TemplateException $e) {
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR,
+                    __('The IMS QTI Item referenced as "%s" in the IMS Manifest file failed:  %s',$resourceIdentifier, $e->getMessage()));
+                if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
+                    $rdfItem->delete();
+                }
             } catch (Exception $e) {
-                // an error occured during a specific item
+                // an error occurred during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package with identifier: ". $resourceIdentifier));
                 if (isset($rdfItem) && ! is_null($rdfItem) && $rdfItem->exists()  && !$overWriting) {
                     $rdfItem->delete();
