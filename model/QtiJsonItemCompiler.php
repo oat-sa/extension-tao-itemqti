@@ -49,8 +49,8 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private $itemJson;
 
     /**
-     * Generate JSON verison of item
-     * @return array
+     * Generate JSON version of item
+     * @return array consists of item URI, public directory id and private directory id
      */
     public function compileJson()
     {
