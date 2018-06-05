@@ -302,7 +302,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $path   = dirname(__FILE__).'/../samples/css';
 
         $this->assertTrue(file_exists($sample));
-        $this->registerFS($path);
 
         $itemPackerMock = $this
             ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
@@ -392,8 +391,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testPackingItemWithVideoBase64(){
         $sample = __DIR__ . '/../samples/xml/packer/qti.xml';
         $path   = __DIR__ . '/../samples/xml/packer';
-
-        $this->registerFS($path);
 
         $this->assertTrue(file_exists($sample));
 
