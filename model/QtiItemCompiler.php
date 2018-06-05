@@ -60,7 +60,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler implements Se
 
     /**
      * {@inheritDoc}
-     * @see taoItems_models_classes_ItemCompiler::compile()
+     * @see \tao_models_classes_Compiler::compile()
      */
     public function compile()
     {
@@ -77,7 +77,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler implements Se
      * Compile qti item
      *
      * @throws taoItems_models_classes_CompilationFailedException
-     * @return tao_models_classes_service_ServiceCall
+     * @return common_report_Report
      */
     protected function internalCompile()
     {
