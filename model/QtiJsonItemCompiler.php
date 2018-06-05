@@ -49,6 +49,37 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private $itemJson;
 
     /**
+     * Generate JSON verison of item
+     * @return array
+     */
+    public function compileJson()
+    {
+        $item = $this->getResource();
+        $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Published %s', $item->getLabel()));
+
+        $publicDirectory = $this->spawnPublicDirectory();
+        $privateDirectory = $this->spawnPrivateDirectory();
+        $langs = $this->getContentUsedLanguages();
+        if (empty($langs)) {
+            $report->setType(common_report_Report::TYPE_ERROR);
+            $report->setMessage(__('Item "%s" is not available in any language', $item->getLabel()));
+        }
+        foreach ($langs as $compilationLanguage) {
+            $langReport = $this->deployQtiItem($item, $compilationLanguage, $publicDirectory, $privateDirectory);
+            $report->add($langReport);
+            if ($langReport->getType() == common_report_Report::TYPE_ERROR) {
+                $report->setType(common_report_Report::TYPE_ERROR);
+                $report->setMessage(__('Failed to publish %1$s in %2$s', $item->getLabel(), $compilationLanguage));
+                break;
+            }
+        }
+        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+            $report->setData([$item->getUri(), $publicDirectory->getId(), $privateDirectory->getId()]);
+        }
+        return $report;
+    }
+
+    /**
      * Desploy all the required files into the provided directories
      *
      * @param core_kernel_classes_Resource $item
