@@ -3,8 +3,9 @@ define([
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
-    'json!taoQtiItem/test/samples/json/space-shuttle-m.json'
-], function ($, _, qtiItemRunner, choiceData, multipleChoiceData) {
+    'json!taoQtiItem/test/samples/json/space-shuttle-m.json',
+    'json!taoQtiItem/test/samples/json/space-shuttle-ident.json'
+], function ($, _, qtiItemRunner, choiceData, multipleChoiceData, badIdentChoiceData) {
     'use strict';
 
     var runner;
@@ -395,6 +396,31 @@ define([
         .init()
         .render($container);
     });
+
+    QUnit.asyncTest('check dashes and dots in the identifier', function(assert){
+        var $container = $('#' + outsideContainerId);
+
+        QUnit.expect(4);
+
+        runner = qtiItemRunner('qti', badIdentChoiceData)
+            .on('render', function(){
+                var $discovery = $('.qti-choice[data-identifier="Discovery-new.dot"]', $container);
+                assert.equal($discovery.length, 1, 'the Discovery-new.dot choice exists');
+
+                $discovery.trigger('click');
+                this.setState({ RESPONSE : { response : {  base : { identifier : 'Discovery-new.dot' } } } });
+            })
+            .on('statechange', function(state){
+                assert.ok(typeof state === 'object', 'The state is an object');
+                assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
+                assert.deepEqual(state.RESPONSE, { response : { base  : { identifier : 'Discovery-new.dot' } } }, 'The Discovery-new.dot response is selected');
+
+                QUnit.start();
+            })
+            .init()
+            .render($container);
+    });
+
 
     module('Visual Test');
 
