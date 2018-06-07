@@ -398,7 +398,7 @@ define([
     });
 
     QUnit.asyncTest('check dashes and dots in the identifier', function(assert){
-        var $container = $('#' + outsideContainerId);
+        var $container = $('#' + fixtureContainerId);
 
         QUnit.expect(4);
 
@@ -406,9 +406,7 @@ define([
             .on('render', function(){
                 var $discovery = $('.qti-choice[data-identifier="Discovery-new.dot"]', $container);
                 assert.equal($discovery.length, 1, 'the Discovery-new.dot choice exists');
-
                 $discovery.trigger('click');
-                this.setState({ RESPONSE : { response : {  base : { identifier : 'Discovery-new.dot' } } } });
             })
             .on('statechange', function(state){
                 assert.ok(typeof state === 'object', 'The state is an object');
