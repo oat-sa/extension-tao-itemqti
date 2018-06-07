@@ -119,7 +119,7 @@ define([
 
         try{
             _.each(pciResponse.unserialize(response, interaction), function(identifier){
-                $container.find('input[value=' + identifier + ']').prop('checked', true);
+                $container.find('input[value="' + identifier + '"]').prop('checked', true);
             });
             instructionMgr.validateInstructions(interaction);
         }catch(e){
