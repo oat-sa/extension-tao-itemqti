@@ -23,9 +23,9 @@ namespace oat\taoQtiItem\model\tasks;
 
 use oat\oatbox\task\AbstractTaskAction;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\taoQtiItem\model\qti\ImportService;
-use oat\taoTaskQueue\model\QueueDispatcher;
-use oat\taoTaskQueue\model\Task\TaskInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -99,8 +99,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
 
         $fileUri = $action->saveFile($packageFile, basename($packageFile));
 
-        /** @var QueueDispatcher $queueDispatcher */
-        $queueDispatcher = $serviceManager->get(QueueDispatcher::SERVICE_ID);
+        /** @var QueueDispatcherInterface $queueDispatcher */
+        $queueDispatcher = $serviceManager->get(QueueDispatcherInterface::SERVICE_ID);
 
         return $queueDispatcher->createTask(
             $action,
