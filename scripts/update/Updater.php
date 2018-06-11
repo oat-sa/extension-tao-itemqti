@@ -530,10 +530,10 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'taoQtiItem', 'mod' => 'RestQtiItem')));
             $this->setVersion('13.4.0');
         }
-        
-        $this->skip('13.4.0', '15.2.0');
 
-        if ($this->isVersion('15.2.0')) {
+        $this->skip('13.4.0', '15.2.2');
+
+        if ($this->isVersion('15.2.2')) {
             /** @var TaskLogInterface|ConfigurableService $taskLogService */
             $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
 
