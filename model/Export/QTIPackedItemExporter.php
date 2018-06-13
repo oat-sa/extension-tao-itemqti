@@ -198,7 +198,11 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		}
 		else {
 		    $itemLabel = $this->getItem()->getLabel();
-		    throw new ExportException($itemLabel, 'no item content');
+		    if(empty($itemLabel)){
+                throw new ExportException($this->getItem()->getUri(), 'item not found');
+            }else {
+                throw new ExportException($itemLabel, 'no item content');
+            }
 		}
 	}
 
