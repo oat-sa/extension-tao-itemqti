@@ -23,9 +23,11 @@ namespace oat\taoQtiItem\scripts\update;
 use League\Flysystem\Adapter\Local;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
@@ -57,10 +59,7 @@ use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
-use oat\taoTaskQueue\model\TaskLogInterface;
-use taoItems_actions_form_RestItemForm;
 use taoItems_models_classes_ItemsService;
-use taoTests_models_classes_TestsService;
 
 /**
  *
@@ -507,20 +506,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('12.6.0');
         }
 
-        $this->skip('12.6.0', '12.7.4');
-
-        if ($this->isVersion('12.7.4')) {
-            /** @var TaskLogInterface|ConfigurableService $taskLogService */
-            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
-
-            $taskLogService->linkTaskToCategory(ImportQtiItem::class, TaskLogInterface::CATEGORY_IMPORT);
-
-            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
-
-            $this->setVersion('13.0.0');
-        }
-
-        $this->skip('13.0.0', '13.0.1');
+        $this->skip('12.6.0', '13.0.1');
 
         if($this->isVersion('13.0.1')){
 
@@ -546,5 +532,16 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('13.4.0', '15.2.2');
+
+        if ($this->isVersion('15.2.2')) {
+            /** @var TaskLogInterface|ConfigurableService $taskLogService */
+            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
+
+            $taskLogService->linkTaskToCategory(ImportQtiItem::class, TaskLogInterface::CATEGORY_IMPORT);
+
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+
+            $this->setVersion('15.3.0');
+        }
     }
 }
