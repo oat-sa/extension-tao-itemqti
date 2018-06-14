@@ -197,14 +197,17 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    $zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
 		}
 		else {
+		    //the item has no item content, there are 2 possibilities:
 		    $itemLabel = $this->getItem()->getLabel();
 		    if(empty($itemLabel)){
+		        //it has no label at all: the item does not exist anymore
                 throw new ExportException($this->getItem()->getUri(), 'item not found');
-            }else {
+            } else {
+		        //there is one, so the item does exist but might not have any content
                 throw new ExportException($itemLabel, 'no item content');
             }
-		}
-	}
+        }
+    }
 
     protected function renderManifest(array $options, array $qtiItemData)
     {
