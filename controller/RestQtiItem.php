@@ -19,8 +19,8 @@
 namespace oat\taoQtiItem\controller;
 
 use oat\tao\model\TaoOntology;
-use oat\taoTaskQueue\model\Entity\TaskLogEntity;
-use oat\taoTaskQueue\model\TaskLogInterface;
+use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use \Request;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\ItemModel;
@@ -177,10 +177,10 @@ class RestQtiItem extends AbstractRestQti
     /**
      * Add extra values to the JSON returned.
      *
-     * @param TaskLogEntity $taskLogEntity
+     * @param EntityInterface $taskLogEntity
      * @return array
      */
-    protected function addExtraReturnData(TaskLogEntity $taskLogEntity)
+    protected function addExtraReturnData(EntityInterface $taskLogEntity)
     {
         $data = [];
 
