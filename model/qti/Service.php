@@ -4,18 +4,18 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -62,7 +62,7 @@ class Service extends tao_models_classes_Service
     public function getDataItemByRdfItem(core_kernel_classes_Resource $item, $langCode = '', $resolveXInclude = false)
     {
         $returnValue = null;
-        
+
         try {
             //Parse it and build the QTI_Data_Item
             $file = $this->getXmlByRdfItem($item, $langCode);
@@ -72,7 +72,7 @@ class Service extends tao_models_classes_Service
             if(is_null($returnValue) && !empty($qtiParser->getErrors())){
                 common_Logger::w($qtiParser->displayErrors(false));
             }
-            
+
             if($resolveXInclude && !empty($langCode)){
                 try{
                     //loadxinclude
@@ -83,7 +83,7 @@ class Service extends tao_models_classes_Service
                     common_Logger::e($exception->getMessage());
                 }
             }
-        
+
             if (!$returnValue->getAttributeValue('xml:lang')) {
                 $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
             }
@@ -91,8 +91,10 @@ class Service extends tao_models_classes_Service
             // fail silently, since file might not have been created yet
             // $returnValue is then NULL.
             common_Logger::d('item('.$item->getUri().') is empty, newly created?');
+        } catch (common_Exception $e){
+            common_Logger::d('item('.$item->getUri().') is not existing');
         }
-        
+
         return $returnValue;
     }
 
@@ -107,7 +109,7 @@ class Service extends tao_models_classes_Service
     public function getXmlByRdfItem(core_kernel_classes_Resource $item, $language = '')
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
-        
+
         //check if the item is QTI item
         if (! $itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
             throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
@@ -140,7 +142,7 @@ class Service extends tao_models_classes_Service
         }
         $qtiItem->setAttribute('xml:lang', $lang);
         $qtiItem->setAttribute('label', $label);
-        
+
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
