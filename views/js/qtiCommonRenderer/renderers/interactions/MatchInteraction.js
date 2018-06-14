@@ -75,15 +75,15 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-
+        var $container = containerHelper.get(interaction);
         response = _filterResponse(response);
 
         if(typeof response.list !== 'undefined' && typeof response.list.directedPair !== 'undefined'){
             _(response.list.directedPair).forEach(function(directedPair){
-                var x = $('th[data-identifier=' + directedPair[0] + ']').index() - 1;
-                var y = $('th[data-identifier=' + directedPair[1] + ']').parent().index();
+                var x = $('th[data-identifier=' + directedPair[0] + ']', $container).index() - 1;
+                var y = $('th[data-identifier=' + directedPair[1] + ']', $container).parent().index();
 
-                $('.matrix > tbody tr').eq(y).find('input[type=checkbox]').eq(x).attr('checked', true);
+                $('.matrix > tbody tr', $container).eq(y).find('input[type=checkbox]').eq(x).attr('checked', true);
             });
         }
 
@@ -160,10 +160,11 @@ define([
 
     var _inferValue = function(element){
         var $element = $(element);
+        var $container = $element.closest('.match-interaction-area');
         var y = $element.closest('tr').index();
         var x = $element.closest('td').index();
-        var firstId = $('.matrix > thead th').eq(x).data('identifier');
-        var secondId = $('.matrix > tbody th').eq(y).data('identifier');
+        var firstId = $('.matrix > thead th', $container).eq(x).data('identifier');
+        var secondId = $('.matrix > tbody th', $container).eq(y).data('identifier');
         return [firstId, secondId];
     };
 
