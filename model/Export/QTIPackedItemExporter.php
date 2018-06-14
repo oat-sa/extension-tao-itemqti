@@ -33,53 +33,59 @@ use \taoItems_models_classes_TemplateRenderer;
 use \tao_helpers_Display;
 use \common_Exception;
 
-class QTIPackedItemExporter extends AbstractQTIItemExporter {
+class QTIPackedItemExporter extends AbstractQTIItemExporter
+{
 
     private $manifest;
 
     /**
-	 * Creates a new instance of QtiPackedItemExporter for a particular item.
-	 *
-	 * @param core_kernel_classes_Resource $item The item to be exported.
-	 * @param ZipArchive $zip The ZIP archive were the files have to be exported.
-	 * @param DOMDocument $manifest A Manifest to be reused to reference item components (e.g. auxilliary files).
-	 */
-	public function __construct(core_kernel_classes_Resource $item, ZipArchive $zip, DOMDocument $manifest = null) {
-	    parent::__construct($item, $zip);
-	    $this->setManifest($manifest);
-	}
+     * Creates a new instance of QtiPackedItemExporter for a particular item.
+     *
+     * @param core_kernel_classes_Resource $item The item to be exported.
+     * @param ZipArchive $zip The ZIP archive were the files have to be exported.
+     * @param DOMDocument $manifest A Manifest to be reused to reference item components (e.g. auxilliary files).
+     */
+    public function __construct(core_kernel_classes_Resource $item, ZipArchive $zip, DOMDocument $manifest = null)
+    {
+        parent::__construct($item, $zip);
+        $this->setManifest($manifest);
+    }
 
-	public function getManifest() {
-	    return $this->manifest;
-	}
+    public function getManifest()
+    {
+        return $this->manifest;
+    }
 
-	public function setManifest(DOMDocument $manifest = null) {
-	    $this->manifest = $manifest;
-	}
+    public function setManifest(DOMDocument $manifest = null)
+    {
+        $this->manifest = $manifest;
+    }
 
-	public function hasManifest() {
-	    return $this->getManifest() !== null;
-	}
+    public function hasManifest()
+    {
+        return $this->getManifest() !== null;
+    }
 
-	public function export($options = array()) {
+    public function export($options = array())
+    {
         if (!$this->containsItem()) {
             $report = parent::export($options);
             if ($report->getType() !== \common_report_Report::TYPE_ERROR || !$report->containsError()) {
-                try{
-					$exportResult = [];
-					if(is_array($report->getData())){
-						$exportResult = $report->getData();
-					}
+                try {
+                    $exportResult = [];
+                    if (is_array($report->getData())) {
+                        $exportResult = $report->getData();
+                    }
                     $this->exportManifest($options, $exportResult);
-                }catch(ExportException $e){
-					$report->setType(\common_report_Report::TYPE_ERROR);
-					$report->setMessage($e->getUserMessage());
-				}
+                } catch (ExportException $e) {
+                    $report->setType(\common_report_Report::TYPE_ERROR);
+                    $report->setMessage($e->getUserMessage());
+                }
             }
             return $report;
         }
         return \common_report_Report::createSuccess();
-	}
+    }
 
     /**
      * Whenever the item is already in the manifest
@@ -100,110 +106,113 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
         return $found;
     }
 
-	public function buildBasePath() {
-	    return tao_helpers_Uri::getUniqueId($this->getItem()->getUri());
-	}
+    public function buildBasePath()
+    {
+        return tao_helpers_Uri::getUniqueId($this->getItem()->getUri());
+    }
 
-	public function buildIdentifier() {
-	    return tao_helpers_Uri::getUniqueId($this->getItem()->getUri());
-	}
+    public function buildIdentifier()
+    {
+        return tao_helpers_Uri::getUniqueId($this->getItem()->getUri());
+    }
 
-	/**
-	 * Build, merge and export the IMS Manifest into the target ZIP archive.
-	 *
-	 * @throws
-	 */
-	public function exportManifest($options = [], $exportResult = []) {
+    /**
+     * Build, merge and export the IMS Manifest into the target ZIP archive.
+     *
+     * @throws
+     */
+    public function exportManifest($options = [], $exportResult = [])
+    {
 
-	    $base = $this->buildBasePath();
-		$zipArchive = $this->getZip();
-		$qtiFile = '';
-		$qtiResources = array();
-		$sharedAssets = isset($exportResult['portableAssets']) ? $exportResult['portableAssets'] : [];
+        $base = $this->buildBasePath();
+        $zipArchive = $this->getZip();
+        $qtiFile = '';
+        $qtiResources = array();
+        $sharedAssets = isset($exportResult['portableAssets']) ? $exportResult['portableAssets'] : [];
 
-		for ($i = 0; $i < $zipArchive->numFiles; $i++) {
-      		$fileName = $zipArchive->getNameIndex($i);
+        for ($i = 0; $i < $zipArchive->numFiles; $i++) {
+            $fileName = $zipArchive->getNameIndex($i);
 
-			//shared assets are authorized to be added at the root of the package
-			if (preg_match("@^" . preg_quote($base) . "@", $fileName) || in_array($fileName, $sharedAssets)) {
-				if (basename($fileName) == 'qti.xml') {
-					$qtiFile = $fileName;
-				}else if(!empty($fileName)){
-					$qtiResources[] = $fileName;
-				}
-			}
- 		}
+            //shared assets are authorized to be added at the root of the package
+            if (preg_match("@^" . preg_quote($base) . "@", $fileName) || in_array($fileName, $sharedAssets)) {
+                if (basename($fileName) == 'qti.xml') {
+                    $qtiFile = $fileName;
+                } else {
+                    if (!empty($fileName)) {
+                        $qtiResources[] = $fileName;
+                    }
+                }
+            }
+        }
 
-		$qtiItemService = Service::singleton();
+        $qtiItemService = Service::singleton();
 
-		//@todo add support of multi language packages
+        //@todo add support of multi language packages
         $rdfItem = $this->getItem();
-		$qtiItem = $qtiItemService->getDataItemByRdfItem($rdfItem);
+        $qtiItem = $qtiItemService->getDataItemByRdfItem($rdfItem);
 
-		if (!is_null($qtiItem)) {
+        if (!is_null($qtiItem)) {
 
-		    // -- Prepare data transfer to the imsmanifest.tpl template.
-		    $qtiItemData = array();
+            // -- Prepare data transfer to the imsmanifest.tpl template.
+            $qtiItemData = array();
 
-		    // alter identifier for export to avoid any "clash".
-		    $qtiItemData['identifier'] = $this->buildIdentifier();
-		    $qtiItemData['filePath'] = $qtiFile;
-		    $qtiItemData['medias'] = $qtiResources;
-		    $qtiItemData['adaptive'] = ($qtiItem->getAttributeValue('adaptive') === 'adaptive') ? true : false;
-		    $qtiItemData['timeDependent'] = ($qtiItem->getAttributeValue('timeDependent') === 'timeDependent') ? true : false;
-		    $qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
-		    $qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
-		    $qtiItemData['interactions'] = array();
+            // alter identifier for export to avoid any "clash".
+            $qtiItemData['identifier'] = $this->buildIdentifier();
+            $qtiItemData['filePath'] = $qtiFile;
+            $qtiItemData['medias'] = $qtiResources;
+            $qtiItemData['adaptive'] = ($qtiItem->getAttributeValue('adaptive') === 'adaptive') ? true : false;
+            $qtiItemData['timeDependent'] = ($qtiItem->getAttributeValue('timeDependent') === 'timeDependent') ? true : false;
+            $qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
+            $qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
+            $qtiItemData['interactions'] = array();
 
-		    foreach ($qtiItem->getInteractions() as $interaction) {
-		        $interactionData = array();
-		        $interactionData['type'] = $interaction->getQtiTag();
-		        $qtiItemData['interactions'][] = $interactionData;
-		    }
+            foreach ($qtiItem->getInteractions() as $interaction) {
+                $interactionData = array();
+                $interactionData['type'] = $interaction->getQtiTag();
+                $qtiItemData['interactions'][] = $interactionData;
+            }
 
-		    // -- Build a brand new IMS Manifest.
-		    $newManifest = $this->renderManifest($options, $qtiItemData);
+            // -- Build a brand new IMS Manifest.
+            $newManifest = $this->renderManifest($options, $qtiItemData);
 
-		    if ($this->hasManifest()) {
-		        // Merge old manifest and new one.
-		        $dom1 = $this->getManifest();
-		        $dom2 = $newManifest;
-		        $resourceNodes = $dom2->getElementsByTagName('resource');
-		        $resourcesNodes = $dom1->getElementsByTagName('resources');
+            if ($this->hasManifest()) {
+                // Merge old manifest and new one.
+                $dom1 = $this->getManifest();
+                $dom2 = $newManifest;
+                $resourceNodes = $dom2->getElementsByTagName('resource');
+                $resourcesNodes = $dom1->getElementsByTagName('resources');
 
-		        foreach ($resourcesNodes as $resourcesNode) {
+                foreach ($resourcesNodes as $resourcesNode) {
 
-		            foreach ($resourceNodes as $resourceNode) {
-		                $newResourceNode = $dom1->importNode($resourceNode, true);
-		                $resourcesNode->appendChild($newResourceNode);
-		            }
-		        }
+                    foreach ($resourceNodes as $resourceNode) {
+                        $newResourceNode = $dom1->importNode($resourceNode, true);
+                        $resourcesNode->appendChild($newResourceNode);
+                    }
+                }
 
 
                 // rendered manifest is now useless.
-		        unset($dom2);
-		    }
-		    else {
-		        // Brand new manifest.
-		        $this->setManifest($newManifest);
-		    }
+                unset($dom2);
+            } else {
+                // Brand new manifest.
+                $this->setManifest($newManifest);
+            }
 
             $manifest = $this->getManifest();
             $this->getMetadataExporter()->export($this->getItem(), $manifest);
             $this->setManifest($manifest);
 
 
-		    // -- Overwrite manifest in the current ZIP archive.
-		    $zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
-		}
-		else {
-		    //the item has no item content, there are 2 possibilities:
-		    $itemLabel = $this->getItem()->getLabel();
-		    if(empty($itemLabel)){
-		        //it has no label at all: the item does not exist anymore
+            // -- Overwrite manifest in the current ZIP archive.
+            $zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
+        } else {
+            //the item has no item content, there are 2 possibilities:
+            $itemLabel = $this->getItem()->getLabel();
+            if (empty($itemLabel)) {
+                //it has no label at all: the item does not exist anymore
                 throw new ExportException($this->getItem()->getUri(), 'item not found');
             } else {
-		        //there is one, so the item does exist but might not have any content
+                //there is one, so the item does exist but might not have any content
                 throw new ExportException($itemLabel, 'no item content');
             }
         }
@@ -216,8 +225,8 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
         $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
 
         $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
-            'qtiItems' 				=> array($qtiItemData),
-            'manifestIdentifier'    => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
+            'qtiItems' => array($qtiItemData),
+            'manifestIdentifier' => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
         ));
 
         $renderedManifest = $templateRenderer->render();
