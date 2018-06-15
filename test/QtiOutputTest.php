@@ -169,7 +169,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
     /**
      * 
-     * @return multitype
+     * @return multitype:
      */
     public function rpItemProvider(){
         $sampleDirectory = dirname(__FILE__).'/samples/xml/qtiv2p1/';

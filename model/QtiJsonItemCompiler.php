@@ -49,6 +49,21 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private $itemJson;
 
     /**
+     * Generate JSON version of item
+     * @return array consists of item URI, public directory id and private directory id
+     */
+    public function compileJson()
+    {
+        $report = $this->internalCompile();
+        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+            // replace instances with strign identifiers
+            list($item, $publicDirectory, $privateDirectory) = $report->getData();
+            $report->setData([$item->getUri(), $publicDirectory->getId(), $privateDirectory->getId()]);
+        }
+        return $report;
+    }
+
+    /**
      * Desploy all the required files into the provided directories
      *
      * @param core_kernel_classes_Resource $item

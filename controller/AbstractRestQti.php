@@ -21,8 +21,8 @@
 
 namespace oat\taoQtiItem\controller;
 
-use oat\taoTaskQueue\model\Entity\TaskLogEntity;
-use oat\taoTaskQueue\model\TaskLogActionTrait;
+use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\tao\model\taskQueue\TaskLogActionTrait;
 
 /**
  * Class AbstractRestQti
@@ -82,10 +82,10 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     /**
      * Return 'Success' instead of 'Completed', required by the specified API.
      *
-     * @param TaskLogEntity $taskLogEntity
+     * @param EntityInterface $taskLogEntity
      * @return string
      */
-    protected function getTaskStatus(TaskLogEntity $taskLogEntity)
+    protected function getTaskStatus(EntityInterface $taskLogEntity)
     {
         if ($taskLogEntity->getStatus()->isCreated()) {
             return __('In Progress');

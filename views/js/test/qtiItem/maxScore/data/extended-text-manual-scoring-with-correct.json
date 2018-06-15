@@ -134,7 +134,9 @@
             "mapping": [],
             "areaMapping": [],
             "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/match_correct",
-            "correctResponses": [],
+            "correctResponses": [
+                "\n                \n            "
+            ],
             "mappingAttributes": {
                 "defaultValue": 0
             },

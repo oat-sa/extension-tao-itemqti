@@ -57,25 +57,36 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler implements Se
      * @var string
      */
     const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
-    
+
+    /**
+     * {@inheritDoc}
+     * @see \tao_models_classes_Compiler::compile()
+     */
+    public function compile()
+    {
+        $report = $this->internalCompile();
+        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+            // replace instances with service
+            list($item, $publicDirectory, $privateDirectory) = $report->getData();
+            $report->setData($this->createQtiService($item, $publicDirectory, $privateDirectory));
+        }
+        return $report;
+    }
+
     /**
      * Compile qti item
      *
      * @throws taoItems_models_classes_CompilationFailedException
-     * @return tao_models_classes_service_ServiceCall
+     * @return common_report_Report
      */
-    public function compile()
+    protected function internalCompile()
     {
-
+        $item = $this->getResource();
         $publicDirectory = $this->spawnPublicDirectory();
         $privateDirectory = $this->spawnPrivateDirectory();
-        $item = $this->getResource();
 
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Published %s', $item->getLabel()));
-        if (!taoItems_models_classes_ItemsService::singleton()->isItemModelDefined($item)) {
-            return $this->fail(__('Item \'%s\' has no model', $item->getLabel()));
-        }
-
+        $report->setData([$item, $publicDirectory, $privateDirectory]);
         $langs = $this->getContentUsedLanguages();
         if (empty($langs)) {
             $report->setType(common_report_Report::TYPE_ERROR);
@@ -90,10 +101,6 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler implements Se
                 break;
             }
         }
-        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
-            $report->setData($this->createQtiService($item, $publicDirectory, $privateDirectory));
-        }
-
         return $report;
     }
 

@@ -39,7 +39,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function setUp()
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $this->registerFS(__DIR__ . '/../');
     }
 
     /**
@@ -303,7 +302,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $path   = dirname(__FILE__).'/../samples/css';
 
         $this->assertTrue(file_exists($sample));
-        $this->registerFS($path);
 
         $itemPackerMock = $this
             ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
@@ -394,8 +392,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $sample = __DIR__ . '/../samples/xml/packer/qti.xml';
         $path   = __DIR__ . '/../samples/xml/packer';
 
-        $this->registerFS($path);
-
         $this->assertTrue(file_exists($sample));
 
         /**
@@ -477,27 +473,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
      */
     protected function getDirectoryStorage()
     {
-        $directoryStorage = $this->getMockBuilder(Directory::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getServiceLocator', 'getPrefix', 'getFileSystemId'])
-            ->getMock();
-
-        $directoryStorage->method('getServiceLocator')->willReturn($this->getServiceLocator());
-        $directoryStorage->method('getPrefix')->willReturn('');
-        $directoryStorage->method('getFileSystemId')->willReturn('UnitTest');
-
-        return $directoryStorage;
+        return $this->getTempDirectory();
     }
-
-    public function tearDown()
-    {
-        $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->unregisterFileSystem('UnitTest');
-    }
-
-    private function registerFS($dir)
-    {
-        $fsService = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsService->registerLocalFileSystem('UnitTest', $dir);
-    }
-
 }
