@@ -38,8 +38,6 @@ use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The QTI Item Compiler
@@ -48,10 +46,8 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoItems
  */
-class QtiItemCompiler extends taoItems_models_classes_ItemCompiler implements ServiceLocatorAwareInterface
+class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * instance representing the service to run the QTI item
      * @var string
