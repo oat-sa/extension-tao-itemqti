@@ -65,7 +65,7 @@ class StimulusHandler implements AssetHandler
                 $this->getQtiItem()->getIdentifier() . "' with href '" . $xincludeElement->attr('href') . "'.");
         }
 
-        return in_array($relativePath, $xincluded)
+        return in_array($relativePath, $xincluded);
     }
 
     /**
@@ -181,8 +181,7 @@ class StimulusHandler implements AssetHandler
      */
     private function assertAttribute($attribute)
     {
-        $attributes = get_object_vars($this);
-        if (!isset($attributes[$attribute])) {
+        if (!isset($this->$attribute)) {
             throw new \common_exception_MissingParameter($attribute, 'stimulusImporter');
         }
     }
