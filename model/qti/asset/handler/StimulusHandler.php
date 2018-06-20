@@ -83,7 +83,6 @@ class StimulusHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
-        \common_Logger::e(__METHOD__);
         $safePath = $this->safePath($relativePath);
         $this->encodeStimulusImages($absolutePath);
 
