@@ -83,6 +83,7 @@ class StimulusHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
+        \common_Logger::e(__METHOD__);
         $safePath = $this->safePath($relativePath);
         $this->encodeStimulusImages($absolutePath);
 
@@ -111,9 +112,13 @@ class StimulusHandler implements AssetHandler
      * Walk into stimulus file to transform images from path to base64encoded data:image
      *
      * @param $absolutePath
+     * @throws \common_Exception
      */
     protected function encodeStimulusImages($absolutePath)
     {
+        if (!is_readable($absolutePath)) {
+            throw new \common_Exception('Stimulus cannot be imported, asset file is not readable.');
+        }
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(file_get_contents($absolutePath));
         $images = $dom->getElementsByTagName('img');
