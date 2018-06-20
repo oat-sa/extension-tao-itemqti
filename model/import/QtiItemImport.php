@@ -24,8 +24,8 @@ namespace oat\taoQtiItem\model\import;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\upload\UploadService;
+use oat\tao\model\import\ImportHandlerHelperTrait;
+use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\taoQtiItem\model\event\QtiItemImportEvent;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
@@ -35,22 +35,22 @@ use oat\taoQtiItem\model\qti\parser\ValidationException;
 use \tao_models_classes_import_ImportHandler;
 use \common_report_Report;
 use \common_Exception;
-use \common_exception_Error;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
- * Importhandler for QTI XML files
+ * Import handler for QTI XML files
  *
- * @access public
- * @author Joel Bout, <joel@taotesting.com>
+ * @access  public
+ * @author  Joel Bout, <joel@taotesting.com>
  * @package taoQTIItem
  */
-class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSerializable
+class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSerializable, ServiceLocatorAwareInterface, TaskParameterProviderInterface
 {
     use PhpSerializeStateless;
     use EventManagerAwareTrait;
+    use ImportHandlerHelperTrait;
 
     /**
-     * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getLabel()
      */
     public function getLabel()
@@ -59,60 +59,47 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
     }
 
     /**
-     * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getForm()
      */
     public function getForm()
     {
         $form = new QtiItemImportForm();
+
         return $form->getForm();
     }
 
     /**
-     * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
      * @param \core_kernel_classes_Class $class
-     * @param \tao_helpers_form_Form $form
+     * @param \tao_helpers_form_Form|array $form
      * @return common_report_Report
      * @throws \oat\oatbox\service\ServiceNotFoundException
-     * @throws \common_Exception
-     * @throws common_exception_Error
      */
     public function import($class, $form)
     {
+        try {
+            $uploadedFile = $this->fetchUploadedFile($form);
 
-        $fileInfo = $form->getValue('source');
+            $importService = ImportService::singleton();
+            $report = $importService->importQTIFile($uploadedFile, $class, true);
 
-        if (isset($fileInfo['uploaded_file'])) {
+            $this->getUploadService()->remove($uploadedFile);
 
-            /** @var  UploadService $uploadService */
-            $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-            $uploadedFile = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
-
-            try {
-                $importService = ImportService::singleton();
-                $report = $importService->importQTIFile($uploadedFile, $class, true);
-            } catch (UnsupportedQtiElement $e) {
-                $report = common_report_Report::createFailure(__("A QTI component is not supported. The system returned the following error: %s\n", $e->getUserMessage()));
-            } catch (QtiModelException $e) {
-                $report = common_report_Report::createFailure(__("One or more QTI components are not supported by the system. The system returned the following error: %s\n", $e->getUserMessage()));
-            } catch (ParsingException $e) {
-                $report = common_report_Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
-            } catch(ValidationException $e) {
-                $report = $e->getReport();
-            } catch(common_Exception $e) {
-                $report = common_report_Report::createFailure(__("An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n", $e->getMessage()));
+            if (common_report_Report::TYPE_SUCCESS == $report->getType()) {
+                $this->getEventManager()->trigger(new QtiItemImportEvent($report));
             }
-
-            $uploadService->remove($uploadService->getUploadedFlyFile($fileInfo['uploaded_file']));
-        } else {
-            throw new common_exception_Error('No source file for import');
+        } catch (UnsupportedQtiElement $e) {
+            $report = common_report_Report::createFailure(__("A QTI component is not supported. The system returned the following error: %s\n", $e->getUserMessage()));
+        } catch (QtiModelException $e) {
+            $report = common_report_Report::createFailure(__("One or more QTI components are not supported by the system. The system returned the following error: %s\n", $e->getUserMessage()));
+        } catch (ParsingException $e) {
+            $report = common_report_Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
+        } catch (ValidationException $e) {
+            $report = $e->getReport();
+        } catch (common_Exception $e) {
+            $report = common_report_Report::createFailure(__("An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n", $e->getMessage()));
         }
 
-        if (common_report_Report::TYPE_SUCCESS == $report->getType()) {
-            $this->getEventManager()->trigger(new QtiItemImportEvent($report));
-        }
-        
         return $report;
     }
 }
