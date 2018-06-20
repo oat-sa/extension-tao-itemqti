@@ -111,7 +111,7 @@ class StimulusHandler implements AssetHandler
      */
     protected function encodeStimulusImages($absolutePath)
     {
-        if (!is_readable($absolutePath) && !is_writable($absolutePath)) {
+        if (!is_readable($absolutePath) || !is_writable($absolutePath)) {
             throw new \common_Exception('Stimulus cannot be imported, asset file is not readable/writable.');
         }
         $dom = new \DOMDocument('1.0', 'UTF-8');
