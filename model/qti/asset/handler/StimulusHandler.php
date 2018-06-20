@@ -65,11 +65,7 @@ class StimulusHandler implements AssetHandler
                 $this->getQtiItem()->getIdentifier() . "' with href '" . $xincludeElement->attr('href') . "'.");
         }
 
-        if(in_array($relativePath, $xincluded)) {
-            return true;
-        }
-
-        return false;
+        return in_array($relativePath, $xincluded)
     }
 
     /**
@@ -115,8 +111,8 @@ class StimulusHandler implements AssetHandler
      */
     protected function encodeStimulusImages($absolutePath)
     {
-        if (!is_readable($absolutePath)) {
-            throw new \common_Exception('Stimulus cannot be imported, asset file is not readable.');
+        if (!is_readable($absolutePath) && !is_writable($absolutePath)) {
+            throw new \common_Exception('Stimulus cannot be imported, asset file is not readable/writable.');
         }
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(file_get_contents($absolutePath));
@@ -124,7 +120,7 @@ class StimulusHandler implements AssetHandler
 
         for($i=0 ; $i<$images->length ; $i++) {
             $imageFile = dirname($absolutePath) . DIRECTORY_SEPARATOR . ltrim($images->item($i)->getAttribute('src'), DIRECTORY_SEPARATOR);
-            if (file_exists($imageFile)) {
+            if (is_readable($imageFile)) {
                 $encodedSrc = 'data:image/png;base64,' . base64_encode(file_get_contents($imageFile));
                 $images->item($i)->setAttribute('src', $encodedSrc);
             }
