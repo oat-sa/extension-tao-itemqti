@@ -60,7 +60,7 @@ abstract class AbstractInteractionRegistry extends AbstractRegistry
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
-     * @return common_ext_Extension
+     * @return \common_ext_Extension
      */
     protected function getExtension()
     {
