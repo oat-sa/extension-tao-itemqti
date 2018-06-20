@@ -24,6 +24,14 @@ use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\Item;
 
+/**
+ * Class StimulusHandler
+ *
+ * The purpose of this handler is to extract xml stimulus from item to copy them
+ * If the included stimulus includes images, they should be encoded to avoid file dependencies
+ *
+ * @package oat\taoQtiItem\model\qti\asset\handler
+ */
 class StimulusHandler implements AssetHandler
 {
     /**
@@ -41,6 +49,8 @@ class StimulusHandler implements AssetHandler
     protected $itemSource;
 
     /**
+     * Applicable to all items that contain <xinclude> tag
+     *
      * @param $relativePath
      * @return bool
      * @throws \common_exception_MissingParameter
@@ -70,8 +80,6 @@ class StimulusHandler implements AssetHandler
      * @param $relativePath
      * @return array|mixed
      * @throws \common_Exception
-     * @throws \common_exception_MissingParameter
-     * @throws \tao_models_classes_FileNotFoundException
      */
     public function handle($absolutePath, $relativePath)
     {
@@ -85,6 +93,8 @@ class StimulusHandler implements AssetHandler
     }
 
     /**
+     * Remove ../ to secure path
+     *
      * @param $path
      * @return string
      */
@@ -98,6 +108,8 @@ class StimulusHandler implements AssetHandler
     }
 
     /**
+     * Walk into stimulus file to transform images from path to base64encoded data:image
+     *
      * @param $absolutePath
      */
     protected function encodeStimulusImages($absolutePath)
