@@ -39,6 +39,7 @@ use oat\taoQtiItem\model\qti\asset\AssetManager;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
+use oat\taoQtiItem\model\qti\asset\handler\StimulusHandler;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
@@ -485,14 +486,21 @@ class ImportService extends ConfigurableService
                 $peHandler = new PortableAssetHandler($qtiModel, $folder, dirname($qtiFile));
                 $itemAssetManager->loadAssetHandler($peHandler);
 
-                /** Shared stimulus handler */
-                $sharedStimulusHandler = new SharedStimulusAssetHandler();
-                $sharedStimulusHandler
-                    ->setQtiModel($qtiModel)
-                    ->setItemSource(new ItemMediaResolver($rdfItem, ''))
-                    ->setSharedFiles($sharedFiles)
-                    ->setParentPath($rdfItem->getLabel());
-                $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
+                if ($this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->isInstalled('taoMediaManager')) {
+                    /** Shared stimulus handler */
+                    $sharedStimulusHandler = new SharedStimulusAssetHandler();
+                    $sharedStimulusHandler
+                        ->setQtiModel($qtiModel)
+                        ->setItemSource(new ItemMediaResolver($rdfItem, ''))
+                        ->setSharedFiles($sharedFiles)
+                        ->setParentPath($rdfItem->getLabel());
+                    $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
+                } else {
+                    $handler = new StimulusHandler();
+                    $handler->setQtiItem($qtiModel);
+                    $handler->setItemSource(new LocalItemSource(array('item' => $rdfItem)));
+                    $itemAssetManager->loadAssetHandler($handler);
+                }
 
                 /** Local storage handler */
                 $localHandler = new LocalAssetHandler();
