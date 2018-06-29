@@ -21,10 +21,12 @@
 
 namespace oat\taoQtiItem\model\import;
 
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
+use oat\taoQtiItem\model\event\QtiItemImportEvent;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -43,8 +45,8 @@ use \common_exception_Error;
  */
 class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSerializable
 {
-
     use PhpSerializeStateless;
+    use EventManagerAwareTrait;
 
     /**
      * (non-PHPdoc)
@@ -104,6 +106,11 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
         } else {
             throw new common_exception_Error('No source file for import');
         }
+
+        if (common_report_Report::TYPE_SUCCESS == $report->getType()) {
+            $this->getEventManager()->trigger(new QtiItemImportEvent($report));
+        }
+
         return $report;
     }
 
