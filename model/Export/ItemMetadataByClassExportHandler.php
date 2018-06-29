@@ -22,8 +22,10 @@ namespace oat\taoQtiItem\model\Export;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\event\QtiItemMetadataExportEvent;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
@@ -33,7 +35,7 @@ use oat\oatbox\PhpSerializeStateless;
 
 class ItemMetadataByClassExportHandler implements \tao_models_classes_export_ExportHandler, PhpSerializable
 {
-    use OntologyAwareTrait, PhpSerializeStateless;
+    use OntologyAwareTrait, PhpSerializeStateless, EventManagerAwareTrait;
 
     /**
      * Get label form
@@ -84,6 +86,8 @@ class ItemMetadataByClassExportHandler implements \tao_models_classes_export_Exp
                         $exporterService->export($this->getInstances($classToExport), true),
                         $formValues['filename']
                     );
+
+                    $this->getEventManager()->trigger(new QtiItemMetadataExportEvent($classToExport));
                 } catch (ExtractorException $e) {
                     return \common_report_Report::createFailure('Selected object does not have any item to export.');
                 }

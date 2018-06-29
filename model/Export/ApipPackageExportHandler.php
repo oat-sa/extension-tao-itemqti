@@ -21,8 +21,10 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
+use oat\taoQtiItem\model\event\QtiItemExportEvent;
 use oat\taoQtiItem\model\ItemModel;
 use \tao_models_classes_export_ExportHandler;
 use \core_kernel_classes_Resource;
@@ -41,8 +43,9 @@ use \common_Logger;
  */
 class ApipPackageExportHandler implements tao_models_classes_export_ExportHandler, PhpSerializable
 {
-
     use PhpSerializeStateless;
+    use EventManagerAwareTrait;
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_export_ExportHandler::getLabel()
@@ -105,6 +108,10 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
 				
 				$zipArchive->close();
 				$file = $path;
+
+				if ($file && $formValues['uri']) {
+				    $this->getEventManager()->trigger(new QtiItemExportEvent(new core_kernel_classes_Resource($formValues['uri'])));
+                }
 			}
 		} else {
 			common_Logger::w('Missing filename for export using '.__CLASS__);

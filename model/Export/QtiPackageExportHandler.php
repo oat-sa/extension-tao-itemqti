@@ -22,9 +22,11 @@
 namespace oat\taoQtiItem\model\Export;
 
 use League\Flysystem\FileNotFoundException;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\event\QtiItemExportEvent;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
@@ -49,6 +51,7 @@ use \common_Logger;
 class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler, PhpSerializable
 {
     use PhpSerializeStateless;
+    use EventManagerAwareTrait;
 
     /**
      * @var MetadataExporter Service to export metadata to IMSManifest
@@ -120,6 +123,10 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 
 				$zipArchive->close();
 				$report->setData($path);
+
+                if (!$report->containsError() && $formValues['uri']) {
+                    $this->getEventManager()->trigger(new QtiItemExportEvent(new core_kernel_classes_Resource($formValues['uri'])));
+                }
 			}
 		} else {
 			if (!isset($formValues['filename'])) {
