@@ -9,19 +9,17 @@ define([
     'taoQtiItem/qtiItem/helper/util',
     'lodash',
     'util/image',
-    'ui/mediasizer',
+    'ui/mediaEditor/mediaEditorComponent',
+    // 'ui/mediasizer',
     'ui/resourcemgr',
     'nouislider',
     'ui/tooltip'
-], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
+], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil, mediaEditorComponent){
     'use strict';
 
     var ImgStateActive = stateFactory.extend(Active, function(){
-
         this.initForm();
-
     }, function(){
-
         this.widget.$form.empty();
     });
 
@@ -44,16 +42,12 @@ define([
             $img = _widget.$original,
             $form = _widget.$form,
             img = _widget.element,
-            baseUrl = _widget.options.baseUrl,
-            responsive = true;
+            baseUrl = _widget.options.baseUrl;
 
         $form.html(formTpl({
             baseUrl : baseUrl || '',
             src : img.attr('src'),
-            alt : img.attr('alt'),
-            height : img.attr('height'),
-            width : img.attr('width'),
-            responsive : responsive
+            alt : img.attr('alt')
         }));
 
         //init slider and set align value before ...
@@ -111,11 +105,9 @@ define([
             $src = widget.$form.find('input[name=src]'),
             $mediaResizer = widget.$form.find('.img-resizer'),
             $mediaSpan = widget.$container;
-
         if($src.val()){
-
             //init data-responsive:
-            if(img.data('responsive') === undefined){
+            if (typeof img.data('responsive') === 'undefined') {
                 if(img.attr('width') && !/[0-9]+%/.test(img.attr('width'))){
                     img.data('responsive', false);
                 }else{
@@ -123,6 +115,49 @@ define([
                 }
             }
 
+            imageUtil.getSize(widget.$original.attr('src'), function(size){
+                var media = {
+                    $node: widget.$original,
+                    type: 'image/jpeg',
+                    src: widget.$original.attr('src'),
+                    width: size.width,
+                    height: size.height
+                };
+                var options = {
+                    mediaDimension: {
+                        $container: $mediaResizer,
+                        active: true,
+                        responsive: (typeof img.data('responsive') !== 'undefined') ? !!img.data('responsive') : true
+                    }
+                };
+                mediaEditorComponent($mediaSpan.parents('.qti-prompt'), media, options)
+                    .on('change', function (conf) {
+                        var newSize = conf.responsive ? conf.sizeProps['%'].current : conf.sizeProps.px.current;
+                        widget.$original.prop('style', null); // not allowed by qti
+                        widget.$original.removeAttr('style');
+                        img.data('responsive', conf.responsive);
+                        _(['width', 'height']).each(function(sizeAttr){
+                            var val;
+                            if (newSize[sizeAttr] === '' || typeof newSize[sizeAttr] === 'undefined' || newSize[sizeAttr] === null){
+                                img.removeAttr(sizeAttr);
+                                $mediaSpan.css(sizeAttr, '');
+                            } else {
+                                val = Math.round(newSize[sizeAttr]);
+                                if (conf.responsive) {
+                                    val += '%';
+                                    img.attr(sizeAttr, val);
+                                    widget.$original.attr(sizeAttr, '100%');
+                                } else {
+                                    img.attr(sizeAttr, val);
+                                }
+                                $mediaSpan.css(sizeAttr, val);
+                            }
+                            //trigger choice container size adaptation
+                            widget.$container.trigger('contentChange.qti-widget');
+                        });
+                    });
+                });
+/*
             //hack to fix the initial width issue:
             if(img.data('responsive')){
                 $mediaSpan.css('width', img.attr('width'))
@@ -140,27 +175,21 @@ define([
             $mediaResizer
                 .off('.mediasizer')
                 .on('responsiveswitch.mediasizer', function(e, responsive){
-
                     img.data('responsive', responsive);
-
                 })
                 .on('sizechange.mediasizer', function(e, size){
-
-                
-                _(['width', 'height']).each(function(sizeAttr){
-                    if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
-                        img.removeAttr(sizeAttr);
-                        $mediaSpan.css(sizeAttr, '')
-                    }else{
-                        img.attr(sizeAttr, size[sizeAttr]);
-                        $mediaSpan.css(sizeAttr, size[sizeAttr])
-                    }
-
-                    //trigger choice container size adaptation
-                    widget.$container.trigger('contentChange.qti-widget');
-                });
-
-            });
+                    _(['width', 'height']).each(function(sizeAttr){
+                        if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
+                            img.removeAttr(sizeAttr);
+                            $mediaSpan.css(sizeAttr, '')
+                        }else{
+                            img.attr(sizeAttr, size[sizeAttr]);
+                            $mediaSpan.css(sizeAttr, size[sizeAttr])
+                        }
+                        //trigger choice container size adaptation
+                        widget.$container.trigger('contentChange.qti-widget');
+                    });
+                });*/
         }
 
     };
@@ -183,7 +212,6 @@ define([
         var $form = widget.$form,
             options = widget.options,
             img = widget.element,
-            $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
             $alt = $form.find('input[name=alt]');
@@ -211,76 +239,53 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
-                    
                     var file, alt;
-                    
+                    var confirmBox, cancel, save;
                     if(files && files.length){
-                        
                         file = files[0].file;
                         alt = files[0].alt;
                         $src.val(file);
-
-                        imageUtil.getSize(options.baseUrl + file, function(size){
-
-                            if(size && size.width >= 0){
-                                
-                                var w = parseInt(size.width, 10),
-                                    maxW = $container.parents().innerWidth();
-                                    
-                                //always set the image size in % of the container size with a seurity margin of 5%
-                                if(w >= maxW * 0.95){
-                                    img.attr('width', '100%');
-                                }else{
-                                    w = parseInt(100*w/maxW);
-                                    img.attr('width', w+'%');
-                                }
-                                img.removeAttr('height');
+                        if($.trim($alt.val()) === ''){
+                            if(alt === ''){
+                                alt = _extractLabel(file);
                             }
+                            img.attr('alt', alt);
+                            $alt.val(alt).trigger('change');
+                        } else {
+                            confirmBox = $('.change-alt-modal-feedback');
+                            cancel = confirmBox.find('.cancel');
+                            save = confirmBox.find('.save');
 
-                            if($.trim($alt.val()) === ''){
-                                if(alt === ''){
-                                    alt = _extractLabel(file);
-                                }
-                                img.attr('alt', alt);
-                                $alt.val(alt).trigger('change');
-                            }
-                            else{
-                                var confirmBox = $('.change-alt-modal-feedback'),
-                                    cancel = confirmBox.find('.cancel'),
-                                    save = confirmBox.find('.save'),
-                                    close = confirmBox.find('.modal-close');
+                            $('.alt-text',confirmBox).html('"' + $alt.val() + '"<br>with<br>"' + alt+'" ?');
 
-                                $('.alt-text',confirmBox).html('"' + $alt.val() + '"<br>with<br>"' + alt+'" ?');
+                            confirmBox.modal({ width: 500 });
 
-                                confirmBox.modal({ width: 500 });
+                            save.off('click')
+                                .on('click', function () {
+                                    img.attr('alt', alt);
+                                    $alt.val(alt).trigger('change');
+                                    confirmBox.modal('close');
+                                });
 
-                                save.off('click')
-                                    .on('click', function () {
-                                        img.attr('alt', alt);
-                                        $alt.val(alt).trigger('change');
-                                        confirmBox.modal('close');
-                                    });
+                            cancel.off('click')
+                                .on('click', function () {
+                                    confirmBox.modal('close');
+                                });
+                        }
 
-                                cancel.off('click')
-                                    .on('click', function () {
-                                        confirmBox.modal('close');
-                                    });
-                            }
-
-                            _.defer(function(){
-                                $src.trigger('change');
-                            });
+                        _.defer(function(){
+                            $src.trigger('change');
                         });
                     }
                 },
                 open : function(){
-                    //hide tooltip if displayed
+                    // hide tooltip if displayed
                     if($src.data('qtip')){
                         $src.blur().qtip('hide');
                     }
                 },
                 close : function(){
-                    //triggers validation : 
+                    // triggers validation:
                     $src.blur();
                 }
             });
