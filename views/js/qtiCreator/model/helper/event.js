@@ -46,9 +46,25 @@ define(['jquery', 'lodash'], function($, _){
     ];
 
     var event = {
-        choiceCreated : function(choice, interaction){
+
+        /**
+         * Trigger the choiceCreated event
+         * @param {Object} choice - the new choice (model)
+         * @param {Object} interaction - the interaction the choice belongs to (model)
+         */
+        choiceCreated : function choiceCreated(choice, interaction){
             $(document).trigger('choiceCreated.qti-widget', {choice : choice, interaction : interaction});
         },
+
+        /**
+         * Trigger the choiceDeleted event
+         * @param {Object} choice - the removed choice (model)
+         * @param {Object} interaction - the interaction the choice belongs to (model)
+         */
+        choiceDeleted : function choiceDeleted(choice, interaction){
+            $(document).trigger('choiceDeleted.qti-widget', {choice : choice, interaction : interaction});
+        },
+
         deleted : function(element, parent){
 
             if(element.isset()){

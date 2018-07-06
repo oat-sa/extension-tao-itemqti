@@ -55,7 +55,7 @@ define([
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
 
                 //trigger event
-                event.deleted(c, this);
+                event.choiceDeleted(c, this);
             }
             return this;
         },
