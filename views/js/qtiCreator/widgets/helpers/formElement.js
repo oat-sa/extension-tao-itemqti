@@ -236,31 +236,26 @@ define([
          * @param {String} attributeNameMin
          * @param {String} attributeNameMax
          * @param {Object} options
-         * @returns {Object}
+         * @returns {Object} the list of callbacks
          */
         getMinMaxAttributeCallbacks: function getMinMaxAttributeCallbacks($form, attributeNameMin, attributeNameMax, options) {
 
-            var _defaults = {
-                    allowNull: false,
-                    updateCardinality: true,
-                    attrMethodNames: {
-                        remove: 'removeAttr',
-                        set: 'attr'
-                    },
-                    floatVal: false,
-                    callback: _.noop
-                },
-                $max = $form.find('input[name=' + attributeNameMax + ']'),
-                callbacks = {};
+            var callbacks = {};
 
             //prepare options object
-            options = _.defaults(options || {}, _defaults);
+            options = _.defaults(options || {}, {
+                allowNull: false,
+                updateCardinality: true,
+                attrMethodNames: {
+                    remove: 'removeAttr',
+                    set: 'attr'
+                },
+                floatVal: false,
+                callback: _.noop
+            });
 
             callbacks[attributeNameMin] = function(element, value, name) {
 
-                var newOptions = {
-                    min: $max.data('min') || 0
-                };
                 var isActualNumber;
                 var max;
 
@@ -276,16 +271,7 @@ define([
 
                     //if the value is an actual number
                     element[options.attrMethodNames.set](name, value);
-                    newOptions.min = Math.max(newOptions.min, value);
-
-                    max = options.floatVal ? parseFloat($max.val()) : parseInt($max.val(), 10);
-
-                    if (max < value && !(max === 0 && $max.data('zero') === true)) {
-                        $max.val(value);
-                    }
                 }
-                //set incrementer min value for maxChoices and trigger keyup event to launch validation
-                $max.incrementer('options', newOptions).keyup();
 
                 options.callback(element, value, name);
             };
