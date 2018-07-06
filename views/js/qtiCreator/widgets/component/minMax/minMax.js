@@ -177,8 +177,8 @@ define([
                 if ( isFieldSupported(field) && _.isNumber(intValue) &&
                      intValue >= config.lowerThreshold && intValue <= config.upperThreshold ) {
 
-                    if ( this.is('rendered') ) {
-                        return controls[field].input.val(intValue);
+                    if ( this.is('rendered') && controls[field].input.val() !== intValue ) {
+                        return controls[field].input.val(intValue).trigger('change');
                     }
 
                     config[field].value = intValue;
@@ -222,10 +222,17 @@ define([
                     if(this.is('rendered')){
                         fieldOptions = {
                             min : config.lowerThreshold,
-                            max : config.upperThreshold
+                            max : config.upperThreshold,
                         };
-                        controls.min.input.incrementer('options', fieldOptions).keyup();
-                        controls.max.input.incrementer('options', fieldOptions).keyup();
+
+                        controls.min.input.incrementer('options', fieldOptions);
+                        if(this.isFieldEnabled('min')){
+                            controls.min.input.keyup();
+                        }
+                        controls.max.input.incrementer('options', fieldOptions);
+                        if(this.isFieldEnabled('max')){
+                            controls.max.input.keyup();
+                        }
                     }
                 }
                 return this;
