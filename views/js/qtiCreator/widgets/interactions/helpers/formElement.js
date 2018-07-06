@@ -43,6 +43,10 @@ define([
 
         /**
          * Helps you to synchrnonize min/max widgets so the min isn't greater than the max, etc.
+         *
+         * @deprecated Please use instead the {@link qtiCreator/widget/component/minMax} component
+         * with buitin synchronization support.
+         *
          * @param {Object} widget - the interacion's widget (where widget.element is the interaction)
          * @param {String} [attributeNameMin = minChoices] - the name of the min field and attribute
          * @param {String} [attributeNameMax = maxChoices] - the name of the max field and attribute
