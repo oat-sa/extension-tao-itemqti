@@ -93,7 +93,7 @@ define([
 
 
     /**
-     * Question State initialization: set up side bar, editors and shae factory
+     * Question State initialization: set up side bar, editors and shape factory
      */
     function initQuestionState() {
         var $choiceForm, $formChoicePanel, $formInteractionPanel;
@@ -272,7 +272,7 @@ define([
                     })
                 );
 
-                //add a min/max component to control matchMin/matchMax
+                //controls match min/max for the choices (the shapes)
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min : {
                         fieldName:   'matchMin',
@@ -287,6 +287,8 @@ define([
                     upperThreshold :  _.size(interaction.getChoices()),
                 }).on('render', function(){
                     var self = this;
+
+                    //the range matches the number of choices
                     widget.on('choiceCreated choiceDeleted', function(data){
                         if(data.interaction.serial === interaction.serial){
                             self.updateThresholds(1, _.size(interaction.getChoices()));
@@ -354,7 +356,7 @@ define([
                     type: gapImg.object.attr('type')
                 }));
 
-                //add a min/max component to control matchMin/matchMax
+                //controls the match min/max for the gap images
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min : {
                         fieldName:   'matchMin',
@@ -369,6 +371,8 @@ define([
                     upperThreshold :  _.size(interaction.getChoices()),
                 }).on('render', function(){
                     var self = this;
+
+                    //the range is matching the number of choices (not the number of gap img)
                     widget.on('choiceCreated choiceDeleted', function(data){
                         if(data.interaction.serial === interaction.serial){
                             self.updateThresholds(1, _.size(interaction.getChoices()));
@@ -376,11 +380,8 @@ define([
                     });
                 });
 
-
-
                 // <li/> that will contain the image
                 $gapImgBox = $('li[data-serial="' + gapImg.serial + '"]');
-
 
                 $gapImgElem = $gapImgBox.find('img');
 

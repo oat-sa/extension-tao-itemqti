@@ -56,13 +56,15 @@ define([
             eliminable : (/\beliminable\b/).test(interaction.attr('class'))
         }));
 
-        //set up the min max component
+        // min / max choices control, with sync values
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
             max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
             upperThreshold : _.size(interaction.getChoices())
         }).on('render', function(){
             var self = this;
+
+            //when the number of choices changes we update the range
             widget.on('choiceCreated choiceDeleted', function(data){
                 if(data.interaction.serial === interaction.serial){
                     self.updateThresholds(1, _.size(interaction.getChoices()));

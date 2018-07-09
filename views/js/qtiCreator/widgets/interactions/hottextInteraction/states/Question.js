@@ -111,7 +111,7 @@ define([
 
         $form.html(formTpl());
 
-         //set up the min max component
+        //controls min and max choices
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
             max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
@@ -124,7 +124,6 @@ define([
                 }
             });
         });
-
 
         formElement.initWidget($form);
 

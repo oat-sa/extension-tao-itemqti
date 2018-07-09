@@ -142,7 +142,7 @@ define([
                     })
                 );
 
-                //add a min/max component to control matchMin/matchMax
+                //controls matchMin and matchMax attributes
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min : {
                         fieldName:   'matchMin',
@@ -260,7 +260,7 @@ define([
         }));
 
 
-         //set up the min max component
+        //controls min and max association
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
                 fieldName:   'minAssociations',
@@ -275,6 +275,8 @@ define([
             upperThreshold : getMaxPairs(_.size(interaction.getChoices()))
         }).on('render', function(){
             var self = this;
+
+            //the range is based on the number of possible associations
             widget.on('choiceCreated choiceDeleted', function(data){
                 if(data.interaction.serial === interaction.serial){
                     self.updateThresholds(1, getMaxPairs(_.size(interaction.getChoices())));

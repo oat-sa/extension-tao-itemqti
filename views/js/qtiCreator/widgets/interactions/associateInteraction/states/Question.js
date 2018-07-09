@@ -39,7 +39,6 @@ define([
             shuffle : !!interaction.attr('shuffle')
         }));
 
-         //set up the min max component
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
                 fieldName: 'minAssociations',
@@ -52,7 +51,7 @@ define([
                 toggler:   false
             },
             lowerThreshold : 0,
-            upperThreshold : 100
+            upperThreshold : 100     // arbitrary value!
         }).on('change', function(){
             //TODO refresh the associations list view
         });

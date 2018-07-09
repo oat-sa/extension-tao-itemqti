@@ -44,7 +44,7 @@ define([
             horizontal : interaction.attr('orientation') === 'horizontal'
         }));
 
-        //set up the min max component
+        //usual min/maxChoices control
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
             max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },

@@ -77,7 +77,7 @@ define([
             type            : interaction.object.attr('type')
         }));
 
-        //set up the min max component
+        //min and max choices conrols, but without upper bound threshold (spec allows it)
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
                 value : _.parseInt(interaction.attr('minChoices')) || 0,
