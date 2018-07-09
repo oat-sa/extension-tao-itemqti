@@ -10,11 +10,11 @@ define([
     'lodash',
     'util/image',
     'ui/mediaEditor/mediaEditorComponent',
-    // 'ui/mediasizer',
+    'core/mimetype',
     'ui/resourcemgr',
     'nouislider',
     'ui/tooltip'
-], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil, mediaEditorComponent){
+], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil, mediaEditorComponent, mimeType){
     'use strict';
 
     var ImgStateActive = stateFactory.extend(Active, function(){
@@ -98,6 +98,45 @@ define([
         widget.$form.find('select[name=align]').val(align);
     };
 
+    var _getMedia = function(imgQtiElement, $imgNode, cb) {
+        //init data-responsive:
+        if (typeof imgQtiElement.data('responsive') === 'undefined') {
+            if(imgQtiElement.attr('width') && !/[0-9]+%/.test(imgQtiElement.attr('width'))){
+                imgQtiElement.data('responsive', false);
+            }else{
+                imgQtiElement.data('responsive', true);
+            }
+        }
+
+        if (
+            imgQtiElement.attr('width') !== false
+            && imgQtiElement.attr('height') !== false
+            && typeof imgQtiElement.attr('type') !== 'undefined'
+            && imgQtiElement.attr('src') !== false
+        ) {
+            cb({
+                $node: $imgNode,
+                type: imgQtiElement.attr('type'),
+                src:  imgQtiElement.attr('src'),
+                width:  imgQtiElement.attr('width'),
+                height: imgQtiElement.attr('height'),
+                responsive: imgQtiElement.data('responsive')
+            });
+        } else {
+            imageUtil.getSize($imgNode.attr('src'), function (size) {
+                mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
+                    cb({
+                        $node: $imgNode,
+                        type: type,
+                        src:  imgQtiElement.attr('src'),
+                        width:  size.width,
+                        height: size.height,
+                        responsive: imgQtiElement.data('responsive')
+                    });
+                });
+            });
+        }
+    };
 
     var _initMediaSizer = function(widget){
 
@@ -105,29 +144,13 @@ define([
             $src = widget.$form.find('input[name=src]'),
             $mediaResizer = widget.$form.find('.img-resizer'),
             $mediaSpan = widget.$container;
-        if($src.val()){
-            //init data-responsive:
-            if (typeof img.data('responsive') === 'undefined') {
-                if(img.attr('width') && !/[0-9]+%/.test(img.attr('width'))){
-                    img.data('responsive', false);
-                }else{
-                    img.data('responsive', true);
-                }
-            }
 
-            imageUtil.getSize(widget.$original.attr('src'), function(size){
-                var media = {
-                    $node: widget.$original,
-                    type: 'image/jpeg',
-                    src: widget.$original.attr('src'),
-                    width: size.width,
-                    height: size.height
-                };
+        if($src.val()){
+            _getMedia(img, widget.$original, function (media) {
                 var options = {
                     mediaDimension: {
                         $container: $mediaResizer,
-                        active: true,
-                        responsive: (typeof img.data('responsive') !== 'undefined') ? !!img.data('responsive') : true
+                        active: true
                     }
                 };
                 mediaEditorComponent($mediaSpan.parents('.qti-prompt'), media, options)
@@ -156,42 +179,8 @@ define([
                             widget.$container.trigger('contentChange.qti-widget');
                         });
                     });
-                });
-/*
-            //hack to fix the initial width issue:
-            if(img.data('responsive')){
-                $mediaSpan.css('width', img.attr('width'))
-                $mediaSpan.css('height', '')
-            }
-
-            //init media sizer
-            $mediaResizer.mediasizer({
-                responsive : (img.data('responsive') !== undefined) ? !!img.data('responsive') : true,
-                target : widget.$original,
-                applyToMedium : false
             });
-
-            //bind modification events
-            $mediaResizer
-                .off('.mediasizer')
-                .on('responsiveswitch.mediasizer', function(e, responsive){
-                    img.data('responsive', responsive);
-                })
-                .on('sizechange.mediasizer', function(e, size){
-                    _(['width', 'height']).each(function(sizeAttr){
-                        if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
-                            img.removeAttr(sizeAttr);
-                            $mediaSpan.css(sizeAttr, '')
-                        }else{
-                            img.attr(sizeAttr, size[sizeAttr]);
-                            $mediaSpan.css(sizeAttr, size[sizeAttr])
-                        }
-                        //trigger choice container size adaptation
-                        widget.$container.trigger('contentChange.qti-widget');
-                    });
-                });*/
         }
-
     };
 
     var _initAdvanced = function(widget){
