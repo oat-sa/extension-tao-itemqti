@@ -125,9 +125,10 @@ define([
         } else {
             imageUtil.getSize($imgNode.attr('src'), function (size) {
                 mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
+                    imgQtiElement.attr('type', type);
                     cb({
                         $node: $imgNode,
-                        type: type,
+                        type: imgQtiElement.attr('type'),
                         src:  imgQtiElement.attr('src'),
                         width:  size.width,
                         height: size.height,
@@ -154,19 +155,19 @@ define([
                     }
                 };
                 mediaEditorComponent($mediaSpan.parents('.qti-prompt'), media, options)
-                    .on('change', function (conf) {
-                        var newSize = conf.responsive ? conf.sizeProps['%'].current : conf.sizeProps.px.current;
+                    .on('change', function (nMedia) {
+                        media = nMedia;
                         widget.$original.prop('style', null); // not allowed by qti
                         widget.$original.removeAttr('style');
-                        img.data('responsive', conf.responsive);
+                        img.data('responsive', media.responsive);
                         _(['width', 'height']).each(function(sizeAttr){
                             var val;
-                            if (newSize[sizeAttr] === '' || typeof newSize[sizeAttr] === 'undefined' || newSize[sizeAttr] === null){
+                            if (media[sizeAttr] === '' || typeof media[sizeAttr] === 'undefined' || media[sizeAttr] === null){
                                 img.removeAttr(sizeAttr);
                                 $mediaSpan.css(sizeAttr, '');
                             } else {
-                                val = Math.round(newSize[sizeAttr]);
-                                if (conf.responsive) {
+                                val = Math.round(media[sizeAttr]);
+                                if (media.responsive) {
                                     val += '%';
                                     img.attr(sizeAttr, val);
                                     widget.$original.attr(sizeAttr, '100%');
