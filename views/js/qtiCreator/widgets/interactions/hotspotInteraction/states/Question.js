@@ -30,15 +30,13 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
     'taoQtiItem/qtiCreator/helper/panel',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
-    'ui/mediasizer'
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, panel, resourceManager, bgImage){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage'
+], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, minMaxComponentFactory,  identifierHelper, formTpl, choiceFormTpl, panel, bgImage){
 
     'use strict';
 
@@ -51,15 +49,15 @@ define([
         var interaction = widget.element;
         var paper       = interaction.paper;
 
-        if(!paper){
-            return;
-        }
-
         var $choiceForm  = widget.choiceForm;
         var $formInteractionPanel = $('#item-editor-interaction-property-bar');
         var $formChoicePanel = $('#item-editor-choice-property-bar');
 
         var $left, $top, $width, $height;
+
+        if(!paper){
+            return;
+        }
 
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
@@ -200,7 +198,7 @@ define([
     /**
      * Initialize the form linked to the interaction
      */
-    HotspotInteractionStateQuestion.prototype.initForm = function(){
+    HotspotInteractionStateQuestion.prototype.initForm = function initForm(){
 
         var widget = this.widget;
         var options = widget.options;
@@ -209,14 +207,25 @@ define([
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
-            maxChoices      : parseInt(interaction.attr('maxChoices')),
-            minChoices      : parseInt(interaction.attr('minChoices')),
-            choicesCount    : _.size(interaction.getChoices()),
             data            : interaction.object.attr('data'),
             width           : interaction.object.attr('width'),
             height          : interaction.object.attr('height'),
             type            : interaction.object.attr('type')
         }));
+
+        //set up the min max component
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
+            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
+            upperThreshold : _.size(interaction.getChoices())
+        }).on('render', function(){
+            var self = this;
+            widget.on('choiceCreated choiceDeleted', function(data){
+                if(data.interaction.serial === interaction.serial){
+                    self.updateThresholds(1, _.size(interaction.getChoices()));
+                }
+            });
+        });
 
         imageSelector($form, options);
 
@@ -229,8 +238,6 @@ define([
             formElement,
             formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices')
         );
-
-        interactionFormElement.syncMaxChoices(widget);
     };
 
     return HotspotInteractionStateQuestion;

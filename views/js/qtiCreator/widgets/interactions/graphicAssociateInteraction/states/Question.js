@@ -31,17 +31,29 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicAssociate',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
-    'taoQtiItem/qtiCreator/helper/dummyElement',
     'taoQtiItem/qtiCreator/helper/panel',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
-    'ui/mediasizer'
-], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, dummyElement, panel, resourceManager, bgImage){
-
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage'
+], function(
+    $,
+    _,
+    __,
+    GraphicHelper,
+    stateFactory,
+    Question,
+    shapeEditor,
+    imageSelector,
+    formElement,
+    minMaxComponentFactory,
+    identifierHelper,
+    formTpl,
+    choiceFormTpl,
+    panel,
+    bgImage
+){
     'use strict';
 
     /**
@@ -53,15 +65,15 @@ define([
         var interaction = widget.element;
         var paper       = interaction.paper;
 
-        if(!paper){
-            return;
-        }
-
         var $choiceForm  = widget.choiceForm;
         var $formInteractionPanel = $('#item-editor-interaction-property-bar');
         var $formChoicePanel = $('#item-editor-choice-property-bar');
 
         var $left, $top, $width, $height;
+
+        if(!paper){
+            return;
+        }
 
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
@@ -123,15 +135,34 @@ define([
                         identifier  : choice.id(),
                         fixed       : choice.attr('fixed'),
                         serial      : serial,
-                        matchMin    : choice.attr('matchMin'),
-                        matchMax    : choice.attr('matchMax'),
-                        choicesCount: _.size(interaction.getChoices()),
                         x           : parseInt(bbox.x, 10),
                         y           : parseInt(bbox.y, 10),
                         width       : parseInt(bbox.width, 10),
                         height      : parseInt(bbox.height, 10)
                     })
                 );
+
+                //add a min/max component to control matchMin/matchMax
+                minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
+                    min : {
+                        fieldName:   'matchMin',
+                        value:       _.parseInt(choice.attr('matchMin')) || 0,
+                        helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
+                    },
+                    max : {
+                        fieldName:   'matchMax',
+                        value:       _.parseInt(choice.attr('matchMax')) || 0,
+                        helpMessage: __('The maximum number of choices this choice may be associated with.')
+                    },
+                    upperThreshold :  _.size(interaction.getChoices()),
+                }).on('render', function(){
+                    var self = this;
+                    widget.on('choiceCreated choiceDeleted', function(data){
+                        if(data.interaction.serial === interaction.serial){
+                            self.updateThresholds(1, _.size(interaction.getChoices()));
+                        }
+                    });
+                });
 
                 formElement.initWidget($choiceForm);
 
@@ -200,7 +231,7 @@ define([
     /**
      * Initialize the form linked to the interaction
      */
-    GraphicAssociateInteractionStateQuestion.prototype.initForm = function(){
+    GraphicAssociateInteractionStateQuestion.prototype.initForm = function initForm(){
 
         var widget = this.widget;
         var options = widget.options;
@@ -222,14 +253,34 @@ define([
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
-            maxAssociations : parseInt(interaction.attr('maxAssociations'), 10),
-            minAssociations : parseInt(interaction.attr('minAssociations'), 10),
-            choicesCount    : getMaxPairs(_.size(interaction.getChoices())),
             data            : interaction.object.attr('data'),
             width           : interaction.object.attr('width'),
             height          : interaction.object.attr('height'),
             type            : interaction.object.attr('type')
         }));
+
+
+         //set up the min max component
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : {
+                fieldName:   'minAssociations',
+                value:       _.parseInt(interaction.attr('minAssociations')) || 0,
+                helpMessage: __('The minimum number of associations that the candidate is required to make to form a valid response.')
+            },
+            max : {
+                fieldName:   'maxAssociations',
+                value:       _.parseInt(interaction.attr('maxAssociations')) || 0,
+                helpMessage: __('The maximum number of associations that the candidate is allowed to make.')
+            },
+            upperThreshold : getMaxPairs(_.size(interaction.getChoices()))
+        }).on('render', function(){
+            var self = this;
+            widget.on('choiceCreated choiceDeleted', function(data){
+                if(data.interaction.serial === interaction.serial){
+                    self.updateThresholds(1, getMaxPairs(_.size(interaction.getChoices())));
+                }
+            });
+        });
 
         imageSelector($form, options);
 
@@ -242,8 +293,6 @@ define([
             formElement,
             formElement.getMinMaxAttributeCallbacks($form, 'minAssociations', 'maxAssociations')
         );
-
-        interactionFormElement.syncMaxChoices(widget, 'minAssociations', 'maxAssociations');
     };
 
     return GraphicAssociateInteractionStateQuestion;

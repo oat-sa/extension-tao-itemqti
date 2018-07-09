@@ -140,7 +140,7 @@ define([
                 if ( isFieldSupported(field) ) {
 
                     if ( this.is('rendered') ) {
-                        return controls[field].input.val();
+                        return _.parseInt(controls[field].input.val());
                     }
 
                     return config[field].value;

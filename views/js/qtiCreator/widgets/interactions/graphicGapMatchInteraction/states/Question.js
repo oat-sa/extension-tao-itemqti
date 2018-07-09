@@ -32,19 +32,37 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
 
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
 
-    'taoQtiItem/qtiCreator/helper/dummyElement',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
     'ui/mediasizer'
-], function ($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel, resourceManager, bgImage) {
-
+], function (
+    $,
+    _,
+    __,
+    GraphicHelper,
+    stateFactory,
+    Question,
+    shapeEditor,
+    imageSelector,
+    formElement,
+    identifierHelper,
+    minMaxComponentFactory,
+    formTpl,
+    choiceFormTpl,
+    gapImgFormTpl,
+    mediaTlbTpl,
+    panel,
+    resourceManager,
+    bgImage
+) {
     "use strict";
 
     var GraphicGapMatchInteractionStateQuestion;
@@ -247,15 +265,34 @@ define([
                         identifier: choice.id(),
                         fixed: choice.attr('fixed'),
                         serial: serial,
-                        matchMin: choice.attr('matchMin'),
-                        matchMax: choice.attr('matchMax'),
-                        choicesCount: _.size(interaction.getChoices()),
                         x: parseInt(bbox.x, 10),
                         y: parseInt(bbox.y, 10),
                         width: parseInt(bbox.width, 10),
                         height: parseInt(bbox.height, 10)
                     })
                 );
+
+                //add a min/max component to control matchMin/matchMax
+                minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
+                    min : {
+                        fieldName:   'matchMin',
+                        value:       _.parseInt(choice.attr('matchMin')) || 0,
+                        helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
+                    },
+                    max : {
+                        fieldName:   'matchMax',
+                        value:       _.parseInt(choice.attr('matchMax')) || 0,
+                        helpMessage: __('The maximum number of choices this choice may be associated with.')
+                    },
+                    upperThreshold :  _.size(interaction.getChoices()),
+                }).on('render', function(){
+                    var self = this;
+                    widget.on('choiceCreated choiceDeleted', function(data){
+                        if(data.interaction.serial === interaction.serial){
+                            self.updateThresholds(1, _.size(interaction.getChoices()));
+                        }
+                    });
+                });
 
                 formElement.initWidget($choiceForm);
 
@@ -310,15 +347,36 @@ define([
                     identifier: gapImg.id(),
                     fixed: gapImg.attr('fixed'),
                     serial: serial,
-                    matchMin: gapImg.attr('matchMin'),
-                    matchMax: gapImg.attr('matchMax'),
-                    choicesCount: _.size(interaction.getChoices()),
                     baseUrl: options.baseUrl,
                     data: gapImg.object.attr('data'),
                     width: gapImg.object.attr('width'),
                     height: gapImg.object.attr('height'),
                     type: gapImg.object.attr('type')
                 }));
+
+                //add a min/max component to control matchMin/matchMax
+                minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
+                    min : {
+                        fieldName:   'matchMin',
+                        value:       _.parseInt(gapImg.attr('matchMin')) || 0,
+                        helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
+                    },
+                    max : {
+                        fieldName:   'matchMax',
+                        value:       _.parseInt(gapImg.attr('matchMax')) || 0,
+                        helpMessage: __('The maximum number of choices this choice may be associated with.')
+                    },
+                    upperThreshold :  _.size(interaction.getChoices()),
+                }).on('render', function(){
+                    var self = this;
+                    widget.on('choiceCreated choiceDeleted', function(data){
+                        if(data.interaction.serial === interaction.serial){
+                            self.updateThresholds(1, _.size(interaction.getChoices()));
+                        }
+                    });
+                });
+
+
 
                 // <li/> that will contain the image
                 $gapImgBox = $('li[data-serial="' + gapImg.serial + '"]');
