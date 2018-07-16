@@ -71,10 +71,6 @@ define([
         return valid;
     };
 
-    var _getThemeData = function(){
-        return themesHelper.getCurrentThemeData();
-    };
-
     var _renderableClasses = [
         '_container',
         'assessmentItem',
@@ -542,7 +538,7 @@ define([
             var self = this;
             var required = [];
 
-            var themeData = _getThemeData()
+            var themeData = themesHelper.getCurrentThemeData();
             if (themeData) {
                 options.themes = themeData;
             }
