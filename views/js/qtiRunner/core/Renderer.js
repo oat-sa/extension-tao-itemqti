@@ -71,12 +71,8 @@ define([
         return valid;
     };
 
-    var _getThemesNamespace = function(){
-        return themesHelper.getActiveNamespace();
-    };
-
     var _getThemeData = function(){
-        return themesHelper.getCurrentThemeData(_getThemesNamespace());
+        return themesHelper.getCurrentThemeData();
     };
 
     var _renderableClasses = [
