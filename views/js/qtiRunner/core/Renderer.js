@@ -30,8 +30,9 @@ define([
     'core/promise',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/helper/interactionHelper',
-    'ui/themeLoader'
-], function(_, $, Handlebars, Promise, Element, interactionHelper, themeLoader){
+    'ui/themeLoader',
+    'ui/themes'
+], function(_, $, Handlebars, Promise, Element, interactionHelper, themeLoader, themesHelper){
     'use strict';
 
     var _isValidRenderer = function(renderer){
@@ -68,6 +69,14 @@ define([
         }
 
         return valid;
+    };
+
+    var _getThemesNamespace = function(){
+        return themesHelper.getActiveNamespace();
+    };
+
+    var _getThemeData = function(){
+        return themesHelper.getCurrentThemeData(_getThemesNamespace());
     };
 
     var _renderableClasses = [
@@ -537,6 +546,10 @@ define([
             var self = this;
             var required = [];
 
+            var themeData = _getThemeData()
+            if (themeData) {
+                options.themes = themeData;
+            }
             if(options.themes){
 
                 //resolve themes paths
