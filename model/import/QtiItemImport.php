@@ -33,7 +33,7 @@ use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use \tao_models_classes_import_ImportHandler;
-use \common_report_Report;
+use \common_report_Report as Report;
 use \common_Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -72,7 +72,7 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
      * @see tao_models_classes_import_ImportHandler::import()
      * @param \core_kernel_classes_Class $class
      * @param \tao_helpers_form_Form|array $form
-     * @return common_report_Report
+     * @return Report
      * @throws \oat\oatbox\service\ServiceNotFoundException
      */
     public function import($class, $form)
@@ -81,23 +81,28 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
             $uploadedFile = $this->fetchUploadedFile($form);
 
             $importService = ImportService::singleton();
-            $report = $importService->importQTIFile($uploadedFile, $class, true);
+
+            $report = Report::createSuccess(__('1 item imported from the given QTI/APIP XML Item Document.'));
+
+            $subReport = $importService->importQTIFile($uploadedFile, $class, true);
+
+            $report->add($subReport);
 
             $this->getUploadService()->remove($uploadedFile);
 
-            if (common_report_Report::TYPE_SUCCESS == $report->getType()) {
+            if (Report::TYPE_SUCCESS == $report->getType()) {
                 $this->getEventManager()->trigger(new QtiItemImportEvent($report));
             }
         } catch (UnsupportedQtiElement $e) {
-            $report = common_report_Report::createFailure(__("A QTI component is not supported. The system returned the following error: %s\n", $e->getUserMessage()));
+            $report = Report::createFailure(__("A QTI component is not supported. The system returned the following error: %s\n", $e->getUserMessage()));
         } catch (QtiModelException $e) {
-            $report = common_report_Report::createFailure(__("One or more QTI components are not supported by the system. The system returned the following error: %s\n", $e->getUserMessage()));
+            $report = Report::createFailure(__("One or more QTI components are not supported by the system. The system returned the following error: %s\n", $e->getUserMessage()));
         } catch (ParsingException $e) {
-            $report = common_report_Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
+            $report = Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
         } catch (ValidationException $e) {
             $report = $e->getReport();
         } catch (common_Exception $e) {
-            $report = common_report_Report::createFailure(__("An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n", $e->getMessage()));
+            $report = Report::createFailure(__("An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n", $e->getMessage()));
         }
 
         return $report;
