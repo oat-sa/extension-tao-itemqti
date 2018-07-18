@@ -1,3 +1,25 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+/**
+ * Mixins methods for editable interactions
+ */
 define([
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
@@ -5,8 +27,10 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
 ], function(_, Element, ResponseDeclaration, event, responseHelper){
-    "use strict";
+    'use strict';
+
     var methods = {
+
         /**
          * Remove a choice from the interaction
          *
@@ -31,10 +55,11 @@ define([
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
 
                 //trigger event
-                event.deleted(c, this);
+                event.choiceDeleted(c, this);
             }
             return this;
         },
+
         createResponse : function createResponse(attrs, template){
 
             var item,
@@ -75,6 +100,7 @@ define([
 
             return response;
         },
+
         /**
          * To be called before deleting the interaction
          */
@@ -87,6 +113,7 @@ define([
             this.removeAttr('responseIdentifier');
             return this;
         },
+
         beforeRemove : function beforeRemove(){
 
             var serial = this.serial,
