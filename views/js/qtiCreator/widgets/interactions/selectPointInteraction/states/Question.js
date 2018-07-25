@@ -23,18 +23,16 @@
 define([
     'jquery',
     'lodash',
-    'util/image',
+    'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/selectPoint',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
     'ui/mediasizer'
-], function($, _, imageUtil, stateFactory, Question, imageSelector, formElement, interactionFormElement, formTpl, resourceManager, bgImage){
-
+], function($, _, __, stateFactory, Question, imageSelector, formElement, minMaxComponentFactory, formTpl, bgImage){
     'use strict';
 
     /**
@@ -64,22 +62,33 @@ define([
     /**
      * Initialize the form linked to the interaction
      */
-    SelectPointInteractionStateQuestion.prototype.initForm = function(){
-        var widget = this.widget;
-        var options = widget.options;
+    SelectPointInteractionStateQuestion.prototype.initForm = function initForm(){
+
+        var widget      = this.widget;
+        var options     = widget.options;
         var interaction = widget.element;
-        var $form = widget.$form;
+        var $form       = widget.$form;
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
-            maxChoices      : parseInt(interaction.attr('maxChoices')),
-            minChoices      : parseInt(interaction.attr('minChoices')),
-            choicesCount    : _.size(interaction.getChoices()),
             data            : interaction.object.attr('data'),
             width           : interaction.object.attr('width'),
             height          : interaction.object.attr('height'),
             type            : interaction.object.attr('type')
         }));
+
+        //min and max choices conrols, but without upper bound threshold (spec allows it)
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : {
+                value : _.parseInt(interaction.attr('minChoices')) || 0,
+                helpMessage : __('The minimum number of choices that the candidate is required to select to form a valid response.')
+            },
+            max : {
+                value : _.parseInt(interaction.attr('maxChoices')) || 0 ,
+                helpMessage : __('The maximum number of choices that the candidate is allowed to select.')
+            },
+            upperThreshold : Infinity
+        });
 
         imageSelector($form, options);
 
@@ -93,8 +102,6 @@ define([
             formElement,
             formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices')
         );
-
-        interactionFormElement.syncMaxChoices(widget);
     };
 
     return SelectPointInteractionStateQuestion;

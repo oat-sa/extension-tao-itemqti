@@ -18,15 +18,15 @@
  */
 
 define([
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'ui/liststyler'
-], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _, sizeAdapter){
+], function(_, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
 
     'use strict';
 
@@ -42,23 +42,35 @@ define([
         return !_.isNull(listStyle) ? listStyle.pop().replace(listStylePrefix, '') : null;
     }
 
-    ChoiceInteractionStateQuestion.prototype.initForm = function(updateCardinality){
-
-        var _widget = this.widget,
-            $form = _widget.$form,
-            interaction = _widget.element,
-            currListStyle = getListStyle(interaction),
-            $choiceArea = _widget.$container.find('.choice-area');
+    ChoiceInteractionStateQuestion.prototype.initForm = function initForm(updateCardinality){
+        var callbacks;
+        var widget        = this.widget;
+        var $form         = widget.$form;
+        var interaction   = widget.element;
+        var currListStyle = getListStyle(interaction);
+        var $choiceArea   = widget.$container.find('.choice-area');
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
-            maxChoices : parseInt(interaction.attr('maxChoices')),
-            minChoices : parseInt(interaction.attr('minChoices')),
-            choicesCount : _.size(_widget.element.getChoices()),
             horizontal : interaction.attr('orientation') === 'horizontal',
             eliminable : (/\beliminable\b/).test(interaction.attr('class'))
         }));
 
+        // min / max choices control, with sync values
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
+            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
+            upperThreshold : _.size(interaction.getChoices())
+        }).on('render', function(){
+            var self = this;
+
+            //when the number of choices changes we update the range
+            widget.on('choiceCreated choiceDeleted', function(data){
+                if(data.interaction.serial === interaction.serial){
+                    self.updateThresholds(1, _.size(interaction.getChoices()));
+                }
+            });
+        });
 
         $form.find('[data-list-style]').liststyler( { selected: currListStyle })
             .on('stylechange.liststyler', function(e, data) {
@@ -78,7 +90,7 @@ define([
             // model
             interaction.toggleClass('eliminable', this.checked);
             // current visual
-            _widget.$original.toggleClass('eliminable', this.checked);
+            widget.$original.toggleClass('eliminable', this.checked);
 
             // indicate whether this has been unchecked on purpose
             interaction.toggleClass('eliminability-deselected', !this.checked);
@@ -87,7 +99,7 @@ define([
         formElement.initWidget($form);
 
         //data change callbacks with the usual min/maxChoices
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:updateCardinality});
+        callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', { updateCardinality: updateCardinality });
 
         //data change for shuffle
         callbacks.shuffle = formElement.getAttributeChangeCallback();
@@ -104,12 +116,10 @@ define([
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
 
-        interactionFormElement.syncMaxChoices(_widget);
-
         //modify the checkbox/radio input appearances
-        _widget.on('attributeChange', function(data){
+        widget.on('attributeChange', function(data){
 
-            var $checkboxIcons = _widget.$container.find('.real-label > span');
+            var $checkboxIcons = widget.$container.find('.real-label > span');
 
             if(data.element.serial === interaction.serial && data.key === 'maxChoices'){
                 if(parseInt(data.value) === 1){
@@ -123,13 +133,13 @@ define([
         });
 
         //adapt size
-        if(_widget.element.attr('orientation') === 'horizontal') {
-            sizeAdapter.adaptSize(_widget);
+        if(interaction.attr('orientation') === 'horizontal') {
+            sizeAdapter.adaptSize(widget);
         }
 
-        _widget.on('choiceCreated', function(){
-            if(_widget.element.attr('orientation') === 'horizontal') {
-                sizeAdapter.adaptSize(_widget);
+        widget.on('choiceCreated', function(){
+            if(interaction.attr('orientation') === 'horizontal') {
+                sizeAdapter.adaptSize(widget);
             }
         });
     };

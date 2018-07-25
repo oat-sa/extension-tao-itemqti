@@ -17,42 +17,59 @@
  *
  */
 define([
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/associate',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
-], function(stateFactory, Question, formElement, formTpl, sizeAdapter){
-
+], function(_, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
     'use strict';
 
     var AssociateInteractionStateQuestion = stateFactory.extend(Question);
 
-    AssociateInteractionStateQuestion.prototype.initForm = function(){
+    AssociateInteractionStateQuestion.prototype.initForm = function initForm(){
 
-       var _widget = this.widget,
-            $form = _widget.$form,
-            interaction = _widget.element;
+       var widget      = this.widget;
+       var $form       = this.widget.$form;
+       var interaction = this.widget.element;
 
         $form.html(formTpl({
-            shuffle : !!interaction.attr('shuffle'),
-            minAssociations : parseInt(interaction.attr('minAssociations')),
-            maxAssociations : parseInt(interaction.attr('maxAssociations'))
+            shuffle : !!interaction.attr('shuffle')
         }));
 
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : {
+                fieldName: 'minAssociations',
+                value:     _.parseInt(interaction.attr('minAssociations')) || 1,
+                toggler:   false
+            },
+            max : {
+                fieldName: 'maxAssociations',
+                value:     _.parseInt(interaction.attr('maxAssociations')) || 1,
+                toggler:   false
+            },
+            lowerThreshold : 0,
+            upperThreshold : 100     // arbitrary value!
+        }).on('change', function(){
+            //TODO refresh the associations list view
+        });
+
+
         formElement.initWidget($form);
-        
+
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minAssociations', 'maxAssociations');
+        var callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minAssociations', 'maxAssociations');
         callbacks.shuffle = formElement.getAttributeChangeCallback();
         formElement.setChangeCallbacks($form, interaction, callbacks);
-        
+
         //adapt size
-        sizeAdapter.adaptSize(_widget);
-        _widget.on('choiceCreated', function(){
-            sizeAdapter.adaptSize(_widget);
+        sizeAdapter.adaptSize(widget);
+        widget.on('choiceCreated', function(){
+            sizeAdapter.adaptSize(widget);
         });
     };
-    
+
     return AssociateInteractionStateQuestion;
 });
