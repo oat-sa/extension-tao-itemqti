@@ -64,13 +64,20 @@ define([
             src : _.throttle(function(img, value){
 
                 img.attr('src', value);
+                if (!$img.hasClass('hidden')) {
+                    $img.addClass('hidden');
+                }
                 $img.attr('src', _widget.getAssetManager().resolve(value));
                 $img.trigger('contentChange.qti-widget').change();
 
                 inlineHelper.togglePlaceholder(_widget);
 
                 _initAdvanced(_widget);
-                _initMediaSizer(_widget);
+                if (img.attr('off-media-editor') === 1) {
+                    img.removeAttr('off-media-editor');
+                } else {
+                    _initMediaSizer(_widget);
+                }
             }, 1000),
             alt : function(img, value){
                 img.attr('alt', value);
@@ -144,10 +151,11 @@ define([
         var img = widget.element,
             $src = widget.$form.find('input[name=src]'),
             $mediaResizer = widget.$form.find('.img-resizer'),
-            $mediaSpan = widget.$container;
+            $mediaSpan = widget.$container,
+            $img = widget.$original;
 
-        if($src.val()){
-            _getMedia(img, widget.$original, function (media) {
+        if ($src.val()) {
+            _getMedia(img, $img, function (media) {
                 var options = {
                     mediaDimension: {
                         $container: $mediaResizer,
@@ -157,8 +165,8 @@ define([
                 mediaEditorComponent($mediaSpan.parents('.qti-prompt'), media, options)
                     .on('change', function (nMedia) {
                         media = nMedia;
-                        widget.$original.prop('style', null); // not allowed by qti
-                        widget.$original.removeAttr('style');
+                        $img.prop('style', null); // not allowed by qti
+                        $img.removeAttr('style');
                         img.data('responsive', media.responsive);
                         _(['width', 'height']).each(function(sizeAttr){
                             var val;
@@ -170,7 +178,7 @@ define([
                                 if (media.responsive) {
                                     val += '%';
                                     img.attr(sizeAttr, val);
-                                    widget.$original.attr(sizeAttr, '100%');
+                                    $img.attr(sizeAttr, '100%');
                                 } else {
                                     img.attr(sizeAttr, val);
                                 }
@@ -179,6 +187,7 @@ define([
                             //trigger choice container size adaptation
                             widget.$container.trigger('contentChange.qti-widget');
                         });
+                        $img.removeClass('hidden');
                     });
             });
         }
@@ -264,6 +273,7 @@ define([
                         }
 
                         _.defer(function(){
+                            img.attr('off-media-editor', 1);
                             $src.trigger('change');
                         });
                     }
