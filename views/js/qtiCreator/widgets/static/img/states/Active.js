@@ -116,15 +116,19 @@ define([
         }
 
         if (
-            imgQtiElement.attr('width') !== false
-            && imgQtiElement.attr('height') !== false
+            typeof imgQtiElement.attr('originalWidth') !== 'undefined'
+            && typeof imgQtiElement.attr('originalHeight') !== 'undefined'
             && typeof imgQtiElement.attr('type') !== 'undefined'
-            && imgQtiElement.attr('src') !== false
+            && typeof imgQtiElement.attr('src') !== 'undefined'
+            && typeof imgQtiElement.attr('width') !== 'undefined'
+            && typeof imgQtiElement.attr('height') !== 'undefined'
         ) {
             cb({
                 $node: $imgNode,
                 type: imgQtiElement.attr('type'),
                 src:  imgQtiElement.attr('src'),
+                originalWidth:  imgQtiElement.attr('originalWidth'),
+                originalHeight: imgQtiElement.attr('originalHeight'),
                 width:  imgQtiElement.attr('width'),
                 height: imgQtiElement.attr('height'),
                 responsive: imgQtiElement.data('responsive')
@@ -133,12 +137,16 @@ define([
             imageUtil.getSize($imgNode.attr('src'), function (size) {
                 mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
                     imgQtiElement.attr('type', type);
+                    imgQtiElement.attr('originalWidth', size.width);
+                    imgQtiElement.attr('originalHeight', size.height);
                     cb({
                         $node: $imgNode,
                         type: imgQtiElement.attr('type'),
                         src:  imgQtiElement.attr('src'),
-                        width:  size.width,
-                        height: size.height,
+                        originalWidth:  imgQtiElement.attr('originalWidth'),
+                        originalHeight: imgQtiElement.attr('originalHeight'),
+                        width:  imgQtiElement.attr('width'),
+                        height: imgQtiElement.attr('height'),
                         responsive: imgQtiElement.data('responsive')
                     });
                 });
