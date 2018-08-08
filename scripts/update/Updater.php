@@ -375,9 +375,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('15.3.0');
         }
 
-        $this->skip('15.3.0', '15.6.0');
+        $this->skip('15.3.0', '15.6.1');
 
-        if($this->isVersion('15.6.0')){
+        if($this->isVersion('15.6.1')){
             $service = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
             $options = $service->getOptions();
 
