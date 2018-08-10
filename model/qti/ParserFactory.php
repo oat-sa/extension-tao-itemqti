@@ -174,8 +174,8 @@ class ParserFactory
         $this->parseContainerStatic($data, $container);
     }
 
-    protected function parseContainerStatic(DOMElement $data, Container $container){
-
+    protected function parseContainerStatic(DOMElement $data, Container $container)
+    {
         //initialize elements array to collect all QTI elements
         $bodyElements = array();
 
@@ -194,12 +194,11 @@ class ParserFactory
 
         // parse the remaining tables, those that does not contain any interaction.
         //warning: parse table elements before any other because table may contain them!
-        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
+        $tableNodes = $this->queryXPath(".//*[not(ancestor::*[name()='table']) and name()='table']", $data);
         foreach($tableNodes as $tableNode){
             $table = $this->buildTable($tableNode);
-            if(!is_null($table)){
+            if (!is_null($table)) {
                 $bodyElements[$table->getSerial()] = $table;
-
                 $this->replaceNode($tableNode, $table);
             }
         }
