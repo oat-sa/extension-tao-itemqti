@@ -51,6 +51,9 @@ use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
 use taoItems_models_classes_ItemsService;
+use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
+use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
 /**
  *
@@ -388,6 +391,29 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
 
             $this->setVersion('16.0.0');
+        }
+
+        if ($this->isVersion('16.0.0')) {
+            $importerConfig = [
+                MetadataImporter::INJECTOR_KEY => ['oat\\taoQtiItem\\model\\qti\\metadata\\ontology\\LomInjector'],
+                MetadataImporter::EXTRACTOR_KEY => ['oat\\taoQtiItem\\model\\qti\\metadata\\imsManifest\\classificationMetadata\\GenericLomManifestClassificationExtractor'],
+                MetadataImporter::GUARDIAN_KEY => [],
+                MetadataImporter::CLASS_LOOKUP_KEY => [],
+            ];
+
+            $options = [
+                MetadataService::IMPORTER_KEY => new MetadataImporter(
+                    $importerConfig
+                ),
+                MetadataService::EXPORTER_KEY => new MetadataExporter([
+                    MetadataExporter::INJECTOR_KEY => ['oat\\taoQtiItem\\model\\qti\\metadata\\imsManifest\\LomInjector'],
+                    MetadataExporter::EXTRACTOR_KEY => ['oat\\taoQtiItem\\model\\qti\\metadata\\ontology\\GenericLomOntologyClassificationExtractor'],
+                ])
+            ];
+            $metadataService = $this->getServiceManager()->build(MetadataService::class, $options);
+            $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
+
+            $this->setVersion('16.1.0');
         }
     }
 }

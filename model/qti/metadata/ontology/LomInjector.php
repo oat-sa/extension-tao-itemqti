@@ -32,5 +32,10 @@ class LomInjector extends OntologyMetadataInjector
         ),
         'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
 
+        $this->addInjectionRule(array(
+            'http://ltsc.ieee.org/xsd/LOM#lom',
+            'http://www.w3.org/2000/01/rdf-schema#label'
+        ),
+            'http://www.w3.org/2000/01/rdf-schema#label');
     }
 }
