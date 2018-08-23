@@ -86,7 +86,7 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
         if (empty($metadata[$identifier])) {
             return [];
         }
-//var_dump($metadata);die;
+
         return $metadata;
     }
 }
