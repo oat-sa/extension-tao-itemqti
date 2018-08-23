@@ -60,8 +60,8 @@ class InitMetadataService implements Action, ServiceLocatorAwareInterface
             }
         } else {
             $importerConfig = [
-                MetadataImporter::INJECTOR_KEY     => [],
-                MetadataImporter::EXTRACTOR_KEY    => [],
+                MetadataImporter::INJECTOR_KEY     => ['oat\\taoQtiItem\\model\\qti\\metadata\\ontology\\LomInjector'],
+                MetadataImporter::EXTRACTOR_KEY    => ['oat\\taoQtiItem\\model\\qti\\metadata\\imsManifest\\classificationMetadata\\GenericLomManifestClassificationExtractor'],
                 MetadataImporter::GUARDIAN_KEY     => [],
                 MetadataImporter::CLASS_LOOKUP_KEY => [],
             ];
@@ -72,8 +72,8 @@ class InitMetadataService implements Action, ServiceLocatorAwareInterface
                 $importerConfig
             ),
             MetadataService::EXPORTER_KEY => new MetadataExporter([
-                MetadataExporter::INJECTOR_KEY     => [],
-                MetadataExporter::EXTRACTOR_KEY    => [],
+                MetadataExporter::INJECTOR_KEY     => ['oat\\taoQtiItem\\model\\qti\\metadata\\imsManifest\\LomInjector'],
+                MetadataExporter::EXTRACTOR_KEY    => ['oat\\taoQtiItem\\model\\qti\\metadata\\ontology\\GenericLomOntologyClassificationExtractor'],
             ])
         ];
         $metadataService = $this->getServiceLocator()->build(MetadataService::class, $options);
