@@ -62,10 +62,9 @@ interface SimpleExporter
      *
      * @param array $headers
      * @param array $data
-     * @param bool $asFile
-     * @return string|File
+     * @return string
      */
-    public function save(array $headers, array $data, $asFile = false);
+    public function save(array $headers, array $data);
 
     /**
      * Get headers of csv
