@@ -377,6 +377,9 @@
                                         },
                                         "itemIds": {
                                             "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
                                             "description": "List of identifiers of imported items"
                                         }
                                     }
