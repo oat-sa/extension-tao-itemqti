@@ -18,8 +18,8 @@
 
 namespace oat\taoQtiItem\test\integration\controller;
 
+use oat\tao\test\integration\RestTestRunner;
 use oat\taoQtiItem\model\ItemModel;
-use oat\tao\test\RestTestRunner;
 use oat\generis\model\OntologyAwareTrait;
 
 /**

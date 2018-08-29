@@ -39,7 +39,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 
     public function testUpdate()
     {
-        $itemRootDir = realpath(ROOT_PATH.'taoQtiItem/test/update/samples/itemData');
+        $itemRootDir = realpath('samples/itemData');
         $itemUpdater   = new ItemUpdateInlineFeedback($itemRootDir);
         $items = $itemUpdater->update();
         $checkedFiles  = $itemUpdater->getCheckedFiles();
@@ -74,7 +74,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
     public function testUpdateTrue()
     {
         $itemRootDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR. uniqid('ItemUpdateInlineFeedbackTest').DIRECTORY_SEPARATOR;
-        $originalRootDir = realpath(ROOT_PATH.'taoQtiItem/test/update/samples/itemData');
+        $originalRootDir = realpath('samples/itemData');
         tao_helpers_File::copy($originalRootDir, $itemRootDir);
 
         $itemUpdater   = new ItemUpdateInlineFeedback($itemRootDir);
