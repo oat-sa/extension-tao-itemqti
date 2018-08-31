@@ -165,7 +165,7 @@ class RestQtiItem extends AbstractRestQti
             $taskLog = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
 
             if ($report = $taskLog->getReport($task->getId())) {
-                $result['report'] = $report->toArray();
+                $result['report'] = $this->getReportAsAssociativeArray($report);
             }
 
             return $this->returnSuccess($result);
