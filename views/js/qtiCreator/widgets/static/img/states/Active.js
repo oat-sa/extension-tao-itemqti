@@ -166,11 +166,11 @@ define([
             _getMedia(img, $img, function (media) {
                 var options = {
                     mediaDimension: {
-                        $container: $mediaResizer,
                         active: true
                     }
                 };
-                mediaEditorComponent($mediaSpan.parents('.qti-prompt'), media, options)
+                media.$container = $mediaSpan.parents('.qti-prompt');
+                mediaEditorComponent($mediaResizer, media, options)
                     .on('change', function (nMedia) {
                         media = nMedia;
                         $img.prop('style', null); // not allowed by qti
