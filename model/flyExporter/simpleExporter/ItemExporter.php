@@ -21,25 +21,18 @@
 
 namespace oat\taoQtiItem\model\flyExporter\simpleExporter;
 
-use oat\oatbox\filesystem\File;
-use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\flyExporter\extractor\Extractor;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 
 /**
- *
  * Class ItemExporter
+ *
  * @package oat\taoQtiItem\model\flyExporter\simpleExporter
  */
 class ItemExporter extends ConfigurableService implements SimpleExporter
 {
-    /**
-     * File system
-     */
-    const EXPORT_FILESYSTEM = 'taoQtiItem';
-
     /**
      * Default csv delimiter
      */
@@ -66,7 +59,13 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     const CSV_DELIMITER_OPTION = 'delimiter';
 
     /**
-     * Header of flyfile
+     * Location of the export file, a relative path with the name of final file.
+     * The final destination will be under /tmp.
+     */
+    const OPTION_FILE_LOCATION = 'fileLocation';
+
+    /**
+     * CSV file headers
      *
      * @var array
      */
@@ -74,28 +73,23 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
 
     /**
      * Columns requested by export
+     *
      * @var array
      */
     protected $columns = [];
 
     /**
      * Available extractors
+     *
      * @var array
      */
     protected $extractors = [];
-
-    /**
-     * Fileystem File to manage exported file storage
-     *
-     * @var File
-     */
-    protected $exportFile;
 
     public function __construct(array $options)
     {
         parent::__construct($options);
 
-        if (! $this->hasOption('fileLocation')) {
+        if (!$this->hasOption(self::OPTION_FILE_LOCATION)) {
             throw new ExtractorException('File location config is not correctly set.');
         }
 
@@ -112,16 +106,17 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      *
      * @throws ExtractorException
      * @param \core_kernel_classes_Resource[] $items
-     * @return File|string
+     * @return string
      */
-    public function export(array $items = null, $asFile = false)
+    public function export(array $items = null)
     {
         if (empty($items)) {
             $items = $this->getItems();
         }
 
         $data = $this->getDataByItems($items);
-        return $this->save($this->headers, $data, $asFile);
+
+        return $this->save($this->headers, $data);
     }
 
     /**
@@ -145,6 +140,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         if (empty($output)) {
             throw new ExtractorException('No data item to export.');
         }
+
         return $output;
     }
 
@@ -174,7 +170,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             $extractor->run();
             $values = $extractor->getData();
 
-            foreach($values as $key => $value) {
+            foreach ($values as $key => $value) {
 
                 $interactionData = is_array($value) && count($value) > 1 ? $value : $values;
 
@@ -197,10 +193,9 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      *
      * @param array $headers
      * @param array $data
-     * @param bool $asFile
-     * @return File|string
+     * @return string
      */
-    public function save(array $headers, array $data, $asFile = false)
+    public function save(array $headers, array $data)
     {
         $output = $contents = [];
 
@@ -211,25 +206,43 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             . implode($enclosure . $delimiter . $enclosure, $headers)
             . $enclosure;
 
-        if (! empty($data)) {
+        if (!empty($data)) {
             foreach ($data as $item) {
                 foreach ($item as $line) {
                     foreach ($headers as $index => $value) {
-                        if (isset($line[$value]) && $line[$value]!=='') {
-                            $output[$value] = $enclosure . (string) $line[$value] . $enclosure;
+                        if (isset($line[$value]) && $line[$value] !== '') {
+                            $output[$value] = $enclosure . (string)$line[$value] . $enclosure;
                             unset($line[$value]);
                         } else {
                             $output[$value] = '';
                         }
                     }
-                    $contents[] = implode($delimiter,  array_merge($output, $line));
+                    $contents[] = implode($delimiter, array_merge($output, $line));
                 }
             }
         }
 
-        $file = $this->getExportFile();
-        $file->put(chr(239) . chr(187) . chr(191) . implode("\n", $contents));
-        return $asFile ? $file : $file->getPrefix();
+        $filePath = $this->getFilePath();
+
+        if (file_put_contents($filePath, chr(239) . chr(187) . chr(191) . implode("\n", $contents))) {
+            return $filePath;
+        }
+
+        return '';
+    }
+
+    private function getFilePath()
+    {
+        $filePath = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . ltrim($this->getOption(self::OPTION_FILE_LOCATION), '/');
+
+        $basePath = dirname($filePath);
+
+        // if "self::OPTION_FILE_LOCATION" contains folder(s), we have to create it
+        if (!file_exists($basePath)) {
+            mkdir($basePath, 0777, true);
+        }
+
+        return $filePath;
     }
 
     /**
@@ -243,22 +256,6 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     }
 
     /**
-     * Get the file from config
-     *
-     * @return File
-     */
-    protected function getExportFile()
-    {
-        if (! $this->exportFile) {
-            $this->exportFile = $this->exportFile = $this->getServiceManager()
-                ->get(FileSystemService::SERVICE_ID)
-                ->getDirectory(self::EXPORT_FILESYSTEM)
-                ->getFile($this->getOption('fileLocation'));
-        }
-        return $this->exportFile;
-    }
-
-    /**
      * Get all items of given uri otherwise get default class
      *
      * @return array
@@ -266,6 +263,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
     protected function getItems()
     {
         $class = new \core_kernel_classes_Class($this->getDefaultUriClass());
+
         return $class->getInstances(true);
     }
 
@@ -276,7 +274,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function getDefaultUriClass()
     {
-        return TaoOntology::ITEM_CLASS_URI;
+        return TaoOntology::CLASS_URI_ITEM;
     }
 
     /**
@@ -289,6 +287,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         if ($this->hasOption(self::CSV_ENCLOSURE_OPTION)) {
             return $this->getOption(self::CSV_ENCLOSURE_OPTION);
         }
+
         return self::CSV_ENCLOSURE;
     }
 
@@ -302,6 +301,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         if ($this->hasOption(self::CSV_DELIMITER_OPTION)) {
             return $this->getOption(self::CSV_DELIMITER_OPTION);
         }
+
         return self::CSV_DELIMITER;
     }
 }
