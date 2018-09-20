@@ -169,7 +169,7 @@ define([
                         active: true
                     }
                 };
-                media.$container = $mediaSpan.parents('.qti-prompt');
+                media.$container = $mediaSpan.parents('.widget-box');
                 mediaEditorComponent($mediaResizer, media, options)
                     .on('change', function (nMedia) {
                         media = nMedia;
