@@ -37,7 +37,7 @@ return array(
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=5.13.0',
-        'tao'      => '>=19.20.0',
+        'tao'      => '>=19.23.6',
         'generis'  => '>=7.3.0',
     ),
     'models' => array(
