@@ -30,6 +30,55 @@ module.exports = function(grunt) {
         'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
     };
 
+    grunt.config.merge({
+
+        bundle : {
+            taoqtiitem : {
+                options : {
+                    extension : 'taoQtiItem',
+                    extensionPath : root + '/taoQtiItem/views/js',
+                    outputDir : 'loader',
+                    dependencies : {
+                        'taoItems' : root + '/taoItems/views/js',
+                        'taoItemsCss' :  root + '/taoItems/views/css',
+                    },
+                    paths : {
+                        'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
+                        'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
+                    },
+                    bundles : [{
+                        name : 'taoQtiItem',
+                        default : true,
+
+                        //we need to list the dependencies manually, since the
+                        //sources contains tests in subfoldesr
+                        include : [
+                            'taoQtiItem/mathRenderer/mathRenderer',
+                            'taoQtiItem/portableElementRegistry/**/*',
+                            'taoQtiItem/qtiCommonRenderer/helpers/**/*',
+                            'taoQtiItem/qtiCommonRenderer/renderers/**/*',
+                            'taoQtiItem/qtiCreator/itemCreator',
+                            'taoQtiItem/qtiCreator/context/**/*',
+                            'taoQtiItem/qtiCreator/editor/**/*',
+                            'taoQtiItem/qtiCreator/helper/**/*',
+                            'taoQtiItem/qtiCreator/model/**/*',
+                            'taoQtiItem/qtiCreator/plugins/**/*',
+                            'taoQtiItem/qtiCreator/renderers/**/*',
+                            'taoQtiItem/qtiCreator/widgets/**/*',
+                            'taoQtiItem/qtiItem/core/**/*',
+                            'taoQtiItem/qtiItem/helper/**/*',
+                            'taoQtiItem/qtiItem/mixin/**/*',
+                            'taoQtiItem/qtiRunner/**/*',
+                            'taoQtiItem/qtiXmlRenderer/**/*',
+                            'qtiCustomInteractionContext',
+                            'qtiInfoControlContext'
+                        ]
+                    }]
+                }
+            }
+        }
+    });
+
     /**
      * Remove bundled and bundling files
      */
@@ -39,6 +88,9 @@ module.exports = function(grunt) {
      * Controller
      */
     requirejs.taoqtiitembundle = {
+
+
+
         options: {
             baseUrl : '../js',
             dir : out,
