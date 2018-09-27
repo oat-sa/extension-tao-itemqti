@@ -51,7 +51,7 @@ use oat\taoQtiItem\model\qti\response\TakeoverFailedException;
 use oat\taoQtiItem\model\qti\response\Summation;
 use oat\taoQtiItem\model\qti\expression\ExpressionParserFactory;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
-use oat\taoQtiItem\model\qti\Object;
+use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Math;
 use oat\taoQtiItem\model\qti\XInclude;
@@ -66,6 +66,7 @@ use \common_Logger;
 use \SimpleXMLElement;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * The ParserFactory provides some methods to build the QTI_Data objects from an
@@ -78,6 +79,8 @@ use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
  */
 class ParserFactory
 {
+
+    use LoggerAwareTrait;
 
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
@@ -171,8 +174,8 @@ class ParserFactory
         $this->parseContainerStatic($data, $container);
     }
 
-    protected function parseContainerStatic(DOMElement $data, Container $container){
-
+    protected function parseContainerStatic(DOMElement $data, Container $container)
+    {
         //initialize elements array to collect all QTI elements
         $bodyElements = array();
 
@@ -191,12 +194,11 @@ class ParserFactory
 
         // parse the remaining tables, those that does not contain any interaction.
         //warning: parse table elements before any other because table may contain them!
-        $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
+        $tableNodes = $this->queryXPath(".//*[not(ancestor::*[name()='table']) and name()='table']", $data);
         foreach($tableNodes as $tableNode){
             $table = $this->buildTable($tableNode);
-            if(!is_null($table)){
+            if (!is_null($table)) {
                 $bodyElements[$table->getSerial()] = $table;
-
                 $this->replaceNode($tableNode, $table);
             }
         }
@@ -510,7 +512,7 @@ class ParserFactory
         //check on the root tag.
         $itemId = (string) $data->getAttribute('identifier');
 
-        common_Logger::i('Started parsing of QTI item'.(isset($itemId) ? ' '.$itemId : ''), array('TAOITEMS'));
+        $this->logDebug('Started parsing of QTI item'.(isset($itemId) ? ' '.$itemId : ''), array('TAOITEMS'));
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
@@ -1385,12 +1387,12 @@ class ParserFactory
      * @access private
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\Object
+     * @return \oat\taoQtiItem\model\qti\QtiObject
      */
     private function buildObject(DOMElement $data){
 
         $attributes = $this->extractAttributes($data);
-        $returnValue = new Object($attributes);
+        $returnValue = new QtiObject($attributes);
 
         if($data->hasChildNodes()){
             $nonEmptyChild = $this->getNonEmptyChildren($data);

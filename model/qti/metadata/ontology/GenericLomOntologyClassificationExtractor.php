@@ -48,8 +48,11 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
      * Extract resource metadata and transform it to ClassificationMetadataValue
      *
      * @param \core_kernel_classes_Resource $resource
+     *
      * @return array
+     *
      * @throws MetadataExtractionException
+     * @throws \oat\tao\model\metadata\exception\writer\MetadataWriterException
      */
     public function extract($resource)
     {
@@ -70,7 +73,10 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
             $property = $this->getResource($triple->predicate);
             $value = $triple->object;
 
-            if (! empty($value) && $property->isProperty() && ! in_array($property->getUri(), self::$excludedProperties)) {
+            if (trim($value) != ''
+                && $property->isProperty()
+                && !in_array($property->getUri(), self::$excludedProperties)
+            ) {
                 $metadata[$identifier][] = new ClassificationMetadataValue(
                     new ClassificationSourceMetadataValue($resource->getUri(), $property->getUri()),
                     [new ClassificationEntryMetadataValue($resource->getUri(), $value)]
@@ -84,5 +90,4 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
 
         return $metadata;
     }
-
 }

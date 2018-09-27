@@ -30,8 +30,9 @@ define([
     'core/promise',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/helper/interactionHelper',
-    'ui/themeLoader'
-], function(_, $, Handlebars, Promise, Element, interactionHelper, themeLoader){
+    'ui/themeLoader',
+    'ui/themes'
+], function(_, $, Handlebars, Promise, Element, interactionHelper, themeLoader, themesHelper){
     'use strict';
 
     var _isValidRenderer = function(renderer){
@@ -537,6 +538,10 @@ define([
             var self = this;
             var required = [];
 
+            var themeData = themesHelper.getCurrentThemeData();
+            if (themeData) {
+                options.themes = themeData;
+            }
             if(options.themes){
 
                 //resolve themes paths

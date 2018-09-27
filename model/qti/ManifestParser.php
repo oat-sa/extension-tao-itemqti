@@ -22,11 +22,10 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\oatbox\service\ServiceManager;
-use oat\taoQtiItem\model\qti\ManifestParser;
-use oat\taoQtiItem\model\qti\ManifestParserFactory;
 use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
 use \tao_helpers_Request;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Enables you to parse and validate an imsmanifest.xml file. 
@@ -43,6 +42,7 @@ use \tao_helpers_Request;
 class ManifestParser
     extends tao_models_classes_Parser
 {
+    use LoggerAwareTrait;
 
     /**
      * Validate the manifest against an XML Schema Definition.
@@ -87,7 +87,7 @@ class ManifestParser
 		} elseif(!file_exists($schema)) {
 			throw new \common_Exception('no schema found in the location '.$schema);
 		} else {
-			\common_Logger::i("The following schema will be used to validate imsmanifest.xml: '" . $schema . "'.");
+			$this->logDebug("The following schema will be used to validate imsmanifest.xml: '" . $schema . "'.");
 			$returnValue = parent::validate($schema);
 		}
 

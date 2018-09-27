@@ -20,10 +20,12 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use common_report_Report as Report;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\filesystem\File;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\event\QtiItemMetadataExportEvent;
 use oat\taoQtiItem\model\flyExporter\extractor\ExtractorException;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
@@ -33,7 +35,7 @@ use oat\oatbox\PhpSerializeStateless;
 
 class ItemMetadataByClassExportHandler implements \tao_models_classes_export_ExportHandler, PhpSerializable
 {
-    use OntologyAwareTrait, PhpSerializeStateless;
+    use OntologyAwareTrait, PhpSerializeStateless, EventManagerAwareTrait;
 
     /**
      * Get label form
@@ -54,66 +56,66 @@ class ItemMetadataByClassExportHandler implements \tao_models_classes_export_Exp
     public function getExportForm(core_kernel_classes_Resource $resource)
     {
         if ($resource instanceof \core_kernel_classes_Class) {
-            $formData = array('class' => $resource);
+            $formData = ['class' => $resource];
         } else {
-            $formData = array('class' => $this->getClass($resource));
+            $formData = ['class' => $this->getClass($resource)];
         }
         $form = new MetadataExporterForm($formData);
+
         return $form->getForm();
     }
 
     /**
-     * After form submitting, export data & output file
-     *
-     * @param array $formValues
-     * @param string $destPath
-     * @return \common_report_Report|void
-     * @throws \common_Exception
+     * @param array  $formValues
+     * @param string $destination
+     * @return Report
      * @throws \common_exception_BadRequest
      */
-    public function export($formValues, $destPath)
+    public function export($formValues, $destination)
     {
+        $report = Report::createSuccess();
+
         if (isset($formValues['filename']) && isset($formValues['classUri'])) {
             $classToExport = $this->getClassToExport($formValues['classUri']);
 
             if ($classToExport->exists()) {
                 try {
+                    $fileName = $formValues['filename'] .'_'. time() .'.csv';
+
+                    if (!\tao_helpers_File::securityCheck($fileName, true)) {
+                        throw new \Exception('Unauthorized file name');
+                    }
+
                     /** @var ItemExporter $exporterService */
                     $exporterService = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
-                    $this->output(
-                        $exporterService->export($this->getInstances($classToExport), true),
-                        $formValues['filename']
-                    );
+                    $exporterService->setOption(ItemExporter::OPTION_FILE_LOCATION, $fileName);
+
+                    $filePath = $exporterService->export($this->getInstances($classToExport));
+
+                    $report->setData($filePath);
+                    $report->setMessage(__('Item metadata successfully exported.'));
+
+                    $this->getEventManager()->trigger(new QtiItemMetadataExportEvent($classToExport));
                 } catch (ExtractorException $e) {
-                    return \common_report_Report::createFailure('Selected object does not have any item to export.');
+                    $report = Report::createFailure('Selected object does not have any item to export.');
                 }
             }
         }
 
-        return;
+        return $report;
     }
 
     protected function getInstances($classToExport)
     {
-        $instances = array();
+        $instances = [];
         $itemService = \taoItems_models_classes_ItemsService::singleton();
-        foreach($classToExport->getInstances(true) as $item){
-            if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
+        foreach ($classToExport->getInstances(true) as $item) {
+            if ($itemService->hasItemModel($item, [ItemModel::MODEL_URI])) {
                 $instances[] = $item;
             }
         }
-        return $instances;
-    }
 
-    /**
-     * @param File $file
-     * @param string $exportFileName Name of the exported file
-     * @throws \common_Exception
-     */
-    protected function output(File $file, $exportFileName)
-    {
-        header('Content-Disposition: attachment; filename="'. $exportFileName .'.csv"');
-        \tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
+        return $instances;
     }
 
     /**

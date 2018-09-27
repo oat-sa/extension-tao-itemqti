@@ -380,7 +380,7 @@ define([
 
             // Point & click handlers
 
-            interact($container.selector).on('tap', function() {
+            interact($container.selector).on('tap', function(e) {
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
                 if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
                     return;

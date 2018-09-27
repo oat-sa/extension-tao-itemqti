@@ -19,8 +19,8 @@
 namespace oat\taoQtiItem\controller;
 
 use oat\tao\model\TaoOntology;
-use oat\taoTaskQueue\model\Entity\TaskLogEntity;
-use oat\taoTaskQueue\model\TaskLogInterface;
+use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use \Request;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\ItemModel;
@@ -91,7 +91,17 @@ class RestQtiItem extends AbstractRestQti
             
             // Call service to import package
             \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
-            $report = ImportService::singleton()->importQTIPACKFile($package, $this->getDestinationClass());
+            $report = ImportService::singleton()->importQTIPACKFile(
+                $package,
+                $this->getDestinationClass(),
+                true,
+                true,
+                true,
+                $this->isMetadataGuardiansEnabled(),
+                $this->isMetadataValidatorsEnabled(),
+                $this->isItemMustExistEnabled(),
+                $this->isItemMustBeOverwrittenEnabled()
+            );
             \helpers_TimeOutHelper::reset();
             
             \tao_helpers_File::remove($package);
@@ -137,7 +147,15 @@ class RestQtiItem extends AbstractRestQti
                 throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
             }
 
-            $task = ImportQtiItem::createTask($this->getUploadedPackage(), $this->getDestinationClass(), $this->getServiceLocator());
+            $task = ImportQtiItem::createTask(
+                $this->getUploadedPackage(),
+                $this->getDestinationClass(),
+                $this->getServiceLocator(),
+                $this->isMetadataGuardiansEnabled(),
+                $this->isMetadataValidatorsEnabled(),
+                $this->isItemMustExistEnabled(),
+                $this->isItemMustBeOverwrittenEnabled()
+            );
 
             $result = [
                 'reference_id' => $task->getId()
@@ -159,10 +177,10 @@ class RestQtiItem extends AbstractRestQti
     /**
      * Add extra values to the JSON returned.
      *
-     * @param TaskLogEntity $taskLogEntity
+     * @param EntityInterface $taskLogEntity
      * @return array
      */
-    protected function addExtraReturnData(TaskLogEntity $taskLogEntity)
+    protected function addExtraReturnData(EntityInterface $taskLogEntity)
     {
         $data = [];
 

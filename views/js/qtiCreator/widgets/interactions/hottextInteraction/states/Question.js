@@ -24,7 +24,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'taoQtiItem/qtiCreator/widgets/helpers/selectionWrapper',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hottext',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
@@ -38,7 +38,7 @@ define([
     gridContentHelper,
     htmlContentHelper,
     formElement,
-    interactionFormElement,
+    minMaxComponentFactory,
     selectionWrapper,
     formTpl,
     toolbarTpl,
@@ -104,22 +104,31 @@ define([
 
     HottextInteractionStateQuestion.prototype.initForm = function initForm(){
 
-        var _widget = this.widget,
-            $form = _widget.$form,
-            interaction = _widget.element,
-            callbacks;
+        var widget      = this.widget;
+        var $form       = widget.$form;
+        var interaction = widget.element;
+        var callbacks;
 
-        $form.html(formTpl({
-            maxChoices : interaction.attr('maxChoices'),
-            minChoices : interaction.attr('minChoices'),
-            choicesCount : _.size(interaction.getChoices())
-        }));
+        $form.html(formTpl());
+
+        //controls min and max choices
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
+            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
+            upperThreshold : _.size(interaction.getChoices())
+        }).on('render', function(){
+            var self = this;
+            widget.on('choiceCreated choiceDeleted', function(data){
+                if(data.interaction.serial === interaction.serial){
+                    self.updateThresholds(1, _.size(interaction.getChoices()));
+                }
+            });
+        });
 
         formElement.initWidget($form);
 
         callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices');
         formElement.setChangeCallbacks($form, interaction, callbacks);
-        interactionFormElement.syncMaxChoices(_widget);
     };
 
     /**

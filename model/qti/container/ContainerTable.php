@@ -42,12 +42,13 @@ class ContainerTable extends ContainerInteractive
             'oat\\taoQtiItem\\model\\qti\\Img',
             'oat\\taoQtiItem\\model\\qti\\Math',
             'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            'oat\\taoQtiItem\\model\\qti\\Object',
+            \oat\taoQtiItem\model\qti\QtiObject::class,
             'oat\\taoQtiItem\\model\\qti\\Tooltip',
             'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
             'oat\\taoQtiItem\\model\\qti\\RubricBlock',
             'oat\\taoQtiItem\\model\\qti\\InfoControl',
-            'oat\\taoQtiItem\\model\\qti\\XInclude'
+            'oat\\taoQtiItem\\model\\qti\\XInclude',
+            \oat\taoQtiItem\model\qti\Table::class,
         );
     }
 }

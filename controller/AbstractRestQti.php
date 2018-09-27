@@ -21,8 +21,8 @@
 
 namespace oat\taoQtiItem\controller;
 
-use oat\taoTaskQueue\model\Entity\TaskLogEntity;
-use oat\taoTaskQueue\model\TaskLogActionTrait;
+use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\tao\model\taskQueue\TaskLogActionTrait;
 
 /**
  * Class AbstractRestQti
@@ -35,6 +35,14 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     use TaskLogActionTrait;
 
     const TASK_ID_PARAM = 'id';
+
+    const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
+
+    const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
+
+    const ITEM_MUST_EXIST = 'itemMustExist';
+
+    const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
     protected static $accepted_types = array(
         'application/zip',
@@ -74,10 +82,10 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     /**
      * Return 'Success' instead of 'Completed', required by the specified API.
      *
-     * @param TaskLogEntity $taskLogEntity
+     * @param EntityInterface $taskLogEntity
      * @return string
      */
-    protected function getTaskStatus(TaskLogEntity $taskLogEntity)
+    protected function getTaskStatus(EntityInterface $taskLogEntity)
     {
         if ($taskLogEntity->getStatus()->isCreated()) {
             return __('In Progress');
@@ -86,5 +94,89 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         }
 
         return $taskLogEntity->getStatus()->getLabel();
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isMetadataGuardiansEnabled()
+    {
+        $enableMetadataGuardians = $this->getRequestParameter(self::ENABLE_METADATA_GUARDIANS);
+
+        if (is_null($enableMetadataGuardians)) {
+            return true; // default value if parameter not passed
+        }
+
+        if (!in_array($enableMetadataGuardians, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ENABLE_METADATA_GUARDIANS . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($enableMetadataGuardians, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isMetadataValidatorsEnabled()
+    {
+        $enableMetadataValidators = $this->getRequestParameter(self::ENABLE_METADATA_VALIDATORS);
+
+        if (is_null($enableMetadataValidators)) {
+            return true; // default value if parameter not passed
+        }
+
+        if (!in_array($enableMetadataValidators, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ENABLE_METADATA_VALIDATORS . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($enableMetadataValidators, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isItemMustExistEnabled()
+    {
+        $itemMustExistEnabled = $this->getRequestParameter(self::ITEM_MUST_EXIST);
+
+        if (is_null($itemMustExistEnabled)) {
+            return false; // default value if parameter not passed
+        }
+
+        if (!in_array($itemMustExistEnabled, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ITEM_MUST_EXIST . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($itemMustExistEnabled, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * @return bool
+     * @throws \common_exception_RestApi
+     */
+    protected function isItemMustBeOverwrittenEnabled()
+    {
+        $isItemMustBeOverwrittenEnabled = $this->getRequestParameter(self::ITEM_MUST_BE_OVERWRITTEN);
+
+        if (is_null($isItemMustBeOverwrittenEnabled)) {
+            return false; // default value if parameter not passed
+        }
+
+        if (!in_array($isItemMustBeOverwrittenEnabled, ['true', 'false'])) {
+            throw new \common_exception_RestApi(
+                self::ITEM_MUST_BE_OVERWRITTEN . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($isItemMustBeOverwrittenEnabled, FILTER_VALIDATE_BOOLEAN);
     }
 }

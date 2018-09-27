@@ -219,7 +219,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     }
 
     public function getObjects(){
-        return $this->body->getElements('oat\\taoQtiItem\\model\\qti\\Object');
+        return $this->body->getElements(\oat\taoQtiItem\model\qti\QtiObject::class);
     }
 
     public function getRubricBlocks(){

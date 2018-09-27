@@ -1,6 +1,6 @@
 <div class="panel">
 
-    
+
     <h3>{{__ "Interaction Background"}}</h3>
 
     <div class="panel">

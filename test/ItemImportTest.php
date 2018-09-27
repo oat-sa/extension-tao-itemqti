@@ -261,7 +261,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         $storage = tao_models_classes_service_FileStorage::singleton();
         $compiler = new QtiItemCompiler($item, $storage);
-        $compiler->setServiceLocator($this->getServiceLocator());
+        $compiler->setServiceLocator($this->getServiceManagerProphecy());
         $report = $compiler->compile();
         $this->assertEquals($report->getType(), common_report_Report::TYPE_SUCCESS);
         $serviceCall = $report->getData();

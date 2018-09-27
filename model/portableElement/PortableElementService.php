@@ -335,6 +335,21 @@ class PortableElementService implements ServiceLocatorAwareInterface
             }
         }
 
+        /**
+         * @deprecated do not use the returned baseUrl
+         */
         return $portableElements;
+    }
+
+    /**
+     * Set the base url to a portable element data array
+     * @param $data
+     * @return mixed
+     */
+    public function setBaseUrlToPortableData(&$data){
+        $model = $this->getPortableModelRegistry()->getModel($data['model']);
+        $portableObject = $model->createDataObject($data);
+        $data['baseUrl'] = $model->getRegistry()->getBaseUrl($portableObject);
+        return $data;
     }
 }

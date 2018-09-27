@@ -18,40 +18,50 @@
  */
 
 define([
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/order',
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'ui/liststyler'
-], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _, sizeAdapter){
-
+], function(_, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
     'use strict';
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
-    OrderInteractionStateQuestion.prototype.initForm = function(updateCardinality){
+    OrderInteractionStateQuestion.prototype.initForm = function initForm(){
 
-        var _widget = this.widget,
-            $form = _widget.$form,
-            interaction = _widget.element,
-            $choiceArea = _widget.$container.find('.choice-area');
+        var  callbacks;
+        var widget      = this.widget;
+        var $form       = this.widget.$form;
+        var interaction = this.widget.element;
+        var $choiceArea = this.widget.$container.find('.choice-area');
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
-            maxChoices : parseInt(interaction.attr('maxChoices')),
-            minChoices : parseInt(interaction.attr('minChoices')),
-            choicesCount : _.size(_widget.element.getChoices()),
             horizontal : interaction.attr('orientation') === 'horizontal'
         }));
 
+        //usual min/maxChoices control
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
+            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
+            upperThreshold : _.size(interaction.getChoices())
+        }).on('render', function(){
+            var self = this;
+            widget.on('choiceCreated choiceDeleted', function(data){
+                if(data.interaction.serial === interaction.serial){
+                    self.updateThresholds(1, _.size(interaction.getChoices()));
+                }
+            });
+        });
 
         formElement.initWidget($form);
 
         //data change callbacks with the usual min/maxChoices
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:updateCardinality});
+        callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', {updateCardinality:false});
 
         //data change for shuffle
         callbacks.shuffle = formElement.getAttributeChangeCallback();
@@ -68,32 +78,14 @@ define([
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
 
-        interactionFormElement.syncMaxChoices(_widget);
-
-        //modify the checkbox/radio input appearances
-        _widget.on('attributeChange', function(data){
-
-            var $checkboxIcons = _widget.$container.find('.real-label > span');
-
-            if(data.element.serial === interaction.serial && data.key === 'maxChoices'){
-                if(parseInt(data.value) === 1){
-                    //radio
-                    $checkboxIcons.removeClass('icon-checkbox').addClass('icon-radio');
-                }else{
-                    //checkbox
-                    $checkboxIcons.removeClass('icon-radio').addClass('icon-checkbox');
-                }
-            }
-        });
-
         //adapt size
-        if(_widget.element.attr('orientation') === 'horizontal') {
-            sizeAdapter.adaptSize(_widget);
+        if(interaction.attr('orientation') === 'horizontal') {
+            sizeAdapter.adaptSize(widget);
         }
 
-        _widget.on('choiceCreated', function(){
-            if(_widget.element.attr('orientation') === 'horizontal') {
-                sizeAdapter.adaptSize(_widget);
+        widget.on('choiceCreated', function(){
+            if(interaction.attr('orientation') === 'horizontal') {
+                sizeAdapter.adaptSize(widget);
             }
         });
     };

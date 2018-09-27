@@ -89,30 +89,30 @@ define([], function (){
                     'cardinality' : 'single'
                 },
                 'runtime' : {
-                    'hook' : 'samplePci/runtime/samplePci.amd.js',
+                    'hook' : 'samplePciDisabled/runtime/samplePci.amd.js',
                     'libraries' : [
                         'IMSGlobal/jquery_2_1_1',
-                        'samplePci/runtime/js/renderer.js'
+                        'samplePciDisabled/runtime/js/renderer.js'
                     ],
                     'stylesheets' : [
-                        'samplePci/runtime/css/base.css',
-                        'samplePci/runtime/css/samplePci.css'
+                        'samplePciDisabled/runtime/css/base.css',
+                        'samplePciDisabled/runtime/css/samplePci.css'
                     ],
                     'mediaFiles' : [
-                        'samplePci/runtime/assets/ThumbDown.png',
-                        'samplePci/runtime/assets/ThumbUp.png',
-                        'samplePci/runtime/css/img/bg.png'
+                        'samplePciDisabled/runtime/assets/ThumbDown.png',
+                        'samplePciDisabled/runtime/assets/ThumbUp.png',
+                        'samplePciDisabled/runtime/css/img/bg.png'
                     ]
                 },
                 'creator' : {
-                    'icon' : 'samplePci/creator/img/icon.svg',
-                    'hook' : 'samplePci/pciCreator.js',
+                    'icon' : 'samplePciDisabled/creator/img/icon.svg',
+                    'hook' : 'samplePciDisabled/pciCreator.js',
                     'libraries' : [
-                        'samplePci/creator/tpl/markup.tpl',
-                        'samplePci/creator/tpl/propertiesForm.tpl',
-                        'samplePci/creator/widget/Widget.js',
-                        'samplePci/creator/widget/states/Question.js',
-                        'samplePci/creator/widget/states/states.js'
+                        'samplePciDisabled/creator/tpl/markup.tpl',
+                        'samplePciDisabled/creator/tpl/propertiesForm.tpl',
+                        'samplePciDisabled/creator/widget/Widget.js',
+                        'samplePciDisabled/creator/widget/states/Question.js',
+                        'samplePciDisabled/creator/widget/states/states.js'
                     ]
                 },
                 'enabled' : false

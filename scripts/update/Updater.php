@@ -20,25 +20,19 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use League\Flysystem\Adapter\Local;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
-use oat\taoQtiItem\install\scripts\addValidationSettings;
-use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\Export\Extractor\MetaDataOntologyExtractor;
 use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
-use oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor;
-use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
-use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\SimpleExporter;
 use oat\taoQtiItem\model\ItemCategoriesService;
 use oat\taoQtiItem\model\ItemModel;
@@ -47,7 +41,6 @@ use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
-use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -57,10 +50,7 @@ use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
-use oat\taoTaskQueue\model\TaskLogInterface;
-use taoItems_actions_form_RestItemForm;
 use taoItems_models_classes_ItemsService;
-use taoTests_models_classes_TestsService;
 
 /**
  *
@@ -76,170 +66,10 @@ class Updater extends \common_ext_ExtensionUpdater
      */
     public function update($initialVersion){
 
-        $currentVersion = $initialVersion;
-
-        $this->setVersion($currentVersion);
-
-        $this->skip('2.6', '2.7.4');
-
-        if($currentVersion == '2.7.4'){
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-            $ext->setConfig('qtiCreator', array('multi-column' => false));
-            $currentVersion = '2.7.5';
+        if ($this->isBetween('0.0.0', '2.20.0')) {
+            throw new \common_exception_NotImplemented('Updates from versions prior to Tao 3.1 are not longer supported, please update to Tao 3.1 first');
         }
-
-        $this->skip('2.7.5', '2.7.8');
-
-		if($currentVersion == '2.7.8'){
-
-            $clientLibRegistry = ClientLibRegistry::getRegistry();
-            $clientLibRegistry->register('qtiCustomInteractionContext', '../../../taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
-            $clientLibRegistry->register('qtiInfoControlContext', '../../../taoQtiItem/views/js/runtime/qtiInfoControlContext');
-
-            $currentVersion = '2.7.9';
-        }
-
-        $this->skip('2.7.9', '2.8.1');
-
-        if ($currentVersion == '2.8.1') {
-            $qtiItem = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-            $qtiItem->setConfig('userScripts', array());
-            $currentVersion = '2.9.0';
-        }
-
-        $this->skip('2.9.0', '2.12.0');
-
-        if($this->isBetween('2.12.0','2.13.0')) {
-            $itemQtiExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-            $compilerClassConfig = 'oat\taoQtiItem\model\QtiItemCompiler';
-
-            $itemQtiExt->setConfig('compilerClass', $compilerClassConfig);
-            $this->setVersion('2.13.0');
-        }
-
-	    if($this->isVersion('2.13.0')) {
-
-            \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
-                'taoQtiItem/qtiRunner/core/QtiRunner',
-                array(
-                    'inlineModalFeedback' => false
-                )
-            );
-
-            $dir = \taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
-
-            // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
-            $adapter = $dir->getFileSystem()->getAdapter();
-            if (!$adapter instanceof Local) {
-                throw new \Exception(__CLASS__.' can only handle local files');
-            }
-            $itemUpdater = new ItemUpdateInlineFeedback($adapter->getPathPrefix());
-            $itemUpdater->update(true);
-
-            $this->setVersion('2.14.0');
-        }
-
-		$this->skip('2.14.0','2.15.1');
-
-        if($this->isVersion('2.15.1')){
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-            $validation = array(
-                'default' => array(
-                    __DIR__.'/../../model/qti/data/imscp_v1p1.xsd',
-                    __DIR__.'/../../model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
-                )
-            );
-            $ext->setConfig('manifestValidation', $validation);
-            $this->setVersion('2.16.0');
-        }
-
-        if($this->isVersion('2.16.0')){
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-            $validation = array(
-                'http://www.imsglobal.org/xsd/imsqti_v2p0' => array(
-                    __DIR__.'/../../model/qti/data/qtiv2p0/imsqti_v2p0.xsd'
-                ),
-                'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1' => array(
-                    __DIR__.'/../../model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
-                ),
-                'default' => array(
-                    __DIR__.'/../../model/qti/data/qtiv2p1/imsqti_v2p1.xsd',
-                )
-            );
-            $ext->setConfig('contentValidation', $validation);
-            $this->setVersion('2.17.0');
-        }
-
-		if($this->isVersion('2.17.0')){
-			$this->setVersion('2.17.1');
-		}
-
-        if($this->isVersion('2.17.1')){
-            $service = new addValidationSettings();
-            $service([]);
-            $this->setVersion('2.17.2');
-        }
-
-		$this->skip('2.17.2', '2.19.0');
-
-        if ($this->isVersion('2.19.0')) {
-
-            if (!$this->getServiceManager()->has(SimpleExporter::SERVICE_ID)) {
-                $service = new ItemExporter(array(
-                    'fileSystem' => 'taoQtiItem',
-                    'fileLocation' => 'export' . DIRECTORY_SEPARATOR . 'export.csv',
-                    'extractors' => array (
-                        'OntologyExtractor' => new OntologyExtractor(),
-                        'QtiExtractor' => new QtiExtractor()
-                    ),
-                    'columns' => array (
-                        'label' => array (
-                            'extractor' => 'OntologyExtractor',
-                            'parameters' => array (
-                                'property' => OntologyRdfs::RDFS_LABEL
-                            )
-                        ),
-                        'type' => array (
-                            'extractor' => 'QtiExtractor',
-                            'parameters' => array (
-                                'callback' => 'getInteractionType'
-                            )
-                        ),
-                        'nb choice' => array (
-                            'extractor' => 'QtiExtractor',
-                            'parameters' => array (
-                                'callback' => 'getNumberOfChoices'
-                            )
-                        ),
-                        'BR' => array (
-                            'extractor' => 'QtiExtractor',
-                            'parameters' => array (
-                                'callback' => 'getRightAnswer',
-                                'callbackParameters' => array(
-                                    'delimiter' => '|'
-                                )
-                            )
-                        ),
-                        'choiceInteraction' => array (
-                            'extractor' => 'QtiExtractor',
-                            'parameters' => array (
-                                'callback' => 'getChoices',
-                                'valuesAsColumns' => true,
-                            )
-                        ),
-                    )
-                ));
-                $service->setServiceManager($this->getServiceManager());
-                $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
-
-                $createExportDirectoryScript = new createExportDirectory();
-                $createExportDirectoryScript([]);
-            }
-
-            $this->setVersion('2.20.0');
-        }
-
-	$this->skip('2.20.0', '2.22.0');
+        $this->skip('2.20.0', '2.22.0');
 
         if ($this->isVersion('2.22.0')) {
             $simpleExporter = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
@@ -467,7 +297,8 @@ class Updater extends \common_ext_ExtensionUpdater
                     'excludedProperties' => array(
                         taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
                         taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
-                        taoItems_actions_form_RestItemForm::PROPERTY_ITEM_CONTENT_SRC,
+                        // constant was moved, and to not broke updater we placed value here
+                        'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentSourceName',
                         TaoOntology::PROPERTY_LOCK,
                     ),
                 )
@@ -506,20 +337,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('12.6.0');
         }
 
-        $this->skip('12.6.0', '12.7.4');
-
-        if ($this->isVersion('12.7.4')) {
-            /** @var TaskLogInterface|ConfigurableService $taskLogService */
-            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
-
-            $taskLogService->linkTaskToCategory(ImportQtiItem::class, TaskLogInterface::CATEGORY_IMPORT);
-
-            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
-
-            $this->setVersion('13.0.0');
-        }
-
-        $this->skip('13.0.0', '13.0.1');
+        $this->skip('12.6.0', '13.0.1');
 
         if($this->isVersion('13.0.1')){
 
@@ -543,7 +361,35 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'taoQtiItem', 'mod' => 'RestQtiItem')));
             $this->setVersion('13.4.0');
         }
-      
-        $this->skip('13.4.0', '13.4.2');
+
+        $this->skip('13.4.0', '15.2.2');
+
+        if ($this->isVersion('15.2.2')) {
+            /** @var TaskLogInterface|ConfigurableService $taskLogService */
+            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
+
+            $taskLogService->linkTaskToCategory(ImportQtiItem::class, TaskLogInterface::CATEGORY_IMPORT);
+
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+
+            $this->setVersion('15.3.0');
+        }
+
+        $this->skip('15.3.0', '15.6.1');
+
+        if($this->isVersion('15.6.1')){
+            $service = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $options = $service->getOptions();
+
+            // remove 'fileSystem' key
+            unset($options['fileSystem']);
+
+            $service->setOptions($options);
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
+
+            $this->setVersion('16.0.0');
+        }
+
+        $this->skip('16.0.0', '16.0.2');
     }
 }

@@ -65,8 +65,28 @@ define([
             width: this.element.attr('width'),
             height: this.element.attr('height')
         });
-        this.$original[0].setAttribute('width', '100%');
-        this.$original[0].setAttribute('height', '100%');
+        if (this.$original[0]) {
+
+            //previously it looked like
+            //this.$original[0].setAttribute('width', '100%');
+            //this.$original[0].setAttribute('height', '100%');
+            //it was changed to that state to fix the problem
+            //when we have images inside item look like 100% width,
+            //and no matter was it changed to lower value or not
+
+            var width = this.$original[0].getAttribute('width');
+            if (isNaN(width) && width.indexOf('%') === -1) {
+                width = '100%';
+            }
+
+            var height = this.$original[0].getAttribute('width');
+            if (isNaN(height) && height.indexOf('%') === -1) {
+                height = '100%';
+            }
+
+            this.$original[0].setAttribute('width', width);
+            this.$original[0].setAttribute('height', height);
+        }
 
         return this;
     };
