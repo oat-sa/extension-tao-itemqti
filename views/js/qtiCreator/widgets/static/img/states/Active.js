@@ -116,9 +116,7 @@ define([
         }
 
         if (
-            typeof imgQtiElement.attr('originalWidth') !== 'undefined'
-            && typeof imgQtiElement.attr('originalHeight') !== 'undefined'
-            && typeof imgQtiElement.attr('type') !== 'undefined'
+            typeof imgQtiElement.attr('type') !== 'undefined'
             && typeof imgQtiElement.attr('src') !== 'undefined'
             && typeof imgQtiElement.attr('width') !== 'undefined'
             && typeof imgQtiElement.attr('height') !== 'undefined'
@@ -127,28 +125,20 @@ define([
                 $node: $imgNode,
                 type: imgQtiElement.attr('type'),
                 src:  imgQtiElement.attr('src'),
-                originalWidth:  imgQtiElement.attr('originalWidth'),
-                originalHeight: imgQtiElement.attr('originalHeight'),
                 width:  imgQtiElement.attr('width'),
                 height: imgQtiElement.attr('height'),
                 responsive: imgQtiElement.data('responsive')
             });
         } else {
-            imageUtil.getSize($imgNode.attr('src'), function (size) {
-                mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
-                    imgQtiElement.attr('type', type);
-                    imgQtiElement.attr('originalWidth', size.width);
-                    imgQtiElement.attr('originalHeight', size.height);
-                    cb({
-                        $node: $imgNode,
-                        type: imgQtiElement.attr('type'),
-                        src:  imgQtiElement.attr('src'),
-                        originalWidth:  imgQtiElement.attr('originalWidth'),
-                        originalHeight: imgQtiElement.attr('originalHeight'),
-                        width:  imgQtiElement.attr('width'),
-                        height: imgQtiElement.attr('height'),
-                        responsive: imgQtiElement.data('responsive')
-                    });
+            mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
+                imgQtiElement.attr('type', type);
+                cb({
+                    $node: $imgNode,
+                    type: imgQtiElement.attr('type'),
+                    src:  imgQtiElement.attr('src'),
+                    width:  imgQtiElement.attr('width'),
+                    height: imgQtiElement.attr('height'),
+                    responsive: imgQtiElement.data('responsive')
                 });
             });
         }
@@ -259,7 +249,7 @@ define([
                             img.attr('alt', alt);
                             $alt.val(alt).trigger('change');
                         } else {
-                            confirmBox = $('.change-alt-modal-feedback');
+                            confirmBox = $('.change-alt-modal-feedback', $form);
                             cancel = confirmBox.find('.cancel');
                             save = confirmBox.find('.save');
 
