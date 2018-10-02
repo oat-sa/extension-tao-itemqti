@@ -122,7 +122,9 @@ define([
         }
 
         if (
-            typeof imgQtiElement.attr('type') !== 'undefined'
+            typeof imgQtiElement.attr('original-width') !== 'undefined'
+            && typeof imgQtiElement.attr('original-height') !== 'undefined'
+            && typeof imgQtiElement.attr('type') !== 'undefined'
             && typeof imgQtiElement.attr('src') !== 'undefined'
             && typeof imgQtiElement.attr('width') !== 'undefined'
             && typeof imgQtiElement.attr('height') !== 'undefined'
@@ -131,20 +133,28 @@ define([
                 $node: $imgNode,
                 type: imgQtiElement.attr('type'),
                 src:  imgQtiElement.attr('src'),
+                originalWidth:  imgQtiElement.attr('original-width'),
+                originalHeight: imgQtiElement.attr('original-height'),
                 width:  imgQtiElement.attr('width'),
                 height: imgQtiElement.attr('height'),
                 responsive: imgQtiElement.data('responsive')
             });
         } else {
-            mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
-                imgQtiElement.attr('type', type);
-                cb({
-                    $node: $imgNode,
-                    type: imgQtiElement.attr('type'),
-                    src:  imgQtiElement.attr('src'),
-                    width:  imgQtiElement.attr('width'),
-                    height: imgQtiElement.attr('height'),
-                    responsive: imgQtiElement.data('responsive')
+            imageUtil.getSize($imgNode.attr('src'), function (size) {
+                mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
+                    imgQtiElement.attr('type', type);
+                    imgQtiElement.attr('original-width', size.width);
+                    imgQtiElement.attr('original-height', size.height);
+                    cb({
+                        $node: $imgNode,
+                        type: imgQtiElement.attr('type'),
+                        src:  imgQtiElement.attr('src'),
+                        originalWidth:  imgQtiElement.attr('original-width'),
+                        originalHeight: imgQtiElement.attr('original-height'),
+                        width:  imgQtiElement.attr('width'),
+                        height: imgQtiElement.attr('height'),
+                        responsive: imgQtiElement.data('responsive')
+                    });
                 });
             });
         }
