@@ -11,11 +11,11 @@ $mainContainer : '.qti-item';
 @import "inc/mediaelementplayer";
 
 %selectableHover {
-    background: $itemHover !important;
+    background: $lightGrey !important;
     cursor: pointer !important;
 }
 %activeHover {
-    background: $itemHover !important;
+    background: $lightBlueGrey !important;
 }
 
 %dragged {

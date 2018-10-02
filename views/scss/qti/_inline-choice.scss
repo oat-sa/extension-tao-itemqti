@@ -11,7 +11,8 @@ select.qti-inlineChoiceInteraction {
 .qti-inlineChoiceInteraction .select2-chosen {
     margin-right: 30px;
 }
-.qti-inlineChoiceInteraction .select2-chosen, select.qti-inlineChoiceInteraction,
+.qti-inlineChoiceInteraction .select2-chosen,
+select.qti-inlineChoiceInteraction,
 .qti-inlineChoiceInteraction-dropdown .select2-result-label {
     font-family: $regularFont !important;
     font-weight: normal !important;
@@ -19,6 +20,5 @@ select.qti-inlineChoiceInteraction {
 
 // shadow like focused element
 .qti-inlineChoiceInteraction.select2-container-active {
-    box-shadow: 0 0 9px 3px $info !important;
-    transition: box-shadow 200ms ease-out;
+    @include focus-style;
 }
