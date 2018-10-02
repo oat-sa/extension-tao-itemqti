@@ -17,6 +17,12 @@ define([
 ], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil, mediaEditorComponent, mimeType){
     'use strict';
 
+    /**
+     * media Editor instance if has been initialized
+     * @type {null}
+     */
+    var mediaEditor = null;
+
     var ImgStateActive = stateFactory.extend(Active, function(){
         this.initForm();
     }, function(){
@@ -152,6 +158,10 @@ define([
             $mediaSpan = widget.$container,
             $img = widget.$original;
 
+        if (mediaEditor) {
+            mediaEditor.destroy();
+        }
+
         if ($src.val()) {
             _getMedia(img, $img, function (media) {
                 var options = {
@@ -160,7 +170,7 @@ define([
                     }
                 };
                 media.$container = $mediaSpan.parents('.widget-box');
-                mediaEditorComponent($mediaResizer, media, options)
+                mediaEditor = mediaEditorComponent($mediaResizer, media, options)
                     .on('change', function (nMedia) {
                         media = nMedia;
                         $img.prop('style', null); // not allowed by qti
