@@ -133,28 +133,20 @@ define([
                 $node: $imgNode,
                 type: imgQtiElement.attr('type'),
                 src:  imgQtiElement.attr('src'),
-                originalWidth:  imgQtiElement.attr('original-width'),
-                originalHeight: imgQtiElement.attr('original-height'),
                 width:  imgQtiElement.attr('width'),
                 height: imgQtiElement.attr('height'),
                 responsive: imgQtiElement.data('responsive')
             });
         } else {
-            imageUtil.getSize($imgNode.attr('src'), function (size) {
-                mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
-                    imgQtiElement.attr('type', type);
-                    imgQtiElement.attr('original-width', size.width);
-                    imgQtiElement.attr('original-height', size.height);
-                    cb({
-                        $node: $imgNode,
-                        type: imgQtiElement.attr('type'),
-                        src:  imgQtiElement.attr('src'),
-                        originalWidth:  imgQtiElement.attr('original-width'),
-                        originalHeight: imgQtiElement.attr('original-height'),
-                        width:  imgQtiElement.attr('width'),
-                        height: imgQtiElement.attr('height'),
-                        responsive: imgQtiElement.data('responsive')
-                    });
+            mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
+                imgQtiElement.attr('type', type);
+                cb({
+                    $node: $imgNode,
+                    type: imgQtiElement.attr('type'),
+                    src:  imgQtiElement.attr('src'),
+                    width:  imgQtiElement.attr('width'),
+                    height: imgQtiElement.attr('height'),
+                    responsive: imgQtiElement.data('responsive')
                 });
             });
         }
