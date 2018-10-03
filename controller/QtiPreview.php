@@ -5,19 +5,19 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 namespace oat\taoQtiItem\controller;
 
@@ -52,7 +52,7 @@ use qtism\data\storage\StorageException;
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoQTI
- 
+
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class QtiPreview extends taoItems_actions_ItemPreview
@@ -82,9 +82,9 @@ class QtiPreview extends taoItems_actions_ItemPreview
      * @throws \RuntimeException If an error occurs while processing responses or transmitting results
      */
     protected function processResponses(core_kernel_classes_Resource $item){
-        
+
         $jsonPayload = taoQtiCommon_helpers_Utils::readJsonPayload();
-        
+
         try {
             $qtiXmlFileContent = QtiFile::getQtiFileContent($item);
             $qtiXmlDoc = new XmlDocument();
@@ -101,10 +101,10 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
         $variables = array();
         $filler = new taoQtiCommon_helpers_PciVariableFiller($qtiXmlDoc->getDocumentComponent());
-        
+
         // Convert client-side data as QtiSm Runtime Variables.
         foreach ($jsonPayload as $id => $response) {
-            
+
             try {
                 $var  = $filler->fill($id, $response);
                 // Do not take into account QTI Files at preview time.
@@ -177,7 +177,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
      * @see taoItems_actions_ItemPreview::getRenderedItem()
      */
     protected function getRenderedItem($item) {
-        
+
         //@todo make getRenderedItem language dependent
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang, true);
@@ -190,8 +190,8 @@ class QtiPreview extends taoItems_actions_ItemPreview
             $taoBaseUrl = $assetService->getJsBaseWww( 'tao' );
             $qtiBaseUrl = $assetService->getJsBaseWww( 'taoQtiItem' );
 
-            $taoLibUrl = $taoBaseUrl.'js/lib/';
-            $taoQtiItemLibUrl = $qtiBaseUrl.'js/runtime/';
+            $taoLibUrl = $taoBaseUrl.'js/';
+            $taoQtiItemLibUrl = $qtiBaseUrl.'js/';
 
             $xhtml = $qtiItem->toXHTML(array(
                 'contentVariableElements' => $contentVariableElements,
@@ -201,7 +201,9 @@ class QtiPreview extends taoItems_actions_ItemPreview
                 'path' => array(
                     'tao' => $taoLibUrl,
                     'taoQtiItem' => $taoQtiItemLibUrl
-                )
+                ),
+                'client_config_url' => $this->getClientConfigUrl()
+
             ));
         } else {
             \common_Logger::i('Try to preview an empty item', [$item->getUri()]);
@@ -213,11 +215,11 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
     protected function getRequestView() {
         $returnValue = 'candidate';
-        
+
         if ($this->hasRequestParameter('view')) {
             $returnValue = tao_helpers_Uri::decode($this->getRequestParameter('view'));
         }
-        
+
         return $returnValue;
     }
 
@@ -227,11 +229,11 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
         $currentView = $this->getRequestView();
         $rubricBlocks = $qtiItem->getRubricBlocks();
-        
+
         foreach($rubricBlocks as $rubricBlock) {
-            
+
             $view = $rubricBlock->attr('view');
-            
+
             if (!empty($view) && in_array($currentView, $view)) {
                 $returnValue[$rubricBlock->getSerial()] = $rubricBlock->toArray();
             }
@@ -239,19 +241,19 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
         return $returnValue;
     }
-    
+
     protected function getModalFeedbacks(Item $qtiItem){
-        
+
         $returnValue = array();
-        
+
         $feedbacks = $qtiItem->getModalFeedbacks();
         foreach($feedbacks as $feedback){
             $returnValue[$feedback->getSerial()] = $feedback->toArray();
         }
-        
+
         return $returnValue;
     }
-    
+
     public function getTemplateElements(Item $qtiItem){
 
         throw new common_Exception('qti template elments, to be implemented');
