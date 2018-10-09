@@ -19,7 +19,7 @@
 namespace oat\taoQtiItem\test\controller;
 
 use oat\taoQtiItem\model\ItemModel;
-use oat\tao\test\RestTestRunner;
+use oat\tao\test\integration\RestTestRunner;
 use oat\generis\model\OntologyAwareTrait;
 
 /**
