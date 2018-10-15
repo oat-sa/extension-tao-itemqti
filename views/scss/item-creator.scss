@@ -437,14 +437,9 @@ img.dragging.ui-draggable-dragging {
             padding-right: 28px;
         }
         .unit-indicator {
-            position: absolute;
-            right: 0px;
-            top: 0px;
-            display: block;
             width: 28px;
             line-height: 28px;
             height: 28px;
-            text-align: center;
             color: mix(#fff, $textColor, 50%);
             @include border-radius();
         }
