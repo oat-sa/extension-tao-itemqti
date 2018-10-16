@@ -778,6 +778,12 @@ img.dragging.ui-draggable-dragging {
         .widget-block, .widget-blockInteraction {
             border: 1px dashed #ddd;
         }
+        .widget-img {
+            img {
+                display: flex;
+                height: 100%;
+            }
+        }
     }
 
     .hoverable {
