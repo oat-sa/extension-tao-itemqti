@@ -29,25 +29,7 @@
     
     <hr/>
     
-<!--    <div class="panel">
-        <h3>{{__ 'Size and position'}}</h3>
-
-        <p class="img-resizer-slider"></p>
-
-        <label for="height">{{__ 'Height'}}</label>
-        <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-            <input type="text" name="height" value="{{height}}" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
-            <span class="unit-indicator">px</span>
-        </span>
-    </div>
-    <div class="panel">
-
-        <label for="width">{{__ 'Width'}}</label>
-        <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-            <input type="text" name="width" value="{{width}}" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
-            <span class="unit-indicator">px</span>
-        </span>
-    </div>
+<!--
     <div class="panel">
 
         <label for="align">{{__ "Alignment"}}</label>
