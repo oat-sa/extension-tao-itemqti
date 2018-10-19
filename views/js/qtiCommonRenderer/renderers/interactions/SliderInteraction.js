@@ -50,9 +50,9 @@ define([
         var attributes = interaction.getAttributes(),
             $container = interaction.getContainer(),
             $el = $('<div />').attr({'id' : attributes.responseIdentifier + '-qti-slider', 'class' : 'qti-slider'}), //slider element
-        $sliderLabels = $('<div />').attr({'class' : 'qti-slider-values'}),
-        $sliderCurrentValue = $('<div />').attr({'id' : attributes.responseIdentifier + '-qti-slider-cur-value', 'class' : 'qti-slider-cur-value'}), //show the current selected value
-        $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.responseIdentifier + '-qti-slider-value'}); //the input that always holds the slider value
+            $sliderLabels = $('<div />').attr({'class' : 'qti-slider-values'}),
+            $sliderCurrentValue = $('<div />').attr({'id' : attributes.responseIdentifier + '-qti-slider-cur-value', 'class' : 'qti-slider-cur-value'}), //show the current selected value
+            $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.responseIdentifier + '-qti-slider-value'}); //the input that always holds the slider value
 
         //getting the options
         var orientation = 'horizontal',
@@ -107,6 +107,33 @@ define([
             }
 
         }
+
+        //KeyNavigation listener
+        $container.on('keynav', function(e, key){
+            var valueChange, value;
+
+            if(key.action === "right" || key.action === "up"){
+                valueChange = 1;
+            } else if (key.action === "left" || key.action === "down"){
+                valueChange = -1;
+            }
+
+            if(valueChange){
+                value = parseInt($el.val())+(valueChange)*step;
+
+                if( (valueChange > 0 && value <= max) || (valueChange < 0 && value >= min) ) {
+                    $el.val(value); //set new value
+
+                    _slideTo({
+                        'value': value,
+                        'sliderValue': $sliderValue,
+                        'sliderCurrentValue': $sliderCurrentValue
+                    });
+
+                    containerHelper.triggerResponseChangeEvent(interaction);
+                }
+            }
+        });
 
         //create the slider
         $el.noUiSlider({
@@ -197,7 +224,7 @@ define([
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             min = parseInt(attributes.lowerBound),
             $sliderValue = $('#' + attributes.responseIdentifier + '-qti-slider-value');
-        
+
         if(baseType === 'integer'){
             value = parseInt($sliderValue.val());
         }else if(baseType === 'float'){
@@ -238,7 +265,7 @@ define([
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
-    var setState  = function setState(interaction, state){
+    var setState = function setState(interaction, state){
         if(_.isObject(state)){
             if(state.response){
                 interaction.resetResponse();
@@ -254,7 +281,6 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
         var state =  {};
         var response =  interaction.getResponse();
 

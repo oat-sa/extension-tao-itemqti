@@ -377,9 +377,7 @@ define([
                 }).addClass('empty');
             };
 
-
             // Point & click handlers
-
             interact($container.selector).on('tap', function(e) {
                 //if tts component is loaded and click-to-speak function is activated - we should prevent this listener to go further
                 if ($(e.currentTarget).closest('.qti-item').hasClass('prevent-click-handler')) {
@@ -430,6 +428,13 @@ define([
             if(!interaction.responseMappingMode){
                 _setInstructions(interaction);
             }
+
+            //KeyNavigation listener
+            $container.on('keynav', function(e, key){
+                if(key.action === "enter" || key.action === "space") {
+                    _handleChoiceActivate($container.find("[data-serial='" + key.cursor + "']"));
+                }
+            });
 
 
             // Drag & drop handlers
@@ -596,7 +601,7 @@ define([
 
         //destroy selected choice:
         $container.find('.result-area .active').each(function () {
-           interactUtils.tapOn(this);
+            interactUtils.tapOn(this);
         });
 
         $('.result-area>li>div', $container).each(function(){
@@ -763,7 +768,7 @@ define([
 
             state.order = [];
             $('.choice-area .qti-choice', $container).each(function(){
-               state.order.push($(this).data('identifier'));
+                state.order.push($(this).data('identifier'));
             });
         }
         return state;

@@ -69,11 +69,15 @@ define([
         $container.select2({
             width : 'element',
             placeholder : opts.placeholderText,
-            minimumResultsForSearch : -1,
-            dropdownCssClass  : 'qti-inlineChoiceInteraction-dropdown'
+            minimumResultsForSearch: -1,
+            dropdownCssClass : 'qti-inlineChoiceInteraction-dropdown'
         });
 
         var $el = $container.select2('container');
+
+        $el.on('focus', function(){
+            $el.siblings('select:enabled').select2('open');
+        });
 
         _setInstructions(interaction);
 
@@ -127,9 +131,6 @@ define([
 
     };
 
-    var resetResponse = function(interaction){
-        _setVal(interaction, _emptyValue);
-    };
 
     var _setVal = function(interaction, choiceIdentifier){
 
@@ -138,6 +139,9 @@ define([
             .select2('val', choiceIdentifier);
     };
 
+    var resetResponse = function(interaction){
+        _setVal(interaction, _emptyValue);
+    };
     /**
      * Set the response to the rendered interaction.
      *
@@ -152,7 +156,7 @@ define([
      */
     var setResponse = function(interaction, response){
 
-         _setVal(interaction, pciResponse.unserialize(response, interaction)[0]);
+        _setVal(interaction, pciResponse.unserialize(response, interaction)[0]);
     };
 
     var _getRawResponse = function(interaction){
@@ -176,7 +180,7 @@ define([
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
-     /**
+    /**
      * Clean interaction destroy
      * @param {Object} interaction
      */
@@ -218,7 +222,7 @@ define([
 
                 //just in case the dropdown is opened
                 $container.select2('disable')
-                          .select2('close');
+                    .select2('close');
 
                 $('option[data-identifier]', $container)
                     .sort(function(a, b){
@@ -261,7 +265,7 @@ define([
 
             state.order = [];
             $('option[data-identifier]', $container).each(function(){
-               state.order.push($(this).data('identifier'));
+                state.order.push($(this).data('identifier'));
             });
         }
         return state;

@@ -27,8 +27,6 @@ define([
 
     CreatorSliderInteraction.render = function(interaction, options){
 
-        SliderInteraction.render(interaction);
-
         SliderInteractionWidget.build(
             interaction,
             SliderInteraction.getContainer(interaction),

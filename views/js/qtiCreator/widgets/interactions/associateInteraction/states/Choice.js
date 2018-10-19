@@ -25,15 +25,15 @@ define([
     'use strict';
 
     var AssociateInteractionStateChoice = stateFactory.extend(Choice, function(){
-        
+
         var widget = this.widget;
-        
+
         widget.on('containerBodyChange contentChange choiceCreated', function(){
             sizeAdapter.adaptSize(widget);
         });
-        
+
     }, function(){
-        
+
     });
 
     return AssociateInteractionStateChoice;

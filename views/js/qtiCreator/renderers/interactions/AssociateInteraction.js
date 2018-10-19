@@ -27,8 +27,6 @@ define([
 
     CreatorAssociateInteraction.render = function(interaction, options){
 
-        AssociateInteraction.renderEmptyPairs(interaction);
-
         AssociateInteractionWidget.build(
             interaction,
             AssociateInteraction.getContainer(interaction),

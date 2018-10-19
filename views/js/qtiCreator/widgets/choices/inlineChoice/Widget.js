@@ -6,7 +6,7 @@ define([
     var InlineChoiceWidget = Widget.clone();
 
     InlineChoiceWidget.initCreator = function(){
-        
+
         Widget.initCreator.call(this);
 
         this.registerStates(states);

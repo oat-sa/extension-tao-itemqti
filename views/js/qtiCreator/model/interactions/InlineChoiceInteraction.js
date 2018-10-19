@@ -19,8 +19,6 @@ define([
         },
         afterCreate : function(){
             this.createChoice();
-            this.createChoice();
-            this.createChoice();
             this.createResponse({
                 baseType:'identifier',
                 cardinality:'single'
@@ -48,5 +46,4 @@ define([
     });
     return Interaction.extend(methods);
 });
-
 

@@ -287,8 +287,61 @@ define([
         });
 
 
-        // Common handlers
+        //KeyNavigation listener
+        $container.on('keynav', function(e, key){
+            var $focusedOption = $container.find("[data-serial='" + key.cursor + "']");
+            if($focusedOption) {
+                if (key.action === "enter" || key.action === "space") {
+                    if ($focusedOption.parent().is(".choice-area")) {
+                        _handleChoiceSelect($focusedOption);
+                    } else {
+                        var gap = $focusedOption.find(".gapmatch-content");
+                        if(gap.is(".active")){
+                            _unsetChoice(gap);
+                            _resetSelection();
+                            $focusedOption.focus();
+                        } else {
+                            _handleGapSelect(gap);
+                            $focusedOption.focus();
+                        }
+                    }
 
+                } else if (key.action === "down" && $focusedOption.parent().is(".choice-area")) {
+                    var $gapChoices = $focusedOption.parents(".qti-interaction").find(".qti-choice.qti-gap");
+                    var gaps;
+
+                    for(gaps=0; gaps<$gapChoices.length;gaps++){
+                        //find first gap not filled and focus
+                        if(!$($gapChoices[gaps]).find(".gapmatch-content").is(".filled")){
+                            $gapChoices[gaps].focus();
+                            break;
+                        }
+                        //if all gaps filled focus first one
+                        if(gaps === $gapChoices.length-1){
+                            $gapChoices[0].focus();
+                        }
+                    }
+
+                } else if (key.action === "up" && $focusedOption.parents(".qti-flow-container").length) {
+                    var $selectChoices = $focusedOption.parents(".qti-interaction").find(".choice-area > li");
+                    var selections;
+
+                    for(selections=0; selections<$selectChoices.length;selections++){
+                        //find first selection not deactivated, we focus
+                        if(!$($selectChoices[selections]).is(".deactivated")){
+                            $selectChoices[selections].focus();
+                            break;
+                        }
+                        //if all selections deactivated focus first one
+                        if(selections === $selectChoices.length-1){
+                            $selectChoices[0].focus();
+                        }
+                    }
+                }
+            }
+        });
+
+        // Common handlers
         function _handleChoiceSelect($target) {
             if (($activeChoice && $target.hasClass('active')) || $target.hasClass('deactivated')) {
                 return;

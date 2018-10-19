@@ -33,40 +33,40 @@ define([
             this.addChoice(choice);
             choice.buildIdentifier('hottext');
             choice.body(body);
-                
+
             if(this.getRenderer()){
                 choice.setRenderer(this.getRenderer());
             }
-            
+
             event.choiceCreated(choice, this);
 
             return choice;
         },
         removeChoice : function(hottext){
-        
+
             var serial = '', c;
-            
+
             if(typeof(hottext) === 'string'){
                 serial = hottext;
             }else if(Element.isA(hottext, 'hottext')){
                 serial = hottext.getSerial();
             }
-            
+
             c = this.getBody().getElement(serial);
             if(c){
                 //remove choice
                 this.getBody().removeElement(c);
-                
+
                 //update the response
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
-                
+
                 //trigger event
                 event.deleted(c, this);
             }
-            
+
             return this;
         }
     });
-    
+
     return Interaction.extend(methods);
 });

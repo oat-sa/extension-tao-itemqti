@@ -219,6 +219,36 @@ define([
         });
 
 
+        //KeyNavigation listener
+        $container.on('keynav', function(e, key){
+
+            var $focusedOption = $container.find("[data-serial='" + key.cursor + "']");
+            if($focusedOption) {
+                if (key.action === "enter" || key.action === "space") {
+                    if ($focusedOption.parent().is(".result-area")) {
+                        _toggleResultSelection($focusedOption);
+                    } else {
+                        _addChoiceToSelection($focusedOption);
+                        $focusedOption.focus();
+                    }
+
+                } else if (key.action === "left" || key.action === "right" || key.action === "down" || key.action === "up") {
+                    if ($focusedOption.parent().is(".result-area") && $activeChoice) {
+                        if(key.action === "left"){
+                            _removeChoice($focusedOption);
+                            $focusedOption.focus();
+                        } else if(key.action === "down"){
+                            _moveResultAfter($focusedOption);
+                            $activeChoice.focus();
+                        } else if(key.action === "up"){
+                            _moveResultBefore($focusedOption);
+                            $activeChoice.focus();
+                        }
+                    }
+                }
+            }
+        });
+
         // Drag & drop handlers
 
         if (this.getOption && this.getOption("enableDragAndDrop") && this.getOption("enableDragAndDrop").order) {

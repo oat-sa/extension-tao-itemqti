@@ -6,17 +6,18 @@ define([
     'lodash',
     'i18n'
 ], function(stateFactory, Correct, commonRenderer, instructionMgr, _, __){
+    "use strict";
 
     var SliderInteractionStateCorrect = stateFactory.create(Correct, function(){
-        
+
         _createResponseWidget(this.widget);
-        
+
     }, function(){
-        
+
         _destroyResponseWidget(this.widget);
-        
+
     });
-    
+
     var _createResponseWidget = function(widget){
 
         var interaction = widget.element;
@@ -24,7 +25,7 @@ define([
         var correctResponse = _.values(response.getCorrect());
 
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
-        
+
         var $sliderElt = widget.$container.find('.qti-slider');
         $sliderElt.removeAttr('disabled');
 
@@ -34,20 +35,20 @@ define([
             response.setCorrect(_unformatResponse(data.response));
         });
     };
-    
+
     var _destroyResponseWidget = function(widget){
-        
+
         var $sliderElt = widget.$container.find('.qti-slider');
         var lowerBound = widget.element.attributes.lowerBound;
-        
+
         $sliderElt.attr('disabled', 'disabled');
         $sliderElt.val(lowerBound);
         widget.$container.find('span.qti-slider-cur-value').text('' + lowerBound);
-        
+
         instructionMgr.removeInstructions(widget.element);
         widget.$container.off('responseChange.qti-widget');
     };
-    
+
     var _formatResponse = function(response){
         return {"base" : {"integer" : response}};
     };
@@ -55,6 +56,6 @@ define([
     var _unformatResponse = function(formatedResponse){
         return [formatedResponse.base.integer];
     };
-    
+
     return SliderInteractionStateCorrect;
 });
