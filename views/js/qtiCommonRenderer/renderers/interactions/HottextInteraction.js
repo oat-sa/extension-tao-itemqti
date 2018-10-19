@@ -61,6 +61,29 @@ define([
             e.preventDefault();
             setChoice($(this), interaction);
         });
+
+
+        //KeyNavigation listener
+        $container.on('keynav', function(e, key) {
+
+            //first-focus
+            if (key.action === "container-focus") {
+                //prepare buttons to be focusable and first-focus
+                $container.find(".qti-hottext").attr('tabindex', -1).first().focus();
+
+            //focus next
+            } else if (key.action === "right" || key.action === "down") {
+                $(':focus').next().focus();
+
+            //focus previous
+            } else if (key.action === "left" || key.action === "up") {
+                $(':focus').prev().focus();
+
+            //fill checkbox
+            } else if (key.action === "space" || key.action === "enter") {
+                $(':focus').click();
+            }
+        });
     };
 
     /**

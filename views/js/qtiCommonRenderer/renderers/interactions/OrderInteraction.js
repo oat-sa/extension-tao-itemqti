@@ -131,6 +131,7 @@ define([
             }
 
             _resetSelection();
+            return $activeChoice;
         };
 
         var _moveResultBefore = function _moveResultBefore() {
@@ -140,6 +141,7 @@ define([
                 $prev.before($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
             }
+            return $prev;
         };
 
         var _moveResultAfter = function _moveResultAfter() {
@@ -149,6 +151,7 @@ define([
                 $next.after($activeChoice);
                 containerHelper.triggerResponseChangeEvent(interaction);
             }
+            return $next;
         };
 
 
@@ -222,27 +225,51 @@ define([
         //KeyNavigation listener
         $container.on('keynav', function(e, key){
 
-            var $focusedOption = $container.find("[data-serial='" + key.cursor + "']");
-            if($focusedOption) {
-                if (key.action === "enter" || key.action === "space") {
-                    if ($focusedOption.parent().is(".result-area")) {
-                        _toggleResultSelection($focusedOption);
+            //first-focus
+            if(key.action === "container-focus"){
+                var $firstFocusChoice = $container.find(".choice-area").find(".qti-choice").first();
+                //prepare buttons to be focusable
+                $container.find(".choice-area").find(".qti-choice").attr('tabindex', -1);
+
+                if($firstFocusChoice.length){
+                    $firstFocusChoice.focus();
+                } else {
+                    $container.find(".result-area").find(".qti-choice").first().focus();
+                }
+            } else {
+                var $currentFocus = $(':focus');
+
+                if(key.action === "down"){
+                    if($activeChoice){
+                        _moveResultAfter($activeChoice).prevObject.focus();
                     } else {
-                        _addChoiceToSelection($focusedOption);
-                        $focusedOption.focus();
+                        $currentFocus.next().focus();
                     }
 
-                } else if (key.action === "left" || key.action === "right" || key.action === "down" || key.action === "up") {
-                    if ($focusedOption.parent().is(".result-area") && $activeChoice) {
-                        if(key.action === "left"){
-                            _removeChoice($focusedOption);
-                            $focusedOption.focus();
-                        } else if(key.action === "down"){
-                            _moveResultAfter($focusedOption);
-                            $activeChoice.focus();
-                        } else if(key.action === "up"){
-                            _moveResultBefore($focusedOption);
-                            $activeChoice.focus();
+                } else if(key.action === "up"){
+                    if($activeChoice){
+                        _moveResultBefore($activeChoice).prevObject.focus();
+                    } else {
+                        $currentFocus.prev().focus();
+                    }
+
+                } else if($currentFocus.parent(".choice-area").length){
+                    if(key.action === "enter" || key.action === "space") {
+                        _addChoiceToSelection($currentFocus);
+                        $currentFocus.focus();
+                    } else if(key.action === "right"){
+                        $container.find(".result-area").find(".qti-choice").first().focus();
+                    }
+
+                } else if($currentFocus.parent(".result-area").length){
+                    if(key.action === "enter" || key.action === "space") {
+                        _toggleResultSelection($currentFocus);
+                    } else if(key.action === "left"){
+                        if(!$activeChoice) {
+                            $container.find(".choice-area").find(".qti-choice").first().focus();
+                        } else {
+                            _removeChoice($currentFocus);
+                            $currentFocus.focus();
                         }
                     }
                 }
