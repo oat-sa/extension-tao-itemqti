@@ -18,6 +18,10 @@ select.qti-inlineChoiceInteraction,
     font-weight: normal !important;
 }
 
+.qti-inlineChoiceInteraction-dropdown .no-search {
+    display:none;
+}
+
 // shadow like focused element
 .qti-inlineChoiceInteraction.select2-container-active {
     @include focus-style;

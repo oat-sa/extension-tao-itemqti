@@ -80,11 +80,16 @@ $mainContainer : '.qti-item';
         overflow-x: visible !important;
     }
 
-    padding: 15px;
     background: white();
     margin:auto;
     max-width: 1024px;
 
+    //padding in editing mode
+    &.item-editor-item{
+        padding: 15px;
+    }
+
+    //padding in runtime
     &.runtime {
         min-height: 100%;
     }
@@ -229,6 +234,7 @@ $mainContainer : '.qti-item';
             // @include simple-border(whiten($uiClickableDefaultBg, .4));
             // original: above; new: below
             border: 6px solid  whiten($uiClickableDefaultBg, .2);
+            background: white;
         }
         .bordered {
             @include simple-border(#e0e0e0);
