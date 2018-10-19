@@ -9,19 +9,23 @@ define([
     'taoQtiItem/qtiItem/helper/util',
     'lodash',
     'util/image',
-    'ui/mediasizer',
+    'ui/mediaEditor/mediaEditorComponent',
+    'core/mimetype',
     'ui/resourcemgr',
     'nouislider',
     'ui/tooltip'
-], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
+], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil, mediaEditorComponent, mimeType){
     'use strict';
 
+    /**
+     * media Editor instance if has been initialized
+     * @type {null}
+     */
+    var mediaEditor = null;
+
     var ImgStateActive = stateFactory.extend(Active, function(){
-
         this.initForm();
-
     }, function(){
-
         this.widget.$form.empty();
     });
 
@@ -44,16 +48,12 @@ define([
             $img = _widget.$original,
             $form = _widget.$form,
             img = _widget.element,
-            baseUrl = _widget.options.baseUrl,
-            responsive = true;
+            baseUrl = _widget.options.baseUrl;
 
         $form.html(formTpl({
             baseUrl : baseUrl || '',
             src : img.attr('src'),
-            alt : img.attr('alt'),
-            height : img.attr('height'),
-            width : img.attr('width'),
-            responsive : responsive
+            alt : img.attr('alt')
         }));
 
         //init slider and set align value before ...
@@ -70,13 +70,20 @@ define([
             src : _.throttle(function(img, value){
 
                 img.attr('src', value);
+                if (!$img.hasClass('hidden')) {
+                    $img.addClass('hidden');
+                }
                 $img.attr('src', _widget.getAssetManager().resolve(value));
                 $img.trigger('contentChange.qti-widget').change();
 
                 inlineHelper.togglePlaceholder(_widget);
 
                 _initAdvanced(_widget);
-                _initMediaSizer(_widget);
+                if (img.attr('off-media-editor') === 1) {
+                    img.removeAttr('off-media-editor');
+                } else {
+                    _initMediaSizer(_widget);
+                }
             }, 1000),
             alt : function(img, value){
                 img.attr('alt', value);
@@ -104,65 +111,96 @@ define([
         widget.$form.find('select[name=align]').val(align);
     };
 
+    var _getMedia = function(imgQtiElement, $imgNode, cb) {
+        //init data-responsive:
+        if (typeof imgQtiElement.data('responsive') === 'undefined') {
+            if(imgQtiElement.attr('width') && !/[0-9]+%/.test(imgQtiElement.attr('width'))){
+                imgQtiElement.data('responsive', false);
+            }else{
+                imgQtiElement.data('responsive', true);
+            }
+        }
+
+        if (
+            typeof imgQtiElement.attr('original-width') !== 'undefined'
+            && typeof imgQtiElement.attr('original-height') !== 'undefined'
+            && typeof imgQtiElement.attr('type') !== 'undefined'
+            && typeof imgQtiElement.attr('src') !== 'undefined'
+            && typeof imgQtiElement.attr('width') !== 'undefined'
+            && typeof imgQtiElement.attr('height') !== 'undefined'
+        ) {
+            cb({
+                $node: $imgNode,
+                type: imgQtiElement.attr('type'),
+                src:  imgQtiElement.attr('src'),
+                width:  imgQtiElement.attr('width'),
+                height: imgQtiElement.attr('height'),
+                responsive: imgQtiElement.data('responsive')
+            });
+        } else {
+            mimeType.getResourceType($imgNode.attr('src'), function (err, type) {
+                imgQtiElement.attr('type', type);
+                cb({
+                    $node: $imgNode,
+                    type: imgQtiElement.attr('type'),
+                    src:  imgQtiElement.attr('src'),
+                    width:  imgQtiElement.attr('width'),
+                    height: imgQtiElement.attr('height'),
+                    responsive: imgQtiElement.data('responsive')
+                });
+            });
+        }
+    };
 
     var _initMediaSizer = function(widget){
 
         var img = widget.element,
             $src = widget.$form.find('input[name=src]'),
             $mediaResizer = widget.$form.find('.img-resizer'),
-            $mediaSpan = widget.$container;
+            $mediaSpan = widget.$container,
+            $img = widget.$original;
 
-        if($src.val()){
-
-            //init data-responsive:
-            if(img.data('responsive') === undefined){
-                if(img.attr('width') && !/[0-9]+%/.test(img.attr('width'))){
-                    img.data('responsive', false);
-                }else{
-                    img.data('responsive', true);
-                }
-            }
-
-            //hack to fix the initial width issue:
-            if(img.data('responsive')){
-                $mediaSpan.css('width', img.attr('width'))
-                $mediaSpan.css('height', '')
-            }
-
-            //init media sizer
-            $mediaResizer.mediasizer({
-                responsive : (img.data('responsive') !== undefined) ? !!img.data('responsive') : true,
-                target : widget.$original,
-                applyToMedium : false
-            });
-
-            //bind modification events
-            $mediaResizer
-                .off('.mediasizer')
-                .on('responsiveswitch.mediasizer', function(e, responsive){
-
-                    img.data('responsive', responsive);
-
-                })
-                .on('sizechange.mediasizer', function(e, size){
-
-                
-                _(['width', 'height']).each(function(sizeAttr){
-                    if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
-                        img.removeAttr(sizeAttr);
-                        $mediaSpan.css(sizeAttr, '')
-                    }else{
-                        img.attr(sizeAttr, size[sizeAttr]);
-                        $mediaSpan.css(sizeAttr, size[sizeAttr])
-                    }
-
-                    //trigger choice container size adaptation
-                    widget.$container.trigger('contentChange.qti-widget');
-                });
-
-            });
+        if (mediaEditor) {
+            mediaEditor.destroy();
         }
 
+        if ($src.val()) {
+            _getMedia(img, $img, function (media) {
+                var options = {
+                    mediaDimension: {
+                        active: true
+                    }
+                };
+                media.$container = $mediaSpan.parents('.widget-box');
+                mediaEditor = mediaEditorComponent($mediaResizer, media, options)
+                    .on('change', function (nMedia) {
+                        media = nMedia;
+                        $img.prop('style', null); // not allowed by qti
+                        $img.removeAttr('style');
+                        img.data('responsive', media.responsive);
+                        _(['width', 'height']).each(function(sizeAttr){
+                            var val;
+                            if (media[sizeAttr] === '' || typeof media[sizeAttr] === 'undefined' || media[sizeAttr] === null){
+                                img.removeAttr(sizeAttr);
+                                $mediaSpan.css(sizeAttr, '');
+                            } else {
+                                val = Math.round(media[sizeAttr]);
+                                if (media.responsive) {
+                                    val += '%';
+                                    img.attr(sizeAttr, val);
+                                    $img.attr(sizeAttr, '100%');
+                                } else {
+                                    img.attr(sizeAttr, val);
+                                }
+                                $mediaSpan.css(sizeAttr, val);
+                            }
+                            //trigger choice container size adaptation
+                            widget.$container.trigger('contentChange.qti-widget');
+                        });
+                        $img.removeClass('hidden');
+                    });
+            });
+        }
     };
 
     var _initAdvanced = function(widget){
@@ -183,7 +221,6 @@ define([
         var $form = widget.$form,
             options = widget.options,
             img = widget.element,
-            $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
             $alt = $form.find('input[name=alt]');
@@ -211,76 +248,54 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
-                    
                     var file, alt;
-                    
+                    var confirmBox, cancel, save;
                     if(files && files.length){
-                        
                         file = files[0].file;
                         alt = files[0].alt;
                         $src.val(file);
-
-                        imageUtil.getSize(options.baseUrl + file, function(size){
-
-                            if(size && size.width >= 0){
-                                
-                                var w = parseInt(size.width, 10),
-                                    maxW = $container.parents().innerWidth();
-                                    
-                                //always set the image size in % of the container size with a seurity margin of 5%
-                                if(w >= maxW * 0.95){
-                                    img.attr('width', '100%');
-                                }else{
-                                    w = parseInt(100*w/maxW);
-                                    img.attr('width', w+'%');
-                                }
-                                img.removeAttr('height');
+                        if($.trim($alt.val()) === ''){
+                            if(alt === ''){
+                                alt = _extractLabel(file);
                             }
+                            img.attr('alt', alt);
+                            $alt.val(alt).trigger('change');
+                        } else {
+                            confirmBox = $('.change-alt-modal-feedback', $form);
+                            cancel = confirmBox.find('.cancel');
+                            save = confirmBox.find('.save');
 
-                            if($.trim($alt.val()) === ''){
-                                if(alt === ''){
-                                    alt = _extractLabel(file);
-                                }
-                                img.attr('alt', alt);
-                                $alt.val(alt).trigger('change');
-                            }
-                            else{
-                                var confirmBox = $('.change-alt-modal-feedback'),
-                                    cancel = confirmBox.find('.cancel'),
-                                    save = confirmBox.find('.save'),
-                                    close = confirmBox.find('.modal-close');
+                            $('.alt-text',confirmBox).html('"' + $alt.val() + '"<br>with<br>"' + alt+'" ?');
 
-                                $('.alt-text',confirmBox).html('"' + $alt.val() + '"<br>with<br>"' + alt+'" ?');
+                            confirmBox.modal({ width: 500 });
 
-                                confirmBox.modal({ width: 500 });
+                            save.off('click')
+                                .on('click', function () {
+                                    img.attr('alt', alt);
+                                    $alt.val(alt).trigger('change');
+                                    confirmBox.modal('close');
+                                });
 
-                                save.off('click')
-                                    .on('click', function () {
-                                        img.attr('alt', alt);
-                                        $alt.val(alt).trigger('change');
-                                        confirmBox.modal('close');
-                                    });
+                            cancel.off('click')
+                                .on('click', function () {
+                                    confirmBox.modal('close');
+                                });
+                        }
 
-                                cancel.off('click')
-                                    .on('click', function () {
-                                        confirmBox.modal('close');
-                                    });
-                            }
-
-                            _.defer(function(){
-                                $src.trigger('change');
-                            });
+                        _.defer(function(){
+                            img.attr('off-media-editor', 1);
+                            $src.trigger('change');
                         });
                     }
                 },
                 open : function(){
-                    //hide tooltip if displayed
+                    // hide tooltip if displayed
                     if($src.data('qtip')){
                         $src.blur().qtip('hide');
                     }
                 },
                 close : function(){
-                    //triggers validation : 
+                    // triggers validation:
                     $src.blur();
                 }
             });

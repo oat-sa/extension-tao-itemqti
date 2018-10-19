@@ -86,6 +86,7 @@ abstract class PortableElementPackageParser implements PortableElementParser
      * @param string $source Zip path
      * @return string Tmp directory to find extracted zip
      * @throws PortableElementExtractException
+     * @throws common_Exception
      */
     public function extract($source)
     {
@@ -95,6 +96,9 @@ abstract class PortableElementPackageParser implements PortableElementParser
         $folder = \tao_helpers_File::createTempDir();
         $zip = new ZipArchive();
         if ($zip->open($source) === true) {
+            if (\tao_helpers_File::checkWhetherArchiveIsBomb($zip)) {
+                throw new PortableElementExtractException(sprintf('Source %s seems to be a ZIP bomb', $source));
+            }
             if($zip->extractTo($folder)){
                 $tmpDirectory = $folder;
             }
