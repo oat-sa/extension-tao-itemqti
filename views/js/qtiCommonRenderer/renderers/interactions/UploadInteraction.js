@@ -232,7 +232,10 @@ define([
         var $container = containerHelper.get(interaction);
 
         $container.on('keynav', function (e, key) {
-            if(key.action === "enter" || key.action === "space"){
+
+            if(key.action === "container-focus"){
+                $(this).find(".btn-info").attr('tabindex', -1).first().focus();
+            } else if(key.action === "enter" || key.action === "space"){
                 $container.find("input").click();
             }
         });

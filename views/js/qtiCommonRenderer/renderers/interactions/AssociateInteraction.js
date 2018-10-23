@@ -432,7 +432,7 @@ define([
             //KeyNavigation listener
             $container.on('keynav', function(e, key){
                 if(key.action === "container-focus"){
-                    //find all checkboxes, make them focusable, and focus-first
+                    //find all choices and targets, make them focusable, and focus-first
                     $container.find('.qti-choice,div.target').attr('tabindex', -1).first().focus();
                 } else {
                     var $currentFocus = $(':focus');
@@ -484,7 +484,6 @@ define([
 
 
             // Drag & drop handlers
-
             if (self.getOption && self.getOption("enableDragAndDrop") && self.getOption("enableDragAndDrop").associate) {
                 isDragAndDropEnabled = self.getOption("enableDragAndDrop").associate;
             }

@@ -76,7 +76,7 @@ define([
             var $currentFocus;
 
             if(key.action === "container-focus"){
-                $currentFocus = $(this).find(".qti-choice").attr('tabindex', -1).first().focus();
+                $(this).find(".qti-choice").attr('tabindex', -1).first().focus();
             } else {
                 $currentFocus = $(':focus');
 
