@@ -431,8 +431,54 @@ define([
 
             //KeyNavigation listener
             $container.on('keynav', function(e, key){
-                if(key.action === "enter" || key.action === "space") {
-                    _handleChoiceActivate($container.find("[data-serial='" + key.cursor + "']"));
+                if(key.action === "container-focus"){
+                    //find all checkboxes, make them focusable, and focus-first
+                    $container.find('.qti-choice,div.target').attr('tabindex', -1).first().focus();
+                } else {
+                    var $currentFocus = $(':focus');
+
+                    if($currentFocus.parents(".choice-area").length){
+                        if(key.action === "enter" || key.action === "space") {
+                            _handleChoiceActivate($currentFocus);
+                        } else if(key.action === "right"){
+                            $currentFocus.next().focus();
+                        } else if(key.action === "left"){
+                            $currentFocus.prev().focus();
+                        } else if(key.action === "down"){
+                            $container.find(".result-area").find("div.target").first().focus();
+
+                        }
+                    } else if($currentFocus.parents(".result-area").length){
+                        if(key.action === "up"){
+                            if($currentFocus.closest("li").index() > 0){
+                                $currentFocus.closest("li").prev().find(".target").eq($currentFocus.index()).focus();
+                            } else {
+                                $container.find(".qti-choice").first().focus();
+                            }
+                        } else if(key.action === "left"){
+                            $currentFocus.prev().focus();
+                        } else if(key.action === "right"){
+                            $currentFocus.next().focus();
+                        } else if(key.action === "enter" || key.action === "space") {
+                            //double check if focusable
+                            $container.find('div.target').attr('tabindex', -1);
+                            if($activeChoice) {
+                                _setChoice($activeChoice, $currentFocus);
+                            } else {
+                                var $focusNext = $currentFocus.closest("li").next();
+                                if($focusNext){
+                                    $focusNext.find(".target").eq($currentFocus.index()).focus();
+                                } else {
+                                    $currentFocus.closest("li").prev().find(".target").eq($currentFocus.index()).focus();
+                                }
+                                _unsetChoice($currentFocus);
+                            }
+                        } else if(key.action === "down"){
+                            //double check if focusable
+                            $container.find('div.target').attr('tabindex', -1);
+                            $currentFocus.closest("li").next().find(".target").eq($currentFocus.index()).focus();
+                        }
+                    }
                 }
             });
 

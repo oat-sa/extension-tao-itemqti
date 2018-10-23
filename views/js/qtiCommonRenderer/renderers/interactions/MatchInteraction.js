@@ -62,21 +62,24 @@ define([
                 //find all checkboxes, make them focusable, and focus-first
                 $container.find('input[type=checkbox]').attr('tabindex', -1).first().focus();
             } else {
+                var number;
                 var $currentFocus = $(':focus');
+
                 if(key.action === "enter" || key.action === "space") {
                     $currentFocus.click();
-                    console.log($currentFocus.closest("td").next().find("input"));
+
                 //columns
                 } else if (key.action === "right") {
                     $currentFocus.closest("td").next().find("input").focus();
                 } else if (key.action === "left") {
                     $currentFocus.closest("td").prev().find("input").focus();
+
                 //rows
                 } else if (key.action === "up") {
-                    var number = $currentFocus.closest("td").index() -1;
+                    number = $currentFocus.closest("td").index() -1;
                     $currentFocus.closest("tr").prev().find("td").eq(number).find("input").focus();
                 } else if (key.action === "down") {
-                    var number = $currentFocus.closest("td").index() -1;
+                    number = $currentFocus.closest("td").index() -1;
                     $currentFocus.closest("tr").next().find("td").eq(number).find("input").focus();
                 }
             }
