@@ -28,9 +28,9 @@ define([
     'core/promise'
 ], function (_, $, context, pci, containerHelper, previewOkBtn, deliveryOkBtn, iframeNotifier, Promise){
     'use strict';
-    
+
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
-    
+
     /**
      * Main function for the module. It loads and render the feedbacks accodring to the given itemSession variables
      *
@@ -88,7 +88,7 @@ define([
                 }else{
                     messages[_currentMessageGroupId].push(message);
                 }
-                
+
                 //ok, display feedback
                 renderingQueue.push({
                     feedback : feedback,
@@ -102,10 +102,10 @@ define([
         if(renderingQueue.length){
 
             renderingQueue = _.sortBy(renderingQueue, 'order');
-            
+
             //clear previously displayed feedbacks
             clearModalFeedbacks($itemContainer);
-            
+
             //process rendering queue
             _.each(renderingQueue, function (renderingToken){
                 renderModalFeedback(renderingToken.feedback, loader, renderer, renderingToken.$container, $itemContainer, function (renderingData){
@@ -261,16 +261,16 @@ define([
 
         return interactionsDisplayInfo;
     }
-    
+
     /**
      * Remove previously displayed feedbacks contained in the given container element
-     * 
+     *
      * @param {JQuery} $itemContainer
      */
     function clearModalFeedbacks($itemContainer){
         $itemContainer.find('.qti-modalFeedback').remove();
     }
-    
+
     /**
      * Render a modal feedback into a given container, scoped within an item container
      *
@@ -300,7 +300,7 @@ define([
                 });
             };
             $container.append($modalFeedback);
-            
+
             // Race between postRendering and timeout
             // postRendering waits for everything to be resolved or one reject
             Promise.race([
@@ -312,12 +312,12 @@ define([
                     _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
                 })
             ])
-            .then(done)
-            .catch(function(err){
+                .then(done)
+                .catch(function(err){
                 //in case of postRendering issue, we are also done
-                done();
-                throw new Error('Error in post rendering : ' + err);
-            });
+                    done();
+                    throw new Error('Error in post rendering : ' + err);
+                });
 
         }, loader.getLoadedClasses());
     }

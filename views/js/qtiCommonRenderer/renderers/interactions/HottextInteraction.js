@@ -211,7 +211,6 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
         var state =  {};
         var response =  interaction.getResponse();
 

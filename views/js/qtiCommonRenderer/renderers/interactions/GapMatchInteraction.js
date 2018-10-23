@@ -286,56 +286,53 @@ define([
             e.preventDefault();
         });
 
-
         //KeyNavigation listener
         $container.on('keynav', function(e, key){
-            var $focusedOption = $container.find("[data-serial='" + key.cursor + "']");
-            if($focusedOption) {
-                if (key.action === "enter" || key.action === "space") {
-                    if ($focusedOption.parent().is(".choice-area")) {
-                        _handleChoiceSelect($focusedOption);
-                    } else {
-                        var gap = $focusedOption.find(".gapmatch-content");
-                        if(gap.is(".active")){
-                            _unsetChoice(gap);
+
+            function focusGap() {
+                var $emptyGap = $container.find('.gapmatch-content:not(.filled)');
+                if($emptyGap.length){
+                    $emptyGap.first().focus();
+                } else {
+                    $container.find('.gapmatch-content').first().focus();
+                }
+            }
+
+            if(key.action === "container-focus"){
+                //find all buttons, make them focusable, and focus-first
+                $container.find(".choice-area").find(".qti-choice").attr('tabindex', -1).first().focus();
+                //also for Gaps
+                $container.find('.gapmatch-content').attr('tabindex', -1);
+            } else {
+                var $currentFocus = $(':focus');
+
+                if($currentFocus.parent(".choice-area").length){
+                    if(key.action === "enter" || key.action === "space") {
+                        _handleChoiceSelect($currentFocus);
+                        focusGap();
+                    } else if(key.action === "right"){
+                        $currentFocus.next().focus();
+                    } else if(key.action === "left"){
+                        $currentFocus.prev().focus();
+                    } else if(key.action === "down"){
+                        focusGap();
+                    }
+                } else if($currentFocus.parents(".qti-block").length){
+                    if(key.action === "enter" || key.action === "space") {
+                        if($currentFocus.is(".active")){
+                            _unsetChoice($currentFocus);
                             _resetSelection();
-                            $focusedOption.focus();
+                            $currentFocus.focus();
                         } else {
-                            _handleGapSelect(gap);
-                            $focusedOption.focus();
+                            _handleGapSelect($currentFocus);
+                            $currentFocus.focus();
                         }
-                    }
-
-                } else if (key.action === "down" && $focusedOption.parent().is(".choice-area")) {
-                    var $gapChoices = $focusedOption.parents(".qti-interaction").find(".qti-choice.qti-gap");
-                    var gaps;
-
-                    for(gaps=0; gaps<$gapChoices.length;gaps++){
-                        //find first gap not filled and focus
-                        if(!$($gapChoices[gaps]).find(".gapmatch-content").is(".filled")){
-                            $gapChoices[gaps].focus();
-                            break;
-                        }
-                        //if all gaps filled focus first one
-                        if(gaps === $gapChoices.length-1){
-                            $gapChoices[0].focus();
-                        }
-                    }
-
-                } else if (key.action === "up" && $focusedOption.parents(".qti-flow-container").length) {
-                    var $selectChoices = $focusedOption.parents(".qti-interaction").find(".choice-area > li");
-                    var selections;
-
-                    for(selections=0; selections<$selectChoices.length;selections++){
-                        //find first selection not deactivated, we focus
-                        if(!$($selectChoices[selections]).is(".deactivated")){
-                            $selectChoices[selections].focus();
-                            break;
-                        }
-                        //if all selections deactivated focus first one
-                        if(selections === $selectChoices.length-1){
-                            $selectChoices[0].focus();
-                        }
+                    } else if(key.action === "right"){
+                        $currentFocus.parent().next().find('.gapmatch-content').focus();
+                    } else if(key.action === "left"){
+                        $currentFocus.parent().prev().find('.gapmatch-content').focus();
+                    } else if(key.action === "up"){
+                        $container.find(".choice-area").find(".qti-choice").first().focus();
                     }
                 }
             }
@@ -565,7 +562,7 @@ define([
 
             state.order = [];
             $('.choice-area .qti-choice', $container).each(function(){
-               state.order.push($(this).data('identifier'));
+                state.order.push($(this).data('identifier'));
             });
         }
         return state;

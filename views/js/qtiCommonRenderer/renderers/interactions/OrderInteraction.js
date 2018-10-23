@@ -227,9 +227,8 @@ define([
 
             //first-focus
             if(key.action === "container-focus"){
-                var $firstFocusChoice = $container.find(".choice-area").find(".qti-choice").first();
-                //prepare buttons to be focusable
-                $container.find(".choice-area").find(".qti-choice").attr('tabindex', -1);
+                //find all buttons, make them focusable, and focus-first
+                var $firstFocusChoice = $container.find(".choice-area").find(".qti-choice").attr('tabindex', -1).first();
 
                 if($firstFocusChoice.length){
                     $firstFocusChoice.focus();

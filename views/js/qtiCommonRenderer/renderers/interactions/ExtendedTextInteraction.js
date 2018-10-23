@@ -66,6 +66,12 @@ define([
                 'forceCustomDomain' : true
             };
 
+            $container.on('keynav', function (e, key) {
+                if(key.action === "container-focus"){
+                    $container.find("textarea").attr('tabindex', -1).first().focus();
+                }
+            });
+
             if(!multiple){
 
                 $el = $container.find('textarea');

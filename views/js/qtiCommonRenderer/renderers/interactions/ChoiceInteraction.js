@@ -33,13 +33,6 @@ define([
 ], function (_, $, __, tpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
     'use strict';
 
-    var KEY_CODE_SPACE = 32;
-    var KEY_CODE_ENTER = 13;
-    var KEY_CODE_LEFT  = 37;
-    var KEY_CODE_UP    = 38;
-    var KEY_CODE_RIGHT = 39;
-    var KEY_CODE_DOWN  = 40;
-
     /**
      * Propagate the checked state to the actual input.
      * @type {Function}
@@ -76,29 +69,30 @@ define([
      * @param {jQueryElement} $container
      */
     var _pseudoLabel = function _pseudoLabel(interaction, $container){
-        var inputSelector = '.qti-choice input:radio:not([disabled]):not(.disabled), .qti-choice input:checkbox:not([disabled]):not(.disabled)';
         $container.off('.commonRenderer');
 
-        $container.on('keydown.commonRenderer.keyNavigation', inputSelector, function(e){
-            var $qtiChoice = $(this).closest('.qti-choice');
-            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+        $container.on('keynav', function(e, key){
+            var maxChoices = interaction.attr('maxChoices');
+            var $currentFocus;
 
-            if (keyCode === KEY_CODE_UP || keyCode === KEY_CODE_LEFT){
-                e.preventDefault();
-                e.stopPropagation();
-                $qtiChoice.prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
-            } else if (keyCode === KEY_CODE_DOWN || keyCode === KEY_CODE_RIGHT){
-                e.preventDefault();
-                e.stopPropagation();
-                $qtiChoice.next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled').focus();
-            }
-        }).on('keyup.commonRenderer.keyNavigation', inputSelector, function(e){
-            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+            if(key.action === "container-focus"){
+                $currentFocus = $(this).find(".qti-choice").attr('tabindex', -1).first().focus();
+            } else {
+                $currentFocus = $(':focus');
 
-            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
-                e.preventDefault();
-                e.stopPropagation();
-                _triggerInput($(this).closest('.qti-choice'));
+                if (key.action === "up" || key.action === "left"){
+                    $currentFocus = $currentFocus.prev().focus();
+                    if(maxChoices === 1) {
+                        _triggerInput($currentFocus, true);
+                    }
+                } else if (key.action === "down" || key.action === "right"){
+                    $currentFocus = $currentFocus.next().focus();
+                    if(maxChoices === 1) {
+                        _triggerInput($currentFocus, true);
+                    }
+                } else if (key.action === "enter" || key.action === "space"){
+                    _triggerInput($currentFocus);
+                }
             }
         });
 

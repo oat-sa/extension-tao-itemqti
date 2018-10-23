@@ -230,6 +230,13 @@ define([
     var render = function render(interaction) {
         var changeListener, self = this, $input;
         var $container = containerHelper.get(interaction);
+
+        $container.on('keynav', function (e, key) {
+            if(key.action === "enter" || key.action === "space"){
+                $container.find("input").click();
+            }
+        });
+
         _resetGui(interaction);
 
         instructionMgr.appendInstruction(interaction, _initialInstructions);

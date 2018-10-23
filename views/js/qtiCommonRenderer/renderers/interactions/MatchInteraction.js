@@ -57,6 +57,29 @@ define([
 
         $container.on('click.commonRenderer', 'input[type=checkbox]', function(e){
             _onCheckboxSelected(interaction, e);
+        }).on('keynav', function(e, key){
+            if(key.action === "container-focus"){
+                //find all checkboxes, make them focusable, and focus-first
+                $container.find('input[type=checkbox]').attr('tabindex', -1).first().focus();
+            } else {
+                var $currentFocus = $(':focus');
+                if(key.action === "enter" || key.action === "space") {
+                    $currentFocus.click();
+                    console.log($currentFocus.closest("td").next().find("input"));
+                //columns
+                } else if (key.action === "right") {
+                    $currentFocus.closest("td").next().find("input").focus();
+                } else if (key.action === "left") {
+                    $currentFocus.closest("td").prev().find("input").focus();
+                //rows
+                } else if (key.action === "up") {
+                    var number = $currentFocus.closest("td").index() -1;
+                    $currentFocus.closest("tr").prev().find("td").eq(number).find("input").focus();
+                } else if (key.action === "down") {
+                    var number = $currentFocus.closest("td").index() -1;
+                    $currentFocus.closest("tr").next().find("td").eq(number).find("input").focus();
+                }
+            }
         });
 
         instructionMgr.validateInstructions(interaction);
@@ -181,14 +204,14 @@ define([
 
         if(_.size(currentResponse) > maxAssociations){
             // No more associations possible.
-            e.preventDefault();
+            if(e) e.preventDefault();
             instructionMgr.validateInstructions(interaction);
 
         }else if((choice = _maxMatchReached(interaction, e.target)) !== false){
 
             // Check if matchmax is respected for both choices
             // involved in the selection.
-            e.preventDefault();
+            if(e) e.preventDefault();
             instructionMgr.validateInstructions(interaction, choice);
 
         }else{
@@ -501,10 +524,10 @@ define([
 
             state.order = [[], []];
             $('thead .qti-choice', $container).each(function(){
-               state.order[0].push($(this).data('identifier'));
+                state.order[0].push($(this).data('identifier'));
             });
             $('tbody .qti-choice', $container).each(function(){
-               state.order[1].push($(this).data('identifier'));
+                state.order[1].push($(this).data('identifier'));
             });
         }
         return state;
