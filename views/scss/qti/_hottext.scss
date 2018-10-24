@@ -42,5 +42,8 @@
                 color : $error;
             }
         }
+        &:focus {
+            @include focus-style;
+        }
     }
 }

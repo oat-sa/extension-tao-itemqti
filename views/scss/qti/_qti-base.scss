@@ -218,9 +218,6 @@ $mainContainer : '.qti-item';
     }
 
     .qti-interaction {
-        &:focus {
-            outline-color: $colorWheel-05;
-        }
         .text-container{
             min-height: 50px;
 

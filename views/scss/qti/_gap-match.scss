@@ -39,6 +39,9 @@
         .qti-block {
             display: inline-block;
         }
+        &:focus {
+            @include focus-style;
+        }
     }
     .choice-area {
         .deactivated {

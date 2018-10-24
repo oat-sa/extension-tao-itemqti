@@ -182,6 +182,9 @@
             border-bottom: 1px solid #eee;
             @include border-radius-bottom(2);
         }
+        &:focus {
+            @include focus-style;
+        }
     }
     .block-listing.horizontal > li {
         margin: 3px;

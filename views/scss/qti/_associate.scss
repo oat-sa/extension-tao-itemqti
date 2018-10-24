@@ -24,6 +24,9 @@
                     display: flex;
                 }
             }
+            &:focus {
+                @include focus-style;
+            }
         }
     }
     .result-area {
@@ -85,6 +88,9 @@
                 }
                 &.dropzone {
                     @extend %dropzone;
+                }
+                &:focus {
+                    @include focus-style;
                 }
             }
             &.removing > div{
