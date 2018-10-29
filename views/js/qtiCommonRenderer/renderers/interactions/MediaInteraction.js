@@ -116,8 +116,6 @@ define([
 
                         $item.off('resize.gridEdit')
                             .on('resize.gridEdit', resize);
-
-                        resolve();
                     })
                     .on('ready', function() {
                        /**
@@ -128,6 +126,9 @@ define([
                         if (!canBePlayed() ) {
                             this.disable();
                         }
+
+                        // declare the item ready when player is ready to play.
+                        resolve();
                     })
                     .on('update', _.throttle(function(){
                         containerHelper.triggerResponseChangeEvent(interaction);
