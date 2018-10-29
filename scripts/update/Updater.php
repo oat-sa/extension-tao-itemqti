@@ -376,5 +376,20 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('15.3.0', '15.6.1');
+
+        if($this->isVersion('15.6.1')){
+            $service = $this->getServiceManager()->get(SimpleExporter::SERVICE_ID);
+            $options = $service->getOptions();
+
+            // remove 'fileSystem' key
+            unset($options['fileSystem']);
+
+            $service->setOptions($options);
+            $this->getServiceManager()->register(SimpleExporter::SERVICE_ID, $service);
+
+            $this->setVersion('16.0.0');
+        }
+
+        $this->skip('16.0.0', '18.1.1');
     }
 }

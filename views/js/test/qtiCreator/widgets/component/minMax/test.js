@@ -25,6 +25,18 @@ define([
 ], function (minMaxComponentFactory) {
     'use strict';
 
+    var getKeyBoardEvent = function getKeyBoardEvent(eventName, key){
+        var event;
+        try{
+            event = new KeyboardEvent(eventName, { key : key });
+        } catch(err) {
+            event = document.createEvent('KeyboardEvent');
+            event.initEvent(eventName, true, false);
+            event.keyCode =  key;
+        }
+        return event;
+    };
+
     QUnit.module('API');
 
     QUnit.test('module', function(assert) {
@@ -305,14 +317,16 @@ define([
             assert.equal(maxInput.value, 5, 'max value remains');
 
             maxInput.value = 2;
-            maxInput.dispatchEvent(new window.KeyboardEvent('keyup', { key: '2' }));
+            maxInput.dispatchEvent(getKeyBoardEvent('keyup', '2'));
             setTimeout(function(){
 
                 assert.equal(self.getMaxValue(), 2, 'max value has been updated');
                 assert.equal(maxInput.value, 2, 'max value field has been updated');
 
                 maxInput.value = 12;
-                maxInput.dispatchEvent(new window.KeyboardEvent('keyup', { key: '12' }));
+
+                maxInput.dispatchEvent(getKeyBoardEvent('keyup', '12' ));
+
                 setTimeout(function(){
 
                     assert.equal(self.getMaxValue(), 5, 'max value is at the upperbound');
@@ -360,14 +374,14 @@ define([
             assert.equal(minInput.value, 5, 'min value remains');
 
             minInput.value = 2;
-            minInput.dispatchEvent(new window.KeyboardEvent('keyup', { key: '2' }));
+            minInput.dispatchEvent(getKeyBoardEvent('keyup', '2'));
             setTimeout(function(){
 
                 assert.equal(self.getMinValue(), 2, 'min value has been updated');
                 assert.equal(minInput.value, 2, 'min value field has been updated');
 
                 minInput.value = -5;
-                minInput.dispatchEvent(new window.KeyboardEvent('keyup', { key: '-5' }));
+                minInput.dispatchEvent(getKeyBoardEvent('keyup', '-5'));
                 setTimeout(function(){
 
                     assert.equal(self.getMinValue(), 1, 'min value is at the lowerbound');
@@ -401,10 +415,7 @@ define([
             sync : false
         })
         .on('render', function(){
-            var self       = this;
             var element    = this.getElement()[0];
-            var minInput   = element.querySelector('[name=min]');
-            var maxInput   = element.querySelector('[name=max]');
 
             assert.equal(this.getMinValue(), 3, 'min starts with a value at 3');
             assert.equal(this.getMaxValue(), 3, 'max starts with a value at 3');

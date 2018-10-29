@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use common_report_Report as Report;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
@@ -43,10 +44,9 @@ use \common_Logger;
 /**
  * Short description of class oat\taoQtiItem\model\ItemModel
  *
- * @access public
- * @author Joel Bout, <joel@taotesting.com>
+ * @access  public
+ * @author  Joel Bout, <joel@taotesting.com>
  * @package taoQTI
-
  */
 class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler, PhpSerializable
 {
@@ -59,84 +59,91 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
     protected $metadataExporter;
 
     /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::getLabel()
+     * @return string
      */
-    public function getLabel() {
-    	return __('QTI Package 2.1');
+    public function getLabel()
+    {
+        return __('QTI Package 2.1');
     }
 
     /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::getExportForm()
+     * @param core_kernel_classes_Resource $resource
+     * @return \tao_helpers_form_Form
      */
-    public function getExportForm(core_kernel_classes_Resource $resource) {
+    public function getExportForm(core_kernel_classes_Resource $resource)
+    {
         if ($resource instanceof core_kernel_classes_Class) {
-            $formData= array('class' => $resource);
+            $formData = ['class' => $resource];
         } else {
-            $formData= array('instance' => $resource);
+            $formData = ['instance' => $resource];
         }
-    	$form = new Qti21ExportForm($formData);
-    	return $form->getForm();
+
+        return (new Qti21ExportForm($formData))
+            ->getForm();
     }
 
     /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::export()
+     * @param array  $formValues
+     * @param string $destination
+     * @return \common_report_Report
+     * @throws \common_exception_Error
      */
-    public function export($formValues, $destination) {
-        $report = \common_report_Report::createSuccess();
-		if (isset($formValues['filename'], $formValues['instances'])) {
-			$instances = $formValues['instances'];
-			if(count($instances) > 0){
+    public function export($formValues, $destination)
+    {
+        if (!isset($formValues['filename'])) {
+            return Report::createFailure('Missing filename for export using ' . __CLASS__);
+        }
 
-				$itemService = taoItems_models_classes_ItemsService::singleton();
+        if (!isset($formValues['instances'])) {
+            return Report::createFailure('No instances selected for export using ' . __CLASS__);
+        }
 
-				$fileName = $formValues['filename'].'_'.time().'.zip';
-				$path = tao_helpers_File::concat(array($destination, $fileName));
-				if(!tao_helpers_File::securityCheck($path, true)){
-					throw new Exception('Unauthorized file name');
-				}
+        $report = Report::createSuccess();
 
-				$zipArchive = new ZipArchive();
-				if($zipArchive->open($path, ZipArchive::CREATE) !== true){
-					throw new Exception('Unable to create archive at '.$path);
-				}
+        if (count($formValues['instances']) > 0) {
+            $itemService = taoItems_models_classes_ItemsService::singleton();
 
-				$manifest = null;
-				foreach($instances as $instance){
-					$item = new core_kernel_classes_Resource($instance);
-					if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
-						$exporter = $this->createExporter($item, $zipArchive, $manifest);
-                        try {
-                            $subReport = $exporter->export();
-                            $manifest = $exporter->getManifest();
+            $fileName = $formValues['filename'] . '_' . time() . '.zip';
+            $path = tao_helpers_File::concat([$destination, $fileName]);
+            if (!tao_helpers_File::securityCheck($path, true)) {
+                throw new Exception('Unauthorized file name');
+            }
 
-                            $report->add($subReport);
-						} catch (FileNotFoundException $e){
-							$report->add(\common_report_Report::createFailure(__('Item "%s" has no xml document', $item->getLabel())));
-                        } catch (\Exception $e) {
-							common_Logger::i(__('Error to export item %s: %s', $instance, $e->getMessage()));
-						}
-					}
-				}
+            $zipArchive = new ZipArchive();
+            if ($zipArchive->open($path, ZipArchive::CREATE) !== true) {
+                throw new Exception('Unable to create archive at ' . $path);
+            }
 
-				$zipArchive->close();
-				$report->setData($path);
+            $manifest = null;
+            foreach ($formValues['instances'] as $instance) {
+                $item = new core_kernel_classes_Resource($instance);
+                if ($itemService->hasItemModel($item, [ItemModel::MODEL_URI])) {
+                    $exporter = $this->createExporter($item, $zipArchive, $manifest);
+                    try {
+                        $subReport = $exporter->export();
+                        $manifest = $exporter->getManifest();
 
-                if (!$report->containsError() && $formValues['uri']) {
-                    $this->getEventManager()->trigger(new QtiItemExportEvent(new core_kernel_classes_Resource($formValues['uri'])));
+                        $report->add($subReport);
+                    } catch (FileNotFoundException $e) {
+                        $report->add(Report::createFailure(__('Item "%s" has no xml document', $item->getLabel())));
+                    } catch (\Exception $e) {
+                        $report->add(Report::createFailure(__('Error to export item %s: %s', $instance, $e->getMessage())));
+                    }
                 }
-			}
-		} else {
-			if (!isset($formValues['filename'])) {
-				common_Logger::w('Missing filename for export using '.__CLASS__);
-			}
-			if (!isset($formValues['instances'])) {
-				common_Logger::w('No instances selected for export using '.__CLASS__);
-			}
-		}
-		return $report;
+            }
+
+            $zipArchive->close();
+            $report->setData($path);
+            $report->setMessage(__('Resource(s) successfully exported.'));
+
+            $subjectUri = isset($formValues['uri']) ? $formValues['uri'] : $formValues['classUri'];
+
+            if (!$report->containsError() && $subjectUri) {
+                $this->getEventManager()->trigger(new QtiItemExportEvent(new core_kernel_classes_Resource($subjectUri)));
+            }
+        }
+
+        return $report;
     }
 
     protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null)
@@ -151,9 +158,10 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
      */
     protected function getMetadataExporter()
     {
-        if (! $this->metadataExporter) {
+        if (!$this->metadataExporter) {
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
+
         return $this->metadataExporter;
     }
 
