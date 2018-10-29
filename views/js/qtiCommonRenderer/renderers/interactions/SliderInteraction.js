@@ -116,6 +116,8 @@ define([
                 valueChange = 1;
             } else if (key.action === "left" || key.action === "down"){
                 valueChange = -1;
+            } else if(key.action === "container-focus"){
+                $el.find(".noUi-handle.noUi-handle-lower").attr("tabindex", -1).focus();
             }
 
             if(valueChange){
