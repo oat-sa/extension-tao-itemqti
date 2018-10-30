@@ -161,14 +161,14 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         $taoDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getDir();
-        $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
+        $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR;
         $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
         if (\tao_helpers_Mode::is('production')) {
-            $fh = fopen($assetPath . 'qtiLoader.min.js','r');
+            $fh = fopen($assetPath . 'loader' . DIRECTORY_SEPARATOR . 'qtiLoader.min.js','r');
             $publicDirectory->writeStream($language.'/qtiLoader.min.js', $fh);
             fclose($fh);
         } else {
-            $fh = fopen($assetPath . 'qtiLoader.js','r');
+            $fh = fopen($assetPath . 'runtime' . DIRECTORY_SEPARATOR . 'qtiLoader.js','r');
             $publicDirectory->writeStream($language.'/qtiLoader.js', $fh);
             fclose($fh);
             $fh = fopen($assetLibPath . 'require.js','r');
@@ -272,7 +272,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         if ($dom->loadXML($qtiItem->toXml()) === true) {
-        
+
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
             foreach ($attributeNodes as $node) {
@@ -296,7 +296,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         $qtiParser = new Parser($dom->saveXML());
         $assetRetrievedQtiItem =  $qtiParser->load();
-        
+
          //loadxinclude
         $xincludeLoader = new XIncludeLoader($assetRetrievedQtiItem, $resolver);
         $xincludeLoader->load(true);
