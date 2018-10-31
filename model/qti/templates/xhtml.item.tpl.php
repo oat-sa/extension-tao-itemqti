@@ -48,7 +48,7 @@
             <script type="text/javascript" src="<?=get_data('tao_lib_path')?>loader/vendor.min.js" ></script>
             <script id="amd-loader" type="text/javascript" src="<?=get_data('taoQtiItem_lib_path')?>loader/qtiLoader.min.js" data-controller="taoQtiItem/runtime/qtiLoader" data-config="<?=get_data('client_config_url')?>"></script>
         <?php else:?>
-            <script type="text/javascript" src="<?=get_data('tao_lib_path')?>require.js" data-main="<?=get_data('taoQtiItem_lib_path')?>qtiLoader"></script>
+            <script id="amd-loader" type="text/javascript" src="<?=get_data('tao_lib_path')?>lib/require.js" data-main="<?=get_data('tao_lib_path')?>loader/bootstrap" data-controller="taoQtiItem/runtime/qtiLoader" data-config="<?=get_data('client_config_url')?>"></script>
         <?php endif;?>
 
     </head>
