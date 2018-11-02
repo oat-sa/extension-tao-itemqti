@@ -84,7 +84,11 @@ EOF;
     public static function downloadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath){
 
         $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
-        return $directory->getFile($styleSheetPath)->read();
+        $file = $directory->getFile($styleSheetPath);
+        if ($file->exists()) {
+            return $file->read();
+        }
+        return null;
     }
 
     /**
