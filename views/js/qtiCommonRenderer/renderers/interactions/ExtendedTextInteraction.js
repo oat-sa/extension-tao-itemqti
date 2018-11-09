@@ -74,7 +74,6 @@ define([
                 }
                 if (_getFormat(interaction) === "xhtml") {
 
-
                     editor = _setUpCKEditor(interaction, ckOptions);
                     if(!editor){
                         reject('Unable to instantiate ckEditor');
@@ -96,6 +95,21 @@ define([
                     });
                     editor.on('change', function(e) {
                         containerHelper.triggerResponseChangeEvent(interaction, {});
+                    });
+
+                    $(document).on('themechange', function () {
+                        console.log('fired event');
+                        if (window.getComputedStyle) {
+                            _.delay(function () {
+                                var qtiItemStyle = window.getComputedStyle($container.parents(".qti-item").get(0));
+                                var $editorBody = $(editor.document.getBody().$);
+
+                                $editorBody.css({
+                                    'background-color': 'transparent',
+                                    'color': qtiItemStyle.color
+                                });
+                            }, 100);
+                        }
                     });
 
                 } else {
