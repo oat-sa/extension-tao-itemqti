@@ -98,7 +98,6 @@ define([
                     });
 
                     $(document).on('themechange', function () {
-                        console.log('fired event');
                         if (window.getComputedStyle) {
                             _.delay(function () {
                                 var qtiItemStyle = window.getComputedStyle($container.parents(".qti-item").get(0));
