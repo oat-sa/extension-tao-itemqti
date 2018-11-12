@@ -74,12 +74,27 @@ define([
                 }
                 if (_getFormat(interaction) === "xhtml") {
 
+                    var _styleUpdater = function(){
+                        var qtiItemStyle, $editorBody;
+
+                        if(editor.document) {
+                            qtiItemStyle = window.getComputedStyle($(".qti-item").get(0));
+                            $editorBody = $(editor.document.getBody().$);
+
+                            $editorBody.css({
+                                'background-color': 'transparent',
+                                'color': qtiItemStyle.color
+                            });
+                        }
+                    };
+
                     editor = _setUpCKEditor(interaction, ckOptions);
                     if(!editor){
                         reject('Unable to instantiate ckEditor');
                     }
 
                     editor.on('instanceReady', function(){
+                        _styleUpdater();
                         //it seems there's still something done after loaded, so resolved must be defered
                         _.delay(resolve, 300);
                     });
@@ -97,19 +112,7 @@ define([
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
-                    $(document).on('themechange', function () {
-                        if (window.getComputedStyle) {
-                            _.delay(function () {
-                                var qtiItemStyle = window.getComputedStyle($container.parents(".qti-item").get(0));
-                                var $editorBody = $(editor.document.getBody().$);
-
-                                $editorBody.css({
-                                    'background-color': 'transparent',
-                                    'color': qtiItemStyle.color
-                                });
-                            }, 100);
-                        }
-                    });
+                    $(document).on('themechange.themeloader', _styleUpdater);
 
                 } else {
 
@@ -507,8 +510,8 @@ define([
 
                 } else {
                     $textarea
-                        .on('keydown.commonRenderer', keyLimitHandler)
-                        .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
+                    .on('keydown.commonRenderer', keyLimitHandler)
+                    .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
                 }
             },
 
@@ -744,7 +747,7 @@ define([
         }
     };
 
-     /**
+    /**
      * Clean interaction destroy
      * @param {Object} interaction
      */
