@@ -75,10 +75,11 @@ define([
                 if (_getFormat(interaction) === "xhtml") {
 
                     var _styleUpdater = function(){
-                        var qtiItemStyle, $editorBody;
+                        var qtiItemStyle, $editorBody, qtiItem;
 
                         if(editor.document) {
-                            qtiItemStyle = window.getComputedStyle($(".qti-item").get(0));
+                            qtiItem = $(".qti-item").get(0);
+                            qtiItemStyle = qtiItem.currentStyle || window.getComputedStyle(qtiItem);
                             $editorBody = $(editor.document.getBody().$);
 
                             $editorBody.css({

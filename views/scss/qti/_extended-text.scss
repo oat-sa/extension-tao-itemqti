@@ -22,6 +22,7 @@
         & ~ input,
         & ~ textarea,
         & ~ .cke {
+            border: 6px solid  whiten($uiClickableDefaultBg, .2);
             .cke_top{
                 border: none;
                 margin: 3px;
