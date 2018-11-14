@@ -58,7 +58,7 @@ define([
                pci.initialize(id, containerHelper.get(interaction).children().get(0), properties, pciAssetManager);
            },
            destroy : function destroy(interaction){
-               instanciator.getPci(interaction).destroy();
+               return instanciator.getPci(interaction).destroy();
            },
            setState : function setState(interaction, state){
                instanciator.getPci(interaction).setSerializedState(state);

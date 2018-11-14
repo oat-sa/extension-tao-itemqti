@@ -202,7 +202,7 @@ define([
         clear : function(){
             var renderer = this.getRenderer();
             if(renderer && _.isFunction(renderer.destroy)){
-                renderer.destroy(this);
+                return renderer.destroy(this);
             }
         },
 

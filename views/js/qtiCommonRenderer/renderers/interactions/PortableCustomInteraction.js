@@ -159,7 +159,7 @@ define([
      * @param {Object} interaction
      */
     var destroy = function destroy(interaction){
-        _getPciRenderer(interaction).destroy(interaction);
+        return _getPciRenderer(interaction).destroy(interaction);
     };
 
     /**
