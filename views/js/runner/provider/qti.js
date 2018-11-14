@@ -170,9 +170,7 @@ define([
                     done();
                 },
                 function() {
-                    //TODO: handle error
-                    console.error('Interaction clear failed');
-                    done();
+                    throw new Error('Interaction clear failed');
                 }
             );
         },
