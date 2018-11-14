@@ -147,11 +147,11 @@ define([
         clear : function(elt, done){
             var self = this;
 
-            Promise.all(this._item.getInteractions().map(function(interaction) {
-                return interaction.clear();
-            })).then(
-                function() {
-                    if(self._item){
+            if (self._item) {
+                Promise.all(this._item.getInteractions().map(function(interaction) {
+                    return interaction.clear();
+                })).then(
+                    function() {
                         self._item.clear();
 
                         $(elt).off('responseChange')
@@ -165,14 +165,14 @@ define([
                         }
 
                         self._item = null;
-                    }
 
-                    done();
-                },
-                function() {
-                    throw new Error('Interaction clear failed');
-                }
-            );
+                        done();
+                    },
+                    function() {
+                        throw new Error('Interaction clear failed');
+                    }
+                );
+            }
         },
 
         /**
