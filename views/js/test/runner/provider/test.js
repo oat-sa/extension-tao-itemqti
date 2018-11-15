@@ -212,7 +212,9 @@ define([
                     return [
                         {
                             clear: function() {
-                                return new Promise(function(resolve) { resolve(); });
+                                return new Promise(function(resolve) {
+                                    setTimeout(resolve, 10);
+                                });
                             },
                         },
                     ];
