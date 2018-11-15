@@ -198,11 +198,12 @@ define([
          * Ask the renderer to run destroy if exists.
          *
          * @throws {Error} if no renderer is found
+         * @returns {Promise?} the interaction destroy step can be async and can return an optional Promise
          */
         clear : function(){
             var renderer = this.getRenderer();
             if(renderer && _.isFunction(renderer.destroy)){
-                renderer.destroy(this);
+                return renderer.destroy(this);
             }
         },
 
