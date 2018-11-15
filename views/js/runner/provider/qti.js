@@ -148,10 +148,11 @@ define([
             var self = this;
 
             if (self._item) {
-                Promise.all(this._item.getInteractions().map(function(interaction) {
-                    return interaction.clear();
-                })).then(
-                    function() {
+                Promise
+                    .all(this._item.getInteractions().map(function(interaction) {
+                        return interaction.clear();
+                    }))
+                    .then(function() {
                         self._item.clear();
 
                         $(elt).off('responseChange')
@@ -165,13 +166,12 @@ define([
                         }
 
                         self._item = null;
+                    })
+                    .then(done)
+                    .catch(function(err) {
+                        self.trigger('error', 'Something went wrong while destroying an interaction: ' + err.message);
+                    });
 
-                        done();
-                    },
-                    function() {
-                        throw new Error('Interaction clear failed');
-                    }
-                );
             }
         },
 
