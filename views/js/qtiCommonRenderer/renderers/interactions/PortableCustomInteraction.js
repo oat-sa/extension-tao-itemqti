@@ -157,9 +157,10 @@ define([
      * Event listeners are removed and the state and the response are reset
      *
      * @param {Object} interaction
+     * @returns {Promise?} the interaction destroy step can be async and can return an optional Promise
      */
     var destroy = function destroy(interaction){
-        _getPciRenderer(interaction).destroy(interaction);
+        return _getPciRenderer(interaction).destroy(interaction);
     };
 
     /**
