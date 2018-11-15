@@ -192,6 +192,44 @@ define([
             .render(container);
     });
 
+    QUnit.asyncTest('Clear a rendered item asynchronosuly', function(assert) {
+        var container = document.getElementById(containerId);
+
+        QUnit.expect(6);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+        assert.equal(container.children.length, 0, 'the container has no children');
+
+        itemRunner.register('qti', qtiRuntimeProvider);
+
+        itemRunner('qti', itemData)
+            .on('render', function(){
+                assert.equal(typeof this._item, 'object', 'the item instance is attached to the runner');
+                assert.equal(container.children.length, 1, 'the container has children');
+
+                // Mock the getInteractions() method to return interaction with async clear step
+                this._item.getInteractions = function() {
+                    return [
+                        {
+                            clear: function() {
+                                return new Promise(function(resolve) { resolve(); });
+                            },
+                        },
+                    ];
+                };
+
+                this.clear();
+
+            }).on('clear', function(){
+
+            assert.equal(container.children.length, 0, 'the container children are removed');
+            assert.equal(this._item, null, 'the item instance is also cleared');
+
+            QUnit.start();
+        })
+            .init()
+            .render(container);
+    });
 
     QUnit.module('Provider state', {
         teardown : function(){
