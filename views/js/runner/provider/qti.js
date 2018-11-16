@@ -145,24 +145,34 @@ define([
          * Clean up stuffs
          */
         clear : function(elt, done){
-            if(this._item){
+            var self = this;
 
-                _.invoke(this._item.getInteractions(), 'clear');
-                this._item.clear();
+            if (self._item) {
+                Promise
+                    .all(this._item.getInteractions().map(function(interaction) {
+                        return interaction.clear();
+                    }))
+                    .then(function() {
+                        self._item.clear();
 
-                $(elt).off('responseChange')
-                      .off('endattempt')
-                      .off('themechange')
-                      .off('feedback')
-                      .empty();
+                        $(elt).off('responseChange')
+                            .off('endattempt')
+                            .off('themechange')
+                            .off('feedback')
+                            .empty();
 
-                if(this._renderer){
-                    this._renderer.unload();
-                }
+                        if(self._renderer){
+                            self._renderer.unload();
+                        }
 
-                this._item = null;
+                        self._item = null;
+                    })
+                    .then(done)
+                    .catch(function(err) {
+                        self.trigger('error', 'Something went wrong while destroying an interaction: ' + err.message);
+                    });
+
             }
-            done();
         },
 
         /**
