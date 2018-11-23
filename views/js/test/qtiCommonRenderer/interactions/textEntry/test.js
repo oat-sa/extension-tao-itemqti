@@ -28,9 +28,9 @@ define([
     }
 
     function getTooltip($input){
-        var qtip = $input.data('qtip');
-        if(qtip && qtip.tooltip && qtip.tooltip.length){
-            return $(qtip.tooltip[0]);
+        var instance = $input.data('$popper');
+        if(instance && instance.popperInstance.popper){
+            return $(instance.popperInstance.popper);
         }
     }
 
@@ -43,6 +43,8 @@ define([
 
         runner = qtiItemRunner('qti', textEntryLengthConstrainedData)
             .on('render', function () {
+                QUnit.start();
+
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -69,7 +71,6 @@ define([
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
                 assert.ok(!$input.hasClass('maxed'), 'has state maxed removed');
 
-                QUnit.start();
             })
             .init()
             .render($container);
@@ -84,6 +85,8 @@ define([
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
             .on('render', function () {
+                QUnit.start();
+
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -114,6 +117,8 @@ define([
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
             .on('render', function () {
+                QUnit.start();
+
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -144,6 +149,8 @@ define([
 
         runner = qtiItemRunner('qti', textEntryData)
             .on('render', function(){
+                QUnit.start();
+
 
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
@@ -162,7 +169,6 @@ define([
 
                 assert.deepEqual(retrivedState, state, 'statechange state is correct');
 
-                QUnit.start();
             })
             .init()
             .render($container);

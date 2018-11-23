@@ -44,7 +44,7 @@ define([
      * @param {Boolean} [hidden=false]
      */
     var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
-        if(forceCreation || !$input.data('qtip')){
+        if(forceCreation || !$input.data('$popper')){
             $input.qtip({
                 theme : theme,
                 content : {
@@ -58,8 +58,8 @@ define([
                 }
             });
         }else{
-            $input.qtip('option', 'content.text', message);
-            $input.qtip('option', 'theme', 'info');
+            $input.qtip('content.text', message);
+            $input.qtip('theme', 'info');
         }
         if(!hidden){
             $input.qtip('show');

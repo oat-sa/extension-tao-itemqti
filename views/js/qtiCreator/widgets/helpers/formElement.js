@@ -75,7 +75,7 @@ define([
      *
      */
     var createTooltip = function createTooltip($input, validatorOptions) {
-        if (!$input.data('qtip')) {
+        if (!$input.data('$popper')) {
             $input.qtip({
                 show: {
                     event: 'custom'
