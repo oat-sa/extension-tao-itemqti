@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015-2018 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -54,7 +54,7 @@ define([
 
         var state = {};
 
-          //load responses variables
+        //load responses variables
         _.forEach(itemData.responses, function(response){
             var responseValue;
             var identifier      = response.attributes.identifier;
@@ -116,7 +116,7 @@ define([
                         outcomeVariable.value = 0;
                     }
                 } else {
-                   outcomeVariable.value = outcomeVariable.defaultValue;
+                    outcomeVariable.value = outcomeVariable.defaultValue;
                 }
             }
 
@@ -181,11 +181,12 @@ define([
      */
     var pciRecordToVariable = function pciRecordToVariable(record){
         var variableObject = {};
-        _.each(record, function(value){
+        _.forEach(record, function(value){
+            var ret = {};
+            var valueObject;
             if(value) {
 
-                var valueObject = value.base || value.list || null;
-                var ret = {};
+                valueObject = value.base || value.list || null;
 
                 if (valueObject) {
                     _.forOwn(valueObject, function (actualValue, baseType) {
@@ -203,7 +204,7 @@ define([
             }
         });
         return variableObject;
-    }
+    };
 
     /**
      * Reformat the mapping/areaMapping from a flat list to a structured object to anticipate changes in the serializer.
@@ -315,12 +316,12 @@ define([
 
                     //run the engine...
                     ruleEngine.execute(itemData.responseProcessing.responseRules);
-                    done(stateToPci(state));
+                    done(stateToPci(state), state);
                 });
 
             } else {
                 errorHandler.throw('scoring', new Error('The item ' + itemData.identifier + ' has not responseProcessing'));
-                done(stateToPci(state));
+                done(stateToPci(state), state);
             }
 
         }
