@@ -160,83 +160,163 @@ define([
     QUnit.module('Provider process correct template', {
         teardown : function(){
             //reset the provides
-            scorer.providers = undefined;
+            delete scorer.providers;
         }
     });
 
-    var tplDataProvider = [{
+
+    QUnit.cases([{
         title   : 'match correct single identifier',
         item    : singleCorrectData,
-        resp    : { base : { identifier: "Atlantis" } },
-        score   : { base : { integer : 1 } }
+        outcomes : {
+            RESPONSE : { base : { identifier: "Atlantis" } },
+            SCORE    : { base : { integer : 1 } },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "single",
+                "baseType": "identifier",
+                "value": "Atlantis"
+            },
+            SCORE: { value: 1 }
+        }
     }, {
         title   : 'match incorrect single identifier',
         item    : singleCorrectData,
-        resp    : { base : { identifier: "Discovery" } },
-        score   : { base : { integer : 0 } }
+        outcomes : {
+            RESPONSE : { base : { identifier: "Discovery" } },
+            SCORE    : { base : { integer : 0 } },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "single",
+                "baseType": "identifier",
+                "value": "Discovery"
+            },
+            SCORE: { value: 0 }
+        }
     }, {
         title   : 'match correct multiple identifier',
         item    : multipleCorrectData,
-        resp    : { list : { identifier: ["Pathfinder", "Atlantis"] } },
-        score   : { base : { integer : 1 } }
+        outcomes : {
+            RESPONSE : { list : { identifier: ["Pathfinder", "Atlantis"]   } },
+            SCORE    : { base : { integer : 1 } },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "multiple",
+                "baseType": "identifier",
+                "value": ["Pathfinder", "Atlantis"]
+            },
+            SCORE: { value: 1 }
+        }
     }, {
         title   : 'match incorrect multiple identifier',
         item    : multipleCorrectData,
-        resp    : { list : { identifier: ["Atlantis", "Discovery"] } },
-        score   : { base : { integer : 0 } }
+        outcomes : {
+            RESPONSE : { list : { identifier:  ["Atlantis", "Discovery"] } },
+            SCORE    : { base : { integer : 0 } },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "multiple",
+                "baseType": "identifier",
+                "value": ["Atlantis", "Discovery"]
+            },
+            SCORE: { value: 0 }
+        }
     }, {
         title   : 'map response multiple directedPair',
         item    : multipleMapData,
-        resp    : { list : { directedPair:  [['C', 'R'], ['D', 'M']] } },
-        score   : { base : { float : 1.5 } }
+        outcomes : {
+            RESPONSE : { list : { directedPair:  [['C', 'R'], ['D', 'M']] } },
+            SCORE    : { base : { float : 1.5 } },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "multiple",
+                "baseType": "directedPair",
+                "value": [ ["C", "R"], ["D", "M"] ]
+            },
+            SCORE: { value: 1.5 }
+        }
     }, {
         title   : 'incorrect map response multiple directedPair',
         item    : multipleMapData,
-        resp    : { list : { directedPair:  [['M', 'D'], ['R', 'M']] } },
-        score   : { base : { float : 0 } }
-    }, {
-        title   : 'incorrect map response multiple directedPair',
-        item    : multipleMapData,
-        resp    : { list : { directedPair:  [['M', 'D'], ['R', 'M']] } },
-        score   : { base : { float : 0 } }
+        outcomes : {
+            RESPONSE : { list : { directedPair:  [['M', 'D'], ['R', 'M']] } },
+            SCORE    : { base : {  float : 0} },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "multiple",
+                "baseType": "directedPair",
+                "value": [['M', 'D'], ['R', 'M']]
+            },
+            SCORE: { value: 0 }
+        }
     }, {
         title   : 'map response  point inside',
         item    : singleMapPointData,
-        resp    : { base : { point:  [102, 113] } },
-        score   : { base : { float : 1 } }
+        outcomes : {
+            RESPONSE : { base : { point:  [102, 113]  } },
+            SCORE    : { base : { float : 1 } },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "single",
+                "baseType": "point",
+                "value": [102, 113]
+            },
+            SCORE: { value: 1 }
+        }
     }, {
         title   : 'map response  point outside',
         item    : singleMapPointData,
-        resp    : { base : { point:  [145, 190] } },
-        score   : { base : { float : 0 } }
-    }];
+        outcomes : {
+            RESPONSE : { base : { point:  [145, 190]  } },
+            SCORE    : { base : { float : 0 } },
+        },
+        state : {
+            RESPONSE: {
+                "cardinality": "single",
+                "baseType": "point",
+                "value": [145, 190]
+            },
+            SCORE: { value: 0 }
+        }
+    }]).asyncTest('process ', function(data, assert){
 
-    QUnit
-        .cases(tplDataProvider)
-        .asyncTest('process ', function(data, assert){
+        QUnit.expect(8);
 
-            var responses = {
-                'RESPONSE' : data.resp
-            };
+        scorer.register('qti', qtiScoringProvider);
 
-            scorer.register('qti', qtiScoringProvider);
+        scorer('qti')
+            .on('error', function(err){
+                assert.ok(false, 'Got an error : ' + err);
+            })
+            .on('outcome', function(outcomes, state){
 
-            scorer('qti')
-                .on('error', function(err){
-                    assert.ok(false, 'Got an error : ' + err);
-                })
-                .on('outcome', function(outcomes, state){
+                assert.deepEqual(outcomes, data.outcomes, 'Generated outcomes matche');
 
-                    assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-                    assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-                    assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-                    assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-                    assert.deepEqual(outcomes.SCORE, data.score, "the score has the correct value");
+                assert.ok(typeof state === 'object', 'The generated state is an object');
 
-                    QUnit.start();
-                })
-                .process(responses, data.item);
-        });
+                //check RESPONSE variable cardinality, baseType and value
+                assert.ok(typeof state.RESPONSE === 'object', 'The generated state contains a RESPONSE variable');
+                assert.equal(state.RESPONSE.cardinality, data.state.RESPONSE.cardinality, 'The RESPONSE cardinality is correct');
+                assert.equal(state.RESPONSE.baseType, data.state.RESPONSE.baseType, 'The RESPONSE baseType is correct');
+                assert.deepEqual(state.RESPONSE.value, data.state.RESPONSE.value, 'The RESPONSE value is correct');
+
+                //check only SCORE value
+                assert.ok(typeof state.SCORE === 'object', 'The generated state contains a SCORE variable');
+                assert.equal(state.SCORE.value, data.state.SCORE.value, 'The score matches the expected value');
+
+                QUnit.start();
+            })
+            .process({
+                RESPONSE : data.outcomes.RESPONSE
+            }, data.item);
+    });
 
     QUnit.asyncTest('process multiple responses', function(assert){
 
