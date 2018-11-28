@@ -76,7 +76,7 @@ define([
             };
 
             //support both old an new mapping format
-            if(response.mapping && response.mapping.qtiClass === 'mapping' || response.mapping.qtiClass === 'areaMapping'){
+            if(response.mapping && (response.mapping.qtiClass === 'mapping' || response.mapping.qtiClass === 'areaMapping')){
                 state[identifier].mapping = response.mapping;
             } else {
                 state[identifier].mapping = reFormatMapping(response);
