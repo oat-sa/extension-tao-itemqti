@@ -29,9 +29,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'select2',
-    'ui/tooltip'
-], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'ui/tooltip',
+    'select2'
+], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, tooltip){
     'use strict';
 
     /**
@@ -89,18 +89,20 @@ define([
             }
 
             if(required && $container.val() !== "") {
-                $el.qtip('hide');
+                $el.data('$tooltip').hide();
+
             }
 
             containerHelper.triggerResponseChangeEvent(interaction);
 
         }).on('select2-open', function(){
             if(required){
-                $el.qtip('hide');
+                $el.data('$tooltip').hide();
             }
         }).on('select2-close', function(){
             if(required && $container.val() === "") {
-                $el.qtip('show');
+                $el.data('$tooltip').show();
+
             }
         });
     };
@@ -113,15 +115,13 @@ define([
 
         if(required){
             //set up the tooltip plugin for the input
-            $el.qtip({
+            tooltip($el, {
                 theme : 'warning',
-                content: {
-                    text: __('A choice must be selected')
-                }
+                title: __('A choice must be selected')
             });
 
             if($container.val() === "") {
-                $el.qtip('show');
+                $el.data('$tooltip').show();
             }
         }
 

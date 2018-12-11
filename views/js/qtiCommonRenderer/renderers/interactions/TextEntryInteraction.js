@@ -32,7 +32,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'util/locale',
     'ui/tooltip'
-], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale){
+], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, patternMaskHelper, locale, tooltip){
     'use strict';
 
     /**
@@ -44,25 +44,21 @@ define([
      * @param {Boolean} [hidden=false]
      */
     var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
-        if(forceCreation || !$input.data('$popper')){
-            $input.qtip({
-                theme : theme,
-                content : {
-                    text : message
-                },
-                show : {
-                    event : 'custom'
-                },
-                hide : {
-                    event : 'custom'
-                }
+        if(forceCreation || !$input.data('$tooltip')){
+            tooltip($input, {
+                theme: theme,
+                title: message,
+                trigger: 'manual'
             });
         }else{
-            $input.qtip('content.text', message);
-            $input.qtip('theme', 'info');
+            tooltip($input, {
+                theme: 'info',
+                title: message,
+                trigger: 'manual'
+            });
         }
         if(!hidden){
-            $input.qtip('show');
+            $input.data('$tooltip').show();
         }
     };
 
@@ -125,7 +121,8 @@ define([
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
-                    $input.qtip('hide');
+                    $input.data('$tooltip').hide();
+
                 });
 
         }else if(attributes.patternMask){
@@ -136,14 +133,15 @@ define([
             $input.on('keyup.commonRenderer', _.debounce(function(){
                 var regex = new RegExp(attributes.patternMask);
                 if(regex.test($input.val())){
-                    $input.removeClass('invalid').qtip('hide');
+                    $input.removeClass('invalid').data('$tooltip').hide();
+
                 } else {
-                    $input.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
+                    $input.addClass('invalid').data('$tooltip').show();//adding the class invalid prevent the invalid response to be submitted
                 }
                 containerHelper.triggerResponseChangeEvent(interaction);
             }, 600)).on('keydown.commonRenderer', function(){
                 //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
-                $input.qtip('hide');
+                $input.data('$tooltip').hide();
             });
 
         }else{
