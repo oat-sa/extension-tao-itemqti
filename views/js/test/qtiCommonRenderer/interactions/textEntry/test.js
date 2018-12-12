@@ -21,14 +21,14 @@ define([
     });
 
     function getTooltipContent($input){
-        var qtip = getTooltip($input);
-        if(qtip){
-            return qtip.find('.qtip-content').html();
+        var content = getTooltip($input);
+        if(content){
+            return content.find('.tooltip-body').html();
         }
     }
 
     function getTooltip($input){
-        var instance = $input.data('$popper');
+        var instance = $input.data('$tooltip');
         if(instance && instance.popperInstance.popper){
             return $(instance.popperInstance.popper);
         }
