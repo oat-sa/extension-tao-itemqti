@@ -24,8 +24,9 @@ define([
     'taoQtiItem/runner/qtiItemRunner',
     'taoQtiItem/qtiItem/core/Tooltip',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
-    'json!taoQtiItem/test/samples/json/static/tooltip.json'
-], function ($, _, qtiItemRunner, Tooltip, commonRenderer, itemData) {
+    'json!taoQtiItem/test/samples/json/static/tooltip.json',
+    'ui/tooltip'
+], function ($, _, qtiItemRunner, Tooltip, commonRenderer, itemData, tooltip) {
     'use strict';
 
     var runner;
@@ -79,7 +80,7 @@ define([
                     );
 
                     $tooltip = $allTooltips.eq(1);
-                    $tooltip.qtip('show');
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), 'tooltip', 'tooltip 2 has the correct target');
@@ -91,7 +92,7 @@ define([
                     );
 
                     $tooltip = $allTooltips.eq(2);
-                    $tooltip.qtip('show');
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), 'QTI <strong>prompt</strong>', 'tooltip 3 has the correct target');
@@ -103,7 +104,7 @@ define([
                     );
 
                     $tooltip = $allTooltips.eq(3);
-                    $tooltip.qtip('show');
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), '<i>strange</i> word', 'tooltip 4 has the correct target');
