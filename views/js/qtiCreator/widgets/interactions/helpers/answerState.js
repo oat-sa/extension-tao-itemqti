@@ -245,7 +245,7 @@ define([
                 syncValues: true
             });
 
-            let formChangeCallbacks = {
+            var formChangeCallbacks = {
                 identifier : function(res, value){
                     response.id(value);
                     interaction.attr('responseIdentifier', value);
