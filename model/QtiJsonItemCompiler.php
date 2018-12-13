@@ -140,6 +140,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     }
 
     /**
+     * Get the item properties as compiled metadata
      * @return array
      */
     private function getMetadataProperties()
@@ -149,6 +150,8 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         foreach ($triples as $triple){
             $properties[$triple->predicate] = $triple->object;
         }
+        //we also include a shortcut to the item URI
+        $properties['@uri'] = $this->getResource()->getUri();
         return $properties;
     }
 }
