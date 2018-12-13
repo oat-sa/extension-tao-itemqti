@@ -45,7 +45,8 @@ define([
     dynamicComponent,
     _,
     __,
-    mathJax
+    mathJax,
+    tooltip
 ){
     'use strict';
 
@@ -63,7 +64,8 @@ define([
             _.invoke(this.popups, 'destroy');
             this.popups = null;
             if (this.fields && this.fields.$mathml) {
-                this.fields.$mathml.qtip('destroy', true);
+                this.fields.$mathml.data('$tooltip').dispose();
+                this.fields.$mathml.removeData('$tooltip');
             }
             this.fields = null;
             this.widget.$form.empty();
@@ -298,7 +300,7 @@ define([
             .on('show', function() {
                 this.$popupField.val((smallField.val()));
                 if (popupMode === 'mathml') {
-                    self.fields.$mathml.qtip('hide');
+                    self.fields.$mathml.data('$tooltip').hide();
                 }
                 self._disableForm();
             })
@@ -328,16 +330,18 @@ define([
             case 'latex': {
                 panels.$latex.show();
                 panels.$mathml.hide();
-                this.fields.$mathml.qtip('hide');
+                this.fields.$mathml.data('$tooltip').hide();
+
                 break;
             }
             case 'mathml': {
                 panels.$latex.hide();
                 panels.$mathml.show();
                 if(this.fields.$latex.val()){
-                    this.fields.$mathml.qtip('show');
+                    this.fields.$mathml.data('$tooltip').show();
+
                     this.fields.$mathml.on('keyup.mathWarning', function() {
-                        self.fields.$mathml.qtip('hide');
+                        self.fields.$mathml.data('$tooltip').hide();
                         self.fields.$mathml.off('.mathWarning');
                     });
                 }
@@ -351,18 +355,11 @@ define([
             html: __('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.')
         });
 
-        if(!$mathField.data('qtip')){
-            $mathField.qtip({
+        if(!$mathField.data('$tooltip')){
+            tooltip({
                 theme : 'error',
-                show: {
-                    event : 'custom'
-                },
-                hide: {
-                    event : 'custom'
-                },
-                content: {
-                    text: $tooltipContent
-                }
+                trigger: 'manual',
+                title: $tooltipContent
             });
         }
     }

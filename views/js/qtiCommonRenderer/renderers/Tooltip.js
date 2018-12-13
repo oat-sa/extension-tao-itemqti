@@ -22,7 +22,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/tooltip',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'ui/tooltip'
-], function(tpl, containerHelper){
+], function(tpl, containerHelper, tooltipUi){
     'use strict';
 
     return {
@@ -31,16 +31,10 @@ define([
         getContainer : containerHelper.get,
         render: function render(tooltip) {
             var $container = containerHelper.get(tooltip);
-            $container.qtip({
+            tooltipUi($container, {
                 theme: 'default',
-                content: {
-                    text: tooltip.content()
-                },
-                position: {
-                    target: 'event',
-                    my: 'bottom center',
-                    at: 'top center'
-                }
+                title: tooltip.content(),
+                placement: 'top'
             });
         }
     };
