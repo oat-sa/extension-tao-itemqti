@@ -450,6 +450,9 @@ define([
                                     targetWidget.changeState('active');
                                 }
                             }, 100);
+                        } else {
+                            // we need to go through all the widgets until the item is found
+                            listenToWidgetCreation();
                         }
                     });
 
