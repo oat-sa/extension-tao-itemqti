@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint72\n"
-"PO-Revision-Date: 2018-03-15T14:30:58\n"
+"Project-Id-Version: TAO 3.3.0-sprint91\n"
+"PO-Revision-Date: 2018-12-14T16:25:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr "Remplir les vides dans un texte à partir d'un ensemble de choix."
+
+msgid " For Resource "
+msgstr ""
 
 msgid " or "
 msgstr ""
@@ -33,6 +36,9 @@ msgstr ""
 
 msgid "-- Any kind of file --"
 msgstr "Tout type de fichier"
+
+msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Un choix doit être selectionné"
@@ -113,22 +119,26 @@ msgstr ""
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
-msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr ""
-
-msgid "An unexpected error occured during the import of the QTI Item. The system returned the following error:"
-msgstr ""
-
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
 msgstr ""
 
-msgid "An unknown error occured while importing the IMS QTI Package."
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
+msgstr ""
+
+msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
+msgstr ""
+
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
 
 msgid "APIP Content Package"
+msgstr ""
+
+msgid "Apip Package successfully exported."
 msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
@@ -221,10 +231,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -704,13 +714,16 @@ msgstr ""
 msgid "Item \"%s\" is ready to be exported"
 msgstr ""
 
-msgid "Item \'%s\' has no model"
+msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
 msgid "Item properties"
+msgstr ""
+
+msgid "Item Properties"
 msgstr ""
 
 msgid "Item width"
@@ -732,19 +745,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr ""
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
 msgid "Left bracket"
@@ -777,15 +790,15 @@ msgstr ""
 msgid "Lower than or equal"
 msgstr ""
 
-msgid "Malformed XML:\n"
+msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr ""
-
-msgid "Manage Items"
 msgstr ""
 
 #, tao-public
 msgid "Manage items"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "map response"
@@ -933,10 +946,10 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
-msgid "none"
+msgid "None"
 msgstr ""
 
-msgid "None"
+msgid "none"
 msgstr ""
 
 msgid "None defined yet."
@@ -1205,6 +1218,12 @@ msgstr ""
 msgid "required"
 msgstr ""
 
+msgid "Resource "
+msgstr ""
+
+msgid "Resource(s) successfully exported."
+msgstr ""
+
 msgid "Response"
 msgstr ""
 
@@ -1238,10 +1257,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"
@@ -1325,6 +1344,9 @@ msgstr "Sélectionnez cette zone"
 msgid "Select this area to start an association"
 msgstr ""
 
+msgid "Set a CSS class name in order to customize the display style."
+msgstr ""
+
 msgid "Set the score for this response"
 msgstr ""
 
@@ -1388,6 +1410,9 @@ msgstr ""
 msgid "Text Block"
 msgstr ""
 
+msgid "Text Block CSS Class"
+msgstr ""
+
 msgid "Text Block Properties"
 msgstr ""
 
@@ -1448,10 +1473,19 @@ msgstr ""
 msgid "The IMS QTI Item could not be imported."
 msgstr ""
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
 msgstr ""
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
 msgstr ""
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
@@ -1505,10 +1539,10 @@ msgstr ""
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr ""
 
-msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
+msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr ""
 
-msgid "The maximum number of choices that the candidate is allowed to select."
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
 msgstr ""
 
 msgid "The maximum number of choices this choice may be associated with."
@@ -1556,6 +1590,9 @@ msgstr ""
 msgid "The Response Processing Template \"%s\" is not supported."
 msgstr ""
 
+msgid "The score format is not numeric"
+msgstr ""
+
 msgid "The selected file is ready to be sent."
 msgstr ""
 
@@ -1601,6 +1638,9 @@ msgstr ""
 
 msgid "This is not a valid answer"
 msgstr "Validation de la réponse. Veuillez saisir une valeur numérique."
+
+msgid "This is required"
+msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr ""
