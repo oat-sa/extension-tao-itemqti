@@ -438,10 +438,10 @@ define([
 
             listenToWidgetCreation = function(){
                 containerWidget.$container
-                    .off('widgetCreated')
-                    .one('widgetCreated', function(e, widgets){
+                    .on('widgetCreated.' + innerWidget.serial, function(e, widgets){
                         var targetWidget = widgets[innerWidget.serial];
                         if(targetWidget){
+                            containerWidget.$container.off('widgetCreated.' + innerWidget.serial);
                             //FIXME potential race condition ? (debounce the enclosing event handler ?)
                             _.delay(function(){
                                 if(Element.isA(targetWidget.element, 'interaction')){
@@ -450,9 +450,6 @@ define([
                                     targetWidget.changeState('active');
                                 }
                             }, 100);
-                        } else {
-                            // we need to go through all the widgets until the item is found
-                            listenToWidgetCreation();
                         }
                     });
 
