@@ -485,7 +485,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $variables['contentVariableElements'] = isset($options['contentVariableElements']) && is_array($options['contentVariableElements']) ? $options['contentVariableElements'] : array();
         $variables['tao_lib_path'] = isset($options['path']) && isset($options['path']['tao']) ? $options['path']['tao'] : '';
         $variables['taoQtiItem_lib_path'] = isset($options['path']) && isset($options['path']['taoQtiItem']) ? $options['path']['taoQtiItem'] : '';
-        $variables['client_config_url'] = $options['client_config_url'];
+        $variables['client_config_url'] = isset($options['client_config_url']) ? $options['client_config_url'] : '';
 
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
 
