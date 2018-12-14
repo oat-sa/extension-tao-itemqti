@@ -465,7 +465,7 @@ define([
                     if (patternRegEx) {
                         if(isCke) {
                             // cke has its own object structure
-                            newValue = e.data.dataValue;
+                            newValue = e.getData();
                         }
                         else {
                             // covers input
