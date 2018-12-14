@@ -24,7 +24,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText'
 ], function($, _, __, stateFactory, Question, formElement, renderer, patternMaskHelper, formTpl){
     'use strict';
 

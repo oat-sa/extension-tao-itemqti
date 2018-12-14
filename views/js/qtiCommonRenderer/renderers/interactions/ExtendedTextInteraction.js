@@ -32,10 +32,41 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
-    'taoQtiItem/qtiCommonRenderer/helpers/patternMask'
+    'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
+    'ui/tooltip'
 ], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
     'use strict';
 
+    /**
+     * Prepare the feedback tooltip for the text input
+     * @param {jQuery} $input
+     * @param {String} theme
+     * @param {String} message
+     * @param {Boolean} [forceCreation=false]
+     * @param {Boolean} [hidden=false]
+     */
+    var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
+        if(forceCreation || !$input.data('qtip')){
+            $input.qtip({
+                theme : theme,
+                content : {
+                    text : message
+                },
+                show : {
+                    event : 'custom'
+                },
+                hide : {
+                    event : 'custom'
+                }
+            });
+        }else{
+            $input.qtip('option', 'content.text', message);
+            $input.qtip('option', 'theme', 'info');
+        }
+        if(!hidden){
+            $input.qtip('show');
+        }
+    };
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -48,7 +79,7 @@ define([
     var render = function render (interaction){
         return new Promise(function(resolve, reject){
 
-            var $el, expectedLength, minStrings, expectedLines, patternMask, placeholderType, editor;
+            var $el, expectedLength, minStrings, patternMask, placeholderType, editor;
             var $container = containerHelper.get(interaction);
 
             var multiple = _isMultiple(interaction);
@@ -62,7 +93,7 @@ define([
                 'language': 'en',
                 'defaultLanguage': 'en',
                 'resize_enabled': true,
-                'secure': location.protocol == 'https:',
+                'secure': location.protocol === 'https:',
                 'forceCustomDomain' : true
             };
 
@@ -102,14 +133,14 @@ define([
                     if(editor.status === 'ready' || editor.status === 'loaded'){
                         _.defer(resolve);
                     }
-                    editor.on('configLoaded', function(e) {
+                    editor.on('configLoaded', function() {
                         editor.config = ckConfigurator.getConfig(editor, toolbarType, ckOptions);
 
                         if(limiter.enabled){
                             limiter.listenTextInput();
                         }
                     });
-                    editor.on('change', function(e) {
+                    editor.on('change', function() {
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
@@ -117,7 +148,7 @@ define([
 
                 } else {
 
-                    $el.on('keyup.commonRenderer change.commonRenderer', function(e) {
+                    $el.on('keyup.commonRenderer change.commonRenderer', function() {
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
@@ -344,6 +375,7 @@ define([
         var expectedLength = interaction.attr('expectedLength');
         var expectedLines  = interaction.attr('expectedLines');
         var patternMask    = interaction.attr('patternMask');
+        var patternRegEx;
         var $textarea,
             $charsCounter,
             $wordsCounter,
@@ -366,6 +398,9 @@ define([
                 maxLength = patternMaskHelper.parsePattern(patternMask, 'chars');
                 maxWords = (_.isNaN(maxWords)) ? undefined : maxWords;
                 maxLength = (_.isNaN(maxLength) ? undefined : maxLength);
+                if (!maxLength && !maxWords) {
+                    patternRegEx = new RegExp(patternMask);
+                }
             }
         }
 
@@ -423,6 +458,34 @@ define([
                 ];
                 var cke;
 
+                createTooltip($container, 'error', __('This is not a valid answer'), true, true);
+                var patternHandler = function patternHandler(e) {
+                    var isCke = _getFormat(interaction) === 'xhtml';
+                    var newValue;
+                    if (patternRegEx) {
+                        if(isCke) {
+                            // cke has its own object structure
+                            newValue = e.data.dataValue;
+                        }
+                        else {
+                            // covers input
+                            newValue = e.currentTarget.value;
+                        }
+
+                        if(!newValue) {
+                            return false;
+                        }
+                        _.debounce(function(){
+                            if (!patternRegEx.test(newValue)) {
+                                $container.addClass('invalid').qtip('show');
+                                containerHelper.triggerResponseChangeEvent(interaction);
+                            } else {
+                                $container.removeClass('invalid').qtip('hide');
+                            }
+                        }, 400)();
+                    }
+                };
+
                 /**
                  * This part works on keyboard input
                  *
@@ -432,8 +495,11 @@ define([
                 var keyLimitHandler = function keyLimitHandler(e){
                     var keyCode = e && e.data ? e.data.keyCode : e.which ;
                     if ( (!_.contains(ignoreKeyCodes, keyCode) ) &&
-                         (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
-                         (maxLength && self.getCharsCount() >= maxLength))){
+                        (
+                            (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
+                            (maxLength && self.getCharsCount() >= maxLength))
+                        )
+                    ){
                         if (e.cancel){
                             e.cancel();
                         } else {
@@ -511,6 +577,7 @@ define([
 
                 } else {
                     $textarea
+                    .on('keyup.commonRenderer', patternHandler)
                     .on('keydown.commonRenderer', keyLimitHandler)
                     .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
                 }
