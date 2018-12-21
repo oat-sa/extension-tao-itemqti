@@ -26,20 +26,8 @@
 <hr/>
 
 <div class="response-mapping-attributes{{#if mappingDisabled}} hidden{{/if}}">
-    <div class="panel" data-editx="map">
+    <div class="panel min-max-panel" data-editx="map">
         <h3>{{__ "Score range"}}</h3>
-        <div>
-            <label for="lowerBound" class="spinner">Min</label>
-            <input name="lowerBound" value="{{lowerBound}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
-            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-            <span class="tooltip-content">{{__ "Minimal  score for this interaction."}}</span>
-        </div>
-        <div>
-            <label for="upperBound" class="spinner">Max</label>
-            <input name="upperBound" value="{{upperBound}}"{{#if mappingDisabled}} disabled="true"{{/if}} class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
-            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-            <span class="tooltip-content">{{__ "Maximal score for this interaction."}}</span>
-        </div>
     </div>
 
     <div class="panel" data-editx="map">

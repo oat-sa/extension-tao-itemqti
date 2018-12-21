@@ -66,33 +66,6 @@ define([
             height: this.element.attr('height')
         });
         if (this.$original[0]) {
-
-            // todo delete all these commentaries if approved
-            //previously it looked like
-            //this.$original[0].setAttribute('width', '100%');
-            //this.$original[0].setAttribute('height', '100%');
-            //it was changed to that state to fix the problem
-            //when we have images inside item look like 100% width,
-            //and no matter was it changed to lower value or not
-
-            /*
-            TODO Check it, please, maybe I've missed something but with new mediaEditor width="100%" will be enough
-            because all sizes controlled by the container
-
-            var width = this.$original[0].getAttribute('width');
-            if (isNaN(width) && width.indexOf('%') === -1) {
-                width = '100%';
-            }
-
-            var height = this.$original[0].getAttribute('width');
-            if (isNaN(height) && height.indexOf('%') === -1) {
-                height = '100%';
-            }
-
-            this.$original[0].setAttribute('width', width);
-            this.$original[0].setAttribute('height', height);
-            */
-
             this.$original[0].setAttribute('width', '100%');
             this.$original[0].removeAttribute('height');
         }
