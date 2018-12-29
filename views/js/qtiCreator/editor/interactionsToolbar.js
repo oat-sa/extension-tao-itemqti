@@ -209,7 +209,7 @@ define([
             }));
 
         $inlineInteractionsPanel.append($tooltip);
-        tooltip($inlineInteractionsPanel);
+        tooltip.lookup($inlineInteractionsPanel);
 
         $tooltip.css({
             position : 'absolute',

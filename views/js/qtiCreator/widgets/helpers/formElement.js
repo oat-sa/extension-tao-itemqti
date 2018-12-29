@@ -75,12 +75,14 @@ define([
      *
      */
     var createTooltip = function createTooltip($input, validatorOptions) {
-        tooltip($input, {
+        var instance = tooltip($input, {
             theme: 'error',
             trigger: 'manual',
             title: '',
             container: validatorOptions.$container[0]
         });
+
+        $input.data('$tooltip', instance);
         $input.attr('data-has-tooltip',true);
 
     };
@@ -122,7 +124,7 @@ define([
 
         initWidget: function initWidget($form) {
             spinner($form);
-            tooltip($form);
+            tooltip.lookup($form);
             select2($form);
         },
 

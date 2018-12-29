@@ -57,6 +57,7 @@ define([
         var opts = _.clone(_defaultOptions),
             required = !!interaction.attr('required');
         _.extend(opts, options);
+        var $tooltip;
 
         var $container = containerHelper.get(interaction);
 
@@ -75,7 +76,18 @@ define([
 
         var $el = $container.select2('container');
 
-        _setInstructions(interaction);
+
+        if(required){
+            //set up the tooltip plugin for the input
+            $tooltip = tooltip.instance($el, {
+                theme : 'warning',
+                title: __('A choice must be selected')
+            });
+
+            if($container.val() === "") {
+                $tooltip.show();
+            }
+        }
 
         $container.on('change', function(e){
             //if tts component is loaded and click-to-speak function is activated - we must fix the situation when select2 prevents tts from working
@@ -89,7 +101,7 @@ define([
             }
 
             if(required && $container.val() !== "") {
-                $el.data('$tooltip').hide();
+                $tooltip.hide();
 
             }
 
@@ -97,34 +109,14 @@ define([
 
         }).on('select2-open', function(){
             if(required){
-                $el.data('$tooltip').hide();
+                $tooltip.hide();
             }
         }).on('select2-close', function(){
             if(required && $container.val() === "") {
-                $el.data('$tooltip').show();
+                $tooltip.show();
 
             }
         });
-    };
-
-    var _setInstructions = function(interaction){
-
-        var required = !!interaction.attr('required'),
-            $container = interaction.getContainer(),
-            $el = $container.select2('container');
-
-        if(required){
-            //set up the tooltip plugin for the input
-            tooltip($el, {
-                theme : 'warning',
-                title: __('A choice must be selected')
-            });
-
-            if($container.val() === "") {
-                $el.data('$tooltip').show();
-            }
-        }
-
     };
 
     var resetResponse = function(interaction){
