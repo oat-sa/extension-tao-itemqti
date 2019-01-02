@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.2.0-sprint39\n"
-"PO-Revision-Date: 2016-11-30T13:08:03\n"
+"Project-Id-Version: TAO 3.3.0-sprint91\n"
+"PO-Revision-Date: 2018-12-14T16:25:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,6 +16,9 @@ msgstr ""
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr "Riempi gli spazi mancanti sotto forma di testo da una serie di scelte."
 
+msgid " For Resource "
+msgstr ""
+
 msgid " or "
 msgstr ""
 
@@ -28,11 +31,24 @@ msgstr "%d item di %d importati dal pacchetto IMS QTI fornito."
 msgid "%d/%d"
 msgstr ""
 
+msgid "%s metadata values found in source by extractor(s)."
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "- Qualsiasi tipo di file -"
 
+msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
 msgid "A choice must be selected"
 msgstr "Occorre selezionare una scelta."
+
+msgid "A human interpretation of the variable's value."
+msgstr ""
+
+msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
+msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Un blocco rubrica identifica una parte di blocco-item di un item di valutazione che rappresenta istruzioni a uno o più attori che osservano gli item. Anche se i blocchi rubrica sono definiti come semplici blocchi, essi non devono contenere interazioni."
@@ -91,9 +107,6 @@ msgstr "Testo alternativo"
 msgid "An error occured while exporting an item."
 msgstr ""
 
-msgid "An error occured while exporting the item %s."
-msgstr ""
-
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr "Si è verificato un errore durante l'estrazione dell'archivio ZIP che rappresenta l'IMS Content Package."
 
@@ -106,19 +119,26 @@ msgstr "Si è verificato un errore durante l'analisi dei dati IMS QTI"
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
-msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr "Si è verificato un errore imprevisto durante l'importazione del pacchetto item IMS QTI"
-
-msgid "An unexpected error occured during the import of the QTI Item. The system returned the following error:"
-msgstr "Si è verificato un errore imprevisto durante l'importazione dell'item QTI. Il sistema ha restituito il seguente errore:"
-
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Si è verificato un errore imprevisto durante l'elaborazione della risposta"
 
-msgid "An unknown error occured while importing the IMS QTI Package."
-msgstr "Si è verificato un errore sconosciuto durante l'importazione del pacchetto IMS QTI."
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
+msgstr ""
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
+msgstr ""
+
+msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
+msgstr ""
+
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
 
 msgid "APIP Content Package"
+msgstr ""
+
+msgid "Apip Package successfully exported."
 msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
@@ -136,6 +156,9 @@ msgstr "coppie di associazione"
 msgid "at least"
 msgstr "almeno"
 
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr ""
+
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -145,11 +168,14 @@ msgstr ""
 msgid "Background color"
 msgstr "Colore di fondo"
 
-msgid "Block"
-msgstr "Blocco"
+msgid "Base"
+msgstr ""
 
 msgid "block"
 msgstr "blocco"
+
+msgid "Block"
+msgstr "Blocco"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Il blocco contiene il contenuto (stimolo) dell'item, ad esempio testo o immagine. E 'anche necessario per Ie interazioni inline"
@@ -163,13 +189,31 @@ msgstr "Naviga nel tuo computer e seleziona il file appropriato."
 msgid "Browse..."
 msgstr "Esplora..."
 
-msgid "Cancel"
-msgstr "Cancella"
-
 msgid "cancel"
 msgstr "cancella"
 
+msgid "Cancel"
+msgstr "Cancella"
+
+msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr ""
+
+msgid "Cannot delete a variable currently used in response processing"
+msgstr ""
+
+msgid "Cannot edit a variable currently used in response processing"
+msgstr ""
+
+msgid "cannot find QTI XML"
+msgstr ""
+
+msgid "cannot load QTI XML"
+msgstr ""
+
 msgid "Cannot locate the file \"%s"
+msgstr ""
+
+msgid "Center"
 msgstr ""
 
 msgid "chars"
@@ -193,14 +237,29 @@ msgstr ""
 msgid "Choices"
 msgstr "Scelte"
 
+msgid "Choose the horizontal alignment for the table."
+msgstr ""
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr ""
+
+msgid "Class successfully created."
+msgstr ""
+
+msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
+msgstr ""
+
+msgid "Classification metadata is required to be extracted."
+msgstr ""
+
+msgid "Classification value to map has to a string"
+msgstr ""
+
 msgid "Click again to remove"
 msgstr "Clicca di nuovo per rimuovere"
 
 msgid "Click to display interaction widget"
 msgstr "Clicca per visualizzare widget di interazione"
-
-msgid "Close"
-msgstr "Chiudi"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Raccogli informazione indeterminata in un breve input di testo (stringhe o valori numerici)."
@@ -217,11 +276,14 @@ msgstr "Vincoli"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Controlla i parametri di riproduzione (auto-start, anello) di un video o un file audio e riporta il numero di volte che è stato riprodotto."
 
+msgid "Correct"
+msgstr "Corretto"
+
 msgid "correct"
 msgstr "corretto"
 
-msgid "Correct"
-msgstr "Corretto"
+msgid "Cosinus"
+msgstr ""
 
 msgid "Create assocations and fill the score in the form below"
 msgstr ""
@@ -250,17 +312,23 @@ msgstr "Valore corrente"
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr "Attualmente la conversione da MathML a LaTeX non è disponibile. La modifica MathML qui non avrà validità in LaTex."
 
+msgid "custom"
+msgstr ""
+
 msgid "Custom Response Processing Mode"
 msgstr "Modalità di elaborazione di risposta personalizzata"
-
-msgid "Default"
-msgstr "Default"
 
 msgid "default"
 msgstr "default"
 
+msgid "Default"
+msgstr "Default"
+
 msgid "Define correct response"
 msgstr "Definisci la risposta corretta"
+
+msgid "Define item language."
+msgstr ""
 
 msgid "define prompt"
 msgstr "definisci il prompt"
@@ -277,14 +345,23 @@ msgstr "Stabilisci se nella somministrazione l'item deve essere dipendente dal t
 msgid "Defined width"
 msgstr "Definisci la larghezza "
 
+msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
+msgstr ""
+
 msgid "delete"
 msgstr "elimina"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Elimina ulteriore affermazione"
 
 msgid "Delete this modal feedback"
 msgstr "Eliminina questo feedback di modalità"
+
+msgid "Delimiter"
+msgstr ""
 
 msgid "Description"
 msgstr "Descrizione"
@@ -295,10 +372,16 @@ msgstr "Disattiva temporaneamente questo foglio di stile"
 msgid "Display"
 msgstr "Display"
 
-msgid "Display larger editor"
-msgstr "Visualizza l´editor più grande"
-
 msgid "Display the choices either horizontally or vertically"
+msgstr ""
+
+msgid "Divide"
+msgstr ""
+
+msgid "Don\'t save"
+msgstr ""
+
+msgid "Done"
 msgstr ""
 
 msgid "done"
@@ -328,6 +411,9 @@ msgstr "es 13"
 msgid "e.g. 960"
 msgstr "e.g. 960"
 
+msgid "Edit"
+msgstr ""
+
 msgid "edit choices"
 msgstr "modifica scelte"
 
@@ -336,6 +422,9 @@ msgstr "Modifica l'espressione matematica utilizzando un linguaggio tipo LaTex, 
 
 msgid "Edit math expression using MathML"
 msgstr "Modifica espressione matematica utilizzando MathML"
+
+msgid "Edit modal feedback"
+msgstr ""
 
 msgid "Edit modal feedback title"
 msgstr "Modifica titolo feedback modale"
@@ -373,10 +462,25 @@ msgstr ""
 msgid "Enter choices…"
 msgstr ""
 
+msgid "Enter tooltip content"
+msgstr ""
+
+msgid "Enter tooltip target"
+msgstr ""
+
 msgid "Error on item %1$s : %2$s"
 msgstr ""
 
 msgid "Error on item %s"
+msgstr ""
+
+msgid "Error to export item %s: %s"
+msgstr ""
+
+msgid "Euler\'s constant"
+msgstr ""
+
+msgid "Exponent"
 msgstr ""
 
 msgid "Export"
@@ -385,7 +489,9 @@ msgstr "Esporta"
 msgid "Export APIP 1.0 Package"
 msgstr "Esporta il pacchetto APIP 1.0"
 
-#, tao-public
+msgid "Export failed for the item \"%s\": %s"
+msgstr ""
+
 msgid "Export metadata"
 msgstr ""
 
@@ -394,6 +500,9 @@ msgstr ""
 
 msgid "Export QTI 2.1 Package"
 msgstr "Esporta il pacchetto QTI 2.1"
+
+msgid "Export QTI 2.2 Package"
+msgstr ""
 
 msgid "Extended Text"
 msgstr "Espandi il testo"
@@ -414,6 +523,9 @@ msgid "Feedback"
 msgstr "Feedback"
 
 msgid "Feedback Style"
+msgstr ""
+
+msgid "Field"
 msgstr ""
 
 msgid "File"
@@ -443,6 +555,9 @@ msgstr "Dimensione del carattere"
 msgid "Format"
 msgstr "Formato"
 
+msgid "Fraction"
+msgstr ""
+
 msgid "Gap"
 msgstr "Gap"
 
@@ -451,9 +566,6 @@ msgstr "Gap Match"
 
 msgid "Gap Match Interaction"
 msgstr "Gap Match Interaction"
-
-msgid "Gaps"
-msgstr "Gap"
 
 msgid "GIF image"
 msgstr "Immagine GIF"
@@ -466,6 +578,12 @@ msgstr "Graphic Gap Match Interaction"
 
 msgid "Graphic Order Interaction"
 msgstr "Graphic Order Interaction"
+
+msgid "Greater than or equal"
+msgstr ""
+
+msgid "Guard for resource \"%s\"..."
+msgstr ""
 
 msgid "Height"
 msgstr "Altezza"
@@ -500,11 +618,17 @@ msgstr "Identificatore"
 msgid "identifier"
 msgstr "identifica"
 
+msgid "identifier already taken"
+msgstr ""
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Se assegnata, la mascherina del modello indica una formulazione che la risposta del candidato deve soddisfare per poter essere considerata valida"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "Se la stringa di interazione è associata a una variabile di risposta numerica si deve poi utilizzare l'attributo di base per impostare la base numerica con cui interpretare il valore inserito dal candidato."
+
+msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
+msgstr ""
 
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr ""
@@ -518,17 +642,32 @@ msgstr ""
 msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
 
+msgid "Import QTI ITEM into \"%s"
+msgstr ""
+
 msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
 msgstr ""
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
 msgstr "L' Item IMS QTI riferito a \"%s\" nel file IMS Manifest non può essere importato."
 
+msgid "In Progress"
+msgstr ""
+
+msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
+msgstr ""
+
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
 msgstr "In ambienti visivi, le interazioni delle stringhe sono in genere rappresentate da scatole vuote in cui il candidato scrive o digita. I motori della somministrazione devono utilizzare il valore di questo attributo (se presente) invece del loro testo segnaposto di default quando questo è richiesto."
 
 msgid "incorrect"
 msgstr "Non corretto"
+
+msgid "Index"
+msgstr ""
+
+msgid "Infinity"
+msgstr ""
 
 msgid "inline"
 msgstr "In linea"
@@ -548,8 +687,14 @@ msgstr "Sfondo delle interazioni"
 msgid "Interaction Properties"
 msgstr "Proprietà dell'interazione"
 
+msgid "Interpretation"
+msgstr ""
+
 msgid "invalid identifier"
 msgstr "Identificatore non valido"
+
+msgid "invalid QTI XML"
+msgstr ""
 
 msgid "Is this choice the correct response?"
 msgstr "È questa scelta la risposta corretta?"
@@ -557,14 +702,23 @@ msgstr "È questa scelta la risposta corretta?"
 msgid "Is this pair the correct response?"
 msgstr "È questa coppia la risposta corretta?"
 
-msgid "Item "
+msgid "Item \"%s\" cannot be exported: %s"
+msgstr ""
+
+msgid "Item \"%s\" has no xml document"
 msgstr ""
 
 msgid "Item \"%s\" is not available in any language"
 msgstr "L'item\"%s\" non è disponibile in tutte le lingue"
 
-msgid "Item \'%s\' has no model"
-msgstr "L'item \\ '% s \\' non ha un modello"
+msgid "Item \"%s\" is ready to be exported"
+msgstr ""
+
+msgid "Item metadata successfully exported."
+msgstr ""
+
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
 
 msgid "Item properties"
 msgstr "Proprietà dell'item"
@@ -585,20 +739,29 @@ msgstr "Immagine JPEG"
 msgid "Label"
 msgstr "Etichetta"
 
+msgid "Language"
+msgstr ""
+
+msgid "Large editor"
+msgstr ""
+
+msgid "LaTeX"
+msgstr ""
+
 msgid "Latex"
 msgstr "Latex"
-
-msgid "LaTex"
-msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "Lasciare vuoto"
 
+msgid "left"
+msgstr "sinistra"
+
 msgid "Left"
 msgstr "Sinistra"
 
-msgid "left"
-msgstr "sinistra"
+msgid "Left bracket"
+msgstr ""
 
 msgid "Length"
 msgstr "Lunghezza"
@@ -612,16 +775,24 @@ msgstr "Righe"
 msgid "List Style"
 msgstr "Stile dell'elenco"
 
+msgid "Ln"
+msgstr ""
+
+msgid "Log"
+msgstr ""
+
 msgid "Loop"
 msgstr "Ciclo"
 
 msgid "Lower Bound"
 msgstr "Limite inferiore"
 
-msgid "Malformed XML:\n"
+msgid "Lower than or equal"
+msgstr ""
+
+msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr "XML non corretto:\n"
-" %s"
+msgstr ""
 
 #, tao-public
 msgid "Manage items"
@@ -630,11 +801,20 @@ msgstr "Gestisci item"
 msgid "Manage Items"
 msgstr "Gestisci gli item"
 
+msgid "map response"
+msgstr ""
+
 msgid "Mapping default"
 msgstr "Mappatura di default"
 
+msgid "Mapping Indicator"
+msgstr ""
+
 msgid "Match"
 msgstr "Corrispondenza"
+
+msgid "match correct"
+msgstr ""
 
 msgid "Match Interaction"
 msgstr "Interazione corrispondenza"
@@ -648,17 +828,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Massimo"
 
-msgid "Max Length"
-msgstr "Lunghezza massima"
-
 msgid "Max length"
 msgstr "Lunghezza massima"
 
-msgid "Max words"
-msgstr "parole massime"
+msgid "Max Length"
+msgstr "Lunghezza massima"
+
+msgid "Max plays count"
+msgstr ""
 
 msgid "Max Words"
 msgstr "Massimo numero di parole"
+
+msgid "Max words"
+msgstr "parole massime"
 
 msgid "Max. number of matches"
 msgstr "Max. numero di matches"
@@ -683,6 +866,18 @@ msgstr "percorso file multimediale o indirizzo del video su YouTube"
 
 msgid "Media Interaction"
 msgstr "Interazione con il mezzo"
+
+msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
+msgstr ""
+
+msgid "Metadata export requires an instance of DomManifest to inject metadata"
+msgstr ""
+
+msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
+msgstr ""
+
+msgid "Metadata import requires an instance of DomManifest to extract metadata"
+msgstr ""
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -720,6 +915,9 @@ msgstr "Audio MPEG"
 msgid "MPEG video"
 msgstr "Video MPEG"
 
+msgid "Multiply"
+msgstr ""
+
 msgid "negative"
 msgstr ""
 
@@ -736,6 +934,9 @@ msgstr "nessuna proprietà di configurazione necessaria"
 msgid "No file selected"
 msgstr "Nessun file selezionato"
 
+msgid "no item content"
+msgstr ""
+
 msgid "No Items could be imported from the given IMS QTI package."
 msgstr "Nessun item puo' essere importato dal dato pacchetto IMS QTI."
 
@@ -748,8 +949,14 @@ msgstr "nessun valore impostato"
 msgid "None"
 msgstr "Nessuno"
 
+msgid "none"
+msgstr ""
+
 msgid "None defined yet."
 msgstr "Non ancora definito."
+
+msgid "not a QTI item"
+msgstr ""
 
 msgid "Number of associations"
 msgstr "Numero di associrazioni"
@@ -763,6 +970,10 @@ msgstr ""
 msgid "one association pair"
 msgstr "Una coppia di associazioni"
 
+msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
+msgstr ""
+
 msgid "Order"
 msgstr "Ordine"
 
@@ -773,6 +984,9 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordina le aree (hotspot) visualizzate su una foto."
 
 msgid "Orientation"
+msgstr ""
+
+msgid "Outcome Declarations"
 msgstr ""
 
 msgid "Pair scoring"
@@ -786,6 +1000,9 @@ msgstr "Pausa"
 
 msgid "PDF file"
 msgstr "File PDF"
+
+msgid "Pi"
+msgstr ""
 
 msgid "Plain text"
 msgstr "Testo semplice"
@@ -872,11 +1089,17 @@ msgstr "Posiziona uno o più punti su una foto (le aree di risposta non sono vis
 msgid "positive"
 msgstr ""
 
+msgid "Power form"
+msgstr ""
+
 msgid "Pre-formatted text"
 msgstr "Testo preformattato"
 
 msgid "Preparing CSS, please wait…"
 msgstr "Preparazione CSS, attendere prego"
+
+msgid "Preparing Metadata Values for target \"%s\"..."
+msgstr ""
 
 msgid "Preview"
 msgstr "Anteprima"
@@ -888,6 +1111,12 @@ msgid "Print"
 msgstr "Stampa"
 
 msgid "Print the item"
+msgstr ""
+
+msgid "Printed Variable"
+msgstr ""
+
+msgid "PropertyUri to map has to a valid uri"
 msgstr ""
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
@@ -905,8 +1134,8 @@ msgstr "Pubblicato %s"
 msgid "QTI Item Runner"
 msgstr "QTI Item Runner"
 
-msgid "QTI Package 2.0"
-msgstr "Pacchetto QTI 2.0"
+msgid "QTI Metadata"
+msgstr ""
 
 msgid "QTI Package 2.1"
 msgstr "Pacchetto QTI 2.1"
@@ -940,6 +1169,12 @@ msgstr "consigliato"
 
 msgid "Reduce font size"
 msgstr "Riduci la dimensione del carattere"
+
+msgid "Register method expects $key and $name parameters"
+msgstr ""
+
+msgid "Register method expects $key and $name parameters."
+msgstr ""
 
 msgid "Remove"
 msgstr "Rimuovi"
@@ -977,8 +1212,17 @@ msgstr "Rimuovi la forma personalizzata"
 msgid "Remove this stylesheet"
 msgstr "Rimuovi questo foglio di stile"
 
+msgid "Replay timeout"
+msgstr ""
+
 msgid "required"
 msgstr "richiesto"
+
+msgid "Resource "
+msgstr ""
+
+msgid "Resource(s) successfully exported."
+msgstr ""
 
 msgid "Response"
 msgstr "Risposta"
@@ -992,8 +1236,14 @@ msgstr "Elaborazione risposta"
 msgid "Response Properties"
 msgstr "Proprietà della risposta"
 
+msgid "Right"
+msgstr ""
+
 msgid "right"
 msgstr "destra"
+
+msgid "Right bracket"
+msgstr ""
 
 msgid "Rollback on..."
 msgstr "Rollback on..."
@@ -1007,17 +1257,20 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "punteggio"
-
 msgid "Score"
 msgstr "Punteggio"
+
+msgid "score"
+msgstr "punteggio"
 
 msgid "Score range"
 msgstr "Intervallo di punteggio"
 
 msgid "Score value"
 msgstr "Valore di punteggio"
+
+msgid "Select"
+msgstr ""
 
 msgid "Select a "
 msgstr "Seleziona un"
@@ -1079,6 +1332,9 @@ msgstr "Seleziona lo stimolo comune"
 msgid "Select the area to add an image"
 msgstr "Seleziona l'area da aggiungere ad una immagine"
 
+msgid "Select the outcome variable you want to display."
+msgstr ""
+
 msgid "Select the way the response of your interaction should be processed"
 msgstr "Seleziona il modo in cui la risposta della tua interazione dovrebbe essere elaborata"
 
@@ -1088,6 +1344,9 @@ msgstr "Seleziona questa area"
 msgid "Select this area to start an association"
 msgstr "Seleziona quest'area per avviare un'associazione"
 
+msgid "Set a CSS class name in order to customize the display style."
+msgstr ""
+
 msgid "Set the score for this response"
 msgstr "Impostare il punteggio per questa risposta"
 
@@ -1096,6 +1355,9 @@ msgstr "Posizione della forma"
 
 msgid "Shuffle choices"
 msgstr "Scelte casuali"
+
+msgid "Sinus"
+msgstr ""
 
 msgid "Size and position"
 msgstr "Dimensione e posizione"
@@ -1108,6 +1370,9 @@ msgstr "Interazione del cursore"
 
 msgid "some text ..."
 msgstr "del testo..."
+
+msgid "Square root"
+msgstr ""
 
 msgid "standard"
 msgstr ""
@@ -1124,6 +1389,9 @@ msgstr "Foglio di stile <b>%s </b> rimosso <br> Fare clic su <i> Aggiungi foglio
 msgid "Style Sheet Manager"
 msgstr "Gestore foglio di stile"
 
+msgid "Success"
+msgstr ""
+
 msgid "Successfully compiled \"%s"
 msgstr "Compilato correttamente \"5s"
 
@@ -1136,8 +1404,14 @@ msgstr "Intestazione tabella"
 msgid "TAO default styles"
 msgstr "Stile di default di Tao"
 
+msgid "Target Class Lookup for resource \"%s\"..."
+msgstr ""
+
 msgid "Text Block"
 msgstr "Blocco di testo"
+
+msgid "Text Block CSS Class"
+msgstr ""
 
 msgid "Text Block Properties"
 msgstr "Proprietà del blocco di testo"
@@ -1151,9 +1425,6 @@ msgstr "Inserisci Testo"
 msgid "Text Entry Interaction"
 msgstr "Inserimento interazione di testo"
 
-msgid "The \"%s\" QTI component is not supported."
-msgstr "ll \"% s\" componente QTI non è supportato."
-
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
 msgstr "L'attributo autostart determina se l'oggetto multimediale parte non appena il candidato inizia il tentativo (selezionato) o se l'oggetto multimediale deve partire  sotto il controllo del candidato (non selezionato)."
 
@@ -1163,6 +1434,12 @@ msgstr "L'etichetta del pulsante"
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
 msgstr "Il valore di default dell'obiettivo e' utilizzato quando non viene data esplicita mappatura per un valore di origine."
 
+msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The field specifier to use when displaying variables of record cardinality."
+msgstr ""
+
 msgid "The file path to the image."
 msgstr "Il percorso del file all'immagine."
 
@@ -1171,6 +1448,12 @@ msgstr ""
 
 msgid "The file path to the shared stimulus."
 msgstr "Il percorso del file allo stimolo comune."
+
+msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
+msgstr ""
+
+msgid "The given target is not an instance of core_kernel_classes_Resource"
+msgstr ""
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
 msgstr "La scelta evidenziata non può essere associata più di %d volta"
@@ -1190,11 +1473,20 @@ msgstr "L'identificativo dell'identificativo di risposta. Questo identificatore 
 msgid "The IMS QTI Item could not be imported."
 msgstr "L'item IMS QTI non può essere importato."
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
 msgstr "L'item IMS QTI riferito a \"%s\" nel file IMS Manifest è già stato memorizzato nella banca item."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
 msgstr "L'item IMS QTI riferito a \"% s\" nel file IMS Manifest è stato importato con successo."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "L'item IMS QTI riferito a \"%s\" nel IMS Manifest è stato ripristinato correttamente."
@@ -1202,10 +1494,19 @@ msgstr "L'item IMS QTI riferito a \"%s\" nel IMS Manifest è stato ripristinato 
 msgid "The IMS QTI Item was successfully imported."
 msgstr "L'item IMS QTI è stato importato con successo."
 
+msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
+msgstr ""
+
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr ""
 
 msgid "The item has not been saved!"
+msgstr ""
+
+msgid "The item has unsaved changes, are you sure you want to leave ?"
+msgstr ""
+
+msgid "The item has unsaved changes, would you like to save it ?"
 msgstr ""
 
 msgid "The item needs to be saved before it can be previewed"
@@ -1226,17 +1527,23 @@ msgstr "Il limite inferiore del cursore"
 msgid "The manifest argument must be an instance of DOMDocument."
 msgstr "L'argomento manifesto deve essere un'istanza di DOMDocument."
 
+msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The mapping options are available when at least one map entry is defined."
+msgstr ""
+
 msgid "The maximum number of association is unlimited."
 msgstr "Il numero massimo di associazioni è illimitato."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "Il numero massimo di associazioni che il candidato è autorizzato a fare."
 
-msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
-msgstr "Il numero massimo di scelte che il candidato è autorizzato a selezionare per formare una risposta valida."
-
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Il numero massimo di scelte che il candidato è autorizzato a selezionare."
+
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
 
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Il numero massimo di scelte cui questa scelta puo' essere associata a"
@@ -1262,8 +1569,14 @@ msgstr "Il numero minimo di scelte che il candidato deve selezionare per formare
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
 msgstr "Il numero minimo di scelte che questa scelta deve associare per formare una risposta valida."
 
+msgid "The number base to use when converting integer variables to strings with the i conversion type code."
+msgstr ""
+
 msgid "The number of units corresponding to a step on the slider"
 msgstr "Il numero di unità corrispondente ad un passaggio sul cursore"
+
+msgid "The path argument for extractor must be a non-empty array."
+msgstr ""
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
 msgstr "Il criterio identificativo dell'articolo. Questo identificativo deve avere una voce corrispondente nei metadati dell'item."
@@ -1276,6 +1589,9 @@ msgstr "La classe QTI \"% 1 $ s\" che si trova alla riga \"% 2 $ d\" non è attu
 
 msgid "The Response Processing Template \"%s\" is not supported."
 msgstr "La risposta di elaborazione del Modello \"% s\" non è supportata."
+
+msgid "The score format is not numeric"
+msgstr ""
 
 msgid "The selected file is ready to be sent."
 msgstr "Il file selezionato è pronto per essere inviato."
@@ -1324,6 +1640,9 @@ msgstr "Questo identificatore è già in uso"
 msgid "This is not a valid answer"
 msgstr "Questa non è una risposta valida."
 
+msgid "This is required"
+msgstr ""
+
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Questo foglio di stile non è stato trovato sul server. si consiglia di eliminare questo riferimento "
 
@@ -1332,6 +1651,18 @@ msgstr "Tempo dipendente"
 
 msgid "Title"
 msgstr "Titolo"
+
+msgid "to"
+msgstr ""
+
+msgid "Tooltip Content"
+msgstr ""
+
+msgid "Tooltip editor"
+msgstr ""
+
+msgid "Tooltip Target"
+msgstr ""
 
 msgid "Top"
 msgstr "Cima"
@@ -1342,6 +1673,9 @@ msgstr "Innesca la fine del tentativo di item."
 msgid "Unable to retrieve asset \"%s"
 msgstr "Impossibile recuperare risorsa: %1"
 
+msgid "Unable to retrieve item : "
+msgstr ""
+
 msgid "Unable to validate %s: %s"
 msgstr ""
 
@@ -1350,6 +1684,12 @@ msgstr "Ripristina"
 
 msgid "Undo"
 msgstr "Ripristina"
+
+msgid "Unknown $key to register MetadataService instance"
+msgstr ""
+
+msgid "Unregister method expects $key and $name parameters."
+msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr "Carica un file (ad esempio documenti, foto ...) come risposta."
@@ -1362,6 +1702,9 @@ msgstr "Utilizza questo se desideri che l'elenco delle scelte sia prefissato (ad
 
 msgid "Used to control the format of the text entered by the candidate."
 msgstr "Usato per controllare il formato del testo immesso dal candidato."
+
+msgid "Value"
+msgstr ""
 
 msgid "Vertical"
 msgstr ""
@@ -1387,7 +1730,10 @@ msgstr "parole"
 msgid "Would you like to replace the alt text"
 msgstr "Volete sostituire il testo"
 
-msgid "Wrong type of file. Expected %s"
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr ""
+
+msgid "WYSIWYG editor"
 msgstr ""
 
 msgid "XHTML"
