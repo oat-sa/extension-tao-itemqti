@@ -89,6 +89,7 @@ define([
             var value;
             var score;
             var key;
+            var instance;
 
             options = _.defaults(options || {}, {
                 required : false,
@@ -103,11 +104,13 @@ define([
             });
 
             if(typeof $scoreInput.data('$tooltip') === 'undefined'){
-                tooltip($scoreInput,{
+                instance = tooltip.instance($scoreInput,{
                     trigger:'manual',
                     theme:'error',
                     title:''
                 });
+                $scoreInput.data('$tooltip', instance);
+
             }
 
             value = $scoreInput.val();

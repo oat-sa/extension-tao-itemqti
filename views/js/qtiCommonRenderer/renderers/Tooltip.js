@@ -22,20 +22,27 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/tooltip',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'ui/tooltip'
-], function(tpl, containerHelper, tooltipUi){
+], function(tpl, containerHelper, tooltip){
     'use strict';
 
     return {
         qtiClass : '_tooltip',
         template : tpl,
         getContainer : containerHelper.get,
-        render: function render(tooltip) {
-            var $container = containerHelper.get(tooltip);
-            tooltipUi($container, {
+        render: function render(tooltipDOM) {
+            var $container = containerHelper.get(tooltipDOM);
+            var instance = tooltip.instance($container, {
                 theme: 'default',
-                title: tooltip.content(),
+                title: tooltipDOM.content(),
                 placement: 'top'
             });
+
+            if($container.data('$tooltip')){
+                $container.data('$tooltip').dispose();
+                $container.removeData('$tooltip');
+            }
+            $container.data('$tooltip', instance);
+
         }
     };
 });

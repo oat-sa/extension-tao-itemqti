@@ -75,7 +75,7 @@ define([
      *
      */
     var createTooltip = function createTooltip($input, validatorOptions) {
-        var instance = tooltip($input, {
+        var instance = tooltip.instance($input, {
             theme: 'error',
             trigger: 'manual',
             title: '',

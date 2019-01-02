@@ -74,7 +74,7 @@ define([
                     assert.equal($tooltip.html().trim(), 'inline <i>interaction</i> container', 'tooltip 1 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 1 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'This is a container for inline choices and inline text entries.',
                         'tooltip content is correct'
                     );
@@ -86,7 +86,7 @@ define([
                     assert.equal($tooltip.html().trim(), 'tooltip', 'tooltip 2 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 2 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'Some say that the word "tooltip" does not really exist.',
                         'tooltip content is correct'
                     );
@@ -98,7 +98,7 @@ define([
                     assert.equal($tooltip.html().trim(), 'QTI <strong>prompt</strong>', 'tooltip 3 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 3 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'The text before the question.',
                         'tooltip content is correct'
                     );
@@ -110,7 +110,7 @@ define([
                     assert.equal($tooltip.html().trim(), '<i>strange</i> word', 'tooltip 4 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 4 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'But it will not be revealed here.',
                         'tooltip content is correct'
                     );
