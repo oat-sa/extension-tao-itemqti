@@ -43,6 +43,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\tao\model\media\MediaService;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
+use common_exception_BadRequest;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -57,12 +58,15 @@ class QtiCreator extends tao_actions_CommonModule
     /**
      * create a new QTI item
      *
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
+     *
      * @requiresRight id WRITE
      */
     public function createItem()
     {
         if(!\tao_helpers_Request::isAjax()){
-            throw new \Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
         $clazz = new \core_kernel_classes_Resource($this->getRequestParameter('id'));
         if ($clazz->isClass()) {

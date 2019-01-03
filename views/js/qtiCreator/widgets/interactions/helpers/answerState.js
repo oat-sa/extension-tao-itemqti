@@ -22,9 +22,19 @@ define([
     'i18n',
     'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule'
-], function($, _, __, responseHelper, formElement, responseFormTpl, modalFeedbackRule){
+], function (
+    $,
+    _,
+    __,
+    responseHelper,
+    formElement,
+    minMaxComponentFactory,
+    responseFormTpl,
+    modalFeedbackRule
+) {
     'use strict';
 
     var _saveCallbacks = {
@@ -211,9 +221,7 @@ define([
                 mappingDisabled: _.isEmpty(response.mapEntries),
                 template : template,
                 templates : _getAvailableRpTemplates(interaction, options.rpTemplates),
-                defaultValue : response.getMappingAttribute('defaultValue'),
-                lowerBound : response.getMappingAttribute('lowerBound'),
-                upperBound : response.getMappingAttribute('upperBound')
+                defaultValue : response.getMappingAttribute('defaultValue')
             }));
             widget.$responseForm.find('select[name=template]').val(template);
 
@@ -221,14 +229,28 @@ define([
                 _toggleCorrectWidgets(defineCorrect);
             }
 
-            formElement.setChangeCallbacks(widget.$responseForm, response, {
+            minMaxComponentFactory(widget.$responseForm.find('.response-mapping-attributes > .min-max-panel'), {
+                min: {
+                    fieldName: 'lowerBound',
+                    value : _.parseInt(response.getMappingAttribute('lowerBound')) || 0,
+                    helpMessage: __("Minimal  score for this interaction.")
+                },
+                max: {
+                    fieldName: 'upperBound',
+                    value : _.parseInt(response.getMappingAttribute('upperBound')) || 0,
+                    helpMessage: __("Maximal score for this interaction.")
+                },
+                lowerThreshold: 0, // the same as unchecked
+                upperThreshold: Number.MAX_SAFE_INTEGER,
+                syncValues: true
+            });
+
+            var formChangeCallbacks = {
                 identifier : function(res, value){
                     response.id(value);
                     interaction.attr('responseIdentifier', value);
                 },
                 defaultValue : _saveCallbacks.mappingAttr,
-                lowerBound : _saveCallbacks.mappingAttr,
-                upperBound : _saveCallbacks.mappingAttr,
                 template : function(res, value){
 
                     rp.setProcessingType('templateDriven');
@@ -241,7 +263,22 @@ define([
                     _toggleCorrectWidgets(value);
                     answerStateHelper.defineCorrect(response, !!value);
                 }
-            });
+            };
+
+            _.assign(formChangeCallbacks,
+                formElement.getMinMaxAttributeCallbacks(
+                    response,
+                    'lowerBound',
+                    'upperBound',
+                    {
+                        attrMethodNames: {
+                            set: 'setMappingAttribute',
+                            remove: 'removeMappingAttribute'
+                        }
+                    })
+            );
+
+            formElement.setChangeCallbacks(widget.$responseForm, response, formChangeCallbacks);
 
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
 

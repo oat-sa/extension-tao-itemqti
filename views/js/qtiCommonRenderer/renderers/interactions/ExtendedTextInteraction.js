@@ -74,6 +74,20 @@ define([
                 }
                 if (_getFormat(interaction) === "xhtml") {
 
+                    var _styleUpdater = function(){
+                        var qtiItemStyle, $editorBody, qtiItem;
+
+                        if(editor.document) {
+                            qtiItem = $(".qti-item").get(0);
+                            qtiItemStyle = qtiItem.currentStyle || window.getComputedStyle(qtiItem);
+                            $editorBody = $(editor.document.getBody().$);
+
+                            $editorBody.css({
+                                'background-color': 'transparent',
+                                'color': qtiItemStyle.color
+                            });
+                        }
+                    };
 
                     editor = _setUpCKEditor(interaction, ckOptions);
                     if(!editor){
@@ -81,6 +95,7 @@ define([
                     }
 
                     editor.on('instanceReady', function(){
+                        _styleUpdater();
                         //it seems there's still something done after loaded, so resolved must be defered
                         _.delay(resolve, 300);
                     });
@@ -97,6 +112,8 @@ define([
                     editor.on('change', function(e) {
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
+
+                    $(document).on('themechange.themeloader', _styleUpdater);
 
                 } else {
 
@@ -494,8 +511,8 @@ define([
 
                 } else {
                     $textarea
-                        .on('keydown.commonRenderer', keyLimitHandler)
-                        .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
+                    .on('keydown.commonRenderer', keyLimitHandler)
+                    .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
                 }
             },
 
@@ -731,7 +748,7 @@ define([
         }
     };
 
-     /**
+    /**
      * Clean interaction destroy
      * @param {Object} interaction
      */

@@ -57,8 +57,13 @@ define([
                };
                pci.initialize(id, containerHelper.get(interaction).children().get(0), properties, pciAssetManager);
            },
+           /**
+            *
+            * @param {Object }interaction
+            * @returns {Promise?} the interaction destroy step can be async and can return an optional Promise
+            */
            destroy : function destroy(interaction){
-               instanciator.getPci(interaction).destroy();
+               return instanciator.getPci(interaction).destroy();
            },
            setState : function setState(interaction, state){
                instanciator.getPci(interaction).setSerializedState(state);
