@@ -79,9 +79,8 @@ define([
 
         if(required){
             //set up the tooltip plugin for the input
-            choiceTooltip = tooltip.create($el, {
+            choiceTooltip = tooltip.create($el, __('A choice must be selected'), {
                 theme : 'warning',
-                title: __('A choice must be selected')
             });
 
             if($container.val() === "") {

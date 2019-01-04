@@ -46,17 +46,15 @@ define([
     var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
         var textEntryTooltip;
         if(forceCreation || !$input.data('$tooltip')){
-            textEntryTooltip = tooltip.create($input, {
+            textEntryTooltip = tooltip.create($input, message, {
                 theme: theme,
-                title: message,
                 trigger: 'manual'
             });
         }else{
             $input.data('$tooltip').dispose();
             $input.removeData('$tooltip');
-            textEntryTooltip = tooltip.create($input, {
+            textEntryTooltip = tooltip.create($input, message, {
                 theme: 'info',
-                title: message,
                 trigger: 'manual'
             });
         }
