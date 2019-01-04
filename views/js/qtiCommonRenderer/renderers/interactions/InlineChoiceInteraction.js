@@ -53,13 +53,13 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction, options){
-
-        var opts = _.clone(_defaultOptions),
-            required = !!interaction.attr('required');
-        _.extend(opts, options);
-        var $tooltip;
-
+        var opts = _.clone(_defaultOptions);
+        var required = !!interaction.attr('required');
+        var choiceTooltip;
         var $container = containerHelper.get(interaction);
+
+        _.extend(opts, options);
+
 
         if(opts.allowEmpty && !required){
             $container.find('option[value=' + _emptyValue + ']').text('--- ' + __('leave empty') + ' ---');
@@ -79,13 +79,13 @@ define([
 
         if(required){
             //set up the tooltip plugin for the input
-            $tooltip = tooltip.instance($el, {
+            choiceTooltip = tooltip.create($el, {
                 theme : 'warning',
                 title: __('A choice must be selected')
             });
 
             if($container.val() === "") {
-                $tooltip.show();
+                choiceTooltip.show();
             }
         }
 
@@ -101,7 +101,7 @@ define([
             }
 
             if(required && $container.val() !== "") {
-                $tooltip.hide();
+                choiceTooltip.hide();
 
             }
 
@@ -109,11 +109,11 @@ define([
 
         }).on('select2-open', function(){
             if(required){
-                $tooltip.hide();
+                choiceTooltip.hide();
             }
         }).on('select2-close', function(){
             if(required && $container.val() === "") {
-                $tooltip.show();
+                choiceTooltip.show();
 
             }
         });

@@ -44,9 +44,9 @@ define([
      * @param {Boolean} [hidden=false]
      */
     var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
-        var instance;
+        var textEntryTooltip;
         if(forceCreation || !$input.data('$tooltip')){
-            instance = tooltip.instance($input, {
+            textEntryTooltip = tooltip.create($input, {
                 theme: theme,
                 title: message,
                 trigger: 'manual'
@@ -54,13 +54,13 @@ define([
         }else{
             $input.data('$tooltip').dispose();
             $input.removeData('$tooltip');
-            instance = tooltip.instance($input, {
+            textEntryTooltip = tooltip.create($input, {
                 theme: 'info',
                 title: message,
                 trigger: 'manual'
             });
         }
-        $input.data('$tooltip', instance);
+        $input.data('$tooltip', textEntryTooltip);
         if(!hidden){
             $input.data('$tooltip').show();
         }

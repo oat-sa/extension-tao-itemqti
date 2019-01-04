@@ -351,18 +351,18 @@ define([
     };
 
     function _attachMathmlWarning($mathField){
-        var instance;
+        var widgetTooltip;
         var $tooltipContent = $('<span>', {
             html: __('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.')
         });
 
         if(!$mathField.data('$tooltip')){
-            instance = tooltip.instance({
+            widgetTooltip = tooltip.create({
                 theme : 'error',
                 trigger: 'manual',
                 title: $tooltipContent
             });
-            $mathField.data('$tooltip', instance);
+            $mathField.data('$tooltip', widgetTooltip);
         }
     }
 

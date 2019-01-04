@@ -89,7 +89,7 @@ define([
             var value;
             var score;
             var key;
-            var instance;
+            var formElementTooltip;
 
             options = _.defaults(options || {}, {
                 required : false,
@@ -104,12 +104,12 @@ define([
             });
 
             if(typeof $scoreInput.data('$tooltip') === 'undefined'){
-                instance = tooltip.instance($scoreInput,{
+                formElementTooltip = tooltip.create($scoreInput,{
                     trigger:'manual',
                     theme:'error',
                     title:''
                 });
-                $scoreInput.data('$tooltip', instance);
+                $scoreInput.data('$tooltip', formElementTooltip);
 
             }
 

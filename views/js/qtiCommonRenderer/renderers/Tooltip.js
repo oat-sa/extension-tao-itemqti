@@ -31,7 +31,7 @@ define([
         getContainer : containerHelper.get,
         render: function render(tooltipDOM) {
             var $container = containerHelper.get(tooltipDOM);
-            var instance = tooltip.instance($container, {
+            var renderedTooltip = tooltip.create($container, {
                 theme: 'default',
                 title: tooltipDOM.content(),
                 placement: 'top'
@@ -41,7 +41,7 @@ define([
                 $container.data('$tooltip').dispose();
                 $container.removeData('$tooltip');
             }
-            $container.data('$tooltip', instance);
+            $container.data('$tooltip', renderedTooltip);
 
         }
     };

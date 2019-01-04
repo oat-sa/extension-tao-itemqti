@@ -75,14 +75,14 @@ define([
      *
      */
     var createTooltip = function createTooltip($input, validatorOptions) {
-        var instance = tooltip.instance($input, {
+        var formElementTooltip = tooltip.create($input, {
             theme: 'error',
             trigger: 'manual',
             title: '',
             container: validatorOptions.$container[0]
         });
 
-        $input.data('$tooltip', instance);
+        $input.data('$tooltip', formElementTooltip);
         $input.attr('data-has-tooltip',true);
 
     };
