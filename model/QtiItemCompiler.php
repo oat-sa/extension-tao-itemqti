@@ -299,7 +299,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
          //loadxinclude
         $xincludeLoader = new XIncludeLoader($assetRetrievedQtiItem, $resolver);
-        $xincludeLoader->load(true);
+        $xincludeLoader->load(false);
 
         return $assetRetrievedQtiItem;
     }
