@@ -104,9 +104,8 @@ define([
             });
 
             if(typeof $scoreInput.data('$tooltip') === 'undefined'){
-                formElementTooltip = tooltip.create($scoreInput, ' ', {
-                    trigger:'manual',
-                    theme:'error',
+                formElementTooltip = tooltip.error($scoreInput, ' ', {
+                    trigger: 'manual',
                 });
                 $scoreInput.data('$tooltip', formElementTooltip);
 

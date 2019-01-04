@@ -357,8 +357,7 @@ define([
         });
 
         if(!$mathField.data('$tooltip')){
-            widgetTooltip = tooltip.create($mathField, $tooltipContent, {
-                theme : 'error',
+            widgetTooltip = tooltip.error($mathField, $tooltipContent, {
                 trigger: 'manual',
             });
             $mathField.data('$tooltip', widgetTooltip);
