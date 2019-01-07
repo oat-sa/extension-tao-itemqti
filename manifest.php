@@ -38,7 +38,7 @@ return array(
     'requires' => array(
         'taoItems' => '>=6.3.0',
         'tao'      => '>=23.0.0',
-        'generis'  => '>=7.3.0',
+        'generis'  => '>=8.1.3',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
