@@ -48,6 +48,7 @@ define([
             var itemCreator = this.getHost();
 
             itemCreator.on('exit', function(){
+                $("audio").remove();
                 window.history.back();
             });
 
