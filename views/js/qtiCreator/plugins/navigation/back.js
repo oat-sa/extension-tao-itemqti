@@ -48,7 +48,7 @@ define([
             var itemCreator = this.getHost();
 
             itemCreator.on('exit', function(){
-                $("audio").remove();
+                $(".item-editor-drop-area").remove();
                 window.history.back();
             });
 
