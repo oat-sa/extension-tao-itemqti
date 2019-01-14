@@ -48,7 +48,6 @@ define([
             var itemCreator = this.getHost();
 
             itemCreator.on('exit', function(){
-                $(".item-editor-drop-area").remove();
                 window.history.back();
             });
 

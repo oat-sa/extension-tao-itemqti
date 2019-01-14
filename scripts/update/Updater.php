@@ -391,5 +391,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('16.0.0', '18.5.2');
+
+        $this->skip('18.5.2', '18.5.3');
     }
 }
