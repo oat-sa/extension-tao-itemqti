@@ -186,7 +186,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertEquals('astronomy', $data['identifier']);
 
         $this->assertEquals(6, count($itemPack->getAssets('img')));
-        $this->assertTrue(in_array('samples/test_base_www/img/earth.png', $itemPack->getAssets('img')));
+        $this->assertTrue(in_array('earth.png', $itemPack->getAssets('img')));
 
         $this->assertEquals(array(), $itemPack->getAssets('js'));
         $this->assertEquals(array(), $itemPack->getAssets('css'));
@@ -324,9 +324,9 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertEquals('assessmentItem', $data['qtiClass']);
         $this->assertEquals('elections-in-the-united-states-2004', $data['identifier']);
 
-        $this->assertCount(3, $itemPack->getAssets('img'));
-        $this->assertCount(3, $itemPack->getAssets('css'));
-        $this->assertCount(11, $itemPack->getAssets('font'));
+        $this->assertCount(1, $itemPack->getAssets('img'));
+        $this->assertCount(1, $itemPack->getAssets('css'));
+        $this->assertCount(0, $itemPack->getAssets('font'));
     }
 
     /**
@@ -391,6 +391,14 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testPackingItemWithVideoBase64(){
         $sample = __DIR__ . '/../samples/xml/packer/qti.xml';
         $path   = __DIR__ . '/../samples/xml/packer';
+
+        /** @var Directory $publicDirectory */
+        $publicDirectory = $this->getDirectoryStorage();
+
+        foreach (glob($path . "/*.*") as $file) {
+            $fileinfo = pathinfo($file);
+            $publicDirectory->getFile($fileinfo['basename'])->write(file_get_contents($file));
+        }
 
         $this->assertTrue(file_exists($sample));
 
@@ -465,7 +473,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(3, count($itemPack->getAssets('img')));
         $this->assertEquals(2, count($itemPack->getAssets('css')));
-        $this->assertEquals(3, count($itemPack->getAssets('js')));
     }
 
     /**
