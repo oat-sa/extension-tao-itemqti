@@ -49,7 +49,7 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\Custom',$item->getResponseProcessing());
 
         /**
-         * orphaned response conditions must  lead to a custom response processing
+         * orphaned response conditions must lead to a custom response processing
          */
         $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDrivenOrphanedResponseConditions.xml';
         $qtiParser = new Parser($file);
