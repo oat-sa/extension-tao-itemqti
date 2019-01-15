@@ -236,6 +236,11 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 	}
 
 	public function testFileParsingQtiPic(){
+	    $extensionManager = common_ext_ExtensionsManager::singleton();
+
+	    if (!$extensionManager->isInstalled('qtiItemPic') || !$extensionManager->isEnabled('qtiItemPic')) {
+	        $this->markTestSkipped('The extension qtiItemPic is required to run this test.');
+        }
 
         $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml');
 

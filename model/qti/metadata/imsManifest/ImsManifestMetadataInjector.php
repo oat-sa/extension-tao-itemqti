@@ -250,7 +250,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
                 $node = $metadataNode->getElementsByTagName($map[$base].':'.$name)->item(0);
             }
 
-            if($name == 'string'){
+            if($name == 'string' || $name == 'langstring'){
                 $node->setAttribute('xml:lang', $metadata->getLanguage());
             }
 
