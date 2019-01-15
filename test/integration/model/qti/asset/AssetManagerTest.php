@@ -208,7 +208,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
                 ['/source/fixture/path1', 'path1'], ['/source/fixture/path2', 'path2'], ['/source/fixture/path3', 'path3'],
             ],
             [
-                null, null, null, null
+                null, null, [], null
             ]
         ];
     }
