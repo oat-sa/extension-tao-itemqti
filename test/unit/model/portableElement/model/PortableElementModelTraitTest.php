@@ -44,7 +44,7 @@ class PortableElementModelTraitTest extends TaoPhpUnitTestRunner
 
     public function getPortableElementModelMock()
     {
-        return $this->getMock(PortableElementModel::class);
+        return $this->getMockBuilder(PortableElementModel::class)->getMock();
     }
 
     public function testSetGet()
