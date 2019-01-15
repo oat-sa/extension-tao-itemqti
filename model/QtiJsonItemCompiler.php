@@ -41,6 +41,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
     const ITEM_FILE_NAME = 'item.json';
     const VAR_ELT_FILE_NAME = 'variableElements.json';
+    const METADATA_FILE_NAME = 'metadataElements.json';
     const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
 
     /**
@@ -99,8 +100,10 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             //get the filtered data to avoid cheat
             $data = $qtiItem->getDataForDelivery();
             $this->itemJson['data'] = $data['core'];
+            $metadata = $this->getMetadataProperties();
 
             $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::ITEM_FILE_NAME, json_encode($this->itemJson));
+            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::METADATA_FILE_NAME, json_encode($metadata));
             $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::PORTABLE_ELEMENT_FILE_NAME, json_encode($this->getItemPortableElements($qtiItem)));
 
             return new common_report_Report(
@@ -134,5 +137,21 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             'pci' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem, true),
             'pic' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem, true)
         ];
+    }
+
+    /**
+     * Get the item properties as compiled metadata
+     * @return array
+     */
+    private function getMetadataProperties()
+    {
+        $triples = $this->getResource()->getRdfTriples();
+        $properties = [];
+        foreach ($triples as $triple){
+            $properties[$triple->predicate] = $triple->object;
+        }
+        //we also include a shortcut to the item URI
+        $properties['@uri'] = $this->getResource()->getUri();
+        return $properties;
     }
 }

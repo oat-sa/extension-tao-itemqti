@@ -150,6 +150,7 @@ class PackageParser
      *
      * @access public
      * @throws \common_exception_Error
+     * @throws \common_exception
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string|null
      */
@@ -177,6 +178,9 @@ class PackageParser
 
             $zip = new ZipArchive();
             if ($zip->open($this->source) === true) {
+                if (tao_helpers_File::checkWhetherArchiveIsBomb($zip)) {
+                    throw new common_exception_Error(sprintf('Source %s seems to be a ZIP bomb', $this->source));
+                }
                 if($zip->extractTo($folder)){
                     $this->extracted = $folder;
                 }
