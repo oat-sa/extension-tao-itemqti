@@ -107,6 +107,12 @@ define([
 
                     editor.on('instanceReady', function(){
                         _styleUpdater();
+
+                        //TAO-6409, disable navigation from cke toolbar
+                        if (editor.container && editor.container.$) {
+                            $(editor.container.$).addClass('no-key-navigation');
+                        }
+
                         //it seems there's still something done after loaded, so resolved must be defered
                         _.delay(resolve, 300);
                     });
