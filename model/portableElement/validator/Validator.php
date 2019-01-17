@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\validator;
 
+use Naneau\SemVer\Regex;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidFieldException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
@@ -49,12 +50,14 @@ class Validator
     const isString         = 'isString';
     const isVersion        = 'isVersion';
     const isTypeIdentifier = 'isTypeIdentifier';
+    const isSemVer         = 'isValidSemVer';
 
     protected static $customValidators = [
         self::isTypeIdentifier => 'isTypeIdentifier',
-        self::isArray        => 'isValidArray',
-        self::isString       => 'isValidString',
-        self::isVersion      => 'isValidVersion'
+        self::isArray          => 'isValidArray',
+        self::isString         => 'isValidString',
+        self::isVersion        => 'isValidVersion',
+        self::isSemVer         => 'isValidSemVer'
     ];
 
     protected static function getValidConstraints(array $requirements, $validationGroup=array())
@@ -181,6 +184,22 @@ class Validator
         if (! is_null($value) && ! $validator->evaluate($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid version.');
         }
+        return true;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     * @throws PortableElementInvalidFieldException
+     */
+    public static function isValidSemVer($value)
+    {
+        try {
+            Regex::matchSemVer($value);
+        } catch (\InvalidArgumentException $exception) {
+            throw new PortableElementInvalidFieldException('Unable to validate the given value as valid SemVer version.');
+        }
+
         return true;
     }
 
