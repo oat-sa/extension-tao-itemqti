@@ -14,20 +14,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\taoQtiItem\test\unit\model\portableElement\validator;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidFieldException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\portableElement\validator\Validatable;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
 
-class ValidatorTest extends TaoPhpUnitTestRunner
+class ValidatorTest extends TestCase
 {
     /** @var Validator */
     private $subject;
