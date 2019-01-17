@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\portableElement\validator;
 
+use Naneau\SemVer\Regex;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidFieldException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
@@ -193,13 +194,12 @@ class Validator
      */
     public static function isValidSemVer($value)
     {
-        $validator = \tao_helpers_form_FormFactory::getValidator(
-            self::Regex,
-            array('format' => '/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/')
-        );
-        if (! is_null($value) && ! $validator->evaluate($value)) {
+        try {
+            Regex::matchSemVer($value);
+        } catch (\InvalidArgumentException $exception) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid SemVer version.');
         }
+
         return true;
     }
 
