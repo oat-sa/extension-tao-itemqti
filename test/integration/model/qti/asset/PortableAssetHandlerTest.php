@@ -51,15 +51,11 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $relPathFixture = 'polop/polop/fixture.txt';
 
         $mock = $this->getMockBuilder(PortableElementItemParser::class)
-            ->setMethods(array('isPci', 'isPciAsset','hasPortableElement'))
+            ->setMethods(array('isPortableElementAsset','hasPortableElement'))
             ->getMock();
 
         $mock->expects($this->any())
-            ->method('isPci')
-            ->willReturn($isPciFixture);
-
-        $mock->expects($this->any())
-            ->method('isPciAsset')
+            ->method('isPortableElementAsset')
             ->with($relPathFixture)
             ->willReturn($isPciFileFixture);
 
@@ -86,18 +82,13 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
     {
         $absolutePath = 'fixture1';
         $relativePath = 'fixture2';
-        $modelFixture = 'polopModel';
 
         $mock = $this->getMockBuilder(PortableElementItemParser::class)
-            ->setMethods(array('setQtiModel', 'importPciFile'))
+            ->setMethods(array('importPortableElementFile'))
             ->getMock();
 
         $mock->expects($this->once())
-            ->method('setQtiModel')
-            ->with($modelFixture);
-
-        $mock->expects($this->once())
-            ->method('importPciFile')
+            ->method('importPortableElementFile')
             ->with($absolutePath, $relativePath);
 
         $instance = $this->getPortableAssetHandler(new Item());
