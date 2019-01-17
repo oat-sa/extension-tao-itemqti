@@ -20,11 +20,11 @@
 
 namespace oat\taoQtiItem\test\unit\model\portableElement\validator;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\portableElement\validator\PortableElementModelValidator;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
 
-class PortableElementModelValidatorTest extends TaoPhpUnitTestRunner
+class PortableElementModelValidatorTest extends TestCase
 {
     /** @var DummyPortableElementModelValidator */
     private $subject;
