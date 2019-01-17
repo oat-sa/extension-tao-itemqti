@@ -39,7 +39,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 
     public function testUpdate()
     {
-        $itemRootDir = realpath('samples/itemData');
+        $itemRootDir = __DIR__ . '/samples/itemData';
         $itemUpdater   = new ItemUpdateInlineFeedback($itemRootDir);
         $items = $itemUpdater->update();
         $checkedFiles  = $itemUpdater->getCheckedFiles();
@@ -74,7 +74,8 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
     public function testUpdateTrue()
     {
         $itemRootDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR. uniqid('ItemUpdateInlineFeedbackTest').DIRECTORY_SEPARATOR;
-        $originalRootDir = realpath('samples/itemData');
+        $originalRootDir = __DIR__ . '/samples/itemData';
+
         tao_helpers_File::copy($originalRootDir, $itemRootDir);
 
         $itemUpdater   = new ItemUpdateInlineFeedback($itemRootDir);
@@ -96,8 +97,9 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $resultFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'updateResult.xml';
         $resultFileContent = file_get_contents($resultFile);
         $resultFileContent = $this->normalizeXmlStrings($resultFileContent);
-        $this->assertEquals($resultFileContent, $this->normalizeXmlStrings(file_get_contents($modifiedFiles[0])));
-        $this->assertEquals($resultFileContent, $this->normalizeXmlStrings(file_get_contents($modifiedFiles[1])));
+
+        $this->assertXmlStringEqualsXmlString($resultFileContent, $this->normalizeXmlStrings(file_get_contents($modifiedFiles[0])));
+        $this->assertXmlStringEqualsXmlString($resultFileContent, $this->normalizeXmlStrings(file_get_contents($modifiedFiles[1])));
     }
 
     private function normalizeXmlStrings($s) {
@@ -107,7 +109,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $s = str_replace("\r\n", "\n", $s);
         $s = str_replace("\r", "\n", $s);
         // Don't allow out-of-control blank lines
-        $s = preg_replace("/\n{2,}/", "\n\n", $s);
+        $s = preg_replace("/\n{2,}/", "\n", $s);
 
         $s=trim($s);
         return $s;

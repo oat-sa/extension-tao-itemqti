@@ -123,7 +123,7 @@ class AssetManager
             $absolutePath = $this->getAbsolutePath($auxiliaryFile);
             $relativePath = $this->getRelativePath($qtiFile, $absolutePath);
 
-            if (\helpers_File::isFileInsideDirectory($auxiliaryFile, dirname($qtiFile))) {
+            if (!\helpers_File::isFileInsideDirectory($relativePath, dirname($qtiFile))) {
                 throw new InvalidSourcePathException(dirname($qtiFile), $auxiliaryFile);
             }
 
