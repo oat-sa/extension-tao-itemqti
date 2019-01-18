@@ -19,53 +19,70 @@
 
 namespace oat\taoQtiItem\test\integration\metadata;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup;
+use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
+/**
+ * Class LabelClassLookupTest
+ * @package oat\taoQtiItem\test\integration\metadata
+ */
 class LabelClassLookupTest extends TaoPhpUnitTestRunner
 {
-    private static $itemResource;
-    
-    public static function setUpBeforeClass()
-    {
-        $itemClass = \taoItems_models_classes_ItemsService::singleton()->getRootClass();
-        
-        // Register Metadata ClassLookup.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->registerMetadataClassLookup('oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup');
-        
-        // Register Metadata Extractor.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->registerMetadataExtractor('oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor');
-        
-        // Create fake class.
-        \core_kernel_classes_ClassFactory::createSubClass($itemClass, 'mytestclasslabel', 'mytestclasslabel', 'http://www.test.com#mytestclass');
-        
-        // Import myTestClassLabel sample...
-        $samplePath = dirname(__FILE__) . '/../samples/metadata/metadataClassLookups/mytestclasslabel.zip';
-        $report = \oat\taoQtiItem\model\qti\ImportService::singleton()->importQTIPACKFile($samplePath, $itemClass, true);
-        $successes = $report->getSuccesses();
-        self::$itemResource = $successes[0]->getData();
-    }
-    
     public function testLabelClassLookupTest()
     {
+        $itemClass = \taoItems_models_classes_ItemsService::singleton()->getRootClass();
+
+        /** @var MetadataService $test */
+        $serviceLocator = ServiceManager::getServiceManager();
+
+        $importer = new MetadataImporter();
+
+        $importer->setOptions([
+            MetadataImporter::CLASS_LOOKUP_KEY => ['oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup'],
+            MetadataImporter::EXTRACTOR_KEY => ['oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor'],
+            MetadataImporter::GUARDIAN_KEY => ['oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian'],
+        ]);
+
+        $metadataService = $this->getMockBuilder(MetadataService::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getImporter'])
+            ->getMock();
+        $metadataService->expects($this->once())
+            ->method('getImporter')
+            ->willReturn($importer);
+
+        $serviceLocator->overload(MetadataService::SERVICE_ID, $metadataService);
+
+        /** @var ImportService $importService */
+        $importService = $serviceLocator->get(ImportService::SERVICE_ID);
+
+        $this->setInaccessibleProperty($importService, 'metadataImporter', null);
+
+        // Create fake class.
+        \core_kernel_classes_ClassFactory::createSubClass($itemClass, 'mytestclasslabel', 'mytestclasslabel', 'http://www.test.com#mytestclass');
+
+        // Import myTestClassLabel sample...
+        $samplePath = dirname(__FILE__) . '/../samples/metadata/metadataClassLookups/mytestclasslabel.zip';
+        $report = $importService->importQTIPACKFile($samplePath, $itemClass, true);
+        $successes = $report->getSuccesses();
+
+        $this->assertCount(1, $successes);
+
+        $itemResource = $successes[0]->getData();
+
         $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
         $this->assertEquals(1, $class->countInstances());
-    }
-    
-    public static function tearDownAfterClass()
-    {
-        \taoItems_models_classes_ItemsService::singleton()->deleteItem(self::$itemResource);
-        
-        // Unregister Metadata ClassLookup.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataClassLookup('oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup');
-        
-        // Unregister Metadata Extractor.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataExtractor('oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor');
-        
+
+        \taoItems_models_classes_ItemsService::singleton()->deleteItem($itemResource);
+
         // Delete fake class
         $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
         $class->delete(true);
+
     }
 }

@@ -19,57 +19,66 @@
 
 namespace oat\taoQtiItem\test\integration\metadata;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian;
+use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
 class LomIdentifierGuardianTest extends TaoPhpUnitTestRunner
 {
-    private static $itemResource;
-    
-    public static function setUpBeforeClass()
+    public function testLomIdentifierGuardian()
     {
         // Import LomIdentifier sample.
         $itemClass = \taoItems_models_classes_ItemsService::singleton()->getRootClass();
-        
-        // Register Metadata Injector.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->registerMetadataInjector('oat\taoQtiItem\model\qti\metadata\ontology\LomInjector');
-        
-        // Register Metadata Extractor.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->registerMetadataExtractor('oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor');
-        
-        // Register Metadata Guardian.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->registerMetadataGuardian('oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian');
-        
+
+        /** @var MetadataService $test */
+        $serviceLocator = ServiceManager::getServiceManager();
+
+        $importer = new MetadataImporter();
+
+        $importer->setOptions([
+            MetadataImporter::INJECTOR_KEY => ['oat\taoQtiItem\model\qti\metadata\ontology\LomInjector'],
+            MetadataImporter::EXTRACTOR_KEY => ['oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor'],
+            MetadataImporter::GUARDIAN_KEY => ['oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian'],
+        ]);
+
+        $metadataService = $this->getMockBuilder(MetadataService::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getImporter'])
+            ->getMock();
+
+        $metadataService->expects($this->once())
+            ->method('getImporter')
+            ->willReturn($importer);
+
+        $serviceLocator->overload(MetadataService::SERVICE_ID, $metadataService);
+
+        /** @var ImportService $importService */
+        $importService = $serviceLocator->get(ImportService::SERVICE_ID);
+
+        $this->setInaccessibleProperty($importService, 'metadataImporter', null);
+
         $samplePath = dirname(__FILE__) . '/../samples/metadata/metadataGuardians/lomidentifieritem.zip';
-        $report = \oat\taoQtiItem\model\qti\ImportService::singleton()->importQTIPACKFile($samplePath, $itemClass, true);
+        $report = $importService->importQTIPACKFile($samplePath, $itemClass, true);
         $successes = $report->getSuccesses();
-        self::$itemResource = $successes[0]->getData();
-    }
-    
-    public function testLomIdentifierGuardian()
-    {
+
+        $this->assertCount(1, $successes);
+
+        $itemResource = $successes[0]->getData();
+
         $itemClass = \taoItems_models_classes_ItemsService::singleton()->getRootClass();
+
         $samplePath = dirname(__FILE__) . '/../samples/metadata/metadataGuardians/lomidentifieritem.zip';
-        $report = \oat\taoQtiItem\model\qti\ImportService::singleton()->importQTIPACKFile($samplePath, $itemClass, true);
-        
+        $report = $importService->importQTIPACKFile($samplePath, $itemClass, true);
+
         // Report must contain an information message.
         $this->assertTrue($report->contains(\common_report_Report::TYPE_INFO));
         $this->assertEquals(1, count($report->getInfos()));
-    }
-    
-    public static function tearDownAfterClass()
-    {
-        \taoItems_models_classes_ItemsService::singleton()->deleteItem(self::$itemResource);
-        
-        // Unegister Metadata Injector.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataInjector('oat\taoQtiItem\model\qti\metadata\ontology\LomInjector');
-        
-        // Unregister Metadata Extractor.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataExtractor('oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor');
-        
-        // Unregister Metadata Guardian.
-        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataGuardian('oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian');
+
+        \taoItems_models_classes_ItemsService::singleton()->deleteItem($itemResource);
     }
 }

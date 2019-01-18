@@ -187,8 +187,10 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     {
         return [
             [
-                '/source/fixture/', 'qti/file/fixture.txt', ['path1', 'path2', 'path3'],
-                ['/source/fixture/path1', '../../path1'], ['/source/fixture/path2', '../../path2'], ['/source/fixture/path3', '../../path3'],
+                __DIR__  . '/../samples/auxiliaryFiles/', 'qti/file/fixture.txt', ['qti/file/path1', 'qti/file/path2', 'qti/file/path3'],
+                [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path1', 'path1'],
+                [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path2', 'path2'],
+                [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path3', 'path3'],
             ],
             [
                 null, null, null, null
