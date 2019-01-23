@@ -25,10 +25,7 @@ namespace oat\taoQtiItem\helpers;
 class CssHelper{
 
     private static function _buildWarning() {
-        return <<<EOF
-        /* Do not edit */
-EOF;
-
+        return " /* Do not edit */" ;
     }
 
     /**
