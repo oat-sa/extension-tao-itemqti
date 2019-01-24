@@ -352,12 +352,10 @@ define([
 
     function _attachMathmlWarning($mathField){
         var widgetTooltip;
-        var $tooltipContent = $('<span>', {
-            html: __('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.')
-        });
+        var tooltipContent = __('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.');
 
         if(!$mathField.data('$tooltip')){
-            widgetTooltip = tooltip.error($mathField, $tooltipContent[0].outerHTML, {
+            widgetTooltip = tooltip.error($mathField, tooltipContent, {
                 trigger: 'manual',
             });
             $mathField.data('$tooltip', widgetTooltip);
