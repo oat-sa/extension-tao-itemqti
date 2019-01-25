@@ -24,8 +24,9 @@ define([
     'taoQtiItem/runner/qtiItemRunner',
     'taoQtiItem/qtiItem/core/Tooltip',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
-    'json!taoQtiItem/test/samples/json/static/tooltip.json'
-], function ($, _, qtiItemRunner, Tooltip, commonRenderer, itemData) {
+    'json!taoQtiItem/test/samples/json/static/tooltip.json',
+    'ui/tooltip'
+], function ($, _, qtiItemRunner, Tooltip, commonRenderer, itemData, tooltip) {
     'use strict';
 
     var runner;
@@ -73,40 +74,43 @@ define([
                     assert.equal($tooltip.html().trim(), 'inline <i>interaction</i> container', 'tooltip 1 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 1 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'This is a container for inline choices and inline text entries.',
                         'tooltip content is correct'
                     );
 
                     $tooltip = $allTooltips.eq(1);
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), 'tooltip', 'tooltip 2 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 2 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'Some say that the word "tooltip" does not really exist.',
                         'tooltip content is correct'
                     );
 
                     $tooltip = $allTooltips.eq(2);
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), 'QTI <strong>prompt</strong>', 'tooltip 3 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 3 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'The text before the question.',
                         'tooltip content is correct'
                     );
 
                     $tooltip = $allTooltips.eq(3);
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), '<i>strange</i> word', 'tooltip 4 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 4 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'But it will not be revealed here.',
                         'tooltip content is correct'
                     );
