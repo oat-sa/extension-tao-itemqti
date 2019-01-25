@@ -83,7 +83,7 @@ define([
                 var x = $('th[data-identifier=' + directedPair[0] + ']', $container).index() - 1;
                 var y = $('th[data-identifier=' + directedPair[1] + ']', $container).parent().index();
 
-                $('.matrix > tbody tr', $container).eq(y).find('input[type=checkbox]').eq(x).attr('checked', true);
+                $('.matrix > tbody tr', $container).eq(y).find('input[type=checkbox]').eq(x).prop('checked', true);
             });
         }
 
