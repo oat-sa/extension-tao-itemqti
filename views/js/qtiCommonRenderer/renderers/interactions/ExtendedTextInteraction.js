@@ -34,7 +34,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'ui/tooltip'
-], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
+], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper, tooltip){
     'use strict';
 
     /**
@@ -45,6 +45,7 @@ define([
      * @param {Boolean} [forceCreation=false]
      * @param {Boolean} [hidden=false]
      */
+    /*
     var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
         if(forceCreation || !$input.data('qtip')){
             $input.qtip({
@@ -66,7 +67,7 @@ define([
         if(!hidden){
             $input.qtip('show');
         }
-    };
+    };*/
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -464,7 +465,12 @@ define([
                 ];
                 var cke;
 
-                createTooltip($container, 'error', __('This is not a valid answer'), true, true);
+                //createTooltip($container, 'error', __('This is not a valid answer'), true, true);
+                var invalidToolip = tooltip.error($container,  __('This is not a valid answer'), {
+                    position : 'bottom',
+                    trigger : 'manual'
+                });
+
                 var patternHandler = function patternHandler(e) {
                     var isCke = _getFormat(interaction) === 'xhtml';
                     var newValue;
@@ -483,10 +489,12 @@ define([
                         }
                         _.debounce(function(){
                             if (!patternRegEx.test(newValue)) {
-                                $container.addClass('invalid').qtip('show');
+                                $container.addClass('invalid');
+                                invalidToolip.show();
                                 containerHelper.triggerResponseChangeEvent(interaction);
                             } else {
-                                $container.removeClass('invalid').qtip('hide');
+                                $container.removeClass('invalid');
+                                invalidToolip.dispose();
                             }
                         }, 400)();
                     }
