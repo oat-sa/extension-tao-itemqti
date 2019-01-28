@@ -181,7 +181,7 @@ define([
 
             $placeholder.css('height', 'auto').parent().removeAttr('style');//remove added height, to reset the height to auto
 
-            var $cols = $col.siblings('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)').andSelf();
+            var $cols = $col.siblings('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)').addBack();
             $cols.removeAttr('style');//remove added height, to reset the height to auto
             $cols.each(function(){
                 maxHeight = Math.max($(this).height(), maxHeight);

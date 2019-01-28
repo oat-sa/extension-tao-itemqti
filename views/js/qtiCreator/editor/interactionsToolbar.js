@@ -209,7 +209,7 @@ define([
             }));
 
         $inlineInteractionsPanel.append($tooltip);
-        tooltip($inlineInteractionsPanel);
+        tooltip.lookup($inlineInteractionsPanel);
 
         $tooltip.css({
             position : 'absolute',
@@ -221,11 +221,11 @@ define([
         $inlineInteractionsPanel.on('mouseenter', '.sub-group-cover', function(){
 
             timer = setTimeout(function(){
-                $tooltip.find('[data-tooltip]').qtip('show');
+                $tooltip.find('[data-tooltip]').data('$tooltip').show();
             }, 300);
 
         }).on('mouseleave', '.sub-group-cover', function(){
-            $tooltip.find('[data-tooltip]').qtip('hide');
+            $tooltip.find('[data-tooltip]').data('$tooltip').hide();
             clearTimeout(timer);
         });
     }
