@@ -408,7 +408,7 @@ define([
 
                 //set up the tools relying on data-attr
                 incrementer($element);
-                tooltip($element);
+                tooltip.lookup($element);
 
                 setUpFieldListener(fields.min);
                 setUpFieldListener(fields.max);

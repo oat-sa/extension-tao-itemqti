@@ -76,7 +76,7 @@ define([
                 var $cr = $('tbody tr:eq(0) td:eq(0) input', $container);
                 assert.equal($cr.length, 1, 'the CR pair exists');
 
-                $cr.prop('checked', true).trigger('click');
+                $cr.click();
 
             })
             .on('statechange', function(state){
@@ -111,7 +111,7 @@ define([
                 assert.equal($dt.length, 1, 'the DT pair exists');
 
                 $cr.prop('checked', true);
-                $dt.prop('checked', true).trigger('click');
+                $dt.click();
             })
             .on('statechange', function(state){
                 assert.ok(typeof state === 'object', 'The state is an object');
@@ -173,11 +173,10 @@ define([
                 var interaction = this._item.getInteractions()[0];
                 interaction.renderer.destroy(interaction);
 
-                var $cr = $('tbody tr:eq(0) td:eq(0) input', $container);
+                var $cr = $('tbody tr:eq(0) td:eq(0)', $container);
                 assert.equal($cr.length, 1, 'the CR pair exists');
 
-                $cr.prop('checked', true).trigger('click');
-
+                $cr.click();
 
                 _.delay(function(){
 
@@ -208,8 +207,8 @@ define([
                 var $dt = $('tbody tr:eq(2) td:eq(1) input', $container);
                 assert.equal($dt.length, 1, 'the DT pair exists');
 
-                $cr.prop('checked', true);
-                $dt.prop('checked', true).trigger('click');
+                $cr.click();
+                $dt.click();
 
                 _.delay(function(){
 
