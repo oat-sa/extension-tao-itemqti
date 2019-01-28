@@ -29,9 +29,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'select2',
-    'ui/tooltip'
-], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'ui/tooltip',
+    'select2'
+], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, tooltip){
     'use strict';
 
     /**
@@ -53,12 +53,13 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction, options){
+        var opts = _.clone(_defaultOptions);
+        var required = !!interaction.attr('required');
+        var choiceTooltip;
+        var $container = containerHelper.get(interaction);
 
-        var opts = _.clone(_defaultOptions),
-            required = !!interaction.attr('required');
         _.extend(opts, options);
 
-        var $container = containerHelper.get(interaction);
 
         if(opts.allowEmpty && !required){
             $container.find('option[value=' + _emptyValue + ']').text('--- ' + __('leave empty') + ' ---');
@@ -75,7 +76,15 @@ define([
 
         var $el = $container.select2('container');
 
-        _setInstructions(interaction);
+
+        if(required){
+            //set up the tooltip plugin for the input
+            choiceTooltip = tooltip.warning($el, __('A choice must be selected'));
+
+            if($container.val() === "") {
+                choiceTooltip.show();
+            }
+        }
 
         $container.on('change', function(e){
             //if tts component is loaded and click-to-speak function is activated - we must fix the situation when select2 prevents tts from working
@@ -89,42 +98,22 @@ define([
             }
 
             if(required && $container.val() !== "") {
-                $el.qtip('hide');
+                choiceTooltip.hide();
+
             }
 
             containerHelper.triggerResponseChangeEvent(interaction);
 
         }).on('select2-open', function(){
             if(required){
-                $el.qtip('hide');
+                choiceTooltip.hide();
             }
         }).on('select2-close', function(){
             if(required && $container.val() === "") {
-                $el.qtip('show');
+                choiceTooltip.show();
+
             }
         });
-    };
-
-    var _setInstructions = function(interaction){
-
-        var required = !!interaction.attr('required'),
-            $container = interaction.getContainer(),
-            $el = $container.select2('container');
-
-        if(required){
-            //set up the tooltip plugin for the input
-            $el.qtip({
-                theme : 'warning',
-                content: {
-                    text: __('A choice must be selected')
-                }
-            });
-
-            if($container.val() === "") {
-                $el.qtip('show');
-            }
-        }
-
     };
 
     var resetResponse = function(interaction){

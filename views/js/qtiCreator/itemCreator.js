@@ -193,6 +193,10 @@ define([
                     });
                 });
 
+                this.on('exit', function() {
+                    $('.item-editor-item', areaBroker.getItemPanelArea()).empty();
+                })
+
                 var usedCustomInteractionIds = [];
                 loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl).then(function(item){
                     if(! _.isObject(item)){

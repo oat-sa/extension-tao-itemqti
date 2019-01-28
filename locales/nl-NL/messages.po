@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint86\n"
-"PO-Revision-Date: 2018-09-26T12:04:43\n"
+"Project-Id-Version: TAO 3.3.0-sprint93\n"
+"PO-Revision-Date: 2019-01-18T12:55:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -171,11 +171,11 @@ msgstr "Achtergrondkleur"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
-msgstr "Blok"
-
 msgid "block"
 msgstr "blok"
+
+msgid "Block"
+msgstr "Blok"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blok bevat de inhoud (stimulus) van het item zoals tekst of een afbeelding. Het is ook nodig voor in lijn interacties."
@@ -231,11 +231,11 @@ msgstr "Keuze interactie"
 msgid "Choice Properties"
 msgstr "Keuze eigenschappen"
 
-msgid "Choices"
-msgstr "Keuzes"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Keuzes"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
 
-msgid "Default"
-msgstr "Standaard"
-
 msgid "default"
 msgstr "standaard"
+
+msgid "Default"
+msgstr "Standaard"
 
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
@@ -745,20 +745,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "Left"
-msgstr "Links"
-
 msgid "left"
 msgstr "links"
+
+msgid "Left"
+msgstr "Links"
 
 msgid "Left bracket"
 msgstr ""
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Beheer items"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Beheer items"
+
+msgid "Manage Items"
 msgstr "Beheer items"
 
 msgid "map response"
@@ -828,19 +828,19 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximaal aantal woorden"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximaal aantal woorden"
 
 msgid "Max. number of matches"

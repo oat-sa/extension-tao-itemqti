@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\asset;
 
+use oat\tao\model\import\InvalidSourcePathException;
 use oat\taoQtiItem\model\qti\asset\handler\AssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
@@ -113,6 +114,7 @@ class AssetManager
      * @param QtiResource $qtiItemResource
      * @return $this
      * @throws AssetManagerException
+     * @throws InvalidSourcePathException
      */
     public function importAuxiliaryFiles(QtiResource $qtiItemResource)
     {
@@ -120,6 +122,11 @@ class AssetManager
         foreach ($qtiItemResource->getAuxiliaryFiles() as $auxiliaryFile) {
             $absolutePath = $this->getAbsolutePath($auxiliaryFile);
             $relativePath = $this->getRelativePath($qtiFile, $absolutePath);
+
+            if (!\helpers_File::isFileInsideDirectory($relativePath, dirname($qtiFile))) {
+                throw new InvalidSourcePathException(dirname($qtiFile), $auxiliaryFile);
+            }
+
             try {
                 $this->importAsset($absolutePath, $relativePath);
             } catch(\common_Exception $e) {

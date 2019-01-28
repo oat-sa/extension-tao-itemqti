@@ -34,39 +34,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'ui/tooltip'
-], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
+], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper, tooltip){
     'use strict';
-
-    /**
-     * Prepare the feedback tooltip for the text input
-     * @param {jQuery} $input
-     * @param {String} theme
-     * @param {String} message
-     * @param {Boolean} [forceCreation=false]
-     * @param {Boolean} [hidden=false]
-     */
-    var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
-        if(forceCreation || !$input.data('qtip')){
-            $input.qtip({
-                theme : theme,
-                content : {
-                    text : message
-                },
-                show : {
-                    event : 'custom'
-                },
-                hide : {
-                    event : 'custom'
-                }
-            });
-        }else{
-            $input.qtip('option', 'content.text', message);
-            $input.qtip('option', 'theme', 'info');
-        }
-        if(!hidden){
-            $input.qtip('show');
-        }
-    };
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -127,6 +96,12 @@ define([
 
                     editor.on('instanceReady', function(){
                         _styleUpdater();
+
+                        //TAO-6409, disable navigation from cke toolbar
+                        if (editor.container && editor.container.$) {
+                            $(editor.container.$).addClass('no-key-navigation');
+                        }
+
                         //it seems there's still something done after loaded, so resolved must be defered
                         _.delay(resolve, 300);
                     });
@@ -458,7 +433,10 @@ define([
                 ];
                 var cke;
 
-                createTooltip($container, 'error', __('This is not a valid answer'), true, true);
+                var invalidToolip = tooltip.error($container,  __('This is not a valid answer'), {
+                    position : 'bottom',
+                    trigger : 'manual'
+                });
                 var patternHandler = function patternHandler(e) {
                     var isCke = _getFormat(interaction) === 'xhtml';
                     var newValue;
@@ -477,10 +455,13 @@ define([
                         }
                         _.debounce(function(){
                             if (!patternRegEx.test(newValue)) {
-                                $container.addClass('invalid').qtip('show');
+                                $container.addClass('invalid');
+                                $container.show();
+                                invalidToolip.show();
                                 containerHelper.triggerResponseChangeEvent(interaction);
                             } else {
-                                $container.removeClass('invalid').qtip('hide');
+                                $container.removeClass('invalid');
+                                invalidToolip.dispose();
                             }
                         }, 400)();
                     }
