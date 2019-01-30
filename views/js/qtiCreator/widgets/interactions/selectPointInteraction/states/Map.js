@@ -196,7 +196,12 @@ define([
                 } else {
                     //move the score back the shape and show the popup
                     shape.toFront();
-                    $('#score-popup-' + shape.id).show(); 
+                    $('#score-popup-' + shape.id).show();
+
+                    //the click on the cross hides the popup
+                    $('.mapping-editor').on('click', '.closer', function(){
+                        $(this).parent().hide();
+                    });
                 }
             },
             quitHandling : function(shape){
