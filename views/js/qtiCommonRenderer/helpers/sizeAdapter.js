@@ -52,6 +52,9 @@ define([
 
             $container.waitForMedia(function () {
                 adaptSize.height($elements);
+                $(document).on( "load", 'link[rel="stylesheet"]', function() {
+                    adaptSize.height($elements);
+                });
             });
         }
     };
