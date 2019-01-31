@@ -32,8 +32,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
-    'taoQtiItem/qtiCommonRenderer/helpers/patternMask'
-], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
+    'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
+    'ui/tooltip'
+], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper, tooltip){
     'use strict';
 
 
@@ -48,7 +49,7 @@ define([
     var render = function render (interaction){
         return new Promise(function(resolve, reject){
 
-            var $el, expectedLength, minStrings, expectedLines, patternMask, placeholderType, editor;
+            var $el, expectedLength, minStrings, patternMask, placeholderType, editor;
             var isThemeLoaded, _styleUpdater, themeLoaded, _getNumStrings;
             var $container = containerHelper.get(interaction);
 
@@ -63,7 +64,7 @@ define([
                 'language': 'en',
                 'defaultLanguage': 'en',
                 'resize_enabled': true,
-                'secure': location.protocol == 'https:',
+                'secure': location.protocol === 'https:',
                 'forceCustomDomain' : true
             };
 
@@ -361,6 +362,7 @@ define([
         var expectedLength = interaction.attr('expectedLength');
         var expectedLines  = interaction.attr('expectedLines');
         var patternMask    = interaction.attr('patternMask');
+        var patternRegEx;
         var $textarea,
             $charsCounter,
             $wordsCounter,
@@ -383,6 +385,9 @@ define([
                 maxLength = patternMaskHelper.parsePattern(patternMask, 'chars');
                 maxWords = (_.isNaN(maxWords)) ? undefined : maxWords;
                 maxLength = (_.isNaN(maxLength) ? undefined : maxLength);
+                if (!maxLength && !maxWords) {
+                    patternRegEx = new RegExp(patternMask);
+                }
             }
         }
 
@@ -440,6 +445,40 @@ define([
                 ];
                 var cke;
 
+                var invalidToolip = tooltip.error($container,  __('This is not a valid answer'), {
+                    position : 'bottom',
+                    trigger : 'manual'
+                });
+                var patternHandler = function patternHandler(e) {
+                    var isCke = _getFormat(interaction) === 'xhtml';
+                    var newValue;
+                    if (patternRegEx) {
+                        if(isCke) {
+                            // cke has its own object structure
+                            newValue = e.getData();
+                        }
+                        else {
+                            // covers input
+                            newValue = e.currentTarget.value;
+                        }
+
+                        if(!newValue) {
+                            return false;
+                        }
+                        _.debounce(function(){
+                            if (!patternRegEx.test(newValue)) {
+                                $container.addClass('invalid');
+                                $container.show();
+                                invalidToolip.show();
+                                containerHelper.triggerResponseChangeEvent(interaction);
+                            } else {
+                                $container.removeClass('invalid');
+                                invalidToolip.dispose();
+                            }
+                        }, 400)();
+                    }
+                };
+
                 /**
                  * This part works on keyboard input
                  *
@@ -449,8 +488,11 @@ define([
                 var keyLimitHandler = function keyLimitHandler(e){
                     var keyCode = e && e.data ? e.data.keyCode : e.which ;
                     if ( (!_.contains(ignoreKeyCodes, keyCode) ) &&
-                         (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
-                         (maxLength && self.getCharsCount() >= maxLength))){
+                        (
+                            (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
+                            (maxLength && self.getCharsCount() >= maxLength))
+                        )
+                    ){
                         if (e.cancel){
                             e.cancel();
                         } else {
@@ -528,6 +570,7 @@ define([
 
                 } else {
                     $textarea
+                    .on('keyup.commonRenderer', patternHandler)
                     .on('keydown.commonRenderer', keyLimitHandler)
                     .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
                 }
