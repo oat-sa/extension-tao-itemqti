@@ -37,6 +37,7 @@ define([
 ], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper, tooltip){
     'use strict';
 
+
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
@@ -49,6 +50,7 @@ define([
         return new Promise(function(resolve, reject){
 
             var $el, expectedLength, minStrings, patternMask, placeholderType, editor;
+            var isThemeLoaded, _styleUpdater, themeLoaded, _getNumStrings;
             var $container = containerHelper.get(interaction);
 
             var multiple = _isMultiple(interaction);
@@ -74,19 +76,29 @@ define([
                 }
                 if (_getFormat(interaction) === "xhtml") {
 
-                    var _styleUpdater = function(){
+                    isThemeLoaded = false;
+                    _styleUpdater = function(){
                         var qtiItemStyle, $editorBody, qtiItem;
 
                         if(editor.document) {
                             qtiItem = $(".qti-item").get(0);
                             qtiItemStyle = qtiItem.currentStyle || window.getComputedStyle(qtiItem);
-                            $editorBody = $(editor.document.getBody().$);
+
+                            if(editor.document.$ && editor.document.$.body){
+                                $editorBody = $(editor.document.$.body);
+                            } else {
+                                $editorBody = $(editor.document.getBody().$);
+                            }
 
                             $editorBody.css({
                                 'background-color': 'transparent',
                                 'color': qtiItemStyle.color
                             });
                         }
+                    };
+                    themeLoaded = function () {
+                        isThemeLoaded = true;
+                        _styleUpdater();
                     };
 
                     editor = _setUpCKEditor(interaction, ckOptions);
@@ -119,7 +131,7 @@ define([
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
-                    $(document).on('themechange.themeloader', _styleUpdater);
+                    $(document).on('themechange.themeloader', themeLoaded);
 
                 } else {
 
@@ -146,7 +158,7 @@ define([
                 if (minStrings) {
 
                     //get the number of filled inputs
-                    var _getNumStrings = function($element) {
+                    _getNumStrings = function($element) {
                         var num = 0;
                         $element.each(function() {
                             if ($(this).val() !== '') {
