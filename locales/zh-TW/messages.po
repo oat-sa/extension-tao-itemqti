@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint93\n"
-"PO-Revision-Date: 2019-01-18T12:55:25\n"
+"Project-Id-Version: TAO 3.3.0-sprint95\n"
+"PO-Revision-Date: 2019-02-01T09:30:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -171,10 +171,10 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr "區塊"
 
-msgid "Block"
+msgid "block"
 msgstr "區塊"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -189,10 +189,10 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
 
-msgid "default"
+msgid "Default"
 msgstr "預設值"
 
-msgid "Default"
+msgid "default"
 msgstr "預設值"
 
 msgid "Define correct response"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "沒有設定數值"
 
-msgid "None"
-msgstr "無"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "無"
 
 msgid "None defined yet."
 msgstr "還未定義。"
@@ -1774,14 +1774,14 @@ msgstr "您已刪除元素。"
 msgid "You may make as many association pairs as you want."
 msgstr "您可以建立無限組關聯配對。"
 
-msgid "You must at least %d choice"
-msgstr ""
-
 msgid "You must select %1$d to %2$d choices."
 msgstr "您必須選 %1$d 至 %2$d 個選擇。"
 
 msgid "You must select 0 to %d choices."
 msgstr "您必須選 0 至 %d 個選擇。"
+
+msgid "You must select at least %d choice"
+msgstr ""
 
 msgid "You must select at least %d choices"
 msgstr ""
