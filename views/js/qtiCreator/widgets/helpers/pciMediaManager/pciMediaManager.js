@@ -123,8 +123,8 @@ define([
                     },
                     open : function open(){
                         //hide tooltip if displayed
-                        if($src.data('qtip')){
-                            $src.blur().qtip('hide');
+                        if($src.data('$tooltip')){
+                            $src.blur().data('$tooltip').hide();
                         }
                     },
                     close : function close(){

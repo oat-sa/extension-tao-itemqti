@@ -75,23 +75,14 @@ define([
      *
      */
     var createTooltip = function createTooltip($input, validatorOptions) {
-        if (!$input.data('qtip')) {
-            $input.qtip({
-                show: {
-                    event: 'custom'
-                },
-                hide: {
-                    event: 'custom'
-                },
-                theme: 'error',
-                position: {
-                    container: validatorOptions.$container
-                },
-                content: {
-                    text: ''
-                }
-            });
-        }
+        var formElementTooltip = tooltip.error($input, ' ', {
+            trigger: 'manual',
+            container: validatorOptions.$container[0]
+        });
+
+        $input.data('$tooltip', formElementTooltip);
+        $input.attr('data-has-tooltip',true);
+
     };
     /**
      * Validation callback, used as a groupvalidator callback
@@ -115,13 +106,13 @@ define([
                     type: 'failure'
                 })[0];
                 if (rule && rule.data.message && !$('#mediaManager').children('.opened').length) {
-                    $input.qtip('set', 'content.text', rule.data.message);
+                    $input.data('$tooltip').updateTitleContent(rule.data.message)
                     //only show it when the file manager is hidden
-                    $input.qtip('show');
+                    $input.data('$tooltip').show();
                 }
 
             } else {
-                $input.qtip('hide');
+                $input.data('$tooltip').hide();
             }
         }
     };
@@ -131,7 +122,7 @@ define([
 
         initWidget: function initWidget($form) {
             spinner($form);
-            tooltip($form);
+            tooltip.lookup($form);
             select2($form);
         },
 
@@ -210,7 +201,8 @@ define([
          */
         removeChangeCallback: function removeChangeCallback($form) {
             $form.off('.databinding');
-            $form.find(':input[data-hasqtip]').qtip('destroy', true);
+            $form.find(':input[data-has-tooltip]').data('$tooltip').dispose();
+            $form.find(':input[data-has-tooltip]').removeAttr('data-has-tooltip').removeData('$tooltip');
         },
 
         /**

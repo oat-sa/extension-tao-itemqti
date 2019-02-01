@@ -25,28 +25,7 @@ namespace oat\taoQtiItem\helpers;
 class CssHelper{
 
     private static function _buildWarning() {
-        return <<<EOF
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
-
-
-EOF;
-
+        return " /* Do not edit */" ;
     }
 
     /**
