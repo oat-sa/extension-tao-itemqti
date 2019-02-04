@@ -17,8 +17,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/graphicScoreMappingForm',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/incrementer',
-    'ui/tooltipster'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, answerStateHelper, shapeEditor, grahicScorePopup, mappingFormTpl, formElement, incrementer, tooltipster){
+    'ui/tooltip'
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, answerStateHelper, shapeEditor, grahicScorePopup, mappingFormTpl, formElement, incrementer, tooltip){
 
     /**
      * Initialize the Map state.
@@ -200,8 +200,10 @@ define([
 
                     //the click on the cross hides the popup
                     $('.mapping-editor').on('click', '.closer', function(){
-                        $(this).parent().hide();
+                        $('#score-popup-' + shape.id).hide();
                     });
+
+                    tooltip.lookup($('.panel'));
                 }
             },
             quitHandling : function(shape){
