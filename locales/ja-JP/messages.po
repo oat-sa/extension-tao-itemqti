@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint93\n"
-"PO-Revision-Date: 2019-01-18T12:54:59\n"
+"Project-Id-Version: TAO 3.3.0-sprint95\n"
+"PO-Revision-Date: 2019-02-01T09:30:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -171,10 +171,10 @@ msgstr "背景色"
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr "ブロック"
 
-msgid "Block"
+msgid "block"
 msgstr "ブロック"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -189,10 +189,10 @@ msgstr "コンピュータを参照し、適切なファイルを選択します
 msgid "Browse..."
 msgstr "参照..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
 msgid "Define correct response"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "None"
-msgstr "なし"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "なし"
 
 msgid "None defined yet."
 msgstr "未定義"
@@ -1776,14 +1776,14 @@ msgstr "エレメントを削除しました"
 msgid "You may make as many association pairs as you want."
 msgstr "組み合わせを複数作ることができます"
 
-msgid "You must at least %d choice"
-msgstr "%d個選びなさい"
-
 msgid "You must select %1$d to %2$d choices."
 msgstr "%2$d個の中から%1$d個選びなさい"
 
 msgid "You must select 0 to %d choices."
 msgstr "%d個の中から0個選びなさい"
+
+msgid "You must select at least %d choice"
+msgstr ""
 
 msgid "You must select at least %d choices"
 msgstr "%d以上選択してください"

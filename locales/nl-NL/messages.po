@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint93\n"
-"PO-Revision-Date: 2019-01-18T12:55:04\n"
+"Project-Id-Version: TAO 3.3.0-sprint95\n"
+"PO-Revision-Date: 2019-02-01T09:30:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -171,11 +171,11 @@ msgstr "Achtergrondkleur"
 msgid "Base"
 msgstr ""
 
-msgid "block"
-msgstr "blok"
-
 msgid "Block"
 msgstr "Blok"
+
+msgid "block"
+msgstr "blok"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blok bevat de inhoud (stimulus) van het item zoals tekst of een afbeelding. Het is ook nodig voor in lijn interacties."
@@ -189,11 +189,11 @@ msgstr "Blader door uw computer en selecteer het juiste bestand"
 msgid "Browse..."
 msgstr "Bladeren…"
 
-msgid "cancel"
-msgstr "annuleren"
-
 msgid "Cancel"
 msgstr "Annuleren"
+
+msgid "cancel"
+msgstr "annuleren"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
 
-msgid "default"
-msgstr "standaard"
-
 msgid "Default"
 msgstr "Standaard"
+
+msgid "default"
+msgstr "standaard"
 
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "None"
-msgstr "Geen"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1776,14 +1776,14 @@ msgstr "U heeft een element verwijderd"
 msgid "You may make as many association pairs as you want."
 msgstr "U kunt zoveel associatie paren maken als u wilt."
 
-msgid "You must at least %d choice"
-msgstr "U moet op zijn minst %d keuze"
-
 msgid "You must select %1$d to %2$d choices."
 msgstr "U moet %1$d van %2$d keuzes selecteren."
 
 msgid "You must select 0 to %d choices."
 msgstr "U moet 0 tot %d keuzes selecteren."
+
+msgid "You must select at least %d choice"
+msgstr ""
 
 msgid "You must select at least %d choices"
 msgstr "U moet minstens %d keuzes selecteren"
