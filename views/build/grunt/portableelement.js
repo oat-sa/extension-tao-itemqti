@@ -16,6 +16,8 @@ module.exports = function (grunt) {
     var root = grunt.option('root');
     var requirejs = grunt.option('requirejsModule');
     var ext = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
+    var amdConfig = require(root + '/tao/views/build/config/requirejs.build.json');
+
     var portableModels = [
         {
             type : 'PCI',
@@ -54,19 +56,19 @@ module.exports = function (grunt) {
                 skipPragmas: true,
                 generateSourceMaps: true,
                 removeCombined: true,
-                baseUrl: '../js',
-                mainConfigFile: './config/requirejs.build.js',
+                baseUrl: amdConfig.baseUrl,
+                shim : amdConfig.shim,
                 excludeShallow: ['mathJax'],
                 exclude: ['qtiCustomInteractionContext', 'qtiInfoControlContext']
                     .concat(ext.getExtensionSources('taoQtiItem', ['views/js/qtiItem/**/*.js', 'views/js/qtiCreator/**/*.js'], true))
                     .concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'], true)),
-                paths: {
+                paths: Object.assign({
                     'taoItems': root + '/taoItems/views/js',
                     'taoItemsCss': root + '/taoItems/views/css',
                     'taoQtiItem': root + '/taoQtiItem/views/js',
                     'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
                     'qtiInfoControlContext': root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext'
-                }
+                }, amdConfig.paths)
             }
         }
     });
