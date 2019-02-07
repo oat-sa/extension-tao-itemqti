@@ -209,7 +209,6 @@ define([
 
                     if (!$reference.data("$tooltip")) {
                         tooltip.lookup($scorePopup);
-                        console.log('я рендерю тултип')
                     }
                 }
             },
