@@ -137,6 +137,7 @@ define([
     function createEditor(widget){
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
+        var $container = widget.$original;
 
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         var editor = shapeEditor(widget, {
@@ -185,6 +186,9 @@ define([
                 }
             },
             enterHandling : function(shape){
+                var $scorePopup = $('#score-popup-' + shape.id);
+                var $reference = $('.icon-help', $scorePopup);
+
                 if(shape.type === 'set'){
                     shape.forEach(function(setElt){
                         if(setElt.type === 'path'){
@@ -196,14 +200,17 @@ define([
                 } else {
                     //move the score back the shape and show the popup
                     shape.toFront();
-                    $('#score-popup-' + shape.id).show();
+                    $scorePopup.show();
 
                     //the click on the cross hides the popup
-                    $('.mapping-editor').on('click', '.closer', function(){
-                        $('#score-popup-' + shape.id).hide();
+                    $('.mapping-editor', $container).on('click', '.closer', function () {
+                        $scorePopup.hide();
                     });
 
-                    tooltip.lookup($('.panel'));
+                    if (!$reference.data("$tooltip")) {
+                        tooltip.lookup($scorePopup);
+                        console.log('я рендерю тултип')
+                    }
                 }
             },
             quitHandling : function(shape){
