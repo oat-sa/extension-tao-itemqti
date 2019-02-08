@@ -72,6 +72,8 @@ define([
                 text : __('Preview'),
                 cssClass: 'preview-trigger'
             })).on('click', function previewHandler(e){
+                $(document).trigger('open-preview');
+
                 e.preventDefault();
 
                 self.disable();
