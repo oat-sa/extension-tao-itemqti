@@ -49,7 +49,7 @@ define([
             _widget.changeState('sleep');
         });
 
-        $(document).on('open-preview', function(){
+        $(document).on('open-preview.qti-item', function(){
             _widget.changeState('sleep');
         });
 
