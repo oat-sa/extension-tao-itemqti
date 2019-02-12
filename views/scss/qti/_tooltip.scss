@@ -26,3 +26,10 @@
 .qti-item .tooltip{
     padding: 10px;
 }
+
+.tooltip-active {
+    position: static;
+    border-style: none;
+    padding: 0 0 0 0;
+    font-size: 1em;
+}
