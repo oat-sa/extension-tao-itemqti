@@ -49,6 +49,10 @@ define([
             _widget.changeState('sleep');
         });
 
+        $(document).on('open-preview.qti-item', function(){
+            _widget.changeState('sleep');
+        });
+
         if(item && item.data('widget')){
             //in item editing context:
             item.data('widget').$container.on('resizestart.gridEdit.active beforedragoverstart.gridEdit.active', function(){
