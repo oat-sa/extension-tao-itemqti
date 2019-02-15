@@ -19,7 +19,7 @@
  *
  */
 
-namespace oat\taoQtiItem\test\unit\model\portableElement\model;
+namespace oat\taoQtiItem\test\integration\model\portableElement\model;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModel;

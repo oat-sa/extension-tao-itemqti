@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\test\unit\model\qti\asset;
+namespace oat\taoQtiItem\test\integration\model\qti\asset;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoItems\model\media\LocalItemSource;

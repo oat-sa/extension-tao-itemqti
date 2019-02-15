@@ -17,7 +17,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\test\unit\metadata;
+namespace oat\taoQtiItem\test\integration\metadata;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor;
