@@ -1,70 +1,71 @@
-define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
-    'taoQtiItem/scoring/processor/expressions/operators/isNull'
-], function(_, preProcessorFactory, isNullProcessor){
+define( [
 
-    module('API');
+    "lodash",
+    "taoQtiItem/scoring/processor/expressions/preprocessor",
+    "taoQtiItem/scoring/processor/expressions/operators/isNull"
+], function(  _, preProcessorFactory, isNullProcessor ) {
 
-    QUnit.test('structure', function(assert){
-        assert.ok(_.isPlainObject(isNullProcessor), 'the processor expose an object');
-        assert.ok(_.isFunction(isNullProcessor.process), 'the processor has a process function');
-        assert.ok(_.isArray(isNullProcessor.operands), 'the processor has operands');
-    });
+    QUnit.module( "API" );
 
-    module('Process');
+    QUnit.test( "structure", function( assert ) {
+        assert.ok( _.isPlainObject( isNullProcessor ), "the processor expose an object" );
+        assert.ok( _.isFunction( isNullProcessor.process ), "the processor has a process function" );
+        assert.ok( _.isArray( isNullProcessor.operands ), "the processor has operands" );
+    } );
 
-    var dataProvider = [{
-        title : 'not null integer',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'integer',
-            value : '5'
-        }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : false
+    QUnit.module( "Process" );
+
+    var dataProvider = [ {
+        title: "not null integer",
+        operands: [ {
+            cardinality: "single",
+            baseType: "integer",
+            value: "5"
+        } ],
+        expectedResult: {
+            cardinality: "single",
+            baseType: "boolean",
+            value: false
         }
-    },{
-        title : 'not null falsy',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : false
-        }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : false
+    }, {
+        title: "not null falsy",
+        operands: [ {
+            cardinality: "single",
+            baseType: "boolean",
+            value: false
+        } ],
+        expectedResult: {
+            cardinality: "single",
+            baseType: "boolean",
+            value: false
         }
-    },{
-        title : 'null value',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'integer',
-            value : null
-        }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : true
+    }, {
+        title: "null value",
+        operands: [ {
+            cardinality: "single",
+            baseType: "integer",
+            value: null
+        } ],
+        expectedResult: {
+            cardinality: "single",
+            baseType: "boolean",
+            value: true
         }
-    },{
-        title : 'null operand',
-        operands : [null],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : true
+    }, {
+        title: "null operand",
+        operands: [ null ],
+        expectedResult: {
+            cardinality: "single",
+            baseType: "boolean",
+            value: true
         }
-    }];
+    } ];
 
     QUnit
-      .cases(dataProvider)
-      .test('isNull ', function(data, assert){
+      .cases.init( dataProvider )
+      .test( "isNull ", function( data, assert ) {
         isNullProcessor.operands = data.operands;
-        isNullProcessor.preProcessor = preProcessorFactory({});
-        assert.deepEqual(isNullProcessor.process(), data.expectedResult, 'The isNull is correct');
-    });
-});
+        isNullProcessor.preProcessor = preProcessorFactory( {} );
+        assert.deepEqual( isNullProcessor.process(), data.expectedResult, "The isNull is correct" );
+    } );
+} );

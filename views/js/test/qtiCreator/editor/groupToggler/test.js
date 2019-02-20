@@ -15,106 +15,108 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  **/
-define([
-    'jquery',
-    'taoQtiItem/qtiCreator/editor/ckEditor/groupToggler'
-], function ($, groupToggler){
-    'use strict';
+define( [
+    
+    "jquery",
+    "taoQtiItem/qtiCreator/editor/ckEditor/groupToggler"
+], function(  $, groupToggler ) {
+    "use strict";
 
-    QUnit.test('api', function(assert){
-        assert.ok(typeof groupToggler === 'function', 'is a function');
-        assert.ok(typeof  groupToggler().register === 'function', 'is a function');
-    });
+    QUnit.test( "api", function( assert ) {
+        assert.ok( typeof groupToggler === "function", "is a function" );
+        assert.ok( typeof  groupToggler().register === "function", "is a function" );
+    } );
 
-    QUnit.asyncTest('register/trigger', function(assert){
+    QUnit.test( "register/trigger", function( assert ) {
+        var ready = assert.async();
 
-        var gpeToggler = groupToggler().on('error', function(){
-            assert.ok(false, 'should not trigger an error');
-        });
-        var $trigger1 = $('#trigger1');
-        var $trigger2 = $('#trigger2');
-        var $trigger3 = $('#trigger3');
+        var gpeToggler = groupToggler().on( "error", function() {
+            assert.ok( false, "should not trigger an error" );
+        } );
+        var $trigger1 = $( "#trigger1" );
+        var $trigger2 = $( "#trigger2" );
+        var $trigger3 = $( "#trigger3" );
 
-        gpeToggler.register($trigger1);
-        gpeToggler.register($trigger2);
-        gpeToggler.register($trigger3);
+        gpeToggler.register( $trigger1 );
+        gpeToggler.register( $trigger2 );
+        gpeToggler.register( $trigger3 );
 
-        assert.ok($trigger1.data('group-toggler-id'), 'group toggler id set');
-        assert.ok($trigger2.data('group-toggler-id'), 'group toggler id set');
-        assert.ok($trigger3.data('group-toggler-id'), 'group toggler id set');
+        assert.ok( $trigger1.data( "group-toggler-id" ), "group toggler id set" );
+        assert.ok( $trigger2.data( "group-toggler-id" ), "group toggler id set" );
+        assert.ok( $trigger3.data( "group-toggler-id" ), "group toggler id set" );
 
-        $trigger2.on('showanother.grouptoggler', function(){
-            assert.ok(true, 'trigger 2 informed');
-        }).on('show.grouptoggler', function(){
-            assert.ok(false, 'should not be triggered 2');
-        });
+        $trigger2.on( "showanother.grouptoggler", function() {
+            assert.ok( true, "trigger 2 informed" );
+        } ).on( "show.grouptoggler", function() {
+            assert.ok( false, "should not be triggered 2" );
+        } );
 
-        $trigger3.on('showanother.grouptoggler', function(){
-            assert.ok(true, 'trigger 3 informed');
-        }).on('show.grouptoggler', function(){
-            assert.ok(false, 'should not be triggered 3');
-        });
+        $trigger3.on( "showanother.grouptoggler", function() {
+            assert.ok( true, "trigger 3 informed" );
+        } ).on( "show.grouptoggler", function() {
+            assert.ok( false, "should not be triggered 3" );
+        } );
 
-        $trigger1.on('showanother.grouptoggler', function(){
-            assert.ok(false, 'should not be triggered 1');
-        }).on('show.grouptoggler', function(){
-            assert.ok(true, 'trigger 1 triggered');
-            QUnit.start();
-        }).trigger('show.grouptoggler');
+        $trigger1.on( "showanother.grouptoggler", function() {
+            assert.ok( false, "should not be triggered 1" );
+        } ).on( "show.grouptoggler", function() {
+            assert.ok( true, "trigger 1 triggered" );
+            ready();
+        } ).trigger( "show.grouptoggler" );
+    } );
 
-    });
+    QUnit.test( "multi-register/trigger", function( assert ) {
+        var ready = assert.async();
 
-    QUnit.asyncTest('multi-register/trigger', function(assert){
+        var gpeToggler = groupToggler().on( "error", function() {
+            assert.ok( false, "should not trigger an error" );
+        } );
+        var $trigger1 = $( "#trigger1" );
+        var $trigger2 = $( "#trigger2" );
+        var $trigger3 = $( "#trigger3" );
 
-        var gpeToggler = groupToggler().on('error', function(){
-            assert.ok(false, 'should not trigger an error');
-        });
-        var $trigger1 = $('#trigger1');
-        var $trigger2 = $('#trigger2');
-        var $trigger3 = $('#trigger3');
+        //Registering the same element multiple times has no impact on the outcome
+        gpeToggler.register( $trigger1 );
+        gpeToggler.register( $trigger1 );
+        gpeToggler.register( $trigger2 );
+        gpeToggler.register( $trigger2 );
+        gpeToggler.register( $trigger3 );
+        gpeToggler.register( $trigger3 );
 
-        //registering the same element multiple times has no impact on the outcome
-        gpeToggler.register($trigger1);
-        gpeToggler.register($trigger1);
-        gpeToggler.register($trigger2);
-        gpeToggler.register($trigger2);
-        gpeToggler.register($trigger3);
-        gpeToggler.register($trigger3);
+        assert.ok( $trigger1.data( "group-toggler-id" ), "group toggler id set" );
+        assert.ok( $trigger2.data( "group-toggler-id" ), "group toggler id set" );
+        assert.ok( $trigger3.data( "group-toggler-id" ), "group toggler id set" );
 
-        assert.ok($trigger1.data('group-toggler-id'), 'group toggler id set');
-        assert.ok($trigger2.data('group-toggler-id'), 'group toggler id set');
-        assert.ok($trigger3.data('group-toggler-id'), 'group toggler id set');
+        $trigger2.on( "showanother.grouptoggler", function() {
+            assert.ok( true, "trigger 2 informed" );
+        } ).on( "show.grouptoggler", function() {
+            assert.ok( false, "should not be triggered 2" );
+        } );
 
-        $trigger2.on('showanother.grouptoggler', function(){
-            assert.ok(true, 'trigger 2 informed');
-        }).on('show.grouptoggler', function(){
-            assert.ok(false, 'should not be triggered 2');
-        });
+        $trigger3.on( "showanother.grouptoggler", function() {
+            assert.ok( true, "trigger 3 informed" );
+        } ).on( "show.grouptoggler", function() {
+            assert.ok( false, "should not be triggered 3" );
+        } );
 
-        $trigger3.on('showanother.grouptoggler', function(){
-            assert.ok(true, 'trigger 3 informed');
-        }).on('show.grouptoggler', function(){
-            assert.ok(false, 'should not be triggered 3');
-        });
+        $trigger1.on( "showanother.grouptoggler", function() {
+            assert.ok( false, "should not be triggered 1" );
+        } ).on( "show.grouptoggler", function() {
+            assert.ok( true, "trigger 1 triggered" );
+            ready();
+        } ).trigger( "show.grouptoggler" );
+    } );
 
-        $trigger1.on('showanother.grouptoggler', function(){
-            assert.ok(false, 'should not be triggered 1');
-        }).on('show.grouptoggler', function(){
-            assert.ok(true, 'trigger 1 triggered');
-            QUnit.start();
-        }).trigger('show.grouptoggler');
+    QUnit.test( "error", function( assert ) {
+        var ready = assert.async();
+        var gpeToggler = groupToggler().on( "error", function() {
+            assert.ok( true, "error triggered" );
+            ready();
+        } );
+        var $trigger1 = $( "#trigger-not-existing" );
 
-    });
+        gpeToggler.register( $trigger1 );
+    } );
 
-    QUnit.asyncTest('error', function(assert){
-        var gpeToggler = groupToggler().on('error', function(){
-            assert.ok(true, 'error triggered');
-            QUnit.start();
-        });
-        var $trigger1 = $('#trigger-not-existing');
-
-        gpeToggler.register($trigger1);
-    });
-
-});
+} );
 

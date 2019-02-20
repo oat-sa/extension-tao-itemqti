@@ -24,9 +24,10 @@ function($, MathEditor, mathJax) {
         ];
 
     QUnit
-        .cases(texExprs)
+        .cases.init(texExprs)
         .combinatorial(displayTypes)
-        .asyncTest('Latex rendering', 1, function test(data, assert) {
+        .test('Latex rendering', 1, function test(data, assert) {
+            var ready = assert.async();
             var mathjaxRenderingDelayMs = 750,
 
                 $buffer = $('.mj-buffer'),
@@ -49,7 +50,7 @@ function($, MathEditor, mathJax) {
                     assert.ok(actualScript === expectedScript,
                         'Error in Mathjax output: expected ' + expectedScript + ' but was ' + actualScript);
 
-                    QUnit.start();
+                    ready();
                 }, mathjaxRenderingDelayMs);
             }
         });
@@ -64,8 +65,9 @@ function($, MathEditor, mathJax) {
     ];
 
     QUnit
-        .cases(texWithSpecialChars)
-        .asyncTest('Latex to MathML conversion strips MathJax-generated comments', 2, function test(data, assert) {
+        .cases.init(texWithSpecialChars)
+        .test('Latex to MathML conversion strips MathJax-generated comments', 2, function test(data, assert) {
+            var ready = assert.async();
             var mathjaxRenderingDelayMs = 750,
 
                 $buffer = $('.mj-buffer'),
@@ -88,7 +90,7 @@ function($, MathEditor, mathJax) {
                         'Error in MathML output, expected striped comments in ' + data.input +
                         ' but got: ' + $target.html());
 
-                    QUnit.start();
+                    ready();
                 }, mathjaxRenderingDelayMs);
             }
         });
@@ -100,8 +102,9 @@ function($, MathEditor, mathJax) {
     ];
 
     QUnit
-        .cases(mathMLWithComments)
-        .asyncTest('MathML rendering strips comments', 2, function test(data, assert) {
+        .cases.init(mathMLWithComments)
+        .test('MathML rendering strips comments', 2, function test(data, assert) {
+            var ready = assert.async();
             var mathjaxRenderingDelayMs = 750,
 
                 $buffer = $('.mj-buffer'),
@@ -124,7 +127,7 @@ function($, MathEditor, mathJax) {
                         'Error in MathML output, expected striped comments in ' + data.input +
                         ' but got: ' + $target.html());
 
-                    QUnit.start();
+                    ready();
                 }, mathjaxRenderingDelayMs);
             }
         });
@@ -147,8 +150,9 @@ function($, MathEditor, mathJax) {
     ];
 
     QUnit
-        .cases(mathMLWithSpecialChars)
-        .asyncTest('MathML rendering encodes special chars', 1, function test(data, assert) {
+        .cases.init(mathMLWithSpecialChars)
+        .test('MathML rendering encodes special chars', 1, function test(data, assert) {
+            var ready = assert.async();
             var mathjaxRenderingDelayMs = 750,
 
                 $buffer = $('.mj-buffer'),
@@ -166,7 +170,7 @@ function($, MathEditor, mathJax) {
                 setTimeout(function checkMathJaxOutput() {
                     assert.strictEqual(mathEditor.mathML, data.output);
 
-                    QUnit.start();
+                    ready();
                 }, mathjaxRenderingDelayMs);
             }
         });
