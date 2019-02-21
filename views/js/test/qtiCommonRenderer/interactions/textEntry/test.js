@@ -54,22 +54,6 @@ define([
                 assert.equal(getTooltipContent($input), '5 characters allowed', 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
 
-                $input.val('123');
-                $input.keyup();
-                assert.equal(getTooltipContent($input), '3/5', 'the instruction message is correct');
-                assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
-
-                $input.val('12345');
-                $input.keyup();
-                assert.equal(getTooltipContent($input), '5/5', 'the warning message is correct');
-                assert.ok(getTooltip($input).is(':visible'), 'warning tooltip is visible');
-                assert.ok($input.hasClass('maxed'), 'has state maxed');
-
-                $input.val('1234');
-                $input.keyup();
-                assert.equal(getTooltipContent($input), '4/5', 'the instruction message is correct');
-                assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
-                assert.ok(!$input.hasClass('maxed'), 'has state maxed removed');
 
             })
             .init()
@@ -85,7 +69,6 @@ define([
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
             .on('render', function () {
-                QUnit.start();
 
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
@@ -93,14 +76,14 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), undefined);
+                assert.equal(getTooltipContent($input), 'This is not a valid answer.');
 
                 $input.val('123');
                 $input.keyup();
 
             }).on('responsechange', function(state){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
-                assert.equal(getTooltipContent($input), 'This is not a valid answer', 'the error message is correct');
+                assert.equal(getTooltipContent($input), 'This is not a valid answer.', 'the error message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'the error tooltip is visible after an invalid response');
                 QUnit.start();
             })
@@ -117,7 +100,6 @@ define([
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
             .on('render', function () {
-                QUnit.start();
 
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
@@ -125,7 +107,7 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), undefined);
+                assert.equal(getTooltipContent($input), 'This is not a valid answer.');
 
                 $input.val('PARIS');
                 $input.keyup();
