@@ -57,18 +57,18 @@ define([
 
                 $input.val('123');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), __('3/5'), 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 3, 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
 
                 $input.val('12345');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), __('5/5'), 'the warning message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 5, 5), 'the warning message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'warning tooltip is visible');
                 assert.ok($input.hasClass('maxed'), 'has state maxed');
 
                 $input.val('1234');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), __('4/5'), 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 4, 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
                 assert.ok(!$input.hasClass('maxed'), 'has state maxed removed');
 
