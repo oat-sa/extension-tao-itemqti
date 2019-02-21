@@ -98,16 +98,21 @@ define([
 
                 deleteTooltip($input);
 
+                if(count){
+                    message = __('%d/%d', count, maxChars);
+                }else{
+                    message = __('%d characters allowed', maxChars);
+                }
+
                 if(count >= maxChars){
                     $input.addClass('maxed');
+                    createTooltip($input, 'warning', message);
                 }else{
                     $input.removeClass('maxed');
 
-                    message = __('%d characters allowed' ,maxChars);
-
                     createTooltip($input, 'info', message);
-                    $input.data('$tooltip').show();
                 }
+                $input.data('$tooltip').show();
             };
 
             $input
@@ -126,13 +131,14 @@ define([
 
             updatePatternMaskTooltip = function updatePatternMaskTooltip() {
                 var regex = new RegExp(attributes.patternMask);
+
+                deleteTooltip($input);
+
                 if ($input.val().length && regex.test($input.val())) {
                     $input.removeClass('invalid');
-                    deleteTooltip($input);
                 } else {
                     $input.addClass('invalid');
-                    deleteTooltip($input);
-                    createTooltip($input, 'error', __('This is not a valid answer.'));
+                    createTooltip($input, 'error', __('This is not a valid answer'));
                     $input.data('$tooltip').show();
                 }
             };
