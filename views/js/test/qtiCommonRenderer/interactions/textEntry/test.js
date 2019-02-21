@@ -76,14 +76,14 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), 'This is not a valid answer.');
+                assert.equal(getTooltipContent($input), 'This is not a valid answer');
 
                 $input.val('123');
                 $input.keyup();
 
             }).on('responsechange', function(state){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
-                assert.equal(getTooltipContent($input), 'This is not a valid answer.', 'the error message is correct');
+                assert.equal(getTooltipContent($input), 'This is not a valid answer', 'the error message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'the error tooltip is visible after an invalid response');
                 QUnit.start();
             })
@@ -107,7 +107,7 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), 'This is not a valid answer.');
+                assert.equal(getTooltipContent($input), 'This is not a valid answer');
 
                 $input.val('PARIS');
                 $input.keyup();

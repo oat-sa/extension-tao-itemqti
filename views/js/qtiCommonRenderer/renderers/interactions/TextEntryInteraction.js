@@ -132,7 +132,7 @@ define([
                 } else {
                     $input.addClass('invalid');
                     deleteTooltip($input);
-                    createTooltip($input, 'error', __('This is not a valid answer.'));
+                    createTooltip($input, 'error', __('This is not a valid answer'));
                     $input.data('$tooltip').show();
                 }
             };
