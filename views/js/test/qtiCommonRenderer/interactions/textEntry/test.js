@@ -1,11 +1,12 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/text-entry-noconstraint.json',
     'json!taoQtiItem/test/samples/json/text-entry-length.json',
     'json!taoQtiItem/test/samples/json/text-entry-pattern.json'
-], function ($, _, qtiItemRunner, textEntryData, textEntryLengthConstrainedData, textEntryPatternConstrainedData) {
+], function ($, _, __, qtiItemRunner, textEntryData, textEntryLengthConstrainedData, textEntryPatternConstrainedData) {
     'use strict';
 
     var runner;
@@ -51,23 +52,23 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), '5 characters allowed', 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d characters allowed', 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
 
                 $input.val('123');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), '3/5', 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 3, 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
 
                 $input.val('12345');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), '5/5', 'the warning message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 5, 5), 'the warning message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'warning tooltip is visible');
                 assert.ok($input.hasClass('maxed'), 'has state maxed');
 
                 $input.val('1234');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), '4/5', 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 4, 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
                 assert.ok(!$input.hasClass('maxed'), 'has state maxed removed');
 
@@ -93,16 +94,15 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), undefined);
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'));
 
                 $input.val('123');
                 $input.keyup();
 
-            }).on('responsechange', function(state){
+            }).on('responsechange', function(){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
-                assert.equal(getTooltipContent($input), 'This is not a valid answer', 'the error message is correct');
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'), 'the error message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'the error tooltip is visible after an invalid response');
-                QUnit.start();
             })
             .init()
             .render($container);
@@ -125,15 +125,14 @@ define([
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), undefined);
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'));
 
                 $input.val('PARIS');
                 $input.keyup();
 
-            }).on('responsechange', function(state){
+            }).on('responsechange', function(){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
                 assert.equal(getTooltip($input), undefined, 'the error tooltip is hidden after a correct response');
-                QUnit.start();
             })
             .init()
             .render($container);
@@ -150,7 +149,6 @@ define([
         runner = qtiItemRunner('qti', textEntryData)
             .on('render', function(){
                 QUnit.start();
-
 
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
