@@ -118,10 +118,10 @@ define([
             $input
                 .attr('maxlength', maxChars)
                 .on('focus.commonRenderer', function(){
-                    updateMaxCharsTooltip();
+                    _.defer(updateMaxCharsTooltip);
                 })
                 .on('keyup.commonRenderer', function(){
-                    updateMaxCharsTooltip();
+                    _.defer(updateMaxCharsTooltip);
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
@@ -145,10 +145,10 @@ define([
 
             $input
                 .on('focus.commonRenderer', function(){
-                    updatePatternMaskTooltip();
+                    _.defer(updatePatternMaskTooltip);
                 })
                 .on('keyup.commonRenderer', function(){
-                    updatePatternMaskTooltip();
+                    _.defer(updatePatternMaskTooltip);
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
