@@ -17,14 +17,14 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\test\integration\metadata;
+namespace oat\taoQtiItem\test\unit\metadata;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor;
 use \DOMDocument;
 use \stdClass;
 
-class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
+class ImsManifestExtractionTest extends TestCase
 {
     protected $imsManifestExtractor;
     

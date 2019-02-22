@@ -19,13 +19,13 @@
  *
  */
 
-namespace oat\taoQtiItem\test\integration\model\portableElement\model;
+namespace oat\taoQtiItem\test\unit\model\portableElement\model;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;
 
-class PortableElementModelTraitTest extends TaoPhpUnitTestRunner
+class PortableElementModelTraitTest extends TestCase
 {
     /**
      * @var PortableElementModelTrait
@@ -42,6 +42,9 @@ class PortableElementModelTraitTest extends TaoPhpUnitTestRunner
         $this->instance = null;
     }
 
+    /**
+     * @return PortableElementModel|\PHPUnit_Framework_MockObject_MockObject
+     */
     public function getPortableElementModelMock()
     {
         return $this->getMockBuilder(PortableElementModel::class)->getMock();
