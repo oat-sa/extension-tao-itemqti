@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
