@@ -156,8 +156,8 @@ define([
                 $input.keyup();//trigger the response changed event
 
                 QUnit.start();
-            }).on('statechange', function(retrivedState){
-                assert.deepEqual(retrivedState, state, 'statechange state is correct');
+            }).on('statechange', function(retrievedState){
+                assert.deepEqual(retrievedState, state, 'statechange state is correct');
             })
             .init()
             .render($container);
