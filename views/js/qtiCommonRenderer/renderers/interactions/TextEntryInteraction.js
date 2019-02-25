@@ -235,7 +235,7 @@ define([
 
     var destroy = function destroy(interaction){
 
-        $("input.qti-interaction.qti-inlineInteraction.qti-textEntryInteraction").each(function(index, el) {
+        $("input.qti-textEntryInteraction").each(function(index, el) {
             var $input = $(el);
             if ($input.data('$tooltip')){
                 $input.data('$tooltip').dispose();
