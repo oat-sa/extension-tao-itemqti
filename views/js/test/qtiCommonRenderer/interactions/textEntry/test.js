@@ -10,16 +10,6 @@ define([
     'use strict';
 
     var runner;
-    var fixtureContainerId = 'item-container';
-    var outsideContainerId = 'outside-container';
-
-    module('Text Entry Interaction', {
-        teardown: function () {
-            if (runner) {
-                runner.clear();
-            }
-        }
-    });
 
     function getTooltipContent($input){
         var content = getTooltip($input);
@@ -35,17 +25,23 @@ define([
         }
     }
 
-    QUnit.asyncTest('Lenght constraint', function (assert) {
+    QUnit.module('Text Entry Interaction', {
+        teardown: function () {
+            if (runner) {
+                runner.clear();
+            }
+        }
+    });
 
-        var $container = $('#' + fixtureContainerId);
+    QUnit.asyncTest('Length constraint', function (assert) {
+
+        var $container = $('#fixture-length-constraint');
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', textEntryLengthConstrainedData)
             .on('render', function () {
-                QUnit.start();
-
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -72,6 +68,7 @@ define([
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
                 assert.ok(!$input.hasClass('maxed'), 'has state maxed removed');
 
+                QUnit.start();
             })
             .init()
             .render($container);
@@ -79,15 +76,13 @@ define([
 
     QUnit.asyncTest('Pattern constraint - incorrect', function (assert) {
 
-        var $container = $('#' + fixtureContainerId);
+        var $container = $('#pattern-constraint-incorrect');
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
             .on('render', function () {
-                QUnit.start();
-
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -99,6 +94,7 @@ define([
                 $input.val('123');
                 $input.keyup();
 
+                QUnit.start();
             }).on('responsechange', function(){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
                 assert.equal(getTooltipContent($input), __('This is not a valid answer'), 'the error message is correct');
@@ -110,15 +106,13 @@ define([
 
     QUnit.asyncTest('Pattern constraint - correct', function (assert) {
 
-        var $container = $('#' + fixtureContainerId);
+        var $container = $('#pattern-constraint-correct');
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
             .on('render', function () {
-                QUnit.start();
-
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -130,6 +124,7 @@ define([
                 $input.val('PARIS');
                 $input.keyup();
 
+                QUnit.start();
             }).on('responsechange', function(){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
                 assert.equal(getTooltip($input), undefined, 'the error tooltip is hidden after a correct response');
@@ -140,7 +135,7 @@ define([
 
     QUnit.asyncTest('set/get response', function(assert){
 
-        var $container = $('#' + fixtureContainerId);
+        var $container = $('#set-get-response');
         var state = {"RESPONSE":{response:{"base":{"string":"PARIS"}}}};
 
         assert.equal($container.length, 1, 'the item container exists');
@@ -148,8 +143,6 @@ define([
 
         runner = qtiItemRunner('qti', textEntryData)
             .on('render', function(){
-                QUnit.start();
-
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -158,15 +151,13 @@ define([
                 this.setState(state);
 
                 assert.equal($input.val(), 'PARIS', 'the text input has been correctly set');
-
                 assert.deepEqual(this.getState(state), state, 'state is correct');
 
                 $input.keyup();//trigger the response changed event
 
+                QUnit.start();
             }).on('statechange', function(retrivedState){
-
                 assert.deepEqual(retrivedState, state, 'statechange state is correct');
-
             })
             .init()
             .render($container);
@@ -175,16 +166,15 @@ define([
     module('Visual Test');
 
     QUnit.asyncTest('Display and play', function (assert) {
-        QUnit.expect(3);
+        var $container = $('#outside-container');
 
-        var $container = $('#' + outsideContainerId);
+        QUnit.expect(3);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         qtiItemRunner('qti', textEntryLengthConstrainedData)
             .on('render', function () {
-
                 assert.equal($container.find('.qti-interaction.qti-textEntryInteraction').length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
 
                 QUnit.start();
