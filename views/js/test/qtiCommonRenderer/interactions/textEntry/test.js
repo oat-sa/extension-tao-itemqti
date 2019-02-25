@@ -127,7 +127,7 @@ define([
                 QUnit.start();
             }).on('responsechange', function(){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
-                assert.equal(getTooltip($input), undefined, 'the error tooltip is hidden after a correct response');
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'), 'the error tooltip is hidden after a correct response');
             })
             .init()
             .render($container);
