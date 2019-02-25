@@ -94,7 +94,7 @@ define([
 
             updateMaxCharsTooltip = function updateMaxCharsTooltip(){
                 var count = $input.val().length;
-                var message;
+                var message, messageType;
 
                 deleteTooltip($input);
 
@@ -106,22 +106,23 @@ define([
 
                 if(count >= maxChars){
                     $input.addClass('maxed');
-                    createTooltip($input, 'warning', message);
+                    messageType = 'warning';
                 }else{
                     $input.removeClass('maxed');
-
-                    createTooltip($input, 'info', message);
+                    messageType = 'info';
                 }
+
+                createTooltip($input, messageType , message);
                 $input.data('$tooltip').show();
             };
 
             $input
                 .attr('maxlength', maxChars)
                 .on('focus.commonRenderer', function(){
-                    _.defer(updateMaxCharsTooltip);
+                    updateMaxCharsTooltip();
                 })
                 .on('keyup.commonRenderer', function(){
-                    _.defer(updateMaxCharsTooltip);
+                    updateMaxCharsTooltip();
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
@@ -145,10 +146,10 @@ define([
 
             $input
                 .on('focus.commonRenderer', function(){
-                    _.defer(updatePatternMaskTooltip);
+                    updatePatternMaskTooltip();
                 })
                 .on('keyup.commonRenderer', function(){
-                    _.defer(updatePatternMaskTooltip);
+                    updatePatternMaskTooltip();
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
