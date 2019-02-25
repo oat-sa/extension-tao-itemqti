@@ -36,29 +36,34 @@ define([
     'use strict';
 
     /**
-     * Delete the text input tooltip
+     * Hide the tooltip for the text input
      * @param {jQuery} $input
      */
-    var deleteTooltip = function deleteTooltip($input){
+    var hideTooltip = function hideTooltip($input){
         if ($input.data('$tooltip')){
-            $input.data('$tooltip').dispose();
-            $input.removeData('$tooltip');
+            $input.data('$tooltip').hide();
         }
     };
 
     /**
-     * Prepare the feedback tooltip for the text input
+     * Create/Show tooltip for the text input
      * @param {jQuery} $input
      * @param {String} theme
      * @param {String} message
      */
-    var createTooltip = function createTooltip($input, theme, message){
-        var textEntryTooltip = tooltip.create($input, message, {
-            theme: theme,
-            trigger: 'manual'
-        });
+    var showTooltip = function showTooltip($input, theme, message){
+        if ($input.data('$tooltip')){
+            $input.data('$tooltip').updateTitleContent(message);
+        } else {
+            var textEntryTooltip = tooltip.create($input, message, {
+                theme: theme,
+                trigger: 'manual'
+            });
 
-        $input.data('$tooltip', textEntryTooltip);
+            $input.data('$tooltip', textEntryTooltip);
+        }
+
+        $input.data('$tooltip').show();
     };
 
     /**
@@ -96,8 +101,6 @@ define([
                 var count = $input.val().length;
                 var message, messageType;
 
-                deleteTooltip($input);
-
                 if(count){
                     message = __('%d/%d', count, maxChars);
                 }else{
@@ -112,8 +115,7 @@ define([
                     messageType = 'info';
                 }
 
-                createTooltip($input, messageType , message);
-                $input.data('$tooltip').show();
+                showTooltip($input, messageType , message);
             };
 
             $input
@@ -126,21 +128,20 @@ define([
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
-                    deleteTooltip($input);
+                    hideTooltip($input);
                 });
         }else if(attributes.patternMask){
 
             updatePatternMaskTooltip = function updatePatternMaskTooltip() {
                 var regex = new RegExp(attributes.patternMask);
 
-                deleteTooltip($input);
+                hideTooltip($input);
 
                 if ($input.val().length && regex.test($input.val())) {
                     $input.removeClass('invalid');
                 } else {
                     $input.addClass('invalid');
-                    createTooltip($input, 'error', __('This is not a valid answer'));
-                    $input.data('$tooltip').show();
+                    showTooltip($input, 'error', __('This is not a valid answer'));
                 }
             };
 
@@ -153,7 +154,7 @@ define([
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
-                    deleteTooltip($input);
+                    hideTooltip($input);
                 });
         }else{
             $input.on('keyup.commonRenderer', function(){
@@ -213,7 +214,7 @@ define([
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             numericBase = attributes.base || 10;
-        
+
         if($input.hasClass('invalid') || (attributes.placeholderText && $input.val() === attributes.placeholderText)){
             //invalid response or response equals to the placeholder text are considered empty
             value = '';
@@ -233,6 +234,15 @@ define([
     };
 
     var destroy = function destroy(interaction){
+
+        $("input.qti-interaction.qti-inlineInteraction.qti-textEntryInteraction").each(function(index, el) {
+            var $input = $(el);
+            if ($input.data('$tooltip')){
+                $input.data('$tooltip').dispose();
+                $input.removeData('$tooltip');
+            }
+        });
+
         //remove event
         $(document).off('.commonRenderer');
         containerHelper.get(interaction).off('.commonRenderer');
