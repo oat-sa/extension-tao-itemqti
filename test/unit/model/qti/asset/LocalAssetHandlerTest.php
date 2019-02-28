@@ -20,11 +20,11 @@
 
 namespace oat\taoQtiItem\test\unit\model\qti\asset;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 
-class LocalAssetHandlerTest extends TaoPhpUnitTestRunner
+class LocalAssetHandlerTest extends TestCase
 {
     /**
      * @dataProvider testHandleProvider
@@ -41,7 +41,7 @@ class LocalAssetHandlerTest extends TaoPhpUnitTestRunner
             ->with($absolutePath, basename($absolutePath), $safePath)
             ->willReturn('infoFixture');
 
-        $localAssetHandlerFixture = new LocalAssetHandler(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture')));
+        $localAssetHandlerFixture = new LocalAssetHandler();
         $reflectionClass = new \ReflectionClass(LocalAssetHandler::class);
         $reflectionProperty = $reflectionClass->getProperty('itemSource');
         $reflectionProperty->setAccessible(true);

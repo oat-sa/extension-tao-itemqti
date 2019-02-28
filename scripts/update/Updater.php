@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
@@ -390,6 +391,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('16.0.0');
         }
 
-        $this->skip('16.0.0', '18.7.9');
+        $this->skip('16.0.0', '18.7.12');
     }
 }
