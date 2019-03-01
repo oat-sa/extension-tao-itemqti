@@ -36,32 +36,34 @@ define([
     'use strict';
 
     /**
-     * Prepare the feedback tooltip for the text input
+     * Hide the tooltip for the text input
+     * @param {jQuery} $input
+     */
+    var hideTooltip = function hideTooltip($input){
+        if ($input.data('$tooltip')){
+            $input.data('$tooltip').hide();
+        }
+    };
+
+    /**
+     * Create/Show tooltip for the text input
      * @param {jQuery} $input
      * @param {String} theme
      * @param {String} message
-     * @param {Boolean} [forceCreation=false]
-     * @param {Boolean} [hidden=false]
      */
-    var createTooltip = function createTooltip($input, theme, message, forceCreation, hidden){
-        var textEntryTooltip;
-        if(forceCreation || !$input.data('$tooltip')){
-            textEntryTooltip = tooltip.create($input, message, {
+    var showTooltip = function showTooltip($input, theme, message){
+        if ($input.data('$tooltip')){
+            $input.data('$tooltip').updateTitleContent(message);
+        } else {
+            var textEntryTooltip = tooltip.create($input, message, {
                 theme: theme,
                 trigger: 'manual'
             });
-        }else{
-            $input.data('$tooltip').dispose();
-            $input.removeData('$tooltip');
-            textEntryTooltip = tooltip.create($input, message, {
-                theme: 'info',
-                trigger: 'manual'
-            });
+
+            $input.data('$tooltip', textEntryTooltip);
         }
-        $input.data('$tooltip', textEntryTooltip);
-        if(!hidden){
-            $input.data('$tooltip').show();
-        }
+
+        $input.data('$tooltip').show();
     };
 
     /**
@@ -75,7 +77,8 @@ define([
         var attributes = interaction.getAttributes(),
             $input = interaction.getContainer(),
             expectedLength,
-            updateConstraintTooltip,
+            updateMaxCharsTooltip,
+            updatePatternMaskTooltip,
             patternMask = interaction.attr('patternMask'),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10);
 
@@ -94,58 +97,65 @@ define([
 
         if(maxChars){
 
-            updateConstraintTooltip = function updateConstraintTooltip(){
+            updateMaxCharsTooltip = function updateMaxCharsTooltip(){
                 var count = $input.val().length;
-                var message;
+                var message, messageType;
+
+                if(count){
+                    message = __('%d/%d', count, maxChars);
+                }else{
+                    message = __('%d characters allowed', maxChars);
+                }
+
                 if(count >= maxChars){
                     $input.addClass('maxed');
-                    createTooltip($input, 'warning', __('%d/%d', count, maxChars), true);
+                    messageType = 'warning';
                 }else{
-                    if(count){
-                        message = __('%d/%d', count, maxChars);
-                    }else{
-                        message = __('%d characters allowed', maxChars);
-                    }
-                    if($input.hasClass('maxed')){
-                        $input.removeClass('maxed');
-                        createTooltip($input, 'info', message, true);
-                    }else{
-                        createTooltip($input, 'info', message);
-                    }
+                    $input.removeClass('maxed');
+                    messageType = 'info';
                 }
+
+                showTooltip($input, messageType , message);
             };
 
             $input
                 .attr('maxlength', maxChars)
-                .on('focus.commonRenderer keydown.commonRenderer', updateConstraintTooltip)
+                .on('focus.commonRenderer', function(){
+                    updateMaxCharsTooltip();
+                })
                 .on('keyup.commonRenderer', function(){
-                    updateConstraintTooltip();
+                    updateMaxCharsTooltip();
                     containerHelper.triggerResponseChangeEvent(interaction);
                 })
                 .on('blur.commonRenderer', function(){
-                    $input.data('$tooltip').hide();
-
+                    hideTooltip($input);
                 });
-
         }else if(attributes.patternMask){
 
-            //set up the tooltip plugin for the input
-            createTooltip($input, 'error', __('This is not a valid answer'), true, true);
-
-            $input.on('keyup.commonRenderer', _.debounce(function(){
+            updatePatternMaskTooltip = function updatePatternMaskTooltip() {
                 var regex = new RegExp(attributes.patternMask);
-                if(regex.test($input.val())){
-                    $input.removeClass('invalid').data('$tooltip').hide();
 
+                hideTooltip($input);
+
+                if ($input.val().length && regex.test($input.val())) {
+                    $input.removeClass('invalid');
                 } else {
-                    $input.addClass('invalid').data('$tooltip').show();//adding the class invalid prevent the invalid response to be submitted
+                    $input.addClass('invalid');
+                    showTooltip($input, 'error', __('This is not a valid answer'));
                 }
-                containerHelper.triggerResponseChangeEvent(interaction);
-            }, 600)).on('keydown.commonRenderer', function(){
-                //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
-                $input.data('$tooltip').hide();
-            });
+            };
 
+            $input
+                .on('focus.commonRenderer', function(){
+                    updatePatternMaskTooltip();
+                })
+                .on('keyup.commonRenderer', function(){
+                    updatePatternMaskTooltip();
+                    containerHelper.triggerResponseChangeEvent(interaction);
+                })
+                .on('blur.commonRenderer', function(){
+                    hideTooltip($input);
+                });
         }else{
             $input.on('keyup.commonRenderer', function(){
                 containerHelper.triggerResponseChangeEvent(interaction);
@@ -204,7 +214,7 @@ define([
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             numericBase = attributes.base || 10;
-        
+
         if($input.hasClass('invalid') || (attributes.placeholderText && $input.val() === attributes.placeholderText)){
             //invalid response or response equals to the placeholder text are considered empty
             value = '';
@@ -224,6 +234,15 @@ define([
     };
 
     var destroy = function destroy(interaction){
+
+        $("input.qti-textEntryInteraction").each(function(index, el) {
+            var $input = $(el);
+            if ($input.data('$tooltip')){
+                $input.data('$tooltip').dispose();
+                $input.removeData('$tooltip');
+            }
+        });
+
         //remove event
         $(document).off('.commonRenderer');
         containerHelper.get(interaction).off('.commonRenderer');
