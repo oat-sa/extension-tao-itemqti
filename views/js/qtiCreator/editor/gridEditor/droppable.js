@@ -97,7 +97,7 @@ define([
         //restore the dropping element placeholder back to its default location:
         var _resetPlaceholder = function(){
 
-            if($placeholder.parent().hasClass('.dropping')) {
+            if($placeholder.parent().hasClass('dropping')) {
                 $placeholder.parent().parent().removeData('active');
 
                 $placeholder
@@ -166,7 +166,7 @@ define([
                     }else{
                         $newCol.attr('class', 'new-col col-' + distributedUnits.middle);
                     }
-                    _.each(distributedUnits.cols, function(){
+                    _.each(distributedUnits.cols, function(col){
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
                     });
                 }
@@ -242,7 +242,7 @@ define([
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
 
             //insert element above or below the col's row:
-            if($(goingTo).closest('.grid-row').length && !$(e.target).hasClass(".new-col").length ){
+            if($(goingTo).closest('.grid-row').length && !$(e.target).hasClass("new-col").length ){
                 var $col = $(this),
                     h = $col.height(),
                     relY = e.pageY - $col.offset().top;
@@ -263,7 +263,7 @@ define([
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
 
             _resetPlaceholder();
-            if(goingTo && !$(goingTo).hasClass('.dropping').length) {
+            if(goingTo && !$(goingTo).hasClass('dropping').length) {
                 //restore dom when the mouse leaves the drop area "$el":
                 $placeholder.hide();
                 _restoreTmpCol($el);
