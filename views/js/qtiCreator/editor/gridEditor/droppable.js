@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  *
  */
 define([
@@ -415,7 +415,7 @@ define([
         }, 50)).on('mouseover.gridEdit.gridDragDrop', _.throttle(function(e){
             var $target;
             e.stopPropagation();
-            /*$target = $(e.target);
+            $target = $(e.target);
 
             if($target.hasClass('drop-target') && !$target.find($placeholder).length){
 
@@ -427,7 +427,7 @@ define([
                 && !$target.children('.qti-word-wrap').length){
 
                 _resetPlaceholder($el);
-            }*/
+            }
         }, 50));
 
         //listen to the end of the dragging
