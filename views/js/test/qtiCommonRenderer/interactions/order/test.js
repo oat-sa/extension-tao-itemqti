@@ -1,11 +1,11 @@
 define( [
     
-    "jquery",
-    "lodash",
-    "taoQtiItem/runner/qtiItemRunner",
-    "core/mouseEvent",
-    "ui/interactUtils",
-    "json!taoQtiItem/test/samples/json/history.json"
+    'jquery',
+    'lodash',
+    'taoQtiItem/runner/qtiItemRunner',
+    'core/mouseEvent',
+    'ui/interactUtils',
+    'json!taoQtiItem/test/samples/json/history.json'
 ], function(
    
     $,
@@ -15,52 +15,52 @@ define( [
     interactUtils,
     orderData
 ) {
-    "use strict";
+    'use strict';
 
     var runner;
-    var fixtureContainerId = "item-container";
-    var outsideContainerId = "outside-container";
+    var fixtureContainerId = 'item-container';
+    var outsideContainerId = 'outside-container';
 
-    QUnit.module( "Order Interaction", {
-        undefined: function( assert ) {
+    QUnit.module( 'Order Interaction', {
+        afterEach: function( assert ) {
             if ( runner ) {
                 runner.clear();
             }
         }
     } );
 
-    QUnit.test( "renders correctly", function( assert ) {
+    QUnit.test( 'renders correctly', function( assert ) {
         var ready = assert.async();
         assert.expect( 18 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
 
                 //Check DOM
-                assert.equal( $container.children().length, 1, "the container a elements" );
-                assert.equal( $container.children( ".qti-item" ).length, 1, "the container contains a the root element .qti-item" );
-                assert.equal( $container.find( ".qti-itemBody" ).length, 1, "the container contains a the body element .qti-itemBody" );
-                assert.equal( $container.find( ".qti-interaction" ).length, 1, "the container contains an interaction .qti-interaction" );
-                assert.equal( $container.find( ".qti-interaction.qti-orderInteraction" ).length, 1, "the container contains a choice interaction .qti-orderInteraction" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-prompt-container" ).length, 1, "the interaction contains a prompt" );
-                assert.equal( $container.find( ".qti-orderInteraction .instruction-container" ).length, 1, "the interaction contains a instruction box" );
-                assert.equal( $container.find( ".qti-orderInteraction .choice-area" ).length, 1, "the interaction contains a choice list" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice" ).length, 5, "the interaction has 5 choices" );
-                assert.equal( $container.find( ".qti-orderInteraction .result-area" ).length, 1, "the interaction contains a result area" );
+                assert.equal( $container.children().length, 1, 'the container a elements' );
+                assert.equal( $container.children( '.qti-item' ).length, 1, 'the container contains a the root element .qti-item' );
+                assert.equal( $container.find( '.qti-itemBody' ).length, 1, 'the container contains a the body element .qti-itemBody' );
+                assert.equal( $container.find( '.qti-interaction' ).length, 1, 'the container contains an interaction .qti-interaction' );
+                assert.equal( $container.find( '.qti-interaction.qti-orderInteraction' ).length, 1, 'the container contains a choice interaction .qti-orderInteraction' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-prompt-container' ).length, 1, 'the interaction contains a prompt' );
+                assert.equal( $container.find( '.qti-orderInteraction .instruction-container' ).length, 1, 'the interaction contains a instruction box' );
+                assert.equal( $container.find( '.qti-orderInteraction .choice-area' ).length, 1, 'the interaction contains a choice list' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice' ).length, 5, 'the interaction has 5 choices' );
+                assert.equal( $container.find( '.qti-orderInteraction .result-area' ).length, 1, 'the interaction contains a result area' );
 
                 //Check DOM data
-                assert.equal( $container.children( ".qti-item" ).data( "identifier" ), "periods-of-history", "the .qti-item node has the right identifier" );
+                assert.equal( $container.children( '.qti-item' ).data( 'identifier' ), 'periods-of-history', 'the .qti-item node has the right identifier' );
 
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(1)" ).data( "identifier" ), "Prehistory", "the 1st choice has the right identifier" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(2)" ).data( "identifier" ), "Antiquity", "the 2nd choice has the right identifier" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(3)" ).data( "identifier" ), "MiddleAges", "the 3rd choice has the right identifier" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(4)" ).data( "identifier" ), "ModernEra", "the 4th choice has the right identifier" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(5)" ).data( "identifier" ), "ContemporaryEra", "the 5th choice has the right identifier" );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(1)' ).data( 'identifier' ), 'Prehistory', 'the 1st choice has the right identifier' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(2)' ).data( 'identifier' ), 'Antiquity', 'the 2nd choice has the right identifier' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(3)' ).data( 'identifier' ), 'MiddleAges', 'the 3rd choice has the right identifier' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(4)' ).data( 'identifier' ), 'ModernEra', 'the 4th choice has the right identifier' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(5)' ).data( 'identifier' ), 'ContemporaryEra', 'the 5th choice has the right identifier' );
 
                 ready();
             } )
@@ -68,70 +68,70 @@ define( [
             .render( $container );
     } );
 
-    QUnit.test( "enables to select a choice", function( assert ) {
+    QUnit.test( 'enables to select a choice', function( assert ) {
         var ready = assert.async();
         assert.expect( 10 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
                 var $prehistory = $( '.qti-choice[data-identifier="Prehistory"]', $container );
 
-                assert.equal( $container.find( ".qti-interaction.qti-orderInteraction" ).length, 1, "the container contains a choice interaction .qti-orderInteraction" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice" ).length, 5, "the interaction has 5 choices" );
+                assert.equal( $container.find( '.qti-interaction.qti-orderInteraction' ).length, 1, 'the container contains a choice interaction .qti-orderInteraction' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice' ).length, 5, 'the interaction has 5 choices' );
 
-                assert.equal( $prehistory.length, 1, "the Prehistory choice exists" );
+                assert.equal( $prehistory.length, 1, 'the Prehistory choice exists' );
 
                 interactUtils.tapOn( $prehistory );
             } )
-            .on( "statechange", function( state ) {
+            .on( 'statechange', function( state ) {
 
-                assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 4, "the choice list contains now 4 choices" );
-                assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 1, "the result list contains now 1 choice" );
+                assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 4, 'the choice list contains now 4 choices' );
+                assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 1, 'the result list contains now 1 choice' );
 
-                assert.ok( typeof state === "object", "The state is an object" );
-                assert.ok( typeof state.RESPONSE === "object", "The state has a response object" );
-                assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ "Prehistory" ] } } }, "The Prehistory response is selected" );
+                assert.ok( typeof state === 'object', 'The state is an object' );
+                assert.ok( typeof state.RESPONSE === 'object', 'The state has a response object' );
+                assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ 'Prehistory' ] } } }, 'The Prehistory response is selected' );
                 ready();
             } )
             .init()
             .render( $container );
     } );
 
-    QUnit.test( "enables to remove a choice", function( assert ) {
+    QUnit.test( 'enables to remove a choice', function( assert ) {
         var ready = assert.async();
         assert.expect( 7 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
         var changes = 0;
 
-        assert.equal( $container.length, 1, "the item container exists" );
+        assert.equal( $container.length, 1, 'the item container exists' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
                 var $prehistory = $( '.qti-choice[data-identifier="Prehistory"]', $container );
 
                 interactUtils.tapOn( $prehistory, function() {
                     interactUtils.tapOn( $prehistory, function() {
-                        var $removeChoice = $( ".icon-remove-from-selection", $container );
+                        var $removeChoice = $( '.icon-remove-from-selection', $container );
                         interactUtils.tapOn( $removeChoice );
                     }, 100 );
                 }, 100 );
             } )
-            .on( "statechange", function( state ) {
+            .on( 'statechange', function( state ) {
                 changes++;
                 if ( changes === 1 ) {
-                    assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 4, "the choice list contains now 4 choices" );
-                    assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 1, "the result list contains now 1 choice" );
-                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ "Prehistory" ] } } }, "The Prehistory response is selected" );
+                    assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 4, 'the choice list contains now 4 choices' );
+                    assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 1, 'the result list contains now 1 choice' );
+                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ 'Prehistory' ] } } }, 'The Prehistory response is selected' );
                 } else if ( changes === 2 ) {
-                    assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 5, "the choice list contains now 5 choices" );
-                    assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 0, "the result list contains now 0 choice" );
-                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [] } } }, "The Prehistory response has been removed from selection" );
+                    assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 5, 'the choice list contains now 5 choices' );
+                    assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 0, 'the result list contains now 0 choice' );
+                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [] } } }, 'The Prehistory response has been removed from selection' );
 
                     ready();
                 }
@@ -140,48 +140,48 @@ define( [
             .render( $container );
     } );
 
-    QUnit.test( "enables to reorder choices", function( assert ) {
+    QUnit.test( 'enables to reorder choices', function( assert ) {
         var ready = assert.async();
         assert.expect( 12 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
         var changes = 0;
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
-                assert.equal( $container.find( ".qti-interaction.qti-orderInteraction" ).length, 1, "the container contains a choice interaction .qti-orderInteraction" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice" ).length, 5, "the interaction has 5 choices" );
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
+                assert.equal( $container.find( '.qti-interaction.qti-orderInteraction' ).length, 1, 'the container contains a choice interaction .qti-orderInteraction' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice' ).length, 5, 'the interaction has 5 choices' );
 
                 var $prehistory = $( '.qti-choice[data-identifier="Prehistory"]', $container );
-                assert.equal( $prehistory.length, 1, "the Prehistory choice exists" );
+                assert.equal( $prehistory.length, 1, 'the Prehistory choice exists' );
 
                 var $antiquity = $( '.qti-choice[data-identifier="Antiquity"]', $container );
-                assert.equal( $antiquity.length, 1, "the Antiquity choice exists" );
+                assert.equal( $antiquity.length, 1, 'the Antiquity choice exists' );
 
                 interactUtils.tapOn( $prehistory, function() {
                     interactUtils.tapOn( $antiquity, function() {
-                        assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 3, "the choice list contains now 3 choices" );
-                        assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 2, "the result list contains now 2 choice" );
+                        assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 3, 'the choice list contains now 3 choices' );
+                        assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 2, 'the result list contains now 2 choice' );
 
                         interactUtils.tapOn( $antiquity, function() {
-                            assert.ok( $antiquity.hasClass( "active" ), "The antiquity choice is now active" );
+                            assert.ok( $antiquity.hasClass( 'active' ), 'The antiquity choice is now active' );
 
-                            interactUtils.tapOn( $( ".icon-move-before" ) );
+                            interactUtils.tapOn( $( '.icon-move-before' ) );
                         }, 10 );
                     }, 10 );
                 }, 10 );
             } )
-            .on( "statechange", function( state ) {
+            .on( 'statechange', function( state ) {
                 changes++;
                 if ( changes === 1 ) {
-                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ "Prehistory" ] } } }, "The response is ok" );
+                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ 'Prehistory' ] } } }, 'The response is ok' );
                 } else if ( changes === 2 ) {
-                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ "Prehistory", "Antiquity" ] } } }, "The response is ok" );
+                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ 'Prehistory', 'Antiquity' ] } } }, 'The response is ok' );
                 } else if ( changes === 3 ) {
-                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ "Antiquity", "Prehistory" ] } } }, "The response follows the reordering" );
+                    assert.deepEqual( state.RESPONSE, { response: { list: { identifier: [ 'Antiquity', 'Prehistory' ] } } }, 'The response follows the reordering' );
                     ready();
                 }
             } )
@@ -189,26 +189,26 @@ define( [
             .render( $container );
     } );
 
-    QUnit.test( "set the default response", function( assert ) {
+    QUnit.test( 'set the default response', function( assert ) {
         var ready = assert.async();
         assert.expect( 6 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
 
-                assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 5, "the choice list contains all choices" );
-                assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 0, "the result list contains no choices" );
+                assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 5, 'the choice list contains all choices' );
+                assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 0, 'the result list contains no choices' );
 
-                this.setState( { RESPONSE: { response: { list: { identifier: [ "Antiquity", "Prehistory" ] } } } } );
+                this.setState( { RESPONSE: { response: { list: { identifier: [ 'Antiquity', 'Prehistory' ] } } } } );
 
                 _.delay( function() {
-                    assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 3, "the choice list contains now 3 choices" );
-                    assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 2, "the result list contains now 2 choices" );
+                    assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 3, 'the choice list contains now 3 choices' );
+                    assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 2, 'the result list contains now 2 choices' );
 
                     ready();
                 }, 10 );
@@ -217,17 +217,17 @@ define( [
             .render( $container );
     } );
 
-    QUnit.test( "destroys", function( assert ) {
+    QUnit.test( 'destroys', function( assert ) {
         var ready = assert.async();
         assert.expect( 4 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
                 var self = this;
 
                 //Call destroy manually
@@ -235,11 +235,11 @@ define( [
                 interaction.renderer.destroy( interaction );
 
                 var $prehistory = $( '.qti-choice[data-identifier="Prehistory"]', $container );
-                assert.equal( $prehistory.length, 1, "the Prehistory choice exists" );
+                assert.equal( $prehistory.length, 1, 'the Prehistory choice exists' );
 
                 interactUtils.tapOn( $prehistory, function() {
 
-                    assert.deepEqual( self.getState(), { "RESPONSE": { response: { list: { identifier: [] } } } }, "Click does not trigger response once destroyed" );
+                    assert.deepEqual( self.getState(), { 'RESPONSE': { response: { list: { identifier: [] } } } }, 'Click does not trigger response once destroyed' );
 
                     ready();
                 }, 100 );
@@ -248,30 +248,30 @@ define( [
             .render( $container );
     } );
 
-    QUnit.test( "resets the response", function( assert ) {
+    QUnit.test( 'resets the response', function( assert ) {
         var ready = assert.async();
         assert.expect( 11 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
                 var self = this;
 
-                assert.equal( $container.find( ".qti-interaction.qti-orderInteraction" ).length, 1, "the container contains a choice interaction .qti-orderInteraction" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice" ).length, 5, "the interaction has 5 choices" );
+                assert.equal( $container.find( '.qti-interaction.qti-orderInteraction' ).length, 1, 'the container contains a choice interaction .qti-orderInteraction' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice' ).length, 5, 'the interaction has 5 choices' );
 
                 var $prehistory = $( '.qti-choice[data-identifier="Prehistory"]', $container );
-                assert.equal( $prehistory.length, 1, "the Prehistory choice exists" );
+                assert.equal( $prehistory.length, 1, 'the Prehistory choice exists' );
 
                 interactUtils.tapOn( $prehistory, function() {
                     interactUtils.tapOn( $prehistory, function() {
-                        assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 4, "the choice list contains now 4 choices" );
-                        assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 1, "the result list contains now 1 choice" );
-                        assert.ok( $prehistory.hasClass( "active" ), "the Prehistory choice is active" );
+                        assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 4, 'the choice list contains now 4 choices' );
+                        assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 1, 'the result list contains now 1 choice' );
+                        assert.ok( $prehistory.hasClass( 'active' ), 'the Prehistory choice is active' );
 
                         //Call resetResponse manually
                         var interaction = self._item.getInteractions()[ 0 ];
@@ -279,9 +279,9 @@ define( [
 
                         _.delay( function() {
 
-                            assert.equal( $container.find( ".qti-orderInteraction .choice-area .qti-choice" ).length, 5, "the choice list contains all choices" );
-                            assert.equal( $container.find( ".qti-orderInteraction .result-area .qti-choice" ).length, 0, "the result list contains no choices anymore" );
-                            assert.ok( !$prehistory.hasClass( "active" ), "the Prehistory choice is not active" );
+                            assert.equal( $container.find( '.qti-orderInteraction .choice-area .qti-choice' ).length, 5, 'the choice list contains all choices' );
+                            assert.equal( $container.find( '.qti-orderInteraction .result-area .qti-choice' ).length, 0, 'the result list contains no choices anymore' );
+                            assert.ok( !$prehistory.hasClass( 'active' ), 'the Prehistory choice is not active' );
 
                             ready();
                         }, 100 );
@@ -292,40 +292,40 @@ define( [
             .render( $container );
     } );
 
-    QUnit.test( "restores order of shuffled choices", function( assert ) {
+    QUnit.test( 'restores order of shuffled choices', function( assert ) {
         var ready = assert.async();
         assert.expect( 9 );
 
-        var $container = $( "#" + fixtureContainerId );
+        var $container = $( '#' + fixtureContainerId );
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
         //Hack the item data to set the shuffle attr to true
         var shuffled = _.cloneDeep( orderData );
         shuffled.body.elements.interaction_orderinteraction_547481ffc8c1b803673841.attributes.shuffle = true;
 
-        runner = qtiItemRunner( "qti", shuffled )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', shuffled )
+            .on( 'render', function() {
                 var self = this;
 
-                assert.equal( $container.find( ".qti-interaction.qti-orderInteraction" ).length, 1, "the container contains a choice interaction .qti-orderInteraction" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice" ).length, 5, "the interaction has 5 choices" );
+                assert.equal( $container.find( '.qti-interaction.qti-orderInteraction' ).length, 1, 'the container contains a choice interaction .qti-orderInteraction' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice' ).length, 5, 'the interaction has 5 choices' );
 
                 this.setState( {
                     RESPONSE: {
                         response: { list: { identifier: [] } },
-                        order: [ "ContemporaryEra", "Antiquity", "ModernEra", "MiddleAges", "Prehistory" ]
+                        order: [ 'ContemporaryEra', 'Antiquity', 'ModernEra', 'MiddleAges', 'Prehistory' ]
                     }
                 } );
 
                 _.delay( function() {
 
-                    assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(1)" ).data( "identifier" ), "ContemporaryEra", "the 1st choice has the right identifier" );
-                    assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(2)" ).data( "identifier" ), "Antiquity", "the 2nd choice has the right identifier" );
-                    assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(3)" ).data( "identifier" ), "ModernEra", "the 3rd choice has the right identifier" );
-                    assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(4)" ).data( "identifier" ), "MiddleAges", "the 4th choice has the right identifier" );
-                    assert.equal( $container.find( ".qti-orderInteraction .qti-choice:nth-child(5)" ).data( "identifier" ), "Prehistory", "the 5th choice has the right identifier" );
+                    assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(1)' ).data( 'identifier' ), 'ContemporaryEra', 'the 1st choice has the right identifier' );
+                    assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(2)' ).data( 'identifier' ), 'Antiquity', 'the 2nd choice has the right identifier' );
+                    assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(3)' ).data( 'identifier' ), 'ModernEra', 'the 3rd choice has the right identifier' );
+                    assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(4)' ).data( 'identifier' ), 'MiddleAges', 'the 4th choice has the right identifier' );
+                    assert.equal( $container.find( '.qti-orderInteraction .qti-choice:nth-child(5)' ).data( 'identifier' ), 'Prehistory', 'the 5th choice has the right identifier' );
 
                     ready();
                 }, 100 );
@@ -334,27 +334,27 @@ define( [
             .render( $container );
     } );
 
-    QUnit.module( "Visual Test" );
+    QUnit.module( 'Visual Test' );
 
-    QUnit.test( "Display and play", function( assert ) {
+    QUnit.test( 'Display and play', function( assert ) {
         var ready = assert.async();
         assert.expect( 4 );
 
-        var $container = $( "#" + outsideContainerId );
+        var $container = $( '#' + outsideContainerId );
 
-        assert.equal( $container.length, 1, "the item container exists" );
-        assert.equal( $container.children().length, 0, "the container has no children" );
+        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal( $container.children().length, 0, 'the container has no children' );
 
-        runner = qtiItemRunner( "qti", orderData )
-            .on( "render", function() {
+        runner = qtiItemRunner( 'qti', orderData )
+            .on( 'render', function() {
 
-                assert.equal( $container.find( ".qti-interaction.qti-orderInteraction" ).length, 1, "the container contains a choice interaction .qti-orderInteraction" );
-                assert.equal( $container.find( ".qti-orderInteraction .qti-choice" ).length, 5, "the interaction has 5 choices" );
+                assert.equal( $container.find( '.qti-interaction.qti-orderInteraction' ).length, 1, 'the container contains a choice interaction .qti-orderInteraction' );
+                assert.equal( $container.find( '.qti-orderInteraction .qti-choice' ).length, 5, 'the interaction has 5 choices' );
 
                 ready();
             } )
-            .on( "statechange", function( state ) {
-                document.getElementById( "display-response" ).textContent = JSON.stringify( state );
+            .on( 'statechange', function( state ) {
+                document.getElementById( 'display-response' ).textContent = JSON.stringify( state );
             } )
             .init()
             .render( $container );

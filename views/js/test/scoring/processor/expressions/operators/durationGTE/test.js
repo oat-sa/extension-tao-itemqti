@@ -1,74 +1,74 @@
 define( [
 
-    "lodash",
-    "taoQtiItem/scoring/processor/expressions/preprocessor",
-    "taoQtiItem/scoring/processor/expressions/operators/durationGTE"
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/operators/durationGTE'
 ], function(  _, preProcessorFactory, durationGTEProcessor ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "structure", function( assert ) {
-        assert.ok( _.isPlainObject( durationGTEProcessor ), "the processor expose an object" );
-        assert.ok( _.isFunction( durationGTEProcessor.process ), "the processor has a process function" );
-        assert.ok( _.isArray( durationGTEProcessor.operands ), "the processor has a process function" );
+    QUnit.test( 'structure', function( assert ) {
+        assert.ok( _.isPlainObject( durationGTEProcessor ), 'the processor expose an object' );
+        assert.ok( _.isFunction( durationGTEProcessor.process ), 'the processor has a process function' );
+        assert.ok( _.isArray( durationGTEProcessor.operands ), 'the processor has a process function' );
     } );
 
-    QUnit.module( "Process" );
+    QUnit.module( 'Process' );
 
     var dataProvider = [ {
-        title: "greater",
+        title: 'greater',
         operands: [ {
-            cardinality: "single",
-            baseType: "duration",
-            value: "100001"
+            cardinality: 'single',
+            baseType: 'duration',
+            value: '100001'
         }, {
-            cardinality: "single",
-            baseType: "duration",
-            value: "100000"
+            cardinality: 'single',
+            baseType: 'duration',
+            value: '100000'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "equal",
+        title: 'equal',
         operands: [ {
-            cardinality: "single",
-            baseType: "duration",
-            value: "100000"
+            cardinality: 'single',
+            baseType: 'duration',
+            value: '100000'
         }, {
-            cardinality: "single",
-            baseType: "duration",
-            value: "100000"
+            cardinality: 'single',
+            baseType: 'duration',
+            value: '100000'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "greater",
+        title: 'greater',
         operands: [ {
-            cardinality: "single",
-            baseType: "duration",
-            value: "100000"
+            cardinality: 'single',
+            baseType: 'duration',
+            value: '100000'
         }, {
-            cardinality: "single",
-            baseType: "duration",
-            value: "100000.1"
+            cardinality: 'single',
+            baseType: 'duration',
+            value: '100000.1'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "one null",
+        title: 'one null',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 5
         },
         null ],
@@ -77,9 +77,9 @@ define( [
 
     QUnit
       .cases.init( dataProvider )
-      .test( "durationGTE ", function( data, assert ) {
+      .test( 'durationGTE ', function( data, assert ) {
         durationGTEProcessor.operands = data.operands;
         durationGTEProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( durationGTEProcessor.process(), data.expectedResult, "The durationGTE is correct" );
+        assert.deepEqual( durationGTEProcessor.process(), data.expectedResult, 'The durationGTE is correct' );
     } );
 } );

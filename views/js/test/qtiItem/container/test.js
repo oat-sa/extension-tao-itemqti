@@ -17,15 +17,15 @@
  **/
 define( [
 
-    "taoQtiItem/qtiItem/core/feedbacks/ModalFeedback",
-    "taoQtiItem/qtiItem/helper/container"
+    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
+    'taoQtiItem/qtiItem/helper/container'
 ], function(  ModalFeedback, container ) {
-    "use strict";
+    'use strict';
 
-    QUnit.test( "set/getEncodedData", function( assert ) {
+    QUnit.test( 'set/getEncodedData', function( assert ) {
 
         var fb = new ModalFeedback();
-        fb.body( "<p>AAA</p>" );
+        fb.body( '<p>AAA</p>' );
 
         //Set data
         container.setEncodedData( fb, "customData1", "customValueA" );
@@ -48,10 +48,10 @@ define( [
         assert.equal( container.getEncodedData( fb, "customData2" ), "customValueC" );
     } );
 
-    QUnit.test( "removeEncodedData", function( assert ) {
+    QUnit.test( 'removeEncodedData', function( assert ) {
 
         var fb = new ModalFeedback();
-        fb.body( "<p>AAA</p>" );
+        fb.body( '<p>AAA</p>' );
 
         //Set data
         container.setEncodedData( fb, "customData1", "customValueA" );

@@ -1,138 +1,138 @@
 define( [
 
-    "lodash",
-    "taoQtiItem/scoring/processor/expressions/preprocessor",
-    "taoQtiItem/scoring/processor/expressions/operators/or"
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/operators/or'
 ], function(  _, preProcessorFactory, orProcessor ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "structure", function( assert ) {
-        assert.ok( _.isPlainObject( orProcessor ), "the processor expose an object" );
-        assert.ok( _.isFunction( orProcessor.process ), "the processor has a process function" );
-        assert.ok( _.isArray( orProcessor.operands ), "the processor has a process function" );
+    QUnit.test( 'structure', function( assert ) {
+        assert.ok( _.isPlainObject( orProcessor ), 'the processor expose an object' );
+        assert.ok( _.isFunction( orProcessor.process ), 'the processor has a process function' );
+        assert.ok( _.isArray( orProcessor.operands ), 'the processor has a process function' );
     } );
 
-    QUnit.module( "Process" );
+    QUnit.module( 'Process' );
 
     var dataProvider = [ {
-        title: "truth strings",
+        title: 'truth strings',
         operands: [ {
-            cardinality: "single",
-            baseType: "boolean",
-            value: "true"
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: 'true'
         }, {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "false",
+        title: 'false',
         operands: [ {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }, {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "truth",
+        title: 'truth',
         operands: [ {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }, {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "truth with single",
+        title: 'truth with single',
         operands: [ {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "false with single",
+        title: 'false with single',
         operands: [ {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "truth  with 3 operands",
+        title: 'truth  with 3 operands',
         operands: [ {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }, {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }, {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "false with 3 operands",
+        title: 'false with 3 operands',
         operands: [ {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }, {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }, {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "one null",
+        title: 'one null',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 5
         },
         null ],
@@ -141,9 +141,9 @@ define( [
 
     QUnit
       .cases.init( dataProvider )
-      .test( "or ", function( data, assert ) {
+      .test( 'or ', function( data, assert ) {
         orProcessor.operands = data.operands;
         orProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( orProcessor.process(), data.expectedResult, "The or is correct" );
+        assert.deepEqual( orProcessor.process(), data.expectedResult, 'The or is correct' );
     } );
 } );

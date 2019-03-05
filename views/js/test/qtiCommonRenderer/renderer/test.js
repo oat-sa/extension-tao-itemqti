@@ -1,21 +1,21 @@
 define( [
     
-    "jquery",
-    "lodash",
-    "taoQtiItem/qtiItem/core/Loader",
-    "taoQtiItem/qtiCommonRenderer/renderers/Renderer",
-    "json!taoQtiItem/test/samples/json/space-shuttle.json"
+    'jquery',
+    'lodash',
+    'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'json!taoQtiItem/test/samples/json/space-shuttle.json'
 ], function(  $, _, QtiLoader, QtiRenderer, itemData ) {
 
-    var containerId = "item-container";
+    var containerId = 'item-container';
 
-    QUnit.module( "HTML rendering" );
+    QUnit.module( 'HTML rendering' );
 
-    QUnit.test( "renders an item", function( assert ) {
+    QUnit.test( 'renders an item', function( assert ) {
         var ready = assert.async();
         assert.expect( 5 );
 
-        var renderer = new QtiRenderer( { baseUrl: "./" } );
+        var renderer = new QtiRenderer( { baseUrl: './' } );
 
         new QtiLoader().loadItemData( itemData, function( item ) {
             renderer.load( function() {
@@ -25,14 +25,14 @@ define( [
 
                 result = item.render( {} );
 
-                assert.ok( typeof result === "string", "The renderer creates a string" );
-                assert.ok( result.length > 0, "The renderer create some output" );
+                assert.ok( typeof result === 'string', 'The renderer creates a string' );
+                assert.ok( result.length > 0, 'The renderer create some output' );
 
                 $result = $( result );
 
-                assert.ok( $result.hasClass( "qti-item" ), "The result is a qti item" );
-                assert.equal( $( ".qti-itemBody", $result ).length, 1, "The result contains an item body" );
-                assert.equal( $( ".qti-choiceInteraction", $result ).length, 1, "The result contains a choice interaction" );
+                assert.ok( $result.hasClass( 'qti-item' ), 'The result is a qti item' );
+                assert.equal( $( '.qti-itemBody', $result ).length, 1, 'The result contains an item body' );
+                assert.equal( $( '.qti-choiceInteraction', $result ).length, 1, 'The result contains a choice interaction' );
 
                 ready();
 
@@ -40,13 +40,13 @@ define( [
         } );
     } );
 
-    QUnit.test( "renders decorated interactions", function( assert ) {
+    QUnit.test( 'renders decorated interactions', function( assert ) {
         var ready = assert.async();
         assert.expect( 8 );
 
         //Set up decorator
         var renderer = new QtiRenderer( {
-            baseUrl: "./",
+            baseUrl: './',
             decorators: {
                 before: function preRender( element ) {
                     if ( element.qtiClass === "choiceInteraction" ) {
@@ -69,19 +69,19 @@ define( [
 
                 result = item.render( {} );
 
-                assert.ok( typeof result === "string", "The renderer creates a string" );
-                assert.ok( result.length > 0, "The renderer create some output" );
+                assert.ok( typeof result === 'string', 'The renderer creates a string' );
+                assert.ok( result.length > 0, 'The renderer create some output' );
 
                 $result = $( result );
 
-                assert.ok( $result.hasClass( "qti-item" ), "The result is a qti item" );
-                assert.equal( $( ".qti-choiceInteraction", $result ).length, 1, "The result contains a choice interaction" );
+                assert.ok( $result.hasClass( 'qti-item' ), 'The result is a qti item' );
+                assert.equal( $( '.qti-choiceInteraction', $result ).length, 1, 'The result contains a choice interaction' );
 
-                assert.equal( $( ".pre-choice", $result ).length, 1, "The pre decorator has been inserted" );
-                assert.ok( $( ".qti-choiceInteraction", $result ).prev().hasClass( "pre-choice" ), "The pre decorator is previous the choice interaction" );
+                assert.equal( $( '.pre-choice', $result ).length, 1, 'The pre decorator has been inserted' );
+                assert.ok( $( '.qti-choiceInteraction', $result ).prev().hasClass( 'pre-choice' ), 'The pre decorator is previous the choice interaction' );
 
-                assert.equal( $( ".post-choice", $result ).length, 1, "The post decorator has been inserted" );
-                assert.ok( $( ".qti-choiceInteraction", $result ).next().hasClass( "post-choice" ), "The post decorator is next to the choice interaction" );
+                assert.equal( $( '.post-choice', $result ).length, 1, 'The post decorator has been inserted' );
+                assert.ok( $( '.qti-choiceInteraction', $result ).next().hasClass( 'post-choice' ), 'The post decorator is next to the choice interaction' );
 
                 ready();
 

@@ -1,136 +1,136 @@
 define( [
 
-    "lodash",
-    "taoQtiItem/scoring/processor/expressions/preprocessor",
-    "taoQtiItem/scoring/processor/expressions/operators/member"
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/operators/member'
 ], function(  _, preProcessorFactory, memberProcessor ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "structure", function( assert ) {
-        assert.ok( _.isPlainObject( memberProcessor ), "the processor expose an object" );
-        assert.ok( _.isFunction( memberProcessor.process ), "the processor has a process function" );
-        assert.ok( _.isArray( memberProcessor.operands ), "the processor has operands" );
+    QUnit.test( 'structure', function( assert ) {
+        assert.ok( _.isPlainObject( memberProcessor ), 'the processor expose an object' );
+        assert.ok( _.isFunction( memberProcessor.process ), 'the processor has a process function' );
+        assert.ok( _.isArray( memberProcessor.operands ), 'the processor has operands' );
     } );
 
-    QUnit.module( "Process" );
+    QUnit.module( 'Process' );
 
     var dataProvider = [ {
-        title: "multiple truth",
+        title: 'multiple truth',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 7
         }, {
-            cardinality: "multiple",
-            baseType: "integer",
+            cardinality: 'multiple',
+            baseType: 'integer',
             value: [ 7, 3 ]
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "string false",
+        title: 'string false',
         operands: [ {
-            cardinality: "single",
-            baseType: "string",
-            value: "xx,"
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'xx,'
         }, {
-            cardinality: "multiple",
-            baseType: "string",
-            value: [ "xx", "yy" ]
+            cardinality: 'multiple',
+            baseType: 'string',
+            value: [ 'xx', 'yy' ]
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "different basetypes",
+        title: 'different basetypes',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 7
         }, {
-            cardinality: "ordered",
-            baseType: "string",
+            cardinality: 'ordered',
+            baseType: 'string',
             value: [ 5, 7 ]
         } ],
         expectedResult: null
     }, {
-        title: "multiple false",
+        title: 'multiple false',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 22
         }, {
-            cardinality: "multiple",
-            baseType: "integer",
+            cardinality: 'multiple',
+            baseType: 'integer',
             value: [ 4, 2 ]
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "incorrect cardinality",
+        title: 'incorrect cardinality',
         operands: [ {
-            cardinality: "ordered",
-            baseType: "integer",
+            cardinality: 'ordered',
+            baseType: 'integer',
             value: [ 2, 5, 7 ]
         }, {
-            cardinality: "multiple",
-            baseType: "integer",
+            cardinality: 'multiple',
+            baseType: 'integer',
             value: [ 5, 7 ]
         } ],
         expectedResult: null
     }, {
-        title: "ordered truth directedPair",
+        title: 'ordered truth directedPair',
         operands: [ {
-            cardinality: "single",
-            baseType: "directedPair",
+            cardinality: 'single',
+            baseType: 'directedPair',
             value: [ 2, 3 ]
         }, {
-            cardinality: "ordered",
-            baseType: "directedPair",
+            cardinality: 'ordered',
+            baseType: 'directedPair',
             value: [ [ 5, 8 ], [ 2, 3 ], [ 4, 7 ] ]
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "ordered false directedPair",
+        title: 'ordered false directedPair',
         operands: [ {
-            cardinality: "single",
-            baseType: "directedPair",
+            cardinality: 'single',
+            baseType: 'directedPair',
             value: [ 2, 3 ]
         }, {
-            cardinality: "ordered",
-            baseType: "directedPair",
+            cardinality: 'ordered',
+            baseType: 'directedPair',
             value: [ [ 3, 2 ], [ 4, 22 ] ]
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "null operand",
+        title: 'null operand',
         operands: [ null ],
         expectedResult: null
     } ];
 
     QUnit
       .cases.init( dataProvider )
-      .test( "member ", function( data, assert ) {
+      .test( 'member ', function( data, assert ) {
         memberProcessor.operands = data.operands;
         memberProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( memberProcessor.process(), data.expectedResult, "The member is correct" );
+        assert.deepEqual( memberProcessor.process(), data.expectedResult, 'The member is correct' );
     } );
 } );

@@ -1,37 +1,37 @@
 define( [
     
-    "lodash",
-    "taoQtiItem/scoring/processor/expressions/preprocessor",
-    "taoQtiItem/scoring/processor/expressions/mapResponse",
-    "taoQtiItem/scoring/processor/errorHandler"
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/mapResponse',
+    'taoQtiItem/scoring/processor/errorHandler'
 ], function(  _, preProcessorFactory, mapResponseProcessor, errorHandler ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "structure", function( assert ) {
-        assert.ok( _.isPlainObject( mapResponseProcessor ), "the processor expose an object" );
-        assert.ok( _.isFunction( mapResponseProcessor.process ), "the processor has a process function" );
+    QUnit.test( 'structure', function( assert ) {
+        assert.ok( _.isPlainObject( mapResponseProcessor ), 'the processor expose an object' );
+        assert.ok( _.isFunction( mapResponseProcessor.process ), 'the processor has a process function' );
     } );
 
-    QUnit.module( "Process" );
+    QUnit.module( 'Process' );
 
-    QUnit.test( "Fails if variable has no mapping", function( assert ) {
+    QUnit.test( 'Fails if variable has no mapping', function( assert ) {
         var ready = assert.async();
         assert.expect( 1 );
         mapResponseProcessor.expression = {
-            attributes: { identifier: "RESPONSE" }
+            attributes: { identifier: 'RESPONSE' }
         };
         mapResponseProcessor.state = {
             RESPONSE: {
-                cardinality: "single",
-                baseType: "identifier",
-                value: "choice-1",
-                correctResponse: "choice-2"
+                cardinality: 'single',
+                baseType: 'identifier',
+                value: 'choice-1',
+                correctResponse: 'choice-2'
             }
         };
-        errorHandler.listen( "scoring", function( err ) {
-            assert.equal( err.name, "Error", "Without the variable in the state it throws and error" );
+        errorHandler.listen( 'scoring', function( err ) {
+            assert.equal( err.name, 'Error', 'Without the variable in the state it throws and error' );
             ready();
         } );
 
@@ -39,30 +39,30 @@ define( [
     } );
 
     var dataProvider = [ {
-        title: "no variable",
+        title: 'no variable',
         response: undefined,
         expectedResult: null
     }, {
-        title: "single identifier",
+        title: 'single identifier',
         response: {
-            cardinality: "single",
-            baseType: "identifier",
-            value: "choice-1",
-            correctResponse: "choice-2",
+            cardinality: 'single',
+            baseType: 'identifier',
+            value: 'choice-1',
+            correctResponse: 'choice-2',
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: {},
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-1",
-                    mapValue: "15",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-1',
+                    mapValue: '15',
                     attributes: {
                         caseSensitive: false
                     }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-2",
-                    mapValue: "30",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-2',
+                    mapValue: '30',
                     attributes: {
                         caseSensitive: false
                     }
@@ -70,31 +70,31 @@ define( [
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 15
         }
     }, {
-       title: "single string not case sensitive",
+       title: 'single string not case sensitive',
         response: {
-            cardinality: "single",
-            baseType: "string",
-            value: "a",
-            correctResponse: "A",
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'a',
+            correctResponse: 'A',
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: {},
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "A",
-                    mapValue: "1",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'A',
+                    mapValue: '1',
                     attributes: {
                         caseSensitive: false
                     }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "B",
-                    mapValue: "0",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'B',
+                    mapValue: '0',
                     attributes: {
                         caseSensitive: false
                     }
@@ -102,31 +102,31 @@ define( [
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 1
         }
     }, {
-       title: "single string case sensitive",
+       title: 'single string case sensitive',
         response: {
-            cardinality: "single",
-            baseType: "string",
-            value: "a",
-            correctResponse: "A",
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'a',
+            correctResponse: 'A',
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: {},
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "A",
-                    mapValue: "1",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'A',
+                    mapValue: '1',
                     attributes: {
                         caseSensitive: true
                     }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "B",
-                    mapValue: "0",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'B',
+                    mapValue: '0',
                     attributes: {
                         caseSensitive: true
                     }
@@ -134,31 +134,31 @@ define( [
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 0
         }
     }, {
-        title: "single identifier defaultValue",
+        title: 'single identifier defaultValue',
         response: {
-            cardinality: "single",
-            baseType: "identifier",
-            value: "choice-3",
-            correctResponse: "choice-2",
+            cardinality: 'single',
+            baseType: 'identifier',
+            value: 'choice-3',
+            correctResponse: 'choice-2',
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: {},
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-1",
-                    mapValue: "15",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-1',
+                    mapValue: '15',
                     attributes: {
                         caseSensitive: false
                     }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-2",
-                    mapValue: "30",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-2',
+                    mapValue: '30',
                     attributes: {
                         caseSensitive: false
                     }
@@ -166,33 +166,33 @@ define( [
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 0
         }
     }, {
-        title: "single identifier lowerBound",
+        title: 'single identifier lowerBound',
         response: {
-            cardinality: "single",
-            baseType: "identifier",
-            value: "choice-3",
-            correctResponse: "choice-2",
+            cardinality: 'single',
+            baseType: 'identifier',
+            value: 'choice-3',
+            correctResponse: 'choice-2',
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: {
                     lowerBound: 50
                 },
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-1",
-                    mapValue: "15",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-1',
+                    mapValue: '15',
                     attributes: {
                         caseSensitive: false
                     }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-2",
-                    mapValue: "30",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-2',
+                    mapValue: '30',
                     attributes: {
                         caseSensitive: false
                     }
@@ -200,33 +200,33 @@ define( [
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 50
         }
     }, {
-        title: "single identifier upperBound",
+        title: 'single identifier upperBound',
         response: {
-            cardinality: "single",
-            baseType: "identifier",
-            value: "choice-2",
-            correctResponse: "choice-2",
+            cardinality: 'single',
+            baseType: 'identifier',
+            value: 'choice-2',
+            correctResponse: 'choice-2',
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: {
                     upperBound: 5
                 },
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-1",
-                    mapValue: "15",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-1',
+                    mapValue: '15',
                     attributes: {
                         caseSensitive: false
                     }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "choice-2",
-                    mapValue: "30",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'choice-2',
+                    mapValue: '30',
                     attributes: {
                         caseSensitive: false
                     }
@@ -234,84 +234,84 @@ define( [
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 5
         }
     }, {
-        title: "multiple directedPairs",
+        title: 'multiple directedPairs',
         response: {
-            cardinality: "multiple",
-            baseType: "directedPair",
-            value: [ [ "C", "R" ], [ "D", "M" ] ],
-            correctResponse: [ "C R", "D M", "L M", "P T" ],
+            cardinality: 'multiple',
+            baseType: 'directedPair',
+            value: [ [ 'C', 'R' ], [ 'D', 'M' ] ],
+            correctResponse: [ 'C R', 'D M', 'L M', 'P T' ],
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: { defaultValue: 0 },
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "C R",
-                    mapValue: "1",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'C R',
+                    mapValue: '1',
                     attributes: { caseSensitive: false }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "D M",
-                    mapValue: "0.5",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'D M',
+                    mapValue: '0.5',
                     attributes: { caseSensitive: false }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "L M",
-                    mapValue: "0.5",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'L M',
+                    mapValue: '0.5',
                     attributes: { caseSensitive: false }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "P T",
-                    mapValue: "1",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'P T',
+                    mapValue: '1',
                     attributes: { caseSensitive: false }
                 } ]
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 1.5
         }
    }, {
-        title: "multiple strings multiple response",
+        title: 'multiple strings multiple response',
         response: {
-            cardinality: "multiple",
-            baseType: "string",
-            value: [ "B", "B", "C" ],
-            correctResponse: [ "B", "C" ],
+            cardinality: 'multiple',
+            baseType: 'string',
+            value: [ 'B', 'B', 'C' ],
+            correctResponse: [ 'B', 'C' ],
             mapping: {
-                qtiClass: "mapping",
+                qtiClass: 'mapping',
                 attributes: { defaultValue: 0 },
                 mapEntries: [ {
-                    qtiClass: "mapEntry",
-                    mapKey: "A",
-                    mapValue: "0",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'A',
+                    mapValue: '0',
                     attributes: { caseSensitive: false }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "B",
-                    mapValue: "1",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'B',
+                    mapValue: '1',
                     attributes: { caseSensitive: true }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "C",
-                    mapValue: "0.5",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'C',
+                    mapValue: '0.5',
                     attributes: { caseSensitive: false }
                 }, {
-                    qtiClass: "mapEntry",
-                    mapKey: "D",
-                    mapValue: "0",
+                    qtiClass: 'mapEntry',
+                    mapKey: 'D',
+                    mapValue: '0',
                     attributes: { caseSensitive: false }
                 } ]
             }
         },
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 1.5
         }
 
@@ -319,16 +319,16 @@ define( [
 
     QUnit
       .cases.init( dataProvider )
-      .test( "mapResponse ", function( data, assert ) {
+      .test( 'mapResponse ', function( data, assert ) {
         var state = {
             RESPONSE: data.response
         };
 
         mapResponseProcessor.expression = {
-            attributes: { identifier: "RESPONSE" }
+            attributes: { identifier: 'RESPONSE' }
         };
         mapResponseProcessor.state = state;
         mapResponseProcessor.preProcessor = preProcessorFactory( state );
-        assert.deepEqual( mapResponseProcessor.process(), data.expectedResult, "The map response is correct" );
+        assert.deepEqual( mapResponseProcessor.process(), data.expectedResult, 'The map response is correct' );
     } );
 } );

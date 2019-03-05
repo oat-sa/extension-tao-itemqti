@@ -1,82 +1,82 @@
 define( [
     
-    "lodash",
-    "taoQtiItem/scoring/processor/expressions/preprocessor",
-    "taoQtiItem/scoring/processor/expressions/operators/truncate"
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/operators/truncate'
 ], function(  _, preProcessorFactory, truncateProcessor ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "structure", function( assert ) {
-        assert.ok( _.isPlainObject( truncateProcessor ), "the processor expose an object" );
-        assert.ok( _.isFunction( truncateProcessor.process ), "the processor has a process function" );
-        assert.ok( _.isArray( truncateProcessor.operands ), "the processor has a process function" );
+    QUnit.test( 'structure', function( assert ) {
+        assert.ok( _.isPlainObject( truncateProcessor ), 'the processor expose an object' );
+        assert.ok( _.isFunction( truncateProcessor.process ), 'the processor has a process function' );
+        assert.ok( _.isArray( truncateProcessor.operands ), 'the processor has a process function' );
     } );
 
-    QUnit.module( "Process" );
+    QUnit.module( 'Process' );
 
     var dataProvider = [ {
-        title: "floats",
+        title: 'floats',
         operands: [ {
-            cardinality: "single",
-            baseType: "float",
-            value: "20.123"
+            cardinality: 'single',
+            baseType: 'float',
+            value: '20.123'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 20
         }
     }, {
-        title: "integers",
+        title: 'integers',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
-            value: "20"
+            cardinality: 'single',
+            baseType: 'integer',
+            value: '20'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 20
         }
     }, {
-        title: "Infinity",
+        title: 'Infinity',
         operands: [ {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: Infinity
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: Infinity
         }
     }, {
-        title: "-Infinity",
+        title: '-Infinity',
         operands: [ {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: -Infinity
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: -Infinity
         }
     }, {
-        title: "NaN",
+        title: 'NaN',
         operands: [ {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: NaN
         } ],
         expectedResult: null
     }, {
-        title: "one null",
+        title: 'one null',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 5
         }, null ],
         expectedResult: null
@@ -85,9 +85,9 @@ define( [
 
     QUnit
       .cases.init( dataProvider )
-      .test( "truncate ", function( data, assert ) {
+      .test( 'truncate ', function( data, assert ) {
         truncateProcessor.operands = data.operands;
         truncateProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( truncateProcessor.process(), data.expectedResult, "The truncate is correct" );
+        assert.deepEqual( truncateProcessor.process(), data.expectedResult, 'The truncate is correct' );
     } );
 } );

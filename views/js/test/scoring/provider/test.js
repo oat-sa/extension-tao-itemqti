@@ -18,22 +18,22 @@
  */
 define( [
 
-    "lodash",
-    "taoItems/scoring/api/scorer",
-    "taoQtiItem/scoring/provider/qti",
-    "json!taoQtiItem/test/samples/json/space-shuttle.json",
-    "json!taoQtiItem/test/samples/json/space-shuttle-m.json",
-    "json!taoQtiItem/test/samples/json/characters.json",
-    "json!taoQtiItem/test/samples/json/edinburgh.json",
-    "json!taoQtiItem/test/samples/json/customrp/Choicemultiple_2014410822.json",
-    "json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json",
-    "json!taoQtiItem/test/samples/json/customrp/Choicemultiple_871212949.json",
-    "json!taoQtiItem/test/samples/json/customrp/Matchsingle_143114773.json",
-    "json!taoQtiItem/test/samples/json/customrp/order.json",
-    "json!taoQtiItem/test/samples/json/es6.json",
-    "json!taoQtiItem/test/samples/json/pluto.json",
-    "json!taoQtiItem/test/samples/json/customrp/andAnd.json",
-    "json!taoQtiItem/test/samples/json/customrp/custom_record.json"
+    'lodash',
+    'taoItems/scoring/api/scorer',
+    'taoQtiItem/scoring/provider/qti',
+    'json!taoQtiItem/test/samples/json/space-shuttle.json',
+    'json!taoQtiItem/test/samples/json/space-shuttle-m.json',
+    'json!taoQtiItem/test/samples/json/characters.json',
+    'json!taoQtiItem/test/samples/json/edinburgh.json',
+    'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_2014410822.json',
+    'json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json',
+    'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_871212949.json',
+    'json!taoQtiItem/test/samples/json/customrp/Matchsingle_143114773.json',
+    'json!taoQtiItem/test/samples/json/customrp/order.json',
+    'json!taoQtiItem/test/samples/json/es6.json',
+    'json!taoQtiItem/test/samples/json/pluto.json',
+    'json!taoQtiItem/test/samples/json/customrp/andAnd.json',
+    'json!taoQtiItem/test/samples/json/customrp/custom_record.json'
 ], function(
    
     _,
@@ -53,51 +53,51 @@ define( [
     andAndData,
     customRecordData
 ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "Provider API" );
+    QUnit.module( 'Provider API' );
 
-    QUnit.test( "module", function( assert ) {
-        assert.ok( typeof qtiScoringProvider !== "undefined", "The module exports something" );
-        assert.ok( typeof qtiScoringProvider === "object", "The module exports an object" );
-        assert.ok( typeof qtiScoringProvider.process === "function", "The module exposes a process method" );
+    QUnit.test( 'module', function( assert ) {
+        assert.ok( typeof qtiScoringProvider !== 'undefined', 'The module exports something' );
+        assert.ok( typeof qtiScoringProvider === 'object', 'The module exports an object' );
+        assert.ok( typeof qtiScoringProvider.process === 'function', 'The module exposes a process method' );
     } );
 
-    QUnit.module( "Register the provider", {
-        undefined: function( assert ) {
+    QUnit.module( 'Register the provider', {
+        afterEach: function( assert ) {
 
             //Reset the provider
             scorer.providers = undefined;
         }
     } );
 
-    QUnit.test( "register the qti provider", function( assert ) {
+    QUnit.test( 'register the qti provider', function( assert ) {
         assert.expect( 4 );
 
-        assert.ok( typeof scorer.providers === "undefined", "the scorer has: no providers" );
+        assert.ok( typeof scorer.providers === 'undefined', 'the scorer has: no providers' );
 
-        scorer.register( "qti", qtiScoringProvider );
+        scorer.register( 'qti', qtiScoringProvider );
 
-        assert.ok( typeof scorer.providers === "object", "the scorer has now providers" );
-        assert.ok( typeof scorer.providers.qti === "object", "the scorer has now the qti providers" );
-        assert.equal( scorer.providers.qti, qtiScoringProvider, "the scorer has now the qti providers" );
+        assert.ok( typeof scorer.providers === 'object', 'the scorer has now providers' );
+        assert.ok( typeof scorer.providers.qti === 'object', 'the scorer has now the qti providers' );
+        assert.equal( scorer.providers.qti, qtiScoringProvider, 'the scorer has now the qti providers' );
 
     } );
 
-    QUnit.module( "Without processing", {
-        undefined: function( assert ) {
+    QUnit.module( 'Without processing', {
+        afterEach: function( assert ) {
 
             //Reset the provides
             scorer.providers = undefined;
         }
     } );
 
-    QUnit.test( "default outcomes", function( assert ) {
+    QUnit.test( 'default outcomes', function( assert ) {
         var ready = assert.async();
         var responses =   {
-            "RESPONSE": {
-                "base": {
-                    "identifier": "Discovery"
+            'RESPONSE': {
+                'base': {
+                    'identifier': 'Discovery'
                 }
             }
         };
@@ -108,65 +108,65 @@ define( [
 
         noRulesItemData.responseProcessing.responseRules = [];
 
-        scorer.register( "qti", qtiScoringProvider );
+        scorer.register( 'qti', qtiScoringProvider );
 
-        scorer( "qti" )
-            .on( "error", function( err ) {
-                assert.ok( false, "Got an error : " + err );
+        scorer( 'qti' )
+            .on( 'error', function( err ) {
+                assert.ok( false, 'Got an error : ' + err );
             } )
-            .on( "outcome", function( outcomes, state ) {
+            .on( 'outcome', function( outcomes, state ) {
 
-                assert.ok( typeof outcomes === "object", "the outcomes are an object" );
-                assert.ok( typeof outcomes.RESPONSE === "object", "the outcomes contains the response" );
-                assert.deepEqual( outcomes.RESPONSE, responses.RESPONSE, "the response is the same" );
-                assert.ok( typeof outcomes.SCORE === "object", "the outcomes contains the score" );
-                assert.deepEqual( outcomes.SCORE, { base: { integer: 0 } }, "the score has the default value" );
+                assert.ok( typeof outcomes === 'object', 'the outcomes are an object' );
+                assert.ok( typeof outcomes.RESPONSE === 'object', 'the outcomes contains the response' );
+                assert.deepEqual( outcomes.RESPONSE, responses.RESPONSE, 'the response is the same' );
+                assert.ok( typeof outcomes.SCORE === 'object', 'the outcomes contains the score' );
+                assert.deepEqual( outcomes.SCORE, { base: { integer: 0 } }, 'the score has the default value' );
 
-                assert.ok( typeof state === "object", "the state is an object" );
-                assert.ok( typeof state.RESPONSE === "object", "the state contains the RESPONSE variable" );
+                assert.ok( typeof state === 'object', 'the state is an object' );
+                assert.ok( typeof state.RESPONSE === 'object', 'the state contains the RESPONSE variable' );
                 assert.deepEqual( state.RESPONSE, {
-                    cardinality: "single",
-                    baseType: "identifier",
-                    correctResponse: [ "Atlantis" ],
+                    cardinality: 'single',
+                    baseType: 'identifier',
+                    correctResponse: [ 'Atlantis' ],
                     defaultValue: undefined,
                     mapping: undefined,
-                    value: "Discovery"
-                }, "the RESPONSE variable matches" );
-                assert.ok( typeof state.SCORE === "object", "the state contains the SCORE variable" );
+                    value: 'Discovery'
+                }, 'the RESPONSE variable matches' );
+                assert.ok( typeof state.SCORE === 'object', 'the state contains the SCORE variable' );
                 assert.deepEqual( state.SCORE, {
-                    cardinality: "single",
-                    baseType: "integer",
-                    defaultValue: "0",
+                    cardinality: 'single',
+                    baseType: 'integer',
+                    defaultValue: '0',
                     value: 0
-                }, "the SCORE variable matches" );
+                }, 'the SCORE variable matches' );
 
                 ready();
             } )
             .process( responses, noRulesItemData );
     } );
 
-    QUnit.test( "No responseProcessing", function( assert ) {
+    QUnit.test( 'No responseProcessing', function( assert ) {
         var ready = assert.async();
         var noRPItemData = _.cloneDeep( singleCorrectData );
 
         assert.expect( 3 );
 
-        assert.equal( noRPItemData.identifier, "space-shuttle-30-years-of-adventure", "The item has the expected identifier" );
+        assert.equal( noRPItemData.identifier, 'space-shuttle-30-years-of-adventure', 'The item has the expected identifier' );
         delete noRPItemData.responseProcessing;
 
-        scorer.register( "qti", qtiScoringProvider );
+        scorer.register( 'qti', qtiScoringProvider );
 
-        scorer( "qti" )
-            .on( "error", function( err ) {
-                assert.ok( err instanceof Error, "Got an Error" );
-                assert.equal( err.message, "The item space-shuttle-30-years-of-adventure has not responseProcessing", "The error is about responseProcessing" );
+        scorer( 'qti' )
+            .on( 'error', function( err ) {
+                assert.ok( err instanceof Error, 'Got an Error' );
+                assert.equal( err.message, 'The item space-shuttle-30-years-of-adventure has not responseProcessing', 'The error is about responseProcessing' );
                 ready();
             } )
             .process( {}, noRPItemData );
     } );
 
-    QUnit.module( "Provider process correct template", {
-        undefined: function( assert ) {
+    QUnit.module( 'Provider process correct template', {
+        afterEach: function( assert ) {
 
             //Reset the provides
             delete scorer.providers;
@@ -174,97 +174,97 @@ define( [
     } );
 
     QUnit.cases.init( [ {
-        title: "match correct single identifier",
+        title: 'match correct single identifier',
         item: singleCorrectData,
         outcomes: {
-            RESPONSE: { base: { identifier: "Atlantis" } },
+            RESPONSE: { base: { identifier: 'Atlantis' } },
             SCORE: { base: { integer: 1 } }
         },
         state: {
             RESPONSE: {
-                "cardinality": "single",
-                "baseType": "identifier",
-                "value": "Atlantis"
+                'cardinality': 'single',
+                'baseType': 'identifier',
+                'value': 'Atlantis'
             },
             SCORE: { value: 1 }
         }
     }, {
-        title: "match incorrect single identifier",
+        title: 'match incorrect single identifier',
         item: singleCorrectData,
         outcomes: {
-            RESPONSE: { base: { identifier: "Discovery" } },
+            RESPONSE: { base: { identifier: 'Discovery' } },
             SCORE: { base: { integer: 0 } }
         },
         state: {
             RESPONSE: {
-                "cardinality": "single",
-                "baseType": "identifier",
-                "value": "Discovery"
+                'cardinality': 'single',
+                'baseType': 'identifier',
+                'value': 'Discovery'
             },
             SCORE: { value: 0 }
         }
     }, {
-        title: "match correct multiple identifier",
+        title: 'match correct multiple identifier',
         item: multipleCorrectData,
         outcomes: {
-            RESPONSE: { list: { identifier: [ "Pathfinder", "Atlantis" ] } },
+            RESPONSE: { list: { identifier: [ 'Pathfinder', 'Atlantis' ] } },
             SCORE: { base: { integer: 1 } }
         },
         state: {
             RESPONSE: {
-                "cardinality": "multiple",
-                "baseType": "identifier",
-                "value": [ "Pathfinder", "Atlantis" ]
+                'cardinality': 'multiple',
+                'baseType': 'identifier',
+                'value': [ 'Pathfinder', 'Atlantis' ]
             },
             SCORE: { value: 1 }
         }
     }, {
-        title: "match incorrect multiple identifier",
+        title: 'match incorrect multiple identifier',
         item: multipleCorrectData,
         outcomes: {
-            RESPONSE: { list: { identifier:  [ "Atlantis", "Discovery" ] } },
+            RESPONSE: { list: { identifier:  [ 'Atlantis', 'Discovery' ] } },
             SCORE: { base: { integer: 0 } }
         },
         state: {
             RESPONSE: {
-                "cardinality": "multiple",
-                "baseType": "identifier",
-                "value": [ "Atlantis", "Discovery" ]
+                'cardinality': 'multiple',
+                'baseType': 'identifier',
+                'value': [ 'Atlantis', 'Discovery' ]
             },
             SCORE: { value: 0 }
         }
     }, {
-        title: "map response multiple directedPair",
+        title: 'map response multiple directedPair',
         item: multipleMapData,
         outcomes: {
-            RESPONSE: { list: { directedPair:  [ [ "C", "R" ], [ "D", "M" ] ] } },
+            RESPONSE: { list: { directedPair:  [ [ 'C', 'R' ], [ 'D', 'M' ] ] } },
             SCORE: { base: { float: 1.5 } }
         },
         state: {
             RESPONSE: {
-                "cardinality": "multiple",
-                "baseType": "directedPair",
-                "value": [ [ "C", "R" ], [ "D", "M" ] ]
+                'cardinality': 'multiple',
+                'baseType': 'directedPair',
+                'value': [ [ 'C', 'R' ], [ 'D', 'M' ] ]
             },
             SCORE: { value: 1.5 }
         }
     }, {
-        title: "incorrect map response multiple directedPair",
+        title: 'incorrect map response multiple directedPair',
         item: multipleMapData,
         outcomes: {
-            RESPONSE: { list: { directedPair:  [ [ "M", "D" ], [ "R", "M" ] ] } },
+            RESPONSE: { list: { directedPair:  [ [ 'M', 'D' ], [ 'R', 'M' ] ] } },
             SCORE: { base: { float: 0 } }
         },
         state: {
             RESPONSE: {
-                "cardinality": "multiple",
-                "baseType": "directedPair",
-                "value": [ [ "M", "D" ], [ "R", "M" ] ]
+                'cardinality': 'multiple',
+                'baseType': 'directedPair',
+                'value': [ [ 'M', 'D' ], [ 'R', 'M' ] ]
             },
             SCORE: { value: 0 }
         }
     }, {
-        title: "map response  point inside",
+        title: 'map response  point inside',
         item: singleMapPointData,
         outcomes: {
             RESPONSE: { base: { point:  [ 102, 113 ] } },
@@ -272,14 +272,14 @@ define( [
         },
         state: {
             RESPONSE: {
-                "cardinality": "single",
-                "baseType": "point",
-                "value": [ 102, 113 ]
+                'cardinality': 'single',
+                'baseType': 'point',
+                'value': [ 102, 113 ]
             },
             SCORE: { value: 1 }
         }
     }, {
-        title: "map response  point outside",
+        title: 'map response  point outside',
         item: singleMapPointData,
         outcomes: {
             RESPONSE: { base: { point:  [ 145, 190 ] } },
@@ -287,38 +287,38 @@ define( [
         },
         state: {
             RESPONSE: {
-                "cardinality": "single",
-                "baseType": "point",
-                "value": [ 145, 190 ]
+                'cardinality': 'single',
+                'baseType': 'point',
+                'value': [ 145, 190 ]
             },
             SCORE: { value: 0 }
         }
-    } ] ).test( "process ", function( data, assert ) {
+    } ] ).test( 'process ', function( data, assert ) {
         var ready = assert.async();
 
         assert.expect( 8 );
 
-        scorer.register( "qti", qtiScoringProvider );
+        scorer.register( 'qti', qtiScoringProvider );
 
-        scorer( "qti" )
-            .on( "error", function( err ) {
-                assert.ok( false, "Got an error : " + err );
+        scorer( 'qti' )
+            .on( 'error', function( err ) {
+                assert.ok( false, 'Got an error : ' + err );
             } )
-            .on( "outcome", function( outcomes, state ) {
+            .on( 'outcome', function( outcomes, state ) {
 
-                assert.deepEqual( outcomes, data.outcomes, "Generated outcomes matche" );
+                assert.deepEqual( outcomes, data.outcomes, 'Generated outcomes matche' );
 
-                assert.ok( typeof state === "object", "The generated state is an object" );
+                assert.ok( typeof state === 'object', 'The generated state is an object' );
 
                 //Check RESPONSE variable cardinality, baseType and value
-                assert.ok( typeof state.RESPONSE === "object", "The generated state contains a RESPONSE variable" );
-                assert.equal( state.RESPONSE.cardinality, data.state.RESPONSE.cardinality, "The RESPONSE cardinality is correct" );
-                assert.equal( state.RESPONSE.baseType, data.state.RESPONSE.baseType, "The RESPONSE baseType is correct" );
-                assert.deepEqual( state.RESPONSE.value, data.state.RESPONSE.value, "The RESPONSE value is correct" );
+                assert.ok( typeof state.RESPONSE === 'object', 'The generated state contains a RESPONSE variable' );
+                assert.equal( state.RESPONSE.cardinality, data.state.RESPONSE.cardinality, 'The RESPONSE cardinality is correct' );
+                assert.equal( state.RESPONSE.baseType, data.state.RESPONSE.baseType, 'The RESPONSE baseType is correct' );
+                assert.deepEqual( state.RESPONSE.value, data.state.RESPONSE.value, 'The RESPONSE value is correct' );
 
                 //Check only SCORE value
-                assert.ok( typeof state.SCORE === "object", "The generated state contains a SCORE variable" );
-                assert.equal( state.SCORE.value, data.state.SCORE.value, "The score matches the expected value" );
+                assert.ok( typeof state.SCORE === 'object', 'The generated state contains a SCORE variable' );
+                assert.equal( state.SCORE.value, data.state.SCORE.value, 'The score matches the expected value' );
 
                 ready();
             } )
@@ -327,68 +327,68 @@ define( [
             }, data.item );
     } );
 
-    QUnit.test( "process multiple responses", function( assert ) {
+    QUnit.test( 'process multiple responses', function( assert ) {
         var ready = assert.async();
 
         assert.expect( 7 );
 
         var responses = {
-            "RESPONSE": { list: { identifier: [ "choice_3" ] } },
-            "RESPONSE_1": { base: { identifier: "choice_7" } }
+            'RESPONSE': { list: { identifier: [ 'choice_3' ] } },
+            'RESPONSE_1': { base: { identifier: 'choice_7' } }
         };
-        scorer.register( "qti", qtiScoringProvider );
+        scorer.register( 'qti', qtiScoringProvider );
 
-        scorer( "qti" )
-            .on( "error", function( err ) {
-                assert.ok( false, "Got an error : " + err );
+        scorer( 'qti' )
+            .on( 'error', function( err ) {
+                assert.ok( false, 'Got an error : ' + err );
             } )
-            .on( "outcome", function( outcomes ) {
+            .on( 'outcome', function( outcomes ) {
 
-                assert.ok( typeof outcomes === "object", "the outcomes are an object" );
-                assert.ok( typeof outcomes.RESPONSE === "object", "the outcomes contains the response" );
-                assert.deepEqual( outcomes.RESPONSE, responses.RESPONSE, "the response is the same" );
-                assert.ok( typeof outcomes.RESPONSE_1 === "object", "the outcomes contains the response" );
-                assert.deepEqual( outcomes.RESPONSE_1, responses.RESPONSE_1, "the response is the same" );
-                assert.ok( typeof outcomes.SCORE === "object", "the outcomes contains the score" );
-                assert.deepEqual( outcomes.SCORE, { base: { float: 2 } }, "the score has the correct value" );
+                assert.ok( typeof outcomes === 'object', 'the outcomes are an object' );
+                assert.ok( typeof outcomes.RESPONSE === 'object', 'the outcomes contains the response' );
+                assert.deepEqual( outcomes.RESPONSE, responses.RESPONSE, 'the response is the same' );
+                assert.ok( typeof outcomes.RESPONSE_1 === 'object', 'the outcomes contains the response' );
+                assert.deepEqual( outcomes.RESPONSE_1, responses.RESPONSE_1, 'the response is the same' );
+                assert.ok( typeof outcomes.SCORE === 'object', 'the outcomes contains the score' );
+                assert.deepEqual( outcomes.SCORE, { base: { float: 2 } }, 'the score has the correct value' );
 
                 ready();
             } )
             .process( responses, multipleResponseCorrectData );
     } );
 
-    QUnit.test( "process multiple responses one is empty", function( assert ) {
+    QUnit.test( 'process multiple responses one is empty', function( assert ) {
         var ready = assert.async();
 
         assert.expect( 7 );
 
         var responses = {
-            "RESPONSE": { list: { identifier: [ "choice_3" ] } },
-            "RESPONSE_1": { base: null }
+            'RESPONSE': { list: { identifier: [ 'choice_3' ] } },
+            'RESPONSE_1': { base: null }
         };
-        scorer.register( "qti", qtiScoringProvider );
+        scorer.register( 'qti', qtiScoringProvider );
 
-        scorer( "qti" )
-            .on( "error", function( err ) {
-                assert.ok( false, "Got an error : " + err );
+        scorer( 'qti' )
+            .on( 'error', function( err ) {
+                assert.ok( false, 'Got an error : ' + err );
             } )
-            .on( "outcome", function( outcomes ) {
+            .on( 'outcome', function( outcomes ) {
 
-                assert.ok( typeof outcomes === "object", "the outcomes are an object" );
-                assert.ok( typeof outcomes.RESPONSE === "object", "the outcomes contains the response" );
-                assert.deepEqual( outcomes.RESPONSE, responses.RESPONSE, "the response is the same" );
-                assert.ok( typeof outcomes.RESPONSE_1 === "object", "the outcomes contains the response" );
-                assert.deepEqual( outcomes.RESPONSE_1, responses.RESPONSE_1, "the response is the same" );
-                assert.ok( typeof outcomes.SCORE === "object", "the outcomes contains the score" );
-                assert.deepEqual( outcomes.SCORE, { base: { float: 1 } }, "the score has the correct value" );
+                assert.ok( typeof outcomes === 'object', 'the outcomes are an object' );
+                assert.ok( typeof outcomes.RESPONSE === 'object', 'the outcomes contains the response' );
+                assert.deepEqual( outcomes.RESPONSE, responses.RESPONSE, 'the response is the same' );
+                assert.ok( typeof outcomes.RESPONSE_1 === 'object', 'the outcomes contains the response' );
+                assert.deepEqual( outcomes.RESPONSE_1, responses.RESPONSE_1, 'the response is the same' );
+                assert.ok( typeof outcomes.SCORE === 'object', 'the outcomes contains the score' );
+                assert.deepEqual( outcomes.SCORE, { base: { float: 1 } }, 'the score has the correct value' );
 
                 ready();
             } )
             .process( responses, multipleResponseCorrectData );
     } );
 
-    QUnit.module( "Custom template", {
-        undefined: function( assert ) {
+    QUnit.module( 'Custom template', {
+        afterEach: function( assert ) {
 
             //Reset the provides
             scorer.providers = undefined;
@@ -396,192 +396,192 @@ define( [
     } );
 
     var customDataProvider = [ {
-        title: "choice multiple correct",
+        title: 'choice multiple correct',
         item: customChoiceMultipleData,
-        resp: { RESPONSE_13390220: { list: { identifier: [ "choice_693643701", "choice_853818748" ] } } },
+        resp: { RESPONSE_13390220: { list: { identifier: [ 'choice_693643701', 'choice_853818748' ] } } },
         outcomes: {
-            SCORE: { base: { "float": 1 } },
-            FEEDBACKBASIC: { base: { "identifier": "correct" } }
+            SCORE: { base: { 'float': 1 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'correct' } }
         }
     }, {
-        title: "choice multiple incorrect",
+        title: 'choice multiple incorrect',
         item: customChoiceMultipleData,
-        resp: { RESPONSE_13390220: { list: { identifier: [ "choice_853818748" ] } } },
+        resp: { RESPONSE_13390220: { list: { identifier: [ 'choice_853818748' ] } } },
         outcomes: {
-            SCORE: { base: { "float": 0 } },
-            FEEDBACKBASIC: { base: { "identifier": "incorrect" } }
+            SCORE: { base: { 'float': 0 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'incorrect' } }
         }
     }, {
-        title: "single numeric text entry exact",
+        title: 'single numeric text entry exact',
         item: customTextEntryNumericData,
         resp: { RESPONSE_1: { base: { float: 4.136 } } },
         outcomes: {
-            SCORE: { base: { "float": 1 } },
-            FEEDBACKBASIC: { base: { "identifier": "correct" } }
+            SCORE: { base: { 'float': 1 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'correct' } }
         }
     }, {
-        title: "single numeric text entry pretty correct",
+        title: 'single numeric text entry pretty correct',
         item: customTextEntryNumericData,
         resp: { RESPONSE_1: { base: { float: 4.132 } } },
         outcomes: {
-            SCORE: { base: { "float": 1 } },
-            FEEDBACKBASIC: { base: { "identifier": "correct" } }
+            SCORE: { base: { 'float': 1 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'correct' } }
         }
     }, {
-        title: "single numeric text entry incorrect",
+        title: 'single numeric text entry incorrect',
         item: customTextEntryNumericData,
         resp: { RESPONSE_1: { base: { float: 5.8756 } } },
         outcomes: {
-            SCORE: { base: { "float": 0 } },
-            FEEDBACKBASIC: { base: { "identifier": "incorrect" } }
+            SCORE: { base: { 'float': 0 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'incorrect' } }
         }
     }, {
-        title: "choice multiple correct",
+        title: 'choice multiple correct',
         item: customChoiceMultipleData2,
-        resp: { RESPONSE_27966883: { list: { identifier: [ "choice_934383202", "choice_2022864592", "choice_1534527094" ] } } },
+        resp: { RESPONSE_27966883: { list: { identifier: [ 'choice_934383202', 'choice_2022864592', 'choice_1534527094' ] } } },
         outcomes: {
-            SCORE: { base: { "float": 3 } },
-            FEEDBACKBASIC: { base: { "identifier": "correct" } }
+            SCORE: { base: { 'float': 3 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'correct' } }
         }
     }, {
-        title: "choice multiple incorrect",
+        title: 'choice multiple incorrect',
         item: customChoiceMultipleData2,
-        resp: { RESPONSE_27966883: { list: { identifier: [ "choice_921260236" ] } } },
+        resp: { RESPONSE_27966883: { list: { identifier: [ 'choice_921260236' ] } } },
         outcomes: {
-            SCORE: { base: { "float": -1 } },
-            FEEDBACKBASIC: { base: { "identifier": "incorrect" } }
+            SCORE: { base: { 'float': -1 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'incorrect' } }
         }
     }, {
-        title: "choice directed pair multiple correct",
+        title: 'choice directed pair multiple correct',
         item: customChoiceSingleData,
-        resp: { RESPONSE: { list: { directedPair: [ "Match29886762 Match30518135", "Match5256823 Match2607634", "Match4430647 Match8604807", "Match1403839 Match5570831" ] } } },
+        resp: { RESPONSE: { list: { directedPair: [ 'Match29886762 Match30518135', 'Match5256823 Match2607634', 'Match4430647 Match8604807', 'Match1403839 Match5570831' ] } } },
         outcomes: {
-            SCORE: { base: { "float": 1 } },
-            FEEDBACKBASIC: { base: { "identifier": "correct" } }
+            SCORE: { base: { 'float': 1 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'correct' } }
         }
     }, {
-        title: "choice directed pair multiple incorrect",
+        title: 'choice directed pair multiple incorrect',
         item: customChoiceSingleData,
-        resp: { RESPONSE: { list: { directedPair: [ "Match29886762 Match30518135", "Match2607634 Match5256823", "Match4430647 Match8604807", "Match1403839 Match5570831" ] } } },
+        resp: { RESPONSE: { list: { directedPair: [ 'Match29886762 Match30518135', 'Match2607634 Match5256823', 'Match4430647 Match8604807', 'Match1403839 Match5570831' ] } } },
         outcomes: {
-            SCORE: { base: { "float": 0 } },
-            FEEDBACKBASIC: { base: { "identifier": "incorrect" } }
+            SCORE: { base: { 'float': 0 } },
+            FEEDBACKBASIC: { base: { 'identifier': 'incorrect' } }
         }
     }, {
-        title: "ordered correct",
+        title: 'ordered correct',
         item: orderData,
-        resp: { RESPONSE: { list: { identifier: [ "DriverC", "DriverA", "DriverB" ] } } },
+        resp: { RESPONSE: { list: { identifier: [ 'DriverC', 'DriverA', 'DriverB' ] } } },
         outcomes: {
-            SCORE: { base: { "float": 1 } }
+            SCORE: { base: { 'float': 1 } }
         }
     }, {
-        title: "ordered incorrect",
+        title: 'ordered incorrect',
         item: orderData,
-        resp: { RESPONSE: { list: { identifier: [ "DriverC", "DriverAS", "DriverB" ] } } },
+        resp: { RESPONSE: { list: { identifier: [ 'DriverC', 'DriverAS', 'DriverB' ] } } },
         outcomes: {
-            SCORE: { base: { "float": 0 } }
+            SCORE: { base: { 'float': 0 } }
         }
     }, {
-        title: "embed conditions correct",
+        title: 'embed conditions correct',
         item: embedConditionsData.data,
         resp: {
-            RESPONSE: { base: { identifier: "choice_1" } },
-            RESPONSE_1: { base: { identifier: "choice_6" } }
+            RESPONSE: { base: { identifier: 'choice_1' } },
+            RESPONSE_1: { base: { identifier: 'choice_6' } }
         },
         outcomes: {
-            SCORE: { base: { "float": 2 } }
+            SCORE: { base: { 'float': 2 } }
         }
     }, {
-        title: "embed conditions  first correct",
+        title: 'embed conditions  first correct',
         item: embedConditionsData.data,
         resp: {
-            RESPONSE: { base: { identifier: "choice_1" } },
-            RESPONSE_1: { base: { identifier: "choice_7" } }
+            RESPONSE: { base: { identifier: 'choice_1' } },
+            RESPONSE_1: { base: { identifier: 'choice_7' } }
         },
         outcomes: {
-            SCORE: { base: { "float": 1 } }
+            SCORE: { base: { 'float': 1 } }
         }
     }, {
-        title: "embed conditions 2nd correct",
+        title: 'embed conditions 2nd correct',
         item: embedConditionsData.data,
         resp: {
-            RESPONSE: { base: { identifier: "choice_2" } },
-            RESPONSE_1: { base: { identifier: "choice_6" } }
+            RESPONSE: { base: { identifier: 'choice_2' } },
+            RESPONSE_1: { base: { identifier: 'choice_6' } }
         },
         outcomes: {
-            SCORE: { base: { "float": 0 } }
+            SCORE: { base: { 'float': 0 } }
         }
     }, {
-        title: "embed conditions 2nd null",
+        title: 'embed conditions 2nd null',
         item: embedConditionsData.data,
         resp: {
-            RESPONSE: { base: { identifier: "choice_1" } },
+            RESPONSE: { base: { identifier: 'choice_1' } },
             RESPONSE_1: { base: null }
         },
         outcomes: {
-            SCORE: { base: { "float": 1 } }
+            SCORE: { base: { 'float': 1 } }
         }
     }, {
-        title: "embed conditions null",
+        title: 'embed conditions null',
         item: embedConditionsData.data,
         resp: {
             RESPONSE: { base: null },
             RESPONSE_1: { base: null }
         },
         outcomes: {
-            SCORE: { base: { "float": 0 } }
+            SCORE: { base: { 'float': 0 } }
         }
      }, {
-        title: "nested and incorrect",
+        title: 'nested and incorrect',
         item: andAndData.data,
         resp: {
             RESPONSE: { base: { float: 1.234 } },
             RESPONSE_2: { base: { float: 42 } }
         },
         outcomes: {
-            SCORE: { base: { "float": 0 } }
+            SCORE: { base: { 'float': 0 } }
         }
      }, {
-        title: "nested and correct",
+        title: 'nested and correct',
         item: andAndData.data,
         resp: {
             RESPONSE: { base: { float: 1234 } },
             RESPONSE_2: { base: { float: 42 } }
         },
         outcomes: {
-            SCORE: { base: { "float": 1 } }
+            SCORE: { base: { 'float': 1 } }
         }
     }, {
-        title: "custom record",
+        title: 'custom record',
         item: customRecordData.data,
         resp: {
             RESPONSE: { record: [ {
-                name: "fieldA",
-                base: { string: "yes" }
+                name: 'fieldA',
+                base: { string: 'yes' }
             } ] }
         },
         outcomes: {
-            SCORE: { base: { "float": 2 } }
+            SCORE: { base: { 'float': 2 } }
         }
     } ];
 
     QUnit
         .cases.init( customDataProvider )
-        .test( "process ", function( data, assert ) {
+        .test( 'process ', function( data, assert ) {
             var ready = assert.async();
 
-            scorer.register( "qti", qtiScoringProvider );
+            scorer.register( 'qti', qtiScoringProvider );
 
-            scorer( "qti" )
-                .on( "error", function( err ) {
-                    assert.ok( false, "Got an error : " + err );
+            scorer( 'qti' )
+                .on( 'error', function( err ) {
+                    assert.ok( false, 'Got an error : ' + err );
                 } )
-                .on( "outcome", function( outcomes ) {
+                .on( 'outcome', function( outcomes ) {
 
-                    assert.ok( typeof outcomes === "object", "the outcomes are an object" );
+                    assert.ok( typeof outcomes === 'object', 'the outcomes are an object' );
 
                     _.forEach( data.outcomes, function( outcome, name ) {
-                        assert.deepEqual( outcomes[ name ], outcome, "the outcome " + name + " is correct" );
+                        assert.deepEqual( outcomes[ name ], outcome, 'the outcome ' + name + ' is correct' );
                     } );
 
                     ready();

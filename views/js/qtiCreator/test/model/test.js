@@ -47,13 +47,13 @@ require([
                 ok(Element.isA(feedbackOutcome, 'variableDeclaration'), 'feedback outcome B top class ok');
                 equal(rule.condition, 'correct', 'condition correctly set');
 
-                ok(Element.isA(rule.feedbackThen, 'modalFeedback'), 'feedback "then" correctly created');
+                ok(Element.isA(rule.feedbackThen, 'modalFeedback'), 'feedback 'then' correctly created');
 
                 responseA.createFeedbackElse(rule);
-                ok(Element.isA(rule.feedbackElse, 'modalFeedback'), 'feedback "else" correctly created');
+                ok(Element.isA(rule.feedbackElse, 'modalFeedback'), 'feedback 'else' correctly created');
 
                 responseA.deleteFeedbackElse(rule);
-                ok(rule.feedbackElse === null, 'feedback "else" deleted');
+                ok(rule.feedbackElse === null, 'feedback 'else' deleted');
 
                 responseA.setCondition(rule, 'gte', 2.5);
                 equal(rule.condition, 'gte', 'condition correctly set');

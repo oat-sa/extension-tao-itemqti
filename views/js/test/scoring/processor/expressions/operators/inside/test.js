@@ -1,167 +1,167 @@
 define( [
 
-    "lodash",
-    "taoQtiItem/scoring/processor/expressions/preprocessor",
-    "taoQtiItem/scoring/processor/expressions/operators/inside"
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/operators/inside'
 ], function(  _, preProcessorFactory, insideProcessor ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "structure", function( assert ) {
-        assert.ok( _.isPlainObject( insideProcessor ), "the processor expose an object" );
-        assert.ok( _.isFunction( insideProcessor.process ), "the processor has a process function" );
-        assert.ok( _.isArray( insideProcessor.operands ), "the processor has a process function" );
+    QUnit.test( 'structure', function( assert ) {
+        assert.ok( _.isPlainObject( insideProcessor ), 'the processor expose an object' );
+        assert.ok( _.isFunction( insideProcessor.process ), 'the processor has a process function' );
+        assert.ok( _.isArray( insideProcessor.operands ), 'the processor has a process function' );
     } );
 
-    QUnit.module( "Process" );
+    QUnit.module( 'Process' );
 
     var dataProvider = [ {
-        title: "rect inside",
-        coords: "0,0,10,20",
-        shape: "rect",
+        title: 'rect inside',
+        coords: '0,0,10,20',
+        shape: 'rect',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "1 1"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '1 1'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "rect outside",
-        coords: "0,0,10,20",
-        shape: "rect",
+        title: 'rect outside',
+        coords: '0,0,10,20',
+        shape: 'rect',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "-21 1"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '-21 1'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "poly inside",
-        coords: "291,173,249,414,629,427,557,174,423,569,126,280,431,260",
-        shape: "poly",
+        title: 'poly inside',
+        coords: '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
+        shape: 'poly',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "255 411"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '255 411'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "poly outside",
-        coords: "291,173,249,414,629,427,557,174,423,569,126,280,431,260",
-        shape: "poly",
+        title: 'poly outside',
+        coords: '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
+        shape: 'poly',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "1 1"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '1 1'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "default",
-        coords: "",
-        shape: "default",
+        title: 'default',
+        coords: '',
+        shape: 'default',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "0 8"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '0 8'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "circle inside",
-        coords: "5,5,5",
-        shape: "circle",
+        title: 'circle inside',
+        coords: '5,5,5',
+        shape: 'circle',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "3 3"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '3 3'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "circle outside",
-        coords: "5,5,5",
-        shape: "circle",
+        title: 'circle outside',
+        coords: '5,5,5',
+        shape: 'circle',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "31 3"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '31 3'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "circle",
-        coords: "57,18,55,14",
-        shape: "ellipse",
+        title: 'circle',
+        coords: '57,18,55,14',
+        shape: 'ellipse',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "9 12"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '9 12'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "wrong type",
-        coords: "57,18,55,14,57,18,55,14",
-        shape: "cube",
+        title: 'wrong type',
+        coords: '57,18,55,14,57,18,55,14',
+        shape: 'cube',
 
         operands: [ {
-            cardinality: "single",
-            baseType: "point",
-            value: "9 12"
+            cardinality: 'single',
+            baseType: 'point',
+            value: '9 12'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "one null",
-        coords: "0,0,10,20",
-        shape: "rect",
+        title: 'one null',
+        coords: '0,0,10,20',
+        shape: 'rect',
         operands: [ null ],
         expectedResult: null
     } ];
 
     QUnit
         .cases.init( dataProvider )
-        .test( "inside ", function( data, assert ) {
+        .test( 'inside ', function( data, assert ) {
             insideProcessor.preProcessor = preProcessorFactory( {} );
 
             insideProcessor.operands = data.operands;
@@ -173,6 +173,6 @@ define( [
                 }
             };
 
-            assert.deepEqual( insideProcessor.process(), data.expectedResult, "The inside is correct" );
+            assert.deepEqual( insideProcessor.process(), data.expectedResult, 'The inside is correct' );
         } );
 } );

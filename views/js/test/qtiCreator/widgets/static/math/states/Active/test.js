@@ -22,12 +22,12 @@
  */
 define( [
     
-    "jquery",
-    "taoQtiItem/test/qtiCreator/mocks/areaBrokerMock",
-    "taoQtiItem/qtiCreator/helper/creatorRenderer",
-    "taoQtiItem/qtiItem/core/Math",
-    "taoQtiItem/qtiCreator/widgets/static/math/Widget",
-    "taoQtiItem/qtiCreator/widgets/static/math/states/Active"
+    'jquery',
+    'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
+    'taoQtiItem/qtiCreator/helper/creatorRenderer',
+    'taoQtiItem/qtiItem/core/Math',
+    'taoQtiItem/qtiCreator/widgets/static/math/Widget',
+    'taoQtiItem/qtiCreator/widgets/static/math/states/Active'
 ], function(
    
     $,
@@ -37,42 +37,42 @@ define( [
     mathWidget,
     activeWidget
 ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "plugin" );
+    QUnit.module( 'plugin' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
 
-        assert.ok( typeof activeWidget === "function", "The module expose a function" );
+        assert.ok( typeof activeWidget === 'function', 'The module expose a function' );
     } );
 
-    QUnit.module( "Visual Test" );
+    QUnit.module( 'Visual Test' );
 
-    QUnit.test( "Display and play", function( assert ) {
+    QUnit.test( 'Display and play', function( assert ) {
         var ready = assert.async();
-        var $outsideContainer = $( "#outside-container" ),
+        var $outsideContainer = $( '#outside-container' ),
             widget,
             mathEl = new mathElement(),
             areaBroker = areaBrokerFactory( { $brokerContainer: $outsideContainer } ),
-            $widgetBox = $( "<div>", { "class": "widget-box", "data-serial": "serial" } ),
+            $widgetBox = $( '<div>', { 'class': 'widget-box', 'data-serial': 'serial' } ),
             $widgetForm = areaBroker.getItemPropertyPanelArea();
 
         creatorRenderer
             .get( true, { properties: {} }, areaBroker )
             .load( function() {
-                mathEl.init( "serial" );
+                mathEl.init( 'serial' );
                 mathEl.setRenderer( this );
 
                 $widgetBox.appendTo( areaBroker.getItemPanelArea() );
 
                 widget = mathWidget.build( mathEl, $widgetBox, $widgetForm );
-                widget.changeState( "active" );
+                widget.changeState( 'active' );
 
                 assert.ok( true );
 
                 ready();
-            }, [ "math" ] );
+            }, [ 'math' ] );
     } );
 
 } );

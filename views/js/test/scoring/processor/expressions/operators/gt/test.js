@@ -1,121 +1,121 @@
 define( [
     
-    "lodash",
-    "taoQtiItem/scoring/processor/expressions/preprocessor",
-    "taoQtiItem/scoring/processor/expressions/operators/gt"
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/operators/gt'
 ], function(  _, preProcessorFactory, gteProcessor ) {
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "structure", function( assert ) {
-        assert.ok( _.isPlainObject( gteProcessor ), "the processor expose an object" );
-        assert.ok( _.isFunction( gteProcessor.process ), "the processor has a process function" );
-        assert.ok( _.isArray( gteProcessor.operands ), "the processor has a process function" );
+    QUnit.test( 'structure', function( assert ) {
+        assert.ok( _.isPlainObject( gteProcessor ), 'the processor expose an object' );
+        assert.ok( _.isFunction( gteProcessor.process ), 'the processor has a process function' );
+        assert.ok( _.isArray( gteProcessor.operands ), 'the processor has a process function' );
     } );
 
-    QUnit.module( "Process" );
+    QUnit.module( 'Process' );
 
     var dataProvider = [ {
-        title: "integers",
+        title: 'integers',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
-            value: "5"
+            cardinality: 'single',
+            baseType: 'integer',
+            value: '5'
         }, {
-            cardinality: "single",
-            baseType: "integer",
-            value: "2"
+            cardinality: 'single',
+            baseType: 'integer',
+            value: '2'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "integers equality",
+        title: 'integers equality',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
-            value: "5"
+            cardinality: 'single',
+            baseType: 'integer',
+            value: '5'
         }, {
-            cardinality: "single",
-            baseType: "integer",
-            value: "5"
+            cardinality: 'single',
+            baseType: 'integer',
+            value: '5'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "integers from numbers",
+        title: 'integers from numbers',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 15
         }, {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 5.5
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
     }, {
-        title: "floats",
+        title: 'floats',
         operands: [ {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 0.666677
         }, {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 1.333323
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "floats",
+        title: 'floats',
         operands: [ {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 0.666677
         }, {
-            cardinality: "single",
-            baseType: "float",
+            cardinality: 'single',
+            baseType: 'float',
             value: 1.333323
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value: false
         }
     }, {
-        title: "one float",
+        title: 'one float',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 5
         }, {
-            cardinality: "single",
-            baseType: "float",
-            value: "10.25"
+            cardinality: 'single',
+            baseType: 'float',
+            value: '10.25'
         } ],
         expectedResult: {
-            cardinality: "single",
-            baseType: "boolean",
+            cardinality: 'single',
+            baseType: 'boolean',
             value:false
         }
     }, {
-        title: "one null",
+        title: 'one null',
         operands: [ {
-            cardinality: "single",
-            baseType: "integer",
+            cardinality: 'single',
+            baseType: 'integer',
             value: 5
         },
         null ],
@@ -124,9 +124,9 @@ define( [
 
     QUnit
       .cases.init( dataProvider )
-      .test( "gt ", function( data, assert ) {
+      .test( 'gt ', function( data, assert ) {
         gteProcessor.operands = data.operands;
         gteProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( gteProcessor.process(), data.expectedResult, "The gt is correct" );
+        assert.deepEqual( gteProcessor.process(), data.expectedResult, 'The gt is correct' );
     } );
 } );

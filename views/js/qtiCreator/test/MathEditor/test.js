@@ -53,6 +53,15 @@ function($, MathEditor, mathJax) {
                     ready();
                 }, mathjaxRenderingDelayMs);
             }
+            function isMathJaxAvailable() {
+                if (typeof mathJax === 'undefined') {
+                    assert.ok(false, 'MathJax is not available');
+                    ready();
+
+                    return false;
+                }
+                return true;
+            }
         });
 
     QUnit.module('Matheditor MathML rendering');
@@ -93,12 +102,21 @@ function($, MathEditor, mathJax) {
                     ready();
                 }, mathjaxRenderingDelayMs);
             }
+            function isMathJaxAvailable() {
+                if (typeof mathJax === 'undefined') {
+                    assert.ok(false, 'MathJax is not available');
+                    ready();
+
+                    return false;
+                }
+                return true;
+            }
         });
 
 
     var mathMLWithComments = [
-        { title: 'plain comment', input: '<mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mi>x</mi><mo>&#x2264;<!-- ≤ --></mo><mi>w</mi></mrow></mstyle>'},
-        { title: 'html-encoded comment', input: '<mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mi>x</mi><mo>&#x2264;&lt;!-- ≤ --&gt;</mo><mi>w</mi></mrow></mstyle>'}
+        { title: 'plain comment', input: '<mstyle displaystyle='true' scriptlevel='0'><mrow class='MJX-TeXAtom-ORD'><mi>x</mi><mo>&#x2264;<!-- ≤ --></mo><mi>w</mi></mrow></mstyle>'},
+        { title: 'html-encoded comment', input: '<mstyle displaystyle='true' scriptlevel='0'><mrow class='MJX-TeXAtom-ORD'><mi>x</mi><mo>&#x2264;&lt;!-- ≤ --&gt;</mo><mi>w</mi></mrow></mstyle>'}
     ];
 
     QUnit
@@ -129,6 +147,15 @@ function($, MathEditor, mathJax) {
 
                     ready();
                 }, mathjaxRenderingDelayMs);
+            }
+            function isMathJaxAvailable() {
+                if (typeof mathJax === 'undefined') {
+                    assert.ok(false, 'MathJax is not available');
+                    ready();
+
+                    return false;
+                }
+                return true;
             }
         });
 
@@ -173,17 +200,18 @@ function($, MathEditor, mathJax) {
                     ready();
                 }, mathjaxRenderingDelayMs);
             }
+            function isMathJaxAvailable() {
+                if (typeof mathJax === 'undefined') {
+                    assert.ok(false, 'MathJax is not available');
+                    ready();
+
+                    return false;
+                }
+                return true;
+            }
         });
 
-    function isMathJaxAvailable() {
-        if (typeof mathJax === 'undefined') {
-            QUnit.assert.ok(false, 'MathJax is not available');
-            QUnit.start();
 
-            return false;
-        }
-        return true;
-    }
 
 });
 
