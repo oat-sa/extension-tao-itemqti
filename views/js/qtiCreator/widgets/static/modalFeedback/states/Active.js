@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  */
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -164,10 +164,11 @@ define([
 
         $container.modal({
             startClosed : true,
-            width : commonRenderer.width
+            width : commonRenderer.width,
+            top : 200
         });
         $container.modal('open');
-        $container.css('height', 'auto');
+        $container.css({'height':'auto', 'position':'fixed'});
 
         buildBodyEditor(_widget);
 
@@ -209,7 +210,7 @@ define([
         var _widget = this.widget;
         var $container = _widget.$container;
         var feedbackStyles = _prepareFeedbackStyles(_widget);
-            
+
         //build form:
         _widget.$form.html(formTpl({
             serial : _widget.element.getSerial(),
@@ -225,30 +226,30 @@ define([
                 fb.id(value);
             },
             feedbackStyle : function(fb, newValue){
-                
+
                 var oldValue = containerHelper.getEncodedData(_widget.element, 'modalFeedback');
                 containerHelper.setEncodedData(fb, 'modalFeedback', newValue);
-                
+
                 //update the feedback rendering
                 if(oldValue){
                     $container.removeClass(oldValue);
                 }
                 $container.addClass(newValue);
-                
+
                 //need to set the encoded data immediately to the rendered dom because changed body data will be based on it
                 containerHelper.setEncodedDataToDom($container.find('.cke_editable'), 'modalFeedback', newValue, oldValue);
             }
         });
     };
-    
+
     /**
      * Get the feedback styles related data for the template rendering
-     * 
+     *
      * @param {Object} widget - the creator widget
      * @returns {Array}
      */
     function _prepareFeedbackStyles(widget){
-        
+
         var styles = [
             {
                 cssClass : '',
@@ -263,7 +264,7 @@ define([
                 title : __('negative')
             }
         ];
-        
+
         return _(styles)
             .filter(function(style){
                 return style.cssClass !== undefined;
