@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -96,7 +96,7 @@ define([
             if(response && response.qtiClass === 'responseDeclaration'){
                 modalFeedback.data('relatedResponse', response);
             }
-        
+
             return modalFeedback;
         },
         deleteResponseDeclaration : function(response){
@@ -112,13 +112,13 @@ define([
                 _.each(this.responses[serial].feedbackRules, function(rule){
                     var feedbacks = [];
                     if(rule.feedbackThen && rule.feedbackThen.is('modalFeedback')){
-                        feedbacks.push(rule.feedbackThen.serial);  
+                        feedbacks.push(rule.feedbackThen.serial);
                     }
                     if(rule.feedbackElse && rule.feedbackElse.is('modalFeedback')){
                         feedbacks.push(rule.feedbackElse.serial);
                     }
                     self.modalFeedbacks = _.omit(self.modalFeedbacks, feedbacks);
-                    
+
                     if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
                         self.outcomes = _.omit(self.outcomes, rule.feedbackOutcome.serial);
                     }
