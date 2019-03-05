@@ -215,12 +215,6 @@ define([
             }
         }
 
-        var mouseEnterPlaceholder = function(){
-            var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
-            _appendPlaceholder($newCol);
-            $newCol.addClass('col-12');
-        };
-
         //bind all event handlers:
         $el.on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.debounce(function(e){
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
@@ -228,15 +222,12 @@ define([
             if (goingTo) {
                 var $col = $(this), $previousCol = $placeholder.parent('.new-col');
 
-                _resetPlaceholder();//remove the placeholder from the previous location
+                $placeholder.remove();//remove the placeholder from the previous location
                 _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
                 _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
                 _resetColsHeight($col);//recalculate the height for the current row
                 arrow.create($col, {marginWidth: marginWidth});
 
-                var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
-                _appendPlaceholder($newCol);
-                $newCol.addClass('col-12');
             }
 
         }, 50)).on('arrowenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.throttle(function(e, position) {
@@ -245,48 +236,55 @@ define([
             _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
             _insertBetween($col, position);
 
-        }, 50)).on('mousemove.gridEdit.gridDragDrop', _.throttle(function(e){ // '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)'
+        }, 50)).on('mousemove.gridEdit.gridDragDrop', _.throttle(function(e){ // '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
+            var $target = $(e.target);
             var $col, $newRow, $newCol;
             var h, relY;
 
             //insert element above or below the col's row:
-            if($(goingTo).closest('.grid-row').length && !$(e.currentTarget).hasClass("new-col") ){
-                $col = $(e.target).parents('.grid-row > [class^="col-"]:not(.new-col), .grid-row > [class*=" col-"]:not(.new-col)');
-                if($col.length) {
-                    h = $col.height();
-                    relY = e.pageY - $col.offset().top;
+            if(!$target.hasClass("new-col") && !$target.is("#qti-block-element-placeholder")) {
+                if ($(goingTo).closest('.grid-row').length) {
+                    if ($target.hasClass('grid-row')) {
+                        $col = $target.children('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)');
+                    } else {
+                        $col = $target.parents('.grid-row').children('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)');
+                    }
 
-                    //insert on top or bottom:
-                    $newRow = (relY < h / 2) ? $col.parent().prev() : $col.parent().next();
-                    if (!$newRow.find('#qti-block-element-placeholder').length) {//append row only not already included
-                        _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
-                        _resetColsHeight($placeholder.parent('.new-col'), false);//recalculate the height of the previously located row
-                        $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
-                        if ($newCol.length) {
-                            _appendPlaceholder($newCol);
+                    if ($col.length) {
+                        h = $col.height();
+                        relY = e.pageY - $col.offset().top;
+
+                        //insert on top or bottom:
+                        $newRow = (relY < h / 2) ? $col.parent().prev() : $col.parent().next();
+                        if (!$newRow.find('#qti-block-element-placeholder').length) {//append row only not already included
+                            _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
+                            _resetColsHeight($placeholder.parent('.new-col'), false);//recalculate the height of the previously located row
+                            $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
+                            if ($newCol.length) {
+                                _appendPlaceholder($newCol);
+                            }
                         }
                     }
+                } else {
+                    $newCol = $el.find('.new-col:last').css('background', '1px solid red');
+                    _appendPlaceholder($newCol);
+                    $newCol.addClass('col-12');
                 }
-            } else {
-                $newCol = $el.find('.new-col:last').css('background', '1px solid red');
-                _appendPlaceholder($newCol);
-                $newCol.addClass('col-12');
             }
         }, 50)).on('mouseleave.gridEdit.gridDragDrop', _.debounce(function(e){
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
 
-            _resetPlaceholder();
-            if(goingTo && !$(goingTo).hasClass('dropping').length) {
-                //restore dom when the mouse leaves the drop area "$el":
-                $placeholder.hide();
-                _restoreTmpCol($el);
-                _resetColsHeight($placeholder.parent('.new-col'), false);//recalculate the height of the previously located row
-            }
+            if($(e.target).parents('.qti-itemBody').length) {
+                _resetPlaceholder();
+                if (goingTo && !$(goingTo).hasClass('dropping').length) {
+                    $placeholder.remove();
+                }
 
-            //destroy inter-column insertion helper
-            e.stopPropagation();
-            $(this).find('.grid-edit-insert-box').remove();
+                //destroy inter-column insertion helper
+                e.stopPropagation();
+                $(this).find('.grid-edit-insert-box').remove();
+            }
         }, 50))
 
         //listen to the end of the dragging
