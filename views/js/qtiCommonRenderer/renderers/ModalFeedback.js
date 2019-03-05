@@ -30,7 +30,6 @@ define([
         qtiClass : 'modalFeedback',
         template : tpl,
         getContainer : containerHelper.get,
-        minHeight : 200,
         width : 600,
         getData : function(fb, data){
             var feedbackStyle = coreContainerHelper.getEncodedData(fb, 'modalFeedback');
