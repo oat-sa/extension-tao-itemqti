@@ -32,14 +32,10 @@ define([
         getContainer : containerHelper.get,
         width : 600,
         getData : function(fb, data){
-            var feedbackStyle = coreContainerHelper.getEncodedData(fb, 'modalFeedback');
-            data.feedbackStyle = feedbackStyle;
+            data.feedbackStyle = coreContainerHelper.getEncodedData(fb, 'modalFeedback');
             return data;
         },
         render : function(modalFeedback, data){
-
-            data = data || {};
-
             var $modal = containerHelper.get(modalFeedback);
 
             $modal.waitForMedia(function(){
@@ -55,6 +51,8 @@ define([
                     }
 
                 }).on('closed.modal', function(){
+                    data = data || {};
+
                     if(_.isFunction(data.callback)){
                         data.callback.call(this);
                     }
