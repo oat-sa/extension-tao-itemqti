@@ -11,6 +11,7 @@ define( [
 
     $,
     _,
+    __,
     qtiItemRunner,
     textEntryData,
     textEntryLengthConstrainedData,
@@ -47,12 +48,11 @@ define( [
     QUnit.test( 'Lenght constraint', function( assert ) {
         var ready = assert.async();
 
-        var $container = $( '#' + fixtureContainerId );
+        var $container = $('#fixture-length-constraint');
 
         assert.equal( $container.length, 1, 'the item container exists' );
         assert.equal( $container.children().length, 0, 'the container has no children' );
-
-        runner = qtiItemRunner( 'qti', textEntryLengthConstrainedData )
+        runner = qtiItemRunner('qti', textEntryLengthConstrainedData)
             .on( 'render', function() {
 
 
@@ -88,7 +88,7 @@ define( [
     } );
 
     QUnit.test( 'Pattern constraint - incorrect', function( assert ) {
-        var ready = assert.async();
+        var ready = assert.async(2);
 
         var $container = $('#pattern-constraint-incorrect');
 
@@ -120,7 +120,7 @@ define( [
     } );
 
     QUnit.test( 'Pattern constraint - correct', function( assert ) {
-        var ready = assert.async();
+        var ready = assert.async(2);
 
         var $container = $('#pattern-constraint-correct');
 
