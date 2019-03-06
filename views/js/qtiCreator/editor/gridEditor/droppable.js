@@ -145,20 +145,21 @@ define([
                     _appendToNextRow($row, $newCol);
                 }else{
                     for(var i in distributedUnits.cols){
-
-                        if(i == index){//note: no strict comparison here
-                            if(cumulatedUnits + newUnit > 12){
-                                _appendToNextRow($row, $newCol);
-                            }
-                            cumulatedUnits += newUnit;
-                        }
-
                         var col = distributedUnits.cols[i];
                         if(cumulatedUnits + col.refactoredUnits > 12){
                             _appendToNextRow($row, col.elt);
                         }
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
                         cumulatedUnits += col.refactoredUnits;
+debugger;
+                        if(i != index) {//note: no strict comparison here
+                            continue;
+                        }
+
+                        if(cumulatedUnits + newUnit > 12){
+                            _appendToNextRow($row, $newCol);
+                        }
+                        cumulatedUnits += newUnit;
                     }
                 }
 
