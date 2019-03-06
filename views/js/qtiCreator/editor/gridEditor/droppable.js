@@ -151,7 +151,7 @@ define([
                         }
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
                         cumulatedUnits += col.refactoredUnits;
-debugger;
+
                         if(i != index) {//note: no strict comparison here
                             continue;
                         }
