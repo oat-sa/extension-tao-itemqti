@@ -114,66 +114,67 @@ define([
         //function to be called for inter-column insertions:
         var _insertBetween = function($col, location){
 
-            if(location === 'left' || location === 'right'){
-                _restoreTmpCol($el);
-                var $row = $col.parent().attr('data-active', true);
+            if(location !== 'left' && location !== 'right') {
+                return;
+            }
+            _restoreTmpCol($el);
+            var $row = $col.parent().attr('data-active', true);
 
-                //store temporary the original classes before columns are resized
-                $row.children(':not(.new-col)').each(function(){
-                    $(this).attr('data-original-class', $(this).attr('class'));
-                });
+            //store temporary the original classes before columns are resized
+            $row.children(':not(.new-col)').each(function(){
+                $(this).attr('data-original-class', $(this).attr('class'));
+            });
 
-                var distributedUnits = $row.data('distributed-units');
-                var $newCol = (location === 'left') ? $col.prev() : $col.next();
-                _appendPlaceholder($newCol);
+            var distributedUnits = $row.data('distributed-units');
+            var $newCol = (location === 'left') ? $col.prev() : $col.next();
+            _appendPlaceholder($newCol);
 
-                if(distributedUnits.refactoredTotalUnits > 12){
-                    //need to create a new row
-                    var newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
-                    $newCol.attr('class', 'new-col col-' + newUnit);
+            if(distributedUnits.refactoredTotalUnits > 12){
+                //need to create a new row
+                var newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
+                $newCol.attr('class', 'new-col col-' + newUnit);
 
-                    var cumulatedUnits = 0,
-                        index = $newCol.data('index');
+                var cumulatedUnits = 0,
+                    index = $newCol.data('index');
 
-                    var _appendToNextRow = function _appendToNextRow($row, $newCol){
-                        $row.next().attr('data-active', true).append($newCol);
-                    };
+                var _appendToNextRow = function _appendToNextRow($row, $newCol){
+                    $row.next().attr('data-active', true).append($newCol);
+                };
 
-                    if(index === 'last'){
-                        _appendToNextRow($row, $newCol);
-                    }else{
-                        for(var i in distributedUnits.cols){
-
-                            if(i == index){//note: no strict comparison here
-                                if(cumulatedUnits + newUnit > 12){
-                                    _appendToNextRow($row, $newCol);
-                                }
-                                cumulatedUnits += newUnit;
-                            }
-
-                            var col = distributedUnits.cols[i];
-                            if(cumulatedUnits + col.refactoredUnits > 12){
-                                _appendToNextRow($row, col.elt);
-                            }
-                            col.elt.attr('class', 'col-' + col.refactoredUnits);
-                            cumulatedUnits += col.refactoredUnits;
-                        }
-                    }
-
+                if(index === 'last'){
+                    _appendToNextRow($row, $newCol);
                 }else{
-                    if($newCol.is(':last-child') && distributedUnits.last){
-                        $newCol.attr('class', 'new-col col-' + distributedUnits.last);
-                    }else{
-                        $newCol.attr('class', 'new-col col-' + distributedUnits.middle);
-                    }
-                    _.each(distributedUnits.cols, function(col){
+                    for(var i in distributedUnits.cols){
+
+                        if(i == index){//note: no strict comparison here
+                            if(cumulatedUnits + newUnit > 12){
+                                _appendToNextRow($row, $newCol);
+                            }
+                            cumulatedUnits += newUnit;
+                        }
+
+                        var col = distributedUnits.cols[i];
+                        if(cumulatedUnits + col.refactoredUnits > 12){
+                            _appendToNextRow($row, col.elt);
+                        }
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
-                    });
+                        cumulatedUnits += col.refactoredUnits;
+                    }
                 }
 
-                var h = _resetColsHeight($col);
-                $placeholder.css('height', '100%').parent().height(h);//causes issue on new-col sizes!
+            }else{
+                if($newCol.is(':last-child') && distributedUnits.last){
+                    $newCol.attr('class', 'new-col col-' + distributedUnits.last);
+                }else{
+                    $newCol.attr('class', 'new-col col-' + distributedUnits.middle);
+                }
+                _.each(distributedUnits.cols, function(col){
+                    col.elt.attr('class', 'col-' + col.refactoredUnits);
+                });
             }
+
+            var h = _resetColsHeight($col);
+            $placeholder.css('height', '100%').parent().height(h);//causes issue on new-col sizes!
         };
 
         //recalculate the cols height according to new layout
@@ -261,9 +262,10 @@ define([
                             _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
                             _resetColsHeight($placeholder.parent('.new-col'), false);//recalculate the height of the previously located row
                             $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
-                            if ($newCol.length) {
-                                _appendPlaceholder($newCol);
-                            }
+                        }
+
+                        if (typeof $newCol !== 'undefined' && $newCol.length) {
+                            _appendPlaceholder($newCol);
                         }
                     }
                 } else {
