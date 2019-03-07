@@ -25,15 +25,12 @@ use common_exception_Error;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\event\ItemCreatorLoad;
 use oat\taoQtiItem\model\HookRegistry;
-use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\Resource;
 use oat\taoQtiItem\model\qti\Service;
 use tao_actions_CommonModule;
 use tao_helpers_File;
@@ -54,7 +51,11 @@ use common_exception_BadRequest;
  */
 class QtiCreator extends tao_actions_CommonModule
 {
-    use EventManagerAwareTrait;
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
     /**
      * create a new QTI item
      *
