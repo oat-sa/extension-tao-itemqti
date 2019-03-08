@@ -462,12 +462,6 @@ define([
                         target: target
                     });
                 });
-            }
-
-            function calculateScale(e){
-                scaleX = e.getBoundingClientRect().width / e.offsetWidth;
-                scaleY = e.getBoundingClientRect().height / e.offsetHeight;
-            }
 
             if (isDragAndDropEnabled) {
                 dragOptions = {
@@ -487,7 +481,7 @@ define([
                         $target.addClass("dragged");
                         _activateChoice($target);
                         _iFrameDragFix(choiceSelector + ':not(.deactivated)', e.target);
-                        calculateScale(e.target);
+                        [scaleX, scaleY] = interactUtils.calculateScale(e.target);
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
@@ -510,7 +504,7 @@ define([
                         _resetSelection();
                         _activateResult($target);
                         _iFrameDragFix(resultSelector + '.filled', e.target);
-                        calculateScale(e.target);
+                        [scaleX, scaleY] = interactUtils.calculateScale(e.target);
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);

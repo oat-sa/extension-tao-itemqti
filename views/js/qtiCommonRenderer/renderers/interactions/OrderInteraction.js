@@ -242,11 +242,6 @@ define([
             });
         }
 
-        function calculateScale(e){
-            scaleX = e.getBoundingClientRect().width / e.offsetWidth;
-            scaleY = e.getBoundingClientRect().height / e.offsetHeight;
-        }
-
         if (isDragAndDropEnabled) {
             $dropzoneElement = $('<li>', {'class' : 'dropzone qti-choice'});
             $('<div>', {'class': 'qti-block'}).appendTo($dropzoneElement);
@@ -268,7 +263,7 @@ define([
                     $target.addClass("dragged");
 
                     _iFrameDragFix(choiceSelector, e.target);
-                    calculateScale(e.target);
+                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
@@ -305,7 +300,7 @@ define([
                     $dragContainer.append($target);
 
                     _iFrameDragFix(resultSelector, e.target);
-                    calculateScale(e.target);
+                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);

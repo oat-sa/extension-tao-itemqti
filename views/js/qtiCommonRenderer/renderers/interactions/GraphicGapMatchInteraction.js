@@ -401,11 +401,6 @@ define([
             toggleActiveGapState($(e.currentTarget));
         });
 
-        function calculateScale(e){
-            scaleX = e.getBoundingClientRect().width / e.offsetWidth;
-            scaleY = e.getBoundingClientRect().height / e.offsetHeight;
-        }
-
         if (isDragAndDropEnabled) {
             dragOptions = {
                 inertia: false,
@@ -426,7 +421,7 @@ define([
                         $target.addClass('dragged');
 
                         _iFrameDragFix(gapFillersSelector, e.target);
-                        calculateScale(e.target);
+                        [scaleX, scaleY] = interactUtils.calculateScale(e.target);
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
