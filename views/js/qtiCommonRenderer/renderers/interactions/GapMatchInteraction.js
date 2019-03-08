@@ -113,6 +113,7 @@ define([
 
         var isDragAndDropEnabled;
         var dragOptions;
+        var scaleX, scaleY;
 
         var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
 
@@ -173,6 +174,11 @@ define([
             });
         }
 
+        function calculateScale(e){
+            scaleX = e.getBoundingClientRect().width / e.offsetWidth;
+            scaleY = e.getBoundingClientRect().height / e.offsetHeight;
+        }
+
         if (isDragAndDropEnabled) {
             dragOptions = {
                 inertia: false,
@@ -192,9 +198,10 @@ define([
                     _handleChoiceSelect($target);
 
                     _iFrameDragFix(choiceSelector, e.target);
+                    calculateScale(e.target);
                 },
                 onmove: function (e) {
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                 },
                 onend: function (e) {
                     var $target = $(e.target);
@@ -213,9 +220,10 @@ define([
                     _handleFilledGapSelect($target);
 
                     _iFrameDragFix(filledGapSelector, e.target);
+                    calculateScale(e.target);
                 },
                 onmove: function (e) {
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                 },
                 onend: function (e) {
                     var $target = $(e.target);

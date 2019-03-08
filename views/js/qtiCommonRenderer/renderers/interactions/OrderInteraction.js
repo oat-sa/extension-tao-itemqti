@@ -56,6 +56,7 @@ define([
             choiceSelector = $choiceArea.selector + ' >li:not(.deactivated)',
             resultSelector = $resultArea.selector + ' >li',
 
+            scaleX, scaleY,
             isDragAndDropEnabled,
             dragOptions,
             $dropzoneElement,
@@ -241,6 +242,11 @@ define([
             });
         }
 
+        function calculateScale(e){
+            scaleX = e.getBoundingClientRect().width / e.offsetWidth;
+            scaleY = e.getBoundingClientRect().height / e.offsetHeight;
+        }
+
         if (isDragAndDropEnabled) {
             $dropzoneElement = $('<li>', {'class' : 'dropzone qti-choice'});
             $('<div>', {'class': 'qti-block'}).appendTo($dropzoneElement);
@@ -262,10 +268,11 @@ define([
                     $target.addClass("dragged");
 
                     _iFrameDragFix(choiceSelector, e.target);
+                    calculateScale(e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }
@@ -298,10 +305,11 @@ define([
                     $dragContainer.append($target);
 
                     _iFrameDragFix(resultSelector, e.target);
+                    calculateScale(e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }

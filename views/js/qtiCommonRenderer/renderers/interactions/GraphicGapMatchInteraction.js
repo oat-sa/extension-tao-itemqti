@@ -393,12 +393,18 @@ define([
 
         var gapFillersSelector = $gapList.selector + ' li';
         var dragOptions;
+        var scaleX, scaleY;
 
         interact(gapFillersSelector).on('tap', function onClickGapImg(e) {
             e.stopPropagation();
             e.preventDefault();
             toggleActiveGapState($(e.currentTarget));
         });
+
+        function calculateScale(e){
+            scaleX = e.getBoundingClientRect().width / e.offsetWidth;
+            scaleY = e.getBoundingClientRect().height / e.offsetHeight;
+        }
 
         if (isDragAndDropEnabled) {
             dragOptions = {
@@ -420,9 +426,10 @@ define([
                         $target.addClass('dragged');
 
                         _iFrameDragFix(gapFillersSelector, e.target);
+                        calculateScale(e.target);
                     },
                     onmove: function (e) {
-                        interactUtils.moveElement(e.target, e.dx, e.dy);
+                        interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                     },
                     onend: function (e) {
                         var $target = $(e.target);
