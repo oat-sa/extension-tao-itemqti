@@ -462,6 +462,7 @@ define([
                         target: target
                     });
                 });
+            }
 
             if (isDragAndDropEnabled) {
                 dragOptions = {
