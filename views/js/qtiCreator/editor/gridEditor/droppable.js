@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  *
  */
 define([
@@ -38,7 +38,7 @@ define([
             data = options.data || {};
 
         var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'}),
-        marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
+            marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
             isEmpty = ($el.children('.grid-row').length === 0);
 
         //add dropping class (used to fix col-*:first margin issue);
@@ -97,78 +97,85 @@ define([
         //restore the dropping element placeholder back to its default location:
         var _resetPlaceholder = function(){
 
-            $placeholder.parent().parent().removeData('active');
+            if($placeholder.parent().hasClass('dropping')) {
+                $placeholder.parent().parent().removeData('active');
 
-            $placeholder
-                .removeData('dropped')
-                .hide();
+                $placeholder
+                    .removeData('dropped')
+                    .hide();
 
-            $el.append($placeholder);
+                $el.append($placeholder);
+                return true;
+            } else {
+                return false;
+            }
         };
 
         //function to be called for inter-column insertions:
         var _insertBetween = function($col, location){
 
-            if(location === 'left' || location === 'right'){
-                _restoreTmpCol($el);
-                var $row = $col.parent().attr('data-active', true);
+            if(location !== 'left' && location !== 'right') {
+                return;
+            }
+            _restoreTmpCol($el);
+            var $row = $col.parent().attr('data-active', true);
 
-                //store temporary the original classes before columns are resized
-                $row.children(':not(.new-col)').each(function(){
-                    $(this).attr('data-original-class', $(this).attr('class'));
-                });
+            //store temporary the original classes before columns are resized
+            $row.children(':not(.new-col)').each(function(){
+                $(this).attr('data-original-class', $(this).attr('class'));
+            });
 
-                var distributedUnits = $row.data('distributed-units');
-                var $newCol = (location === 'left') ? $col.prev() : $col.next();
-                _appendPlaceholder($newCol);
+            var distributedUnits = $row.data('distributed-units');
+            var $newCol = (location === 'left') ? $col.prev() : $col.next();
+            _appendPlaceholder($newCol);
 
-                if(distributedUnits.refactoredTotalUnits > 12){
-                    //need to create a new row
-                    var newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
-                    $newCol.attr('class', 'new-col col-' + newUnit);
+            if(distributedUnits.refactoredTotalUnits > 12){
+                //need to create a new row
+                var newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
+                $newCol.attr('class', 'new-col col-' + newUnit);
 
-                    var cumulatedUnits = 0,
-                        index = $newCol.data('index');
+                var cumulatedUnits = 0,
+                    index = $newCol.data('index');
 
-                    var _appendToNextRow = function _appendToNextRow($row, $newCol){
-                        $row.next().attr('data-active', true).append($newCol);
-                    };
+                var _appendToNextRow = function _appendToNextRow($row, $newCol){
+                    $row.next().attr('data-active', true).append($newCol);
+                };
 
-                    if(index === 'last'){
-                        _appendToNextRow($row, $newCol);
-                    }else{
-                        for(var i in distributedUnits.cols){
-
-                            if(i == index){//note: no strict comparison here
-                                if(cumulatedUnits + newUnit > 12){
-                                    _appendToNextRow($row, $newCol)
-                                }
-                                cumulatedUnits += newUnit;
-                            }
-
-                            var col = distributedUnits.cols[i];
-                            if(cumulatedUnits + col.refactoredUnits > 12){
-                                _appendToNextRow($row, col.elt);
-                            }
-                            col.elt.attr('class', 'col-' + col.refactoredUnits);
-                            cumulatedUnits += col.refactoredUnits;
-                        }
-                    }
-
+                if(index === 'last'){
+                    _appendToNextRow($row, $newCol);
                 }else{
-                    if($newCol.is(':last-child') && distributedUnits.last){
-                        $newCol.attr('class', 'new-col col-' + distributedUnits.last);
-                    }else{
-                        $newCol.attr('class', 'new-col col-' + distributedUnits.middle);
-                    }
-                    _.each(distributedUnits.cols, function(col){
+                    for(var i in distributedUnits.cols){
+                        var col = distributedUnits.cols[i];
+                        if(cumulatedUnits + col.refactoredUnits > 12){
+                            _appendToNextRow($row, col.elt);
+                        }
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
-                    });
+                        cumulatedUnits += col.refactoredUnits;
+
+                        if(i != index) {//note: no strict comparison here
+                            continue;
+                        }
+
+                        if(cumulatedUnits + newUnit > 12){
+                            _appendToNextRow($row, $newCol);
+                        }
+                        cumulatedUnits += newUnit;
+                    }
                 }
 
-                var h = _resetColsHeight($col);
-                $placeholder.css('height', '100%').parent().height(h);//causes issue on new-col sizes!
+            }else{
+                if($newCol.is(':last-child') && distributedUnits.last){
+                    $newCol.attr('class', 'new-col col-' + distributedUnits.last);
+                }else{
+                    $newCol.attr('class', 'new-col col-' + distributedUnits.middle);
+                }
+                _.each(distributedUnits.cols, function(col){
+                    col.elt.attr('class', 'col-' + col.refactoredUnits);
+                });
             }
+
+            var h = _resetColsHeight($col);
+            $placeholder.css('height', '100%').parent().height(h);//causes issue on new-col sizes!
         };
 
         //recalculate the cols height according to new layout
@@ -211,72 +218,81 @@ define([
         }
 
         //bind all event handlers:
-        $el.on('mouseover.gridEdit.gridDragDrop', function(){
+        $el.on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.debounce(function(e){
+            var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
 
-            var $previousCol = $placeholder.parent('.new-col');
-            _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
-            _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
+            if (goingTo) {
+                var $col = $(this), $previousCol = $placeholder.parent('.new-col');
 
-            var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
-            _appendPlaceholder($newCol);
-            $newCol.addClass('col-12');
+                $placeholder.remove();//remove the placeholder from the previous location
+                _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
+                _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
+                _resetColsHeight($col);//recalculate the height for the current row
+                arrow.create($col, {marginWidth: marginWidth});
 
-        }).on('mouseover.gridEdit.gridDragDrop', '.grid-row', function(e){
-
-            e.stopPropagation();
-
-        }).on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(){
-
-            var $col = $(this), $previousCol = $placeholder.parent('.new-col');
-
-            _resetPlaceholder();//remove the placeholder from the previous location
-            _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
-
-            _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
-            _resetColsHeight($col);//recalculate the height for the current row
-
-            arrow.create($col, {marginWidth : marginWidth});
-
-        }).on('arrowenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e, position){
-
-            _insertBetween($(this), position);
-
-        }).on('mousemove.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.throttle(function(e){
-
-            //insert element above or below the col's row:
-            var $col = $(this),
-                h = $col.height(),
-                relY = e.pageY - $col.offset().top;
-
-            //insert on top or bottom:
-            var $newRow = (relY < h / 2) ? $col.parent().prev() : $col.parent().next();
-            if(!$newRow.find('#qti-block-element-placeholder').length){//append row only not already included
-                var $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
-                if($newCol.length){
-                    _appendPlaceholder($newCol);
-                }else{
-                    console.log('insert form col failure ', $col, $newRow);
-                }
             }
 
-        }, 100)).on('mouseleave.gridEdit.gridDragDrop', '[class^="col-"], [class*=" col-"]', function(e){
+        }, 50)).on('arrowenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.throttle(function(e, position) {
+            var $col = $(this);
 
-            //destroy inter-column insertion helper
-            e.stopPropagation();
-            $(this).find('.grid-edit-insert-box').remove();
+            _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
+            _insertBetween($col, position);
 
-        }).on('mouseleave.gridEdit.gridDragDrop', function(){
+        }, 50)).on('mousemove.gridEdit.gridDragDrop', _.throttle(function(e){ // '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)
+            var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
+            var $target = $(e.target);
+            var $col, $newRow, $newCol;
+            var h, relY;
 
-            //restore dom when the mouse leaves the drop area "$el":
-            $placeholder.hide();
-            _resetPlaceholder();
-            _restoreTmpCol($el);
+            //insert element above or below the col's row:
+            if(!$target.hasClass("new-col") && !$target.is("#qti-block-element-placeholder")) {
+                if ($(goingTo).closest('.grid-row').length) {
+                    if ($target.hasClass('grid-row')) {
+                        $col = $target.children('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)');
+                    } else {
+                        $col = $target.parents('.grid-row').children('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)');
+                    }
 
-        });
+                    if ($col.length) {
+                        h = $col.height();
+                        relY = e.pageY - $col.offset().top;
+
+                        //insert on top or bottom:
+                        $newRow = (relY < h / 2) ? $col.parent().prev() : $col.parent().next();
+                        if (!$newRow.find('#qti-block-element-placeholder').length) {//append row only not already included
+                            _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
+                            _resetColsHeight($placeholder.parent('.new-col'), false);//recalculate the height of the previously located row
+                            $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
+                        }
+
+                        if (typeof $newCol !== 'undefined' && $newCol.length) {
+                            _appendPlaceholder($newCol);
+                        }
+                    }
+                } else {
+                    $newCol = $el.find('.new-col:last').css('background', '1px solid red');
+                    _appendPlaceholder($newCol);
+                    $newCol.addClass('col-12');
+                }
+            }
+        }, 50)).on('mouseleave.gridEdit.gridDragDrop', _.debounce(function(e){
+            var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
+
+            if($(e.target).parents('.qti-itemBody').length) {
+                _resetPlaceholder();
+                if (goingTo && !$(goingTo).hasClass('dropping').length) {
+                    $placeholder.remove();
+                }
+
+                //destroy inter-column insertion helper
+                e.stopPropagation();
+                $(this).find('.grid-edit-insert-box').remove();
+            }
+        }, 50))
 
         //listen to the end of the dragging
         //on element drop (mouseout in the drop area $el)
-        $el.one('dragoverstop.gridEdit', function(){
+        .one('dragoverstop.gridEdit', _.debounce(function(){
             var $selectedCol;
             var dropped;
 
@@ -322,7 +338,7 @@ define([
                 $el.trigger('dropped.gridEdit' + ns, [qtiClass, $placeholder, data]);
             }
 
-        });
+        }, 50));
 
     };
 
@@ -399,20 +415,19 @@ define([
         _pulse($placeholder);
         _resetPlaceholder($el);
 
-        $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', function(e){
+        $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', _.throttle(function(e){
 
             var w = $(this).width(),
                 parentOffset = $(this).offset(),
                 relX = e.pageX - parentOffset.left;
 
-            $placeholder;
             if(relX < w / 2){
                 $(this).before(_showPlaceholder());
             }else{
                 $(this).after(_showPlaceholder());
             }
 
-        }).on('mouseover.gridEdit.gridDragDrop', function(e){
+        }, 50)).on('mouseover.gridEdit.gridDragDrop', _.throttle(function(e){
             var $target;
             e.stopPropagation();
             $target = $(e.target);
@@ -428,10 +443,10 @@ define([
 
                 _resetPlaceholder($el);
             }
-        });
+        }, 50))
 
         //listen to the end of the dragging
-        $el.one('dragoverstop.gridEdit', function(){
+        .one('dragoverstop.gridEdit', function(){
 
             //make placeholder permanent
             if(dropped){
