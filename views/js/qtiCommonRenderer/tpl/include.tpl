@@ -1,3 +1,3 @@
-<fig class="qti-include" data-serial="{{serial}}">
+<div class="qti-include" data-href="{{attributes.href}}">
     {{{body}}}
-</fig>
+</div>
