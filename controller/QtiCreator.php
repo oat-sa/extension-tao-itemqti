@@ -51,6 +51,9 @@ use common_exception_BadRequest;
  */
 class QtiCreator extends tao_actions_CommonModule
 {
+    /**
+     * @return EventManager
+     */
     protected function getEventManager()
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
