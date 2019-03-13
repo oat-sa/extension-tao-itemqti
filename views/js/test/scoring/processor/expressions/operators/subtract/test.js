@@ -1,24 +1,24 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/subtract'
-], function(  _, preProcessorFactory, subtractProcessor ) {
+], function(_, preProcessorFactory, subtractProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( subtractProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( subtractProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( subtractProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(subtractProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(subtractProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(subtractProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'integers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '5'
@@ -26,7 +26,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -34,7 +34,7 @@ define( [
         }
     }, {
         title: 'integers from numbers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 15
@@ -42,7 +42,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 5.5
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -50,7 +50,7 @@ define( [
         }
     }, {
         title: 'floats',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: 1.333323
@@ -58,7 +58,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: 0.666677
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -66,7 +66,7 @@ define( [
         }
     }, {
         title: 'one float',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
@@ -74,7 +74,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '10.25'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -82,7 +82,7 @@ define( [
         }
     }, {
         title: 'ignore wrong values',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
@@ -90,7 +90,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: Infinity
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -98,20 +98,20 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'subtract ', function( data, assert ) {
-        subtractProcessor.operands = data.operands;
-        subtractProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( subtractProcessor.process(), data.expectedResult, 'The subtract is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('subtract ', function(data, assert) {
+          subtractProcessor.operands = data.operands;
+          subtractProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(subtractProcessor.process(), data.expectedResult, 'The subtract is correct');
+      });
+});

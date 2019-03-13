@@ -21,22 +21,22 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define( [
-    
+define([
+
     'lodash',
     'jquery',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock'
-], function(  _, $, areaBrokerMock ) {
+], function(_, $, areaBrokerMock) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.equal( typeof areaBrokerMock, 'function', 'The module exposes a function' );
-    } );
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof areaBrokerMock, 'function', 'The module exposes a function');
+    });
 
-    QUnit.test( 'factory', function( assert ) {
-        var $container = $( '#qunit-fixture' );
+    QUnit.test('factory', function(assert) {
+        var $container = $('#qunit-fixture');
         var extraArea = 'extra';
         var areas = [
             'menu',
@@ -54,31 +54,31 @@ define( [
             'modalContainer',
             'elementPropertyPanel'
         ];
-        var broker = areaBrokerMock( { defaultAreas: areas } );
+        var broker = areaBrokerMock({defaultAreas: areas});
 
-        assert.expect( 37 );
+        assert.expect(37);
 
-        assert.equal( typeof broker, 'object', 'The factory creates an object' );
-        assert.equal( broker.getContainer().length, 1, 'The container exists' );
-        assert.equal( broker.getContainer().children().length, areas.length, 'The container contains the exact number of areas' );
+        assert.equal(typeof broker, 'object', 'The factory creates an object');
+        assert.equal(broker.getContainer().length, 1, 'The container exists');
+        assert.equal(broker.getContainer().children().length, areas.length, 'The container contains the exact number of areas');
 
-        _.forEach( areas, function( area ) {
-            assert.equal( broker.getContainer().find( '.' + area ).length, 1, 'The container must contain an area related to ' + area );
-        } );
+        _.forEach(areas, function(area) {
+            assert.equal(broker.getContainer().find('.' + area).length, 1, 'The container must contain an area related to ' + area);
+        });
 
-        broker = areaBrokerMock( { defaultAreas: areas, $brokerContainer: $container, areas: [ extraArea ] } );
+        broker = areaBrokerMock({defaultAreas: areas, $brokerContainer: $container, areas: [extraArea]});
 
-        assert.equal( typeof broker, 'object', 'The factory creates an object' );
-        assert.equal( broker.getContainer().length, 1, 'The container exists' );
-        assert.equal( broker.getContainer().children().length, areas.length + 1, 'The container contains the exact number of areas' );
-        assert.equal( broker.getContainer().find( '.' + extraArea ).length, 1, 'The container must contain the extra area' );
+        assert.equal(typeof broker, 'object', 'The factory creates an object');
+        assert.equal(broker.getContainer().length, 1, 'The container exists');
+        assert.equal(broker.getContainer().children().length, areas.length + 1, 'The container contains the exact number of areas');
+        assert.equal(broker.getContainer().find('.' + extraArea).length, 1, 'The container must contain the extra area');
 
-        _.forEach( areas, function( area ) {
-            assert.equal( broker.getContainer().find( '.' + area ).length, 1, 'The container must contain an area related to ' + area );
-        } );
+        _.forEach(areas, function(area) {
+            assert.equal(broker.getContainer().find('.' + area).length, 1, 'The container must contain an area related to ' + area);
+        });
 
-        assert.notEqual( areaBrokerMock( { defaultAreas: areas } ), areaBrokerMock( { defaultAreas: areas } ), 'The factory creates new instances' );
-        assert.notEqual( areaBrokerMock( { defaultAreas: areas } ).getContainer().get( 0 ), areaBrokerMock( { defaultAreas: areas } ).getContainer().get( 0 ), 'The factory creates a new container for each instance' );
-    } );
+        assert.notEqual(areaBrokerMock({defaultAreas: areas}), areaBrokerMock({defaultAreas: areas}), 'The factory creates new instances');
+        assert.notEqual(areaBrokerMock({defaultAreas: areas}).getContainer().get(0), areaBrokerMock({defaultAreas: areas}).getContainer().get(0), 'The factory creates a new container for each instance');
+    });
 
-} );
+});

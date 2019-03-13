@@ -18,15 +18,15 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define( [
-    
+define([
+
     'jquery',
     'taoQtiItem/test/qtiCreator/mocks/qtiCreatorContextMock',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/Tooltip'
 ], function(
-   
+
     $,
     qtiCreatorContextMockFactory,
     areaBrokerFactory,
@@ -35,44 +35,44 @@ define( [
 ) {
     'use strict';
 
-    QUnit.module( 'Creator Renderer' );
+    QUnit.module('Creator Renderer');
 
-    QUnit.test( 'Display and play', function( assert ) {
+    QUnit.test('Display and play', function(assert) {
         var ready = assert.async();
-        var $outsideContainer = $( '#outside-container' ),
+        var $outsideContainer = $('#outside-container'),
             config = {
                 qtiCreatorContext: qtiCreatorContextMockFactory()
             },
-            areaBroker = areaBrokerFactory( {
+            areaBroker = areaBrokerFactory({
                 $brokerContainer: $outsideContainer,
                 mapping: {
-                    itemPanel: $( '.item-editor-item' ),
-                    contentCreatorPanel: $( '#item-editor-panel' ),
-                    toolbar: $( '#toolbar-top' )
+                    itemPanel: $('.item-editor-item'),
+                    contentCreatorPanel: $('#item-editor-panel'),
+                    toolbar: $('#toolbar-top')
                 }
-            } ),
-            tooltipContent  = 'my tooltip <strong>content</strong>',
-            tooltipSerial   = '_tooltip_4568613547893',
-            tooltipId       = 'tooltip_123456',
+            }),
+            tooltipContent = 'my tooltip <strong>content</strong>',
+            tooltipSerial = '_tooltip_4568613547893',
+            tooltipId = 'tooltip_123456',
 
-            tooltip = new Tooltip( tooltipSerial, { 'aria-describedby': tooltipId }, tooltipContent );
+            tooltip = new Tooltip(tooltipSerial, {'aria-describedby': tooltipId}, tooltipContent);
 
-        assert.expect( 1 );
+        assert.expect(1);
 
         creatorRenderer
-            .get( true, config, areaBroker )
-            .load( function() {
-                var $tooltipPlaceholder = $( '.tooltip-placeholder' );
+            .get(true, config, areaBroker)
+            .load(function() {
+                var $tooltipPlaceholder = $('.tooltip-placeholder');
 
-                tooltip.setRenderer( this );
-                tooltip.body( 'tootlip target' );
+                tooltip.setRenderer(this);
+                tooltip.body('tootlip target');
 
-                tooltip.render( $tooltipPlaceholder );
+                tooltip.render($tooltipPlaceholder);
                 tooltip.postRender();
 
-                assert.ok( true );
+                assert.ok(true);
 
                 ready();
-            }, [ '_tooltip', '_container' ] );
-    } );
-} );
+            }, ['_tooltip', '_container']);
+    });
+});

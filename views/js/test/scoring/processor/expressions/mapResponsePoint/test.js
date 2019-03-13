@@ -1,11 +1,11 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/mapResponsePoint',
     'taoQtiItem/scoring/processor/errorHandler'
 ], function(
-   
+
     _,
     preProcessorFactory,
     mapResponsePointProcessor,
@@ -13,20 +13,20 @@ define( [
 ) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( mapResponsePointProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( mapResponsePointProcessor.process ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(mapResponsePointProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(mapResponsePointProcessor.process), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    QUnit.test( 'Fails if variable has no mapping', function( assert ) {
+    QUnit.test('Fails if variable has no mapping', function(assert) {
         var ready = assert.async();
-        assert.expect( 1 );
+        assert.expect(1);
         mapResponsePointProcessor.expression = {
-            attributes: { identifier: 'RESPONSE' }
+            attributes: {identifier: 'RESPONSE'}
         };
         mapResponsePointProcessor.state = {
             RESPONSE: {
@@ -35,19 +35,19 @@ define( [
                 value: '12 12'
             }
         };
-        errorHandler.listen( 'scoring', function( err ) {
-            assert.equal( err.name, 'Error', 'Without a mapping in the variable variable in the state it throws and error' );
+        errorHandler.listen('scoring', function(err) {
+            assert.equal(err.name, 'Error', 'Without a mapping in the variable variable in the state it throws and error');
             ready();
-        } );
+        });
 
         mapResponsePointProcessor.process();
-    } );
+    });
 
-    QUnit.test( 'Fails if the variable is not a point', function( assert ) {
+    QUnit.test('Fails if the variable is not a point', function(assert) {
         var ready = assert.async();
-        assert.expect( 1 );
+        assert.expect(1);
         mapResponsePointProcessor.expression = {
-            attributes: { identifier: 'RESPONSE' }
+            attributes: {identifier: 'RESPONSE'}
         };
         mapResponsePointProcessor.state = {
             RESPONSE: {
@@ -59,15 +59,15 @@ define( [
                 }
             }
         };
-        errorHandler.listen( 'scoring', function( err ) {
-            assert.equal( err.name, 'Error', 'The variable must be of type point' );
+        errorHandler.listen('scoring', function(err) {
+            assert.equal(err.name, 'Error', 'The variable must be of type point');
             ready();
-        } );
+        });
 
         mapResponsePointProcessor.process();
-    } );
+    });
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'no variable',
         response: undefined,
         expectedResult: null
@@ -80,12 +80,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'rect',
                     coords: '10,10,20,20',
                     mappedValue: '100'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -102,12 +102,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'rect',
                     coords: '10,10,20,20',
                     mappedValue: '100'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -124,12 +124,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'circle',
                     coords: '10,10,20',
                     mappedValue: '2.5'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -146,12 +146,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'circle',
                     coords: '10,10,5',
                     mappedValue: '2.5'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -168,12 +168,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'poly',
                     coords: '75,10,146,79,52,132,9,51',
                     mappedValue: '11.75'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -190,12 +190,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'poly',
                     coords: '75,10,146,79,52,132,9,51',
                     mappedValue: '12'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -212,12 +212,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'poly',
                     coords: '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
                     mappedValue: '0.75'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -234,12 +234,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'poly',
                     coords: '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
                     mappedValue: '0.25'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -247,7 +247,7 @@ define( [
             baseType: 'float',
             value: 0
         }
-      }, {
+    }, {
         title: 'in an ellipse',
         response: {
             cardinality: 'single',
@@ -256,12 +256,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'ellipse',
                     coords: '57,18,55,14',
                     mappedValue: '0.25'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -269,7 +269,7 @@ define( [
             baseType: 'float',
             value: 0.25
         }
-      }, {
+    }, {
         title: 'out an ellipse',
         response: {
             cardinality: 'single',
@@ -278,12 +278,12 @@ define( [
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'ellipse',
                     coords: '57,18,55,14',
                     mappedValue: '0.75'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -297,16 +297,16 @@ define( [
         response: {
             cardinality: 'multiple',
             baseType: 'point',
-            value: [ '15 15', '16 16' ],
+            value: ['15 15', '16 16'],
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'rect',
                     coords: '10,10,20,20',
                     mappedValue: '2'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -319,11 +319,11 @@ define( [
         response: {
             cardinality: 'multiple',
             baseType: 'point',
-            value: [ '15 15', '75 75' ],
+            value: ['15 15', '75 75'],
             mapping: {
                 qtiClass: 'areaMapping',
                 attributes: {},
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'rect',
                     coords: '10,10,20,20',
@@ -333,7 +333,7 @@ define( [
                     shape: 'rect',
                     coords: '60,60,90,90',
                     mappedValue: '13'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -341,7 +341,7 @@ define( [
             baseType: 'float',
             value: 24
         }
-     }, {
+    }, {
         title: 'lowerBound',
         response: {
             cardinality: 'single',
@@ -352,12 +352,12 @@ define( [
                 attributes: {
                     lowerBound: '0.75'
                 },
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'rect',
                     coords: '10,10,20,20',
                     mappedValue: '0.25'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -365,7 +365,7 @@ define( [
             baseType: 'float',
             value: 0.75
         }
-     }, {
+    }, {
         title: 'upperBound',
         response: {
             cardinality: 'single',
@@ -376,12 +376,12 @@ define( [
                 attributes: {
                     upperBound: '3'
                 },
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'rect',
                     coords: '10,10,20,20',
                     mappedValue: '3.25'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -389,7 +389,7 @@ define( [
             baseType: 'float',
             value: 3
         }
-     }, {
+    }, {
         title: 'defaultValue',
         response: {
             cardinality: 'single',
@@ -400,12 +400,12 @@ define( [
                 attributes: {
                     defaultValue: '12'
                 },
-                mapEntries: [ {
+                mapEntries: [{
                     qtiClass: 'areaMapEntry',
                     shape: 'rect',
                     coords: '10,10,20,20',
                     mappedValue: '54'
-                } ]
+                }]
             }
         },
         expectedResult: {
@@ -413,21 +413,21 @@ define( [
             baseType: 'float',
             value: 12
         }
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'mapResponsePoint ', function( data, assert ) {
-        var state = {
-            RESPONSE: data.response
-        };
+      .cases.init(dataProvider)
+      .test('mapResponsePoint ', function(data, assert) {
+          var state = {
+              RESPONSE: data.response
+          };
 
-        mapResponsePointProcessor.expression = {
-            attributes: { identifier: 'RESPONSE' }
-        };
-        mapResponsePointProcessor.state = state;
-        mapResponsePointProcessor.preProcessor = preProcessorFactory( state );
-        assert.deepEqual( mapResponsePointProcessor.process(), data.expectedResult, 'The map response is correct' );
-    } );
+          mapResponsePointProcessor.expression = {
+              attributes: {identifier: 'RESPONSE'}
+          };
+          mapResponsePointProcessor.state = state;
+          mapResponsePointProcessor.preProcessor = preProcessorFactory(state);
+          assert.deepEqual(mapResponsePointProcessor.process(), data.expectedResult, 'The map response is correct');
+      });
 
-} );
+});

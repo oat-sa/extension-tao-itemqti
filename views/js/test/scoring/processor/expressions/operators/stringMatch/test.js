@@ -1,25 +1,25 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/stringMatch'
-], function(  _, preProcessorFactory, stringMatchProcessor ) {
+], function(_, preProcessorFactory, stringMatchProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( stringMatchProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( stringMatchProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( stringMatchProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(stringMatchProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(stringMatchProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(stringMatchProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'match truth caseSensitive',
         caseSensitive: true,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'The Rain in'
@@ -27,7 +27,7 @@ define( [
             cardinality: 'single',
             baseType: 'string',
             value: 'The Rain in'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -36,7 +36,7 @@ define( [
     }, {
         title: 'match false caseSensitive',
         caseSensitive: true,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'The Rain in'
@@ -44,7 +44,7 @@ define( [
             cardinality: 'single',
             baseType: 'string',
             value: 'The rain in'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -53,7 +53,7 @@ define( [
     }, {
         title: 'match true caseInSensitive',
         caseSensitive: false,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'The Rain in'
@@ -61,7 +61,7 @@ define( [
             cardinality: 'single',
             baseType: 'string',
             value: 'The rain in'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -70,21 +70,21 @@ define( [
     }, {
         title: 'one null',
         caseSensitive: true,
-        operands: [ null, {
+        operands: [null, {
             cardinality: 'single',
             baseType: 'string',
             value: 'The rain in'
-        } ],
+        }],
         expectedResult: null
     }
     ];
 
     QUnit
-        .cases.init( dataProvider )
-        .test( 'stringMatch ', function( data, assert ) {
+        .cases.init(dataProvider)
+        .test('stringMatch ', function(data, assert) {
             stringMatchProcessor.operands = data.operands;
-            stringMatchProcessor.expression = { attributes: { caseSensitive: data.caseSensitive } };
-            stringMatchProcessor.preProcessor = preProcessorFactory( {} );
-            assert.deepEqual( stringMatchProcessor.process(), data.expectedResult, 'The stringMatch is correct' );
-        } );
-} );
+            stringMatchProcessor.expression = {attributes: {caseSensitive: data.caseSensitive}};
+            stringMatchProcessor.preProcessor = preProcessorFactory({});
+            assert.deepEqual(stringMatchProcessor.process(), data.expectedResult, 'The stringMatch is correct');
+        });
+});

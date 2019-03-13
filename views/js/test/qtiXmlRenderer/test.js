@@ -1,4 +1,4 @@
-define( [
+define([
 
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
@@ -11,7 +11,7 @@ define( [
     'json!taoQtiItem/test/samples/json/choice-feedback-complex.json',
     'json!taoQtiItem/test/samples/json/rivals.json'
 ], function(
-   
+
     Loader,
     Element,
     Renderer,
@@ -24,13 +24,13 @@ define( [
     item_rivals
 ) {
 
-    function minXml( xml ) {
+    function minXml(xml) {
         return xml
-            .replace( /\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>/g, '' )
-            .replace( /[ \r\n\t]+xmlns/g, ' xmlns' )
-            .replace( /[\n\s]+/g, ' ' )
-            .replace( /(\s\/>)/g, '/>' )
-            .replace( />[\n\s]?</g, '><' )
+            .replace(/\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>/g, '')
+            .replace(/[ \r\n\t]+xmlns/g, ' xmlns')
+            .replace(/[\n\s]+/g, ' ')
+            .replace(/(\s\/>)/g, '/>')
+            .replace(/>[\n\s]?</g, '><')
             .trim();
     }
 
@@ -73,36 +73,36 @@ define( [
     ];
 
     QUnit
-        .cases.init( items )
-        .test( 'xml rendering', function( sample, assert ) {
+        .cases.init(items)
+        .test('xml rendering', function(sample, assert) {
             var ready = assert.async();
 
             var loader = new Loader(),
-                renderer = new Renderer( {
+                renderer = new Renderer({
                     shuffleChoices: false,
                     runtimeContext: {
                         runtime_base_www: '/taoQtiItem/test/samples/test_base_www/',
                         root_url: '',
                         debug: true
                     }
-                } );
+                });
 
-            loader.loadItemData( sample.data, function( item ) {
+            loader.loadItemData(sample.data, function(item) {
 
-                assert.ok( Element.isA( item, 'assessmentItem' ), sample.data.identifier + ' item loaded' );
+                assert.ok(Element.isA(item, 'assessmentItem'), sample.data.identifier + ' item loaded');
 
-                renderer.load( function() {
+                renderer.load(function() {
 
                     ready();
-                    item.setRenderer( renderer );
+                    item.setRenderer(renderer);
                     var xml = item.render();
-                    xml = minXml( xml );
-                    assert.equal( xml, sample.xml, 'xml equals ' + sample.comment );
+                    xml = minXml(xml);
+                    assert.equal(xml, sample.xml, 'xml equals ' + sample.comment);
 
-                }, this.getLoadedClasses() );
+                }, this.getLoadedClasses());
 
-            } );
+            });
 
-        } );
+        });
 
-} );
+});

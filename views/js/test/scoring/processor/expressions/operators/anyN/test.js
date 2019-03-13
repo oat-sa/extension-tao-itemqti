@@ -1,26 +1,26 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/anyN'
-], function(  _, preProcessorFactory, anyNProcessor ) {
+], function(_, preProcessorFactory, anyNProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( anyNProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( anyNProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( anyNProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(anyNProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(anyNProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(anyNProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'truth',
         min: 2,
         max: 4,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -32,7 +32,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -42,19 +42,19 @@ define( [
         title: 'truth with ref',
         min: 'min',
         max: 'max',
-        state:{
-            min:{
+        state: {
+            min: {
                 cardinality: 'single',
                 baseType: 'integer',
                 value: 2
             },
-            max:{
+            max: {
                 cardinality: 'single',
                 baseType: 'integer',
                 value: 4
             }
         },
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -66,7 +66,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -76,7 +76,7 @@ define( [
         title: 'false - too much true',
         min: 1,
         max: 2,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -88,7 +88,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: true
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -98,7 +98,7 @@ define( [
         title: 'false - lack of true',
         min: 2,
         max: 3,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -110,7 +110,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -120,7 +120,7 @@ define( [
         title: 'Null',
         min: 3,
         max: 4,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -132,13 +132,13 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        }, null ],
-        expectedResult:null
+        }, null],
+        expectedResult: null
     }, {
         title: 'true with Null',
         min: 3,
         max: 4,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -150,7 +150,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: true
-        }, null ],
+        }, null],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -160,7 +160,7 @@ define( [
         title: 'false with Null',
         min: 3,
         max: 4,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -172,20 +172,20 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        }, null ],
+        }, null],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
             value: false
         }
-    } ];
+    }];
 
     QUnit
-    .cases.init( dataProvider )
-    .test( 'anyN ', function( data, assert ) {
-        anyNProcessor.preProcessor = preProcessorFactory( data.state ? data.state : {} );
+    .cases.init(dataProvider)
+    .test('anyN ', function(data, assert) {
+        anyNProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
         anyNProcessor.operands = data.operands;
-        anyNProcessor.expression = { attributes: { min: data.min, max: data.max } };
-        assert.deepEqual( anyNProcessor.process(), data.expectedResult, 'The anyN is correct' );
-    } );
-} );
+        anyNProcessor.expression = {attributes: {min: data.min, max: data.max}};
+        assert.deepEqual(anyNProcessor.process(), data.expectedResult, 'The anyN is correct');
+    });
+});

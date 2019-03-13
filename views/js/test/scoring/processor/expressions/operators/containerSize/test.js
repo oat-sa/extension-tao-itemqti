@@ -1,28 +1,28 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/containerSize'
-], function(  _, preProcessorFactory, containerSizeProcessor ) {
+], function(_, preProcessorFactory, containerSizeProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( containerSizeProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( containerSizeProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( containerSizeProcessor.operands ), 'the processor has operands' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(containerSizeProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(containerSizeProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(containerSizeProcessor.operands), 'the processor has operands');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'multiple',
-        operands: [ {
+        operands: [{
             cardinality: 'multiple',
             baseType: 'integer',
-            value: [ 2, 3, 7 ]
-        } ],
+            value: [2, 3, 7]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -30,11 +30,11 @@ define( [
         }
     }, {
         title: 'ordered',
-        operands: [ {
+        operands: [{
             cardinality: 'multiple',
             baseType: 'float',
-            value: [ 2.5, 3.8, 7 ]
-        } ],
+            value: [2.5, 3.8, 7]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -42,19 +42,19 @@ define( [
         }
     }, {
         title: 'null operand',
-        operands: [ null ],
+        operands: [null],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
             value: 0
         }
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'containerSize ', function( data, assert ) {
-        containerSizeProcessor.operands = data.operands;
-        containerSizeProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( containerSizeProcessor.process(), data.expectedResult, 'The containerSize is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('containerSize ', function(data, assert) {
+          containerSizeProcessor.operands = data.operands;
+          containerSizeProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(containerSizeProcessor.process(), data.expectedResult, 'The containerSize is correct');
+      });
+});

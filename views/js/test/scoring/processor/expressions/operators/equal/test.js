@@ -1,28 +1,28 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler',
     'taoQtiItem/scoring/processor/expressions/operators/equal'
-], function(  _, preProcessorFactory, errorHandler, equalProcessor ) {
+], function(_, preProcessorFactory, errorHandler, equalProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( equalProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( equalProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( equalProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(equalProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(equalProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(equalProcessor.operands), 'the processor has a process function');
+    });
 
-  QUnit.module( 'Process', {
-        afterEach: function( assert ) {
-            errorHandler.reset( 'scoring' );
+    QUnit.module('Process', {
+        afterEach: function(assert) {
+            errorHandler.reset('scoring');
         }
-    } );
+    });
 
-   QUnit.test( 'Default values', function( assert ) {
-        assert.expect( 1 );
+    QUnit.test('Default values', function(assert) {
+        assert.expect(1);
 
         var result = {
             cardinality: 'single',
@@ -30,7 +30,7 @@ define( [
             value: true
         };
         equalProcessor.expression = {};
-        equalProcessor.operands   = [ {
+        equalProcessor.operands = [{
             cardinality: 'single',
             baseType: 'float',
             value: '1'
@@ -38,20 +38,20 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '1'
-        } ];
+        }];
 
-        equalProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( equalProcessor.process(), result, 'The equal is correct' );
-    } );
+        equalProcessor.preProcessor = preProcessorFactory({});
+        assert.deepEqual(equalProcessor.process(), result, 'The equal is correct');
+    });
 
-    QUnit.test( 'Fails if no tolerance is given when mode is relative', function( assert ) {
+    QUnit.test('Fails if no tolerance is given when mode is relative', function(assert) {
         var ready = assert.async();
-        assert.expect( 1 );
+        assert.expect(1);
 
-        errorHandler.listen( 'scoring', function( err ) {
-            assert.equal( err.name, 'Error', 'Tolerance attribute is not defined' );
+        errorHandler.listen('scoring', function(err) {
+            assert.equal(err.name, 'Error', 'Tolerance attribute is not defined');
             ready();
-        } );
+        });
 
         equalProcessor.expression = {
             attributes: {
@@ -60,7 +60,7 @@ define( [
                 toleranceMode: 'relative'
             }
         };
-        equalProcessor.operands = [ {
+        equalProcessor.operands = [{
             cardinality: 'single',
             baseType: 'float',
             value: '1'
@@ -68,19 +68,19 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '1.1'
-        } ];
-        equalProcessor.preProcessor = preProcessorFactory( {} );
+        }];
+        equalProcessor.preProcessor = preProcessorFactory({});
         equalProcessor.process();
-    } );
+    });
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'integers exact',
         tolerance: '',
         toleranceMode: 'exact',
         includeLowerBound: 'true',
         includeUpperBound: 'true',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '5'
@@ -88,7 +88,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -100,7 +100,7 @@ define( [
         toleranceMode: 'absolute',
         includeLowerBound: true,
         includeUpperBound: true,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '5.2'
@@ -108,7 +108,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '5.7'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -120,7 +120,7 @@ define( [
         toleranceMode: 'absolute',
         includeLowerBound: true,
         includeUpperBound: true,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '5.2'
@@ -128,7 +128,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '5.7'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -140,7 +140,7 @@ define( [
         toleranceMode: 'absolute',
         includeLowerBound: true,
         includeUpperBound: false,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '5.3'
@@ -148,7 +148,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '5.8'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -160,7 +160,7 @@ define( [
         toleranceMode: 'absolute',
         includeLowerBound: false,
         includeUpperBound: true,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '5.3'
@@ -168,7 +168,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '5.2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -180,7 +180,7 @@ define( [
         toleranceMode: 'relative',
         includeLowerBound: false,
         includeUpperBound: true,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '10'
@@ -188,7 +188,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '15'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -197,13 +197,13 @@ define( [
     }, {
         title: 'float relative 2 bound, not include lower, with ref',
         tolerance: 'lowBound upBound',
-        state:{
-            lowBound:{
+        state: {
+            lowBound: {
                 cardinality: 'single',
                 baseType: 'float',
                 value: 50
             },
-            upBound:{
+            upBound: {
                 cardinality: 'single',
                 baseType: 'float',
                 value: 10
@@ -212,7 +212,7 @@ define( [
         toleranceMode: 'relative',
         includeLowerBound: false,
         includeUpperBound: true,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '10'
@@ -220,7 +220,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '15'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -232,7 +232,7 @@ define( [
         toleranceMode: 'relative',
         includeLowerBound: false,
         includeUpperBound: false,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '1'
@@ -240,7 +240,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '1.1'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -248,31 +248,31 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'equal ', function( data, assert ) {
-            equalProcessor.preProcessor = preProcessorFactory( data.state ? data.state : {} );
+      .cases.init(dataProvider)
+      .test('equal ', function(data, assert) {
+          equalProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
 
-            equalProcessor.operands = data.operands;
+          equalProcessor.operands = data.operands;
 
-            equalProcessor.expression = {
-                attributes: {
-                    includeLowerBound: data.includeLowerBound,
-                    includeUpperBound: data.includeUpperBound,
-                    toleranceMode: data.toleranceMode,
-                    tolerance: data.tolerance
-                }
-            };
+          equalProcessor.expression = {
+              attributes: {
+                  includeLowerBound: data.includeLowerBound,
+                  includeUpperBound: data.includeUpperBound,
+                  toleranceMode: data.toleranceMode,
+                  tolerance: data.tolerance
+              }
+          };
 
-        assert.deepEqual( equalProcessor.process(), data.expectedResult, 'The equal is correct' );
-    } );
-} );
+          assert.deepEqual(equalProcessor.process(), data.expectedResult, 'The equal is correct');
+      });
+});

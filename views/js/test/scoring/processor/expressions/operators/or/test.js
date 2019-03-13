@@ -1,24 +1,24 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/or'
-], function(  _, preProcessorFactory, orProcessor ) {
+], function(_, preProcessorFactory, orProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( orProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( orProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( orProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(orProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(orProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(orProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'truth strings',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: 'true'
@@ -26,7 +26,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -34,7 +34,7 @@ define( [
         }
     }, {
         title: 'false',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: false
@@ -42,7 +42,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -50,7 +50,7 @@ define( [
         }
     }, {
         title: 'truth',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -58,7 +58,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: true
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -66,11 +66,11 @@ define( [
         }
     }, {
         title: 'truth with single',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -78,11 +78,11 @@ define( [
         }
     }, {
         title: 'false with single',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -90,7 +90,7 @@ define( [
         }
     }, {
         title: 'truth  with 3 operands',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: true
@@ -102,7 +102,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: true
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -110,7 +110,7 @@ define( [
         }
     }, {
         title: 'false with 3 operands',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: false
@@ -122,7 +122,7 @@ define( [
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -130,20 +130,20 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'or ', function( data, assert ) {
-        orProcessor.operands = data.operands;
-        orProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( orProcessor.process(), data.expectedResult, 'The or is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('or ', function(data, assert) {
+          orProcessor.operands = data.operands;
+          orProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(orProcessor.process(), data.expectedResult, 'The or is correct');
+      });
+});

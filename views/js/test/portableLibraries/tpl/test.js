@@ -1,42 +1,42 @@
-define( [
+define([
 
     'jquery',
     'lodash',
     'taoQtiItem/portableLib/OAT/util/tpl'
-], function(  $, _, tplMgr ) {
+], function($, _, tplMgr) {
     'use strict';
 
     var containerId = 'interaction-container';
 
-    QUnit.test( 'api', function( assert ) {
+    QUnit.test('api', function(assert) {
 
         var tpl,
-            $container = $( '#' + containerId );
+            $container = $('#' + containerId);
 
-        assert.ok( typeof tplMgr === 'function', 'tpl manager is a function' );
+        assert.ok(typeof tplMgr === 'function', 'tpl manager is a function');
 
-        tpl = tplMgr( $container );
+        tpl = tplMgr($container);
 
-        assert.ok( typeof tpl.render === 'function', 'tpl.render() is a function' );
-    } );
+        assert.ok(typeof tpl.render === 'function', 'tpl.render() is a function');
+    });
 
-    QUnit.test( 'exists', function( assert ) {
-        var $container = $( '#' + containerId );
-        var tpl = tplMgr( $container );
-        assert.ok( tpl.exists( 'list' ), 'list tpl found' );
-        assert.ok( tpl.exists( 'page' ), 'list tpl found' );
-    } );
+    QUnit.test('exists', function(assert) {
+        var $container = $('#' + containerId);
+        var tpl = tplMgr($container);
+        assert.ok(tpl.exists('list'), 'list tpl found');
+        assert.ok(tpl.exists('page'), 'list tpl found');
+    });
 
-    QUnit.test( 'render', function( assert ) {
+    QUnit.test('render', function(assert) {
         var $li;
-        var $container = $( '#' + containerId );
-        var tpl = tplMgr( $container );
+        var $container = $('#' + containerId);
+        var tpl = tplMgr($container);
 
-        $container.append( tpl.render( "page", { content: '<p class="paragraph">paragraph content</p>' } ) );
-        assert.equal( $container.children( ".page" ).children( ".paragraph" ).length, 1, 'rendered "page" element found' );
+        $container.append(tpl.render("page", {content: '<p class="paragraph">paragraph content</p>'}));
+        assert.equal($container.children(".page").children(".paragraph").length, 1, 'rendered "page" element found');
 
-        $container.append( tpl.render( 'list',
-            { items:
+        $container.append(tpl.render('list',
+            {items:
                     [
                         {
                             id: 'element1',
@@ -51,17 +51,17 @@ define( [
                             title: 'title of item 3'
                         }
                     ]
-            } ) );
+            }));
 
-        $li = $container.children( '.nav-list' ).children( '.nav-item' );
-        assert.equal( $li.length, 3, 'rendered "list" element found' );
-        assert.equal( $( $li[ 0 ] ).children( 'a' ).data( 'nav-id' ), 'element1', 'template data properly rendered' );
-        assert.equal( $( $li[ 0 ] ).children( 'a' ).text(), 'title of item 1', 'template data properly rendered' );
-        assert.equal( $( $li[ 1 ] ).children( 'a' ).data( 'nav-id' ), 'element2', 'template data properly rendered' );
-        assert.equal( $( $li[ 1 ] ).children( 'a' ).text(), 'title of item 2', 'template data properly rendered' );
-        assert.equal( $( $li[ 2 ] ).children( 'a' ).data( 'nav-id' ), 'element3', 'template data properly rendered' );
-        assert.equal( $( $li[ 2 ] ).children( 'a' ).text(), 'title of item 3', 'template data properly rendered' );
-    } );
+        $li = $container.children('.nav-list').children('.nav-item');
+        assert.equal($li.length, 3, 'rendered "list" element found');
+        assert.equal($($li[0]).children('a').data('nav-id'), 'element1', 'template data properly rendered');
+        assert.equal($($li[0]).children('a').text(), 'title of item 1', 'template data properly rendered');
+        assert.equal($($li[1]).children('a').data('nav-id'), 'element2', 'template data properly rendered');
+        assert.equal($($li[1]).children('a').text(), 'title of item 2', 'template data properly rendered');
+        assert.equal($($li[2]).children('a').data('nav-id'), 'element3', 'template data properly rendered');
+        assert.equal($($li[2]).children('a').text(), 'title of item 3', 'template data properly rendered');
+    });
 
-} );
+});
 

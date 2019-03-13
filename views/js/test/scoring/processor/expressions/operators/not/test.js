@@ -1,28 +1,28 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/not'
-], function(  _, preProcessorFactory, notProcessor ) {
+], function(_, preProcessorFactory, notProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( notProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( notProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( notProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(notProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(notProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(notProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'boolean string',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: 'true'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -30,11 +30,11 @@ define( [
         }
     }, {
         title: 'boolean',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: false
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -42,11 +42,11 @@ define( [
         }
     }, {
         title: 'boolean number',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'boolean',
             value: '1'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -54,20 +54,20 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'not ', function( data, assert ) {
-        notProcessor.operands = data.operands;
-        notProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( notProcessor.process(), data.expectedResult, 'The not is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('not ', function(data, assert) {
+          notProcessor.operands = data.operands;
+          notProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(notProcessor.process(), data.expectedResult, 'The not is correct');
+      });
+});

@@ -18,52 +18,52 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define( [
-    
+define([
+
     'jquery',
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder'
-], function(  $, placeholder ) {
+], function($, placeholder) {
     'use strict';
 
-    QUnit.module( 'placeholder' );
+    QUnit.module('placeholder');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 2 );
+    QUnit.test('module', function(assert) {
+        assert.expect(2);
 
-        assert.ok( typeof placeholder === 'object', 'The module expose an object' );
-        assert.ok( typeof placeholder.score === 'function', 'The module expose a score function' );
-    } );
+        assert.ok(typeof placeholder === 'object', 'The module expose an object');
+        assert.ok(typeof placeholder.score === 'function', 'The module expose a score function');
+    });
 
-    QUnit.module( 'placeholder.score' );
+    QUnit.module('placeholder.score');
 
-    QUnit.test( 'placeholder with a given value', function( assert ) {
-        var $container = $( '#fixture-score' );
-        var $element = $container.find( '.score' );
+    QUnit.test('placeholder with a given value', function(assert) {
+        var $container = $('#fixture-score');
+        var $element = $container.find('.score');
         var expectedValue = 'foo';
         var widget = {
             $container: $container
         };
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        assert.equal( typeof $element.attr( 'placeholder' ), 'undefined', 'There is no placeholder value at this time' );
+        assert.equal(typeof $element.attr('placeholder'), 'undefined', 'There is no placeholder value at this time');
 
-        placeholder.score( widget, expectedValue );
+        placeholder.score(widget, expectedValue);
 
-        assert.equal( $element.attr( 'placeholder' ), expectedValue, 'The placeholder has the expected value' );
-    } );
+        assert.equal($element.attr('placeholder'), expectedValue, 'The placeholder has the expected value');
+    });
 
-    QUnit.test( 'placeholder with a default value in the response', function( assert ) {
-        var $container = $( '#fixture-score' );
-        var $element = $container.find( '.score' );
+    QUnit.test('placeholder with a default value in the response', function(assert) {
+        var $container = $('#fixture-score');
+        var $element = $container.find('.score');
         var expectedValue = 'foo';
         var widget = {
             $container: $container,
             element: {
                 getResponseDeclaration: function getResponseDeclaration() {
                     return {
-                        getMappingAttribute: function getMappingAttribute( name ) {
-                            if ( name === 'defaultValue' ) {
+                        getMappingAttribute: function getMappingAttribute(name) {
+                            if (name === 'defaultValue') {
                                 return expectedValue;
                             }
                         }
@@ -72,38 +72,38 @@ define( [
             }
         };
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        assert.equal( typeof $element.attr( 'placeholder' ), 'undefined', 'There is no placeholder value at this time' );
+        assert.equal(typeof $element.attr('placeholder'), 'undefined', 'There is no placeholder value at this time');
 
-        placeholder.score( widget );
+        placeholder.score(widget);
 
-        assert.equal( $element.attr( 'placeholder' ), expectedValue, 'The placeholder has the expected value' );
-    } );
+        assert.equal($element.attr('placeholder'), expectedValue, 'The placeholder has the expected value');
+    });
 
-    QUnit.test( 'placeholder with no default value in the response', function( assert ) {
-        var $container = $( '#fixture-score' );
-        var $element = $container.find( '.score' );
+    QUnit.test('placeholder with no default value in the response', function(assert) {
+        var $container = $('#fixture-score');
+        var $element = $container.find('.score');
         var expectedValue = '';
         var widget = {
             $container: $container,
             element: {
                 getResponseDeclaration: function getResponseDeclaration() {
                     return {
-                        getMappingAttribute: function getMappingAttribute( name ) {
+                        getMappingAttribute: function getMappingAttribute(name) {
                         }
                     };
                 }
             }
         };
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        assert.equal( typeof $element.attr( 'placeholder' ), 'undefined', 'There is no placeholder value at this time' );
+        assert.equal(typeof $element.attr('placeholder'), 'undefined', 'There is no placeholder value at this time');
 
-        placeholder.score( widget );
+        placeholder.score(widget);
 
-        assert.equal( $element.attr( 'placeholder' ), expectedValue, 'The placeholder has the expected value' );
-    } );
+        assert.equal($element.attr('placeholder'), expectedValue, 'The placeholder has the expected value');
+    });
 
-} );
+});

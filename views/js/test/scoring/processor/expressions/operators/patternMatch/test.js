@@ -1,29 +1,29 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/patternMatch'
-], function(  _, preProcessorFactory, patternMatchProcessor ) {
+], function(_, preProcessorFactory, patternMatchProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( patternMatchProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( patternMatchProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( patternMatchProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(patternMatchProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(patternMatchProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(patternMatchProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'don\'t match',
         pattern: 'rain',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'The rain in'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -32,11 +32,11 @@ define( [
     }, {
         title: ' match with dot',
         pattern: 'ra(.*)in',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'raalksjaslkdjin'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -45,11 +45,11 @@ define( [
     }, {
         title: 'don\'t match',
         pattern: '^rain$',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'rain'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -58,11 +58,11 @@ define( [
     }, {
         title: 'match - escaping for ^',
         pattern: 'ra^in',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'ra^in'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -71,11 +71,11 @@ define( [
     }, {
         title: ' match ',
         pattern: '.*rain.*',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'the rain was'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -84,11 +84,11 @@ define( [
     }, {
         title: ' match ',
         pattern: '\\d{1,2}',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 99
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -97,11 +97,11 @@ define( [
     }, {
         title: ' don\'t match ',
         pattern: '.*rain.*',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'the Rain was'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -110,11 +110,11 @@ define( [
     }, {
         title: ' match ',
         pattern: '.*ra/in.*',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'the ra/in was'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -123,11 +123,11 @@ define( [
     }, {
         title: 'match',
         pattern: 'rain',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'rain'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -143,11 +143,11 @@ define( [
                 value: 'rain'
             }
         },
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'rain'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -163,11 +163,11 @@ define( [
                 value: 'hidden'
             }
         },
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'rain'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -183,11 +183,11 @@ define( [
                 value: 'hidden'
             }
         },
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'rain'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -196,11 +196,11 @@ define( [
     }, {
         title: 'don\'t match',
         pattern: 'car',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'string',
             value: 'The rain in'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -209,17 +209,17 @@ define( [
     }, {
         title: 'one null',
         pattern: /car/,
-        operands: [ null ],
+        operands: [null],
         expectedResult: null
     }
     ];
 
     QUnit
-        .cases.init( dataProvider )
-        .test( 'patternMatch ', function( data, assert ) {
-            patternMatchProcessor.preProcessor = preProcessorFactory( data.state ? data.state : {} );
+        .cases.init(dataProvider)
+        .test('patternMatch ', function(data, assert) {
+            patternMatchProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
             patternMatchProcessor.operands = data.operands;
-            patternMatchProcessor.expression = { attributes: { pattern: data.pattern } };
-            assert.deepEqual( patternMatchProcessor.process(), data.expectedResult, 'The patternMatch is correct' );
-        } );
-} );
+            patternMatchProcessor.expression = {attributes: {pattern: data.pattern}};
+            assert.deepEqual(patternMatchProcessor.process(), data.expectedResult, 'The patternMatch is correct');
+        });
+});

@@ -1,24 +1,24 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/lcm'
-], function(  _, preProcessorFactory, lcmProcessor ) {
+], function(_, preProcessorFactory, lcmProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( lcmProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( lcmProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( lcmProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(lcmProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(lcmProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(lcmProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'integers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '16'
@@ -30,7 +30,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '8'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -38,10 +38,10 @@ define( [
         }
     }, {
         title: 'multiply integers',
-        operands: [ {
+        operands: [{
             cardinality: 'multiply',
             baseType: 'integer',
-            value: [ 10, 20, 30 ]
+            value: [10, 20, 30]
         }, {
             cardinality: 'single',
             baseType: 'integer',
@@ -50,7 +50,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '70'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -58,7 +58,7 @@ define( [
         }
     }, {
         title: 'all zeros',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '0'
@@ -70,7 +70,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 0
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -78,7 +78,7 @@ define( [
         }
     }, {
         title: 'not all zeros',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '0'
@@ -90,7 +90,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -98,7 +98,7 @@ define( [
         }
     }, {
         title: 'Is null',
-        operands: [ null, {
+        operands: [null, {
             cardinality: 'single',
             baseType: 'integer',
             value: 0
@@ -106,27 +106,27 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'null on wrong values with multiple cardinality operand',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         }, {
             cardinality: 'multiple',
             baseType: 'integer',
-            value: [ 5, 7, Infinity ]
-        } ],
+            value: [5, 7, Infinity]
+        }],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'lcm ', function( data, assert ) {
-        lcmProcessor.operands = data.operands;
-        lcmProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( lcmProcessor.process(), data.expectedResult, 'The lcm is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('lcm ', function(data, assert) {
+          lcmProcessor.operands = data.operands;
+          lcmProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(lcmProcessor.process(), data.expectedResult, 'The lcm is correct');
+      });
+});

@@ -15,8 +15,8 @@
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  */
-define( [
-    
+define([
+
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/helper/simpleParser',
@@ -25,7 +25,7 @@ define( [
     'taoQtiItem/qtiItem/core/Container',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
 ], function(
-   
+
     $,
     _,
     simpleParser,
@@ -36,57 +36,57 @@ define( [
 ) {
     'use strict';
 
-    QUnit.module( 'This is a very old test' );
+    QUnit.module('This is a very old test');
 
-    QUnit.test( 'parse inline sample', function( assert ) {
+    QUnit.test('parse inline sample', function(assert) {
         var ready = assert.async();
-        var $rubricBlockXml = $( sampleXML ).find( 'rubricBlock' );
+        var $rubricBlockXml = $(sampleXML).find('rubricBlock');
         var mathNs = 'm';//for 'http://www.w3.org/1998/Math/MathML'
-        var data = simpleParser.parse( $rubricBlockXml, {
+        var data = simpleParser.parse($rubricBlockXml, {
             ns: {
                 math: mathNs
             }
-        } );
+        });
         var loader;
 
-        assert.ok( data.body.body, 'has body' );
-        assert.equal( _.size( data.body.elements ), 4, 'elements ok' );
+        assert.ok(data.body.body, 'has body');
+        assert.equal(_.size(data.body.elements), 4, 'elements ok');
 
         loader = new Loader();
-        loader.loadRequiredClasses( data, function() {
+        loader.loadRequiredClasses(data, function() {
             var xmlRenderer;
             var container = new Container();
-            this.loadContainer( container, data.body );
+            this.loadContainer(container, data.body);
 
-            xmlRenderer = new XmlRenderer( { shuffleChoices: false } );
-            xmlRenderer.load( function() {
-                var xml = container.render( this );
+            xmlRenderer = new XmlRenderer({shuffleChoices: false});
+            xmlRenderer.load(function() {
+                var xml = container.render(this);
 
-                var $container = $( '<prompt>' ).html( xml );
-                var containerData = simpleParser.parse( $container, {
+                var $container = $('<prompt>').html(xml);
+                var containerData = simpleParser.parse($container, {
                     ns: {
                         math: mathNs
                     }
-                } );
+                });
                 var containerBis = new Container();
-                loader.loadContainer( containerBis, containerData.body );
+                loader.loadContainer(containerBis, containerData.body);
 
                 ready();
-                assert.equal( xml.length, containerBis.render( this ).length );
-            } );
-        } );
-    } );
+                assert.equal(xml.length, containerBis.render(this).length);
+            });
+        });
+    });
 
-    QUnit.module( 'Parser test' );
+    QUnit.module('Parser test');
 
     QUnit
-        .cases.init( [
+        .cases.init([
             {
                 title: "img",
                 xml: '<div>this is an image: <img src="my/image.png" />. How cool is that???</div>',
                 expectedBody: "this is an image: {{img_XXX}}. How cool is that???",
                 expectedElement: "img",
-                expectedAttributes: { src: "my/image.png" }
+                expectedAttributes: {src: "my/image.png"}
             },
             {
                 title: "printedVariable",
@@ -104,26 +104,26 @@ define( [
                     "field": "test"
                 }
             }
-        ] )
-        .test( 'Simple elements parsing: ', function( data, assert ) {
-            var parsed = simpleParser.parse( data.xml );
+        ])
+        .test('Simple elements parsing: ', function(data, assert) {
+            var parsed = simpleParser.parse(data.xml);
             var serialRegexp = /{{([a-z_]+)_[0-9a-z]*}}/i;
 
             var body = parsed.body,
-                parsedBody = body.body.replace( serialRegexp, '{{$1_XXX}}' ),
-                bodyElementsSerials = Object.keys( body.elements ),
-                serial = bodyElementsSerials[ 0 ];
+                parsedBody = body.body.replace(serialRegexp, '{{$1_XXX}}'),
+                bodyElementsSerials = Object.keys(body.elements),
+                serial = bodyElementsSerials[0];
 
-            assert.expect( 4 );
+            assert.expect(4);
 
-            assert.equal( bodyElementsSerials.length, 1, '1 element has been found' );
-            assert.equal( parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody );
-            assert.equal( serial.indexOf( data.expectedElement ), 0, 'element is of the expected type, with serial ' + bodyElementsSerials[ 0 ] );
-            assert.deepEqual( body.elements[ serial ].attributes, data.expectedAttributes, 'element has the expected attributes' );
-        } );
+            assert.equal(bodyElementsSerials.length, 1, '1 element has been found');
+            assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
+            assert.equal(serial.indexOf(data.expectedElement), 0, 'element is of the expected type, with serial ' + bodyElementsSerials[0]);
+            assert.deepEqual(body.elements[serial].attributes, data.expectedAttributes, 'element has the expected attributes');
+        });
 
     QUnit
-        .cases.init( [
+        .cases.init([
             {
                 title: "regular tooltip",
                 xml: "<div>this is a tooltip: " +
@@ -151,32 +151,32 @@ define( [
                 expectedTarget: '',
                 expectedContent: ''
             }
-        ] )
-        .test( 'Valid tooltip parsing: ', function( data, assert ) {
-            var parsed = simpleParser.parse( data.xml );
+        ])
+        .test('Valid tooltip parsing: ', function(data, assert) {
+            var parsed = simpleParser.parse(data.xml);
             var serialRegexp = /{{([a-z_]+)_[0-9a-z]*}}/i;
 
             var body = parsed.body,
-                parsedBody = body.body.replace( serialRegexp, '{{$1_XXX}}' ),
-                bodyElementsSerials = Object.keys( body.elements ),
-                serial = bodyElementsSerials[ 0 ],
-                tooltip = body.elements[ serial ];
+                parsedBody = body.body.replace(serialRegexp, '{{$1_XXX}}'),
+                bodyElementsSerials = Object.keys(body.elements),
+                serial = bodyElementsSerials[0],
+                tooltip = body.elements[serial];
 
-            assert.expect( 8 );
+            assert.expect(8);
 
-            assert.equal( bodyElementsSerials.length, 1, '1 element has been found' );
-            assert.equal( parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody );
-            assert.equal( serial.indexOf( data.expectedElement ), 0, 'element is of the expected type, with serial ' + bodyElementsSerials[ 0 ] );
-            assert.deepEqual( tooltip.attributes, data.expectedAttributes, 'element has the expected attributes' );
+            assert.equal(bodyElementsSerials.length, 1, '1 element has been found');
+            assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
+            assert.equal(serial.indexOf(data.expectedElement), 0, 'element is of the expected type, with serial ' + bodyElementsSerials[0]);
+            assert.deepEqual(tooltip.attributes, data.expectedAttributes, 'element has the expected attributes');
 
-            assert.equal( tooltip.content, data.expectedContent, 'tooltip has the correct content' );
-            assert.equal( tooltip.body.body, data.expectedTarget, 'tooltip has the correct target' );
-            assert.ok( !_.isUndefined( tooltip.elements ), 'tooltip has an element property' );
-            assert.ok( !_.isUndefined( tooltip.body.elements ), 'tooltip body has an element property' );
-        } );
+            assert.equal(tooltip.content, data.expectedContent, 'tooltip has the correct content');
+            assert.equal(tooltip.body.body, data.expectedTarget, 'tooltip has the correct target');
+            assert.ok(!_.isUndefined(tooltip.elements), 'tooltip has an element property');
+            assert.ok(!_.isUndefined(tooltip.body.elements), 'tooltip body has an element property');
+        });
 
     QUnit
-        .cases.init( [
+        .cases.init([
             {
                 title: "orphan target",
                 xml: "<div>this is a tooltip: " +
@@ -190,19 +190,19 @@ define( [
                     ". How cool is that???</div>",
                 expectedBody: 'this is a tooltip: <span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>. How cool is that???'
             }
-        ] )
-        .test( 'Incomplete tooltip parsing: ', function( data, assert ) {
-            var parsed = simpleParser.parse( data.xml );
+        ])
+        .test('Incomplete tooltip parsing: ', function(data, assert) {
+            var parsed = simpleParser.parse(data.xml);
             var serialRegexp = /{{([a-z_]+)_[0-9a-z]*}}/i;
 
             var body = parsed.body,
-                parsedBody = body.body.replace( serialRegexp, '{{$1_XXX}}' ),
-                bodyElementsSerials = Object.keys( body.elements || {} );
+                parsedBody = body.body.replace(serialRegexp, '{{$1_XXX}}'),
+                bodyElementsSerials = Object.keys(body.elements || {});
 
-            assert.expect( 2 );
+            assert.expect(2);
 
-            assert.equal( bodyElementsSerials.length, 0, 'no elements have been found' );
-            assert.equal( parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody );
-        } );
+            assert.equal(bodyElementsSerials.length, 0, 'no elements have been found');
+            assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
+        });
 
-} );
+});

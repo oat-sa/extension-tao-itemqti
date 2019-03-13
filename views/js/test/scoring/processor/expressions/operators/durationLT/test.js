@@ -1,24 +1,24 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/durationLT'
-], function(  _, preProcessorFactory, durationLTProcessor ) {
+], function(_, preProcessorFactory, durationLTProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( durationLTProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( durationLTProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( durationLTProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(durationLTProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(durationLTProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(durationLTProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'less',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
@@ -26,7 +26,7 @@ define( [
             cardinality: 'single',
             baseType: 'duration',
             value: '100001'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -34,7 +34,7 @@ define( [
         }
     }, {
         title: 'equal',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
@@ -42,7 +42,7 @@ define( [
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -50,7 +50,7 @@ define( [
         }
     }, {
         title: 'less',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'duration',
             value: '100000.1'
@@ -58,7 +58,7 @@ define( [
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -66,20 +66,20 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'durationLT ', function( data, assert ) {
-        durationLTProcessor.operands = data.operands;
-        durationLTProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( durationLTProcessor.process(), data.expectedResult, 'The durationLT is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('durationLT ', function(data, assert) {
+          durationLTProcessor.operands = data.operands;
+          durationLTProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(durationLTProcessor.process(), data.expectedResult, 'The durationLT is correct');
+      });
+});

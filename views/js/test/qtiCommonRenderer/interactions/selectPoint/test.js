@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 
-define( [
+define([
 
     'jquery',
     'core/mouseEvent',
@@ -24,7 +24,7 @@ define( [
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SelectPointInteraction',
     'json!taoQtiItem/test/qtiCommonRenderer/interactions/selectPoint/qti.json'
 ], function(
-   
+
     $,
     triggerMouseEvent,
     qtiItemRunner,
@@ -38,242 +38,242 @@ define( [
     var outsideContainerId = 'outside-container';
 
     //Override asset loading in order to resolve it from the runtime location
-    var strategies = [ {
+    var strategies = [{
         name: 'default',
-        handle: function defaultStrategy( url ) {
-            if ( /assets/.test( url.toString() ) ) {
+        handle: function defaultStrategy(url) {
+            if (/assets/.test(url.toString())) {
                 return '../../taoQtiItem/views/js/test/qtiCommonRenderer/interactions/selectPoint/' + url.toString();
             }
             return url.toString();
         }
-    } ];
+    }];
 
-    QUnit.module( 'Renderer API' );
+    QUnit.module('Renderer API');
 
-    QUnit.test( 'QTI class', function( assert ) {
-        assert.expect( 2 );
+    QUnit.test('QTI class', function(assert) {
+        assert.expect(2);
 
-        assert.equal( typeof selectPointRenderer, 'object', 'The renderer is an object' );
-        assert.equal( selectPointRenderer.qtiClass, 'selectPointInteraction', 'The renderer class is correct' );
-    } );
+        assert.equal(typeof selectPointRenderer, 'object', 'The renderer is an object');
+        assert.equal(selectPointRenderer.qtiClass, 'selectPointInteraction', 'The renderer class is correct');
+    });
 
     QUnit
-        .cases.init( [
-            { name: 'template', title: 'template' },
-            { name: 'render', title: 'render' },
-            { name: 'getContainer',  title: 'getContainer' },
-            { name: 'setResponse', title: 'setResponse' },
-            { name: 'getResponse', title:  'getResponse' },
-            { name: 'resetResponse', title: 'resetResponse' },
-            { name: 'destroy', title: 'destroy' },
-            { name: 'setState', title: 'setState' },
-            { name: 'getState', title: 'getState' }
-        ] )
-        .test( 'expose method', function( data, assert ) {
-            assert.equal( typeof selectPointRenderer[ data.name ], 'function', 'The selectPointRenderer exposes the method ' + data.name );
-        } );
+        .cases.init([
+            {name: 'template', title: 'template'},
+            {name: 'render', title: 'render'},
+            {name: 'getContainer', title: 'getContainer'},
+            {name: 'setResponse', title: 'setResponse'},
+            {name: 'getResponse', title: 'getResponse'},
+            {name: 'resetResponse', title: 'resetResponse'},
+            {name: 'destroy', title: 'destroy'},
+            {name: 'setState', title: 'setState'},
+            {name: 'getState', title: 'getState'}
+        ])
+        .test('expose method', function(data, assert) {
+            assert.equal(typeof selectPointRenderer[data.name], 'function', 'The selectPointRenderer exposes the method ' + data.name);
+        });
 
-    QUnit.module( 'Select Point Interaction', {
-        afterEach: function( assert ) {
-            if ( runner ) {
+    QUnit.module('Select Point Interaction', {
+        afterEach: function(assert) {
+            if (runner) {
                 runner.clear();
             }
         }
-    } );
+    });
 
-    QUnit.test( 'renders correctly', function( assert ) {
+    QUnit.test('renders correctly', function(assert) {
         var ready = assert.async();
-        var $container = $( '#' + fixtureContainerId );
+        var $container = $('#' + fixtureContainerId);
 
-        assert.expect( 11 );
+        assert.expect(11);
 
-        assert.equal( $container.length, 1, 'the item container exists' );
-        assert.equal( $container.children().length, 0, 'the container has no children' );
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
 
-        runner = qtiItemRunner( 'qti', selectPointData )
-            .on( 'render', function() {
+        runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
 
                 //Check DOM
-                assert.equal( $container.children().length, 1, 'the container a elements' );
-                assert.equal( $container.children( '.qti-item' ).length, 1, 'the container contains a the root element .qti-item' );
-                assert.equal( $container.find( '.qti-itemBody' ).length, 1, 'the container contains a the body element .qti-itemBody' );
-                assert.equal( $container.find( '.qti-interaction' ).length, 1, 'the container contains an interaction .qti-interaction' );
-                assert.equal( $container.find( '.qti-interaction.qti-selectPointInteraction' ).length, 1, 'the container contains a choice interaction .qti-selectPointInteraction' );
-                assert.equal( $container.find( '.qti-selectPointInteraction .qti-prompt-container' ).length, 1, 'the interaction contains a prompt' );
-                assert.equal( $container.find( '.qti-selectPointInteraction .instruction-container' ).length, 1, 'the interaction contains a instruction box' );
-                assert.equal( $container.find( '.qti-selectPointInteraction .main-image-box' ).length, 1, 'the interaction contains a image' );
+                assert.equal($container.children().length, 1, 'the container a elements');
+                assert.equal($container.children('.qti-item').length, 1, 'the container contains a the root element .qti-item');
+                assert.equal($container.find('.qti-itemBody').length, 1, 'the container contains a the body element .qti-itemBody');
+                assert.equal($container.find('.qti-interaction').length, 1, 'the container contains an interaction .qti-interaction');
+                assert.equal($container.find('.qti-interaction.qti-selectPointInteraction').length, 1, 'the container contains a choice interaction .qti-selectPointInteraction');
+                assert.equal($container.find('.qti-selectPointInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
+                assert.equal($container.find('.qti-selectPointInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
+                assert.equal($container.find('.qti-selectPointInteraction .main-image-box').length, 1, 'the interaction contains a image');
 
                 //Check DOM data
-                assert.equal( $container.children( '.qti-item' ).data( 'identifier' ), 'i14862478187486450', 'the .qti-item node has the right identifier' );
+                assert.equal($container.children('.qti-item').data('identifier'), 'i14862478187486450', 'the .qti-item node has the right identifier');
 
                 ready();
-            } )
-            .assets( strategies )
+            })
+            .assets(strategies)
             .init()
-            .render( $container );
-    } );
+            .render($container);
+    });
 
-    QUnit.test( 'destroys', function( assert ) {
+    QUnit.test('destroys', function(assert) {
         var ready = assert.async();
-        var $container = $( '#' + fixtureContainerId );
+        var $container = $('#' + fixtureContainerId);
 
-        assert.expect( 3 );
-        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.expect(3);
+        assert.equal($container.length, 1, 'the item container exists');
 
-        runner = qtiItemRunner( 'qti', selectPointData )
-            .on( 'render', function() {
+        runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
 
-                var interaction = this._item.getInteractions()[ 0 ];
-                var $imageBox = $( '.main-image-box', $container );
+                var interaction = this._item.getInteractions()[0];
+                var $imageBox = $('.main-image-box', $container);
 
-                assert.equal( $imageBox.children().length, 1, 'the image box has elements' );
-                interaction.renderer.destroy( interaction );
-                assert.equal( $imageBox.children().length, 0, 'the image box has no elements' );
+                assert.equal($imageBox.children().length, 1, 'the image box has elements');
+                interaction.renderer.destroy(interaction);
+                assert.equal($imageBox.children().length, 0, 'the image box has no elements');
 
                 ready();
-            } )
-            .assets( strategies )
+            })
+            .assets(strategies)
             .init()
-            .render( $container );
-    } );
+            .render($container);
+    });
 
-    QUnit.test( 'resets the response', function( assert ) {
+    QUnit.test('resets the response', function(assert) {
         var ready = assert.async();
-        var $container = $( '#' + fixtureContainerId );
+        var $container = $('#' + fixtureContainerId);
 
-        assert.expect( 3 );
+        assert.expect(3);
 
-        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal($container.length, 1, 'the item container exists');
 
-        runner = qtiItemRunner( 'qti', selectPointData )
-            .on( 'render', function() {
-                var interaction = this._item.getInteractions()[ 0 ];
-                var $canvas = $( '.main-image-box svg', $container );
+        runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var interaction = this._item.getInteractions()[0];
+                var $canvas = $('.main-image-box svg', $container);
 
-                triggerMouseEvent( $canvas.find( 'image' ).get( 0 ), 'click', { bubbles: true } );
+                triggerMouseEvent($canvas.find('image').get(0), 'click', {bubbles: true});
 
-                setTimeout( function() {
+                setTimeout(function() {
                     var $target;
 
-                    $target = $canvas.find( 'path' );
-                    assert.equal( $target.length, 1, 'a target exists on image' );
+                    $target = $canvas.find('path');
+                    assert.equal($target.length, 1, 'a target exists on image');
 
-                    interaction.renderer.resetResponse( interaction );
+                    interaction.renderer.resetResponse(interaction);
 
-                    $target = $canvas.find( 'path' );
-                    assert.equal( $target.length, 0, 'no target exists on image' );
+                    $target = $canvas.find('path');
+                    assert.equal($target.length, 0, 'no target exists on image');
 
                     ready();
-                }, 50 );
-            } )
-            .assets( strategies )
+                }, 50);
+            })
+            .assets(strategies)
             .init()
-            .render( $container );
-    } );
+            .render($container);
+    });
 
-    QUnit.test( 'clicking target removes it from interaction', function( assert ) {
+    QUnit.test('clicking target removes it from interaction', function(assert) {
         var ready = assert.async();
-        var $container = $( '#' + fixtureContainerId );
+        var $container = $('#' + fixtureContainerId);
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        runner = qtiItemRunner( 'qti', selectPointData )
-            .on( 'render', function() {
-                var $canvas     = $( '.main-image-box svg', $container );
+        runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var $canvas = $('.main-image-box svg', $container);
 
-                triggerMouseEvent( $canvas.find( 'image' ).get( 0 ), 'click', { bubbles: true } );
+                triggerMouseEvent($canvas.find('image').get(0), 'click', {bubbles: true});
 
-                setTimeout( function() {
+                setTimeout(function() {
                     var $target;
 
-                    $target = $canvas.find( 'path' );
-                    assert.equal( $target.length, 1, 'click placed target on image' );
+                    $target = $canvas.find('path');
+                    assert.equal($target.length, 1, 'click placed target on image');
 
-                    triggerMouseEvent( $canvas.find( 'rect' ).get( 0 ), 'click', { bubbles: true } );
+                    triggerMouseEvent($canvas.find('rect').get(0), 'click', {bubbles: true});
 
-                    setTimeout( function() {
-                        $target = $canvas.find( 'path' );
-                        assert.equal( $target.length, 0, 'another click removed target from image' );
+                    setTimeout(function() {
+                        $target = $canvas.find('path');
+                        assert.equal($target.length, 0, 'another click removed target from image');
 
                         ready();
-                    }, 50 );
-                }, 50 );
-            } )
-            .assets( strategies )
+                    }, 50);
+                }, 50);
+            })
+            .assets(strategies)
             .init()
-            .render( $container );
-    } );
+            .render($container);
+    });
 
-    QUnit.test( 'set the response', function( assert ) {
+    QUnit.test('set the response', function(assert) {
         var ready = assert.async();
-        var $container = $( '#' + fixtureContainerId );
+        var $container = $('#' + fixtureContainerId);
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        runner = qtiItemRunner( 'qti', selectPointData )
-            .on( 'render', function() {
-                var interaction = this._item.getInteractions()[ 0 ];
-                var $canvas     = $( '.main-image-box svg', $container );
+        runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var interaction = this._item.getInteractions()[0];
+                var $canvas = $('.main-image-box svg', $container);
 
-                assert.equal( $( 'path', $canvas ).length, 0, 'There is no target' );
+                assert.equal($('path', $canvas).length, 0, 'There is no target');
 
-                interaction.renderer.setResponse( interaction, { list: { point: [ [ 50, 50 ] ] } } );
-                setTimeout( function() {
-                    assert.equal( $( 'path', $canvas ).length, 1, 'A target have been created' );
+                interaction.renderer.setResponse(interaction, {list: {point: [[50, 50]]}});
+                setTimeout(function() {
+                    assert.equal($('path', $canvas).length, 1, 'A target have been created');
                     ready();
-                }, 50 );
+                }, 50);
 
-            } )
-            .assets( strategies )
+            })
+            .assets(strategies)
             .init()
-            .render( $container );
-    } );
+            .render($container);
+    });
 
-    QUnit.test( 'set multiple responses', function( assert ) {
+    QUnit.test('set multiple responses', function(assert) {
         var ready = assert.async();
-        var $container = $( '#' + fixtureContainerId );
+        var $container = $('#' + fixtureContainerId);
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        runner = qtiItemRunner( 'qti', selectPointData )
-            .on( 'render', function() {
-                var interaction = this._item.getInteractions()[ 0 ];
-                var $canvas     = $( '.main-image-box svg', $container );
+        runner = qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
+                var interaction = this._item.getInteractions()[0];
+                var $canvas = $('.main-image-box svg', $container);
 
-                assert.equal( $( 'path', $canvas ).length, 0, 'There is no target' );
+                assert.equal($('path', $canvas).length, 0, 'There is no target');
 
-                interaction.renderer.setResponse( interaction, { list: { point: [ [ 50, 50 ], [ 100, 100 ] ] } } );
-                setTimeout( function() {
-                    assert.equal( $( 'path', $canvas ).length, 2, 'Two targets have been created' );
+                interaction.renderer.setResponse(interaction, {list: {point: [[50, 50], [100, 100]]}});
+                setTimeout(function() {
+                    assert.equal($('path', $canvas).length, 2, 'Two targets have been created');
                     ready();
-                }, 50 );
+                }, 50);
 
-            } )
-            .assets( strategies )
+            })
+            .assets(strategies)
             .init()
-            .render( $container );
-    } );
+            .render($container);
+    });
 
-    QUnit.module( 'Visual Test' );
+    QUnit.module('Visual Test');
 
-    QUnit.test( 'Display and play', function( assert ) {
+    QUnit.test('Display and play', function(assert) {
         var ready = assert.async();
-        var $container = $( '#' + outsideContainerId );
+        var $container = $('#' + outsideContainerId);
 
-        assert.expect( 1 );
+        assert.expect(1);
 
-        assert.equal( $container.length, 1, 'the item container exists' );
+        assert.equal($container.length, 1, 'the item container exists');
 
-        qtiItemRunner( 'qti', selectPointData )
-            .on( 'render', function() {
+        qtiItemRunner('qti', selectPointData)
+            .on('render', function() {
                 ready();
-            } )
-            .on( 'statechange', function( state ) {
-                document.getElementById( 'response-display' ).textContent = JSON.stringify( state );
-            } )
-            .assets( strategies )
+            })
+            .on('statechange', function(state) {
+                document.getElementById('response-display').textContent = JSON.stringify(state);
+            })
+            .assets(strategies)
             .init()
-            .render( $container );
-    } );
-} );
+            .render($container);
+    });
+});
 

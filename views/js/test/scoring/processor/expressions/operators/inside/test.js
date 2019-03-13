@@ -1,31 +1,31 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/inside'
-], function(  _, preProcessorFactory, insideProcessor ) {
+], function(_, preProcessorFactory, insideProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( insideProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( insideProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( insideProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(insideProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(insideProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(insideProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'rect inside',
         coords: '0,0,10,20',
         shape: 'rect',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '1 1'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -36,11 +36,11 @@ define( [
         coords: '0,0,10,20',
         shape: 'rect',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '-21 1'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -51,11 +51,11 @@ define( [
         coords: '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
         shape: 'poly',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '255 411'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -66,11 +66,11 @@ define( [
         coords: '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
         shape: 'poly',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '1 1'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -81,11 +81,11 @@ define( [
         coords: '',
         shape: 'default',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '0 8'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -96,11 +96,11 @@ define( [
         coords: '5,5,5',
         shape: 'circle',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '3 3'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -111,11 +111,11 @@ define( [
         coords: '5,5,5',
         shape: 'circle',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '31 3'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -126,11 +126,11 @@ define( [
         coords: '57,18,55,14',
         shape: 'ellipse',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '9 12'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -141,11 +141,11 @@ define( [
         coords: '57,18,55,14,57,18,55,14',
         shape: 'cube',
 
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'point',
             value: '9 12'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -155,14 +155,14 @@ define( [
         title: 'one null',
         coords: '0,0,10,20',
         shape: 'rect',
-        operands: [ null ],
+        operands: [null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-        .cases.init( dataProvider )
-        .test( 'inside ', function( data, assert ) {
-            insideProcessor.preProcessor = preProcessorFactory( {} );
+        .cases.init(dataProvider)
+        .test('inside ', function(data, assert) {
+            insideProcessor.preProcessor = preProcessorFactory({});
 
             insideProcessor.operands = data.operands;
 
@@ -173,6 +173,6 @@ define( [
                 }
             };
 
-            assert.deepEqual( insideProcessor.process(), data.expectedResult, 'The inside is correct' );
-        } );
-} );
+            assert.deepEqual(insideProcessor.process(), data.expectedResult, 'The inside is correct');
+        });
+});

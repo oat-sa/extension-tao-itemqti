@@ -1,24 +1,24 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/integerModulus'
-], function(  _, preProcessorFactory, integerModulusProcessor ) {
+], function(_, preProcessorFactory, integerModulusProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( integerModulusProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( integerModulusProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( integerModulusProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(integerModulusProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(integerModulusProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(integerModulusProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'integers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '5'
@@ -26,7 +26,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -34,7 +34,7 @@ define( [
         }
     }, {
         title: 'zero test',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 0
@@ -42,7 +42,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 5
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -50,7 +50,7 @@ define( [
         }
     }, {
         title: 'zero test 2',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 0.666677
@@ -58,24 +58,24 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 0
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'integerModulus ', function( data, assert ) {
-        integerModulusProcessor.operands = data.operands;
-        integerModulusProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( integerModulusProcessor.process(), data.expectedResult, 'The integerModulus is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('integerModulus ', function(data, assert) {
+          integerModulusProcessor.operands = data.operands;
+          integerModulusProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(integerModulusProcessor.process(), data.expectedResult, 'The integerModulus is correct');
+      });
+});

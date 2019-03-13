@@ -15,64 +15,64 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  **/
-define( [
+define([
 
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
     'taoQtiItem/qtiItem/helper/container'
-], function(  ModalFeedback, container ) {
+], function(ModalFeedback, container) {
     'use strict';
 
-    QUnit.test( 'set/getEncodedData', function( assert ) {
+    QUnit.test('set/getEncodedData', function(assert) {
 
         var fb = new ModalFeedback();
-        fb.body( '<p>AAA</p>' );
+        fb.body('<p>AAA</p>');
 
         //Set data
-        container.setEncodedData( fb, "customData1", "customValueA" );
-        assert.equal( fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueA"><p>AAA</p></div>' );
-        assert.equal( container.hasEncodedData( fb, "customData1", "customValueA" ), true );
-        assert.equal( container.getEncodedData( fb, "customData1" ), "customValueA" );
+        container.setEncodedData(fb, "customData1", "customValueA");
+        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueA"><p>AAA</p></div>');
+        assert.equal(container.hasEncodedData(fb, "customData1", "customValueA"), true);
+        assert.equal(container.getEncodedData(fb, "customData1"), "customValueA");
 
         //Edit data
-        container.setEncodedData( fb, "customData1", "customValueB" );
-        assert.equal( fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB"><p>AAA</p></div>' );
-        assert.equal( container.hasEncodedData( fb, "customData1", "customValueB" ), true );
-        assert.equal( container.getEncodedData( fb, "customData1" ), "customValueB" );
+        container.setEncodedData(fb, "customData1", "customValueB");
+        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB"><p>AAA</p></div>');
+        assert.equal(container.hasEncodedData(fb, "customData1", "customValueB"), true);
+        assert.equal(container.getEncodedData(fb, "customData1"), "customValueB");
 
         //Set another data
-        container.setEncodedData( fb, "customData2", "customValueC" );
-        assert.equal( fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB x-tao-customData2-customValueC"><p>AAA</p></div>' );
-        assert.equal( container.hasEncodedData( fb, "customData1", "customValueB" ), true );
-        assert.equal( container.getEncodedData( fb, "customData1" ), "customValueB" );
-        assert.equal( container.hasEncodedData( fb, "customData2", "customValueC" ), true );
-        assert.equal( container.getEncodedData( fb, "customData2" ), "customValueC" );
-    } );
+        container.setEncodedData(fb, "customData2", "customValueC");
+        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB x-tao-customData2-customValueC"><p>AAA</p></div>');
+        assert.equal(container.hasEncodedData(fb, "customData1", "customValueB"), true);
+        assert.equal(container.getEncodedData(fb, "customData1"), "customValueB");
+        assert.equal(container.hasEncodedData(fb, "customData2", "customValueC"), true);
+        assert.equal(container.getEncodedData(fb, "customData2"), "customValueC");
+    });
 
-    QUnit.test( 'removeEncodedData', function( assert ) {
+    QUnit.test('removeEncodedData', function(assert) {
 
         var fb = new ModalFeedback();
-        fb.body( '<p>AAA</p>' );
+        fb.body('<p>AAA</p>');
 
         //Set data
-        container.setEncodedData( fb, "customData1", "customValueA" );
-        assert.equal( container.getEncodedData( fb, "customData1" ), "customValueA" );
-        assert.equal( fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueA"><p>AAA</p></div>' );
+        container.setEncodedData(fb, "customData1", "customValueA");
+        assert.equal(container.getEncodedData(fb, "customData1"), "customValueA");
+        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueA"><p>AAA</p></div>');
 
         //Remove data
-        container.removeEncodedData( fb, "customData1" );
-        assert.equal( container.getEncodedData( fb, "customData1" ), undefined );
-        assert.equal( fb.body(), '<div class="x-tao-wrapper"><p>AAA</p></div>' );
+        container.removeEncodedData(fb, "customData1");
+        assert.equal(container.getEncodedData(fb, "customData1"), undefined);
+        assert.equal(fb.body(), '<div class="x-tao-wrapper"><p>AAA</p></div>');
 
         //Try removgin again
-        container.removeEncodedData( fb, "customData1" );
-        assert.equal( container.getEncodedData( fb, "customData1" ), undefined );
+        container.removeEncodedData(fb, "customData1");
+        assert.equal(container.getEncodedData(fb, "customData1"), undefined);
 
         //Reset data
-        container.setEncodedData( fb, "customData1", "customValueB" );
-        assert.equal( container.getEncodedData( fb, "customData1" ), "customValueB" );
-        assert.equal( fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB"><p>AAA</p></div>' );
+        container.setEncodedData(fb, "customData1", "customValueB");
+        assert.equal(container.getEncodedData(fb, "customData1"), "customValueB");
+        assert.equal(fb.body(), '<div class="x-tao-wrapper x-tao-customData1-customValueB"><p>AAA</p></div>');
 
-    } );
+    });
 
-} );
+});
 

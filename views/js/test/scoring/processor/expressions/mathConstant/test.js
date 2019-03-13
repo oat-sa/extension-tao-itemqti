@@ -1,22 +1,22 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/mathConstant'
-], function(  _, mathConstantProcessor ) {
+], function(_, mathConstantProcessor) {
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( mathConstantProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( mathConstantProcessor.process ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(mathConstantProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(mathConstantProcessor.process), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'pi is Math.PI',
         expression: {
-            attributes: { name: 'pi' }
+            attributes: {name: 'pi'}
         },
         expectedResult: {
             cardinality: 'single',
@@ -26,7 +26,7 @@ define( [
     }, {
         title: 'pi value',
         expression: {
-            attributes: { name: 'pi' }
+            attributes: {name: 'pi'}
         },
         expectedResult: {
             cardinality: 'single',
@@ -36,7 +36,7 @@ define( [
     }, {
         title: 'e is Math.E',
         expression: {
-            attributes: { name: 'e' }
+            attributes: {name: 'e'}
         },
         expectedResult: {
             cardinality: 'single',
@@ -46,19 +46,19 @@ define( [
     }, {
         title: 'e value',
         expression: {
-            attributes: { name: 'e' }
+            attributes: {name: 'e'}
         },
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
             value: 2.718281828459045
         }
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'math constant ', function( data, assert ) {
-        mathConstantProcessor.expression = data.expression;
-        assert.deepEqual( mathConstantProcessor.process(), data.expectedResult, 'The constant value is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('math constant ', function(data, assert) {
+          mathConstantProcessor.expression = data.expression;
+          assert.deepEqual(mathConstantProcessor.process(), data.expectedResult, 'The constant value is correct');
+      });
+});

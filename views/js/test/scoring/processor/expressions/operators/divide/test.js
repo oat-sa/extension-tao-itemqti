@@ -1,24 +1,24 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/divide'
-], function(  _, preProcessorFactory, divideProcessor ) {
+], function(_, preProcessorFactory, divideProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( divideProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( divideProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( divideProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(divideProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(divideProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(divideProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'integers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '6'
@@ -26,7 +26,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -34,7 +34,7 @@ define( [
         }
     }, {
         title: 'integer and float',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '6.5'
@@ -42,7 +42,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -50,7 +50,7 @@ define( [
         }
     }, {
         title: 'zero test',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 0
@@ -58,7 +58,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 5.5
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -66,7 +66,7 @@ define( [
         }
     }, {
         title: 'zero test 2',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: 0.666677
@@ -74,11 +74,11 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: 0
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'overflow',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: Number.MIN_VALUE
@@ -86,24 +86,24 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: 10
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'divide ', function( data, assert ) {
-        divideProcessor.operands = data.operands;
-        divideProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( divideProcessor.process(), data.expectedResult, 'The divide is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('divide ', function(data, assert) {
+          divideProcessor.operands = data.operands;
+          divideProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(divideProcessor.process(), data.expectedResult, 'The divide is correct');
+      });
+});

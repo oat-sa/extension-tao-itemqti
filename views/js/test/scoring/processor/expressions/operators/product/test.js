@@ -1,23 +1,23 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/product'
-], function(  _, preProcessorFactory, productProcessor ) {
+], function(_, preProcessorFactory, productProcessor) {
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( productProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( productProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( productProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(productProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(productProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(productProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'integers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '5'
@@ -29,7 +29,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -37,7 +37,7 @@ define( [
         }
     }, {
         title: 'integers from numbers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 2
@@ -49,7 +49,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
@@ -57,7 +57,7 @@ define( [
         }
     }, {
         title: 'floats',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '0.13'
@@ -65,7 +65,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '0.16'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -73,7 +73,7 @@ define( [
         }
     }, {
         title: 'one float',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 8
@@ -85,7 +85,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -93,7 +93,7 @@ define( [
         }
     }, {
         title: 'ignore wrong values',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
@@ -105,7 +105,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: Infinity
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -113,7 +113,7 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
@@ -122,31 +122,31 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'multiple cardinality operand',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 2
         }, {
             cardinality: 'multiple',
             baseType: 'integer',
-            value: [ 2, 2, 2 ]
-        } ],
+            value: [2, 2, 2]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'integer',
             value: 16
         }
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'product ', function( data, assert ) {
-        productProcessor.operands = data.operands;
-        productProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( productProcessor.process(), data.expectedResult, 'The product is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('product ', function(data, assert) {
+          productProcessor.operands = data.operands;
+          productProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(productProcessor.process(), data.expectedResult, 'The product is correct');
+      });
+});

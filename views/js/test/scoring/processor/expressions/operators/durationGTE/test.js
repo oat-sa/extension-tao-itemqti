@@ -1,24 +1,24 @@
-define( [
+define([
 
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/durationGTE'
-], function(  _, preProcessorFactory, durationGTEProcessor ) {
+], function(_, preProcessorFactory, durationGTEProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( durationGTEProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( durationGTEProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( durationGTEProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(durationGTEProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(durationGTEProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(durationGTEProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'greater',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'duration',
             value: '100001'
@@ -26,7 +26,7 @@ define( [
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -34,7 +34,7 @@ define( [
         }
     }, {
         title: 'equal',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
@@ -42,7 +42,7 @@ define( [
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -50,7 +50,7 @@ define( [
         }
     }, {
         title: 'greater',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'duration',
             value: '100000'
@@ -58,7 +58,7 @@ define( [
             cardinality: 'single',
             baseType: 'duration',
             value: '100000.1'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
@@ -66,20 +66,20 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
         },
-        null ],
+        null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'durationGTE ', function( data, assert ) {
-        durationGTEProcessor.operands = data.operands;
-        durationGTEProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( durationGTEProcessor.process(), data.expectedResult, 'The durationGTE is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('durationGTE ', function(data, assert) {
+          durationGTEProcessor.operands = data.operands;
+          durationGTEProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(durationGTEProcessor.process(), data.expectedResult, 'The durationGTE is correct');
+      });
+});

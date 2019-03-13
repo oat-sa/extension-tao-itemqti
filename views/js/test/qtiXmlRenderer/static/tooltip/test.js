@@ -18,41 +18,41 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define( [
+define([
 
     'taoQtiItem/qtiItem/core/Tooltip',
     'taoQtiItem/qtiCreator/helper/xmlRenderer'
-], function(  Tooltip, xmlRenderer ) {
+], function(Tooltip, xmlRenderer) {
     'use strict';
 
-    QUnit.module( 'XML Renderer' );
+    QUnit.module('XML Renderer');
 
-    QUnit.test( 'Render to XML', function( assert ) {
+    QUnit.test('Render to XML', function(assert) {
         var ready = assert.async();
         var renderer = xmlRenderer
             .get()
-            .load( function() {
-                var tooltipTarget   = 'my <i>target</i>',
-                    tooltipContent  = 'my tooltip <strong>content</strong>',
-                    tooltipSerial   = '_tooltip_4568613547893',
-                    tooltipId       = '_tooltip_ID',
-                    attributes      = {
+            .load(function() {
+                var tooltipTarget = 'my <i>target</i>',
+                    tooltipContent = 'my tooltip <strong>content</strong>',
+                    tooltipSerial = '_tooltip_4568613547893',
+                    tooltipId = '_tooltip_ID',
+                    attributes = {
                         'aria-describedby': tooltipId,
                         'data-role': 'tooltip-target'
                     },
 
-                    tooltip = new Tooltip( tooltipSerial, attributes, tooltipContent ),
+                    tooltip = new Tooltip(tooltipSerial, attributes, tooltipContent),
 
                     expectedXml =
                         '<span data-role="tooltip-target" aria-describedby="' + tooltipId + '">' + tooltipTarget + "</span>" +
                         '<span data-role="tooltip-content" aria-hidden="true" id="' + tooltipId + '">' + tooltipContent + "</span>";
 
-                tooltip.body( tooltipTarget );
-                tooltip.setRenderer( renderer );
+                tooltip.body(tooltipTarget);
+                tooltip.setRenderer(renderer);
 
-                assert.equal( tooltip.render(), expectedXml, 'rendered XML is correct' );
+                assert.equal(tooltip.render(), expectedXml, 'rendered XML is correct');
                 ready();
 
-            }, [ '_tooltip', '_container' ] );
-    } );
-} );
+            }, ['_tooltip', '_container']);
+    });
+});

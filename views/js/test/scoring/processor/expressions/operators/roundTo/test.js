@@ -1,30 +1,30 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/roundTo'
-], function(  _, preProcessorFactory, roundToProcessor ) {
+], function(_, preProcessorFactory, roundToProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( roundToProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( roundToProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( roundToProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(roundToProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(roundToProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(roundToProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'figures as integers',
         roundingMode: 'significantFigures',
         figures: 3,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -34,31 +34,31 @@ define( [
         title: 'figures as negative',
         roundingMode: 'significantFigures',
         figures: -10,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'figures as zero with significantFigures',
         roundingMode: 'significantFigures',
         figures: 0,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'figures as string ',
         roundingMode: 'significantFigures',
         figures: '3',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -68,11 +68,11 @@ define( [
         title: 'figures as incorrect string ',
         roundingMode: 'significantFigures',
         figures: 'xxx',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'figure as reference',
@@ -85,11 +85,11 @@ define( [
                 value: '3'
             }
         },
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -106,41 +106,41 @@ define( [
                 value: '3'
             }
         },
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'incorrect settings',
         roundingMode: 'significantFigures',
         figures: 0,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: 12.111
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'incorrect settings',
         roundingMode: 'significantFigures',
         figures: 'string',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: 12.111
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'decimalPlaces',
         roundingMode: 'decimalPlaces',
         figures: 3,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -150,11 +150,11 @@ define( [
         title: 'decimalPlaces with 0 figures',
         roundingMode: 'decimalPlaces',
         figures: 0,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '20.1145'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -164,21 +164,21 @@ define( [
         title: 'one null',
         roundingMode: 'significantFigures',
         figures: 3,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
-        }, null ],
+        }, null],
         expectedResult: null
     }, {
         title: '+Inf',
         roundingMode: 'significantFigures',
         figures: 3,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: Infinity
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -188,11 +188,11 @@ define( [
         title: '-Inf',
         roundingMode: 'significantFigures',
         figures: 3,
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: -Infinity
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -202,20 +202,20 @@ define( [
     ];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'roundTo ', function( data, assert ) {
-        roundToProcessor.operands = data.operands;
+      .cases.init(dataProvider)
+      .test('roundTo ', function(data, assert) {
+          roundToProcessor.operands = data.operands;
 
-        roundToProcessor.state = data.state ? data.state : {};
-        roundToProcessor.preProcessor = preProcessorFactory( data.state ? data.state : {} );
+          roundToProcessor.state = data.state ? data.state : {};
+          roundToProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
 
-        roundToProcessor.expression = {
-            attributes: {
-                figures: data.figures,
-                roundingMode: data.roundingMode
-            }
-        };
+          roundToProcessor.expression = {
+              attributes: {
+                  figures: data.figures,
+                  roundingMode: data.roundingMode
+              }
+          };
 
-        assert.deepEqual( roundToProcessor.process(), data.expectedResult, 'The roundTo is correct' );
-    } );
-} );
+          assert.deepEqual(roundToProcessor.process(), data.expectedResult, 'The roundTo is correct');
+      });
+});

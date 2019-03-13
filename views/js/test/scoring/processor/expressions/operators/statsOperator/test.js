@@ -1,30 +1,30 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler',
     'taoQtiItem/scoring/processor/expressions/operators/statsOperator'
-], function(  _, preProcessorFactory, errorHandler, statsProcessor ) {
+], function(_, preProcessorFactory, errorHandler, statsProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( statsProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( statsProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( statsProcessor.operands ), 'the processor has operands' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(statsProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(statsProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(statsProcessor.operands), 'the processor has operands');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'mean',
         name: 'mean',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 2, 3, 7 ]
-        } ],
+            value: [2, 3, 7]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -33,20 +33,20 @@ define( [
     }, {
         title: 'incorrect stat operation',
         name: 'magic',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 2, 3, 7 ]
-        } ],
+            value: [2, 3, 7]
+        }],
         expectedResult: null
     }, {
         title: 'sampleVariance',
         name: 'sampleVariance',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 600, 470, 170, 430, 300 ]
-        } ],
+            value: [600, 470, 170, 430, 300]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -55,29 +55,29 @@ define( [
     }, {
         title: 'sampleVariance',
         name: 'sampleVariance',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 20 ]
-        } ],
+            value: [20]
+        }],
         expectedResult: null
     }, {
         title: 'sampleSD',
         name: 'sampleSD',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 20 ]
-        } ],
+            value: [20]
+        }],
         expectedResult: null
     }, {
         title: 'sampleSD',
         name: 'sampleSD',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 600, 470, 170, 430, 300 ]
-        } ],
+            value: [600, 470, 170, 430, 300]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -86,11 +86,11 @@ define( [
     }, {
         title: 'popVariance',
         name: 'popVariance',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 600, 470, 170, 430, 300 ]
-        } ],
+            value: [600, 470, 170, 430, 300]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -99,11 +99,11 @@ define( [
     }, {
         title: 'popSD',
         name: 'popSD',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 600, 470, 170, 430, 300 ]
-        } ],
+            value: [600, 470, 170, 430, 300]
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -111,28 +111,28 @@ define( [
         }
     }, {
         title: 'null operand',
-        operands: [ {
+        operands: [{
             cardinality: 'ordered',
             baseType: 'integer',
-            value: [ 2, NaN, 7 ]
-        } ],
+            value: [2, NaN, 7]
+        }],
         expectedResult: null
     }, {
         title: 'null operand',
-        operands: [ null ],
+        operands: [null],
         expectedResult: null
-    } ];
+    }];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'ordered ', function( data, assert ) {
-        statsProcessor.operands = data.operands;
-        statsProcessor.expression = {
-            attributes: {
-                name: data.name
-            }
-        };
-        statsProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( statsProcessor.process(), data.expectedResult, 'The statsOperator is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('ordered ', function(data, assert) {
+          statsProcessor.operands = data.operands;
+          statsProcessor.expression = {
+              attributes: {
+                  name: data.name
+              }
+          };
+          statsProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(statsProcessor.process(), data.expectedResult, 'The statsOperator is correct');
+      });
+});

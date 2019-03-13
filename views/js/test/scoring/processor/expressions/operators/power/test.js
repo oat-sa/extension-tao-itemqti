@@ -1,24 +1,24 @@
-define( [
-    
+define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/power'
-], function(  _, preProcessorFactory, powerProcessor ) {
+], function(_, preProcessorFactory, powerProcessor) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'structure', function( assert ) {
-        assert.ok( _.isPlainObject( powerProcessor ), 'the processor expose an object' );
-        assert.ok( _.isFunction( powerProcessor.process ), 'the processor has a process function' );
-        assert.ok( _.isArray( powerProcessor.operands ), 'the processor has a process function' );
-    } );
+    QUnit.test('structure', function(assert) {
+        assert.ok(_.isPlainObject(powerProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(powerProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(powerProcessor.operands), 'the processor has a process function');
+    });
 
-    QUnit.module( 'Process' );
+    QUnit.module('Process');
 
-    var dataProvider = [ {
+    var dataProvider = [{
         title: 'integers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
@@ -26,7 +26,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: '2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -34,7 +34,7 @@ define( [
         }
     }, {
         title: 'integers from numbers',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 3
@@ -42,7 +42,7 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2.5
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -50,7 +50,7 @@ define( [
         }
     }, {
         title: 'floats',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: '2.1'
@@ -58,7 +58,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: '3.2'
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -66,7 +66,7 @@ define( [
         }
     }, {
         title: 'one float',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 4
@@ -74,7 +74,7 @@ define( [
             cardinality: 'single',
             baseType: 'float',
             value: 0.5
-        } ],
+        }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
@@ -82,15 +82,15 @@ define( [
         }
     }, {
         title: 'one null',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'integer',
             value: 5
-        }, null ],
+        }, null],
         expectedResult: null
     }, {
         title: 'Overflow max range',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: Number.MAX_VALUE
@@ -98,11 +98,11 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2
-        } ],
+        }],
         expectedResult: null
     }, {
         title: 'Overflow min range',
-        operands: [ {
+        operands: [{
             cardinality: 'single',
             baseType: 'float',
             value: Number.MIN_VALUE
@@ -110,16 +110,16 @@ define( [
             cardinality: 'single',
             baseType: 'integer',
             value: 2
-        } ],
+        }],
         expectedResult: null
     }
     ];
 
     QUnit
-      .cases.init( dataProvider )
-      .test( 'power ', function( data, assert ) {
-        powerProcessor.operands = data.operands;
-        powerProcessor.preProcessor = preProcessorFactory( {} );
-        assert.deepEqual( powerProcessor.process(), data.expectedResult, 'The power is correct' );
-    } );
-} );
+      .cases.init(dataProvider)
+      .test('power ', function(data, assert) {
+          powerProcessor.operands = data.operands;
+          powerProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(powerProcessor.process(), data.expectedResult, 'The power is correct');
+      });
+});
