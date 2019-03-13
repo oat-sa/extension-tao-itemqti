@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -56,6 +56,7 @@ define([
             choiceSelector = $choiceArea.selector + ' >li:not(.deactivated)',
             resultSelector = $resultArea.selector + ' >li',
 
+            scaleX, scaleY,
             isDragAndDropEnabled,
             dragOptions,
             $dropzoneElement,
@@ -262,10 +263,11 @@ define([
                     $target.addClass("dragged");
 
                     _iFrameDragFix(choiceSelector, e.target);
+                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }
@@ -298,10 +300,11 @@ define([
                     $dragContainer.append($target);
 
                     _iFrameDragFix(resultSelector, e.target);
+                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                     if (_isDropzoneVisible()) {
                         _adjustDropzonePosition($target);
                     }
