@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -113,6 +113,7 @@ define([
 
         var isDragAndDropEnabled;
         var dragOptions;
+        var scaleX, scaleY;
 
         var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
 
@@ -188,13 +189,17 @@ define([
             interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
+                    var scale;
                     $target.addClass("dragged");
                     _handleChoiceSelect($target);
 
                     _iFrameDragFix(choiceSelector, e.target);
+                    scale = interactUtils.calculateScale(e.target);
+                    scaleX = scale[0];
+                    scaleY = scale[1];
                 },
                 onmove: function (e) {
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                 },
                 onend: function (e) {
                     var $target = $(e.target);
@@ -209,13 +214,17 @@ define([
             interact(filledGapSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
+                    var scale;
                     $target.addClass("dragged");
                     _handleFilledGapSelect($target);
 
                     _iFrameDragFix(filledGapSelector, e.target);
+                    scale = interactUtils.calculateScale(e.target);
+                    scaleX = scale[0];
+                    scaleY = scale[1];
                 },
                 onmove: function (e) {
-                    interactUtils.moveElement(e.target, e.dx, e.dy);
+                    interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                 },
                 onend: function (e) {
                     var $target = $(e.target);

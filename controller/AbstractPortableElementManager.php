@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\tao\model\routing\AnnotationReader\security;
 use oat\taoQtiItem\model\CreatorRegistry;
 use \tao_actions_CommonModule;
 use \common_exception_Error;
@@ -36,6 +37,7 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
 
     /**
      * Instanciate the controller
+     * @security("hide")
      */
     public function __construct()
     {
