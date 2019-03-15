@@ -28,9 +28,10 @@ define([
     "use strict";
     var droppableGridEditor = {};
 
-    droppableGridEditor.createDroppableBlocks = function createDroppableBlocks(qtiClass, $el, options){
+    var _mapQtiToHtml, _pulseTimer, _pulse;
 
-        options = options || {};
+    droppableGridEditor.createDroppableBlocks = function createDroppableBlocks(qtiClass, $el, optionsOriginal){
+        var options = optionsOriginal || {};
 
         var minUnits = (typeof options.min === 'string') ? options.min : 0,
             $colInitial = (options.initialPosition instanceof $) ? options.initialPosition : null,
@@ -40,6 +41,10 @@ define([
         var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'}),
             marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
             isEmpty = ($el.children('.grid-row').length === 0);
+
+        var _appendPlaceholder, _resetPlaceholder, _insertBetween, _resetColsHeight;
+
+        var $prev, $next;
 
         //add dropping class (used to fix col-*:first margin issue);
         $el.addClass('dropping');
@@ -77,7 +82,7 @@ define([
         }
 
         //append the dropping element placeholder:
-        var _appendPlaceholder = function($col){
+        _appendPlaceholder = function($col){
 
             if($col.length){
 
@@ -95,7 +100,7 @@ define([
         };
 
         //restore the dropping element placeholder back to its default location:
-        var _resetPlaceholder = function(){
+        _resetPlaceholder = function(){
 
             if($placeholder.parent().hasClass('dropping')) {
                 $placeholder.parent().parent().removeData('active');
@@ -112,55 +117,55 @@ define([
         };
 
         //function to be called for inter-column insertions:
-        var _insertBetween = function($col, location){
+        _insertBetween = function($col, location){
+            var $row, distributedUnits, $newCol, newUnit, cumulatedUnits, index, h;
+            var _appendToNextRow = function _appendToNextRow($forRow, $newColAppend){
+                $forRow.next().attr('data-active', true).append($newColAppend);
+            };
 
             if(location !== 'left' && location !== 'right') {
                 return;
             }
             _restoreTmpCol($el);
-            var $row = $col.parent().attr('data-active', true);
+            $row = $col.parent().attr('data-active', true);
 
             //store temporary the original classes before columns are resized
             $row.children(':not(.new-col)').each(function(){
                 $(this).attr('data-original-class', $(this).attr('class'));
             });
 
-            var distributedUnits = $row.data('distributed-units');
-            var $newCol = (location === 'left') ? $col.prev() : $col.next();
+            distributedUnits = $row.data('distributed-units');
+            $newCol = (location === 'left') ? $col.prev() : $col.next();
             _appendPlaceholder($newCol);
 
             if(distributedUnits.refactoredTotalUnits > 12){
                 //need to create a new row
-                var newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
+                newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
                 $newCol.attr('class', 'new-col col-' + newUnit);
 
-                var cumulatedUnits = 0,
-                    index = $newCol.data('index');
+                cumulatedUnits = 0;
+                index = $newCol.data('index');
 
-                var _appendToNextRow = function _appendToNextRow($row, $newCol){
-                    $row.next().attr('data-active', true).append($newCol);
-                };
+
 
                 if(index === 'last'){
                     _appendToNextRow($row, $newCol);
                 }else{
-                    for(var i in distributedUnits.cols){
-                        var col = distributedUnits.cols[i];
+                    _.forEach(distributedUnits.cols, function(col, i){
                         if(cumulatedUnits + col.refactoredUnits > 12){
                             _appendToNextRow($row, col.elt);
                         }
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
                         cumulatedUnits += col.refactoredUnits;
 
-                        if(i != index) {//note: no strict comparison here
-                            continue;
+                        if(i == index) { //eslint-disable-line eqeqeq
+                            if(cumulatedUnits + newUnit > 12){
+                                _appendToNextRow($row, $newCol);
+                            }
+                            cumulatedUnits += newUnit;
                         }
 
-                        if(cumulatedUnits + newUnit > 12){
-                            _appendToNextRow($row, $newCol);
-                        }
-                        cumulatedUnits += newUnit;
-                    }
+                    });
                 }
 
             }else{
@@ -174,28 +179,29 @@ define([
                 });
             }
 
-            var h = _resetColsHeight($col);
+            h = _resetColsHeight($col);
             $placeholder.css('height', '100%').parent().height(h);//causes issue on new-col sizes!
         };
 
         //recalculate the cols height according to new layout
-        var _resetColsHeight = function($col, self){
+        _resetColsHeight = function($col, asSelf){
 
             var maxHeight = 0;
-            if(self === undefined){
-                self = true;
+            var $cols;
+            if(!asSelf){
+                asSelf = true;
             }
 
             $placeholder.css('height', 'auto').parent().removeAttr('style');//remove added height, to reset the height to auto
 
-            var $cols = $col.siblings('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)').addBack();
+            $cols = $col.siblings('[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)').addBack();
             $cols.removeAttr('style');//remove added height, to reset the height to auto
             $cols.each(function(){
                 maxHeight = Math.max($(this).height(), maxHeight);
             });
 
             $cols.height(maxHeight);
-            if(!self){
+            if(!asSelf){
                 $col.removeAttr('style');
             }
             return maxHeight;
@@ -206,8 +212,8 @@ define([
         //manage initial positioning, useful in the "move" context
         if($colInitial && $colInitial.length){
 
-            var $prev = $colInitial.prevAll('[class^="col-"], [class*=" col-"]').first();
-            var $next = $colInitial.nextAll('[class^="col-"], [class*=" col-"]').first();
+            $prev = $colInitial.prevAll('[class^="col-"], [class*=" col-"]').first();
+            $next = $colInitial.nextAll('[class^="col-"], [class*=" col-"]').first();
             if($prev.length){
                 _insertBetween($prev, 'right');
             }else if($next.length){
@@ -220,9 +226,11 @@ define([
         //bind all event handlers:
         $el.on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.debounce(function(e){
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
+            var $col, $previousCol;
 
             if (goingTo) {
-                var $col = $(this), $previousCol = $placeholder.parent('.new-col');
+                $col = $(this);
+                $previousCol = $placeholder.parent('.new-col');
 
                 $placeholder.remove();//remove the placeholder from the previous location
                 _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
@@ -342,7 +350,7 @@ define([
 
     };
 
-    var _mapQtiToHtml = function _mapQtiToHtml(qtiClass){
+    _mapQtiToHtml = function (qtiClass){
 
         if(qtiElements.is(qtiClass, 'inlineInteraction')){
             return 'object';//an inlineInteraction is a flow, like xhtml "object" elements
@@ -360,8 +368,8 @@ define([
         return qtiClass;
     };
 
-    var _pulseTimer = null;
-    var _pulse = function _pulse($el){
+    _pulseTimer = null;
+    _pulse = function ($el){
         var intervalDuration = 1000;
 
         if(_pulseTimer){
