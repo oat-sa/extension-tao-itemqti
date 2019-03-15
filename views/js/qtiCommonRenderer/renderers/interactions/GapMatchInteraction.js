@@ -189,11 +189,14 @@ define([
             interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
+                    var scale;
                     $target.addClass("dragged");
                     _handleChoiceSelect($target);
 
                     _iFrameDragFix(choiceSelector, e.target);
-                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
+                    scale = interactUtils.calculateScale(e.target);
+                    scaleX = scale[0];
+                    scaleY = scale[1];
                 },
                 onmove: function (e) {
                     interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
@@ -211,11 +214,14 @@ define([
             interact(filledGapSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
+                    var scale;
                     $target.addClass("dragged");
                     _handleFilledGapSelect($target);
 
                     _iFrameDragFix(filledGapSelector, e.target);
-                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
+                    scale = interactUtils.calculateScale(e.target);
+                    scaleX = scale[0];
+                    scaleY = scale[1];
                 },
                 onmove: function (e) {
                     interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
