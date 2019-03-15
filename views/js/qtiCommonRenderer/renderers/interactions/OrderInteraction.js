@@ -260,10 +260,13 @@ define([
             interact(choiceSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
+                    var scale;
                     $target.addClass("dragged");
 
                     _iFrameDragFix(choiceSelector, e.target);
-                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
+                    scale = interactUtils.calculateScale(e.target);
+                    scaleX = scale[0];
+                    scaleY = scale[1];
                 },
                 onmove: function (e) {
                     var $target = $(e.target);
@@ -285,6 +288,7 @@ define([
             interact(resultSelector).draggable(_.assign({}, dragOptions, {
                 onstart: function (e) {
                     var $target = $(e.target);
+                    var scale;
                     $target.addClass("dragged");
 
                     _setSelection($target);
@@ -300,7 +304,9 @@ define([
                     $dragContainer.append($target);
 
                     _iFrameDragFix(resultSelector, e.target);
-                    [scaleX, scaleY] = interactUtils.calculateScale(e.target);
+                    scale = interactUtils.calculateScale(e.target);
+                    scaleX = scale[0];
+                    scaleY = scale[1];
                 },
                 onmove: function (e) {
                     var $target = $(e.target);

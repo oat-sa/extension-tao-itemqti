@@ -417,11 +417,14 @@ define([
                 .draggable(_.assign({}, dragOptions, {
                     onstart: function (e) {
                         var $target = $(e.target);
+                        var scale;
                         _setActiveGapState($target);
                         $target.addClass('dragged');
 
                         _iFrameDragFix(gapFillersSelector, e.target);
-                        [scaleX, scaleY] = interactUtils.calculateScale(e.target);
+                        scale = interactUtils.calculateScale(e.target);
+                        scaleX = scale[0];
+                        scaleY = scale[1];
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
