@@ -33,11 +33,11 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '19.0.1',
+    'version'     => '19.1.1',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=6.6.0',
-        'tao'      => '>=27.2.0',
+        'tao'      => '>=28.0.2',
         'generis'  => '>=8.1.3',
     ),
     'models' => array(

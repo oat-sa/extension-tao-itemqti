@@ -479,10 +479,13 @@ define([
                 interact(choiceSelector + ':not(.deactivated)').draggable(_.defaults({
                     onstart: function (e) {
                         var $target = $(e.target);
+                        var scale;
                         $target.addClass("dragged");
                         _activateChoice($target);
                         _iFrameDragFix(choiceSelector + ':not(.deactivated)', e.target);
-                        [scaleX, scaleY] = interactUtils.calculateScale(e.target);
+                        scale = interactUtils.calculateScale(e.target);
+                        scaleX = scale[0];
+                        scaleY = scale[1];
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
@@ -501,11 +504,14 @@ define([
                 interact(resultSelector + '.filled').draggable(_.defaults({
                     onstart: function (e) {
                         var $target = $(e.target);
+                        var scale;
                         $target.addClass("dragged");
                         _resetSelection();
                         _activateResult($target);
                         _iFrameDragFix(resultSelector + '.filled', e.target);
-                        [scaleX, scaleY] = interactUtils.calculateScale(e.target);
+                        scale = interactUtils.calculateScale(e.target);
+                        scaleX = scale[0];
+                        scaleY = scale[1];
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
