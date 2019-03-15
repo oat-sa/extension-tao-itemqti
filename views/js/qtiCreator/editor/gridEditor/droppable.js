@@ -28,23 +28,28 @@ define([
     "use strict";
     var droppableGridEditor = {};
 
-    var _mapQtiToHtml, _pulseTimer, _pulse;
+    var _pulseTimer;
+    var _pulse;
 
     droppableGridEditor.createDroppableBlocks = function createDroppableBlocks(qtiClass, $el, optionsOriginal){
         var options = optionsOriginal || {};
 
-        var minUnits = (typeof options.min === 'string') ? options.min : 0,
-            $colInitial = (options.initialPosition instanceof $) ? options.initialPosition : null,
-            ns = options.namespace ? '.' + options.namespace : '',
-            data = options.data || {};
+        var minUnits = (typeof options.min === 'string') ? options.min : 0;
+        var $colInitial = (options.initialPosition instanceof $) ? options.initialPosition : null;
+        var ns = options.namespace ? '.' + options.namespace : '';
+        var data = options.data || {};
 
-        var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'}),
-            marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
-            isEmpty = ($el.children('.grid-row').length === 0);
+        var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'});
+        var marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left'));
+        var isEmpty = ($el.children('.grid-row').length === 0);
 
-        var _appendPlaceholder, _resetPlaceholder, _insertBetween, _resetColsHeight;
+        var _appendPlaceholder;
+        var _resetPlaceholder;
+        var _insertBetween;
+        var _resetColsHeight;
 
-        var $prev, $next;
+        var $prev;
+        var $next;
 
         //add dropping class (used to fix col-*:first margin issue);
         $el.addClass('dropping');
@@ -58,7 +63,8 @@ define([
 
             $el.find('.grid-row').each(function(){
 
-                var $row = $(this), cols = [];
+                var $row = $(this);
+                var cols = [];
 
                 //build tmp new cols:
                 var maxHeight = 0;
@@ -118,7 +124,14 @@ define([
 
         //function to be called for inter-column insertions:
         _insertBetween = function($col, location){
-            var $row, distributedUnits, $newCol, newUnit, cumulatedUnits, index, h;
+            var $row;
+            var distributedUnits;
+            var $newCol;
+            var newUnit;
+            var cumulatedUnits;
+            var index;
+            var h;
+
             var _appendToNextRow = function _appendToNextRow($forRow, $newColAppend){
                 $forRow.next().attr('data-active', true).append($newColAppend);
             };
@@ -146,8 +159,6 @@ define([
                 cumulatedUnits = 0;
                 index = $newCol.data('index');
 
-
-
                 if(index === 'last'){
                     _appendToNextRow($row, $newCol);
                 }else{
@@ -158,7 +169,7 @@ define([
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
                         cumulatedUnits += col.refactoredUnits;
 
-                        if(i == index) { //eslint-disable-line eqeqeq
+                        if(i === index) {
                             if(cumulatedUnits + newUnit > 12){
                                 _appendToNextRow($row, $newCol);
                             }
@@ -226,7 +237,8 @@ define([
         //bind all event handlers:
         $el.on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.debounce(function(e){
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
-            var $col, $previousCol;
+            var $col;
+            var $previousCol;
 
             if (goingTo) {
                 $col = $(this);
@@ -249,8 +261,11 @@ define([
         }, 50)).on('mousemove.gridEdit.gridDragDrop', _.throttle(function(e){ // '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)
             var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
             var $target = $(e.target);
-            var $col, $newRow, $newCol;
-            var h, relY;
+            var $col;
+            var $newRow;
+            var $newCol;
+            var h;
+            var relY;
 
             //insert element above or below the col's row:
             if(!$target.hasClass("new-col") && !$target.is("#qti-block-element-placeholder")) {
@@ -350,24 +365,6 @@ define([
 
     };
 
-    _mapQtiToHtml = function (qtiClass){
-
-        if(qtiElements.is(qtiClass, 'inlineInteraction')){
-            return 'object';//an inlineInteraction is a flow, like xhtml "object" elements
-        }else{
-            switch(qtiClass){
-                case 'math':
-                    return 'div';
-                case 'object.audio':
-                case 'object.video':
-                    return 'object';
-            }
-        }
-
-        //else return the html itself : a qti img is an img:
-        return qtiClass;
-    };
-
     _pulseTimer = null;
     _pulse = function ($el){
         var intervalDuration = 1000;
@@ -392,10 +389,10 @@ define([
 
     droppableGridEditor.createDroppableInlines = function createDroppableInlines(qtiClass, $el, options){
 
-        var ns = options.namespace ? '.' + options.namespace : '',
-            data = options.data || {},
-            $targets = targetFinder.getTargetsFor(qtiClass, $el),
-            dropped = false;
+        var ns = options.namespace ? '.' + options.namespace : '';
+        var data = options.data || {};
+        var $targets = targetFinder.getTargetsFor(qtiClass, $el);
+        var dropped = false;
         var $placeholder;
         var _resetPlaceholder = function _resetPlaceholder(){
             $placeholder.detach();
@@ -425,9 +422,9 @@ define([
 
         $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', _.throttle(function(e){
 
-            var w = $(this).width(),
-                parentOffset = $(this).offset(),
-                relX = e.pageX - parentOffset.left;
+            var w = $(this).width();
+            var parentOffset = $(this).offset();
+            var relX = e.pageX - parentOffset.left;
 
             if(relX < w / 2){
                 $(this).before(_showPlaceholder());
@@ -535,7 +532,8 @@ define([
 
             //restore original classes
             $row.children(':not(.new-col)').each(function(){
-                var $col = $(this), originalClasses = $col.attr('data-original-class');
+                var $col = $(this);
+                var originalClasses = $col.attr('data-original-class');
                 if(originalClasses){
                     $col.attr('class', originalClasses).removeAttr('data-original-class');
                 }
