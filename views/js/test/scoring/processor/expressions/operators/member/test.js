@@ -1,79 +1,80 @@
 define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/member'
-], function(_, preProcessorFactory, memberProcessor){
+], function(_, preProcessorFactory, memberProcessor) {
     'use strict';
 
-    module('API');
+    QUnit.module('API');
 
-    QUnit.test('structure', function(assert){
+    QUnit.test('structure', function(assert) {
         assert.ok(_.isPlainObject(memberProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(memberProcessor.process), 'the processor has a process function');
         assert.ok(_.isArray(memberProcessor.operands), 'the processor has operands');
     });
 
-    module('Process');
+    QUnit.module('Process');
 
     var dataProvider = [{
-        title : 'multiple truth',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'integer',
+        title: 'multiple truth',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'integer',
             value: 7
-        },{
-            cardinality : 'multiple',
-            baseType : 'integer',
-            value: [ 7, 3 ]
+        }, {
+            cardinality: 'multiple',
+            baseType: 'integer',
+            value: [7, 3]
         }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : true
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
         }
-    },{
-        title : 'string false',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'string',
+    }, {
+        title: 'string false',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
             value: 'xx,'
-        },{
-            cardinality : 'multiple',
-            baseType : 'string',
-            value: [ 'xx', 'yy' ]
+        }, {
+            cardinality: 'multiple',
+            baseType: 'string',
+            value: ['xx', 'yy']
         }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : false
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: false
         }
-    },{
-        title : 'different basetypes',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'integer',
+    }, {
+        title: 'different basetypes',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'integer',
             value: 7
-        },{
-            cardinality : 'ordered',
-            baseType : 'string',
-            value: [ 5, 7 ]
+        }, {
+            cardinality: 'ordered',
+            baseType: 'string',
+            value: [5, 7]
         }],
-        expectedResult : null
-    },{
-        title : 'multiple false',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'integer',
+        expectedResult: null
+    }, {
+        title: 'multiple false',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'integer',
             value: 22
-        },{
-            cardinality : 'multiple',
-            baseType : 'integer',
-            value: [ 4, 2 ]
+        }, {
+            cardinality: 'multiple',
+            baseType: 'integer',
+            value: [4, 2]
         }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : false
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: false
         }
     }, {
         title: 'incorrect cardinality',
@@ -87,7 +88,7 @@ define([
             value: [5, 7]
         }],
         expectedResult: null
-    },{
+    }, {
         title: 'ordered truth directedPair',
         operands: [{
             cardinality: 'single',
@@ -103,7 +104,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'ordered false directedPair',
         operands: [{
             cardinality: 'single',
@@ -119,17 +120,17 @@ define([
             baseType: 'boolean',
             value: false
         }
-    },{
-        title : 'null operand',
-        operands : [null],
-        expectedResult : null
+    }, {
+        title: 'null operand',
+        operands: [null],
+        expectedResult: null
     }];
 
     QUnit
-      .cases(dataProvider)
-      .test('member ', function(data, assert){
-        memberProcessor.operands = data.operands;
-        memberProcessor.preProcessor = preProcessorFactory({});
-        assert.deepEqual(memberProcessor.process(), data.expectedResult, 'The member is correct');
-    });
+      .cases.init(dataProvider)
+      .test('member ', function(data, assert) {
+          memberProcessor.operands = data.operands;
+          memberProcessor.preProcessor = preProcessorFactory({});
+          assert.deepEqual(memberProcessor.process(), data.expectedResult, 'The member is correct');
+      });
 });

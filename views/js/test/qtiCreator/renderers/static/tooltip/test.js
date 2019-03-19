@@ -19,17 +19,26 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'jquery',
     'taoQtiItem/test/qtiCreator/mocks/qtiCreatorContextMock',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/Tooltip'
-], function($, qtiCreatorContextMockFactory, areaBrokerFactory, creatorRenderer, Tooltip) {
+], function(
+
+    $,
+    qtiCreatorContextMockFactory,
+    areaBrokerFactory,
+    creatorRenderer,
+    Tooltip
+) {
     'use strict';
 
     QUnit.module('Creator Renderer');
 
-    QUnit.asyncTest('Display and play', function (assert) {
+    QUnit.test('Display and play', function(assert) {
+        var ready = assert.async();
         var $outsideContainer = $('#outside-container'),
             config = {
                 qtiCreatorContext: qtiCreatorContextMockFactory()
@@ -42,13 +51,13 @@ define([
                     toolbar: $('#toolbar-top')
                 }
             }),
-            tooltipContent  = 'my tooltip <strong>content</strong>',
-            tooltipSerial   = '_tooltip_4568613547893',
-            tooltipId       = 'tooltip_123456',
+            tooltipContent = 'my tooltip <strong>content</strong>',
+            tooltipSerial = '_tooltip_4568613547893',
+            tooltipId = 'tooltip_123456',
 
-            tooltip = new Tooltip(tooltipSerial, { 'aria-describedby': tooltipId }, tooltipContent);
+            tooltip = new Tooltip(tooltipSerial, {'aria-describedby': tooltipId}, tooltipContent);
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         creatorRenderer
             .get(true, config, areaBroker)
@@ -63,8 +72,7 @@ define([
 
                 assert.ok(true);
 
-                QUnit.start();
-            }, [ '_tooltip', '_container' ]);
-
+                ready();
+            }, ['_tooltip', '_container']);
     });
 });

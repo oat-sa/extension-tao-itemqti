@@ -19,6 +19,7 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'taoQtiItem/qtiItem/core/Tooltip',
     'taoQtiItem/qtiCreator/helper/xmlRenderer'
 ], function(Tooltip, xmlRenderer) {
@@ -26,15 +27,16 @@ define([
 
     QUnit.module('XML Renderer');
 
-    QUnit.asyncTest('Render to XML', function(assert) {
+    QUnit.test('Render to XML', function(assert) {
+        var ready = assert.async();
         var renderer = xmlRenderer
             .get()
             .load(function() {
-                var tooltipTarget   = 'my <i>target</i>',
-                    tooltipContent  = 'my tooltip <strong>content</strong>',
-                    tooltipSerial   = '_tooltip_4568613547893',
-                    tooltipId       = '_tooltip_ID',
-                    attributes      = {
+                var tooltipTarget = 'my <i>target</i>',
+                    tooltipContent = 'my tooltip <strong>content</strong>',
+                    tooltipSerial = '_tooltip_4568613547893',
+                    tooltipId = '_tooltip_ID',
+                    attributes = {
                         'aria-describedby': tooltipId,
                         'data-role': 'tooltip-target'
                     },
@@ -42,14 +44,14 @@ define([
                     tooltip = new Tooltip(tooltipSerial, attributes, tooltipContent),
 
                     expectedXml =
-                        '<span data-role="tooltip-target" aria-describedby="' + tooltipId + '">' + tooltipTarget + '</span>' +
-                        '<span data-role="tooltip-content" aria-hidden="true" id="' + tooltipId + '">' + tooltipContent + '</span>';
+                        '<span data-role="tooltip-target" aria-describedby="' + tooltipId + '">' + tooltipTarget + "</span>" +
+                        '<span data-role="tooltip-content" aria-hidden="true" id="' + tooltipId + '">' + tooltipContent + "</span>";
 
                 tooltip.body(tooltipTarget);
                 tooltip.setRenderer(renderer);
 
                 assert.equal(tooltip.render(), expectedXml, 'rendered XML is correct');
-                QUnit.start();
+                ready();
 
             }, ['_tooltip', '_container']);
     });
