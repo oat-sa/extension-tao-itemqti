@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -393,6 +393,7 @@ define([
 
         var gapFillersSelector = $gapList.selector + ' li';
         var dragOptions;
+        var scaleX, scaleY;
 
         interact(gapFillersSelector).on('tap', function onClickGapImg(e) {
             e.stopPropagation();
@@ -416,13 +417,17 @@ define([
                 .draggable(_.assign({}, dragOptions, {
                     onstart: function (e) {
                         var $target = $(e.target);
+                        var scale;
                         _setActiveGapState($target);
                         $target.addClass('dragged');
 
                         _iFrameDragFix(gapFillersSelector, e.target);
+                        scale = interactUtils.calculateScale(e.target);
+                        scaleX = scale[0];
+                        scaleY = scale[1];
                     },
                     onmove: function (e) {
-                        interactUtils.moveElement(e.target, e.dx, e.dy);
+                        interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
                     },
                     onend: function (e) {
                         var $target = $(e.target);
