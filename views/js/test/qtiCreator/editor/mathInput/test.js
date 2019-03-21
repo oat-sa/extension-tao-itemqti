@@ -19,44 +19,46 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/editor/mathInput/mathInput'
-], function (_, $, mathInputFactory) {
+], function(_, $, mathInputFactory) {
     'use strict';
 
     var fixtureContainer = $('#qunit-fixture');
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof mathInputFactory === 'function', 'The module expose a function');
     });
 
     QUnit
-        .cases([
-            { title: 'setLatex' },
-            { title: 'getLatex' }
+        .cases.init([
+            {title: 'setLatex'},
+            {title: 'getLatex'}
         ])
         .test('component API', function(data, assert) {
             var mathInput = mathInputFactory();
 
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof mathInput[data.title], 'function', 'The component has the method ' + data.title);
         });
 
     QUnit.module('mathInput');
 
-    QUnit.asyncTest('setLatex() / getLatex()', function(assert) {
+    QUnit.test('setLatex() / getLatex()', function(assert) {
+        var ready = assert.async();
         var mathInput = mathInputFactory(),
             $container = $(fixtureContainer);
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         mathInput
-            .on('render', function(){
+            .on('render', function() {
                 var sampleLatex = '\\frac{1}{69}';
 
                 assert.equal(mathInput.getLatex(), '', 'there is no content yet');
@@ -67,73 +69,77 @@ define([
                 mathInput.destroy();
 
                 assert.ok(_.isUndefined(mathInput.getLatex()), 'content has been destroyed');
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container);
     });
 
     QUnit
-        .cases([
-            { title: 'frac',        latex: '\\frac{ }{ }' },
-            { title: 'sqrt',        latex: '\\sqrt{ }' },
-            { title: 'exp',         latex: '^{ }' },
-            { title: 'log',         latex: '\\log' },
-            { title: 'ln',          latex: '\\ln' },
-            { title: 'e',           latex: '\\mathrm{e}' },
-            { title: 'infinity',    latex: '\\infty' },
-            { title: 'lbrack',      latex: '[' },
-            { title: 'rbrack',      latex: ']' },
-            { title: 'pi',          latex: '\\pi' },
-            { title: 'cos',         latex: '\\cos' },
-            { title: 'sin',         latex: '\\sin' },
-            { title: 'lte',         latex: '\\le' },
-            { title: 'gte',         latex: '\\ge' },
-            { title: 'times',       latex: '\\times' },
-            { title: 'divide',      latex: '\\div' },
-            { title: 'plusminus',   latex: '\\pm' }
+        .cases.init([
+            {title: 'frac', latex: '\\frac{ }{ }'},
+            {title: 'sqrt', latex: '\\sqrt{ }'},
+            {title: 'exp', latex: '^{ }'},
+            {title: 'log', latex: '\\log'},
+            {title: 'ln', latex: '\\ln'},
+            {title: 'e', latex: '\\mathrm{e}'},
+            {title: 'infinity', latex: '\\infty'},
+            {title: 'lbrack', latex: '['},
+            {title: 'rbrack', latex: ']'},
+            {title: 'pi', latex: '\\pi'},
+            {title: 'cos', latex: '\\cos'},
+            {title: 'sin', latex: '\\sin'},
+            {title: 'lte', latex: '\\le'},
+            {title: 'gte', latex: '\\ge'},
+            {title: 'times', latex: '\\times'},
+            {title: 'divide', latex: '\\div'},
+            {title: 'plusminus', latex: '\\pm'}
         ])
-        .asyncTest('buttons', function(data, assert) {
+        .test('buttons', function(data, assert) {
+            var ready = assert.async();
             var mathInput = mathInputFactory(),
                 $container = $(fixtureContainer);
 
-            QUnit.expect(2);
+            assert.expect(2);
 
             mathInput
-                .on('render', function(){
+                .on('render', function() {
                     var $button = $container.find('[data-identifier="' + data.title + '"]');
                     assert.equal($button.length, 1, 'button has been rendered');
 
                     $button.trigger('mousedown');
                     assert.equal(mathInput.getLatex(), data.latex, 'button creates the correct latex');
 
-                    QUnit.start();
+                    mathInput.destroy();
+
+                    ready();
                 })
                 .init()
                 .render($container);
         });
 
-    QUnit.asyncTest('stop clic propagation', function(assert) {
+    QUnit.test('stop clic propagation', function(assert) {
+        var ready = assert.async();
         var mathInput = mathInputFactory(),
             $container = $(fixtureContainer);
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         mathInput
-            .on('render', function(){
+            .on('render', function() {
                 var $component = this.getElement(),
                     $inputField = $component.find('.math-input-mathquill');
 
                 assert.equal($inputField.length, 1, 'inputField has been found');
 
                 $component.on('mousedown', function() {
-                    assert.ok(false, 'Event should not propagate to the component\'s root element');
-                    QUnit.start();
+                    assert.ok(false, 'Event should not propagate to the componen\'s root element');
+                    ready();
                 });
 
                 $inputField.trigger('mousedown');
 
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container);
@@ -141,19 +147,20 @@ define([
 
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('display and play', function (assert) {
+    QUnit.test('display and play', function(assert) {
+        var ready = assert.async();
         var mathInput = mathInputFactory(),
             $container = $('#outside-container'),
-            $latexResponse = $('<span>', { text: '_' });
+            $latexResponse = $('<span>', {text: '_'});
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         mathInput
-            .on('render', function(){
-                $container.append($('<div>', { text: 'Latex: ' }).append($latexResponse));
+            .on('render', function() {
+                $container.append($('<div>', {text: 'Latex: '}).append($latexResponse));
 
                 assert.ok(true);
-                QUnit.start();
+                ready();
             })
             .on('change', function() {
                 $latexResponse.html(this.getLatex());

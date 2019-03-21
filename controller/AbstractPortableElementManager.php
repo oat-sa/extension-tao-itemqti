@@ -99,24 +99,4 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
             throw new common_exception_Error('invalid item preview file path');
         }
     }
-   
-    /**
-     * Add required resources for a custom interaction (css, js) in the item directory
-     * 
-     * @throws common_exception_Error
-     */
-    public function addRequiredResources()
-    {
-        $typeIdentifier = $this->getRequestParameter('typeIdentifier');
-        $itemUri = urldecode($this->getRequestParameter('uri'));
-        $item = new core_kernel_classes_Resource($itemUri);
-        
-        $resources = $this->registry->addRequiredResources($typeIdentifier, $item);
-        
-        $this->returnJson(array(
-            'success' => true,
-            'resources' => $resources
-        ));
-    }
-
 }

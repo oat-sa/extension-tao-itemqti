@@ -23,29 +23,30 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+
     'jquery',
     'taoQtiItem/test/qtiCreator/plugins/creatorMock',
     'taoQtiItem/qtiCreator/plugins/content/changeTracker'
-], function ($, creatorMock, changeTrackerPlugin){
+], function($, creatorMock, changeTrackerPlugin) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('factory', function(assert){
+    QUnit.test('factory', function(assert) {
         var itemCreator = creatorMock();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal(typeof changeTrackerPlugin, 'function', 'The module exposes a function');
         assert.equal(typeof changeTrackerPlugin(itemCreator), 'object', 'The factory creates an object');
         assert.notDeepEqual(changeTrackerPlugin(itemCreator), changeTrackerPlugin(itemCreator), 'The factory creates an new object');
     });
 
-    QUnit.test('plugin', function(assert){
+    QUnit.test('plugin', function(assert) {
         var itemCreator = creatorMock();
         var plugin;
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         plugin = changeTrackerPlugin(itemCreator);
 
@@ -62,79 +63,80 @@ define([
         assert.equal(typeof plugin.getAreaBroker, 'function', 'The plugin has a getAreaBroker method');
     });
 
-
     QUnit.module('behavior', {
-        teardown: function(){
+        afterEach: function(assert) {
             $('.modal').remove();
             window.onbeforeunload = null;
         }
     });
 
-    QUnit.asyncTest('preview without changes', function(assert){
+    QUnit.test('preview without changes', function(assert) {
+        var ready = assert.async();
         var itemValue = 'foo';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('qunit-fixtures'), {}, item);
         var plugin;
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
 
         plugin.init();
 
-        itemCreator.on('save', function(){
-            setTimeout(function(){
+        itemCreator.on('save', function() {
+            setTimeout(function() {
                 itemCreator.trigger('saved');
             }, 10);
         });
-        itemCreator.on('preview', function(){
+        itemCreator.on('preview', function() {
             assert.ok(true, 'preview called');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         });
         itemCreator.trigger('preview');
     });
 
-    QUnit.asyncTest('preview with changes', function(assert){
+    QUnit.test('preview with changes', function(assert) {
+        var ready = assert.async();
         var itemValue = 'foo';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('qunit-fixtures'), {}, item);
         var plugin;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
 
         plugin.init();
 
-        itemCreator.on('save', function(){
-            setTimeout(function(){
+        itemCreator.on('save', function() {
+            setTimeout(function() {
                 itemCreator.trigger('saved');
             }, 10);
         });
 
-        itemCreator.on('preview', function(){
+        itemCreator.on('preview', function() {
             assert.ok(true, 'preview called');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         });
 
         itemValue = 'bar';
         itemCreator.trigger('preview');
 
-        setTimeout(function(){
+        setTimeout(function() {
             var $dialog = $('.modal');
-            var $save     = $('.save', $dialog);
+            var $save = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
             assert.equal($save.length, 1, 'The save button exists');
@@ -144,44 +146,45 @@ define([
         }, 100);
     });
 
-    QUnit.asyncTest('preview with changes but not saved', function(assert){
+    QUnit.test('preview with changes but not saved', function(assert) {
+        var ready = assert.async();
         var itemValue = 'foo';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('qunit-fixtures'), {}, item);
         var plugin;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
 
         plugin.init();
 
-        itemCreator.on('save', function(){
+        itemCreator.on('save', function() {
             assert.ok(false, 'Save must not be called');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         });
 
-        itemCreator.on('preview', function(){
+        itemCreator.on('preview', function() {
             assert.ok(true, 'preview called');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         });
 
         itemValue = 'bar';
         itemCreator.trigger('preview');
 
-        setTimeout(function(){
-            var $dialog = $('.modal');
-            var $dontsave     = $('.dontsave', $dialog);
-            assert.equal($dialog.length, 1, 'The modal exists');
-            assert.ok($dialog.hasClass('opened'), 'The modal is opened');
+        setTimeout(function() {
+            var $dialog = $(".modal");
+            var $dontsave = $(".dontsave", $dialog);
+            assert.equal($dialog.length, 1, "The modal exists");
+            assert.ok($dialog.hasClass("opened"), "The modal is opened");
             assert.equal($dontsave.length, 1, 'The "dont save" button exists');
 
             $dontsave.click();
@@ -189,92 +192,94 @@ define([
         }, 100);
     });
 
-    QUnit.asyncTest('cancel preview', function(assert){
+    QUnit.test('cancel preview', function(assert) {
+        var ready = assert.async();
         var itemValue = 'foo';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('qunit-fixture'), {}, item);
         var plugin;
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
 
         plugin.init();
 
-        itemCreator.on('save', function(){
+        itemCreator.on('save', function() {
             assert.ok(false, 'The item must not be saved');
-            QUnit.start();
+            ready();
         });
 
-        itemCreator.on('preview', function(){
+        itemCreator.on('preview', function() {
             assert.ok(false, 'The item must not be previewed');
-            QUnit.start();
+            ready();
         });
 
         itemValue = 'bar';
         itemCreator.trigger('preview');
 
-        setTimeout(function(){
+        setTimeout(function() {
             var $dialog = $('.modal');
-            var $cancel     = $('.cancel', $dialog);
+            var $cancel = $('.cancel', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
             assert.equal($cancel.length, 1, 'The cancel button exists');
 
             $cancel.click();
 
-            setTimeout(function(){
+            setTimeout(function() {
 
                 assert.equal($dialog.length, 1, 'The modal exists');
                 assert.ok(!$dialog.hasClass('opened'), 'The modal is closed');
 
                 plugin.destroy();
-                QUnit.start();
+                ready();
 
             }, 100);
 
         }, 100);
     });
 
-    QUnit.asyncTest('exit with changes', function(assert){
+    QUnit.test('exit with changes', function(assert) {
+        var ready = assert.async();
         var itemValue = 'foo';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('qunit-fixture'), {}, item);
         var plugin;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
 
         plugin.init();
 
-        itemCreator.on('save', function(){
-            setTimeout(function(){
+        itemCreator.on('save', function() {
+            setTimeout(function() {
                 itemCreator.trigger('saved');
             }, 10);
         });
 
-        itemCreator.on('exit', function(){
+        itemCreator.on('exit', function() {
             assert.ok(true, 'exit called');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         });
 
-        itemValue = { noz : 'bar' };
+        itemValue = {noz: 'bar'};
         itemCreator.trigger('exit');
 
-        setTimeout(function(){
+        setTimeout(function() {
             var $dialog = $('.modal');
-            var $save     = $('.save', $dialog);
+            var $save = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
             assert.equal($save.length, 1, 'The save button exists');
@@ -284,91 +289,93 @@ define([
         }, 100);
     });
 
-    QUnit.asyncTest('cancel on changes', function(assert){
+    QUnit.test('cancel on changes', function(assert) {
+        var ready = assert.async();
         var itemValue = 'foo';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('qunit-fixture'), {}, item);
         var plugin;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
 
         plugin.init();
 
-        itemCreator.on('cancel', function(){
-            setTimeout(function(){
+        itemCreator.on('cancel', function() {
+            setTimeout(function() {
                 itemCreator.trigger('saved');
             }, 10);
         });
 
-        itemCreator.on('exit', function(){
+        itemCreator.on('exit', function() {
             assert.ok(true, 'exit called');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         });
 
-        itemValue = { noz : 'bar' };
+        itemValue = {noz: 'bar'};
         itemCreator.trigger('exit');
 
-        setTimeout(function(){
+        setTimeout(function() {
             var $dialog = $('.modal');
-            var $cancel     = $('.cancel', $dialog);
+            var $cancel = $('.cancel', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
             assert.equal($cancel.length, 1, 'The cancel button exists');
 
             $cancel.click();
 
-            setTimeout(function () {
+            setTimeout(function() {
                 assert.equal($('.modal').length, 0, 'The modal was cancelled');
-                QUnit.start();
+                ready();
             }, 1000);
         }, 100);
     });
 
-    QUnit.asyncTest('exit with changes from styles', function(assert){
+    QUnit.test('exit with changes from styles', function(assert) {
+        var ready = assert.async();
         var itemValue = 'foo';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('qunit-fixture'), {}, item);
         var plugin;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         plugin = changeTrackerPlugin(itemCreator, itemCreator.getAreaBroker());
 
         plugin.init();
 
-        itemCreator.on('save', function(){
-            setTimeout(function(){
+        itemCreator.on('save', function() {
+            setTimeout(function() {
                 itemCreator.trigger('saved');
             }, 10);
         });
 
-        itemCreator.on('exit', function(){
+        itemCreator.on('exit', function() {
             assert.ok(true, 'exit called');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         });
 
         $(document).trigger('stylechange.qti-creator');
-        setTimeout(function(){
+        setTimeout(function() {
             itemCreator.trigger('exit');
         });
 
-        setTimeout(function(){
+        setTimeout(function() {
             var $dialog = $('.modal');
-            var $save     = $('.save', $dialog);
+            var $save = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
             assert.equal($save.length, 1, 'The save button exists');
@@ -378,20 +385,20 @@ define([
         }, 100);
     });
 
-
-    QUnit.asyncTest('click outside the container', function(assert){
-        var $fixture  = $('#qunit-fixture');
-        var $outside   = $('.outside', $fixture);
+    QUnit.test('click outside the container', function(assert) {
+        var ready = assert.async();
+        var $fixture = $('#qunit-fixture');
+        var $outside = $('.outside', $fixture);
         var itemValue = ' foo ';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('.container', $fixture), {}, item);
         var plugin;
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         assert.equal($fixture.length, 1, 'The fixture container exists');
         assert.equal($outside.length, 1, 'The outside link exists');
@@ -400,15 +407,15 @@ define([
 
         plugin.init();
 
-        itemCreator.on('save', function(){
-            $outside.on('click',function(e){
+        itemCreator.on('save', function() {
+            $outside.on('click', function(e) {
                 e.preventDefault();
                 assert.ok(true, 'outside link clicked');
 
                 plugin.destroy();
-                QUnit.start();
+                ready();
             });
-            setTimeout(function(){
+            setTimeout(function() {
                 itemCreator.trigger('saved');
             }, 10);
         });
@@ -417,9 +424,9 @@ define([
 
         $outside.click();
 
-        setTimeout(function(){
+        setTimeout(function() {
             var $dialog = $('.modal');
-            var $save     = $('.save', $dialog);
+            var $save = $('.save', $dialog);
             assert.equal($dialog.length, 1, 'The modal exists');
             assert.ok($dialog.hasClass('opened'), 'The modal is opened');
             assert.equal($save.length, 1, 'The save button exists');
@@ -429,19 +436,20 @@ define([
         }, 100);
     });
 
-    QUnit.asyncTest('click inside the container', function(assert){
-        var $fixture  = $('#qunit-fixture');
-        var $inside   = $('.inside', $fixture);
+    QUnit.test('click inside the container', function(assert) {
+        var ready = assert.async();
+        var $fixture = $('#qunit-fixture');
+        var $inside = $('.inside', $fixture);
         var itemValue = ' foo ';
         var item = {
-            toArray: function toArray(){
+            toArray: function toArray() {
                 return itemValue;
             }
         };
         var itemCreator = creatorMock($('.container', $fixture), {}, item);
         var plugin;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal($fixture.length, 1, 'The fixture container exists');
         assert.equal($inside.length, 1, 'The outside link exists');
@@ -450,21 +458,21 @@ define([
 
         plugin.init();
 
-        itemCreator.on('save', function(){
+        itemCreator.on('save', function() {
             assert.ok(false, 'The item must not be saved');
-            QUnit.start();
+            ready();
         });
 
         itemValue = 'bar';
 
         $inside.click();
 
-        setTimeout(function(){
+        setTimeout(function() {
             var $dialog = $('.modal');
             assert.equal($dialog.length, 0, 'No modals is created');
 
             plugin.destroy();
-            QUnit.start();
+            ready();
         }, 100);
     });
 });
