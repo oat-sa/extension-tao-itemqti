@@ -307,8 +307,7 @@ define([
                 var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
                 var $target = $(e.target);
 
-                if($target.parents('.qti-itemBody').length ||
-                    $target.hasClass('qti-itemBody')) {
+                if($target.closest('.qti-itemBody').length) {
                     _resetPlaceholder();
                     if (goingTo && !$(goingTo).hasClass('dropping').length) {
                         $placeholder.remove();
