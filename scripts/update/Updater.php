@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -391,6 +391,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('16.0.0');
         }
 
-        $this->skip('16.0.0', '19.3.0');
+        $this->skip('16.0.0', '19.3.1');
     }
 }
