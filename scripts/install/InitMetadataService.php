@@ -23,7 +23,9 @@ namespace oat\taoQtiItem\scripts\install;
 use oat\oatbox\action\Action;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\GenericLomManifestClassificationExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -60,8 +62,8 @@ class InitMetadataService implements Action, ServiceLocatorAwareInterface
             }
         } else {
             $importerConfig = [
-                MetadataImporter::INJECTOR_KEY     => ['oat\\taoQtiItem\\model\\qti\\metadata\\ontology\\LomInjector'],
-                MetadataImporter::EXTRACTOR_KEY    => ['oat\\taoQtiItem\\model\\qti\\metadata\\imsManifest\\classificationMetadata\\GenericLomManifestClassificationExtractor'],
+                MetadataImporter::INJECTOR_KEY     => [\oat\taoQtiItem\model\qti\metadata\ontology\LomInjector::class],
+                MetadataImporter::EXTRACTOR_KEY    => [GenericLomManifestClassificationExtractor::class],
                 MetadataImporter::GUARDIAN_KEY     => [],
                 MetadataImporter::CLASS_LOOKUP_KEY => [],
             ];
@@ -72,8 +74,8 @@ class InitMetadataService implements Action, ServiceLocatorAwareInterface
                 $importerConfig
             ),
             MetadataService::EXPORTER_KEY => new MetadataExporter([
-                MetadataExporter::INJECTOR_KEY     => ['oat\\taoQtiItem\\model\\qti\\metadata\\imsManifest\\LomInjector'],
-                MetadataExporter::EXTRACTOR_KEY    => ['oat\\taoQtiItem\\model\\qti\\metadata\\ontology\\GenericLomOntologyClassificationExtractor'],
+                MetadataExporter::INJECTOR_KEY     => [\oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector::class],
+                MetadataExporter::EXTRACTOR_KEY    => [GenericLomOntologyClassificationExtractor::class],
             ])
         ];
         $metadataService = $this->getServiceLocator()->build(MetadataService::class, $options);

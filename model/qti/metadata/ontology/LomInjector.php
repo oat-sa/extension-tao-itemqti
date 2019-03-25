@@ -36,6 +36,6 @@ class LomInjector extends OntologyMetadataInjector
             'http://ltsc.ieee.org/xsd/LOM#lom',
             'http://www.w3.org/2000/01/rdf-schema#label'
         ),
-            'http://www.w3.org/2000/01/rdf-schema#label');
+        'http://www.w3.org/2000/01/rdf-schema#label');
     }
 }
