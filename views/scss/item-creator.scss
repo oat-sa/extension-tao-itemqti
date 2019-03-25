@@ -432,19 +432,14 @@ img.dragging.ui-draggable-dragging {
 
     .item-editor-unit-input-box {
         position: relative;
-        display: inline-block;
+        display: inline;
         input {
             padding-right: 28px;
         }
         .unit-indicator {
-            position: absolute;
-            right: 0px;
-            top: 0px;
-            display: block;
             width: 28px;
             line-height: 28px;
             height: 28px;
-            text-align: center;
             color: mix(#fff, $textColor, 50%);
             @include border-radius();
         }
@@ -782,6 +777,12 @@ img.dragging.ui-draggable-dragging {
     .inserting {
         .widget-block, .widget-blockInteraction {
             border: 1px dashed #ddd;
+        }
+        .widget-img {
+            img {
+                display: flex;
+                height: 100%;
+            }
         }
     }
 

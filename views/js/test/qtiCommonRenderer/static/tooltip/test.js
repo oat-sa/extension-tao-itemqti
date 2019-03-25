@@ -19,22 +19,33 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'taoQtiItem/qtiItem/core/Tooltip',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
-    'json!taoQtiItem/test/samples/json/static/tooltip.json'
-], function ($, _, qtiItemRunner, Tooltip, commonRenderer, itemData) {
+    'json!taoQtiItem/test/samples/json/static/tooltip.json',
+    'ui/tooltip'
+], function(
+
+    $,
+    _,
+    qtiItemRunner,
+    Tooltip,
+    commonRenderer,
+    itemData,
+    tooltip
+) {
     'use strict';
 
     var runner;
     var fixtureContainerId = '#item-container';
     var outsideContainerId = '#outside-container';
 
-    module('Order Interaction', {
-        teardown : function(){
-            if(runner){
+    QUnit.module('Order Interaction', {
+        afterEach: function(assert) {
+            if (runner) {
                 runner.clear();
             }
         }
@@ -42,16 +53,17 @@ define([
 
     QUnit.module('Tooltip renderer');
 
-    QUnit.asyncTest('renders correctly', function(assert){
+    QUnit.test('renders correctly', function(assert) {
+        var ready = assert.async();
         var $container = $(fixtureContainerId);
 
-        QUnit.expect(16);
+        assert.expect(16);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemData)
-            .on('render', function(){
+            .on('render', function() {
                 var $allTooltips,
                     $tooltipContent,
                     $tooltip,
@@ -73,45 +85,48 @@ define([
                     assert.equal($tooltip.html().trim(), 'inline <i>interaction</i> container', 'tooltip 1 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 1 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'This is a container for inline choices and inline text entries.',
                         'tooltip content is correct'
                     );
 
                     $tooltip = $allTooltips.eq(1);
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), 'tooltip', 'tooltip 2 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 2 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'Some say that the word "tooltip" does not really exist.',
-                        'tooltip content is correct'
+                        "tooltip content is correct"
                     );
 
                     $tooltip = $allTooltips.eq(2);
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), 'QTI <strong>prompt</strong>', 'tooltip 3 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 3 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'The text before the question.',
                         'tooltip content is correct'
                     );
 
                     $tooltip = $allTooltips.eq(3);
+                    $tooltip.data('$tooltip').show();
                     contentId = $tooltip.attr('aria-describedby');
                     $tooltipContent = $('#' + contentId);
                     assert.equal($tooltip.html().trim(), '<i>strange</i> word', 'tooltip 4 has the correct target');
                     assert.equal($tooltipContent.length, 1, 'tooltip 4 has a content');
                     assert.equal(
-                        $tooltipContent.text(),
+                        $tooltipContent.text().trim(),
                         'But it will not be revealed here.',
                         'tooltip content is correct'
                     );
 
-                    QUnit.start();
+                    ready();
                 }, 200);
 
             })
@@ -124,19 +139,20 @@ define([
 
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('display and play', function(assert){
+    QUnit.test('display and play', function(assert) {
+        var ready = assert.async();
         var $container = $(outsideContainerId);
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemData)
-            .on('render', function(){
+            .on('render', function() {
                 assert.equal($container.children().length, 1, 'the container has an element');
 
-                QUnit.start();
+                ready();
             })
             .on('error', function(err) {
                 window.console.log(err);

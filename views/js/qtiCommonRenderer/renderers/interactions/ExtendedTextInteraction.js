@@ -32,8 +32,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
-    'taoQtiItem/qtiCommonRenderer/helpers/patternMask'
-], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper){
+    'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
+    'ui/tooltip'
+], function($, _, __, Promise, strLimiter, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator, patternMaskHelper, tooltip){
     'use strict';
 
 
@@ -48,7 +49,8 @@ define([
     var render = function render (interaction){
         return new Promise(function(resolve, reject){
 
-            var $el, expectedLength, minStrings, expectedLines, patternMask, placeholderType, editor;
+            var $el, expectedLength, minStrings, patternMask, placeholderType, editor;
+            var isThemeLoaded, _styleUpdater, themeLoaded, _getNumStrings;
             var $container = containerHelper.get(interaction);
 
             var multiple = _isMultiple(interaction);
@@ -62,7 +64,7 @@ define([
                 'language': 'en',
                 'defaultLanguage': 'en',
                 'resize_enabled': true,
-                'secure': location.protocol == 'https:',
+                'secure': location.protocol === 'https:',
                 'forceCustomDomain' : true
             };
 
@@ -74,6 +76,30 @@ define([
                 }
                 if (_getFormat(interaction) === "xhtml") {
 
+                    isThemeLoaded = false;
+                    _styleUpdater = function(){
+                        var qtiItemStyle, $editorBody, qtiItem;
+
+                        if(editor.document) {
+                            qtiItem = $(".qti-item").get(0);
+                            qtiItemStyle = qtiItem.currentStyle || window.getComputedStyle(qtiItem);
+
+                            if(editor.document.$ && editor.document.$.body){
+                                $editorBody = $(editor.document.$.body);
+                            } else {
+                                $editorBody = $(editor.document.getBody().$);
+                            }
+
+                            $editorBody.css({
+                                'background-color': 'transparent',
+                                'color': qtiItemStyle.color
+                            });
+                        }
+                    };
+                    themeLoaded = function () {
+                        isThemeLoaded = true;
+                        _styleUpdater();
+                    };
 
                     editor = _setUpCKEditor(interaction, ckOptions);
                     if(!editor){
@@ -81,26 +107,35 @@ define([
                     }
 
                     editor.on('instanceReady', function(){
+                        _styleUpdater();
+
+                        //TAO-6409, disable navigation from cke toolbar
+                        if (editor.container && editor.container.$) {
+                            $(editor.container.$).addClass('no-key-navigation');
+                        }
+
                         //it seems there's still something done after loaded, so resolved must be defered
                         _.delay(resolve, 300);
                     });
                     if(editor.status === 'ready' || editor.status === 'loaded'){
                         _.defer(resolve);
                     }
-                    editor.on('configLoaded', function(e) {
+                    editor.on('configLoaded', function() {
                         editor.config = ckConfigurator.getConfig(editor, toolbarType, ckOptions);
 
                         if(limiter.enabled){
                             limiter.listenTextInput();
                         }
                     });
-                    editor.on('change', function(e) {
+                    editor.on('change', function() {
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
+                    $(document).on('themechange.themeloader', themeLoaded);
+
                 } else {
 
-                    $el.on('keyup.commonRenderer change.commonRenderer', function(e) {
+                    $el.on('keyup.commonRenderer change.commonRenderer', function() {
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
@@ -123,7 +158,7 @@ define([
                 if (minStrings) {
 
                     //get the number of filled inputs
-                    var _getNumStrings = function($element) {
+                    _getNumStrings = function($element) {
                         var num = 0;
                         $element.each(function() {
                             if ($(this).val() !== '') {
@@ -327,6 +362,7 @@ define([
         var expectedLength = interaction.attr('expectedLength');
         var expectedLines  = interaction.attr('expectedLines');
         var patternMask    = interaction.attr('patternMask');
+        var patternRegEx;
         var $textarea,
             $charsCounter,
             $wordsCounter,
@@ -349,6 +385,9 @@ define([
                 maxLength = patternMaskHelper.parsePattern(patternMask, 'chars');
                 maxWords = (_.isNaN(maxWords)) ? undefined : maxWords;
                 maxLength = (_.isNaN(maxLength) ? undefined : maxLength);
+                if (!maxLength && !maxWords) {
+                    patternRegEx = new RegExp(patternMask);
+                }
             }
         }
 
@@ -406,6 +445,40 @@ define([
                 ];
                 var cke;
 
+                var invalidToolip = tooltip.error($container,  __('This is not a valid answer'), {
+                    position : 'bottom',
+                    trigger : 'manual'
+                });
+                var patternHandler = function patternHandler(e) {
+                    var isCke = _getFormat(interaction) === 'xhtml';
+                    var newValue;
+                    if (patternRegEx) {
+                        if(isCke) {
+                            // cke has its own object structure
+                            newValue = e.getData();
+                        }
+                        else {
+                            // covers input
+                            newValue = e.currentTarget.value;
+                        }
+
+                        if(!newValue) {
+                            return false;
+                        }
+                        _.debounce(function(){
+                            if (!patternRegEx.test(newValue)) {
+                                $container.addClass('invalid');
+                                $container.show();
+                                invalidToolip.show();
+                                containerHelper.triggerResponseChangeEvent(interaction);
+                            } else {
+                                $container.removeClass('invalid');
+                                invalidToolip.dispose();
+                            }
+                        }, 400)();
+                    }
+                };
+
                 /**
                  * This part works on keyboard input
                  *
@@ -415,8 +488,11 @@ define([
                 var keyLimitHandler = function keyLimitHandler(e){
                     var keyCode = e && e.data ? e.data.keyCode : e.which ;
                     if ( (!_.contains(ignoreKeyCodes, keyCode) ) &&
-                         (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
-                         (maxLength && self.getCharsCount() >= maxLength))){
+                        (
+                            (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode) ||
+                            (maxLength && self.getCharsCount() >= maxLength))
+                        )
+                    ){
                         if (e.cancel){
                             e.cancel();
                         } else {
@@ -494,8 +570,9 @@ define([
 
                 } else {
                     $textarea
-                        .on('keydown.commonRenderer', keyLimitHandler)
-                        .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
+                    .on('keyup.commonRenderer', patternHandler)
+                    .on('keydown.commonRenderer', keyLimitHandler)
+                    .on('paste.commonRenderer drop.commonRenderer', nonKeyLimitHandler);
                 }
             },
 
@@ -731,7 +808,7 @@ define([
         }
     };
 
-     /**
+    /**
      * Clean interaction destroy
      * @param {Object} interaction
      */

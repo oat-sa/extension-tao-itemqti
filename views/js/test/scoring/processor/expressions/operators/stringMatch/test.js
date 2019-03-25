@@ -1,20 +1,20 @@
 define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/stringMatch'
-], function (_, preProcessorFactory, stringMatchProcessor) {
+], function(_, preProcessorFactory, stringMatchProcessor) {
     'use strict';
 
-    module('API');
+    QUnit.module('API');
 
-    QUnit.test('structure', function (assert) {
+    QUnit.test('structure', function(assert) {
         assert.ok(_.isPlainObject(stringMatchProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(stringMatchProcessor.process), 'the processor has a process function');
         assert.ok(_.isArray(stringMatchProcessor.operands), 'the processor has a process function');
     });
 
-
-    module('Process');
+    QUnit.module('Process');
 
     var dataProvider = [{
         title: 'match truth caseSensitive',
@@ -80,10 +80,10 @@ define([
     ];
 
     QUnit
-        .cases(dataProvider)
-        .test('stringMatch ', function (data, assert) {
+        .cases.init(dataProvider)
+        .test('stringMatch ', function(data, assert) {
             stringMatchProcessor.operands = data.operands;
-            stringMatchProcessor.expression = { attributes : { caseSensitive : data.caseSensitive } };
+            stringMatchProcessor.expression = {attributes: {caseSensitive: data.caseSensitive}};
             stringMatchProcessor.preProcessor = preProcessorFactory({});
             assert.deepEqual(stringMatchProcessor.process(), data.expectedResult, 'The stringMatch is correct');
         });

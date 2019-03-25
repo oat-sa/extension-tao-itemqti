@@ -25,28 +25,7 @@ namespace oat\taoQtiItem\helpers;
 class CssHelper{
 
     private static function _buildWarning() {
-        return <<<EOF
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
-
-
-EOF;
-
+        return " /* Do not edit */" ;
     }
 
     /**
@@ -84,7 +63,11 @@ EOF;
     public static function downloadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath){
 
         $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
-        return $directory->read($styleSheetPath);
+        $file = $directory->getFile($styleSheetPath);
+        if ($file->exists()) {
+            return $file->read();
+        }
+        return null;
     }
 
     /**

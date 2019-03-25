@@ -16,6 +16,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  */
 define([
+
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/helper/simpleParser',
@@ -23,47 +24,54 @@ define([
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Container',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
-], function($, _, simpleParser, sampleXML, Loader, Container, XmlRenderer){
+], function(
+
+    $,
+    _,
+    simpleParser,
+    sampleXML,
+    Loader,
+    Container,
+    XmlRenderer
+) {
     'use strict';
 
     QUnit.module('This is a very old test');
 
-    QUnit.test('parse inline sample', function(assert){
-
+    QUnit.test('parse inline sample', function(assert) {
+        var ready = assert.async();
         var $rubricBlockXml = $(sampleXML).find('rubricBlock');
         var mathNs = 'm';//for 'http://www.w3.org/1998/Math/MathML'
         var data = simpleParser.parse($rubricBlockXml, {
-            ns : {
-                math : mathNs
+            ns: {
+                math: mathNs
             }
         });
         var loader;
 
-        QUnit.stop();
-
-        QUnit.ok(data.body.body, 'has body');
-        QUnit.equal(_.size(data.body.elements), 4, 'elements ok');
+        assert.ok(data.body.body, 'has body');
+        assert.equal(_.size(data.body.elements), 4, 'elements ok');
 
         loader = new Loader();
-        loader.loadRequiredClasses(data, function(){
+        loader.loadRequiredClasses(data, function() {
             var xmlRenderer;
             var container = new Container();
             this.loadContainer(container, data.body);
 
-            xmlRenderer = new XmlRenderer({shuffleChoices : false});
-            xmlRenderer.load(function(){
+            xmlRenderer = new XmlRenderer({shuffleChoices: false});
+            xmlRenderer.load(function() {
                 var xml = container.render(this);
 
                 var $container = $('<prompt>').html(xml);
                 var containerData = simpleParser.parse($container, {
-                    ns : {
-                        math : mathNs
+                    ns: {
+                        math: mathNs
                     }
                 });
                 var containerBis = new Container();
                 loader.loadContainer(containerBis, containerData.body);
 
-                QUnit.start();
+                ready();
                 assert.equal(xml.length, containerBis.render(this).length);
             });
         });
@@ -72,19 +80,19 @@ define([
     QUnit.module('Parser test');
 
     QUnit
-        .cases([
+        .cases.init([
             {
-                title: 'img',
+                title: "img",
                 xml: '<div>this is an image: <img src="my/image.png" />. How cool is that???</div>',
-                expectedBody: 'this is an image: {{img_XXX}}. How cool is that???',
-                expectedElement: 'img',
-                expectedAttributes: { src: 'my/image.png' }
+                expectedBody: "this is an image: {{img_XXX}}. How cool is that???",
+                expectedElement: "img",
+                expectedAttributes: {src: "my/image.png"}
             },
             {
-                title: 'printedVariable',
+                title: "printedVariable",
                 xml: '<div>this is a printedVariable: <printedVariable identifier="SCORE_TOTAL" base="10" powerForm="false" delimiter=";" mappingIndicator="=" format="%2g" index="-1" field="test"/>. How cool is that???</div>',
-                expectedBody: 'this is a printedVariable: {{printedVariable_XXX}}. How cool is that???',
-                expectedElement: 'printedVariable',
+                expectedBody: "this is a printedVariable: {{printedVariable_XXX}}. How cool is that???",
+                expectedElement: "printedVariable",
                 expectedAttributes: {
                     "identifier": "SCORE_TOTAL",
                     "base": "10",
@@ -106,7 +114,7 @@ define([
                 bodyElementsSerials = Object.keys(body.elements),
                 serial = bodyElementsSerials[0];
 
-            QUnit.expect(4);
+            assert.expect(4);
 
             assert.equal(bodyElementsSerials.length, 1, '1 element has been found');
             assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
@@ -115,30 +123,30 @@ define([
         });
 
     QUnit
-        .cases([
+        .cases.init([
             {
-                title: 'regular tooltip',
-                xml: '<div>this is a tooltip: '
-                    + '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>'
-                    + '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>'
-                    + '. How cool is that???</div>',
-                expectedBody: 'this is a tooltip: {{_tooltip_XXX}}. How cool is that???',
-                expectedElement: '_tooltip',
+                title: "regular tooltip",
+                xml: "<div>this is a tooltip: " +
+                    '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>' +
+                    '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>' +
+                    ". How cool is that???</div>",
+                expectedBody: "this is a tooltip: {{_tooltip_XXX}}. How cool is that???",
+                expectedElement: "_tooltip",
                 expectedAttributes: {
-                    "aria-describedby": "_tooltip-63etvf7pktf2jb16d2a09y"
+                    'aria-describedby': '_tooltip-63etvf7pktf2jb16d2a09y'
                 },
                 expectedTarget: 'my <strong>Target</strong>',
                 expectedContent: 'my <strong>Content</strong>'
             }, {
-                title: 'empty tooltip',
-                xml: '<div>this is a tooltip: '
-                    + '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y"></span>'
-                    + '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y"></span>'
-                    + '. How cool is that???</div>',
-                expectedBody: 'this is a tooltip: {{_tooltip_XXX}}. How cool is that???',
-                expectedElement: '_tooltip',
+                title: "empty tooltip",
+                xml: "<div>this is a tooltip: " +
+                    '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y"></span>' +
+                    '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y"></span>' +
+                    ". How cool is that???</div>",
+                expectedBody: "this is a tooltip: {{_tooltip_XXX}}. How cool is that???",
+                expectedElement: "_tooltip",
                 expectedAttributes: {
-                    "aria-describedby": "_tooltip-63etvf7pktf2jb16d2a09y"
+                    'aria-describedby': '_tooltip-63etvf7pktf2jb16d2a09y'
                 },
                 expectedTarget: '',
                 expectedContent: ''
@@ -154,7 +162,7 @@ define([
                 serial = bodyElementsSerials[0],
                 tooltip = body.elements[serial];
 
-            QUnit.expect(8);
+            assert.expect(8);
 
             assert.equal(bodyElementsSerials.length, 1, '1 element has been found');
             assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);
@@ -163,23 +171,23 @@ define([
 
             assert.equal(tooltip.content, data.expectedContent, 'tooltip has the correct content');
             assert.equal(tooltip.body.body, data.expectedTarget, 'tooltip has the correct target');
-            assert.ok(! _.isUndefined(tooltip.elements), 'tooltip has an element property');
-            assert.ok(! _.isUndefined(tooltip.body.elements), 'tooltip body has an element property');
+            assert.ok(!_.isUndefined(tooltip.elements), 'tooltip has an element property');
+            assert.ok(!_.isUndefined(tooltip.body.elements), 'tooltip body has an element property');
         });
 
     QUnit
-        .cases([
+        .cases.init([
             {
-                title: 'orphan target',
-                xml: '<div>this is a tooltip: '
-                    + '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>'
-                    + '. How cool is that???</div>',
+                title: "orphan target",
+                xml: "<div>this is a tooltip: " +
+                    '<span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>' +
+                    ". How cool is that???</div>",
                 expectedBody: 'this is a tooltip: <span data-role="tooltip-target" aria-describedby="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Target</strong></span>. How cool is that???'
             }, {
-                title: 'orphan content',
-                xml: '<div>this is a tooltip: '
-                    + '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>'
-                    + '. How cool is that???</div>',
+                title: "orphan content",
+                xml: "<div>this is a tooltip: " +
+                    '<span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>' +
+                    ". How cool is that???</div>",
                 expectedBody: 'this is a tooltip: <span data-role="tooltip-content" aria-hidden="true" id="_tooltip-63etvf7pktf2jb16d2a09y">my <strong>Content</strong></span>. How cool is that???'
             }
         ])
@@ -191,7 +199,7 @@ define([
                 parsedBody = body.body.replace(serialRegexp, '{{$1_XXX}}'),
                 bodyElementsSerials = Object.keys(body.elements || {});
 
-            QUnit.expect(2);
+            assert.expect(2);
 
             assert.equal(bodyElementsSerials.length, 0, 'no elements have been found');
             assert.equal(parsedBody, data.expectedBody, 'parsed body is correct: ' + parsedBody);

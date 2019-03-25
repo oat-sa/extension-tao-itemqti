@@ -63,7 +63,7 @@ abstract class PortableElementModelValidator extends PortableElementAssetValidat
             'typeIdentifier' => [Validator::isTypeIdentifier, Validator::NotEmpty],
             'short'          => [Validator::isString, Validator::NotEmpty],
             'description'    => [Validator::isString, Validator::NotEmpty],
-            'version'        => [Validator::isVersion],
+            'version'        => [Validator::isVersion, Validator::isSemVer],
             'author'         => [Validator::isString, Validator::NotEmpty],
             'email'          => [Validator::Email, Validator::NotEmpty],
             'tags'           => [Validator::isArray],

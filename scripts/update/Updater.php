@@ -14,13 +14,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\asset\AssetService;
@@ -51,9 +52,6 @@ use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
 use taoItems_models_classes_ItemsService;
-use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
-use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
-use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
 /**
  *
@@ -393,7 +391,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('16.0.0');
         }
 
-        if ($this->isVersion('16.0.0')) {
+        $this->skip('16.0.0', '19.3.1');
+
+        if ($this->isVersion('19.3.1')) {
             $importerConfig = [
                 MetadataImporter::INJECTOR_KEY => ['oat\\taoQtiItem\\model\\qti\\metadata\\ontology\\LomInjector'],
                 MetadataImporter::EXTRACTOR_KEY => ['oat\\taoQtiItem\\model\\qti\\metadata\\imsManifest\\classificationMetadata\\GenericLomManifestClassificationExtractor'],
@@ -413,7 +413,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $metadataService = $this->getServiceManager()->build(MetadataService::class, $options);
             $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
 
-            $this->setVersion('16.1.0');
+            $this->setVersion('19.4.0');
         }
     }
 }

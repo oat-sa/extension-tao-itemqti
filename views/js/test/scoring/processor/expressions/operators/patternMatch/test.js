@@ -1,20 +1,20 @@
 define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/patternMatch'
-], function (_, preProcessorFactory, patternMatchProcessor) {
+], function(_, preProcessorFactory, patternMatchProcessor) {
     'use strict';
 
-    module('API');
+    QUnit.module('API');
 
-    QUnit.test('structure', function (assert) {
+    QUnit.test('structure', function(assert) {
         assert.ok(_.isPlainObject(patternMatchProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(patternMatchProcessor.process), 'the processor has a process function');
         assert.ok(_.isArray(patternMatchProcessor.operands), 'the processor has a process function');
     });
 
-
-    module('Process');
+    QUnit.module('Process');
 
     var dataProvider = [{
         title: 'don\'t match',
@@ -29,20 +29,20 @@ define([
             baseType: 'boolean',
             value: false
         }
-    },{
+    }, {
         title: ' match with dot',
         pattern: 'ra(.*)in',
         operands: [{
             cardinality: 'single',
             baseType: 'string',
-            value: "raalksjaslkdjin"
+            value: 'raalksjaslkdjin'
         }],
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'don\'t match',
         pattern: '^rain$',
         operands: [{
@@ -55,7 +55,7 @@ define([
             baseType: 'boolean',
             value: false
         }
-    },{
+    }, {
         title: 'match - escaping for ^',
         pattern: 'ra^in',
         operands: [{
@@ -68,7 +68,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: ' match ',
         pattern: '.*rain.*',
         operands: [{
@@ -81,7 +81,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: ' match ',
         pattern: '\\d{1,2}',
         operands: [{
@@ -94,7 +94,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: ' don\'t match ',
         pattern: '.*rain.*',
         operands: [{
@@ -107,7 +107,7 @@ define([
             baseType: 'boolean',
             value: false
         }
-    },{
+    }, {
         title: ' match ',
         pattern: '.*ra/in.*',
         operands: [{
@@ -120,7 +120,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'match',
         pattern: 'rain',
         operands: [{
@@ -133,7 +133,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'match - ref',
         pattern: 'ref1',
         state: {
@@ -153,7 +153,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'don\'t - match - ref(exists)',
         pattern: 'rain',
         state: {
@@ -173,7 +173,7 @@ define([
             baseType: 'boolean',
             value: false
         }
-    },{
+    }, {
         title: 'don\'t - match - ref(missing)',
         pattern: 'rain',
         state: {
@@ -193,7 +193,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'don\'t match',
         pattern: 'car',
         operands: [{
@@ -215,11 +215,11 @@ define([
     ];
 
     QUnit
-        .cases(dataProvider)
-        .test('patternMatch ', function (data, assert) {
+        .cases.init(dataProvider)
+        .test('patternMatch ', function(data, assert) {
             patternMatchProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
             patternMatchProcessor.operands = data.operands;
-            patternMatchProcessor.expression = { attributes : { pattern : data.pattern } };
+            patternMatchProcessor.expression = {attributes: {pattern: data.pattern}};
             assert.deepEqual(patternMatchProcessor.process(), data.expectedResult, 'The patternMatch is correct');
         });
 });

@@ -54,6 +54,7 @@ define([
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10391
      *
      * @param {object} interaction
+     * @fires playerrendered when the player is at least rendered
      * @fires playerready when the player is sucessfully loaded and configured
      */
     var render = function render(interaction) {
@@ -117,7 +118,10 @@ define([
                         $item.off('resize.gridEdit')
                             .on('resize.gridEdit', resize);
 
-                        resolve();
+                        /**
+                         * @event playerrendered
+                         */
+                        $container.trigger('playerrendered');
                     })
                     .on('ready', function() {
                        /**
@@ -128,6 +132,9 @@ define([
                         if (!canBePlayed() ) {
                             this.disable();
                         }
+
+                        // declare the item ready when player is ready to play.
+                        resolve();
                     })
                     .on('update', _.throttle(function(){
                         containerHelper.triggerResponseChangeEvent(interaction);

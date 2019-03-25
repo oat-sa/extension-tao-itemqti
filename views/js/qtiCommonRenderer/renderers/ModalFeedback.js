@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 define([
@@ -30,17 +30,12 @@ define([
         qtiClass : 'modalFeedback',
         template : tpl,
         getContainer : containerHelper.get,
-        minHeight : 200,
         width : 600,
         getData : function(fb, data){
-            var feedbackStyle = coreContainerHelper.getEncodedData(fb, 'modalFeedback');
-            data.feedbackStyle = feedbackStyle;
+            data.feedbackStyle = coreContainerHelper.getEncodedData(fb, 'modalFeedback');
             return data;
         },
         render : function(modalFeedback, data){
-
-            data = data || {};
-
             var $modal = containerHelper.get(modalFeedback);
 
             $modal.waitForMedia(function(){
@@ -56,6 +51,8 @@ define([
                     }
 
                 }).on('closed.modal', function(){
+                    data = data || {};
+
                     if(_.isFunction(data.callback)){
                         data.callback.call(this);
                     }

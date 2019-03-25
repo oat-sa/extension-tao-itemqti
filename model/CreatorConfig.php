@@ -37,7 +37,8 @@ Class CreatorConfig extends Config
     protected $controlEndpoints = array(
         'itemDataUrl' => ['taoQtiItem', 'QtiCreator', 'getItemData'],
         'loadCssUrl' => ['taoQtiItem', 'QtiCssAuthoring', 'load'],
-        
+        'downloadCssUrl' => ['taoQtiItem', 'QtiCssAuthoring', 'download'],
+
         'saveItemUrl' => ['taoQtiItem', 'QtiCreator', 'saveItem'],
         'saveCssUrl' => ['taoQtiItem', 'QtiCssAuthoring', 'save'],
         

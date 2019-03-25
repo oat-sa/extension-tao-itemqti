@@ -17,12 +17,13 @@
  *
  */
 define([
+
     'jquery',
     'lodash',
     'taoQtiItem/portableElementRegistry/factory/ciRegistry',
     'taoQtiItem/test/ciRegistry/data/testProvider',
     'taoQtiItem/qtiCreator/helper/qtiElements'
-], function ($, _, ciRegistry, testProvider, qtiElements) {
+], function($, _, ciRegistry, testProvider, qtiElements) {
     'use strict';
 
     var testReviewApi = [
@@ -37,87 +38,88 @@ define([
         {name: 'getAuthoringData', title: 'getAuthoringData'},
         {name: 'enable', title: 'enable'},
         {name: 'disable', title: 'disable'},
-        {name: 'isEnabled', title: 'isEnabled'},
+        {name: 'isEnabled', title: 'isEnabled'}
     ];
 
     QUnit.module('Custom Interaction Registry');
 
     QUnit
-        .cases(testReviewApi)
-        .test('instance API ', function (data, assert) {
+        .cases.init(testReviewApi)
+        .test('instance API ', function(data, assert) {
             var registry = ciRegistry();
             assert.equal(typeof registry[data.name], 'function', 'The registry exposes a "' + data.title + '" function');
         });
 
-    QUnit.asyncTest('load creator', function (assert) {
+    QUnit.test('load creator', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        registry.loadCreators().then(function (creators) {
+        registry.loadCreators().then(function(creators) {
             assert.ok(_.isPlainObject(creators), 'creators loaded');
             assert.ok(_.isObject(creators.samplePci), 'sample ci creator loaded');
             assert.equal(creators.samplePciDisabled, undefined, 'should have no ');
-        }).then(function () {
+        }).then(function() {
             assert.ok(qtiElements.isBlock('customInteraction.samplePci'), 'sample ci loaded into model');
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('getAuthoringData', function (assert) {
+    QUnit.test('getAuthoringData', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        registry.loadCreators().then(function () {
+        registry.loadCreators().then(function() {
             var authoringData = registry.getAuthoringData('samplePci');
             assert.ok(_.isPlainObject(authoringData), 'authoring data is an object');
             assert.equal(authoringData.label, 'Sample Pci', 'label ok');
             assert.equal(authoringData.qtiClass, 'customInteraction.samplePci', 'qti class ok');
             assert.ok(authoringData.icon.indexOf('taoQtiItem/views/js/test/ciRegistry/data/samplePcicreator/img/icon.svg') > 0, 'label ok');
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('get', function (assert) {
+    QUnit.test('get', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(7);
+        assert.expect(7);
 
-        registry.loadRuntimes().then(function () {
+        registry.loadRuntimes().then(function() {
 
             var pci = registry.get('samplePci');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
             assert.equal(pci.typeIdentifier, 'samplePci', 'type identifier ok');
             assert.equal(pci.version, '1.0.0', 'type version ok');
 
-            //get a specific version
+            //Get a specific version
             pci = registry.get('samplePci', '1.0.0');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
             assert.equal(pci.typeIdentifier, 'samplePci', 'type identifier ok');
             assert.equal(pci.version, '1.0.0', 'type version ok');
 
-            //not existing version
+            //Not existing version
             pci = registry.get('samplePci', '9.9.9');
             assert.equal(typeof pci, 'undefined', 'not existing version');
 
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('getRuntime', function (assert) {
+    QUnit.test('getRuntime', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(9);
+        assert.expect(9);
 
-        registry.loadRuntimes().then(function () {
+        registry.loadRuntimes().then(function() {
 
             var pci = registry.getRuntime('samplePci');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
@@ -125,56 +127,56 @@ define([
             assert.equal(pci.hook, 'samplePci/runtime/samplePci.amd.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
 
-            //get a specific version
+            //Get a specific version
             pci = registry.getRuntime('samplePci', '1.0.0');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.hook, 'samplePci/runtime/samplePci.amd.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
 
-            //not existing version
+            //Not existing version
             pci = registry.getRuntime('samplePci', '9.9.9');
             assert.equal(typeof pci, 'undefined', 'not existing version');
 
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('getBaseUrl', function (assert) {
+    QUnit.test('getBaseUrl', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(7);
+        assert.expect(7);
 
-        registry.loadRuntimes().then(function () {
+        registry.loadRuntimes().then(function() {
 
             var pci = registry.getRuntime('samplePci');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.baseUrl, registry.getBaseUrl('samplePci'), 'has base url set');
 
-            //get a specific version
+            //Get a specific version
             pci = registry.getRuntime('samplePci', '1.0.0');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.baseUrl, registry.getBaseUrl('samplePci'), 'has base url set');
 
-            //not existing version
+            //Not existing version
             assert.equal('', registry.getBaseUrl('samplePci', 'x.x.x'), 'has no base url');
 
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('getCreator', function (assert) {
+    QUnit.test('getCreator', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(9);
+        assert.expect(9);
 
-        registry.loadCreators().then(function () {
+        registry.loadCreators().then(function() {
 
             var pci = registry.getCreator('samplePci');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
@@ -182,76 +184,78 @@ define([
             assert.equal(pci.hook, 'samplePci/pciCreator.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
 
-            //get a specific version
+            //Get a specific version
             pci = registry.getCreator('samplePci', '1.0.0');
             assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.hook, 'samplePci/pciCreator.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
 
-            //not existing version
+            //Not existing version
             pci = registry.getCreator('samplePci', '9.9.9');
             assert.equal(typeof pci, 'undefined', 'not existing version');
 
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('getAllVersions', function (assert) {
+    QUnit.test('getAllVersions', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        registry.loadRuntimes().then(function () {
+        registry.loadRuntimes().then(function() {
             var all = registry.getAllVersions();
 
             assert.ok(_.isArray(all.samplePci), 'samplePci returned');
-            assert.deepEqual(all.samplePci, ['1.0.0'] , 'samplePci has one version loaded');
+            assert.deepEqual(all.samplePci, ['1.0.0'], 'samplePci has one version loaded');
 
             assert.ok(_.isArray(all.samplePciDisabled), 'samplePciDisabled returned');
-            assert.deepEqual(all.samplePciDisabled, ['1.0.0'] , 'samplePciDisabled has one version loaded');
+            assert.deepEqual(all.samplePciDisabled, ['1.0.0'], 'samplePciDisabled has one version loaded');
 
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('error handling - get', function (assert) {
-        QUnit.expect(2);
-        ciRegistry().on('error', function (err) {
+    QUnit.test('error handling - get', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
+        ciRegistry().on('error', function(err) {
             assert.equal(err.typeIdentifier, 'inexistingCustomInteraction', 'correct error catched');
             assert.equal(err.version, '1.0.0', 'correct error catched');
-            QUnit.start();
+            ready();
         }).getCreator('inexistingCustomInteraction', '1.0.0');
     });
 
-    QUnit.asyncTest('error handling - load', function (assert) {
+    QUnit.test('error handling - load', function(assert) {
+        var ready = assert.async();
 
         var inexistingProvider = 'taoQtiItem/test/ciRegistry/data/inexistingProvider';
         var registry = ciRegistry().registerProvider(inexistingProvider);
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        registry.loadCreators().then(function () {
+        registry.loadCreators().then(function() {
             assert.ok(false, 'should not be resolved');
-            QUnit.start();
-        }).catch(function (err) {
+            ready();
+        }).catch(function(err) {
             assert.ok(_.isArray(err.requireModules), 'error module list ok');
             assert.equal(err.requireModules.length, 1, 'error module list count ok');
             assert.equal(err.requireModules[0], inexistingProvider, 'error module list count ok');
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.asyncTest('enable/disable', function (assert) {
+    QUnit.test('enable/disable', function(assert) {
+        var ready = assert.async();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        registry.loadCreators().then(function () {
+        registry.loadCreators().then(function() {
 
             assert.equal(registry.isEnabled('samplePci'), true, 'sample ci is enabled');
 
@@ -261,43 +265,43 @@ define([
             registry.enable('samplePci');
             assert.equal(registry.isEnabled('samplePci'), true, 'sample ci is enabled again');
 
-            QUnit.start();
+            ready();
         });
-
     });
 
-    QUnit.asyncTest('registerProvider', function(assert){
+    QUnit.test('registerProvider', function(assert) {
+        var ready = assert.async();
 
         var sampleProvider = {
             load: function load() {
                 return {
-                    "samplePciA01": [
+                    'samplePciA01': [
                         {
-                            "response": {"baseType": "integer", "cardinality": "single"},
-                            "creator": {
-                                "icon": "likertScaleInteraction/creator/img/icon.svg",
-                                "hook": "likertScaleInteraction/pciCreator.js",
-                                "libraries": ["likertScaleInteraction/creator/tpl/markup.tpl", "likertScaleInteraction/creator/tpl/propertiesForm.tpl", "likertScaleInteraction/creator/widget/Widget.js", "likertScaleInteraction/creator/widget/states/Question.js", "likertScaleInteraction/creator/widget/states/Answer.js", "likertScaleInteraction/creator/widget/states/states.js"]
+                            'response': {'baseType': 'integer', 'cardinality': 'single'},
+                            'creator': {
+                                'icon': 'likertScaleInteraction/creator/img/icon.svg',
+                                'hook': 'likertScaleInteraction/pciCreator.js',
+                                'libraries': ['likertScaleInteraction/creator/tpl/markup.tpl', 'likertScaleInteraction/creator/tpl/propertiesForm.tpl', 'likertScaleInteraction/creator/widget/Widget.js', 'likertScaleInteraction/creator/widget/states/Question.js', 'likertScaleInteraction/creator/widget/states/Answer.js', 'likertScaleInteraction/creator/widget/states/states.js']
                             },
-                            "typeIdentifier": "samplePciA01",
-                            "label": "Likert Scale",
-                            "short": "Likert",
-                            "description": "A simple implementation of likert scale.",
-                            "version": "0.4.*",
-                            "author": "Sam Sipasseuth",
-                            "email": "sam@taotesting.com",
-                            "tags": ["mcq", "likert"],
-                            "runtime": {
-                                "hook": "likertScaleInteraction/runtime/likertScaleInteraction.min.js",
-                                "libraries": [],
-                                "stylesheets": ["likertScaleInteraction/runtime/css/base.css", "likertScaleInteraction/runtime/css/likertScaleInteraction.css"],
-                                "mediaFiles": ["likertScaleInteraction/runtime/assets/ThumbDown.png", "likertScaleInteraction/runtime/assets/ThumbUp.png", "likertScaleInteraction/runtime/css/img/bg.png"],
-                                "src": ["likertScaleInteraction/runtime/js/likertScaleInteraction.js", "likertScaleInteraction/runtime/js/renderer.js"]
+                            'typeIdentifier': 'samplePciA01',
+                            'label': 'Likert Scale',
+                            'short': 'Likert',
+                            'description': 'A simple implementation of likert scale.',
+                            'version': '0.4.*',
+                            'author': 'Sam Sipasseuth',
+                            'email': 'sam@taotesting.com',
+                            'tags': ['mcq', 'likert'],
+                            'runtime': {
+                                'hook': 'likertScaleInteraction/runtime/likertScaleInteraction.min.js',
+                                'libraries': [],
+                                'stylesheets': ['likertScaleInteraction/runtime/css/base.css', 'likertScaleInteraction/runtime/css/likertScaleInteraction.css'],
+                                'mediaFiles': ['likertScaleInteraction/runtime/assets/ThumbDown.png', 'likertScaleInteraction/runtime/assets/ThumbUp.png', 'likertScaleInteraction/runtime/css/img/bg.png'],
+                                'src': ['likertScaleInteraction/runtime/js/likertScaleInteraction.js', 'likertScaleInteraction/runtime/js/renderer.js']
                             },
-                            "enabled": true,
-                            "model": "PCI",
-                            "xmlns": "http://www.imsglobal.org/xsd/portableCustomInteraction",
-                            "baseUrl": "http://tao.docker:8086/tao/File/accessFile/NWE4NmU1NTljNmM3YiBQQ0kvYzJmNzQ4MjI1ZjIzOWYxMGRhMDZlNmY4NjUwMDhkYWI=/"
+                            'enabled': true,
+                            'model': 'PCI',
+                            'xmlns': 'http://www.imsglobal.org/xsd/portableCustomInteraction',
+                            'baseUrl': 'http://tao.docker:8086/tao/File/accessFile/NWE4NmU1NTljNmM3YiBQQ0kvYzJmNzQ4MjI1ZjIzOWYxMGRhMDZlNmY4NjUwMDhkYWI=/'
                         }
                     ]
                 };
@@ -306,9 +310,9 @@ define([
 
         var registry = ciRegistry().registerProvider('sampleProvider', sampleProvider);
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        registry.loadRuntimes().then(function(){
+        registry.loadRuntimes().then(function() {
 
             var pci;
 
@@ -319,42 +323,43 @@ define([
             assert.equal(pci.typeIdentifier, 'samplePciA01', 'type identifier ok');
             assert.equal(pci.version, '0.4.*', 'type version ok');
 
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.asyncTest('resetProviders', function(assert){
+    QUnit.test('resetProviders', function(assert) {
+        var ready = assert.async();
 
         var sampleProvider = {
             load: function load() {
                 return {
-                    "samplePciA01": [
+                    'samplePciA01': [
                         {
-                            "response": {"baseType": "integer", "cardinality": "single"},
-                            "creator": {
-                                "icon": "likertScaleInteraction/creator/img/icon.svg",
-                                "hook": "likertScaleInteraction/pciCreator.js",
-                                "libraries": ["likertScaleInteraction/creator/tpl/markup.tpl", "likertScaleInteraction/creator/tpl/propertiesForm.tpl", "likertScaleInteraction/creator/widget/Widget.js", "likertScaleInteraction/creator/widget/states/Question.js", "likertScaleInteraction/creator/widget/states/Answer.js", "likertScaleInteraction/creator/widget/states/states.js"]
+                            'response': {'baseType': 'integer', 'cardinality': 'single'},
+                            'creator': {
+                                'icon': 'likertScaleInteraction/creator/img/icon.svg',
+                                'hook': 'likertScaleInteraction/pciCreator.js',
+                                'libraries': ['likertScaleInteraction/creator/tpl/markup.tpl', 'likertScaleInteraction/creator/tpl/propertiesForm.tpl', 'likertScaleInteraction/creator/widget/Widget.js', 'likertScaleInteraction/creator/widget/states/Question.js', 'likertScaleInteraction/creator/widget/states/Answer.js', 'likertScaleInteraction/creator/widget/states/states.js']
                             },
-                            "typeIdentifier": "samplePciA01",
-                            "label": "Likert Scale",
-                            "short": "Likert",
-                            "description": "A simple implementation of likert scale.",
-                            "version": "0.4.*",
-                            "author": "Sam Sipasseuth",
-                            "email": "sam@taotesting.com",
-                            "tags": ["mcq", "likert"],
-                            "runtime": {
-                                "hook": "likertScaleInteraction/runtime/likertScaleInteraction.min.js",
-                                "libraries": [],
-                                "stylesheets": ["likertScaleInteraction/runtime/css/base.css", "likertScaleInteraction/runtime/css/likertScaleInteraction.css"],
-                                "mediaFiles": ["likertScaleInteraction/runtime/assets/ThumbDown.png", "likertScaleInteraction/runtime/assets/ThumbUp.png", "likertScaleInteraction/runtime/css/img/bg.png"],
-                                "src": ["likertScaleInteraction/runtime/js/likertScaleInteraction.js", "likertScaleInteraction/runtime/js/renderer.js"]
+                            'typeIdentifier': 'samplePciA01',
+                            'label': 'Likert Scale',
+                            'short': 'Likert',
+                            'description': 'A simple implementation of likert scale.',
+                            'version': '0.4.*',
+                            'author': 'Sam Sipasseuth',
+                            'email': 'sam@taotesting.com',
+                            'tags': ['mcq', 'likert'],
+                            'runtime': {
+                                'hook': 'likertScaleInteraction/runtime/likertScaleInteraction.min.js',
+                                'libraries': [],
+                                'stylesheets': ['likertScaleInteraction/runtime/css/base.css', 'likertScaleInteraction/runtime/css/likertScaleInteraction.css'],
+                                'mediaFiles': ['likertScaleInteraction/runtime/assets/ThumbDown.png', 'likertScaleInteraction/runtime/assets/ThumbUp.png', 'likertScaleInteraction/runtime/css/img/bg.png'],
+                                'src': ['likertScaleInteraction/runtime/js/likertScaleInteraction.js', 'likertScaleInteraction/runtime/js/renderer.js']
                             },
-                            "enabled": true,
-                            "model": "PCI",
-                            "xmlns": "http://www.imsglobal.org/xsd/portableCustomInteraction",
-                            "baseUrl": "http://tao.docker:8086/tao/File/accessFile/NWE4NmU1NTljNmM3YiBQQ0kvYzJmNzQ4MjI1ZjIzOWYxMGRhMDZlNmY4NjUwMDhkYWI=/"
+                            'enabled': true,
+                            'model': 'PCI',
+                            'xmlns': 'http://www.imsglobal.org/xsd/portableCustomInteraction',
+                            'baseUrl': 'http://tao.docker:8086/tao/File/accessFile/NWE4NmU1NTljNmM3YiBQQ0kvYzJmNzQ4MjI1ZjIzOWYxMGRhMDZlNmY4NjUwMDhkYWI=/'
                         }
                     ]
                 };
@@ -363,9 +368,9 @@ define([
 
         var registry = ciRegistry().registerProvider('sampleProvider', sampleProvider);
 
-        QUnit.expect(9);
+        assert.expect(9);
 
-        registry.loadRuntimes().then(function(){
+        registry.loadRuntimes().then(function() {
 
             var pci;
 
@@ -375,12 +380,11 @@ define([
 
             assert.equal(pci.typeIdentifier, 'samplePciA01', 'type identifier ok');
             assert.equal(pci.version, '0.4.*', 'type version ok');
-
 
             registry
                 .resetProviders()
                 .registerProvider('taoQtiItem/test/ciRegistry/data/testProvider')
-                .loadRuntimes().then(function(){
+                .loadRuntimes().then(function() {
 
                     assert.ok(_.isPlainObject(registry.get('samplePci')), 'runtime data is loaded');
                     assert.equal(registry.get('samplePci').typeIdentifier, 'samplePci', 'type identifier ok');
@@ -390,49 +394,49 @@ define([
                     assert.equal(registry.get('samplePciDisabled').typeIdentifier, 'samplePciDisabled', 'type identifier ok');
                     assert.equal(registry.get('samplePciDisabled').version, '1.0.0', 'type version ok');
 
-                    QUnit.start();
+                    ready();
                 });
 
         });
     });
 
-    QUnit.asyncTest('include', function (assert) {
+    QUnit.test('include', function(assert) {
+        var ready = assert.async();
 
         var registry = ciRegistry().registerProvider('taoQtiItem/test/ciRegistry/data/testProvider');
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         registry.loadCreators({
-            include : ['samplePciDisabled']
-        }).then(function () {
+            include: ['samplePciDisabled']
+        }).then(function() {
             var all = registry.getAllVersions();
 
-            //we can force loading disabled pci by using the include option
+            //We can force loading disabled pci by using the include option
             assert.ok(_.isArray(all.samplePciDisabled), 'samplePciDisabled loaded');
-            assert.deepEqual(all.samplePciDisabled, ['1.0.0'] , 'samplePciDisabled has one version loaded');
+            assert.deepEqual(all.samplePciDisabled, ['1.0.0'], 'samplePciDisabled has one version loaded');
 
-            //not included
+            //Not included
             assert.ok(typeof all.samplePci, 'undefined', 'samplePciDisabled not loaded');
 
             registry.loadCreators({
-                include : ['samplePci']
-            }).then(function () {
+                include: ['samplePci']
+            }).then(function() {
 
                 all = registry.getAllVersions();
 
-                //we can force loading disabled pci by using the include option
+                //We can force loading disabled pci by using the include option
                 assert.ok(_.isArray(all.samplePciDisabled), 'samplePciDisabled loaded');
-                assert.deepEqual(all.samplePciDisabled, ['1.0.0'] , 'samplePciDisabled has one version loaded');
+                assert.deepEqual(all.samplePciDisabled, ['1.0.0'], 'samplePciDisabled has one version loaded');
 
-                //loaded the other pci
+                //Loaded the other pci
                 assert.ok(_.isArray(all.samplePci), 'samplePci loaded');
-                assert.deepEqual(all.samplePci, ['1.0.0'] , 'samplePci has one version loaded');
+                assert.deepEqual(all.samplePci, ['1.0.0'], 'samplePci has one version loaded');
 
-                QUnit.start();
+                ready();
             });
 
         });
-
     });
 });
 

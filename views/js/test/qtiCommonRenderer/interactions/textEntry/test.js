@@ -1,150 +1,168 @@
 define([
+
     'jquery',
     'lodash',
+    'i18n',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/text-entry-noconstraint.json',
     'json!taoQtiItem/test/samples/json/text-entry-length.json',
     'json!taoQtiItem/test/samples/json/text-entry-pattern.json'
-], function ($, _, qtiItemRunner, textEntryData, textEntryLengthConstrainedData, textEntryPatternConstrainedData) {
+], function(
+
+    $,
+    _,
+    __,
+    qtiItemRunner,
+    textEntryData,
+    textEntryLengthConstrainedData,
+    textEntryPatternConstrainedData
+) {
     'use strict';
 
     var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Text Entry Interaction', {
-        teardown: function () {
+    QUnit.module('Text Entry Interaction', {
+        afterEach: function(assert) {
             if (runner) {
                 runner.clear();
             }
         }
     });
 
-    function getTooltipContent($input){
-        var qtip = getTooltip($input);
-        if(qtip){
-            return qtip.find('.qtip-content').html();
+    function getTooltipContent($input) {
+        var content = getTooltip($input);
+        if (content) {
+            return content.find('.tooltip-body').html();
         }
     }
 
-    function getTooltip($input){
-        var qtip = $input.data('qtip');
-        if(qtip && qtip.tooltip && qtip.tooltip.length){
-            return $(qtip.tooltip[0]);
+    function getTooltip($input) {
+        var instance = $input.data('$tooltip');
+        if (instance && instance.popperInstance.popper) {
+            return $(instance.popperInstance.popper);
         }
     }
 
-    QUnit.asyncTest('Lenght constraint', function (assert) {
+    QUnit.test('Lenght constraint', function(assert) {
+        var ready = assert.async();
 
-        var $container = $('#' + fixtureContainerId);
+        var $container = $('#fixture-length-constraint');
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
-
         runner = qtiItemRunner('qti', textEntryLengthConstrainedData)
-            .on('render', function () {
+            .on('render', function() {
+
+
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), '5 characters allowed', 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d characters allowed', 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
 
                 $input.val('123');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), '3/5', 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 3, 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
 
                 $input.val('12345');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), '5/5', 'the warning message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 5, 5), 'the warning message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'warning tooltip is visible');
                 assert.ok($input.hasClass('maxed'), 'has state maxed');
 
                 $input.val('1234');
                 $input.keyup();
-                assert.equal(getTooltipContent($input), '4/5', 'the instruction message is correct');
+                assert.equal(getTooltipContent($input), __('%d/%d', 4, 5), 'the instruction message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'info tooltip is visible');
                 assert.ok(!$input.hasClass('maxed'), 'has state maxed removed');
-
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('Pattern constraint - incorrect', function (assert) {
+    QUnit.test('Pattern constraint - incorrect', function(assert) {
+        var ready = assert.async(2);
 
-        var $container = $('#' + fixtureContainerId);
+        var $container = $('#pattern-constraint-incorrect');
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
-            .on('render', function () {
+            .on('render', function() {
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), undefined);
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'));
 
                 $input.val('123');
                 $input.keyup();
+                ready();
 
             }).on('responsechange', function(state){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
-                assert.equal(getTooltipContent($input), 'This is not a valid answer', 'the error message is correct');
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'), 'the error message is correct');
                 assert.ok(getTooltip($input).is(':visible'), 'the error tooltip is visible after an invalid response');
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('Pattern constraint - correct', function (assert) {
+    QUnit.test('Pattern constraint - correct', function(assert) {
+        var ready = assert.async(2);
 
-        var $container = $('#' + fixtureContainerId);
+        var $container = $('#pattern-constraint-correct');
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', textEntryPatternConstrainedData)
-            .on('render', function () {
+            .on('render', function() {
+
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
 
                 $input.val('');
                 $input.focus();
-                assert.equal(getTooltipContent($input), undefined);
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'));
 
                 $input.val('PARIS');
                 $input.keyup();
+                ready();
 
             }).on('responsechange', function(state){
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
-                assert.equal(getTooltip($input), undefined, 'the error tooltip is hidden after a correct response');
-                QUnit.start();
+                assert.equal(getTooltipContent($input), __('This is not a valid answer'), 'the error tooltip is hidden after a correct response');
+                ready();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('set/get response', function(assert){
+    QUnit.test('set/get response', function(assert) {
+        var ready = assert.async();
 
-        var $container = $('#' + fixtureContainerId);
-        var state = {"RESPONSE":{response:{"base":{"string":"PARIS"}}}};
+        var $container = $('#set-get-response');
+        var state = {"RESPONSE": {response: {"base": {"string": "PARIS"}}}};
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', textEntryData)
             .on('render', function(){
-
+                ready();
                 var $input = $container.find('.qti-interaction.qti-textEntryInteraction');
 
                 assert.equal($input.length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
@@ -153,27 +171,24 @@ define([
                 this.setState(state);
 
                 assert.equal($input.val(), 'PARIS', 'the text input has been correctly set');
-
                 assert.deepEqual(this.getState(state), state, 'state is correct');
 
-                $input.keyup();//trigger the response changed event
+                $input.keyup();//Trigger the response changed event
 
             }).on('statechange', function(retrivedState){
-
                 assert.deepEqual(retrivedState, state, 'statechange state is correct');
-
-                QUnit.start();
             })
             .init()
             .render($container);
     });
 
-    module('Visual Test');
+    QUnit.module('Visual Test');
 
-    QUnit.asyncTest('Display and play', function (assert) {
-        QUnit.expect(3);
+    QUnit.test('Display and play', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
 
-        var $container = $('#' + outsideContainerId);
+        var $container = $('#outside-container');
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
@@ -183,7 +198,7 @@ define([
 
                 assert.equal($container.find('.qti-interaction.qti-textEntryInteraction').length, 1, 'the container contains a text entry interaction .qti-textEntryInteraction');
 
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container);

@@ -52,6 +52,11 @@ define([
 
             $container.waitForMedia(function () {
                 adaptSize.height($elements);
+                document.addEventListener("load", function(e) {
+                    if (e.target.rel === "stylesheet") {
+                        adaptSize.height($elements);
+                    }
+                }, true);
             });
         }
     };

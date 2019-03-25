@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-29T10:20:29\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-03-01T09:47:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -16,20 +16,42 @@ msgstr ""
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " 從一組選擇中填寫文本中的空缺。"
 
+msgid " For Resource "
+msgstr ""
+
+msgid " or "
+msgstr ""
+
+msgid "%d characters allowed"
+msgstr ""
+
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr ""
+
+msgid "%d/%d"
+msgstr ""
+
+msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
 
 msgid "-- Any kind of file --"
 msgstr "-- 任何類型的檔案 --"
 
+msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
 msgid "A choice must be selected"
 msgstr "必須選擇一個選項"
 
+msgid "A human interpretation of the variable's value."
+msgstr ""
+
+msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
+msgstr ""
+
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "指導語區塊是一個題目的內容，也是給看題目的人使用的指示。雖然專欄塊被定義為簡單的區塊，他們不能與使用者有互動。"
-
-msgid "Adapt to item size"
-msgstr "適應題目大小"
 
 msgid "Adapt to screen size"
 msgstr "調整到屏幕大小"
@@ -40,14 +62,11 @@ msgstr "新增"
 msgid "Add a modal feedback"
 msgstr "添加一個模態反饋"
 
-msgid "Add a QTI XML file"
-msgstr "加入一個QTI XML檔案"
+msgid "Add a QTI/APIP XML Item Document"
+msgstr ""
 
-msgid "Add a zip file containing APIP items"
-msgstr "添加一個包含 APIP 題目的 ZIP 檔案"
-
-msgid "Add a zip file containing QTI items"
-msgstr "加入含有QTI題目的ZIP檔案"
+msgid "Add a ZIP file containing QTI/APIP items"
+msgstr ""
 
 msgid "Add another option"
 msgstr "加入另一個選項"
@@ -67,8 +86,8 @@ msgstr "新增樣式表"
 msgid "Alignment"
 msgstr "對齊方式"
 
-msgid "Alignment (optional)"
-msgstr "對齊方式（選用）"
+msgid "Allow elimination"
+msgstr ""
 
 msgid "Allowed associations"
 msgstr "准許的關聯"
@@ -85,13 +104,7 @@ msgstr "允許使用次數"
 msgid "Alt Text"
 msgstr "替代文字"
 
-msgid "An error occured at the level of the QTI model."
-msgstr "在QTI 模式的層次發生了錯誤。"
-
 msgid "An error occured while exporting an item."
-msgstr ""
-
-msgid "An error occured while exporting the item %s."
 msgstr ""
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
@@ -103,29 +116,30 @@ msgstr "加載共用的刺激物時發生了發生錯誤。"
 msgid "An error occured while parsing IMS QTI data."
 msgstr "在解析IMS QTI數據時發生錯誤。"
 
-msgid "An unexpected error occured during the import of the IMS APIP Item Package."
-msgstr "在匯入 IMIS APIP 題目包時發生了未預料到的錯誤。"
-
-msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr "匯入IMS QTI 題目包時發生了錯誤。 "
-
-msgid "An unexpected error occured during the import of the QTI Item. The system returned the following error:"
+msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "在處理回應時發生了錯誤。 "
 
-msgid "An unknown error occured while importing the IMS QTI Package."
-msgstr "當匯入 IMS QTI 包時發生不明的錯誤。"
-
-msgid "APIP data"
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
 msgstr ""
 
-msgid "APIP Package"
-msgstr "APIP 包"
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
+msgstr ""
 
-msgid "APIP Package 1.0"
-msgstr "APIP 1.0 包"
+msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
+msgstr ""
+
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "APIP Content Package"
+msgstr ""
+
+msgid "Apip Package successfully exported."
+msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "按正确的顺序排列选项列表。"
@@ -142,11 +156,20 @@ msgstr "關聯配對"
 msgid "at least"
 msgstr "最少"
 
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr ""
+
 msgid "Autostart"
 msgstr "自動啟動"
 
+msgid "Back to Manage Items"
+msgstr ""
+
 msgid "Background color"
 msgstr "背景色彩"
+
+msgid "Base"
+msgstr ""
 
 msgid "Block"
 msgstr "區塊"
@@ -172,6 +195,27 @@ msgstr "取消"
 msgid "cancel"
 msgstr "取消"
 
+msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr ""
+
+msgid "Cannot delete a variable currently used in response processing"
+msgstr ""
+
+msgid "Cannot edit a variable currently used in response processing"
+msgstr ""
+
+msgid "cannot find QTI XML"
+msgstr ""
+
+msgid "cannot load QTI XML"
+msgstr ""
+
+msgid "Cannot locate the file \"%s"
+msgstr ""
+
+msgid "Center"
+msgstr ""
+
 msgid "chars"
 msgstr "字符"
 
@@ -187,17 +231,35 @@ msgstr "選擇的互動"
 msgid "Choice Properties"
 msgstr "選擇的屬性"
 
+msgid "choices"
+msgstr ""
+
 msgid "Choices"
 msgstr "選擇"
+
+msgid "Choose the horizontal alignment for the table."
+msgstr ""
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr ""
+
+msgid "Class successfully created."
+msgstr ""
+
+msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
+msgstr ""
+
+msgid "Classification metadata is required to be extracted."
+msgstr ""
+
+msgid "Classification value to map has to a string"
+msgstr ""
 
 msgid "Click again to remove"
 msgstr "再點擊一次以移除"
 
 msgid "Click to display interaction widget"
 msgstr "點擊以顯示互動小部件"
-
-msgid "Close"
-msgstr "關閉"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "使用輸入短文字的方式來收集開放式資料(串或數字值)。"
@@ -220,7 +282,7 @@ msgstr "正確"
 msgid "correct"
 msgstr "正確"
 
-msgid "Could not create language specific directory for item \'%s\"
+msgid "Cosinus"
 msgstr ""
 
 msgid "Create assocations and fill the score in the form below"
@@ -250,6 +312,9 @@ msgstr "目前值："
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr "目前，不可從 MathML 轉換到 LaTeX。在這裡編輯 MathML 會丟棄 LaTeX 的代碼。"
 
+msgid "custom"
+msgstr ""
+
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
 
@@ -261,6 +326,9 @@ msgstr "預設值"
 
 msgid "Define correct response"
 msgstr "設定正確回應"
+
+msgid "Define item language."
+msgstr ""
 
 msgid "define prompt"
 msgstr "設定提示"
@@ -277,14 +345,23 @@ msgstr "設定當在遞送時，題目是否有記考生載累計運行的時間
 msgid "Defined width"
 msgstr "限定的闊度"
 
+msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
+msgstr ""
+
 msgid "delete"
 msgstr "刪除"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "刪除 else 語句"
 
 msgid "Delete this modal feedback"
 msgstr "刪除此模式反饋"
+
+msgid "Delimiter"
+msgstr ""
 
 msgid "Description"
 msgstr "描述"
@@ -295,10 +372,16 @@ msgstr "暫時禁用此樣式表"
 msgid "Display"
 msgstr "顯示"
 
-msgid "Display larger editor"
-msgstr "顯示更大的編輯器"
+msgid "Display the choices either horizontally or vertically"
+msgstr ""
 
-msgid "Display the choices either horizontaly or verticaly"
+msgid "Divide"
+msgstr ""
+
+msgid "Don\'t save"
+msgstr ""
+
+msgid "Done"
 msgstr ""
 
 msgid "done"
@@ -328,6 +411,9 @@ msgstr "例如：13"
 msgid "e.g. 960"
 msgstr "例如：960"
 
+msgid "Edit"
+msgstr ""
+
 msgid "edit choices"
 msgstr "編輯選擇"
 
@@ -336,6 +422,9 @@ msgstr "用LaTeX type setting 系統來編輯數學表達式。例如：e^{i \\p
 
 msgid "Edit math expression using MathML"
 msgstr "用 MathML 來編輯數學表達式"
+
+msgid "Edit modal feedback"
+msgstr ""
 
 msgid "Edit modal feedback title"
 msgstr "編輯模式反饋標題"
@@ -346,14 +435,14 @@ msgstr "編輯樣式表標籤"
 msgid "Editing Mode"
 msgstr "編輯模式"
 
-msgid "Editing this element is not supported currently."
-msgstr "現在不支援編輯這個元素。"
-
 msgid "Element Properties"
 msgstr "元素屬性"
 
 msgid "elements"
 msgstr "元素"
+
+msgid "Eliminate"
+msgstr ""
 
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "允許考生暫停並重新啟動播放。"
@@ -367,20 +456,62 @@ msgstr "結束考試互動"
 msgid "Enlarge font size"
 msgstr "放大字型大小"
 
+msgid "Enter a select MIME-type"
+msgstr ""
+
+msgid "Enter choices…"
+msgstr ""
+
+msgid "Enter tooltip content"
+msgstr ""
+
+msgid "Enter tooltip target"
+msgstr ""
+
+msgid "Error on item %1$s : %2$s"
+msgstr ""
+
+msgid "Error on item %s"
+msgstr ""
+
+msgid "Error to export item %s: %s"
+msgstr ""
+
+msgid "Euler\'s constant"
+msgstr ""
+
+msgid "Exponent"
+msgstr ""
+
 msgid "Export"
 msgstr "匯出"
 
 msgid "Export APIP 1.0 Package"
 msgstr "匯出 APIP 1.0 包"
 
+msgid "Export failed for the item \"%s\": %s"
+msgstr ""
+
+msgid "Export metadata"
+msgstr ""
+
+msgid "Export metadata item"
+msgstr ""
+
 msgid "Export QTI 2.1 Package"
 msgstr "匯出 QTI 2.1 包"
+
+msgid "Export QTI 2.2 Package"
+msgstr ""
 
 msgid "Extended Text"
 msgstr "長文本"
 
 msgid "Extended Text Interaction"
 msgstr "長文本互動"
+
+msgid "Fail to export item"
+msgstr ""
 
 msgid "Failed to publish %1$s in %2$s"
 msgstr ""
@@ -390,6 +521,12 @@ msgstr "無法儲存題目"
 
 msgid "Feedback"
 msgstr "回饋"
+
+msgid "Feedback Style"
+msgstr ""
+
+msgid "Field"
+msgstr ""
 
 msgid "File"
 msgstr "檔案"
@@ -418,6 +555,9 @@ msgstr "字型大小"
 msgid "Format"
 msgstr "格式"
 
+msgid "Fraction"
+msgstr ""
+
 msgid "Gap"
 msgstr "空格"
 
@@ -426,9 +566,6 @@ msgstr "空格匹配"
 
 msgid "Gap Match Interaction"
 msgstr "空格匹配互動"
-
-msgid "Gaps"
-msgstr "空格"
 
 msgid "GIF image"
 msgstr "GIF 圖片"
@@ -442,11 +579,14 @@ msgstr "圖像空格匹配互動"
 msgid "Graphic Order Interaction"
 msgstr "圖像順序互動"
 
+msgid "Greater than or equal"
+msgstr ""
+
+msgid "Guard for resource \"%s\"..."
+msgstr ""
+
 msgid "Height"
 msgstr "長度"
-
-msgid "Height (optional)"
-msgstr "高度(選用)"
 
 msgid "Horizontal"
 msgstr ""
@@ -478,28 +618,43 @@ msgstr "識別碼"
 msgid "identifier"
 msgstr "識別碼"
 
+msgid "identifier already taken"
+msgstr ""
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "如有圖樣面具，考生的回應必須要與正則表達式相應，這樣考生的回應才能列為有效的。"
-
-msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
-msgstr "如有樣式面具，考生的回應必須要與正則表達式相應，這樣考生的回應才能列為有效的。考生需要明白輸入格式的要求，尤其有些考試累進時會檢查回應是否有效。例如：可以在提示中提供說明和回應樣本。"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "如果字符串的互動被限制為數字回應，那基本屬性必須被使用來設置基數，這也是用來解釋由考生輸入的值。"
 
+msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
+msgstr ""
+
+msgid "If this box is checked the student will be able to eliminate choices."
+msgstr ""
+
 msgid "Import"
 msgstr "匯入"
 
-msgid "Import a QTI 2.X Package"
-msgstr "匯入 QTI 2.X 包"
+msgid "Import a QTI/APIP Content Package"
+msgstr ""
 
-msgid "Import an APIP 1.0 Package"
-msgstr "匯入 APIP 1.0 包"
+msgid "Import a QTI/APIP XML Item Document"
+msgstr ""
 
-msgid "Import QTI 2.X Item"
-msgstr "匯入 QTI 2.X 題目"
+msgid "Import QTI ITEM into \"%s"
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr ""
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
+
+msgid "In Progress"
+msgstr ""
+
+msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
 msgstr ""
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
@@ -507,6 +662,12 @@ msgstr "在可視化的環境中，字符串互動通常由空框表示。考生
 
 msgid "incorrect"
 msgstr "不對"
+
+msgid "Index"
+msgstr ""
+
+msgid "Infinity"
+msgstr ""
 
 msgid "inline"
 msgstr "行內"
@@ -526,8 +687,14 @@ msgstr "互動背景"
 msgid "Interaction Properties"
 msgstr "互動屬性"
 
+msgid "Interpretation"
+msgstr ""
+
 msgid "invalid identifier"
 msgstr "無效的識別符"
+
+msgid "invalid QTI XML"
+msgstr ""
 
 msgid "Is this choice the correct response?"
 msgstr "這個選擇是對的答案嗎？"
@@ -535,16 +702,28 @@ msgstr "這個選擇是對的答案嗎？"
 msgid "Is this pair the correct response?"
 msgstr "這一對是正確的答案嗎？"
 
+msgid "Item \"%s\" cannot be exported: %s"
+msgstr ""
+
+msgid "Item \"%s\" has no xml document"
+msgstr ""
+
 msgid "Item \"%s\" is not available in any language"
 msgstr ""
 
-msgid "Item \'%s\' has no model"
+msgid "Item \"%s\" is ready to be exported"
 msgstr ""
 
-msgid "Item Properties"
-msgstr "題目屬性"
+msgid "Item metadata successfully exported."
+msgstr ""
+
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
 
 msgid "Item properties"
+msgstr "題目屬性"
+
+msgid "Item Properties"
 msgstr "題目屬性"
 
 msgid "Item width"
@@ -560,8 +739,14 @@ msgstr "JPEG 圖片"
 msgid "Label"
 msgstr "標籤"
 
-msgid "LaTex"
-msgstr "LaTeX"
+msgid "Language"
+msgstr ""
+
+msgid "Large editor"
+msgstr ""
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "Latex"
 msgstr "LaTeX"
@@ -575,8 +760,14 @@ msgstr "左"
 msgid "Left"
 msgstr "左"
 
+msgid "Left bracket"
+msgstr ""
+
 msgid "Length"
 msgstr "長度"
+
+msgid "Level"
+msgstr ""
 
 msgid "Lines"
 msgstr "線"
@@ -584,13 +775,22 @@ msgstr "線"
 msgid "List Style"
 msgstr "列表樣式"
 
+msgid "Ln"
+msgstr ""
+
+msgid "Log"
+msgstr ""
+
 msgid "Loop"
 msgstr "循環"
 
 msgid "Lower Bound"
 msgstr "下限"
 
-msgid "Malformed XML:\n"
+msgid "Lower than or equal"
+msgstr ""
+
+msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
@@ -601,11 +801,20 @@ msgstr "管理題目"
 msgid "Manage Items"
 msgstr "管理題目"
 
+msgid "map response"
+msgstr ""
+
 msgid "Mapping default"
 msgstr "預設映射"
 
+msgid "Mapping Indicator"
+msgstr ""
+
 msgid "Match"
 msgstr "匹配"
+
+msgid "match correct"
+msgstr ""
 
 msgid "Match Interaction"
 msgstr "匹配互動"
@@ -624,6 +833,9 @@ msgstr "最大長度"
 
 msgid "Max Length"
 msgstr "最大長度"
+
+msgid "Max plays count"
+msgstr ""
 
 msgid "Max Words"
 msgstr "最多字數"
@@ -654,6 +866,18 @@ msgstr "媒體文件路徑或 YouTube 視頻地址"
 
 msgid "Media Interaction"
 msgstr "媒體互動"
+
+msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
+msgstr ""
+
+msgid "Metadata export requires an instance of DomManifest to inject metadata"
+msgstr ""
+
+msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
+msgstr ""
+
+msgid "Metadata import requires an instance of DomManifest to extract metadata"
+msgstr ""
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -691,6 +915,12 @@ msgstr "MPEG 音效檔"
 msgid "MPEG video"
 msgstr "MPEG 影音檔"
 
+msgid "Multiply"
+msgstr ""
+
+msgid "negative"
+msgstr ""
+
 #, tao-public
 msgid "New item"
 msgstr "新增題目"
@@ -704,11 +934,20 @@ msgstr "沒有組態屬性的需要"
 msgid "No file selected"
 msgstr "未選取任何檔案"
 
+msgid "no item content"
+msgstr ""
+
 msgid "No Items could be imported from the given IMS QTI package."
 msgstr "沒有題目可以從所選擇的IMS QTI包匯入。"
 
+msgid "No preview available"
+msgstr ""
+
 msgid "No value set"
 msgstr "沒有設定數值"
+
+msgid "none"
+msgstr ""
 
 msgid "None"
 msgstr "無"
@@ -716,14 +955,24 @@ msgstr "無"
 msgid "None defined yet."
 msgstr "還未定義。"
 
+msgid "not a QTI item"
+msgstr ""
+
 msgid "Number of associations"
 msgstr "相連的數量"
 
 msgid "of"
 msgstr "的"
 
+msgid "OK"
+msgstr ""
+
 msgid "one association pair"
 msgstr "一對組合"
+
+msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
+msgstr ""
 
 msgid "Order"
 msgstr "排序"
@@ -737,13 +986,13 @@ msgstr "在圖片上排列這些區域(熱點)。"
 msgid "Orientation"
 msgstr ""
 
+msgid "Outcome Declarations"
+msgstr ""
+
 msgid "Pair scoring"
 msgstr "對得分"
 
 msgid "Pattern"
-msgstr "樣式"
-
-msgid "pattern"
 msgstr "樣式"
 
 msgid "Pause"
@@ -751,6 +1000,9 @@ msgstr "暫停"
 
 msgid "PDF file"
 msgstr "PDF 檔案"
+
+msgid "Pi"
+msgstr ""
 
 msgid "Plain text"
 msgstr "純文字"
@@ -798,6 +1050,9 @@ msgstr "請順序以下的選項從而設置正確的答案"
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "請從資源管理器中選擇一個媒體檔案(視頻或音頻).你可以從你的電腦有按鈕 \"加入檔案\" 中加入新的檔案。"
 
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "請從資源管理器選一個共用的刺激物檔案."
 
@@ -825,8 +1080,17 @@ msgstr "請在下面的框中輸入正確的回應。"
 msgid "PNG image"
 msgstr "PNG 圖像"
 
+msgid "Portable element model %s not found. Required extension might be missing"
+msgstr ""
+
 msgid "Position one or more points on a picture (response areas are not displayed)."
 msgstr "在圖片上定位一個或多個點(反應區域不能顯示)。"
+
+msgid "positive"
+msgstr ""
+
+msgid "Power form"
+msgstr ""
 
 msgid "Pre-formatted text"
 msgstr "預格式化文本"
@@ -834,11 +1098,26 @@ msgstr "預格式化文本"
 msgid "Preparing CSS, please wait…"
 msgstr "正在預備CSS，請稍後。。。"
 
+msgid "Preparing Metadata Values for target \"%s\"..."
+msgstr ""
+
 msgid "Preview"
 msgstr "預覽"
 
+msgid "Preview the item"
+msgstr ""
+
 msgid "Print"
 msgstr "列印"
+
+msgid "Print the item"
+msgstr ""
+
+msgid "Printed Variable"
+msgstr ""
+
+msgid "PropertyUri to map has to a valid uri"
+msgstr ""
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
 msgstr "提供考生一個提示作為輸入的行所要求的預期數。一條線預計將有大約72個字符。"
@@ -846,25 +1125,31 @@ msgstr "提供考生一個提示作為輸入的行所要求的預期數。一條
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
 msgstr "提供報考者一個提示作為預計總長度所需回應的字符數的測量。"
 
-msgid "Published %s"
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
 msgstr ""
 
-msgid "QTI Item"
-msgstr "QTI 題目"
+msgid "Published %s"
+msgstr ""
 
 msgid "QTI Item Runner"
 msgstr ""
 
-msgid "QTI Package"
-msgstr "QTI 包"
-
-msgid "QTI Package 2.0"
-msgstr "QTI 包 2.0"
+msgid "QTI Metadata"
+msgstr ""
 
 msgid "QTI Package 2.1"
 msgstr "QTI 包 2.1"
 
+msgid "QTI Package 2.2"
+msgstr ""
+
 msgid "QTI-XML error at line %1$d \"%2$s\"."
+msgstr ""
+
+msgid "QTI/APIP Content Package"
+msgstr ""
+
+msgid "QTI/APIP XML Item Document"
 msgstr ""
 
 msgid "Question"
@@ -884,6 +1169,12 @@ msgstr "所建議的"
 
 msgid "Reduce font size"
 msgstr "縮小字型"
+
+msgid "Register method expects $key and $name parameters"
+msgstr ""
+
+msgid "Register method expects $key and $name parameters."
+msgstr ""
 
 msgid "Remove"
 msgstr "移除"
@@ -921,8 +1212,17 @@ msgstr "移除選取的形狀"
 msgid "Remove this stylesheet"
 msgstr "移除此樣式表"
 
+msgid "Replay timeout"
+msgstr ""
+
 msgid "required"
 msgstr "必要的"
+
+msgid "Resource "
+msgstr ""
+
+msgid "Resource(s) successfully exported."
+msgstr ""
 
 msgid "Response"
 msgstr "回應"
@@ -936,8 +1236,14 @@ msgstr "處理回應"
 msgid "Response Properties"
 msgstr "回應屬性"
 
+msgid "Right"
+msgstr ""
+
 msgid "right"
 msgstr "右"
+
+msgid "Right bracket"
+msgstr ""
 
 msgid "Rollback on..."
 msgstr "倒轉..."
@@ -945,10 +1251,16 @@ msgstr "倒轉..."
 msgid "Save"
 msgstr "儲存"
 
-msgid "score"
-msgstr "分數"
+msgid "Save the item"
+msgstr ""
+
+msgid "Scale size"
+msgstr ""
 
 msgid "Score"
+msgstr "分數"
+
+msgid "score"
 msgstr "分數"
 
 msgid "Score range"
@@ -956,6 +1268,9 @@ msgstr "分數範圍"
 
 msgid "Score value"
 msgstr "分值"
+
+msgid "Select"
+msgstr ""
 
 msgid "Select a "
 msgstr "選一個"
@@ -990,11 +1305,11 @@ msgstr "選擇正確答案"
 msgid "Select image"
 msgstr "選擇圖片"
 
-msgid "Select media"
-msgstr "選擇媒體"
-
 msgid "Select media file"
 msgstr "選擇媒體檔案"
+
+msgid "Select object"
+msgstr ""
 
 msgid "Select one or more areas (hotspots) displayed on an picture."
 msgstr "在圖片中選擇顯示的一個或多個區域(熱點)。"
@@ -1008,11 +1323,17 @@ msgstr "選擇點處"
 msgid "Select Point Interaction"
 msgstr "點處互動"
 
+msgid "Select predefined feedback style from the list."
+msgstr ""
+
 msgid "Select shared stimulus"
 msgstr "選擇共用的刺激物"
 
 msgid "Select the area to add an image"
 msgstr "選擇添加圖片的區域"
+
+msgid "Select the outcome variable you want to display."
+msgstr ""
 
 msgid "Select the way the response of your interaction should be processed"
 msgstr "選擇你互動的反應應當被處理的方式。"
@@ -1023,6 +1344,9 @@ msgstr "選擇這個區域"
 msgid "Select this area to start an association"
 msgstr "選擇這個區域來開始一個關聯"
 
+msgid "Set a CSS class name in order to customize the display style."
+msgstr ""
+
 msgid "Set the score for this response"
 msgstr "設定這個回應的分數"
 
@@ -1031,6 +1355,9 @@ msgstr "形成的位置"
 
 msgid "Shuffle choices"
 msgstr "隨機設定選擇的位置"
+
+msgid "Sinus"
+msgstr ""
 
 msgid "Size and position"
 msgstr "大小與位置"
@@ -1044,6 +1371,12 @@ msgstr "滑動鈕互動"
 msgid "some text ..."
 msgstr "一些文本..."
 
+msgid "Square root"
+msgstr ""
+
+msgid "standard"
+msgstr ""
+
 msgid "Step"
 msgstr "步驟"
 
@@ -1055,6 +1388,9 @@ msgstr "樣式表 <b>%s</b> 刪除<br> 點擊 <i>新增樣式表</i> 以從新�
 
 msgid "Style Sheet Manager"
 msgstr "樣式表管理器"
+
+msgid "Success"
+msgstr ""
 
 msgid "Successfully compiled \"%s"
 msgstr ""
@@ -1068,8 +1404,14 @@ msgstr "表格標題"
 msgid "TAO default styles"
 msgstr "TAO預設的樣式"
 
+msgid "Target Class Lookup for resource \"%s\"..."
+msgstr ""
+
 msgid "Text Block"
 msgstr "文字塊"
+
+msgid "Text Block CSS Class"
+msgstr ""
 
 msgid "Text Block Properties"
 msgstr "文本區塊屬性"
@@ -1083,9 +1425,6 @@ msgstr "文字輸入"
 msgid "Text Entry Interaction"
 msgstr "輸入文字互動"
 
-msgid "The \"%s\" QTI component is not supported."
-msgstr ""
-
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
 msgstr "自動啟動屬性取決於媒體對象是否應該在報考者一開始嘗試(核對)就開始或媒體對象是否應該在報考者的控制下(未經核對)啟動。"
 
@@ -1095,20 +1434,26 @@ msgstr "按鈕標籤。"
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
 msgstr "當沒有給出顯示映射的源值時，從目標設定的預設值將被使用。"
 
-msgid "The expectedLength attribute provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
-msgstr "預計長度屬性提供報考者一個提示作為預計總長度所需回應的字符數的測量。這并不是一個有效的約束。"
+msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The field specifier to use when displaying variables of record cardinality."
+msgstr ""
 
 msgid "The file path to the image."
 msgstr "圖片文件路徑。"
 
-msgid "The file path to the media."
-msgstr "媒體文件路徑。"
+msgid "The file path to the object."
+msgstr ""
 
 msgid "The file path to the shared stimulus."
 msgstr "共用激勵物的路徑。"
 
-msgid "the following Qti Element is currently not supported in TAO"
-msgstr "目前在TAO中不支持以下QTI的元素"
+msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
+msgstr ""
+
+msgid "The given target is not an instance of core_kernel_classes_Resource"
+msgstr ""
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
 msgstr "突出顯示的選擇不能被相關聯超過 %d 次數。"
@@ -1128,16 +1473,40 @@ msgstr "這是考題選項的識別符。這個標識符不能被任何其他的
 msgid "The IMS QTI Item could not be imported."
 msgstr "無法匯入 IMS QTI 題目。"
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
 msgstr ""
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
 msgstr ""
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr ""
 
 msgid "The IMS QTI Item was successfully imported."
+msgstr ""
+
+msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
+msgstr ""
+
+msgid "The item cannot be saved because it contains an unsupported custom interaction."
+msgstr ""
+
+msgid "The item has not been saved!"
+msgstr ""
+
+msgid "The item has unsaved changes, are you sure you want to leave ?"
+msgstr ""
+
+msgid "The item has unsaved changes, would you like to save it ?"
 msgstr ""
 
 msgid "The item needs to be saved before it can be previewed"
@@ -1158,17 +1527,23 @@ msgstr "滑塊鈕的下限"
 msgid "The manifest argument must be an instance of DOMDocument."
 msgstr "清單參數必須是 DOMDocument 的實例。"
 
+msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The mapping options are available when at least one map entry is defined."
+msgstr ""
+
 msgid "The maximum number of association is unlimited."
 msgstr "關聯的使用次數沒有限制。"
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "考生最多可選的關聯。"
 
-msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
-msgstr "設定當考生選擇回應時，不可以超過的最多選擇數量。考生選擇數量要在限定內，回應才有效。"
-
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "考生可以使用的最多選擇數量。"
+
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
 
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "這選擇可以與多少其他選擇有相關聯(最多數量)。"
@@ -1194,8 +1569,14 @@ msgstr "當考生填寫回應時，必須選多少選擇才是有效的回應。
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
 msgstr "此選擇至少要跟多少其他的選擇有相關聯才是一個有效的回應。"
 
+msgid "The number base to use when converting integer variables to strings with the i conversion type code."
+msgstr ""
+
 msgid "The number of units corresponding to a step on the slider"
 msgstr "滑動鈕的每一個階段等於多少個單位"
+
+msgid "The path argument for extractor must be a non-empty array."
+msgstr ""
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
 msgstr "該題目的原理標識符。此標識符必須在題目的元數據中有對應的條目。"
@@ -1207,6 +1588,9 @@ msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supporte
 msgstr "此QTI 類別 \"%1$s\" 在於第 \"%2$d\" 行已經不被支援。"
 
 msgid "The Response Processing Template \"%s\" is not supported."
+msgstr ""
+
+msgid "The score format is not numeric"
 msgstr ""
 
 msgid "The selected file is ready to be sent."
@@ -1234,9 +1618,6 @@ msgid "The validation of the imported QTI item failed. The system returned the f
 ""
 msgstr ""
 
-msgid "The ZIP archive containing the IMS APIP Item cannot be extracted."
-msgstr "無法提取一個包含 IMS APIP 題目的 ZIP 檔案"
-
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "此含有 IMS QTI 題目的ZIP壓縮文件不能被提取。"
 
@@ -1258,6 +1639,9 @@ msgstr "此標識符已被使用"
 msgid "This is not a valid answer"
 msgstr "這不是一個有效的答案"
 
+msgid "This is required"
+msgstr ""
+
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "這個樣式表沒有在服務器上找到。您可能需要刪除此參照。"
 
@@ -1266,6 +1650,18 @@ msgstr "累計運行的時間"
 
 msgid "Title"
 msgstr "標題"
+
+msgid "to"
+msgstr ""
+
+msgid "Tooltip Content"
+msgstr ""
+
+msgid "Tooltip editor"
+msgstr ""
+
+msgid "Tooltip Target"
+msgstr ""
 
 msgid "Top"
 msgstr "上面"
@@ -1276,11 +1672,23 @@ msgstr "停止使用此題目。"
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
+msgid "Unable to retrieve item : "
+msgstr ""
+
+msgid "Unable to validate %s: %s"
+msgstr ""
+
 msgid "undo"
 msgstr "復原"
 
 msgid "Undo"
 msgstr "復原"
+
+msgid "Unknown $key to register MetadataService instance"
+msgstr ""
+
+msgid "Unregister method expects $key and $name parameters."
+msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr "上傳一個檔案 (例如：檔案，圖片)作為一個回應。"
@@ -1294,6 +1702,9 @@ msgstr "如果你想為前綴的選擇列表中使用此 (例如: 1,2,3,a,b,c)"
 msgid "Used to control the format of the text entered by the candidate."
 msgstr "用來控制考生輸入的文本格式。"
 
+msgid "Value"
+msgstr ""
+
 msgid "Vertical"
 msgstr ""
 
@@ -1305,9 +1716,6 @@ msgstr "我們用樣式面具，這樣才符合 IMS 標準"
 
 msgid "Width"
 msgstr "寬度"
-
-msgid "Width (optional)"
-msgstr "寬度 (選擇性的)"
 
 msgid "Windows Media audio"
 msgstr "Windows Media 音訊"
@@ -1321,8 +1729,17 @@ msgstr "字詞"
 msgid "Would you like to replace the alt text"
 msgstr "你想更換替代文字嗎？"
 
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr ""
+
+msgid "WYSIWYG editor"
+msgstr ""
+
 msgid "XHTML"
 msgstr "XHTML"
+
+msgid "XML error \"%1$s\"."
+msgstr ""
 
 msgid "XML error at line %1$d \"%2$s\"."
 msgstr ""
@@ -1357,14 +1774,14 @@ msgstr "您已刪除元素。"
 msgid "You may make as many association pairs as you want."
 msgstr "您可以建立無限組關聯配對。"
 
-msgid "You must at least %d choice"
-msgstr ""
-
 msgid "You must select %1$d to %2$d choices."
 msgstr "您必須選 %1$d 至 %2$d 個選擇。"
 
 msgid "You must select 0 to %d choices."
 msgstr "您必須選 0 至 %d 個選擇。"
+
+msgid "You must select at least %d choice"
+msgstr ""
 
 msgid "You must select at least %d choices"
 msgstr ""

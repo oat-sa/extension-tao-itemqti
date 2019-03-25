@@ -25,15 +25,12 @@ use common_exception_Error;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\event\ItemCreatorLoad;
 use oat\taoQtiItem\model\HookRegistry;
-use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\Resource;
 use oat\taoQtiItem\model\qti\Service;
 use tao_actions_CommonModule;
 use tao_helpers_File;
@@ -43,6 +40,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\tao\model\media\MediaService;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
+use common_exception_BadRequest;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -53,16 +51,26 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  */
 class QtiCreator extends tao_actions_CommonModule
 {
-    use EventManagerAwareTrait;
+    /**
+     * @return EventManager
+     */
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
     /**
      * create a new QTI item
+     *
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
      *
      * @requiresRight id WRITE
      */
     public function createItem()
     {
         if(!\tao_helpers_Request::isAjax()){
-            throw new \Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
         $clazz = new \core_kernel_classes_Resource($this->getRequestParameter('id'));
         if ($clazz->isClass()) {

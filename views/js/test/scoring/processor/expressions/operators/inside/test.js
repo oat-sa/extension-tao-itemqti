@@ -1,20 +1,20 @@
 define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/inside'
-], function (_, preProcessorFactory, insideProcessor) {
-    "use strict";
+], function(_, preProcessorFactory, insideProcessor) {
+    'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('structure', function (assert) {
+    QUnit.test('structure', function(assert) {
         assert.ok(_.isPlainObject(insideProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(insideProcessor.process), 'the processor has a process function');
         assert.ok(_.isArray(insideProcessor.operands), 'the processor has a process function');
     });
 
     QUnit.module('Process');
-
 
     var dataProvider = [{
         title: 'rect inside',
@@ -31,7 +31,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'rect outside',
         coords: '0,0,10,20',
         shape: 'rect',
@@ -61,7 +61,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'poly outside',
         coords: '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
         shape: 'poly',
@@ -106,7 +106,7 @@ define([
             baseType: 'boolean',
             value: true
         }
-    },{
+    }, {
         title: 'circle outside',
         coords: '5,5,5',
         shape: 'circle',
@@ -121,7 +121,7 @@ define([
             baseType: 'boolean',
             value: false
         }
-    },{
+    }, {
         title: 'circle',
         coords: '57,18,55,14',
         shape: 'ellipse',
@@ -160,8 +160,8 @@ define([
     }];
 
     QUnit
-        .cases(dataProvider)
-        .test('inside ', function (data, assert) {
+        .cases.init(dataProvider)
+        .test('inside ', function(data, assert) {
             insideProcessor.preProcessor = preProcessorFactory({});
 
             insideProcessor.operands = data.operands;

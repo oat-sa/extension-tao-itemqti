@@ -182,7 +182,7 @@ define([
             }
 
             if(!minInstructionSet && min > 0 && (choiceCount === false || min < choiceCount)){
-                msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', min);
+                msg = (min <= 1) ? __('You must select at least %d choice', min) : __('You must select at least %d choices', min);
                 self.appendInstruction(interaction, msg, function(){
                     if(getResponse(interaction).length >= min){
                         this.setLevel('success');
