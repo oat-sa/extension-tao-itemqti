@@ -46,6 +46,8 @@ use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\GenericLomManifestClassificationExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
+use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
+use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -400,7 +402,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('19.3.1')) {
             $importerConfig = [
-                MetadataImporter::INJECTOR_KEY => [\oat\taoQtiItem\model\qti\metadata\ontology\LomInjector::class],
+                MetadataImporter::INJECTOR_KEY => [OntologyLomInjector::class],
                 MetadataImporter::EXTRACTOR_KEY => [GenericLomManifestClassificationExtractor::class],
                 MetadataImporter::GUARDIAN_KEY => [],
                 MetadataImporter::CLASS_LOOKUP_KEY => [],
@@ -411,7 +413,7 @@ class Updater extends \common_ext_ExtensionUpdater
                     $importerConfig
                 ),
                 MetadataService::EXPORTER_KEY => new MetadataExporter([
-                    MetadataExporter::INJECTOR_KEY => [\oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector::class],
+                    MetadataExporter::INJECTOR_KEY => [ImsManifestLomInjector::class],
                     MetadataExporter::EXTRACTOR_KEY => [GenericLomOntologyClassificationExtractor::class],
                 ])
             ];
