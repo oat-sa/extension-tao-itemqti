@@ -398,9 +398,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('16.0.0');
         }
 
-        $this->skip('16.0.0', '19.3.1');
+        $this->skip('16.0.0', '19.4.0');
 
-        if ($this->isVersion('19.3.1')) {
+        if ($this->isVersion('19.4.0')) {
             $importerConfig = [
                 MetadataImporter::INJECTOR_KEY => [OntologyLomInjector::class],
                 MetadataImporter::EXTRACTOR_KEY => [GenericLomManifestClassificationExtractor::class],
@@ -420,7 +420,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $metadataService = $this->getServiceManager()->build(MetadataService::class, $options);
             $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
 
-            $this->setVersion('19.4.0');
+            $this->setVersion('19.5.0');
         }
     }
 }
