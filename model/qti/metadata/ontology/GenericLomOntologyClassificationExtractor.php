@@ -37,7 +37,6 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
 
     static $excludedProperties = [
 		OntologyRdf::RDF_TYPE,
-        OntologyRdfs::RDFS_LABEL,
         taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
         taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
         taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
