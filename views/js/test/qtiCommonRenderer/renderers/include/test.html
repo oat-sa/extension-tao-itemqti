@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>QTI Item core renderer Test</title>
-        <base href="../../../../../../tao/views/" />
+        <title>QTI Item include renderer Test</title>
+        <base href="../../../../../../../tao/views/" />
 
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
@@ -20,7 +20,7 @@
             require(['/tao/ClientConfig/config'], function(){
 
                 //load the test
-                require(['taoQtiItem/test/qtiCommonRenderer/renderer/test'], function(){
+                require(['taoQtiItem/test/qtiCommonRenderer/renderers/include/test'], function(){
 
                     //Tests loaded, run tests
                     QUnit.config.reorder = false;
@@ -34,7 +34,6 @@
         <div id="qunit-fixture">
             <div id="item-container"></div>
         </div>
-
-            <div id="outside-container"></div>
+        <div id="outside-container"></div>
     </body>
 </html>
