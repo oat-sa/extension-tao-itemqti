@@ -41,6 +41,13 @@ use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
+use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\GenericLomManifestClassificationExtractor;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
+use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
+use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -393,5 +400,27 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('16.0.0', '19.4.0');
 
+        if ($this->isVersion('19.4.0')) {
+            $importerConfig = [
+                MetadataImporter::INJECTOR_KEY => [OntologyLomInjector::class],
+                MetadataImporter::EXTRACTOR_KEY => [GenericLomManifestClassificationExtractor::class],
+                MetadataImporter::GUARDIAN_KEY => [],
+                MetadataImporter::CLASS_LOOKUP_KEY => [],
+            ];
+
+            $options = [
+                MetadataService::IMPORTER_KEY => new MetadataImporter(
+                    $importerConfig
+                ),
+                MetadataService::EXPORTER_KEY => new MetadataExporter([
+                    MetadataExporter::INJECTOR_KEY => [ImsManifestLomInjector::class],
+                    MetadataExporter::EXTRACTOR_KEY => [GenericLomOntologyClassificationExtractor::class],
+                ])
+            ];
+            $metadataService = $this->getServiceManager()->build(MetadataService::class, $options);
+            $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
+
+            $this->setVersion('19.5.0');
+        }
     }
 }
