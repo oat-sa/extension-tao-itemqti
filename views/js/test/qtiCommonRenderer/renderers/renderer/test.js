@@ -6,6 +6,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'json!taoQtiItem/test/samples/json/space-shuttle.json'
 ], function($, _, QtiLoader, QtiRenderer, itemData) {
+    'use strict';
 
     var containerId = 'item-container';
 
@@ -13,9 +14,9 @@ define([
 
     QUnit.test('renders an item', function(assert) {
         var ready = assert.async();
-        assert.expect(5);
-
         var renderer = new QtiRenderer({baseUrl: './'});
+
+        assert.expect(5);
 
         new QtiLoader().loadItemData(itemData, function(item) {
             renderer.load(function() {
@@ -42,7 +43,6 @@ define([
 
     QUnit.test('renders decorated interactions', function(assert) {
         var ready = assert.async();
-        assert.expect(8);
 
         //Set up decorator
         var renderer = new QtiRenderer({
@@ -60,6 +60,8 @@ define([
                 }
             }
         });
+
+        assert.expect(8);
 
         new QtiLoader().loadItemData(itemData, function(item) {
             renderer.load(function() {
