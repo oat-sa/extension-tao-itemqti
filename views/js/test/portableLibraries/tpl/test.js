@@ -1,13 +1,14 @@
 define([
+
     'jquery',
     'lodash',
     'taoQtiItem/portableLib/OAT/util/tpl'
-], function($, _, tplMgr){
+], function($, _, tplMgr) {
     'use strict';
 
     var containerId = 'interaction-container';
 
-    QUnit.test('api', 2, function(assert){
+    QUnit.test('api', function(assert) {
 
         var tpl,
             $container = $('#' + containerId);
@@ -19,39 +20,39 @@ define([
         assert.ok(typeof tpl.render === 'function', 'tpl.render() is a function');
     });
 
-    QUnit.test('exists', 2, function(assert){
+    QUnit.test('exists', function(assert) {
         var $container = $('#' + containerId);
         var tpl = tplMgr($container);
         assert.ok(tpl.exists('list'), 'list tpl found');
         assert.ok(tpl.exists('page'), 'list tpl found');
     });
 
-    QUnit.test('render', 8, function(assert){
+    QUnit.test('render', function(assert) {
         var $li;
         var $container = $('#' + containerId);
         var tpl = tplMgr($container);
 
-        $container.append(tpl.render('page', {content : '<p class="paragraph">paragraph content</p>'}));
-        assert.equal($container.children('.page').children('.paragraph').length, 1, 'rendered "page" element found');
+        $container.append(tpl.render("page", {content: '<p class="paragraph">paragraph content</p>'}));
+        assert.equal($container.children(".page").children(".paragraph").length, 1, 'rendered "page" element found');
 
         $container.append(tpl.render('list',
-            {items :
+            {items:
                     [
                         {
-                            id : 'element1',
-                            title : 'title of item 1'
+                            id: 'element1',
+                            title: 'title of item 1'
                         },
                         {
-                            id : 'element2',
-                            title : 'title of item 2'
+                            id: 'element2',
+                            title: 'title of item 2'
                         },
                         {
-                            id : 'element3',
-                            title : 'title of item 3'
+                            id: 'element3',
+                            title: 'title of item 3'
                         }
                     ]
             }));
-        
+
         $li = $container.children('.nav-list').children('.nav-item');
         assert.equal($li.length, 3, 'rendered "list" element found');
         assert.equal($($li[0]).children('a').data('nav-id'), 'element1', 'template data properly rendered');

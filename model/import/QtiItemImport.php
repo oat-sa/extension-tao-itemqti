@@ -72,10 +72,11 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
      * @see tao_models_classes_import_ImportHandler::import()
      * @param \core_kernel_classes_Class $class
      * @param \tao_helpers_form_Form|array $form
+     * @param string|null $userId owner of the resource
      * @return Report
      * @throws \oat\oatbox\service\ServiceNotFoundException
      */
-    public function import($class, $form)
+    public function import($class, $form, $userId = null)
     {
         try {
             $uploadedFile = $this->fetchUploadedFile($form);

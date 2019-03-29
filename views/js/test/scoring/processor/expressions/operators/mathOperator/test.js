@@ -1,20 +1,20 @@
 define([
+
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/mathOperator'
-], function (_, preProcessorFactory, mathOperatorProcessor) {
+], function(_, preProcessorFactory, mathOperatorProcessor) {
     'use strict';
 
-    module('API');
+    QUnit.module('API');
 
-    QUnit.test('structure', function (assert) {
+    QUnit.test('structure', function(assert) {
         assert.ok(_.isPlainObject(mathOperatorProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(mathOperatorProcessor.process), 'the processor has a process function');
         assert.ok(_.isArray(mathOperatorProcessor.operands), 'the processor has a process function');
     });
 
-
-    module('Process');
+    QUnit.module('Process');
 
     var dataProvider = [{
         title: 'sin',
@@ -1030,11 +1030,10 @@ define([
     }
     ];
 
-
     var accuracy = mathOperatorProcessor.accuracy;
     QUnit
-        .cases(dataProvider)
-        .test('mathOperator ', function (data, assert) {
+        .cases.init(dataProvider)
+        .test('mathOperator ', function(data, assert) {
             mathOperatorProcessor.operands = data.operands;
 
             mathOperatorProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});

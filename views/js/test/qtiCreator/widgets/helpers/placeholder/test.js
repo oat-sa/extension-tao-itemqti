@@ -19,15 +19,16 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+
     'jquery',
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder'
-], function ($, placeholder) {
+], function($, placeholder) {
     'use strict';
 
     QUnit.module('placeholder');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(2);
+    QUnit.test('module', function(assert) {
+        assert.expect(2);
 
         assert.ok(typeof placeholder === 'object', 'The module expose an object');
         assert.ok(typeof placeholder.score === 'function', 'The module expose a score function');
@@ -35,7 +36,7 @@ define([
 
     QUnit.module('placeholder.score');
 
-    QUnit.test('placeholder with a given value', function (assert) {
+    QUnit.test('placeholder with a given value', function(assert) {
         var $container = $('#fixture-score');
         var $element = $container.find('.score');
         var expectedValue = 'foo';
@@ -43,7 +44,7 @@ define([
             $container: $container
         };
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.equal(typeof $element.attr('placeholder'), 'undefined', 'There is no placeholder value at this time');
 
@@ -52,7 +53,7 @@ define([
         assert.equal($element.attr('placeholder'), expectedValue, 'The placeholder has the expected value');
     });
 
-    QUnit.test('placeholder with a default value in the response', function (assert) {
+    QUnit.test('placeholder with a default value in the response', function(assert) {
         var $container = $('#fixture-score');
         var $element = $container.find('.score');
         var expectedValue = 'foo';
@@ -71,7 +72,7 @@ define([
             }
         };
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.equal(typeof $element.attr('placeholder'), 'undefined', 'There is no placeholder value at this time');
 
@@ -80,7 +81,7 @@ define([
         assert.equal($element.attr('placeholder'), expectedValue, 'The placeholder has the expected value');
     });
 
-    QUnit.test('placeholder with no default value in the response', function (assert) {
+    QUnit.test('placeholder with no default value in the response', function(assert) {
         var $container = $('#fixture-score');
         var $element = $container.find('.score');
         var expectedValue = '';
@@ -96,7 +97,7 @@ define([
             }
         };
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.equal(typeof $element.attr('placeholder'), 'undefined', 'There is no placeholder value at this time');
 
