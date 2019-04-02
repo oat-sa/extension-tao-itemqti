@@ -401,11 +401,11 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('16.0.0', '19.4.0');
 
         if ($this->isVersion('19.4.0')) {
+            /** @var MetadataService $metadataService */
             $metadataService = $this->getServiceManager()->get(MetadataService::SERVICE_ID);
 
             // 1. Alter Importer
-            /** @var MetadataExporter $metadataImporter */
-            $metadataImporter = $metadataService->getOption(MetadataService::IMPORTER_KEY);
+            $metadataImporter = $metadataService->getImporter();
 
             // 1a. add an injector to the Importer if doesn't exist
             $metadataImporterInjectorKey = $metadataImporter->getOption(MetadataImporter::INJECTOR_KEY);
@@ -423,8 +423,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
 
             // 2. Alter exporter
-            /** @var MetadataExporter $metadataExporter */
-            $metadataExporter = $metadataService->getOption(MetadataService::EXPORTER_KEY);
+            $metadataExporter = $metadataService->getExporter();
 
             // 2a. add an injector to the Exporter if doesn't exist
             $metadataExporterInjectorKey = $metadataExporter->getOption(MetadataExporter::INJECTOR_KEY);
