@@ -435,7 +435,7 @@ class Updater extends \common_ext_ExtensionUpdater
             // 2b. add an extractor to the Exporter if doesn't exist
             $metadataExporterExtractorKey = $metadataExporter->getOption(MetadataExporter::EXTRACTOR_KEY);
             if (!in_array(GenericLomOntologyClassificationExtractor::class, $metadataExporterExtractorKey)) {
-                $metadataExporterExtractorKey[] = GenericLomOntologyClassificationExtractor::class; // check @todo
+                $metadataExporterExtractorKey[] = GenericLomOntologyClassificationExtractor::class;
                 $metadataExporter->setOption(MetadataExporter::EXTRACTOR_KEY, $metadataExporterExtractorKey);
             }
 
