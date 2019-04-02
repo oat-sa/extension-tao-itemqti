@@ -401,28 +401,54 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('16.0.0', '19.4.0');
 
         if ($this->isVersion('19.4.0')) {
-            $importerConfig = [
-                MetadataImporter::INJECTOR_KEY => [OntologyLomInjector::class],
-                MetadataImporter::EXTRACTOR_KEY => [GenericLomManifestClassificationExtractor::class],
-                MetadataImporter::GUARDIAN_KEY => [],
-                MetadataImporter::CLASS_LOOKUP_KEY => [],
-            ];
+            $metadataService = $this->getServiceManager()->get(MetadataService::SERVICE_ID);
 
-            $options = [
-                MetadataService::IMPORTER_KEY => new MetadataImporter(
-                    $importerConfig
-                ),
-                MetadataService::EXPORTER_KEY => new MetadataExporter([
-                    MetadataExporter::INJECTOR_KEY => [ImsManifestLomInjector::class],
-                    MetadataExporter::EXTRACTOR_KEY => [GenericLomOntologyClassificationExtractor::class],
-                ])
-            ];
-            $metadataService = $this->getServiceManager()->build(MetadataService::class, $options);
+            // 1. Alter Importer
+            /** @var MetadataExporter $metadataImporter */
+            $metadataImporter = $metadataService->getOption(MetadataService::IMPORTER_KEY);
+
+            // 1a. add an injector to the Importer if doesn't exist
+            $metadataImporterInjectorKey = $metadataImporter->getOption(MetadataImporter::INJECTOR_KEY);
+            if (!in_array(OntologyLomInjector::class, $metadataImporterInjectorKey)) {
+                $metadataImporterInjectorKey[] = OntologyLomInjector::class;
+                $metadataImporter->setOption(MetadataImporter::INJECTOR_KEY, $metadataImporterInjectorKey);
+            }
+
+            // 1b. add an extractor to the Importer if doesn't exist
+            $metadataImporterExtractorKey = $metadataImporter->getOption(MetadataImporter::EXTRACTOR_KEY);
+            if (!in_array(GenericLomManifestClassificationExtractor::class, $metadataImporterExtractorKey)) {
+                $metadataImporterExtractorKey[] = GenericLomManifestClassificationExtractor::class;
+                $metadataImporter->setOption(MetadataImporter::EXTRACTOR_KEY, $metadataImporterExtractorKey);
+            }
+
+
+            // 2. Alter exporter
+            /** @var MetadataExporter $metadataExporter */
+            $metadataExporter = $metadataService->getOption(MetadataService::EXPORTER_KEY);
+
+            // 2a. add an injector to the Exporter if doesn't exist
+            $metadataExporterInjectorKey = $metadataExporter->getOption(MetadataExporter::INJECTOR_KEY);
+            if (!in_array(ImsManifestLomInjector::class, $metadataExporterInjectorKey)) {
+                $metadataExporterInjectorKey[] = ImsManifestLomInjector::class;
+                $metadataExporter->setOption(MetadataExporter::INJECTOR_KEY, $metadataExporterInjectorKey);
+            }
+
+            // 2b. add an extractor to the Exporter if doesn't exist
+            $metadataExporterExtractorKey = $metadataExporter->getOption(MetadataExporter::EXTRACTOR_KEY);
+            if (!in_array(GenericLomOntologyClassificationExtractor::class, $metadataExporterExtractorKey)) {
+                $metadataExporterExtractorKey[] = GenericLomOntologyClassificationExtractor::class; // check @todo
+                $metadataExporter->setOption(MetadataExporter::EXTRACTOR_KEY, $metadataExporterExtractorKey);
+            }
+
+
+            // 3. Save Metadata service
+            $metadataService->setOption(MetadataService::IMPORTER_KEY, $metadataImporter);
+            $metadataService->setOption(MetadataService::EXPORTER_KEY, $metadataExporter);
             $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
 
             $this->setVersion('19.5.0');
         }
 
-        $this->skip('19.5.0', '19.6.0');
+        $this->skip('19.5.0', '19.6.1');
     }
 }
