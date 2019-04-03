@@ -401,28 +401,20 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('16.0.0', '19.4.0');
 
         if ($this->isVersion('19.4.0')) {
-            $importerConfig = [
-                MetadataImporter::INJECTOR_KEY => [OntologyLomInjector::class],
-                MetadataImporter::EXTRACTOR_KEY => [GenericLomManifestClassificationExtractor::class],
-                MetadataImporter::GUARDIAN_KEY => [],
-                MetadataImporter::CLASS_LOOKUP_KEY => [],
-            ];
+            /** @var MetadataService $metadataService */
+            $metadataService = $this->getServiceManager()->get(MetadataService::SERVICE_ID);
 
-            $options = [
-                MetadataService::IMPORTER_KEY => new MetadataImporter(
-                    $importerConfig
-                ),
-                MetadataService::EXPORTER_KEY => new MetadataExporter([
-                    MetadataExporter::INJECTOR_KEY => [ImsManifestLomInjector::class],
-                    MetadataExporter::EXTRACTOR_KEY => [GenericLomOntologyClassificationExtractor::class],
-                ])
-            ];
-            $metadataService = $this->getServiceManager()->build(MetadataService::class, $options);
-            $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
+            $metadataImporter = $metadataService->getImporter();
+            $metadataImporter->register(MetadataImporter::INJECTOR_KEY, OntologyLomInjector::class);
+            $metadataImporter->register(MetadataImporter::EXTRACTOR_KEY, GenericLomManifestClassificationExtractor::class);
+
+            $metadataExporter = $metadataService->getExporter();
+            $metadataExporter->register(MetadataExporter::INJECTOR_KEY, ImsManifestLomInjector::class);
+            $metadataExporter->register(MetadataExporter::EXTRACTOR_KEY, GenericLomOntologyClassificationExtractor::class);
 
             $this->setVersion('19.5.0');
         }
 
-        $this->skip('19.5.0', '19.6.1');
+        $this->skip('19.5.0', '19.6.2');
     }
 }
