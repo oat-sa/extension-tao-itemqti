@@ -66,11 +66,12 @@ abstract class AbstractMetadataService extends ConfigurableService
      */
     public function extract($source)
     {
-        $metadata = [];
+        $metadata = [[]];
         foreach ($this->getExtractors() as $extractor) {
-            $metadata = array_merge($metadata, $extractor->extract($source));
+            $metadata[] = $extractor->extract($source);
         }
-        \common_Logger::i(__('%s metadata values found in source by extractor(s).', count($metadata)));
+        $metadata = array_merge_recursive(...$metadata);
+        \common_Logger::d(__('%s metadata values found in source by extractor(s).', count($metadata)));
 
         return $metadata;
     }
