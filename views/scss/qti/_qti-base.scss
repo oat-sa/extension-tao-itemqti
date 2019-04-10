@@ -117,6 +117,10 @@ $mainContainer : '.qti-item';
                 background: $errorBgColor;
             }
         }
+
+        &.highlighter-cursor {
+            cursor: url("../img/qtiIconsPng/marker.png") 0 32, auto;
+        }
     }
 
     .interaction-cover{
