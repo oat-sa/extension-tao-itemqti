@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/config',
     'taoQtiItem/qtiCreator/editor/gridEditor/helper',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'jqueryui'
+    'taoQtiItem/lib/jqueryui_dragdrop'
 ], function(_, $, config, helper, qtiElements){
     "use strict";
     var _syncHandleHeight = function($row){
@@ -98,7 +98,7 @@ define([
                     }
 
                     if(width + marginWidth * 0 < (units - 1) * unitWidth){//need to compensate for the width of the active zone
-                        
+
                         units--;
                         _setColUnits($col, units);
 
@@ -108,11 +108,11 @@ define([
                         }
 
                         _syncOutlineHeight();
-                        
+
                         $col.trigger('resize.gridEdit');
-                        
+
                     }else if(width + marginWidth + 20 > (units + 1) * unitWidth){//need to compensate for the width of the active zone
-                        
+
                         units++;
                         _setColUnits($col, units);
 
@@ -122,7 +122,7 @@ define([
                         }
 
                         _syncOutlineHeight();
-                        
+
                         $col.trigger('resize.gridEdit');
                     }
 
@@ -157,49 +157,49 @@ define([
     };
 
     var _deleteResizables = function _deleteResizables($el){
-        
+
         $el.find('.grid-edit-resizable-zone').remove();
     };
 
     var _setColUnits = function _setColUnits($elt, newUnits){
-        
+
         if($elt.attr('class').match(/col-([\d]+)/)){
-            
+
             var oldUnits = $elt.attr('data-units');
             var $parentRow = $elt.parent('.grid-row');
             var totalUnits = $parentRow.attr('data-units');
             $parentRow.attr('data-units', totalUnits - oldUnits + newUnits);//update parent
             $elt.attr('data-units', newUnits);//update element
             $elt.removeClass('col-' + oldUnits).addClass('col-' + newUnits);
-            
+
         }else{
-            
+
             throw $.error('the element is not a grid column');
         }
     };
 
     return {
         create : function($element){
-            
+
             _createResizables($element);
-            
+
             $(window).off('resize.qtiEdit.resizable').on('resize.qtiEdit.resizable', function(){
-                
+
                 _deleteResizables($element);
                 _createResizables($element);
             });
         },
         destroy : function($element, preserveGlobalEvents){
-            
+
             _deleteResizables($element);
-            
+
             if(!preserveGlobalEvents){
-                
+
                 $(window).off('resize.qtiEdit.resizable');
             }
         },
         syncHandleHeight : function($row){
-        
+
             if($row.hasClass('grid-row')){
                 _syncHandleHeight($row);
             }else{

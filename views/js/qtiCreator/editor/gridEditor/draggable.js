@@ -3,7 +3,8 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/editor/gridEditor/droppable',
-    'jqueryui'
+    'taoQtiItem/lib/jqueryui_dragdrop'
+    //'taoQtiItem/lib/jquery.ui.draggable.min'
 ], function($, _, QtiElements, droppable){
     "use strict";
     var _insertableDefaultsOptions = {

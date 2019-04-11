@@ -2,9 +2,7 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'nouislider',
-    'jqueryui'
-
+    'nouislider'
 ], function ($, _, styleEditor) {
     'use strict';
 
