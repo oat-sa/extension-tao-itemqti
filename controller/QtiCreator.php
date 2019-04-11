@@ -92,8 +92,10 @@ class QtiCreator extends tao_actions_CommonModule
             $service->setItemModel($item, new \core_kernel_classes_Resource(ItemModel::MODEL_URI));
             $this->getEventManager()->trigger(new ItemCreatedEvent($item->getUri()));
             $response = [
-                'label'	=> $item->getLabel(),
-                'uri' 	=> $item->getUri()
+                'success' => true,
+                'message' => __('Successfully created item "%s"', $item->getLabel()),
+                'label'   => $item->getLabel(),
+                'uri'     => $item->getUri()
             ];
         } else {
             $response = false;
