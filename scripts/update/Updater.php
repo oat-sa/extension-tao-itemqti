@@ -415,6 +415,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('19.5.0');
         }
 
-        $this->skip('19.5.0', '19.7.0');
+        $this->skip('19.5.0', '19.7.1');
     }
 }
