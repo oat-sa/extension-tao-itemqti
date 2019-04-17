@@ -40,7 +40,7 @@ define([
         var data = options.data || {};
 
         var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'});
-        var marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left'));
+        var marginWidth = parseFloat($el.find('[class^="col-"], [class*=" col-"]').last().css('margin-left'));
         var isEmpty = ($el.children('.grid-row').length === 0);
 
         var _appendPlaceholder;
@@ -262,7 +262,7 @@ define([
             }, 50)
         ).on('mousemove.gridEdit.gridDragDrop',
             _.throttle(function(e){ // '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)
-                var goingTo = e.relatedTarget|| e.toElement; //browser compatibility
+                var goingTo = e.relatedTarget || e.toElement || e.target; //browser compatibility
                 var $target = $(e.target);
                 var $col;
                 var $newRow;
