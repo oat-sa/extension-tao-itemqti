@@ -72,7 +72,13 @@ class QtiCreator extends tao_actions_CommonModule
         if(!\tao_helpers_Request::isAjax()){
             throw new common_exception_BadRequest('wrong request mode');
         }
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (\common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
+
         $clazz = new \core_kernel_classes_Resource($this->getRequestParameter('id'));
         if ($clazz->isClass()) {
             $clazz = new \core_kernel_classes_Class($clazz);
