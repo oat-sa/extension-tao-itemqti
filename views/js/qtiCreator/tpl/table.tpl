@@ -2,9 +2,8 @@
     class="qti-table-container"
     data-serial="{{serial}}"
     data-qti-class="table"
-    data-html-editable="true"
     >
-    <table class="qti-table"{{#if attributes.summary}} summary="{{attributes.summary}}"{{/if}}>
+    <table class="qti-table" data-html-editable="true"{{#if attributes.summary}} summary="{{attributes.summary}}"{{/if}}>
         {{{body}}}
     </table>
 </div>
