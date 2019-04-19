@@ -7,7 +7,7 @@ define([
     'use strict';
 
     var _qtiHtmlEditableTypes = {
-        'itemBody' : '.widget-textBlock > [data-html-editable]',
+        'itemBody' : '.widget-textBlock > [data-html-editable], .widget-table > [data-html-editable]',
         'prompt' : '.qti-prompt[data-html-editable]',
         'choice' : '.qti-choice [data-html-editable]'
     };
