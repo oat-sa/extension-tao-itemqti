@@ -241,7 +241,7 @@ define([
 
             _insertBetween($(this), position);
 
-        }).on('mousemove.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.throttle(function(e){
+        }).on('mousemove.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e){
 
             //insert element above or below the col's row:
             var $col = $(this),
@@ -259,13 +259,14 @@ define([
                 }
             }
 
-        }, 100)).on('mouseleave.gridEdit.gridDragDrop', '[class^="col-"], [class*=" col-"]', function(e){
+        }).on('mouseleave.gridEdit.gridDragDrop', '[class^="col-"], [class*=" col-"]', function() {
 
             //destroy inter-column insertion helper
-            e.stopPropagation();
             $(this).find('.grid-edit-insert-box').remove();
 
-        }).on('mouseleave.gridEdit.gridDragDrop', function(){
+        }).on('mouseleave.gridEdit.gridDragDrop', function(e) {
+
+            e.stopPropagation();
 
             //restore dom when the mouse leaves the drop area "$el":
             $placeholder.hide();
@@ -470,6 +471,8 @@ define([
     }
 
     function _destroyDroppableBlocks($el){
+
+        $el.off('.gridEdit.gridDragDrop');
 
         var _toBeRemoved = [
             '#qti-block-element-placeholder',
