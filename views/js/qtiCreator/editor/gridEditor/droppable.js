@@ -38,7 +38,7 @@ define([
             data = options.data || {};
 
         var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'}),
-        marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
+        marginWidth = parseFloat($el.find('[class^="col-"], [class*=" col-"]').last().css('margin-left')),
             isEmpty = ($el.children('.grid-row').length === 0);
 
         //add dropping class (used to fix col-*:first margin issue);
