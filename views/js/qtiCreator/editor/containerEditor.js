@@ -167,7 +167,7 @@ define([
                 $container
                     .off('.' + _ns)
                     .on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(){
-                        var editorContent = container.render(xmlRenderer.get());
+                        var editorContent = container.render(xmlRenderer.get().getContainer);
                         $container.trigger('containerchange.' + _ns, [editorContent]);
 
                         if(_.isFunction(options.change)){
@@ -215,7 +215,6 @@ define([
      * @returns {Object} The fake widget object
      */
     function createFakeWidget($editableContainer, container, options){
-
         var widget = {
             $container : $editableContainer,
             element : container,
