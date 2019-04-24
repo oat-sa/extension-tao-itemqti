@@ -75,7 +75,7 @@ class QtiCreator extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (\common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            $this->response = $this->getPsrResponse()->withStatus('412', __('Unable to process your request'));
             return;
         }
 
