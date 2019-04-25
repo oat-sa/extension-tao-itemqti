@@ -621,7 +621,7 @@ class ImportService extends ConfigurableService
         // <setOutcomeValue> from the responseProcessing (template or body) also items qti
         $rules = $this->getSetOutcomeValueIds($qtiModel);
 
-        return count(array_diff($outcomes, $rules)) === 0 && count(array_diff($rules, $outcomes)) === 0;
+        return count(array_diff($rules, $outcomes)) === 0;
     }
 
     protected function getOutcomesIds(Item $qtiModel)
@@ -640,16 +640,13 @@ class ImportService extends ConfigurableService
         $rules = $this->getResponseProcessingRules($qtiModel);
         $ids = [];
         foreach ($rules as $rule) {
-            /** @var ResponseCondition $condition */
-            foreach ($rule as $condition) {
-                /** @var QtiComponentCollection $collection */
-                $collection = $condition->getComponentsByClassName(SetOutcomeValue::CLASS_NAME);
-                while ($collection->valid()) {
-                    /** @var SetOutcomeValue $setOutcomeValue */
-                    $setOutcomeValue = $collection->current();
-                    $ids[] = $setOutcomeValue->getIdentifier();
-                    $collection->next();
-                }
+            /** @var QtiComponentCollection $collection */
+            $collection = $rule->getComponentsByClassName(SetOutcomeValue::CLASS_NAME, true);
+            while ($collection->valid()) {
+                /** @var SetOutcomeValue $setOutcomeValue */
+                $setOutcomeValue = $collection->current();
+                $ids[] = $setOutcomeValue->getIdentifier();
+                $collection->next();
             }
         }
 
