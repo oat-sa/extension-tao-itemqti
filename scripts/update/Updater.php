@@ -416,5 +416,12 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('19.5.0', '19.9.2');
+
+        if ($this->isVersion('19.9.2')) {
+            $importService = $this->getServiceManager()->get(ImportService::SERVICE_ID);
+            $importService->setOption(ImportService::CONFIG_VALIDATE_RESPONSE_PROCESSING, false);
+            $this->getServiceManager()->register(ImportService::SERVICE_ID, $importService);
+            $this->setVersion('19.10.0');
+        }
     }
 }
