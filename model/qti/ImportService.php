@@ -74,6 +74,11 @@ class ImportService extends ConfigurableService
 
     const SERVICE_ID = 'taoQtiItem/ImportService';
 
+    /**
+     * Checks that setOutcomeValue declared in the outcomeDeclaration
+     */
+    const CONFIG_VALIDATE_RESPONSE_PROCESSING = 'validateResponseProcessing';
+
     const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
     /**
@@ -468,8 +473,9 @@ class ImportService extends ConfigurableService
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
 
-                if (!$this->validResponseProcessing($qtiModel)) {
-                    return common_report_Report::createFailure(__('The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.', $resourceIdentifier));
+                if ($this->getOption(self::CONFIG_VALIDATE_RESPONSE_PROCESSING) && !$this->validResponseProcessing($qtiModel)) {
+                    return common_report_Report::createFailure(
+                        __('The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.', $resourceIdentifier));
                 }
 
                 if ($guardian !== false && $itemMustBeOverwritten) {
