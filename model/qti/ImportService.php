@@ -48,7 +48,14 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
+use qtism\data\QtiComponentCollection;
+use qtism\data\rules\ResponseCondition;
+use qtism\data\rules\SetOutcomeValue;
+use qtism\data\storage\xml\XmlDocument;
 use qtism\data\storage\xml\XmlStorageException;
+use qtism\runtime\processing\ResponseProcessingEngine;
+use qtism\runtime\tests\AssessmentItemSession;
+use qtism\runtime\tests\SessionManager;
 use tao_helpers_File;
 use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
@@ -66,6 +73,11 @@ class ImportService extends ConfigurableService
 {
 
     const SERVICE_ID = 'taoQtiItem/ImportService';
+
+    /**
+     * Checks that setOutcomeValue declared in the outcomeDeclaration
+     */
+    const CONFIG_VALIDATE_RESPONSE_PROCESSING = 'validateResponseProcessing';
 
     const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
@@ -460,6 +472,12 @@ class ImportService extends ConfigurableService
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
+
+                if ($this->getOption(self::CONFIG_VALIDATE_RESPONSE_PROCESSING) && !$this->validResponseProcessing($qtiModel)) {
+                    return common_report_Report::createFailure(
+                        __('The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.', $resourceIdentifier));
+                }
+
                 if ($guardian !== false && $itemMustBeOverwritten) {
                     \common_Logger::d('Resource "' . $resourceIdentifier . '" will overwrite item with URI ' . $guardian->getUri());
                     $rdfItem = $guardian;
@@ -600,6 +618,63 @@ class ImportService extends ConfigurableService
 
         return $report;
 
+    }
+
+    protected function validResponseProcessing(Item $qtiModel)
+    {
+        // <outcomeDeclaration> from the items qti
+        $outcomes = $this->getOutcomesIds($qtiModel);
+        // <setOutcomeValue> from the responseProcessing (template or body) also items qti
+        $rules = $this->getSetOutcomeValueIds($qtiModel);
+
+        return count(array_diff($rules, $outcomes)) === 0;
+    }
+
+    protected function getOutcomesIds(Item $qtiModel)
+    {
+        $declaredIds = [];
+        /** @var OutcomeDeclaration $outcomeDeclaration */
+        foreach ($qtiModel->getOutcomes() as $outcomeDeclaration) {
+            $declaredIds[] = $outcomeDeclaration->getIdentifier();
+        }
+
+        return $declaredIds;
+    }
+
+    protected function getSetOutcomeValueIds($qtiModel)
+    {
+        $rules = $this->getResponseProcessingRules($qtiModel);
+        $ids = [];
+        foreach ($rules as $rule) {
+            /** @var QtiComponentCollection $collection */
+            $collection = $rule->getComponentsByClassName(SetOutcomeValue::CLASS_NAME, true);
+            while ($collection->valid()) {
+                /** @var SetOutcomeValue $setOutcomeValue */
+                $setOutcomeValue = $collection->current();
+                $ids[] = $setOutcomeValue->getIdentifier();
+                $collection->next();
+            }
+        }
+
+        return array_unique($ids);
+    }
+
+    protected function getResponseProcessingRules(Item $qtiModel)
+    {
+        $rules = [];
+        $qti = $qtiModel->toQTI();
+        $qtiXmlDoc = new XmlDocument();
+        $qtiXmlDoc->loadFromString($qti);
+        $itemSession = new AssessmentItemSession($qtiXmlDoc->getDocumentComponent(), new SessionManager());
+        $responseProcessing = $itemSession->getAssessmentItem()->getResponseProcessing();
+
+        // Some items (especially to collect information) have no response processing!
+        if ($responseProcessing !== null && ($responseProcessing->hasTemplate() === true || $responseProcessing->hasTemplateLocation() === true || count($responseProcessing->getResponseRules()) > 0)) {
+            $engine = new ResponseProcessingEngine($responseProcessing, $itemSession);
+            $rules = $engine->getResponseProcessingRules();
+        }
+
+        return $rules;
     }
 
     /**

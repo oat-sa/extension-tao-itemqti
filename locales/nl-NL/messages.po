@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint98\n"
-"PO-Revision-Date: 2019-03-28T06:42:53\n"
+"Project-Id-Version: TAO 3.3.0-sprint100\n"
+"PO-Revision-Date: 2019-04-26T10:53:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -1258,11 +1258,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
-msgstr "Score"
-
 msgid "score"
 msgstr "score"
+
+msgid "Score"
+msgstr "Score"
 
 msgid "Score range"
 msgstr "Scorebereik"
@@ -1475,6 +1475,9 @@ msgid "The IMS QTI Item could not be imported."
 msgstr "Het IMS QTI item kon niet worden geïmporteerd."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
 msgstr ""
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
