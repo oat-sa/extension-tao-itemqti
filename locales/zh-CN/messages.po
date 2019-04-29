@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint91\n"
-"PO-Revision-Date: 2019-02-15T10:24:44\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:10:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -418,7 +418,7 @@ msgid "edit choices"
 msgstr "编辑选择"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr "用LaTeX type setting系统来编辑数学表达式。 例如：e^{i \\ pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "用MathML来编辑数学表达式"

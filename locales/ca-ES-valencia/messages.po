@@ -1,0 +1,1821 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:10:55\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ca-ES-valencia\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ca-ES-valencia\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid " Fill in the gaps in a text from a set of choices."
+msgstr " Ompliu els buits del text a partir d'un conjunt d'opcions"
+
+msgid " For Resource "
+msgstr ""
+
+msgid " or "
+msgstr " o "
+
+msgid "%d characters allowed"
+msgstr "%d caràcters permesos"
+
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr "S'han importat %d element(s) de %d des del paquet donat IMS QTI."
+
+msgid "%d/%d"
+msgstr "%d/%d"
+
+msgid "%s metadata values found in source by extractor(s)."
+msgstr "L'extractor ha trobat %s valors de metadades en la font."
+
+msgid "-- Any kind of file --"
+msgstr "-- Qualsevol tipus de fitxer --"
+
+msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
+msgid "A choice must be selected"
+msgstr "Cal seleccionar una opció"
+
+msgid "A human interpretation of the variable's value."
+msgstr "Una interpretació humana del valor de variable."
+
+msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
+msgstr ""
+
+msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
+msgstr "Un bloc rúbrica identifica part d'un itemBody d'assessmentItem que representa instruccions per a un o més actors que veuen l'element. Encara que els blocs rúbrica es defineixen com a simpleBlocks no han de contindre interaccions."
+
+msgid "Adapt to screen size"
+msgstr "Adapta a la mida de pantalla"
+
+msgid "Add"
+msgstr "Afig"
+
+msgid "Add a modal feedback"
+msgstr "Afig una retroacció modal"
+
+msgid "Add a QTI/APIP XML Item Document"
+msgstr "Afig un document d'element QTI/APIP XML"
+
+msgid "Add a ZIP file containing QTI/APIP items"
+msgstr "Afig un fitxer ZIP que conté elements QTI/APIP"
+
+msgid "Add another option"
+msgstr "Afig una altra opció"
+
+msgid "Add choice"
+msgstr "Afig una opció"
+
+msgid "Add else feedback"
+msgstr "Afig una altra retroacció"
+
+msgid "Add new pairs"
+msgstr "Afig nous parells"
+
+msgid "Add Style Sheet"
+msgstr "Afig un full d'estil"
+
+msgid "Alignment"
+msgstr "Alineació"
+
+msgid "Allow elimination"
+msgstr "Permet l'eliminació"
+
+msgid "Allowed associations"
+msgstr "Associacions permeses"
+
+msgid "Allowed choices"
+msgstr "Opcions permeses"
+
+msgid "Allowed number of matches"
+msgstr "Nombre de coincidències permeses"
+
+msgid "Allowed number of uses"
+msgstr "Nombre d'usos permesos"
+
+msgid "Alt Text"
+msgstr "Text Alt"
+
+msgid "An error occured while exporting an item."
+msgstr "S'ha produït un error mentre s'exportava un element."
+
+msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
+msgstr "S'ha produït un error mentre s'extreia l'arxiu ZIP que representa el paquet de contingut IMS."
+
+msgid "An error occured while loading a shared stimulus."
+msgstr "S'ha produït un error mentre es carregava un estímul compartit."
+
+msgid "An error occured while parsing IMS QTI data."
+msgstr "S'ha produït un error mentre s'analitzaven les dades d'IMS QTI."
+
+msgid "An error occurred at the level of the QTI model."
+msgstr "S'ha produït un error al camps del model QTI."
+
+msgid "An unexpected error occured while dealing with Response Processing."
+msgstr "S'ha produït un error inesperat mentre es tractava amb el processament de les respostes."
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
+msgstr ""
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
+msgstr ""
+
+msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
+msgstr ""
+
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "APIP Content Package"
+msgstr "Paquet de contingut APIP"
+
+msgid "Apip Package successfully exported."
+msgstr ""
+
+msgid "Arrange a list of choices in the correct order."
+msgstr "Organitza una llista d'opcions en l'ordre correcte"
+
+msgid "Associate"
+msgstr "Associa"
+
+msgid "Associate Interaction"
+msgstr "Interacció s'associació"
+
+msgid "association pairs"
+msgstr "parells d'associació"
+
+msgid "at least"
+msgstr "almenys"
+
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr "S'està provant d'injectar \"%s\" valors de metadades per a l'objectiu \"%s\\n"
+"\"amb l'injector de metadades \"%s\"."
+
+msgid "Autostart"
+msgstr "Inici automàtic"
+
+msgid "Back to Manage Items"
+msgstr "Arrere per a gestionar els elements"
+
+msgid "Background color"
+msgstr "Color de fons"
+
+msgid "Base"
+msgstr ""
+
+msgid "Block"
+msgstr "Bloc"
+
+msgid "block"
+msgstr "bloc"
+
+msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
+msgstr "El bloc que conté el contingut (estímul) de l'element com ara text o imatge; també es requereix per a interaccions inserides."
+
+msgid "Border color"
+msgstr "Color de la vora"
+
+msgid "Browse your computer and select the appropriate file."
+msgstr "Navegueu per l'ordinador i seleccioneu el fitxer adequat"
+
+msgid "Browse..."
+msgstr "Navega..."
+
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgid "cancel"
+msgstr "cancel·la"
+
+msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr ""
+
+msgid "Cannot delete a variable currently used in response processing"
+msgstr "No es pot eliminar una variable que s'utilitza actualment en el processament de la resposta."
+
+msgid "Cannot edit a variable currently used in response processing"
+msgstr "No es pot editar una variable que s'utilitza actualment en el processament de la resposta."
+
+msgid "cannot find QTI XML"
+msgstr "no es pot trobar QTI XML"
+
+msgid "cannot load QTI XML"
+msgstr "no es pot carregar QTI XML"
+
+msgid "Cannot locate the file \"%s"
+msgstr "No es pot localitzar el fitxer \"%s"
+
+msgid "Center"
+msgstr ""
+
+msgid "chars"
+msgstr "caràcters"
+
+msgid "Choice"
+msgstr "Opció"
+
+msgid "Choice Image"
+msgstr "Imatge d'opció"
+
+msgid "Choice Interaction"
+msgstr "Interacció d'opció"
+
+msgid "Choice Properties"
+msgstr "Propietats d'opció"
+
+msgid "choices"
+msgstr "opcions"
+
+msgid "Choices"
+msgstr "Opcions"
+
+msgid "Choose the horizontal alignment for the table."
+msgstr ""
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr "La cerca de la classe ha donat resultat. El recurs \"%s\" s'emmagatzemarà en la classe RDFS \"%s\"."
+
+msgid "Class successfully created."
+msgstr ""
+
+msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
+msgstr "Les entrades de classificació han de ser una instància de ClassificationEntryMetadataValue"
+
+msgid "Classification metadata is required to be extracted."
+msgstr "Es requereixen les metadades de classificació per a extraure-les. "
+
+msgid "Classification value to map has to a string"
+msgstr "El valor de classificació per a mapar ha de ser una cadena"
+
+msgid "Click again to remove"
+msgstr "Feu clic per a eliminar"
+
+msgid "Click to display interaction widget"
+msgstr "Feu clic per a mostrar el giny d'interacció"
+
+msgid "Collect open-ended information in a short text input (strings or numeric values)."
+msgstr "Arreplega informació oberta en una entrada de text curt (cadenes o valors numèrics)"
+
+msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
+msgstr "Arreplega informació oberta en una o més àrees de tex (cadenes o valors numèrics)"
+
+msgid "Color Picker"
+msgstr "Selector de color"
+
+msgid "Contraints"
+msgstr "Restriccions"
+
+msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
+msgstr "Controla els paràmetres de reproducció (inici automàtic, bucle) d'un fitxer d'àudio o vídeo i informa del nombre de vegades que s'ha reproduït."
+
+msgid "Correct"
+msgstr "Correcte"
+
+msgid "correct"
+msgstr "correcte"
+
+msgid "Cosinus"
+msgstr "Cosinus"
+
+msgid "Create assocations and fill the score in the form below"
+msgstr "Crea associacions i ompli la puntuació en el formulari a continuació"
+
+msgid "Create association(s) between areas (hotspots) displayed on a picture."
+msgstr "Crea associacions entre àrees (zones sensibles) que es mostren en una imatge"
+
+msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
+msgstr "Crea associacions entre dos conjunts d'opcions que es mostren en una taula (fila i columna)"
+
+msgid "Create gap"
+msgstr "Crea un buit"
+
+msgid "Create hottext"
+msgstr "Crea un text sensible"
+
+msgid "Create pair(s) from a series of choices."
+msgstr "Crea parells a partir de sèries d'opcions"
+
+msgid "CSV file"
+msgstr "Fitxer CSV"
+
+msgid "Current value:"
+msgstr "Valor actual:"
+
+msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
+msgstr "La conversió actual de MathML a LaTeX no està disponible. L'edició de MathML ací tindrà el codi LaTex descartat."
+
+msgid "custom"
+msgstr "personalitzada"
+
+msgid "Custom Response Processing Mode"
+msgstr "Mode de processament de resposta personalitzada"
+
+msgid "Default"
+msgstr "Predeterminat"
+
+msgid "default"
+msgstr "predeterminat"
+
+msgid "Define correct response"
+msgstr "Defineix la resposta correcta"
+
+msgid "Define item language."
+msgstr ""
+
+msgid "define prompt"
+msgstr "defineix la pregunta"
+
+msgid "Define the correct response."
+msgstr "Defineix la resposta correcta"
+
+msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
+msgstr "Defineix si una opció l'ha de seleccionar el candidat per tal de formar una resposta vàlida a la interacció."
+
+msgid "Define whether the item should be time dependent on delivery."
+msgstr "Defineix si l'element ha de ser dependent del temps en el lliurament"
+
+msgid "Defined width"
+msgstr "Defineix l'amplària"
+
+msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
+msgstr "Defineix la magnitud màxima de les variables d'eixida numèrica, el màxim ha de ser un valor positiu i el mínim negatiu"
+
+msgid "delete"
+msgstr "elimina"
+
+msgid "Delete"
+msgstr "Elimina"
+
+msgid "Delete else statement"
+msgstr "Elimina altres declaracions"
+
+msgid "Delete this modal feedback"
+msgstr "Elimina aquesta retroacció modal"
+
+msgid "Delimiter"
+msgstr ""
+
+msgid "Description"
+msgstr "Descripció"
+
+msgid "Disable this stylesheet temporarily"
+msgstr "Desactiva temporalment aquest full d'estil"
+
+msgid "Display"
+msgstr "Mostra"
+
+msgid "Display the choices either horizontally or vertically"
+msgstr "Mostra les opcions horitzontalment o bé verticalment"
+
+msgid "Divide"
+msgstr "Divideix"
+
+msgid "Don\'t save"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "done"
+msgstr "fet"
+
+msgid "Download this stylesheet"
+msgstr "Baixa aquest full d'estil"
+
+msgid "Draw a circle on the image"
+msgstr "Dibuixa un cercle sobre la imatge"
+
+msgid "Draw a free form on the image"
+msgstr "Dibuixa una forma lliure sobre la imatge"
+
+msgid "Draw a rectangle on the image"
+msgstr "Dibuixa un rectangle sobre la imatge"
+
+msgid "Draw an ellipsis on the image"
+msgstr "Dibuixa una el·lipse sobre la imatge"
+
+msgid "Drop the target to select a point"
+msgstr "Deixa anar l'objectiu per a seleccionar un punt"
+
+msgid "e.g. 13"
+msgstr "p. ex. 13"
+
+msgid "e.g. 960"
+msgstr "p. ex. 960"
+
+msgid "Edit"
+msgstr "Edita"
+
+msgid "edit choices"
+msgstr "edita les opcions"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
+msgid "Edit math expression using MathML"
+msgstr "Edita l'expressió matemàtica utilitzant MathML"
+
+msgid "Edit modal feedback"
+msgstr ""
+
+msgid "Edit modal feedback title"
+msgstr "Edita el títol de retroacció modal"
+
+msgid "Edit stylesheet label"
+msgstr "Edita l'etiqueta del full d'estil"
+
+msgid "Editing Mode"
+msgstr "Mode d'edició"
+
+msgid "Element Properties"
+msgstr "Propietats de l'element"
+
+msgid "elements"
+msgstr "elements"
+
+msgid "Eliminate"
+msgstr "Elimina"
+
+msgid "Enable the test taker to pause and restart the playing."
+msgstr "Habilita el participant perquè pose en pausa i reinicie la reproducció"
+
+msgid "End Attempt"
+msgstr "Finalitza l'intent"
+
+msgid "End Attempt Interaction"
+msgstr "Finalitza l'intent de la interacció"
+
+msgid "Enlarge font size"
+msgstr "Augmenta la mida de la lletra"
+
+msgid "Enter a select MIME-type"
+msgstr "Introduïu un tipus MIME seleccionat"
+
+msgid "Enter choices…"
+msgstr "Introduïu opcions..."
+
+msgid "Enter tooltip content"
+msgstr ""
+
+msgid "Enter tooltip target"
+msgstr ""
+
+msgid "Error on item %1$s : %2$s"
+msgstr "S'ha produït un error en l'element %1$s: %2$s"
+
+msgid "Error on item %s"
+msgstr "S'ha produït un error en l'element %s"
+
+msgid "Error to export item %s: %s"
+msgstr "S'ha produït un error en exportar l'element %s: %s"
+
+msgid "Euler\'s constant"
+msgstr ""
+
+msgid "Exponent"
+msgstr "Exponent"
+
+msgid "Export"
+msgstr "Exporta"
+
+msgid "Export APIP 1.0 Package"
+msgstr "Exporta el paquet APIP 1.0"
+
+msgid "Export failed for the item \"%s\": %s"
+msgstr "Ha fallat l'exportació de l'element \"%s\": %s"
+
+msgid "Export metadata"
+msgstr "Exporta les metadades"
+
+msgid "Export metadata item"
+msgstr "Exporta l'element de metadades"
+
+msgid "Export QTI 2.1 Package"
+msgstr "Exporta el paquet QTI 2.1"
+
+msgid "Export QTI 2.2 Package"
+msgstr "Exporta el paquet QTI 2.2"
+
+msgid "Extended Text"
+msgstr "Text estés"
+
+msgid "Extended Text Interaction"
+msgstr "Interacció de text estés"
+
+msgid "Fail to export item"
+msgstr "S'ha produït un error en exportar l'element."
+
+msgid "Failed to publish %1$s in %2$s"
+msgstr "S'ha produït un error en publicar %1$s en %2$s"
+
+msgid "Failed to save item"
+msgstr "S'ha produït un error en guardar l'element."
+
+msgid "Feedback"
+msgstr "Retroacció"
+
+msgid "Feedback Style"
+msgstr "Estil de retroacció"
+
+msgid "Field"
+msgstr ""
+
+msgid "File"
+msgstr "Fitxer"
+
+msgid "File name"
+msgstr "Nom del fitxer"
+
+msgid "File Upload"
+msgstr "Càrrega del fitxer"
+
+msgid "File Upload Interaction"
+msgstr "Interacció de càrrega de fitxer"
+
+msgid "Fill in the gaps on a picture with a set of image choices."
+msgstr "Ompliu els buits en un dibuix a partir d'un conjunt d'imatges"
+
+msgid "Flash video"
+msgstr "Vídeo Flash"
+
+msgid "Font family"
+msgstr "Família de tipus de lletra"
+
+msgid "Font size"
+msgstr "Mida del tipus de lletra"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Fraction"
+msgstr "Fracció"
+
+msgid "Gap"
+msgstr "Buit"
+
+msgid "Gap Match"
+msgstr "Concordança de buits"
+
+msgid "Gap Match Interaction"
+msgstr "Interacció de concordança de buits"
+
+msgid "GIF image"
+msgstr "Imatge GIF"
+
+msgid "Graphic Associate Interaction"
+msgstr "Interacció d'associació gràfica"
+
+msgid "Graphic Gap Match Interaction"
+msgstr "Interacció de concordança de buits gràfica"
+
+msgid "Graphic Order Interaction"
+msgstr "Interacció d'ordre gràfic"
+
+msgid "Greater than or equal"
+msgstr "Superior o igual"
+
+msgid "Guard for resource \"%s\"..."
+msgstr "Guàrdia del recurs \"%s\"..."
+
+msgid "Height"
+msgstr "Alçària"
+
+msgid "Horizontal"
+msgstr "Horitzontal"
+
+msgid "Hotspot"
+msgstr "Zona sensible"
+
+msgid "Hotspot Interaction"
+msgstr "Interacció de zona sensible"
+
+msgid "Hottext"
+msgstr "Text sensible"
+
+msgid "Hottext Interaction"
+msgstr "Interacció de text sensible"
+
+msgid "How the math expression should be displayed."
+msgstr "Com s'ha de mostrar l'expressió matemàtica"
+
+msgid "How the math expression should be edited"
+msgstr "Com s'ha d'editar l'expressió matemàtica"
+
+msgid "identical pair already exists"
+msgstr "ja hi ha un parell idèntic"
+
+msgid "Identifier"
+msgstr "Identificador"
+
+msgid "identifier"
+msgstr "identificador"
+
+msgid "identifier already taken"
+msgstr "l'identificador ja està agafat"
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
+msgstr "Si es dóna, la màscara de patró especifica una expressió regular que ha de coincidir amb la resposta del panticipant perquè es considere vàlida"
+
+msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
+msgstr "Si la interacció de cadena s'uneix a una variable de resposta numèrica aleshores l'atribut base s'ha d'utilitzar per a establir la base numèrica amb què s'interpreta el valor introduït pel participant."
+
+msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
+msgstr ""
+
+msgid "If this box is checked the student will be able to eliminate choices."
+msgstr "Si aquesta casella està marcada el participant podrà eliminar opcions."
+
+msgid "Import"
+msgstr "Importa"
+
+msgid "Import a QTI/APIP Content Package"
+msgstr "Importa un paquet de contingut QTI/APIP"
+
+msgid "Import a QTI/APIP XML Item Document"
+msgstr "Importa un document d'element QTI/APIP XML"
+
+msgid "Import QTI ITEM into \"%s"
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr "L'element IMS QTI referenciat com a \"%s\" conté un element portable i no es pot importar."
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr "L'element IMS QTI referenciat com a \"%s\" en el fitxer de manifest IMS no s'ha pogut importar."
+
+msgid "In Progress"
+msgstr ""
+
+msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
+msgstr "En segons. El retard durant el qual es permet tornar a reproduir el multimèdia. Una vegada s'hi arriba, el multimèdia s'inhabilita i ja no es pot reproduir."
+
+msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
+msgstr "En entorns visuals, les interaccions de cadena se solen representar per caixes buides en les quals els participants escriuen. Els motors de lliurament han d'utilitzar el valor d'aquest atribut (si s'ha proporcionat) en lloc del seu text variable per defecte quan es necessari."
+
+msgid "incorrect"
+msgstr "incorrecte"
+
+msgid "Index"
+msgstr ""
+
+msgid "Infinity"
+msgstr "Infinit"
+
+msgid "inline"
+msgstr "en la línia"
+
+msgid "Inline Choice"
+msgstr "Opció en la línia"
+
+msgid "Inline Choice Interaction"
+msgstr "Interacció d'opció en la línia"
+
+msgid "Inline interactions need to be inserted into a text block."
+msgstr "Les interaccions en la línia s'han d'inserir en un bloc de text."
+
+msgid "Interaction Background"
+msgstr "Fons de la interacció"
+
+msgid "Interaction Properties"
+msgstr "Propietats de la interacció"
+
+msgid "Interpretation"
+msgstr "Interpretació"
+
+msgid "invalid identifier"
+msgstr "l'identificador no és vàlid"
+
+msgid "invalid QTI XML"
+msgstr "QTI XML no és vàlid"
+
+msgid "Is this choice the correct response?"
+msgstr "Aquesta opció és la resposta correcta?"
+
+msgid "Is this pair the correct response?"
+msgstr "Aquest parell és la resposta correcta?"
+
+msgid "Item \"%s\" cannot be exported: %s"
+msgstr "L'element \"%s\" no es pot exportar: %s"
+
+msgid "Item \"%s\" has no xml document"
+msgstr "L'element \"%s\" no té cap document xml."
+
+msgid "Item \"%s\" is not available in any language"
+msgstr "L'element \"%s\" no està disponible en cap idioma."
+
+msgid "Item \"%s\" is ready to be exported"
+msgstr "L'element \"%s\" està preparat per a exportar-lo: %s"
+
+msgid "Item metadata successfully exported."
+msgstr ""
+
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
+
+msgid "Item properties"
+msgstr "Propietats de l'element"
+
+msgid "Item Properties"
+msgstr "Propietats de l'element"
+
+msgid "Item width"
+msgstr "Amplària de l'element"
+
+#, tao-public
+msgid "Items"
+msgstr "Elements"
+
+msgid "JPEG image"
+msgstr "Imatge JPEG"
+
+msgid "Label"
+msgstr "Etiqueta"
+
+msgid "Language"
+msgstr ""
+
+msgid "Large editor"
+msgstr "Editor gran"
+
+msgid "LaTeX"
+msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
+
+msgid "leave empty"
+msgstr "deixa-ho buit"
+
+msgid "left"
+msgstr "esquerra"
+
+msgid "Left"
+msgstr "Esquerra"
+
+msgid "Left bracket"
+msgstr "Claudàtor d'obertura"
+
+msgid "Length"
+msgstr "Longitud"
+
+msgid "Level"
+msgstr "Nivell"
+
+msgid "Lines"
+msgstr "Línies"
+
+msgid "List Style"
+msgstr "Estil de llista"
+
+msgid "Ln"
+msgstr "Ln"
+
+msgid "Log"
+msgstr "Log"
+
+msgid "Loop"
+msgstr "Bucle"
+
+msgid "Lower Bound"
+msgstr "Límit inferior"
+
+msgid "Lower than or equal"
+msgstr "Inferior o igual"
+
+msgid "Malformed XML[%s]:\n"
+"%s"
+msgstr ""
+
+#, tao-public
+msgid "Manage items"
+msgstr "Gestiona els elements"
+
+msgid "Manage Items"
+msgstr "Gestiona els elements"
+
+msgid "map response"
+msgstr "mapa la resposta"
+
+msgid "Mapping default"
+msgstr "Mapatge per defecte"
+
+msgid "Mapping Indicator"
+msgstr ""
+
+msgid "Match"
+msgstr "Coincidència"
+
+msgid "match correct"
+msgstr "coincideix la correcta"
+
+msgid "Match Interaction"
+msgstr "Interacció de coincidència"
+
+msgid "MathJax is not installed."
+msgstr "El MathJax no està instl·lat."
+
+msgid "MathML"
+msgstr "MathML"
+
+msgid "Max"
+msgstr "Màx."
+
+msgid "Max length"
+msgstr "Longitud màxima"
+
+msgid "Max Length"
+msgstr "Longitud màxima"
+
+msgid "Max plays count"
+msgstr "Recompte màxim de reproduccions"
+
+msgid "Max Words"
+msgstr "Nre. màx. de paraules"
+
+msgid "Max words"
+msgstr "Nre. màx. de paraules"
+
+msgid "Max. number of matches"
+msgstr "Nombre màx. de coincidències"
+
+msgid "Maximal score for this interaction."
+msgstr "Puntuació màxima per a aquesta interacció"
+
+msgid "maximum"
+msgstr "màxim"
+
+msgid "Maximum choices reached"
+msgstr "S'ha arribat al màxim d'opcions"
+
+msgid "Maximum number of choices reached."
+msgstr "S'ha arribat al màxim d'opcions."
+
+msgid "Media"
+msgstr "Multimèdia"
+
+msgid "Media file path or YouTube video address"
+msgstr "Camí del fitxer multimèdia o l'adreça del vídeo de YouTube"
+
+msgid "Media Interaction"
+msgstr "Interacció de multimèdia"
+
+msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
+msgstr "L'exportació de metadades requereix una instància de core_kernel_classes_Resource per a extraure les metadades"
+
+msgid "Metadata export requires an instance of DomManifest to inject metadata"
+msgstr "L'exportació de metadades requereix una instància de DomManifest per a injectar les metadades"
+
+msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
+msgstr "La importació de metadades requereix una instància de core_kernel_classes_Resource per a injectar les metadades"
+
+msgid "Metadata import requires an instance of DomManifest to extract metadata"
+msgstr "La importació de metadades requereix una instància de DomManifest per a extraure les metadades"
+
+msgid "Microsoft Excel"
+msgstr "Microsoft Excel"
+
+msgid "Microsoft Powerpoint"
+msgstr "Microsoft Powerpoint"
+
+msgid "Microsoft Word"
+msgstr "Microsoft Word"
+
+msgid "MIME-type"
+msgstr "Tipus MIME"
+
+msgid "Min"
+msgstr "Mín."
+
+msgid "Minimal  score for this interaction."
+msgstr "Puntuació mínima per a aquesta interacció"
+
+msgid "Modal feedback is shown to the candidate directly following response processing."
+msgstr "La retroacció modal es mostra al participant immediatament després del processament de la resposta."
+
+msgid "Modal Feedback Prop."
+msgstr "Propietats de la retroacció modal"
+
+msgid "Modal Feedbacks"
+msgstr "Retroaccions modals"
+
+msgid "MP4 video"
+msgstr "Vídeo MP4"
+
+msgid "MPEG audio"
+msgstr "Àudio MPEG"
+
+msgid "MPEG video"
+msgstr "Vídeo MPEG"
+
+msgid "Multiply"
+msgstr "Multiplica"
+
+msgid "negative"
+msgstr "negatiu"
+
+#, tao-public
+msgid "New item"
+msgstr "Element nou"
+
+msgid "No"
+msgstr "No"
+
+msgid "no configuration property needed"
+msgstr "no es necessària cap propietat de configuració"
+
+msgid "No file selected"
+msgstr "No s'ha seleccionat cap fitxer."
+
+msgid "no item content"
+msgstr "no hi ha contingut d'element"
+
+msgid "No Items could be imported from the given IMS QTI package."
+msgstr "S'ha pogut importar cap element des del paquet donat IMS QTI."
+
+msgid "No preview available"
+msgstr "No hi ha cap previsualització disponible."
+
+msgid "No value set"
+msgstr "No s'ha definit cap valor."
+
+msgid "none"
+msgstr "cap"
+
+msgid "None"
+msgstr "Cap"
+
+msgid "None defined yet."
+msgstr "No s'ha definit cap encara."
+
+msgid "not a QTI item"
+msgstr "no un element QTI"
+
+msgid "Number of associations"
+msgstr "Nombre d'associacions"
+
+msgid "of"
+msgstr "de"
+
+msgid "OK"
+msgstr "D'acord"
+
+msgid "one association pair"
+msgstr "un parell d'associació"
+
+msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
+msgstr ""
+
+msgid "Order"
+msgstr "Ordre"
+
+msgid "Order Interaction"
+msgstr "Interacció d'ordre"
+
+msgid "Order the areas (hotspots) displayed on a picture."
+msgstr "Ordena les àrees (zones sensibles) que es mostren en una imatge"
+
+msgid "Orientation"
+msgstr "Orientació"
+
+msgid "Outcome Declarations"
+msgstr "Declaracions dels resultats"
+
+msgid "Pair scoring"
+msgstr "Puntuació del parell"
+
+msgid "Pattern"
+msgstr "Patró"
+
+msgid "Pause"
+msgstr "En pausa"
+
+msgid "PDF file"
+msgstr "Fitxer PDF"
+
+msgid "Pi"
+msgstr "Pi"
+
+msgid "Plain text"
+msgstr "Text net"
+
+msgid "Please create areas that correspond to the response and associate them a score.\n"
+""
+msgstr "Creeu àrees que corresponguen a la resposta i associeu-les a una puntuació.\n"
+""
+
+msgid "Please define association pairs and their scores below."
+msgstr "Definiu els parells d'associació i les seues puntuacions ací davall"
+
+msgid "Please define the correct association pairs below."
+msgstr "Definiu els parells d'associació correctes ací davall"
+
+msgid "Please define the correct order in the box to the right."
+msgstr "Definiu l'ordre correcte en el quadre de la dreta"
+
+msgid "Please define the correct response and the score below."
+msgstr "Definiu la resposta correcta i la puntuació ací davall"
+
+msgid "Please define the correct response below."
+msgstr "Definiu la resposta correcta ací davall"
+
+msgid "Please define the correct response using the slider."
+msgstr "Definiu la resposta correcta utilitzant el control lliscant"
+
+msgid "Please enter the score for the given hottexts."
+msgstr "Introduïu la puntuació per als textos sensibles donats"
+
+msgid "Please fill the gap with the correct choices below."
+msgstr "Ompliu els buits amb les opcions correctes ací davall"
+
+msgid "Please fill the gap with the correct choices."
+msgstr "Ompliu els buits amb les opcions correctes"
+
+msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
+msgstr "Ompliu els buits amb les imatges d'ací davall, a continuació editeu la puntuació de cada parell buit/imatge"
+
+msgid "Please fill the gap with the texts below, then edit the score for each pair."
+msgstr "Ompliu els buits amb els textos d'ací davall, a continuació editeu la puntuació de cada parell"
+
+msgid "Please order the choices below to set the correct answer"
+msgstr "Ordeneu les opcions d'ací davall per a establir la resposta correcta"
+
+msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "Seleccioneu del gestor de recursos un fitxer multimèdia (vídeo o àudio). Podeu afegir fitxers del vostre ordinador amb el botó \"Afig un fitxer\"."
+
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "Seleccioneu del gestor de recursos un fitxer multimèdia. Podeu afegir fitxers del vostre ordinador amb el botó \"Afig un fitxer\"."
+
+msgid "Please select a shared stimulus file from the resource manager."
+msgstr "Seleccioneu del gestor de recursos un fitxer d'estímul compartit"
+
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "Seleccioneu del gestor de recursos un fitxer d'imatge. Podeu afegir fitxers del vostre ordinador amb el botó \"Afig un fitxer\"."
+
+msgid "Please select the correct hotspot choices below."
+msgstr "Seleccioneu les opcions correctes de zona sensible ací davall"
+
+msgid "Please select the correct hottext choices below."
+msgstr "Seleccioneu les opcions correctes de text sensible ací davall"
+
+msgid "Please set the correct associations by linking the choices."
+msgstr "Definiu les associacions correctes a través de l'enllaç de les opcions"
+
+msgid "Please the score of each hotspot choice."
+msgstr "Doneu la puntuació de cada opció de zona sensible"
+
+msgid "Please type the correct response below."
+msgstr "Escriviu la resposta correcta ací davall"
+
+msgid "Please type the correct response in the box below."
+msgstr "Escriviu la resposta correcta en el quadre d'ací davall"
+
+msgid "PNG image"
+msgstr "Imatge PNG"
+
+msgid "Portable element model %s not found. Required extension might be missing"
+msgstr "No s'ha trobat el model d'element portable %s. Potser falta l'extensió requerida."
+
+msgid "Position one or more points on a picture (response areas are not displayed)."
+msgstr "Col·loqueu un o més punts sobre una imatge (les àrees de resposta no es mostren)"
+
+msgid "positive"
+msgstr "positiu"
+
+msgid "Power form"
+msgstr ""
+
+msgid "Pre-formatted text"
+msgstr "Text preformatat"
+
+msgid "Preparing CSS, please wait…"
+msgstr "S'està preparant CSS, espereu…"
+
+msgid "Preparing Metadata Values for target \"%s\"..."
+msgstr "S'estan preparant els valors de metadades per a l'objectiu \"%s\"..."
+
+msgid "Preview"
+msgstr "Previsualització"
+
+msgid "Preview the item"
+msgstr "Previsualitza l'element"
+
+msgid "Print"
+msgstr "Imprimeix"
+
+msgid "Print the item"
+msgstr "Imprimeix l'element"
+
+msgid "Printed Variable"
+msgstr ""
+
+msgid "PropertyUri to map has to a valid uri"
+msgstr "PropertyUri que s'ha de mapar ha de ser un URI vàlid"
+
+msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
+msgstr "Proporciona una pista al participant quant al nombre esperat de línies de l'entrada requerida. S'espera que una línia tinga aproximadament 72 caràcters."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
+msgstr "Proporciona una pista al participant quant a la longitud general esperada de la resposta desitjada, es mesura en nombre de caràcters."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
+msgstr "Proporciona una pista al participant quant a la longitud general esperada de la resposta desitjada, es mesura en nombre de caràcters. Això no és una restricció de validesa."
+
+msgid "Published %s"
+msgstr "Publicat %s"
+
+msgid "QTI Item Runner"
+msgstr "Programa executable d'element QTI"
+
+msgid "QTI Metadata"
+msgstr ""
+
+msgid "QTI Package 2.1"
+msgstr "Paquet QTI 2.1"
+
+msgid "QTI Package 2.2"
+msgstr "Paquet QTI 2.2"
+
+msgid "QTI-XML error at line %1$d \"%2$s\"."
+msgstr "Hi ha hagut un error en QTI-XML en la línia %1$d \"%2$s\"."
+
+msgid "QTI/APIP Content Package"
+msgstr "Paquet de contingut QTI/APIP"
+
+msgid "QTI/APIP XML Item Document"
+msgstr "Document d'element QTI/APIP XML"
+
+msgid "Question"
+msgstr "Pregunta"
+
+msgid "Quicktime video"
+msgstr "Vídeo Quicktime"
+
+msgid "recommanded"
+msgstr "recomanat"
+
+msgid "Recommendations"
+msgstr "Recomanacions"
+
+msgid "recommended"
+msgstr "recomanat"
+
+msgid "Reduce font size"
+msgstr "Redueix la mida de la lletra"
+
+msgid "Register method expects $key and $name parameters"
+msgstr "El mètode de registre espera $key i paràmetres de $name"
+
+msgid "Register method expects $key and $name parameters."
+msgstr "El mètode de registre espera $key i paràmetres de $name"
+
+msgid "Remove"
+msgstr "Suprimeix"
+
+msgid "remove"
+msgstr "suprimeix"
+
+msgid "Remove custom background color"
+msgstr "Suprimeix el color de fons personalitzat"
+
+msgid "Remove custom border color"
+msgstr "Suprimeix el color de contorn personalitzat"
+
+msgid "Remove custom font family"
+msgstr "Suprimeix el tipus de lletra personalitzat"
+
+msgid "Remove custom font size"
+msgstr "Suprimeix la mida de lletra personalitzada"
+
+msgid "Remove custom item width"
+msgstr "Suprimeix l'amplària d'element personalitzada"
+
+msgid "Remove custom text color"
+msgstr "Suprimeix el color de text personalitzat"
+
+msgid "Remove Message"
+msgstr "Suprimeix el missatge"
+
+msgid "Remove pair"
+msgstr "Suprimix el parell"
+
+msgid "Remove the selected shape"
+msgstr "Suprimeix la forma seleccionada"
+
+msgid "Remove this stylesheet"
+msgstr "Suprimeix aquest full d'estil"
+
+msgid "Replay timeout"
+msgstr "Temps d'espera de la repetició"
+
+msgid "required"
+msgstr "requerit"
+
+msgid "Resource "
+msgstr ""
+
+msgid "Resource(s) successfully exported."
+msgstr ""
+
+msgid "Response"
+msgstr "Resposta"
+
+msgid "Response identifier"
+msgstr "Identificador de la resposta"
+
+msgid "Response processing"
+msgstr "Processament de la resposta"
+
+msgid "Response Properties"
+msgstr "Propietats de la resposta"
+
+msgid "Right"
+msgstr ""
+
+msgid "right"
+msgstr "dreta"
+
+msgid "Right bracket"
+msgstr "Claudàtor de tancament"
+
+msgid "Rollback on..."
+msgstr "Reverteix a..."
+
+msgid "Save"
+msgstr "Guarda"
+
+msgid "Save the item"
+msgstr "Guarda l'element"
+
+msgid "Scale size"
+msgstr "Mida de l'escala"
+
+msgid "Score"
+msgstr "Puntuació"
+
+msgid "score"
+msgstr "puntuació"
+
+msgid "Score range"
+msgstr "Interval de la puntuació"
+
+msgid "Score value"
+msgstr "Valor de la puntuació"
+
+msgid "Select"
+msgstr ""
+
+msgid "Select a "
+msgstr "Seleccioneu"
+
+msgid "select a choice"
+msgstr "seleccioneu una opció"
+
+msgid "Select a choice from a drop-down list."
+msgstr "Seleccioneu una opció de la llista desplegable"
+
+msgid "Select a response identifier from the list."
+msgstr "Seleccioneu de la llista un identificador de resposta "
+
+msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
+msgstr "Seleccioneu una resposta única (botons d'opció) o múltiple (caselles de selecció) entre un conjunt d'opcions"
+
+msgid "Select a value within a numerical range."
+msgstr "Seleccioneu un valor dins d'un interval numèric"
+
+msgid "Select an image first"
+msgstr "Seleccioneu primer una imatge"
+
+msgid "Select an image first."
+msgstr "Seleccioneu primer una imatge"
+
+msgid "Select another area to complete the association"
+msgstr "Seleccioneu una altra àrea per a completar l'associació"
+
+msgid "select correct choice"
+msgstr "Seleccioneu l'opció correcta"
+
+msgid "Select image"
+msgstr "Seleccioneu una imatge"
+
+msgid "Select media file"
+msgstr "Seleccioneu un fitxer multimèdia"
+
+msgid "Select object"
+msgstr "Seleccioneu un objecte"
+
+msgid "Select one or more areas (hotspots) displayed on an picture."
+msgstr "Seleccioneu una o més àrees (zones sensibles) que es mostren en una imatge"
+
+msgid "Select one or more text parts (hottext) within a text."
+msgstr "Seleccioneu un o més fragments de text (text sensible) dins d'un text"
+
+msgid "Select Point"
+msgstr "Seleccioneu un punt"
+
+msgid "Select Point Interaction"
+msgstr "Interacció de selecció d'un punt"
+
+msgid "Select predefined feedback style from the list."
+msgstr "Seleccioneu de la llista un estil de retroacció predefinida"
+
+msgid "Select shared stimulus"
+msgstr "Seleccioneu un estímul compartit"
+
+msgid "Select the area to add an image"
+msgstr "Seleccioneu l'àrea per afegir-hi una imatge"
+
+msgid "Select the outcome variable you want to display."
+msgstr ""
+
+msgid "Select the way the response of your interaction should be processed"
+msgstr "Seleccioneu la manera en què la resposta de la interacció s'ha de processar"
+
+msgid "Select this area"
+msgstr "Selecciona aquesta àrea"
+
+msgid "Select this area to start an association"
+msgstr "Selecciona aquesta àrea per a iniciar una associació"
+
+msgid "Set a CSS class name in order to customize the display style."
+msgstr ""
+
+msgid "Set the score for this response"
+msgstr "Establiu la puntuació per a aquesta resposta"
+
+msgid "Shape position"
+msgstr "Posició de la forma"
+
+msgid "Shuffle choices"
+msgstr "Barreja les opcions"
+
+msgid "Sinus"
+msgstr "Sinus"
+
+msgid "Size and position"
+msgstr "Mida i posició"
+
+msgid "Slider"
+msgstr "Control lliscant"
+
+msgid "Slider Interaction"
+msgstr "Interacció de control lliscant"
+
+msgid "some text ..."
+msgstr "algun text..."
+
+msgid "Square root"
+msgstr "Arrel quadrada"
+
+msgid "standard"
+msgstr "estàndard"
+
+msgid "Step"
+msgstr "Pas"
+
+msgid "Style Editor"
+msgstr "Editor d'estils"
+
+msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
+msgstr "El full d'estil <b>%s</b> s'ha eliminat<br> Feu clic en <i>Afig un full d'estil</i> per a tornar-lo a aplicar."
+
+msgid "Style Sheet Manager"
+msgstr "Gestor de fulls d'estil"
+
+msgid "Success"
+msgstr ""
+
+msgid "Successfully compiled \"%s"
+msgstr "S'ha compilat \"%s correctament"
+
+msgid "SVG image"
+msgstr "Imatge SVG"
+
+msgid "Table headings"
+msgstr "Capçaleres de taula"
+
+msgid "TAO default styles"
+msgstr "Estils per defecte del TAO"
+
+msgid "Target Class Lookup for resource \"%s\"..."
+msgstr "Cerca de la classe d'objectiu per al recurs \"%s\"..."
+
+msgid "Text Block"
+msgstr "Bloc de text"
+
+msgid "Text Block CSS Class"
+msgstr ""
+
+msgid "Text Block Properties"
+msgstr "Propietats de bloc de text"
+
+msgid "Text color"
+msgstr "Color del text"
+
+msgid "Text Entry"
+msgstr "Entrada de text"
+
+msgid "Text Entry Interaction"
+msgstr "Interacció d'entrada de text"
+
+msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
+msgstr "L'atribut d'inici automàtic determina si l'objecte multimèdia ha de començar tan prompte com el participant inicia l'intent (marcada) o si l'objecte multimèdia s'ha d'iniciar sota el control del participant (sense marcar)."
+
+msgid "The button label."
+msgstr "Etiqueta del botó"
+
+msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
+msgstr "El valor per defecte del conjunt de destinació que s'utilitza quan no es dóna un mapatge explícit per a un valor d'origen."
+
+msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The field specifier to use when displaying variables of record cardinality."
+msgstr ""
+
+msgid "The file path to the image."
+msgstr "El camí del fitxer a la imatge"
+
+msgid "The file path to the object."
+msgstr "El camí del fitxer a l'objecte"
+
+msgid "The file path to the shared stimulus."
+msgstr "El camí del fitxer a l'estímul compartit"
+
+msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
+msgstr ""
+
+msgid "The given target is not an instance of core_kernel_classes_Resource"
+msgstr "L'objectiu donat no és una instància de core_kernel_classes_Resource"
+
+msgid "The highlighted choice cannot be associated more than %d time(s)."
+msgstr "L'opció ressaltada no es pot associar més de %d vegades."
+
+msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "L'identificador de l'opció. Aquest identificador no l'ha d'utilitzar cap altra opció ni variable d'element. Un identificador és una cadena de caràcters que ha de començar amb una lletra o una ratlla baixa (\"_\") i conté només lletres, ratlles baixes, guions (\"-\"), punts (\".\"), xifres, combinacions de caràcters i extensions."
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "L'identificador de l'opció. Aquest identificador no l'ha d'utilitzar cap altra resposta ni variable d'element. Un identificador és una cadena de caràcters que ha de començar amb una lletra o una ratlla baixa (\"_\") i conté només lletres, ratlles baixes, guions (\"-\"), punts (\".\"), xifres, combinacions de caràcters i extensions."
+
+msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "L'identificador de la retroacció modal. Aquest identificador no l'ha d'utilitzar cap altra retroacció modal ni variable d'element. Un identificador és una cadena de caràcters que ha de començar amb una lletra o una ratlla baixa (\"_\") i conté només lletres, ratlles baixes, guions (\"-\"), punts (\".\"), xifres, combinacions de caràcters i extensions."
+
+msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "L'identificador de resposta. Aquest identificador no l'ha d'utilitzar cap altra resposta ni variable d'element. Un identificador és una cadena de caràcters que ha de començar amb una lletra o una ratlla baixa (\"_\") i conté només lletres, ratlles baixes, guions (\"-\"), punts (\".\"), xifres, combinacions de caràcters i extensions."
+
+msgid "The IMS QTI Item could not be imported."
+msgstr "L'element IMS QTI no s'ha pogut importar."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr "L'element IMS QTI referenciat com a \"%s\" en el fitxer de manifest IMS ja està emmagatzemat en el banc d'elements."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr "L'element IMS QTI referenciat com a \"%s\" en el fitxer de manifest IMS s'ha importat correctament."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
+msgstr "L'element IMS QTI referenciat com a \"%s\" en el fitxer de manifest IMS s'ha revertit correctament."
+
+msgid "The IMS QTI Item was successfully imported."
+msgstr "L'element IMS QTI s'ha importat correctament."
+
+msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
+msgstr ""
+
+msgid "The item cannot be saved because it contains an unsupported custom interaction."
+msgstr "L'element no s'ha pogut guardar perquè conté una interacció personalitzada no admesa."
+
+msgid "The item has not been saved!"
+msgstr "L'element no s'ha guardat."
+
+msgid "The item has unsaved changes, are you sure you want to leave ?"
+msgstr "L'element té canvis que no s'han guardat, esteu segur que voleu eixir?"
+
+msgid "The item has unsaved changes, would you like to save it ?"
+msgstr "L'element té canvis que no s'han guardat, voleu guardar-lo?"
+
+msgid "The item needs to be saved before it can be previewed"
+msgstr "L'element s'ha de guardar abans de poder-lo previsualitzar."
+
+msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
+msgstr "L'element de l'element QTI. Actualment s'utilitza només com a metadades. És requerit per l'estàndard QTI."
+
+msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "La posició esquerra de la forma respecte de la cantonada superior esquerra del fons en píxels. Aquest valor es pot escalar quan la mida de la imatge de fons s'adapta al contenidor. "
+
+msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
+msgstr "L'atribut de bucle s'utilitza per a establir el mode de reproducció contínua. En el mode de reproducció contínua, una vegada l'objecte multimèdia ha començat a reproduir-se s'ha de reproduir contínuament (subjecte a maxPlays)."
+
+msgid "The lower bound of the slider"
+msgstr "El límit inferior del control lliscant"
+
+msgid "The manifest argument must be an instance of DOMDocument."
+msgstr "L'argument de manifest ha de ser una instància de DOMDocument."
+
+msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The mapping options are available when at least one map entry is defined."
+msgstr "Les opcions de mapatge estan disponibles quan s'ha definit com a mínim una entrada de mapa."
+
+msgid "The maximum number of association is unlimited."
+msgstr "El nombre màxim d'associacions és il·limitat."
+
+msgid "The maximum number of associations that the candidate is allowed to make."
+msgstr "El nombre màxim d'associacions que es permet que el candidat realitze."
+
+msgid "The maximum number of choices that the candidate is allowed to select."
+msgstr "El nombre màxim d'opcions que es permet que el candidat seleccione."
+
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
+msgid "The maximum number of choices this choice may be associated with."
+msgstr "El nombre màxim d'opcions amb què es pot associar aquesta opció."
+
+msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
+msgstr "El nombre màxim d'opcions amb què es pot associar aquesta opció. Si matchMax és 0 indica que no hi ha cap restricció."
+
+msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
+msgstr "L'atribut maxPlays indica que l'objecte multimèdia es pot reproduir com a màxim el nombre de vegades que indique maxPlays; el participant no pot reproduir l'objecte multimèdia més vegades que les que indica maxPlay. Un valor de 0 (el predeterminat) indica que no hi ha límit."
+
+msgid "The MIME-type attribute describes which kind of file may be uploaded."
+msgstr "L'atribut de tipus MIME descriu quin tipus de fitxer es pot pujar."
+
+msgid "The minimum number of answers is "
+msgstr "El nombre mínim de respostes és"
+
+msgid "The minimum number of associations that the candidate is required to make to form a valid response."
+msgstr "El nombre mínim d'associacions que es requereix que el candidat realitze per a formar una resposta vàlida."
+
+msgid "The minimum number of choices that the candidate is required to select to form a valid response."
+msgstr "El nombre mínim d'opcions que es requereix que el candidat seleccione per a formar una resposta vàlida."
+
+msgid "The minimum number of choices this choice must be associated with to form a valid response."
+msgstr "El nombre mínim d'opcions amb què es pot associar aquesta opció per a formar una resposta vàlida."
+
+msgid "The number base to use when converting integer variables to strings with the i conversion type code."
+msgstr ""
+
+msgid "The number of units corresponding to a step on the slider"
+msgstr "El nombre d'unitats que corresponen a un pas en el control lliscant "
+
+msgid "The path argument for extractor must be a non-empty array."
+msgstr "L'argument de camí de l'extractor ha de ser una matriu no buida."
+
+msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
+msgstr "L'identificador de principi de l'element. Aquest identificador ha de tindre l'entrada corresponent en les metadades de l'element. "
+
+msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
+msgstr "El propòsit per al qual està previst que s'utilitze la rúbrica. Com a passatge de lectura per a diversos elements, o instruccions per a una secció particular, per exemple."
+
+msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
+msgstr "La classe QTI \"%1$s\" ubicada en la línia \"%2$d\" no s'admet actualment."
+
+msgid "The Response Processing Template \"%s\" is not supported."
+msgstr "La plantilla de processament de resposta \"%s\" no s'admet."
+
+msgid "The score format is not numeric"
+msgstr ""
+
+msgid "The selected file is ready to be sent."
+msgstr "El fitxer seleccionat està preparat per a enviar-lo."
+
+msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "L'alçària de la forma en píxels. Aquest valor es pot escalar quan la mida de la imatge de fons s'adapta al contenidor."
+
+msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "L'amplària de la forma en píxels. Aquest valor es pot escalar quan la mida de la imatge de fons s'adapta al contenidor."
+
+msgid "The target must be an instance of DOMDocument"
+msgstr "La destinació ha de ser una instància de DOMDocument."
+
+msgid "The text to be displayed if the image is not available."
+msgstr "El text que es mostra si la imatge no està disponible."
+
+msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "La posició superior de la forma respecte de la cantonada superior esquerra del fons en píxels. Aquest valor es pot escalar quan la mida de la imatge de fons s'adapta al contenidor."
+
+msgid "The upper bound of the slider"
+msgstr "El límit superior del control lliscant"
+
+msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
+msgstr "La validació de l'element QTI importat ha fallat. El sistema ha tornat l'error següent:%s\n"
+""
+
+msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
+msgstr "L'arxiu ZIP que conté l'element IMS QTI no es pot extraure."
+
+msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
+msgstr "L'arxiu ZIP no conté un fitxer imsmanifest.xml o és un arxiu ZIP invàlid."
+
+msgid "There are errors in the following shared stimulus : "
+msgstr "Hi ha errors en l'estímul compartit següent:"
+
+msgid "There is an incomplete element in your item: please click on it to complete it."
+msgstr "Hi ha un element incomplet en el vostre element: feu-hi clic damunt per a completar-lo "
+
+msgid "There was a problem downloading your CSS, please try again."
+msgstr "Hi ha hagut un problema en baixar el CSS, torneu-ho a provar"
+
+msgid "this identifier is already in use"
+msgstr "aquest identificador ja està en ús"
+
+msgid "This is not a valid answer"
+msgstr "Aquesta no és una resposta vàlida"
+
+msgid "This is required"
+msgstr ""
+
+msgid "This stylesheet has not been found on the server. you may want to delete this reference"
+msgstr "El full d'estil no s'ha trobat al servidor; potser voleu eliminar aquesta referència"
+
+msgid "Time dependent"
+msgstr "Dependent del temps"
+
+msgid "Title"
+msgstr "Títol"
+
+msgid "to"
+msgstr "a"
+
+msgid "Tooltip Content"
+msgstr ""
+
+msgid "Tooltip editor"
+msgstr ""
+
+msgid "Tooltip Target"
+msgstr ""
+
+msgid "Top"
+msgstr "Part superior"
+
+msgid "Trigger the end of the item attempt."
+msgstr "Activa la finalització de l'intent de l'element"
+
+msgid "Unable to retrieve asset \"%s"
+msgstr "No es pot recuperar el recurs \"%s"
+
+msgid "Unable to retrieve item : "
+msgstr ""
+
+msgid "Unable to validate %s: %s"
+msgstr "No es pot validar %s: %s"
+
+msgid "undo"
+msgstr "desfés"
+
+msgid "Undo"
+msgstr "Desfés"
+
+msgid "Unknown $key to register MetadataService instance"
+msgstr "Es desconeix $key per a registrar la instància de MetadataService"
+
+msgid "Unregister method expects $key and $name parameters."
+msgstr "El mètode d'anul·lació del registre espera $key i paràmetres de $name"
+
+msgid "Upload a file (e.g. document, picture...) as a response."
+msgstr "Puja un fitxer (p. ex. document, imatge...) com a resposta."
+
+msgid "Upper Bound"
+msgstr "Límit superior"
+
+msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
+msgstr "Utilitzeu aquesta opció si voleu una llista d'opcions prefixada (p. ex. 1,2,3 a,b,c)"
+
+msgid "Used to control the format of the text entered by the candidate."
+msgstr "S'utilitza per a controlar el format del text introduït pel participant"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Vertical"
+msgstr "Vertical"
+
+msgid "WAV audio"
+msgstr "Àudio WAV"
+
+msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
+msgstr "Utilitzarem la patternMask per a fer això, per a ser conforme a l'estàndard IMS"
+
+msgid "Width"
+msgstr "Amplària"
+
+msgid "Windows Media audio"
+msgstr "Àudio Windows Media"
+
+msgid "Windows Media video"
+msgstr "Vídeo Windows Media"
+
+msgid "words"
+msgstr "paraules"
+
+msgid "Would you like to replace the alt text"
+msgstr "Voleu reemplaçar el text alternatiu"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "El tipus de fitxer és incorrecte, s'esperava %s. El fitxer seleccionat té el tipus MIME \"%s\"."
+
+msgid "WYSIWYG editor"
+msgstr "Editor WYSIWYG"
+
+msgid "XHTML"
+msgstr "XHTML"
+
+msgid "XML error \"%1$s\"."
+msgstr "XML error \"%1$s\"."
+
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr "Hi ha un error en l'XML en la línia %1$d \"%2$s\"."
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "You can select maximum %d choice"
+msgstr "Podeu seleccionar com a màxim %d opció"
+
+msgid "You can select maximum %d choices"
+msgstr "Podeu seleccionar com a màxim %d opcions"
+
+msgid "You can select maximum of %s choices"
+msgstr "Podeu seleccionar com a màxim %s opcions"
+
+msgid "You can select maximum of 1 choice"
+msgstr "Podeu seleccionar com a màxim 1 opció"
+
+msgid "You can use maximum %d choices"
+msgstr "Podeu utilitzar com a màxim %d opcions"
+
+msgid "You have deleted"
+msgstr "Heu eliminat"
+
+msgid "You have deleted an element"
+msgstr "Heu eliminat un element"
+
+msgid "You have deleted an element."
+msgstr "Heu eliminat un element."
+
+msgid "You may make as many association pairs as you want."
+msgstr "Podeu fer tants parells d'associació com vulgueu."
+
+msgid "You must select %1$d to %2$d choices."
+msgstr "Heu de seleccionar de %1$d a %2$d opcions"
+
+msgid "You must select 0 to %d choices."
+msgstr "Heu de seleccionar de 0 a %d opcions"
+
+msgid "You must select at least %d choice"
+msgstr ""
+
+msgid "You must select at least %d choices"
+msgstr "Heu de seleccionar com a mínim %d opcions"
+
+msgid "You must select at least %s choices"
+msgstr "Heu de seleccionar com a mínim %s opcions"
+
+msgid "You must select at least 1 choice"
+msgstr "Heu de seleccionar com a mínim 1 opció"
+
+msgid "You must select exactly %d choice"
+msgstr "Heu de seleccionar exactament %d opció"
+
+msgid "You must select exactly %d choice(s)."
+msgstr "Heu de seleccionar exactament %d opció(ons)"
+
+msgid "You must select exactly %d choices"
+msgstr "Heu de seleccionar exactament %d opcions"
+
+msgid "You must select exactly %s choices"
+msgstr "Heu de seleccionar exactament %s opcions"
+
+msgid "You must use at least %d choices"
+msgstr "Heu d'utilitzar com a mínim %d opcions"
+
+msgid "You need to make"
+msgstr "Heu de fer-ho"
+
+msgid "Your item has been saved"
+msgstr "El vostre element s'ha guardat"
+
+msgid "ZIP archive"
+msgstr "Arxiu ZIP"
+

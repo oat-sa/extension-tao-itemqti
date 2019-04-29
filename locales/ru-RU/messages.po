@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint91\n"
-"PO-Revision-Date: 2019-02-15T10:24:34\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:12:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgstr "Заполните пробелы в тексте из предложенных вариантов."
 
 msgid " For Resource "
 msgstr ""
@@ -35,13 +35,13 @@ msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
 
 msgid "-- Any kind of file --"
-msgstr ""
+msgstr "-- Любой тип файла --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr ""
 
 msgid "A choice must be selected"
-msgstr ""
+msgstr "Выбор должен быть выбран"
 
 msgid "A human interpretation of the variable's value."
 msgstr ""
@@ -54,13 +54,13 @@ msgid "A rubric block identifies part of an assessmentItem's itemBody that repre
 msgstr ""
 
 msgid "Adapt to screen size"
-msgstr ""
+msgstr "Адаптация к размеру экрана"
 
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 msgid "Add a modal feedback"
-msgstr ""
+msgstr "Добавление модальной обратной связи"
 
 msgid "Add a QTI/APIP XML Item Document"
 msgstr ""
@@ -69,43 +69,43 @@ msgid "Add a ZIP file containing QTI/APIP items"
 msgstr ""
 
 msgid "Add another option"
-msgstr ""
+msgstr "Добавить еще один вариант"
 
 msgid "Add choice"
-msgstr ""
+msgstr "Добавить выбор"
 
 msgid "Add else feedback"
-msgstr ""
+msgstr "Добавить еще обратную связь"
 
 msgid "Add new pairs"
-msgstr ""
+msgstr "Добавить новые пары"
 
 msgid "Add Style Sheet"
-msgstr ""
+msgstr "Добавить таблицу стилей"
 
 msgid "Alignment"
-msgstr ""
+msgstr "Выравнивание"
 
 msgid "Allow elimination"
 msgstr ""
 
 msgid "Allowed associations"
-msgstr ""
+msgstr "Разрешенные ассоциации"
 
 msgid "Allowed choices"
-msgstr ""
+msgstr "Разрешенные варианты"
 
 msgid "Allowed number of matches"
-msgstr ""
+msgstr "Допустимое количество совпадений"
 
 msgid "Allowed number of uses"
-msgstr ""
+msgstr "Допустимое число применений"
 
 msgid "Alt Text"
 msgstr ""
 
 msgid "An error occured while exporting an item."
-msgstr ""
+msgstr "Произошла ошибка при экспорте элемента."
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr ""
@@ -120,7 +120,7 @@ msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
 msgid "An unexpected error occured while dealing with Response Processing."
-msgstr ""
+msgstr "Произошла непредвиденная ошибка при Обработке ответа."
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
 msgstr ""
@@ -142,58 +142,58 @@ msgid "Apip Package successfully exported."
 msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
-msgstr ""
+msgstr "Упорядочить список вариантов в правильном порядке."
 
 msgid "Associate"
-msgstr ""
+msgstr "Связать"
 
 msgid "Associate Interaction"
-msgstr ""
+msgstr "Ассоциированное (связанное) взаимодействие"
 
 msgid "association pairs"
-msgstr ""
+msgstr "пары ассоциаций"
 
 msgid "at least"
-msgstr ""
+msgstr "по крайней мере"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
 msgstr ""
 
 msgid "Autostart"
-msgstr ""
+msgstr "Автозапуск"
 
 msgid "Back to Manage Items"
 msgstr ""
 
 msgid "Background color"
-msgstr ""
+msgstr "Цвет фона"
 
 msgid "Base"
 msgstr ""
 
 msgid "Block"
-msgstr ""
+msgstr "Блок"
 
 msgid "block"
-msgstr ""
+msgstr "блок"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr ""
+msgstr "Блок содержит содержимое (стимул) элемента, например текст или изображение. Он также необходим для встроенных взаимодействий."
 
 msgid "Border color"
-msgstr ""
+msgstr "Цвет границы"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr ""
+msgstr "Просмотрите компьютер и выберите соответствующий файл."
 
 msgid "Browse..."
-msgstr ""
+msgstr "Просмотреть..."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 msgid "cancel"
-msgstr ""
+msgstr "отменить"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -220,22 +220,22 @@ msgid "chars"
 msgstr ""
 
 msgid "Choice"
-msgstr ""
+msgstr "Выбор"
 
 msgid "Choice Image"
-msgstr ""
+msgstr "Выбор Изображение"
 
 msgid "Choice Interaction"
-msgstr ""
+msgstr "Выбор Взаимодействие"
 
 msgid "Choice Properties"
-msgstr ""
+msgstr "Выбор Свойства"
 
 msgid "choices"
 msgstr ""
 
 msgid "Choices"
-msgstr ""
+msgstr "Выбор (варианты)"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -256,31 +256,31 @@ msgid "Classification value to map has to a string"
 msgstr ""
 
 msgid "Click again to remove"
-msgstr ""
+msgstr "Нажмите еще раз, чтобы удалить"
 
 msgid "Click to display interaction widget"
 msgstr ""
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
-msgstr ""
+msgstr "Сбор информации на открытые вопросы в короткий текстовый ввод (строки или числовые значения)."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
-msgstr ""
+msgstr "Сбор информации на открытые вопросы в одной или нескольких текстовых областей (строки или числовые значения)."
 
 msgid "Color Picker"
-msgstr ""
+msgstr "Палитра цветов"
 
 msgid "Contraints"
-msgstr ""
+msgstr "Ограничения"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr ""
+msgstr "Контролируйте игровые параметры (автоматический запуск, цикл) видео-или аудиофайла и сообщайте о количестве времени, в течение которого оно было сыграно."
 
 msgid "Correct"
-msgstr ""
+msgstr "Правильно"
 
 msgid "correct"
-msgstr ""
+msgstr "правильно"
 
 msgid "Cosinus"
 msgstr ""
@@ -289,25 +289,25 @@ msgid "Create assocations and fill the score in the form below"
 msgstr ""
 
 msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Создать связь(и) между областями (определенными точками) отображаемыми на картинке."
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr ""
+msgstr "Создать связь(и) между двумя наборами вариантов, отображаемых в таблице (строка и столбец)."
 
 msgid "Create gap"
-msgstr ""
+msgstr "Создать пробел"
 
 msgid "Create hottext"
 msgstr ""
 
 msgid "Create pair(s) from a series of choices."
-msgstr ""
+msgstr "Создание пары или пар из серии вариантов."
 
 msgid "CSV file"
 msgstr ""
 
 msgid "Current value:"
-msgstr ""
+msgstr "Текущее значение:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr ""
@@ -1021,7 +1021,7 @@ msgid "Please define the correct order in the box to the right."
 msgstr ""
 
 msgid "Please define the correct response and the score below."
-msgstr ""
+msgstr "Выберите правильный ответ"
 
 msgid "Please define the correct response below."
 msgstr ""
@@ -1456,7 +1456,7 @@ msgid "The given target is not an instance of core_kernel_classes_Resource"
 msgstr ""
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr ""
+msgstr "Необходимо выбрать только %d правильный ответ "
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
 msgstr ""
@@ -1778,7 +1778,7 @@ msgid "You must select %1$d to %2$d choices."
 msgstr ""
 
 msgid "You must select 0 to %d choices."
-msgstr ""
+msgstr "Необходимо выбрать от 0 до %d вариантов"
 
 msgid "You must select at least %d choice"
 msgstr ""
@@ -1790,7 +1790,7 @@ msgid "You must select at least %s choices"
 msgstr ""
 
 msgid "You must select at least 1 choice"
-msgstr ""
+msgstr "Вы должны выбрать один вариант ответа"
 
 msgid "You must select exactly %d choice"
 msgstr ""
@@ -1808,7 +1808,7 @@ msgid "You must use at least %d choices"
 msgstr ""
 
 msgid "You need to make"
-msgstr ""
+msgstr "Вам необходимо составить "
 
 msgid "Your item has been saved"
 msgstr ""
