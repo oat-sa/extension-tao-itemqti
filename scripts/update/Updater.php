@@ -423,5 +423,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(ImportService::SERVICE_ID, $importService);
             $this->setVersion('19.10.0');
         }
+
+        $this->skip('19.10.0', '20.0.0');
+
     }
 }

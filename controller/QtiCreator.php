@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
  */
@@ -72,6 +72,13 @@ class QtiCreator extends tao_actions_CommonModule
         if(!\tao_helpers_Request::isAjax()){
             throw new common_exception_BadRequest('wrong request mode');
         }
+        try {
+            $this->validateCsrf();
+        } catch (\common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+            return;
+        }
+
         $clazz = new \core_kernel_classes_Resource($this->getRequestParameter('id'));
         if ($clazz->isClass()) {
             $clazz = new \core_kernel_classes_Class($clazz);
@@ -87,13 +94,15 @@ class QtiCreator extends tao_actions_CommonModule
         $label = $service->createUniqueLabel($clazz);
         $item = $service->createInstance($clazz, $label);
 
-        if(!is_null($item)){
+        if ($item !== null) {
             $service->setItemModel($item, new \core_kernel_classes_Resource(ItemModel::MODEL_URI));
             $this->getEventManager()->trigger(new ItemCreatedEvent($item->getUri()));
-            $response = array(
-                'label'	=> $item->getLabel(),
-                'uri' 	=> $item->getUri()
-            );
+            $response = [
+                'success' => true,
+                'message' => __('Successfully created item "%s"', $item->getLabel()),
+                'label'   => $item->getLabel(),
+                'uri'     => $item->getUri()
+            ];
         } else {
             $response = false;
         }
