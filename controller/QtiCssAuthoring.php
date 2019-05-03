@@ -22,7 +22,6 @@
 
 namespace oat\taoQtiItem\controller;
 
-use function GuzzleHttp\Psr7\stream_for;
 use tao_actions_CommonModule;
 use oat\taoQtiItem\helpers\CssHelper;
 use tao_helpers_Request;
@@ -95,7 +94,8 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         }
 
         $cssArray = CssHelper::loadCssFile($item, $lang, $styleSheet);
-        $this->response = $this->getPsrResponse()->withBody(stream_for(json_encode($cssArray)));
+
+        $this->returnJson($cssArray);
     }
 
     /**
