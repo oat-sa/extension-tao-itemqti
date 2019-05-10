@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-26T10:53:14\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T12:21:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: uk-UA\n"
@@ -189,10 +189,10 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -231,10 +231,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -276,10 +276,10 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
 msgid "Cosinus"
@@ -381,10 +381,10 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
+msgid "done"
 msgstr ""
 
-msgid "done"
+msgid "Done"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -612,10 +612,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
 msgid "identifier already taken"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr ""
 
 msgid "Item width"
@@ -754,10 +754,10 @@ msgstr ""
 msgid "leave empty"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
 msgid "Left bracket"
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr ""
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr ""
 
 msgid "map response"
@@ -828,10 +828,10 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
 msgid "Max plays count"
@@ -1236,10 +1236,10 @@ msgstr ""
 msgid "Response Properties"
 msgstr ""
 
-msgid "Right"
+msgid "right"
 msgstr ""
 
-msgid "right"
+msgid "Right"
 msgstr ""
 
 msgid "Right bracket"
@@ -1393,6 +1393,9 @@ msgid "Success"
 msgstr ""
 
 msgid "Successfully compiled \"%s"
+msgstr ""
+
+msgid "Successfully created item \"%s"
 msgstr ""
 
 msgid "SVG image"
@@ -1672,6 +1675,9 @@ msgstr ""
 msgid "Trigger the end of the item attempt."
 msgstr ""
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
@@ -1681,10 +1687,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
 msgid "Unknown $key to register MetadataService instance"

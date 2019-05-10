@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-26T10:53:10\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T12:21:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -189,11 +189,11 @@ msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
 msgid "Browse..."
 msgstr "Velja..."
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "cancel"
 msgstr "hætta við"
+
+msgid "Cancel"
+msgstr "Hætta við"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -231,11 +231,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Valmöguleikar"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,11 +276,11 @@ msgstr "Höft"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "Correct"
-msgstr "Rétt"
-
 msgid "correct"
 msgstr "rétt"
+
+msgid "Correct"
+msgstr "Rétt"
 
 msgid "Cosinus"
 msgstr ""
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "lokið"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Hlaða niður háttarblaði"
@@ -612,11 +612,11 @@ msgstr "Hvernig á að breyta stærðfræðitákninu."
 msgid "identical pair already exists"
 msgstr "eins par er þegar til"
 
-msgid "Identifier"
-msgstr "Aðgreinir"
-
 msgid "identifier"
 msgstr "aðgreinir"
+
+msgid "Identifier"
+msgstr "Aðgreinir"
 
 msgid "identifier already taken"
 msgstr ""
@@ -720,11 +720,11 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
-msgstr "Eiginleikar atriðis"
-
 msgid "Item Properties"
 msgstr "Eiginleikar Atriðis"
+
+msgid "Item properties"
+msgstr "Eiginleikar atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -754,11 +754,11 @@ msgstr "Latex"
 msgid "leave empty"
 msgstr "hafa autt"
 
-msgid "left"
-msgstr "vinstri"
-
 msgid "Left"
 msgstr "Vinstri"
+
+msgid "left"
+msgstr "vinstri"
 
 msgid "Left bracket"
 msgstr ""
@@ -794,12 +794,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
+
 #, tao-public
 msgid "Manage items"
 msgstr "Vinna með atriði"
-
-msgid "Manage Items"
-msgstr "Vinna með Atriði"
 
 msgid "map response"
 msgstr ""
@@ -828,11 +828,11 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max length"
-msgstr "Hámarks lengd"
-
 msgid "Max Length"
 msgstr "Hámarks Lengd"
+
+msgid "Max length"
+msgstr "Hámarks lengd"
 
 msgid "Max plays count"
 msgstr ""
@@ -1236,11 +1236,11 @@ msgstr "Úrvinnsla svars"
 msgid "Response Properties"
 msgstr "Eigindir Svars"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "hægri"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1393,6 +1393,9 @@ msgid "Success"
 msgstr ""
 
 msgid "Successfully compiled \"%s"
+msgstr ""
+
+msgid "Successfully created item \"%s"
 msgstr ""
 
 msgid "SVG image"
@@ -1672,6 +1675,9 @@ msgstr "Efst"
 msgid "Trigger the end of the item attempt."
 msgstr "Gefur til kynna lok tilraunar."
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
@@ -1681,11 +1687,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "afturkalla"
-
 msgid "Undo"
 msgstr "Afturkalla"
+
+msgid "undo"
+msgstr "afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""

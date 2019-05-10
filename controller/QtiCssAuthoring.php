@@ -56,7 +56,7 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         if (!$this->hasRequestParameter('lang')) {
             throw new common_exception_MissingParameter('lang', __METHOD__);
         }
-        
+
         $item = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
         $lang = $this->getRequestParameter('lang');
         $styleSheet = $this->getRequestParameter('stylesheetUri');
@@ -85,7 +85,7 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         if (!$this->hasRequestParameter('lang')) {
             throw new common_exception_MissingParameter('lang', __METHOD__);
         }
-        
+
         $item = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
         $lang = $this->getRequestParameter('lang');
         $styleSheet = $this->getRequestParameter('stylesheetUri');
@@ -93,10 +93,9 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
             throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
         }
 
-
-
         $cssArray = CssHelper::loadCssFile($item, $lang, $styleSheet);
-        echo json_encode($cssArray);
+
+        $this->returnJson($cssArray);
     }
 
     /**
