@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-26T10:53:12\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T12:21:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -189,11 +189,11 @@ msgstr "Blader door uw computer en selecteer het juiste bestand"
 msgid "Browse..."
 msgstr "Bladeren…"
 
-msgid "Cancel"
-msgstr "Annuleren"
-
 msgid "cancel"
 msgstr "annuleren"
+
+msgid "Cancel"
+msgstr "Annuleren"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -231,11 +231,11 @@ msgstr "Keuze interactie"
 msgid "Choice Properties"
 msgstr "Keuze eigenschappen"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Keuzes"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,10 +276,10 @@ msgstr "Beperkingen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "Klaar"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Download dit stijlblad"
@@ -612,10 +612,10 @@ msgstr "Hoe de wiskundige expressies moeten worden bewerkt"
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Naam"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Naam"
 
 msgid "identifier already taken"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Itemeigenschappen"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Itemeigenschappen"
 
 msgid "Item width"
@@ -754,11 +754,11 @@ msgstr "Latex"
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "left"
-msgstr "links"
-
 msgid "Left"
 msgstr "Links"
+
+msgid "left"
+msgstr "links"
 
 msgid "Left bracket"
 msgstr ""
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Beheer items"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Beheer items"
 
 msgid "map response"
@@ -828,10 +828,10 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
@@ -1237,11 +1237,11 @@ msgstr "Antwoord verwerking"
 msgid "Response Properties"
 msgstr "Antwoord eigenschappen"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "rechts"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1395,6 +1395,9 @@ msgstr ""
 
 msgid "Successfully compiled \"%s"
 msgstr "\"%s Met succes gecompileerd"
+
+msgid "Successfully created item \"%s"
+msgstr ""
 
 msgid "SVG image"
 msgstr "SVG-afbeelding"
@@ -1674,6 +1677,9 @@ msgstr "Boven"
 msgid "Trigger the end of the item attempt."
 msgstr "Trigger het einde van de item poging."
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to retrieve asset \"%s"
 msgstr "Kon onderdeel \"%s niet ophalen"
 
@@ -1683,11 +1689,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "ongedaan maken"
-
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "undo"
+msgstr "ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""

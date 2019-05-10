@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-26T10:53:10\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T12:21:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -189,11 +189,11 @@ msgstr "Naviga nel tuo computer e seleziona il file appropriato."
 msgid "Browse..."
 msgstr "Esplora..."
 
-msgid "Cancel"
-msgstr "Cancella"
-
 msgid "cancel"
 msgstr "cancella"
+
+msgid "Cancel"
+msgstr "Cancella"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -231,11 +231,11 @@ msgstr "Interazione scelta"
 msgid "Choice Properties"
 msgstr "Proprietà scelta"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Scelte"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,11 +276,11 @@ msgstr "Vincoli"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Controlla i parametri di riproduzione (auto-start, anello) di un video o un file audio e riporta il numero di volte che è stato riprodotto."
 
-msgid "Correct"
-msgstr "Corretto"
-
 msgid "correct"
 msgstr "corretto"
+
+msgid "Correct"
+msgstr "Corretto"
 
 msgid "Cosinus"
 msgstr ""
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "fatto"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Scarica questo foglio di stile"
@@ -612,11 +612,11 @@ msgstr "Come si deve modificare l'espressione matematica"
 msgid "identical pair already exists"
 msgstr "coppia identica esiste già"
 
-msgid "Identifier"
-msgstr "Identificatore"
-
 msgid "identifier"
 msgstr "identifica"
+
+msgid "Identifier"
+msgstr "Identificatore"
 
 msgid "identifier already taken"
 msgstr ""
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Proprietà dell'item"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Proprietà dell'item"
 
 msgid "Item width"
@@ -754,11 +754,11 @@ msgstr "Latex"
 msgid "leave empty"
 msgstr "Lasciare vuoto"
 
-msgid "left"
-msgstr "sinistra"
-
 msgid "Left"
 msgstr "Sinistra"
+
+msgid "left"
+msgstr "sinistra"
 
 msgid "Left bracket"
 msgstr ""
@@ -794,12 +794,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
+msgid "Manage Items"
+msgstr "Gestisci gli item"
+
 #, tao-public
 msgid "Manage items"
 msgstr "Gestisci item"
-
-msgid "Manage Items"
-msgstr "Gestisci gli item"
 
 msgid "map response"
 msgstr ""
@@ -828,10 +828,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Massimo"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Lunghezza massima"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Lunghezza massima"
 
 msgid "Max plays count"
@@ -1236,11 +1236,11 @@ msgstr "Elaborazione risposta"
 msgid "Response Properties"
 msgstr "Proprietà della risposta"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "destra"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1394,6 +1394,9 @@ msgstr ""
 
 msgid "Successfully compiled \"%s"
 msgstr "Compilato correttamente \"5s"
+
+msgid "Successfully created item \"%s"
+msgstr ""
 
 msgid "SVG image"
 msgstr "Immagine SVG"
@@ -1673,6 +1676,9 @@ msgstr "Cima"
 msgid "Trigger the end of the item attempt."
 msgstr "Innesca la fine del tentativo di item."
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to retrieve asset \"%s"
 msgstr "Impossibile recuperare risorsa: %1"
 
@@ -1682,10 +1688,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "Ripristina"
 
-msgid "Undo"
+msgid "undo"
 msgstr "Ripristina"
 
 msgid "Unknown $key to register MetadataService instance"

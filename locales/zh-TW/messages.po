@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-26T10:53:16\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T12:21:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -189,10 +189,10 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -231,11 +231,11 @@ msgstr "選擇的互動"
 msgid "Choice Properties"
 msgstr "選擇的屬性"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "選擇"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,10 +276,10 @@ msgstr "約束"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制視頻和音頻的播放檔案(自動播放，循環)再報告已播放的次數。"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正確"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正確"
 
 msgid "Cosinus"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "完成"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "下載這個樣式表"
@@ -612,10 +612,10 @@ msgstr "如何編輯數學表達式應"
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
 msgid "identifier already taken"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "題目屬性"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "題目屬性"
 
 msgid "Item width"
@@ -754,10 +754,10 @@ msgstr "LaTeX"
 msgid "leave empty"
 msgstr "留空"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "管理題目"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "管理題目"
 
 msgid "map response"
@@ -828,10 +828,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
 msgid "Max plays count"
@@ -1236,11 +1236,11 @@ msgstr "處理回應"
 msgid "Response Properties"
 msgstr "回應屬性"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "右"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1393,6 +1393,9 @@ msgid "Success"
 msgstr ""
 
 msgid "Successfully compiled \"%s"
+msgstr ""
+
+msgid "Successfully created item \"%s"
 msgstr ""
 
 msgid "SVG image"
@@ -1672,6 +1675,9 @@ msgstr "上面"
 msgid "Trigger the end of the item attempt."
 msgstr "停止使用此題目。"
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
@@ -1681,10 +1687,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "復原"
 
-msgid "Undo"
+msgid "undo"
 msgstr "復原"
 
 msgid "Unknown $key to register MetadataService instance"
