@@ -26,7 +26,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'urlParser',
+    'util/urlParser',
     'core/promise',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'jquery.fileDownload'
