@@ -134,6 +134,7 @@ define([
 
                     }).catch(function(err){
                         self.trigger('error', 'Error in post rendering : ' + err instanceof Error ? err.message : err);
+                        self.clear(elt);
                     });
                 } catch(err){
                     self.trigger('error', 'Error in post rendering : ' + err.message);
@@ -166,12 +167,15 @@ define([
                         }
 
                         self._item = null;
+                        return;
                     })
                     .then(done)
                     .catch(function(err) {
                         self.trigger('error', 'Something went wrong while destroying an interaction: ' + err.message);
                     });
 
+            } else {
+                done();
             }
         },
 
