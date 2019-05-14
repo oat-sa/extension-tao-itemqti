@@ -133,8 +133,9 @@ define([
                         return userModules.load().then(done);
 
                     }).catch(function(err){
+                        done(); // the second solution - in case of postRendering issue, we are also done (timer will start after timeout run out)
                         self.trigger('error', 'Error in post rendering : ' + err instanceof Error ? err.message : err);
-                        self.clear(elt);
+                        // self.clear(elt); // the first solution - destroy item after timeout run out
                     });
                 } catch(err){
                     self.trigger('error', 'Error in post rendering : ' + err.message);
