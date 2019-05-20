@@ -101,7 +101,7 @@ define([
                     Promise.race([
                         Promise.all(this._item.postRender(options)),
                         new Promise(function(resolve, reject){
-                            _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
+                            _.delay(reject, timeout, new Error('It seems that there is an error during item loading. The error has been reported. Please continue with the test.'));
                         })
                     ])
                     .then(function(){
@@ -133,9 +133,8 @@ define([
                         return userModules.load().then(done);
 
                     }).catch(function(err){
-                        done(); // the second solution - in case of postRendering issue, we are also done (timer will start after timeout run out)
-                        self.trigger('error', 'Error in post rendering : ' + err instanceof Error ? err.message : err);
-                        // self.clear(elt); // the first solution - destroy item after timeout run out
+                        done(); // in case of postRendering issue, we are also done
+                        self.trigger('warning', 'Error in post rendering : ' + err instanceof Error ? err.message : err);
                     });
                 } catch(err){
                     self.trigger('error', 'Error in post rendering : ' + err.message);
@@ -168,7 +167,6 @@ define([
                         }
 
                         self._item = null;
-                        return;
                     })
                     .then(done)
                     .catch(function(err) {
