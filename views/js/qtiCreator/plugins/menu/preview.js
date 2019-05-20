@@ -29,10 +29,10 @@ define([
     'i18n',
     'core/plugin',
     'ui/hider',
-    'taoItems/preview/preview',
+    'taoItems/previewer/factory',
     'tpl!taoQtiItem/qtiCreator/plugins/button',
     'util/url'
-], function($, __, pluginFactory, hider, preview, buttonTpl, urlUtil){
+], function($, __, pluginFactory, hider, previewerFactory, buttonTpl, urlUtil){
     'use strict';
 
     /**
@@ -57,12 +57,12 @@ define([
              * @param {String} uri - the uri of this item to preview
              */
             itemCreator.on('preview', function(uri){
+              	var type = 'qtiItem';
 
-                //TODO move away the URLs !!!
-                preview.init(urlUtil.build(itemCreator.getConfig().properties.previewUrl, {
-                    uri: uri
-                }));
-                preview.show();
+                previewerFactory(type, uri, { }, {
+                  readOnly: true,
+                  fullPage: true
+                });
             });
 
             //creates the preview button
