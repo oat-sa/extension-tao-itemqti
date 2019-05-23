@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -31,8 +31,7 @@ define([
     'ui/hider',
     'taoItems/previewer/factory',
     'tpl!taoQtiItem/qtiCreator/plugins/button',
-    'util/url'
-], function($, __, pluginFactory, hider, previewerFactory, buttonTpl, urlUtil){
+], function($, __, pluginFactory, hider, previewerFactory, buttonTpl){
     'use strict';
 
     /**
@@ -60,7 +59,7 @@ define([
               	var type = 'qtiItem';
 
                 previewerFactory(type, uri, { }, {
-                  readOnly: true,
+                  readOnly: false,
                   fullPage: true
                 });
             });
