@@ -59,8 +59,8 @@ define([
               	var type = 'qtiItem';
 
                 previewerFactory(type, uri, { }, {
-                  readOnly: false,
-                  fullPage: true
+                    readOnly: false,
+                    fullPage: true
                 });
             });
 
