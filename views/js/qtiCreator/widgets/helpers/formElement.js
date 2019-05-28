@@ -81,6 +81,11 @@ define([
             container: validatorOptions.$container[0]
         });
 
+        if ($input.data('$tooltip')) {
+            $input.data('$tooltip').dispose();
+            $input.removeData('$tooltip');
+        }
+
         $input.data('$tooltip', formElementTooltip);
         $input.attr('data-has-tooltip',true);
     };
@@ -124,16 +129,6 @@ define([
             spinner($form);
             tooltip.lookup($form);
             select2($form);
-
-            // When the widget template changes:
-            // (event will reach this widget after being forwarded from document listener)
-            $(document)
-                .off('responseTemplateChange.qti-widget')
-                .on('responseTemplateChange.qti-widget', function(options) {
-                    console.warn(options);
-                    // hide all the tooltips
-                    $('.tooltip', '.qti-interaction').hide();
-                });
         },
 
         /**
