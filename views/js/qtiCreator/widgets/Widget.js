@@ -176,6 +176,16 @@ define([
             }
 
             if(currentState){
+                // hide widget tooltips when interaction leaves response mapping ('map') state:
+                if (this.serial.match(/^interaction/)) {
+                    if (currentState.name === 'map' && state.name !== 'map') {
+                        $(self.$container)
+                            .find('[data-has-tooltip]')
+                            .each(function(j, el) {
+                                $(el).data('$tooltip').hide();
+                            });
+                    }
+                }
 
                 if(currentState.name === state.name){
                     return this;
