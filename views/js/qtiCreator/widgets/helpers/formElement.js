@@ -39,7 +39,7 @@ define([
      * Update response declaration
      * @param {Object} interaction
      * @param {Number} maxChoice
-     * @param {Boolean} [updateCardinality = true]
+     * @param {Boolean} [updateCardinality=true]
      * @throws {Error} if the element is not an interaction
      */
     var updateResponseDeclaration = function updateResponseDeclaration(interaction, maxChoice, updateCardinality) {
@@ -47,7 +47,7 @@ define([
         var correct = [];
 
         if (! Element.isA(interaction, 'interaction') ) {
-            throw new Error('Tthe first argument must be an interaction, the current element is ' + interaction.qtiClass);
+            throw new Error('The first argument must be an interaction, the current element is ' + interaction.qtiClass);
         }
 
         updateCardinality = (typeof updateCardinality === 'undefined') ? true : !!updateCardinality;
@@ -72,6 +72,7 @@ define([
     /**
      * Create a tooltip for the given input
      * @param {jQueryElement} $input
+     * @param {Object} validatorOptions
      *
      */
     var createTooltip = function createTooltip($input, validatorOptions) {
@@ -80,9 +81,13 @@ define([
             container: validatorOptions.$container[0]
         });
 
+        if ($input.data('$tooltip')) {
+            $input.data('$tooltip').dispose();
+            $input.removeData('$tooltip');
+        }
+
         $input.data('$tooltip', formElementTooltip);
         $input.attr('data-has-tooltip',true);
-
     };
     /**
      * Validation callback, used as a groupvalidator callback
@@ -106,7 +111,7 @@ define([
                     type: 'failure'
                 })[0];
                 if (rule && rule.data.message && !$('#mediaManager').children('.opened').length) {
-                    $input.data('$tooltip').updateTitleContent(rule.data.message)
+                    $input.data('$tooltip').updateTitleContent(rule.data.message);
                     //only show it when the file manager is hidden
                     $input.data('$tooltip').show();
                 }
@@ -132,8 +137,9 @@ define([
          * @param {Object} $form - the jQuery form element
          * @param {Object} element - a js qti element (see qtiCreator/model)
          * @param {Object} attributes - key value attributeName:callback, e.g. {identifier:function(element, value, attrName){ element.attr(attrName, value); }}
-         * @param {Boolean} [options.validateOnInit = false] - define if the validation should be trigger immediately after the callbacks have been set
-         * @param {Boolean} [options.invalidate = false] - define if the validation set the valid/invalidate state to the widget of the element
+         * @param {Object} options
+         * @param {Boolean} [options.validateOnInit=false] - define if the validation should be trigger immediately after the callbacks have been set
+         * @param {Boolean} [options.invalidate=false] - define if the validation set the valid/invalidate state to the widget of the element
          */
         setChangeCallbacks: function setChangeCallbacks($form, element, attributes, options) {
 
@@ -197,7 +203,7 @@ define([
 
         /**
          * Unbind the data change callbacks
-         * @param {jQueryElement} $formk
+         * @param {jQueryElement} $form
          */
         removeChangeCallback: function removeChangeCallback($form) {
             $form.off('.databinding');
@@ -208,9 +214,9 @@ define([
         /**
          * the simplest form of save callback used in setChangeCallbacks()
          * @param {boolean} allowEmpty
+         * @returns {function} - the callback function to be called elsewhere
          */
         getAttributeChangeCallback: function getAttributeChangeCallback(allowEmpty) {
-
             return function(element, value, name) {
                 if (!allowEmpty && value === '') {
                     element.removeAttr(name);
@@ -249,7 +255,6 @@ define([
             callbacks[attributeNameMin] = function(element, value, name) {
 
                 var isActualNumber;
-                var max;
 
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10);
                 isActualNumber = !isNaN(value);
