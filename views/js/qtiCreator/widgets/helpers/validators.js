@@ -17,7 +17,7 @@
  *
  */
 define([
-    'core/validator/validators',
+    'ui/validator/validators',
     'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element'

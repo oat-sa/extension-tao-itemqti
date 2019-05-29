@@ -1,7 +1,7 @@
 define([
     'lodash',
     'taoQtiItem/qtiCreator/helper/dummyElement',
-    'core/validator/validators'
+    'ui/validator/validators'
 ], function(_, dummyElement, validators){
 
     var _qtiClassToDummies = {
