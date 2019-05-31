@@ -41,8 +41,8 @@ define([
      * Set up the areaBroker mapping from the actual DOM
      * @returns {areaBroker} already mapped
      */
-    var loadAreaBroker = function loadAreaBroker(){
-        var $container = $('#item-editor-scope');
+    const loadAreaBroker = function loadAreaBroker(){
+        const $container = $('#item-editor-scope');
         return areaBrokerFactory($container, {
             'menu':                 $('.menu', $container),
             'menuLeft':             $('.menu-left', $container),
@@ -64,23 +64,23 @@ define([
     /**
      * The creator's controller
      */
-    var indexController = {
+    const indexController = {
 
         /**
          * The entrypoint
          */
-        start : function start(){
+        start() {
 
             //TODO move module config away from controllers
-            var config = module.config();
+            const config = module.config();
 
-            var logger = loggerFactory('controller/creator');
+            const logger = loggerFactory('controller/creator');
 
             /**
              * Report errors
              * @param {Error} err - the error to report
              */
-            var reportError = function reportError(err){
+            const reportError = function reportError(err){
                 loadingBar.stop();
 
                 logger.error(err);
@@ -95,14 +95,14 @@ define([
             //load plugins dynamically
             if (config) {
                 if(config.plugins){
-                    _.forEach(config.plugins, function (plugin) {
+                    _.forEach(config.plugins, plugin => {
                         if(plugin && plugin.module){
                             pluginLoader.add(plugin);
                         }
                     });
                 }
                 if(config.contextPlugins){
-                    _.forEach(config.contextPlugins, function (plugin) {
+                    _.forEach(config.contextPlugins, plugin => {
                         if(plugin && plugin.module){
                             if(plugin.exclude){
                                 pluginLoader.remove(plugin.module);
@@ -120,15 +120,11 @@ define([
                 //build a new item creator
                 itemCreatorFactory(config, loadAreaBroker(), pluginLoader.getPlugins())
                     .on('error', reportError)
-                    .on('success', function(message){
-                        feedback().success(message);
-                    })
+                    .on('success', message => feedback().success(message) )
                     .on('init', function(){
                         this.render();
                     })
-                    .on('ready', function(){
-                        loadingBar.stop();
-                    })
+                    .on('ready', () => loadingBar.stop() )
                     .init();
             })
             .catch(reportError);
