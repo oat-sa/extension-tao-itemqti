@@ -19,10 +19,13 @@
 /**
  * Configure the extension bundles
  * @author Bertrand Chevrier <bertrand@taotesting.com>
+ *
+ * @param {Object} grunt - the grunt objectt (by convention)
  */
 module.exports = function(grunt) {
     'use strict';
-    var root        = grunt.option('root');
+
+    const root = grunt.option('root');
 
     grunt.config.merge({
         bundle : {
@@ -32,12 +35,13 @@ module.exports = function(grunt) {
                     dependencies : ['taoItems'],
                     allowExternal : ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
                     paths : {
-                        'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
-                        'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
+                        'qtiCustomInteractionContext' :`${root}/taoQtiItem/views/js/runtime/qtiCustomInteractionContext`,
+                        'qtiInfoControlContext' : `${root}/taoQtiItem/views/js/runtime/qtiInfoControlContext`,
                     },
                     bundles : [{
                         name : 'taoQtiItem',
                         default : true,
+                        babel: true,
 
                         //we need to list the dependencies manually, since the
                         //sources contains tests in subfoldesr
@@ -54,6 +58,7 @@ module.exports = function(grunt) {
                         ]
                     }, {
                         name : 'taoQtiItemRunner',
+                        babel: true,
                         include : [
                             'taoQtiItem/qtiCommonRenderer/**/*',
                             'taoQtiItem/qtiItem/**/*',
@@ -65,6 +70,7 @@ module.exports = function(grunt) {
                     }, {
                         name : 'qtiLoader',
                         bootstrap: true,
+                        babel: true,
                         entryPoint: 'taoQtiItem/runtime/qtiLoader',
                         dependencies : ['taoQtiItem/loader/taoQtiItem.min']
                     }]
