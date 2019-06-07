@@ -22,7 +22,7 @@
 define([
     'jquery',
     'lodash',
-    'tao/test/core/areaBroker/mock/areaBrokerMock'
+    'tao/test/ui/areaBroker/mock/areaBrokerMock'
 ], function ($, _, areaBrokerMockFactory) {
     'use strict';
 
