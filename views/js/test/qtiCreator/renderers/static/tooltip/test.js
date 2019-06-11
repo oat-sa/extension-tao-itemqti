@@ -22,14 +22,11 @@ define([
 
     'jquery',
     'taoQtiItem/test/qtiCreator/mocks/qtiCreatorContextMock',
-    'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/Tooltip'
 ], function(
-
     $,
     qtiCreatorContextMockFactory,
-    areaBrokerFactory,
     creatorRenderer,
     Tooltip
 ) {
@@ -39,23 +36,32 @@ define([
 
     QUnit.test('Display and play', function(assert) {
         var ready = assert.async();
-        var $outsideContainer = $('#outside-container'),
-            config = {
-                qtiCreatorContext: qtiCreatorContextMockFactory()
-            },
-            areaBroker = areaBrokerFactory({
-                $brokerContainer: $outsideContainer,
-                mapping: {
-                    itemPanel: $('.item-editor-item'),
-                    contentCreatorPanel: $('#item-editor-panel'),
-                    toolbar: $('#toolbar-top')
-                }
-            }),
-            tooltipContent = 'my tooltip <strong>content</strong>',
-            tooltipSerial = '_tooltip_4568613547893',
-            tooltipId = 'tooltip_123456',
+        var config = {
+            qtiCreatorContext: qtiCreatorContextMockFactory()
+        };
 
-            tooltip = new Tooltip(tooltipSerial, {'aria-describedby': tooltipId}, tooltipContent);
+        const areaBroker = {
+            getElementPropertyPanelArea() {
+                return $('#qunit-fixture');
+            },
+            getContentCreatorPanelArea() {
+                return $('#item-editor-panel');
+            },
+            getItemPanelArea() {
+                return $('#outside-container .item-editor-item');
+            },
+            getToolbarArea() {
+                return $('#toolbar-top');
+            }
+        };
+
+        const tooltipContent = 'my tooltip <strong>content</strong>';
+        const tooltipSerial = '_tooltip_4568613547893';
+        const tooltipId = 'tooltip_123456';
+
+        const tooltip = new Tooltip(tooltipSerial, {
+            'aria-describedby': tooltipId
+        }, tooltipContent);
 
         assert.expect(1);
 
