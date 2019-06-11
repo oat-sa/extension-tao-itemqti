@@ -22,47 +22,94 @@
 define([
     'jquery',
     'lodash',
-    'tao/test/ui/areaBroker/mock/areaBrokerMock'
-], function ($, _, areaBrokerMockFactory) {
+    'core/areaBroker'
+], function($, _, areaBrokerFactory) {
     'use strict';
 
     /**
-     * The mock
-     * @type {Object}
+     * A counter utilised to generate the mock identifiers
+     * @type {Number}
      */
-    var areaBroker;
+    let mockId = 0;
+
+    const classes = {
+        areaBroker: 'area-broker-mock',
+        area: 'test-area'
+    };
+
+    const defaultContainerSelector = '#qunit-fixture';
 
     /**
-     * The list of default areas
-     * @type {String[]}
+     * Builds and returns a new areaBroker with dedicated areas.
+     * @param {Object} [config]
+     * @param {String} config.id - area broker id, will be used as a class on container
+     * @param {String[]} config.defaultAreas - mandatory areas to create
+     * @param {jQuery} config.$brokerContainer - where to create the area broker - default to #qunit-fixture
+     * @param {String[]} config.areas - A list of areas to create, or...
+     * @param {Object} config.mapping - ... a list of already created areas
+     * @returns {areaBroker} - Returns the new areaBroker
      */
-    var defaultAreas = [
-        'menu',
-        'menuLeft',
-        'menuRight',
-        'editorBar',
-        'title',
-        'toolbar',
-        'interactionPanel',
-        'itemPanel',
-        'contentCreatorPanel',
-        'propertyPanel',
-        'itemPropertyPanel',
-        'itemStylePanel',
-        'modalContainer',
-        'elementPropertyPanel'
-    ];
-
     function areaBrokerMock(config) {
-
         config = _.defaults(config || {}, {
-            defaultAreas: defaultAreas,
+            defaultAreas: [
+                'menu',
+                'menuLeft',
+                'menuRight',
+                'editorBar',
+                'title',
+                'toolbar',
+                'interactionPanel',
+                'itemPanel',
+                'contentCreatorPanel',
+                'propertyPanel',
+                'itemPropertyPanel',
+                'itemStylePanel',
+                'modalContainer',
+                'elementPropertyPanel'
+            ],
             id: 'qti-creator'
         });
 
-        areaBroker = areaBrokerMockFactory(config);
+        const $areaBrokerDom = $('<div />')
+            .attr('id', `area-broker-mock-${mockId++}`)
+            .addClass(config.id || classes.areaBroker);
 
-        return areaBroker;
+
+        // Create all areas from scratch
+        if (!config.mapping) {
+            config.mapping = {};
+            if (!config.areas) {
+                config.areas = config.defaultAreas;
+            } else {
+                config.areas = _.keys(_.merge(_.object(config.areas), _.object(config.defaultAreas)));
+            }
+
+            _.forEach(config.areas, areaId => {
+                config.mapping[areaId] = $('<div />')
+                    .addClass('test-area')
+                    .addClass(areaId)
+                    .appendTo($areaBrokerDom);
+            });
+
+            // Create only missing areas
+        } else {
+            _.union(config.defaultAreas, (config.areas || [])).forEach( areaId => {
+                // create missing areas
+                if (!config.mapping[areaId]) {
+                    config.mapping[areaId] = $('<div />')
+                        .addClass('test-area')
+                        .addClass(areaId)
+                        .appendTo($areaBrokerDom);
+                }
+            });
+        }
+
+        if (!config.$brokerContainer) {
+            config.$brokerContainer = $(defaultContainerSelector);
+        }
+        config.$brokerContainer.append($areaBrokerDom);
+
+        return areaBrokerFactory(config.defaultAreas, $areaBrokerDom, config.mapping);
     }
 
     return areaBrokerMock;

@@ -22,7 +22,6 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-
     'lodash',
     'jquery',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock'
