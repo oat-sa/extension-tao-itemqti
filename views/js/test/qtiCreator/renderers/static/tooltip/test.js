@@ -19,7 +19,6 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-
     'jquery',
     'taoQtiItem/test/qtiCreator/mocks/qtiCreatorContextMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -35,8 +34,8 @@ define([
     QUnit.module('Creator Renderer');
 
     QUnit.test('Display and play', function(assert) {
-        var ready = assert.async();
-        var config = {
+        const ready = assert.async();
+        const config = {
             qtiCreatorContext: qtiCreatorContextMockFactory()
         };
 
@@ -67,8 +66,8 @@ define([
 
         creatorRenderer
             .get(true, config, areaBroker)
-            .load(function() {
-                var $tooltipPlaceholder = $('.tooltip-placeholder');
+            .load(() => {
+                const $tooltipPlaceholder = $('.tooltip-placeholder');
 
                 tooltip.setRenderer(this);
                 tooltip.body('tootlip target');
