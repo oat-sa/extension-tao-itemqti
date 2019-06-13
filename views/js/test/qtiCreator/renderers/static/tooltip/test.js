@@ -66,7 +66,7 @@ define([
 
         creatorRenderer
             .get(true, config, areaBroker)
-            .load(() => {
+            .load(function() {
                 const $tooltipPlaceholder = $('.tooltip-placeholder');
 
                 tooltip.setRenderer(this);
