@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  *
  */
 
@@ -41,8 +41,8 @@ define([
      * Set up the areaBroker mapping from the actual DOM
      * @returns {areaBroker} already mapped
      */
-    const loadAreaBroker = function loadAreaBroker(){
-        const $container = $('#item-editor-scope');
+    var loadAreaBroker = function loadAreaBroker(){
+        var $container = $('#item-editor-scope');
         return areaBrokerFactory($container, {
             'menu':                 $('.menu', $container),
             'menuLeft':             $('.menu-left', $container),
@@ -64,23 +64,23 @@ define([
     /**
      * The creator's controller
      */
-    const indexController = {
+    var indexController = {
 
         /**
          * The entrypoint
          */
-        start() {
+        start : function start(){
 
             //TODO move module config away from controllers
-            const config = module.config();
+            var config = module.config();
 
-            const logger = loggerFactory('controller/creator');
+            var logger = loggerFactory('controller/creator');
 
             /**
              * Report errors
              * @param {Error} err - the error to report
              */
-            const reportError = function reportError(err){
+            var reportError = function reportError(err){
                 loadingBar.stop();
 
                 logger.error(err);
@@ -95,14 +95,14 @@ define([
             //load plugins dynamically
             if (config) {
                 if(config.plugins){
-                    _.forEach(config.plugins, plugin => {
+                    _.forEach(config.plugins, function (plugin) {
                         if(plugin && plugin.module){
                             pluginLoader.add(plugin);
                         }
                     });
                 }
                 if(config.contextPlugins){
-                    _.forEach(config.contextPlugins, plugin => {
+                    _.forEach(config.contextPlugins, function (plugin) {
                         if(plugin && plugin.module){
                             if(plugin.exclude){
                                 pluginLoader.remove(plugin.module);
@@ -120,11 +120,15 @@ define([
                 //build a new item creator
                 itemCreatorFactory(config, loadAreaBroker(), pluginLoader.getPlugins())
                     .on('error', reportError)
-                    .on('success', message => feedback().success(message) )
+                    .on('success', function(message){
+                        feedback().success(message);
+                    })
                     .on('init', function(){
                         this.render();
                     })
-                    .on('ready', () => loadingBar.stop() )
+                    .on('ready', function(){
+                        loadingBar.stop();
+                    })
                     .init();
             })
             .catch(reportError);

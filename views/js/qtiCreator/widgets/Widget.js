@@ -177,7 +177,7 @@ define([
 
             if(currentState){
                 // hide widget tooltips when interaction leaves response mapping ('map') state:
-                if (currentState.name === 'map' && state.name !== 'map') {
+                if (this.serial.match(/^interaction/) && currentState.name === 'map' && state.name !== 'map') {
                     this.$container
                         .find('[data-has-tooltip]')
                         .each(function(j, el) {

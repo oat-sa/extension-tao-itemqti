@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
  * This is a first and naive attempt at unit testing a QTI Creator Widget State
@@ -21,13 +21,17 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'jquery',
+    'taoQtiItem/test/qtiCreator/mocks/areaBrokerMock',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiItem/core/Math',
     'taoQtiItem/qtiCreator/widgets/static/math/Widget',
     'taoQtiItem/qtiCreator/widgets/static/math/states/Active'
 ], function(
+
     $,
+    areaBrokerFactory,
     creatorRenderer,
     mathElement,
     mathWidget,
@@ -46,39 +50,23 @@ define([
     QUnit.module('Visual Test');
 
     QUnit.test('Display and play', function(assert) {
-        const ready = assert.async();
-        let widget;
-        const mathEl = new mathElement();
-        const $widgetBox = $('<div>', {
-            'class': 'widget-box',
-            'data-serial': 'serial'
-        });
-        const areaBroker = {
-            getItemPropertyPanelArea() {
-                return $('#outside-container .prop');
-            },
-            getElementPropertyPanelArea() {
-                return $('#outside-container .elt-prop');
-            },
-            getItemPanelArea() {
-                return $('#outside-container .item');
-            },
-            getContentCreatorPanelArea() {
-                return $('#outside-container .content');
-            }
-        };
+        var ready = assert.async();
+        var $outsideContainer = $('#outside-container'),
+            widget,
+            mathEl = new mathElement(),
+            areaBroker = areaBrokerFactory({$brokerContainer: $outsideContainer}),
+            $widgetBox = $('<div>', {'class': 'widget-box', 'data-serial': 'serial'}),
+            $widgetForm = areaBroker.getItemPropertyPanelArea();
 
         creatorRenderer
-            .get(true, {
-                properties: {}
-            }, areaBroker)
+            .get(true, {properties: {}}, areaBroker)
             .load(function() {
                 mathEl.init('serial');
                 mathEl.setRenderer(this);
 
                 $widgetBox.appendTo(areaBroker.getItemPanelArea());
 
-                widget = mathWidget.build(mathEl, $widgetBox, areaBroker.getItemPropertyPanelArea());
+                widget = mathWidget.build(mathEl, $widgetBox, $widgetForm);
                 widget.changeState('active');
 
                 assert.ok(true);
