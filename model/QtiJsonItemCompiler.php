@@ -86,6 +86,11 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         // retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
+
+            if (count($qtiItem->getBody()->getElements()) === 0) {
+                return new common_report_Report(common_report_Report::TYPE_ERROR, 'The item has an empty body.');
+            }
+
             $this->compileItemIndex($item->getUri(), $qtiItem, $language);
 
             //store variable qti elements data into the private directory
