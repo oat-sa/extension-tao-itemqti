@@ -55,6 +55,7 @@ $mainContainer : '.qti-item';
     @import "inc/grid";
     @import "inc/tooltip";
     @import "inc/buttons";
+    @import "inc/jquery.nouislider";
     @import "inc/forms";
 
     // reset grid set-up within the item context
