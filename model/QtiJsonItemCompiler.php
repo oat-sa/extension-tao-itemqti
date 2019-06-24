@@ -87,9 +87,10 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
 
-            if (count($qtiItem->getBody()->getElements()) === 0) {
+            // @todo find a better solution to eliminate empty items.
+            /*if (count($qtiItem->getBody()->getElements()) === 0) {
                 return new common_report_Report(common_report_Report::TYPE_ERROR, 'The item has an empty body.');
-            }
+            }*/
 
             $this->compileItemIndex($item->getUri(), $qtiItem, $language);
 
