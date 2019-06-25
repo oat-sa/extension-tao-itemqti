@@ -1,0 +1,15 @@
+{
+  "name": "@oat-sa/tao-qti-item",
+  "version": "0.1.0",
+  "license": "GPL-2.0",
+  "description": "taoQtiItem frontend modules",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
+  },
+  "dependencies": {
+    "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feature/NEX-91/test-and-build-tools",
+    "@oat-sa/tao-item-runner": "github:oat-sa/tao-item-runner-fe#feature/NEX-91/qunit-test-runner",
+    "@babel/polyfill": "^7.4.4"
+  }
+}
