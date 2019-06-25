@@ -25,6 +25,7 @@ use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
+use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -33,7 +34,7 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '20.2.0',
+    'version'     => '21.0.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=6.6.0',
@@ -64,7 +65,8 @@ return array(
             SetItemModel::class,
             RegisterLegacyPortableLibraries::class,
             SetUpQueueTasks::class,
-            RegisterItemCompilerBlacklist::class
+            RegisterItemCompilerBlacklist::class,
+            RegisterNpmPaths::class
 		)
 	),
 	'local'	=> array(

@@ -426,5 +426,16 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('19.10.0', '20.2.0');
 
+        if ($this->isVersion('20.2.0')) {
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+            $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . '/node_modules/@oat-sa/tao-item-runner-qti/dist';
+            $clientLibRegistry = ClientLibRegistry::getRegistry();
+            $clientLibRegistry->register('taoQtiItem/qtiCommonRenderer', $taoQtiItemNpmDist . '/qtiCommonRenderer');
+            $clientLibRegistry->register('taoQtiItem/qtiItem', $taoQtiItemNpmDist . '/qtiItem');
+            $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . '/qtiRunner');
+            $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . '/runner');
+            $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . '/scoring');    
+            $this->setVersion('21.0.0');
+        }
     }
 }
