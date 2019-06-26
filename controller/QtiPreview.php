@@ -134,7 +134,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
             $itemSession->endAttempt(new State($variables));
 
             // Return the item session state to the client-side.
-            return $this->returnJson(
+            $this->returnJson(
                 [
                     'success' => true,
                     'displayFeedback' => true,
