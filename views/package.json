@@ -8,8 +8,8 @@
     "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
   },
   "dependencies": {
-    "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feature/NEX-91/test-and-build-tools",
-    "@oat-sa/tao-item-runner": "github:oat-sa/tao-item-runner-fe#feature/NEX-91/qunit-test-runner",
+    "@oat-sa/tao-item-runner-qti": "0.3.0",
+    "@oat-sa/tao-item-runner": "0.3.0",
     "@babel/polyfill": "^7.4.4"
   }
 }
