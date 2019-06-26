@@ -426,7 +426,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('19.10.0', '20.2.5');
 
-        if ($this->isVersion('20.2.0')) {
+        if ($this->isVersion('20.2.5')) {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
             $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
             $clientLibRegistry = ClientLibRegistry::getRegistry();
