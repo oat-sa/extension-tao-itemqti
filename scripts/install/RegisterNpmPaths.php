@@ -38,13 +38,13 @@ class RegisterNpmPaths extends InstallAction
     public function __invoke($params)
     {
         $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-        $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . '/node_modules/@oat-sa/tao-item-runner-qti/dist';
+        $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
         $clientLibRegistry = ClientLibRegistry::getRegistry();
-        $clientLibRegistry->register('taoQtiItem/qtiCommonRenderer', $taoQtiItemNpmDist . '/qtiCommonRenderer');
-        $clientLibRegistry->register('taoQtiItem/qtiItem', $taoQtiItemNpmDist . '/qtiItem');
-        $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . '/qtiRunner');
-        $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . '/runner');
-        $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . '/scoring');
+        $clientLibRegistry->register('taoQtiItem/qtiCommonRenderer', $taoQtiItemNpmDist . 'qtiCommonRenderer');
+        $clientLibRegistry->register('taoQtiItem/qtiItem', $taoQtiItemNpmDist . 'qtiItem');
+        $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . 'qtiRunner');
+        $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . 'runner');
+        $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . 'scoring');
         return \common_report_Report::createSuccess('npm paths for taoQtiItem set up.');
     }
 }
