@@ -35,8 +35,18 @@ module.exports = function(grunt) {
                     dependencies : ['taoItems'],
                     allowExternal : ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
                     paths : {
-                        'qtiCustomInteractionContext' :`${root}/taoQtiItem/views/js/runtime/qtiCustomInteractionContext`,
-                        'qtiInfoControlContext' : `${root}/taoQtiItem/views/js/runtime/qtiInfoControlContext`,
+                        'qtiCustomInteractionContext' : `${root}/taoQtiItem/views/js/runtime/qtiCustomInteractionContext`,
+                        'qtiInfoControlContext'       : `${root}/taoQtiItem/views/js/runtime/qtiInfoControlContext`,
+                        // paths for tao-item-runner-qti library:
+                        'taoQtiItem/qtiCommonRenderer': `${root}/taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiCommonRenderer`,
+                        'taoQtiItem/qtiItem'          : `${root}/taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiItem`,
+                        'taoQtiItem/qtiRunner'        : `${root}/taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiRunner`,
+                        'taoQtiItem/runner'           : `${root}/taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/runner`,
+                        'taoQtiItem/scoring'          : `${root}/taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/scoring`,
+                        // paths for tao-item-runner library:
+                        'taoItems/assets'             : `${root}/taoItems/views/node_modules/@oat-sa/tao-item-runner/dist/assets`,
+                        'taoItems/runner'             : `${root}/taoItems/views/node_modules/@oat-sa/tao-item-runner/dist/runner`,
+                        'taoItems/scoring'            : `${root}/taoItems/views/node_modules/@oat-sa/tao-item-runner/dist/scoring`,
                     },
                     bundles : [{
                         name : 'taoQtiItem',

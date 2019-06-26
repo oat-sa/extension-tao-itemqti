@@ -1,0 +1,6 @@
+{
+    "taoQtiItem/qtiCommonRenderer": "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiCommonRenderer",
+    "taoQtiItem/qtiItem"          : "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiItem",
+    "taoQtiItem/qtiRunner"        : "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiRunner",
+    "taoItems/assets"             : "../../../taoItems/views/node_modules/@oat-sa/tao-item-runner/dist/assets"
+}
