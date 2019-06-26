@@ -13,17 +13,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'jquery',
     'lodash',
-    'tao/test/ui/areaBroker/mock/areaBrokerMock'
-], function ($, _, areaBrokerMockFactory) {
+    'taoQtiItem/test/qtiCreator/mocks/areaBrokerMockFactory'
+], function (_, areaBrokerMockFactory) {
     'use strict';
 
     /**
