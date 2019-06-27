@@ -268,7 +268,7 @@ class QtiExtractor implements Extractor
                 $interaction['choices'] = [];
                 $interaction['responses'] = [];
 
-                if ($parser['domInteraction'] == 'customInteraction') {
+                if ($parser['domInteraction'] === 'customInteraction') {
                     // figure out the proper type name of a custom interaction
                     $portableCustomNode = $this->xpath->query('./pci:portableCustomInteraction', $interactionNode->item($i));
                     if ($portableCustomNode->length) {
