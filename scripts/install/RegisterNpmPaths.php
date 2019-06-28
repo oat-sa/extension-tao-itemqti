@@ -15,8 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\taoQtiItem\scripts\install;
@@ -32,9 +30,6 @@ use oat\tao\model\asset\AssetService;
  */
 class RegisterNpmPaths extends InstallAction
 {
-    /**
-     * @param $params
-     */
     public function __invoke($params)
     {
         $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
@@ -45,6 +40,7 @@ class RegisterNpmPaths extends InstallAction
         $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . 'qtiRunner');
         $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . 'runner');
         $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . 'scoring');
+
         return \common_report_Report::createSuccess('extra paths for taoQtiItem set up.');
     }
 }
