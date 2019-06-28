@@ -7,4 +7,5 @@ composer.lock
 /views/scss/qti.css.map
 /views/scss/item-creator.css
 /views/scss/item-creator.css.map
-/views/node_modules
+
+node_modules
