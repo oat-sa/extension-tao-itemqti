@@ -45,6 +45,6 @@ class RegisterNpmPaths extends InstallAction
         $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . 'qtiRunner');
         $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . 'runner');
         $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . 'scoring');
-        return \common_report_Report::createSuccess('npm paths for taoQtiItem set up.');
+        return \common_report_Report::createSuccess('extra paths for taoQtiItem set up.');
     }
 }
