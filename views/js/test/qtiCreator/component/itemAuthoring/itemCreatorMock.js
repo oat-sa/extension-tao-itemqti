@@ -19,10 +19,20 @@ define([
     'jquery',
     'lodash',
     'core/eventifier',
-    'taoQtiItem/qtiCreator/context/qtiCreatorContext',
-    'json!taoQtiItem/test/samples/json/space-shuttle.json',
-], function ($, _, eventifier, qtiCreatorContextFactory, itemData) {
+    'taoQtiItem/qtiCreator/helper/itemLoader',
+    'taoQtiItem/qtiCreator/context/qtiCreatorContext'
+], function ($, _, eventifier, itemLoader, qtiCreatorContextFactory) {
     'use strict';
+
+    const loadItem = (uri, label, itemDataUrl) => new Promise((resolve, reject) => {
+        itemLoader.loadItem({uri: uri, label: label, itemDataUrl: itemDataUrl}, item => {
+            if (!item) {
+                return reject(new Error('Unable to load the item'));
+            }
+            item.data('uri', uri);
+            resolve(item);
+        });
+    });
 
     function itemCreatorFactory(config, areaBroker, pluginFactories) {
 
@@ -57,8 +67,8 @@ define([
                     plugins[plugin.getName()] = plugin;
                 });
 
-                this.item = _.cloneDeep(itemData);
-                Promise.resolve()
+                loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl)
+                    .then(item => this.item = item)
                     .then(() => pluginRun('init'))
                     .then(() => {
                         this.trigger('init', this.getItem());

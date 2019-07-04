@@ -22,8 +22,10 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiCreator/component/itemAuthoring'
-], function ($, _, itemAuthoringFactory) {
+    'taoQtiItem/qtiCreator/component/itemAuthoring',
+    'json!taoQtiItem/test/samples/json/space-shuttle.json',
+    'lib/jquery.mockjax/jquery.mockjax'
+], function ($, _, itemAuthoringFactory, itemData) {
     'use strict';
 
     function getInstance(fixture, config = {}) {
@@ -32,6 +34,27 @@ define([
                 this.destroy();
             });
     }
+
+    // Prevent the AJAX mocks to pollute the logs
+    $.mockjaxSettings.logger = null;
+    $.mockjaxSettings.responseTime = 1;
+
+    // Mock the item data query
+    $.mockjax({
+        url: '/*',
+        responseText: {
+            success: true,
+            itemIdentifier: 'item-1',
+            itemData: {
+                content: {
+                    type: 'qti',
+                    data: itemData
+                },
+                baseUrl: '',
+                state: {}
+            }
+        }
+    });
 
     QUnit.module('API');
 
