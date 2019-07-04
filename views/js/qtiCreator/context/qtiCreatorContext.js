@@ -96,6 +96,7 @@ define([
              * @returns {Promise}
              */
             destroy: function destroy() {
+                var self = this;
                 return pluginRun('destroy').then(function(){
 
                     /**
