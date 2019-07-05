@@ -134,7 +134,13 @@ class QtiPreview extends taoItems_actions_ItemPreview
             $itemSession->endAttempt(new State($variables));
 
             // Return the item session state to the client-side.
-            echo json_encode(array('success' => true, 'displayFeedback' => true, 'itemSession' => self::buildOutcomeResponse($itemSession)));
+            $this->returnJson(
+                [
+                    'success' => true,
+                    'displayFeedback' => true,
+                    'itemSession' => self::buildOutcomeResponse($itemSession)
+                ]
+            );
         }
         catch(AssessmentItemSessionException $e) {
             $msg = "An error occurred while processing the responses.";
