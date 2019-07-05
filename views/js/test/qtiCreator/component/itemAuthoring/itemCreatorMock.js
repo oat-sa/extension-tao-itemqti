@@ -77,6 +77,8 @@ define([
                             .init();
                     })
                     .catch(err => this.trigger('error', err));
+
+                return this;
             },
 
             render() {

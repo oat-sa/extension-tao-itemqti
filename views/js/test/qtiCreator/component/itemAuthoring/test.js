@@ -176,13 +176,15 @@ define([
         };
         const instance = itemAuthoringFactory($container, config);
 
-        assert.expect(1);
+        assert.expect(3);
 
         instance
             .after('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
             .on('ready', function () {
+                assert.notEqual(this.getAreaBroker(), null, 'The area broker should be available');
+                assert.notEqual(this.getItemCreator(), null, 'The item creator should be available');
                 this.destroy();
             })
             .on('destroy', () => ready())
@@ -207,7 +209,7 @@ define([
             }
         };
 
-        assert.expect(8);
+        assert.expect(10);
         assert.equal($container.children().length, 0, 'The container is empty');
 
         const instance = itemAuthoringFactory($container, config)
@@ -215,6 +217,8 @@ define([
                 assert.equal(this, instance, 'The instance has been initialized');
             })
             .on('ready', () => {
+                assert.notEqual(instance.getAreaBroker(), null, 'The area broker should be available');
+                assert.notEqual(instance.getItemCreator(), null, 'The item creator should be available');
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 assert.equal($container.children().is('#item-editor-scope'), true, 'The container contains the expected element');
                 assert.equal($container.find('#item-editor-scope .action-bar').length, 1, 'The component contains an action bar');
