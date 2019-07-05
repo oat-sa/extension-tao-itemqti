@@ -174,11 +174,14 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
 
                 $interactionData = is_array($value) && count($value) > 1 ? $value : $values;
 
-                if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) == array_keys($interactionData)) {
+                if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) === array_keys($interactionData)) {
                     $line = array_intersect_key($data[0], array_flip($this->headers));
                     $data[] = array_merge($line, $interactionData);
                 } else {
-                    $data[0] = array_merge($data[0], $interactionData);
+                    foreach ($data as &$piece) {
+                        $piece = array_merge($piece, $interactionData);
+                    }
+                    unset($piece);
                 }
 
                 $this->headers = array_unique(array_merge($this->headers, array_keys($interactionData)));

@@ -424,7 +424,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('19.10.0');
         }
 
-        $this->skip('19.10.0', '20.2.6');
+        $this->skip('19.10.0', '20.4.2');
 
         if ($this->isVersion('20.2.5')) {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);

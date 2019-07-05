@@ -31,12 +31,11 @@ define([
     'use strict';
 
     /**
-     * return {creatorContext}
+     * @returns {qtiCreatorContext}
      */
     return function qtiCreatorContextFactory() {
 
-        var qtiCreatorContext;
-        var plugins = {};
+        const plugins = {};
 
         /**
          * Run a method in all plugins
@@ -44,10 +43,10 @@ define([
          * @param {String} method - the method to run
          * @returns {Promise} once that resolve when all plugins are done
          */
-        var pluginRun =  function pluginRun(method){
-            var execStack = [];
+        const pluginRun = method => {
+            const execStack = [];
 
-            _.forEach(plugins, function (plugin){
+            _.forEach(plugins, plugin => {
                 if(_.isFunction(plugin[method])){
                     execStack.push(plugin[method]());
                 }
@@ -59,35 +58,34 @@ define([
         /**
          * @typedef {Object} qtiCreatorContext
          */
-        qtiCreatorContext = {
+        const qtiCreatorContext = {
             /**
              * @fires qtiCreatorContext#init
              * @returns {Promise}
              */
-            init: function init() {
-                var self = this;
-
+            init() {
                 return pluginLoader
                     .load()
-                    .then(function() {
-                        var pluginFactories = pluginLoader.getPlugins();
+                    .then(() => {
+                        const pluginFactories = pluginLoader.getPlugins();
 
                         // instantiate the plugins first
-                        _.forEach(pluginFactories, function(pluginFactory){
-                            var plugin = pluginFactory(self);
+                        _.forEach(pluginFactories, pluginFactory => {
+                            const plugin = pluginFactory(this);
                             plugins[plugin.getName()] = plugin;
                         });
 
                         // then initialise them
-                        return pluginRun('init').then(function(){
-
-                            /**
-                             * @event qtiCreatorContext#init the initialization is done
-                             */
-                            self.trigger('init');
-                        });
-                    }).catch(function(err) {
-                        self.trigger('error', err);
+                        return pluginRun('init')
+                            .then(() => {
+                                /**
+                                 * @event qtiCreatorContext#init the initialization is done
+                                 */
+                                this.trigger('init');
+                            });
+                    })
+                    .catch(err => {
+                        this.trigger('error', err);
                     });
             },
 
@@ -95,16 +93,17 @@ define([
              * @fires qtiCreatorContext#destroy
              * @returns {Promise}
              */
-            destroy: function destroy() {
-                return pluginRun('destroy').then(function(){
-
-                    /**
-                     * @event qtiCreatorContext#destroy the destroy process is done
-                     */
-                    self.trigger('destroy');
-                }).catch(function(err) {
-                    self.trigger('error', err);
-                });
+            destroy() {
+                return pluginRun('destroy')
+                    .then(() => {
+                        /**
+                         * @event qtiCreatorContext#destroy the destroy process is done
+                         */
+                        this.trigger('destroy');
+                    })
+                    .catch(function(err) {
+                        this.trigger('error', err);
+                    });
             }
         };
 
