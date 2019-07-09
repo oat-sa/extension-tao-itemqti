@@ -434,8 +434,10 @@ class Updater extends \common_ext_ExtensionUpdater
             $clientLibRegistry->register('taoQtiItem/qtiItem', $taoQtiItemNpmDist . 'qtiItem');
             $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . 'qtiRunner');
             $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . 'runner');
-            $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . 'scoring');    
+            $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . 'scoring');
             $this->setVersion('21.0.0');
         }
+
+        $this->skip('21.0.0', '21.0.1');
     }
 }
