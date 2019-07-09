@@ -2,7 +2,7 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Math'
-], function(_, editable, Math){
+], function(_, editable, MathModel){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -14,5 +14,5 @@ define([
             this.getNamespace();
         }
     });
-    return Math.extend(methods);
+    return MathModel.extend(methods);
 });
