@@ -437,5 +437,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $clientLibRegistry->register('taoQtiItem/scoring', $taoQtiItemNpmDist . 'scoring');    
             $this->setVersion('21.0.0');
         }
+
+        $this->skip('21.0.0', '21.1.0');
     }
 }
