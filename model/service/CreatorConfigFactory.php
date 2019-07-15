@@ -28,7 +28,7 @@ use oat\taoQtiItem\model\CreatorConfig;
  * @author Bartlomiej Marszal
  *
  */
-class CreatorConfigService extends ConfigurableService
+class CreatorConfigFactory extends ConfigurableService
 {
     /**
      * @return CreatorConfig

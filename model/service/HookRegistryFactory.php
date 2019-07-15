@@ -28,7 +28,7 @@ use oat\taoQtiItem\model\HookRegistry;
  * @author Bartlomiej Marszal
  *
  */
-class HookRegistryService extends ConfigurableService
+class HookRegistryFactory extends ConfigurableService
 {
     /**
      * @return AbstractRegistry
