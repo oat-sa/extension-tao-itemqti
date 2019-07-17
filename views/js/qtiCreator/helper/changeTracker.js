@@ -26,14 +26,16 @@ define([
     'i18n',
     'lib/uuid',
     'core/eventifier',
-    'ui/dialog'
+    'ui/dialog',
+    'taoQtiItem/qtiCreator/helper/saveChanges'
 ], function (
     $,
     _,
     __,
     uuid,
     eventifier,
-    dialog
+    dialog,
+    saveChanges
 ) {
     'use strict';
 
@@ -66,23 +68,6 @@ define([
 
         // are we in the middle of the confirm process ?
         let asking = false;
-
-        /**
-         * Save the changes in the item creator
-         * @returns {Promise}
-         */
-        const saveChanges = () => new Promise((resolve, reject) => {
-            itemCreator
-                .on('saved.silent', () => {
-                    itemCreator.off('.silent');
-                    resolve();
-                })
-                .on('error.silent', err => {
-                    itemCreator.off('.silent');
-                    reject(err);
-                })
-                .trigger('save', true);
-        });
 
         /**
          * @typedef {Object} changeTracker
@@ -217,7 +202,7 @@ define([
                         }],
                         autoRender: true,
                         autoDestroy: true,
-                        onSaveBtn: () => saveChanges().then(resolve).catch(reject),
+                        onSaveBtn: () => saveChanges(itemCreator).then(resolve).catch(reject),
                         onDontsaveBtn: resolve,
                         onCancelBtn: () => confirmDlg.hide()
                     })
