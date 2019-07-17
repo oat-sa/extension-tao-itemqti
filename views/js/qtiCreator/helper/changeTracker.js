@@ -140,6 +140,10 @@ define([
 
                             this.confirmBefore('exit')
                                 .then(() => {
+                                    // @todo improve this:
+                                    // When clicking outside, and accepting the confirm dialog (one way or another),
+                                    // the tracker is disabled, and changes won't be detected anymore. So it could be
+                                    // an issue if the click was not triggering any move.
                                     this.uninstall();
                                     e.target.click();
                                 })
