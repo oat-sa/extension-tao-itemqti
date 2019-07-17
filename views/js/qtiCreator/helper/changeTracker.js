@@ -57,6 +57,8 @@ define([
      * @fires stylechange when the item's style changed
      */
     function changeTrackerFactory(container, itemCreator, wrapperSelector = 'body') {
+        let changeTracker;
+
         // internal namespace for global registered events
         const eventNS = `.ct-${uuid(8, 16)}`;
 
@@ -69,10 +71,22 @@ define([
         // are we in the middle of the confirm process ?
         let asking = false;
 
+        // take care of the change in item style
+        const onStyleChange = (e, detail) => {
+            if (!detail || !detail.initializing) {
+                styleChanges = true;
+                /**
+                 * Change in item style
+                 * @event stylechange
+                 */
+                changeTracker.trigger('stylechange');
+            }
+        };
+
         /**
          * @typedef {Object} changeTracker
          */
-        const changeTracker = eventifier({
+        changeTracker = eventifier({
             /**
              * Initialized the changed state
              * @returns {changeTracker}
@@ -95,16 +109,7 @@ define([
                 // track style changes
                 $(window.document)
                     .one('customcssloaded.styleeditor', () => this.init())
-                    .on(`stylechange${eventNS}`, (e, detail) => {
-                        if (!detail || !detail.initializing) {
-                            styleChanges = true;
-                            /**
-                             * Change in item style
-                             * @event stylechange
-                             */
-                            this.trigger('stylechange');
-                        }
-                    });
+                    .on('stylechange.qti-creator', onStyleChange);
 
                 // add a browser popup to prevent leaving the browser
                 $(window)
@@ -151,7 +156,9 @@ define([
              */
             uninstall() {
                 // remove all global handlers
-                $(window.document).off(eventNS);
+                $(window.document)
+                    .off(eventNS)
+                    .off('stylechange.qti-creator', onStyleChange);
                 $(window).off(eventNS);
                 $(wrapperSelector).off(eventNS);
                 itemCreator.off(eventNS);
@@ -204,7 +211,10 @@ define([
                         autoDestroy: true,
                         onSaveBtn: () => saveChanges(itemCreator).then(resolve).catch(reject),
                         onDontsaveBtn: resolve,
-                        onCancelBtn: () => confirmDlg.hide()
+                        onCancelBtn: () => {
+                            confirmDlg.hide();
+                            reject({cancel: true});
+                        }
                     })
                         .on('closed.modal', () => asking = false);
                 });

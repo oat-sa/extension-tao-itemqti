@@ -156,13 +156,13 @@ define([
         assert.expect(5);
         assert.equal(instance.hasChanged(), false, 'No change yet');
 
-        $(window.document).trigger('stylechange');
+        $(window.document).trigger('stylechange.qti-creator');
         assert.equal(instance.hasChanged(), true, 'Style has changed');
 
         $(window.document).trigger('customcssloaded.styleeditor');
         assert.equal(instance.hasChanged(), false, 'Style is loaded');
 
-        $(window.document).trigger('stylechange', [{initializing: true}]);
+        $(window.document).trigger('stylechange.qti-creator', [{initializing: true}]);
         assert.equal(instance.hasChanged(), false, 'Style not changed');
 
         instance.uninstall();
@@ -204,7 +204,7 @@ define([
 
             // click outside, cancel confirm
             .then(() => new Promise(resolve => {
-                $(window.document).trigger('stylechange');
+                $(window.document).trigger('stylechange.qti-creator');
                 assert.equal(instance.hasChanged(), true, 'Style has changed');
 
                 $fixture
@@ -258,7 +258,7 @@ define([
             // click outside, save and confirm
             .then(() => new Promise(resolve => {
                 instance.install();
-                $(window.document).trigger('stylechange');
+                $(window.document).trigger('stylechange.qti-creator');
                 assert.equal(instance.hasChanged(), true, 'Style changed');
 
                 $fixture
@@ -308,7 +308,7 @@ define([
             // cancel exit
             .then(() => {
                 instance.install();
-                $(window.document).trigger('stylechange');
+                $(window.document).trigger('stylechange.qti-creator');
                 assert.equal(instance.hasChanged(), true, 'Style has changed');
 
                 itemCreator
@@ -365,7 +365,7 @@ define([
             // save and exit
             .then(() => new Promise(resolve => {
                 instance.install();
-                $(window.document).trigger('stylechange');
+                $(window.document).trigger('stylechange.qti-creator');
                 assert.equal(instance.hasChanged(), true, 'Style changed');
 
                 itemCreator
@@ -408,7 +408,7 @@ define([
 
             // cancel preview
             .then(() => {
-                $(window.document).trigger('stylechange');
+                $(window.document).trigger('stylechange.qti-creator');
                 assert.equal(instance.hasChanged(), true, 'Style has changed');
 
                 itemCreator
