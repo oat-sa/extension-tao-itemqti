@@ -25,8 +25,6 @@
 module.exports = function(grunt) {
     'use strict';
 
-    const root = grunt.option('root');
-
     grunt.config.merge({
         bundle : {
             taoqtiitem : {
@@ -34,17 +32,13 @@ module.exports = function(grunt) {
                     extension : 'taoQtiItem',
                     dependencies : ['taoItems'],
                     allowExternal : ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
-                    paths : {
-                        'qtiCustomInteractionContext' :`${root}/taoQtiItem/views/js/runtime/qtiCustomInteractionContext`,
-                        'qtiInfoControlContext' : `${root}/taoQtiItem/views/js/runtime/qtiInfoControlContext`,
-                    },
+                    paths: require('./paths.json'),
                     bundles : [{
                         name : 'taoQtiItem',
                         default : true,
                         babel: true,
-
                         //we need to list the dependencies manually, since the
-                        //sources contains tests in subfoldesr
+                        //sources contains tests in subfolders
                         include : [
                             'taoQtiItem/mathRenderer/mathRenderer',
                             'taoQtiItem/portableElementRegistry/**/*',

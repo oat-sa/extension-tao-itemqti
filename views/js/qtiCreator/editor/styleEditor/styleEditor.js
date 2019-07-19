@@ -237,7 +237,6 @@ define([
 
         var fileName,
             link,
-            stylesheets = [],
             listEntry,
             parser,
             loadStylesheet = function(link, stylesheet, isLocal, isValid) {
@@ -254,10 +253,8 @@ define([
                         editLabelTxt: isInvalidLocal ? common.isInValidLocalTxt : common.editLabelTxt
                     };
 
-                stylesheets.push(tplData);
-
                 // create list entry
-                listEntry = $(cssTpl({ stylesheets: stylesheets }));
+                listEntry = $(cssTpl(tplData));
 
                 listEntry.data('stylesheetObj', stylesheet);
 

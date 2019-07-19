@@ -1,68 +1,74 @@
 {
-
     "name": "oat-sa/extension-tao-itemqti",
-    "description" : "extension to create QTI items",
-    "type" : "tao-extension",
-    "authors" : [
-		{
-		"name" : "Open Assessment Technologies S.A.",
-		"homepage" : "http://www.taotesting.com"
-		},
-		{
-		"name": "Jérôme Bogaerts",
-		"role": "Developer"
-		},
-		{
-		"name": "Joel Bout",
-		"role": "Developer"
-		},
-		{
-		"name": "Bertrand Chevrier",
-		"role": "Developer"
-		},
-		{
-		"name": "Lionel Lecaque",
-		"role": "Developer"
-		},
-		{
-		"name": "Patrick Plichart",
-		"role": "Developer"
-		},
-		{
-		"name": "Dieter Raber",
-		"role": "Developer"
-		},
-		{
-		"name": "Somsack Sipasseuth",
-		"role": "Developer"
-		}
-	],
-	"support": {
-		"forum": "http://forum.taotesting.com",
-		"issues": "http://forge.taotesting.com"
-	},
-	"keywords" : [
-		"tao",
-		"oat",
-		"QTI",
-		"computer-based-assessment"
-	],
-	"homepage" : "http://www.taotesting.com",
-	"license" : [
-	"GPL-2.0-only"
-	],
-    "extra" : {
-    	"tao-extension-name" : "taoQtiItem"
+    "description": "extension to create QTI items",
+    "type": "tao-extension",
+    "authors": [
+        {
+            "name": "Open Assessment Technologies S.A.",
+            "homepage": "http://www.taotesting.com"
+        },
+        {
+            "name": "Jérôme Bogaerts",
+            "role": "Developer"
+        },
+        {
+            "name": "Joel Bout",
+            "role": "Developer"
+        },
+        {
+            "name": "Bertrand Chevrier",
+            "role": "Developer"
+        },
+        {
+            "name": "Lionel Lecaque",
+            "role": "Developer"
+        },
+        {
+            "name": "Patrick Plichart",
+            "role": "Developer"
+        },
+        {
+            "name": "Dieter Raber",
+            "role": "Developer"
+        },
+        {
+            "name": "Somsack Sipasseuth",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "forum": "http://forum.taotesting.com",
+        "issues": "http://forge.taotesting.com"
     },
-    "minimum-stability" : "dev",
+    "keywords": [
+        "tao",
+        "oat",
+        "QTI",
+        "computer-based-assessment"
+    ],
+    "homepage": "http://www.taotesting.com",
+    "license": [
+        "GPL-2.0-only"
+    ],
+    "extra": {
+        "tao-extension-name": "taoQtiItem",
+        "npm-bridge": {
+            "arguments": [
+                "--prefix",
+                "views"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
     "require": {
-        "oat-sa/lib-tao-qti" : "~4.4.0",
+        "oat-sa/lib-tao-qti": "~4.4.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-		"naneau/semver" : "~0.0.7"
+        "oat-sa/composer-npm-bridge": "^0.3.0",
+        "naneau/semver": "~0.0.7"
     },
-    "autoload" : {
-        "psr-4" : {
-            "oat\\taoQtiItem\\" : ""
+    "autoload": {
+        "psr-4": {
+            "oat\\taoQtiItem\\": ""
         }
     }
 }

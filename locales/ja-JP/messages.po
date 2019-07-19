@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-06-21T09:29:16\n"
+"Project-Id-Version: TAO 3.3.0-sprint106\n"
+"PO-Revision-Date: 2019-07-19T09:39:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -189,10 +189,10 @@ msgstr "コンピュータを参照し、適切なファイルを選択します
 msgid "Browse..."
 msgstr "参照..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -348,11 +348,11 @@ msgstr "定義された幅"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "削除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "削除"
 
 msgid "Delete else statement"
 msgstr "その他ステートメントの削除"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "完了"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "完了"
 
 msgid "Download this stylesheet"
 msgstr "このスタイルシートをダウンロード"
@@ -612,10 +612,10 @@ msgstr "どのように数式を編集できるのでしょうか"
 msgid "identical pair already exists"
 msgstr "同一のペアがすでに存在しています"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別"
 
 msgid "identifier already taken"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "アイテムプロパティ"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "アイテムプロパティ"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "空欄にしてください"
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "アイテムを管理"
-
 #, tao-public
 msgid "Manage items"
+msgstr "アイテムを管理"
+
+msgid "Manage Items"
 msgstr "アイテムを管理"
 
 msgid "map response"
@@ -1177,10 +1177,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr "削除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "削除"
 
 msgid "Remove custom background color"
@@ -1689,10 +1689,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "取り消し"
 
-msgid "undo"
+msgid "Undo"
 msgstr "取り消し"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1739,9 +1739,6 @@ msgstr "語数"
 
 msgid "Would you like to replace the alt text"
 msgstr "代替えテキストを変更したいですか"
-
-msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
-msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""
