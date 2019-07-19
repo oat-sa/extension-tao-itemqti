@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-06-21T09:29:11\n"
+"Project-Id-Version: TAO 3.3.0-sprint106\n"
+"PO-Revision-Date: 2019-07-19T09:39:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -189,11 +189,11 @@ msgstr "Busque en el equipo y seleccione el archivo apropiado."
 msgid "Browse..."
 msgstr "Buscar..."
 
-msgid "cancel"
-msgstr "cancelar"
-
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "cancel"
+msgstr "cancelar"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -348,11 +348,11 @@ msgstr "Defina ancho"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eliminar"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eliminar"
 
 msgid "Delete else statement"
 msgstr "Eliminar otro estado"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "hecho"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "hecho"
 
 msgid "Download this stylesheet"
 msgstr "Descargar esta hoja de estilos"
@@ -612,11 +612,11 @@ msgstr "Cómo se debe editar la expresión matemática"
 msgid "identical pair already exists"
 msgstr "ya existe par idéntico"
 
-msgid "identifier"
-msgstr "identificador"
-
 msgid "Identifier"
 msgstr "Identificador"
+
+msgid "identifier"
+msgstr "identificador"
 
 msgid "identifier already taken"
 msgstr ""
@@ -720,11 +720,11 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
-msgstr "Propiedades del Elemento"
-
 msgid "Item properties"
 msgstr "Propiedades del elemento"
+
+msgid "Item Properties"
+msgstr "Propiedades del Elemento"
 
 msgid "Item width"
 msgstr "Ancho del elemento"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "dejar vacío"
@@ -794,12 +794,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Gestionar Elementos"
-
 #, tao-public
 msgid "Manage items"
 msgstr "Gestionar elementos"
+
+msgid "Manage Items"
+msgstr "Gestionar Elementos"
 
 msgid "map response"
 msgstr ""
@@ -1177,11 +1177,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Eliminar"
-
 msgid "remove"
 msgstr "eliminar"
+
+msgid "Remove"
+msgstr "Eliminar"
 
 msgid "Remove custom background color"
 msgstr "Eliminar color de fondo personalizado"
@@ -1689,11 +1689,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Deshacer"
-
 msgid "undo"
 msgstr "deshacer"
+
+msgid "Undo"
+msgstr "Deshacer"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1739,9 +1739,6 @@ msgstr "palabras"
 
 msgid "Would you like to replace the alt text"
 msgstr "Te gustaría reemplazar el texto alternativo"
-
-msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
-msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""
