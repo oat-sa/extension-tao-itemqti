@@ -35,8 +35,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/graphicScoreMappingForm',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/deleter',
-    'ui/tooltipster'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, answerStateHelper, grahicScorePopup, mappingFormTpl, formElement, deleter, tooltipster){
+    'ui/tooltip'
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, answerStateHelper, grahicScorePopup, mappingFormTpl, formElement, deleter, tooltip){
 
     'use strict';
 
@@ -171,8 +171,8 @@ define([
 
         //set up ui components used by the form
         deleter($container);
-        tooltipster($container);
-        
+        tooltip.lookup($container);
+
         interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
             $('.mapping-editor', $container).hide();
         });
