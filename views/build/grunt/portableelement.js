@@ -66,9 +66,10 @@ module.exports = function (grunt) {
                     'taoItems': root + '/taoItems/views/js',
                     'taoItemsCss': root + '/taoItems/views/css',
                     'taoQtiItem': root + '/taoQtiItem/views/js',
+                    'taoQtiItemCss': root + '/taoQtiItem/views/css',
                     'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
                     'qtiInfoControlContext': root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext'
-                }, amdConfig.paths)
+                }, amdConfig.paths, require('./paths.json'))
             }
         }
     });
