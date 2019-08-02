@@ -15,44 +15,57 @@ define([
         var response = interaction.getResponseDeclaration();
 
         var corrects  = _.values(response.getCorrect());
-       
-        commonRenderer.resetResponse(interaction); 
+
+        var bodyLength = interaction.bdy.bdy.length;
+        var numberOfGaps = Object.keys(interaction.bdy.elements).length;
+        var instruction;
+
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
-        
+
         //add a specific instruction
-        instructionMgr.appendInstruction(interaction, __('Please fill the gap with the correct choices.'));
-       
+        if (bodyLength === 0) { // no method?
+            instruction = __('This interaction has no text defined in question mode.');
+        }
+        else if (numberOfGaps === 0) {
+            instruction = __('Please add one or more gaps to the text in question mode.');
+        }
+        else {
+            instruction = __('Please fill the gap with the correct choices.');
+        }
+        instructionMgr.appendInstruction(interaction, instruction);
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
-   
+
         commonRenderer.setResponse(
-            interaction, 
+            interaction,
             PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
         );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-           var type = response.attr('cardinality') === 'single' ? 'base' : 'list';
-           if(data.response && data.response[type]){
+            var type = response.attr('cardinality') === 'single' ? 'base' : 'list';
+            if(data.response && data.response[type]){
                 if(type === 'base'){
                     response.setCorrect(data.response.base.directedPair.join(' '));
                 } else {
-                    response.setCorrect(   
+                    response.setCorrect(
                         _.map(data.response.list.directedPair, function(pair){
                             return pair.join(' ');
                         })
-                    ); 
+                    );
                 }
-           }
+            }
         });
 
     }, function(){
         var widget = this.widget;
         var interaction = this.widget.element;
-        
+
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');
 
-        commonRenderer.resetResponse(interaction); 
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
         instructionMgr.removeInstructions(interaction);
