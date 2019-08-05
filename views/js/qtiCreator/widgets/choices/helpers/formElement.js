@@ -8,9 +8,21 @@ define(['jquery'], function($) {
                 interaction = choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
+            var _toggleVisibility = function(show) {
+                if (show) {
+                    $shuffleToggle.show();
+                } else {
+                    $shuffleToggle.hide();
+                }
+                $('.qti-item').trigger('toolbarchange', {
+                    callee: 'formElementHelper'
+                });
+            };
+
             $shuffleToggle.off('mousedown').on('mousedown', function(e) {
-                e.stopPropagation();
                 var $icon = $(this).children();
+                e.stopPropagation();
+
                 if ($icon.length === 0) {
                     $icon = $(this);
                 }
@@ -22,17 +34,6 @@ define(['jquery'], function($) {
                     choice.attr('fixed', false);
                 }
             });
-
-            var _toggleVisibility = function(show) {
-                if (show) {
-                    $shuffleToggle.show();
-                } else {
-                    $shuffleToggle.hide();
-                }
-                $('.qti-item').trigger('toolbarchange', {
-                    callee: 'formElementHelper'
-                });
-            };
 
             _toggleVisibility(interaction.attr('shuffle'));
 
