@@ -25,7 +25,7 @@ define(['jquery'], function($) {
                 interaction = choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
-            var _toggleVisibility = function(show) {
+            var toggleVisibility = function(show) {
                 if (show) {
                     $shuffleToggle.show();
                 } else {
@@ -52,12 +52,12 @@ define(['jquery'], function($) {
                 }
             });
 
-            _toggleVisibility(interaction.attr('shuffle'));
+            toggleVisibility(interaction.attr('shuffle'));
 
             //listen to interaction property change
             widget.on('attributeChange', function(data) {
                 if (data.element.serial === interaction.serial && data.key === 'shuffle') {
-                    _toggleVisibility(data.value);
+                    toggleVisibility(data.value);
                 }
             });
         },
