@@ -16,15 +16,21 @@ define([
 
         var corrects  = _.values(response.getCorrect());
 
-        var bodyLength = interaction.bdy.bdy.length;
-        var numberOfGaps = Object.keys(interaction.bdy.elements).length;
         var instruction;
+        var bodyLength = 0;
+        var numberOfGaps = 0;
+        if (interaction && interaction.bdy && interaction.bdy.bdy) {
+            bodyLength = interaction.bdy.bdy.length;
+        }
+        if (interaction && interaction.bdy && interaction.bdy.elements) {
+            numberOfGaps = Object.keys(interaction.bdy.elements).length;
+        }
 
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
         //add a specific instruction
-        if (bodyLength === 0) { // no method?
+        if (bodyLength === 0) {
             instruction = __('This interaction has no text defined in question mode.');
         }
         else if (numberOfGaps === 0) {
