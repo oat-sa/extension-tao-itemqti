@@ -32,8 +32,7 @@ define([
     }
 
     // Prevent the AJAX mocks to pollute the logs
-    $.mockjaxSettings.logger = window.console; // was null
-    $.mockjaxSettings.logging = 4; //  == debug
+    $.mockjaxSettings.logger = null;
     $.mockjaxSettings.responseTime = 1;
 
     // Mock the item data query
@@ -50,8 +49,8 @@ define([
 
     QUnit.module('API');
 
-    QUnit.test('module', assert => {
-        const fixture = '#fixture-api';
+    QUnit.test('module', function(assert) {
+        var fixture = '#fixture-api';
         assert.expect(3);
         assert.equal(typeof itemAuthoringFactory, 'function', 'The module exposes a function');
         assert.equal(typeof getInstance(fixture), 'object', 'The factory produces an object');
@@ -61,16 +60,19 @@ define([
     QUnit.cases.init([
         {title: 'getItemCreator'},
         {title: 'getAreaBroker'}
-    ]).test('component API ', (data, assert) => {
-        const instance = getInstance('#fixture-api');
+    ])
+    .test('component API ', function(data, assert) {
+        var instance = getInstance('#fixture-api');
         assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', `The instance exposes a "${data.title}" function`);
     });
 
-    QUnit.test('visual', assert => {
-        const ready = assert.async();
-        const $container = $('#visual-test');
-        const config = {
+    QUnit.module('interact');
+
+    QUnit.test('create a choice (using button)', function(assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var config = {
             properties: {
                 uri: 'http://item#rdf-123',
                 label: 'Item',
@@ -78,15 +80,66 @@ define([
                 itemDataUrl: '//mockItemEndpoint'
             }
         };
+        var instance;
 
-        assert.expect(2);
+        assert.expect(8);
+
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        const instance = itemAuthoringFactory($container, config)
+        instance = itemAuthoringFactory($container, config)
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', () => {
+            .on('ready', function() {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $choiceArea = $('.choice-area', $interaction);
+                var $addChoiceBtn;
+
+                assert.equal($interaction.length, 1, 'The interaction element is rendered');
+
+                // make interaction active
+                $interaction.click();
+
+                $addChoiceBtn = $('[data-role="add-option"]', $choiceArea);
+                assert.equal($addChoiceBtn.length, 1, 'The interaction contains 1 add choice button');
+
+                assert.equal($('.qti-choice', $choiceArea).length, 10, 'There are 10 choices in the item initially');
+                $addChoiceBtn.click();
+                assert.equal($('.qti-choice', $choiceArea).length, 11, 'There are 11 choices in the item');
+                $addChoiceBtn.click();
+                assert.equal($('.qti-choice', $choiceArea).length, 12, 'There are 12 choices in the item');
+
+                assert.equal($('.qti-choice', $choiceArea).last().children('div').text(), 'choice #2', 'The last added item got the right generated label');
+
+                instance.destroy();
+            })
+            .after('destroy', function() {
+                done();
+            });
+    });
+
+    QUnit.test('visual', function(assert) {
+        var ready = assert.async();
+        var $container = $('#visual-test');
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemEndpoint'
+            }
+        };
+        var instance;
+
+        assert.expect(2);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = itemAuthoringFactory($container, config)
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function() {
                 ready();
             });
     });

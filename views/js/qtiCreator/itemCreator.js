@@ -142,7 +142,7 @@ define([
         //factor the new itemCreator
         itemCreator = eventifier({
 
-        //lifecycle
+            //lifecycle
 
             /**
              * Initialize the item creator:
