@@ -15,6 +15,9 @@
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
+/**
+ * @author Martin Nicholson <martin@taotesting.com>
+ */
 
 define([
     'jquery',
@@ -117,6 +120,75 @@ define([
                 done();
             });
     });
+
+    QUnit.test('delete a choice', function(assert) {
+        var done = assert.async();
+        var $container = $('#visual-test');
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemEndpoint'
+            }
+        };
+        var instance;
+
+        //assert.expect(10);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = itemAuthoringFactory($container, config)
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function() {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $choiceArea = $('.choice-area', $interaction);
+
+                function clickDelete() {
+                    $('[data-role="delete"]', $choiceArea).eq(0).trigger('mousedown');
+                }
+
+                assert.equal($interaction.length, 1, 'The interaction element is rendered');
+
+                // make interaction active
+                $interaction.click();
+
+                assert.equal($('.qti-choice', $choiceArea).length, 10, 'There are 10 choices in the item initially');
+                //clickDelete();
+                // assert.equal($('.qti-choice', $choiceArea).length, 9, 'There are 9 choices in the item');
+                // assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'math', 'The 2nd choice is now in 1st position');
+                // clickDelete();
+                // assert.equal($('.qti-choice', $choiceArea).length, 8, 'There are 8 choices in the item');
+                // clickDelete();
+                // clickDelete();
+                // clickDelete();
+                // clickDelete();
+                // clickDelete();
+                // clickDelete();
+                // clickDelete();
+                // assert.equal($('.qti-choice', $choiceArea).length, 1, 'There are 1 choices in the item');
+                // clickDelete();
+                // assert.equal($('.qti-choice', $choiceArea).length, 1, 'There are 1 choices in the item - last cannot be deleted');
+                // assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'select box', 'The final choice is now in 1st position');
+
+                instance.destroy();
+            })
+            .after('destroy', function() {
+                done();
+            });
+    });
+
+    /* TODO:
+     * Test for deleting gaps (with button)
+     * Test for deleting gaps (with backspace)
+     * Test for converting a gap to a choice
+     * Test for prompt field
+     * Test for textarea
+     * Test for save item
+     * Test for state change when clicking 'Done'
+     */
 
     QUnit.test('visual', function(assert) {
         var ready = assert.async();
