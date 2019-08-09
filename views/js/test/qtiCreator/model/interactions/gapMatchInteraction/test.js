@@ -134,7 +134,7 @@ define([
         };
         var instance;
 
-        //assert.expect(10);
+        assert.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -143,37 +143,49 @@ define([
                 assert.equal(this, instance, 'The instance has been initialized');
             })
             .on('ready', function() {
-                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
-                var $choiceArea = $('.choice-area', $interaction);
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]');
+                var $choiceArea = $('.choice-area');
 
-                function clickDelete() {
+                function deleteFirstChoice() {
                     $('[data-role="delete"]', $choiceArea).eq(0).trigger('mousedown');
                 }
-
+                
                 assert.equal($interaction.length, 1, 'The interaction element is rendered');
 
                 // make interaction active
                 $interaction.click();
 
                 assert.equal($('.qti-choice', $choiceArea).length, 10, 'There are 10 choices in the item initially');
-                //clickDelete();
-                // assert.equal($('.qti-choice', $choiceArea).length, 9, 'There are 9 choices in the item');
-                // assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'math', 'The 2nd choice is now in 1st position');
-                // clickDelete();
-                // assert.equal($('.qti-choice', $choiceArea).length, 8, 'There are 8 choices in the item');
-                // clickDelete();
-                // clickDelete();
-                // clickDelete();
-                // clickDelete();
-                // clickDelete();
-                // clickDelete();
-                // clickDelete();
-                // assert.equal($('.qti-choice', $choiceArea).length, 1, 'There are 1 choices in the item');
-                // clickDelete();
-                // assert.equal($('.qti-choice', $choiceArea).length, 1, 'There are 1 choices in the item - last cannot be deleted');
-                // assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'select box', 'The final choice is now in 1st position');
+                
+                // wait till editor loads
+                setTimeout(() => {
+                    deleteFirstChoice();
+                    
+                    assert.equal($('.qti-choice.edit-active', $choiceArea).length, 9, 'There are 9 choices in the item');
+                    assert.equal($.trim($('.qti-choice.edit-active', $choiceArea).first().children('div').text()), 'math', 'The 2nd choice is now in 1st position');
+                    
+                    deleteFirstChoice();
+                    
+                    assert.equal($('.qti-choice.edit-active', $choiceArea).length, 8, 'There are 8 choices in the item');
+                    
+                    // Leave only one choice
+                    deleteFirstChoice();
+                    deleteFirstChoice();
+                    deleteFirstChoice();
+                    deleteFirstChoice();
+                    deleteFirstChoice();
+                    deleteFirstChoice();
+                    deleteFirstChoice();
 
-                instance.destroy();
+                    assert.equal($('.qti-choice.edit-active', $choiceArea).length, 1, 'There are 1 choices in the item');
+                    
+                    $('[data-role="delete"]', $choiceArea).eq(0).trigger('mousedown');
+                    
+                    assert.equal($('.qti-choice', $choiceArea).length, 1, 'There are 1 choices in the item - last cannot be deleted');
+                    assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'select box', 'The final choice is now in 1st position');
+                    
+                    instance.destroy();
+                }, 0);
             })
             .after('destroy', function() {
                 done();
