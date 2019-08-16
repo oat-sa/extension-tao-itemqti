@@ -63,6 +63,7 @@ define([
      * @param {Object} config.properties.uri - The URI of the item to author
      * @param {Object} config.properties.label - The displayed label
      * @param {Object} config.properties.baseUrl - The base URL to retrieve the assets
+     * @param {String} config.properties.itemDataUrl - URL for getting item data (passed through to itemCreator)
      * @param {Object[]} [config.plugins] - Additional plugins to load
      * @returns {component}
      * @fires ready - When the component is ready to work

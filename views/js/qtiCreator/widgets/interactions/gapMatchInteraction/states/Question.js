@@ -50,13 +50,13 @@ define([
 ){
     'use strict';
 
-    var GapMatchInteractionStateQuestion = stateFactory.extend(Question, function(){
+    var GapMatchInteractionStateQuestion = stateFactory.extend(Question, function init(){
         this.buildEditor();
         //ensure that the cardinality of the interaction response is consistent with thte number of gaps
         this.syncCardinality();
         this.preventSingleChoiceDeletion();
 
-    }, function(){
+    }, function exit(){
         this.destroyEditor();
         this.widget.offEvents('question');
     });

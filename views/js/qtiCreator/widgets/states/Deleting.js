@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
 ], function(_, $, stateFactory, deletingHelper, gridUnits, gridHelper, contentHelper){
 
-    var DeletingState = stateFactory.create('deleting', function(){
+    var DeletingState = stateFactory.create('deleting', function init(){
 
         var element = this.widget.element;
 
@@ -36,7 +36,7 @@ define([
             this.$item.trigger('resize.qti-widget');
         }
 
-    }, function(){
+    }, function exit(){
 
         this.showWidget();
         this.widget.element.data('deleting', false);
