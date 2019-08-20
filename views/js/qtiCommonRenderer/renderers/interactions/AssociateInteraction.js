@@ -211,6 +211,89 @@ define([
         }
     };
 
+    var scrollObserverFactory = function scrollObserverFactory($scrollContainer) {
+        var currentDraggable = null;
+        var beforeY = 0;
+        var beforeX = 0;
+        var afterY = 0;
+        var afterX = 0;
+
+        // reset the scroll observer context
+        function resetScrollObserver() {
+            currentDraggable = null;
+            beforeY = 0;
+            beforeX = 0;
+            afterY = 0;
+            afterX = 0;
+        }
+
+        function onScrollCb() {
+            var x, y;
+            if (currentDraggable) {
+                beforeY = afterY;
+                beforeX = afterX;
+
+                if (afterY === 0 && beforeY === 0)
+                    beforeY = this.scrollTop;
+                if (afterX === 0 && beforeX === 0)
+                    beforeX = this.scrollLeft;
+
+                afterY = this.scrollTop;
+                afterX = this.scrollLeft;
+
+                y = (parseInt(currentDraggable.getAttribute('data-y'), 10) || 0) + (afterY - beforeY);
+                x = (parseInt(currentDraggable.getAttribute('data-x'), 10) || 0) + (afterX - beforeX);
+
+                // translate the element
+                currentDraggable.style.webkitTransform = currentDraggable.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+                // update the position attributes
+                currentDraggable.setAttribute('data-x', x);
+                currentDraggable.setAttribute('data-y', y);
+            }
+        }
+
+        // find the scroll container within the parents if any
+        $scrollContainer.parents().each(function findScrollContainer() {
+            var $el = $(this);
+            var ovf = $el.css('overflow');
+            if (ovf !== 'hidden' && ovf !== 'visible') {
+                $scrollContainer = $el;
+                return false;
+            }
+        });
+
+        // make sure the drop zones will follow the scroll
+        interact.dynamicDrop(true);
+
+        return {
+            /**
+             * Gets the scroll container
+             * @returns {jQuery}
+             */
+            getScrollContainer: function getScrollContainer() {
+                return $scrollContainer;
+            },
+
+            /**
+             * Initializes the scroll observer while dragging a choice
+             * @param {HTMLElement|jQuery} draggedElement
+             */
+            start: function start(draggedElement) {
+                resetScrollObserver();
+                currentDraggable = draggedElement instanceof $ ? draggedElement.get(0) : draggedElement;
+                $scrollContainer.on('scroll.scrollObserver', _.throttle(onScrollCb, 50));
+            },
+
+            /**
+             * Tears down the the scroll observer once the dragging is done
+             */
+            stop: function stop() {
+                $scrollContainer.off('.scrollObserver');
+                resetScrollObserver();
+            }
+        };
+    };
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -230,6 +313,7 @@ define([
             var $resultArea = $container.find('.result-area');
 
             var $activeChoice = null;
+            var scrollObserver = null;
 
             var isDragAndDropEnabled;
             var dragOptions;
@@ -465,9 +549,12 @@ define([
             }
 
             if (isDragAndDropEnabled) {
+                scrollObserver = scrollObserverFactory($container);
                 dragOptions = {
                     inertia: false,
-                    autoScroll: true,
+                    autoScroll: {
+                        container: scrollObserver.getScrollContainer().get(0)
+                    },
                     restrict: {
                         restriction: ".qti-interaction",
                         endOnly: false,
@@ -486,6 +573,8 @@ define([
                         scale = interactUtils.calculateScale(e.target);
                         scaleX = scale[0];
                         scaleY = scale[1];
+
+                        scrollObserver.start($activeChoice);
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
@@ -497,6 +586,8 @@ define([
 
                         interactUtils.restoreOriginalPosition($target);
                         interactUtils.iFrameDragFixOff();
+
+                        scrollObserver.stop();
                     }
                 }, dragOptions)).styleCursor(false);
 
@@ -512,6 +603,8 @@ define([
                         scale = interactUtils.calculateScale(e.target);
                         scaleX = scale[0];
                         scaleY = scale[1];
+
+                        scrollObserver.start($activeChoice);
                     },
                     onmove: function (e) {
                         interactUtils.moveElement(e.target, e.dx/scaleX, e.dy/scaleY);
@@ -528,6 +621,8 @@ define([
                         _resetSelection();
 
                         interactUtils.iFrameDragFixOff();
+
+                        scrollObserver.stop();
                     }
                 }, dragOptions)).styleCursor(false);
 
