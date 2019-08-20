@@ -1,7 +1,7 @@
 <div class="mini-tlb" data-edit="answer" data-for="{{choiceSerial}}">
     <label class="tlb-button right" title="Score of this answer" data-edit="map">
         <input value="{{score}}" 
-       title="Score of this answer" 
+       title="{{__ 'The value of this field must be numeric'}}"
        type="text" 
        data-for="{{choiceIdentifier}}" 
        name="score" 

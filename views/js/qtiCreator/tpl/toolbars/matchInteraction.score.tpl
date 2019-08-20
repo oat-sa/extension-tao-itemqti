@@ -1,5 +1,5 @@
 <input value="{{score}}" 
-       title="Score of this answer" 
+       title="{{__ 'The value of this field must be numeric'}}"
        type="text" 
        data-for="{{choiceIdentifier}}" 
        name="score" 
