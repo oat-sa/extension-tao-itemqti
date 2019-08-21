@@ -143,7 +143,7 @@ define([
             var $hottext = $('[data-serial="' + choice.serial + '"]', $container);
             if($hottext.length){
 
-                $score = $("<input type='text' name='" + id + "' class='score' title='" + __('Score value') + "' data-validate='$numeric' data-validate-option='$allowEmpty; $event(type=keyup)' />");
+                $score = $("<input type='text' name='" + id + "' class='score' data-validate='$numeric' data-validate-option='$allowEmpty; $event(type=keyup)' />");
                 $score.val(typeof mapEntries[choice.id()] !== 'undefined' ? mapEntries[choice.id()] : '');
                 $hottext.append($score);
 
