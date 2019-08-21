@@ -1,4 +1,4 @@
-<input value="{{score}}" cd ..
+<input value="{{score}}"
        type="text" 
        data-for="{{choiceIdentifier}}" 
        name="score" 
