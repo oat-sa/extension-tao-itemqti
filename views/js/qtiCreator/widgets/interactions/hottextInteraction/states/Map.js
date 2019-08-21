@@ -30,8 +30,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function($, _, __, stateFactory, Map, commonRenderer, answerStateHelper, instructionMgr, formElement, placeholder, PciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'tpl!taoQtiItem/qtiCreator/tpl/interactions/hottextInteraction.score'
+], function($, _, __, stateFactory, Map, commonRenderer, answerStateHelper, instructionMgr, formElement, placeholder, PciResponse, scoreTpl){
     'use strict';
 
     /**
@@ -138,15 +139,15 @@ define([
         });
 
         _.forEach(interaction.getChoices(), function(choice){
-            var $score;
             var id = choice.serial + '-score';
+            var inputVal = typeof mapEntries[choice.id()] !== 'undefined' ? mapEntries[choice.id()] : '';
             var $hottext = $('[data-serial="' + choice.serial + '"]', $container);
+            
             if($hottext.length){
-
-                $score = $("<input type='text' name='" + id + "' class='score' data-validate='$numeric' data-validate-option='$allowEmpty; $event(type=keyup)' />");
-                $score.val(typeof mapEntries[choice.id()] !== 'undefined' ? mapEntries[choice.id()] : '');
-                $hottext.append($score);
-
+                $hottext.append(scoreTpl({
+                     id : id,
+                     value : inputVal
+                }));
 
                 callbacks[id] = function(res, value){
                     if(value === ''){
