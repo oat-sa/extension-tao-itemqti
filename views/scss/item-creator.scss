@@ -52,7 +52,6 @@ img.dragging.ui-draggable-dragging {
     padding: 0;
     margin-bottom: 5px;
     overflow: hidden;
-    z-index: 5000;
     @include font-size(13, true);
 
     border: 1px $itemCreatorMiniTlbBorderColor solid !important;
