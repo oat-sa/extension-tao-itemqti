@@ -424,6 +424,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('19.10.0');
         }
 
-        $this->skip('19.10.0', '20.4.4');
+        $this->skip('19.10.0', '20.4.5');
     }
 }

@@ -181,7 +181,7 @@ define([
                 restrict: {
                     restriction: ".qti-interaction",
                     endOnly: false,
-                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                    elementRect: {top: 0, left: 1, bottom: 1, right: 1}
                 }
             };
 
