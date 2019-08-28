@@ -424,9 +424,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('19.10.0');
         }
 
-        $this->skip('19.10.0', '20.4.4');
+        $this->skip('19.10.0', '20.4.5');
 
-        if ($this->isVersion('20.4.4')) {
+        if ($this->isVersion('20.4.5')) {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
             $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
             $clientLibRegistry = ClientLibRegistry::getRegistry();
@@ -438,6 +438,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('21.0.0');
         }
 
-        $this->skip('21.0.0', '21.3.6');
+        $this->skip('21.0.0', '21.3.7');
     }
 }
