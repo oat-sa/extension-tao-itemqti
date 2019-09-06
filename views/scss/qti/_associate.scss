@@ -110,9 +110,8 @@
             }
         }
         .filled {
-            cursor: pointer;
             &:hover{
-                background: mix(#fff, $info, 95%);
+                @extend %selectableHover;
             }
         }
     }

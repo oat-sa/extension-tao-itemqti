@@ -7,6 +7,7 @@
             width: 30px
         }
         td, th {
+            color: $textColor;
             // table cells and headings within the match interaction
             &:not(.qti-choice){
                 position: relative;
