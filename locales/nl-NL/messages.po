@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint106\n"
-"PO-Revision-Date: 2019-07-19T09:39:25\n"
+"Project-Id-Version: TAO 3.3.0-sprint110\n"
+"PO-Revision-Date: 2019-09-13T08:42:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -231,11 +231,11 @@ msgstr "Keuze interactie"
 msgid "Choice Properties"
 msgstr "Keuze eigenschappen"
 
-msgid "Choices"
-msgstr "Keuzes"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Keuzes"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
 
-msgid "Default"
-msgstr "Standaard"
-
 msgid "default"
 msgstr "standaard"
+
+msgid "Default"
+msgstr "Standaard"
 
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Itemeigenschappen"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Itemeigenschappen"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -1006,6 +1006,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "Platte tekst"
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 ""
@@ -1644,6 +1647,9 @@ msgstr "Er was een probleem bij het downloaden van uw CSS. Probeert u het a.u.b.
 msgid "this identifier is already in use"
 msgstr "Deze naam is al in gebruik"
 
+msgid "This interaction has no text defined in question mode."
+msgstr ""
+
 msgid "This is not a valid answer"
 msgstr "Dit is geen geldig antwoord"
 
@@ -1689,11 +1695,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "ongedaan maken"
-
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "undo"
+msgstr "ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
