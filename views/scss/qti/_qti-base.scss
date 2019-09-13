@@ -12,24 +12,29 @@ $mainContainer : '.qti-item';
 
 %selectableHover {
     background: whiten($info, .95) !important;
+    color: darken($textColor, .95) !important;
     cursor: pointer !important;
 }
 %activeHover {
     background: whiten($info, .91) !important;
+    color: darken($textColor, .91) !important;
 }
 
 %dragged {
     z-index:10;
     background: whiten($info, .91) !important;
+    color: darken($textColor, .91) !important;
 }
 
 %dropzone {
     background: whiten($info, .80) !important;
+    color: darken($textColor, .80) !important;
     border: 1px $uiClickableHoverBg dashed !important;
 }
 
 %droppable {
     background: whiten($info, .80) !important;
+    color: darken($textColor, .80) !important;
 }
 
 %qtiModalFeedback {
