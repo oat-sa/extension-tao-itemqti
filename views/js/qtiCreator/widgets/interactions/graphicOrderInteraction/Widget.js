@@ -83,9 +83,9 @@ define([
             var $orderList  = $('ul.block-listing', this.$original);
 
             //calculate the number of orderer to display
-            if(max > 0 && max < size){
+            if(max > 0 && max <= size){
                 size = max;
-            } else if(min > 0 && min < size){
+            } else if(min > 0 && min <= size){
                size = min;
             }
     
