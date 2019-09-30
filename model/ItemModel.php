@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\model;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\service\ServiceFileStorage;
 use oat\taoItems\model\search\IndexableItemModel;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
@@ -31,6 +32,7 @@ use \common_ext_ExtensionsManager;
 use \core_kernel_classes_Resource;
 use \common_Logger;
 use taoItems_models_classes_itemModel;
+use taoItems_models_classes_ItemCompiler;
 
 /**
  * Short description of class oat\taoQtiItem\model\ItemModel
@@ -153,5 +155,18 @@ class ItemModel extends ConfigurableService
     public function getItemContentTokenizer()
     {
         return new QtiItemContentTokenizer();
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $resource
+     * @param ServiceFileStorage $storage
+     * @return taoItems_models_classes_ItemCompiler
+     */
+    public function getItemCompiler(core_kernel_classes_Resource $resource, ServiceFileStorage $storage)
+    {
+        $class = $this->getCompilerClass();
+        $compiler = new $class($resource, $storage);
+        $compiler->setServiceLocator($this->getServiceLocator());
+        return $compiler;
     }
 }

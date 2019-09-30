@@ -20,6 +20,8 @@
 
 namespace oat\taoQtiItem\model;
 
+use common_Exception;
+use common_exception_Error;
 use common_report_Report;
 use core_kernel_classes_Resource;
 use oat\oatbox\filesystem\Directory;
@@ -28,6 +30,7 @@ use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
+use tao_models_classes_FileNotFoundException;
 use tao_models_classes_service_ConstantParameter;
 use tao_models_classes_service_ServiceCall;
 use tao_models_classes_service_StorageDirectory;
@@ -150,7 +153,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     )
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
-        $qtiService = Service::singleton();
+        $qtiService = $this->getQtiService();
 
         //copy item.xml file to private directory
         $itemDir = $itemService->getItemDirectory($item, $language);
@@ -215,22 +218,42 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         }
     }
 
+    protected function getQtiService()
+    {
+        return Service::singleton();
+    }
+
+    /**
+     * @param $qtiItem
+     * @param $publicDirectory
+     * @return AssetParser
+     */
+    protected function getAssetParser($qtiItem, $publicDirectory)
+    {
+        return new AssetParser($qtiItem, $publicDirectory);
+    }
+
     /**
      * @param core_kernel_classes_Resource $item
-     * @param string $lang
+     * @param $lang
      * @param Directory $publicDirectory
-     * @return qti\Item
+     * @return Item
+     * @throws XIncludeException
+     * @throws tao_models_classes_FileNotFoundException
+     * @throws common_Exception
+     * @throws common_exception_Error
+     * @throws qti\exception\QtiModelException
      * @throws taoItems_models_classes_CompilationFailedException
      */
     protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, Directory $publicDirectory)
     {
-        $qtiItem  = Service::singleton()->getDataItemByRdfItem($item, $lang);
+        $qtiItem  = $this->getQtiService()->getDataItemByRdfItem($item, $lang);
 
         if(is_null($qtiItem)){
             throw new taoItems_models_classes_CompilationFailedException(__('Unable to retrieve item : ' . $item->getLabel()));
         }
 
-        $assetParser = new AssetParser($qtiItem, $publicDirectory);
+        $assetParser = $this->getAssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);
@@ -294,7 +317,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');
         }
 
-        $qtiParser = new Parser($dom->saveXML());
+        $qtiParser = $this->getParser($dom->saveXML());
         $assetRetrievedQtiItem =  $qtiParser->load();
 
          //loadxinclude
@@ -302,6 +325,16 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $xincludeLoader->load(false);
 
         return $assetRetrievedQtiItem;
+    }
+
+    /**
+     * @param string $source
+     * @return Parser
+     * @throws common_Exception
+     * @throws common_exception_Error
+     */
+    protected function getParser($source) {
+        return new Parser($source);
     }
 
     /**

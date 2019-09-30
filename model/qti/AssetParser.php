@@ -108,11 +108,16 @@ class AssetParser
         return $this->assets;
     }
 
+    protected function getItem()
+    {
+        return $this->item;
+    }
+
     /**
      * Lookup and extract assets from IMG elements
      * @param Element $element container of the target element
      */
-    private function extractImg(Element $element){
+    protected function extractImg(Element $element){
         if($element instanceof Container){
             foreach($element->getElements('oat\taoQtiItem\model\qti\Img') as $img){
                 $this->addAsset('img', $img->attr('src'));
