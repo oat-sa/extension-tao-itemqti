@@ -46,10 +46,8 @@ msgstr "Variantas privalo būti pasirinktas"
 msgid "A human interpretation of the variable's value."
 msgstr "Žmogiška kintamojo reikšmės interpretacija."
 
-msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
+msgid " QTI component is not supported. The system returned the following error: %s\n"
 msgstr "QTI komponent nėra palaikomas. Sistema gražino šią klaidą: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Rubrikos blokas atpažįsta dalį assessmentItem - itemBody, kuris atstovauja instrukcijas vienam ar daugiau veiksmų, kurie atvaizduoja elementą. Nors rubrikos blokai yra numatyti simpleBlocks, jie neturi turėti jokių užduočių."
@@ -130,9 +128,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Netikėta klaida įvyko IMS QTI Elemento Paketo importavimo metu. Sistema gražino šią klaidą: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Netikėta klaida įvyko QTI Elemento importavimo metu. Sistema gražino šią klaidą: \"%s\n"
-" "
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Įvyko netikėta klaida importuojant IMS QTI Paketą su identifikatoriumi."
@@ -381,8 +377,8 @@ msgstr "Rodyti variantus horizontaliai arba vertikaliai"
 msgid "Divide"
 msgstr "Dalinti"
 
-msgid "Don\'t save"
-msgstr ""
+msgid "Don't save"
+msgstr "Neišsaugoti"
 
 msgid "Done"
 msgstr "Atlikta"
@@ -796,7 +792,7 @@ msgstr "Mažiau negu arba lygu"
 msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr "Klaidingas XML[%s]:\n"
-"%1"
+"%s"
 
 #, tao-public
 msgid "Manage items"
@@ -975,9 +971,7 @@ msgid "one association pair"
 msgstr "vienas ryšys per porą"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Vienas ar daugiau QTI komponentų nėra palaikomas sistemos. Sistema gražino šią klaidą: %s\n"
-""
 
 msgid "Order"
 msgstr "Eiliškumas"
@@ -1016,7 +1010,6 @@ msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
@@ -1596,7 +1589,7 @@ msgid "The purpose for which the rubric is intended to be used. As a reading pas
 msgstr "Tikslas dėl kurio rubriką turi būti naudojama. Pavyzdžiui, kaip skaitymui skirta ištrauka keliems elementams arba instrukcijos pasirinktai sekcijai."
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
-msgstr "QTI klasė \"%1$s\" esanti \"%1$s\" eilutėje yra nepalaikoma."
+msgstr "QTI klasė \"%1$s\" esanti \"%2$d\" eilutėje yra nepalaikoma."
 
 msgid "The Response Processing Template \"%s\" is not supported."
 msgstr "Atsakymo Apdorojimo Šablonas \"%s\" yra nepalaikomas."
