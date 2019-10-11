@@ -4,7 +4,7 @@ namespace oat\taoQtiItem\test\unit\model\Export\Extractor\Strategy;
 
 use oat\taoQtiItem\model\Export\Extractor\HashEntry;
 use oat\taoQtiItem\model\Export\Extractor\Strategy\DefaultStrategy;
-use PHPUnit\Framework\TestCase;
+use oat\generis\test\TestCase;
 
 class DefaultStrategyTest extends TestCase
 {
