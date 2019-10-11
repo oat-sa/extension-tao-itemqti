@@ -3,7 +3,7 @@ namespace oat\taoQtiItem\test\unit\model\Export\Extractor\Strategy;
 
 use oat\taoQtiItem\model\Export\Extractor\HashEntry;
 use oat\taoQtiItem\model\Export\Extractor\Strategy\ColumnStrategy;
-use PHPUnit\Framework\TestCase;
+use oat\generis\test\TestCase;
 
 class ColumnStrategyTest extends TestCase
 {
