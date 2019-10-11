@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\portableElement\model;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModel;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;
+use oat\generis\test\MockObject;
 
 class PortableElementModelTraitTest extends TestCase
 {
@@ -43,7 +44,7 @@ class PortableElementModelTraitTest extends TestCase
     }
 
     /**
-     * @return PortableElementModel|\PHPUnit_Framework_MockObject_MockObject
+     * @return PortableElementModel|MockObject
      */
     public function getPortableElementModelMock()
     {

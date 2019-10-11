@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint110\n"
-"PO-Revision-Date: 2019-09-13T08:42:05\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T09:17:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -231,11 +231,11 @@ msgstr "Keuze interactie"
 msgid "Choice Properties"
 msgstr "Keuze eigenschappen"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Keuzes"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
 
-msgid "default"
-msgstr "standaard"
-
 msgid "Default"
 msgstr "Standaard"
+
+msgid "default"
+msgstr "standaard"
 
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Itemeigenschappen"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Itemeigenschappen"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Geen"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1240,11 +1240,11 @@ msgstr "Antwoord verwerking"
 msgid "Response Properties"
 msgstr "Antwoord eigenschappen"
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr ""
@@ -1261,11 +1261,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "score"
-
 msgid "Score"
 msgstr "Score"
+
+msgid "score"
+msgstr "score"
 
 msgid "Score range"
 msgstr "Scorebereik"
@@ -1299,9 +1299,6 @@ msgstr "Selecteer eerst een afbeelding"
 
 msgid "Select an image first."
 msgstr "Selecteer eerst een afbeelding."
-
-msgid "Select another area to complete the association"
-msgstr "Selecteer een ander gebied om de associatie compleet te maken."
 
 msgid "select correct choice"
 msgstr "Selecteer de correcte keuze"
@@ -1695,11 +1692,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Ongedaan maken"
-
 msgid "undo"
 msgstr "ongedaan maken"
+
+msgid "Undo"
+msgstr "Ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
