@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint112\n"
-"PO-Revision-Date: 2019-10-09T09:02:52\n"
+"PO-Revision-Date: 2019-10-11T08:34:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -46,8 +46,9 @@ msgstr "Variantas privalo būti pasirinktas"
 msgid "A human interpretation of the variable's value."
 msgstr "Žmogiška kintamojo reikšmės interpretacija."
 
-msgid " QTI component is not supported. The system returned the following error: %s\n"
-msgstr "QTI komponent nėra palaikomas. Sistema gražino šią klaidą: %s\n"
+msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
+msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Rubrikos blokas atpažįsta dalį assessmentItem - itemBody, kuris atstovauja instrukcijas vienam ar daugiau veiksmų, kurie atvaizduoja elementą. Nors rubrikos blokai yra numatyti simpleBlocks, jie neturi turėti jokių užduočių."
@@ -128,7 +129,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Netikėta klaida įvyko IMS QTI Elemento Paketo importavimo metu. Sistema gražino šią klaidą: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "Netikėta klaida įvyko QTI Elemento importavimo metu. Sistema gražino šią klaidą: \"%s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Įvyko netikėta klaida importuojant IMS QTI Paketą su identifikatoriumi."
@@ -377,8 +380,8 @@ msgstr "Rodyti variantus horizontaliai arba vertikaliai"
 msgid "Divide"
 msgstr "Dalinti"
 
-msgid "Don't save"
-msgstr "Neišsaugoti"
+msgid "Don\'t save"
+msgstr ""
 
 msgid "Done"
 msgstr "Atlikta"
@@ -971,7 +974,9 @@ msgid "one association pair"
 msgstr "vienas ryšys per porą"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "Vienas ar daugiau QTI komponentų nėra palaikomas sistemos. Sistema gražino šią klaidą: %s\n"
+""
 
 msgid "Order"
 msgstr "Eiliškumas"
@@ -1010,6 +1015,7 @@ msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
+""
 msgstr ""
 
 msgid "Please define association pairs and their scores below."

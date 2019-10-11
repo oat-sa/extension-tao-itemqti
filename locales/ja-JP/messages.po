@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint110\n"
-"PO-Revision-Date: 2019-09-13T08:42:04\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T08:34:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -231,11 +231,11 @@ msgstr "操作の選択"
 msgid "Choice Properties"
 msgstr "選択肢プロパティ"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "選択肢"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
 msgid "Define correct response"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "アイテムプロパティ"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "アイテムプロパティ"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "空欄にしてください"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "なし"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "未定義"
@@ -1240,11 +1240,11 @@ msgstr "応答処理中"
 msgid "Response Properties"
 msgstr "レスポンスプロパティ"
 
-msgid "right"
-msgstr "右"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "右"
 
 msgid "Right bracket"
 msgstr ""
@@ -1261,10 +1261,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "スコア"
 
-msgid "Score"
+msgid "score"
 msgstr "スコア"
 
 msgid "Score range"
@@ -1299,9 +1299,6 @@ msgstr "最初に画像を選択してください"
 
 msgid "Select an image first."
 msgstr "まず画像を選んでください"
-
-msgid "Select another area to complete the association"
-msgstr "組み合わせを完了するために別の領域を選択してください"
 
 msgid "select correct choice"
 msgstr "正しい選択肢を指定してください"
@@ -1695,10 +1692,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "取り消し"
 
-msgid "undo"
+msgid "Undo"
 msgstr "取り消し"
 
 msgid "Unknown $key to register MetadataService instance"

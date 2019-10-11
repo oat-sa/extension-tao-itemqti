@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint110\n"
-"PO-Revision-Date: 2019-09-13T08:42:08\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T08:34:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
@@ -231,10 +231,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr ""
 
 msgid "Item width"
@@ -745,10 +745,10 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr ""
 
 msgid "leave empty"
@@ -946,10 +946,10 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
-msgid "none"
+msgid "None"
 msgstr ""
 
-msgid "None"
+msgid "none"
 msgstr ""
 
 msgid "None defined yet."
@@ -1239,10 +1239,10 @@ msgstr ""
 msgid "Response Properties"
 msgstr ""
 
-msgid "right"
+msgid "Right"
 msgstr ""
 
-msgid "Right"
+msgid "right"
 msgstr ""
 
 msgid "Right bracket"
@@ -1260,10 +1260,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"
@@ -1297,9 +1297,6 @@ msgid "Select an image first"
 msgstr ""
 
 msgid "Select an image first."
-msgstr ""
-
-msgid "Select another area to complete the association"
 msgstr ""
 
 msgid "select correct choice"
@@ -1693,10 +1690,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
 msgid "Unknown $key to register MetadataService instance"

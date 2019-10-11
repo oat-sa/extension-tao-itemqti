@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint110\n"
-"PO-Revision-Date: 2019-09-13T08:42:03\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T08:34:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -231,11 +231,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Valmöguleikar"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
 
-msgid "default"
+msgid "Default"
 msgstr "Sjálfgefið"
 
-msgid "Default"
+msgid "default"
 msgstr "Sjálfgefið"
 
 msgid "Define correct response"
@@ -720,11 +720,11 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
-msgstr "Eiginleikar Atriðis"
-
 msgid "Item properties"
 msgstr "Eiginleikar atriðis"
+
+msgid "Item Properties"
+msgstr "Eiginleikar Atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "hafa autt"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ekkert"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1239,11 +1239,11 @@ msgstr "Úrvinnsla svars"
 msgid "Response Properties"
 msgstr "Eigindir Svars"
 
-msgid "right"
-msgstr "hægri"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "hægri"
 
 msgid "Right bracket"
 msgstr ""
@@ -1260,11 +1260,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "stig"
-
 msgid "Score"
 msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
 
 msgid "Score range"
 msgstr "Stigabil"
@@ -1298,9 +1298,6 @@ msgstr "Veldu fyrst mynd"
 
 msgid "Select an image first."
 msgstr "Veldu fyrst mynd."
-
-msgid "Select another area to complete the association"
-msgstr "Veldu annað svæði til að ljúka venslunum"
 
 msgid "select correct choice"
 msgstr "veldu réttan valkost"
@@ -1693,11 +1690,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Afturkalla"
-
 msgid "undo"
 msgstr "afturkalla"
+
+msgid "Undo"
+msgstr "Afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
