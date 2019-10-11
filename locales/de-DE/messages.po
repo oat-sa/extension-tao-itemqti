@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint110\n"
-"PO-Revision-Date: 2019-09-13T08:41:58\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T08:34:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -231,11 +231,11 @@ msgstr "Auswahl Interaktion"
 msgid "Choice Properties"
 msgstr "Auswahleigenschaften"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Auswahl"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "benutzerdefinierter Antwortsverarbeitungsmodus"
 
-msgid "default"
+msgid "Default"
 msgstr "Standard"
 
-msgid "Default"
+msgid "default"
 msgstr "Standard"
 
 msgid "Define correct response"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Elementeigenschaften"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Elementeigenschaften"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "frei lassen"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Keinen Wert zugewiesen"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Keine"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Noch keine definiert."
@@ -1240,11 +1240,11 @@ msgstr "Antworten-Verarbeitung"
 msgid "Response Properties"
 msgstr "Antworten-Eigenschaften"
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr ""
@@ -1261,10 +1261,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "Punktzahl"
 
-msgid "Score"
+msgid "score"
 msgstr "Punktzahl"
 
 msgid "Score range"
@@ -1299,9 +1299,6 @@ msgstr "Wählen Sie zuerst ein Bild aus"
 
 msgid "Select an image first."
 msgstr "Wählen Sie zuerst ein Bild aus"
-
-msgid "Select another area to complete the association"
-msgstr "Wählen Sein einen anderen Bereich um die Verbindung zu herzustellen"
 
 msgid "select correct choice"
 msgstr "Korrekte Antwort auswählen"
@@ -1695,10 +1692,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "Rückgängig"
 
-msgid "undo"
+msgid "Undo"
 msgstr "Rückgängig"
 
 msgid "Unknown $key to register MetadataService instance"
