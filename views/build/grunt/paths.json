@@ -1,0 +1,12 @@
+{
+  "qtiCustomInteractionContext" : "../../../taoQtiItem/views/js/runtime/qtiCustomInteractionContext",
+  "qtiInfoControlContext"       : "../../../taoQtiItem/views/js/runtime/qtiInfoControlContext",
+  "taoQtiItem/qtiCommonRenderer": "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiCommonRenderer",
+  "taoQtiItem/qtiItem"          : "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiItem",
+  "taoQtiItem/qtiRunner"        : "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/qtiRunner",
+  "taoQtiItem/runner"           : "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/runner",
+  "taoQtiItem/scoring"           : "../../../taoQtiItem/views/node_modules/@oat-sa/tao-item-runner-qti/dist/scoring",
+  "taoItems/assets"             : "../../../taoItems/views/node_modules/@oat-sa/tao-item-runner/dist/assets",
+  "taoItems/runner"             : "../../../taoItems/views/node_modules/@oat-sa/tao-item-runner/dist/runner",
+  "taoItems/scoring"            : "../../../taoItems/views/node_modules/@oat-sa/tao-item-runner/dist/scoring"
+}

@@ -94,7 +94,9 @@ define([
             return choice;
         },
         removeChoice : function(element){
-            var serial = '', c;
+            var serial = '',
+                $serialElt,
+                choice;
 
             if(typeof(element) === 'string'){
                 serial = element;
@@ -104,24 +106,28 @@ define([
                 serial = element.serial;
             }
 
-            if(c = this.getBody().getElement(serial)){
+            $serialElt = this.getBody().getElement(serial);
+            choice = this.getChoice(serial);
+
+            if($serialElt){
                 //remove choice
-                this.getBody().removeElement(c);
+                this.getBody().removeElement($serialElt);
 
                 //update the response
-                responseHelper.removeChoice(this.getResponseDeclaration(), c);
+                responseHelper.removeChoice(this.getResponseDeclaration(), $serialElt);
 
                 //trigger event
-                event.deleted(c, this);
-            }else if(c = this.getChoice(serial)){
+                event.deleted($serialElt, this);
+            }
+            else if(choice){
                 //remove choice
                 delete this.choices[serial];
 
                 //update the response
-                responseHelper.removeChoice(this.getResponseDeclaration(), c);
+                responseHelper.removeChoice(this.getResponseDeclaration(), choice);
 
                 //trigger event
-                event.deleted(c, this);
+                event.deleted(choice, this);
             }
 
             return this;

@@ -26,7 +26,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'urlParser',
+    'util/urlParser',
     'core/promise',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'jquery.fileDownload'
@@ -237,7 +237,6 @@ define([
 
         var fileName,
             link,
-            stylesheets = [],
             listEntry,
             parser,
             loadStylesheet = function(link, stylesheet, isLocal, isValid) {
@@ -254,10 +253,8 @@ define([
                         editLabelTxt: isInvalidLocal ? common.isInValidLocalTxt : common.editLabelTxt
                     };
 
-                stylesheets.push(tplData);
-
                 // create list entry
-                listEntry = $(cssTpl({ stylesheets: stylesheets }));
+                listEntry = $(cssTpl(tplData));
 
                 listEntry.data('stylesheetObj', stylesheet);
 

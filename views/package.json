@@ -1,0 +1,14 @@
+{
+  "name": "@oat-sa/tao-qti-item",
+  "version": "0.1.1",
+  "license": "GPL-2.0",
+  "description": "taoQtiItem frontend modules",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
+  },
+  "dependencies": {
+    "@oat-sa/tao-item-runner": "0.3.1",
+    "@oat-sa/tao-item-runner-qti": "0.4.6"
+  }
+}

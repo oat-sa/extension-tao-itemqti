@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint101\n"
-"PO-Revision-Date: 2019-05-10T12:21:16\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T09:17:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -189,11 +189,11 @@ msgstr "Blader door uw computer en selecteer het juiste bestand"
 msgid "Browse..."
 msgstr "Bladeren…"
 
-msgid "cancel"
-msgstr "annuleren"
-
 msgid "Cancel"
 msgstr "Annuleren"
+
+msgid "cancel"
+msgstr "annuleren"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -348,11 +348,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "verwijder"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "verwijder"
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "Klaar"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "Klaar"
 
 msgid "Download this stylesheet"
 msgstr "Download dit stijlblad"
@@ -612,10 +612,10 @@ msgstr "Hoe de wiskundige expressies moeten worden bewerkt"
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Naam"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Naam"
 
 msgid "identifier already taken"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Itemeigenschappen"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Itemeigenschappen"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Beheer items"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Beheer items"
+
+msgid "Manage Items"
 msgstr "Beheer items"
 
 msgid "map response"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Geen"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1006,6 +1006,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "Platte tekst"
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 ""
@@ -1177,11 +1180,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Verwijder"
-
 msgid "remove"
 msgstr "verwijder"
+
+msgid "Remove"
+msgstr "Verwijder"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
@@ -1237,11 +1240,11 @@ msgstr "Antwoord verwerking"
 msgid "Response Properties"
 msgstr "Antwoord eigenschappen"
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr ""
@@ -1258,11 +1261,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "score"
-
 msgid "Score"
 msgstr "Score"
+
+msgid "score"
+msgstr "score"
 
 msgid "Score range"
 msgstr "Scorebereik"
@@ -1296,9 +1299,6 @@ msgstr "Selecteer eerst een afbeelding"
 
 msgid "Select an image first."
 msgstr "Selecteer eerst een afbeelding."
-
-msgid "Select another area to complete the association"
-msgstr "Selecteer een ander gebied om de associatie compleet te maken."
 
 msgid "select correct choice"
 msgstr "Selecteer de correcte keuze"
@@ -1644,6 +1644,9 @@ msgstr "Er was een probleem bij het downloaden van uw CSS. Probeert u het a.u.b.
 msgid "this identifier is already in use"
 msgstr "Deze naam is al in gebruik"
 
+msgid "This interaction has no text defined in question mode."
+msgstr ""
+
 msgid "This is not a valid answer"
 msgstr "Dit is geen geldig antwoord"
 
@@ -1689,11 +1692,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Ongedaan maken"
-
 msgid "undo"
 msgstr "ongedaan maken"
+
+msgid "Undo"
+msgstr "Ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1739,9 +1742,6 @@ msgstr "woorden"
 
 msgid "Would you like to replace the alt text"
 msgstr "Wilt u de alt tekst vervangen?"
-
-msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
-msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""

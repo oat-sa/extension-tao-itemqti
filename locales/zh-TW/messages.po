@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint101\n"
-"PO-Revision-Date: 2019-05-10T12:21:24\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T09:17:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -189,10 +189,10 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -348,11 +348,11 @@ msgstr "限定的闊度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "刪除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "刪除"
 
 msgid "Delete else statement"
 msgstr "刪除 else 語句"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "完成"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "完成"
 
 msgid "Download this stylesheet"
 msgstr "下載這個樣式表"
@@ -612,10 +612,10 @@ msgstr "如何編輯數學表達式應"
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
 msgid "identifier already taken"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "題目屬性"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "題目屬性"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "LaTeX"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "留空"
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "管理題目"
-
 #, tao-public
 msgid "Manage items"
+msgstr "管理題目"
+
+msgid "Manage Items"
 msgstr "管理題目"
 
 msgid "map response"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "沒有設定數值"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "無"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "還未定義。"
@@ -1006,6 +1006,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "純文字"
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 ""
@@ -1176,10 +1179,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1236,11 +1239,11 @@ msgstr "處理回應"
 msgid "Response Properties"
 msgstr "回應屬性"
 
-msgid "right"
-msgstr "右"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "右"
 
 msgid "Right bracket"
 msgstr ""
@@ -1257,10 +1260,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "分數"
 
-msgid "Score"
+msgid "score"
 msgstr "分數"
 
 msgid "Score range"
@@ -1295,9 +1298,6 @@ msgstr "先選擇圖片檔案"
 
 msgid "Select an image first."
 msgstr "先選擇圖片檔案。"
-
-msgid "Select another area to complete the association"
-msgstr "選擇另一塊區域來完成關聯"
 
 msgid "select correct choice"
 msgstr "選擇正確答案"
@@ -1642,6 +1642,9 @@ msgstr "下載CSS時發生了問題，請重試一次。"
 msgid "this identifier is already in use"
 msgstr "此標識符已被使用"
 
+msgid "This interaction has no text defined in question mode."
+msgstr ""
+
 msgid "This is not a valid answer"
 msgstr "這不是一個有效的答案"
 
@@ -1687,10 +1690,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "復原"
 
-msgid "undo"
+msgid "Undo"
 msgstr "復原"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1737,9 +1740,6 @@ msgstr "字詞"
 
 msgid "Would you like to replace the alt text"
 msgstr "你想更換替代文字嗎？"
-
-msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
-msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""

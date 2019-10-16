@@ -12,24 +12,29 @@ $mainContainer : '.qti-item';
 
 %selectableHover {
     background: whiten($info, .95) !important;
+    color: darken($textColor, .95) !important;
     cursor: pointer !important;
 }
 %activeHover {
     background: whiten($info, .91) !important;
+    color: darken($textColor, .91) !important;
 }
 
 %dragged {
     z-index:10;
     background: whiten($info, .91) !important;
+    color: darken($textColor, .91) !important;
 }
 
 %dropzone {
     background: whiten($info, .80) !important;
+    color: darken($textColor, .80) !important;
     border: 1px $uiClickableHoverBg dashed !important;
 }
 
 %droppable {
     background: whiten($info, .80) !important;
+    color: darken($textColor, .80) !important;
 }
 
 %qtiModalFeedback {
@@ -54,11 +59,9 @@ $mainContainer : '.qti-item';
     @import "inc/feedback";
     @import "inc/grid";
     @import "inc/tooltip";
-    @import "inc/resourcemgr";
     @import "inc/buttons";
     @import "inc/jquery.nouislider";
     @import "inc/forms";
-    @import "inc/components";
 
     // reset grid set-up within the item context
 

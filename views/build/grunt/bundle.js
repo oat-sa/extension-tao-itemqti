@@ -13,16 +13,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  */
 
 /**
  * Configure the extension bundles
  * @author Bertrand Chevrier <bertrand@taotesting.com>
+ *
+ * @param {Object} grunt - the grunt objectt (by convention)
  */
 module.exports = function(grunt) {
     'use strict';
-    var root        = grunt.option('root');
 
     grunt.config.merge({
         bundle : {
@@ -31,16 +32,13 @@ module.exports = function(grunt) {
                     extension : 'taoQtiItem',
                     dependencies : ['taoItems'],
                     allowExternal : ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
-                    paths : {
-                        'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
-                        'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
-                    },
+                    paths: require('./paths.json'),
                     bundles : [{
                         name : 'taoQtiItem',
                         default : true,
-
+                        babel: true,
                         //we need to list the dependencies manually, since the
-                        //sources contains tests in subfoldesr
+                        //sources contains tests in subfolders
                         include : [
                             'taoQtiItem/mathRenderer/mathRenderer',
                             'taoQtiItem/portableElementRegistry/**/*',
@@ -54,6 +52,7 @@ module.exports = function(grunt) {
                         ]
                     }, {
                         name : 'taoQtiItemRunner',
+                        babel: true,
                         include : [
                             'taoQtiItem/qtiCommonRenderer/**/*',
                             'taoQtiItem/qtiItem/**/*',
@@ -65,6 +64,7 @@ module.exports = function(grunt) {
                     }, {
                         name : 'qtiLoader',
                         bootstrap: true,
+                        babel: true,
                         entryPoint: 'taoQtiItem/runtime/qtiLoader',
                         dependencies : ['taoQtiItem/loader/taoQtiItem.min']
                     }]

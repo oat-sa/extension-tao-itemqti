@@ -6,7 +6,7 @@ use oat\taoQtiItem\model\Export\Extractor\Strategy\DefaultStrategy;
 use oat\taoQtiItem\model\Export\Extractor\Strategy\ColumnStrategy;
 use oat\taoQtiItem\model\Export\Extractor\Strategy\Strategy;
 use oat\taoQtiItem\model\Export\Extractor\Strategy\StrategyFactory;
-use PHPUnit\Framework\TestCase;
+use oat\generis\test\TestCase;
 
 class StrategyFactoryTest extends TestCase
 {

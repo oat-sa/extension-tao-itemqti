@@ -23,10 +23,11 @@
 namespace oat\taoQtiItem\test\integration\qti;
 
 use oat\taoQtiItem\model\qti\Tooltip;
+use oat\generis\test\TestCase;
 
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
-class TooltipRenderingTest extends \PHPUnit_Framework_TestCase {
+class TooltipRenderingTest extends TestCase {
 
     public function testRenderTooltipToQTI() {
         $tooltip = new Tooltip([

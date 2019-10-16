@@ -142,7 +142,7 @@ define([
         //factor the new itemCreator
         itemCreator = eventifier({
 
-        //lifecycle
+            //lifecycle
 
             /**
              * Initialize the item creator:
@@ -195,7 +195,7 @@ define([
 
                 this.on('exit', function() {
                     $('.item-editor-item', areaBroker.getItemPanelArea()).empty();
-                })
+                });
 
                 var usedCustomInteractionIds = [];
                 loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl).then(function(item){
@@ -237,6 +237,8 @@ define([
                 }).catch(function(err){
                     self.trigger('error', err);
                 });
+
+                return this;
             },
 
             /**

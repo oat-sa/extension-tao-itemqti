@@ -9,9 +9,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/pairScoreForm',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'ui/tooltipster',
+    'ui/tooltip',
     'ui/selecter'
-], function($, _, __, formTpl, pairTpl, answerStateHelper, formElementHelper, tooltipster, selecter){
+], function($, _, __, formTpl, pairTpl, answerStateHelper, formElementHelper, tooltip, selecter){
     'use strict';
 
     //to bind html element to a pair, we use this separator to replace spaces in the pair name.
@@ -95,7 +95,7 @@ define([
 
                     //initialize UI componenets manually
                     selecter($popup);
-                    tooltipster($popup);
+                    tooltip.lookup($popup);
                     deleter($popup);
                     adder($popup);
                 }

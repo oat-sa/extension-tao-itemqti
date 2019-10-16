@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint101\n"
-"PO-Revision-Date: 2019-05-10T12:21:04\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T09:17:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -189,11 +189,11 @@ msgstr "Computer durchsuchen und die geeignete Datei auswählen."
 msgid "Browse..."
 msgstr "Durchsuchen..."
 
-msgid "cancel"
-msgstr "abbrechen"
-
 msgid "Cancel"
 msgstr "Abbrechen"
+
+msgid "cancel"
+msgstr "abbrechen"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -348,11 +348,11 @@ msgstr "Definierte Breite"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "löschen"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "löschen"
 
 msgid "Delete else statement"
 msgstr "Sonst-Anweisung löschen"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "Fertig"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "Fertig"
 
 msgid "Download this stylesheet"
 msgstr "Dieses Stylesheet herunterladen"
@@ -612,10 +612,10 @@ msgstr "Wie die mathematischen Ausdrücke bearbeitet werden sollen"
 msgid "identical pair already exists"
 msgstr "Identische Paare existieren bereits"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Bezeichner"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Bezeichner"
 
 msgid "identifier already taken"
@@ -720,10 +720,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Elementeigenschaften"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Elementeigenschaften"
 
 msgid "Item width"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "frei lassen"
@@ -794,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Elemente verwalten"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Elemente verwalten"
+
+msgid "Manage Items"
 msgstr "Elemente verwalten"
 
 msgid "map response"
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Keinen Wert zugewiesen"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Keine"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Noch keine definiert."
@@ -1006,6 +1006,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "Klartext"
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 ""
@@ -1177,11 +1180,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Entfernen"
-
 msgid "remove"
 msgstr "entfernen"
+
+msgid "Remove"
+msgstr "Entfernen"
 
 msgid "Remove custom background color"
 msgstr "Benutzerdefinierte Hintergrundfarbe entfernen"
@@ -1237,11 +1240,11 @@ msgstr "Antworten-Verarbeitung"
 msgid "Response Properties"
 msgstr "Antworten-Eigenschaften"
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr ""
@@ -1258,10 +1261,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "Punktzahl"
 
-msgid "Score"
+msgid "score"
 msgstr "Punktzahl"
 
 msgid "Score range"
@@ -1296,9 +1299,6 @@ msgstr "Wählen Sie zuerst ein Bild aus"
 
 msgid "Select an image first."
 msgstr "Wählen Sie zuerst ein Bild aus"
-
-msgid "Select another area to complete the association"
-msgstr "Wählen Sein einen anderen Bereich um die Verbindung zu herzustellen"
 
 msgid "select correct choice"
 msgstr "Korrekte Antwort auswählen"
@@ -1644,6 +1644,9 @@ msgstr "Es gab ein Problem beim Download des CSS, bitte erneut versuchen."
 msgid "this identifier is already in use"
 msgstr "Dieser Bezeichner existiert bereits"
 
+msgid "This interaction has no text defined in question mode."
+msgstr ""
+
 msgid "This is not a valid answer"
 msgstr "Das ist keine gültige Antwort"
 
@@ -1689,10 +1692,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "Rückgängig"
 
-msgid "undo"
+msgid "Undo"
 msgstr "Rückgängig"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1739,9 +1742,6 @@ msgstr "Worte"
 
 msgid "Would you like to replace the alt text"
 msgstr "Möchten Sie den Alternativ-Text ersetzen?"
-
-msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
-msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint101\n"
-"PO-Revision-Date: 2019-05-10T12:21:12\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-11T09:17:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -189,11 +189,11 @@ msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
 msgid "Browse..."
 msgstr "Velja..."
 
-msgid "cancel"
-msgstr "hætta við"
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr "hætta við"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -348,11 +348,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eyða"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eyða"
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "lokið"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "lokið"
 
 msgid "Download this stylesheet"
 msgstr "Hlaða niður háttarblaði"
@@ -612,11 +612,11 @@ msgstr "Hvernig á að breyta stærðfræðitákninu."
 msgid "identical pair already exists"
 msgstr "eins par er þegar til"
 
-msgid "identifier"
-msgstr "aðgreinir"
-
 msgid "Identifier"
 msgstr "Aðgreinir"
+
+msgid "identifier"
+msgstr "aðgreinir"
 
 msgid "identifier already taken"
 msgstr ""
@@ -720,11 +720,11 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
-msgstr "Eiginleikar Atriðis"
-
 msgid "Item properties"
 msgstr "Eiginleikar atriðis"
+
+msgid "Item Properties"
+msgstr "Eiginleikar Atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "hafa autt"
@@ -794,12 +794,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Vinna með Atriði"
-
 #, tao-public
 msgid "Manage items"
 msgstr "Vinna með atriði"
+
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
 
 msgid "map response"
 msgstr ""
@@ -946,11 +946,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ekkert"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1006,6 +1006,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "Venjulegur texti"
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 ""
@@ -1176,11 +1179,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Fjarlægja"
-
 msgid "remove"
 msgstr "fjarlægja"
+
+msgid "Remove"
+msgstr "Fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1236,11 +1239,11 @@ msgstr "Úrvinnsla svars"
 msgid "Response Properties"
 msgstr "Eigindir Svars"
 
-msgid "right"
-msgstr "hægri"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "hægri"
 
 msgid "Right bracket"
 msgstr ""
@@ -1257,11 +1260,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "stig"
-
 msgid "Score"
 msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
 
 msgid "Score range"
 msgstr "Stigabil"
@@ -1295,9 +1298,6 @@ msgstr "Veldu fyrst mynd"
 
 msgid "Select an image first."
 msgstr "Veldu fyrst mynd."
-
-msgid "Select another area to complete the association"
-msgstr "Veldu annað svæði til að ljúka venslunum"
 
 msgid "select correct choice"
 msgstr "veldu réttan valkost"
@@ -1642,6 +1642,9 @@ msgstr "Vandamál kom upp við að hlaða niður CSS þínu, reyndu aftur."
 msgid "this identifier is already in use"
 msgstr "þetta heiti er þegar í notkun"
 
+msgid "This interaction has no text defined in question mode."
+msgstr ""
+
 msgid "This is not a valid answer"
 msgstr "Þetta er ekki gilt svar"
 
@@ -1687,11 +1690,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Afturkalla"
-
 msgid "undo"
 msgstr "afturkalla"
+
+msgid "Undo"
+msgstr "Afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1737,9 +1740,6 @@ msgstr "orð"
 
 msgid "Would you like to replace the alt text"
 msgstr "Viltu skipta út breyttum texta"
-
-msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
-msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""
