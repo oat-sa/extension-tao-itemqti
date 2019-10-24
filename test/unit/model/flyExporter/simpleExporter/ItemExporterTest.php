@@ -2,7 +2,7 @@
 
 namespace oat\taoQtiItem\test\unit\model\flyExporter\simpleExporter;
 
-use PHPUnit\Framework\TestCase;
+use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 
 class ItemExporterTest extends TestCase

@@ -25,6 +25,7 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\MockObject;
 
 
 /**
@@ -476,7 +477,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     protected function getDirectoryStorage()
     {

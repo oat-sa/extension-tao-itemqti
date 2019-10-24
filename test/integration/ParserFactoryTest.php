@@ -22,10 +22,11 @@ namespace oat\taoQtiItem\test\integration;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\Item;
+use oat\generis\test\TestCase;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
-class ParserFactoryTest extends \PHPUnit_Framework_TestCase {
+class ParserFactoryTest extends TestCase {
 
     /**
      * @param string $file
