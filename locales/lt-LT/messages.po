@@ -47,7 +47,6 @@ msgid "A human interpretation of the variable's value."
 msgstr "Žmogiška kintamojo reikšmės interpretacija."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -564,10 +563,10 @@ msgid "Gap"
 msgstr "Tarpas"
 
 msgid "Gap Match"
-msgstr ""
+msgstr "Užpildyti tarpus"
 
 msgid "Gap Match Interaction"
-msgstr ""
+msgstr "Tarpų užpildymo interakcija"
 
 msgid "GIF image"
 msgstr "GIF paveikslėlis"
@@ -576,7 +575,7 @@ msgid "Graphic Associate Interaction"
 msgstr "Grafinės Asociacijos Užduotis"
 
 msgid "Graphic Gap Match Interaction"
-msgstr ""
+msgstr "Grafinė tarpų užpildymo interakcija"
 
 msgid "Graphic Order Interaction"
 msgstr "Grafinė Eiliškumo Užduotis"
@@ -805,7 +804,7 @@ msgid "Manage Items"
 msgstr "Tvarkyti Elementus"
 
 msgid "map response"
-msgstr ""
+msgstr "atsakymų susiejimas"
 
 msgid "Mapping default"
 msgstr ""
@@ -1015,7 +1014,6 @@ msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
