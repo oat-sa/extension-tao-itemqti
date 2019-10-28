@@ -33,8 +33,10 @@ use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\qti\AssetParserFactoryService;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\ExportException;
+use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use Psr\Http\Message\StreamInterface;
@@ -246,7 +248,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         if (is_null($qtiItem)) {
             return [];
         }
-        $assetParser = new AssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
+        $assetParser = $this->getAssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
         $assetParser->setGetSharedLibraries(false);
         $returnValue = array();
         foreach ($assetParser->extract() as $type => $assets) {
@@ -269,7 +271,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             return [];
         }
         $directory = $this->getStorageDirectory($item, $lang);
-        $assetParser = new AssetParser($qtiItem, $directory);
+        $assetParser = $this->getAssetParser($qtiItem, $directory);
         $assetParser->setGetCustomElementDefinition(true);
         return $assetParser->extractPortableAssetElements();
     }
@@ -308,5 +310,15 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
         return $this->metadataExporter;
+    }
+
+    /**
+     * @param Item $qtiItem
+     * @param Directory $directory
+     * @return AssetParser
+     */
+    protected function getAssetParser(Item $qtiItem, Directory $directory)
+    {
+        return $this->getServiceManager()->get(AssetParserFactoryService::SERVICE_ID)->create($qtiItem, $directory);
     }
 }

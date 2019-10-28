@@ -27,6 +27,7 @@ use core_kernel_classes_Resource;
 use oat\oatbox\filesystem\Directory;
 use oat\taoItems\model\ItemCompilerIndex;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
+use oat\taoQtiItem\model\qti\AssetParserFactoryService;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
@@ -228,9 +229,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      * @param $publicDirectory
      * @return AssetParser
      */
-    protected function getAssetParser($qtiItem, $publicDirectory)
+    protected function createAssetParser($qtiItem, $publicDirectory)
     {
-        return new AssetParser($qtiItem, $publicDirectory);
+        return $this->getServiceLocator()->get(AssetParserFactoryService::SERVICE_ID)->create($qtiItem, $publicDirectory);
     }
 
     /**
@@ -253,7 +254,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             throw new taoItems_models_classes_CompilationFailedException(__('Unable to retrieve item : ' . $item->getLabel()));
         }
 
-        $assetParser = $this->getAssetParser($qtiItem, $publicDirectory);
+        $assetParser = $this->createAssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);

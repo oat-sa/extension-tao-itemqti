@@ -41,6 +41,8 @@ use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\qti\AssetParser;
+use oat\taoQtiItem\model\qti\AssetParserFactoryService;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\GenericLomManifestClassificationExtractor;
@@ -48,6 +50,8 @@ use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
 use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
 use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
+use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\ParserFactoryService;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -439,5 +443,20 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('21.0.0', '22.0.3');
+
+        if ($this->isVersion('22.0.3')) {
+
+            $assetParserFactoryService = new AssetParserFactoryService([
+                AssetParserFactoryService::OPTION_ASSET_PARSER => AssetParser::class
+            ]);
+            $this->getServiceManager()->register(AssetParserFactoryService::SERVICE_ID, $assetParserFactoryService);
+
+            $parserFactoryService = new ParserFactoryService([
+                ParserFactoryService::OPTION_PARSER_FACTORY_CLASS => ParserFactory::class
+            ]);
+            $this->getServiceManager()->register(ParserFactoryService::SERVICE_ID, $parserFactoryService);
+
+            $this->setVersion('22.1.0');
+        }
     }
 }

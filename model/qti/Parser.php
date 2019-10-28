@@ -148,7 +148,7 @@ class Parser extends tao_models_classes_Parser
                 $basePath = dirname($this->source).'/';
             }
             //build the item from the xml
-            $parserFactory = $this->getParserFactory($xml);
+            $parserFactory = $this->createParserFactory($xml);
             try{
                 $returnValue = $parserFactory->load();
             }catch(UnsupportedQtiElement $e){
@@ -171,9 +171,9 @@ class Parser extends tao_models_classes_Parser
      * @param $xml
      * @return ParserFactory
      */
-    protected function getParserFactory($xml)
+    protected function createParserFactory($xml)
     {
-        return new ParserFactory($xml);
+        return $this->getServiceManager()->get(ParserFactoryService::class)->create($xml);
     }
 
     protected function addError($error){
