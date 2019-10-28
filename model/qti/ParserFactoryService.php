@@ -40,7 +40,7 @@ class ParserFactoryService extends ConfigurableService
     public function create(DOMDocument $data)
     {
         $class = $this->getOption(self::OPTION_PARSER_FACTORY_CLASS);
-        if (!is_subclass_of($class, ParserFactory::class)) {
+        if ($class !== ParserFactory::class && !is_subclass_of($class, ParserFactory::class)) {
             throw new common_exception_Error(sprintf('Qti parser factory have to implement %s', ParserFactory::class));
         }
         return new $class($data);

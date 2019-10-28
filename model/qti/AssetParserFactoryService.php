@@ -41,7 +41,7 @@ class AssetParserFactoryService extends ConfigurableService
     public function create(Item $item, Directory $directory)
     {
         $class = $this->getOption(self::OPTION_ASSET_PARSER);
-        if (!is_subclass_of($class, AssetParser::class)) {
+        if ($class !== ParserFactory::class && !is_subclass_of($class, AssetParser::class)) {
             throw new common_exception_Error(sprintf('Asset parser implement %s', AssetParser::class));
         }
         return new $class($item, $directory);
