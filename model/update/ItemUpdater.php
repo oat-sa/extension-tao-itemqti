@@ -20,7 +20,8 @@
 
 namespace oat\taoQtiItem\model\update;
 
-use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\qti\ParserFactoryService;
 use \RecursiveIteratorIterator;
 use \RecursiveDirectoryIterator;
 
@@ -68,7 +69,7 @@ abstract class ItemUpdater
                     $xml = new \DOMDocument();
                     $xml->load($itemFile);
 
-                    $parser = new ParserFactory($xml);
+                    $parser = $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
                     $item   = $parser->load();
                     \common_Logger::i('checking item #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
 
@@ -88,6 +89,14 @@ abstract class ItemUpdater
 
         \common_Logger::i('total item fixed : '.$fixed);
         return $returnValue;
+    }
+
+    /**
+     * @return ServiceManager
+     */
+    private function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 
     /**

@@ -22,7 +22,6 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\oatbox\service\ServiceManager;
-use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
@@ -149,7 +148,7 @@ class Parser extends tao_models_classes_Parser
                 $basePath = dirname($this->source).'/';
             }
             //build the item from the xml
-            $parserFactory = new ParserFactory($xml, $basePath);
+            $parserFactory = $this->createParserFactory($xml);
             try{
                 $returnValue = $parserFactory->load();
             }catch(UnsupportedQtiElement $e){
@@ -166,6 +165,15 @@ class Parser extends tao_models_classes_Parser
         }
 
         return $returnValue;
+    }
+
+    /**
+     * @param $xml
+     * @return ParserFactory
+     */
+    protected function createParserFactory($xml)
+    {
+        return $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
     }
 
     protected function addError($error){

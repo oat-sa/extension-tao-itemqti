@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
 use oat\taoQtiItem\model\import\QtiItemImport;
 use oat\taoQtiItem\model\import\QtiPackageImport;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoQtiItem\model\QtiJsonItemCompiler;
 
 /**
  * Set config for Item Model
@@ -57,7 +58,7 @@ class SetItemModel  extends InstallAction
             $options[ItemModel::COMPILER] = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig(ItemModel::COMPILER);
             \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->unsetConfig(ItemModel::COMPILER);
         } else {
-            $options[ItemModel::COMPILER] = 'oat\\taoQtiItem\\model\\QtiItemCompiler';
+            $options[ItemModel::COMPILER] = QtiJsonItemCompiler::class;
         }
 
         $itemModelService = new ItemModel($options);

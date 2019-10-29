@@ -21,12 +21,10 @@
 namespace oat\taoQtiItem\model\qti;
 
 use DOMDocument;
+use oat\oatbox\service\ServiceManager;
 use oat\taoItems\model\media\ItemMediaResolver;
-use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\XInclude;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
-use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 
@@ -54,6 +52,7 @@ class XIncludeLoader
      * @param boolean $removeUnfoundHref
      * @return array
      * @throws XIncludeException when the href cannot be resolved
+     * @throws ParsingException
      */
     public function load($removeUnfoundHref = false){
 
@@ -86,7 +85,15 @@ class XIncludeLoader
 
         return $xincludes;
     }
-    
+
+    /**
+     * @return ServiceManager
+     */
+    private function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
+    }
+
     /**
      * Parse and load xinclude located in custom element markup
      * 
@@ -104,7 +111,7 @@ class XIncludeLoader
         $node = $xml->documentElement;
         
         if($loadSuccess && !is_null($node)){
-            $parser = new ParserFactory($xml);
+            $parser = $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
             $xincludesNodes = $parser->queryXPath(".//*[name(.)='include']");
             foreach($xincludesNodes as $xincludeNode){
                 $href = $xincludeNode->getAttribute('href');
@@ -148,7 +155,7 @@ class XIncludeLoader
         $node = $xml->documentElement;
         if($loadSuccess && !is_null($node)){
             //parse the href content
-            $parser = new ParserFactory($xml);
+            $parser = $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
             $parser->loadContainerStatic($node, $xinclude->getBody());
         }else{
             throw new XIncludeException('Cannot load the XInclude DOM XML', $xinclude);

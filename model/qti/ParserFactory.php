@@ -1603,7 +1603,7 @@ class ParserFactory
         return null;
     }
 
-    private function getPciClass(DOMElement $data){
+    protected function getPciClass(DOMElement $data){
         return $this->getPortableElementClass($data, 'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction', 'portableCustomInteraction');
     }
 
@@ -1618,7 +1618,7 @@ class ParserFactory
      * @return CustomInteraction
      * @throws ParsingException
      */
-    private function buildCustomInteraction(DOMElement $data){
+    protected function buildCustomInteraction(DOMElement $data){
 
         $interaction = null;
 

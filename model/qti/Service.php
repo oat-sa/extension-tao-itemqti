@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use common_exception_Error;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
@@ -50,13 +51,25 @@ class Service extends tao_models_classes_Service
     const QTI_ITEM_FILE = 'qti.xml';
 
     /**
+     * @param $file
+     * @return Parser
+     * @throws common_exception_Error
+     * @throws common_Exception
+     */
+    protected function getParser($file)
+    {
+        return new Parser($file);
+    }
+
+    /**
      * Load a QTI_Item from an, RDF Item using the itemContent property of the
      * Item as the QTI xml
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  Resource item
-     * @throws \common_Exception If $item is not representing an item with a QTI item model.
+     * @param core_kernel_classes_Resource $item
+     * @param string $langCode
+     * @param bool $resolveXInclude
      * @return Item An item as a business object.
      */
     public function getDataItemByRdfItem(core_kernel_classes_Resource $item, $langCode = '', $resolveXInclude = false)
@@ -66,7 +79,7 @@ class Service extends tao_models_classes_Service
         try {
             //Parse it and build the QTI_Data_Item
             $file = $this->getXmlByRdfItem($item, $langCode);
-            $qtiParser = new Parser($file);
+            $qtiParser = $this->getParser($file);
             $returnValue = $qtiParser->load();
 
             if(is_null($returnValue) && !empty($qtiParser->getErrors())){
@@ -126,7 +139,7 @@ class Service extends tao_models_classes_Service
      * @param \oat\taoQtiItem\model\qti\Item $qtiItem
      * @param core_kernel_classes_Resource $rdfItem
      * @return bool
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      * @throws \common_exception_NotFound
      * @throws common_Exception
      * @throws exception\QtiModelException
@@ -164,7 +177,7 @@ class Service extends tao_models_classes_Service
         $sanitized = Authoring::sanitizeQtiXml($xml);
         Authoring::validateQtiXml($sanitized);
 
-        $qtiParser = new Parser($sanitized);
+        $qtiParser = $this->getParser($sanitized);
         $qtiItem = $qtiParser->load();
 
         return $this->saveDataItemToRdfItem($qtiItem, $rdfItem);
@@ -186,7 +199,7 @@ class Service extends tao_models_classes_Service
 
             //validate the file to import
             try {
-                $qtiParser = new Parser($file);
+                $qtiParser = $this->getParser($file);
                 $qtiParser->validate();
 
                 if (!$qtiParser->isValid()) {

@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\pack;
 use oat\oatbox\filesystem\Directory;
 use oat\taoItems\model\pack\ItemPack;
 use oat\taoItems\model\pack\ItemPacker;
+use oat\taoQtiItem\model\qti\AssetParserFactoryService;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Parser as QtiParser;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -106,7 +107,7 @@ class QtiItemPacker extends ItemPacker
 
             $itemPack->setAssetEncoders($this->getAssetEncoders());
 
-            $assetParser = new AssetParser($qtiItem, $directory);
+            $assetParser = $directory->getServiceLocator()->get(AssetParserFactoryService::SERVICE_ID)->create($qtiItem, $directory);
             $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
             $assetParser->setGetXinclude(!$this->replaceXinclude);
 

@@ -381,10 +381,18 @@ class ImportService extends ConfigurableService
         return $report;
     }
 
+    /**
+     * @return AssetManager
+     */
+    protected function getAssetManager()
+    {
+        return new AssetManager();
+    }
+
 
     /**
      * @param $folder
-     * @param \oat\taoQtiItem\model\qti\Resource $qtiItemResource
+     * @param Resource $qtiItemResource
      * @param $itemClass
      * @param array $dependencies
      * @param array $metadataValues
@@ -491,7 +499,7 @@ class ImportService extends ConfigurableService
                 $qtiIdentifierProperty = new \core_kernel_classes_Property(self::PROPERTY_QTI_ITEM_IDENTIFIER);
                 $rdfItem->editPropertyValues($qtiIdentifierProperty, $resourceIdentifier);
 
-                $itemAssetManager = new AssetManager();
+                $itemAssetManager = $this->getAssetManager();
                 $itemAssetManager->setItemContent($qtiModel->toXML());
                 $itemAssetManager->setSource($folder);
 
