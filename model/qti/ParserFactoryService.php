@@ -41,7 +41,7 @@ class ParserFactoryService extends ConfigurableService
     {
         $class = $this->getOption(self::OPTION_PARSER_FACTORY_CLASS);
         if ($class !== ParserFactory::class && !is_subclass_of($class, ParserFactory::class)) {
-            throw new common_exception_Error(sprintf('Qti parser factory have to implement %s', ParserFactory::class));
+            throw new common_exception_Error(sprintf('Qti parser factory class "%s" have to implement "%s"', $class, ParserFactory::class));
         }
         return new $class($data);
     }

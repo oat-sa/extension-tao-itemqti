@@ -52,6 +52,7 @@ class XIncludeLoader
      * @param boolean $removeUnfoundHref
      * @return array
      * @throws XIncludeException when the href cannot be resolved
+     * @throws ParsingException
      */
     public function load($removeUnfoundHref = false){
 
@@ -110,7 +111,7 @@ class XIncludeLoader
         $node = $xml->documentElement;
         
         if($loadSuccess && !is_null($node)){
-            $parser = $this->getServiceManager()->get(ParserFactoryService::class)->create($xml);
+            $parser = $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
             $xincludesNodes = $parser->queryXPath(".//*[name(.)='include']");
             foreach($xincludesNodes as $xincludeNode){
                 $href = $xincludeNode->getAttribute('href');
@@ -154,7 +155,7 @@ class XIncludeLoader
         $node = $xml->documentElement;
         if($loadSuccess && !is_null($node)){
             //parse the href content
-            $parser = $this->getServiceManager()->get(ParserFactoryService::class)->create($xml);
+            $parser = $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
             $parser->loadContainerStatic($node, $xinclude->getBody());
         }else{
             throw new XIncludeException('Cannot load the XInclude DOM XML', $xinclude);

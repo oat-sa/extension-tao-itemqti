@@ -69,7 +69,7 @@ abstract class ItemUpdater
                     $xml = new \DOMDocument();
                     $xml->load($itemFile);
 
-                    $parser = $this->getServiceManager()->get(ParserFactoryService::class)->create($xml);
+                    $parser = $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
                     $item   = $parser->load();
                     \common_Logger::i('checking item #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
 

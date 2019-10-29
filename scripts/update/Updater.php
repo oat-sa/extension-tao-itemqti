@@ -52,6 +52,7 @@ use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInject
 use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\ParserFactoryService;
+use oat\taoQtiItem\model\QtiJsonItemCompiler;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -455,6 +456,11 @@ class Updater extends \common_ext_ExtensionUpdater
                 ParserFactoryService::OPTION_PARSER_FACTORY_CLASS => ParserFactory::class
             ]);
             $this->getServiceManager()->register(ParserFactoryService::SERVICE_ID, $parserFactoryService);
+
+            /** @var ItemModel $itemModelService */
+            $itemModelService = $this->getServiceManager()->get(ItemModel::SERVICE_ID);
+            $itemModelService->setOption(ItemModel::COMPILER, QtiJsonItemCompiler::class);
+            $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
 
             $this->setVersion('22.1.0');
         }

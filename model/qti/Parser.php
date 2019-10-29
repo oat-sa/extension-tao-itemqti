@@ -173,7 +173,7 @@ class Parser extends tao_models_classes_Parser
      */
     protected function createParserFactory($xml)
     {
-        return $this->getServiceManager()->get(ParserFactoryService::class)->create($xml);
+        return $this->getServiceManager()->get(ParserFactoryService::SERVICE_ID)->create($xml);
     }
 
     protected function addError($error){
