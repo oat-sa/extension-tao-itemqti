@@ -41,7 +41,7 @@ msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 elementas buvo importuotas iš pateikto QTI/APIP XML Elemento Dokumentas."
 
 msgid "A choice must be selected"
-msgstr "Variantas privalo būti pasirinktas"
+msgstr "Privaloma pasirinkti"
 
 msgid "A human interpretation of the variable's value."
 msgstr "Žmogiška kintamojo reikšmės interpretacija."
@@ -71,7 +71,7 @@ msgid "Add another option"
 msgstr "Pridėti kitą pasirinkimą"
 
 msgid "Add choice"
-msgstr "Pridėti variantą"
+msgstr "Pridėti pasirinkimą"
 
 msgid "Add else feedback"
 msgstr "Pridėti kitą atsiliepimą"
@@ -89,13 +89,13 @@ msgid "Allow elimination"
 msgstr "Leisti eliminavimą"
 
 msgid "Allowed associations"
-msgstr "Leidžiami ryšiai"
+msgstr "Leidžiamos asociacijos"
 
 msgid "Allowed choices"
-msgstr "Leidžiami variantąai"
+msgstr "Leidžiami pasirinkimai"
 
 msgid "Allowed number of matches"
-msgstr "Leidžiamas kiekis sutapimų"
+msgstr "Leistinas žymėjimų skaičius"
 
 msgid "Allowed number of uses"
 msgstr "Leistinas kiekis vartotojų"
@@ -145,13 +145,13 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "Surikiuokite variantų sąrašą teisinga tvarka."
 
 msgid "Associate"
-msgstr "Asocijuoti"
+msgstr "Susieti poromis"
 
 msgid "Associate Interaction"
-msgstr "Susiejimo Užduotis"
+msgstr "Susieti Sąveiką"
 
 msgid "association pairs"
-msgstr "ryšių poros"
+msgstr "vieną asocijuotą porą "
 
 msgid "at least"
 msgstr "bent"
@@ -164,7 +164,7 @@ msgid "Autostart"
 msgstr "Automatiškai pradėti"
 
 msgid "Back to Manage Items"
-msgstr "Grįžti į Elementų Tvarkymą"
+msgstr "Grįžti į visų klausimų tvarkimą"
 
 msgid "Background color"
 msgstr "Fono spalva"
@@ -209,7 +209,7 @@ msgid "cannot find QTI XML"
 msgstr "nepavyko rasti QTI XML"
 
 msgid "cannot load QTI XML"
-msgstr "nepavyko įkelti QTI XML"
+msgstr "nepavyko rasti QTI XML"
 
 msgid "Cannot locate the file \"%s"
 msgstr "Nepavyko surasti failo \"%s"
@@ -227,7 +227,7 @@ msgid "Choice Image"
 msgstr "Pasirinkti Paveiksliuką"
 
 msgid "Choice Interaction"
-msgstr "Pasirinkimo Užduotis"
+msgstr "Pasirinkimo Sąveika"
 
 msgid "Choice Properties"
 msgstr "Pasirinkti Savybes"
@@ -332,7 +332,7 @@ msgid "Define item language."
 msgstr "Nustatyti elemento kalbą."
 
 msgid "define prompt"
-msgstr "nustatyti pranešimą"
+msgstr "įrašykite klausimą arba nurodymą"
 
 msgid "Define the correct response."
 msgstr "Nustatyti teisingą atsakymą."
@@ -416,7 +416,7 @@ msgid "Edit"
 msgstr "Keisti"
 
 msgid "edit choices"
-msgstr "keisti variantus"
+msgstr "keisti pasirinkimus"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
 msgstr ""
@@ -431,7 +431,7 @@ msgid "Edit modal feedback title"
 msgstr "Redaguoti modalinio atsiliepimo pavadinimą"
 
 msgid "Edit stylesheet label"
-msgstr "Redaguoti stiliaus šablono pavadinimą"
+msgstr "Keisti stiliaus failo pavadinimą"
 
 msgid "Editing Mode"
 msgstr "Redagavimo Režimas"
@@ -500,16 +500,16 @@ msgid "Export metadata item"
 msgstr "Eksportuoti elemento meta duomenis"
 
 msgid "Export QTI 2.1 Package"
-msgstr "Eksportuoti QTI 2.1 Paketą"
+msgstr "Eksportuoti APIP 1.0 Paketą"
 
 msgid "Export QTI 2.2 Package"
-msgstr "Eksportuoti QTI 2.2 Paketą"
+msgstr "Eksportuoti APIP 1.0 Paketą"
 
 msgid "Extended Text"
-msgstr "Išplėstas Tekstas"
+msgstr "Užrašyti tekstą "
 
 msgid "Extended Text Interaction"
-msgstr "Išplėsto Teksto Užduotis"
+msgstr "Užrašomo teksto interakcija"
 
 msgid "Fail to export item"
 msgstr "Nepavyko eksportuoti elemento"
@@ -539,7 +539,7 @@ msgid "File Upload"
 msgstr "Failo Įkėlimas"
 
 msgid "File Upload Interaction"
-msgstr "Failo Įkėlimo Užduotis"
+msgstr "Failo Įkėlimo Sąveika"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Užpildyti tarpus su paveiksliuku iš paveiksliukų pasirikimų rinkinio."
@@ -572,13 +572,13 @@ msgid "GIF image"
 msgstr "GIF paveikslėlis"
 
 msgid "Graphic Associate Interaction"
-msgstr "Grafinės Asociacijos Užduotis"
+msgstr "Susiejimo poromis grafinė interakcija"
 
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafinė tarpų užpildymo interakcija"
 
 msgid "Graphic Order Interaction"
-msgstr "Grafinė Eiliškumo Užduotis"
+msgstr "Eiliškumo nustatymas grafiniame objekte"
 
 msgid "Greater than or equal"
 msgstr "Daugiau negu arba lygu"
@@ -683,10 +683,10 @@ msgid "Inline interactions need to be inserted into a text block."
 msgstr "Įterptos užduotis turi būti įdėtos į teksto bloką."
 
 msgid "Interaction Background"
-msgstr "Užduoties Fonas"
+msgstr "Sąveikos Fonas"
 
 msgid "Interaction Properties"
-msgstr "Užduoties Savybės"
+msgstr "Sąveikos Savybės"
 
 msgid "Interpretation"
 msgstr "Interpretacija"
@@ -710,7 +710,7 @@ msgid "Item \"%s\" has no xml document"
 msgstr "Elementas \"%s\" neturi xml dokumento"
 
 msgid "Item \"%s\" is not available in any language"
-msgstr "Elementas \"%s\" nepasiekiamas jokia kalba"
+msgstr "Klausimas \"%s\" nėra galimas jokia kalba"
 
 msgid "Item \"%s\" is ready to be exported"
 msgstr "Elementas \"%s\" paruoštas būti eksportuotam"
@@ -798,10 +798,10 @@ msgstr "Klaidingas XML[%s]:\n"
 
 #, tao-public
 msgid "Manage items"
-msgstr "Tvarkyti elementus"
+msgstr "Tvarkyti klausimus"
 
 msgid "Manage Items"
-msgstr "Tvarkyti Elementus"
+msgstr "Tvarkyti klausimus"
 
 msgid "map response"
 msgstr "atsakymų susiejimas"
@@ -813,13 +813,13 @@ msgid "Mapping Indicator"
 msgstr ""
 
 msgid "Match"
-msgstr "Sutapimas"
+msgstr "Susieti du rinkinius"
 
 msgid "match correct"
 msgstr "Pilnas teisingas"
 
 msgid "Match Interaction"
-msgstr "Sutapimų Užduotis"
+msgstr "Dviejų rinkinių susiejimo interakcija"
 
 msgid "MathJax is not installed."
 msgstr "MathJax neįdiegtas."
@@ -855,10 +855,10 @@ msgid "maximum"
 msgstr "maksimalus"
 
 msgid "Maximum choices reached"
-msgstr "Jau pasirinkote didžiausią leidžiamą kiekį variantų"
+msgstr "Jau pasirinkote didžiausią leidžiamą kiekį"
 
 msgid "Maximum number of choices reached."
-msgstr "Jau pasirinkote didžiausią leidžiamą kiekį variantų"
+msgstr "Jau pasirinkote didžiausią leidžiamą kiekį"
 
 msgid "Media"
 msgstr "Medija"
@@ -867,7 +867,7 @@ msgid "Media file path or YouTube video address"
 msgstr "Medijos failo kelias arba YouTube vaizdo įrašo adresas"
 
 msgid "Media Interaction"
-msgstr "Medijos Užduotis"
+msgstr "Medijos Sąveika"
 
 msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
 msgstr "Meta duomenų eksportavimui reikalinga core_kernel_classes_Resource instancija, kad išeksportuoti meta duomenis"
@@ -925,7 +925,7 @@ msgstr "negatyvus"
 
 #, tao-public
 msgid "New item"
-msgstr "Naujas elementas"
+msgstr "Kurti klausimą"
 
 msgid "No"
 msgstr "Ne"
@@ -943,7 +943,7 @@ msgid "No Items could be imported from the given IMS QTI package."
 msgstr "Joks Elementas negali būti importuotas iš pateikto IMS QTI paketo."
 
 msgid "No preview available"
-msgstr "Nėra galimos peržiūros"
+msgstr "Peržiūrėti negalima"
 
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
@@ -970,7 +970,7 @@ msgid "OK"
 msgstr "Gerai"
 
 msgid "one association pair"
-msgstr "vienas ryšys per porą"
+msgstr "vieną asocijuotą porą "
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
 ""
@@ -981,7 +981,7 @@ msgid "Order"
 msgstr "Eiliškumas"
 
 msgid "Order Interaction"
-msgstr "Eiliškumo Užduotis"
+msgstr "Eiliškumo Sąveika"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr ""
@@ -1149,7 +1149,7 @@ msgid "QTI Package 2.2"
 msgstr "QTI Paketas 2.2"
 
 msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr "QTI-XML klaida eilutėje %1$d \"%2$s\"."
+msgstr "XML klaida eilutėje %1$d \"%2$s\"."
 
 msgid "QTI/APIP Content Package"
 msgstr "QTI/APIP Turinio Paketas"
@@ -1164,7 +1164,7 @@ msgid "Quicktime video"
 msgstr "Quicktime vaizdo įrašas"
 
 msgid "recommanded"
-msgstr "rekomenduojama"
+msgstr "Patarimas"
 
 msgid "Recommendations"
 msgstr "Patarimai"
@@ -1236,7 +1236,7 @@ msgid "Response identifier"
 msgstr "Atsakymo identifikatorius"
 
 msgid "Response processing"
-msgstr "Atsakymo apdorojimas"
+msgstr "Atsakymų vertinimo modelis"
 
 msgid "Response Properties"
 msgstr "Atsakymo Savybės"
@@ -1323,7 +1323,7 @@ msgid "Select Point"
 msgstr "Pasirinkti Tašką"
 
 msgid "Select Point Interaction"
-msgstr "Taško Pasirinkimo Užduotis"
+msgstr "Taško Pasirinkimo Sąveika"
 
 msgid "Select predefined feedback style from the list."
 msgstr "Pasirinkti nustatytą atsiliepimo stilių iš sąrašo."
@@ -1356,7 +1356,7 @@ msgid "Shape position"
 msgstr "Formos pozicija"
 
 msgid "Shuffle choices"
-msgstr "Maišyti variantus"
+msgstr "Sumaišyti atsakymus"
 
 msgid "Sinus"
 msgstr "Sinusas"
@@ -1368,7 +1368,7 @@ msgid "Slider"
 msgstr "Slankiklis"
 
 msgid "Slider Interaction"
-msgstr "Slankiklio Užduotis"
+msgstr "Slankiklio Sąveika"
 
 msgid "some text ..."
 msgstr "kažkoks tekstas..."
@@ -1428,7 +1428,7 @@ msgid "Text Entry"
 msgstr "Teksto Įvestis"
 
 msgid "Text Entry Interaction"
-msgstr "Teksto Įvesties Užduotis"
+msgstr "Teksto Įvesties Sąveika"
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
 msgstr ""
@@ -1614,7 +1614,7 @@ msgid "The target must be an instance of DOMDocument"
 msgstr "Tikslas privalo būti DOMDocument instancija"
 
 msgid "The text to be displayed if the image is not available."
-msgstr "Tekstas, kuris bus rodomas, jeigu nebus paveikslėlio."
+msgstr "Tekstas, kuris bus rodomas, jei paveikslėlis nebus pasiekiamas."
 
 msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr ""
@@ -1649,7 +1649,7 @@ msgid "This interaction has no text defined in question mode."
 msgstr ""
 
 msgid "This is not a valid answer"
-msgstr "Tai nėra teisingas atsakymas"
+msgstr "Netinkamai pateiktas atsakymas"
 
 msgid "This is required"
 msgstr "Šis laukas yra privalomas"
@@ -1766,13 +1766,13 @@ msgid "You can select maximum %d choices"
 msgstr "Jūs galite pažymėti daugiausiai %d pasirinkimus"
 
 msgid "You can select maximum of %s choices"
-msgstr "Galite pažymėti ne daugiau, kaip %s atsakymus"
+msgstr "Galite pažymėti ne daugiau kaip %s atsakymus"
 
 msgid "You can select maximum of 1 choice"
 msgstr "Galite pažymėti tik 1 atsakymą"
 
 msgid "You can use maximum %d choices"
-msgstr "Galite panaudoti ne daugiau, kaip %d pasirinkimus"
+msgstr "Galite panaudoti ne daugiau kaip %d pasirinkimus"
 
 msgid "You have deleted"
 msgstr "Jūs ištrynėte"
