@@ -1,11 +1,11 @@
 
 <div class="panel">
     <label for="lowerBound" class="spinner">{{__ "Lower Bound"}}</label>
-    <input name="lowerBound" value="{{lowerBound}}" data-increment="1" type="text" />
+    <input name="lowerBound" value="{{lowerBound}}" data-increment="1" data-min="0" validator="$integer" type="text" />
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The lower bound of the slider"}}</span>
     <label for="upperBound" class="spinner">{{__ "Upper Bound"}}</label>
-    <input name="upperBound" value="{{upperBound}}" data-increment="1" type="text" />
+    <input name="upperBound" value="{{upperBound}}" data-increment="1" data-min="0" validator="$integer" type="text" />
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The upper bound of the slider"}}</span>
 </div>
