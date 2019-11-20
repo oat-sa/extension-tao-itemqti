@@ -11,8 +11,8 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-                'lowerBound': 0,
-                'upperBound': 100,
+                'lowerBound': 0.0,
+                'upperBound': 100.0,
                 'orientation': 'horizontal',
                 'reverse': false,
                 'step': 1,
