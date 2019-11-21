@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
+ *
+ */
 define([
 'taoQtiItem/qtiCreator/widgets/states/factory',
 'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
@@ -19,11 +37,11 @@ define([
             step : parseInt(interaction.attr('step')),
             stepLabel : !!interaction.attr('stepLabel')
         }));
-        
+
         formElement.initWidget($form);
         //  init data change callbacks
         var callbacks = {};
-        
+
         // -- lowerBound Callback
         callbacks.lowerBound = (interaction, attrValue) => {
             let lowerBound = parseInt(attrValue, 10);
@@ -35,7 +53,7 @@ define([
             interaction.attr('lowerBound', lowerBound);
 
             let upperBound = interaction.attr('upperBound');
-            const sliderLength = upperBound - lowerBound; // the lenght of the slider
+            const sliderLength = upperBound - lowerBound;
             let step = interaction.attr('step');
             const reverse = !!interaction.attr('reverse');
 
@@ -46,7 +64,7 @@ define([
                 callbacks.upperBound(interaction, upperBound);
             }
 
-            // check if the length of the slide is smaller than the step
+            // check if the length of the slider is smaller than the step
             if (sliderLength < step && sliderLength >= 0) {
                 step = sliderLength;
                 $form.find('input[name="step"]').val(step);
@@ -61,7 +79,7 @@ define([
             $qtiSlider.noUiSlider({ range: { min: lowerBound, max: upperBound } }, true);
             $qtiSlider.val(lowerBound);
         };
-        
+
         // -- upperBound Callback
         callbacks.upperBound = (interaction, attrValue) => {
             let upperBound = parseInt(attrValue, 10);
@@ -73,7 +91,7 @@ define([
             interaction.attr('upperBound', upperBound);
 
             let lowerBound = interaction.attr('lowerBound');
-            const sliderLength = upperBound - lowerBound; // the length of the slider
+            const sliderLength = upperBound - lowerBound;
             let step = interaction.attr('step');
             const reverse = !!interaction.attr('reverse');
 
@@ -84,13 +102,13 @@ define([
                 callbacks.lowerBound(interaction, lowerBound);
             }
 
-            // check if the lendth of the slide is smaller than the step
+            // check if the lendth of the slider is smaller than the step
             if (sliderLength < step && sliderLength >= 0) {
                 step = sliderLength;
                 $form.find('input[name="step"]').val(step);
             }
             callbacks.step(interaction, step);
-            
+
             $form.find('input[name="step"]').incrementer('options', { max: upperBound });
 
             const $container = _widget.$container;
@@ -102,37 +120,37 @@ define([
                     true
                 );
         };
-        
+
         // -- orientation Callback
         callbacks.orientation = function(interaction, attrValue, attrName){
             interaction.attr('orientation', attrValue);
-            
+
             var orientation = (interaction.attr('orientation')) ? interaction.attr('orientation') : 'horizontal';
             var reverse = interaction.attr('reverse');
-            
+
             _widget.$container.find('.qti-slider').noUiSlider({ 'orientation': interaction.attr('orientation') }, true);
         };
-        
+
         // -- reverse Callback
         callbacks.reverse = function(interaction, attrValue, attrName){
-            
+
             interaction.attr('reverse', !!attrValue);
-            
+
             var reverse = interaction.attr('reverse');
             var lowerBound = parseInt(interaction.attr('lowerBound'));
             var upperBound = parseInt(interaction.attr('upperBound'));
             var $sliderElt = _widget.$container.find('.qti-slider');
             var start = (reverse) ? upperBound : lowerBound;
             $sliderElt.noUiSlider({ start: start }, true);
-            
+
             _widget.$container.find('span.qti-slider-cur-value').text(lowerBound);
             _widget.$container.find('.slider-min').text(!reverse ? lowerBound : upperBound);
             _widget.$container.find('.slider-max').text(!reverse ? upperBound : lowerBound);
         };
-        
+
         // -- step Callback
         callbacks.step = (interaction, attrValue) => {
-            
+
             let step = parseInt(attrValue);
 
             if (isNaN(step) || step < 0) {
@@ -142,7 +160,7 @@ define([
             const lowerBound = interaction.attr('lowerBound');
             const upperBound = interaction.attr('upperBound');
 
-            const sliderLength = upperBound - lowerBound; //the lenght of the slider
+            const sliderLength = upperBound - lowerBound;
 
             interaction.attr('step', step);
 
@@ -151,20 +169,20 @@ define([
                 $form.find('input[name="step"]').incrementer('options', { max: sliderLength });
             }
         };
-        
+
         // -- stepLabel Callback
         callbacks.stepLabel = function(interaction, attrValue, attrName){
-            
+
             interaction.attr('stepLabel', !!attrValue);
-            
+
             _widget.$container.find('span.slider-middle').remove();
-            
+
             if (interaction.attr('stepLabel')) {
                 var upperBound = interaction.attr('upperBound');
                 var lowerBound = interaction.attr('lowerBound');
                 var step = interaction.attr('step');
                 var reverse = interaction.attr('reverse');
-                    
+
                 var steps = parseInt((upperBound - lowerBound) / step);
                 var middleStep = parseInt(steps / 2);
                 var leftOffset = (100 / steps) * middleStep;
@@ -172,7 +190,7 @@ define([
                 _widget.$container.find('.slider-min').after('<span class="slider-middle" style="left:' + leftOffset + '%">' + middleValue + '</span>');
             }
         };
-        
+
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
     return SliderInteractionStateQuestion;
