@@ -1,0 +1,195 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<xs:schema xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_extensionv1p2"
+     targetNamespace="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_extensionv1p2"
+     xmlns:drd="http://www.imsglobal.org/xsd/apip/apipv1p0/imsafa_drdv2p0"
+     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="IMS CPX 1.2 APIP 1.0"
+     elementFormDefault="qualified"
+     attributeFormDefault="unqualified">
+    <xs:import namespace = "http://www.w3.org/1999/xlink" schemaLocation = "http://www.imsglobal.org/xsd/w3/1999/xlink.xsd" />
+    <xs:import namespace="http://www.imsglobal.org/xsd/apip/apipv1p0/imsafa_drdv2p0" schemaLocation="http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_afadrdv2p0_v1p0.xsd" />
+
+    <xs:annotation>
+        <xs:documentation>
+            XSD Data File Information
+            =========================
+            Author:         Colin Smythe (IMS Global, UK)
+            Date:           31st January, 2014
+            Version:        1.0
+            Status:         Final Release
+            Description:    This is the PSM for the APIP profile of the IMS Content Packaging Extension v1.0 specification.
+
+            History:        The original Final Release.
+
+            PROFILE:        This is the "APIP-CP-Extensions". THIS IS A PROFILE OF THE BASE SPECIFICATION.
+                            The changes to the base specification are:
+                            * The schema namespace has been changed to "http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_extensionv1p2".
+                            * The schema version has been changed to "IMS CPX 1.2 APIP 1.0".
+                            * The "IPointer" class/complexType and set of XML attributes have been deleted;
+                            * The "LingualTitle" class/complexType and set of XML attributes have been deleted;
+                            * The "Metadata" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                              - The "accessForAllResource" attribute has been added using Import;
+
+            License:        IPR and Distribution Notices
+
+                            This machine readable file is derived from IMS Global specification IMS Accessible Portable Item Protocol (APIP) Content Packaging Extension (CPX) v1.0 Profile Version 1.0
+                            found at http://www.imsglobal.org/apip and the original IMS Global schema binding or code base
+                            http://www.imsglobal.org/apip.
+
+                            Recipients of this document are requested to submit, with their comments, notification of any relevant 
+                            patent claims or other intellectual property rights of which they may be aware that might be infringed by
+                            any implementation of the specification set forth in this document, and to provide supporting documentation.
+
+                            IMS takes no position regarding the validity or scope of any intellectual property or other rights that might
+                            be claimed to pertain to the implementation or use of the technology described in this document or the extent 
+                            to which any license under such rights might or might not be available; neither does it represent that it has 
+                            made any effort to identify any such rights. Information on IMS procedures with respect to rights in IMS 
+                            specifications can be found at the IMS Global Intellectual Property Rights web page: http://www.imsglobal.org/ipr/imsipr_policyFinal.pdf.
+
+                            Copyright © IMS Global Learning Consortium 1999-2013. All Rights Reserved.
+
+                            Use of this specification to develop products or services is governed by the license with IMS found on the IMS website: http://www.imsglobal.org/license.html.
+
+                            Permission is granted to all parties to use excerpts from this document as needed in producing requests for proposals.
+
+                            The limited permissions granted above are perpetual and will not be revoked by IMS or its successors or assigns.
+
+                            THIS SPECIFICATION IS BEING OFFERED WITHOUT ANY WARRANTY WHATSOEVER, AND IN PARTICULAR, ANY WARRANTY OF NONINFRINGEMENT IS
+                            EXPRESSLY DISCLAIMED. ANY USE OF THIS SPECIFICATION SHALL BE MADE ENTIRELY AT THE IMPLEMENTERS OWN RISK, AND NEITHER THE CONSORTIUM
+                            NOR ANY OF ITS MEMBERS OR SUBMITTERS, SHALL HAVE ANY LIABILITY WHATSOEVER TO ANY IMPLEMENTER OR THIRD PARTY FOR ANY DAMAGES OF
+                            ANY NATURE WHATSOEVER, DIRECTLY OR INDIRECTLY, ARISING FROM THE USE OF THIS SPECIFICATION.
+
+            Source UML File Information
+            ===========================
+            The source file information must be supplied as an XMI file (without diagram layout information).
+            The supported UML authoring tools are:
+            (a) Poseidon - v6 (and later)
+            (b) Papyrus - v0.9.2 (and later)
+
+            Source XSLT File Information
+            ============================
+            XSL Generator:    Specificationv1p0_GenerationToolv1.xsl
+            XSLT Processor:   Saxon-PE-9.5.0.2
+            Release:          1.0
+            Date:             31st March, 2013
+            Autogen Engineer: Colin Smythe (IMS Global, UK)
+            Autogen Date:     2014-02-24
+
+            IMS Global Auto-generation Binding Tool-kit (I-BAT)
+            ===================================================
+            This file was auto-generated using the IMS Global Binding Auto-generation Tool-kit (I-BAT).  While every
+            attempt has been made to ensure that this tool auto-generates the files correctly, users should be aware
+            that this is an experimental tool.  Permission is given to make use of this tool.  IMS Global makes no
+            claim on the materials created by third party users of this tool.  Details on how to use this tool
+            are contained in the IMS Global "I-BAT" documentation available at the IMS Global web-site:
+            http://www.imsglobal.org.
+
+            Tool Copyright:  2012-2013  (c) IMS Global Learning Consortium Inc.  All Rights Reserved.
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- Generate Global Attributes (non-assigned) ******************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Global Attributes *********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Global List Types *********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Namespaced extension Group  ************************************************************* -->
+
+        <!-- The Strict-Namespaced extension Group declaration has been deleted in this profile  ********** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Special DataTypes  ********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the enumerated simpleType declarations ************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Parameter) ***************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Derived) ******************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Union) ********************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Complex) ******************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived data-type elements based upon simpleType ************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived data-type elements based upon derived simpleType **************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the ComplexTypes ************************************************************************ -->
+
+    <xs:complexType name="Metadata.Type" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                An instance of the metadata element contains data structures that declare descriptive information about a metadata element's parent only. One or more different metadata models may be declared as child extensions of a metadata element.
+Represents a binding of the kinds of child objects defined for ims-cp-imMetadata: Metadata.[ Extension ].
+                [APIP-CP-Extensions] Profile - the changes to the XML element list are:
+                * The "extension" element has been prohibited;
+                * The "accessForAllResource" element has been added using Import;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element ref="drd:accessForAllResource" minOccurs = "1" maxOccurs = "1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Variant.Type" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                A variant element is closely analogous to a resource element in the IMS CP informaton model. Variant is a container for an alternative resource. A resource many contain references to assets that are all of the same type or different types i.e. file formats. The Variant class points to the alternative resource. Metadata is used to describe the nature of a collection of alternative assets and their intended use. Examples include, but are not limited to, use as lingual variants, visual or auditory variants, remediation variants or platform delivery variants. The scope of referenced assts is specific to a Variant object. Their use is in the context of the parent object containing a variant instance, typically a bound instance of a Resource object from the IMS CP namespace.
+Represents a binding of the kinds of child objects defined for ims-cp-imResource: Resource.[ Metadata, File, Dependency, Extension ].
+                Represents a binding of the kinds of characteristic objects defined for ims-cp-imResource: Resource{ Identifier, Type, Base, Href, Other }.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="metadata" type="Metadata.Type" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="identifier" use="required" type="xs:ID" />
+        <xs:attribute name="identifierref" use="required" type="xs:IDREF" />
+    </xs:complexType>
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived ComplexTypes **************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the elements (Complex) ************************************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the elements (Derived) ************************************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the root element(s) *************************************************************** -->
+
+    <xs:element name="variant" type="Variant.Type" />
+
+    <!-- ================================================================================================== -->
+
+</xs:schema>
