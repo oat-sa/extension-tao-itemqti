@@ -167,6 +167,24 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         return $items[0];
     }
     
+    public function testImportApipv1p0Final()
+    {
+        $itemClass = $this->itemService->getRootClass();
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/APIP/apip_v1p0_final.zip'), $itemClass);
+        $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
+        
+        $items = array();
+        foreach ($report as $itemReport) {
+            $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
+            $data = $itemReport->getData();
+            if ($data !== null) {
+                $items[] = $data;
+            }
+        }
+        $this->assertCount(1, $items);
+        $this->removeItem($items[0]);
+    }
+    
     public function testImportPCI()
     {
         $itemClass = $this->itemService->getRootClass();
