@@ -8,7 +8,7 @@
     "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
   },
   "dependencies": {
-    "@oat-sa/tao-item-runner": "0.4.0",
-    "@oat-sa/tao-item-runner-qti": "0.4.11"
+    "@oat-sa/tao-item-runner": "0.3.1",
+    "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feature/TAO-9637/ACT_TTS_FE_Acces_the_data_about_APIP_the_content_and_related_media_files"
   }
 }
