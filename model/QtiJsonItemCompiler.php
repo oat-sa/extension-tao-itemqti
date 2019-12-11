@@ -20,14 +20,18 @@
 
 namespace oat\taoQtiItem\model;
 
+use common_exception_Error;
 use common_report_Report;
 use core_kernel_classes_Resource;
+use Exception;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Element;
+use tao_helpers_Xml;
 use tao_models_classes_service_StorageDirectory;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
+use taoItems_models_classes_CompilationFailedException;
 
 /**
  * The QTI Json Item Compiler
@@ -51,7 +55,8 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
     /**
      * Generate JSON version of item
-     * @return array consists of item URI, public directory id and private directory id
+     * @return common_report_Report
+     * @throws taoItems_models_classes_CompilationFailedException
      */
     public function compileJson()
     {
@@ -65,7 +70,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     }
 
     /**
-     * Desploy all the required files into the provided directories
+     * Deploy all the required files into the provided directories
      *
      * @param core_kernel_classes_Resource $item
      * @param string $language
@@ -105,6 +110,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $this->itemJson = $itemPack->JsonSerialize();
             //get the filtered data to avoid cheat
             $data = $qtiItem->getDataForDelivery();
+            $data = $this->convertXmlAttributes($data);
             $this->itemJson['data'] = $data['core'];
             $metadata = $this->getMetadataProperties();
 
@@ -124,11 +130,28 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, $e->getUserMessage()
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, $e->getMessage()
             );
         }
+    }
+
+    /**
+     * Convert internal parameters to json if needed
+     * @param $data
+     * @return array
+     * @throws common_exception_Error
+     */
+    protected function convertXmlAttributes($data) {
+
+        if (is_array($data) && array_key_exists('core', $data)
+            && array_key_exists('apipAccessibility', $data['core'])) {
+
+            $data['core']['apipAccessibility'] = tao_helpers_Xml::to_array($data['core']['apipAccessibility']);
+        }
+
+        return $data;
     }
 
     /**
