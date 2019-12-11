@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\oatbox\service\ServiceManager;
 
 /**
  *
@@ -105,6 +106,7 @@ class XIncludeLoader
         
         if($loadSuccess && !is_null($node)){
             $parser = new ParserFactory($xml);
+            $parser->setServiceLocator($this->getServiceManager());
             $xincludesNodes = $parser->queryXPath(".//*[name(.)='include']");
             foreach($xincludesNodes as $xincludeNode){
                 $href = $xincludeNode->getAttribute('href');
@@ -149,6 +151,7 @@ class XIncludeLoader
         if($loadSuccess && !is_null($node)){
             //parse the href content
             $parser = new ParserFactory($xml);
+            $parser->setServiceLocator($this->getServiceManager());
             $parser->loadContainerStatic($node, $xinclude->getBody());
         }else{
             throw new XIncludeException('Cannot load the XInclude DOM XML', $xinclude);
@@ -183,6 +186,10 @@ class XIncludeLoader
             }
         }
         return $customElements;
+    }
+
+    private function getServiceManager() {
+        return ServiceManager::getServiceManager();
     }
 
 }

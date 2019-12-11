@@ -35,6 +35,7 @@ use \common_Exception;
 use \Exception;
 use oat\taoItems\model\media\ItemMediaResolver;
 use League\Flysystem\FileNotFoundException;
+use oat\taoQtiItem\model\AuthoringService;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the
@@ -161,8 +162,9 @@ class Service extends tao_models_classes_Service
      */
     public function saveXmlItemToRdfItem($xml, core_kernel_classes_Resource $rdfItem)
     {
-        $sanitized = Authoring::sanitizeQtiXml($xml);
-        Authoring::validateQtiXml($sanitized);
+        $authoringService = $this->getServiceLocator()->get(AuthoringService::SERVICE_ID);
+        $sanitized = $authoringService->sanitizeQtiXml($xml);
+        $authoringService->validateQtiXml($sanitized);
 
         $qtiParser = new Parser($sanitized);
         $qtiItem = $qtiParser->load();
