@@ -61,6 +61,7 @@ use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\AuthoringService;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -169,9 +170,10 @@ class ImportService extends ConfigurableService
 
     protected function createQtiItemModel($qtiFile, $validate = true)
     {
-        $qtiXml = Authoring::sanitizeQtiXml($qtiFile);
+        $authoringService = $this->getServiceLocator()->get(AuthoringService::SERVICE_ID);
+        $qtiXml = $authoringService->sanitizeQtiXml($qtiFile);
         //validate the file to import
-        $qtiParser = new Parser($qtiXml);
+        $qtiParser = $this->propagate(new Parser($qtiXml));
 
         if ($validate) {
             $qtiParser->validate();
@@ -207,7 +209,7 @@ class ImportService extends ConfigurableService
     protected function createQtiManifest($manifestFile, $validate = true)
     {
         //load and validate the manifest
-        $qtiManifestParser = new ManifestParser($manifestFile);
+        $qtiManifestParser = $this->propagate(new ManifestParser($manifestFile));
 
         if ($validate) {
             $qtiManifestParser->validate();
@@ -604,6 +606,7 @@ class ImportService extends ConfigurableService
                     $rdfItem->delete();
                 }
                 common_Logger::e($e->getMessage());
+                throw $e;
             }
         } catch (ValidationException $ve) {
             $validationReport = common_report_Report::createFailure("The IMS Manifest file could not be validated");

@@ -67,6 +67,8 @@ use \SimpleXMLElement;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\oatbox\log\LoggerAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The ParserFactory provides some methods to build the QTI_Data objects from an
@@ -77,9 +79,9 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
  */
-class ParserFactory
+class ParserFactory implements ServiceLocatorAwareInterface
 {
-
+    use ServiceLocatorAwareTrait;
     use LoggerAwareTrait;
 
     protected $data = null;

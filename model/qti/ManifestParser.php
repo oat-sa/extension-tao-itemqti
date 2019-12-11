@@ -26,6 +26,8 @@ use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
 use \tao_helpers_Request;
 use oat\oatbox\log\LoggerAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Enables you to parse and validate an imsmanifest.xml file. 
@@ -41,8 +43,10 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 class ManifestParser
     extends tao_models_classes_Parser
+    implements ServiceLocatorAwareInterface
 {
     use LoggerAwareTrait;
+    use ServiceLocatorAwareTrait;
 
     /**
      * Validate the manifest against an XML Schema Definition.
@@ -77,8 +81,7 @@ class ManifestParser
 				$returnValue = false;
 			} else {
 				$ns = $dom->documentElement->lookupNamespaceUri(null);
-				$servicemanager = $this->getServiceManager();
-				$validationService = $servicemanager->get(ValidationService::SERVICE_ID);
+				$validationService = $this->getServiceLocator()->get(ValidationService::SERVICE_ID);
 				$schemas = $validationService->getManifestValidationSchema($ns);
 
 				$validSchema = $this->validateMultiple($schemas);
@@ -140,9 +143,4 @@ class ManifestParser
         
         return (array) $returnValue;
     }
-
-	protected function getServiceManager(){
-		return ServiceManager::getServiceManager();
-	}
-
 }

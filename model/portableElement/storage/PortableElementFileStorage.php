@@ -28,6 +28,7 @@ use oat\tao\model\websource\WebsourceManager;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\model\PortableElementModelTrait;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
+use oat\oatbox\filesystem\Directory;
 
 class PortableElementFileStorage extends ConfigurableService
 {
@@ -39,7 +40,7 @@ class PortableElementFileStorage extends ConfigurableService
     const OPTION_FILESYSTEM = 'filesystem';
 
     /**
-     * @return Filesystem
+     * @return Directory
      */
     public function getFileStorage()
     {
