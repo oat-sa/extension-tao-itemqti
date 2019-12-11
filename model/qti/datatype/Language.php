@@ -37,7 +37,7 @@ class Language extends Datatype
 {
 	
 	public static function validate($value){
-		return preg_match('/^[a-z]{2,3}(?:-[A-Z]{2,3}(?:-[a-zA-Z]{4})?)?$/', $value);
+        return preg_match('/^[a-z]{2,3}(?:-[a-zA-Z]{2,3}(?:-[a-zA-Z]{4})?)?$/', $value);
 	}
 	
 	public static function fix($value){
