@@ -36,15 +36,15 @@ define([
         var response = interaction.getResponseDeclaration();
 
         //enable the checkbox to enable user selection
-        this.widget.$original.find('.hottext-checkmark > input').removeProp('disabled');
+        this.widget.$original.find('.hottext-checkmark > input').prop('disabled', false);
 
         //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
-        
+
         //add a specific instruction
         instructionMgr.appendInstruction(interaction, __('Please select the correct hottext choices below.'));
-        
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 

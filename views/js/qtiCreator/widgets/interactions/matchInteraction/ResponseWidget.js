@@ -49,7 +49,7 @@ define([
             commonRenderer.render(interaction);
 
             widget.$container.find('table.matrix input[type=checkbox]')
-                .removeProp('disabled')
+                .prop('disabled', false)
                 .attr('data-edit', 'correct')
                 .attr('data-role', 'correct');
         },
