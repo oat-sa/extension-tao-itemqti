@@ -1,0 +1,420 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<xs:schema xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsafa_drdv2p0"
+     targetNamespace="http://www.imsglobal.org/xsd/apip/apipv1p0/imsafa_drdv2p0"
+     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+     version="IMS AFADRD APIP V1.0"
+     elementFormDefault="qualified"
+     attributeFormDefault="unqualified">
+
+    <xs:annotation>
+        <xs:documentation>
+            XSD Data File Information
+            =========================
+            Author:         Colin Smythe (IMS Global)
+            Date:           30th November, 2013
+            Version:        Final 1.0
+            Status:         Final Release
+            Description:    This is the PSM for the APIPv1.0 profile of the Access For All Digital Resource Description (DRD) data model.
+                            This is the profile for the APIP Entry and Core Profiles. The only change is in the namespace.
+
+            History:        This is version 1 of the APIP profile of the AfADRDv2.0 specification.
+
+            PROFILE:        This is the "APIP-AfADRD". THIS IS A PROFILE OF THE BASE SPECIFICATION.
+                            The changes to the base specification are:
+                            * The schema namespace has been changed to "http://www.imsglobal.org/xsd/apip/apipv1p0/imsafa_drdv2p0".
+                            * The schema version has been changed to "IMS AFADRD APIP V1.0".
+
+            License:        IPR and Distribution Notices
+
+                            This machine readable file is derived from IMS Global specification IMS Accessible Portable Item Protocol (APIP) Access for All Digital Resource Description (AfA DRD) v2.0 Profile Version 1.0
+                            found at http://www.imsglobal.org/apip and the original IMS Global schema binding or code base
+                            http://www.imsglobal.org/apip.
+
+                            Recipients of this document are requested to submit, with their comments, notification of any relevant 
+                            patent claims or other intellectual property rights of which they may be aware that might be infringed by
+                            any implementation of the specification set forth in this document, and to provide supporting documentation.
+
+                            IMS takes no position regarding the validity or scope of any intellectual property or other rights that might
+                            be claimed to pertain to the implementation or use of the technology described in this document or the extent 
+                            to which any license under such rights might or might not be available; neither does it represent that it has 
+                            made any effort to identify any such rights. Information on IMS procedures with respect to rights in IMS 
+                            specifications can be found at the IMS Global Intellectual Property Rights web page: http://www.imsglobal.org/ipr/imsipr_policyFinal.pdf.
+
+                            Copyright © IMS Global Learning Consortium 1999-2013. All Rights Reserved.
+
+                            Use of this specification to develop products or services is governed by the license with IMS found on the IMS website: http://www.imsglobal.org/license.html.
+
+                            Permission is granted to all parties to use excerpts from this document as needed in producing requests for proposals.
+
+                            The limited permissions granted above are perpetual and will not be revoked by IMS or its successors or assigns.
+
+                            THIS SPECIFICATION IS BEING OFFERED WITHOUT ANY WARRANTY WHATSOEVER, AND IN PARTICULAR, ANY WARRANTY OF NONINFRINGEMENT IS
+                            EXPRESSLY DISCLAIMED. ANY USE OF THIS SPECIFICATION SHALL BE MADE ENTIRELY AT THE IMPLEMENTERS OWN RISK, AND NEITHER THE CONSORTIUM
+                            NOR ANY OF ITS MEMBERS OR SUBMITTERS, SHALL HAVE ANY LIABILITY WHATSOEVER TO ANY IMPLEMENTER OR THIRD PARTY FOR ANY DAMAGES OF
+                            ANY NATURE WHATSOEVER, DIRECTLY OR INDIRECTLY, ARISING FROM THE USE OF THIS SPECIFICATION.
+
+            Source UML File Information
+            ===========================
+            The source file information must be supplied as an XMI file (without diagram layout information).
+            The supported UML authoring tools are:
+            (a) Poseidon - v6 (and later)
+            (b) Papyrus - v0.9.2 (and later)
+
+            Source XSLT File Information
+            ============================
+            XSL Generator:    Specificationv1p0_GenerationToolv1.xsl
+            XSLT Processor:   Saxon-HE-9.4.0.4
+            Release:          1.0
+            Date:             31st March, 2013
+            Autogen Engineer: Colin Smythe (IMS Global, UK)
+            Autogen Date:     2013-09-25
+
+            IMS Global Auto-generation Binding Tool-kit (I-BAT)
+            ===================================================
+            This file was auto-generated using the IMS Global Binding Auto-generation Tool-kit (I-BAT).  While every
+            attempt has been made to ensure that this tool auto-generates the files correctly, users should be aware
+            that this is an experimental tool.  Permission is given to make use of this tool.  IMS Global makes no
+            claim on the materials created by third party users of this tool.  Details on how to use this tool
+            are contained in the IMS Global "I-BAT" documentation available at the IMS Global web-site:
+            http://www.imsglobal.org.
+
+            Tool Copyright:  2012-2013  (c) IMS Global Learning Consortium Inc.  All Rights Reserved.
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- Generate Global Attributes (non-assigned) ******************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Global Attributes *********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Global List Types *********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Namespaced extension Group  ************************************************************* -->
+
+    <xs:group name="grpStrict.any">
+        <xs:annotation>
+            <xs:documentation>
+                Any namespaced element from any namespace may be included within an "any" element.
+                The namespace for the imported element must be defined in the instance, and the schema must be imported.
+                The extension has a definition of "strict" i.e. they must have their own namespace.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:any namespace = "##other" processContents = "strict" minOccurs = "0" maxOccurs = "unbounded" />
+        </xs:sequence>
+    </xs:group>
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Special DataTypes  ********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the enumerated simpleType declarations ************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Parameter) ***************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Derived) ******************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Union) ********************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Complex) ******************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived data-type elements based upon simpleType ************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived data-type elements based upon derived simpleType **************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the ComplexTypes ************************************************************************ -->
+
+    <xs:complexType name="Access_For_All_Resource.Type" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                The Access_for_All_Resource complexType is the container for a collection of information that states how a digital learning resource can be perceived,
+understood or interacted with by users.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="accessModeStatement" type="Access_Mode_Statement.Type" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="controlFlexibility" minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Control_Flexibility_Vocabulary enumeration is the vocabulary for a single input method which is sufficient to control a resource.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="full keyboard control" />
+                        <xs:enumeration value="full mouse control" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="hasControlFlexibilityStatement" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="displayTransformability" minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Display_Trasformability_Vocabulary enumeration is the container for the
+characteristic of a resource that can be modified.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="font size" />
+                        <xs:enumeration value="font face" />
+                        <xs:enumeration value="foreground colour" />
+                        <xs:enumeration value="background colour" />
+                        <xs:enumeration value="cursor presentation" />
+                        <xs:enumeration value="highlight presentation" />
+                        <xs:enumeration value="layout" />
+                        <xs:enumeration value="structure presentation" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="hasDisplayTransformabilityStatement" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="colourCoding" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+            <xs:element name="hazard" minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Hazard_Vocabulary enumeration is the vocabulary for a characteristic of the described resource that must not
+be delivered to some users.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="flashing" />
+                        <xs:enumeration value="sound" />
+                        <xs:enumeration value="olfactory" />
+                        <xs:enumeration value="motion simulation" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="hasAdaptation" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="hasPart" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="isAdaptation" type="Is_Adaptation.Type" minOccurs="0" maxOccurs="1" />
+            <xs:element name="isDisplayTransformabilityStatementOf" type="xs:anyURI" minOccurs="0" maxOccurs="1" />
+            <xs:element name="isControlFlexibilityStatementOf" type="xs:anyURI" minOccurs="0" maxOccurs="1" />
+            <xs:element name="isPartOf" type="xs:anyURI" minOccurs="0" maxOccurs="1" />
+            <xs:element name="adaptationStatement" type="Adaptation_Statement.Type" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="supportTool" minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Support_Tool_Vocabulary enumeration is the vocabulary for the electronic tool associated with a resource.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="dictionary" />
+                        <xs:enumeration value="calculator" />
+                        <xs:enumeration value="note taking" />
+                        <xs:enumeration value="peer interaction" />
+                        <xs:enumeration value="thesaurus" />
+                        <xs:enumeration value="abacus" />
+                        <xs:enumeration value="spell checker" />
+                        <xs:enumeration value="homophone checker" />
+                        <xs:enumeration value="mind mapping software" />
+                        <xs:enumeration value="outline tool" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:group ref="grpStrict.any" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Access_Mode_Statement.Type" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                The Access_Mode_Statement complexType is the container for a collection of information that states a primary access mode of a resource
+and its usage in the resource.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="originalAccessMode" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Access_Mode_Vocabulary enumeration is the vocabulary for the access mode through which the
+intellectual content of the resource is communicated, not including any adaptations.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="auditory" />
+                        <xs:enumeration value="tactile" />
+                        <xs:enumeration value="textual" />
+                        <xs:enumeration value="visual" />
+                        <xs:enumeration value="olfactory" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="accessModeUsage" default="informative" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Access_Mode_Usage_Vocabulary enumeration is the vocabulary for the role of a primary access mode with
+respect to the intellectual content of a resource.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="informative" />
+                        <xs:enumeration value="ornamental" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:group ref="grpStrict.any" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Adaptation_Statement.Type" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                The Adaptation_Statement complexType is the container for a collection of information that gives detailed
+information about an adaptation.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="adaptationType" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Adaptation_Type_vocabulary enumeration is the vocabulary for the nature or genre of the adaptation.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="audio representation" />
+                        <xs:enumeration value="tactile representation" />
+                        <xs:enumeration value="text representation" />
+                        <xs:enumeration value="visual representation" />
+                        <xs:enumeration value="audio description" />
+                        <xs:enumeration value="caption" />
+                        <xs:enumeration value="ebook" />
+                        <xs:enumeration value="sign language" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="originalAccessMode" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Access_Mode_Vocabulary enumeration is the vocabulary for the access mode through which the
+intellectual content of the resource is communicated, not including any adaptations.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="auditory" />
+                        <xs:enumeration value="tactile" />
+                        <xs:enumeration value="textual" />
+                        <xs:enumeration value="visual" />
+                        <xs:enumeration value="olfactory" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="extent" default="all" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Extent_Vocabulary enumeration is the vocabulary for the scope of the content of the resource.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="all" />
+                        <xs:enumeration value="part" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="representationForm" minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Representation_Form_Vocabulary enumeration is the vocabulary for the additional details about the adaptation type.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="enhanced" />
+                        <xs:enumeration value="verbatim" />
+                        <xs:enumeration value="reduced" />
+                        <xs:enumeration value="real-time" />
+                        <xs:enumeration value="transcript" />
+                        <xs:enumeration value="alternative text" />
+                        <xs:enumeration value="long description" />
+                        <xs:enumeration value="talking book" />
+                        <xs:enumeration value="Daisy" />
+                        <xs:enumeration value="image based" />
+                        <xs:enumeration value="symbolic" />
+                        <xs:enumeration value="recorded" />
+                        <xs:enumeration value="synthesized" />
+                        <xs:enumeration value="Braille" />
+                        <xs:enumeration value="haptic" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="language" type="xs:normalizedString" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="readingRate" type="xs:integer" minOccurs="0" maxOccurs="1" />
+            <xs:element name="educationLevel" type="xs:normalizedString" minOccurs="0" maxOccurs="unbounded" />
+            <xs:group ref="grpStrict.any" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Is_Adaptation.Type" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                The Is_Adaptation complexType is the container for a collection of information that states what resource the
+described resource provides an adaptation of, and the extent to which it does so.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isAdaptationOf" type="xs:anyURI" minOccurs="1" maxOccurs="1" />
+            <xs:element name="extent" default="all" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation source="documentation">
+                            The Extent_Vocabulary enumeration is the vocabulary for the scope of the content of the resource.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="all" />
+                        <xs:enumeration value="part" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:group ref="grpStrict.any" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived ComplexTypes **************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the elements (Complex) ************************************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the elements (Derived) ************************************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the root element(s) *************************************************************** -->
+
+    <xs:element name="accessForAllResource" type="Access_For_All_Resource.Type" />
+
+    <!-- ================================================================================================== -->
+
+</xs:schema>
