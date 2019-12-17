@@ -20,6 +20,7 @@
  */
 namespace oat\taoQtiItem\test\unit\model;
 
+use common_exception_Error;
 use core_kernel_classes_Resource;
 use Exception;
 use oat\generis\test\TestCase;
@@ -112,7 +113,7 @@ class QtiJsonItemCompilerTest extends TestCase
                 ],
                 [
                     'exception' => [
-                        'class' => Exception::class,
+                        'class' => common_exception_Error::class,
                         'message' => 'Start tag expected, \'<\' not found [1]'
                     ]
                 ]
@@ -128,7 +129,7 @@ class QtiJsonItemCompilerTest extends TestCase
                 ],
                 [
                     'exception' => [
-                        'class' => Exception::class,
+                        'class' => common_exception_Error::class,
                         'message' => 'Extra content at the end of the document [1]'
                     ]
                 ]
