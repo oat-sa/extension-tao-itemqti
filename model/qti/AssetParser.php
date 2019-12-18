@@ -112,7 +112,11 @@ class AssetParser
     {
         if (property_exists($this->item, 'apipAccessibility')) {
             try {
-                $assets = tao_helpers_Xml::extractElements('fileHref', $this->item->getApipAccessibility(), 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0');
+                $assets = tao_helpers_Xml::extractElements(
+                    'fileHref',
+                    $this->item->getApipAccessibility(),
+                    'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0'
+                );
                 foreach ($assets as $asset) {
                     $this->addAsset('apip', $asset);
                 }
