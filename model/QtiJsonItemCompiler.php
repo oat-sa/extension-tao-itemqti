@@ -145,9 +145,12 @@ class QtiJsonItemCompiler extends QtiItemCompiler
      */
     protected function convertXmlAttributes($data) {
 
-        if (is_array($data) && array_key_exists('core', $data)
-            && array_key_exists('apipAccessibility', $data['core'])) {
-
+        if (
+            is_array($data)
+            && array_key_exists('core', $data)
+            && is_array($data['core'])
+            && array_key_exists('apipAccessibility', $data['core'])
+        ) {
             $data['core']['apipAccessibility'] = tao_helpers_Xml::to_array($data['core']['apipAccessibility']);
         }
 
