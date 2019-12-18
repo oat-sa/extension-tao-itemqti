@@ -140,7 +140,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     /**
      * Convert internal parameters to json if needed
      * @param $data
-     * @return array
+     * @return mixed
      * @throws common_exception_Error
      */
     protected function convertXmlAttributes($data) {
