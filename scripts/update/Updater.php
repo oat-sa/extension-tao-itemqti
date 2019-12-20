@@ -438,6 +438,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('21.0.0');
         }
 
-        $this->skip('21.0.0', '22.1.0');
+        $this->skip('21.0.0', '23.0.1');
     }
 }
