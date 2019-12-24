@@ -22,14 +22,11 @@
 namespace oat\taoQtiItem\helpers;
 
 //use oat\taoQtiItem\helpers\Authoring;
-use common_Logger;
 use DOMDocument;
 use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\Parser;
 use \core_kernel_classes_Resource;
 use \taoItems_models_classes_ItemsService;
-use \tao_helpers_File;
 use \common_exception_Error;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\AuthoringService;
@@ -40,6 +37,7 @@ use oat\taoQtiItem\model\AuthoringService;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQtiItem
+ * @deprecated please use AuthoringService
  */
 class Authoring
 {
