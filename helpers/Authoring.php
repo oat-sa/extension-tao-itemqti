@@ -78,7 +78,8 @@ class Authoring
      */
     public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, core_kernel_classes_Resource $item, $lang)
     {
-        return self::getService()->addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, $item, $lang);
+        $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
+        return self::getService()->addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, $directory);
     }
     
     /**

@@ -29,6 +29,7 @@ use \taoItems_models_classes_ItemsService;
 use \tao_helpers_File;
 use \common_exception_Error;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\filesystem\Directory;
 
 /**
  * Helper to provide methods for QTI authoring
@@ -100,17 +101,14 @@ class AuthoringService extends ConfigurableService
      * For instances, required css, js etc.
      * @param string $sourceDirectory
      * @param array $relativeSourceFiles
-     * @param core_kernel_classes_Resource $item
-     * @param string $lang
+     * @param Directory $destinationDirectory
      * @return array
      * @throws common_exception_Error
      */
-    public function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, core_kernel_classes_Resource $item, $lang)
+    public function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, Directory $destinationDirectory)
     {
 
         $returnValue = array();
-
-        $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
 
         foreach ($relativeSourceFiles as $relPath) {
 
@@ -132,7 +130,7 @@ class AuthoringService extends ConfigurableService
             ));
 
             // cannot write as PCI do not get cleaned up
-            if ($directory->getFile($path)->put($fh)) {
+            if ($destinationDirectory->getFile($path)->put($fh)) {
                 $returnValue[] = $relPath;
             }
             fclose($fh);
@@ -180,18 +178,15 @@ class AuthoringService extends ConfigurableService
     {
         if ($file instanceof File) {
             $qti = $file->read();
-        } else if (preg_match("/^<\?xml(.*)?/m", trim($file))) {
+        } elseif (preg_match("/^<\?xml(.*)?/m", trim($file))) {
             $qti = $file;
-        } else if (is_file($file)) {
+        } elseif (is_file($file)) {
             $qti = file_get_contents($file);
         } else {
             throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got ".substr($file, 0, 500));
         }
 
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = $this->hasOption(self::OPTION_FORMAT_OUTPUT) ? $this->getOption(self::OPTION_FORMAT_OUTPUT) : true;
-        $dom->preserveWhiteSpace = $this->hasOption(self::OPTION_PRESERVE_WHITESPACE) ? $this->getOption(self::OPTION_PRESERVE_WHITESPACE) : false;
-        $dom->validateOnParse = $this->hasOption(self::OPTION_VALIDATE_ON_PARSE) ? $this->getOption(self::OPTION_VALIDATE_ON_PARSE) : false;
+        $dom = $this->setupDOMDocument();
         libxml_use_internal_errors(true);
         if (!$dom->loadXML($qti)) {
             $errors = libxml_get_errors();
@@ -205,6 +200,19 @@ class AuthoringService extends ConfigurableService
             throw new QtiModelException($errorsMsg);
         }
 
+        return $dom;
+    }
+
+    /**
+     * Initialize a correctly configured DOMDocument
+     * @return \DOMDocument
+     */
+    private function setupDOMDocument()
+    {
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput = $this->hasOption(self::OPTION_FORMAT_OUTPUT) ? $this->getOption(self::OPTION_FORMAT_OUTPUT) : true;
+        $dom->preserveWhiteSpace = $this->hasOption(self::OPTION_PRESERVE_WHITESPACE) ? $this->getOption(self::OPTION_PRESERVE_WHITESPACE) : false;
+        $dom->validateOnParse = $this->hasOption(self::OPTION_VALIDATE_ON_PARSE) ? $this->getOption(self::OPTION_VALIDATE_ON_PARSE) : false;
         return $dom;
     }
 }
