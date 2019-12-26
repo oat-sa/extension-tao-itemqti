@@ -50,7 +50,7 @@ class ContainerHottext extends Container
 			'oat\\taoQtiItem\\model\\qti\\Table',
 			'oat\\taoQtiItem\\model\\qti\\Tooltip',
 			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-			'oat\\taoQtiItem\\model\\qti\\Object',
+		    \oat\taoQtiItem\model\qti\QtiObject::class,
 			'oat\\taoQtiItem\\model\\qti\\choice\\Hottext'
 		);
 	}
