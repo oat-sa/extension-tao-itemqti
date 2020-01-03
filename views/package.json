@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "@oat-sa/tao-item-runner": "oat-sa/tao-item-runner-fe#breaking/TDR-9/handlebars-4-upgrade",
-    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#breaking/TDR-9/handlebars-4-upgrade"
+    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#breaking/TDR-9/handlebars-4-upgrade-bis"
   }
 }
