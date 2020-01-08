@@ -41,6 +41,7 @@ use oat\taoItems\model\media\ItemMediaResolver;
 use oat\tao\model\media\MediaService;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use common_exception_BadRequest;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -229,7 +230,15 @@ class QtiCreator extends tao_actions_CommonModule
             $resolver = new ItemMediaResolver($item, $lang);
             $asset = $resolver->resolve($path);
             $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
-            \tao_helpers_Http::returnFile($filePath);
+            $fp = fopen($filePath, 'rb');
+            if(!$fp){
+                $this->response = $this->getPsrResponse()->withBody(null);
+                $this->response->withStatus(404);
+            }else{
+                $this->response = $this->getPsrResponse()->withBody(stream_for($fp));
+            }
+
+            return $this->response;
         } else {
             throw new common_exception_Error('invalid item preview file path');
         }
