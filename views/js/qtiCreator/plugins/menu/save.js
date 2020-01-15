@@ -88,7 +88,7 @@ define([
          * Enable the button
          */
         enable : function enable (){
-            this.$element.removeProp('disabled')
+            this.$element.prop('disabled', false)
                          .removeClass('disabled');
         },
 

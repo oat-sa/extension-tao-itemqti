@@ -17,13 +17,13 @@ define([
 
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.values(response.getCorrect()));
-        
-       //change the correct state 
+
+       //change the correct state
        _widget.on('metaChange', function(meta){
             if(meta.key === 'defineCorrect'){
                 if(meta.value){
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)
-                        .removeProp('disabled') 
+                        .prop('disabled', false)
                         .removeClass('disabled');
                 } else {
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)

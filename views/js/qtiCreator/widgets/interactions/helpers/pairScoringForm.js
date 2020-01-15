@@ -184,7 +184,7 @@ define([
                 var currentLeft = $left.select2('val'),
                     currentRight = $right.select2('val');
 
-                $options.removeProp('disabled');
+                $options.prop('disabled', false);
 
                 _(pairs).where({leftId : currentLeft}).forEach(function(pair){
                     $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
@@ -202,7 +202,7 @@ define([
                 var currentRight = $right.select2('val'),
                     currentLeft = $left.select2('val');
 
-                $options.removeProp('disabled');
+                $options.prop('disabled', false);
 
                 _(pairs).where({rightId : currentRight}).forEach(function(pair){
                     $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
@@ -223,7 +223,7 @@ define([
                 var lval = $left.select2('val');
                 var rval = $right.select2('val');
 
-                $options.removeProp('disabled');
+                $options.prop('disabled', false);
                 e.preventDefault();
 
                 if(lval && rval){

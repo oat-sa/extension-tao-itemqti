@@ -8,7 +8,7 @@
     "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
   },
   "dependencies": {
-    "@oat-sa/tao-item-runner": "oat-sa/tao-item-runner-fe#breaking/TDR-9/handlebars-4-upgrade",
-    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#breaking/TDR-9/handlebars-4-upgrade-bis"
+    "@oat-sa/tao-item-runner": "oat-sa/tao-item-runner-fe#breaking/TDR-10/upgrade-jquery-handlebars",
+    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#breaking/TDR-10/upgrade-jquery-handlebars"
   }
 }
