@@ -27,17 +27,17 @@ define([
     return {
         render: function render($container) {
             $container.find('[data-role="tooltip-target"]').each(function(){
-                const $target = $(this);
-                const contentId = $target.attr('aria-describedBy');
-                let qtipPositionTarget = 'event';
-                let $content;
-                let contentHtml;
+                var $target = $(this),
+                    $content,
+                    contentHtml,
+                    contentId = $target.attr('aria-describedBy'),
+                    qtipPositionTarget = 'event';
 
                 if (contentId) {
                     $content = $container.find('#' + contentId);
                     if ($content.length) {
-                        const targetHeight = parseInt($($target[0]).css('height'), 10);
-                        const targetFontSize = parseInt($($target[0]).css('fontSize'), 10);
+                        var targetHeight = parseInt($($target.get(0)).css('height'), 10),
+                            targetFontSize = parseInt($($target.get(0)).css('fontSize'), 10);
 
                         /**
                          * Tooltip may be attached to a phrase which is spread into 2 or more lines. For this case we apply
