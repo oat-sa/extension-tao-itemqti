@@ -63,7 +63,8 @@ class Resource
         'imsqti_item_xmlv2p1',
         'imsqti_item_xmlv2p2',
         'imsqti_apipitemroot_xmlv2p1',
-        'imsqti_apipitem_xmlv2p1'
+        'imsqti_apipitem_xmlv2p1',
+        'imsqti_apipitem_xmlv2p2',
     );
 
     /**

@@ -20,35 +20,54 @@
 
 namespace oat\taoQtiItem\model\qti\parser;
 
+use common_Exception;
+use common_Logger;
 use common_report_Report;
+use oat\oatbox\filesystem\File;
 
-class ValidationException extends \common_Exception {
+class ValidationException extends common_Exception {
     
     private $errors;
     private $xmlFile;
 
     /**
-     * @param string $file
+     * @param string|File $file
      * @param array $errors
      */
     public function __construct($file, $errors)
     {
         $this->errors = $errors;
         $this->xmlFile  = $file;
-        parent::__construct('Failed to validate '.$file);
+
+        parent::__construct('Failed to validate '.$this->getFilename());
     }
-    
+
+    /**
+     * return string
+     */
+    private function getFilename()
+    {
+        $filename = $this->xmlFile;
+        if ($this->xmlFile instanceof File) {
+            $filename = $this->xmlFile->getBasename();
+        }
+        return $filename;
+    }
+
     /**
      * @return common_report_Report
      */
     public function getReport()
     {
-        return common_report_Report::createFailure(__("Malformed XML[%s]:\n%s", $this->xmlFile, implode("\n", $this->errors)));
+        return common_report_Report::createFailure(__("Malformed XML[%s]:\n%s", $this->getFilename(), implode("\n", $this->errors)));
     }
 
+    /**
+     * @return int
+     */
     public function getSeverity()
     {
-        return \common_Logger::ERROR_LEVEL;
+        return common_Logger::ERROR_LEVEL;
     }
 
 }
