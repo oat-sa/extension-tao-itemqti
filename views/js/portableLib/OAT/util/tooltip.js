@@ -36,8 +36,8 @@ define([
                 if (contentId) {
                     $content = $container.find('#' + contentId);
                     if ($content.length) {
-                        var targetHeight = parseInt($($target.get(0)).css('height'), 10),
-                            targetFontSize = parseInt($($target.get(0)).css('fontSize'), 10);
+                        var targetHeight = parseInt($target.css('height'), 10),
+                            targetFontSize = parseInt($target.css('fontSize'), 10);
 
                         /**
                          * Tooltip may be attached to a phrase which is spread into 2 or more lines. For this case we apply
