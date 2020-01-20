@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA;
  */
 /**
  * @author Christophe Noël <christophe@taotesting.com>
@@ -27,14 +27,28 @@ define([
     return {
         render: function render($container) {
             $container.find('[data-role="tooltip-target"]').each(function(){
-                var $target = $(this),
-                    $content,
-                    contentId = $target.attr('aria-describedBy'),
-                    contentHtml;
+                const $target = $(this);
+                const contentId = $target.attr('aria-describedBy');
+                let qtipPositionTarget = 'event';
+                let $content;
+                let contentHtml;
 
                 if (contentId) {
                     $content = $container.find('#' + contentId);
                     if ($content.length) {
+                        const targetHeight = parseInt($($target[0]).css('height'), 10);
+                        const targetFontSize = parseInt($($target[0]).css('fontSize'), 10);
+
+                        /**
+                         * Tooltip may be attached to a phrase which is spread into 2 or more lines. For this case we apply
+                         * position target as a `mouse`. It gives the behavior of following tooltip by the cursor pointer.
+                         * It prevents appearing the tooltip somewhere in the middle of the text between 2 parts of a phrase to
+                         * which it was attached.
+                         */
+                        if ((targetHeight / targetFontSize) >= 2) {
+                            qtipPositionTarget = 'mouse';
+                        }
+
                         contentHtml = $content.html();
 
                         $target.qtip({
@@ -44,7 +58,7 @@ define([
                                 text: contentHtml
                             },
                             position: {
-                                target: 'event',
+                                target: qtipPositionTarget,
                                 my: 'bottom center',
                                 at: 'top center'
                             }

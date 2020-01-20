@@ -136,19 +136,6 @@
 		PROTOTYPE.render = function(show) {
 			if(this.rendered || this.destroyed) { return this; } // If tooltip has already been rendered, exit
 
-			const targetHeight = parseInt($(this.target[0]).css('height'), 10);
-			const targetFontSize = parseInt($(this.target[0]).css('fontSize'), 10);
-
-			/**
-			 * Tooltip may be attached to a phrase which is spread into 2 or more lines. For this case we apply
-			 * position target as a `mouse`. It gives the behavior of following tooltip by the cursor pointer.
-			 * It prevents appearing the tooltip somewhere in the middle of the text between 2 parts of a phrase to
-			 * which it was attached.
-			 */
-			if ((targetHeight / targetFontSize) >= 2) {
-				this.options.position.target = 'mouse';
-			}
-
 			var self = this,
 				options = this.options,
 				cache = this.cache,
