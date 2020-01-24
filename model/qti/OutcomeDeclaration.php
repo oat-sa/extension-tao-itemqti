@@ -4,19 +4,19 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -35,7 +35,7 @@ use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10089
- 
+
  */
 class OutcomeDeclaration extends VariableDeclaration
 {
@@ -53,6 +53,7 @@ class OutcomeDeclaration extends VariableDeclaration
                 parent::getUsedAttributes(), array(
             'oat\\taoQtiItem\\model\\qti\\attribute\\View',
             'oat\\taoQtiItem\\model\\qti\\attribute\\Interpretation',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\ExternalScored',
             'oat\\taoQtiItem\\model\\qti\\attribute\\LongInterpretation',
             'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMaximum',
             'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMinimum',
@@ -78,7 +79,7 @@ class OutcomeDeclaration extends VariableDeclaration
 
     /**
      * get the outcome in JSON format
-     * 
+     *
      * @deprecated now use the new qtism lib for response evaluation
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>

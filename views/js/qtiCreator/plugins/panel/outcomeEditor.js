@@ -32,6 +32,12 @@ define([
 
     var _ns = '.outcome-editor';
 
+    const externalScoredOptions = {
+        none: 'none',
+        human: 'human',
+        externalMachine : 'externalMachine'
+    };
+
     /**
      * Get the identifiers of the variables that are used in the response declaration
      *
@@ -61,15 +67,23 @@ define([
     function renderListing(item, $outcomeEditorPanel){
 
         var rpVariables = getRpUsedVariables(item);
-        
+
         var outcomesData = _.map(item.outcomes, function(outcome){
             var readonly = (rpVariables.indexOf(outcome.id()) >= 0);
+
+            var externalScored = {
+                none : {label : __("None"), selected : !outcome.attr('externalScored')},
+                human : {label : __("Human"), selected : outcome.attr('externalScored') === externalScoredOptions.human},
+                externalMachine : {label : __("External Machine"), selected : outcome.attr('externalScored') === externalScoredOptions.externalMachine}
+            };
+
             return {
                 serial : outcome.serial,
                 identifier : outcome.id(),
                 interpretation : outcome.attr('interpretation'),
                 normalMaximum : outcome.attr('normalMaximum'),
                 normalMinimum : outcome.attr('normalMinimum'),
+                externalScored: externalScored,
                 titleDelete : readonly ? __('Cannot delete a variable currently used in response processing') : __('Delete'),
                 titleEdit : readonly ? __('Cannot edit a variable currently used in response processing') : __('Edit'),
                 readonly : readonly
@@ -136,6 +150,19 @@ define([
 
                             //save to model
                             outcome.attr('interpretation', value);
+                        },
+                        externalScored : function(outcome, value){
+                            /**
+                             * Save to model
+                             *
+                             * When `none` is selected,
+                             * we should remove the externalScored attribute from outcome
+                             */
+                            if(value === externalScoredOptions.none) {
+                                outcome.removeAttr('externalScored');
+                            } else {
+                                outcome.attr('externalScored', value);
+                            }
                         }
                     }, formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {
                         allowNull : true,
@@ -179,7 +206,7 @@ define([
                 });
 
                 //attach to response form side panel
-                $responsePanel.append($outcomeEditorPanel)
+                $responsePanel.append($outcomeEditorPanel);
                 renderListing(item, $outcomeEditorPanel);
             });
         }
