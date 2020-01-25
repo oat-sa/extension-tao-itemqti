@@ -25,13 +25,18 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
+    'ui/tooltip',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/panel',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing'
-], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, xmlRenderer, panelTpl, listingTpl) {
+], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, xmlRenderer, tooltip, panelTpl, listingTpl) {
     'use strict';
 
     var _ns = '.outcome-editor';
 
+    /**
+     * Types of externalScored attributes
+     * @type {{externalMachine: string, none: string, human: string}}
+     */
     const externalScoredOptions = {
         none: 'none',
         human: 'human',
@@ -98,6 +103,46 @@ define([
         formElement.initWidget($outcomeEditorPanel);
     }
 
+    /**
+     * Validates if the number is a valid scoring trait
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    function isValidScoringTrait(value) {
+        return (value % 1 === 0 && value !== undefined);
+    }
+
+    /**
+     * Attaches warning tooltips to value fields
+     *
+     * @param $field
+     */
+    function attachScoringTraitWarningTooltip($field){
+        var widgetTooltip;
+
+        if(!$field.data('$tooltip')) {
+            widgetTooltip = tooltip.warning($field, __('This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'), {
+                trigger: 'manual',
+                popperOptions: {
+                    positionFixed: false
+                }
+            });
+            $field.data('$tooltip', widgetTooltip);
+        }
+    }
+
+    /**
+     * Disposes tooltips
+     *
+     * @param $field
+     */
+    function disposeScoringTraitWarningTooltip($field) {
+        if($field.data('$tooltip')) {
+            $field.data('$tooltip').dispose();
+        }
+    }
+
     return pluginFactory({
         name: 'outcomeEditor',
         /**
@@ -127,6 +172,7 @@ define([
                     var $labelContainer = $outcomeContainer.find('.identifier-label');
                     var $identifierLabel = $labelContainer.find('.label');
                     var $identifierInput = $labelContainer.find('.identifier');
+                    var validateScoringTrait = outcome.attr('externalScored') === externalScoredOptions.human;
 
                     $outcomeContainer.addClass('editing');
 
@@ -134,6 +180,27 @@ define([
                     $identifierInput.focus();
                     $identifierInput.val('');
                     $identifierInput.val(outcome.id());
+
+                    const $outcomeValueMinimum = $outcomeContainer.find('input[name=normalMinimum]');
+                    const $outcomeValueMaximum = $outcomeContainer.find('input[name=normalMaximum]');
+
+                    function showScoringTraitWarningOnInvalidValue() {
+                        if(!isValidScoringTrait(outcome.attr('normalMinimum'))) {
+                            $outcomeValueMinimum.data('$tooltip').show();
+                        }
+                        if(!isValidScoringTrait(outcome.attr('normalMaximum'))) {
+                            $outcomeValueMaximum.data('$tooltip').show();
+                        }
+                    }
+
+                    //Attach scoring trait warning tooltips on init to outcome value fields
+                    if(validateScoringTrait) {
+                        attachScoringTraitWarningTooltip($outcomeValueMinimum);
+                        attachScoringTraitWarningTooltip($outcomeValueMaximum);
+
+                        // shows tooltips in case of invalid value
+                        showScoringTraitWarningOnInvalidValue();
+                    }
 
                     //attach form change callbacks
                     formElement.setChangeCallbacks($outcomeContainer, outcome, _.assign({
@@ -152,22 +219,49 @@ define([
                             outcome.attr('interpretation', value);
                         },
                         externalScored : function(outcome, value){
+                            //Turn off scoring trait validation if externalScored is not human
+                            validateScoringTrait = (value === externalScoredOptions.human);
                             /**
                              * Save to model
                              *
-                             * When `none` is selected,
-                             * we should remove the externalScored attribute from outcome
+                             * Removes the `externalScored` attribute from outcome when `none` is selected.
+                             * Attaches scoring trait warning tooltips when `externalScored` is `human`
+                             *
                              */
                             if(value === externalScoredOptions.none) {
                                 outcome.removeAttr('externalScored');
+                                disposeScoringTraitWarningTooltip($outcomeValueMinimum);
+                                disposeScoringTraitWarningTooltip($outcomeValueMaximum);
+                            } else if( value === externalScoredOptions.human) {
+                                outcome.attr('externalScored', value);
+                                attachScoringTraitWarningTooltip($outcomeValueMinimum);
+                                attachScoringTraitWarningTooltip($outcomeValueMaximum);
+                                // shows tooltips in case of invalid value
+                                showScoringTraitWarningOnInvalidValue();
                             } else {
                                 outcome.attr('externalScored', value);
+                                disposeScoringTraitWarningTooltip($outcomeValueMinimum);
+                                disposeScoringTraitWarningTooltip($outcomeValueMaximum);
                             }
                         }
                     }, formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {
                         allowNull : true,
                         floatVal: true,
                         callback : function(outcome, value, attr){
+                            const $outcomeValue = $outcomeContainer.find(`input[name=${attr}]`);
+
+                            console.log('change');
+                            debugger;
+
+                            if (validateScoringTrait) {
+                                showScoringTraitWarningOnInvalidValue($outcomeValue, attr);
+                                if(!isValidScoringTrait(value)) {
+                                    $outcomeValue.data('$tooltip').show();
+                                } else {
+                                    $outcomeValue.data('$tooltip').hide();
+                                }
+                            }
+
                             if(isNaN(value)){
                                 outcome.removeAttr(attr);
                             }
