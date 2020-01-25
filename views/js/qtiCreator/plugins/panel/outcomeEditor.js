@@ -125,7 +125,7 @@ define([
             widgetTooltip = tooltip.warning($field, __('This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'), {
                 trigger: 'manual',
                 popperOptions: {
-                    positionFixed: false
+                    placement: 'left-start'
                 }
             });
             $field.data('$tooltip', widgetTooltip);
@@ -249,9 +249,6 @@ define([
                         floatVal: true,
                         callback : function(outcome, value, attr){
                             const $outcomeValue = $outcomeContainer.find(`input[name=${attr}]`);
-
-                            console.log('change');
-                            debugger;
 
                             if (validateScoringTrait) {
                                 showScoringTraitWarningOnInvalidValue($outcomeValue, attr);
