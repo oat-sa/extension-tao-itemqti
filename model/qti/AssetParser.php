@@ -21,14 +21,13 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use common_exception_Error;
 use oat\oatbox\filesystem\Directory;
-use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\qti\container\Container;
-use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
-use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
 use \SimpleXMLElement;
+use tao_helpers_Xml;
 
 /**
  * Parse and Extract all assets of an item.
@@ -105,7 +104,24 @@ class AssetParser
                 $this->extractXinclude($element);
             }
         }
+        $this->extractApipAccessibilityAssets();
         return $this->assets;
+    }
+
+    private function extractApipAccessibilityAssets()
+    {
+        if (property_exists($this->item, 'apipAccessibility')) {
+            try {
+                $assets = tao_helpers_Xml::extractElements(
+                    'fileHref',
+                    $this->item->getApipAccessibility(),
+                    'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0'
+                );
+                foreach ($assets as $asset) {
+                    $this->addAsset('apip', $asset);
+                }
+            } catch (common_exception_Error $e) {}
+        }
     }
 
     /**
