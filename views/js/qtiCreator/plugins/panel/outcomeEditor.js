@@ -172,7 +172,7 @@ define([
                     var $labelContainer = $outcomeContainer.find('.identifier-label');
                     var $identifierLabel = $labelContainer.find('.label');
                     var $identifierInput = $labelContainer.find('.identifier');
-                    var validateScoringTrait = outcome.attr('externalScored') === externalScoredOptions.human;
+                    var isScoringTraitValidaitonEnabled = outcome.attr('externalScored') === externalScoredOptions.human;
 
                     $outcomeContainer.addClass('editing');
 
@@ -193,8 +193,8 @@ define([
                         }
                     }
 
-                    //Attach scoring trait warning tooltips on init to outcome value fields
-                    if(validateScoringTrait) {
+                    //Attach scoring trait warning tooltips on init to outcome value fields on init
+                    if(isScoringTraitValidaitonEnabled) {
                         attachScoringTraitWarningTooltip($outcomeValueMinimum);
                         attachScoringTraitWarningTooltip($outcomeValueMaximum);
 
@@ -220,7 +220,7 @@ define([
                         },
                         externalScored : function(outcome, value){
                             //Turn off scoring trait validation if externalScored is not human
-                            validateScoringTrait = (value === externalScoredOptions.human);
+                            isScoringTraitValidaitonEnabled = (value === externalScoredOptions.human);
                             /**
                              * Save to model
                              *
