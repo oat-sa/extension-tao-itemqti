@@ -48,6 +48,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
+use oat\taoQtiItem\model\qti\Resource as QtiResource;
 use qtism\data\QtiComponentCollection;
 use qtism\data\rules\ResponseCondition;
 use qtism\data\rules\SetOutcomeValue;
@@ -524,6 +525,9 @@ class ImportService extends ConfigurableService
                 $localHandler = new LocalAssetHandler();
                 $localHandler->setItemSource(new LocalItemSource(array('item' => $rdfItem)));
                 $itemAssetManager->loadAssetHandler($localHandler);
+
+                /** Copy external files to the item directory (preparation before import) */
+                $itemAssetManager->copyDependencyFiles($qtiItemResource, $dependencies);
 
                 $itemAssetManager
                     ->importAuxiliaryFiles($qtiItemResource)
