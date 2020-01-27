@@ -235,7 +235,7 @@ class AssetManager
             $auxiliaryPath = $this->getAbsolutePath($auxiliaryFile);
             $dest = $itemDir . '/' . $auxiliaryFile;
             if (
-                !helpers_File::isFileInsideDirectory($auxiliaryPath, $dest)
+                !helpers_File::isFileInsideDirectory($auxiliaryFile, $itemDir)
                 && !helpers_File::copy($auxiliaryPath, $dest)
             ) {
                 throw new AssetManagerException('File ' . $auxiliaryPath . ' was not copied to the ' . $itemDir);
