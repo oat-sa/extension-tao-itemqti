@@ -30,25 +30,11 @@ define([
                 var $target = $(this),
                     $content,
                     contentHtml,
-                    contentId = $target.attr('aria-describedBy'),
-                    qtipPositionTarget = 'event';
+                    contentId = $target.attr('aria-describedBy');
 
                 if (contentId) {
                     $content = $container.find('#' + contentId);
                     if ($content.length) {
-                        var targetHeight = parseInt($target.css('height'), 10),
-                            targetFontSize = parseInt($target.css('fontSize'), 10);
-
-                        /**
-                         * Tooltip may be attached to a phrase which is spread into 2 or more lines. For this case we apply
-                         * position target as a `mouse`. It gives the behavior of following tooltip by the cursor pointer.
-                         * It prevents appearing the tooltip somewhere in the middle of the text between 2 parts of a phrase to
-                         * which it was attached.
-                         */
-                        if ((targetHeight / targetFontSize) >= 2) {
-                            qtipPositionTarget = 'mouse';
-                        }
-
                         contentHtml = $content.html();
 
                         $target.qtip({
@@ -58,7 +44,7 @@ define([
                                 text: contentHtml
                             },
                             position: {
-                                target: qtipPositionTarget,
+                                target: 'mouse',
                                 my: 'bottom center',
                                 at: 'top center'
                             }
