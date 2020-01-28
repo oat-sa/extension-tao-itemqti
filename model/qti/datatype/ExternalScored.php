@@ -30,16 +30,19 @@ use oat\taoQtiItem\model\qti\datatype\Enumeration;
  * @access public
  * @author Anshul Sharma, <ansul@taotesting.com>
  * @package taoQTI
-
  */
 class ExternalScored extends Enumeration
 {
 
-	public static function getEnumeration(){
-		return array(
-			'human',
-			'externalMachine'
-		);
-	}
+    public const HUMAN = 'human';
+    public const EXTERNAL_MACHINE = 'externalMachine';
+
+    public static function getEnumeration(): array
+    {
+        return [
+            static::HUMAN,
+            static::EXTERNAL_MACHINE,
+        ];
+    }
 
 }
