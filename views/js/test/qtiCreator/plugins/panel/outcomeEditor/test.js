@@ -22,14 +22,16 @@
 define([
     'jquery',
     'taoQtiItem/test/qtiCreator/plugins/creatorMock',
-    'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor'
-], function($, creatorMock, outcomeEditorPlugin) {
+    'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor',
+    'taoQtiItem/qtiItem/core/Loader',
+    'json!taoQtiItem/test/samples/json/airports.json'
+], function($, creatorMock, outcomeEditorPlugin, Loader, item_airport) {
     'use strict';
 
     QUnit.module('API');
 
     QUnit.test('factory', function(assert) {
-        var itemCreator = creatorMock();
+        const itemCreator = creatorMock();
 
         assert.expect(3);
 
@@ -39,8 +41,8 @@ define([
     });
 
     QUnit.test('plugin', function(assert) {
-        var itemCreator = creatorMock();
-        var plugin;
+        const itemCreator = creatorMock();
+        let plugin;
 
         assert.expect(11);
 
@@ -57,5 +59,68 @@ define([
         assert.equal(typeof plugin.getName, 'function', 'The plugin has a getName method');
         assert.equal(typeof plugin.getConfig, 'function', 'The plugin has a getConfig method');
         assert.equal(typeof plugin.getAreaBroker, 'function', 'The plugin has a getAreaBroker method');
+    });
+
+    QUnit.test('render outcome editor panel', assert => {
+        var ready = assert.async();
+        const $container = $('#qunit-fixture');
+
+        const loader = new Loader().setClassesLocation('assessmentItem');
+
+        loader.loadItemData(item_airport, function(loadedItem){
+            const itemCreator = creatorMock($container, {}, loadedItem);
+            const pluginInstance = outcomeEditorPlugin(itemCreator, itemCreator.getAreaBroker());
+
+            pluginInstance.init();
+
+            assert.expect(1);
+
+            itemCreator.getAreaBroker().getContainer().on('initResponseForm.outcome-editor', () => {
+                assert.ok($container.children().length, 'component is rendered');
+                pluginInstance.destroy();
+                ready();
+            });
+
+            itemCreator.getAreaBroker().getContainer().trigger('initResponseForm.outcome-editor');
+        });
+    });
+
+    QUnit.test('External scored attribute', assert => {
+        var ready = assert.async();
+        const $container = $('#qunit-fixture');
+
+        const loader = new Loader().setClassesLocation('assessmentItem');
+
+        loader.loadItemData(item_airport, function(loadedItem){
+            const itemCreator = creatorMock($container, {}, loadedItem);
+            const pluginInstance = outcomeEditorPlugin(itemCreator, itemCreator.getAreaBroker());
+
+            pluginInstance.init();
+
+            assert.expect(3);
+
+            itemCreator.getAreaBroker().getContainer().on('initResponseForm.outcome-editor', () => {
+                const $panel = $container.find('.panel');
+
+                itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '.adder', () => {
+                    const $outcomes = $panel.find('.outcomes');
+                    assert.equal($outcomes.children().length, 2, 'component can add new outcome variables');
+
+                    itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '[data-role="edit"]', () => {
+                        const $outcome = $outcomes.children().last();
+                        const $externalScored = $outcome.find('.externalscored');
+                        assert.ok($externalScored, 'component can add new outcome variables');
+                        assert.equal($externalScored.find("select[name='externalScored']").children().length, 3, 'component has externalscored attribute options');
+                        ready();
+                    });
+
+                    $outcomes.children().last().find('[data-role="edit"]').trigger('click.outcome-editor');
+                });
+
+                itemCreator.getAreaBroker().getContainer().find('.adder').trigger('click.outcome-editor');
+            });
+
+            itemCreator.getAreaBroker().getContainer().trigger('initResponseForm.outcome-editor');
+        });
     });
 });
