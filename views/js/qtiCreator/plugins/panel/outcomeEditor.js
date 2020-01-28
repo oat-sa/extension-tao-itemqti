@@ -124,9 +124,7 @@ define([
         if(!$field.data('$tooltip')) {
             widgetTooltip = tooltip.warning($field, __('This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'), {
                 trigger: 'manual',
-                popperOptions: {
-                    placement: 'left-start'
-                }
+                placement: 'left-start'
             });
             $field.data('$tooltip', widgetTooltip);
         }
@@ -250,7 +248,7 @@ define([
                         callback : function(outcome, value, attr){
                             const $outcomeValue = $outcomeContainer.find(`input[name=${attr}]`);
 
-                            if (validateScoringTrait) {
+                            if (isScoringTraitValidaitonEnabled) {
                                 showScoringTraitWarningOnInvalidValue($outcomeValue, attr);
                                 if(!isValidScoringTrait(value)) {
                                     $outcomeValue.data('$tooltip').show();
