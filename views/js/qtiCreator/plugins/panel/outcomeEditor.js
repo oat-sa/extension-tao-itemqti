@@ -248,13 +248,10 @@ define([
                         callback : function(outcome, value, attr){
                             const $outcomeValue = $outcomeContainer.find(`input[name=${attr}]`);
 
-                            if (isScoringTraitValidaitonEnabled) {
+                            if (isScoringTraitValidaitonEnabled && !isValidScoringTrait(value)) {
                                 showScoringTraitWarningOnInvalidValue($outcomeValue, attr);
-                                if(!isValidScoringTrait(value)) {
-                                    $outcomeValue.data('$tooltip').show();
-                                } else {
-                                    $outcomeValue.data('$tooltip').hide();
-                                }
+                            } else {
+                                $outcomeValue.data('$tooltip').hide();
                             }
 
                             if(isNaN(value)){
