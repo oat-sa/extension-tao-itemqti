@@ -21,6 +21,7 @@
  */
 
 namespace oat\taoQtiItem\scripts\install;
+
 use oat\oatbox\extension\InstallAction;
 use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
 use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
@@ -35,7 +36,7 @@ use oat\taoQtiItem\model\ItemModel;
  *
  * @author Antoine ROBIN <antoine@taotesting.com>
  */
-class SetItemModel  extends InstallAction
+class SetItemModel extends InstallAction
 {
     public function __invoke($params)
     {
@@ -53,7 +54,7 @@ class SetItemModel  extends InstallAction
             ]
         ];
 
-        if(\common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig(ItemModel::COMPILER)){
+        if (\common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig(ItemModel::COMPILER)) {
             $options[ItemModel::COMPILER] = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig(ItemModel::COMPILER);
             \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->unsetConfig(ItemModel::COMPILER);
         } else {
@@ -65,6 +66,5 @@ class SetItemModel  extends InstallAction
         $this->getServiceManager()->propagate($itemModelService);
 
         $this->getServiceManager()->register(ItemModel::SERVICE_ID, $itemModelService);
-
     }
 }

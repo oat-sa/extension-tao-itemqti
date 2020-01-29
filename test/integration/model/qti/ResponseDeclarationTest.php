@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,7 +34,8 @@ class ResponseDeclarationTest extends TaoPhpUnitTestRunner
     /**
      * Test that model to QTI serialization is correct
      */
-    public function testToQti(){
+    public function testToQti()
+    {
         $responseDeclaration = new ResponseDeclaration([
             'identifier' => 'RESPONSE',
             'cardinality' => 'single',
@@ -54,8 +56,9 @@ class ResponseDeclarationTest extends TaoPhpUnitTestRunner
     /**
      * Test that the parsing and serialization leave the xml unchanged
      */
-    public function testXmlParsingAndSerialization(){
-        $file = dirname(__FILE__).'/samples/xml/responseDeclarationTest.xml';
+    public function testXmlParsingAndSerialization()
+    {
+        $file = dirname(__FILE__) . '/samples/xml/responseDeclarationTest.xml';
 
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();

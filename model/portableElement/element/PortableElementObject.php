@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,13 +42,13 @@ abstract class PortableElementObject
     /** @var string */
     protected $email;
     /** @var array */
-    protected $tags = array();
+    protected $tags = [];
     /** @var array */
-    protected $response = array();
+    protected $response = [];
     /** @var array */
-    protected $runtime = array();
+    protected $runtime = [];
     /** @var array */
-    protected $creator = array();
+    protected $creator = [];
     /** @var boolean */
     protected $enabled;
 
@@ -57,7 +58,7 @@ abstract class PortableElementObject
      * @param $typeIdentifier
      * @param $version
      */
-    public function __construct($typeIdentifier=null, $version=null)
+    public function __construct($typeIdentifier = null, $version = null)
     {
         $this->typeIdentifier = $typeIdentifier;
         $this->version = $version;
@@ -87,7 +88,7 @@ abstract class PortableElementObject
      * @param bool $selectionGroup
      * @return array
      */
-    public function toArray($selectionGroup=false)
+    public function toArray($selectionGroup = false)
     {
         $array = get_object_vars($this);
         if (is_array($selectionGroup)) {
@@ -192,7 +193,7 @@ abstract class PortableElementObject
      */
     public function hasVersion()
     {
-        return ($this->version!=null);
+        return ($this->version != null);
     }
 
     /**
@@ -489,7 +490,8 @@ abstract class PortableElementObject
      * @param $itemPath - absolute path to the root of the item folder
      * @return string
      */
-    public function getRegistrationSourcePath($packagePath, $itemPath){
+    public function getRegistrationSourcePath($packagePath, $itemPath)
+    {
         return $itemPath . DIRECTORY_SEPARATOR . $this->getTypeIdentifier() . DIRECTORY_SEPARATOR;
     }
 
@@ -498,7 +500,8 @@ abstract class PortableElementObject
      * @param $file - the relative path to the file
      * @return string
      */
-    public function getRegistrationFileId($file){
+    public function getRegistrationFileId($file)
+    {
         //Adjust file resource entries where {QTI_NS}/xxx/yyy.js is equivalent to ./xxx/yyy.j
         return preg_replace('/^' . $this->getTypeIdentifier() . '/', '.', $file);
     }
@@ -508,15 +511,17 @@ abstract class PortableElementObject
      * @param $file
      * @return bool
      */
-    public function isRegistrableFile($file){
-        return (substr($file, 0, 2) =='./' || preg_match('/^' . $this->getTypeIdentifier() . '/', $file));
+    public function isRegistrableFile($file)
+    {
+        return (substr($file, 0, 2) == './' || preg_match('/^' . $this->getTypeIdentifier() . '/', $file));
     }
 
     /**
      * Get the array of key in the portable element model that should not be registered as files
      * @return array
      */
-    public function getRegistrationExcludedKey(){
+    public function getRegistrationExcludedKey()
+    {
         return [];
     }
 }

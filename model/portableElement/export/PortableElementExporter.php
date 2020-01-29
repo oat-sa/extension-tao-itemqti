@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -54,22 +55,25 @@ abstract class PortableElementExporter
      */
     abstract public function copyAssetFiles(&$replacementList);
 
-    protected function removeOldNode(DOMNode $resourcesNode, $nodeName){
+    protected function removeOldNode(DOMNode $resourcesNode, $nodeName)
+    {
         $xpath = new \DOMXPath($resourcesNode->ownerDocument);
-        $oldNodeList = $xpath->query('.//*[local-name(.) = "'.$nodeName.'"]', $resourcesNode);
+        $oldNodeList = $xpath->query('.//*[local-name(.) = "' . $nodeName . '"]', $resourcesNode);
         if ($oldNodeList->length > 0) {
-            foreach($oldNodeList as $oldNode){
+            foreach ($oldNodeList as $oldNode) {
                 $resourcesNode->removeChild($oldNode);
             }
         }
         unset($xpath);
     }
 
-    protected function getRawExportPath($file){
+    protected function getRawExportPath($file)
+    {
         return $this->portableAssetsToExport[$file];
     }
 
-    protected function getRelPath($from, $to){
+    protected function getRelPath($from, $to)
+    {
         return ($from === basename($from)) ? $to : \helpers_File::getRelPath($from, $to);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,13 +26,15 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
 
 /**
  * LOMIdentifierGuardian is an implementation of MetadataGuardian.
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
  */
-class LomIdentifierGuardian implements MetadataGuardian {
+class LomIdentifierGuardian implements MetadataGuardian
+{
     
-    public function guard(array $metadataValues) {
+    public function guard(array $metadataValues)
+    {
         $guard = false;
         
         // Search for a metadataValue with path:
@@ -40,19 +43,18 @@ class LomIdentifierGuardian implements MetadataGuardian {
         // http://www.imsglobal.org/xsd/imsmd_v1p2#identifier
         
         foreach ($metadataValues as $metadataValue) {
-            
             $path = $metadataValue->getPath();
-            $expectedPath = array(
+            $expectedPath = [
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-            );
+            ];
             
             if ($path === $expectedPath) {
                 // Check for such a value in database...
                 $prop = new \core_kernel_classes_Property('http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
                 $class = new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI);
-                $instances = $class->searchInstances(array($prop->getUri() => $metadataValue->getValue()), array('like' => false, 'recursive' => true));
+                $instances = $class->searchInstances([$prop->getUri() => $metadataValue->getValue()], ['like' => false, 'recursive' => true]);
                 
                 if (count($instances) > 0) {
                     //var_dump($instances);

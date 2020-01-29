@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,7 +47,7 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
     
     /**
      * @dataProvider injectionProvider
-     * 
+     *
      * @param string $inputFile
      * @param array $values
      * @param array $mappings
@@ -94,7 +95,6 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
         }
         
         foreach ($values as $resourceIdentifier => $metadataValues) {
-
             foreach ($metadataValues as $metadataValue) {
                 $path = $metadataValue->getPath();
                 $query = "//man:resource[@identifier='${resourceIdentifier}']/man:metadata";
@@ -144,171 +144,171 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
     
     public function injectionProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'sample1.xml',
-                array(
-                    'choice' => array(
+                [
+                    'choice' => [
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-                            ),
+                            ],
                             'qti_v2_item_01'
                         )
-                    )
-                ),
-                array(
-                    new ImsManifestMapping('http://www.imsglobal.org/xsd/imsmd_v1p2', 'imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd')                
-                )
-            ),
+                    ]
+                ],
+                [
+                    new ImsManifestMapping('http://www.imsglobal.org/xsd/imsmd_v1p2', 'imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd')
+                ]
+            ],
             
-            array(
+            [
                 'sample2.xml',
-                array(
-                    'choice' => array(
+                [
+                    'choice' => [
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-                            ),
+                            ],
                             'qti_v2_item_01'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#title',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#langstring'
-                            ),
+                            ],
                             'Metadata Example Item #1',
                             'en'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#description',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#langstring'
-                            ),
+                            ],
                             'This is a dummy item',
                             'en'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#timeDependent'
-                            ),
+                            ],
                             'false'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#interactionType'
-                            ),
+                            ],
                             'choiceInteraction'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#feedbackType'
-                            ),
+                            ],
                             'nonadaptive'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#solutionAvailable'
-                            ),
+                            ],
                             'true'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#toolName'
-                            ),
+                            ],
                             'XMLSPY'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#toolVersion'
-                            ),
+                            ],
                             '5.4'
                         ),
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#toolVendor'
-                            ),
+                            ],
                             'ALTOVA'
                         )
-                    ),
-                    'hybrid' => array(
+                    ],
+                    'hybrid' => [
                         new SimpleMetadataValue(
                             'hybrid',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-                            ),
+                            ],
                             'qti_v2_item_02'
                         ),
                         new SimpleMetadataValue(
                             'hybrid',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#interactionType'
-                            ),
+                            ],
                             'choiceInteraction'
                         ),
                         new SimpleMetadataValue(
                             'hybrid',
-                            array(
+                            [
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                                 'http://www.imsglobal.org/xsd/imsqti_v2p0#interactionType'
-                            ),
+                            ],
                             'orderInteraction'
                         ),
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     new ImsManifestMapping('http://www.imsglobal.org/xsd/imsmd_v1p2', 'imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd'),
                     new ImsManifestMapping('http://www.imsglobal.org/xsd/imsqti_v2p0', 'imsqti', 'http://www.imsglobal.org/xsd/imsqti_v2p0.xsd')
-                )
-            ),
+                ]
+            ],
                         
-            array(
+            [
                 'sample3.xml',
-                array(
-                    'Q01' => array(
+                [
+                    'Q01' => [
                         new SimpleMetadataValue(
                             'choice',
-                            array(
+                            [
                                 'http://www.taotesting.com/xsd/mpm#myprojectMetadata',
                                 'http://www.taotesting.com/xsd/mpm#complexity'
-                            ),
+                            ],
                             '4'
                         )
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     new ImsManifestMapping('http://www.taotesting.com/xsd/mpm', 'mpm', 'http://www.taotesting.com/xsd/mpm.xsd')
-                )
-            ),
-        );
+                ]
+            ],
+        ];
     }
 }

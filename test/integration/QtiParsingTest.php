@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use common_ext_ExtensionsManager;
@@ -30,76 +32,80 @@ use oat\taoQtiItem\model\qti\Parser;
  * @package taoQTI
 
  */
-class QtiParsingTest extends TaoPhpUnitTestRunner {
+class QtiParsingTest extends TaoPhpUnitTestRunner
+{
 
-	/**
-	 * tests initialization
-	 */
-	public function setUp(){
-		TaoPhpUnitTestRunner::initTest();
+    /**
+     * tests initialization
+     */
+    public function setUp()
+    {
+        TaoPhpUnitTestRunner::initTest();
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-	}
-	
-	/**
-	 * Provide valid and invalid files for the qti parser
-	 */
-	public function QtiFileProvider() {
-	    $qtiSamples = array();
-	    foreach (glob(dirname(__FILE__).'/samples/wrong/*.*') as $file) {
-	        $qtiSamples[] = array(
-	        	'file' => $file,
-	            'valid' => false
-	        );
-	    }
-	    $files = array_merge(
-	        glob(dirname(__FILE__).'/samples/xml/qtiv2p0/*.xml'),
-	        glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml'),
-	        glob(dirname(__FILE__).'/samples/xml/qtiv2p1/rubricBlock/*.xml')
-	    );
-	    foreach ($files as $file) {
-	        $qtiSamples[] = array(
-	            'file' => $file,
-	            'valid' => true
-	        );
-	    }
-	     
-	    return $qtiSamples; 
-	}
-	
-	/**
-	 * test qti file parsing: validation and loading in a non-persistant context
-	 * @dataProvider QtiFileProvider
-	 */
-	public function testParsingQti($file, $valid)
-	{
-	    $qtiParser = new Parser($file);
-	    $qtiParser->validate();
-	    
-	    if ($valid) {
-	        $this->assertEquals(array(), $qtiParser->getErrors());
-	        $this->assertTrue($qtiParser->isValid());
-	        $item = $qtiParser->load();
-	        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-	    } else {
-	        $this->assertFalse($qtiParser->isValid());
-	        $this->assertTrue(count($qtiParser->getErrors()) > 0);
-	        $this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
-	    }
-	}
-	
+    }
+    
+    /**
+     * Provide valid and invalid files for the qti parser
+     */
+    public function QtiFileProvider()
+    {
+        $qtiSamples = [];
+        foreach (glob(dirname(__FILE__) . '/samples/wrong/*.*') as $file) {
+            $qtiSamples[] = [
+                'file' => $file,
+                'valid' => false
+            ];
+        }
+        $files = array_merge(
+            glob(dirname(__FILE__) . '/samples/xml/qtiv2p0/*.xml'),
+            glob(dirname(__FILE__) . '/samples/xml/qtiv2p1/*.xml'),
+            glob(dirname(__FILE__) . '/samples/xml/qtiv2p1/rubricBlock/*.xml')
+        );
+        foreach ($files as $file) {
+            $qtiSamples[] = [
+                'file' => $file,
+                'valid' => true
+            ];
+        }
+         
+        return $qtiSamples;
+    }
+    
+    /**
+     * test qti file parsing: validation and loading in a non-persistant context
+     * @dataProvider QtiFileProvider
+     */
+    public function testParsingQti($file, $valid)
+    {
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+        
+        if ($valid) {
+            $this->assertEquals([], $qtiParser->getErrors());
+            $this->assertTrue($qtiParser->isValid());
+            $item = $qtiParser->load();
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+        } else {
+            $this->assertFalse($qtiParser->isValid());
+            $this->assertTrue(count($qtiParser->getErrors()) > 0);
+            $this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
+        }
+    }
+    
     /**
      * test if a correctResponse with CDATA works
      * @author Thibault Milan <thibault.milan@vesperiagroup.com>
      */
-    public function testFileParsingCDATA(){
+    public function testFileParsingCDATA()
+    {
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
         
-        $file = dirname(__FILE__).'/samples/xml/cdata/item.xml';
+        $file = dirname(__FILE__) . '/samples/xml/cdata/item.xml';
 
         $qtiParser = new Parser($file);
         $qtiParser->validate();
 
-        if(!$qtiParser->isValid()){
+        if (!$qtiParser->isValid()) {
             $this->fail($qtiParser->displayErrors());
         }
 
@@ -113,8 +119,8 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         foreach ($responses as $response) {
             $correctResponses = $response->getCorrectResponses();
             foreach ($correctResponses as $correctResponse) {
-                $this->assertFalse(strstr($correctResponse,"<![CDATA["),"<![CDATA[ (CDATA opening tag) detected.");
-                $this->assertFalse(strstr($correctResponse,"]]>"),"]]> (CDATA closing tag) detected");
+                $this->assertFalse(strstr($correctResponse, "<![CDATA["), "<![CDATA[ (CDATA opening tag) detected.");
+                $this->assertFalse(strstr($correctResponse, "]]>"), "]]> (CDATA closing tag) detected");
             }
         }
     }
@@ -123,15 +129,16 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
      * test record response type
      * @author Aleh Hutnikau <hutnikau@1pt.com>
      */
-    public function testFileQtiRecordResponse(){
+    public function testFileQtiRecordResponse()
+    {
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/qtiRecordResponse.xml';
+        $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/qtiRecordResponse.xml';
 
         $qtiParser = new Parser($file);
         $qtiParser->validate();
 
-        if(!$qtiParser->isValid()){
+        if (!$qtiParser->isValid()) {
             $this->fail($qtiParser->displayErrors());
         }
 
@@ -153,15 +160,15 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
-    public function testFileParsingApipv1p0(){
+    public function testFileParsingApipv1p0()
+    {
 
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
 
-        foreach(glob(dirname(__FILE__).'/samples/xml/apipv1p0/*.xml') as $file){
-
+        foreach (glob(dirname(__FILE__) . '/samples/xml/apipv1p0/*.xml') as $file) {
             $qtiParser = new Parser($file);
-            $qtiParser->validate($basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd');
-            if(!$qtiParser->isValid()){
+            $qtiParser->validate($basePath . 'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd');
+            if (!$qtiParser->isValid()) {
                 echo $qtiParser->displayErrors();
             }
 
@@ -176,87 +183,86 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
             $this->assertFalse(empty($qti));
 
             //test if it's a valid QTI file
-            $tmpFile = $this->createFile('', uniqid('qti_', true).'.xml');
+            $tmpFile = $this->createFile('', uniqid('qti_', true) . '.xml');
             file_put_contents($tmpFile, $qti);
             $this->assertTrue(file_exists($tmpFile));
 
             $parserValidator = new Parser($tmpFile);
             $parserValidator->validate();
-            if(!$parserValidator->isValid()){
+            if (!$parserValidator->isValid()) {
                 $this->fail($parserValidator->displayErrors());
             }
         }
     }
 
-	/**
-	 * test the building an QTI_Item object from it's XML definition
-	 */
-	public function testBuilding(){
+    /**
+     * test the building an QTI_Item object from it's XML definition
+     */
+    public function testBuilding()
+    {
 
-		$qtiParser = new Parser(dirname(__FILE__).'/samples/xml/qtiv2p1/choice.xml');
-		$item = $qtiParser->load();
+        $qtiParser = new Parser(dirname(__FILE__) . '/samples/xml/qtiv2p1/choice.xml');
+        $item = $qtiParser->load();
 
-		$this->assertTrue($qtiParser->isValid());
-		$this->assertNotNull($item);
-		$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+        $this->assertTrue($qtiParser->isValid());
+        $this->assertNotNull($item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
-		$this->assertEquals(count($item->getInteractions()),1, 'nr of interactions in choice.xml differs from 1');
+        $this->assertEquals(count($item->getInteractions()), 1, 'nr of interactions in choice.xml differs from 1');
 
-		$this->assertFalse(strlen((string) $item->getBody()) == 0, 'itembody empty');
-		foreach($item->getInteractions() as $interaction){
-			$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\interaction\\ChoiceInteraction',$interaction);
+        $this->assertFalse(strlen((string) $item->getBody()) == 0, 'itembody empty');
+        foreach ($item->getInteractions() as $interaction) {
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\interaction\\ChoiceInteraction', $interaction);
 
-			foreach($interaction->getChoices() as $choice){
-				$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\choice\\Choice',$choice);
-			}
-		}
-
-	}
+            foreach ($interaction->getChoices() as $choice) {
+                $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\choice\\Choice', $choice);
+            }
+        }
+    }
 
     /**
-	 * test qti file parsing: validation and loading in a non-persistant context
-	 */
-	public function testFileParsingQtiPci(){
+     * test qti file parsing: validation and loading in a non-persistant context
+     */
+    public function testFileParsingQtiPci()
+    {
 
-        $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pci/*.xml');
+        $files = glob(dirname(__FILE__) . '/samples/xml/qtiv2p1/pci/*.xml');
 
-		//check if samples are loaded
-		foreach($files as $file){
-			$qtiParser = new Parser($file);
+        //check if samples are loaded
+        foreach ($files as $file) {
+            $qtiParser = new Parser($file);
 
             $qtiParser->validate();
-            if(!$qtiParser->isValid()){
+            if (!$qtiParser->isValid()) {
                 echo $qtiParser->displayErrors();
             }
 
-			$item = $qtiParser->load();
-			$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-		}
+            $item = $qtiParser->load();
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+        }
+    }
 
-	}
+    public function testFileParsingQtiPic()
+    {
+        $extensionManager = common_ext_ExtensionsManager::singleton();
 
-	public function testFileParsingQtiPic(){
-	    $extensionManager = common_ext_ExtensionsManager::singleton();
-
-	    if (!$extensionManager->isInstalled('qtiItemPic') || !$extensionManager->isEnabled('qtiItemPic')) {
-	        $this->markTestSkipped('The extension qtiItemPic is required to run this test.');
+        if (!$extensionManager->isInstalled('qtiItemPic') || !$extensionManager->isEnabled('qtiItemPic')) {
+            $this->markTestSkipped('The extension qtiItemPic is required to run this test.');
         }
 
-        $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml');
+        $files = glob(dirname(__FILE__) . '/samples/xml/qtiv2p1/pic/*.xml');
 
-		//check if samples are loaded
-		foreach($files as $file){
-			$qtiParser = new Parser($file);
+        //check if samples are loaded
+        foreach ($files as $file) {
+            $qtiParser = new Parser($file);
 
             $qtiParser->validate();
-            if(!$qtiParser->isValid()){
+            if (!$qtiParser->isValid()) {
                 echo $qtiParser->displayErrors();
             }
 
-			$item = $qtiParser->load();
-			$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-
-		}
-	}
-
+            $item = $qtiParser->load();
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+        }
+    }
 }

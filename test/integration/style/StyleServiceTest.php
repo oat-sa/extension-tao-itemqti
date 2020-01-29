@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\test\integration\style;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -35,12 +37,13 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
      * tests initialization
      * load qti service
      */
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoItems');
         
         $itemTopClass = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
-        $this->itemClass = $itemTopClass->createSubClass('style service unit test', 'create for unit test '.time());
+        $this->itemClass = $itemTopClass->createSubClass('style service unit test', 'create for unit test ' . time());
         
         $itemService = \taoItems_models_classes_ItemsService::singleton();
         $qtiItemModel = new \core_kernel_classes_Resource(ItemModel::MODEL_URI);
@@ -48,31 +51,33 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $itemA = $this->itemClass->createInstance('itemA');
         $itemService->setItemModel($itemA, $qtiItemModel);
         Service::singleton()
-            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__).'/samples/itemA.xml'), $itemA);
+            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__) . '/samples/itemA.xml'), $itemA);
         $this->items[] = $itemA;
         
         $itemB = $this->itemClass->createInstance('itemB');
         $itemService->setItemModel($itemB, $qtiItemModel);
         Service::singleton()
-            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__).'/samples/itemB.xml'), $itemB);
+            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__) . '/samples/itemB.xml'), $itemB);
         $this->items[] = $itemB;
         
         $itemC = $this->itemClass->createInstance('itemC');
         $itemService->setItemModel($itemC, $qtiItemModel);
         Service::singleton()
-            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__).'/samples/itemC.xml'), $itemC);
+            ->saveXmlItemToRdfItem(file_get_contents(dirname(__FILE__) . '/samples/itemC.xml'), $itemC);
         $this->items[] = $itemC;
     }
     
-    public function tearDown(){
+    public function tearDown()
+    {
         $this->itemClass->delete();
-        foreach($this->items as $item){
+        foreach ($this->items as $item) {
             $item->delete();
         }
         parent::tearDown();
     }
 
-    public function testGetBodyStyles(){
+    public function testGetBodyStyles()
+    {
         $styleService = StyleService::singleton();
         
         $itemA = reset($this->items);
@@ -81,7 +86,8 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(2, count(array_intersect(['customerA-theme1', 'customerA-theme2'], $styles)));
     }
 
-    public function testGetClassBodyStyles(){
+    public function testGetClassBodyStyles()
+    {
         $styleService = StyleService::singleton();
         
         $usage = $styleService->getClassBodyStyles($this->itemClass);
@@ -96,7 +102,8 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(2, count(array_intersect(['customerA-theme2', 'customerA-theme3'], $usage['indeterminate'])));
     }
     
-    public function testAddRemoveBodyStyles(){
+    public function testAddRemoveBodyStyles()
+    {
         $styleService = StyleService::singleton();
         
         $itemA = reset($this->items);
@@ -115,11 +122,12 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(3, count(array_intersect(['customerA-theme1', 'customerA-theme2', 'BBB'], $styles)));
     }
     
-    public function testAddRemoveClassBodyStyles(){
+    public function testAddRemoveClassBodyStyles()
+    {
         $styleService = StyleService::singleton();
         
         //check that all items have some styles intially
-        foreach($this->items as $item){
+        foreach ($this->items as $item) {
             $styles = $styleService->getBodyStyles($item);
             $this->assertTrue(count($styles) > 0);
         }
@@ -127,7 +135,7 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $styleService->removeClassBodyStyles(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $this->itemClass);
         
         //check that all styles have been modified
-        foreach($this->items as $item){
+        foreach ($this->items as $item) {
             $styles = $styleService->getBodyStyles($item);
             $this->assertEquals(0, count($styles));
         }
@@ -135,7 +143,7 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $styleService->addClassBodyStyles(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $this->itemClass);
         
         //check that all styles have set again
-        foreach($this->items as $item){
+        foreach ($this->items as $item) {
             $styles = $styleService->getBodyStyles($item);
             $this->assertEquals(3, count(array_intersect(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $styles)));
         }

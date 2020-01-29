@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,12 +35,12 @@ class RestQtiItemTest extends RestTestRunner
     public function testImport()
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoItems');
-        $url = $this->host.'taoQtiItem/RestQtiItem/import';
+        $url = $this->host . 'taoQtiItem/RestQtiItem/import';
         $post_data = [
-            'content' => new \CURLFile(__DIR__.'/../samples/package/QTI/package.zip', 'application/zip')
+            'content' => new \CURLFile(__DIR__ . '/../samples/package/QTI/package.zip', 'application/zip')
         ];
 
-        $return = $this->curl($url, CURLOPT_POST, 'data', array(CURLOPT_POSTFIELDS => $post_data));
+        $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => $post_data]);
         $data = json_decode($return, true);
         $this->assertInternalType('array', $data);
         $this->assertTrue(isset($data['success']));
@@ -64,8 +65,8 @@ class RestQtiItemTest extends RestTestRunner
     
     public function testCreateQtiItem()
     {
-        $url = $this->host.'taoQtiItem/RestQtiItem/createQtiItem';
-        $return = $this->curl($url, CURLOPT_POST, 'data', array(CURLOPT_POSTFIELDS => array()));
+        $url = $this->host . 'taoQtiItem/RestQtiItem/createQtiItem';
+        $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => []]);
         $data = json_decode($return, true);
         
         $this->assertInternalType('array', $data);

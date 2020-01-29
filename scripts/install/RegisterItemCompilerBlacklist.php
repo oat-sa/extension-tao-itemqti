@@ -21,6 +21,7 @@
  */
 
 namespace oat\taoQtiItem\scripts\install;
+
 use oat\oatbox\extension\InstallAction;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
@@ -36,7 +37,7 @@ use oat\taoQtiItem\model\ItemModel;
  *
  * @author Antoine ROBIN <antoine@taotesting.com>
  */
-class RegisterItemCompilerBlacklist  extends InstallAction
+class RegisterItemCompilerBlacklist extends InstallAction
 {
     public function __invoke($params)
     {
@@ -48,6 +49,5 @@ class RegisterItemCompilerBlacklist  extends InstallAction
         ]);
 
         $this->getServiceManager()->register(QtiItemCompilerAssetBlacklist::SERVICE_ID, $assetBlacklistService);
-
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,46 +29,51 @@ use \DOMElement;
 trait PortableElementTrait
 {
 
-    protected $config = array();
-    protected $modules = array();
+    protected $config = [];
+    protected $modules = [];
 
     /**
      * @var QtiNamespace
      */
     protected $ns = null;
 
-    public function getConfig(){
+    public function getConfig()
+    {
         return $this->config;
     }
 
-    public function setConfig($configFiles){
-        if(is_array($configFiles)){
+    public function setConfig($configFiles)
+    {
+        if (is_array($configFiles)) {
             $this->config = $configFiles;
-        }else{
+        } else {
             throw new InvalidArgumentException('config files should be an array');
         }
     }
 
-    public function addModule($id, $paths){
-        if(is_string($paths)){
+    public function addModule($id, $paths)
+    {
+        if (is_string($paths)) {
             $paths = [$paths];
         }
-        if(is_array($paths)){
+        if (is_array($paths)) {
             $this->modules[$id] = $paths;
-        }else{
+        } else {
             throw new InvalidArgumentException('modue paths should be an array');
         }
     }
 
-    public function setModules($paths){
-        if(is_array($paths)){
+    public function setModules($paths)
+    {
+        if (is_array($paths)) {
             $this->modules = $paths;
-        }else{
+        } else {
             throw new InvalidArgumentException('modue paths should be an array');
         }
     }
 
-    public function getModules(){
+    public function getModules()
+    {
         return $this->modules;
     }
 
@@ -78,7 +84,8 @@ trait PortableElementTrait
      * @param string $ns
      * @return string
      */
-    private function serializePortableProperties($properties, $ns = '', $nsUri = '', $name = null, $element = null){
+    private function serializePortableProperties($properties, $ns = '', $nsUri = '', $name = null, $element = null)
+    {
         $document = null;
         $result = '';
 
@@ -103,7 +110,7 @@ trait PortableElementTrait
         }
 
         foreach ($properties as $name => $value) {
-            if(is_array($value)){
+            if (is_array($value)) {
                 $this->serializePortableProperties($value, $ns, $nsUri, $name, $element);
             } else {
                 $entryElement = $ns ?
@@ -132,21 +139,21 @@ trait PortableElementTrait
      * @param string $ns
      * @return array
      */
-    private function extractProperties(DOMElement $propertiesNode, $ns = ''){
+    private function extractProperties(DOMElement $propertiesNode, $ns = '')
+    {
 
-        $properties = array();
-        $ns = $ns ? trim( $ns, ':' ) . ':' : '';
+        $properties = [];
+        $ns = $ns ? trim($ns, ':') . ':' : '';
 
-        foreach($propertiesNode->childNodes as $prop){
-
-            if($prop instanceof DOMElement){
-                switch($prop->tagName){
-                    case $ns.'entry'://OAT PCI uses entry as property node
-                    case $ns.'property'://IMS PCI uses entry as property node
+        foreach ($propertiesNode->childNodes as $prop) {
+            if ($prop instanceof DOMElement) {
+                switch ($prop->tagName) {
+                    case $ns . 'entry'://OAT PCI uses entry as property node
+                    case $ns . 'property'://IMS PCI uses entry as property node
                         $key = $prop->getAttribute('key');
                         $properties[$key] = $prop->nodeValue;
                         break;
-                    case $ns.'properties':
+                    case $ns . 'properties':
                         $key = $prop->getAttribute('key');
                         $properties[$key] = $this->extractProperties($prop, $ns);
                         break;
@@ -161,7 +168,8 @@ trait PortableElementTrait
      * Set the namespace used by this custom interaction
      * @param QtiNamespace $xmlns
      */
-    public function setNamespace(QtiNamespace $xmlns){
+    public function setNamespace(QtiNamespace $xmlns)
+    {
         $this->ns = $xmlns;
     }
 
@@ -169,7 +177,8 @@ trait PortableElementTrait
      * Get the namespace used by this custom interaction
      * @return QtiNamespace
      */
-    public function getNamespace(){
+    public function getNamespace()
+    {
         return $this->ns;
     }
 }

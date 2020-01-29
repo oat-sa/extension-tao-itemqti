@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,7 +50,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider loadAssetHandlerProvider
      */
-    public function testLoadAssetHandler($itemSource, $expected, $exception=false)
+    public function testLoadAssetHandler($itemSource, $expected, $exception = false)
     {
         if ($exception) {
             $this->setExpectedException($exception);
@@ -72,7 +73,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         return [
             [new SharedStimulusAssetHandler(), SharedStimulusAssetHandler::class],
             [new \stdClass(), null, AssetManagerException::class],
-            [new LocalAssetHandler(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))), LocalAssetHandler::class],
+            [new LocalAssetHandler(new LocalItemSource(['item' => 'itemFixture', 'lang' => 'langFixture'])), LocalAssetHandler::class],
         ];
     }
 
@@ -152,12 +153,12 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function testImportAuxiliaryFiles($source, $qtiFile, $auxiliaryFilesFixtures, $expectedCalls)
     {
         $assetManagerMock = $this->getMockBuilder(AssetManager::class)
-            ->setMethods(array('importAsset'))
+            ->setMethods(['importAsset'])
             ->getMock();
 
         $qtiResourceMock = $this->getMockBuilder(QtiResource::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getAuxiliaryFiles', 'getFile'))
+            ->setMethods(['getAuxiliaryFiles', 'getFile'])
             ->getMock();
 
         if (!$source) {
@@ -204,12 +205,12 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function testImportDependencyFiles($source, $qtiFile, $fileFixtures, $expectedCalls, $dependencies, $expectedImportCallCount)
     {
         $assetManagerMock = $this->getMockBuilder(AssetManager::class)
-            ->setMethods(array('importAsset'))
+            ->setMethods(['importAsset'])
             ->getMock();
 
         $qtiResourceMock = $this->getMockBuilder(QtiResource::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getDependencies', 'getFile'))
+            ->setMethods(['getDependencies', 'getFile'])
             ->getMock();
 
         if (!$source) {
@@ -239,7 +240,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     {
         $mock = $this->getMockBuilder(QtiResource::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getFile'))
+            ->setMethods(['getFile'])
             ->getMock();
         $mock
             ->expects($this->any())
@@ -261,7 +262,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider importAssetProvider
      */
-    public function testImportAsset($assetHandlers, $absPath, $relPath, $exception=null, $uri=null)
+    public function testImportAsset($assetHandlers, $absPath, $relPath, $exception = null, $uri = null)
     {
         $reflectionClass = new \ReflectionClass(AssetManager::class);
 
@@ -316,10 +317,10 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         ];
     }
 
-    protected function getAssetHandler($type='success', $relPath='pathFixture', $absPath='pathFixture', $uri='polop')
+    protected function getAssetHandler($type = 'success', $relPath = 'pathFixture', $absPath = 'pathFixture', $uri = 'polop')
     {
         $mock = $this->getMockBuilder(LocalAssetHandler::class)
-            ->setMethods(array('isApplicable', 'handle'))
+            ->setMethods(['isApplicable', 'handle'])
             ->getMock();
 
         if ($type == 'success') {
@@ -331,7 +332,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
             $mock->expects($this->once())
                 ->method('handle')
                 ->with($absPath, $relPath)
-                ->will($this->returnValue(array('uri'=> $uri)));
+                ->will($this->returnValue(['uri' => $uri]));
         }
 
         if ($type == 'fail') {

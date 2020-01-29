@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,13 +28,13 @@ class LomExtractor extends OntologyMetadataExtractor
 {
     public function __construct()
     {
-        $this->addRule(new LiteralPropertyExtractor(array(
+        $this->addRule(new LiteralPropertyExtractor(
+            [
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-            ),
+            ],
             OntologyRdfs::RDFS_LABEL
         ));
-
     }
 }

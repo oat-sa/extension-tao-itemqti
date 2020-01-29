@@ -25,21 +25,21 @@ class PortableReloadEventListener
     public static function reloadPortableDevDirectory(ItemCreatorLoad $event)
     {
         $customInteractionDirs = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('debug_portable_element');
-        if(is_array($customInteractionDirs)){
+        if (is_array($customInteractionDirs)) {
             $service = new PortableElementService();
             $service->setServiceLocator(ServiceManager::getServiceManager());
-            foreach($customInteractionDirs as $path){
+            foreach ($customInteractionDirs as $path) {
                 $sourceDir = '';
-                if(is_dir(ROOT_PATH.$path)){
-                    $sourceDir = ROOT_PATH.$path;
-                }else if(is_dir($path)){
+                if (is_dir(ROOT_PATH . $path)) {
+                    $sourceDir = ROOT_PATH . $path;
+                } elseif (is_dir($path)) {
                     $sourceDir = $path;
                 }
-                if(!empty($sourceDir)){
+                if (!empty($sourceDir)) {
                     $service->registerFromDirectorySource($sourceDir);
-                    \common_Logger::i('Re-registered portable element from the source '.$sourceDir);
-                }else{
-                    \common_Logger::w('Attempt to register a pci from a non-existing path : '.$path);
+                    \common_Logger::i('Re-registered portable element from the source ' . $sourceDir);
+                } else {
+                    \common_Logger::w('Attempt to register a pci from a non-existing path : ' . $path);
                 }
             }
         }

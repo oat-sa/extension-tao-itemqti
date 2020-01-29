@@ -1,22 +1,24 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
+
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\response\ResponseProcessing;
@@ -67,12 +69,12 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      */
     public static function isSupportedTemplate($uri)
     {
-        $mythoMap = Array(
+        $mythoMap = [
             Template::MATCH_CORRECT,
             Template::MAP_RESPONSE,
             Template::MAP_RESPONSE_POINT,
             Template::NONE
-        );
+        ];
         
         $returnValue = in_array($uri, $mythoMap);
         
@@ -92,13 +94,13 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     {
         $returnValue = new TemplatesDriven();
         if (count($item->getOutcomes()) == 0) {
-            $item->setOutcomes(array(
-                new OutcomeDeclaration(array(
+            $item->setOutcomes([
+                new OutcomeDeclaration([
                     'identifier' => 'SCORE',
                     'baseType' => 'float',
                     'cardinality' => 'single'
-                ))
-            ));
+                ])
+            ]);
         }
         foreach ($item->getInteractions() as $interaction) {
             $returnValue->setTemplate($interaction->getResponse(), Template::MATCH_CORRECT);
@@ -201,7 +203,8 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      * @return mixed
      */
     public function takeNoticeOfRemovedInteraction(Interaction $interaction, Item $item)
-    {}
+    {
+    }
 
     /**
      * Short description of method getForm
@@ -242,10 +245,10 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             $response = $interaction->getResponse();
             $uri = $response->getHowMatch();
             $matchingTemplate = $this->getResponseProcessingTemplate($uri);
-            $tplRenderer = new taoItems_models_classes_TemplateRenderer($matchingTemplate, Array(
+            $tplRenderer = new taoItems_models_classes_TemplateRenderer($matchingTemplate, [
                 'responseIdentifier' => $response->getIdentifier(),
                 'outcomeIdentifier' => 'SCORE'
-            ));
+            ]);
             $returnValue .= $tplRenderer->render();
             
             // add simple feedback rules:
@@ -258,10 +261,11 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         return (string) $returnValue;
     }
 
-    protected function getResponseProcessingTemplate($templateUri){
-        if($templateUri === Template::NONE){
+    protected function getResponseProcessingTemplate($templateUri)
+    {
+        if ($templateUri === Template::NONE) {
             $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.none.tpl.php';
-        }else{
+        } else {
             $templateName = substr($templateUri, strrpos($templateUri, '/') + 1);
             $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.' . $templateName . '.tpl.php';
         }
@@ -305,7 +309,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         return $returnValue;
     }
 
-    public function toArray($filterVariableContent = false, &$filtered = array())
+    public function toArray($filterVariableContent = false, &$filtered = [])
     {
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $rp = null;
@@ -319,15 +323,15 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             // can be converted into a Template instance, so get the Template content
             $rp = $template->getTemplateContent();
         }
-        if(!empty(trim($rp))){
+        if (!empty(trim($rp))) {
             $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp));
             $responseRules = $rpSerialized['responseRules'];
         }
 
-        $protectedData = array(
+        $protectedData = [
             'processingType' => 'templateDriven',
             'responseRules' => $responseRules
-        );
+        ];
 
         if ($filterVariableContent) {
             $filtered[$this->getSerial()] = $protectedData;
@@ -340,6 +344,6 @@ class TemplatesDriven extends ResponseProcessing implements Rule
 
     protected function getUsedAttributes()
     {
-        return array();
+        return [];
     }
 }

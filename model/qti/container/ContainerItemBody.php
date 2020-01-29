@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,27 +35,28 @@ use oat\taoQtiItem\model\qti\container\ContainerInteractive;
 class ContainerItemBody extends ContainerInteractive
 {
 
-	/**
+    /**
      * return the list of available element classes
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
      * @return array
      */
-	public function getValidElementTypes(){
-		return array(
-			'oat\\taoQtiItem\\model\\qti\\Img',
-			'oat\\taoQtiItem\\model\\qti\\Table',
-			'oat\\taoQtiItem\\model\\qti\\Math',
-			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-		    \oat\taoQtiItem\model\qti\QtiObject::class,
-			'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
-			'oat\\taoQtiItem\\model\\qti\\RubricBlock',
-			'oat\\taoQtiItem\\model\\qti\\InfoControl',
+    public function getValidElementTypes()
+    {
+        return [
+            'oat\\taoQtiItem\\model\\qti\\Img',
+            'oat\\taoQtiItem\\model\\qti\\Table',
+            'oat\\taoQtiItem\\model\\qti\\Math',
+            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
+            \oat\taoQtiItem\model\qti\QtiObject::class,
+            'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
+            'oat\\taoQtiItem\\model\\qti\\RubricBlock',
+            'oat\\taoQtiItem\\model\\qti\\InfoControl',
             'oat\\taoQtiItem\\model\\qti\\Tooltip',
             'oat\\taoQtiItem\\model\\qti\\XInclude'
-		);
-	}
+        ];
+    }
 
 
     /**
@@ -62,7 +64,8 @@ class ContainerItemBody extends ContainerInteractive
      *
      * @return string
      */
-    public function getBody(){
+    public function getBody()
+    {
         return $this->fixNonvoidTags(parent::getBody());
     }
 }
