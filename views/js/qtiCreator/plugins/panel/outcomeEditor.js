@@ -204,21 +204,21 @@ define([
 
                     //attach form change callbacks
                     formElement.setChangeCallbacks($outcomeContainer, outcome, _.assign({
-                        identifier : (outcome, value) => {
+                        identifier(outcome, value) {
                             //update the html for real time update
                             $identifierLabel.html(value);
 
                             //save to model
                             outcome.id(value);
                         },
-                        interpretation : (outcome, value) => {
+                        interpretation(outcome, value) {
                             //update the title attr for real time update
                             $labelContainer.attr('title', value);
 
                             //save to model
                             outcome.attr('interpretation', value);
                         },
-                        externalScored : (outcome, value) => {
+                        externalScored(outcome, value) {
                             //Turn off scoring trait validation if externalScored is not human
                             isScoringTraitValidationEnabled = (value === externalScoredOptions.human);
 
