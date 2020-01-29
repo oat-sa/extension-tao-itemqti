@@ -21,7 +21,7 @@
         <div class="panel externalscored">
             <label for="externalScored" class="has-icon">{{__ "External Scored"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-            <div class="tooltip-content">{{__ "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asksing candidates to write an essay."}}</div>
+            <div class="tooltip-content">{{__ "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."}}</div>
             <select name="externalScored" class="select2" data-has-search="false">
                 {{#each externalScored}}
                     <option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>

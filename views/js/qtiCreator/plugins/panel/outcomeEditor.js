@@ -35,7 +35,11 @@ define([
 
     /**
      * Types of externalScored attributes
-     * @type {{externalMachine: string, none: string, human: string}}
+     *
+     * @typedef {Object} externalScoredOptions - Defines types of externalScored attributes
+     * @property {String} externalMachine - Score is computed by a service
+     * @property {String} none - No scoring
+     * @property {String} human - Score is applied manually by a reviewer
      */
     const externalScoredOptions = {
         none: 'none',
@@ -76,7 +80,7 @@ define([
         var outcomesData = _.map(item.outcomes, function(outcome){
             var readonly = (rpVariables.indexOf(outcome.id()) >= 0);
 
-            var externalScored = {
+            const externalScored = {
                 none : {label : __("None"), selected : !outcome.attr('externalScored')},
                 human : {label : __("Human"), selected : outcome.attr('externalScored') === externalScoredOptions.human},
                 externalMachine : {label : __("External Machine"), selected : outcome.attr('externalScored') === externalScoredOptions.externalMachine}
@@ -119,7 +123,7 @@ define([
      * @param $field
      */
     function attachScoringTraitWarningTooltip($field){
-        var widgetTooltip;
+        let widgetTooltip;
 
         if(!$field.data('$tooltip')) {
             widgetTooltip = tooltip.warning($field, __('This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'), {
@@ -138,6 +142,7 @@ define([
     function disposeScoringTraitWarningTooltip($field) {
         if($field.data('$tooltip')) {
             $field.data('$tooltip').dispose();
+            $field.removeData('$tooltip');
         }
     }
 
@@ -170,7 +175,7 @@ define([
                     var $labelContainer = $outcomeContainer.find('.identifier-label');
                     var $identifierLabel = $labelContainer.find('.label');
                     var $identifierInput = $labelContainer.find('.identifier');
-                    var isScoringTraitValidaitonEnabled = outcome.attr('externalScored') === externalScoredOptions.human;
+                    let isScoringTraitValidationEnabled = outcome.attr('externalScored') === externalScoredOptions.human;
 
                     $outcomeContainer.addClass('editing');
 
@@ -192,7 +197,7 @@ define([
                     }
 
                     //Attach scoring trait warning tooltips on init to outcome value fields on init
-                    if(isScoringTraitValidaitonEnabled) {
+                    if(isScoringTraitValidationEnabled) {
                         attachScoringTraitWarningTooltip($outcomeValueMinimum);
                         attachScoringTraitWarningTooltip($outcomeValueMaximum);
 
@@ -202,44 +207,45 @@ define([
 
                     //attach form change callbacks
                     formElement.setChangeCallbacks($outcomeContainer, outcome, _.assign({
-                        identifier : function(outcome, value){
+                        identifier : (outcome, value) => {
                             //update the html for real time update
                             $identifierLabel.html(value);
 
                             //save to model
                             outcome.id(value);
                         },
-                        interpretation : function(outcome, value){
+                        interpretation : (outcome, value) => {
                             //update the title attr for real time update
                             $labelContainer.attr('title', value);
 
                             //save to model
                             outcome.attr('interpretation', value);
                         },
-                        externalScored : function(outcome, value){
+                        externalScored : (outcome, value) => {
                             //Turn off scoring trait validation if externalScored is not human
-                            isScoringTraitValidaitonEnabled = (value === externalScoredOptions.human);
+                            isScoringTraitValidationEnabled = (value === externalScoredOptions.human);
+
                             /**
-                             * Save to model
-                             *
-                             * Removes the `externalScored` attribute from outcome when `none` is selected.
                              * Attaches scoring trait warning tooltips when `externalScored` is `human`
-                             *
                              */
-                            if(value === externalScoredOptions.none) {
-                                outcome.removeAttr('externalScored');
-                                disposeScoringTraitWarningTooltip($outcomeValueMinimum);
-                                disposeScoringTraitWarningTooltip($outcomeValueMaximum);
-                            } else if( value === externalScoredOptions.human) {
-                                outcome.attr('externalScored', value);
+                            if(value === externalScoredOptions.human)  {
                                 attachScoringTraitWarningTooltip($outcomeValueMinimum);
                                 attachScoringTraitWarningTooltip($outcomeValueMaximum);
+
                                 // shows tooltips in case of invalid value
                                 showScoringTraitWarningOnInvalidValue();
                             } else {
-                                outcome.attr('externalScored', value);
                                 disposeScoringTraitWarningTooltip($outcomeValueMinimum);
                                 disposeScoringTraitWarningTooltip($outcomeValueMaximum);
+                            }
+
+                            /**
+                             * Removes the `externalScored` attribute from outcome when `none` is selected.
+                             */
+                            if(value === externalScoredOptions.none) {
+                                outcome.removeAttr('externalScored');
+                            } else {
+                                outcome.attr('externalScored', value);
                             }
                         }
                     }, formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {
@@ -247,11 +253,14 @@ define([
                         floatVal: true,
                         callback : function(outcome, value, attr){
                             const $outcomeValue = $outcomeContainer.find(`input[name=${attr}]`);
+                            debugger;
 
-                            if (isScoringTraitValidaitonEnabled && !isValidScoringTrait(value)) {
-                                showScoringTraitWarningOnInvalidValue($outcomeValue, attr);
-                            } else {
-                                $outcomeValue.data('$tooltip').hide();
+                            if(isScoringTraitValidationEnabled) {
+                                if (!isValidScoringTrait(value)) {
+                                    showScoringTraitWarningOnInvalidValue($outcomeValue, attr);
+                                } else {
+                                    $outcomeValue.data('$tooltip').hide();
+                                }
                             }
 
                             if(isNaN(value)){
