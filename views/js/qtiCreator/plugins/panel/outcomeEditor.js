@@ -114,7 +114,6 @@ define([
      * @returns {boolean}
      */
     function isValidScoringTrait(value) {
-        console.log('XXXXX', (value % 1 === 0 && value !== undefined));
         return (value % 1 === 0 && value !== undefined);
     }
 
