@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,7 +56,7 @@ abstract class AbstractPortableElementRegistry extends ClientLibConfigRegistry
 
         $entries = [];
         if (isset($config['providers'])) {
-            foreach($config['providers'] as $entry) {
+            foreach ($config['providers'] as $entry) {
                 if ($entry['module'] != $module) {
                     $entries[] = $entry;
                 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,13 +33,13 @@ class MetadataExporterForm extends \tao_helpers_form_FormContainer
     {
         $this->form = new \tao_helpers_form_xhtml_Form('export');
 
-        $this->form->setDecorators(array(
-            'element'			=> new \tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
-            'group'				=> new \tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
-            'error'				=> new \tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
-            'actions-bottom'	=> new \tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
-            'actions-top'		=> new \tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
-        ));
+        $this->form->setDecorators([
+            'element'           => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
+            'group'             => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
+            'error'             => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all']),
+            'actions-bottom'    => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar']),
+            'actions-top'       => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+        ]);
 
         $hiddenClassElt = \tao_helpers_form_FormFactory::getElement('xml_desc', 'Hidden');
         $hiddenClassElt->setValue(null);
@@ -48,9 +49,8 @@ class MetadataExporterForm extends \tao_helpers_form_FormContainer
         $this->form->addElement($hiddenClassElt);
 
         $exportElt = \tao_helpers_form_FormFactory::getElement('export', 'Free');
-        $exportElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> ' .__('Export metadata').'</a>');
-        $this->form->setActions(array($exportElt), 'bottom');
-
+        $exportElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> ' . __('Export metadata') . '</a>');
+        $this->form->setActions([$exportElt], 'bottom');
     }
 
     /**
@@ -70,7 +70,6 @@ class MetadataExporterForm extends \tao_helpers_form_FormContainer
         $nameElt->addValidator(\tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($nameElt);
 
-        $this->form->createGroup('options', __('Export metadata item'), array('xml_desc', 'filename', 'exportInstance'));
+        $this->form->createGroup('options', __('Export metadata item'), ['xml_desc', 'filename', 'exportInstance']);
     }
-
 }

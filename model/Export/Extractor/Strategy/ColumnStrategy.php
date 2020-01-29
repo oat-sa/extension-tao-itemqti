@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,7 +58,7 @@ class ColumnStrategy implements Strategy
         if (array_key_exists($key, $this->dataArray)) {
             $newKeyName = $this->generateDuplicateName($key);
             $this->dataArray[$newKeyName] = $hashEntry->getValue();
-        }else{
+        } else {
             $this->dataArray[$key] = $hashEntry->getValue();
         }
     }
@@ -85,7 +86,7 @@ class ColumnStrategy implements Strategy
      */
     protected function generateDuplicateName($key)
     {
-        $newKey = $key . ' ('.$this->keyOccurence.')';
+        $newKey = $key . ' (' . $this->keyOccurence . ')';
 
         if (array_key_exists($newKey, $this->dataArray)) {
             $this->keyOccurence++;

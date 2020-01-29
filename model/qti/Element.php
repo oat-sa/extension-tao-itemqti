@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; under version 2 of the License (non-upgradable). This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
@@ -34,7 +35,7 @@ abstract class Element implements Exportable
 
     protected $serial = '';
     protected $relatedItem = null;
-    private static $instances = array();
+    private static $instances = [];
 
     /**
      * Short description of attribute templatesPath
@@ -58,20 +59,21 @@ abstract class Element implements Exportable
      * @access protected
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
-    public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
-        if(!is_null($relatedItem)){
+    public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
+    {
+        if (!is_null($relatedItem)) {
             $this->setRelatedItem($relatedItem);
         }
-        if(!empty($serial)){
+        if (!empty($serial)) {
             //try setting object serial manually:
-            if(isset(self::$instances[$this->getSerial()])){
+            if (isset(self::$instances[$this->getSerial()])) {
                 throw new QtiModelException('the serial must be unique');
-            }else{
+            } else {
                 $this->serial = $serial;
             }
-        }else{
+        } else {
             $this->getSerial(); //generate one
         }
 
@@ -90,19 +92,21 @@ abstract class Element implements Exportable
     /**
      * Reset the attributes values  to the default values defined by the standard
      */
-    public function resetAttributes(){
-        $this->attributes = array();
-        foreach($this->getUsedAttributes() as $attributeClass){
-            if(class_exists($attributeClass) && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')){
+    public function resetAttributes()
+    {
+        $this->attributes = [];
+        foreach ($this->getUsedAttributes() as $attributeClass) {
+            if (class_exists($attributeClass) && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')) {
                 $attribute = new $attributeClass();
                 $this->attributes[$attribute->getName()] = $attribute;
-            }else{
-                common_Logger::w('attr does not exists '.$attributeClass);
+            } else {
+                common_Logger::w('attr does not exists ' . $attributeClass);
             }
         }
     }
 
-    public function getQtiTag(){
+    public function getQtiTag()
+    {
         return static::$qtiTagName;
     }
 
@@ -111,8 +115,9 @@ abstract class Element implements Exportable
      *
      * @param string $name
      */
-    public function removeAttributeValue($name){
-        if(isset($this->attributes[$name])){
+    public function removeAttributeValue($name)
+    {
+        if (isset($this->attributes[$name])) {
             $this->attributes[$name]->setNull();
         }
     }
@@ -124,16 +129,16 @@ abstract class Element implements Exportable
      * @param array $values
      * @throws InvalidArgumentException
      */
-    public function setAttributes($values){
+    public function setAttributes($values)
+    {
 
-        if(is_array($values)){
-            foreach($values as $name => $value){
+        if (is_array($values)) {
+            foreach ($values as $name => $value) {
                 $this->setAttribute($name, $value);
             }
-        }else{
+        } else {
             throw new InvalidArgumentException('"values" must be an array');
         }
-
     }
 
     /**
@@ -145,46 +150,45 @@ abstract class Element implements Exportable
      * @throws InvalidArgumentException
      * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
-    public function setAttribute($name, $value){
+    public function setAttribute($name, $value)
+    {
 
         $returnValue = false;
 
-        if(is_null($value)){
+        if (is_null($value)) {
             return $returnValue;
         }
 
-        if(isset($this->attributes[$name])){
-
+        if (isset($this->attributes[$name])) {
             $datatypeClass = $this->attributes[$name]->getType();
             // check if the attribute needs an element level validation
-            if(is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')){
-
-                if($value instanceof IdentifiedElement){
-                    if($this->validateAttribute($name, $value)){
+            if (is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')) {
+                if ($value instanceof IdentifiedElement) {
+                    if ($this->validateAttribute($name, $value)) {
                         $this->attributes[$name]->setValue($value);
                         $returnValue = true;
-                    }else{
+                    } else {
                         $vr = print_r($value, true);
                         common_Logger::w($vr);
                         throw new InvalidArgumentException('Invalid identifier attribute value');
                     }
-                }elseif(is_string($value)){
+                } elseif (is_string($value)) {
                     // try converting to string identifier and search the identified object:
                     $identifier = (string) $value;
                     $elt = $this->getIdentifiedElement($identifier, $datatypeClass::getAllowedClasses());
-                    if(!is_null($elt)){
+                    if (!is_null($elt)) {
                         // ok, found among allowed classes
                         $this->attributes[$name]->setValue($elt);
                         $returnValue = true;
-                    }else{
-                        throw new QtiModelException('No QTI element with the identifier has been found: '.$identifier);
+                    } else {
+                        throw new QtiModelException('No QTI element with the identifier has been found: ' . $identifier);
                     }
                 }
-            }else{
+            } else {
                 $this->attributes[$name]->setValue($value);
                 $returnValue = true;
             }
-        }else{
+        } else {
             $this->attributes[$name] = new Generic($value);
             $returnValue = true;
         }
@@ -201,41 +205,40 @@ abstract class Element implements Exportable
      * @return boolean
      * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
-    public function validateAttribute($name, $value = null){
+    public function validateAttribute($name, $value = null)
+    {
         $returnValue = false;
 
-        if(isset($this->attributes[$name])){
-
-            if(is_null($value)){
+        if (isset($this->attributes[$name])) {
+            if (is_null($value)) {
                 $value = $this->attributes[$name]->getValue();
             }
 
             $datatypeClass = $this->attributes[$name]->getType();
-            if(is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')){
-
-            }else{
+            if (is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')) {
+            } else {
                 $returnValue = $datatypeClass::validate($value);
             }
 
-            if(is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')){
-                if($datatypeClass::validate($value)){
+            if (is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')) {
+                if ($datatypeClass::validate($value)) {
                     // validate itentifier
                     $relatedItem = $this->getRelatedItem();
-                    if(!is_null($relatedItem)){
+                    if (!is_null($relatedItem)) {
                         $idCollection = $relatedItem->getIdentifiedElements();
-                        if($value instanceof IdentifiedElement && $idCollection->exists($value->getIdentifier())){
+                        if ($value instanceof IdentifiedElement && $idCollection->exists($value->getIdentifier())) {
                             $returnValue = true;
                         }
-                    }else{
+                    } else {
                         common_Logger::w('iden');
-                        throw new QtiModelException('Cannot verify identifier reference because the element is not in a QTI Item '.get_class($this).'::'.$name, 0);
+                        throw new QtiModelException('Cannot verify identifier reference because the element is not in a QTI Item ' . get_class($this) . '::' . $name, 0);
                     }
                 }
-            }else{
+            } else {
                 $returnValue = $datatypeClass::validate($value);
             }
-        }else{
-            throw new InvalidArgumentException('no attribute found with the name "'.$name.'"');
+        } else {
+            throw new InvalidArgumentException('no attribute found with the name "' . $name . '"');
         }
 
         return $returnValue;
@@ -249,24 +252,25 @@ abstract class Element implements Exportable
      * @param array $elementClasses
      * @return \oat\taoQtiItem\model\qti\IdentifiedElement
      */
-    public function getIdentifiedElement($identifier, $elementClasses = array()){
+    public function getIdentifiedElement($identifier, $elementClasses = [])
+    {
         $returnValue = null;
 
-        if(!is_array($elementClasses)){
+        if (!is_array($elementClasses)) {
             throw new InvalidArgumentException('elementClasses must be an array');
         }
 
         $relatedItem = $this->getRelatedItem();
 
-        if(!is_null($relatedItem)){
+        if (!is_null($relatedItem)) {
             $identifiedElementsCollection = $relatedItem->getIdentifiedElements();
 
-            if(empty($elementClasses)){
+            if (empty($elementClasses)) {
                 $returnValue = $identifiedElementsCollection->getUnique($identifier);
-            }else{
-                foreach($elementClasses as $elementClass){
+            } else {
+                foreach ($elementClasses as $elementClass) {
                     $returnValue = $identifiedElementsCollection->getUnique($identifier, $elementClass);
-                    if(!is_null($returnValue)){
+                    if (!is_null($returnValue)) {
                         break;
                     }
                 }
@@ -282,7 +286,8 @@ abstract class Element implements Exportable
      * @param string $name
      * @return boolean
      */
-    public function hasAttribute($name){
+    public function hasAttribute($name)
+    {
         return isset($this->attributes[$name]);
     }
 
@@ -293,10 +298,11 @@ abstract class Element implements Exportable
      * @param mixed $value
      * @return mixed
      */
-    public function attr($name, $value = null){
-        if(is_null($value)){
+    public function attr($name, $value = null)
+    {
+        if (is_null($value)) {
             return $this->getAttributeValue($name);
-        }else{
+        } else {
             return $this->setAttribute($name, $value);
         }
     }
@@ -307,9 +313,10 @@ abstract class Element implements Exportable
      * @author Dieter Raber <dieter@taotesting.com>
      * @param $className one or more class names, separated by space
      */
-    public function addClass($className) {
+    public function addClass($className)
+    {
         $oldClassName    = $this->getAttributeValue('class');
-        $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : array();
+        $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : [];
         $classNameArr    = array_merge($oldClassNameArr, explode(' ', $className));
         // housekeeping
         $classNameArr    = array_unique(array_filter(array_map('trim', $classNameArr)));
@@ -322,9 +329,10 @@ abstract class Element implements Exportable
      * @author Dieter Raber <dieter@taotesting.com>
      * @param $className
      */
-    public function removeClass($className) {
+    public function removeClass($className)
+    {
         $oldClassName    = $this->getAttributeValue('class');
-        $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : array();
+        $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : [];
         unset($oldClassNameArr[array_search($className, $oldClassNameArr)]);
         $this->setAttribute('class', implode(' ', $oldClassNameArr));
     }
@@ -335,7 +343,8 @@ abstract class Element implements Exportable
      * @param type $name
      * @return \oat\taoQtiItem\model\qti\attribute\Attribute
      */
-    protected function getAttribute($name){
+    protected function getAttribute($name)
+    {
         return $this->hasAttribute($name) ? $this->attributes[$name] : null;
     }
 
@@ -345,9 +354,10 @@ abstract class Element implements Exportable
      * @param string $name
      * @return mixed
      */
-    public function getAttributeValue($name){
+    public function getAttributeValue($name)
+    {
         $returnValue = null;
-        if($this->hasAttribute($name)){
+        if ($this->hasAttribute($name)) {
             $returnValue = $this->attributes[$name]->getValue();
         }
         return $returnValue;
@@ -358,10 +368,11 @@ abstract class Element implements Exportable
      *
      * @return array
      */
-    public function getAttributeValues($filterNull = true){
-        $returnValue = array();
-        foreach($this->attributes as $name => $attribute){
-            if(!$filterNull || !$attribute->isNull()){
+    public function getAttributeValues($filterNull = true)
+    {
+        $returnValue = [];
+        foreach ($this->attributes as $name => $attribute) {
+            if (!$filterNull || !$attribute->isNull()) {
                 $returnValue[$name] = $attribute->getValue();
             }
         }
@@ -374,8 +385,9 @@ abstract class Element implements Exportable
      * @see oat\taoQtiItem\model\qti\container\Container
      * @return string
      */
-    public function getPlaceholder(){
-        return '{{'.$this->getSerial().'}}';
+    public function getPlaceholder()
+    {
+        return '{{' . $this->getSerial() . '}}';
     }
 
     /**
@@ -384,13 +396,14 @@ abstract class Element implements Exportable
      * @return string
      * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
-    public static function getTemplateQti(){
-        if(empty(static::$qtiTagName)){
-            throw new QtiModelException('The element has no tag name defined : '.get_called_class());
+    public static function getTemplateQti()
+    {
+        if (empty(static::$qtiTagName)) {
+            throw new QtiModelException('The element has no tag name defined : ' . get_called_class());
         }
-        $template = static::getTemplatePath().'/qti.'.static::$qtiTagName.'.tpl.php';
-        if(!file_exists($template)){
-            $template = static::getTemplatePath().'/qti.element.tpl.php';
+        $template = static::getTemplatePath() . '/qti.' . static::$qtiTagName . '.tpl.php';
+        if (!file_exists($template)) {
+            $template = static::getTemplatePath() . '/qti.element.tpl.php';
         }
 
         return $template;
@@ -401,11 +414,12 @@ abstract class Element implements Exportable
      *
      * @return array
      */
-    protected function getTemplateQtiVariables(){
-        $variables = array();
+    protected function getTemplateQtiVariables()
+    {
+        $variables = [];
         $variables['tag'] = static::$qtiTagName;
         $variables['attributes'] = $this->getAttributeValues();
-        if($this instanceof FlowContainer){
+        if ($this instanceof FlowContainer) {
             $variables['body'] = $this->getBody()->toQTI();
         }
 
@@ -417,11 +431,12 @@ abstract class Element implements Exportable
      *
      * @return string
      */
-    public function toQTI(){
+    public function toQTI()
+    {
 
         $template = static::getTemplateQti();
         $variables = $this->getTemplateQtiVariables();
-        if(isset($variables['attributes'])){
+        if (isset($variables['attributes'])) {
             $variables['attributes'] = $this->xmlizeOptions($variables['attributes'], true);
         }
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
@@ -438,24 +453,25 @@ abstract class Element implements Exportable
      * @param array $filtered
      * @return array
      */
-    public function toArray($filterVariableContent = false, &$filtered = array()){
+    public function toArray($filterVariableContent = false, &$filtered = [])
+    {
 
-        $data = array();
+        $data = [];
         $data['serial'] = $this->getSerial();
         $tag = $this->getQtiTag();
-        if(!empty($tag)){
+        if (!empty($tag)) {
             $data['qtiClass'] = $tag;
         }
         $attributes = $this->getAttributeValues();
         $data['attributes'] = empty($attributes) ? new StdClass() : $attributes;
 
-        if($this instanceof FlowContainer){
+        if ($this instanceof FlowContainer) {
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
 
-        if(DEBUG_MODE){
+        if (DEBUG_MODE) {
             //in debug mode, add debug data, such as the related item
-            $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
+            $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
 
         return $data;
@@ -468,10 +484,11 @@ abstract class Element implements Exportable
      * @author Sam, <sam@taotesting.com>
      * @return string
      */
-    public static function getTemplatePath(){
-        if(empty(self::$templatesPath)){
+    public static function getTemplatePath()
+    {
+        if (empty(self::$templatesPath)) {
             $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            self::$templatesPath = $dir.'model/qti/templates/';
+            self::$templatesPath = $dir . 'model/qti/templates/';
         }
         $returnValue = self::$templatesPath;
 
@@ -488,33 +505,34 @@ abstract class Element implements Exportable
      * @return boolean
      * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
-    public function setRelatedItem(Item $item, $force = false){
+    public function setRelatedItem(Item $item, $force = false)
+    {
         $returnValue = false;
 
-        if(!is_null($this->relatedItem) && $this->relatedItem->getSerial() == $item->getSerial()){
+        if (!is_null($this->relatedItem) && $this->relatedItem->getSerial() == $item->getSerial()) {
             $returnValue = true; // identical
-        }elseif(!$force && !is_null($this->relatedItem)){
+        } elseif (!$force && !is_null($this->relatedItem)) {
             throw new QtiModelException('attempt to change item reference for a QTI element');
-        }else{
+        } else {
             // propagate the assignation of item to all included objects
             $reflection = new ReflectionClass($this);
-            foreach($reflection->getProperties() as $property){
-                if(!$property->isStatic() && !$property->isPrivate()){
+            foreach ($reflection->getProperties() as $property) {
+                if (!$property->isStatic() && !$property->isPrivate()) {
                     $propertyName = $property->getName();
                     $value = $this->$propertyName;
-                    if(is_array($value)){
-                        foreach($value as $subvalue){
-                            if(is_object($subvalue) && $subvalue instanceof Element){
+                    if (is_array($value)) {
+                        foreach ($value as $subvalue) {
+                            if (is_object($subvalue) && $subvalue instanceof Element) {
                                 $subvalue->setRelatedItem($item);
-                            }elseif(is_object($subvalue) && $subvalue instanceof ResponseIdentifier){
+                            } elseif (is_object($subvalue) && $subvalue instanceof ResponseIdentifier) {
                                 // manage the reference of identifier
                                 $idenfierBaseType = $subvalue->getValue(true);
-                                if(!is_null($idenfierBaseType)){
+                                if (!is_null($idenfierBaseType)) {
                                     $idenfierBaseType->getReferencedObject()->setRelatedItem($item);
                                 }
                             }
                         }
-                    }elseif(is_object($value) && $value instanceof Element){
+                    } elseif (is_object($value) && $value instanceof Element) {
                         $value->setRelatedItem($item);
                     }
                 }
@@ -535,32 +553,33 @@ abstract class Element implements Exportable
      * @param string $className
      * @return array
      */
-    public function getComposingElements($className = ''){
+    public function getComposingElements($className = '')
+    {
 
-        $returnValue = array();
-        if($className === ''){
+        $returnValue = [];
+        if ($className === '') {
             $className = 'oat\taoQtiItem\model\qti\Element';
         }
 
         $reflection = new ReflectionClass($this);
-        foreach($reflection->getProperties() as $property){
-            if(!$property->isStatic() && !$property->isPrivate()){
+        foreach ($reflection->getProperties() as $property) {
+            if (!$property->isStatic() && !$property->isPrivate()) {
                 $propertyName = $property->getName();
-                if($propertyName != 'relatedItem'){
+                if ($propertyName != 'relatedItem') {
                     $value = $this->$propertyName;
-                    if(is_array($value)){
+                    if (is_array($value)) {
                         foreach ($value as $subvalue) {
-                            if($subvalue instanceof Element){
-                                if($subvalue instanceof $className){
+                            if ($subvalue instanceof Element) {
+                                if ($subvalue instanceof $className) {
                                     $returnValue[$subvalue->getSerial()] = $subvalue;
                                 }
                                 $returnValue = array_merge($returnValue, $subvalue->getComposingElements($className));
                             }
                         }
-                    }else{
-                        if($value instanceof Element){
-                            if($value instanceof $className){
-                                if($value->getSerial() != $this->getSerial()){
+                    } else {
+                        if ($value instanceof Element) {
+                            if ($value instanceof $className) {
+                                if ($value->getSerial() != $this->getSerial()) {
                                     $returnValue[$value->getSerial()] = $value;
                                 }
                             }
@@ -579,7 +598,8 @@ abstract class Element implements Exportable
      *
      * @return \oat\taoQtiItem\model\qti\Item
      */
-    public function getRelatedItem(){
+    public function getRelatedItem()
+    {
         return $this->relatedItem;
     }
 
@@ -593,39 +613,40 @@ abstract class Element implements Exportable
      * @param boolean recursive
      * @return string
      */
-    protected function xmlizeOptions($formalOpts = array(), $recursive = false){
+    protected function xmlizeOptions($formalOpts = [], $recursive = false)
+    {
         $returnValue = (string) '';
-        if(!is_array($formalOpts)){
-            throw new InvalidArgumentException('formalOpts must be an array, '.gettype($formalOpts).' given');
+        if (!is_array($formalOpts)) {
+            throw new InvalidArgumentException('formalOpts must be an array, ' . gettype($formalOpts) . ' given');
         }
 
         $options = (!$recursive) ? $this->getAttributeValues() : $formalOpts;
-        foreach($options as $key => $value){
-            if(is_string($value) || is_numeric($value)){
+        foreach ($options as $key => $value) {
+            if (is_string($value) || is_numeric($value)) {
                 // str_replace is unicode safe...
-                $returnValue .= ' '.$key.'="'.str_replace(array(
+                $returnValue .= ' ' . $key . '="' . str_replace([
                             '&',
                             '<',
                             '>',
                             '\'',
                             '"'
-                                ), array(
+                                ], [
                             '&amp;',
                             '&lt;',
                             '&gt;',
                             '&apos;',
                             '&quot;'
-                                ), $value).'"';
+                                ], $value) . '"';
             }
-            if(is_bool($value)){
-                $returnValue .= ' '.$key.'="'.(($value) ? 'true' : 'false').'"';
+            if (is_bool($value)) {
+                $returnValue .= ' ' . $key . '="' . (($value) ? 'true' : 'false') . '"';
             }
-            if(is_array($value)){
-                if(count($value) > 0){
+            if (is_array($value)) {
+                if (count($value) > 0) {
                     $keys = array_keys($value);
-                    if(is_int($keys[0])){ // repeat the attribute key
-                        $returnValue .= ' '.$key.'="'.implode(' ', array_values($value)).'"';
-                    }else{
+                    if (is_int($keys[0])) { // repeat the attribute key
+                        $returnValue .= ' ' . $key . '="' . implode(' ', array_values($value)) . '"';
+                    } else {
                         $returnValue .= $this->xmlizeOptions($value, true);
                     }
                 }
@@ -642,8 +663,9 @@ abstract class Element implements Exportable
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
-    public function getSerial(){
-        if(empty($this->serial)){
+    public function getSerial()
+    {
+        if (empty($this->serial)) {
             $this->serial = $this->buildSerial();
         }
         $returnValue = $this->serial;
@@ -658,15 +680,16 @@ abstract class Element implements Exportable
      * @author Sam, <sam@taotesting.com>
      * @return string
      */
-    protected function buildSerial(){
+    protected function buildSerial()
+    {
 
-        if(DEBUG_MODE){
+        if (DEBUG_MODE) {
             //in debug mode, use more meaningful serials
             $clazz = strtolower(get_class($this));
-            $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21).'_';
+            $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21) . '_';
             $serial = str_replace('.', '', uniqid($prefix, true));
             $serial = str_replace('\\', '_', $serial);
-        }else{
+        } else {
             //build a short unique id for memory saving
             $serial = uniqid('i');
         }
@@ -674,29 +697,31 @@ abstract class Element implements Exportable
         return (string) $serial;
     }
 
-    protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = array()){
+    protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = [])
+    {
 
-        if(empty($elements)){
+        if (empty($elements)) {
             $data = new stdClass();
-        }else{
-            $data = array();
-            foreach($elements as $element){
+        } else {
+            $data = [];
+            foreach ($elements as $element) {
                 $data[$element->getSerial()] = $element->toArray($filterVariableContent, $filtered);
             }
         }
         return $data;
     }
 
-    protected function getArraySerializedPrimitiveCollection($elements){
+    protected function getArraySerializedPrimitiveCollection($elements)
+    {
 
-        if(empty($elements)){
+        if (empty($elements)) {
             $data = new stdClass();
-        }else{
-            $data = array();
-            foreach($elements as $key => $value){
-                if(is_array($value)){
+        } else {
+            $data = [];
+            foreach ($elements as $key => $value) {
+                if (is_array($value)) {
                     $data[$key] = $this->getArraySerializedPrimitiveCollection($value);
-                }else{
+                } else {
                     $data[$key] = $value;
                 }
             }

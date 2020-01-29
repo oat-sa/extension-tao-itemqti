@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,7 +58,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @return bool
      * @throws PortableElementInconsistencyModelException
      */
-    public function validate(PortableElementObject $object, $source=null, $validationGroup=array())
+    public function validate(PortableElementObject $object, $source = null, $validationGroup = [])
     {
         $validator = $object->getModel()->getValidator();
         Validator::validate($object, $validator, $validationGroup);
@@ -77,7 +78,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     public function registerModel(PortableElementObject $object, $source)
     {
-        $validationGroup = array('typeIdentifier', 'version', 'runtime');
+        $validationGroup = ['typeIdentifier', 'version', 'runtime'];
         $this->validate($object, $source, $validationGroup);
 
         $registry = $object->getModel()->getRegistry();
@@ -97,7 +98,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @return bool
      * @throws PortableElementVersionIncompatibilityException
      */
-    public function unregisterModel(PortableElementObject $object){
+    public function unregisterModel(PortableElementObject $object)
+    {
         $registry = $object->getModel()->getRegistry();
         $registry->delete($object);
         return true;
@@ -114,7 +116,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @throws \common_Exception
      * @throws PortableElementInconsistencyModelException
      */
-    public function export($type, $identifier, $version=null)
+    public function export($type, $identifier, $version = null)
     {
         $model = $this->getPortableModelRegistry()->getModel($type);
         $object = $model->getRegistry()->fetch($identifier, $version);
@@ -176,13 +178,13 @@ class PortableElementService implements ServiceLocatorAwareInterface
      */
     protected function getDirectoryParsers()
     {
-        $parsers = array();
+        $parsers = [];
         $models = $this->getPortableModelRegistry()->getModels();
         foreach ($models as $key => $model) {
             if ($model->getDirectoryParser() instanceof PortableElementDirectoryParser) {
                 $parsers[] = $model->getDirectoryParser();
             } else {
-                \common_Logger::w('Invalid DirectoryParser for model '.$key);
+                \common_Logger::w('Invalid DirectoryParser for model ' . $key);
             }
         }
         return $parsers;
@@ -238,12 +240,12 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @throws PortableElementNotFoundException
      * @throws PortableElementInconsistencyModelException
      */
-    public function getPortableElementByIdentifier($type, $identifier, $version=null)
+    public function getPortableElementByIdentifier($type, $identifier, $version = null)
     {
         $model = $this->getPortableModelRegistry()->getModel($type);
         $registry = $model->getRegistry();
 
-        if($registry->has($identifier, $version)){
+        if ($registry->has($identifier, $version)) {
             return $registry->fetch($identifier, $version);
         }
         return null;
@@ -260,7 +262,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
     {
         $object = $this->getValidPortableElementFromDirectorySource($directory);
         if (is_null($object)) {
-            throw new PortableElementNotFoundException('No valid portable element model found in the directory '.$directory);
+            throw new PortableElementNotFoundException('No valid portable element model found in the directory ' . $directory);
         }
 
         return $this->registerModel($object, $directory);
@@ -276,7 +278,7 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @throws PortableElementNotFoundException
      * @throws PortableElementInconsistencyModelException
      */
-    public function retrieve($type, $identifier, $version=null)
+    public function retrieve($type, $identifier, $version = null)
     {
         $model = $this->getPortableModelRegistry()->getModel($type);
         return $model->getRegistry()->fetch($identifier, $version);
@@ -299,10 +301,11 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @param Element $element
      * @return PortableElementObject|null
      */
-    public function getPortableObjectFromInstance(Element $element){
-        foreach($this->getPortableModelRegistry()->getModels() as $model){
+    public function getPortableObjectFromInstance(Element $element)
+    {
+        foreach ($this->getPortableModelRegistry()->getModels() as $model) {
             $portableElementClass = $model->getQtiElementClassName();
-            if($element instanceof $portableElementClass){
+            if ($element instanceof $portableElementClass) {
                 return $this->retrieve($model->getId(), $element->getTypeIdentifier());
             }
         }
@@ -315,19 +318,20 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @param Element $qtiItem
      * @return array
      */
-    public function getPortableElementByClass($portableElementClass, Element $qtiItem, $useVersionAlias = false){
+    public function getPortableElementByClass($portableElementClass, Element $qtiItem, $useVersionAlias = false)
+    {
         $portableElements = [];
 
-        $identifiers = array_map(function($portableElement){
+        $identifiers = array_map(function ($portableElement) {
             return $portableElement->getTypeIdentifier();
         }, $qtiItem->getComposingElements($portableElementClass));
 
-        foreach($this->getPortableModelRegistry()->getModels() as $model){
+        foreach ($this->getPortableModelRegistry()->getModels() as $model) {
             $phpClass = $model->getQtiElementClassName();
-            if(is_subclass_of($phpClass, $portableElementClass)){
-                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes($useVersionAlias), function($data) use ($identifiers){
+            if (is_subclass_of($phpClass, $portableElementClass)) {
+                $portableElements = array_merge($portableElements, array_filter($model->getRegistry()->getLatestRuntimes($useVersionAlias), function ($data) use ($identifiers) {
                     $portableElement = reset($data);
-                    if(!empty($portableElement) && in_array($portableElement['typeIdentifier'], $identifiers)){
+                    if (!empty($portableElement) && in_array($portableElement['typeIdentifier'], $identifiers)) {
                         return true;
                     }
                     return false;
@@ -346,7 +350,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
      * @param $data
      * @return mixed
      */
-    public function setBaseUrlToPortableData(&$data){
+    public function setBaseUrlToPortableData(&$data)
+    {
         $model = $this->getPortableModelRegistry()->getModel($data['model']);
         $portableObject = $model->createDataObject($data);
         $data['baseUrl'] = $model->getRegistry()->getBaseUrl($portableObject);

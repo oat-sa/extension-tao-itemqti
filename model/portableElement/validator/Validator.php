@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,12 +61,11 @@ class Validator
         self::isSemVer         => 'isValidSemVer'
     ];
 
-    protected static function getValidConstraints(array $requirements, $validationGroup=array())
+    protected static function getValidConstraints(array $requirements, $validationGroup = [])
     {
         $validConstraints = [];
 
         foreach ($requirements as $field => $constraints) {
-
             if (!empty($validationGroup) && !in_array($field, $validationGroup)) {
                 continue;
             }
@@ -97,7 +97,7 @@ class Validator
      * @throws PortableElementInvalidModelException
      * @throws \common_exception_Error
      */
-    public static function validate(PortableElementObject $object, Validatable $validatable, $validationGroup=array())
+    public static function validate(PortableElementObject $object, Validatable $validatable, $validationGroup = [])
     {
         $constraints = self::getValidConstraints($validatable->getConstraints(), $validationGroup);
         $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
@@ -107,7 +107,8 @@ class Validator
                 $getter = 'get' . ucfirst($field);
                 if (! method_exists($object, $getter)) {
                     throw new PortableElementInconsistencyModelException(
-                        'Validator is not correctly set for model ' . get_class($object));
+                        'Validator is not correctly set for model ' . get_class($object)
+                    );
                 }
                 $value = $object->$getter();
 
@@ -180,7 +181,7 @@ class Validator
      */
     public static function isValidVersion($value)
     {
-        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/\d+(?:\.\d+)+/'));
+        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, ['format' => '/\d+(?:\.\d+)+/']);
         if (! is_null($value) && ! $validator->evaluate($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid version.');
         }
@@ -211,7 +212,7 @@ class Validator
     public static function isTypeIdentifier($value)
     {
         //the IMS PCI standard recommends using the URN https://tools.ietf.org/html/rfc4198
-        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/[a-z0-9-_:]+/i'));
+        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, ['format' => '/[a-z0-9-_:]+/i']);
         if (! is_null($value) && ! $validator->evaluate($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid type identifier.');
         }

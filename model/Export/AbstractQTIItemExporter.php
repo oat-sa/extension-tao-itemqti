@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +20,7 @@
  *               2013-2015 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoQtiItem\model\Export;
 
 use core_kernel_classes_Property;
@@ -50,9 +52,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     /**
     * List of regexp of media that should be excluded from retrieval
     */
-    private static $BLACKLIST = array(
+    private static $BLACKLIST = [
         '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
-    );
+    ];
 
     /**
      * @var MetadataExporter Service to export metadata to IMSManifest
@@ -77,7 +79,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * @throws \core_kernel_persistence_Exception
      * @throws PortableElementInvalidAssetException
      */
-    public function export($options = array())
+    public function export($options = [])
     {
         $report = \common_report_Report::createSuccess();
         $asApip = isset($options['apip']) && $options['apip'] === true;
@@ -85,14 +87,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $basePath = $this->buildBasePath();
 
-        if(is_null($this->getItemModel())){
+        if (is_null($this->getItemModel())) {
             $report->setMessage($this->getExportErrorMessage(__('not a QTI item')));
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
         }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
-	    $replacementList = array();
+        $replacementList = [];
         $portableElements = $this->getPortableElementAssets($this->getItem(), $lang);
         $service = new PortableElementService();
         $service->setServiceLocator(ServiceManager::getServiceManager());
@@ -100,8 +102,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $portableElementsToExport = [];
         $portableAssets = [];
 
-        foreach($portableElements as $element) {
-
+        foreach ($portableElements as $element) {
             if (! $element instanceof Element) {
                 continue;
             }
@@ -126,7 +127,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         $assets = $this->getAssets($this->getItem(), $lang);
         foreach ($assets as $assetUrl) {
-            try{
+            try {
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
 
@@ -137,16 +138,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
                     $replacementList[$assetUrl] = $replacement;
                 }
-            } catch(\tao_models_classes_FileNotFoundException $e){
+            } catch (\tao_models_classes_FileNotFoundException $e) {
                 $replacementList[$assetUrl] = '';
                 $report->setMessage('Missing resource for ' . $assetUrl);
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
 
-        try{
+        try {
             $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
-        }catch(FileNotFoundException $e){
+        } catch (FileNotFoundException $e) {
             $report->setMessage($this->getExportErrorMessage(__('cannot find QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
@@ -170,17 +171,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             foreach ($portableEntryNodes as $node) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
             }
-            foreach ($portableElementsToExport as $portableElementExporter){
+            foreach ($portableElementsToExport as $portableElementExporter) {
                 $portableElementExporter->exportDom($dom);
             }
-
         } else {
             $report->setMessage($this->getExportErrorMessage(__('cannot load QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
         }
 
-        if(($content = $dom->saveXML()) === false){
+        if (($content = $dom->saveXML()) === false) {
             $report->setMessage($this->getExportErrorMessage(__('invalid QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
         }
@@ -207,7 +207,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * @param string $errorMessage
      * @return string
      */
-    private function getExportErrorMessage($errorMessage){
+    private function getExportErrorMessage($errorMessage)
+    {
         return __('Item "%s" cannot be exported: %s', $this->getItem()->getLabel(), $errorMessage);
     }
 
@@ -226,7 +227,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // To check if replacement is to replace basename ???
         // Please check it seriously next time!
-        $newRelPath = (empty($basePath) ? '' : $basePath.'/' ) . preg_replace( '/^(.\/)/', '',$replacement);
+        $newRelPath = (empty($basePath) ? '' : $basePath . '/' ) . preg_replace('/^(.\/)/', '', $replacement);
         $this->addFile($stream, $newRelPath);
         $stream->close();
         return $replacement;
@@ -248,7 +249,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
         $assetParser = new AssetParser($qtiItem, $this->getStorageDirectory($item, $lang));
         $assetParser->setGetSharedLibraries(false);
-        $returnValue = array();
+        $returnValue = [];
         foreach ($assetParser->extract() as $type => $assets) {
             foreach ($assets as $assetUrl) {
                 foreach (self::$BLACKLIST as $blacklist) {

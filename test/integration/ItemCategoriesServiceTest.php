@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -36,58 +38,60 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
      * tests initialization
      * load qti service
      */
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
     }
 
 
-    public function testGetCategories(){
+    public function testGetCategories()
+    {
         $itemProphecy1 = $this->prophesize('\core_kernel_classes_Resource');
         $itemProphecy2 = $this->prophesize('\core_kernel_classes_Resource');
         $itemProphecy3 = $this->prophesize('\core_kernel_classes_Resource');
         $itemProphecy4 = $this->prophesize('\core_kernel_classes_Resource');
         $itemProphecy5 = $this->prophesize('\core_kernel_classes_Resource');
 
-        $properties = array('subject', 'difficulty');
+        $properties = ['subject', 'difficulty'];
 
-        $item1Properties = array(
-            'subject' => array(
+        $item1Properties = [
+            'subject' => [
                 new \core_kernel_classes_Resource('science'),
                 new \core_kernel_classes_Literal('math')
-            ),
-            'difficulty' => array(
+            ],
+            'difficulty' => [
                 new \core_kernel_classes_Resource('http://tao.test/mytao.rdf#semi')
 
-            )
-        );
+            ]
+        ];
 
-        $item2Properties = array(
-            'subject' => array(
+        $item2Properties = [
+            'subject' => [
                 new \core_kernel_classes_Resource('http://tao.test/mytao.rdf#ELA'),
-            )
-        );
+            ]
+        ];
 
-        $item3Properties = array(
-            'subject' => array(
+        $item3Properties = [
+            'subject' => [
                 new \core_kernel_classes_Literal('math')
-            ),
-            'difficulty' => array(
+            ],
+            'difficulty' => [
                 new \core_kernel_classes_Literal('easy')
 
-            )
-        );
+            ]
+        ];
 
-        $item4Properties = array();
+        $item4Properties = [];
 
-        $item5Properties = array(
-            'subject' => array(
+        $item5Properties = [
+            'subject' => [
                 new \core_kernel_classes_Resource('http://tao.test/mytao.rdf#ELA'),
-            ),
-            'difficulty' => array(
+            ],
+            'difficulty' => [
                 new \core_kernel_classes_Literal('hard')
 
-            )
-        );
+            ]
+        ];
 
         $itemProphecy1->getPropertiesValues($properties)->willReturn($item1Properties);
         $itemProphecy1->getUri()->willReturn('itemUri1');
@@ -100,43 +104,42 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
         $itemProphecy5->getPropertiesValues($properties)->willReturn($item5Properties);
         $itemProphecy5->getUri()->willReturn('itemUri5');
 
-        $items = array(
+        $items = [
             $itemProphecy1->reveal(),
             $itemProphecy5->reveal(),
             $itemProphecy3->reveal(),
             $itemProphecy4->reveal(),
             $itemProphecy2->reveal(),
-        );
+        ];
 
-        $expected = array(
-            'itemUri1' => array('SCIENCE', 'MATH', 'MEDIUM'),
-            'itemUri5' => array('ENGLISH', 'HIGH'),
-            'itemUri3' => array('MATH', 'LOW'),
-            'itemUri4' => array(),
-            'itemUri2' => array('ENGLISH'),
-        );
+        $expected = [
+            'itemUri1' => ['SCIENCE', 'MATH', 'MEDIUM'],
+            'itemUri5' => ['ENGLISH', 'HIGH'],
+            'itemUri3' => ['MATH', 'LOW'],
+            'itemUri4' => [],
+            'itemUri2' => ['ENGLISH'],
+        ];
         /** @var ItemCategoriesService $itemCategoriesService */
         $itemCategoriesService = new ItemCategoriesService(
-            array(
-                'properties'    => array(
+            [
+                'properties'    => [
                     'subject' =>
-                        array(
+                        [
                             'math' => 'MATH',
                             'http://tao.test/mytao.rdf#ELA' => 'ENGLISH',
                             'science' => 'SCIENCE',
 
-                        ),
+                        ],
                     'difficulty' =>
-                        array(
+                        [
                             'easy' => 'LOW',
                             'http://tao.test/mytao.rdf#semi' => 'MEDIUM',
                             'hard' => 'HIGH'
-                        ))
-            )
+                        ]]
+            ]
         );
         $categories = $itemCategoriesService->getCategories($items);
 
         $this->assertEquals($expected, $categories);
     }
-
 }

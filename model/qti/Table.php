@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,20 +42,21 @@ class Table extends Element implements FlowContainer
 
     protected $body = null;
 
-    public function __construct($attributes, Item $relatedItem = null, $serial = ''){
+    public function __construct($attributes, Item $relatedItem = null, $serial = '')
+    {
         parent::__construct($attributes, $relatedItem, $serial);
         $this->body = new ContainerTable();
     }
 
-    public function getBody(){
+    public function getBody()
+    {
         return $this->body;
     }
 
-    public function getUsedAttributes(){
-        return array(
+    public function getUsedAttributes()
+    {
+        return [
             'oat\\taoQtiItem\\model\\qti\\attribute\\Summary'
-        );
+        ];
     }
-
-
 }

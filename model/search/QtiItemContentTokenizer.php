@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -70,7 +71,7 @@ class QtiItemContentTokenizer implements ResourceTokenizer
         $textNodes = $xpath->query('//text()');
         unset($xpath);
 
-        $contentStrings = array();
+        $contentStrings = [];
         foreach ($textNodes as $textNode) {
             if (ctype_space($textNode->wholeText) === false) {
                 $contentStrings[] = trim($textNode->wholeText);
