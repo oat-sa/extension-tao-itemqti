@@ -114,6 +114,7 @@ define([
      * @returns {boolean}
      */
     function isValidScoringTrait(value) {
+        console.log('XXXXX', (value % 1 === 0 && value !== undefined));
         return (value % 1 === 0 && value !== undefined);
     }
 
@@ -122,7 +123,7 @@ define([
      *
      * @param $field
      */
-    function attachScoringTraitWarningTooltip($field){
+    const attachScoringTraitWarningTooltip = ($field) => {
         let widgetTooltip;
 
         if(!$field.data('$tooltip')) {
@@ -132,19 +133,19 @@ define([
             });
             $field.data('$tooltip', widgetTooltip);
         }
-    }
+    };
 
     /**
      * Disposes tooltips
      *
      * @param $field
      */
-    function disposeScoringTraitWarningTooltip($field) {
+    const removeScoringTraitWarningTooltip = ($field) => {
         if($field.data('$tooltip')) {
             $field.data('$tooltip').dispose();
             $field.removeData('$tooltip');
         }
-    }
+    };
 
     return pluginFactory({
         name: 'outcomeEditor',
@@ -184,22 +185,19 @@ define([
                     $identifierInput.val('');
                     $identifierInput.val(outcome.id());
 
-                    const $outcomeValueMinimum = $outcomeContainer.find('input[name=normalMinimum]');
-                    const $outcomeValueMaximum = $outcomeContainer.find('input[name=normalMaximum]');
+                    const $outcomeValueContainer = $outcomeContainer.find('div.minimum-maximum');
 
-                    function showScoringTraitWarningOnInvalidValue() {
-                        if(!isValidScoringTrait(outcome.attr('normalMinimum'))) {
-                            $outcomeValueMinimum.data('$tooltip').show();
+                    const showScoringTraitWarningOnInvalidValue = () => {
+                        if(!isValidScoringTrait(outcome.attr('normalMinimum')) || !isValidScoringTrait(outcome.attr('normalMaximum'))) {
+                            $outcomeValueContainer.data('$tooltip').show();
+                        } else {
+                            $outcomeValueContainer.data('$tooltip').hide();
                         }
-                        if(!isValidScoringTrait(outcome.attr('normalMaximum'))) {
-                            $outcomeValueMaximum.data('$tooltip').show();
-                        }
-                    }
+                    };
 
                     //Attach scoring trait warning tooltips on init to outcome value fields on init
                     if(isScoringTraitValidationEnabled) {
-                        attachScoringTraitWarningTooltip($outcomeValueMinimum);
-                        attachScoringTraitWarningTooltip($outcomeValueMaximum);
+                        attachScoringTraitWarningTooltip($outcomeValueContainer);
 
                         // shows tooltips in case of invalid value
                         showScoringTraitWarningOnInvalidValue();
@@ -229,14 +227,12 @@ define([
                              * Attaches scoring trait warning tooltips when `externalScored` is `human`
                              */
                             if(value === externalScoredOptions.human)  {
-                                attachScoringTraitWarningTooltip($outcomeValueMinimum);
-                                attachScoringTraitWarningTooltip($outcomeValueMaximum);
+                                attachScoringTraitWarningTooltip($outcomeValueContainer);
 
                                 // shows tooltips in case of invalid value
                                 showScoringTraitWarningOnInvalidValue();
                             } else {
-                                disposeScoringTraitWarningTooltip($outcomeValueMinimum);
-                                disposeScoringTraitWarningTooltip($outcomeValueMaximum);
+                                removeScoringTraitWarningTooltip($outcomeValueContainer);
                             }
 
                             /**
@@ -252,15 +248,8 @@ define([
                         allowNull : true,
                         floatVal: true,
                         callback : function(outcome, value, attr){
-                            const $outcomeValue = $outcomeContainer.find(`input[name=${attr}]`);
-                            debugger;
-
                             if(isScoringTraitValidationEnabled) {
-                                if (!isValidScoringTrait(value)) {
-                                    showScoringTraitWarningOnInvalidValue($outcomeValue, attr);
-                                } else {
-                                    $outcomeValue.data('$tooltip').hide();
-                                }
+                                showScoringTraitWarningOnInvalidValue();
                             }
 
                             if(isNaN(value)){
