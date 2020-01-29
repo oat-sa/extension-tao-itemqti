@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,10 +23,10 @@ namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
  * MetadataGuardion interface.
- * 
+ *
  * All classes claiming to be able to identify an item being imported (using its associated metadata)
  * as an item already stored in the item bank must implement this interface.
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
  */
@@ -33,10 +34,10 @@ interface MetadataGuardian
 {
     /**
      * Check whether or not an item is already stored in the item bank.
-     * 
+     *
      * This method takes in input an array of $metadataValues that will be inspected by the implementation
      * to check whether or not, an item being imported is currently stored in the item bank.
-     * 
+     *
      * @param array $metadataValues An array of MetadataValue objects that were previously identified to belong to a given item.
      * @return false|\core_kernel_classes_Resource An ontology resource describing an item already in the database or false if not already in the database.
      */

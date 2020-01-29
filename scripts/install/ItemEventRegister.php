@@ -27,14 +27,14 @@ namespace oat\taoQtiItem\scripts\install;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ItemEventRegister  extends \common_ext_action_InstallAction
+class ItemEventRegister extends \common_ext_action_InstallAction
 {
     public function __invoke($params)
     {
     
-        $this->registerEvent(\oat\taoItems\model\event\ItemRdfUpdatedEvent::class, 
-                array(\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent')
-            );
-        
+        $this->registerEvent(
+            \oat\taoItems\model\event\ItemRdfUpdatedEvent::class,
+            [\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent']
+        );
     }
 }

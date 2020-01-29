@@ -29,21 +29,21 @@ use common_exception_IsAjaxAction;
 use common_exception_MissingParameter;
 use common_exception_InvalidArgumentType;
 
-
-
 /**
  * Class QtiCssAuthoring
  *
  * @package oat\taoQtiItem\controller
  */
-class QtiCssAuthoring extends tao_actions_CommonModule {
+class QtiCssAuthoring extends tao_actions_CommonModule
+{
 
     /**
      * Save custom CSS as file
      *
      * @throws \common_exception_IsAjaxAction
      */
-    public function save() {
+    public function save()
+    {
         if (!tao_helpers_Request::isAjax()) {
             throw new common_exception_IsAjaxAction(__METHOD__);
         }
@@ -61,7 +61,7 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         $lang = $this->getRequestParameter('lang');
         $styleSheet = $this->getRequestParameter('stylesheetUri');
         if (!\tao_helpers_File::securityCheck($styleSheet, true)) {
-            throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
+            throw new \common_exception_Error('invalid stylesheet path "' . $styleSheet . '"');
         }
 
         $css = $this->getCssArray();
@@ -74,7 +74,8 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
      * @throws \common_exception_IsAjaxAction
      * @throws \common_exception_MissingParameter
      */
-    public function load() {
+    public function load()
+    {
 
         if (!$this->hasRequestParameter('uri')) {
             throw new common_exception_MissingParameter('uri', __METHOD__);
@@ -90,7 +91,7 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         $lang = $this->getRequestParameter('lang');
         $styleSheet = $this->getRequestParameter('stylesheetUri');
         if (!\tao_helpers_File::securityCheck($styleSheet, true)) {
-            throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
+            throw new \common_exception_Error('invalid stylesheet path "' . $styleSheet . '"');
         }
 
         $cssArray = CssHelper::loadCssFile($item, $lang, $styleSheet);
@@ -105,22 +106,23 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
      * @throws \common_exception_MissingParameter
      * @throws \common_exception_InvalidArgumentType
      */
-    private function getCssArray() {
+    private function getCssArray()
+    {
         if (!$this->hasRequestParameter('cssJson')) {
-            throw new common_exception_MissingParameter('cssJson', __CLASS__.'::'.\Context::getInstance()->getActionName());
+            throw new common_exception_MissingParameter('cssJson', __CLASS__ . '::' . \Context::getInstance()->getActionName());
         }
         $cssArr = json_decode($_POST['cssJson'], true);
-        if(!is_array($cssArr)) {
-            throw new common_exception_InvalidArgumentType(__CLASS__,\Context::getInstance()->getActionName(), 0, 'json encoded array');
+        if (!is_array($cssArr)) {
+            throw new common_exception_InvalidArgumentType(__CLASS__, \Context::getInstance()->getActionName(), 0, 'json encoded array');
         }
         return $cssArr;
-
     }
 
     /**
      * Download custom styles
      */
-    public function download(){
+    public function download()
+    {
 
         if (!$this->hasRequestParameter('uri')) {
             throw new common_exception_MissingParameter('uri', __METHOD__);
@@ -138,14 +140,13 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         $styleSheet = $this->getRequestParameter('stylesheetUri');
 
         if (!\tao_helpers_File::securityCheck($styleSheet, true)) {
-            throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
+            throw new \common_exception_Error('invalid stylesheet path "' . $styleSheet . '"');
         }
 
         header('Set-Cookie: fileDownload=true');
-        setcookie('fileDownload','true', 0, '/');
+        setcookie('fileDownload', 'true', 0, '/');
         header('Content-type: application/octet-stream');
         header(sprintf('Content-Disposition: attachment; filename=%s', basename($styleSheet)));
         echo CssHelper::downloadCssFile($item, $lang, $styleSheet);
     }
-
 }

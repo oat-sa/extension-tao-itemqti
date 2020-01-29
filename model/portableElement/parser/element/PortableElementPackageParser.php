@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,7 +70,7 @@ abstract class PortableElementPackageParser implements PortableElementParser
         foreach ($definitionFiles as $file) {
             if ($zip->locateName($file) === false) {
                 throw new PortableElementParserException(
-                    'The portable element package "' .$this->getModel()->getId(). '" must contains a "' . $file . '" file at the root of the archive.'
+                    'The portable element package "' . $this->getModel()->getId() . '" must contains a "' . $file . '" file at the root of the archive.'
                 );
             }
         }
@@ -99,7 +100,7 @@ abstract class PortableElementPackageParser implements PortableElementParser
             if (\tao_helpers_File::checkWhetherArchiveIsBomb($zip)) {
                 throw new PortableElementExtractException(sprintf('Source %s seems to be a ZIP bomb', $source));
             }
-            if($zip->extractTo($folder)){
+            if ($zip->extractTo($folder)) {
                 $tmpDirectory = $folder;
             }
             $zip->close();
@@ -123,7 +124,7 @@ abstract class PortableElementPackageParser implements PortableElementParser
     public function getManifestContent($source)
     {
         $zip = new ZipArchive();
-        if($zip->open($source) === false ) {
+        if ($zip->open($source) === false) {
             throw new PortableElementParserException('Unable to open the ZIP file located at: ' . $source);
         }
 
@@ -137,7 +138,7 @@ abstract class PortableElementPackageParser implements PortableElementParser
         $content = $zip->getFromName($manifestName);
 
         if (! $content) {
-            throw new PortableElementParserException('Manifest file "' . $manifestName. '" found but not readable.');
+            throw new PortableElementParserException('Manifest file "' . $manifestName . '" found but not readable.');
         }
 
         $content = json_decode($content, true);
@@ -160,7 +161,8 @@ abstract class PortableElementPackageParser implements PortableElementParser
             if ($this->validate($source)) {
                 return true;
             }
-        } catch (common_Exception $e) {}
+        } catch (common_Exception $e) {
+        }
         return false;
     }
 
@@ -176,5 +178,4 @@ abstract class PortableElementPackageParser implements PortableElementParser
             throw new ExtractException('Zip file to extract is not a file. Got "' . $source . '"');
         }
     }
-
 }

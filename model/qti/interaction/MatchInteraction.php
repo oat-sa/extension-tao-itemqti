@@ -1,22 +1,23 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti\interaction;
@@ -36,7 +37,7 @@ use \common_Logger;
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10291
- 
+
  */
 class MatchInteraction extends BlockInteraction
 {
@@ -48,17 +49,19 @@ class MatchInteraction extends BlockInteraction
      * @var string
      */
     protected static $qtiTagName = 'matchInteraction';
-    static protected $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\SimpleAssociableChoice';
-    static protected $baseType = 'directedPair';
+    protected static $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\SimpleAssociableChoice';
+    protected static $baseType = 'directedPair';
 
-    public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
+    public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
+    {
         parent::__construct($attributes, $relatedItem, $serial);
 
         //init the two matchSets: a double array
-        $this->choices = array(array(), array());
+        $this->choices = [[], []];
     }
 
-    public function getIdentifiedElements(){
+    public function getIdentifiedElements()
+    {
 
         $returnValue = new IdentifierCollection();
         $returnValue->addMultiple($this->getChoices(0));
@@ -67,23 +70,26 @@ class MatchInteraction extends BlockInteraction
         return $returnValue;
     }
 
-    protected function getUsedAttributes(){
+    protected function getUsedAttributes()
+    {
         return array_merge(
-                parent::getUsedAttributes(), array(
+            parent::getUsedAttributes(),
+            [
             'oat\\taoQtiItem\\model\\qti\\attribute\\Shuffle',
             'oat\\taoQtiItem\\model\\qti\\attribute\\MaxAssociations',
             'oat\\taoQtiItem\\model\\qti\\attribute\\MinAssociations'
-                )
+                ]
         );
     }
 
-    public function getChoiceBySerial($serial){
+    public function getChoiceBySerial($serial)
+    {
         
         $returnValue = null;
 
-        for($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $matchSet = $this->getChoices($i);
-            if(isset($matchSet[$serial])){
+            if (isset($matchSet[$serial])) {
                 $returnValue = $matchSet[$serial];
                 break;
             }
@@ -92,16 +98,17 @@ class MatchInteraction extends BlockInteraction
         return $returnValue;
     }
 
-    private function isValidMatchSetNumber($setNumber){
+    private function isValidMatchSetNumber($setNumber)
+    {
 
         $returnValue = false;
 
-        if(is_int($setNumber)){
-            if($setNumber === 0 || $setNumber === 1){
+        if (is_int($setNumber)) {
+            if ($setNumber === 0 || $setNumber === 1) {
                 $returnValue = true;
             }
         }
-        if(!$returnValue){
+        if (!$returnValue) {
             common_Logger::w($setNumber);
             throw new InvalidArgumentException('For match interactions, the match set number must be either "(int) 0" or "(int) 1"');
         }
@@ -109,33 +116,35 @@ class MatchInteraction extends BlockInteraction
         return $returnValue;
     }
 
-    public function getChoices($setNumber = null){
+    public function getChoices($setNumber = null)
+    {
 
-        $returnValue = array();
+        $returnValue = [];
 
-        if($this->isValidMatchSetNumber($setNumber)){
+        if ($this->isValidMatchSetNumber($setNumber)) {
             $returnValue = $this->choices[$setNumber];
-        }else{
+        } else {
             $returnValue = $this->choices;
         }
 
         return $returnValue;
     }
 
-    public function addChoice(Choice $choice, $setNumber = null){
+    public function addChoice(Choice $choice, $setNumber = null)
+    {
 
         $returnValue = false;
 
-        if($this->isValidMatchSetNumber($setNumber)){
-            if(!empty(static::$choiceClass) && get_class($choice) == static::$choiceClass){
+        if ($this->isValidMatchSetNumber($setNumber)) {
+            if (!empty(static::$choiceClass) && get_class($choice) == static::$choiceClass) {
                 $this->choices[$setNumber][$choice->getSerial()] = $choice;
                 $relatedItem = $this->getRelatedItem();
-                if(!is_null($relatedItem)){
+                if (!is_null($relatedItem)) {
                     $choice->setRelatedItem($relatedItem);
                 }
                 $returnValue = true;
-            }else{
-                throw new InvalidArgumentException('Wrong type of choice in argument: '.static::$choiceClass);
+            } else {
+                throw new InvalidArgumentException('Wrong type of choice in argument: ' . static::$choiceClass);
             }
         }
 
@@ -143,15 +152,16 @@ class MatchInteraction extends BlockInteraction
     }
 
     /**
-     * 
+     *
      * @return oat\taoQtiItem\model\qti\choice\Choice
      */
-    public function createChoice($choiceAttributes = array(), $choiceValue = null, $setNumber = null){
+    public function createChoice($choiceAttributes = [], $choiceValue = null, $setNumber = null)
+    {
 
         $returnValue = null;
 
-        if($this->isValidMatchSetNumber($setNumber)){
-            if(!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')){
+        if ($this->isValidMatchSetNumber($setNumber)) {
+            if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')) {
                 $returnValue = new static::$choiceClass($choiceAttributes, $choiceValue);
                 $this->addChoice($returnValue, $setNumber);
             }
@@ -160,18 +170,20 @@ class MatchInteraction extends BlockInteraction
         return $returnValue;
     }
 
-    public function removeChoice(Choice $choice, $setNumber = null){
-        if(!is_null($setNumber) && isset($this->choices[$setNumber])){
+    public function removeChoice(Choice $choice, $setNumber = null)
+    {
+        if (!is_null($setNumber) && isset($this->choices[$setNumber])) {
             unset($this->choices[$setNumber][$choice->getSerial()]);
-        }else{
-            for($i=0;$i<2;$i++){
+        } else {
+            for ($i = 0; $i < 2; $i++) {
                 $this->removeChoice($choice, $i);
             }
         }
     }
 
-    public function getComposingElements($className = ''){
-        if($className === ''){
+    public function getComposingElements($className = '')
+    {
+        if ($className === '') {
             $className = 'oat\taoQtiItem\model\qti\Element';
         }
         $returnValue = parent::getComposingElements($className);
@@ -197,42 +209,44 @@ class MatchInteraction extends BlockInteraction
         return $returnValue;
     }
 
-    public function toArray($filterVariableContent = false, &$filtered = array()){
+    public function toArray($filterVariableContent = false, &$filtered = [])
+    {
 
         //need to reimplent it because there are two match choice sets
-        $data = array(
+        $data = [
             'serial' => $this->getSerial(),
             'qtiClass' => $this->getQtiTag(),
             'attributes' => $this->getAttributeValues(),
             'prompt' => $this->getPrompt()->toArray($filterVariableContent, $filtered),
-            'choices' => array(
+            'choices' => [
                 $this->getArraySerializedElementCollection($this->getChoices(0), $filterVariableContent, $filtered),
                 $this->getArraySerializedElementCollection($this->getChoices(1), $filterVariableContent, $filtered)
-            )
-        );
+            ]
+        ];
 
         return $data;
     }
 
-    protected function getTemplateQtiVariables(){
+    protected function getTemplateQtiVariables()
+    {
 
         //need to reimplent it because there are two match choice sets
-        $variables = array(
+        $variables = [
             'tag' => static::$qtiTagName,
             'attributes' => $this->getAttributeValues(),
             'prompt' => $this->prompt->toQTI()
-        );
+        ];
         unset($variables['attributes']['identifier']);
         
-        if(trim($this->getPrompt()->getBody()) !== ''){
+        if (trim($this->getPrompt()->getBody()) !== '') {
             //prompt is optional:
             $variables['prompt'] = $this->prompt->toQTI();
         }
         
         $choices = '';
-        for($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $choices .= '<simpleMatchSet>';
-            foreach($this->getChoices($i) as $choice){
+            foreach ($this->getChoices($i) as $choice) {
                 $choices .= $choice->toQTI();
             }
             $choices .= '</simpleMatchSet>';
@@ -242,5 +256,4 @@ class MatchInteraction extends BlockInteraction
         
         return $variables;
     }
-
 }

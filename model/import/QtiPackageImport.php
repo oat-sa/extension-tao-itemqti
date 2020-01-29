@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -47,7 +48,9 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
 {
     use PhpSerializeStateless;
     use EventManagerAwareTrait;
-    use ImportHandlerHelperTrait { getTaskParameters as getDefaultTaskParameters; }
+    use ImportHandlerHelperTrait {
+        getTaskParameters as getDefaultTaskParameters;
+    }
 
     /**
      * @see tao_models_classes_import_ImportHandler::getLabel()

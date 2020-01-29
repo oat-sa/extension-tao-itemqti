@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,8 +58,8 @@ class LiteralPropertyExtractor extends LomMetadataExtractor
             return [];
         }
 
-        return array(
+        return [
             new SimpleMetadataValue($resource->getUri(), $this->path, $value)
-        );
+        ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,17 +70,17 @@ class Service extends tao_models_classes_Service
             $qtiParser = new Parser($file);
             $returnValue = $qtiParser->load();
 
-            if(is_null($returnValue) && !empty($qtiParser->getErrors())){
+            if (is_null($returnValue) && !empty($qtiParser->getErrors())) {
                 common_Logger::w($qtiParser->displayErrors(false));
             }
 
-            if($resolveXInclude && !empty($langCode)){
-                try{
+            if ($resolveXInclude && !empty($langCode)) {
+                try {
                     //loadxinclude
                     $resolver = new ItemMediaResolver($item, $langCode);
                     $xincludeLoader = new XIncludeLoader($returnValue, $resolver);
                     $xincludeLoader->load(true);
-                } catch(XIncludeException $exception){
+                } catch (XIncludeException $exception) {
                     common_Logger::e($exception->getMessage());
                 }
             }
@@ -90,9 +91,9 @@ class Service extends tao_models_classes_Service
         } catch (FileNotFoundException $e) {
             // fail silently, since file might not have been created yet
             // $returnValue is then NULL.
-            common_Logger::d('item('.$item->getUri().') is empty, newly created?');
-        } catch (common_Exception $e){
-            common_Logger::d('item('.$item->getUri().') is not existing');
+            common_Logger::d('item(' . $item->getUri() . ') is empty, newly created?');
+        } catch (common_Exception $e) {
+            common_Logger::d('item(' . $item->getUri() . ') is not existing');
         }
 
         return $returnValue;
@@ -111,8 +112,8 @@ class Service extends tao_models_classes_Service
         $itemService = taoItems_models_classes_ItemsService::singleton();
 
         //check if the item is QTI item
-        if (! $itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
-            throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
+        if (! $itemService->hasItemModel($item, [ItemModel::MODEL_URI])) {
+            throw new common_Exception('Non QTI item(' . $item->getUri() . ') opened via QTI Service');
         }
 
         $file = $itemService->getItemDirectory($item, $language)->getFile(self::QTI_ITEM_FILE);
@@ -183,7 +184,6 @@ class Service extends tao_models_classes_Service
         $returnValue = null;
 
         if (is_string($file) && !empty($file)) {
-
             //validate the file to import
             try {
                 $qtiParser = new Parser($file);
@@ -194,9 +194,9 @@ class Service extends tao_models_classes_Service
                 }
 
                 $returnValue = $qtiParser->load();
-            } catch(ParsingException $pe) {
+            } catch (ParsingException $pe) {
                 throw new ParsingException($pe->getMessage());
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 throw new Exception("Unable to load file {$file} caused  by {$e->getMessage()}");
             }
         }
@@ -214,7 +214,7 @@ class Service extends tao_models_classes_Service
     public function renderQTIItem(Item $item, $language = 'en-US')
     {
         if (! is_null($item)) {
-            return $item->toXHTML(array('lang' => $language));
+            return $item->toXHTML(['lang' => $language]);
         }
         return '';
     }

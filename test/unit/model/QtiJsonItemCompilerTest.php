@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  * @author Oleksandr Zagovorychev <zagovorichev@gmail.com>
  */
+
 namespace oat\taoQtiItem\test\unit\model;
 
 use common_exception_Error;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,23 +23,24 @@ namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
  * MetadataClassLookup interface.
- * 
+ *
  * All classes claiming at being able to lookup for a target import Ontology Class
  * a given item must go to from its metadata must implement this interface.
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
  */
-interface MetadataClassLookup 
-{    
+interface MetadataClassLookup
+{
+
     /**
      * Target import Onotology class lookup.
-     * 
+     *
      * The implementations of this method will try to find an appropriate class
      * an item must be imported to from its metadata values.
-     * 
+     *
      * @param array $metadataValues An array of MetadataValue objects.
-     * @return \core_kernel_classes_Class 
+     * @return \core_kernel_classes_Class
      */
     public function lookup(array $metadataValues);
 }

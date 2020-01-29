@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -122,7 +123,7 @@ class OntologyExtractor implements Extractor
                         continue;
                     }
 
-                    $data[] = ($itemValue instanceof \core_kernel_classes_Resource)? $itemValue->getLabel() : (string)$itemValue;
+                    $data[] = ($itemValue instanceof \core_kernel_classes_Resource) ? $itemValue->getLabel() : (string)$itemValue;
                 }
             } catch (\Exception $e) {
                 \common_Logger::e('ERROR on column ' . $column . ' : ' . $e->getMessage());
@@ -150,6 +151,6 @@ class OntologyExtractor implements Extractor
      */
     public function __toPhpCode()
     {
-        return 'new '.get_class($this).'()';
+        return 'new ' . get_class($this) . '()';
     }
 }

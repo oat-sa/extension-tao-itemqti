@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +31,8 @@ namespace oat\taoQtiItem\model\Export;
  */
 class Qti21ExportForm extends ExportForm
 {
-    protected function getFormGroupName(){
+    protected function getFormGroupName()
+    {
         return __('Export QTI 2.1 Package');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,9 +33,8 @@ namespace oat\taoQtiItem\model\qti\attribute;
 class Summary extends Attribute
 {
 
-	static protected $name = 'summary';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
-	static protected $defaultValue = null;
-	static protected $required = false;
-
+    protected static $name = 'summary';
+    protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
+    protected static $defaultValue = null;
+    protected static $required = false;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,7 +58,7 @@ class StimulusHandler implements AssetHandler
      */
     public function isApplicable($relativePath)
     {
-        $xincluded = array();
+        $xincluded = [];
         /** @var Element $xincludeElement */
         foreach ($this->getQtiItem()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xincludeElement) {
             $xincluded[] = $xincludeElement->attr('href');
@@ -118,7 +119,7 @@ class StimulusHandler implements AssetHandler
         $dom->loadXML(file_get_contents($absolutePath));
         $images = $dom->getElementsByTagName('img');
 
-        for($i=0 ; $i<$images->length ; $i++) {
+        for ($i = 0; $i < $images->length; $i++) {
             $imageFile = dirname($absolutePath) . DIRECTORY_SEPARATOR . ltrim($images->item($i)->getAttribute('src'), DIRECTORY_SEPARATOR);
             if (is_readable($imageFile)) {
                 $encodedSrc = 'data:image/png;base64,' . base64_encode(file_get_contents($imageFile));

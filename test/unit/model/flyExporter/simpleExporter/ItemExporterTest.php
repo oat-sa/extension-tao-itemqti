@@ -43,8 +43,6 @@ class ItemExporterTest extends TestCase
         $item = new \core_kernel_classes_Resource('foo');
         $data = $exporter->getDataByItem($item);
         //both interactions have metadata
-        $this->assertEquals(array_column($data, 'foo'),['bar', 'bar']);
+        $this->assertEquals(array_column($data, 'foo'), ['bar', 'bar']);
     }
-
-
 }

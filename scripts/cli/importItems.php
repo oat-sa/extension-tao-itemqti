@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -141,7 +142,8 @@ class importItems implements Action, ServiceLocatorAwareInterface
      * @param string $parentClass
      * @return core_kernel_classes_Class|null
      */
-    protected function getItemClass($className = null, $parentClass = TaoOntology::ITEM_CLASS_URI) {
+    protected function getItemClass($className = null, $parentClass = TaoOntology::ITEM_CLASS_URI)
+    {
         $parentClass = $this->getClass($parentClass);
         
         if ($className) {
@@ -149,7 +151,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
             $className = str_replace('_', ' ', $className);
 
             $subClasses = $parentClass->getSubClasses();
-            foreach($subClasses as $instance) {
+            foreach ($subClasses as $instance) {
                 if ($instance->getLabel() == $className) {
                     $subClass = $instance;
                     $this->showMessage("Loaded class: $className\n");
@@ -197,8 +199,9 @@ class importItems implements Action, ServiceLocatorAwareInterface
      * @param string $path
      * @return array
      */
-    protected function listPackages($path) {
-        $packages = array_map(function($fileName) use($path) {
+    protected function listPackages($path)
+    {
+        $packages = array_map(function ($fileName) use ($path) {
             $file = null;
             if ($fileName != '.' && $fileName != '..') {
                 $fullPath = $path . DIRECTORY_SEPARATOR . $fileName;
@@ -214,7 +217,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
             return $file;
         }, scandir($path));
 
-        return array_filter($packages, function($file) {
+        return array_filter($packages, function ($file) {
             return $file != null;
         });
     }
@@ -225,7 +228,8 @@ class importItems implements Action, ServiceLocatorAwareInterface
      * @return common_report_Report
      * @throws common_exception_Error
      */
-    protected function importPath($path, $class) {
+    protected function importPath($path, $class)
+    {
 
         if (is_dir($path)) {
             $packages = $this->listPackages($path);
@@ -233,7 +237,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
             if (count($packages)) {
                 $finalReport = new Report(Report::TYPE_SUCCESS);
                 
-                foreach($packages as $package) {
+                foreach ($packages as $package) {
                     if ($this->directoryToClass) {
                         $packageClass = $this->getItemClass($package['name'], $class);
                     } else {
@@ -259,7 +263,6 @@ class importItems implements Action, ServiceLocatorAwareInterface
             } else {
                 return new Report(Report::TYPE_ERROR, 'No package to import!');
             }
-
         } else {
             return $this->importPackage($path, $class);
         }
@@ -275,7 +278,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
         $this->showMessage("Importing the items from $fileName");
 
         //the zip extraction is a long process that can exceed the 30s timeout
-        helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);    
+        helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
         try {
             $importService = ImportService::singleton();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,10 +25,10 @@ use \InvalidArgumentException;
 
 /**
  * Describes a Mapping between a given XML namespace, its prefix, and a XSD (XML Schema Definition) location.
- * 
+ *
  * As an example, in an IMS Manifest File, such a mapping could be performed to represent
  * how metadata from the IMS Metadata domain should be serialized from an XML perspective.
- * 
+ *
  * namespace: "http://www.imsglobal.org/xsd/imsmd_v1p2"
  * prefix: "imsmd"
  * schemaLocation: "http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd"
@@ -39,28 +40,28 @@ class ImsManifestMapping
 {
     /**
      * An XML namespace.
-     * 
+     *
      * @var string
      */
     private $namespace;
     
     /**
      * An XML prefix.
-     * 
+     *
      * @var string
      */
     private $prefix;
     
     /**
      * An XSD (XML Schema Definition) schema location.
-     * 
+     *
      * @var string
      */
     private $schemaLocation;
     
     /**
      * Create a new ImsManifestMapping object.
-     * 
+     *
      * @param string $namespace An XML namespace.
      * @param string $prefix An XML prefix.
      * @param string $schemaLocation An XSD (XML Schema Definition) schema location.
@@ -75,7 +76,7 @@ class ImsManifestMapping
     
     /**
      * Set the XML namespace of the mapping.
-     * 
+     *
      * @param string $namespace An XML namespace e.g. "http://www.imsglobal.org/xsd/imsmd_v1p2p2".
      * @throws InvalidArgumentException If $namespace is not a string or an empty string.
      */
@@ -94,7 +95,7 @@ class ImsManifestMapping
     
     /**
      * Get the XML namespace.
-     * 
+     *
      * @return string An XML namespace e.g. "http://www.imsglobal.org/xsd/imsmd_v1p2p2".
      */
     public function getNamespace()
@@ -104,7 +105,7 @@ class ImsManifestMapping
     
     /**
      * Set the XML prefix of the mapping.
-     * 
+     *
      * @param string $prefix An XML prefix e.g. "imsmd".
      * @throws InvalidArgumentException If $prefix is not a string or an empty string.
      */
@@ -123,7 +124,7 @@ class ImsManifestMapping
     
     /**
      * Get the XML prefix of the mapping.
-     * 
+     *
      * @return string An XML prefix e.g. "imsmd".
      */
     public function getPrefix()
@@ -133,7 +134,7 @@ class ImsManifestMapping
     
     /**
      * Set the XSD (XML Schema Definition) schema location of the mapping.
-     * 
+     *
      * @param string $schemaLocation A schema location e.g. "http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd".
      * @throws InvalidArgumentException If $schemaLocatuion is not a string or an empty string.
      */
@@ -152,7 +153,7 @@ class ImsManifestMapping
     
     /**
      * Get the XSD (XML Schema Definition) schema location of the mapping.
-     * 
+     *
      * @return string A schema location e.g. "http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd".
      */
     public function getSchemaLocation()

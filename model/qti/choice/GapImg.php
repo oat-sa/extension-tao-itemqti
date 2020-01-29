@@ -1,22 +1,23 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti\choice;
@@ -32,7 +33,7 @@ use oat\taoQtiItem\model\qti\QtiObject;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
- 
+
  */
 class GapImg extends Choice
 {
@@ -47,53 +48,62 @@ class GapImg extends Choice
 
     /**
      * The image object of a gapImg must have a image MIME type
-     * 
+     *
      * @var oat\taoQtiItem\model\qti\QtiObject
      */
     protected $object = null;
     
-    public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
-		parent::__construct($attributes, $relatedItem, $serial);
-		$this->object = new QtiObject();
-	}
+    public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
+    {
+        parent::__construct($attributes, $relatedItem, $serial);
+        $this->object = new QtiObject();
+    }
     
-    protected function getUsedAttributes(){
+    protected function getUsedAttributes()
+    {
         return array_merge(
-                parent::getUsedAttributes(), array(
+            parent::getUsedAttributes(),
+            [
             'oat\\taoQtiItem\\model\\qti\\attribute\\ObjectLabel'
-                )
+                ]
         );
     }
 
-    public function setContent($content){
-        if($content instanceof QtiObject){
+    public function setContent($content)
+    {
+        if ($content instanceof QtiObject) {
             $this->setObject($content);
-        }else{
+        } else {
             throw new InvalidArgumentException('a GapImg can contain taoQTI_models_classes_QTI_Object only');
         }
     }
 
-    public function getContent(){
+    public function getContent()
+    {
         return $this->getObject();
     }
 
-    public function setObject(QtiObject $imgObject){
+    public function setObject(QtiObject $imgObject)
+    {
         //@todo: check MIME type
         $this->object = $imgObject;
     }
 
-    public function getObject(){
+    public function getObject()
+    {
         return $this->object;
     }
 
-    protected function getTemplateQtiVariables(){
+    protected function getTemplateQtiVariables()
+    {
         //use the default qti.element.tpl.php
         $variables = parent::getTemplateQtiVariables();
         $variables['body'] = $this->object->toQTI();
         return $variables;
     }
 
-    public function toArray($filterVariableContent = false, &$filtered = array()){
+    public function toArray($filterVariableContent = false, &$filtered = [])
+    {
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $returnValue['object'] = $this->object->toArray($filterVariableContent, $filtered);
         return $returnValue;

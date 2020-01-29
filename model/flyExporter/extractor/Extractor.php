@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +40,7 @@ interface Extractor extends PhpSerializable
      * @param \core_kernel_classes_Resource $item
      * @return mixed
      */
-    public function  setItem(\core_kernel_classes_Resource $item);
+    public function setItem(\core_kernel_classes_Resource $item);
 
     /**
      * Add column to extract with associate config

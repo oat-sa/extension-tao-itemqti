@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,33 +37,34 @@ use oat\taoQtiItem\model\qti\choice\Gap;
 class ContainerGap extends Container
 {
 
-	/**
+    /**
      * return the list of available element classes
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
      * @return array
      */
-	public function getValidElementTypes(){
-		return array(
+    public function getValidElementTypes()
+    {
+        return [
             'oat\\taoQtiItem\\model\\qti\\Img',
-			'oat\\taoQtiItem\\model\\qti\\Math',
-			'oat\\taoQtiItem\\model\\qti\\Table',
-			'oat\\taoQtiItem\\model\\qti\\Tooltip',
-			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-		    \oat\taoQtiItem\model\qti\QtiObject::class,
-			'oat\\taoQtiItem\\model\\qti\\choice\\Gap'
-		);
-	}
+            'oat\\taoQtiItem\\model\\qti\\Math',
+            'oat\\taoQtiItem\\model\\qti\\Table',
+            'oat\\taoQtiItem\\model\\qti\\Tooltip',
+            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
+            \oat\taoQtiItem\model\qti\QtiObject::class,
+            'oat\\taoQtiItem\\model\\qti\\choice\\Gap'
+        ];
+    }
 
-	public function afterElementSet(Element $qtiElement){
-		parent::afterElementSet($qtiElement);
-		if($qtiElement instanceof Gap){
-			$item = $this->getRelatedItem();
-			if(isset($item)){
-				$qtiElement->setRelatedItem($item);
-			}
-		}
-	}
-
+    public function afterElementSet(Element $qtiElement)
+    {
+        parent::afterElementSet($qtiElement);
+        if ($qtiElement instanceof Gap) {
+            $item = $this->getRelatedItem();
+            if (isset($item)) {
+                $qtiElement->setRelatedItem($item);
+            }
+        }
+    }
 }

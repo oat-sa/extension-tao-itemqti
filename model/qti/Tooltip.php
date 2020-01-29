@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,31 +35,35 @@ class Tooltip extends Element implements FlowContainer
     protected $content = '';
     protected $body = null;
 
-    public function __construct($attributes, Item $relatedItem = null, $serial = ''){
+    public function __construct($attributes, Item $relatedItem = null, $serial = '')
+    {
         parent::__construct($attributes, $relatedItem, $serial);
         $this->body = new ContainerTooltip();
     }
 
-    public function getUsedAttributes(){
-        return array();
+    public function getUsedAttributes()
+    {
+        return [];
     }
 
-    public function getSerial() {
+    public function getSerial()
+    {
         return '_' . parent::getSerial();
     }
 
-    public function getContent(){
+    public function getContent()
+    {
         return $this->content;
     }
 
-    public function setContent($content){
-        if(empty($content)){
+    public function setContent($content)
+    {
+        if (empty($content)) {
             $content = strval($content);
         }
-        if(is_string($content)){
+        if (is_string($content)) {
             $this->content = $content;
-
-        }else{
+        } else {
             throw new InvalidArgumentException('a Tooltip content can only be text');
         }
     }
@@ -66,7 +71,8 @@ class Tooltip extends Element implements FlowContainer
     /**
      * Add tooltip id & content to template variables
      */
-    protected function getTemplateQtiVariables(){
+    protected function getTemplateQtiVariables()
+    {
         // this is necessary because the QTI template gets a serialized string for attributes and cannot address a specific attribute
         $tooltipId = $this->getAttributeValue('aria-describedby');
 
@@ -79,14 +85,15 @@ class Tooltip extends Element implements FlowContainer
     /**
      * Add tooltip content to element serialization
      */
-    public function toArray($filterVariableContent = false, &$filtered = array()){
+    public function toArray($filterVariableContent = false, &$filtered = [])
+    {
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $returnValue['content'] = (string) $this->getContent();
         return $returnValue;
     }
 
-    public function getBody() {
+    public function getBody()
+    {
         return $this->body;
     }
-
 }

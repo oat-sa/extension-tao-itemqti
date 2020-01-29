@@ -1,21 +1,22 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -25,7 +26,7 @@ use \DOMElement;
 
 /**
  * Class representing a QTI portable InfoControl
- * 
+ *
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10433a
  * @access public
  * @author Sam, <sam@taotestin.com>
@@ -34,85 +35,99 @@ use \DOMElement;
  */
 class PortableInfoControl extends InfoControl
 {
-
     use PortableElementTrait;
 
     const NS_NAME = 'pic';
     const NS_URI = 'http://www.imsglobal.org/xsd/portableInfoControl';
 
-    protected $properties = array();
-    protected $libraries = array();
-    protected $stylesheets = array();
-    protected $mediaFiles = array();
+    protected $properties = [];
+    protected $libraries = [];
+    protected $stylesheets = [];
+    protected $mediaFiles = [];
     protected $typeIdentifier = '';
     protected $entryPoint = '';
     protected $version = '0.0.0';
 
-    public function setTypeIdentifier($typeIdentifier){
+    public function setTypeIdentifier($typeIdentifier)
+    {
         $this->typeIdentifier = $typeIdentifier;
     }
 
-    public function setEntryPoint($entryPoint){
+    public function setEntryPoint($entryPoint)
+    {
         $this->entryPoint = $entryPoint;
     }
 
-    public function getTypeIdentifier(){
+    public function getTypeIdentifier()
+    {
         return $this->typeIdentifier;
     }
 
-    public function getEntryPoint(){
+    public function getEntryPoint()
+    {
         return $this->entryPoint;
     }
 
-    public function getProperties(){
+    public function getProperties()
+    {
         return $this->properties;
     }
 
-    public function setProperties($properties){
-        if(is_array($properties)){
+    public function setProperties($properties)
+    {
+        if (is_array($properties)) {
             $this->properties = $properties;
-        }else{
+        } else {
             throw new InvalidArgumentException('properties should be an array');
         }
     }
 
-    public function getStylesheets(){
+    public function getStylesheets()
+    {
         return $this->stylesheets;
     }
 
-    public function setStylesheets($stylesheets){
+    public function setStylesheets($stylesheets)
+    {
         $this->stylesheets = $stylesheets;
     }
 
-    public function getMediaFiles(){
+    public function getMediaFiles()
+    {
         return $this->mediaFiles;
     }
 
-    public function setMediaFiles($mediaFiles){
+    public function setMediaFiles($mediaFiles)
+    {
         $this->mediaFiles = $mediaFiles;
     }
 
-    public function getVersion(){
+    public function getVersion()
+    {
         return $this->version;
     }
 
-    public function setVersion($version){
+    public function setVersion($version)
+    {
         return $this->version = $version;
     }
 
-    public function getLibraries(){
+    public function getLibraries()
+    {
         return $this->libraries;
     }
 
-    public function setLibraries($libraries){
-        if(is_array($libraries)){
+    public function setLibraries($libraries)
+    {
+        if (is_array($libraries)) {
             $this->libraries = $libraries;
-        }else{
+        } else {
             throw new InvalidArgumentException('libraries should be an array');
         }
     }
 
-    public function toArray($filterVariableContent = false, &$filtered = array()){
+    public function toArray($filterVariableContent = false, &$filtered = [])
+    {
 
         $returnValue = parent::toArray($filterVariableContent, $filtered);
 
@@ -127,11 +142,13 @@ class PortableInfoControl extends InfoControl
         return $returnValue;
     }
 
-    public static function getTemplateQti(){
-        return static::getTemplatePath().'qti.portableInfoControl.tpl.php';
+    public static function getTemplateQti()
+    {
+        return static::getTemplatePath() . 'qti.portableInfoControl.tpl.php';
     }
 
-    protected function getTemplateQtiVariables(){
+    protected function getTemplateQtiVariables()
+    {
 
         $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
@@ -145,67 +162,68 @@ class PortableInfoControl extends InfoControl
         return $variables;
     }
 
-    public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null){
+    public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null)
+    {
 
         $this->setNamespace($xmlns);
         $xmlnsName = $xmlns->getName();
 
-        $picNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $xmlnsName);
-        if(!$picNodes->length) {
+        $picNodes = $parser->queryXPathChildren(['portableInfoControl'], $data, $xmlnsName);
+        if (!$picNodes->length) {
             $xmlnsName = '';//even if a namespace has been defined, it may not be used
-            $picNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $xmlnsName);
+            $picNodes = $parser->queryXPathChildren(['portableInfoControl'], $data, $xmlnsName);
         }
-        if(!$picNodes->length) {
+        if (!$picNodes->length) {
             throw new QtiModelException('no oat portableInfoControl node found');
         }
 
-        $picNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $xmlnsName);
-        if(!$picNodes->length) {
+        $picNodes = $parser->queryXPathChildren(['portableInfoControl'], $data, $xmlnsName);
+        if (!$picNodes->length) {
             throw new QtiModelException('no portableInfoControl node found');
         }
 
         $typeIdentifier = $picNodes->item(0)->getAttribute('infoControlTypeIdentifier');
-        if(empty($typeIdentifier)){
+        if (empty($typeIdentifier)) {
             throw new QtiModelException('the type identifier of the pic is missing');
-        }else{
+        } else {
             $this->setTypeIdentifier($typeIdentifier);
         }
         $this->setEntryPoint($picNodes->item(0)->getAttribute('hook'));
 
         $version = $picNodes->item(0)->getAttribute('version');
-        if($version){
+        if ($version) {
             $this->setVersion($version);
         }
 
-        $libNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'libraries', 'lib'), $data, $xmlnsName);
-        $libs = array();
-        foreach($libNodes as $libNode){
+        $libNodes = $parser->queryXPathChildren(['portableInfoControl', 'resources', 'libraries', 'lib'], $data, $xmlnsName);
+        $libs = [];
+        foreach ($libNodes as $libNode) {
             $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
 
-        $stylesheetNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'stylesheets', 'link'), $data, $xmlnsName);
-        $stylesheets = array();
-        foreach($stylesheetNodes as $styleNode){
+        $stylesheetNodes = $parser->queryXPathChildren(['portableInfoControl', 'resources', 'stylesheets', 'link'], $data, $xmlnsName);
+        $stylesheets = [];
+        foreach ($stylesheetNodes as $styleNode) {
             $stylesheets[] = $styleNode->getAttribute('href');
         }
         $this->setStylesheets($stylesheets);
 
-        $mediaNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'mediaFiles', 'file'), $data, $xmlnsName);
-        $media = array();
-        foreach($mediaNodes as $mediaNode){
+        $mediaNodes = $parser->queryXPathChildren(['portableInfoControl', 'resources', 'mediaFiles', 'file'], $data, $xmlnsName);
+        $media = [];
+        foreach ($mediaNodes as $mediaNode) {
             $media[] = $mediaNode->getAttribute('src');
         }
         $this->setMediaFiles($media);
 
-        $propertyNodes = $parser->queryXPathChildren(array('portableInfoControl', 'properties'), $data, $xmlnsName);
-        if($propertyNodes->length){
+        $propertyNodes = $parser->queryXPathChildren(['portableInfoControl', 'properties'], $data, $xmlnsName);
+        if ($propertyNodes->length) {
             $properties = $this->extractProperties($propertyNodes->item(0), $xmlnsName);
             $this->setProperties($properties);
         }
 
-        $markupNodes = $parser->queryXPathChildren(array('portableInfoControl', 'markup'), $data, $xmlnsName);
-        if($markupNodes->length){
+        $markupNodes = $parser->queryXPathChildren(['portableInfoControl', 'markup'], $data, $xmlnsName);
+        if ($markupNodes->length) {
             $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);
         }
