@@ -56,6 +56,7 @@ class OutcomeDeclaration extends VariableDeclaration
             [
             'oat\\taoQtiItem\\model\\qti\\attribute\\View',
             'oat\\taoQtiItem\\model\\qti\\attribute\\Interpretation',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\ExternalScored',
             'oat\\taoQtiItem\\model\\qti\\attribute\\LongInterpretation',
             'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMaximum',
             'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMinimum',
