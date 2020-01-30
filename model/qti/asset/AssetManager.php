@@ -56,7 +56,9 @@ class AssetManager
     public function loadAssetHandler($assetHandler)
     {
         if (!$assetHandler instanceof AssetHandler) {
-            throw new AssetManagerException('Asset handler "' . get_class($assetHandler) . '" is not supported by AssetManager');
+            throw new AssetManagerException(
+                'Asset handler "' . get_class($assetHandler) . '" is not supported by AssetManager'
+            );
         }
         $this->assetHandlers[] = $assetHandler;
         return $this;
@@ -93,7 +95,9 @@ class AssetManager
     public function getSource()
     {
         if (!$this->source) {
-            throw new AssetManagerException('No source folder set to assetManager when loading auxiliary files & dependencies.');
+            throw new AssetManagerException(
+                'No source folder set to assetManager when loading auxiliary files & dependencies.'
+            );
         }
         return $this->source;
     }
@@ -170,9 +174,11 @@ class AssetManager
                     $this->importFile($qtiFile, $auxiliaryFile);
                 }
             } catch (AssetManagerException $e) {
-                throw new AssetManagerException($e->getMessage() . ', item ' . $qtiItemResource->getIdentifier(),
+                throw new AssetManagerException(
+                    $e->getMessage() . ', item ' . $qtiItemResource->getIdentifier(),
                     $e->getCode(),
-                    $e->getPrevious());
+                    $e->getPrevious()
+                );
             }
         }
         return $this;
@@ -217,7 +223,7 @@ class AssetManager
             $dependencyResource = $dependencies[$dependenciesFile];
 
             $this->copyFilesToItemDir(dirname($qtiFile), $dependencyResource);
-            /** @var array $dependencies recursive dependencies  */
+            /** @var array $dependencies recursive dependencies */
             $dependencies = $dependencyResource->getDependencies();
             if ($dependencies && count($dependencies)) {
                 $this->copyDependencyFiles($qtiItemResource, $dependencies);
@@ -303,6 +309,8 @@ class AssetManager
                 return;
             }
         }
-        throw new AssetManagerException('Unable to import auxiliary & dependency files. No asset handler applicable to file : ' . $relativePath);
+        throw new AssetManagerException(
+            'Unable to import auxiliary & dependency files. No asset handler applicable to file : ' . $relativePath
+        );
     }
 }
