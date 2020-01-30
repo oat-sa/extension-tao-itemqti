@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,13 +28,13 @@ use oat\tao\model\asset\AssetService;
 /**
  * Register former portable shared libraries to make existing PCI implementation compatible
  */
-class RegisterLegacyPortableLibraries  extends InstallAction
+class RegisterLegacyPortableLibraries extends InstallAction
 {
     public function __invoke($params)
     {
         //register location of portable libs to legacy share lib aliases for backward compatibility
         $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-        $portableSafeLibPath = $assetService->getJsBaseWww('taoQtiItem').'js/legacyPortableSharedLib';
+        $portableSafeLibPath = $assetService->getJsBaseWww('taoQtiItem') . 'js/legacyPortableSharedLib';
         $clientLibRegistry = ClientLibRegistry::getRegistry();
         $clientLibRegistry->register('IMSGlobal/jquery_2_1_1', $portableSafeLibPath . '/jquery_2_1_1');
         $clientLibRegistry->register('OAT/lodash', $portableSafeLibPath . '/lodash');
@@ -59,4 +60,3 @@ class RegisterLegacyPortableLibraries  extends InstallAction
         $clientLibRegistry->register('OAT/mediaPlayer', $portableSafeLibPath . '/OAT/mediaPlayer');
     }
 }
-

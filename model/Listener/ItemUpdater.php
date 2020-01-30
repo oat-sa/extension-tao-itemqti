@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\taoQtiItem\model\Listener;
 
 use core_kernel_classes_Resource;
@@ -31,19 +33,21 @@ use taoItems_models_classes_ItemsService;
  * synchronise item between database and QTI XMl
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ItemUpdater {
+class ItemUpdater
+{
     
     /**
      * synchronise item label
      * @param ItemRdfUpdatedEvent $event
      */
-    public static function catchItemRdfUpdatedEvent(ItemRdfUpdatedEvent $event) {
+    public static function catchItemRdfUpdatedEvent(ItemRdfUpdatedEvent $event)
+    {
         $rdfItem = new core_kernel_classes_Resource($event->getItemUri());
         $type = $rdfItem->getProperty(taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL);
         /*@var $directory \oat\oatbox\filesystem\Directory */
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $itemModel = $rdfItem->getPropertyValues($type);
-        if($directory->exists() && in_array(taoItems_models_classes_itemModel::CLASS_URI_QTI, $itemModel)  ) {
+        if ($directory->exists() && in_array(taoItems_models_classes_itemModel::CLASS_URI_QTI, $itemModel)) {
             /* @var $file File */
             $file = $directory->getFile(Service::QTI_ITEM_FILE);
                 
@@ -53,7 +57,5 @@ class ItemUpdater {
             $qtiItem->setAttribute('label', $label);
             $file->put($qtiItem->toXML());
         }
-        
     }
-    
 }

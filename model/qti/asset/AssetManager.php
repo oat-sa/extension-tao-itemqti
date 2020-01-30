@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -130,11 +131,12 @@ class AssetManager
 
             try {
                 $this->importAsset($absolutePath, $relativePath);
-            } catch(\common_Exception $e) {
+            } catch (\common_Exception $e) {
                 throw new AssetManagerException(
                     'Error occurs during auxiliary assets handling for item: ' . $qtiItemResource->getIdentifier()
                     . ', assetFile: ' . $relativePath,
-                    0, $e
+                    0,
+                    $e
                 );
             }
         }
@@ -303,5 +305,4 @@ class AssetManager
         }
         throw new AssetManagerException('Unable to import auxiliary & dependency files. No asset handler applicable to file : ' . $relativePath);
     }
-
 }

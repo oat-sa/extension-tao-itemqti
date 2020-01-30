@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,11 +45,11 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
      */
     protected function getRelativeEntryPath()
     {
-        return array(
+        return [
             LomMetadata::LOM_NAMESPACE . '#taxon',
             LomMetadata::LOM_NAMESPACE . '#entry',
             LomMetadata::LOM_NAMESPACE . '#string'
-        );
+        ];
     }
 
     /**
@@ -56,7 +57,7 @@ class ClassificationEntryMetadataValue extends SimpleMetadataValue implements Cl
      *
      * @return array
      */
-    static public function getEntryPath()
+    public static function getEntryPath()
     {
         return [
             LomMetadata::LOM_NAMESPACE . '#lom',

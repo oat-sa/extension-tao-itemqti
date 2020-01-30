@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -79,15 +80,15 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 class ParserFactory
 {
-
     use LoggerAwareTrait;
 
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
-    protected $attributeMap = array('lang' => 'xml:lang');
+    protected $attributeMap = ['lang' => 'xml:lang'];
 
-    public function __construct(DOMDocument $data){
+    public function __construct(DOMDocument $data)
+    {
         $this->data = $data;
         $this->xpath = new DOMXPath($data);
     }
@@ -100,18 +101,20 @@ class ParserFactory
         $this->item = $item;
     }
 
-    public function load(){
+    public function load()
+    {
 
         $item = null;
 
-        if(!is_null($this->data)){
+        if (!is_null($this->data)) {
             $item = $this->buildItem($this->data->documentElement);
         }
 
         return $item;
     }
 
-    protected function saveXML(DOMElement $data){
+    protected function saveXML(DOMElement $data)
+    {
         return $data->ownerDocument->saveXML($data);
     }
 
@@ -123,7 +126,8 @@ class ParserFactory
      * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
      * @return string the body data (XML markup)
      */
-    public function getBodyData(DOMElement $data, $removeNamespace = false, $keepEmptyTags = false){
+    public function getBodyData(DOMElement $data, $removeNamespace = false, $keepEmptyTags = false)
+    {
 
         //prepare the data string
         $bodyData = '';
@@ -131,60 +135,64 @@ class ParserFactory
 
         $children  = $data->childNodes;
 
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             $bodyData .= $data->ownerDocument->saveXML($child, $saveOptions);
         }
 
-        if($removeNamespace){
+        if ($removeNamespace) {
             $bodyData = preg_replace('/<(\/)?(\w*):/i', '<$1', $bodyData);
         }
 
         return $bodyData;
     }
 
-    protected function replaceNode(DOMElement $node, Element $element){
+    protected function replaceNode(DOMElement $node, Element $element)
+    {
         $placeholder = $this->data->createTextNode($element->getPlaceholder());
         $node->parentNode->replaceChild($placeholder, $node);
     }
 
-    protected function deleteNode(DOMElement $node){
+    protected function deleteNode(DOMElement $node)
+    {
         $node->parentNode->removeChild($node);
     }
 
-    public function queryXPath($query, DOMElement $contextNode = null){
-        if(is_null($contextNode)){
+    public function queryXPath($query, DOMElement $contextNode = null)
+    {
+        if (is_null($contextNode)) {
             return $this->xpath->query($query);
-        }else{
+        } else {
             return $this->xpath->query($query, $contextNode);
         }
     }
 
-    public function queryXPathChildren($paths = array(), DOMElement $contextNode = null, $ns = ''){
+    public function queryXPathChildren($paths = [], DOMElement $contextNode = null, $ns = '')
+    {
         $query = '.';
-        $ns = empty($ns) ? '' : $ns.':';
-        foreach($paths as $path){
-            $query .= "/*[name(.)='".$ns.$path."']";
+        $ns = empty($ns) ? '' : $ns . ':';
+        foreach ($paths as $path) {
+            $query .= "/*[name(.)='" . $ns . $path . "']";
         }
 
         return $this->queryXPath($query, $contextNode);
     }
 
-    public function loadContainerStatic(DOMElement $data, Container $container){
+    public function loadContainerStatic(DOMElement $data, Container $container)
+    {
         $this->parseContainerStatic($data, $container);
     }
 
     protected function parseContainerStatic(DOMElement $data, Container $container)
     {
         //initialize elements array to collect all QTI elements
-        $bodyElements = array();
+        $bodyElements = [];
 
         //parse for feedback elements
         //warning: parse feedback elements before any other because feedback may contain them!
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
-        foreach($feedbackNodes as $feedbackNode){
+        foreach ($feedbackNodes as $feedbackNode) {
             $feedback = $this->buildFeedback($feedbackNode);
-            if(!is_null($feedback)){
+            if (!is_null($feedback)) {
                 $bodyElements[$feedback->getSerial()] = $feedback;
                 $this->replaceNode($feedbackNode, $feedback);
             }
@@ -195,7 +203,7 @@ class ParserFactory
         // parse the remaining tables, those that does not contain any interaction.
         //warning: parse table elements before any other because table may contain them!
         $tableNodes = $this->queryXPath(".//*[not(ancestor::*[name()='table']) and name()='table']", $data);
-        foreach($tableNodes as $tableNode){
+        foreach ($tableNodes as $tableNode) {
             $table = $this->buildTable($tableNode);
             if (!is_null($table)) {
                 $bodyElements[$table->getSerial()] = $table;
@@ -204,9 +212,9 @@ class ParserFactory
         }
 
         $tooltipNodes = $this->queryXPath(".//*[@data-role='tooltip-target']", $data);
-        foreach($tooltipNodes as $tooltipNode){
+        foreach ($tooltipNodes as $tooltipNode) {
             $tooltip = $this->buildTooltip($tooltipNode, $data);
-            if(!is_null($tooltip)){
+            if (!is_null($tooltip)) {
                 $bodyElements[$tooltip->getSerial()] = $tooltip;
 
                 $this->replaceNode($tooltipNode, $tooltip);
@@ -214,10 +222,10 @@ class ParserFactory
         }
 
         $objectNodes = $this->queryXPath(".//*[name(.)='object']", $data);
-        foreach($objectNodes as $objectNode){
-            if(!in_array('object', $this->getAncestors($objectNode))){
+        foreach ($objectNodes as $objectNode) {
+            if (!in_array('object', $this->getAncestors($objectNode))) {
                 $object = $this->buildObject($objectNode);
-                if(!is_null($object)){
+                if (!is_null($object)) {
                     $bodyElements[$object->getSerial()] = $object;
 
                     $this->replaceNode($objectNode, $object);
@@ -226,9 +234,9 @@ class ParserFactory
         }
 
         $imgNodes = $this->queryXPath(".//*[name(.)='img']", $data);
-        foreach($imgNodes as $imgNode){
+        foreach ($imgNodes as $imgNode) {
             $img = $this->buildImg($imgNode);
-            if(!is_null($img)){
+            if (!is_null($img)) {
                 $bodyElements[$img->getSerial()] = $img;
 
                 $this->replaceNode($imgNode, $img);
@@ -236,34 +244,34 @@ class ParserFactory
         }
 
         $ns = $this->getMathNamespace();
-        $ns = empty($ns) ? '' : $ns.':';
-        $mathNodes = $this->queryXPath(".//*[name(.)='".$ns."math']", $data);
-        foreach($mathNodes as $mathNode){
+        $ns = empty($ns) ? '' : $ns . ':';
+        $mathNodes = $this->queryXPath(".//*[name(.)='" . $ns . "math']", $data);
+        foreach ($mathNodes as $mathNode) {
             $math = $this->buildMath($mathNode);
-            if(!is_null($math)){
+            if (!is_null($math)) {
                 $bodyElements[$math->getSerial()] = $math;
                 $this->replaceNode($mathNode, $math);
             }
         }
 
         $ns = $this->getXIncludeNamespace();
-        $ns = empty($ns) ? '' : $ns.':';
-        $xincludeNodes = $this->queryXPath(".//*[name(.)='".$ns."include']", $data);
-        foreach($xincludeNodes as $xincludeNode){
+        $ns = empty($ns) ? '' : $ns . ':';
+        $xincludeNodes = $this->queryXPath(".//*[name(.)='" . $ns . "include']", $data);
+        foreach ($xincludeNodes as $xincludeNode) {
             $include = $this->buildXInclude($xincludeNode);
-            if(!is_null($include)){
+            if (!is_null($include)) {
                 $bodyElements[$include->getSerial()] = $include;
                 $this->replaceNode($xincludeNode, $include);
             }
         }
 
         $printedVariableNodes = $this->queryXPath(".//*[name(.)='printedVariable']", $data);
-        foreach($printedVariableNodes as $printedVariableNode){
+        foreach ($printedVariableNodes as $printedVariableNode) {
             throw new UnsupportedQtiElement($printedVariableNode);
         }
 
         $templateNodes = $this->queryXPath(".//*[name(.)='templateBlock'] | *[name(.)='templateInline']", $data);
-        foreach($templateNodes as $templateNode){
+        foreach ($templateNodes as $templateNode) {
             throw new UnsupportedQtiElement($templateNode);
         }
 
@@ -271,23 +279,23 @@ class ParserFactory
         $bodyData = $this->getBodyData($data);
         //there use to be $bodyData = ItemAuthoring::cleanHTML($bodyData); there
 
-        if(empty($bodyElements)){
+        if (empty($bodyElements)) {
             $container->edit($bodyData);
-        }elseif(!$container->setElements($bodyElements, $bodyData)){
+        } elseif (!$container->setElements($bodyElements, $bodyData)) {
             throw new ParsingException('Cannot set elements to the static container');
         }
 
         return $data;
     }
 
-    protected function getAncestors(DOMElement $data, $topNode = 'itemBody'){
-        $ancestors = array();
+    protected function getAncestors(DOMElement $data, $topNode = 'itemBody')
+    {
+        $ancestors = [];
         $parentNodeName = '';
         $currentNode = $data;
         $i = 0;
-        while(!is_null($currentNode->parentNode) && $parentNodeName != $topNode){
-
-            if($i > 100){
+        while (!is_null($currentNode->parentNode) && $parentNodeName != $topNode) {
+            if ($i > 100) {
                 throw new ParsingException('maximum recursion of 100 reached');
             }
 
@@ -299,19 +307,18 @@ class ParserFactory
         return $ancestors;
     }
 
-    protected function parseContainerInteractive(DOMElement $data, ContainerInteractive $container){
+    protected function parseContainerInteractive(DOMElement $data, ContainerInteractive $container)
+    {
 
-        $bodyElements = array();
+        $bodyElements = [];
 
         //parse the xml to find the interaction nodes
         $interactionNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'Interaction')]", $data);
-        foreach($interactionNodes as $k => $interactionNode){
-
-            if(strpos($interactionNode->nodeName, 'portableCustomInteraction') === false){
-
+        foreach ($interactionNodes as $k => $interactionNode) {
+            if (strpos($interactionNode->nodeName, 'portableCustomInteraction') === false) {
                 //build an interaction instance
                 $interaction = $this->buildInteraction($interactionNode);
-                if(!is_null($interaction)){
+                if (!is_null($interaction)) {
                     $bodyElements[$interaction->getSerial()] = $interaction;
                     $this->replaceNode($interactionNode, $interaction);
                 }
@@ -320,48 +327,50 @@ class ParserFactory
 
         //parse for feedback elements interactive!
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
-        foreach($feedbackNodes as $feedbackNode){
+        foreach ($feedbackNodes as $feedbackNode) {
             $feedback = $this->buildFeedback($feedbackNode, true);
-            if(!is_null($feedback)){
+            if (!is_null($feedback)) {
                 $bodyElements[$feedback->getSerial()] = $feedback;
                 $this->replaceNode($feedbackNode, $feedback);
             }
         }
 
         $bodyData = $this->getBodyData($data);
-        foreach($bodyElements as $bodyElement){
-            if(strpos($bodyData, $bodyElement->getPlaceholder()) === false){
+        foreach ($bodyElements as $bodyElement) {
+            if (strpos($bodyData, $bodyElement->getPlaceholder()) === false) {
                 unset($bodyElements[$bodyElement->getSerial()]);
             }
         }
-        if(!$container->setElements($bodyElements, $bodyData)){
+        if (!$container->setElements($bodyElements, $bodyData)) {
             throw new ParsingException('Cannot set elements to the interactive container');
         }
 
         return $this->parseContainerStatic($data, $container);
     }
 
-    protected function setContainerElements(Container $container, DOMElement $data, $bodyElements = array()){
+    protected function setContainerElements(Container $container, DOMElement $data, $bodyElements = [])
+    {
         $bodyData = $this->getBodyData($data);
-        foreach($bodyElements as $bodyElement){
-            if(strpos($bodyData, $bodyElement->getPlaceholder()) === false){
+        foreach ($bodyElements as $bodyElement) {
+            if (strpos($bodyData, $bodyElement->getPlaceholder()) === false) {
                 unset($bodyElements[$bodyElement->getSerial()]);
             }
         }
-        if(!$container->setElements($bodyElements, $bodyData)){
+        if (!$container->setElements($bodyElements, $bodyData)) {
             throw new ParsingException('Cannot set elements to the interactive container');
         }
     }
 
-    protected function parseContainerItemBody(DOMElement $data, ContainerItemBody $container){
+    protected function parseContainerItemBody(DOMElement $data, ContainerItemBody $container)
+    {
 
-        $bodyElements = array();
+        $bodyElements = [];
 
         //parse for rubricBlocks: rubricBlock only allowed in item body !
         $rubricNodes = $this->queryXPath(".//*[name(.)='rubricBlock']", $data);
-        foreach($rubricNodes as $rubricNode){
+        foreach ($rubricNodes as $rubricNode) {
             $rubricBlock = $this->buildRubricBlock($rubricNode);
-            if(!is_null($rubricBlock)){
+            if (!is_null($rubricBlock)) {
                 $bodyElements[$rubricBlock->getSerial()] = $rubricBlock;
                 $this->replaceNode($rubricNode, $rubricBlock);
             }
@@ -369,9 +378,9 @@ class ParserFactory
 
         //parse for infoControls: infoControl only allowed in item body !
         $infoControlNodes = $this->queryXPath(".//*[name(.)='infoControl']", $data);
-        foreach($infoControlNodes as $infoControlNode){
+        foreach ($infoControlNodes as $infoControlNode) {
             $infoControl = $this->buildInfoControl($infoControlNode);
-            if(!is_null($infoControl)){
+            if (!is_null($infoControl)) {
                 $bodyElements[$infoControl->getSerial()] = $infoControl;
                 $this->replaceNode($infoControlNode, $infoControl);
             }
@@ -379,11 +388,11 @@ class ParserFactory
 
         // parse for tables, but only the ones containing interactions
         $tableNodes = $this->queryXPath(".//*[name(.)='table']", $data);
-        foreach($tableNodes as $tableNode){
+        foreach ($tableNodes as $tableNode) {
             $interactionsNodes = $this->queryXPath(".//*[contains(name(.), 'Interaction')]", $tableNode);
             if ($interactionsNodes->length > 0) {
                 $table = $this->buildTable($tableNode);
-                if(!is_null($table)){
+                if (!is_null($table)) {
                     $bodyElements[$table->getSerial()] = $table;
                     $this->replaceNode($tableNode, $table);
                     $this->parseContainerInteractive($tableNode, $table->getBody());
@@ -396,13 +405,14 @@ class ParserFactory
         return $this->parseContainerInteractive($data, $container);
     }
 
-    private function parseContainerChoice(DOMElement $data, Container $container, $tag){
+    private function parseContainerChoice(DOMElement $data, Container $container, $tag)
+    {
 
-        $choices = array();
-        $gapNodes = $this->queryXPath(".//*[name(.)='".$tag."']", $data);
-        foreach($gapNodes as $gapNode){
+        $choices = [];
+        $gapNodes = $this->queryXPath(".//*[name(.)='" . $tag . "']", $data);
+        foreach ($gapNodes as $gapNode) {
             $gap = $this->buildChoice($gapNode);
-            if(!is_null($gap)){
+            if (!is_null($gap)) {
                 $choices[$gap->getSerial()] = $gap;
                 $this->replaceNode($gapNode, $gap);
             }
@@ -415,18 +425,21 @@ class ParserFactory
         return $data;
     }
 
-    protected function parseContainerGap(DOMElement $data, ContainerGap $container){
+    protected function parseContainerGap(DOMElement $data, ContainerGap $container)
+    {
         return $this->parseContainerChoice($data, $container, 'gap');
     }
 
-    protected function parseContainerHottext(DOMElement $data, ContainerHottext $container){
+    protected function parseContainerHottext(DOMElement $data, ContainerHottext $container)
+    {
         return $this->parseContainerChoice($data, $container, 'hottext');
     }
 
-    protected function extractAttributes(DOMElement $data){
-        $options = array();
-        foreach($data->attributes as $attr){
-            if($attr->nodeName === 'xsi:schemaLocation'){
+    protected function extractAttributes(DOMElement $data)
+    {
+        $options = [];
+        foreach ($data->attributes as $attr) {
+            if ($attr->nodeName === 'xsi:schemaLocation') {
                 continue;
             }
             $options[isset($this->attributeMap[$attr->nodeName]) ? $this->attributeMap[$attr->nodeName] : $attr->nodeName] = (string) $attr->nodeValue;
@@ -434,28 +447,29 @@ class ParserFactory
         return $options;
     }
 
-    public function findNamespace($nsFragment){
+    public function findNamespace($nsFragment)
+    {
         $returnValue = '';
 
-        if(is_null($this->item)){
-            foreach($this->queryXPath('namespace::*') as $node){
+        if (is_null($this->item)) {
+            foreach ($this->queryXPath('namespace::*') as $node) {
                 $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
                 $uri = $node->nodeValue;
-                if(strpos($uri, $nsFragment) > 0){
+                if (strpos($uri, $nsFragment) > 0) {
                     $returnValue = $name;
                     break;
                 }
             }
-        }else{
+        } else {
             $namespaces = $this->item->getNamespaces();
 
-            foreach($namespaces as $name => $uri){
-                if(strpos($uri, $nsFragment) > 0){
+            foreach ($namespaces as $name => $uri) {
+                if (strpos($uri, $nsFragment) > 0) {
                     $returnValue = $name;
                     break;
                 }
             }
-            if($returnValue === ''){
+            if ($returnValue === '') {
                 $returnValue = $this->recursivelyFindNamespace($this->data, $nsFragment);
             }
         }
@@ -471,18 +485,17 @@ class ParserFactory
         $returnValue = '';
 
         foreach ($element->childNodes as $child) {
-
-            if($child->nodeType === XML_ELEMENT_NODE) {
-                foreach($this->queryXPath('namespace::*', $child) as $node){
+            if ($child->nodeType === XML_ELEMENT_NODE) {
+                foreach ($this->queryXPath('namespace::*', $child) as $node) {
                     $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
                     $uri = $node->nodeValue;
-                    if(strpos($uri, $nsFragment) > 0){
+                    if (strpos($uri, $nsFragment) > 0) {
                         $returnValue = $name;
                         break;
                     }
                 }
                 $value = $this->recursivelyFindNamespace($child, $nsFragment);
-                if($value !== ''){
+                if ($value !== '') {
                     $returnValue = $value;
                 }
             }
@@ -491,11 +504,13 @@ class ParserFactory
         return $returnValue;
     }
 
-    protected function getMathNamespace(){
+    protected function getMathNamespace()
+    {
         return $this->findNamespace('MathML');
     }
 
-    protected function getXIncludeNamespace(){
+    protected function getXIncludeNamespace()
+    {
         return $this->findNamespace('XInclude');
     }
 
@@ -508,11 +523,12 @@ class ParserFactory
      * @throws ParsingException
      * @throws UnsupportedQtiElement
      */
-    protected function buildItem(DOMElement $data){
+    protected function buildItem(DOMElement $data)
+    {
         //check on the root tag.
         $itemId = (string) $data->getAttribute('identifier');
 
-        $this->logDebug('Started parsing of QTI item'.(isset($itemId) ? ' '.$itemId : ''), array('TAOITEMS'));
+        $this->logDebug('Started parsing of QTI item' . (isset($itemId) ? ' ' . $itemId : ''), ['TAOITEMS']);
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
@@ -523,54 +539,54 @@ class ParserFactory
 
         //load stylesheets
         $styleSheetNodes = $this->queryXPath("*[name(.) = 'stylesheet']", $data);
-        foreach($styleSheetNodes as $styleSheetNode){
+        foreach ($styleSheetNodes as $styleSheetNode) {
             $styleSheet = $this->buildStylesheet($styleSheetNode);
             $this->item->addStylesheet($styleSheet);
         }
 
         //extract the responses
         $responseNodes = $this->queryXPath("*[name(.) = 'responseDeclaration']", $data);
-        foreach($responseNodes as $responseNode){
+        foreach ($responseNodes as $responseNode) {
             $response = $this->buildResponseDeclaration($responseNode);
-            if(!is_null($response)){
+            if (!is_null($response)) {
                 $this->item->addResponse($response);
             }
         }
 
         //extract outcome variables
-        $outcomes = array();
+        $outcomes = [];
         $outComeNodes = $this->queryXPath("*[name(.) = 'outcomeDeclaration']", $data);
-        foreach($outComeNodes as $outComeNode){
+        foreach ($outComeNodes as $outComeNode) {
             $outcome = $this->buildOutcomeDeclaration($outComeNode);
-            if(!is_null($outcome)){
+            if (!is_null($outcome)) {
                 $outcomes[] = $outcome;
             }
         }
-        if(count($outcomes) > 0){
+        if (count($outcomes) > 0) {
             $this->item->setOutcomes($outcomes);
         }
 
         //extract modal feedbacks
         $feedbackNodes = $this->queryXPath("*[name(.) = 'modalFeedback']", $data);
-        foreach($feedbackNodes as $feedbackNode){
+        foreach ($feedbackNodes as $feedbackNode) {
             $modalFeedback = $this->buildFeedback($feedbackNode);
-            if(!is_null($modalFeedback)){
+            if (!is_null($modalFeedback)) {
                 $this->item->addModalFeedback($modalFeedback);
             }
         }
 
         //extract the item structure to separate the structural/style content to the item content
         $itemBodies = $this->queryXPath("*[name(.) = 'itemBody']", $data); // array with 1 or zero bodies
-        if($itemBodies === false){
+        if ($itemBodies === false) {
             $errors = libxml_get_errors();
-            if(count($errors) > 0){
+            if (count($errors) > 0) {
                 $error = array_shift($errors);
                 $errormsg = $error->message;
-            }else{
+            } else {
                 $errormsg = "without errormessage";
             }
-            throw new ParsingException('XML error('.$errormsg.') on itemBody read'.(isset($itemId) ? ' for item '.$itemId : ''));
-        }elseif($itemBodies->length){
+            throw new ParsingException('XML error(' . $errormsg . ') on itemBody read' . (isset($itemId) ? ' for item ' . $itemId : ''));
+        } elseif ($itemBodies->length) {
             $this->parseContainerItemBody($itemBodies->item(0), $this->item->getBody());
             $this->item->addClass($itemBodies->item(0)->getAttribute('class'));
         }
@@ -578,19 +594,19 @@ class ParserFactory
 
         //warning: extract the response processing at the latest to make oat\taoQtiItem\model\qti\response\TemplatesDriven::takeOverFrom() work
         $rpNodes = $this->queryXPath("*[name(.) = 'responseProcessing']", $data);
-        if($rpNodes->length === 0){
+        if ($rpNodes->length === 0) {
             //no response processing node found: the template for an empty response processing is simply "NONE"
             $rProcessing = new TemplatesDriven();
             $rProcessing->setRelatedItem($this->item);
-            foreach($this->item->getInteractions() as $interaction){
+            foreach ($this->item->getInteractions() as $interaction) {
                 $rProcessing->setTemplate($interaction->getResponse(), Template::NONE);
             }
             $this->item->setResponseProcessing($rProcessing);
-        }else{
+        } else {
             //if there is a response processing node, try parsing it
             $rpNode = $rpNodes->item(0);
             $rProcessing = $this->buildResponseProcessing($rpNode, $this->item);
-            if(!is_null($rProcessing)){
+            if (!is_null($rProcessing)) {
                 $this->item->setResponseProcessing($rProcessing);
             }
         }
@@ -603,16 +619,17 @@ class ParserFactory
     /**
      * Load xml namespaces into the item model
      */
-    protected function loadNamespaces(){
+    protected function loadNamespaces()
+    {
         $namespaces = [];
-        foreach($this->queryXPath('namespace::*') as $node){
+        foreach ($this->queryXPath('namespace::*') as $node) {
             $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
-            if($name !== 'xml'){//always removed the implicit xml namespace
+            if ($name !== 'xml') {//always removed the implicit xml namespace
                 $namespaces[$name] = $node->nodeValue;
             }
         }
         ksort($namespaces);
-        foreach($namespaces as $name => $uri){
+        foreach ($namespaces as $name => $uri) {
             $this->item->addNamespace($name, $uri);
         }
     }
@@ -623,22 +640,24 @@ class ParserFactory
      * @param DOMElement $itemData
      * @throws ParsingException
      */
-    protected function loadSchemaLocations(DOMElement $itemData){
+    protected function loadSchemaLocations(DOMElement $itemData)
+    {
         $schemaLoc = preg_replace('/\s+/', ' ', trim($itemData->getAttributeNS($itemData->lookupNamespaceURI('xsi'), 'schemaLocation')));
         $schemaLocToken = explode(' ', $schemaLoc);
         $schemaCount = count($schemaLocToken);
-        if($schemaCount%2){
+        if ($schemaCount % 2) {
             throw new ParsingException('invalid schema location');
         }
-        for($i=0; $i<$schemaCount; $i=$i+2){
-            $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i+1]);
+        for ($i = 0; $i < $schemaCount; $i = $i + 2) {
+            $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i + 1]);
         }
     }
 
-    protected function buildApipAccessibility(DOMElement $data){
+    protected function buildApipAccessibility(DOMElement $data)
+    {
         $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']|*[name(.) = 'apip:apipAccessibility']", $data);
-        if($ApipNodes->length > 0){
-            common_Logger::i('is APIP item', array('QTI', 'TAOITEMS'));
+        if ($ApipNodes->length > 0) {
+            common_Logger::i('is APIP item', ['QTI', 'TAOITEMS']);
             $apipNode = $ApipNodes->item(0);
             $apipXml = $apipNode->ownerDocument->saveXML($apipNode);
             $this->item->setApipAccessibility($apipXml);
@@ -657,33 +676,31 @@ class ParserFactory
      * @throws interaction\InvalidArgumentException
      * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10247
      */
-    protected function buildInteraction(DOMElement $data){
+    protected function buildInteraction(DOMElement $data)
+    {
 
         $returnValue = null;
 
-        if($data->nodeName === 'customInteraction'){
-
+        if ($data->nodeName === 'customInteraction') {
             $returnValue = $this->buildCustomInteraction($data);
-        }else{
-
+        } else {
             //build one of the standard interaction
 
-            try{
-
+            try {
                 $type = ucfirst($data->nodeName);
 
-                $interactionClass = '\\oat\\taoQtiItem\\model\\qti\\interaction\\'.$type;
-                if(!class_exists($interactionClass)){
-                    throw new ParsingException('The interaction class cannot be found: '.$interactionClass);
+                $interactionClass = '\\oat\\taoQtiItem\\model\\qti\\interaction\\' . $type;
+                if (!class_exists($interactionClass)) {
+                    throw new ParsingException('The interaction class cannot be found: ' . $interactionClass);
                 }
 
                 $myInteraction = new $interactionClass($this->extractAttributes($data), $this->item);
 
-                if($myInteraction instanceof BlockInteraction){
+                if ($myInteraction instanceof BlockInteraction) {
                     //extract prompt:
                     $promptNodes = $this->queryXPath("*[name(.) = 'prompt']", $data); //prompt
 
-                    foreach($promptNodes as $promptNode){
+                    foreach ($promptNodes as $promptNode) {
                         //only block interactions have prompt
                         $this->parseContainerStatic($promptNode, $myInteraction->getPrompt());
                         $this->deleteNode($promptNode);
@@ -691,21 +708,20 @@ class ParserFactory
                 }
 
                 //build the interaction's choices regarding it's type
-                switch(strtolower($type)){
-
+                switch (strtolower($type)) {
                     case 'matchinteraction':
                         //extract simpleMatchSet choices
                         $matchSetNodes = $this->queryXPath("*[name(.) = 'simpleMatchSet']", $data); //simpleMatchSet
                         $matchSetNumber = 0;
-                        foreach($matchSetNodes as $matchSetNode){
+                        foreach ($matchSetNodes as $matchSetNode) {
                             $choiceNodes = $this->queryXPath("*[name(.) = 'simpleAssociableChoice']", $matchSetNode); //simpleAssociableChoice
-                            foreach($choiceNodes as $choiceNode){
+                            foreach ($choiceNodes as $choiceNode) {
                                 $choice = $this->buildChoice($choiceNode);
-                                if(!is_null($choice)){
+                                if (!is_null($choice)) {
                                     $myInteraction->addChoice($choice, $matchSetNumber);
                                 }
                             }
-                            if(++$matchSetNumber === 2){
+                            if (++$matchSetNumber === 2) {
                                 //matchSet is limited to 2 maximum
                                 break;
                             }
@@ -715,10 +731,10 @@ class ParserFactory
                     case 'gapmatchinteraction':
                         //create choices with the gapText nodes
                         $choiceNodes = $this->queryXPath("*[name(.)='gapText']", $data); //or gapImg!!
-                        $choices = array();
-                        foreach($choiceNodes as $choiceNode){
+                        $choices = [];
+                        foreach ($choiceNodes as $choiceNode) {
                             $choice = $this->buildChoice($choiceNode);
-                            if(!is_null($choice)){
+                            if (!is_null($choice)) {
                                 $myInteraction->addChoice($choice);
                                 $this->deleteNode($choiceNode);
                             }
@@ -737,20 +753,20 @@ class ParserFactory
                     case 'graphicgapmatchinteraction':
                         //create choices with the gapImg nodes
                         $choiceNodes = $this->queryXPath("*[name(.)='gapImg']", $data);
-                        $choices = array();
-                        foreach($choiceNodes as $choiceNode){
+                        $choices = [];
+                        foreach ($choiceNodes as $choiceNode) {
                             $choice = $this->buildChoice($choiceNode);
-                            if(!is_null($choice)){
+                            if (!is_null($choice)) {
                                 $myInteraction->addGapImg($choice);
                             }
                         }
-                    default :
+                    default:
                         //parse, extract and build the choice nodes contained in the interaction
                         $exp = "*[contains(name(.),'Choice')] | *[name(.)='associableHotspot']";
                         $choiceNodes = $this->queryXPath($exp, $data);
-                        foreach($choiceNodes as $choiceNode){
+                        foreach ($choiceNodes as $choiceNode) {
                             $choice = $this->buildChoice($choiceNode);
-                            if(!is_null($choice)){
+                            if (!is_null($choice)) {
                                 $myInteraction->addChoice($choice);
                             }
                             unset($choiceNode);
@@ -758,18 +774,18 @@ class ParserFactory
                         break;
                 }
 
-                if($myInteraction instanceof ObjectInteraction){
+                if ($myInteraction instanceof ObjectInteraction) {
                     $objectNodes = $this->queryXPath("*[name(.)='object']", $data); //object
-                    foreach($objectNodes as $objectNode){
+                    foreach ($objectNodes as $objectNode) {
                         $object = $this->buildObject($objectNode);
-                        if(!is_null($object)){
+                        if (!is_null($object)) {
                             $myInteraction->setObject($object);
                         }
                     }
                 }
 
                 $returnValue = $myInteraction;
-            }catch(InvalidArgumentException $iae){
+            } catch (InvalidArgumentException $iae) {
                 throw new ParsingException($iae);
             }
         }
@@ -790,24 +806,25 @@ class ParserFactory
      * @throws choice\InvalidArgumentException
      * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10254
      */
-    protected function buildChoice(DOMElement $data){
+    protected function buildChoice(DOMElement $data)
+    {
 
-        $className = '\\oat\\taoQtiItem\\model\\qti\\choice\\'.ucfirst($data->nodeName);
-        if(!class_exists($className)){
-            throw new ParsingException("The choice class does not exist ".$className);
+        $className = '\\oat\\taoQtiItem\\model\\qti\\choice\\' . ucfirst($data->nodeName);
+        if (!class_exists($className)) {
+            throw new ParsingException("The choice class does not exist " . $className);
         }
 
         $myChoice = new $className($this->extractAttributes($data));
 
-        if($myChoice instanceof ContainerChoice){
+        if ($myChoice instanceof ContainerChoice) {
             $this->parseContainerStatic($data, $myChoice->getBody());
-        }elseif($myChoice instanceof TextVariableChoice){
+        } elseif ($myChoice instanceof TextVariableChoice) {
             //use getBodyData() instead of $data->nodeValue() to preserve xml entities
             $myChoice->setContent($this->getBodyData($data));
-        }elseif($myChoice instanceof GapImg){
+        } elseif ($myChoice instanceof GapImg) {
             //extract the media object tag
             $objectNodes = $this->queryXPath("*[name(.)='object']", $data);
-            foreach($objectNodes as $objectNode){
+            foreach ($objectNodes as $objectNode) {
                 $object = $this->buildObject($objectNode);
                 $myChoice->setContent($object);
                 break;
@@ -826,19 +843,20 @@ class ParserFactory
      * @return \oat\taoQtiItem\model\qti\ResponseDeclaration
      * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10074
      */
-    protected function buildResponseDeclaration(DOMElement $data){
+    protected function buildResponseDeclaration(DOMElement $data)
+    {
 
         $myResponse = new ResponseDeclaration($this->extractAttributes($data), $this->item);
 
         $data = simplexml_import_dom($data);
         //set the correct responses
         $correctResponseNodes = $data->xpath("*[name(.) = 'correctResponse']");
-        $responses = array();
-        foreach($correctResponseNodes as $correctResponseNode){
-            foreach($correctResponseNode->value as $value){
+        $responses = [];
+        foreach ($correctResponseNodes as $correctResponseNode) {
+            foreach ($correctResponseNode->value as $value) {
                 $correct = (string) $value;
                 $response = new Value();
-                foreach($value->attributes() as $attrName => $attrValue){
+                foreach ($value->attributes() as $attrName => $attrValue) {
                     $response->setAttribute($attrName, strval($attrValue));
                 }
                 $response->setValue($correct);
@@ -850,12 +868,12 @@ class ParserFactory
 
         //set the correct responses
         $defaultValueNodes = $data->xpath("*[name(.) = 'defaultValue']");
-        $defaultValues = array();
-        foreach($defaultValueNodes as $defaultValueNode){
-            foreach($defaultValueNode->value as $value){
+        $defaultValues = [];
+        foreach ($defaultValueNodes as $defaultValueNode) {
+            foreach ($defaultValueNode->value as $value) {
                 $default = (string) $value;
                 $defaultValue = new Value();
-                foreach($value->attributes() as $attrName => $attrValue){
+                foreach ($value->attributes() as $attrName => $attrValue) {
                     $defaultValue->setAttribute($attrName, strval($attrValue));
                 }
                 $defaultValue->setValue($default);
@@ -867,21 +885,20 @@ class ParserFactory
 
         //set the mapping if defined
         $mappingNodes = $data->xpath("*[name(.) = 'mapping']");
-        foreach($mappingNodes as $mappingNode){
-
-            if(isset($mappingNode['defaultValue'])){
+        foreach ($mappingNodes as $mappingNode) {
+            if (isset($mappingNode['defaultValue'])) {
                 $myResponse->setMappingDefaultValue(floatval((string) $mappingNode['defaultValue']));
             }
-            $mappingOptions = array();
-            foreach($mappingNode->attributes() as $key => $value){
-                if($key != 'defaultValue'){
+            $mappingOptions = [];
+            foreach ($mappingNode->attributes() as $key => $value) {
+                if ($key != 'defaultValue') {
                     $mappingOptions[$key] = (string) $value;
                 }
             }
             $myResponse->setAttribute('mapping', $mappingOptions);
 
-            $mapping = array();
-            foreach($mappingNode->mapEntry as $mapEntry){
+            $mapping = [];
+            foreach ($mappingNode->mapEntry as $mapEntry) {
                 $mapping[(string) $mapEntry['mapKey']] = (string) $mapEntry['mappedValue'];
             }
             $myResponse->setMapping($mapping);
@@ -891,23 +908,22 @@ class ParserFactory
 
         //set the areaMapping if defined
         $mappingNodes = $data->xpath("*[name(.) = 'areaMapping']");
-        foreach($mappingNodes as $mappingNode){
-
-            if(isset($mappingNode['defaultValue'])){
+        foreach ($mappingNodes as $mappingNode) {
+            if (isset($mappingNode['defaultValue'])) {
                 $myResponse->setMappingDefaultValue(floatval((string) $mappingNode['defaultValue']));
             }
-            $mappingOptions = array();
-            foreach($mappingNode->attributes() as $key => $value){
-                if($key != 'defaultValue'){
+            $mappingOptions = [];
+            foreach ($mappingNode->attributes() as $key => $value) {
+                if ($key != 'defaultValue') {
                     $mappingOptions[$key] = (string) $value;
                 }
             }
             $myResponse->setAttribute('areaMapping', $mappingOptions);
 
-            $mapping = array();
-            foreach($mappingNode->areaMapEntry as $mapEntry){
-                $mappingAttributes = array();
-                foreach($mapEntry->attributes() as $key => $value){
+            $mapping = [];
+            foreach ($mappingNode->areaMapEntry as $mapEntry) {
+                $mappingAttributes = [];
+                foreach ($mapEntry->attributes() as $key => $value) {
                     $mappingAttributes[(string) $key] = (string) $value;
                 }
                 $mapping[] = $mappingAttributes;
@@ -928,13 +944,14 @@ class ParserFactory
      * @param  DOMElement data
      * @return oat\taoQtiItem\model\qti\OutcomeDeclaration
      */
-    protected function buildOutcomeDeclaration(DOMElement $data){
+    protected function buildOutcomeDeclaration(DOMElement $data)
+    {
 
         $outcome = new OutcomeDeclaration($this->extractAttributes($data));
         $data = simplexml_import_dom($data);
 
-        if(isset($data->defaultValue)){
-            if(!is_null($data->defaultValue->value)){
+        if (isset($data->defaultValue)) {
+            if (!is_null($data->defaultValue->value)) {
                 $outcome->setDefaultValue((string) $data->defaultValue->value);
             }
         }
@@ -950,22 +967,22 @@ class ParserFactory
      * @param  DOMElement data
      * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
      */
-    protected function buildTemplateResponseProcessing(DOMElement $data){
+    protected function buildTemplateResponseProcessing(DOMElement $data)
+    {
         $returnValue = null;
 
-        if($data->hasAttribute('template') && $data->childNodes->length === 0){
+        if ($data->hasAttribute('template') && $data->childNodes->length === 0) {
             $templateUri = (string) $data->getAttribute('template');
             $returnValue = new Template($templateUri);
-        }elseif($data->childNodes->length === 1){
-
+        } elseif ($data->childNodes->length === 1) {
             //check response declaration identifier, which must be RESPONSE in standard rp
             $responses = $this->item->getResponses();
-            if(count($responses) == 1){
+            if (count($responses) == 1) {
                 $response = reset($responses);
-                if($response->getIdentifier() !== 'RESPONSE'){
+                if ($response->getIdentifier() !== 'RESPONSE') {
                     throw new UnexpectedResponseProcessing('the response declaration identifier must be RESPONSE');
                 }
-            }else{
+            } else {
                 //invalid number of response declaration
                 throw new UnexpectedResponseProcessing('the item must have exactly one response declaration');
             }
@@ -973,17 +990,17 @@ class ParserFactory
             $patternCorrectIMS = 'responseCondition [count(./*) = 2 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] [name(./*[2]) = "responseElse" ] [count(./responseElse/*) = 1 ] [name(./responseElse/*[1]) = "setOutcomeValue" ] [name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
             $patternMappingIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponse"]';
             $patternMappingPointIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponsePoint"]';
-            if(count($this->queryXPath($patternCorrectIMS)) == 1){
+            if (count($this->queryXPath($patternCorrectIMS)) == 1) {
                 $returnValue = new Template(Template::MATCH_CORRECT);
-            }elseif(count($this->queryXPath($patternMappingIMS)) == 1){
+            } elseif (count($this->queryXPath($patternMappingIMS)) == 1) {
                 $returnValue = new Template(Template::MAP_RESPONSE);
-            }elseif(count($this->queryXPath($patternMappingPointIMS)) == 1){
+            } elseif (count($this->queryXPath($patternMappingPointIMS)) == 1) {
                 $returnValue = new Template(Template::MAP_RESPONSE_POINT);
-            }else{
+            } else {
                 throw new UnexpectedResponseProcessing('not Template, wrong rule');
             }
             $returnValue->setRelatedItem($this->item);
-        }else{
+        } else {
             throw new UnexpectedResponseProcessing('not Template');
         }
 
@@ -999,39 +1016,41 @@ class ParserFactory
      * @param  Item item
      * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
      */
-    protected function buildResponseProcessing(DOMElement $data, Item $item){
+    protected function buildResponseProcessing(DOMElement $data, Item $item)
+    {
         $returnValue = null;
 
         // try template
-        try{
+        try {
             $returnValue = $this->buildTemplateResponseProcessing($data);
 
-            try{
+            try {
                 //warning: require to add interactions to the item to make it work
                 $returnValue = TemplatesDriven::takeOverFrom($returnValue, $item);
-            }catch(TakeoverFailedException $e){}
-        }catch(UnexpectedResponseProcessing $e){
-
+            } catch (TakeoverFailedException $e) {
+            }
+        } catch (UnexpectedResponseProcessing $e) {
         }
 
         //try templatedriven
-        if(is_null($returnValue)){
-            try{
+        if (is_null($returnValue)) {
+            try {
                 $returnValue = $this->buildTemplatedrivenResponse($data, $item->getInteractions());
-            }catch(UnexpectedResponseProcessing $e){}
-        }
-
-        // build custom
-        if(is_null($returnValue)){
-            try{
-                $returnValue = $this->buildCustomResponseProcessing($data);
-            }catch(UnexpectedResponseProcessing $e){
-                // not a Template
-                common_Logger::e('custom response processing failed', array('TAOITEMS', 'QTI'));
+            } catch (UnexpectedResponseProcessing $e) {
             }
         }
 
-        if(is_null($returnValue)){
+        // build custom
+        if (is_null($returnValue)) {
+            try {
+                $returnValue = $this->buildCustomResponseProcessing($data);
+            } catch (UnexpectedResponseProcessing $e) {
+                // not a Template
+                common_Logger::e('custom response processing failed', ['TAOITEMS', 'QTI']);
+            }
+        }
+
+        if (is_null($returnValue)) {
             common_Logger::w('failed to determine ResponseProcessing');
         }
 
@@ -1047,7 +1066,8 @@ class ParserFactory
      * @param  Item item
      * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
      */
-    protected function buildCompositeResponseProcessing(DOMElement $data, Item $item){
+    protected function buildCompositeResponseProcessing(DOMElement $data, Item $item)
+    {
         $returnValue = null;
 
         // STRONGLY simplified summation detection
@@ -1057,86 +1077,85 @@ class ParserFactory
         $patternNoneTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "isNull" ] [count(./responseIf/isNull/*) = 1 ] [name(./responseIf/isNull/*[1]) = "variable" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [count(./responseIf/setOutcomeValue/*) = 1 ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue"]';
         $possibleSummation = '/setOutcomeValue [count(./*) = 1 ] [name(./*[1]) = "sum" ]';
 
-        $irps = array();
+        $irps = [];
         $composition = null;
         $data = simplexml_import_dom($data);
-        foreach($data as $responseRule){
-
-            if(!is_null($composition)){
+        foreach ($data as $responseRule) {
+            if (!is_null($composition)) {
                 throw new UnexpectedResponseProcessing('Not composite, rules after composition');
             }
 
             $subtree = new SimpleXMLElement($responseRule->asXML());
 
-            if(count($subtree->xpath($patternCorrectTAO)) > 0){
+            if (count($subtree->xpath($patternCorrectTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->match->variable[0]['identifier'];
-                $irps[$responseIdentifier] = array(
+                $irps[$responseIdentifier] = [
                     'class' => 'MatchCorrectTemplate',
                     'outcome' => (string) $subtree->responseIf->setOutcomeValue[0]['identifier']
-                );
-            }elseif(count($subtree->xpath($patternMapTAO)) > 0){
+                ];
+            } elseif (count($subtree->xpath($patternMapTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable[0]['identifier'];
-                $irps[$responseIdentifier] = array(
+                $irps[$responseIdentifier] = [
                     'class' => 'MapResponseTemplate',
                     'outcome' => (string) $subtree->responseIf->setOutcomeValue[0]['identifier']
-                );
-            }elseif(count($subtree->xpath($patternMapPointTAO)) > 0){
+                ];
+            } elseif (count($subtree->xpath($patternMapPointTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable[0]['identifier'];
-                $irps[$responseIdentifier] = array(
+                $irps[$responseIdentifier] = [
                     'class' => 'MapResponsePointTemplate',
                     'outcome' => (string) $subtree->responseIf->setOutcomeValue[0]['identifier']
-                );
-            }elseif(count($subtree->xpath($patternNoneTAO)) > 0){
+                ];
+            } elseif (count($subtree->xpath($patternNoneTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->isNull->variable[0]['identifier'];
-                $irps[$responseIdentifier] = array(
+                $irps[$responseIdentifier] = [
                     'class' => 'None',
                     'outcome' => (string) $subtree->responseIf->setOutcomeValue[0]['identifier'],
                     'default' => (string) $subtree->responseIf->setOutcomeValue[0]->baseValue[0]
-                );
-            }elseif(count($subtree->xpath($possibleSummation)) > 0){
+                ];
+            } elseif (count($subtree->xpath($possibleSummation)) > 0) {
                 $composition = 'Summation';
-                $outcomesUsed = array();
-                foreach($subtree->xpath('/setOutcomeValue/sum/variable') as $var){
+                $outcomesUsed = [];
+                foreach ($subtree->xpath('/setOutcomeValue/sum/variable') as $var) {
                     $outcomesUsed[] = (string) $var[0]['identifier'];
                 }
-            }else{
+            } else {
                 throw new UnexpectedResponseProcessing('Not composite, unknown rule');
             }
         }
 
-        if(is_null($composition)){
+        if (is_null($composition)) {
             throw new UnexpectedResponseProcessing('Not composit, Composition rule missing');
         }
 
-        $responses = array();
-        foreach($item->getInteractions() as $interaction){
+        $responses = [];
+        foreach ($item->getInteractions() as $interaction) {
             $responses[$interaction->getResponse()->getIdentifier()] = $interaction->getResponse();
         }
 
-        if(count(array_diff(array_keys($irps), array_keys($responses))) > 0){
-            throw new UnexpectedResponseProcessing('Not composite, no responses for rules: '.implode(',', array_diff(array_keys($irps), array_keys($responses))));
+        if (count(array_diff(array_keys($irps), array_keys($responses))) > 0) {
+            throw new UnexpectedResponseProcessing('Not composite, no responses for rules: ' . implode(',', array_diff(array_keys($irps), array_keys($responses))));
         }
-        if(count(array_diff(array_keys($responses), array_keys($irps))) > 0){
+        if (count(array_diff(array_keys($responses), array_keys($irps))) > 0) {
             throw new UnexpectedResponseProcessing('Not composite, no support for unmatched variables yet');
         }
 
         //assuming sum is correct
 
         $compositonRP = new Summation($item);
-        foreach($responses as $id => $response){
+        foreach ($responses as $id => $response) {
             $outcome = null;
-            foreach($item->getOutcomes() as $possibleOutcome){
-                if($possibleOutcome->getIdentifier() == $irps[$id]['outcome']){
+            foreach ($item->getOutcomes() as $possibleOutcome) {
+                if ($possibleOutcome->getIdentifier() == $irps[$id]['outcome']) {
                     $outcome = $possibleOutcome;
                     break;
                 }
             }
-            if(is_null($outcome)){
+            if (is_null($outcome)) {
                 throw new ParsingException('Undeclared Outcome in ResponseProcessing');
             }
-            $classname = '\\oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\'.$irps[$id]['class'];
+            $classname = '\\oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\' . $irps[$id]['class'];
             $irp = new $classname($response, $outcome);
-            if($irp instanceof \oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None && isset($irps[$id]['default'])){
+            if ($irp instanceof \oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None && isset($irps[$id]['default'])) {
                 $irp->setDefaultValue($irps[$id]['default']);
             }
             $compositonRP->add($irp);
@@ -1154,10 +1173,11 @@ class ParserFactory
      * @param  DOMElement data
      * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
      */
-    protected function buildCustomResponseProcessing(DOMElement $data){
+    protected function buildCustomResponseProcessing(DOMElement $data)
+    {
 
         // Parse to find the different response rules
-        $responseRules = array();
+        $responseRules = [];
 
         $data = simplexml_import_dom($data);
 
@@ -1174,36 +1194,40 @@ class ParserFactory
      * @param  DOMElement data
      * @return oat\taoQtiItem\model\qti\response\Rule
      */
-    protected function buildExpression(DOMElement $data){
+    protected function buildExpression(DOMElement $data)
+    {
         $data = simplexml_import_dom($data);
         return ExpressionParserFactory::build($data);
     }
 
-    protected function getModalFeedback($identifier){
-        foreach($this->item->getModalFeedbacks() as $feedback){
-            if($feedback->getIdentifier() == $identifier){
+    protected function getModalFeedback($identifier)
+    {
+        foreach ($this->item->getModalFeedbacks() as $feedback) {
+            if ($feedback->getIdentifier() == $identifier) {
                 return $feedback;
             }
         }
-        throw new ParsingException('cannot found the modal feedback with identifier '.$identifier);
+        throw new ParsingException('cannot found the modal feedback with identifier ' . $identifier);
     }
 
-    protected function getOutcome($identifier){
-        foreach($this->item->getOutcomes() as $outcome){
-            if($outcome->getIdentifier() == $identifier){
+    protected function getOutcome($identifier)
+    {
+        foreach ($this->item->getOutcomes() as $outcome) {
+            if ($outcome->getIdentifier() == $identifier) {
                 return $outcome;
             }
         }
-        throw new ParsingException('cannot found the outcome with identifier '.$identifier);
+        throw new ParsingException('cannot found the outcome with identifier ' . $identifier);
     }
 
-    protected function getResponse($identifier){
-        foreach($this->item->getResponses() as $response){
-            if($response->getIdentifier() == $identifier){
+    protected function getResponse($identifier)
+    {
+        foreach ($this->item->getResponses() as $response) {
+            if ($response->getIdentifier() == $identifier) {
                 return $response;
             }
         }
-        throw new ParsingException('cannot found the response with identifier '.$identifier);
+        throw new ParsingException('cannot found the response with identifier ' . $identifier);
     }
 
     /**
@@ -1218,7 +1242,8 @@ class ParserFactory
      * @throws exception\QtiModelException
      * @throws response\InvalidArgumentException
      */
-    protected function buildTemplatedrivenResponse(DOMElement $data, $interactions){
+    protected function buildTemplatedrivenResponse(DOMElement $data, $interactions)
+    {
 
         $patternCorrectTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "sum" ] [name(./responseIf/setOutcomeValue/sum/*[1]) = "variable" ] [name(./responseIf/setOutcomeValue/sum/*[2]) = "baseValue"]';
         $patternMappingTAO = '/responseCondition [count(./*) = 1] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "not"] [name(./responseIf/not/*[1]) = "isNull"] [name(./responseIf/not/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "sum"] [name(./responseIf/setOutcomeValue/sum/*[1]) = "variable"] [name(./responseIf/setOutcomeValue/sum/*[2]) = "mapResponse"]';
@@ -1231,62 +1256,50 @@ class ParserFactory
         $subPatternFeedbackMatchChoices = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] [name(./responseIf/*[1]/*[2]/*) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
         $subPatternFeedbackMatchChoicesEmpty = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] [count(./responseIf/*[1]/*[2]/*) = 0 ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
         $subPatternFeedbackMatchChoice = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
-        $patternFeedbackOperator = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackOperatorIf;
-        $patternFeedbackOperatorWithElse = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackOperatorIf.$subPatternFeedbackElse;
-        $patternFeedbackCorrect = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackCorrect;
-        $patternFeedbackCorrectWithElse = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackCorrect.$subPatternFeedbackElse;
-        $patternFeedbackIncorrect = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackIncorrect;
-        $patternFeedbackIncorrectWithElse = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackIncorrect.$subPatternFeedbackElse;
-        $patternFeedbackMatchChoices = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoices;
-        $patternFeedbackMatchChoicesWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoices.$subPatternFeedbackElse;
-        $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoice;
-        $patternFeedbackMatchChoicesEmpty = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoicesEmpty;
-        $patternFeedbackMatchChoicesEmptyWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoicesEmpty.$subPatternFeedbackElse;
-        $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoice;
-        $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoice.$subPatternFeedbackElse;
+        $patternFeedbackOperator = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackOperatorIf;
+        $patternFeedbackOperatorWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackOperatorIf . $subPatternFeedbackElse;
+        $patternFeedbackCorrect = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackCorrect;
+        $patternFeedbackCorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackCorrect . $subPatternFeedbackElse;
+        $patternFeedbackIncorrect = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackIncorrect;
+        $patternFeedbackIncorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackIncorrect . $subPatternFeedbackElse;
+        $patternFeedbackMatchChoices = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoices;
+        $patternFeedbackMatchChoicesWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoices . $subPatternFeedbackElse;
+        $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoice;
+        $patternFeedbackMatchChoicesEmpty = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoicesEmpty;
+        $patternFeedbackMatchChoicesEmptyWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoicesEmpty . $subPatternFeedbackElse;
+        $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoice;
+        $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice . $subPatternFeedbackElse;
 
-        $rules = array();
-        $simpleFeedbackRules = array();
+        $rules = [];
+        $simpleFeedbackRules = [];
         $data = simplexml_import_dom($data);
 
-        foreach($data as $responseRule){
-
+        foreach ($data as $responseRule) {
             $feedbackRule = null;
             $subtree = new SimpleXMLElement($responseRule->asXML());
 
-            if(count($subtree->xpath($patternCorrectTAO)) > 0){
-
+            if (count($subtree->xpath($patternCorrectTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->match->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MATCH_CORRECT;
-
-            }elseif(count($subtree->xpath($patternMappingTAO)) > 0){
-
+            } elseif (count($subtree->xpath($patternMappingTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MAP_RESPONSE;
-
-            }elseif(count($subtree->xpath($patternMappingPointTAO)) > 0){
-
+            } elseif (count($subtree->xpath($patternMappingPointTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MAP_RESPONSE_POINT;
-
-            }elseif(count($subtree->xpath($patternFeedbackCorrect)) > 0 || count($subtree->xpath($patternFeedbackCorrectWithElse)) > 0){
-
+            } elseif (count($subtree->xpath($patternFeedbackCorrect)) > 0 || count($subtree->xpath($patternFeedbackCorrectWithElse)) > 0) {
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'correct');
-
-            }elseif(count($subtree->xpath($patternFeedbackIncorrect)) > 0 || count($subtree->xpath($patternFeedbackIncorrectWithElse)) > 0){
-
+            } elseif (count($subtree->xpath($patternFeedbackIncorrect)) > 0 || count($subtree->xpath($patternFeedbackIncorrectWithElse)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->not->match->variable['identifier'];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'incorrect', null, $responseIdentifier);
-
-            }elseif(count($subtree->xpath($patternFeedbackOperator)) > 0 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0){
-
+            } elseif (count($subtree->xpath($patternFeedbackOperator)) > 0 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0) {
                 $operator = '';
                 $responseIdentifier = '';
                 $value = '';
-                foreach($subtree->responseIf->children() as $child){
+                foreach ($subtree->responseIf->children() as $child) {
                     $operator = $child->getName();
                     $map = null;
-                    foreach($child->children() as $granChild){
+                    foreach ($child->children() as $granChild) {
                         $map = $granChild->getName();
                         $responseIdentifier = (string) $granChild['identifier'];
                         break;
@@ -1295,57 +1308,52 @@ class ParserFactory
                     break;
                 }
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, $operator, $value);
-
-            }elseif(count($subtree->xpath($patternFeedbackMatchChoices)) > 0 || count($subtree->xpath($patternFeedbackMatchChoicesWithElse)) > 0 ||
+            } elseif (
+                count($subtree->xpath($patternFeedbackMatchChoices)) > 0 || count($subtree->xpath($patternFeedbackMatchChoicesWithElse)) > 0 ||
                 count($subtree->xpath($patternFeedbackMatchChoicesEmpty)) > 0 || count($subtree->xpath($patternFeedbackMatchChoicesEmptyWithElse)) > 0
-                ){
-
-                $choices = array();
-                foreach($subtree->responseIf->match->multiple->baseValue as $choice){
+            ) {
+                $choices = [];
+                foreach ($subtree->responseIf->match->multiple->baseValue as $choice) {
                     $choices[] = (string)$choice;
                 }
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
-
-            }elseif(count($subtree->xpath($patternFeedbackMatchChoice)) > 0 || count($subtree->xpath($patternFeedbackMatchChoiceWithElse)) > 0){
-
-                $choices = array((string)$subtree->responseIf->match->baseValue);
+            } elseif (count($subtree->xpath($patternFeedbackMatchChoice)) > 0 || count($subtree->xpath($patternFeedbackMatchChoiceWithElse)) > 0) {
+                $choices = [(string)$subtree->responseIf->match->baseValue];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
-
-
-            }else{
+            } else {
                 throw new UnexpectedResponseProcessing('Not template driven, unknown rule');
             }
 
-            if(!is_null($feedbackRule)){
+            if (!is_null($feedbackRule)) {
                 $responseIdentifier = $feedbackRule->comparedOutcome()->getIdentifier();
-                if(!isset($simpleFeedbackRules[$responseIdentifier])){
-                    $simpleFeedbackRules[$responseIdentifier] = array();
+                if (!isset($simpleFeedbackRules[$responseIdentifier])) {
+                    $simpleFeedbackRules[$responseIdentifier] = [];
                 }
                 $simpleFeedbackRules[$responseIdentifier][] = $feedbackRule;
             }
         }
 
-        $responseIdentifiers = array();
-        foreach($interactions as $interaction){
+        $responseIdentifiers = [];
+        foreach ($interactions as $interaction) {
             $interactionResponse = $interaction->getResponse();
             $responseIdentifier = $interactionResponse->getIdentifier();
             $responseIdentifiers[] = $responseIdentifier;
 
             //create and set simple feedback rule here
-            if(isset($simpleFeedbackRules[$responseIdentifier])){
-                foreach($simpleFeedbackRules[$responseIdentifier] as $rule){
+            if (isset($simpleFeedbackRules[$responseIdentifier])) {
+                foreach ($simpleFeedbackRules[$responseIdentifier] as $rule) {
                     $interactionResponse->addFeedbackRule($rule);
                 }
             }
         }
 
         //all rules must have been previously identified as belonging to one interaction
-        if(count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
-            throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
+        if (count(array_diff(array_keys($rules), $responseIdentifiers)) > 0) {
+            throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are ' . implode(',', $responseIdentifiers) . ' while rules are ' . implode(',', array_keys($rules)));
         }
 
         $templatesDrivenRP = new TemplatesDriven();
-        foreach($interactions as $interaction){
+        foreach ($interactions as $interaction) {
             //if a rule has been found for an interaction, apply it. Default to the template NONE otherwise
             $pattern = isset($rules[$interaction->getResponse()->getIdentifier()]) ? $rules[$interaction->getResponse()->getIdentifier()] : Template::NONE;
             $templatesDrivenRP->setTemplate($interaction->getResponse(), $pattern);
@@ -1356,27 +1364,27 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = ''){
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = '')
+    {
 
         $responseIdentifier = empty($responseId) ? (string) $subtree->responseIf->match->variable['identifier'] : $responseId;
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
 
-        try{
+        try {
             $response = $this->getResponse($responseIdentifier);
             $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
             $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
 
             $feedbackElse = null;
-            if($subtree->responseElse->getName()){
+            if ($subtree->responseElse->getName()) {
                 $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
                 $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
             }
 
             $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
             $feedbackRule->setCondition($response, $conditionName, $comparedValue);
-
-        }catch(ParsingException $e){
+        } catch (ParsingException $e) {
             throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
         }
         return $feedbackRule;
@@ -1389,25 +1397,26 @@ class ParserFactory
      * @param  DOMElement $data
      * @return \oat\taoQtiItem\model\qti\QtiObject
      */
-    private function buildObject(DOMElement $data){
+    private function buildObject(DOMElement $data)
+    {
 
         $attributes = $this->extractAttributes($data);
         $returnValue = new QtiObject($attributes);
 
-        if($data->hasChildNodes()){
+        if ($data->hasChildNodes()) {
             $nonEmptyChild = $this->getNonEmptyChildren($data);
-            if(count($nonEmptyChild) == 1 && reset($nonEmptyChild)->nodeName == 'object'){
+            if (count($nonEmptyChild) == 1 && reset($nonEmptyChild)->nodeName == 'object') {
                 $alt = $this->buildObject(reset($nonEmptyChild));
                 $returnValue->setAlt($alt);
-            }else{
+            } else {
                 //get the node xml content
-                $pattern = array("/^<{$data->nodeName}([^>]*)?>/i", "/<\/{$data->nodeName}([^>]*)?>$/i");
+                $pattern = ["/^<{$data->nodeName}([^>]*)?>/i", "/<\/{$data->nodeName}([^>]*)?>$/i"];
                 $content = preg_replace($pattern, '', trim($this->saveXML($data)));
                 $returnValue->setAlt($content);
             }
-        }else{
+        } else {
             $alt = trim($data->nodeValue);
-            if(!empty($alt)){
+            if (!empty($alt)) {
                 $returnValue->setAlt($alt);
             }
         }
@@ -1415,7 +1424,8 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildImg(DOMElement $data){
+    private function buildImg(DOMElement $data)
+    {
 
         $attributes = $this->extractAttributes($data);
         $returnValue = new Img($attributes);
@@ -1423,7 +1433,8 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildTooltip(DOMElement $data, DOMElement $context){
+    private function buildTooltip(DOMElement $data, DOMElement $context)
+    {
 
         $tooltip = null;
         $attributes = $this->extractAttributes($data);
@@ -1431,7 +1442,6 @@ class ParserFactory
         // Look for tooltip content
         $contentId = $attributes['aria-describedby'];
         if (!empty($contentId)) {
-
             $tooltipContentNodes = $this->queryXPath(".//*[@id='$contentId']", $context);
             $tooltipContent = $tooltipContentNodes[0];
 
@@ -1452,7 +1462,8 @@ class ParserFactory
         return $tooltip;
     }
 
-    private function getNodeContentAsHtml(DOMDocument $document, DOMElement $node) {
+    private function getNodeContentAsHtml(DOMDocument $document, DOMElement $node)
+    {
         $html = "";
         $children = $node->childNodes;
         foreach ($children as $childNode) {
@@ -1461,7 +1472,8 @@ class ParserFactory
         return $html;
     }
 
-    private function buildTable(DOMElement $data){
+    private function buildTable(DOMElement $data)
+    {
 
         $attributes = $this->extractAttributes($data);
         $table = new Table($attributes);
@@ -1470,17 +1482,18 @@ class ParserFactory
         return $table;
     }
 
-    private function buildMath(DOMElement $data){
+    private function buildMath(DOMElement $data)
+    {
 
         $ns = $this->getMathNamespace();
-        $annotationNodes = $this->queryXPath(".//*[name(.)='".(empty($ns) ? '' : $ns.':')."annotation']", $data);
-        $annotations = array();
+        $annotationNodes = $this->queryXPath(".//*[name(.)='" . (empty($ns) ? '' : $ns . ':') . "annotation']", $data);
+        $annotations = [];
         //need to extract the namespace, and clean it in the "bodydata"
-        foreach($annotationNodes as $annotationNode){
+        foreach ($annotationNodes as $annotationNode) {
             $attr = $this->extractAttributes($annotationNode);
             $encoding = isset($attr['encoding']) ? strtolower(trim($attr['encoding'])) : '';
             $str = $this->getBodyData($annotationNode);
-            if(!empty($encoding) && !empty($str)){
+            if (!empty($encoding) && !empty($str)) {
                 $annotations[$encoding] = $str;
                 $this->deleteNode($annotationNode);
             }
@@ -1494,37 +1507,41 @@ class ParserFactory
         return $math;
     }
 
-    private function buildXInclude(DOMElement $data){
+    private function buildXInclude(DOMElement $data)
+    {
 
         return  new XInclude($this->extractAttributes($data));
     }
 
-    protected function getNonEmptyChildren(DOMElement $data){
-        $returnValue = array();
-        foreach($data->childNodes as $childNode){
-            if($childNode->nodeName == '#text'){
-                if(trim($childNode->nodeValue) != ''){
+    protected function getNonEmptyChildren(DOMElement $data)
+    {
+        $returnValue = [];
+        foreach ($data->childNodes as $childNode) {
+            if ($childNode->nodeName == '#text') {
+                if (trim($childNode->nodeValue) != '') {
                     $returnValue[] = $childNode;
                 }
-            }else{
+            } else {
                 $returnValue[] = $childNode;
             }
         }
         return $returnValue;
     }
 
-    private function buildStylesheet(DOMElement $data){
-        $returnValue = new Stylesheet(array(
+    private function buildStylesheet(DOMElement $data)
+    {
+        $returnValue = new Stylesheet([
             'href' => (string) $data->getAttribute('href'),
             'title' => $data->hasAttribute('title') ? (string) $data->getAttribute('title') : '',
             'media' => $data->hasAttribute('media') ? (string) $data->getAttribute('media') : 'screen',
             'type' => $data->hasAttribute('type') ? (string) $data->getAttribute('type') : 'text/css',
-        ));
+        ]);
 
         return $returnValue;
     }
 
-    private function buildRubricBlock(DOMElement $data){
+    private function buildRubricBlock(DOMElement $data)
+    {
 
         $returnValue = new RubricBlock($this->extractAttributes($data));
         $this->parseContainerStatic($data, $returnValue->getBody());
@@ -1532,17 +1549,18 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildFeedback(DOMElement $data, $interactive = false){
+    private function buildFeedback(DOMElement $data, $interactive = false)
+    {
 
         $type = ucfirst($data->nodeName);
-        $feedbackClass = '\\oat\\taoQtiItem\\model\\qti\\feedback\\'.$type;
-        if(!class_exists($feedbackClass)){
-            throw new ParsingException('The interaction class cannot be found: '.$feedbackClass);
+        $feedbackClass = '\\oat\\taoQtiItem\\model\\qti\\feedback\\' . $type;
+        if (!class_exists($feedbackClass)) {
+            throw new ParsingException('The interaction class cannot be found: ' . $feedbackClass);
         }
 
         $attributes = $this->extractAttributes($data);
 
-        if($data->nodeName == 'modalFeedback'){
+        if ($data->nodeName == 'modalFeedback') {
             $myFeedback = new $feedbackClass($attributes, $this->item);
             $this->parseContainerStatic($data, $myFeedback->getBody());
         } else {
@@ -1556,11 +1574,12 @@ class ParserFactory
      * Return the list of registered php portable element subclasses
      * @return array
      */
-    private function getPortableElementSubclasses($superClassName){
+    private function getPortableElementSubclasses($superClassName)
+    {
         $subClasses = [];
-        foreach(PortableModelRegistry::getRegistry()->getModels() as $model){
+        foreach (PortableModelRegistry::getRegistry()->getModels() as $model) {
             $portableElementClass = $model->getQtiElementClassName();
-            if(is_subclass_of($portableElementClass, $superClassName)){
+            if (is_subclass_of($portableElementClass, $superClassName)) {
                 $subClasses[] = $portableElementClass;
             }
         }
@@ -1574,26 +1593,29 @@ class ParserFactory
      * @param DOMElement $data
      * @return null
      */
-    private function getPortableElementClass(DOMElement $data, $superClassName, $portableElementNodeName){
+    private function getPortableElementClass(DOMElement $data, $superClassName, $portableElementNodeName)
+    {
 
         $portableElementClasses = $this->getPortableElementSubclasses($superClassName);
 
         //start searching from globally declared namespace
-        foreach($this->item->getNamespaces() as $name => $uri){
-            foreach($portableElementClasses as $class){
-                if($uri === $class::NS_URI
-                    && $this->queryXPathChildren(array($portableElementNodeName), $data, $name)->length){
+        foreach ($this->item->getNamespaces() as $name => $uri) {
+            foreach ($portableElementClasses as $class) {
+                if (
+                    $uri === $class::NS_URI
+                    && $this->queryXPathChildren([$portableElementNodeName], $data, $name)->length
+                ) {
                     return $class;
                 }
             }
         }
 
         //not found as a global namespace definition, try local namespace
-        if($this->queryXPathChildren(array($portableElementNodeName), $data)->length){
-            $pciNode = $this->queryXPathChildren(array($portableElementNodeName), $data)[0];
+        if ($this->queryXPathChildren([$portableElementNodeName], $data)->length) {
+            $pciNode = $this->queryXPathChildren([$portableElementNodeName], $data)[0];
             $xmlns = $pciNode->getAttribute('xmlns');
-            foreach($portableElementClasses as $phpClass){
-                if($phpClass::NS_URI === $xmlns){
+            foreach ($portableElementClasses as $phpClass) {
+                if ($phpClass::NS_URI === $xmlns) {
                     return $phpClass;
                 }
             }
@@ -1603,11 +1625,13 @@ class ParserFactory
         return null;
     }
 
-    private function getPciClass(DOMElement $data){
+    private function getPciClass(DOMElement $data)
+    {
         return $this->getPortableElementClass($data, 'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction', 'portableCustomInteraction');
     }
 
-    private function getPicClass(DOMElement $data){
+    private function getPicClass(DOMElement $data)
+    {
         return $this->getPortableElementClass($data, 'oat\\taoQtiItem\\model\\qti\\InfoControl', 'portableInfoControl');
     }
 
@@ -1618,23 +1642,23 @@ class ParserFactory
      * @return CustomInteraction
      * @throws ParsingException
      */
-    private function buildCustomInteraction(DOMElement $data){
+    private function buildCustomInteraction(DOMElement $data)
+    {
 
         $interaction = null;
 
         $pciClass = $this->getPciClass($data);
 
         if (!empty($pciClass)) {
-
             $ns = null;
-            foreach($this->item->getNamespaces() as $name => $uri){
-                if($pciClass::NS_URI === $uri){
+            foreach ($this->item->getNamespaces() as $name => $uri) {
+                if ($pciClass::NS_URI === $uri) {
                     $ns = new QtiNamespace($uri, $name);
                 }
             }
-            if(is_null($ns)){
-                $pciNodes = $this->queryXPathChildren(array('portableCustomInteraction'), $data);
-                if($pciNodes->length){
+            if (is_null($ns)) {
+                $pciNodes = $this->queryXPathChildren(['portableCustomInteraction'], $data);
+                if ($pciNodes->length) {
                     $ns = new QtiNamespace($pciNodes->item(0)->getAttribute('xmlns'));
                 }
             }
@@ -1642,21 +1666,20 @@ class ParserFactory
             //use tao's implementation of portable custom interaction
             $interaction = new $pciClass($this->extractAttributes($data), $this->item);
             $interaction->feed($this, $data, $ns);
-        }else{
-
+        } else {
             $ciClass = '';
             $classes = $data->getAttribute('class');
             $classeNames = preg_split('/\s+/', $classes);
-            foreach($classeNames as $classeName){
+            foreach ($classeNames as $classeName) {
                 $ciClass = CustomInteractionRegistry::getCustomInteractionByName($classeName);
-                if($ciClass){
+                if ($ciClass) {
                     $interaction = new $ciClass($this->extractAttributes($data), $this->item);
                     $interaction->feed($this, $data);
                     break;
                 }
             }
 
-            if(!$ciClass){
+            if (!$ciClass) {
                 throw new ParsingException('unknown custom interaction to be build');
             }
         }
@@ -1671,23 +1694,23 @@ class ParserFactory
      * @return InfoControl
      * @throws ParsingException
      */
-    private function buildInfoControl(DOMElement $data){
+    private function buildInfoControl(DOMElement $data)
+    {
 
         $infoControl = null;
 
         $picClass = $this->getPicClass($data);
 
-        if(!empty($picClass)){
-
+        if (!empty($picClass)) {
             $ns = null;
-            foreach($this->item->getNamespaces() as $name => $uri){
-                if($picClass::NS_URI === $uri){
+            foreach ($this->item->getNamespaces() as $name => $uri) {
+                if ($picClass::NS_URI === $uri) {
                     $ns = new QtiNamespace($uri, $name);
                 }
             }
-            if(is_null($ns)){
-                $pciNodes = $this->queryXPathChildren(array('portableInfoControl'), $data);
-                if($pciNodes->length){
+            if (is_null($ns)) {
+                $pciNodes = $this->queryXPathChildren(['portableInfoControl'], $data);
+                if ($pciNodes->length) {
                     $ns = new QtiNamespace($pciNodes->item(0)->getAttribute('xmlns'));
                 }
             }
@@ -1695,21 +1718,20 @@ class ParserFactory
             //use tao's implementation of portable custom interaction
             $infoControl = new PortableInfoControl($this->extractAttributes($data), $this->item);
             $infoControl->feed($this, $data, $ns);
-        }else{
-
+        } else {
             $ciClass = '';
             $classes = $data->getAttribute('class');
             $classeNames = preg_split('/\s+/', $classes);
-            foreach($classeNames as $classeName){
+            foreach ($classeNames as $classeName) {
                 $ciClass = InfoControlRegistry::getInfoControlByName($classeName);
-                if($ciClass){
+                if ($ciClass) {
                     $infoControl = new $ciClass($this->extractAttributes($data), $this->item);
                     $infoControl->feed($this, $data);
                     break;
                 }
             }
 
-            if(!$ciClass){
+            if (!$ciClass) {
                 throw new UnsupportedQtiElement($data);
             }
         }

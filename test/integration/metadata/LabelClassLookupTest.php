@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -83,6 +84,5 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
         // Delete fake class
         $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
         $class->delete(true);
-
     }
 }

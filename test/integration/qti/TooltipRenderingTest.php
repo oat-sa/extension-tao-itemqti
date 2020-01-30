@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,9 +28,11 @@ use oat\generis\test\TestCase;
 
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
-class TooltipRenderingTest extends TestCase {
+class TooltipRenderingTest extends TestCase
+{
 
-    public function testRenderTooltipToQTI() {
+    public function testRenderTooltipToQTI()
+    {
         $tooltip = new Tooltip([
             'data-role' => 'tooltip-target',
             'aria-describedby' => 'tooltip_id'
@@ -44,8 +47,5 @@ class TooltipRenderingTest extends TestCase {
             $rendering,
             'Tooltip has been rendered as expected'
         );
-
     }
-
-
 }

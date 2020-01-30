@@ -1,22 +1,23 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti\feedback;
@@ -44,53 +45,56 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
 
     protected $body = null;
 
-    public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
+    public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
+    {
         parent::__construct($attributes, $relatedItem, $serial);
         $this->body = new ContainerStatic('', $relatedItem); //@todo: implement interactive container
     }
 
-    public function getBody(){
+    public function getBody()
+    {
         return $this->body;
     }
 
-    protected function getUsedAttributes(){
-        return array(
+    protected function getUsedAttributes()
+    {
+        return [
             'oat\\taoQtiItem\\model\\qti\\attribute\\OutcomeIdentifier',
             'oat\\taoQtiItem\\model\\qti\\attribute\\ShowHideTemplateElement'
-        );
+        ];
     }
 
     /**
      * Check if the given new identifier is valid in the current state of the qti element
-     * 
+     *
      * @param string $newIdentifier
      * @return booean
      * @throws InvalidArgumentException
      */
-    public function isIdentifierAvailable($newIdentifier){
+    public function isIdentifierAvailable($newIdentifier)
+    {
 
         $returnValue = false;
 
-        if(empty($newIdentifier) || is_null($newIdentifier)){
+        if (empty($newIdentifier) || is_null($newIdentifier)) {
             throw new InvalidArgumentException("newIdentifier must be set");
         }
 
-        if(!empty($this->identifier) && $newIdentifier == $this->identifier){
+        if (!empty($this->identifier) && $newIdentifier == $this->identifier) {
             $returnValue = true;
-        }else{
+        } else {
             $relatedItem = $this->getRelatedItem();
-            if(is_null($relatedItem)){
+            if (is_null($relatedItem)) {
                 $returnValue = true; //no restriction on identifier since not attached to any qti item
-            }else{
-
+            } else {
                 $collection = $relatedItem->getIdentifiedElements();
 
-                try{
+                try {
                     $feedback = $collection->getUnique($newIdentifier, 'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback');
-                    if(is_null($feedback)){
+                    if (is_null($feedback)) {
                         $returnValue = true;
                     }
-                }catch(QtiModelException $e){
+                } catch (QtiModelException $e) {
                     //return false
                 }
             }
@@ -99,23 +103,24 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
         return $returnValue;
     }
 
-    public function toArray($filterVariableContent = false, &$filtered = array()){
+    public function toArray($filterVariableContent = false, &$filtered = [])
+    {
 
         $data = parent::toArray($filterVariableContent, $filtered);
 
-        if($filterVariableContent){
+        if ($filterVariableContent) {
             $filtered[$this->getSerial()] = $data;
-            $data = array(
+            $data = [
                 'serial' => $data['serial'],
                 'qtiClass' => $data['qtiClass']
-            );
+            ];
         }
 
         return $data;
     }
 
-    public function toFilteredArray(){
+    public function toFilteredArray()
+    {
         return $this->toArray(true);
     }
-
 }

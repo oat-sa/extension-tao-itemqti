@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,7 +36,7 @@ class OntologyMetadataInjector implements MetadataInjector
     
     public function __construct()
     {
-        $this->setInjectionRules(array());
+        $this->setInjectionRules([]);
     }
     
     public function addInjectionRule(array $path, $propertyUri, $value = null, $ontologyValue = null)
@@ -49,10 +50,10 @@ class OntologyMetadataInjector implements MetadataInjector
         
         $pathKey = implode('->', $path);
         if (isset($injectionRules[$pathKey]) === false) {
-            $injectionRules[$pathKey] = array();
+            $injectionRules[$pathKey] = [];
         }
         
-        $injectionRules[$pathKey][] = array($propertyUri, $value, $ontologyValue);
+        $injectionRules[$pathKey][] = [$propertyUri, $value, $ontologyValue];
         $this->setInjectionRules($injectionRules);
     }
     
@@ -89,7 +90,6 @@ class OntologyMetadataInjector implements MetadataInjector
                     }
 
                     $data[$rule[0]][$lang][] = [$rule[2], $metadataValue];
-
                 } elseif (($rule = $this->getRuleByPath($metadataValue->getPath())) !== false) {
                     if (!isset($data[$rule[0]])) {
                         $data[$rule[0]] = [];
@@ -126,7 +126,7 @@ class OntologyMetadataInjector implements MetadataInjector
         }
     }
     
-    protected function getRuleByValue($path, $value) 
+    protected function getRuleByValue($path, $value)
     {
         $pathKey = implode('->', $path);
         $rules = $this->getInjectionRules();
@@ -142,7 +142,8 @@ class OntologyMetadataInjector implements MetadataInjector
         return false;
     }
     
-    protected function getRuleByPath($path) {
+    protected function getRuleByPath($path)
+    {
         $pathKey = implode('->', $path);
         $rules = $this->getInjectionRules();
         if (isset($rules[$pathKey]) === true) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -98,7 +99,6 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         if (!$this->extractors || !$this->columns) {
             throw new ExtractorException('Data config is not correctly set.');
         }
-
     }
 
     /**
@@ -165,13 +165,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
 
         $data = ['0' => []];
         foreach ($this->extractors as $extractor) {
-
             $extractor->setItem($item);
             $extractor->run();
             $values = $extractor->getData();
 
             foreach ($values as $key => $value) {
-
                 $interactionData = is_array($value) && count($value) > 1 ? $value : $values;
 
                 if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) === array_keys($interactionData)) {

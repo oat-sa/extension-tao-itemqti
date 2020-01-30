@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoQtiItem\model\qti\metadata;
 
 use \common_ext_Extension;
@@ -31,7 +33,7 @@ use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
  * MetadataRegistry objects enables you to register/unregister
  * MetadataExtractor and MetadataInjector objects to be used
  * in various situations accross the platform.
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see oat\taoQtiItem\model\qti\metadata\MetadataExtractor The MetadataExtractor interface.
  * @see oat\taoQtiItem\model\qti\metadata\MetadataInjector The MetadataInjector interface.
@@ -42,7 +44,7 @@ class MetadataRegistry
     /**
      * The key to be used in configuration to retrieve
      * or set the class mapping.
-     * 
+     *
      * @var string
      */
     const CONFIG_ID = 'metadata_registry';
@@ -87,8 +89,8 @@ class MetadataRegistry
      * @deprecated Use MetadataService->getImporter() instead to have access to specific instance of metadataImporter
      *
      * Get the class mapping of Extractor/Injector classes.
-     * 
-     * @return array An associative array with two main keys. The 'injectors' and 'extractors' and 'guardians' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.  
+     *
+     * @return array An associative array with two main keys. The 'injectors' and 'extractors' and 'guardians' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.
      */
     public function getMapping()
     {
@@ -114,7 +116,7 @@ class MetadataRegistry
      * @deprecated use MetadataService->getImporter()->registerService() instead
      *
      * Set the class mapping of Extractor/Injector classes.
-     * 
+     *
      * @param array $mapping An associative array with two main keys. The 'injectors' and 'extractors' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.
      */
     protected function setMapping(array $mapping)
@@ -133,7 +135,7 @@ class MetadataRegistry
      * @deprecated use MetadataService->getImporter()->register(MetadataImport::INJECTOR_KEY, $fqcn)
      *
      * Register a MetadataInjector implementation by $fqcn (Fully Qualified Class Name).
-     * 
+     *
      * @param string $fqcn A Fully Qualified Class Name.
      * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataInjector interface.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataInjector The MetadataInjector interface.
@@ -150,7 +152,7 @@ class MetadataRegistry
      * @deprecated use MetadataService->getImporter()->unregister(MetadataImport::INJECTOR_KEY, $fqcn)
      *
      * Unregister a MetadataInjector implementation by $fqcn (Fully Qualified Class Name).
-     * 
+     *
      * @param string $fqcn A Fully Qualified Class Name.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataInjector The MetadataInjector interface.
      */
@@ -166,7 +168,7 @@ class MetadataRegistry
      * @deprecated use MetadataService->getImporter()->register(MetadataImport::EXTRACTOR_KEY, $fqcn)
      *
      * Register a MetadataExtractor implementation by $fqcn (Fully Qualified Class Name).
-     * 
+     *
      * @param string $fqcn A Fully Qualified Class Name.
      * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataExtractor interface.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataExtractor The MetadataExtractor interface.
@@ -183,7 +185,7 @@ class MetadataRegistry
      * @deprecated use MetadataService->getImporter()->unregister(MetadataImport::EXTRACTOR_KEY, $fqcn)
      *
      * Unregister a MetadataExtractor implementation by $fqcn (Fully Qualified Class Name).
-     * 
+     *
      * @param string $fqcn A Fully Qualified Class Name.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataExtractor The MetadataExtractor interface.
      */

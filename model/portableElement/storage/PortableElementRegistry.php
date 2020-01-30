@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,7 +52,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      *
      * @var array
      */
-    private static $registries = array();
+    private static $registries = [];
 
     /**
      *
@@ -76,7 +77,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @return PortableElementObject
      * @throws PortableElementNotFoundException
      */
-    public function fetch($identifier, $version=null)
+    public function fetch($identifier, $version = null)
     {
         $portableElements = $this->getAllVersions($identifier);
 
@@ -93,7 +94,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         // Version is set, no record found
         throw new PortableElementNotFoundException(
-            $this->getModel()->getId() . ' with identifier ' . $identifier. ' found, '
+            $this->getModel()->getId() . ' with identifier ' . $identifier . ' found, '
             . 'but version "' . $version . '" does not exist.'
         );
     }
@@ -127,10 +128,10 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     private function get($identifier)
     {
-        $fileSystem= $this->getConfigFileSystem();
+        $fileSystem = $this->getConfigFileSystem();
 
-        if($fileSystem->has($identifier)){
-            return json_decode($fileSystem->read($identifier),true);
+        if ($fileSystem->has($identifier)) {
+            return json_decode($fileSystem->read($identifier), true);
         }
 
         return false;
@@ -141,8 +142,8 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $elements = [];
         $contents = $this->getConfigFileSystem()->listContents();
 
-        foreach ($contents as $file){
-            if($file['type'] === 'file'){
+        foreach ($contents as $file) {
+            if ($file['type'] === 'file') {
                 $identifier = $file['filename'];
                 $elements[$identifier] = $this->get($identifier);
             }
@@ -189,7 +190,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @param null $version
      * @return bool
      */
-    public function has($identifier, $version=null)
+    public function has($identifier, $version = null)
     {
         try {
             return (bool) $this->fetch($identifier, $version);
@@ -223,7 +224,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         if (! isset($portableElements[$object->getVersion()])) {
             throw new PortableElementVersionIncompatibilityException(
-                $this->getModel()->getId() . ' with identifier ' . $object->getTypeIdentifier(). ' found, '
+                $this->getModel()->getId() . ' with identifier ' . $object->getTypeIdentifier() . ' found, '
                 . 'but version ' . $object->getVersion() . ' does not exist. Deletion impossible.'
             );
         }
@@ -313,7 +314,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         try {
             $latestVersion = $this->getLatestVersion($object->getTypeIdentifier());
-            if(version_compare($object->getVersion(), $latestVersion->getVersion(), '<')){
+            if (version_compare($object->getVersion(), $latestVersion->getVersion(), '<')) {
                 throw new PortableElementVersionIncompatibilityException(
                     'A newer version of the code already exists ' . $latestVersion->getVersion() . ' > ' . $object->getVersion()
                 );
@@ -374,13 +375,14 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @param $versionString
      * @return mixed
      */
-    private function getAliasVersion($versionString){
-        if(preg_match('/^[0-9]+\.[0-9]+\.\*$/', $versionString)){
+    private function getAliasVersion($versionString)
+    {
+        if (preg_match('/^[0-9]+\.[0-9]+\.\*$/', $versionString)) {
             //already an alias version string
             return $versionString;
-        }else{
+        } else {
             $version = SemVerParser::parse($versionString);
-            return $version->getMajor().'.'.$version->getMinor().'.*';
+            return $version->getMajor() . '.' . $version->getMinor() . '.*';
         }
     }
 
@@ -389,17 +391,17 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      * @param bool $useVersionAlias
      * @return PortableElementObject[]
      */
-    public function getLatest($useVersionAlias = false){
+    public function getLatest($useVersionAlias = false)
+    {
         $all = [];
         foreach ($this->getAll() as $typeIdentifier => $versions) {
-
             if (empty($versions)) {
                 continue;
             }
 
             $this->krsortByVersion($versions);
             $object = $this->getModel()->createDataObject(reset($versions));
-            if($useVersionAlias){
+            if ($useVersionAlias) {
                 $object->setVersion($this->getAliasVersion($object->getVersion()));
             }
             $all[$typeIdentifier] = $object;
@@ -415,7 +417,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     public function getLatestRuntimes($useVersionAlias = false)
     {
-        return array_map(function($portableElementDataObject){
+        return array_map(function ($portableElementDataObject) {
             return [$this->getRuntime($portableElementDataObject)];
         }, $this->getLatest($useVersionAlias));
     }
@@ -429,7 +431,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     public function getLatestCreators($useVersionAlias = false)
     {
-        return array_filter($this->getLatest($useVersionAlias), function($portableElementDataObject){
+        return array_filter($this->getLatest($useVersionAlias), function ($portableElementDataObject) {
             return !empty($portableElementDataObject->getCreator());
         });
     }
@@ -492,7 +494,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     public function getManifest(PortableElementObject $object)
     {
-        return json_encode($object->toArray(), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
+        return json_encode($object->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -507,7 +509,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $zip = new \ZipArchive();
         $path = $this->getZipLocation($object);
 
-        if ($zip->open($path, \ZipArchive::CREATE) !== TRUE) {
+        if ($zip->open($path, \ZipArchive::CREATE) !== true) {
             throw new \common_Exception('Unable to create zipfile ' . $path);
         }
 
@@ -518,7 +520,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         $filesystem = $this->getFileSystem();
         foreach ($files as $file) {
-            if(strpos($file, './') === 0){
+            if (strpos($file, './') === 0) {
                 //only export the files that are in the portable element package (exclude the shared libraries)
                 $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
             }
@@ -574,10 +576,8 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     protected function krsortByVersion(array &$array)
     {
-        uksort($array, function($a, $b) {
+        uksort($array, function ($a, $b) {
             return -version_compare($a, $b);
         });
     }
-
-
 }

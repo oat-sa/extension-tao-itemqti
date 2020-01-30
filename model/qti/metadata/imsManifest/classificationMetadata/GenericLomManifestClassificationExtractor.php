@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,13 +38,12 @@ class GenericLomManifestClassificationExtractor extends ImsManifestMetadataExtra
     public function extract($manifest)
     {
         $values = parent::extract($manifest);
-        $newValues = array();
+        $newValues = [];
 
         foreach ($values as $resourceIdentifier => $metadataValueCollection) {
 
             /** @var ImsManifestMetadataValue $metadataValue */
             foreach ($metadataValueCollection as $key => $metadataValue) {
-
                 // If metadata is not a source or is empty then skip
                 if ($metadataValue->getValue() === '' || $metadataValue->getPath() !== ClassificationSourceMetadataValue::getSourcePath()) {
                     continue;
@@ -61,7 +61,7 @@ class GenericLomManifestClassificationExtractor extends ImsManifestMetadataExtra
                 if ($entryMetadata->getPath() === ClassificationEntryMetadataValue::getEntryPath() && $entryMetadata->getValue() !== '') {
                     $newValues[$resourceIdentifier][] = new SimpleMetadataValue(
                         $resourceIdentifier,
-                        array(LomMetadata::LOM_NAMESPACE . '#lom', $metadataValue->getValue()),
+                        [LomMetadata::LOM_NAMESPACE . '#lom', $metadataValue->getValue()],
                         $entryMetadata->getValue()
                     );
                 }
@@ -70,10 +70,4 @@ class GenericLomManifestClassificationExtractor extends ImsManifestMetadataExtra
 
         return $newValues;
     }
-
 }
-
-
-
-
-

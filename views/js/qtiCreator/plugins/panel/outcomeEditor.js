@@ -25,12 +25,27 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
+    'ui/tooltip',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/panel',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing'
-], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, xmlRenderer, panelTpl, listingTpl) {
+], function ($, _, __, pluginFactory, Element, popup, formElement, OutcomeDeclaration, xmlRenderer, tooltip, panelTpl, listingTpl) {
     'use strict';
 
     var _ns = '.outcome-editor';
+
+    /**
+     * Types of externalScored attributes
+     *
+     * @typedef {Object} externalScoredOptions - Defines types of externalScored attributes
+     * @property {String} externalMachine - Score is computed by a service
+     * @property {String} none - No scoring
+     * @property {String} human - Score is applied manually by a reviewer
+     */
+    const externalScoredOptions = {
+        none: 'none',
+        human: 'human',
+        externalMachine : 'externalMachine'
+    };
 
     /**
      * Get the identifiers of the variables that are used in the response declaration
@@ -61,15 +76,23 @@ define([
     function renderListing(item, $outcomeEditorPanel){
 
         var rpVariables = getRpUsedVariables(item);
-        
+
         var outcomesData = _.map(item.outcomes, function(outcome){
             var readonly = (rpVariables.indexOf(outcome.id()) >= 0);
+
+            const externalScored = {
+                none : {label : __("None"), selected : !outcome.attr('externalScored')},
+                human : {label : __("Human"), selected : outcome.attr('externalScored') === externalScoredOptions.human},
+                externalMachine : {label : __("External Machine"), selected : outcome.attr('externalScored') === externalScoredOptions.externalMachine}
+            };
+
             return {
                 serial : outcome.serial,
                 identifier : outcome.id(),
                 interpretation : outcome.attr('interpretation'),
                 normalMaximum : outcome.attr('normalMaximum'),
                 normalMinimum : outcome.attr('normalMinimum'),
+                externalScored: externalScored,
                 titleDelete : readonly ? __('Cannot delete a variable currently used in response processing') : __('Delete'),
                 titleEdit : readonly ? __('Cannot edit a variable currently used in response processing') : __('Edit'),
                 readonly : readonly
@@ -83,6 +106,45 @@ define([
         //init form javascript
         formElement.initWidget($outcomeEditorPanel);
     }
+
+    /**
+     * Validates if the number is a valid scoring trait
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    function isValidScoringTrait(value) {
+        return (value % 1 === 0 && value !== undefined);
+    }
+
+    /**
+     * Attaches warning tooltips to value fields
+     *
+     * @param $field
+     */
+    const attachScoringTraitWarningTooltip = ($field) => {
+        let widgetTooltip;
+
+        if(!$field.data('$tooltip')) {
+            widgetTooltip = tooltip.warning($field, __('This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'), {
+                trigger: 'manual',
+                placement: 'left-start'
+            });
+            $field.data('$tooltip', widgetTooltip);
+        }
+    };
+
+    /**
+     * Disposes tooltips
+     *
+     * @param $field
+     */
+    const removeScoringTraitWarningTooltip = ($field) => {
+        if($field.data('$tooltip')) {
+            $field.data('$tooltip').dispose();
+            $field.removeData('$tooltip');
+        }
+    };
 
     return pluginFactory({
         name: 'outcomeEditor',
@@ -113,6 +175,7 @@ define([
                     var $labelContainer = $outcomeContainer.find('.identifier-label');
                     var $identifierLabel = $labelContainer.find('.label');
                     var $identifierInput = $labelContainer.find('.identifier');
+                    let isScoringTraitValidationEnabled = outcome.attr('externalScored') === externalScoredOptions.human;
 
                     $outcomeContainer.addClass('editing');
 
@@ -121,26 +184,73 @@ define([
                     $identifierInput.val('');
                     $identifierInput.val(outcome.id());
 
+                    const $outcomeValueContainer = $outcomeContainer.find('div.minimum-maximum');
+
+                    const showScoringTraitWarningOnInvalidValue = () => {
+                        if(!isValidScoringTrait(outcome.attr('normalMinimum')) || !isValidScoringTrait(outcome.attr('normalMaximum'))) {
+                            $outcomeValueContainer.data('$tooltip').show();
+                        } else {
+                            $outcomeValueContainer.data('$tooltip').hide();
+                        }
+                    };
+
+                    //Attach scoring trait warning tooltips on init to outcome value fields on init
+                    if(isScoringTraitValidationEnabled) {
+                        attachScoringTraitWarningTooltip($outcomeValueContainer);
+
+                        // shows tooltips in case of invalid value
+                        showScoringTraitWarningOnInvalidValue();
+                    }
+
                     //attach form change callbacks
                     formElement.setChangeCallbacks($outcomeContainer, outcome, _.assign({
-                        identifier : function(outcome, value){
+                        identifier(outcome, value) {
                             //update the html for real time update
                             $identifierLabel.html(value);
 
                             //save to model
                             outcome.id(value);
                         },
-                        interpretation : function(outcome, value){
+                        interpretation(outcome, value) {
                             //update the title attr for real time update
                             $labelContainer.attr('title', value);
 
                             //save to model
                             outcome.attr('interpretation', value);
+                        },
+                        externalScored(outcome, value) {
+                            //Turn off scoring trait validation if externalScored is not human
+                            isScoringTraitValidationEnabled = (value === externalScoredOptions.human);
+
+                            /**
+                             * Attaches scoring trait warning tooltips when `externalScored` is `human`
+                             */
+                            if(value === externalScoredOptions.human)  {
+                                attachScoringTraitWarningTooltip($outcomeValueContainer);
+
+                                // shows tooltips in case of invalid value
+                                showScoringTraitWarningOnInvalidValue();
+                            } else {
+                                removeScoringTraitWarningTooltip($outcomeValueContainer);
+                            }
+
+                            /**
+                             * Removes the `externalScored` attribute from outcome when `none` is selected.
+                             */
+                            if(value === externalScoredOptions.none) {
+                                outcome.removeAttr('externalScored');
+                            } else {
+                                outcome.attr('externalScored', value);
+                            }
                         }
                     }, formElement.getMinMaxAttributeCallbacks($outcomeContainer, 'normalMinimum', 'normalMaximum', {
                         allowNull : true,
                         floatVal: true,
                         callback : function(outcome, value, attr){
+                            if(isScoringTraitValidationEnabled) {
+                                showScoringTraitWarningOnInvalidValue();
+                            }
+
                             if(isNaN(value)){
                                 outcome.removeAttr(attr);
                             }
@@ -179,7 +289,7 @@ define([
                 });
 
                 //attach to response form side panel
-                $responsePanel.append($outcomeEditorPanel)
+                $responsePanel.append($outcomeEditorPanel);
                 renderListing(item, $outcomeEditorPanel);
             });
         }

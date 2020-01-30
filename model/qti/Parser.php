@@ -1,22 +1,23 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -38,11 +39,10 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10010
- 
+
  */
 class Parser extends tao_models_classes_Parser
 {
-
     use LoggerAwareTrait;
 
     /**
@@ -57,14 +57,14 @@ class Parser extends tao_models_classes_Parser
      * @throws \Exception
      * @throws \common_Exception
      */
-    public function validate($schema = ''){
+    public function validate($schema = '')
+    {
         
         if (empty($schema)) {
-            
             // Let's detect NS in use...
             $dom = new DOMDocument('1.0', 'UTF-8');
 
-            switch($this->sourceType){
+            switch ($this->sourceType) {
                 case self::SOURCE_FLYFILE:
                     if ($this->source->exists()) {
                         $dom->load($this->source->read());
@@ -83,7 +83,7 @@ class Parser extends tao_models_classes_Parser
             }
 
             // Retrieve Root's namespace.
-            if( $dom->documentElement == null ){
+            if ($dom->documentElement == null) {
                 $this->addError('dom is null and could not be validate');
                 $returnValue = false;
             } else {
@@ -96,8 +96,8 @@ class Parser extends tao_models_classes_Parser
                 $validSchema = $this->validateMultiple($schemas);
                 $returnValue = $validSchema !== '';
             }
-        } elseif(!file_exists($schema)) {
-            throw new \common_Exception('no schema found in the location '.$schema);
+        } elseif (!file_exists($schema)) {
+            throw new \common_Exception('no schema found in the location ' . $schema);
         } else {
             $returnValue = parent::validate($schema);
         }
@@ -113,18 +113,19 @@ class Parser extends tao_models_classes_Parser
      * @param boolean resolveXInclude
      * @return \oat\taoQtiItem\model\qti\Item
      */
-    public function load($resolveXInclude = false){
+    public function load($resolveXInclude = false)
+    {
         
         $returnValue = null;
 
-        if(!$this->valid){
+        if (!$this->valid) {
             libxml_use_internal_errors(true); //retrieve errors if no validation has been done previously
         }
 
         //load it using the DOMDocument library
         $xml = new DOMDocument();
         
-        switch($this->sourceType){
+        switch ($this->sourceType) {
             case self::SOURCE_FLYFILE:
                 if ($this->source->exists()) {
                     $xml->load($this->source->read());
@@ -142,25 +143,24 @@ class Parser extends tao_models_classes_Parser
                 break;
         }
 
-        if($xml !== false){
-
+        if ($xml !== false) {
             $basePath = '';
-            if($this->sourceType == self::SOURCE_FILE || $this->sourceType == self::SOURCE_URL){
-                $basePath = dirname($this->source).'/';
+            if ($this->sourceType == self::SOURCE_FILE || $this->sourceType == self::SOURCE_URL) {
+                $basePath = dirname($this->source) . '/';
             }
             //build the item from the xml
             $parserFactory = new ParserFactory($xml, $basePath);
-            try{
+            try {
                 $returnValue = $parserFactory->load();
-            }catch(UnsupportedQtiElement $e){
+            } catch (UnsupportedQtiElement $e) {
                 $this->addError($e);
             }
 
-            if(!$this->valid){
+            if (!$this->valid) {
                 $this->valid = true;
                 libxml_clear_errors();
             }
-        }else if(!$this->valid){
+        } elseif (!$this->valid) {
             $this->addErrors(libxml_get_errors());
             libxml_clear_errors();
         }
@@ -168,20 +168,22 @@ class Parser extends tao_models_classes_Parser
         return $returnValue;
     }
 
-    protected function addError($error){
+    protected function addError($error)
+    {
 
         $this->valid = false;
 
-        if($error instanceof UnsupportedQtiElement){
-            $this->errors[] = array(
+        if ($error instanceof UnsupportedQtiElement) {
+            $this->errors[] = [
                 'message' => '[Unsupported Qti Type] ' . $error->getUserMessage()
-            );
-        }else{
+            ];
+        } else {
             parent::addError($error);
         }
     }
 
-    protected function getServiceManager(){
+    protected function getServiceManager()
+    {
         return ServiceManager::getServiceManager();
     }
 }

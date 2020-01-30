@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,7 +70,7 @@ class QtiCreator extends tao_actions_CommonModule
      */
     public function createItem()
     {
-        if(!\tao_helpers_Request::isAjax()){
+        if (!\tao_helpers_Request::isAjax()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
         try {
@@ -128,18 +129,18 @@ class QtiCreator extends tao_actions_CommonModule
     public function getMediaSources()
     {
         $exclude = '';
-        if($this->hasRequestParameter('exclude')){
+        if ($this->hasRequestParameter('exclude')) {
             $exclude = $this->getRequestParameter('exclude');
         }
         // get the config media Sources
         $sources = array_keys(MediaService::singleton()->getBrowsableSources());
-        $mediaSources = array();
-        if($exclude !== 'local'){
-            $mediaSources[] = array('root' => 'local', 'path' => '/');
+        $mediaSources = [];
+        if ($exclude !== 'local') {
+            $mediaSources[] = ['root' => 'local', 'path' => '/'];
         }
-        foreach($sources as $source){
-            if($source !== $exclude){
-                $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
+        foreach ($sources as $source) {
+            if ($source !== $exclude) {
+                $mediaSources[] = ['root' => $source, 'path' => 'taomedia://' . $source . '/'];
             }
         }
 
@@ -149,9 +150,9 @@ class QtiCreator extends tao_actions_CommonModule
     public function getItemData()
     {
 
-        $returnValue = array(
+        $returnValue = [
             'itemData' => null
-        );
+        ];
 
         if ($this->hasRequestParameter('uri')) {
             $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
@@ -173,10 +174,9 @@ class QtiCreator extends tao_actions_CommonModule
     public function saveItem()
     {
 
-        $returnValue = array('success' => false);
+        $returnValue = ['success' => false];
 
         if ($this->hasRequestParameter('uri')) {
-
             $uri = urldecode($this->getRequestParameter('uri'));
             $xml = file_get_contents('php://input');
             $rdfItem = new core_kernel_classes_Resource($uri);
@@ -184,18 +184,18 @@ class QtiCreator extends tao_actions_CommonModule
             $itemService = Service::singleton();
 
             //check if the item is QTI item
-            if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
+            if ($itemService->hasItemModel($rdfItem, [ItemModel::MODEL_URI])) {
                 try {
                     Authoring::checkEmptyMedia($xml);
                     $returnValue['success'] = $itemService->saveXmlItemToRdfItem($xml, $rdfItem);
                     $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
                     $eventManager->trigger(new ResourceUpdated($rdfItem));
                 } catch (QtiModelException $e) {
-                    $returnValue = array(
+                    $returnValue = [
                         'success' => false,
                         'type' => 'Error',
                         'message' => $e->getUserMessage()
-                    );
+                    ];
                 }
             }
         }
@@ -206,7 +206,8 @@ class QtiCreator extends tao_actions_CommonModule
     public function getFile()
     {
 
-        if ($this->hasRequestParameter('uri')
+        if (
+            $this->hasRequestParameter('uri')
             && $this->hasRequestParameter('lang')
             && $this->hasRequestParameter('relPath')
         ) {
@@ -240,7 +241,8 @@ class QtiCreator extends tao_actions_CommonModule
      * @param core_kernel_classes_Resource $item the selected item
      * @return CreatorConfig the configration
      */
-    protected function getCreatorConfig(core_kernel_classes_Resource $item){
+    protected function getCreatorConfig(core_kernel_classes_Resource $item)
+    {
 
         $config = new CreatorConfig();
 
@@ -262,16 +264,16 @@ class QtiCreator extends tao_actions_CommonModule
         $config->setProperty('lang', $lang);
 
         //base url:
-        $url = tao_helpers_Uri::url('getFile', 'QtiCreator', 'taoQtiItem', array(
+        $url = tao_helpers_Uri::url('getFile', 'QtiCreator', 'taoQtiItem', [
             'uri' => $item->getUri(),
             'lang' => $lang,
             'relPath' => ''
-        ));
+        ]);
         $config->setProperty('baseUrl', $url);
 
         //map the multi column config to the plugin
         //TODO migrate the config
-        if($config->getProperty('multi-column') == true){
+        if ($config->getProperty('multi-column') == true) {
             $config->addPlugin('blockAdder', 'taoQtiItem/qtiCreator/plugins/content/blockAdder', 'content');
         }
 

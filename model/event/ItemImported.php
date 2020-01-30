@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\taoQtiItem\model\event;
 
 use oat\oatbox\event\Event;
@@ -39,7 +41,7 @@ class ItemImported implements Event
 
     /**
      * Create an instance of ItemImported event
-     * 
+     *
      * @param \core_kernel_classes_Resource $rdfItem
      * @param \oat\taoQtiItem\model\qti\Item $item
      */
@@ -72,5 +74,4 @@ class ItemImported implements Event
     {
         return $this->rdfItem;
     }
-
 }

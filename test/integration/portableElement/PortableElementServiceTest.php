@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,7 +22,6 @@
 namespace oat\taoQtiItem\portableElement\test;
 
 use oat\oatbox\service\ServiceManager;
-
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
 use oat\taoQtiItem\model\portableElement\exception\PortableModelMissing;
@@ -49,15 +49,17 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->service = null;
     }
 
-    private function clearSamplePortableElements(){
+    private function clearSamplePortableElements()
+    {
         $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
-        if(!is_null($pciLast)){
+        if (!is_null($pciLast)) {
             $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
             $pciLast->getModel()->getRegistry()->removeAllVersions('pciSampleA');
         }
     }
 
-    public function testRegisterFromDirectorySource(){
+    public function testRegisterFromDirectorySource()
+    {
 
         //register an initial version v0.4.0;
         $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir040');
@@ -98,10 +100,11 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertNotFalse(strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.1]'));
     }
 
-    public function testGetPortableElementByClass(){
+    public function testGetPortableElementByClass()
+    {
 
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/item/pci_pic_sample_1.xml');
+        $xml->load(__DIR__ . '/samples/item/pci_pic_sample_1.xml');
         $parser = new ParserFactory($xml);
         $item = $parser->load();
 
@@ -114,10 +117,11 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(1, count($pcis['liquidsInteraction']));
     }
 
-    public function testGetPortableElementByClassAlias(){
+    public function testGetPortableElementByClassAlias()
+    {
 
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
         $parser = new ParserFactory($xml);
         $item = $parser->load();
 
@@ -144,10 +148,11 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals('0.4.*', $pci['version']);
     }
 
-    public function testSetBaseUrlToPortableData(){
+    public function testSetBaseUrlToPortableData()
+    {
 
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
         $parser = new ParserFactory($xml);
         $item = $parser->load();
 
@@ -163,12 +168,13 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertTrue(isset($pci['baseUrl']));
     }
 
-    public function testSetBaseUrlToPortableDataUnknownVersion(){
+    public function testSetBaseUrlToPortableDataUnknownVersion()
+    {
 
         $this->setExpectedException(PortableElementNotFoundException::class);
 
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
         $parser = new ParserFactory($xml);
         $item = $parser->load();
 
@@ -184,12 +190,13 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->service->setBaseUrlToPortableData($pci);
     }
 
-    public function testSetBaseUrlToPortableDataUnknownModel(){
+    public function testSetBaseUrlToPortableDataUnknownModel()
+    {
 
         $this->setExpectedException(PortableModelMissing::class);
 
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/item/pci_sample_1.xml');
+        $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
         $parser = new ParserFactory($xml);
         $item = $parser->load();
 
@@ -204,6 +211,4 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $pci['model'] = 'UNKNOWN_MODEL';
         $this->service->setBaseUrlToPortableData($pci);
     }
-
-
 }

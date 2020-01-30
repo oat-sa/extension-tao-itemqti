@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,8 +38,9 @@ class ContainerTable extends ContainerInteractive
      * @access public
      * @return array
      */
-    public function getValidElementTypes(){
-        return array(
+    public function getValidElementTypes()
+    {
+        return [
             'oat\\taoQtiItem\\model\\qti\\Img',
             'oat\\taoQtiItem\\model\\qti\\Math',
             'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
@@ -49,6 +51,6 @@ class ContainerTable extends ContainerInteractive
             'oat\\taoQtiItem\\model\\qti\\InfoControl',
             'oat\\taoQtiItem\\model\\qti\\XInclude',
             \oat\taoQtiItem\model\qti\Table::class,
-        );
+        ];
     }
 }

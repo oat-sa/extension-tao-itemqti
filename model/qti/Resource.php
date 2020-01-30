@@ -1,22 +1,23 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -25,47 +26,47 @@ namespace oat\taoQtiItem\model\qti;
  * A QTI Resource from the point of view of the imsmanifest v1.1 : Content Packaging).
  *
  * @package taoQTI
- 
+
  */
 class Resource
 {
 
     /**
-     * defines the list of known authorized type of resources 
+     * defines the list of known authorized type of resources
      *
      * @var array
      */
-    protected static $allowedTypes = array(
+    protected static $allowedTypes = [
         'imsqti_apipsectionroot_xmlv2p1',
         'controlfile/apip_xmlv1p0',
         'associatedcontent/apip_xmlv1p0/learning-application-resource'
-    );
+    ];
     
     /**
-     * defines the list of known authorized type of qti test 
+     * defines the list of known authorized type of qti test
      *
      * @var array
      */
-    protected static $testTypes = array(
+    protected static $testTypes = [
         'imsqti_apiptestroot_xmlv2p1',
         'imsqti_test_xmlv2p1',
         'imsqti_test_xmlv2p2',
         'imsqti_assessment_xmlv2p1'
-    );
+    ];
     
     /**
-     * defines the list of known authorized type of qti item 
+     * defines the list of known authorized type of qti item
      *
      * @var array
      */
-    protected static $itemTypes = array(
+    protected static $itemTypes = [
         'imsqti_item_xmlv2p0',
         'imsqti_item_xmlv2p1',
         'imsqti_item_xmlv2p2',
         'imsqti_apipitemroot_xmlv2p1',
         'imsqti_apipitem_xmlv2p1',
         'imsqti_apipitem_xmlv2p2',
-    );
+    ];
 
     /**
      * The identifier of the resource.
@@ -94,14 +95,14 @@ class Resource
      * @access protected
      * @var array
      */
-    protected $auxiliaryFiles = array();
+    protected $auxiliaryFiles = [];
 
     /**
      * Array containing dependencies.
-     * 
+     *
      * @var array
      */
-    protected $dependencies = array();
+    protected $dependencies = [];
     
     /**
      * Create a new QTI Resource object.
@@ -110,7 +111,8 @@ class Resource
      * @param string $type
      * @param string $file
      */
-    public function __construct($id, $type, $file){
+    public function __construct($id, $type, $file)
+    {
         $this->identifier = $id;
         $this->type = $type;
         $this->file = $file;
@@ -122,7 +124,8 @@ class Resource
      * @param  string $type
      * @return boolean
      */
-    public static function isAllowed($type){
+    public static function isAllowed($type)
+    {
         return (!empty($type) && (in_array($type, self::$allowedTypes))) || self::isAssessmentItem($type) || self::isAssessmentTest($type);
     }
 
@@ -132,7 +135,8 @@ class Resource
      * @param  string $type
      * @return boolean
      */
-    public static function isAssessmentItem($type){
+    public static function isAssessmentItem($type)
+    {
         return (!empty($type) && in_array($type, self::$itemTypes));
     }
     /**
@@ -141,7 +145,8 @@ class Resource
      * @param  string $type
      * @return boolean
      */
-    public static function isAssessmentTest($type){
+    public static function isAssessmentTest($type)
+    {
         return (!empty($type) && in_array($type, self::$testTypes));
     }
 
@@ -170,11 +175,13 @@ class Resource
      *
      * @return string
      */
-    public function getIdentifier(){
+    public function getIdentifier()
+    {
         return $this->identifier;
     }
     
-    public function setIdentifier($identifier) {
+    public function setIdentifier($identifier)
+    {
         $this->identifier = $identifier;
     }
 
@@ -183,7 +190,8 @@ class Resource
      *
      * @return string
      */
-    public function getFile(){
+    public function getFile()
+    {
         return (string) $this->file;
     }
     
@@ -192,7 +200,8 @@ class Resource
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return (string) $this->type;
     }
     
@@ -201,16 +210,18 @@ class Resource
      *
      * @param array $files An array of strings representing URIs.
      */
-    public function setAuxiliaryFiles(array $files){
+    public function setAuxiliaryFiles(array $files)
+    {
         $this->auxiliaryFiles = $files;
     }
 
     /**
      * Add an auxiliary file to the resource.
      *
-     * @param string $file The URI referencing the file. 
+     * @param string $file The URI referencing the file.
      */
-    public function addAuxiliaryFile($file){
+    public function addAuxiliaryFile($file)
+    {
         $this->auxiliaryFiles[] = $file;
     }
 
@@ -219,34 +230,38 @@ class Resource
      *
      * @return array An array of strings representing URIs.
      */
-    public function getAuxiliaryFiles(){
+    public function getAuxiliaryFiles()
+    {
         return (array) $this->auxiliaryFiles;
     }
 
     /**
      * Set the list of dependencies to this resource.
-     * 
+     *
      * @param array $dependencies An array of strings representing identifiers.
      */
-    public function setDependencies(array $dependencies) {
+    public function setDependencies(array $dependencies)
+    {
         $this->dependencies = $dependencies;
     }
     
     /**
      * Add a dependency to this resource.
-     * 
+     *
      * @param string $dependency An identifier.
      */
-    public function addDependency($dependency) {
+    public function addDependency($dependency)
+    {
         $this->dependencies[] = $dependency;
     }
     
     /**
      * Get the list of dependencies to this resource.
-     * 
+     *
      * @return array An array of strings representing identifiers.
      */
-    public function getDependencies() {
+    public function getDependencies()
+    {
         return $this->dependencies;
     }
 }
