@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +37,7 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
     use OntologyAwareTrait;
 
     static $excludedProperties = [
-		OntologyRdf::RDF_TYPE,
+        OntologyRdf::RDF_TYPE,
         taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
         taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
         taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
@@ -60,7 +61,7 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
         }
 
         $identifier = \tao_helpers_Uri::getUniqueId($resource->getUri());
-        $metadata = array($identifier => []);
+        $metadata = [$identifier => []];
 
         $triples = $resource->getRdfTriples();
 
@@ -72,7 +73,8 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
             $property = $this->getResource($triple->predicate);
             $value = $triple->object;
 
-            if (trim($value) != ''
+            if (
+                trim($value) != ''
                 && $property->isProperty()
                 && !in_array($property->getUri(), self::$excludedProperties)
             ) {

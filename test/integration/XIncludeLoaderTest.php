@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -33,7 +35,7 @@ use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
  *
  * @author Sam, <sam@taotesting.com>
  * @package taoQtiItem
- 
+
  */
 class XIncludeLoaderTest extends TaoPhpUnitTestRunner
 {
@@ -41,18 +43,20 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
     }
     
     /**
      * Test that xinclude are correctly loaded into standard item body elements
      */
-    public function testLoadxincludeInBody(){
+    public function testLoadxincludeInBody()
+    {
         
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/associate_include.xml';
+        $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/xinclude/associate_include.xml';
         $href1 = 'stimulus.xml';
-        $file1 = dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/stimulus.xml';
+        $file1 = dirname(__FILE__) . '/samples/xml/qtiv2p1/xinclude/stimulus.xml';
         
         $mediaSource1 = $this->prophesize('oat\taoMediaManager\model\MediaSource');
         $mediaSource1->download($href1)->willReturn($file1);
@@ -81,11 +85,12 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
     /**
      * Test that xincludes are correctly loaded into pci elements
      */
-    public function testLoadxincludeInPci(){
+    public function testLoadxincludeInPci()
+    {
         
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/pci_include.xml';
+        $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/xinclude/pci_include.xml';
         $href1 = 'stimulus.xml';
-        $file1 = dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/stimulus.xml';
+        $file1 = dirname(__FILE__) . '/samples/xml/qtiv2p1/xinclude/stimulus.xml';
         
         
         $mediaSource1 = $this->prophesize('oat\taoMediaManager\model\MediaSource');
@@ -108,8 +113,8 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
         
         //find the unique pci in the sample
         $pci = null;
-        foreach($item->getComposingElements() as $element){
-            if($element instanceof PortableCustomInteraction){
+        foreach ($item->getComposingElements() as $element) {
+            if ($element instanceof PortableCustomInteraction) {
                 $pci = $element;
                 break;
             }

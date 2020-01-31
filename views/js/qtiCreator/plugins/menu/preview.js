@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -29,10 +29,9 @@ define([
     'i18n',
     'core/plugin',
     'ui/hider',
-    'taoItems/preview/preview',
+    'taoItems/previewer/factory',
     'tpl!taoQtiItem/qtiCreator/plugins/button',
-    'util/url'
-], function($, __, pluginFactory, hider, preview, buttonTpl, urlUtil){
+], function($, __, pluginFactory, hider, previewerFactory, buttonTpl){
     'use strict';
 
     /**
@@ -57,12 +56,12 @@ define([
              * @param {String} uri - the uri of this item to preview
              */
             itemCreator.on('preview', function(uri){
+              	var type = 'qtiItem';
 
-                //TODO move away the URLs !!!
-                preview.init(urlUtil.build(itemCreator.getConfig().properties.previewUrl, {
-                    uri: uri
-                }));
-                preview.show();
+                previewerFactory(type, uri, { }, {
+                    readOnly: false,
+                    fullPage: true
+                });
             });
 
             //creates the preview button

@@ -1,21 +1,22 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 namespace oat\taoQtiItem\model\qti\response\interactionResponseProcessing;
@@ -40,7 +41,7 @@ use \common_exception_Error;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- 
+
  */
 abstract class InteractionResponseProcessing implements Rule
 {
@@ -78,10 +79,11 @@ abstract class InteractionResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function getRule(){
+    public function getRule()
+    {
         $returnValue = (string) '';
 
-        throw new common_Exception('Missing getRule implementation for '.get_class($this), array('TAOITEMS', 'QTI', 'HARD'));
+        throw new common_Exception('Missing getRule implementation for ' . get_class($this), ['TAOITEMS', 'QTI', 'HARD']);
 
         return (string) $returnValue;
     }
@@ -96,25 +98,26 @@ abstract class InteractionResponseProcessing implements Rule
      * @param  Item item
      * @return oat\taoQtiItem\model\qti\response\interactionResponseProcessing\InteractionResponseProcessing
      */
-    public static function create($classID, ResponseDeclaration $response, Item $item){
-        switch($classID){
-            case None::CLASS_ID :
+    public static function create($classID, ResponseDeclaration $response, Item $item)
+    {
+        switch ($classID) {
+            case None::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\None';
                 break;
-            case MatchCorrectTemplate::CLASS_ID :
+            case MatchCorrectTemplate::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MatchCorrectTemplate';
                 break;
-            case MapResponseTemplate::CLASS_ID :
+            case MapResponseTemplate::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponseTemplate';
                 break;
-            case MapResponsePointTemplate::CLASS_ID :
+            case MapResponsePointTemplate::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponsePointTemplate';
                 break;
-            case Custom::CLASS_ID :
+            case Custom::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\Custom';
                 break;
-            default :
-                throw new common_exception_Error('Unknown InteractionResponseProcessing Class ID "'.$classID.'"');
+            default:
+                throw new common_exception_Error('Unknown InteractionResponseProcessing Class ID "' . $classID . '"');
         }
         $outcome = self::generateOutcomeDefinition();
         $outcomes = $item->getOutcomes();
@@ -132,8 +135,9 @@ abstract class InteractionResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return oat\taoQtiItem\model\qti\OutcomeDeclaration
      */
-    public static function generateOutcomeDefinition(){
-        return new OutcomeDeclaration(array('baseType' => 'integer', 'cardinality' => 'single'));
+    public static function generateOutcomeDefinition()
+    {
+        return new OutcomeDeclaration(['baseType' => 'integer', 'cardinality' => 'single']);
     }
 
     /**
@@ -145,7 +149,8 @@ abstract class InteractionResponseProcessing implements Rule
      * @param  Outcome outcome
      * @return mixed
      */
-    public function __construct(ResponseDeclaration $response, OutcomeDeclaration $outcome){
+    public function __construct(ResponseDeclaration $response, OutcomeDeclaration $outcome)
+    {
         $this->response = $response;
         $this->outcome = $outcome;
     }
@@ -157,7 +162,8 @@ abstract class InteractionResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return oat\taoQtiItem\model\qti\ResponseDeclaration
      */
-    public function getResponse(){
+    public function getResponse()
+    {
         return $this->response;
     }
 
@@ -168,7 +174,8 @@ abstract class InteractionResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return oat\taoQtiItem\model\qti\OutcomeDeclaration
      */
-    public function getOutcome(){
+    public function getOutcome()
+    {
         return $this->outcome;
     }
 
@@ -179,9 +186,9 @@ abstract class InteractionResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function getIdentifier(){
-        $returnValue = $this->getResponse()->getIdentifier().'_rp';
+    public function getIdentifier()
+    {
+        $returnValue = $this->getResponse()->getIdentifier() . '_rp';
         return (string) $returnValue;
     }
-
 }

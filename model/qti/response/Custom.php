@@ -1,22 +1,23 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti\response;
@@ -50,7 +51,7 @@ class Custom extends ResponseProcessing implements Rule
      * @access protected
      * @var array
      */
-    protected $responseRules = array();
+    protected $responseRules = [];
 
     /**
      * Short description of method getRule
@@ -59,10 +60,11 @@ class Custom extends ResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function getRule(){
+    public function getRule()
+    {
         $returnValue = (string) '';
 
-        foreach($this->responseRules as $responseRule){
+        foreach ($this->responseRules as $responseRule) {
             $returnValue .= $responseRule->getRule();
         }
 
@@ -78,17 +80,20 @@ class Custom extends ResponseProcessing implements Rule
      * @param  string xml
      * @return mixed
      */
-    public function __construct($responseRules, $xml){
+    public function __construct($responseRules, $xml)
+    {
         $this->responseRules = $responseRules;
         parent::__construct();
         $this->setData($xml, false);
     }
 
-    public function setData($xml){
+    public function setData($xml)
+    {
         $this->data = $xml;
     }
 
-    public function getData(){
+    public function getData()
+    {
         return $this->data;
     }
 
@@ -99,28 +104,29 @@ class Custom extends ResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function toQTI(){
+    public function toQTI()
+    {
         return (string) $this->getData();
     }
 
-    public function toArray($filterVariableContent = false, &$filtered = array()){
+    public function toArray($filterVariableContent = false, &$filtered = [])
+    {
 
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         
         $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($this->data));
-        $protectedData = array(
+        $protectedData = [
             'processingType' => 'custom',
             'data' => $this->data,
             'responseRules' => $rpSerialized['responseRules']
-        );
+        ];
 
-        if($filterVariableContent){
+        if ($filterVariableContent) {
             $filtered[$this->getSerial()] = $protectedData;
-        }else{
+        } else {
             $returnValue = array_merge($returnValue, $protectedData);
         }
 
         return $returnValue;
     }
-
 }

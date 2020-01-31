@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -62,7 +63,7 @@ class SharedStimulusAssetHandler implements AssetHandler
      */
     public function isApplicable($relativePath)
     {
-        $xincluded = array();
+        $xincluded = [];
         /** @var Element $xincludeElement */
         foreach ($this->getQtiModel()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xincludeElement) {
             $xincluded[] = $xincludeElement->attr('href');

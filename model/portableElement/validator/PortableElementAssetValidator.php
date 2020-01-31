@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,15 +43,15 @@ abstract class PortableElementAssetValidator implements Validatable
      * @throws PortableElementParserException
      * @throws \common_exception_Error
      */
-    public function validateAssets(PortableElementObject $object, $source, array $files=[])
+    public function validateAssets(PortableElementObject $object, $source, array $files = [])
     {
         $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
 
         if (empty($files)) {
             //if no files requested, get all all assets
-            try{
+            try {
                 $files = $this->getAssets($object);
-            }catch(PortableElementInvalidAssetException $e){
+            } catch (PortableElementInvalidAssetException $e) {
                 $subReport = \common_report_Report::createFailure($e->getMessage());
                 $errorReport->add($subReport);
             }
@@ -84,7 +85,7 @@ abstract class PortableElementAssetValidator implements Validatable
      * @return array List of file relative path
      * @throws PortableElementInvalidAssetException
      */
-    public function getAssets(PortableElementObject $object, $type=null)
+    public function getAssets(PortableElementObject $object, $type = null)
     {
         $assets = [];
         if (is_null($type) || ($type == 'runtime')) {
@@ -110,13 +111,13 @@ abstract class PortableElementAssetValidator implements Validatable
                 if (is_array($asset[$constraint])) {
                     //get a flat list out of the structure of file data
                     $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($asset[$constraint]));
-                    foreach($it as $k => $v) {
-                        if(!in_array(strval($k), $object->getRegistrationExcludedKey()) && !empty($v)){
+                    foreach ($it as $k => $v) {
+                        if (!in_array(strval($k), $object->getRegistrationExcludedKey()) && !empty($v)) {
                             $files[] = $v;
                         }
                     }
                 } else {
-                    if(!empty($asset[$constraint])){
+                    if (!empty($asset[$constraint])) {
                         $files[] = $asset[$constraint];
                     }
                 }
@@ -151,7 +152,7 @@ abstract class PortableElementAssetValidator implements Validatable
         }
 
         throw new PortableElementInvalidAssetException(
-            'Asset "' . $file . '" is not found in the source "'.$source.'"" neither through alias'
+            'Asset "' . $file . '" is not found in the source "' . $source . '"" neither through alias'
         );
     }
 }

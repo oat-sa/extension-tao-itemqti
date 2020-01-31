@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
@@ -26,7 +28,8 @@ use oat\generis\test\TestCase;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
-class ParserFactoryTest extends TestCase {
+class ParserFactoryTest extends TestCase
+{
 
     /**
      * @param string $file
@@ -48,19 +51,20 @@ class ParserFactoryTest extends TestCase {
     public function findNamespaceProvider()
     {
         return [
-            [__DIR__.'/samples/xml/qtiv2p1/math/math.xml', 'm'],
-            [__DIR__.'/samples/xml/qtiv2p1/math/math2.xml', 'm'],
-            [__DIR__.'/samples/xml/qtiv2p1/math/math3.xml', 'm'],
-            [__DIR__.'/samples/xml/qtiv2p1/math/math4.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math2.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math3.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math4.xml', 'm'],
         ];
     }
 
     /**
      * Table parsing
      */
-    public function testParseTableWithNestedInteractions() {
+    public function testParseTableWithNestedInteractions()
+    {
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableInteractions.xml');
+        $xml->load(__DIR__ . '/samples/xml/qtiv2p1/tableInteractions.xml');
         $parser = new ParserFactory($xml);
         $result = $parser->load();
 
@@ -99,9 +103,10 @@ class ParserFactoryTest extends TestCase {
         $this->assertEquals($nestedTableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index');
     }
 
-    public function testParseTableWithNoNestedInteractions() {
+    public function testParseTableWithNoNestedInteractions()
+    {
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableNoInteractions.xml');
+        $xml->load(__DIR__ . '/samples/xml/qtiv2p1/tableNoInteractions.xml');
         $parser = new ParserFactory($xml);
         $result = $parser->load();
 
@@ -132,6 +137,5 @@ class ParserFactoryTest extends TestCase {
 
         $this->assertTrue(strpos($imgSerial, 'img_') === 0, 'first element is an image, with serial: ' . $imgSerial);
         $this->assertTrue(strpos($mathSerial, 'math_') === 0, 'second element is a math, with serial: ' . $mathSerial);
-
     }
 }

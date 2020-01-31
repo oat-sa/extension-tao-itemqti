@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,8 +42,9 @@ class ContainerStatic extends Container
      * @author Sam, <sam@taotesting.com>
      * @return array
      */
-    public function getValidElementTypes(){
-        return array(
+    public function getValidElementTypes()
+    {
+        return [
             'oat\\taoQtiItem\\model\\qti\\Img',
             'oat\\taoQtiItem\\model\\qti\\Table',
             'oat\\taoQtiItem\\model\\qti\\Math',
@@ -50,7 +52,7 @@ class ContainerStatic extends Container
             \oat\taoQtiItem\model\qti\QtiObject::class,
             'oat\\taoQtiItem\\model\\qti\\Tooltip',
             'oat\\taoQtiItem\\model\\qti\\XInclude'
-        );
+        ];
     }
 
 
@@ -60,7 +62,8 @@ class ContainerStatic extends Container
      *
      * @return string
      */
-    public function getBody(){
+    public function getBody()
+    {
         return $this->fixNonvoidTags(parent::getBody());
     }
 }

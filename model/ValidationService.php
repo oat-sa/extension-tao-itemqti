@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,44 +29,44 @@ class ValidationService extends ConfigurableService
 {
     const SERVICE_ID = 'taoQtiItem/validation';
 
-    private $contentValidation = array(
-        'http://www.imsglobal.org/xsd/imsqti_v2p0' => array(
+    private $contentValidation = [
+        'http://www.imsglobal.org/xsd/imsqti_v2p0' => [
             '/qti/data/qtiv2p0/imsqti_v2p0.xsd'
-        ),
-        'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1' => array(
+        ],
+        'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1' => [
             '/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
-        ),
-        'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2' => array(
+        ],
+        'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2' => [
             '/qti/data/apipv1p0final/Core_Level/Package/apipv1p0_qtiitemv2p2_v1p0.xsd'
-        ),
-        'http://www.imsglobal.org/xsd/imsqti_v2p2' => array(
+        ],
+        'http://www.imsglobal.org/xsd/imsqti_v2p2' => [
             '/qti/data/qtiv2p2p1/imsqti_v2p2p1.xsd'
-        ),
-        'default' => array(
+        ],
+        'default' => [
             '/qti/data/qtiv2p1p1/imsqti_v2p1p1.xsd'
-        )
-    );
+        ]
+    ];
 
-    private $manifestValidation = array(
-        'default' => array(
+    private $manifestValidation = [
+        'default' => [
             '/qti/data/imscp_v1p1.xsd',
             '/qti/data/qtiv2p2/qtiv2p2_imscpv1p2_v1p0.xsd',
             '/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd',
             '/qti/data/apipv1p0final/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd',
-        )
-    );
+        ]
+    ];
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
-        foreach($this->contentValidation as $key => &$array){
-            foreach($array as &$value){
-                $value = __DIR__.$value;
+        foreach ($this->contentValidation as $key => &$array) {
+            foreach ($array as &$value) {
+                $value = __DIR__ . $value;
             }
         }
-        foreach($this->manifestValidation as $key => &$array){
-            foreach($array as &$value){
-                $value = __DIR__.$value;
+        foreach ($this->manifestValidation as $key => &$array) {
+            foreach ($array as &$value) {
+                $value = __DIR__ . $value;
             }
         }
     }
@@ -74,7 +75,8 @@ class ValidationService extends ConfigurableService
      * @param string $key the namespace of content to validate
      * @return array of schema for content validation
      */
-    public function getContentValidationSchema($key){
+    public function getContentValidationSchema($key)
+    {
         $validationArray = $this->getContentValidation();
 
         return $this->getSchemas($validationArray, $key);
@@ -84,7 +86,8 @@ class ValidationService extends ConfigurableService
      * @param string $key the namespace of manifest to validate
      * @return array of schema for manifest validation
      */
-    public function getManifestValidationSchema($key){
+    public function getManifestValidationSchema($key)
+    {
         $validationArray = $this->getManifestValidation();
 
         return $this->getSchemas($validationArray, $key);
@@ -95,8 +98,9 @@ class ValidationService extends ConfigurableService
      * @param string $key the namespace
      * @return array schemas for validation
      */
-    protected function getSchemas($validationArray, $key){
-        if(isset($validationArray[$key])){
+    protected function getSchemas($validationArray, $key)
+    {
+        if (isset($validationArray[$key])) {
             return $validationArray[$key];
         }
 
@@ -106,14 +110,16 @@ class ValidationService extends ConfigurableService
     /**
      * @return array
      */
-    protected function getContentValidation(){
+    protected function getContentValidation()
+    {
         return $this->contentValidation;
     }
 
     /**
      * @return array
      */
-    protected function getManifestValidation(){
+    protected function getManifestValidation()
+    {
         return $this->manifestValidation;
     }
 }
