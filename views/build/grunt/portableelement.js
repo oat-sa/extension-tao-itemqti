@@ -16,7 +16,7 @@ module.exports = function (grunt) {
     var root = grunt.option('root');
     var requirejs = grunt.option('requirejsModule');
     var ext = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var amdConfig = require(root + '/tao/views/build/config/requirejs.build.json');
+    var amdConfig = require(root + '/tao/views/config/requirejs.build.json');
 
     var portableModels = [
         {
