@@ -91,7 +91,9 @@ define([
             interaction.toggleClass('eliminable', this.checked);
             // current visual
             widget.$original.toggleClass('eliminable', this.checked);
-
+            if (!this.checked) {
+                widget.$original.find('.eliminated').removeClass('eliminated');
+            }
             // indicate whether this has been unchecked on purpose
             interaction.toggleClass('eliminability-deselected', !this.checked);
         });
