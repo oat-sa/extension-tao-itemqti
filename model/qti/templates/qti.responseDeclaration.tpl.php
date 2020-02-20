@@ -23,43 +23,35 @@ $defaultValues = get_data('defaultValue');
 $mapping = get_data('mapping');
 $areaMapping = get_data('areaMapping');
 ?>
-<responseDeclaration <?=get_data('attributes')?><?php if (!$correctResponses && !$mapping && !$areaMapping && !$defaultValues) :
-    ?>/>
-                     <?php else :
-                            ?>>
-                         <?php if (is_array($defaultValues) && count($defaultValues) > 0) :?>
-    <defaultValue>
-                                <?php foreach ($defaultValues as $value) :?>
-            <value<?php foreach ($value->getAttributeValues() as $attrName => $attrValue) :
-                ?> <?=$attrName?>="<?=$attrValue?>"<?php
-                  endforeach;?>><![CDATA[<?= $value ?>]]></value>
-                                <?php endforeach?>
-    </defaultValue>
-                         <?php endif?>
-                         <?php if (is_array($correctResponses) && count($correctResponses) > 0) :?>
-    <correctResponse>
-                                <?php foreach ($correctResponses as $value) :?>
-            <value<?php foreach ($value->getAttributeValues() as $attrName => $attrValue) :
-                ?> <?=$attrName?>="<?=$attrValue?>"<?php
-                  endforeach;?>><![CDATA[<?= $value ?>]]></value>
-                                <?php endforeach?>
-    </correctResponse>
-                         <?php endif?>
-                         <?php if (!is_null($mapping) && count($mapping) > 0) :?>
-    <mapping <?=get_data('mappingAttributes')?>>
-                                <?php foreach ($mapping as $key => $value) :?>
-            <mapEntry mapKey="<?=$key?>" mappedValue="<?=$value?>"/>
-                                <?php endforeach?>
-    </mapping>
-                         <?php endif?>
-                         <?php if (!is_null($areaMapping) && count($areaMapping) > 0) :?>
-    <areaMapping <?=get_data('mappingAttributes')?>>
-                                <?php foreach ($areaMapping as $areaMapEntry) :?>
-            <areaMapEntry <?php foreach ($areaMapEntry as $key => $value) :
-                ?><?=$key?>="<?=$value?>" <?php
-                          endforeach;?> />
-                                <?php endforeach?>
-    </areaMapping>
-                         <?php endif?>
+<responseDeclaration <?=get_data('attributes')?><?php if(!$correctResponses && !$mapping && !$areaMapping && !$defaultValues):?>/>
+<?php else:?>>
+    <?php if(is_array($defaultValues) && count($defaultValues) > 0):?>
+	<defaultValue>
+	    <?php foreach($defaultValues as $value):?>
+	        <value<?php foreach($value->getAttributeValues() as $attrName => $attrValue):?> <?=$attrName?>="<?=$attrValue?>"<?php endforeach;?>><![CDATA[<?= $value ?>]]></value>
+	    <?php endforeach?>
+	</defaultValue>
+    <?php endif?>
+    <?php if(is_array($correctResponses) && count($correctResponses) > 0):?>
+	<correctResponse>
+	    <?php foreach($correctResponses as $value):?>
+	        <value<?php foreach($value->getAttributeValues() as $attrName => $attrValue):?> <?=$attrName?>="<?=$attrValue?>"<?php endforeach;?>><![CDATA[<?= $value ?>]]></value>
+	    <?php endforeach?>
+	</correctResponse>
+    <?php endif?>
+    <?php if(!is_null($mapping) && count($mapping) > 0):?>
+	<mapping <?=get_data('mappingAttributes')?>>
+	    <?php foreach($mapping as $key => $value):?>
+	        <mapEntry mapKey="<?=$key?>" mappedValue="<?=$value?>"/>
+	    <?php endforeach?>
+	</mapping>
+    <?php endif?>
+    <?php if(!is_null($areaMapping) && count($areaMapping) > 0):?>
+	<areaMapping <?=get_data('mappingAttributes')?>>
+	    <?php foreach($areaMapping as $areaMapEntry):?>
+	        <areaMapEntry <?php foreach($areaMapEntry as $key => $value):?><?=$key?>="<?=$value?>" <?php endforeach;?> />
+	    <?php endforeach?>
+	</areaMapping>
+    <?php endif?>
 </responseDeclaration>
-                     <?php endif?>
+<?php endif?>
