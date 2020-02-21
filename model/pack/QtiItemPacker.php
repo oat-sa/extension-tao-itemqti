@@ -34,6 +34,7 @@ use \common_Exception;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Service;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * This class pack a QTI Item. Packing instead of compiling, aims
@@ -71,6 +72,7 @@ class QtiItemPacker extends ItemPacker
         $content = $this->getXmlByItem($item, $lang);
         //load content
         $qtiParser = new QtiParser($content);
+        $qtiParser->setServiceLocator(ServiceManager::getServiceManager());
         //validate it
         $qtiParser->validate();
         if (!$qtiParser->isValid()) {
