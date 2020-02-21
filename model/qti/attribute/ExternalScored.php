@@ -35,9 +35,9 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
 class ExternalScored extends Attribute
 {
 
-	static protected $name = 'externalScored';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\ExternalScored';
-	static protected $defaultValue = null;
-	static protected $required = false;
+    static protected $name = 'externalScored';
+    static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\ExternalScored';
+    static protected $defaultValue = null;
+    static protected $required = false;
 
 }

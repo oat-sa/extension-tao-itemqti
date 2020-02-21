@@ -23,15 +23,14 @@
 namespace oat\taoQtiItem\helpers;
 
 //use oat\taoQtiItem\helpers\Authoring;
-use common_Logger;
 use DOMDocument;
 use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\Parser;
 use \core_kernel_classes_Resource;
 use \taoItems_models_classes_ItemsService;
-use \tao_helpers_File;
 use \common_exception_Error;
+use oat\oatbox\service\ServiceManager;
+use oat\taoQtiItem\model\AuthoringService;
 
 /**
  * Helper to provide methods for QTI authoring
@@ -39,6 +38,7 @@ use \common_exception_Error;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQtiItem
+ * @deprecated please use AuthoringService
  */
 class Authoring
 {
@@ -51,16 +51,7 @@ class Authoring
      */
     public static function validateQtiXml($qti)
     {
-        
-        $dom = self::loadQtiXml($qti);
-        $returnValue = $dom->saveXML();
-
-        $parserValidator = new Parser($returnValue);
-        $parserValidator->validate();
-        if (!$parserValidator->isValid()) {
-            common_Logger::w('Invalid QTI output: ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
-            throw new QtiModelException('invalid QTI item XML ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
-        }
+        self::getService()->validateQtiXml($qti);
     }
 
     /**
@@ -71,29 +62,7 @@ class Authoring
      */
     public static function checkEmptyMedia($qti)
     {
-        $doc = new DOMDocument();
-        $doc->loadHTML(self::loadQtiXml($qti)->saveXML());
-
-        $imgs = $doc->getElementsByTagName('img');
-        foreach ($imgs as $img) {
-            if (empty($img->getAttribute('src'))) {
-                throw new QtiModelException('image has no source');
-            }
-        }
-
-        $objects = $doc->getElementsByTagName('object');
-        foreach ($objects as $object) {
-            if (empty($object->getAttribute('data'))) {
-                throw new QtiModelException('object has no data source');
-            }
-        }
-
-        $objects = $doc->getElementsByTagName('include');
-        foreach ($objects as $object) {
-            if (empty($object->getAttribute('href'))) {
-                throw new QtiModelException('object has no data source');
-            }
-        }
+        self::getService()->checkEmptyMedia($qti);
     }
 
     /**
@@ -113,33 +82,7 @@ class Authoring
         $returnValue = [];
 
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
-        
-        foreach ($relativeSourceFiles as $relPath) {
-            if (! tao_helpers_File::securityCheck($relPath, true)) {
-                throw new common_exception_Error('Invalid resource file path');
-            }
-                
-            $relPath = preg_replace('/^\.\//', '', $relPath);
-            $source = $sourceDirectory . $relPath;
-
-            $fh = fopen($source, 'r');
-            if (! is_resource($fh)) {
-                throw new common_exception_Error('The resource "' . $source . '" cannot be copied.');
-            }
-
-            $path = tao_helpers_File::concat([
-                $prefix ? $prefix : '',
-                $relPath
-            ]);
-
-            // cannot write as PCI do not get cleaned up
-            if ($directory->getFile($path)->put($fh)) {
-                $returnValue[] = $relPath;
-            }
-            fclose($fh);
-        }
-
-        return $returnValue;
+        return self::getService()->addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, $directory);
     }
     
     /**
@@ -149,26 +92,7 @@ class Authoring
      */
     public static function sanitizeQtiXml($qti)
     {
-        $doc = self::loadQtiXml($qti);
-        
-        $xpath = new \DOMXpath($doc);
-        
-        foreach ($xpath->query("//*[local-name() = 'itemBody']//*[@style]") as $elementWithStyle) {
-            $elementWithStyle->removeAttribute('style');
-        }
-
-        $ids = [];
-        /** @var \DOMElement $elementWithId */
-        foreach ($xpath->query("//*[not(local-name()='lib') and not(local-name()='module') and @id]") as $elementWithId) {
-            $id = $elementWithId->getAttribute('id');
-            if (in_array($id, $ids)) {
-                $elementWithId->removeAttribute('id');
-            } else {
-                $ids[] = $id;
-            }
-        }
-
-        return $doc->saveXML();
+        return self::getService()->sanitizeQtiXml($qti);
     }
     
     /**
@@ -182,49 +106,14 @@ class Authoring
      */
     public static function loadQtiXml($file)
     {
-        if ($file instanceof File) {
-            $qti = $file->read();
-        } elseif (preg_match("/^<\?xml(.*)?/m", trim($file))) {
-            $qti = $file;
-        } elseif (is_file($file)) {
-            $qti = file_get_contents($file);
-        } else {
-            throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got " . substr($file, 0, 500));
-        }
-        
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        return self::getService()->loadQtiXml($file);
+    }
 
-        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('XMLParser');
-
-        if (is_array($domDocumentConfig) && !empty($domDocumentConfig)) {
-            foreach ($domDocumentConfig as $param => $value) {
-                if (property_exists($dom, $param)) {
-                    $dom->$param = $value;
-                }
-            }
-        } else {
-            $dom->formatOutput = true;
-            $dom->preserveWhiteSpace = false;
-            $dom->validateOnParse = false;
-        }
-        
-        libxml_use_internal_errors(true);
-        
-        if (!$dom->loadXML($qti)) {
-            $errors = libxml_get_errors();
-            
-            $errorsMsg = 'Wrong QTI item output format:'
-            . PHP_EOL
-            . array_reduce($errors, function ($carry, $item) {
-                $carry .= $item->message . PHP_EOL;
-                return $carry;
-            });
-            
-            common_Logger::w($errorsMsg);
-            
-            throw new QtiModelException($errorsMsg);
-        }
-        
-        return $dom;
+    /**
+     * @return AuthoringService
+     */
+    private static function getService()
+    {
+        return ServiceManager::getServiceManager()->get(AuthoringService::SERVICE_ID);
     }
 }

@@ -21,11 +21,10 @@
 
 namespace oat\taoQtiItem\model\portableElement\action;
 
-use common_ext_action_InstallAction;
-use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use \common_report_Report as Report;
+use oat\oatbox\extension\InstallAction;
 
 /**
  * Class RegisterPortableElement
@@ -34,12 +33,11 @@ use \common_report_Report as Report;
  *
  * @package oat\taoQtiItem\model\portableElement\action
  */
-abstract class RegisterPortableElement extends common_ext_action_InstallAction
+abstract class RegisterPortableElement extends InstallAction
 {
     public function __invoke($params)
     {
-        $service = new PortableElementService();
-        $service->setServiceLocator(ServiceManager::getServiceManager());
+        $service = $this->propagate(new PortableElementService());
 
         $sourceDirectory = $this->getSourceDirectory();
 

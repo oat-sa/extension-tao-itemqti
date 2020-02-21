@@ -36,15 +36,12 @@ return [
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '23.3.5',
+    'version'     => '23.4.0',
     'author'      => 'Open Assessment Technologies',
     'requires' => [
         'taoItems' => '>=10.1.0',
         'tao'      => '>=40.3.0',
         'generis'  => '>=12.5.0',
-    ],
-    'models' => [
-        'http://www.tao.lu/Ontologies/TAOItem.rdf'
     ],
     'install' => [
         'rdf' => [
@@ -62,7 +59,6 @@ return [
             'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
             'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
             'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
-            'oat\\taoQtiItem\\install\\scripts\\setXMLParserConfig',
             InitMetadataService::class,
             SetItemModel::class,
             RegisterLegacyPortableLibraries::class,

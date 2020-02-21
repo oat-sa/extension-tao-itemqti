@@ -18,6 +18,8 @@ use \common_ext_ExtensionsManager;
 use \taoItems_models_classes_TemplateRenderer;
 use \DOMDocument;
 use oat\tao\helpers\Template;
+use oat\taoQtiItem\model\AuthoringService;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * The QTI_Item object represent the assessmentItem.
@@ -618,24 +620,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         $returnValue = '';
 
+        $authoringService = ServiceManager::getServiceManager()->get(AuthoringService::class);
         $qti = $this->toQTI();
-
-        // render and clean the xml
-        $dom = new DOMDocument('1.0', 'UTF-8');
-
-        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('XMLParser');
-
-        if (is_array($domDocumentConfig) && !empty($domDocumentConfig)) {
-            foreach ($domDocumentConfig as $param => $value) {
-                if (property_exists($dom, $param)) {
-                    $dom->$param = $value;
-                }
-            }
-        } else {
-            $dom->formatOutput = true;
-            $dom->preserveWhiteSpace = false;
-            $dom->validateOnParse = false;
-        }
+        $dom = $authoringService->loadQtiXml($qti);
 
         if ($dom->loadXML($qti)) {
             $returnValue = $dom->saveXML();

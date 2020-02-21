@@ -539,7 +539,6 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         if (! $this->storage) {
             $this->storage = $this->getServiceLocator()->get(PortableElementFileStorage::SERVICE_ID);
-            $this->storage->setServiceLocator($this->getServiceLocator());
             $this->storage->setModel($this->getModel());
         }
         return $this->storage;

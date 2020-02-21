@@ -47,8 +47,8 @@ use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\GenericLomManifestClassificationExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
-use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
-use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
+use oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -435,5 +435,13 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('21.0.0', '23.3.5');
+
+        if ($this->isVersion('23.3.5')) {
+            $configService = $this->getServiceManager()->get('taoQtiItem/XMLParser');
+            $authoringService = new AuthoringService($configService->getConfig());
+            $this->getServiceManager()->register(AuthoringService::SERVICE_ID, $authoringService);
+            $this->getServiceManager()->unregister('taoQtiItem/XMLParser');
+            $this->setVersion('23.4.0');
+        }
     }
 }

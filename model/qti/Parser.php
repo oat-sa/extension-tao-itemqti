@@ -26,10 +26,12 @@ use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\ValidationService;
-use \tao_models_classes_Parser;
-use \DOMDocument;
-use \tao_helpers_Request;
+use tao_models_classes_Parser;
+use DOMDocument;
+use tao_helpers_Request;
 use oat\oatbox\log\LoggerAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The QTI Parser enables you to parse QTI item xml files and build the
@@ -39,10 +41,10 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10010
-
  */
-class Parser extends tao_models_classes_Parser
+class Parser extends tao_models_classes_Parser implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
     use LoggerAwareTrait;
 
     /**
@@ -150,6 +152,7 @@ class Parser extends tao_models_classes_Parser
             }
             //build the item from the xml
             $parserFactory = new ParserFactory($xml, $basePath);
+            $parserFactory->setServiceLocator($this->getServiceManager());
             try {
                 $returnValue = $parserFactory->load();
             } catch (UnsupportedQtiElement $e) {
@@ -182,8 +185,14 @@ class Parser extends tao_models_classes_Parser
         }
     }
 
+    /**
+     * Backward compatible helper
+     * @deprecated
+     * @return \oat\oatbox\service\ServiceManager
+     */
     protected function getServiceManager()
     {
-        return ServiceManager::getServiceManager();
+        $sl = $this->getServiceLocator();
+        return $sl ?? ServiceManager::getServiceManager();
     }
 }

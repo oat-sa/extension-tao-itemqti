@@ -28,7 +28,6 @@ use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
 use \tao_models_classes_export_ExportProvider;
 use \tao_models_classes_import_ImportProvider;
-use \common_ext_ExtensionsManager;
 use \core_kernel_classes_Resource;
 use \common_Logger;
 use taoItems_models_classes_itemModel;
@@ -39,7 +38,6 @@ use taoItems_models_classes_itemModel;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoQTI
-
  */
 class ItemModel extends ConfigurableService implements
     taoItems_models_classes_itemModel,
@@ -54,20 +52,6 @@ class ItemModel extends ConfigurableService implements
     const COMPILER = 'compilerClass';
     const IMPORT_HANDLER = 'importHandlers';
     const EXPORT_HANDLER = 'exportHandlers';
-
-    /**
-     * constructor called by itemService
-     *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @return mixed
-     */
-    public function __construct($options = [])
-    {
-        parent::__construct($options);
-        // ensure qti extension is loaded
-        common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-    }
 
     /**
      * render used for deploy and preview
