@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ionut
@@ -20,7 +21,6 @@ class StrategyFactory
     public static function create(array $config, $column, array $metaDataProperties)
     {
         if (static::isFormatAsColumns($config)) {
-
             return new ColumnStrategy(count($metaDataProperties) === 1, $column);
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
  */
 
 namespace oat\taoQtiItem\model\flyExporter\extractor;
+
 use League\Flysystem\FileNotFoundException;
 use oat\taoQtiItem\model\qti\Service;
 
@@ -65,7 +67,7 @@ class QtiExtractor implements Extractor
      * All real interactions
      * @var array
      */
-    protected $interactions = array();
+    protected $interactions = [];
 
     /**
      * Work around to handle dynamic column length
@@ -105,7 +107,7 @@ class QtiExtractor implements Extractor
                 throw new ExtractorException('No content found for item ' . $item->getUri());
             }
         } catch (FileNotFoundException $e) {
-            throw new ExtractorException('qti.xml file was not found for item '. $item->getUri() .'; The item might be empty.');
+            throw new ExtractorException('qti.xml file was not found for item ' . $item->getUri() . '; The item might be empty.');
         }
 
         $this->dom   = new \DOMDocument();
@@ -145,15 +147,16 @@ class QtiExtractor implements Extractor
 
         foreach ($this->interactions as $interaction) {
             foreach ($this->columns as $column => $config) {
-                if (isset($config['callback'])
-                    && method_exists($this, $config['callback']))
-                {
+                if (
+                    isset($config['callback'])
+                    && method_exists($this, $config['callback'])
+                ) {
                     $params = [];
                     if (isset($config['callbackParameters'])) {
                         $params = $config['callbackParameters'];
                     }
                     $functionCall = $config['callback'];
-                    $callbackValue = call_user_func(array($this, $functionCall), $interaction, $params);
+                    $callbackValue = call_user_func([$this, $functionCall], $interaction, $params);
                     if (isset($config['valuesAsColumns'])) {
                         $line[$interaction['id']] = array_merge($line[$interaction['id']], $callbackValue);
                     } else {
@@ -244,10 +247,9 @@ class QtiExtractor implements Extractor
          * foreach all interactions type
          */
         foreach ($elements as $element => $parser) {
-
             if (isset($parser['domInteraction'])) {
                 $interactionNode = $this->dom->getElementsByTagName($parser['domInteraction']);
-            } elseif (isset($parser['xpathInteraction']))  {
+            } elseif (isset($parser['xpathInteraction'])) {
                 $interactionNode = $this->xpath->query($parser['xpathInteraction']);
             } else {
                 continue;
@@ -260,8 +262,7 @@ class QtiExtractor implements Extractor
             /**
              * foreach all real interactions
              */
-            for ($i=0; $i < $interactionNode->length ; $i++) {
-
+            for ($i = 0; $i < $interactionNode->length; $i++) {
                 $interaction = [];
                 $interaction['id'] = uniqid();
                 $interaction['type'] = $element;
@@ -284,8 +285,8 @@ class QtiExtractor implements Extractor
                 if ($rightAnswer->length > 0) {
                     $answers = $rightAnswer->item(0)->textContent;
                     if (!empty($answers)) {
-                        foreach(explode(PHP_EOL, $answers) as $answer) {
-                            if (trim($answer)!=='') {
+                        foreach (explode(PHP_EOL, $answers) as $answer) {
+                            if (trim($answer) !== '') {
                                 $interaction['responses'][] = $answer;
                             }
                         }
@@ -303,12 +304,12 @@ class QtiExtractor implements Extractor
                 }
 
                 if (!empty($choiceNode) && $choiceNode->length > 0) {
-                    for($j=0 ; $j < $choiceNode->length ; $j++) {
+                    for ($j = 0; $j < $choiceNode->length; $j++) {
                         $identifier = $choiceNode->item($j)->getAttribute('identifier');
                         $value = $this->sanitizeNodeToValue($this->dom->saveHtml($choiceNode->item($j)));
 
                         //Image
-                        if ($value==='') {
+                        if ($value === '') {
                             $imgNode = $this->xpath->query('./qti:img/@src', $choiceNode->item($j));
                             if ($imgNode->length > 0) {
                                 $value = 'image' . $j . '_' . $imgNode->item(0)->value;
@@ -333,8 +334,8 @@ class QtiExtractor implements Extractor
      */
     protected function sanitizeNodeToValue($value)
     {
-        $first = strpos($value, '>')+1;
-        $last = strrpos($value, '<')-$first;
+        $first = strpos($value, '>') + 1;
+        $last = strrpos($value, '<') - $first;
         $value = substr($value, $first, $last);
         $value = str_replace('"', "'", $value);
         return trim($value);
@@ -349,17 +350,18 @@ class QtiExtractor implements Extractor
      */
     public function getRightAnswer($interaction, $params)
     {
-        $return = ['BR_identifier' => [], 'BR_label'=>[]];
+        $return = ['BR_identifier' => [], 'BR_label' => []];
         if (isset($interaction['responses'])) {
             foreach ($interaction['responses'] as $response) {
-
                 $allResponses = explode(' ', trim($response));
                 $returnLabel = [];
                 $returnIdentifier = [];
 
                 foreach ($allResponses as $partialResponse) {
-                    if (isset($interaction['choices'][$partialResponse])
-                        && $interaction['choices'][$partialResponse]!=='') {
+                    if (
+                        isset($interaction['choices'][$partialResponse])
+                        && $interaction['choices'][$partialResponse] !== ''
+                    ) {
                         $returnLabel[] = $interaction['choices'][$partialResponse];
                     } else {
                         $returnLabel[] = '';
@@ -461,6 +463,6 @@ class QtiExtractor implements Extractor
      */
     public function __toPhpCode()
     {
-        return 'new '.get_class($this).'()';
+        return 'new ' . get_class($this) . '()';
     }
 }

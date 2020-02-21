@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,8 +42,7 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
     public function extract($manifest)
     {
         if ($manifest instanceof DOMDocument) {
-            
-            $bases = array();
+            $bases = [];
             
             // get the base for paths.
             $xpath = new DOMXPath($manifest);
@@ -57,7 +57,7 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
             $xpath->registerNamespace('man', $rootNs);
             
             // Prepare data structure to be returned.
-            $metadata = array();
+            $metadata = [];
             
             $resourcesElt = $xpath->query('/man:manifest/man:resources/man:resource');
             foreach ($resourcesElt as $resourceElt) {
@@ -70,16 +70,14 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                     // Ask for metadata domains.
                     $domainElts = $xpath->query('*[not(self::man:schema) and not(self::man:schemaversion)]', $metadataElt);
                     foreach ($domainElts as $domainElt) {
-                        
-                        $trail = array();
-                        $visited = array();
-                        $path = array();
+                        $trail = [];
+                        $visited = [];
+                        $path = [];
                         $parent = null;
                         
                         array_push($trail, $domainElt);
                         
                         while (count($trail) > 0) {
-                            
                             $currentElt = array_pop($trail);
                             
                             if (!$currentElt instanceof DOMText && in_array($currentElt, $visited, true) === false) {
@@ -106,7 +104,6 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                                 // Reference parent for leaf nodes.
                                 $parent = $currentElt;
                             } elseif ($currentElt instanceof DOMText && ctype_space($currentElt->wholeText) === false) {
-                                
                                 // Leaf node, 1st and only visit.
                                 $metadataValue = new ImsManifestMetadataValue($identifier, $type, $href, $path, $currentElt->wholeText);
                                 if ($parent !== null && $parent->hasAttributeNS($bases['xml'], 'lang')) {
@@ -114,11 +111,11 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                                 }
                                 
                                 if (isset($metadata[$identifier]) === false) {
-                                    $metadata[$identifier] = array();
+                                    $metadata[$identifier] = [];
                                 }
                                 
                                 $metadata[$identifier][] = $metadataValue;
-                            } else if (in_array($currentElt, $visited, true) === true) {
+                            } elseif (in_array($currentElt, $visited, true) === true) {
                                 // Hierarchical node, second visit (ascending).
                                 
                                 // Update the path.
@@ -130,7 +127,6 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
             }
             
             return $metadata;
-            
         } else {
             throw new MetadataExtractionException(__('The manifest argument must be an instance of DOMDocument.'));
         }

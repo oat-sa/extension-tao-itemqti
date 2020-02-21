@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,9 +31,10 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 class TooltipParsingTest extends TestCase
 {
 
-    public function testParseTooltipInItemBody() {
+    public function testParseTooltipInItemBody()
+    {
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/../samples/xml/qtiv2p2/tooltip.xml');
+        $xml->load(__DIR__ . '/../samples/xml/qtiv2p2/tooltip.xml');
         $parser = new ParserFactory($xml);
         $result = $parser->load();
 
@@ -91,9 +93,10 @@ class TooltipParsingTest extends TestCase
         $this->assertTrue(strpos($bodyContent, '<span data-role="tooltip-target" aria-describedby="">I\'m orphan</span>') !== false, 'Tooltip with no content id has not been parsed');
     }
 
-    public function testParseTooltipInPrompt() {
+    public function testParseTooltipInPrompt()
+    {
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/../samples/xml/qtiv2p2/tooltip.xml');
+        $xml->load(__DIR__ . '/../samples/xml/qtiv2p2/tooltip.xml');
         $parser = new ParserFactory($xml);
         $result = $parser->load();
 
@@ -137,9 +140,10 @@ class TooltipParsingTest extends TestCase
         $this->assertTrue(strpos($promptContent, 'tooltip-content') === false, 'Tooltip content tags have been parsed and removed from prompt body');
     }
 
-    public function testParseTooltipInChoice() {
+    public function testParseTooltipInChoice()
+    {
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/../samples/xml/qtiv2p2/tooltip.xml');
+        $xml->load(__DIR__ . '/../samples/xml/qtiv2p2/tooltip.xml');
         $parser = new ParserFactory($xml);
         $result = $parser->load();
 
@@ -183,5 +187,4 @@ class TooltipParsingTest extends TestCase
 
         $this->assertTrue(strpos($promptContent, 'tooltip-content') === false, 'Tooltip content tags have been parsed and removed from choice body');
     }
-
 }

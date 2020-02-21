@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,7 +70,7 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             (isset($params[self::PARAM_VALIDATORS])) ? $params[self::PARAM_VALIDATORS] : true,
             (isset($params[self::PARAM_ITEM_MUST_EXIST])) ? $params[self::PARAM_ITEM_MUST_EXIST] : false,
             (isset($params[self::PARAM_ITEM_MUST_BE_OVERWRITTEN])) ? $params[self::PARAM_ITEM_MUST_BE_OVERWRITTEN] : false
-         );
+        );
     }
 
     /**

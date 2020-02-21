@@ -26,7 +26,7 @@ use oat\taoQtiItem\helpers\Authoring;
 
 /**
  * Test QTI authiring helper methods
- * 
+ *
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package taoQtiItem
  */
@@ -70,18 +70,16 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $xmlStr = file_get_contents($this->getSamplePath('/authoring/sanitizeQtiXmlMultipleIds.xml'));
         $xml = simplexml_load_string($xmlStr);
 
-        $duplicate = array();
-        $ids = array();
-        foreach($xml->xpath("//*[@id]") as $idElement){
+        $duplicate = [];
+        $ids = [];
+        foreach ($xml->xpath("//*[@id]") as $idElement) {
             $id = (string)$idElement['id'];
-            if(!in_array($id,$ids)){
+            if (!in_array($id, $ids)) {
                 $ids[] = $id;
-            }
-            else{
-                if(array_key_exists($id, $duplicate)){
+            } else {
+                if (array_key_exists($id, $duplicate)) {
                     $duplicate[$id]++;
-                }
-                else{
+                } else {
                     $duplicate[$id] = 2;
                 }
             }
@@ -95,18 +93,16 @@ class AuthoringTest extends TaoPhpUnitTestRunner
 
         $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
 
-        $duplicate = array();
-        $ids = array();
-        foreach($sanitizedXml->xpath("//*[@id]") as $idElement){
+        $duplicate = [];
+        $ids = [];
+        foreach ($sanitizedXml->xpath("//*[@id]") as $idElement) {
             $id = (string)$idElement['id'];
-            if(!in_array($id,$ids)){
+            if (!in_array($id, $ids)) {
                 $ids[] = $id;
-            }
-            else{
-                if(array_key_exists($id, $duplicate)){
+            } else {
+                if (array_key_exists($id, $duplicate)) {
                     $duplicate[$id]++;
-                }
-                else{
+                } else {
                     $duplicate[$id] = 2;
                 }
             }
@@ -185,12 +181,11 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     
     /**
      * Get absolute path to samples dir.
-     * 
+     *
      * @return string
      */
     protected function getSamplePath($relPath)
     {
         return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'samples' . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
     }
-
 }

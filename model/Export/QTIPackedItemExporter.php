@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -66,7 +67,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         return $this->getManifest() !== null;
     }
 
-    public function export($options = array())
+    public function export($options = [])
     {
         if (!$this->containsItem()) {
             $report = parent::export($options);
@@ -127,7 +128,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         $base = $this->buildBasePath();
         $zipArchive = $this->getZip();
         $qtiFile = '';
-        $qtiResources = array();
+        $qtiResources = [];
         $sharedAssets = isset($exportResult['portableAssets']) ? $exportResult['portableAssets'] : [];
 
         for ($i = 0; $i < $zipArchive->numFiles; $i++) {
@@ -152,9 +153,8 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         $qtiItem = $qtiItemService->getDataItemByRdfItem($rdfItem);
 
         if (!is_null($qtiItem)) {
-
             // -- Prepare data transfer to the imsmanifest.tpl template.
-            $qtiItemData = array();
+            $qtiItemData = [];
 
             // alter identifier for export to avoid any "clash".
             $qtiItemData['identifier'] = $this->buildIdentifier();
@@ -164,10 +164,10 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
             $qtiItemData['timeDependent'] = ($qtiItem->getAttributeValue('timeDependent') === 'timeDependent') ? true : false;
             $qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
             $qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
-            $qtiItemData['interactions'] = array();
+            $qtiItemData['interactions'] = [];
 
             foreach ($qtiItem->getInteractions() as $interaction) {
-                $interactionData = array();
+                $interactionData = [];
                 $interactionData['type'] = $interaction->getQtiTag();
                 $qtiItemData['interactions'][] = $interactionData;
             }
@@ -183,7 +183,6 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
                 $resourcesNodes = $dom1->getElementsByTagName('resources');
 
                 foreach ($resourcesNodes as $resourcesNode) {
-
                     foreach ($resourceNodes as $resourceNode) {
                         $newResourceNode = $dom1->importNode($resourceNode, true);
                         $resourcesNode->appendChild($newResourceNode);
@@ -224,10 +223,10 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
 
-        $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
-            'qtiItems' => array($qtiItemData),
+        $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, [
+            'qtiItems' => [$qtiItemData],
             'manifestIdentifier' => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
-        ));
+        ]);
 
         $renderedManifest = $templateRenderer->render();
         $newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);

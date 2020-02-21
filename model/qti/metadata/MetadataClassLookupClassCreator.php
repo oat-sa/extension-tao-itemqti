@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,25 +23,26 @@ namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
  * MetadataClassLookup interface.
- * 
- * All classes claiming at being able to 
- * 
+ *
+ * All classes claiming at being able to
+ *
  * * lookup for a target import Ontology Class
  * * AND create a target import Ontology Class if no suitable one is found
- * 
+ *
  * for a given item must implement this interface.
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
  */
 interface MetadataClassLookupClassCreator extends MetadataClassLookup
-{    
+{
+
     /**
      * Whether or not a class has been created.
-     * 
+     *
      * Invoke this method to know whether or not during the last invokation of the MetadataClassLookup::lookup() method,
      * Ontology Classes were created for this purpose.
-     * 
+     *
      * @return array An array of core_kernel_classes_Class object.
      */
     public function createdClasses();

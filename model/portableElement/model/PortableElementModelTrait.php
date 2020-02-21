@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,18 +47,21 @@ trait PortableElementModelTrait
     /**
      * @return string
      */
-    public function getModelId(){
+    public function getModelId()
+    {
         return $this->model->getId();
     }
 
     /**
      * @return string
      */
-    public function getModelLabel(){
+    public function getModelLabel()
+    {
         return $this->model->getLabel();
     }
 
-    public function getNamespace(){
+    public function getNamespace()
+    {
         return $this->model->getNamespace();
     }
 }

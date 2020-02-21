@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,7 +34,7 @@ class OntologyMetadataRules
     {
         $pathKey = $this->transformPath($rule->getPath());
         if (! $this->hasRule($pathKey)) {
-            $this->rules[$pathKey] = array();
+            $this->rules[$pathKey] = [];
         }
 
         $this->rules[$pathKey][] = $rule;

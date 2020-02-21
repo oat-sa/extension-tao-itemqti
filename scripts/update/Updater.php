@@ -59,7 +59,6 @@ use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
 use taoItems_models_classes_ItemsService;
-use oat\taoQtiItem\model\AuthoringService;
 
 /**
  *
@@ -439,14 +438,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('21.0.0');
         }
 
-        $this->skip('21.0.0', '23.0.2');
+        $this->skip('21.0.0', '23.3.5');
 
-        if ($this->isVersion('23.0.2')) {
+        if ($this->isVersion('23.3.5')) {
             $configService = $this->getServiceManager()->get('taoQtiItem/XMLParser');
             $authoringService = new AuthoringService($configService->getConfig());
             $this->getServiceManager()->register(AuthoringService::SERVICE_ID, $authoringService);
             $this->getServiceManager()->unregister('taoQtiItem/XMLParser');
-            $this->setVersion('23.1.0');
+            $this->setVersion('23.4.0');
         }
     }
 }

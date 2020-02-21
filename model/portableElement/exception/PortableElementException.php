@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,8 @@
 
 namespace oat\taoQtiItem\model\portableElement\exception;
 
-class PortableElementException extends \common_Exception {
+class PortableElementException extends \common_Exception
+{
 
     protected $report;
 
@@ -67,17 +69,17 @@ class PortableElementException extends \common_Exception {
      */
     public function getReportMessages()
     {
-        $messages = array();
+        $messages = [];
         /** @var \common_report_Report $subReport */
         foreach ($this->report as $subReport) {
             $errors = [];
             if ($subReport->containsError()) {
                 $errors = $subReport->getErrors();
             }
-            $messages[] = array(
+            $messages[] = [
                 'message' => $subReport->getMessage(),
                 'details' => $errors
-            );
+            ];
         }
         return $messages;
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -107,7 +108,7 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
                             $exporter->export(['apip' => true]);
                             $manifest = $exporter->getManifest();
                         } catch (\Exception $e) {
-                            $report = Report::createFailure('Error to export item "'. $instance .'": '. $e->getMessage());
+                            $report = Report::createFailure('Error to export item "' . $instance . '": ' . $e->getMessage());
                         }
                     }
                 }
@@ -117,7 +118,6 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
                 $subjectUri = isset($formValues['uri']) ? $formValues['uri'] : $formValues['classUri'];
 
                 if ($path && $subjectUri) {
-
                     $report->setData($path);
                     $report->setMessage(__('Apip Package successfully exported.'));
 

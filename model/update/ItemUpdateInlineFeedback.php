@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,12 +42,11 @@ class ItemUpdateInlineFeedback extends ItemUpdater
         $responses = $item->getResponses();
 
         foreach ($responses as $response) {
-
             $responseIdentifier = $response->attr('identifier');
             $rules              = $response->getFeedbackRules();
 
             foreach ($rules as $rule) {
-                $modalFeedbacks = array();
+                $modalFeedbacks = [];
                 if ($rule->getFeedbackThen()) {
                     $modalFeedbacks[] = $rule->getFeedbackThen();
                 }
@@ -55,14 +55,20 @@ class ItemUpdateInlineFeedback extends ItemUpdater
                 }
                 foreach ($modalFeedbacks as $modalFeedback) {
                     $feedbackXml = simplexml_load_string($modalFeedback->toQti());
-                    if ($feedbackXml->div[0] && $feedbackXml->div[0]['class'] && preg_match('/^x-tao-wrapper/',
-                            $feedbackXml->div[0]['class'])) {
+                    if (
+                        $feedbackXml->div[0] && $feedbackXml->div[0]['class'] && preg_match(
+                            '/^x-tao-wrapper/',
+                            $feedbackXml->div[0]['class']
+                        )
+                    ) {
                         //the item body has not already been wrapped by the new wrapper <div class="x-tao-wrapper w-tao-relatedOutcome-{{response.identifier}}">
                         continue;
                     }
                     $message = $modalFeedback->getBody()->getBody();
-                    $modalFeedback->getBody()->edit('<div class="x-tao-wrapper x-tao-relatedOutcome-'.$responseIdentifier.'">'.$message.'</div>',
-                        true);
+                    $modalFeedback->getBody()->edit(
+                        '<div class="x-tao-wrapper x-tao-relatedOutcome-' . $responseIdentifier . '">' . $message . '</div>',
+                        true
+                    );
                     $changed = true;
                 }
             }

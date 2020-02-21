@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,42 +26,42 @@ use \InvalidArgumentException;
 
 /**
  * A Basic implementation of the MetadataValue interface.
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  */
 class SimpleMetadataValue implements MetadataValue
 {
     /**
      * The Resource Identifier the MetadataValue belongs to.
-     * 
+     *
      * @var string
      */
     private $resourceIdentifier;
     
     /**
      * The language of the MetadatValue.
-     * 
+     *
      * @var string
      */
     private $language;
     
     /**
      * The Path of the MetadataValue.
-     * 
+     *
      * @var array
      */
     private $path;
     
     /**
      * The intrinsic value of the MetadataValue.
-     * 
+     *
      * @var string
      */
     private $value;
     
     /**
      * Create a new SimpleMetadataValue object.
-     * 
+     *
      * @param string $resourceIdentifier The Identifier of the resource the MetadataValue describes.
      * @param array $path The descriptive path of the metadata.
      * @param string $value The intrinsic value of the MetadataValue.
@@ -77,7 +78,7 @@ class SimpleMetadataValue implements MetadataValue
     
     /**
      * Set the identifier of the resource the MetadataValue describes.
-     * 
+     *
      * @param string $resourceIdentifier An identifier.
      * @throws InvalidArgumentException If $resourceIdentifier is not a string or an empty string.
      */
@@ -104,7 +105,7 @@ class SimpleMetadataValue implements MetadataValue
     
     /**
      * Set the descriptive path of the MetadataValue.
-     * 
+     *
      * @param array $path An array of Path Components.
      * @throws InvalidArgumentException If $path is an empty array.
      */
@@ -128,7 +129,7 @@ class SimpleMetadataValue implements MetadataValue
     
     /**
      * Set the intrinsic value of the MetadataValue.
-     * 
+     *
      * @param string $value An intrinsic value.
      */
     public function setValue($value)
@@ -145,9 +146,9 @@ class SimpleMetadataValue implements MetadataValue
     }
     
     /**
-     * Set the language of the MetadataValue. If the intrinsic value of 
+     * Set the language of the MetadataValue. If the intrinsic value of
      * the MetadataValue has no specific language, $language is an empty string.
-     * 
+     *
      * @param string $language A language or an empty string.
      */
     public function setLanguage($language)

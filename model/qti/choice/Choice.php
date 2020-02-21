@@ -1,22 +1,23 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 namespace oat\taoQtiItem\model\qti\choice;
@@ -31,23 +32,24 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10271
- 
+
  */
 abstract class Choice extends IdentifiedElement
 {
 
-    protected function getUsedAttributes(){
-        return array(
+    protected function getUsedAttributes()
+    {
+        return [
             'oat\\taoQtiItem\\model\\qti\\attribute\\Fixed',
             'oat\\taoQtiItem\\model\\qti\\attribute\\TemplateIdentifier',
             'oat\\taoQtiItem\\model\\qti\\attribute\\ShowHideChoice',
-        );
+        ];
     }
     
     /**
      * Common method to get the content of a choice.
      * The return value is mostly a string, but could also be a oat\taoQtiItem\model\qti\QtiObject
-     * 
+     *
      * @return mixed
      */
     abstract public function getContent();
@@ -55,43 +57,43 @@ abstract class Choice extends IdentifiedElement
     /**
      * Common method to se the content of a choice.
      * The content type is mostly a String, but could also be a oat\taoQtiItem\model\qti\QtiObject or oat\taoQtiItem\model\qti\OutcomeDeclaration
-     * 
+     *
      * @param mixed content
      */
     abstract public function setContent($content);
 
     /**
      * Check if the given new identifier is valid in the current state of the qti element
-     * 
+     *
      * @param string $newIdentifier
      * @return booean
      * @throws InvalidArgumentException
      */
-    public function isIdentifierAvailable($newIdentifier){
+    public function isIdentifierAvailable($newIdentifier)
+    {
 
         $returnValue = false;
 
-        if(empty($newIdentifier) || is_null($newIdentifier)){
+        if (empty($newIdentifier) || is_null($newIdentifier)) {
             throw new InvalidArgumentException("newIdentifier must be set");
         }
 
-        if(!empty($this->identifier) && $newIdentifier == $this->identifier){
+        if (!empty($this->identifier) && $newIdentifier == $this->identifier) {
             $returnValue = true;
-        }else{
+        } else {
             $relatedItem = $this->getRelatedItem();
-            if(is_null($relatedItem)){
+            if (is_null($relatedItem)) {
                 $returnValue = true; //no restriction on identifier since not attached to any qti item
-            }else{
-
+            } else {
                 $collection = $relatedItem->getIdentifiedElements();
 
-                try{
+                try {
                     $uniqueChoice = $collection->getUnique($newIdentifier, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice');
                     $uniqueOutcome = $collection->getUnique($newIdentifier, 'oat\\taoQtiItem\\model\\qti\\OutcomeDeclaration');
-                    if(is_null($uniqueChoice) && is_null($uniqueOutcome)){
+                    if (is_null($uniqueChoice) && is_null($uniqueOutcome)) {
                         $returnValue = true;
                     }
-                }catch(QtiModelException $e){
+                } catch (QtiModelException $e) {
                     //return false
                 }
             }
@@ -102,18 +104,19 @@ abstract class Choice extends IdentifiedElement
 
     /**
      * Return the form to edit the current instance
-     * 
+     *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return tao_helpers_form_Form
      */
-    public function toForm(){
+    public function toForm()
+    {
         $returnValue = null;
 
-        $choiceFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\choice\\'.ucfirst(static::$qtiTagName);
-        if(!class_exists($choiceFormClass)){
+        $choiceFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\choice\\' . ucfirst(static::$qtiTagName);
+        if (!class_exists($choiceFormClass)) {
             throw new QtiModelException("the class {$choiceFormClass} does not exist");
-        }else{
+        } else {
             $formContainer = new $choiceFormClass($this);
             $myForm = $formContainer->getForm();
             $returnValue = $myForm;
@@ -121,5 +124,4 @@ abstract class Choice extends IdentifiedElement
 
         return $returnValue;
     }
-    
 }
