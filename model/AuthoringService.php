@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,10 +25,10 @@ use DOMDocument;
 use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Parser;
-use \core_kernel_classes_Resource;
-use \taoItems_models_classes_ItemsService;
-use \tao_helpers_File;
-use \common_exception_Error;
+use core_kernel_classes_Resource;
+use taoItems_models_classes_ItemsService;
+use tao_helpers_File;
+use common_exception_Error;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\filesystem\Directory;
 
@@ -58,7 +59,7 @@ class AuthoringService extends ConfigurableService
 
         $parserValidator = $this->propagate(new Parser($returnValue));
         $parserValidator->validate();
-        if(!$parserValidator->isValid()) {
+        if (!$parserValidator->isValid()) {
             common_Logger::w('Invalid QTI output: ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
             throw new QtiModelException('invalid QTI item XML ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
         }
@@ -70,27 +71,28 @@ class AuthoringService extends ConfigurableService
      * @throws QtiModelException
      * @throws common_exception_Error
      */
-    public function checkEmptyMedia($qti){
+    public function checkEmptyMedia($qti)
+    {
         $doc = new DOMDocument();
         $doc->loadHTML(self::loadQtiXml($qti)->saveXML());
 
         $imgs = $doc->getElementsByTagName('img');
         foreach ($imgs as $img) {
-            if(empty($img->getAttribute('src'))){
+            if (empty($img->getAttribute('src'))) {
                 throw new QtiModelException('image has no source');
             }
         }
 
         $objects = $doc->getElementsByTagName('object');
         foreach ($objects as $object) {
-            if(empty($object->getAttribute('data'))){
+            if (empty($object->getAttribute('data'))) {
                 throw new QtiModelException('object has no data source');
             }
         }
 
         $objects = $doc->getElementsByTagName('include');
         foreach ($objects as $object) {
-            if(empty($object->getAttribute('href'))){
+            if (empty($object->getAttribute('href'))) {
                 throw new QtiModelException('object has no data source');
             }
         }
@@ -108,11 +110,10 @@ class AuthoringService extends ConfigurableService
     public function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, Directory $destinationDirectory)
     {
 
-        $returnValue = array();
+        $returnValue = [];
 
         foreach ($relativeSourceFiles as $relPath) {
-
-            if(! tao_helpers_File::securityCheck($relPath, true)) {
+            if (! tao_helpers_File::securityCheck($relPath, true)) {
                 throw new common_exception_Error('Invalid resource file path');
             }
 
@@ -124,10 +125,10 @@ class AuthoringService extends ConfigurableService
                 throw new common_exception_Error('The resource "' . $source . '" cannot be copied.');
             }
 
-            $path = tao_helpers_File::concat(array(
+            $path = tao_helpers_File::concat([
                 $prefix ? $prefix : '',
                 $relPath
-            ));
+            ]);
 
             // cannot write as PCI do not get cleaned up
             if ($destinationDirectory->getFile($path)->put($fh)) {
@@ -152,13 +153,13 @@ class AuthoringService extends ConfigurableService
             $elementWithStyle->removeAttribute('style');
         }
 
-        $ids = array();
+        $ids = [];
         /** @var \DOMElement $elementWithId */
         foreach ($xpath->query("//*[not(local-name()='lib') and not(local-name()='module') and @id]") as $elementWithId) {
             $id = $elementWithId->getAttribute('id');
-            if(in_array($id, $ids)){
+            if (in_array($id, $ids)) {
                 $elementWithId->removeAttribute('id');
-            } else{
+            } else {
                 $ids[] = $id;
             }
         }
@@ -183,7 +184,7 @@ class AuthoringService extends ConfigurableService
         } elseif (is_file($file)) {
             $qti = file_get_contents($file);
         } else {
-            throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got ".substr($file, 0, 500));
+            throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got " . substr($file, 0, 500));
         }
 
         $dom = $this->setupDOMDocument();

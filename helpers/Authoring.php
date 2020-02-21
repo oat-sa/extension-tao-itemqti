@@ -45,7 +45,7 @@ class Authoring
 
     /**
      * Validate a QTI XML string.
-     * 
+     *
      * @param string $qti File path or XML string
      * @throws QtiModelException
      */
@@ -60,14 +60,15 @@ class Authoring
      * @throws QtiModelException
      * @throws common_exception_Error
      */
-    public static function checkEmptyMedia($qti){
+    public static function checkEmptyMedia($qti)
+    {
         self::getService()->checkEmptyMedia($qti);
     }
 
     /**
      * Add a list of required resources files to an RDF item and keeps the relative path structure
      * For instances, required css, js etc.
-     * 
+     *
      * @param string $sourceDirectory
      * @param array $relativeSourceFiles
      * @param core_kernel_classes_Resource $item
@@ -78,14 +79,14 @@ class Authoring
     public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, core_kernel_classes_Resource $item, $lang)
     {
 
-        $returnValue = array();
+        $returnValue = [];
 
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
         return self::getService()->addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, $directory);
     }
     
     /**
-     * Remove invalid elements and attributes from QTI XML. 
+     * Remove invalid elements and attributes from QTI XML.
      * @param string $qti File path or XML string
      * @return string sanitized XML
      */
@@ -95,7 +96,7 @@ class Authoring
     }
     
     /**
-     * Load QTI xml and return DOMDocument instance. 
+     * Load QTI xml and return DOMDocument instance.
      * If string is not valid xml then QtiModelException will be thrown.
      *
      * @param string|File $file If it's a string it can be a file path or an XML string
@@ -103,7 +104,7 @@ class Authoring
      * @throws common_exception_Error
      * @return DOMDocument
      */
-    public static function loadQtiXml($file) 
+    public static function loadQtiXml($file)
     {
         return self::getService()->loadQtiXml($file);
     }
@@ -111,7 +112,8 @@ class Authoring
     /**
      * @return AuthoringService
      */
-    private static function getService() {
+    private static function getService()
+    {
         return ServiceManager::getServiceManager()->get(AuthoringService::SERVICE_ID);
     }
 }

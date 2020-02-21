@@ -620,7 +620,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         $returnValue = '';
 
-        $authoringService = ServiceManager::getServiceManager()->get(AuthoringService::class);;
+        $authoringService = ServiceManager::getServiceManager()->get(AuthoringService::class);
         $qti = $this->toQTI();
         $dom = $authoringService->loadQtiXml($qti);
 

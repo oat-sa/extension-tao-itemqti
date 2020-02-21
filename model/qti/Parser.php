@@ -26,9 +26,9 @@ use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\ValidationService;
-use \tao_models_classes_Parser;
-use \DOMDocument;
-use \tao_helpers_Request;
+use tao_models_classes_Parser;
+use DOMDocument;
+use tao_helpers_Request;
 use oat\oatbox\log\LoggerAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -190,7 +190,8 @@ class Parser extends tao_models_classes_Parser implements ServiceLocatorAwareInt
      * @deprecated
      * @return \oat\oatbox\service\ServiceManager
      */
-    protected function getServiceManager() {
+    protected function getServiceManager()
+    {
         $sl = $this->getServiceLocator();
         return $sl ?? ServiceManager::getServiceManager();
     }
