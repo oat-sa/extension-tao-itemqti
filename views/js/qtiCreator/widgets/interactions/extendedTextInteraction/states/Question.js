@@ -146,12 +146,16 @@ define([
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
         callbacks.maxLength = function(interaction, attrValue){
+            //remove the interaction
+            renderer.destroy(interaction);
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
             }
             $inputs.maxWords.val('');
             $inputs.patternMask.val(interaction.attr('patternMask'));
+            //and rerender
+            renderer.render(interaction);
         };
         callbacks.patternMask = function(interaction, attrValue){
             interaction.attr('patternMask', attrValue);
