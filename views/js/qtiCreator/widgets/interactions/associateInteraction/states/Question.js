@@ -42,12 +42,12 @@ define([
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
                 fieldName: 'minAssociations',
-                value:     _.parseInt(interaction.attr('minAssociations')) || 1,
+                value:     _.parseInt(interaction.attr('minAssociations')) || 0,
                 toggler:   false
             },
             max : {
                 fieldName: 'maxAssociations',
-                value:     _.parseInt(interaction.attr('maxAssociations')) || 1,
+                value:     _.parseInt(interaction.attr('maxAssociations')) || 0,
                 toggler:   false
             },
             lowerThreshold : 0,
