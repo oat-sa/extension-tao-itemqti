@@ -44,6 +44,7 @@ define([
 
         var _widget = this.widget,
             $form = _widget.$form,
+            $original = _widget.$original,
             $inputs,
             interaction = _widget.element,
             format = interaction.attr('format'),
@@ -134,7 +135,17 @@ define([
             if (attrValue === "none") {
                 //Reset all constraints
                 $('input', $form).val('');
-                interaction.attr('patternMask',null);
+                interaction.attr('patternMask', null);
+                $('.text-counter', $original).hide();
+            } else {
+                if (attrValue === 'maxLength') {
+                    $('.text-counter-words', $original).hide();
+                    $('.text-counter-chars', $original).show();
+                } else if (attrValue === 'maxWords') {
+                    $('.text-counter-chars', $original).hide();
+                    $('.text-counter-words', $original).show();
+                }
+                $('.text-counter', $original).show();
             }
         };
         callbacks.maxWords = function(interaction, attrValue){
@@ -143,19 +154,17 @@ define([
                 interaction.attr('patternMask', patternMaskHelper.createMaxWordPattern(newValue));
             }
             $inputs.maxLength.val('');
+            $('.text-counter-words > .count-max-words', $original).text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
         callbacks.maxLength = function(interaction, attrValue){
-            //remove the interaction
-            renderer.destroy(interaction);
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
             }
             $inputs.maxWords.val('');
+            $('.text-counter-chars > .count-max-length', $original).text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
-            //and rerender
-            renderer.render(interaction);
         };
         callbacks.patternMask = function(interaction, attrValue){
             interaction.attr('patternMask', attrValue);
