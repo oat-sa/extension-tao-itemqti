@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint112\n"
-"PO-Revision-Date: 2019-10-11T09:17:20\n"
+"Project-Id-Version: TAO 3.4.0-sprint123\n"
+"PO-Revision-Date: 2020-02-28T14:09:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -25,9 +25,6 @@ msgstr " arba "
 msgid "%d characters allowed"
 msgstr "%d galimi ženklai"
 
-msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr "%d Elementas(-ai) iš %d importuoti iš pateikto IMS QTI Paketo."
-
 msgid "%d/%d"
 msgstr "%d/%d"
 
@@ -47,6 +44,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "Žmogiška kintamojo reikšmės interpretacija."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -132,9 +130,6 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr "Netikėta klaida įvyko QTI Elemento importavimo metu. Sistema gražino šią klaidą: \"%s\n"
 ""
 
-msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr "Įvyko netikėta klaida importuojant IMS QTI Paketą su identifikatoriumi."
-
 msgid "APIP Content Package"
 msgstr "APIP Turinio Paketas"
 
@@ -156,10 +151,6 @@ msgstr "vieną asocijuotą porą "
 msgid "at least"
 msgstr "bent"
 
-msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr "Bandoma įterpti \"%s\" metaduomenų reikšmes šiam \"%s\" su \"%s\\n"
-"\"metaduomenų Injektoriumi."
-
 msgid "Autostart"
 msgstr "Automatiškai pradėti"
 
@@ -172,11 +163,11 @@ msgstr "Fono spalva"
 msgid "Base"
 msgstr "Pagrindas"
 
-msgid "Block"
-msgstr "Blokas"
-
 msgid "block"
 msgstr "blokas"
+
+msgid "Block"
+msgstr "Blokas"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blokas sudarytas iš turinio (stimulus) elemento, kaip tekstas ar paveiksliukas. Tai taip pat privaloma Įterptoms Užduotims."
@@ -190,11 +181,11 @@ msgstr "Naršyk savo kompiuterį ir pasirink atitinkamą failą."
 msgid "Browse..."
 msgstr "Naršyti..."
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
+
+msgid "Cancel"
+msgstr "Atšaukti"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Nepavyko sukurti tarpo iš šio pasirinkimo. Prašome patikrinti, ar jūs neturite dalinai pasirinktų elementų."
@@ -240,9 +231,6 @@ msgstr "pasirinkimai"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Pasirinkite lentelei horizontalų lygiavimą."
-
-msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr "Klasės Peržiūra Sėkminga. Resursas \"%s\" bus patalpintas RDFS Klasėje \"%s\"."
 
 msgid "Class successfully created."
 msgstr "Klasė sėkmingai sukurta."
@@ -349,11 +337,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr "Ištrinti"
-
 msgid "delete"
 msgstr "ištrinti"
+
+msgid "Delete"
+msgstr "Ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -511,6 +499,12 @@ msgstr "Užrašyti tekstą "
 msgid "Extended Text Interaction"
 msgstr "Užrašomo teksto interakcija"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr "Nepavyko eksportuoti elemento"
 
@@ -610,6 +604,9 @@ msgstr "Kaip matematinė išraiška turėtų būti atvaizduojama."
 msgid "How the math expression should be edited"
 msgstr "Kaip matematinė išraiška turėtų būti redaguojama"
 
+msgid "Human"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "identiška pora jau yra"
 
@@ -645,12 +642,6 @@ msgstr "Importuoti QTI/APIP XML Elemento Dokumentą"
 
 msgid "Import QTI ITEM into \"%s"
 msgstr "Importuoti QTI Elementą į \"%s"
-
-msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr "IMS QTI Elementas nurodytas kaip \"%s\" turi kilnojamą elementą ir negali būti importuotas."
-
-msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto faile negali būti importuotas."
 
 msgid "In Progress"
 msgstr "Vykdoma"
@@ -718,9 +709,6 @@ msgstr "Elementas \"%s\" paruoštas būti eksportuotam"
 msgid "Item metadata successfully exported."
 msgstr "Elemento meta duomenys sėkmingai išeksportuoti."
 
-msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr "Elemento meta duomenys su identifikatoriumi \"%s\" nėra teisingi: "
-
 msgid "Item properties"
 msgstr "Elemento savybės"
 
@@ -755,11 +743,11 @@ msgstr "LaTeX"
 msgid "leave empty"
 msgstr "palikti tuščią"
 
-msgid "Left"
-msgstr "Kairė"
-
 msgid "left"
 msgstr "kairė"
+
+msgid "Left"
+msgstr "Kairė"
 
 msgid "Left bracket"
 msgstr "Kairys skliaustas"
@@ -796,11 +784,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Klaidingas XML[%s]:\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Tvarkyti klausimus"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Tvarkyti klausimus"
 
 msgid "map response"
@@ -948,11 +936,11 @@ msgstr "Peržiūrėti negalima"
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "None"
-msgstr "Nėra"
-
 msgid "none"
 msgstr "nėra"
+
+msgid "None"
+msgstr "Nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -1014,6 +1002,7 @@ msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
+""
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
@@ -1148,9 +1137,6 @@ msgstr "QTI Paketas 2.1"
 msgid "QTI Package 2.2"
 msgstr "QTI Paketas 2.2"
 
-msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr "XML klaida eilutėje %1$d \"%2$s\"."
-
 msgid "QTI/APIP Content Package"
 msgstr "QTI/APIP Turinio Paketas"
 
@@ -1262,11 +1248,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "Score"
-msgstr "Balai"
-
 msgid "score"
 msgstr "balai"
+
+msgid "Score"
+msgstr "Balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"
@@ -1303,6 +1289,9 @@ msgstr "Pirma pasirinkite paveiksliuką."
 
 msgid "select correct choice"
 msgstr "pasirinkite teisingą variantą"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "Pasirinkti paveiksliuką"
@@ -1478,24 +1467,6 @@ msgstr "Pasirinkimo identifikatorius. Šis identifikatorius privalo nebūti naud
 msgid "The IMS QTI Item could not be imported."
 msgstr "IMS QTI Elementas negali būti importuotas."
 
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto faile nepavyko: %s"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto faile turėtų būti randamas Elementų Banke. Elementas nerastas."
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto failas jau buvo patalpintas Elementų Banke."
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto failas buvo sėkmingai importuotas."
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto failas buvo sėkmingai perrašytas."
-
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto failas buvo sėkmingai atstatytas."
 
@@ -1657,6 +1628,9 @@ msgstr "Šis laukas yra privalomas"
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Stiliaus šablonas nerastas serveryje. Jums galite ištrinti šį šaltinį"
 
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "Laiko priklausomas"
 
@@ -1693,11 +1667,11 @@ msgstr "Nepavyko gauti elemento : "
 msgid "Unable to validate %s: %s"
 msgstr "Nepavyko patvirtinti %s: %s"
 
-msgid "undo"
-msgstr "anuliuoti"
-
 msgid "Undo"
 msgstr "Anuliuoti"
+
+msgid "undo"
+msgstr "anuliuoti"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Nežinomas $key registruoti MetadataService instanciją"
@@ -1749,12 +1723,6 @@ msgstr "WYSIWYG redaktorius"
 
 msgid "XHTML"
 msgstr "XHTML"
-
-msgid "XML error \"%1$s\"."
-msgstr "XML klaida \"%1$s\"."
-
-msgid "XML error at line %1$d \"%2$s\"."
-msgstr "XML klaida eilutėje %1$d \"%2$s\"."
 
 msgid "Yes"
 msgstr "Taip"
