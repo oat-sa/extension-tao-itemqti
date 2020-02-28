@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:31\n"
+"Project-Id-Version: TAO 3.4.0-sprint123\n"
+"PO-Revision-Date: 2020-02-28T14:10:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -23,9 +23,6 @@ msgid " or "
 msgstr ""
 
 msgid "%d characters allowed"
-msgstr ""
-
-msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr ""
 
 msgid "%d/%d"
@@ -132,9 +129,6 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 ""
 msgstr ""
 
-msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
-
 msgid "APIP Content Package"
 msgstr ""
 
@@ -156,9 +150,6 @@ msgstr "关联配对"
 msgid "at least"
 msgstr "最少"
 
-msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
-
 msgid "Autostart"
 msgstr "自动启动"
 
@@ -171,10 +162,10 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "区块"
 
-msgid "block"
+msgid "Block"
 msgstr "区块"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -189,10 +180,10 @@ msgstr "浏览你的电脑，并选择文件。"
 msgid "Browse..."
 msgstr "浏览..."
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -238,9 +229,6 @@ msgid "choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
-msgstr ""
-
-msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
 msgstr ""
 
 msgid "Class successfully created."
@@ -348,11 +336,11 @@ msgstr "限定的阔度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "删除"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "删除else语句"
@@ -510,6 +498,12 @@ msgstr "长文本"
 msgid "Extended Text Interaction"
 msgstr "长文本互动"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr ""
 
@@ -609,6 +603,9 @@ msgstr "如何显示数学表达式"
 msgid "How the math expression should be edited"
 msgstr "如何编辑数学表达式"
 
+msgid "Human"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "相同的对已经存在"
 
@@ -643,12 +640,6 @@ msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
 
 msgid "Import QTI ITEM into \"%s"
-msgstr ""
-
-msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr ""
-
-msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
 msgstr ""
 
 msgid "In Progress"
@@ -717,9 +708,6 @@ msgstr ""
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr ""
-
 msgid "Item properties"
 msgstr "题目属性"
 
@@ -754,10 +742,10 @@ msgstr ""
 msgid "leave empty"
 msgstr "留空"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -794,11 +782,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "管理题目"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "管理题目"
 
 msgid "map response"
@@ -946,11 +934,11 @@ msgstr ""
 msgid "No value set"
 msgstr "没有设定数值"
 
-msgid "None"
-msgstr "无"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "无"
 
 msgid "None defined yet."
 msgstr "还未定义。"
@@ -1146,9 +1134,6 @@ msgstr "QTI包2.1"
 msgid "QTI Package 2.2"
 msgstr ""
 
-msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr ""
-
 msgid "QTI/APIP Content Package"
 msgstr ""
 
@@ -1260,10 +1245,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr "分数"
 
-msgid "score"
+msgid "Score"
 msgstr "分数"
 
 msgid "Score range"
@@ -1301,6 +1286,9 @@ msgstr "先选择图片档案。"
 
 msgid "select correct choice"
 msgstr "选择正确答案"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "选择图片"
@@ -1476,24 +1464,6 @@ msgstr "这是模式反馈的标识符。 这个标识符不能被任何其他�
 msgid "The IMS QTI Item could not be imported."
 msgstr "无法导入IMS QTI题目。"
 
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr ""
-
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr ""
 
@@ -1654,6 +1624,9 @@ msgstr ""
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "这个样式表没有在服务器上找到。 您可能需要删除这个参照。"
 
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "累计运行的时间"
 
@@ -1690,10 +1663,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "复原"
 
-msgid "Undo"
+msgid "undo"
 msgstr "复原"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1746,12 +1719,6 @@ msgstr ""
 
 msgid "XHTML"
 msgstr "XHTML"
-
-msgid "XML error \"%1$s\"."
-msgstr ""
-
-msgid "XML error at line %1$d \"%2$s\"."
-msgstr ""
 
 msgid "Yes"
 msgstr "是"

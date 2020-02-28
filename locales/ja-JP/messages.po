@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:26\n"
+"Project-Id-Version: TAO 3.4.0-sprint123\n"
+"PO-Revision-Date: 2020-02-28T14:09:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -24,9 +24,6 @@ msgstr ""
 
 msgid "%d characters allowed"
 msgstr ""
-
-msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr "IMS QTI パッケージから%dの%dアイテムをインポートします"
 
 msgid "%d/%d"
 msgstr ""
@@ -132,9 +129,6 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 ""
 msgstr ""
 
-msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
-
 msgid "APIP Content Package"
 msgstr ""
 
@@ -156,9 +150,6 @@ msgstr "組み合わせ"
 msgid "at least"
 msgstr "最低"
 
-msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
-
 msgid "Autostart"
 msgstr "自動起動"
 
@@ -171,10 +162,10 @@ msgstr "背景色"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "ブロック"
 
-msgid "block"
+msgid "Block"
 msgstr "ブロック"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -189,10 +180,10 @@ msgstr "コンピュータを参照し、適切なファイルを選択します
 msgid "Browse..."
 msgstr "参照..."
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -238,9 +229,6 @@ msgid "choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
-msgstr ""
-
-msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
 msgstr ""
 
 msgid "Class successfully created."
@@ -348,11 +336,11 @@ msgstr "定義された幅"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "削除"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "その他ステートメントの削除"
@@ -510,6 +498,12 @@ msgstr "拡張テキスト"
 msgid "Extended Text Interaction"
 msgstr "拡張テキストインタラクション"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr ""
 
@@ -609,6 +603,9 @@ msgstr "どのように数式が表示されるのでしょうか"
 msgid "How the math expression should be edited"
 msgstr "どのように数式を編集できるのでしょうか"
 
+msgid "Human"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "同一のペアがすでに存在しています"
 
@@ -644,12 +641,6 @@ msgstr ""
 
 msgid "Import QTI ITEM into \"%s"
 msgstr ""
-
-msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr ""
-
-msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr "IMSマニフェストファイル \"%s\"のIMS QTIアイテムはインポートできませんでした"
 
 msgid "In Progress"
 msgstr ""
@@ -717,9 +708,6 @@ msgstr ""
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr ""
-
 msgid "Item properties"
 msgstr "アイテムプロパティ"
 
@@ -754,10 +742,10 @@ msgstr ""
 msgid "leave empty"
 msgstr "空欄にしてください"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -794,11 +782,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "アイテムを管理"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "アイテムを管理"
 
 msgid "map response"
@@ -946,11 +934,11 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "None"
-msgstr "なし"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "なし"
 
 msgid "None defined yet."
 msgstr "未定義"
@@ -1147,9 +1135,6 @@ msgstr "QTI パッケージ 2.1"
 msgid "QTI Package 2.2"
 msgstr ""
 
-msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr "%1$d行でQTI-XMLのエラー\"%2$s\""
-
 msgid "QTI/APIP Content Package"
 msgstr ""
 
@@ -1261,10 +1246,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr "スコア"
 
-msgid "score"
+msgid "Score"
 msgstr "スコア"
 
 msgid "Score range"
@@ -1302,6 +1287,9 @@ msgstr "まず画像を選んでください"
 
 msgid "select correct choice"
 msgstr "正しい選択肢を指定してください"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "画像を選択"
@@ -1477,24 +1465,6 @@ msgstr "選択識別子：この識別子はそれ以外のリソースまたは
 msgid "The IMS QTI Item could not be imported."
 msgstr "IMS QTIアイテムはインポートできませんでした"
 
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr "IMSマニフェストファイルで、 \"%s\"として参照されるIMS QTIアイテムは、既にアイテムバンクに格納されています。"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr "IMSマニフェストファイルで、 \"%s\"として参照されるIMS QTIアイテムのインポートに成功しました。"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr ""
-
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "IMSマニフェストファイルで、 \"%s\"として参照されるIMS QTIアイテムのロールバックに成功しました。"
 
@@ -1656,6 +1626,9 @@ msgstr ""
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "このスタイルシートは、サーバ上にありません。あなたはこの参照を削除することができます"
 
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "時間依存"
 
@@ -1692,10 +1665,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "取り消し"
 
-msgid "Undo"
+msgid "undo"
 msgstr "取り消し"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1748,12 +1721,6 @@ msgstr ""
 
 msgid "XHTML"
 msgstr "XHTML"
-
-msgid "XML error \"%1$s\"."
-msgstr ""
-
-msgid "XML error at line %1$d \"%2$s\"."
-msgstr "%1$d \"行のXML エラー %2$s\""
 
 msgid "Yes"
 msgstr "はい"
