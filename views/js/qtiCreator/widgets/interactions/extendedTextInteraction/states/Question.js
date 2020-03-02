@@ -99,6 +99,10 @@ define([
             constraints : constraints
         }));
 
+        if (!maxWords && !maxChars) {
+            $('.text-counter', $original).hide();
+        }
+
         formElement.initWidget($form);
 
         $inputs = {
@@ -131,6 +135,7 @@ define([
                 }
             }
         };
+
         callbacks.constraint = function(interaction,attrValue){
             $('.constraint', $form).hide('500');
             $('.constraint-' + attrValue, $form).show('1000');
@@ -138,9 +143,9 @@ define([
             $inputs.maxWords.val(0);
             counterMaxLength.text(0);
             $inputs.maxLength.val(0);
-            if (attrValue === "none" || attrValue === 'pattern') {
+            if (attrValue === 'none' || attrValue === 'pattern') {
                 $('.text-counter', $original).hide();
-                if (attrValue === "none") {
+                if (attrValue === 'none') {
                     //Reset all constraints
                     $('input', $form).val('');
                     interaction.attr('patternMask', null);
@@ -156,6 +161,7 @@ define([
                 $('.text-counter', $original).show();
             }
         };
+
         callbacks.maxWords = function(interaction, attrValue){
             var newValue = parseInt(attrValue,10);
             if (! isNaN(newValue)) {
@@ -164,6 +170,7 @@ define([
             counterMaxWords.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
+
         callbacks.maxLength = function(interaction, attrValue){
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
@@ -172,6 +179,7 @@ define([
             counterMaxLength.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
+
         callbacks.patternMask = function(interaction, attrValue){
             interaction.attr('patternMask', attrValue);
         };
