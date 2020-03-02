@@ -138,21 +138,22 @@ define([
             $inputs.maxWords.val(0);
             counterMaxLength.text(0);
             $inputs.maxLength.val(0);
-            if (attrValue === "none") {
-                //Reset all constraints
-                $('input', $form).val('');
-                interaction.attr('patternMask', null);
+            if (attrValue === "none" || attrValue === 'pattern') {
                 $('.text-counter', $original).hide();
-            } else if (attrValue === 'maxLength') {
-                $('.text-counter-words', $original).hide();
-                $('.text-counter-chars', $original).show();
+                if (attrValue === "none") {
+                    //Reset all constraints
+                    $('input', $form).val('');
+                    interaction.attr('patternMask', null);
+                }
+            } else if (attrValue === 'maxLength' || attrValue === 'maxWords') {
+                if (attrValue === 'maxLength') {
+                    $('.text-counter-words', $original).hide();
+                    $('.text-counter-chars', $original).show();
+                } else {
+                    $('.text-counter-chars', $original).hide();
+                    $('.text-counter-words', $original).show();
+                }
                 $('.text-counter', $original).show();
-            } else if (attrValue === 'maxWords') {
-                $('.text-counter-chars', $original).hide();
-                $('.text-counter-words', $original).show();
-                $('.text-counter', $original).show();
-            } else if (attrValue === 'pattern') {
-                $('.text-counter', $original).hide();
             }
         };
         callbacks.maxWords = function(interaction, attrValue){
