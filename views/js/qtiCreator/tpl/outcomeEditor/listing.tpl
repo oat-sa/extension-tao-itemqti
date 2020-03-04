@@ -18,6 +18,12 @@
             <div class="tooltip-content">{{__ "A human interpretation of the variable's value."}}</div>
             <input name="interpretation" value="{{interpretation}}" type="text">
         </div>
+        <div class="panel">
+            <label for="longInterpretation" class="has-icon">{{__ "Long interpretation"}}</label>
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+            <div class="tooltip-content">{{__ "An optional link to an extended interpretation of the outcome variable's value."}}</div>
+            <input name="longInterpretation" value="{{longInterpretation}}" type="text">
+        </div>
         <div class="panel externalscored">
             <label for="externalScored" class="has-icon">{{__ "External Scored"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
