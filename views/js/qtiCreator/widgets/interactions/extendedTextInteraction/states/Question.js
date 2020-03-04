@@ -53,8 +53,8 @@ define([
             expectedLines = parseInt(interaction.attr('expectedLines'),10),
             maxWords = parseInt(patternMaskHelper.parsePattern(patternMask,'words'),10),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10),
-            counterMaxWords = $('.text-counter-words > .count-max-words', $original),
-            counterMaxLength = $('.text-counter-chars > .count-max-length', $original);
+            $counterMaxWords = $('.text-counter-words > .count-max-words', $original),
+            $counterMaxLength = $('.text-counter-chars > .count-max-length', $original);
 
         var formats = {
             plain : {label : __("Plain text"), selected : false},
@@ -139,9 +139,9 @@ define([
         callbacks.constraint = function(interaction,attrValue){
             $('.constraint', $form).hide('500');
             $('.constraint-' + attrValue, $form).show('1000');
-            counterMaxWords.text(0);
+            $counterMaxWords.text(0);
             $inputs.maxWords.val(0);
-            counterMaxLength.text(0);
+            $counterMaxLength.text(0);
             $inputs.maxLength.val(0);
             if (attrValue === 'none' || attrValue === 'pattern') {
                 $('.text-counter', $original).hide();
@@ -167,7 +167,7 @@ define([
             if (! isNaN(newValue)) {
                 interaction.attr('patternMask', patternMaskHelper.createMaxWordPattern(newValue));
             }
-            counterMaxWords.text(newValue);
+            $counterMaxWords.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
 
@@ -176,7 +176,7 @@ define([
             if(! isNaN(newValue)){
                 interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
             }
-            counterMaxLength.text(newValue);
+            $counterMaxLength.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
 
