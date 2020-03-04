@@ -86,8 +86,6 @@ define([
                 externalMachine : {label : __("External Machine"), selected : outcome.attr('externalScored') === externalScoredOptions.externalMachine}
             };
 
-            console.log(123,outcome);
-
             return {
                 serial : outcome.serial,
                 identifier : outcome.id(),
@@ -101,8 +99,6 @@ define([
                 readonly : readonly
             };
         });
-
-        console.info($outcomeEditorPanel.find('.outcomes'));
 
         $outcomeEditorPanel.find('.outcomes').html(listingTpl({
             outcomes : outcomesData
