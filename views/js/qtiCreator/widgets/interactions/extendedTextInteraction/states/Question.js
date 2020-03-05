@@ -44,6 +44,7 @@ define([
 
         var _widget = this.widget,
             $form = _widget.$form,
+            $original = _widget.$original,
             $inputs,
             interaction = _widget.element,
             format = interaction.attr('format'),
@@ -51,7 +52,9 @@ define([
             expectedLength = parseInt(interaction.attr('expectedLength'), 10),
             expectedLines = parseInt(interaction.attr('expectedLines'),10),
             maxWords = parseInt(patternMaskHelper.parsePattern(patternMask,'words'),10),
-            maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10);
+            maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10),
+            $counterMaxWords = $('.text-counter-words > .count-max-words', $original),
+            $counterMaxLength = $('.text-counter-chars > .count-max-length', $original);
 
         var formats = {
             plain : {label : __("Plain text"), selected : false},
@@ -96,6 +99,10 @@ define([
             constraints : constraints
         }));
 
+        if (!maxWords && !maxChars) {
+            $('.text-counter', $original).hide();
+        }
+
         formElement.initWidget($form);
 
         $inputs = {
@@ -128,38 +135,53 @@ define([
                 }
             }
         };
+
         callbacks.constraint = function(interaction,attrValue){
             $('.constraint', $form).hide('500');
             $('.constraint-' + attrValue, $form).show('1000');
-            if (attrValue === "none") {
-                //Reset all constraints
-                $('input', $form).val('');
-                interaction.attr('patternMask',null);
+            $counterMaxWords.text(0);
+            $inputs.maxWords.val(0);
+            $counterMaxLength.text(0);
+            $inputs.maxLength.val(0);
+            if (attrValue === 'none' || attrValue === 'pattern') {
+                $('.text-counter', $original).hide();
+                if (attrValue === 'none') {
+                    //Reset all constraints
+                    $('input', $form).val('');
+                    interaction.attr('patternMask', null);
+                }
+            } else if (attrValue === 'maxLength' || attrValue === 'maxWords') {
+                if (attrValue === 'maxLength') {
+                    $('.text-counter-words', $original).hide();
+                    $('.text-counter-chars', $original).show();
+                } else {
+                    $('.text-counter-chars', $original).hide();
+                    $('.text-counter-words', $original).show();
+                }
+                $('.text-counter', $original).show();
             }
         };
+
         callbacks.maxWords = function(interaction, attrValue){
             var newValue = parseInt(attrValue,10);
             if (! isNaN(newValue)) {
                 interaction.attr('patternMask', patternMaskHelper.createMaxWordPattern(newValue));
             }
-            $inputs.maxLength.val('');
+            $counterMaxWords.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
+
         callbacks.maxLength = function(interaction, attrValue){
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
             }
-            $inputs.maxWords.val('');
+            $counterMaxLength.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
+
         callbacks.patternMask = function(interaction, attrValue){
             interaction.attr('patternMask', attrValue);
-            /**
-             * If anything is entered inside the patternMask, reset maxWords / maxLength(interaction, attrValue)
-             */
-            $inputs.maxWords.val('');
-            $inputs.maxLength.val('');
         };
 
         callbacks.expectedLength = function(interaction, attrValue){

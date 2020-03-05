@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:28\n"
+"Project-Id-Version: TAO 3.4.0-sprint123\n"
+"PO-Revision-Date: 2020-02-28T14:09:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -24,9 +24,6 @@ msgstr ""
 
 msgid "%d characters allowed"
 msgstr ""
-
-msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr "%d Item(s) van %d van het gegeven IMS QTI pakket geïmporteerd."
 
 msgid "%d/%d"
 msgstr ""
@@ -132,9 +129,6 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 ""
 msgstr ""
 
-msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
-
 msgid "APIP Content Package"
 msgstr ""
 
@@ -156,9 +150,6 @@ msgstr "Verbind paren"
 msgid "at least"
 msgstr "ten minste"
 
-msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
-
 msgid "Autostart"
 msgstr "Automatisch starten"
 
@@ -171,11 +162,11 @@ msgstr "Achtergrondkleur"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
-msgstr "Blok"
-
 msgid "block"
 msgstr "blok"
+
+msgid "Block"
+msgstr "Blok"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blok bevat de inhoud (stimulus) van het item zoals tekst of een afbeelding. Het is ook nodig voor in lijn interacties."
@@ -189,11 +180,11 @@ msgstr "Blader door uw computer en selecteer het juiste bestand"
 msgid "Browse..."
 msgstr "Bladeren…"
 
-msgid "Cancel"
-msgstr "Annuleren"
-
 msgid "cancel"
 msgstr "annuleren"
+
+msgid "Cancel"
+msgstr "Annuleren"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -238,9 +229,6 @@ msgid "choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
-msgstr ""
-
-msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
 msgstr ""
 
 msgid "Class successfully created."
@@ -348,11 +336,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "verwijder"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -510,6 +498,12 @@ msgstr "Uitgebreide tekst"
 msgid "Extended Text Interaction"
 msgstr "Uitgebreide tekst interactie"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr ""
 
@@ -609,6 +603,9 @@ msgstr "Hoe de wiskundige expressie moet worden getoond."
 msgid "How the math expression should be edited"
 msgstr "Hoe de wiskundige expressies moeten worden bewerkt"
 
+msgid "Human"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
@@ -644,12 +641,6 @@ msgstr ""
 
 msgid "Import QTI ITEM into \"%s"
 msgstr ""
-
-msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr ""
-
-msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr "Het IMS QTI Item dat verwijst naar \"%s\" in het IMS Manifest bestand kon niet worden geïmporteerd."
 
 msgid "In Progress"
 msgstr ""
@@ -717,9 +708,6 @@ msgstr ""
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr ""
-
 msgid "Item properties"
 msgstr "Itemeigenschappen"
 
@@ -754,11 +742,11 @@ msgstr ""
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "Left"
-msgstr "Links"
-
 msgid "left"
 msgstr "links"
+
+msgid "Left"
+msgstr "Links"
 
 msgid "Left bracket"
 msgstr ""
@@ -794,11 +782,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Beheer items"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Beheer items"
 
 msgid "map response"
@@ -946,11 +934,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "None"
-msgstr "Geen"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1147,9 +1135,6 @@ msgstr "QTI Pakket 2.1"
 msgid "QTI Package 2.2"
 msgstr ""
 
-msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr "QTI-XML fout op regel %1$d \"%2$s\"."
-
 msgid "QTI/APIP Content Package"
 msgstr ""
 
@@ -1261,11 +1246,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
-msgstr "Score"
-
 msgid "score"
 msgstr "score"
+
+msgid "Score"
+msgstr "Score"
 
 msgid "Score range"
 msgstr "Scorebereik"
@@ -1302,6 +1287,9 @@ msgstr "Selecteer eerst een afbeelding."
 
 msgid "select correct choice"
 msgstr "Selecteer de correcte keuze"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "Afbeelding selecteren"
@@ -1477,24 +1465,6 @@ msgstr "De naam van het antwoord. Deze naam moet niet worden gebruikt door een a
 msgid "The IMS QTI Item could not be imported."
 msgstr "Het IMS QTI item kon niet worden geïmporteerd."
 
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr "Het IMS QTI item, met de naam \"%s\", in het IMS Manifest bestand was al opgeslagen in de itembank."
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr "Het IMS QTI item, met de naam \"%s\", in het IMS Manifest bestand is succesvol geïmporteerd."
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr ""
-
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "Het IMS QTI item, met de naam \"%s\", in het IMS Manifest bestand is succesvol terug gerold."
 
@@ -1656,6 +1626,9 @@ msgstr ""
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Dit stijlblad kan niet worden gevonden op de server. Misschien wilt u deze verwijzing verwijderen?"
 
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "Tijdafhankelijk"
 
@@ -1692,11 +1665,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "ongedaan maken"
-
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "undo"
+msgstr "ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1748,12 +1721,6 @@ msgstr ""
 
 msgid "XHTML"
 msgstr "XHTML"
-
-msgid "XML error \"%1$s\"."
-msgstr ""
-
-msgid "XML error at line %1$d \"%2$s\"."
-msgstr "XML fout op regel %1$d \"%2$s\"."
 
 msgid "Yes"
 msgstr "Ja"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:24\n"
+"Project-Id-Version: TAO 3.4.0-sprint123\n"
+"PO-Revision-Date: 2020-02-28T14:09:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -24,9 +24,6 @@ msgstr " ou "
 
 msgid "%d characters allowed"
 msgstr "%d caractères autorisés"
-
-msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr "%d item(s) sur %d importés à partir du paquet IMS QTI donné."
 
 msgid "%d/%d"
 msgstr "%d/%d"
@@ -134,9 +131,6 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr "Une erreur inattendue s'est produite au cours de l'import de l'item QTI. Le système a renvoyé l'erreur suivante : %s\n"
 ""
 
-msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr "Une erreur inconnue s'est produite au cours de l'import du paquet d'items IMS QTI avec l'identifiant : "
-
 msgid "APIP Content Package"
 msgstr "Paquet de contenu APIP"
 
@@ -158,9 +152,6 @@ msgstr "paires associées"
 msgid "at least"
 msgstr "au moins"
 
-msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
-
 msgid "Autostart"
 msgstr "Démarrage automatique"
 
@@ -173,11 +164,11 @@ msgstr "Couleur d'arrière-plan"
 msgid "Base"
 msgstr "Base"
 
-msgid "Block"
-msgstr "Bloc"
-
 msgid "block"
 msgstr "bloc"
+
+msgid "Block"
+msgstr "Bloc"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Le bloc contient le contenu (stimulus) de l'item tel que du texte ou une image. Il est aussi demandé pour les interactions en ligne."
@@ -191,11 +182,11 @@ msgstr "Naviguez dans vos fichiers et sélectionnez le fichier approprié."
 msgid "Browse..."
 msgstr "Parcourir..."
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr "annuler"
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -241,9 +232,6 @@ msgstr "choix"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Choisissez l'alignement horizontal pour la table."
-
-msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr ""
 
 msgid "Class successfully created."
 msgstr "Classe créée avec succès."
@@ -350,11 +338,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr "Supprimer"
-
 msgid "delete"
 msgstr "supprimer"
+
+msgid "Delete"
+msgstr "Supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -512,6 +500,12 @@ msgstr "Texte étendu"
 msgid "Extended Text Interaction"
 msgstr "Interaction de texte étendu"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr "N'a pas réussi à exporter l'item"
 
@@ -611,6 +605,9 @@ msgstr "La façon dont l'expression mathématique devrait être affichée."
 msgid "How the math expression should be edited"
 msgstr "La façon dont l'expression mathématique devrait être éditée"
 
+msgid "Human"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "des paires identiques existent déjà"
 
@@ -646,12 +643,6 @@ msgstr "Importer un document item XML QTI/APIP"
 
 msgid "Import QTI ITEM into \"%s"
 msgstr ""
-
-msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr "Un item IMS QTI référencé comme \"%s\" contient un élément portable et ne peut pas être importé."
-
-msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr "Un item IMS QTI référencé comme \"%s\" dans le fichier de manifeste IMS ne peut pas être importé."
 
 msgid "In Progress"
 msgstr "En cours"
@@ -719,9 +710,6 @@ msgstr "L'item \"%s\" est prêt a être exporté."
 msgid "Item metadata successfully exported."
 msgstr "Métadonnée de l'item exporté avec succès."
 
-msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr "La métadonnée de l'item avec identifiant \"%s\" n'est pas valide : "
-
 msgid "Item properties"
 msgstr "Propriétés de l'item"
 
@@ -756,11 +744,11 @@ msgstr "LaTeX"
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "Left"
-msgstr "Gauche"
-
 msgid "left"
 msgstr "gauche"
+
+msgid "Left"
+msgstr "Gauche"
 
 msgid "Left bracket"
 msgstr "Parenthèse ouvrante"
@@ -797,11 +785,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "XML mal formé[%s] :\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Gestion des items"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Gestion des items"
 
 msgid "map response"
@@ -949,11 +937,11 @@ msgstr "Pas d'aperçu disponible"
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "None"
-msgstr "Aucun"
-
 msgid "none"
 msgstr "aucun"
+
+msgid "None"
+msgstr "Aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -1150,9 +1138,6 @@ msgstr "Paquet QTI 2.1"
 msgid "QTI Package 2.2"
 msgstr "Paquet QTI 2.2"
 
-msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr "Erreur QTI-XML à la ligne %1$d \"%2$s\"."
-
 msgid "QTI/APIP Content Package"
 msgstr "Paquet de contenu QTI/APIP"
 
@@ -1264,11 +1249,11 @@ msgstr "Enregistrer l'item"
 msgid "Scale size"
 msgstr "Taille d'échelle"
 
-msgid "Score"
-msgstr "Score"
-
 msgid "score"
 msgstr "score"
+
+msgid "Score"
+msgstr "Score"
 
 msgid "Score range"
 msgstr "Échelle de score"
@@ -1305,6 +1290,9 @@ msgstr "Sélectionnez d'abord une image."
 
 msgid "select correct choice"
 msgstr "Sélectionnez le choix correct."
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "Sélectionnez une image"
@@ -1480,24 +1468,6 @@ msgstr "L'identifiant de l'identifiant de réponse. Cet identifiant ne doit pas 
 msgid "The IMS QTI Item could not be imported."
 msgstr "L'item IMS QTI n'a pu être importé."
 
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr ""
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr "L'item IMS QTI référencé comme \"%s\" dans le fichier de manifeste IMS était déjà enregistré dans la banque d'items."
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr "L'item IMS QTI référencé comme \"%s\" dans le fichier de manifeste IMS a été importé avec succès."
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr ""
-
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "L'item IMS QTI référencé comme \"%s\" dans le fichier de manifeste IMS a été restauré avec succès."
 
@@ -1659,6 +1629,9 @@ msgstr "Ceci est requis"
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Cette feuille de style n'a pas été trouvée sur le serveur. Vous voudrez peut-être supprimer cette référence."
 
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "Dépendant du temps"
 
@@ -1695,11 +1668,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr "Impossible de valider %s : %s"
 
-msgid "undo"
-msgstr "défaire"
-
 msgid "Undo"
 msgstr "Refaire"
+
+msgid "undo"
+msgstr "défaire"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1751,12 +1724,6 @@ msgstr "Éditeur WYSIWYG"
 
 msgid "XHTML"
 msgstr "XHTML"
-
-msgid "XML error \"%1$s\"."
-msgstr "Erreur XML \"%1$s\""
-
-msgid "XML error at line %1$d \"%2$s\"."
-msgstr "Erreur XML à la ligne %1$d \"%2$s\""
 
 msgid "Yes"
 msgstr "Oui"
