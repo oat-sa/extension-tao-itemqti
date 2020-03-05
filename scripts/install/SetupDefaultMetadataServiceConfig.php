@@ -29,7 +29,11 @@ use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationInjector;
 
-class SetMetadataServiceConfig extends InstallAction
+/**
+ * This service sets up the import and export of metadata in items.
+ * It's not triggered upon installation nor update, it has to be activated on application level. 
+ */
+class SetupDefaultMetadataServiceConfig extends InstallAction
 {
     public function __invoke($params)
     {

@@ -70,7 +70,6 @@ return [
             SetUpQueueTasks::class,
             RegisterItemCompilerBlacklist::class,
             RegisterNpmPaths::class,
-            SetMetadataServiceConfig::class,
         ]
     ],
     'local' => [
