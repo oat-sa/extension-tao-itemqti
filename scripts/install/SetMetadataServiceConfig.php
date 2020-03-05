@@ -29,9 +29,6 @@ use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationInjector;
 
-/**
- * Class SetMetadataServiceConfig
- */
 class SetMetadataServiceConfig extends InstallAction
 {
     public function __invoke($params)
