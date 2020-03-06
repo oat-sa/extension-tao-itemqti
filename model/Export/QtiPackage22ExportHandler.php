@@ -22,6 +22,8 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\tao\model\resources\SecureResourceService;
+use tao_helpers_form_Form;
 use \ZipArchive;
 use \DomDocument;
 use \core_kernel_classes_Resource;
@@ -32,7 +34,7 @@ class QtiPackage22ExportHandler extends QtiPackageExportHandler
     /**
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return __('QTI Package 2.2');
     }
@@ -48,19 +50,21 @@ class QtiPackage22ExportHandler extends QtiPackageExportHandler
         return new QTIPackedItem22Exporter($item, $zipArchive, $manifest);
     }
 
-    /**
-     * @param core_kernel_classes_Resource $resource
-     * @return \tao_helpers_form_Form
-     */
-    public function getExportForm(core_kernel_classes_Resource $resource)
+    public function getExportForm(core_kernel_classes_Resource $resource): tao_helpers_form_Form
     {
         if ($resource instanceof core_kernel_classes_Class) {
-            $formData = ['class' => $resource];
+            $formData['items'] = $this->getResourceService()->getChildren($resource);
+            $formData['file_name'] = $resource->getLabel();
         } else {
             $formData = ['instance' => $resource];
         }
 
         return (new Qti22ExportForm($formData))
             ->getForm();
+    }
+
+    private function getResourceService(): SecureResourceService
+    {
+        return $this->getServiceManager()->get(SecureResourceService::SERVICE_ID);
     }
 }
