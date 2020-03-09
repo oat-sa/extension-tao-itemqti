@@ -22,7 +22,6 @@
 
 namespace oat\taoQtiItem\model\Export;
 
-use oat\tao\model\resources\SecureResourceService;
 use tao_helpers_form_Form;
 use \ZipArchive;
 use \DomDocument;
@@ -61,10 +60,5 @@ class QtiPackage22ExportHandler extends QtiPackageExportHandler
 
         return (new Qti22ExportForm($formData))
             ->getForm();
-    }
-
-    private function getResourceService(): SecureResourceService
-    {
-        return $this->getServiceManager()->get(SecureResourceService::SERVICE_ID);
     }
 }

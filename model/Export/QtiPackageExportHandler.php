@@ -22,25 +22,26 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use common_exception_Error;
 use common_report_Report as Report;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
+use DomDocument;
+use Exception;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\resources\SecureResourceService;
 use oat\taoQtiItem\model\event\QtiItemExportEvent;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
-use \tao_models_classes_export_ExportHandler;
-use \core_kernel_classes_Resource;
-use \core_kernel_classes_Class;
-use \taoItems_models_classes_ItemsService;
-use \tao_helpers_File;
-use \Exception;
-use \ZipArchive;
-use \DomDocument;
-use \common_Logger;
+use tao_helpers_File;
+use tao_models_classes_export_ExportHandler;
+use taoItems_models_classes_ItemsService;
+use ZipArchive;
 
 /**
  * Short description of class oat\taoQtiItem\model\ItemModel
@@ -74,7 +75,8 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
     public function getExportForm(core_kernel_classes_Resource $resource)
     {
         if ($resource instanceof core_kernel_classes_Class) {
-            $formData = ['class' => $resource];
+            $formData['items'] = $this->getResourceService()->getChildren($resource);
+            $formData['file_name'] = $resource->getLabel();
         } else {
             $formData = ['instance' => $resource];
         }
@@ -86,8 +88,8 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
     /**
      * @param array  $formValues
      * @param string $destination
-     * @return \common_report_Report
-     * @throws \common_exception_Error
+     * @return Report
+     * @throws common_exception_Error
      */
     public function export($formValues, $destination)
     {
@@ -127,7 +129,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
                         $report->add($subReport);
                     } catch (FileNotFoundException $e) {
                         $report->add(Report::createFailure(__('Item "%s" has no xml document', $item->getLabel())));
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         $report->add(Report::createFailure(__('Error to export item %s: %s', $instance, $e->getMessage())));
                     }
                 }
@@ -164,6 +166,11 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
         }
 
         return $this->metadataExporter;
+    }
+
+    protected function getResourceService(): SecureResourceService
+    {
+        return $this->getServiceManager()->get(SecureResourceService::SERVICE_ID);
     }
 
     protected function getServiceManager()
