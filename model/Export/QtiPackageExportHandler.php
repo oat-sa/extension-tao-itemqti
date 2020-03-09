@@ -74,15 +74,9 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
      */
     public function getExportForm(core_kernel_classes_Resource $resource)
     {
-        if ($resource instanceof core_kernel_classes_Class) {
-            $formData['items'] = $this->getResourceService()->getChildren($resource);
-            $formData['file_name'] = $resource->getLabel();
-        } else {
-            $formData = ['instance' => $resource];
-        }
+        $formData = $this->getFormData($resource);
 
-        return (new Qti21ExportForm($formData))
-            ->getForm();
+        return (new Qti21ExportForm($formData))->getForm();
     }
 
     /**
@@ -147,6 +141,20 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
         }
 
         return $report;
+    }
+
+    protected function getFormData(core_kernel_classes_Resource $resource): array
+    {
+        $formData = [];
+
+        if ($resource instanceof core_kernel_classes_Class) {
+            $formData['items'] = $this->getResourceService()->getAllChildren($resource);
+            $formData['file_name'] = $resource->getLabel();
+        } else {
+            $formData['instance'] = $resource;
+        }
+
+        return $formData;
     }
 
     protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null)

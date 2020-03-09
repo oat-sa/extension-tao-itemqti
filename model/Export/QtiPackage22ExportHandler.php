@@ -26,7 +26,6 @@ use tao_helpers_form_Form;
 use \ZipArchive;
 use \DomDocument;
 use \core_kernel_classes_Resource;
-use \core_kernel_classes_Class;
 
 class QtiPackage22ExportHandler extends QtiPackageExportHandler
 {
@@ -51,14 +50,8 @@ class QtiPackage22ExportHandler extends QtiPackageExportHandler
 
     public function getExportForm(core_kernel_classes_Resource $resource): tao_helpers_form_Form
     {
-        if ($resource instanceof core_kernel_classes_Class) {
-            $formData['items'] = $this->getResourceService()->getChildren($resource);
-            $formData['file_name'] = $resource->getLabel();
-        } else {
-            $formData = ['instance' => $resource];
-        }
+        $formData = $this->getFormData($resource);
 
-        return (new Qti22ExportForm($formData))
-            ->getForm();
+        return (new Qti22ExportForm($formData))->getForm();
     }
 }

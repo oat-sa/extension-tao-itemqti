@@ -64,7 +64,7 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
     public function getExportForm(core_kernel_classes_Resource $resource)
     {
         if ($resource instanceof core_kernel_classes_Class) {
-            $formData['items'] = $this->getResourceService()->getChildren($resource);
+            $formData['items'] = $this->getResourceService()->getAllChildren($resource);
             $formData['file_name'] = $resource->getLabel();
         } else {
             $formData = ['instance' => $resource];
