@@ -160,12 +160,13 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $options = [];
+        $disabledOptions = [];
         foreach ($resource as $instance) {
             if ($itemService->hasItemModel($instance, [ItemModel::MODEL_URI])) {
                 try {
                     $this->isInstanceValid($instance);
                 } catch (common_exception_UserReadableException $e) {
-                    $options['disabledOptions'][$instance->getUri()] = $e->getUserMessage();
+                    $disabledOptions[$instance->getUri()] = $e->getUserMessage();
                 }
                 $options[$instance->getUri()] = $instance->getLabel();
             }
@@ -173,7 +174,7 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
 
         return [
             'options'         => $options,
-            'disabledOptions' => $options['disabledOptions']
+            'disabledOptions' => $disabledOptions
         ];
     }
 
