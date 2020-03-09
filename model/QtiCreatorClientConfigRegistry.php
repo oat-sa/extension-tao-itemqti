@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,7 +62,7 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
 
         $plugins = [];
         if (isset($config['plugins'])) {
-            foreach($config['plugins'] as $plugin) {
+            foreach ($config['plugins'] as $plugin) {
                 if ($plugin['module'] != $module) {
                     $plugins[] = $plugin;
                 }
@@ -120,7 +121,8 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
      * Quick access to the plugins
      * @return array the registered plugins
      */
-    public function getPlugins(){
+    public function getPlugins()
+    {
         $config = [];
         $registry = self::getRegistry();
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,30 +26,31 @@ use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 
 /**
  * LabelClassLookup is an implementation of MetadataClassLookup.
- * 
+ *
  * Will lookup for an Item class with a particular label depending
  * on a metadata value with path array('http://www.w3.org/2000/01/rdf-schema#label').
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
  */
-class LabelClassLookup implements MetadataClassLookup {
+class LabelClassLookup implements MetadataClassLookup
+{
     
-    public function lookup(array $metadataValues) {
+    public function lookup(array $metadataValues)
+    {
         $lookup = false;
         
         foreach ($metadataValues as $metadataValue) {
-            
             $path = $metadataValue->getPath();
-            $expectedPath = array(
+            $expectedPath = [
                 OntologyRdfs::RDFS_LABEL
-            );
+            ];
             
             if ($path === $expectedPath) {
                 // Check for such a value in database...
                 $prop = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
                 $class = new \core_kernel_classes_Class(OntologyRdfs::RDFS_CLASS);
-                $instances = $class->searchInstances(array($prop->getUri() => $metadataValue->getValue()), array('like' => false, 'recursive' => true));
+                $instances = $class->searchInstances([$prop->getUri() => $metadataValue->getValue()], ['like' => false, 'recursive' => true]);
                 
                 if (count($instances) > 0) {
                     $lookup = new \core_kernel_classes_Class(reset($instances));

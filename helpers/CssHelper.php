@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,10 +22,11 @@
 
 namespace oat\taoQtiItem\helpers;
 
+class CssHelper
+{
 
-class CssHelper{
-
-    private static function _buildWarning() {
+    private static function _buildWarning()
+    {
         return " /* Do not edit */" ;
     }
 
@@ -60,7 +62,8 @@ class CssHelper{
      * @param string $styleSheetPath
      * @return string css on success
      */
-    public static function downloadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath){
+    public static function downloadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath)
+    {
 
         $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
         $file = $directory->getFile($styleSheetPath);
@@ -77,29 +80,30 @@ class CssHelper{
      * @param $css
      * @return mixed
      */
-    public static function cssToArray($css){
-        if(!$css) {
-            return array();
+    public static function cssToArray($css)
+    {
+        if (!$css) {
+            return [];
         }
         $css = str_replace(self::_buildWarning(), '', $css);
         $oldCssArr = explode("\n", $css);
-        $newCssArr = array();
-        foreach($oldCssArr as $line) {
-            if(false === strpos($line, '{')) {
+        $newCssArr = [];
+        foreach ($oldCssArr as $line) {
+            if (false === strpos($line, '{')) {
                 continue;
             }
 
             preg_match('~(?P<selector>[^{]+)(\{)(?P<rules>[^}]+)\}~', $line, $matches);
 
-            foreach($matches as $key => &$match){
-                if(is_numeric($key)) {
+            foreach ($matches as $key => &$match) {
+                if (is_numeric($key)) {
                     continue;
                 }
                 $match = trim($match);
-                if($key === 'rules') {
+                if ($key === 'rules') {
                     $ruleSet = array_filter(array_map('trim', explode(';', $match)));
-                    $match = array();
-                    foreach($ruleSet as $rule) {
+                    $match = [];
+                    foreach ($ruleSet as $rule) {
                         $rule = array_map('trim', explode(':', $rule));
                         $match[$rule[0]] = $rule[1];
                     }
@@ -117,26 +121,27 @@ class CssHelper{
      * @param $array
      * @return string
      */
-    public static function arrayToCss($array){
+    public static function arrayToCss($array)
+    {
         $css = '';
 
         // rebuild CSS
-        foreach($array as $key1 => $value1){
+        foreach ($array as $key1 => $value1) {
             $css .= $key1 . '{';
 
-            foreach($value1 as $key2 => $value2){
+            foreach ($value1 as $key2 => $value2) {
                 // in the case that the code is embedded in a media query
-                if(is_array($value2)){
-                    foreach($value2 as $value3){
+                if (is_array($value2)) {
+                    foreach ($value2 as $value3) {
                         $css .= $key2 . '{';
-                        foreach($value3 as $mProp){
+                        foreach ($value3 as $mProp) {
                             $css .= $mProp . ':' . $value3 . ';';
                         }
                         $css .= '}';
                     }
                 }
                 // regular selectors
-                else{
+                else {
                     $css .= $key2 . ':' . $value2 . ';';
                 }
             }
@@ -154,7 +159,8 @@ class CssHelper{
      * @param string $styleSheet
      * @return array array with structure of 'selector' => rules
      */
-    public static function loadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheet) {
+    public static function loadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheet)
+    {
 
         $directory = \taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
 
@@ -162,10 +168,9 @@ class CssHelper{
         $file = $directory->getFile($styleSheet);
         if (! $file->exists()) {
             \common_Logger::d('Stylesheet ' . $styleSheet . ' does not exist yet, returning empty array');
-            return array();
+            return [];
         }
 
         return self::cssToArray($file->read());
     }
-
-} 
+}

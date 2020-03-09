@@ -1,4 +1,5 @@
 <?php
+
 namespace oat\taoQtiItem\test\unit\model\Export\Extractor\Strategy;
 
 use oat\taoQtiItem\model\Export\Extractor\HashEntry;

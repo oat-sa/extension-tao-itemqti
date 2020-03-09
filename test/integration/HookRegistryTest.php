@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -29,7 +31,7 @@ use oat\taoQtiItem\model\HookRegistry;
 class HookRegistryTest extends TaoPhpUnitTestRunner
 {
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function setUp()
@@ -44,7 +46,7 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
     public function testGetInteractions()
     {
         $interactions = HookRegistry::getRegistry()->getMap();
-        $this->assertTrue(is_array( $interactions));
+        $this->assertTrue(is_array($interactions));
     }
 
     /**
@@ -60,8 +62,6 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
         HookRegistry::getRegistry()->set('fakeInteraction', get_class($hook));
         $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertEquals(get_class($hook), $interactions['fakeInteraction']);
-        
-        
     }
     
     /**
@@ -71,12 +71,12 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
     public function testGet()
     {
         $interactions = HookRegistry::getRegistry()->getMap();
-        $this->assertEquals($interactions['fakeInteraction'],HookRegistry::getRegistry()->get('fakeInteraction'));
+        $this->assertEquals($interactions['fakeInteraction'], HookRegistry::getRegistry()->get('fakeInteraction'));
     }
 
     /**
      * @depends testSet
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testRemove()
@@ -87,8 +87,4 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
         $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertFalse(isset($interactions['fakeInteraction']));
     }
-    
-
 }
-
-?>

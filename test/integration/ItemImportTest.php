@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,7 +49,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     /**
      * @var array
      */
-    protected $exportedZips = array();
+    protected $exportedZips = [];
 
     /**
      * tests initialization
@@ -66,19 +67,20 @@ class ItemImportTest extends TaoPhpUnitTestRunner
      */
     protected function getSamplePath($relPath)
     {
-        return __DIR__.DIRECTORY_SEPARATOR.'samples'.str_replace('/',DIRECTORY_SEPARATOR, $relPath);
+        return __DIR__ . DIRECTORY_SEPARATOR . 'samples' . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
     }
 
     /**
      * @expectedException oat\taoQtiItem\model\qti\exception\ParsingException
-     * 
+     *
      */
     public function testWrongPackage()
     {
         $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/InvalidArchive.zip'),
-            $itemClass);
-        
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/wrong/InvalidArchive.zip'),
+            $itemClass
+        );
     }
 
     /**
@@ -87,61 +89,76 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testWrongClass()
     {
         $itemClass = new \core_kernel_classes_Class(taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL);
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/package.zip'),
-            $itemClass);
-
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/wrong/package.zip'),
+            $itemClass
+        );
     }
 
     /**
-     * 
+     *
      */
     public function testWrongFormatClass()
     {
         $itemClass = $this->itemService->getRootClass();
         
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemXml.zip'),
-            $itemClass, true, true);
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/wrong/MalformedItemXml.zip'),
+            $itemClass,
+            true,
+            true
+        );
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
     }
 
 
     /**
-     * 
+     *
      */
     public function testWrongFormatXmlClass()
     {
         $itemClass = $this->itemService->getRootClass();
 
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemInTheMiddleXml.zip'),
-            $itemClass, true, false, true);
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/wrong/MalformedItemInTheMiddleXml.zip'),
+            $itemClass,
+            true,
+            false,
+            true
+        );
         $this->assertEquals(\common_report_Report::TYPE_WARNING, $report->getType());
-
     }
 
     /**
-     * 
+     *
      */
     public function testWrongManifest()
     {
         $itemClass = $this->itemService->getRootClass();
 
 
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedManifest.zip'),
-            $itemClass, true, true);
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/wrong/MalformedManifest.zip'),
+            $itemClass,
+            true,
+            true
+        );
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
-
-
     }
     /**
-     * 
+     *
      */
     public function testWrongXml()
     {
 
         $itemClass = $this->itemService->getRootClass();
 
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/WrongManifestFileItemHref.zip'),
-            $itemClass, true, true);
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/wrong/WrongManifestFileItemHref.zip'),
+            $itemClass,
+            true,
+            true
+        );
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
     }
 
@@ -149,11 +166,13 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testImportQti20()
     {
         $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/QTI/qti20.zip'),
-            $itemClass);
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/QTI/qti20.zip'),
+            $itemClass
+        );
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
         
-        $items = array();
+        $items = [];
         foreach ($report as $itemReport) {
             $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
             $data = $itemReport->getData();
@@ -173,7 +192,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/APIP/apip_v1p0_final.zip'), $itemClass);
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
         
-        $items = array();
+        $items = [];
         foreach ($report as $itemReport) {
             $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
             $data = $itemReport->getData();
@@ -194,7 +213,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         );
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
         
-        $items = array();
+        $items = [];
         foreach ($report as $itemReport) {
             $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
             $data = $itemReport->getData();
@@ -214,17 +233,19 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertTrue(isset($itemDataElemetns['properties']['choices'][0]['label']));
         
         foreach ($items as $item) {
-            $this->itemService->deleteItem($item);    
+            $this->itemService->deleteItem($item);
         }
     }
 
     public function testImport()
     {
         $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/QTI/package.zip'),
-            $itemClass);
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/QTI/package.zip'),
+            $itemClass
+        );
 
-        $items = array();
+        $items = [];
         foreach ($report as $itemReport) {
             $data = $itemReport->getData();
             if (!is_null($data)) {
@@ -238,9 +259,9 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertTrue($item->exists());
 
         $resourceManager = new LocalItemSource(
-            array( 'item' => $item, 
-                'lang' =>DEFAULT_LANG)
-            );
+            [ 'item' => $item,
+                'lang' => DEFAULT_LANG]
+        );
         $data = $resourceManager->getDirectory();
         $this->assertTrue(is_array($data));
         $this->assertTrue(isset($data['path']));
@@ -250,13 +271,13 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $children = $data['children'];
         $this->assertEquals(3, count($children));
         
-        $check = array('/images/','/style/');
+        $check = ['/images/','/style/'];
 
         $file = null;
         $dir = null;
         foreach ($children as $child) {
             if (isset($child['path'])) {
-               $this->assertContains($child['path'],$check);
+                $this->assertContains($child['path'], $check);
             }
             if (isset($child['name'])) {
                 $file = $child;
@@ -303,7 +324,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
         $report = $this->importService->importQTIPACKFile($path, $itemClass);
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
-        $items = array();
+        $items = [];
         foreach ($report as $itemReport) {
             $data = $itemReport->getData();
             if (!is_null($data)) {
@@ -333,7 +354,6 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         list($path, $manifest2) = $this->createZipArchive($item, $manifest);
         $this->assertSame($manifest, $manifest2);
-
     }
 
     /**
@@ -372,28 +392,27 @@ class ItemImportTest extends TaoPhpUnitTestRunner
      */
     private function createZipArchive($item, $manifest = null)
     {
-        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR. uniqid('test_') . '.zip';
+        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('test_') . '.zip';
         $zipArchive = new ZipArchive();
         if ($zipArchive->open($path, ZipArchive::CREATE) !== true) {
             throw new \Exception('Unable to create archive at ' . $path);
         }
 
-        if ($this->itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
+        if ($this->itemService->hasItemModel($item, [ItemModel::MODEL_URI])) {
             $exporter = new QTIPackedItemExporter($item, $zipArchive, $manifest);
             $exporter->export();
             $manifest = $exporter->getManifest();
         }
 
-        $this->assertTrue($this->itemService->hasItemModel($item, array(ItemModel::MODEL_URI)));
+        $this->assertTrue($this->itemService->hasItemModel($item, [ItemModel::MODEL_URI]));
 
         $this->assertNotNull($manifest);
 
         $this->assertEquals(ZipArchive::ER_OK, $zipArchive->status, $zipArchive->getStatusString());
 
         $zipArchive->close();
-        $this->assertTrue(file_exists($path),'could not find path ' . $path);
+        $this->assertTrue(file_exists($path), 'could not find path ' . $path);
         $this->exportedZips[] = $path;
-        return array($path, $manifest);
+        return [$path, $manifest];
     }
-
 }

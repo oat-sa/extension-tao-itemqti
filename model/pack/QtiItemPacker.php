@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -80,7 +81,6 @@ class QtiItemPacker extends ItemPacker
         $qtiItem = $qtiParser->load();
 
         return $this->packQtiItem($item, $lang, $qtiItem, $directory);
-
     }
 
     /**
@@ -97,7 +97,7 @@ class QtiItemPacker extends ItemPacker
         try {
             //build the ItemPack from the parsed data
             $resolver = new ItemMediaResolver($item, $lang);
-            if($this->replaceXinclude){
+            if ($this->replaceXinclude) {
                 $xincludeLoader = new XIncludeLoader($qtiItem, $resolver);
                 $xincludeLoader->load(true);
             }
@@ -110,14 +110,16 @@ class QtiItemPacker extends ItemPacker
             $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
             $assetParser->setGetXinclude(!$this->replaceXinclude);
 
-            $storageDirectory = new \tao_models_classes_service_StorageDirectory($item->getUri(),
-                $directory->getFileSystemId(), $directory->getPrefix() . '/' . $lang);
+            $storageDirectory = new \tao_models_classes_service_StorageDirectory(
+                $item->getUri(),
+                $directory->getFileSystemId(),
+                $directory->getPrefix() . '/' . $lang
+            );
             $storageDirectory->setServiceLocator($directory->getServiceLocator());
 
             foreach ($assetParser->extract($itemPack) as $type => $assets) {
                 $itemPack->setAssets($type, $this->resolveAsset($assets, $resolver), $storageDirectory);
             }
-
         } catch (common_Exception $e) {
             throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
         }
@@ -155,5 +157,4 @@ class QtiItemPacker extends ItemPacker
     {
         return Service::singleton()->getXmlByRdfItem($item, $lang);
     }
-
 }

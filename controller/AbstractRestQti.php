@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,12 +45,12 @@ abstract class AbstractRestQti extends \tao_actions_RestController
 
     const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
-    protected static $accepted_types = array(
+    protected static $accepted_types = [
         'application/zip',
         'application/x-zip-compressed',
         'multipart/x-zip',
         'application/x-compressed'
-    );
+    ];
 
     /**
      * Name of the task created by the child.
@@ -89,7 +90,7 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     {
         if ($taskLogEntity->getStatus()->isCreated()) {
             return __('In Progress');
-        } else if ($taskLogEntity->getStatus()->isCompleted()){
+        } elseif ($taskLogEntity->getStatus()->isCompleted()) {
             return __('Success');
         }
 

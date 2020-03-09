@@ -1,22 +1,23 @@
 <?php
-/*  
+
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 namespace oat\taoQtiItem\model\qti\response;
 
@@ -30,13 +31,12 @@ use oat\taoQtiItem\model\qti\expression\Expression;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- 
+
  */
-class ConditionalExpression
-        implements Rule
+class ConditionalExpression implements Rule
 {
     // --- ASSOCIATIONS ---
-    // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd : 
+    // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd :
 
     // --- ATTRIBUTES ---
 
@@ -54,7 +54,7 @@ class ConditionalExpression
      * @access protected
      * @var array
      */
-    protected $actions = array();
+    protected $actions = [];
 
     // --- OPERATIONS ---
 
@@ -71,7 +71,7 @@ class ConditionalExpression
 
         
         
-        $returnValue = 'if('.$this->getCondition()->getRule().') {';
+        $returnValue = 'if(' . $this->getCondition()->getRule() . ') {';
         foreach ($this->getActions() as $actions) {
             $returnValue .= $actions->getRule();
         }
@@ -91,12 +91,11 @@ class ConditionalExpression
      * @param  array actions
      * @return mixed
      */
-    public function __construct( Expression $condition, $actions)
+    public function __construct(Expression $condition, $actions)
     {
         
-        $this->condition	= $condition;
-        $this->actions		= $actions;
-        
+        $this->condition    = $condition;
+        $this->actions      = $actions;
     }
 
     /**
@@ -126,7 +125,7 @@ class ConditionalExpression
      */
     public function getActions()
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
         $returnValue = $this->actions;
@@ -134,7 +133,4 @@ class ConditionalExpression
 
         return (array) $returnValue;
     }
-
 }
-
-?>

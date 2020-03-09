@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,7 +65,6 @@ class ExporterAction extends ConfigurableService implements Action
                 \common_report_Report::TYPE_SUCCESS,
                 "\nExport end.\nCSV export is located at: " . $filename . "\n"
             );
-
         } catch (\Exception $e) {
             \common_Logger::w('Error during item metadata export: ' . $e->getMessage());
             return new \common_report_Report(\common_report_Report::TYPE_ERROR, "\n" . $e->getMessage() . "\n");

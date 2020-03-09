@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -47,12 +48,12 @@ class ItemFixGhostResponse extends ItemUpdater
         $responses = $item->getResponses();
         $interactions = $item->getInteractions();
         $usedResponses = [];
-        foreach($interactions as $interaction){
+        foreach ($interactions as $interaction) {
             $usedResponses[] = $interaction->attr('responseIdentifier');
         }
         foreach ($responses as $response) {
             $responseIdentifier = $response->attr('identifier');
-            if(!in_array($responseIdentifier, $usedResponses)){
+            if (!in_array($responseIdentifier, $usedResponses)) {
                 $changed = true;
                 $item->removeResponse($response);
             }

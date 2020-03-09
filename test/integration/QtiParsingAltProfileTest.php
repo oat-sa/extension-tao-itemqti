@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use common_ext_ExtensionsManager;
@@ -29,26 +31,29 @@ use oat\taoQtiItem\model\qti\Parser;
  * @package taoQtiItem
 
  */
-class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner {
+class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner
+{
 
-	/**
-	 * tests initialization
-	 */
-	public function setUp(){
-		TaoPhpUnitTestRunner::initTest();
+    /**
+     * tests initialization
+     */
+    public function setUp()
+    {
+        TaoPhpUnitTestRunner::initTest();
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-	}
-	
+    }
+    
     /**
      * test if alternative QTI profiles are managed correctly during parsing
      */
-    public function testParseAlternativeProfile(){
+    public function testParseAlternativeProfile()
+    {
         
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/alternativeProfiles/apip001.xml';
+        $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/alternativeProfiles/apip001.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
 
-        if(!$qtiParser->isValid()){
+        if (!$qtiParser->isValid()) {
             $this->fail($qtiParser->displayErrors());
         }
 
@@ -62,5 +67,4 @@ class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner {
         $this->assertEquals('http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1', $xml->getNamespaces()['']);
         $this->assertNotNull($xml->apipAccessibility);
     }
-
 }

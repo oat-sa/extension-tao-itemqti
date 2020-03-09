@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,7 +59,7 @@ class ImportConsistencyTest extends TaoPhpUnitTestRunner
      */
     protected function getSamplePath($relPath)
     {
-        return __DIR__.DIRECTORY_SEPARATOR.'samples'.str_replace('/',DIRECTORY_SEPARATOR, $relPath);
+        return __DIR__ . DIRECTORY_SEPARATOR . 'samples' . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
     }
 
     public function testImportResponseEncoding()
@@ -94,5 +95,4 @@ class ImportConsistencyTest extends TaoPhpUnitTestRunner
 
         return $xml;
     }
-
 }

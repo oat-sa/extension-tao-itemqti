@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -85,7 +86,6 @@ class MetadataImporter extends AbstractMetadataService
     public function guard($identifier, $context = '')
     {
         foreach ($this->getGuardians() as $guardian) {
-            
             if ($guardian instanceof ContextualMetadataGuardian && $guardian->getContext() !== $context) {
                 continue;
             }
@@ -120,8 +120,11 @@ class MetadataImporter extends AbstractMetadataService
             if ($this->hasMetadataValue($identifier)) {
                 \common_Logger::i(__('Target Class Lookup for resource "%s"...', $identifier));
                 if (($targetClass = $classLookup->lookup($this->getMetadataValue($identifier))) !== false) {
-                    \common_Logger::i(__('Class Lookup Successful. Resource "%s" will be stored in RDFS Class "%s".',
-                        $identifier, $targetClass->getUri()));
+                    \common_Logger::i(__(
+                        'Class Lookup Successful. Resource "%s" will be stored in RDFS Class "%s".',
+                        $identifier,
+                        $targetClass->getUri()
+                    ));
 
                     if ($classLookup instanceof MetadataClassLookupClassCreator) {
                         $createdClasses = $classLookup->createdClasses();

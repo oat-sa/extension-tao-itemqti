@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -30,13 +32,14 @@ use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\interaction\MatchInteraction;
+
 //include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
  *
  * @author Bertrand Chevrier, <taosupport@tudor.lu>
  * @package taoQTI
- 
+
  */
 class QtiModelTest extends TaoPhpUnitTestRunner
 {
@@ -45,11 +48,13 @@ class QtiModelTest extends TaoPhpUnitTestRunner
      * tests initialization
      * load qti service
      */
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
     }
 
-    public function testModel(){
+    public function testModel()
+    {
 
         $myItem = new Item();
         $myItem->setAttribute('title', 'My Coolest Item');
@@ -57,8 +62,8 @@ class QtiModelTest extends TaoPhpUnitTestRunner
 
         $myInteraction = new ChoiceInteraction();
         $myInteraction->getPrompt()->edit('Prompt you');
-        $myChoice1 = $myInteraction->createChoice(array('fixed' => true), 'This is correct');
-        $myChoice2 = $myInteraction->createChoice(array('fixed' => true), 'This is not correct');
+        $myChoice1 = $myInteraction->createChoice(['fixed' => true], 'This is correct');
+        $myChoice2 = $myInteraction->createChoice(['fixed' => true], 'This is not correct');
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\choice\\SimpleChoice', $myChoice2);
         $this->assertEquals(count($myInteraction->getChoices()), 2);
         $myChoice1->setContent('answer #1');
@@ -79,20 +84,20 @@ class QtiModelTest extends TaoPhpUnitTestRunner
         $myItem->removeResponse($myResponse);
         $responses = $myItem->getResponses();
         $this->assertTrue(empty($responses));
-
     }
 
-    public function testSimpleFeedback(){
+    public function testSimpleFeedback()
+    {
 
-        $response = new ResponseDeclaration(array('identifier' => 'RESPONSE'));
+        $response = new ResponseDeclaration(['identifier' => 'RESPONSE']);
         $response->setHowMatch(Template::MAP_RESPONSE);
-        $outcomeFeedback = new OutcomeDeclaration(array('identifier' => 'FEEDBACK'));
-        $modalFeedback1 = new ModalFeedback(array('identifier' => 'feedbackOne'));
+        $outcomeFeedback = new OutcomeDeclaration(['identifier' => 'FEEDBACK']);
+        $modalFeedback1 = new ModalFeedback(['identifier' => 'feedbackOne']);
         $feebackRuleA = new SimpleFeedbackRule($outcomeFeedback, $modalFeedback1);
         $feebackRuleA->setCondition($response, 'gte', 2.1);
         $output1 = $feebackRuleA->toQTI();
 
-        $modalFeedback2 = new ModalFeedback(array('identifier' => 'feedbackTwo'));
+        $modalFeedback2 = new ModalFeedback(['identifier' => 'feedbackTwo']);
         $feebackRuleA->setFeedbackElse($modalFeedback2);
         $output2 = $feebackRuleA->toQTI();
 
@@ -103,17 +108,17 @@ class QtiModelTest extends TaoPhpUnitTestRunner
 
         $subPatternFeedbackOperatorIf = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [contains(name(./responseIf/*[1]/*[1]), "map")] [name(./responseIf/*[1]/*[2]) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
         $subPatternFeedbackElse = '[name(./*[2]) = "responseElseIf"] [count(./responseElseIf/*) = 1 ] [name(./responseElseIf/*[1]) = "setOutcomeValue"] [name(./responseElseIf/setOutcomeValue/*[1]) = "baseValue"]';
-        $patternFeedbackOperator = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackOperatorIf;
-        $patternFeedbackOperatorWithElse = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackOperatorIf.$subPatternFeedbackElse;
+        $patternFeedbackOperator = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackOperatorIf;
+        $patternFeedbackOperatorWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackOperatorIf . $subPatternFeedbackElse;
         $match = $data->xpath($patternFeedbackOperatorWithElse);
 
         $operator = '';
         $responseIdentifier = '';
         $value = '';
-        foreach($data->responseIf->children() as $child){
+        foreach ($data->responseIf->children() as $child) {
             $operator = $child->getName();
             $map = null;
-            foreach($child->children() as $granChild){
+            foreach ($child->children() as $granChild) {
                 $map = $granChild->getName();
                 $responseIdentifier = (string) $granChild['identifier'];
                 break;
@@ -135,12 +140,13 @@ class QtiModelTest extends TaoPhpUnitTestRunner
         $this->assertEquals($feedbackIdentifierElse, 'feedbackTwo');
     }
 
-    public function testSimpleFeedbackCorrect(){
+    public function testSimpleFeedbackCorrect()
+    {
 
-        $outcomeFeedback = new OutcomeDeclaration(array('identifier' => 'FEEDBACK'));
-        $response2 = new ResponseDeclaration(array('identifier' => 'RESPONSE2'));
+        $outcomeFeedback = new OutcomeDeclaration(['identifier' => 'FEEDBACK']);
+        $response2 = new ResponseDeclaration(['identifier' => 'RESPONSE2']);
         $response2->setHowMatch(Template::MATCH_CORRECT);
-        $modalFeedback3 = new ModalFeedback(array('identifier' => 'feedbackThree'));
+        $modalFeedback3 = new ModalFeedback(['identifier' => 'feedbackThree']);
         $feebackRuleB = new SimpleFeedbackRule($outcomeFeedback, $modalFeedback3);
         $feebackRuleB->setCondition($response2, 'correct');
         $output3 = $feebackRuleB->toQTI();
@@ -159,33 +165,33 @@ class QtiModelTest extends TaoPhpUnitTestRunner
         $this->assertEquals($responseIdentifier, 'RESPONSE2');
         $this->assertEquals($feedbackOutcomeIdentifier, 'FEEDBACK');
         $this->assertEquals($feedbackIdentifier, 'feedbackThree');
-
     }
 
-    public function testGetComposingElements(){
+    public function testGetComposingElements()
+    {
 
         \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 
-        $qtiParser = new Parser(dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/embeded_stimulus.xml');
+        $qtiParser = new Parser(dirname(__FILE__) . '/samples/xml/qtiv2p1/xinclude/embeded_stimulus.xml');
         $item = $qtiParser->load();
 
         $stimulus = $item->getComposingElements('oat\taoQtiItem\model\qti\Xinclude');
-        $this->assertCount(1,$stimulus);
+        $this->assertCount(1, $stimulus);
         $stim = array_shift($stimulus);
-        $this->assertEquals('stimulus.xml',$stim->attr('href'));
+        $this->assertEquals('stimulus.xml', $stim->attr('href'));
 
         $elements = $item->getComposingElements();
-        $this->assertCount(21,$elements);
+        $this->assertCount(21, $elements);
     }
 
     /**
      * test the building of item from all the samples
      */
-    public function _testSamples(){
+    public function _testSamples()
+    {
 
         //check if samples are loaded
-        foreach(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml') as $file){
-
+        foreach (glob(dirname(__FILE__) . '/samples/xml/qtiv2p1/*.xml') as $file) {
             $qtiParser = new Parser($file);
 
             $item = $qtiParser->load();
@@ -193,22 +199,21 @@ class QtiModelTest extends TaoPhpUnitTestRunner
             $this->assertNotNull($item);
             $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
-            foreach($item->getInteractions() as $interaction){
+            foreach ($item->getInteractions() as $interaction) {
                 $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\interaction\\Interaction', $interaction);
-                if($interaction instanceof MatchInteraction){
-                    foreach($interaction->getChoices(0) as $choice){
+                if ($interaction instanceof MatchInteraction) {
+                    foreach ($interaction->getChoices(0) as $choice) {
                         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\choice\\Choice', $choice);
                     }
-                    foreach($interaction->getChoices(1) as $choice){
+                    foreach ($interaction->getChoices(1) as $choice) {
                         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\choice\\Choice', $choice);
                     }
-                }else{
-                    foreach($interaction->getChoices() as $choice){
+                } else {
+                    foreach ($interaction->getChoices() as $choice) {
                         $this->assertInstanceOf('\\\oat\\taoQtiItem\\model\\qti\\choice\\Choice', $choice);
                     }
                 }
             }
         }
     }
-
 }

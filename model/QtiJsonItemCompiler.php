@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -83,8 +84,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         $language,
         tao_models_classes_service_StorageDirectory $publicDirectory,
         tao_models_classes_service_StorageDirectory $privateDirectory
-    )
-    {
+    ) {
         $qtiService = Service::singleton();
 
 
@@ -101,7 +101,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
-            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::VAR_ELT_FILE_NAME, json_encode($variableElements));
+            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::VAR_ELT_FILE_NAME, json_encode($variableElements));
 
             //create the item.json file in private directory
             $itemPacker = new QtiItemPacker();
@@ -114,25 +114,28 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $this->itemJson['data'] = $data['core'];
             $metadata = $this->getMetadataProperties();
 
-            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::ITEM_FILE_NAME, json_encode($this->itemJson));
-            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::METADATA_FILE_NAME, json_encode($metadata));
-            $privateDirectory->write($language.DIRECTORY_SEPARATOR.self::PORTABLE_ELEMENT_FILE_NAME, json_encode($this->getItemPortableElements($qtiItem)));
+            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::ITEM_FILE_NAME, json_encode($this->itemJson));
+            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::METADATA_FILE_NAME, json_encode($metadata));
+            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::PORTABLE_ELEMENT_FILE_NAME, json_encode($this->getItemPortableElements($qtiItem)));
 
             return new common_report_Report(
-                common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
+                common_report_Report::TYPE_SUCCESS,
+                __('Successfully compiled "%s"', $language)
             );
-
         } catch (\tao_models_classes_FileNotFoundException $e) {
             return new common_report_Report(
-                common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFilePath())
+                common_report_Report::TYPE_ERROR,
+                __('Unable to retrieve asset "%s"', $e->getFilePath())
             );
         } catch (XIncludeException $e) {
             return new common_report_Report(
-                common_report_Report::TYPE_ERROR, $e->getUserMessage()
+                common_report_Report::TYPE_ERROR,
+                $e->getUserMessage()
             );
         } catch (Exception $e) {
             return new common_report_Report(
-                common_report_Report::TYPE_ERROR, $e->getMessage()
+                common_report_Report::TYPE_ERROR,
+                $e->getMessage()
             );
         }
     }
@@ -143,7 +146,8 @@ class QtiJsonItemCompiler extends QtiItemCompiler
      * @return mixed
      * @throws common_exception_Error
      */
-    protected function convertXmlAttributes($data) {
+    protected function convertXmlAttributes($data)
+    {
 
         if (
             is_array($data)
@@ -163,7 +167,8 @@ class QtiJsonItemCompiler extends QtiItemCompiler
      * @param Element $qtiItem
      * @return array
      */
-    private function getItemPortableElements(Element $qtiItem){
+    private function getItemPortableElements(Element $qtiItem)
+    {
         $portableElementService = new PortableElementService();
         $portableElementService->setServiceLocator($this->getServiceLocator());
         return [
@@ -180,7 +185,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     {
         $triples = $this->getResource()->getRdfTriples();
         $properties = [];
-        foreach ($triples as $triple){
+        foreach ($triples as $triple) {
             $properties[$triple->predicate] = $triple->object;
         }
         //we also include a shortcut to the item URI

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,11 +37,12 @@ use oat\taoQtiItem\model\qti\Parser as QtiParser;
 class Parser extends tao_actions_CommonModule
 {
 
-    public function getJson(){
+    public function getJson()
+    {
 
-        $returnValue = array(
+        $returnValue = [
             'itemData' => null
-        );
+        ];
 
         $xml = file_get_contents('php://input');
         Authoring::validateQtiXml($xml);
@@ -48,13 +50,12 @@ class Parser extends tao_actions_CommonModule
         $qtiParser = new QtiParser($xml);
         $item = $qtiParser->load();
 
-        if(!is_null($item)){
+        if (!is_null($item)) {
             $returnValue['itemData'] = $item->toArray();
-        }else{
+        } else {
             throw new common_Exception('invalid qti xml');
         }
 
         $this->returnJson($returnValue);
     }
-
 }
