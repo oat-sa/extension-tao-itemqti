@@ -100,10 +100,10 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
      */
     public function initElements()
     {
-        $itemService = taoItems_models_classes_ItemsService::singleton();
+        $itemService = $this->getItemsService();
 
         $fileName = '';
-        $options = [];
+        $options = ['options' => []];
         if (isset($this->data['items'])) {
             $fileName = $this->getFileName($this->data['file_name']);
             $options = $this->getOptions(...array_values($this->data['items']));
@@ -140,7 +140,9 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
         }
 
         $instanceElt->setOptions(tao_helpers_Uri::encodeArray($options['options'], tao_helpers_Uri::ENCODE_ARRAY_KEYS));
-        $instanceElt->setReadOnly(tao_helpers_Uri::encodeArray($options['disabledOptions'], tao_helpers_Uri::ENCODE_ARRAY_KEYS));
+        $instanceElt->setReadOnly(
+            tao_helpers_Uri::encodeArray($options['disabledOptions'], tao_helpers_Uri::ENCODE_ARRAY_KEYS)
+        );
         foreach (array_keys($options['options']) as $value) {
             if (!isset($options['disabledOptions'][$value])) {
                 $instanceElt->setValue($value);
@@ -149,6 +151,14 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
         $this->form->addElement($instanceElt);
 
         $this->form->createGroup('options', '<h3>' . $this->getFormGroupName() . '</h3>', ['filename', 'instances']);
+    }
+
+    /**
+     * @return taoItems_models_classes_ItemsService
+     */
+    protected function getItemsService()
+    {
+        return taoItems_models_classes_ItemsService::singleton();
     }
 
     protected function getFileName(string $name): string
