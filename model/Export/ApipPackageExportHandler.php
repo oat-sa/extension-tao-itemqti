@@ -22,6 +22,8 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use common_Exception;
+use common_exception_Error;
 use common_report_Report as Report;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
@@ -30,6 +32,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\resources\SecureResourceService;
 use oat\taoQtiItem\model\event\QtiItemExportEvent;
 use oat\taoQtiItem\model\ItemModel;
+use tao_helpers_form_Form;
 use \tao_models_classes_export_ExportHandler;
 use \core_kernel_classes_Resource;
 use \core_kernel_classes_Class;
@@ -59,7 +62,10 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
 
     /**
      * @param core_kernel_classes_Resource $resource
-     * @return \tao_helpers_form_Form
+     *
+     * @return tao_helpers_form_Form
+     * @throws common_Exception
+     * @throws common_exception_Error
      */
     public function getExportForm(core_kernel_classes_Resource $resource)
     {
@@ -70,15 +76,14 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
             $formData = ['instance' => $resource];
         }
 
-        return (new ApipExportForm($formData))
-            ->getForm();
+        return (new ApipExportForm($formData))->getForm();
     }
 
     /**
      * @param array  $formValues
      * @param string $destination
      * @return string
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      */
     public function export($formValues, $destination)
     {
