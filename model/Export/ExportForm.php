@@ -106,7 +106,7 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
         $options = [];
         if (isset($this->data['items'])) {
             $fileName = $this->getFileName($this->data['file_name']);
-            $options = $this->getOptions(...$this->data['items']);
+            $options = $this->getOptions(...array_values($this->data['items']));
         } elseif (isset($this->data['instance'])) {
             $item = $this->data['instance'];
             if (
