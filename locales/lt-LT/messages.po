@@ -1575,6 +1575,9 @@ msgstr "Įvertinimo formatas nėra skaitmeninis"
 msgid "The selected file is ready to be sent."
 msgstr "Pasirinktas failas paruoštas išsiųsti."
 
+msgid "Your file has been uploaded."
+msgstr "Jūsų failas buvo įkeltas."
+
 msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr "Formos aukštis pikseliais. Ši reikšmė gali būti keičiama, kai fono paveikslėlio dydis prisitaiko prie savo konteinerio"
 
