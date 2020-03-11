@@ -172,14 +172,17 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
         $options = [];
         $disabledOptions = [];
         foreach ($resource as $instance) {
-            if ($itemService->hasItemModel($instance, [ItemModel::MODEL_URI])) {
-                try {
-                    $this->isInstanceValid($instance);
-                } catch (common_exception_UserReadableException $e) {
-                    $disabledOptions[$instance->getUri()] = $e->getUserMessage();
-                }
-                $options[$instance->getUri()] = $instance->getLabel();
+            if (!$itemService->hasItemModel($instance, [ItemModel::MODEL_URI])) {
+                continue;
             }
+
+            try {
+                $this->isInstanceValid($instance);
+            } catch (common_exception_UserReadableException $e) {
+                $disabledOptions[$instance->getUri()] = $e->getUserMessage();
+            }
+
+            $options[$instance->getUri()] = $instance->getLabel();
         }
 
         return [
