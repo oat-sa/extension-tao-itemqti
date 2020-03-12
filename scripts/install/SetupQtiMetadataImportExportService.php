@@ -33,7 +33,7 @@ use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationI
  * This service sets up the import and export of metadata in items.
  * It's not triggered upon installation nor update, it has to be activated on application level. 
  */
-class SetupDefaultMetadataServiceConfig extends InstallAction
+class SetupQtiMetadataImportExportService extends InstallAction
 {
     public function __invoke($params)
     {
