@@ -47,6 +47,6 @@ class SetupQtiMetadataImportExportService extends InstallAction
         $exporter->register(MetadataExporter::EXTRACTOR_KEY, GenericLomOntologyClassificationExtractor::class);
         $exporter->register(MetadataExporter::INJECTOR_KEY, LomInjector::class);
 
-        return \common_report_Report::createSuccess(__('Metadata Service up to date.'));
+        return \common_report_Report::createSuccess('Metadata Service updated.');
     }
 }
