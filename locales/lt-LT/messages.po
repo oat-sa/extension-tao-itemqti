@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:51\n"
+"PO-Revision-Date: 2020-03-12T13:14:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -163,11 +163,11 @@ msgstr "Fono spalva"
 msgid "Base"
 msgstr "Pagrindas"
 
-msgid "block"
-msgstr "blokas"
-
 msgid "Block"
 msgstr "Blokas"
+
+msgid "block"
+msgstr "blokas"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blokas sudarytas iš turinio (stimulus) elemento, kaip tekstas ar paveiksliukas. Tai taip pat privaloma Įterptoms Užduotims."
@@ -180,6 +180,9 @@ msgstr "Naršyk savo kompiuterį ir pasirink atitinkamą failą."
 
 msgid "Browse..."
 msgstr "Naršyti..."
+
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "cancel"
 msgstr "atšaukti"
@@ -223,11 +226,11 @@ msgstr "Pasirinkimo Sąveika"
 msgid "Choice Properties"
 msgstr "Pasirinkti Savybes"
 
-msgid "Choices"
-msgstr "Pasirinkimai"
-
 msgid "choices"
 msgstr "pasirinkimai"
+
+msgid "Choices"
+msgstr "Pasirinkimai"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Pasirinkite lentelei horizontalų lygiavimą."
@@ -307,11 +310,11 @@ msgstr "pasirinktinas"
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
-msgstr "Numatytas"
-
 msgid "default"
 msgstr "numatytas"
+
+msgid "Default"
+msgstr "Numatytas"
 
 msgid "Define correct response"
 msgstr "Nustatyti teisingą atsakymą"
@@ -337,11 +340,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "ištrinti"
-
 msgid "Delete"
 msgstr "Ištrinti"
+
+msgid "delete"
+msgstr "ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -370,11 +373,11 @@ msgstr "Dalinti"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr "Atlikta"
-
 msgid "done"
 msgstr "atlikta"
+
+msgid "Done"
+msgstr "Atlikta"
 
 msgid "Download this stylesheet"
 msgstr "Atsiųsti šį stilių"
@@ -734,11 +737,11 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "palikti tuščią"
@@ -827,11 +830,11 @@ msgstr "Maks. ilgis"
 msgid "Max plays count"
 msgstr "Maks. paleidimų kiekis"
 
-msgid "Max Words"
-msgstr "Maks. Žodžių"
-
 msgid "Max words"
 msgstr "Maks. žodžių"
+
+msgid "Max Words"
+msgstr "Maks. Žodžių"
 
 msgid "Max. number of matches"
 msgstr "Maks. kiekis sutapimų"
@@ -936,11 +939,11 @@ msgstr "Peržiūrėti negalima"
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "none"
-msgstr "nėra"
-
 msgid "None"
 msgstr "Nėra"
+
+msgid "none"
+msgstr "nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -965,6 +968,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 msgstr "Vienas ar daugiau QTI komponentų nėra palaikomas sistemos. Sistema gražino šią klaidą: %s\n"
 ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "Eiliškumas"
 
@@ -982,6 +991,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "Poros vertinimas"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "Šablonas"
@@ -1149,9 +1161,6 @@ msgstr "Klausimas"
 msgid "Quicktime video"
 msgstr "Quicktime vaizdo įrašas"
 
-msgid "recommanded"
-msgstr "Patarimas"
-
 msgid "Recommendations"
 msgstr "Patarimai"
 
@@ -1227,11 +1236,11 @@ msgstr "Atsakymų vertinimo modelis"
 msgid "Response Properties"
 msgstr "Atsakymo Savybės"
 
-msgid "Right"
-msgstr "Dešinė"
-
 msgid "right"
 msgstr "dešinė"
+
+msgid "Right"
+msgstr "Dešinė"
 
 msgid "Right bracket"
 msgstr "Dešinys skliaustas"
@@ -1248,11 +1257,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "score"
-msgstr "balai"
-
 msgid "Score"
 msgstr "Balai"
+
+msgid "score"
+msgstr "balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"
