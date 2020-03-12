@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:43\n"
+"PO-Revision-Date: 2020-03-12T13:11:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -164,11 +164,11 @@ msgstr "Couleur d'arrière-plan"
 msgid "Base"
 msgstr "Base"
 
-msgid "block"
-msgstr "bloc"
-
 msgid "Block"
 msgstr "Bloc"
+
+msgid "block"
+msgstr "bloc"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Le bloc contient le contenu (stimulus) de l'item tel que du texte ou une image. Il est aussi demandé pour les interactions en ligne."
@@ -181,6 +181,9 @@ msgstr "Naviguez dans vos fichiers et sélectionnez le fichier approprié."
 
 msgid "Browse..."
 msgstr "Parcourir..."
+
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "cancel"
 msgstr "annuler"
@@ -224,11 +227,11 @@ msgstr "Choisissez l'interaction"
 msgid "Choice Properties"
 msgstr "Choisissez les propriétés"
 
-msgid "Choices"
-msgstr "Choix"
-
 msgid "choices"
 msgstr "choix"
+
+msgid "Choices"
+msgstr "Choix"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Choisissez l'alignement horizontal pour la table."
@@ -308,11 +311,11 @@ msgstr "personnalisé"
 msgid "Custom Response Processing Mode"
 msgstr "Mode de traitement de la réponse personnalisée"
 
-msgid "Default"
-msgstr "Par défaut"
-
 msgid "default"
 msgstr "par défaut"
+
+msgid "Default"
+msgstr "Par défaut"
 
 msgid "Define correct response"
 msgstr "Définir la réponse correcte"
@@ -338,11 +341,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "supprimer"
-
 msgid "Delete"
 msgstr "Supprimer"
+
+msgid "delete"
+msgstr "supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -371,11 +374,11 @@ msgstr "Diviser"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr "Effectué"
-
 msgid "done"
 msgstr "terminé"
+
+msgid "Done"
+msgstr "Effectué"
 
 msgid "Download this stylesheet"
 msgstr "Télécharger cette feuille de style"
@@ -735,11 +738,11 @@ msgstr "Langue"
 msgid "Large editor"
 msgstr "Éditeur large"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laisser vide"
@@ -828,10 +831,10 @@ msgstr "Longueur maximale"
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximum de mots"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximum de mots"
 
 msgid "Max. number of matches"
@@ -937,11 +940,11 @@ msgstr "Pas d'aperçu disponible"
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "none"
-msgstr "aucun"
-
 msgid "None"
 msgstr "Aucun"
+
+msgid "none"
+msgstr "aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -965,6 +968,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "Ordre"
 
@@ -982,6 +991,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "Notation par paire"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "Motif"
@@ -1150,9 +1162,6 @@ msgstr "Question"
 msgid "Quicktime video"
 msgstr "vidéo QuickTime"
 
-msgid "recommanded"
-msgstr "recommandé"
-
 msgid "Recommendations"
 msgstr "Recommandations"
 
@@ -1228,11 +1237,11 @@ msgstr "Traitement de la réponse"
 msgid "Response Properties"
 msgstr "Propriétés de la réponse"
 
-msgid "Right"
-msgstr "Droite"
-
 msgid "right"
 msgstr "droite"
+
+msgid "Right"
+msgstr "Droite"
 
 msgid "Right bracket"
 msgstr "Parenthèse fermante"
@@ -1249,11 +1258,11 @@ msgstr "Enregistrer l'item"
 msgid "Scale size"
 msgstr "Taille d'échelle"
 
-msgid "score"
-msgstr "score"
-
 msgid "Score"
 msgstr "Score"
+
+msgid "score"
+msgstr "score"
 
 msgid "Score range"
 msgstr "Échelle de score"
