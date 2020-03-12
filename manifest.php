@@ -28,7 +28,6 @@ use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
-use oat\taoQtiItem\scripts\install\SetMetadataServiceConfig;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
