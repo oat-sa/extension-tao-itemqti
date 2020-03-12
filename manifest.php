@@ -68,7 +68,7 @@ return [
             RegisterLegacyPortableLibraries::class,
             SetUpQueueTasks::class,
             RegisterItemCompilerBlacklist::class,
-            RegisterNpmPaths::class
+            RegisterNpmPaths::class,
         ]
     ],
     'local' => [
