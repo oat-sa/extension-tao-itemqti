@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:10:00\n"
+"PO-Revision-Date: 2020-03-12T13:17:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -162,10 +162,10 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr "区块"
 
-msgid "Block"
+msgid "block"
 msgstr "区块"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -179,6 +179,9 @@ msgstr "浏览你的电脑，并选择文件。"
 
 msgid "Browse..."
 msgstr "浏览..."
+
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "cancel"
 msgstr "取消"
@@ -222,11 +225,11 @@ msgstr "选择的互动"
 msgid "Choice Properties"
 msgstr "选择的属性"
 
-msgid "Choices"
-msgstr "选择"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "选择"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -306,10 +309,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
 
-msgid "Default"
+msgid "default"
 msgstr "默认值"
 
-msgid "default"
+msgid "Default"
 msgstr "默认值"
 
 msgid "Define correct response"
@@ -336,11 +339,11 @@ msgstr "限定的阔度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "删除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "删除"
 
 msgid "Delete else statement"
 msgstr "删除else语句"
@@ -369,11 +372,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "完成"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "下载这个样式表"
@@ -733,11 +736,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "LaTeX"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
@@ -825,10 +828,10 @@ msgstr "最大长度"
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最多字数"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最多字数"
 
 msgid "Max. number of matches"
@@ -934,11 +937,11 @@ msgstr ""
 msgid "No value set"
 msgstr "没有设定数值"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "无"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "还未定义。"
@@ -962,6 +965,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "排序"
 
@@ -979,6 +988,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "对得分"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "样式"
@@ -1146,9 +1158,6 @@ msgstr "问题"
 msgid "Quicktime video"
 msgstr "QuickTime视讯"
 
-msgid "recommanded"
-msgstr "所建议的"
-
 msgid "Recommendations"
 msgstr "建议"
 
@@ -1224,11 +1233,11 @@ msgstr "处理回应"
 msgid "Response Properties"
 msgstr "回应属性"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "右"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1245,10 +1254,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "分数"
 
-msgid "Score"
+msgid "score"
 msgstr "分数"
 
 msgid "Score range"

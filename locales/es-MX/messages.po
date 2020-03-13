@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:40\n"
+"PO-Revision-Date: 2020-03-12T13:09:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-MX\n"
@@ -162,11 +162,11 @@ msgstr "Color de fondo"
 msgid "Base"
 msgstr ""
 
-msgid "block"
-msgstr "al menos"
-
 msgid "Block"
 msgstr "Bloque"
+
+msgid "block"
+msgstr "al menos"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Bloque que contiene el contenido (estímulo) del elemento como texto o imagen. También se requiere para interacciones Inline."
@@ -179,6 +179,9 @@ msgstr "Busque en el equipo y seleccione el archivo apropiado."
 
 msgid "Browse..."
 msgstr "Buscar..."
+
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "cancel"
 msgstr "cancelar"
@@ -222,11 +225,11 @@ msgstr "Interacción de Elección"
 msgid "Choice Properties"
 msgstr "Interacción de Elección"
 
-msgid "Choices"
-msgstr "Elecciones"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Elecciones"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -306,11 +309,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Modo de Procesamiento de respuesta personalizada"
 
-msgid "Default"
-msgstr "Predeterminado"
-
 msgid "default"
 msgstr "predeterminado"
+
+msgid "Default"
+msgstr "Predeterminado"
 
 msgid "Define correct response"
 msgstr "Definir respuesta correcta"
@@ -336,11 +339,11 @@ msgstr "Defina ancho"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eliminar"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eliminar"
 
 msgid "Delete else statement"
 msgstr "Eliminar otro estado"
@@ -369,11 +372,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "hecho"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Descargar esta hoja de estilos"
@@ -733,11 +736,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "dejar vacío"
@@ -825,10 +828,10 @@ msgstr "Longitud máxima"
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Máx. de palabras"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Máx. de palabras"
 
 msgid "Max. number of matches"
@@ -934,11 +937,11 @@ msgstr ""
 msgid "No value set"
 msgstr "No hay valor asignado"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ninguno"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Aún no definido."
@@ -962,6 +965,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "Orden"
 
@@ -979,6 +988,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "Par de puntuación"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "Patrón"
@@ -1147,9 +1159,6 @@ msgstr "Pregunta"
 msgid "Quicktime video"
 msgstr "Video QuickTime"
 
-msgid "recommanded"
-msgstr "recomendado"
-
 msgid "Recommendations"
 msgstr "Recomendaciones"
 
@@ -1225,11 +1234,11 @@ msgstr "Procesando respuesta"
 msgid "Response Properties"
 msgstr "Propiedades de respuesta"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "derecha"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1246,11 +1255,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "puntuacion"
-
 msgid "Score"
 msgstr "Puntuación"
+
+msgid "score"
+msgstr "puntuacion"
 
 msgid "Score range"
 msgstr "Rango de puntuación"

@@ -1,72 +1,90 @@
 @import "inc/bootstrap";
+
+.edit-question {
+    .match-interaction-area {
+        margin-top: 32px;
+    }
+}
+
 .qti-matchInteraction {
-    
-    .qti-prompt-container{
+
+    .qti-prompt-container {
         margin: 5px 0 15px;
     }
-    
-    table.matrix{
-        th{
-            padding:0;
+
+    table.matrix {
+        th {
+            padding: 0;
         }
-        thead{
-            .mini-tlb{
-                 top:-32px;
-                [class^="icon-"], [class*=" icon-"]{
+
+        thead {
+            .mini-tlb {
+                top: -32px;
+
+                [class^="icon-"], [class*=" icon-"] {
                     padding: 0;
                     position: relative;
                     top: 5px;
                     left: 8px;
                 }
-             }
-        }
-        tbody{
-            .mini-tlb{
-                right:auto;
-                left:-86px;
-            }
-            [contenteditable="false"] .mini-tlb{
-                right:-32px !important;
-                left:auto !important;
             }
         }
-        td{
-            input[disabled] ~ [class^="icon-"]{
-                cursor:default !important;
+
+        tbody {
+            .mini-tlb {
+                right: auto;
+                left: -86px;
+            }
+
+            [contenteditable="false"] .mini-tlb {
+                right: -32px !important;
+                left: auto !important;
             }
         }
-        .mini-tlb{
-            width:auto;
-            margin:0;
+
+        td {
+            input[disabled] ~ [class^="icon-"] {
+                cursor: default !important;
+            }
+        }
+
+        .mini-tlb {
+            width: auto;
+            margin: 0;
             padding: 0;
-            [class^="icon-"], [class*=" icon-"]{
-                padding:0;
+
+            [class^="icon-"], [class*=" icon-"] {
+                padding: 0;
                 position: relative;
                 top: 4px;
                 left: 8px;
             }
-            .tlb-button{
-                margin:0;
-                padding:0;
+
+            .tlb-button {
+                margin: 0;
+                padding: 0;
             }
         }
+
         .score {
             left: 30px;
-            min-width:0; 
+            min-width: 0;
             width: 35px !important;
-            height:20px;
+            height: 20px;
             position: relative;
             top: 0;
         }
     }
-    
-    .add-options{
-        margin:15px 5px 8px 0;
-        .add-option{
-            margin-left:2px;
-            position:relative;
+
+    .add-options {
+        margin: 15px 5px 8px 0;
+
+        .add-option {
+            margin-left: 2px;
+            position: relative;
             padding: 5px 5px 5px 6px;
-            .icon-add{
+
+            .icon-add {
                 font-size: 1.8rem;
                 left: 6px;
                 position: absolute;
@@ -74,5 +92,4 @@
             }
         }
     }
-    
 }

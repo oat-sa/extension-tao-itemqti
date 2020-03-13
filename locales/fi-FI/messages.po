@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:41\n"
+"PO-Revision-Date: 2020-03-12T13:10:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fi-FI\n"
@@ -162,10 +162,10 @@ msgstr ""
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -178,6 +178,9 @@ msgid "Browse your computer and select the appropriate file."
 msgstr ""
 
 msgid "Browse..."
+msgstr ""
+
+msgid "C++ file (.cpp)"
 msgstr ""
 
 msgid "cancel"
@@ -222,10 +225,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -306,10 +309,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define correct response"
@@ -336,10 +339,10 @@ msgstr ""
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
 msgid "Delete else statement"
@@ -369,10 +372,10 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
+msgid "done"
 msgstr ""
 
-msgid "done"
+msgid "Done"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -733,10 +736,10 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr ""
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
@@ -825,10 +828,10 @@ msgstr ""
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -934,10 +937,10 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
-msgid "none"
+msgid "None"
 msgstr ""
 
-msgid "None"
+msgid "none"
 msgstr ""
 
 msgid "None defined yet."
@@ -962,6 +965,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr ""
 
@@ -978,6 +987,9 @@ msgid "Outcome Declarations"
 msgstr ""
 
 msgid "Pair scoring"
+msgstr ""
+
+msgid "Pascal file (.pas)"
 msgstr ""
 
 msgid "Pattern"
@@ -1146,9 +1158,6 @@ msgstr ""
 msgid "Quicktime video"
 msgstr ""
 
-msgid "recommanded"
-msgstr ""
-
 msgid "Recommendations"
 msgstr ""
 
@@ -1224,10 +1233,10 @@ msgstr ""
 msgid "Response Properties"
 msgstr ""
 
-msgid "Right"
+msgid "right"
 msgstr ""
 
-msgid "right"
+msgid "Right"
 msgstr ""
 
 msgid "Right bracket"
@@ -1245,10 +1254,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"
