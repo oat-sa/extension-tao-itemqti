@@ -23,24 +23,25 @@ namespace oat\taoQtiItem\test\unit\metadata;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor;
 use \DOMDocument;
+use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use \stdClass;
 
 class ImsManifestExtractionTest extends TestCase
 {
     protected $imsManifestExtractor;
-    
-    public function setUp()
+
+    public function setUp(): void
     {
         parent::setUp();
         $this->imsManifestExtractor = new ImsManifestMetadataExtractor();
     }
-    
-    public function tearDown()
+
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->imsManifestExtractor);
     }
-    
+
     /**
      * @dataProvider sampleProvider
      *
@@ -58,19 +59,19 @@ class ImsManifestExtractionTest extends TestCase
     {
         $domManifest = new DOMDocument('1.0', 'UTF-8');
         $domManifest->load(dirname(__FILE__) . '/../samples/metadata/imsManifestExtraction/' . $imsManifestFile);
-        
+
         $values = $this->imsManifestExtractor->extract($domManifest);
-        
+
         $this->assertTrue(isset($values[$key]), "No metadata array found at key '${key}'.");
         $this->assertTrue(isset($values[$key][$index]), "No Metadata value found at index '${index}' for key '${key}' in file '${imsManifestFile}'.");
-        
+
         $value = $values[$key][$index];
         $this->assertInstanceOf(
             'oat\\taoQtiItem\\model\\qti\\metadata\\MetadataValue',
             $value,
             "The value found at index '${index}' is not a MetadataValue object in file '${imsManifestFile}'."
         );
-        
+
         $this->assertEquals($path, $value->getPath(), "The MetadataValue object with index '${index}' contains an unexpected Path in file '${imsManifestFile}'.");
         $this->assertEquals($identifier, $value->getResourceIdentifier(), "The MetadataValue object with index '${index}' contains an unexpected Resource Identifier in file '${imsManifestFile}'.");
         $this->assertEquals($type, $value->getResourceType(), "The MetadataValue object with index '${index}' contains an unexpected Resource Type in file '${imsManifestFile}'.");
@@ -78,7 +79,7 @@ class ImsManifestExtractionTest extends TestCase
         $this->assertEquals($val, $value->getValue(), "The MetadataValue object with index '${index}' contains an unexpected intrinsic metadata value in file '${imsManifestFile}'.");
         $this->assertEquals($lang, $value->getLanguage(), "The MetadataValue object with index '${index}' contains an unexpected language in file '${imsManifestFile}'.");
     }
-    
+
     public function sampleProvider()
     {
         return [
@@ -220,7 +221,7 @@ class ImsManifestExtractionTest extends TestCase
                 'choice.xml',
                 'ALTOVA'
             ],
-                        
+
             // -- Sample #2.
             [
                 'sample2.xml',
@@ -399,7 +400,7 @@ class ImsManifestExtractionTest extends TestCase
                 'hybrid.xml',
                 'orderInteraction'
             ],
-                        
+
             // Sample #3.
             [
                 'sample3.xml',
@@ -414,7 +415,7 @@ class ImsManifestExtractionTest extends TestCase
                 'Q01/qti.xml',
                 '4'
             ],
-                        
+
             // Sample #4.
             [
                 'sample4.xml',
@@ -431,7 +432,7 @@ class ImsManifestExtractionTest extends TestCase
             ]
         ];
     }
-    
+
     /**
      * @dataProvider wrongTypeAsInputProvider
      *
@@ -439,10 +440,10 @@ class ImsManifestExtractionTest extends TestCase
      */
     public function testWrongTypeAsInput($input)
     {
-        $this->setExpectedException('oat\\taoQtiItem\\model\\qti\\metadata\\MetadataExtractionException');
+        $this->expectException(MetadataExtractionException::class);
         $values = $this->imsManifestExtractor->extract($input);
     }
-    
+
     public function wrongTypeAsInputProvider()
     {
         return [

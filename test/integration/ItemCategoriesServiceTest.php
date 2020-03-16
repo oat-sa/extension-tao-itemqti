@@ -38,7 +38,7 @@ class ItemCategoriesServiceTest extends TaoPhpUnitTestRunner
      * tests initialization
      * load qti service
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
