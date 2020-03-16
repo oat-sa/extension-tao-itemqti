@@ -147,6 +147,18 @@ define([
         }
     };
 
+    const attachUrlErrorTooltip = ($field) => {
+        let widgetTooltip;
+
+        if(!$field.data('$tooltip')) {
+            widgetTooltip = tooltip.error($field, __('Please enter a valid URL'), {
+                trigger: 'manual',
+                placement: 'left-start'
+            });
+            $field.data('$tooltip', widgetTooltip);
+        }
+    };
+
     return pluginFactory({
         name: 'outcomeEditor',
         /**
@@ -222,6 +234,13 @@ define([
                         longInterpretation(outcome, value) {
                             //update the title attr for real time update
                             $labelContainer.attr('title', value);
+
+                            try {
+                                new URL(value);
+                            }
+                            catch(err) {
+                                attachUrlErrorTooltip()
+                            }
 
                             //save to model
                             outcome.attr('longInterpretation', value);

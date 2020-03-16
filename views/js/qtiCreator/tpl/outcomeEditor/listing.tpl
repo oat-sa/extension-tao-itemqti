@@ -21,8 +21,12 @@
         <div class="panel">
             <label for="longInterpretation" class="has-icon">{{__ "Long interpretation"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-            <div class="tooltip-content">{{__ "An optional link to an extended interpretation of the outcome variable's value."}}</div>
-            <input name="longInterpretation" value="{{longInterpretation}}" type="text">
+            <div class="tooltip-content">{{__ "An optional link to an extended interpretation of the outcome variable."}}</div>
+            <input name="longInterpretation"
+                   placeholder="https://www.tao.org/rules.pdf"
+                   value="{{longInterpretation}}"
+                   type="text"
+                   data-validate="$isValidUrl;">
         </div>
         <div class="panel externalscored">
             <label for="externalScored" class="has-icon">{{__ "External Scored"}}</label>

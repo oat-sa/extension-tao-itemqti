@@ -69,6 +69,18 @@ define([
                     throw 'missing required option "serial"';
                 }
             }
+        },
+        //Define a validator that check validity of a URL
+        {
+            name: 'isValidUrl',
+            message: __('Please enter a valid e.g: https://www.tao.org/rules.pdf '),
+            validate: function validate(value, callback, options) {
+                try{
+                    const k = new URL(value);
+                } catch(error) {
+                    callback(false);
+                }
+            }
         }
     ];
 
