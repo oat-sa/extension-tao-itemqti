@@ -41,7 +41,7 @@ return [
     'requires' => [
         'taoItems' => '>=10.1.0',
         'tao'      => '>=41.1.0',
-        'generis'  => '>=12.5.0',
+        'generis' => '>=12.15.0'
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
