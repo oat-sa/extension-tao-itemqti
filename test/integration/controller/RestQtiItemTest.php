@@ -42,15 +42,15 @@ class RestQtiItemTest extends RestTestRunner
 
         $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => $post_data]);
         $data = json_decode($return, true);
-        $this->assertisarray($data);
+        $this->assertIsArray($data);
         $this->assertTrue(isset($data['success']));
         $this->assertTrue($data['success']);
         $this->assertTrue(isset($data['data']['items']));
         $items = $data['data']['items'];
-        $this->assertisarray($items);
+        $this->assertIsArray($items);
         $this->assertEquals(1, count($items));
         $itemUri = reset($items);
-        $this->assertInternalType('string', $itemUri);
+        $this->assertIsString($itemUri);
         $item = $this->getResource($itemUri);
         $this->assertTrue($item->exists());
 
@@ -69,12 +69,12 @@ class RestQtiItemTest extends RestTestRunner
         $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => []]);
         $data = json_decode($return, true);
 
-        $this->assertisarray($data);
+        $this->assertIsArray($data);
         $this->assertTrue(isset($data['success']));
         $this->assertTrue($data['success']);
         $this->assertTrue(isset($data['data']));
         $itemUri = $data['data'];
-        $this->assertInternalType('string', $itemUri);
+        $this->assertIsString($itemUri);
         $item = $this->getResource($itemUri);
         $this->assertTrue($item->exists());
 
