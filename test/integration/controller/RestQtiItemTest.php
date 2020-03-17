@@ -42,12 +42,12 @@ class RestQtiItemTest extends RestTestRunner
 
         $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => $post_data]);
         $data = json_decode($return, true);
-        $this->assertIsArray( $data);
+        $this->assertisarray($data);
         $this->assertTrue(isset($data['success']));
         $this->assertTrue($data['success']);
         $this->assertTrue(isset($data['data']['items']));
         $items = $data['data']['items'];
-        $this->assertIsArray( $items);
+        $this->assertisarray($items);
         $this->assertEquals(1, count($items));
         $itemUri = reset($items);
         $this->assertInternalType('string', $itemUri);
@@ -69,7 +69,7 @@ class RestQtiItemTest extends RestTestRunner
         $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => []]);
         $data = json_decode($return, true);
 
-        $this->assertIsArray( $data);
+        $this->assertisarray($data);
         $this->assertTrue(isset($data['success']));
         $this->assertTrue($data['success']);
         $this->assertTrue(isset($data['data']));
