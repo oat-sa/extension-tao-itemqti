@@ -61,7 +61,8 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "oat-sa/lib-tao-qti": "~5.0.0",
+        "oat-sa/lib-tao-qti": "dev-fix/UDI-26-allow-minor-dependencies-upgrades as 5.0.1",
+        "qtism/qtism": "fix/UDI-26-polygon-intersection as 0.19.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "oat-sa/composer-npm-bridge": "^0.3.0",
         "naneau/semver": "~0.0.7"
