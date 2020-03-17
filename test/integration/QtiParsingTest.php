@@ -38,12 +38,12 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
     }
-    
+
     /**
      * Provide valid and invalid files for the qti parser
      */
@@ -67,10 +67,10 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
                 'valid' => true
             ];
         }
-         
+
         return $qtiSamples;
     }
-    
+
     /**
      * test qti file parsing: validation and loading in a non-persistant context
      * @dataProvider QtiFileProvider
@@ -79,7 +79,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
     {
         $qtiParser = new Parser($file);
         $qtiParser->validate();
-        
+
         if ($valid) {
             $this->assertEquals([], $qtiParser->getErrors());
             $this->assertTrue($qtiParser->isValid());
@@ -91,7 +91,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
             $this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
         }
     }
-    
+
     /**
      * test if a correctResponse with CDATA works
      * @author Thibault Milan <thibault.milan@vesperiagroup.com>
@@ -99,7 +99,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
     public function testFileParsingCDATA()
     {
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        
+
         $file = dirname(__FILE__) . '/samples/xml/cdata/item.xml';
 
         $qtiParser = new Parser($file);

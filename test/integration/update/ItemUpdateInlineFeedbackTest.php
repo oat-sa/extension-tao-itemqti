@@ -32,7 +32,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
      * tests initialization
      * load qti service
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');//load tao constants to prevent warning in constant usage
@@ -47,7 +47,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $modifiedFiles = array_keys(array_filter($checkedFiles, function ($v) {
                 return $v;
         }));
-            
+
         $this->assertEquals(19, count($checkedFiles));
         $this->assertEquals(2, count($modifiedFiles));
 
@@ -89,7 +89,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(19, count($checkedFiles));
         $this->assertEquals(2, count($modifiedFiles));
-        
+
         sort($modifiedFiles);
         $this->assertEquals(realpath($modifiedFiles[0]), realpath($itemRootDir . '/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml'));
         $this->assertEquals(realpath($modifiedFiles[1]), realpath($itemRootDir . '/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml'));

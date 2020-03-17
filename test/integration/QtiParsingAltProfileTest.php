@@ -37,18 +37,18 @@ class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
     }
-    
+
     /**
      * test if alternative QTI profiles are managed correctly during parsing
      */
     public function testParseAlternativeProfile()
     {
-        
+
         $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/alternativeProfiles/apip001.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
@@ -62,7 +62,7 @@ class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner
         $item = $qtiParser->load();
 
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-        
+
         $xml = simplexml_load_string($item->toXML());
         $this->assertEquals('http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1', $xml->getNamespaces()['']);
         $this->assertNotNull($xml->apipAccessibility);

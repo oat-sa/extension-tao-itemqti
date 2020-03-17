@@ -44,7 +44,7 @@ class QtiPackageParsingTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         $this->qtiService = Service::singleton();

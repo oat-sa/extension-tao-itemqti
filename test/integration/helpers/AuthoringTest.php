@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\test\integration\helpers;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 
 /**
  * Test QTI authiring helper methods
@@ -36,7 +37,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -53,10 +54,10 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
 
         $this->assertTrue(count($sanitizedXml->xpath("//*[local-name() = 'itemBody']//*[@style]")) === 0);
-        
+
         return $sanitizedXmlStr;
     }
-    
+
     /**
      * @depends testSanitizeQtiXml
      */
@@ -111,7 +112,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
 
         return $sanitizedXmlStr;
     }
-    
+
     /**
      * @depends testSanitizeQtiXmlMultipleIds
      */
@@ -126,21 +127,17 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $this->assertTrue(Authoring::loadQtiXml($xmlStr) instanceof \DOMDocument);
     }
 
-    /**
-     * @expectedException        oat\taoQtiItem\model\qti\exception\QtiModelException
-     * @expectedExceptionMessageRegExp |^Wrong QTI item output format.*|
-     */
     public function testLoadWrongQtiXml()
     {
+        $this->expectException(QtiModelException::class);
+        $this->expectExceptionMessageMatches('|^Wrong QTI item output format.*|');
         $xmlStr = file_get_contents($this->getSamplePath('/authoring/loadWrongQtiXml.xml'));
         Authoring::loadQtiXml($xmlStr);
     }
 
-    /**
-     * @expectedException        oat\taoQtiItem\model\qti\exception\QtiModelException
-     */
     public function testValidateQtiXmlQti2p1Wrong()
     {
+        $this->expectException(QtiModelException::class);
         //check if wrong files are not validated correctly
         foreach (glob($this->getSamplePath('/wrong/*.*')) as $file) {
             Authoring::validateQtiXml($file);
@@ -158,11 +155,11 @@ class AuthoringTest extends TaoPhpUnitTestRunner
             Authoring::validateQtiXml($file);
         }
     }
-    
+
     public function testValidateQtiXmlQti2p0()
     {
         $files = glob($this->getSamplePath('/xml/qtiv2p0/*.xml'));
-        
+
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
@@ -172,13 +169,13 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     public function testFileParsingApipv1p0()
     {
         $files = glob($this->getSamplePath('/xml/apipv1p0/*.xml'));
-        
+
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
         }
     }
-    
+
     /**
      * Get absolute path to samples dir.
      *
