@@ -44,7 +44,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -62,7 +62,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         //test if content has been exported
         $qti = $item->toXML();
         $this->assertFalse(empty($qti));
-        
+
         //test if it's a valid QTI file
         $tmpFile = $this->createFile('', uniqid('qti_', true) . '.xml');
         file_put_contents($tmpFile, $qti);
@@ -70,12 +70,12 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
         $parserValidator = new Parser($tmpFile);
         $parserValidator->validate();
-        
+
         if (!$parserValidator->isValid()) {
             $this->fail($file . ' output invalid :' . $parserValidator->displayErrors() . ' -> ' . $qti);
         }
     }
-    
+
     /**
      * Test serializing array of pci properties into a pci xml
      */
@@ -92,18 +92,18 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
             ]
         ];
         $PCI = new \oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction();
-        
+
         $method = new \ReflectionMethod('\oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction', 'serializePortableProperties');
         $method->setAccessible(true);
-        
+
         $result = $method->invoke($PCI, $properties, 'pci', 'http://www.imsglobal.org/xsd/portableCustomInteraction');
-        
+
         $this->assertFalse(strpos($result, '<b>lorem ipsum</b>'));
         $this->assertFalse(strpos($result, '<span class="test">Label 1</span>'));
         $this->assertFalse(strpos($result, '"A & B < C"'));
-        
+
         $doc = new \DOMDocument();
-        
+
         $this->assertTrue($doc->loadXML($result));
         $this->assertTrue(strpos($doc->saveXml(), $result) !== false);
     }

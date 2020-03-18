@@ -36,14 +36,14 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
      */
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new PortableElementService();
         $this->service->setServiceLocator(ServiceManager::getServiceManager());
         $this->clearSamplePortableElements();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->clearSamplePortableElements();
         $this->service = null;
@@ -171,7 +171,7 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
     public function testSetBaseUrlToPortableDataUnknownVersion()
     {
 
-        $this->setExpectedException(PortableElementNotFoundException::class);
+        $this->expectException(PortableElementNotFoundException::class);
 
         $xml = new \DOMDocument();
         $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
@@ -193,7 +193,7 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
     public function testSetBaseUrlToPortableDataUnknownModel()
     {
 
-        $this->setExpectedException(PortableModelMissing::class);
+        $this->expectException(PortableModelMissing::class);
 
         $xml = new \DOMDocument();
         $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
