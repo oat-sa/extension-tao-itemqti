@@ -73,12 +73,16 @@ define([
         //Define a validator that check validity of a URL
         {
             name: 'isValidUrl',
-            message: __('Please enter a valid e.g: https://www.tao.org/rules.pdf '),
-            validate: function validate(value, callback, options) {
-                try{
-                    const k = new URL(value);
-                } catch(error) {
-                    callback(false);
+            message: __('Invalid URL'),
+            validate: function validate(value, callback) {
+                if(value) {
+                    try{
+                        callback(new URL(value));
+                    } catch(error) {
+                        callback(false);
+                    }
+                } else {
+                    callback(true);
                 }
             }
         }

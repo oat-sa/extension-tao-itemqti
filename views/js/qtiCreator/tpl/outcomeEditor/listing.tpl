@@ -18,7 +18,7 @@
             <div class="tooltip-content">{{__ "A human interpretation of the variable's value."}}</div>
             <input name="interpretation" value="{{interpretation}}" type="text">
         </div>
-        <div class="panel">
+        <div class="panel longinterpretation">
             <label for="longInterpretation" class="has-icon">{{__ "Long interpretation"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
             <div class="tooltip-content">{{__ "An optional link to an extended interpretation of the outcome variable."}}</div>

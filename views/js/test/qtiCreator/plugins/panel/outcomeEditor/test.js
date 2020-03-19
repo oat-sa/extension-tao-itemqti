@@ -109,8 +109,50 @@ define([
                     itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '[data-role="edit"]', () => {
                         const $outcome = $outcomes.children().last();
                         const $externalScored = $outcome.find('.externalscored');
-                        assert.ok($externalScored, 'component can add new outcome variables');
-                        assert.equal($externalScored.find("select[name='externalScored']").children().length, 3, 'component has externalscored attribute options');
+                        assert.ok($externalScored, 'externalScored attribute is present');
+                        assert.equal($externalScored.find("select[name='externalScored']").children().length, 3, 'externalScored attribute has 3 options');
+                        ready();
+                    });
+
+                    $outcomes.children().last().find('[data-role="edit"]').trigger('click.outcome-editor');
+                });
+
+                itemCreator.getAreaBroker().getContainer().find('.adder').trigger('click.outcome-editor');
+            });
+
+            itemCreator.getAreaBroker().getContainer().trigger('initResponseForm.outcome-editor');
+        });
+    });
+
+    QUnit.test('Long Interpretation attribute', assert => {
+        var ready = assert.async();
+        const $container = $('#qunit-fixture');
+
+        const loader = new Loader().setClassesLocation('assessmentItem');
+
+        loader.loadItemData(item_airport, function(loadedItem){
+            const itemCreator = creatorMock($container, {}, loadedItem);
+            const pluginInstance = outcomeEditorPlugin(itemCreator, itemCreator.getAreaBroker());
+
+            pluginInstance.init();
+
+            assert.expect(2);
+
+            itemCreator.getAreaBroker().getContainer().on('initResponseForm.outcome-editor', () => {
+                const $panel = $container.find('.panel');
+
+                itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '.adder', () => {
+                    const $outcomes = $panel.find('.outcomes');
+
+                    itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '[data-role="edit"]', () => {
+                        const $outcome = $outcomes.children().last();
+                        const $longinterpretation = $($outcome.find('.longinterpretation')[0]);
+                        const $longinterpretationInput = $longinterpretation.find("input[name='longInterpretation']");
+                        const testUri = 'http://taocloud.org';
+
+                        assert.ok($longinterpretation, 'Long interpretation attribute is present');
+                        $longinterpretationInput.value = testUri;
+                        assert.equal($longinterpretationInput.value, testUri, 'value set');
                         ready();
                     });
 
