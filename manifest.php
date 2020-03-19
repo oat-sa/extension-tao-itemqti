@@ -36,11 +36,11 @@ return [
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '23.4.0',
+    'version'     => '23.7.1',
     'author'      => 'Open Assessment Technologies',
     'requires' => [
         'taoItems' => '>=10.1.0',
-        'tao'      => '>=40.3.0',
+        'tao'      => '>=41.1.0',
         'generis'  => '>=12.5.0',
     ],
     'models' => [
@@ -68,7 +68,7 @@ return [
             RegisterLegacyPortableLibraries::class,
             SetUpQueueTasks::class,
             RegisterItemCompilerBlacklist::class,
-            RegisterNpmPaths::class
+            RegisterNpmPaths::class,
         ]
     ],
     'local' => [

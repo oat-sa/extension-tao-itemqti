@@ -22,6 +22,7 @@
 
 namespace oat\taoQtiItem\test\integration;
 
+use InvalidArgumentException;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
@@ -31,18 +32,17 @@ class QTI_Container extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
 
     /**
-     * @expectedException InvalidArgumentException
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testEdit()
     {
+        $this->expectException(InvalidArgumentException::class);
         $cont = new ContainerItemBody();
         $cont->edit(11);
     }

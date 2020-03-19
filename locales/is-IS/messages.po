@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:46\n"
+"PO-Revision-Date: 2020-03-12T13:12:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -162,11 +162,11 @@ msgstr "Bakgrunnslitur"
 msgid "Base"
 msgstr ""
 
-msgid "block"
-msgstr "blokk"
-
 msgid "Block"
 msgstr "Blokk"
+
+msgid "block"
+msgstr "blokk"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Í blokkinni er efnið (hvati) atriðisins svo sem texti eða mynd. Hennar er líka þörf í samskiptum á línunni."
@@ -179,6 +179,9 @@ msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
 
 msgid "Browse..."
 msgstr "Velja..."
+
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "cancel"
 msgstr "hætta við"
@@ -222,11 +225,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "Choices"
-msgstr "Valmöguleikar"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Valmöguleikar"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -306,10 +309,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
 
-msgid "Default"
+msgid "default"
 msgstr "Sjálfgefið"
 
-msgid "default"
+msgid "Default"
 msgstr "Sjálfgefið"
 
 msgid "Define correct response"
@@ -336,11 +339,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eyða"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eyða"
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -369,11 +372,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "lokið"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Hlaða niður háttarblaði"
@@ -733,11 +736,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "hafa autt"
@@ -825,11 +828,11 @@ msgstr "Hámarks lengd"
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
-msgstr "Hámarksfjöldi Orða"
-
 msgid "Max words"
 msgstr "Hámarksfjöldi orða"
+
+msgid "Max Words"
+msgstr "Hámarksfjöldi Orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -934,11 +937,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ekkert"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -962,6 +965,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "Röð"
 
@@ -979,6 +988,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "Paraskorun"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "Mynstur"
@@ -1146,9 +1158,6 @@ msgstr "Spurning"
 msgid "Quicktime video"
 msgstr "Quicktime myndskeið"
 
-msgid "recommanded"
-msgstr "mælt með"
-
 msgid "Recommendations"
 msgstr "Ráðleggingar"
 
@@ -1224,11 +1233,11 @@ msgstr "Úrvinnsla svars"
 msgid "Response Properties"
 msgstr "Eigindir Svars"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "hægri"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1245,11 +1254,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "stig"
-
 msgid "Score"
 msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
 
 msgid "Score range"
 msgstr "Stigabil"

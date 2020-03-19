@@ -37,7 +37,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
      * tests initialization
      * load qti service
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -56,18 +56,18 @@ class ItemContentTest extends TaoPhpUnitTestRunner
             }
         }
         $this->assertEquals(1, count($items));
-        
+
         $item = current($items);
         $this->assertIsA($item, 'core_kernel_classes_Resource');
         $this->assertTrue($item->exists());
-        
+
         $rm = new LocalItemSource(['item' => $item , 'lang' => DEFAULT_LANG]);
 
         $data = $rm->getDirectory();
         $this->assertTrue(is_array($data));
         $this->assertTrue(isset($data['path']));
         $this->assertEquals('/', $data['path']);
-        
+
         $this->assertTrue(isset($data['children']));
         $children = $data['children'];
         $this->assertEquals(3, count($children));
@@ -82,12 +82,12 @@ class ItemContentTest extends TaoPhpUnitTestRunner
                 $file = $child;
             }
         }
-        
+
         $this->assertEquals("qti.xml", $file['name']);
         $this->assertTrue(strpos($file['mime'], '/xml') !== false); //can be 'application/xml' or 'text/xml'
         $this->assertTrue($file['size'] > 0);
 
-        
+
         taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
         $this->assertFalse($item->exists());
     }

@@ -34,7 +34,7 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -63,7 +63,7 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
         $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertEquals(get_class($hook), $interactions['fakeInteraction']);
     }
-    
+
     /**
      * @depends testSet
      * @author Lionel Lecaque, lionel@taotesting.com
