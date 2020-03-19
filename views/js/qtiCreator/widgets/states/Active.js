@@ -29,13 +29,15 @@ define([
             container   = _widget.$container[0],
             item        = _widget.element.getRootElement(),
             areaBroker  = _widget.getAreaBroker(),
-            $modalFeedbacksArea = $('#modalFeedbacks');
+            $modalFeedbacksArea = $('#modalFeedbacks'),
+            outerContainer = document.querySelector("#item-editor-scroll-outer");
 
         //move to sleep state by clicking anywhere outside the interaction
         areaBroker.getContentCreatorPanelArea().on('mousedown.active.' + _widget.serial, function(e){
             if (
                 container !== e.target
                 && !$.contains(container, e.target)
+                && $.contains(outerContainer, e.target) // in case click on scrollbar
                 && (!areaBroker || !areaBroker.getEditorBarArea || !$.contains(areaBroker.getEditorBarArea().get(0), e.target))
                 && (!$modalFeedbacksArea.length || !$.contains($modalFeedbacksArea[0], e.target)) //if click triggered inside the #modalFeedback then state must not be changed.
                 && ($(e.target).data('role') !== 'restore')
