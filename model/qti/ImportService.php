@@ -317,6 +317,7 @@ class ImportService extends ConfigurableService
 
             $metadataValues = $this->getMetadataImporter()->extract($domManifest);
 
+            $sharedFiles = [];
             $createdClasses = [];
             foreach ($qtiItemResources as $qtiItemResource) {
                 $itemCount++;
@@ -329,7 +330,7 @@ class ImportService extends ConfigurableService
                     [],
                     [],
                     [],
-                    [],
+                    $sharedFiles,
                     $createdClasses,
                     $enableMetadataGuardians,
                     $enableMetadataValidators,
@@ -425,7 +426,7 @@ class ImportService extends ConfigurableService
         array $metadataInjectors = [],
         array $metadataGuardians = [],
         array $metadataClassLookups = [],
-        array $sharedFiles = [],
+        array &$sharedFiles = [],
         &$createdClasses = [],
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
@@ -579,6 +580,8 @@ class ImportService extends ConfigurableService
                     ->importDependencyFiles($qtiItemResource, $dependencies);
 
                 $itemAssetManager->finalize();
+
+                $sharedFiles = $sharedStimulusHandler->getSharedFiles();
 
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
