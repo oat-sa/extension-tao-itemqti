@@ -70,17 +70,13 @@ define([
                 }
             }
         },
-        //Define a validator that check validity of a URL
+        //Define a validator that checks validity of the URL
         {
             name: 'isValidUrl',
             message: __('Invalid URL'),
             validate: function validate(value, callback) {
                 if(value) {
-                    try{
-                        callback(new URL(value));
-                    } catch(error) {
-                        callback(false);
-                    }
+                    callback(new URL(value));
                 } else {
                     callback(true);
                 }

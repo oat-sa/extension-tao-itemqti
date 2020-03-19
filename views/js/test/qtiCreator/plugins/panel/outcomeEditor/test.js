@@ -70,18 +70,19 @@ define([
         loader.loadItemData(item_airport, function(loadedItem){
             const itemCreator = creatorMock($container, {}, loadedItem);
             const pluginInstance = outcomeEditorPlugin(itemCreator, itemCreator.getAreaBroker());
+            const container = itemCreator.getAreaBroker().getContainer();
 
             pluginInstance.init();
 
             assert.expect(1);
 
-            itemCreator.getAreaBroker().getContainer().on('initResponseForm.outcome-editor', () => {
+            container.on('initResponseForm.outcome-editor', () => {
                 assert.ok($container.children().length, 'component is rendered');
                 pluginInstance.destroy();
                 ready();
             });
 
-            itemCreator.getAreaBroker().getContainer().trigger('initResponseForm.outcome-editor');
+            container.trigger('initResponseForm.outcome-editor');
         });
     });
 
@@ -94,19 +95,20 @@ define([
         loader.loadItemData(item_airport, function(loadedItem){
             const itemCreator = creatorMock($container, {}, loadedItem);
             const pluginInstance = outcomeEditorPlugin(itemCreator, itemCreator.getAreaBroker());
+            const container = itemCreator.getAreaBroker().getContainer();
 
             pluginInstance.init();
 
             assert.expect(3);
 
-            itemCreator.getAreaBroker().getContainer().on('initResponseForm.outcome-editor', () => {
+            container.on('initResponseForm.outcome-editor', () => {
                 const $panel = $container.find('.panel');
 
-                itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '.adder', () => {
+                container.on('click.outcome-editor', '.adder', () => {
                     const $outcomes = $panel.find('.outcomes');
                     assert.equal($outcomes.children().length, 2, 'component can add new outcome variables');
 
-                    itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '[data-role="edit"]', () => {
+                    container.on('click.outcome-editor', '[data-role="edit"]', () => {
                         const $outcome = $outcomes.children().last();
                         const $externalScored = $outcome.find('.externalscored');
                         assert.ok($externalScored, 'externalScored attribute is present');
@@ -117,10 +119,10 @@ define([
                     $outcomes.children().last().find('[data-role="edit"]').trigger('click.outcome-editor');
                 });
 
-                itemCreator.getAreaBroker().getContainer().find('.adder').trigger('click.outcome-editor');
+                container.find('.adder').trigger('click.outcome-editor');
             });
 
-            itemCreator.getAreaBroker().getContainer().trigger('initResponseForm.outcome-editor');
+            container.trigger('initResponseForm.outcome-editor');
         });
     });
 
@@ -133,18 +135,18 @@ define([
         loader.loadItemData(item_airport, function(loadedItem){
             const itemCreator = creatorMock($container, {}, loadedItem);
             const pluginInstance = outcomeEditorPlugin(itemCreator, itemCreator.getAreaBroker());
+            const container = itemCreator.getAreaBroker().getContainer();
 
             pluginInstance.init();
-
             assert.expect(2);
 
-            itemCreator.getAreaBroker().getContainer().on('initResponseForm.outcome-editor', () => {
+            container.on('initResponseForm.outcome-editor', () => {
                 const $panel = $container.find('.panel');
 
-                itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '.adder', () => {
+                container.on('click.outcome-editor', '.adder', () => {
                     const $outcomes = $panel.find('.outcomes');
 
-                    itemCreator.getAreaBroker().getContainer().on('click.outcome-editor', '[data-role="edit"]', () => {
+                    container.on('click.outcome-editor', '[data-role="edit"]', () => {
                         const $outcome = $outcomes.children().last();
                         const $longinterpretation = $($outcome.find('.longinterpretation')[0]);
                         const $longinterpretationInput = $longinterpretation.find("input[name='longInterpretation']");
@@ -152,17 +154,17 @@ define([
 
                         assert.ok($longinterpretation, 'Long interpretation attribute is present');
                         $longinterpretationInput.value = testUri;
-                        assert.equal($longinterpretationInput.value, testUri, 'value set');
+                        assert.equal($longinterpretationInput.value, testUri, 'Can set value set');
                         ready();
                     });
 
                     $outcomes.children().last().find('[data-role="edit"]').trigger('click.outcome-editor');
                 });
 
-                itemCreator.getAreaBroker().getContainer().find('.adder').trigger('click.outcome-editor');
+                container.find('.adder').trigger('click.outcome-editor');
             });
 
-            itemCreator.getAreaBroker().getContainer().trigger('initResponseForm.outcome-editor');
+            container.trigger('initResponseForm.outcome-editor');
         });
     });
 });
