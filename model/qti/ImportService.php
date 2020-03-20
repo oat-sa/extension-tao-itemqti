@@ -325,12 +325,12 @@ class ImportService extends ConfigurableService
                     $folder,
                     $qtiItemResource,
                     $itemClass,
+                    $sharedFiles,
                     [],
                     $metadataValues,
                     [],
                     [],
                     [],
-                    $sharedFiles,
                     $createdClasses,
                     $enableMetadataGuardians,
                     $enableMetadataValidators,
@@ -403,12 +403,12 @@ class ImportService extends ConfigurableService
      * @param $folder
      * @param \oat\taoQtiItem\model\qti\Resource $qtiItemResource
      * @param $itemClass
+     * @param array $sharedFiles
      * @param array $dependencies
      * @param array $metadataValues
      * @param array $metadataInjectors
      * @param array $metadataGuardians
      * @param array $metadataClassLookups
-     * @param array $sharedFiles
      * @param array $createdClasses
      * @param boolean $enableMetadataGuardians
      * @param boolean $enableMetadataValidators
@@ -421,12 +421,12 @@ class ImportService extends ConfigurableService
         $folder,
         Resource $qtiItemResource,
         $itemClass,
+        array &$sharedFiles,
         array $dependencies = [],
         array $metadataValues = [],
         array $metadataInjectors = [],
         array $metadataGuardians = [],
         array $metadataClassLookups = [],
-        array &$sharedFiles = [],
         &$createdClasses = [],
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
