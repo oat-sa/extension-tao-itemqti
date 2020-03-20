@@ -22,12 +22,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\OutcomeDeclaration;
-use oat\taoQtiItem\model\qti\VariableDeclaration;
-use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\response\Composite;
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
-
 /**
  * An outcome is a data build in item output. The SCORE is one of the most
  * outcomes.
@@ -36,7 +30,6 @@ use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10089
-
  */
 class OutcomeDeclaration extends VariableDeclaration
 {
@@ -54,13 +47,13 @@ class OutcomeDeclaration extends VariableDeclaration
         return array_merge(
             parent::getUsedAttributes(),
             [
-            'oat\\taoQtiItem\\model\\qti\\attribute\\View',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\Interpretation',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\ExternalScored',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\LongInterpretation',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMaximum',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMinimum',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\MasteryValue'
+                'oat\\taoQtiItem\\model\\qti\\attribute\\View',
+                'oat\\taoQtiItem\\model\\qti\\attribute\\Interpretation',
+                'oat\\taoQtiItem\\model\\qti\\attribute\\LongInterpretation',
+                'oat\\taoQtiItem\\model\\qti\\attribute\\ExternalScored',
+                'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMaximum',
+                'oat\\taoQtiItem\\model\\qti\\attribute\\NormalMinimum',
+                'oat\\taoQtiItem\\model\\qti\\attribute\\MasteryValue'
             ]
         );
     }

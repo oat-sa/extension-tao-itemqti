@@ -90,9 +90,10 @@ define([
                 serial : outcome.serial,
                 identifier : outcome.id(),
                 interpretation : outcome.attr('interpretation'),
+                longInterpretation : outcome.attr('longInterpretation'),
+                externalScored: externalScored,
                 normalMaximum : outcome.attr('normalMaximum'),
                 normalMinimum : outcome.attr('normalMinimum'),
-                externalScored: externalScored,
                 titleDelete : readonly ? __('Cannot delete a variable currently used in response processing') : __('Delete'),
                 titleEdit : readonly ? __('Cannot edit a variable currently used in response processing') : __('Edit'),
                 readonly : readonly
@@ -217,6 +218,13 @@ define([
 
                             //save to model
                             outcome.attr('interpretation', value);
+                        },
+                        longInterpretation(outcome, value) {
+                            //update the title attr for real time update
+                            $labelContainer.attr('title', value);
+
+                            //save to model
+                            outcome.attr('longInterpretation', value);
                         },
                         externalScored(outcome, value) {
                             //Turn off scoring trait validation if externalScored is not human

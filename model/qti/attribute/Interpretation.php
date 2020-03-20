@@ -22,20 +22,15 @@
 
 namespace oat\taoQtiItem\model\qti\attribute;
 
-use oat\taoQtiItem\model\qti\attribute\Interpretation;
-use oat\taoQtiItem\model\qti\attribute\Attribute;
-
 /**
  * The Interpretation attribute
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
-
  */
 class Interpretation extends Attribute
 {
-    
     protected static $name = 'interpretation';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
     protected static $defaultValue = null;
