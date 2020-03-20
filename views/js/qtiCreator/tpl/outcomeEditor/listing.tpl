@@ -23,7 +23,7 @@
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
             <div class="tooltip-content">{{__ "An optional link to an extended interpretation of the outcome variable."}}</div>
             <input name="longInterpretation"
-                   placeholder="https://www.tao.org/rules.pdf"
+                   placeholder="https://www.example.com/doc.pdf"
                    value="{{longInterpretation}}"
                    type="text"
                    data-validate="$isValidUrl;">

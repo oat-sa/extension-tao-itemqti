@@ -76,7 +76,11 @@ define([
             message: __('Invalid URL'),
             validate: function validate(value, callback) {
                 if(value) {
-                    callback(new URL(value));
+                    try{
+                        callback(new URL(value));
+                    } catch(error) {
+                        callback(false);
+                    }
                 } else {
                     callback(true);
                 }

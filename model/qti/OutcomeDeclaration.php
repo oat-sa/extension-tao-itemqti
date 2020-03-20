@@ -22,11 +22,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\VariableDeclaration;
-use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\response\Composite;
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
-
 /**
  * An outcome is a data build in item output. The SCORE is one of the most
  * outcomes.
