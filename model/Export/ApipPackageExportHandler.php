@@ -29,7 +29,7 @@ use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\resources\SecureResourceService;
+use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\taoQtiItem\model\event\QtiItemExportEvent;
 use oat\taoQtiItem\model\ItemModel;
 use tao_helpers_form_Form;
@@ -139,9 +139,9 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
         return $report;
     }
 
-    protected function getResourceService(): SecureResourceService
+    protected function getResourceService(): SecureResourceServiceInterface
     {
-        return $this->getServiceManager()->get(SecureResourceService::SERVICE_ID);
+        return $this->getServiceManager()->get(SecureResourceServiceInterface::SERVICE_ID);
     }
 
     protected function getServiceManager()
