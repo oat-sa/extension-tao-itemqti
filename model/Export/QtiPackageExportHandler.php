@@ -33,7 +33,7 @@ use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\resources\SecureResourceService;
+use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\taoQtiItem\model\event\QtiItemExportEvent;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
@@ -176,9 +176,9 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
         return $this->metadataExporter;
     }
 
-    protected function getResourceService(): SecureResourceService
+    protected function getResourceService(): SecureResourceServiceInterface
     {
-        return $this->getServiceManager()->get(SecureResourceService::SERVICE_ID);
+        return $this->getServiceManager()->get(SecureResourceServiceInterface::SERVICE_ID);
     }
 
     protected function getServiceManager()
