@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2020 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 define(function(){
@@ -75,31 +75,14 @@ define(function(){
          * @param {string} pciTypeIdentifier
          * @returns {Object} clonedPciModel
          */
-        createPciInstance : function(pciTypeIdentifier){
+        createPciInstance: function(pciTypeIdentifier) {
+            var registeredPCI = window._pciHooks[pciTypeIdentifier];
 
-            if(window._pciHooks[pciTypeIdentifier]){
-
-                var instance = {},
-                    proto = window._pciHooks[pciTypeIdentifier];
-
-                for(var name in proto){
-                    if(typeof proto[name] === 'function'){
-                        //@todo : delegate function call for better performance ?
-                        instance[name] = proto[name];
-                    }else if(proto[name] !== null && typeof proto[name] === 'object'){
-                        //a plain object:
-                        instance[name] = proto[name].constructor();
-                    }else{
-                        //not an object (nor a function) : e.g. 0, 123, '123', null, undefined
-                        instance[name] = proto[name];
-                    }
-                }
-
-                return instance;
-
-            }else{
+            if (!registeredPCI) {
                 throw new Error('no portable custom interaction hook found with the id ' + pciTypeIdentifier);
             }
+
+            return Object.assign({}, registeredPCI);
         }
     };
 });
