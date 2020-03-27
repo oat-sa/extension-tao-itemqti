@@ -577,7 +577,7 @@ class ImportService extends ConfigurableService
 
                 $itemAssetManager->finalize();
 
-                if (isset($sharedStimulusHandler)) {
+                if (isset($sharedStimulusHandler) && $sharedStimulusHandler instanceof SharedStimulusAssetHandler) {
                     $sharedFiles = $sharedStimulusHandler->getSharedFiles();
                 }
                 
