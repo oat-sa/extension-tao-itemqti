@@ -36,12 +36,12 @@ return [
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '23.8.0',
+    'version'     => '23.9.1',
     'author'      => 'Open Assessment Technologies',
     'requires' => [
         'taoItems' => '>=10.1.0',
-        'tao'      => '>=41.1.0',
-        'generis'  => '>=12.16.0',
+        'tao'      => '>=41.6.0',
+        'generis'  => '>=12.16.2',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
