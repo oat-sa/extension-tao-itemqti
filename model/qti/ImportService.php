@@ -547,11 +547,7 @@ class ImportService extends ConfigurableService
                 $peHandler = new PortableAssetHandler($qtiModel, $folder, dirname($qtiFile));
                 $itemAssetManager->loadAssetHandler($peHandler);
 
-                if (
-                $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->isInstalled(
-                    'taoMediaManager'
-                )
-                ) {
+                if ($this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->isInstalled('taoMediaManager')) {
                     /** Shared stimulus handler */
                     $sharedStimulusHandler = new SharedStimulusAssetHandler();
                     $sharedStimulusHandler
@@ -581,8 +577,10 @@ class ImportService extends ConfigurableService
 
                 $itemAssetManager->finalize();
 
-                $sharedFiles = $sharedStimulusHandler->getSharedFiles();
-
+                if (isset($sharedStimulusHandler) && $sharedStimulusHandler instanceof SharedStimulusAssetHandler) {
+                    $sharedFiles = $sharedStimulusHandler->getSharedFiles();
+                }
+                
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
