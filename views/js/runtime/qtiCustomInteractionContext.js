@@ -76,7 +76,7 @@ define(function(){
          * @returns {Object} clonedPciModel
          */
         createPciInstance: function(pciTypeIdentifier) {
-            var registeredPCI = window._pciHooks[pciTypeIdentifier];
+            const registeredPCI = window._pciHooks[pciTypeIdentifier];
 
             if (!registeredPCI) {
                 throw new Error('no portable custom interaction hook found with the id ' + pciTypeIdentifier);
