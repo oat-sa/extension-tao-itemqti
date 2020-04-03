@@ -30,6 +30,8 @@ use core_kernel_classes_Resource;
 use DOMDocument;
 use Exception;
 use helpers_File;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\TaoOntology;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
@@ -73,6 +75,7 @@ use oat\oatbox\service\ConfigurableService;
  */
 class ImportService extends ConfigurableService
 {
+    use OntologyAwareTrait;
 
     const SERVICE_ID = 'taoQtiItem/ImportService';
 
@@ -548,13 +551,19 @@ class ImportService extends ConfigurableService
                 $itemAssetManager->loadAssetHandler($peHandler);
 
                 if ($this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->isInstalled('taoMediaManager')) {
+                    // Media manager path where to store the stimulus.
+                    $path = $this->retrieveFullPathLabels($itemClass);
+                    // Uses the first created item's label as the leaf class.
+                    if (is_array($path)) {
+                        $path[] = $rdfItem->getLabel();
+                    }
                     /** Shared stimulus handler */
                     $sharedStimulusHandler = new SharedStimulusAssetHandler();
                     $sharedStimulusHandler
                         ->setQtiModel($qtiModel)
                         ->setItemSource(new ItemMediaResolver($rdfItem, ''))
                         ->setSharedFiles($sharedFiles)
-                        ->setParentPath($rdfItem->getLabel());
+                        ->setParentPath(json_encode($path));
                     $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
                 } else {
                     $handler = new StimulusHandler();
@@ -842,5 +851,31 @@ class ImportService extends ConfigurableService
             $this->metadataImporter = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter();
         }
         return $this->metadataImporter;
+    }
+
+    /**
+     * Retrieve the labels of all parent classes up to base item class.
+     *
+     * Return values: an empty string if the $class parameter is not a class object
+     *                an empty array if the $class parameter is the base item class
+     *                an array in other cases, ordered from base item class to the class given as parameter
+     *
+     * @param mixed $class Class from which to retrieve.
+     * @return array|string
+     */
+    public function retrieveFullPathLabels($class)
+    {
+        if (!$class instanceof core_kernel_classes_Class) {
+            return '';
+        }
+
+        $labels = [];
+        while ($class->getUri() !== TaoOntology::CLASS_URI_ITEM) {
+            $labels []= $class->getLabel();
+            $parentClasses = $class->getParentClasses();
+            $class = reset($parentClasses);
+        }
+
+        return array_reverse($labels);
     }
 }
