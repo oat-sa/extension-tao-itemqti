@@ -280,7 +280,13 @@ class Service extends tao_models_classes_Service
     {
         $storage = taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
         $itemId = \tao_helpers_Uri::getUniqueId($item->getUri());
-        if (!$storage->getDirectory($itemId)->deleteSelf()) {
+        try {
+            $isDelete = $storage->getDirectory($itemId)->deleteSelf();
+        } catch (\Exception $e) {
+            throw new common_exception_FileSystemError("Cannot delete $itemId directory with message ".$e->getMessage());
+        }
+
+        if (!$isDelete) {
             throw new common_exception_FileSystemError("Cannot delete $itemId directory.");
         }
         $storage->getDirectory($backUpName)->rename($itemId);
