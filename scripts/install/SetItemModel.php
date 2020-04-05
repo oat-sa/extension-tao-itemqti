@@ -26,6 +26,7 @@ use oat\oatbox\extension\InstallAction;
 use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
 use oat\taoQtiItem\model\Export\ItemMetadataByClassExportHandler;
 use oat\taoQtiItem\model\Export\QtiPackage22ExportHandler;
+use oat\taoQtiItem\model\Export\QtiPackage30ExportHandler;
 use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
 use oat\taoQtiItem\model\import\QtiItemImport;
 use oat\taoQtiItem\model\import\QtiPackageImport;
@@ -46,7 +47,8 @@ class SetItemModel extends InstallAction
                 new ItemMetadataByClassExportHandler(),
                 new ApipPackageExportHandler(),
                 new QtiPackageExportHandler(),
-                new QtiPackage22ExportHandler()
+                new QtiPackage22ExportHandler(),
+                new QtiPackage30ExportHandler(),
             ],
             ItemModel::IMPORT_HANDLER => [
                 new QtiItemImport(),
