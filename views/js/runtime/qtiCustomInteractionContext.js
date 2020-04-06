@@ -16,7 +16,7 @@
  * Copyright (c) 2014-2020 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
-define(function() {
+define(['lodash'], function(_) {
     'use strict';
 
     //need a global reference to have pciHooks shared in two different requirejs context ("default" and "portableCustomInteraction")
@@ -83,7 +83,7 @@ define(function() {
                 throw new Error('no portable custom interaction hook found with the id ' + pciTypeIdentifier);
             }
 
-            return Object.assign({}, registeredPCI);
+            return _.cloneDeep(registeredPCI);
         }
     };
 });
