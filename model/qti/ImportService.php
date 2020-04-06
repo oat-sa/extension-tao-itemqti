@@ -437,7 +437,7 @@ class ImportService extends ConfigurableService
         $itemMustBeOverwritten = false,
         &$overwrittenItems = []
     ) {
-        $lock = $this->createLock('lock_'.$qtiItemResource->getIdentifier());
+        $lock = $this->createLock(__CLASS__ .'/'. __METHOD__.'/'.$qtiItemResource->getIdentifier(), 60);
         $lock->acquire(true);
         try {
             $qtiService = Service::singleton();
