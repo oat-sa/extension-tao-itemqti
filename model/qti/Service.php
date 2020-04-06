@@ -287,7 +287,7 @@ class Service extends tao_models_classes_Service
         }
 
         if (!$isDelete) {
-            throw new common_exception_FileSystemError("Cannot delete $itemId directory.");
+            throw new common_exception_FileSystemError("Cannot delete item directory. Item id: " . $itemId);
         }
         $storage->getDirectory($backUpName)->rename($itemId);
 
