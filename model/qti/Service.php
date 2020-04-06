@@ -283,7 +283,7 @@ class Service extends tao_models_classes_Service
         try {
             $isDelete = $storage->getDirectory($itemId)->deleteSelf();
         } catch (\Exception $e) {
-            throw new common_exception_FileSystemError("Cannot delete $itemId directory with message ".$e->getMessage());
+            throw new common_exception_FileSystemError("Cannot delete $itemId directory. Error message: ".$e->getMessage());
         }
 
         if (!$isDelete) {
