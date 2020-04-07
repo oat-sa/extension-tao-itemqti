@@ -110,6 +110,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     public function export(array $items = null)
     {
+        $this->headers = [];
         if (empty($items)) {
             $items = $this->getItems();
         }
@@ -228,6 +229,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         $filePath = $this->getFilePath();
 
         if (file_put_contents($filePath, chr(239) . chr(187) . chr(191) . implode("\n", $contents))) {
+            $this->headers = [];
             return $filePath;
         }
 
