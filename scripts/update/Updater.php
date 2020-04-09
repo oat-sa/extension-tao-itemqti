@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use common_Exception;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
@@ -72,6 +73,7 @@ class Updater extends \common_ext_ExtensionUpdater
      *
      * @param string $initialVersion
      * @return string
+     * @throws common_Exception
      */
     public function update($initialVersion)
     {
@@ -436,5 +438,11 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('21.0.0', '23.9.6');
 
+        if ($this->isVersion('23.9.6')) {
+            $importService = $this->getServiceManager()->get(ImportService::SERVICE_ID);
+            $importService->setOption(ImportService::OPTION_IMORT_LOCK_TTL, 60);
+            $this->getServiceManager()->register(ImportService::SERVICE_ID, $importService);
+            $this->setVersion('23.10.0');
+        }
     }
 }
