@@ -32,6 +32,7 @@ use Exception;
 use helpers_File;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\TaoOntology;
+use oat\oatbox\mutex\LockTrait;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
@@ -76,6 +77,8 @@ use oat\oatbox\service\ConfigurableService;
 class ImportService extends ConfigurableService
 {
     use OntologyAwareTrait;
+
+    use LockTrait;
 
     const SERVICE_ID = 'taoQtiItem/ImportService';
 
@@ -437,6 +440,8 @@ class ImportService extends ConfigurableService
         $itemMustBeOverwritten = false,
         &$overwrittenItems = []
     ) {
+        $lock = $this->createLock(__CLASS__ .'/'. __METHOD__.'/'.$qtiItemResource->getIdentifier(), 60);
+        $lock->acquire(true);
         try {
             $qtiService = Service::singleton();
             $overWriting = false;
@@ -461,6 +466,7 @@ class ImportService extends ConfigurableService
                             \common_Logger::i(
                                 'Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.'
                             );
+                            $lock->release();
                             return common_report_Report::createInfo(
                                 __(
                                     'The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.',
@@ -475,6 +481,7 @@ class ImportService extends ConfigurableService
                             \common_Logger::i(
                                 'Resource "' . $resourceIdentifier . '" must be already stored in the database in order to proceed.'
                             );
+                            $lock->release();
                             return new common_report_Report(
                                 common_report_Report::TYPE_ERROR,
                                 __(
@@ -497,6 +504,7 @@ class ImportService extends ConfigurableService
                             ) . $validationReport->getMessage()
                         );
                         \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
+                        $lock->release();
                         return $validationReport;
                     }
                 }
@@ -514,6 +522,7 @@ class ImportService extends ConfigurableService
                         $qtiModel
                     )
                 ) {
+                    $lock->release();
                     return common_report_Report::createFailure(
                         __(
                             'The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.',
@@ -699,7 +708,7 @@ class ImportService extends ConfigurableService
             $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
             $report->add($e);
         }
-
+        $lock->release();
         return $report;
     }
 
