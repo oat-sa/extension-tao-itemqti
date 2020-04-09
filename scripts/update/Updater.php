@@ -436,7 +436,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('21.0.0');
         }
 
-        $this->skip('21.0.0', '23.9.6');
+        $this->skip('21.0.0', '23.9.7');
 
         if ($this->isVersion('23.9.6')) {
             $importService = $this->getServiceManager()->get(ImportService::SERVICE_ID);
