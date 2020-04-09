@@ -438,7 +438,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('21.0.0', '23.9.7');
 
-        if ($this->isVersion('23.9.6')) {
+        if ($this->isVersion('23.9.7')) {
             $importService = $this->getServiceManager()->get(ImportService::SERVICE_ID);
             $importService->setOption(ImportService::OPTION_IMORT_LOCK_TTL, 60);
             $this->getServiceManager()->register(ImportService::SERVICE_ID, $importService);
