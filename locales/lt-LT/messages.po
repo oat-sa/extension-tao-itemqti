@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-03-12T13:14:19\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:24:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -116,6 +116,9 @@ msgstr "Įvyko klaida apdorojant IMS QTI duomenis."
 msgid "An error occurred at the level of the QTI model."
 msgstr "Įvyko klaida IMS QTI modelio lygmenyje."
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Įvyko netikėta klaida atliekant Atsakymo Apdorojimą."
 
@@ -163,11 +166,11 @@ msgstr "Fono spalva"
 msgid "Base"
 msgstr "Pagrindas"
 
-msgid "Block"
-msgstr "Blokas"
-
 msgid "block"
 msgstr "blokas"
+
+msgid "Block"
+msgstr "Blokas"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blokas sudarytas iš turinio (stimulus) elemento, kaip tekstas ar paveiksliukas. Tai taip pat privaloma Įterptoms Užduotims."
@@ -184,11 +187,11 @@ msgstr "Naršyti..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "cancel"
-msgstr "atšaukti"
-
 msgid "Cancel"
 msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Nepavyko sukurti tarpo iš šio pasirinkimo. Prašome patikrinti, ar jūs neturite dalinai pasirinktų elementų."
@@ -226,11 +229,11 @@ msgstr "Pasirinkimo Sąveika"
 msgid "Choice Properties"
 msgstr "Pasirinkti Savybes"
 
-msgid "choices"
-msgstr "pasirinkimai"
-
 msgid "Choices"
 msgstr "Pasirinkimai"
+
+msgid "choices"
+msgstr "pasirinkimai"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Pasirinkite lentelei horizontalų lygiavimą."
@@ -340,11 +343,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr "Ištrinti"
-
 msgid "delete"
 msgstr "ištrinti"
+
+msgid "Delete"
+msgstr "Ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -474,9 +477,6 @@ msgstr ""
 
 msgid "Exponent"
 msgstr "Eksponentas"
-
-msgid "Export"
-msgstr "Eksportuoti"
 
 msgid "Export APIP 1.0 Package"
 msgstr "Eksportuoti APIP 1.0 Paketą"
@@ -691,6 +691,9 @@ msgstr "blogas identifikatorius"
 msgid "invalid QTI XML"
 msgstr "blogas QTI XML"
 
+msgid "Invalid URL"
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "Ar šis pasirinkimas yra teisingas atsakymas?"
 
@@ -773,6 +776,9 @@ msgstr "Ln"
 msgid "Log"
 msgstr "Žurnalas"
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "Ciklas"
 
@@ -787,11 +793,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Klaidingas XML[%s]:\n"
 "%s"
 
-msgid "Manage Items"
-msgstr "Tvarkyti klausimus"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Tvarkyti klausimus"
+
+msgid "Manage Items"
 msgstr "Tvarkyti klausimus"
 
 msgid "map response"
@@ -821,11 +827,11 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maks"
 
-msgid "Max Length"
-msgstr "Maks. Ilgis"
-
 msgid "Max length"
 msgstr "Maks. ilgis"
+
+msgid "Max Length"
+msgstr "Maks. Ilgis"
 
 msgid "Max plays count"
 msgstr "Maks. paleidimų kiekis"
@@ -939,11 +945,11 @@ msgstr "Peržiūrėti negalima"
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "None"
-msgstr "Nėra"
-
 msgid "none"
 msgstr "nėra"
+
+msgid "None"
+msgstr "Nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -1176,11 +1182,11 @@ msgstr "Registravimo metodas tikisi $key ir $name parametrų"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registravimo metodas tikisi $key ir $name parametrų."
 
-msgid "remove"
-msgstr "ištrinti"
-
 msgid "Remove"
 msgstr "Ištrinti"
+
+msgid "remove"
+msgstr "ištrinti"
 
 msgid "Remove custom background color"
 msgstr "Panaikinti pasirinktą fono spalvą"
@@ -1236,11 +1242,11 @@ msgstr "Atsakymų vertinimo modelis"
 msgid "Response Properties"
 msgstr "Atsakymo Savybės"
 
-msgid "right"
-msgstr "dešinė"
-
 msgid "Right"
 msgstr "Dešinė"
+
+msgid "right"
+msgstr "dešinė"
 
 msgid "Right bracket"
 msgstr "Dešinys skliaustas"
@@ -1257,11 +1263,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "Score"
-msgstr "Balai"
-
 msgid "score"
 msgstr "balai"
+
+msgid "Score"
+msgstr "Balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"
@@ -1676,11 +1682,11 @@ msgstr "Nepavyko gauti elemento : "
 msgid "Unable to validate %s: %s"
 msgstr "Nepavyko patvirtinti %s: %s"
 
-msgid "Undo"
-msgstr "Anuliuoti"
-
 msgid "undo"
 msgstr "anuliuoti"
+
+msgid "Undo"
+msgstr "Anuliuoti"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Nežinomas $key registruoti MetadataService instanciją"
