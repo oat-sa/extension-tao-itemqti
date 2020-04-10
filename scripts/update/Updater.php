@@ -444,5 +444,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(ImportService::SERVICE_ID, $importService);
             $this->setVersion('23.10.0');
         }
+
+        $this->skip('23.10.0', '23.10.1');
     }
 }
