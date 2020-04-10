@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-03-12T13:17:52\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:25:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -116,6 +116,9 @@ msgstr "在解析IMS QTI数据时发生错误。"
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "在处理回应时发生了错误。"
 
@@ -162,10 +165,10 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "区块"
 
-msgid "block"
+msgid "Block"
 msgstr "区块"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -183,10 +186,10 @@ msgstr "浏览..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -225,11 +228,11 @@ msgstr "选择的互动"
 msgid "Choice Properties"
 msgstr "选择的属性"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "选择"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -339,11 +342,11 @@ msgstr "限定的阔度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "删除"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "删除else语句"
@@ -473,9 +476,6 @@ msgstr ""
 
 msgid "Exponent"
 msgstr ""
-
-msgid "Export"
-msgstr "导出"
 
 msgid "Export APIP 1.0 Package"
 msgstr "导出 APIP 1.0 包"
@@ -690,6 +690,9 @@ msgstr "无效的识别符"
 msgid "invalid QTI XML"
 msgstr ""
 
+msgid "Invalid URL"
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "这个选择是对的答案吗？"
 
@@ -772,6 +775,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "循环"
 
@@ -785,11 +791,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "管理题目"
-
 #, tao-public
 msgid "Manage items"
+msgstr "管理题目"
+
+msgid "Manage Items"
 msgstr "管理题目"
 
 msgid "map response"
@@ -819,10 +825,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大长度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大长度"
 
 msgid "Max plays count"
@@ -937,11 +943,11 @@ msgstr ""
 msgid "No value set"
 msgstr "没有设定数值"
 
-msgid "None"
-msgstr "无"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "无"
 
 msgid "None defined yet."
 msgstr "还未定义。"
@@ -1173,10 +1179,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1233,11 +1239,11 @@ msgstr "处理回应"
 msgid "Response Properties"
 msgstr "回应属性"
 
-msgid "right"
-msgstr "右"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "右"
 
 msgid "Right bracket"
 msgstr ""
@@ -1254,10 +1260,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr "分数"
 
-msgid "score"
+msgid "Score"
 msgstr "分数"
 
 msgid "Score range"
@@ -1672,10 +1678,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "复原"
 
-msgid "undo"
+msgid "Undo"
 msgstr "复原"
 
 msgid "Unknown $key to register MetadataService instance"

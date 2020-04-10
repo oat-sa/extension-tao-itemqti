@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint124\n"
-"PO-Revision-Date: 2020-03-20T11:17:01\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:24:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -117,6 +117,9 @@ msgstr "Er is een fout opgetreden bij het parsen van IMS QTI data."
 msgid "An error occurred at the level of the QTI model."
 msgstr "Er is een fout opgetreden op het niveau van het QTI-model."
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Er is een onverwachte fout opgetreden het verwerken van de antwoorden."
 
@@ -164,11 +167,11 @@ msgstr "Achtergrondkleur"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
-msgstr "Blok"
-
 msgid "block"
 msgstr "blok"
+
+msgid "Block"
+msgstr "Blok"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blok bevat de inhoud (stimulus) van het item zoals tekst of een afbeelding. Het is ook nodig voor in lijn interacties."
@@ -341,11 +344,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
 
-msgid "Delete"
-msgstr "Verwijderen"
-
 msgid "delete"
 msgstr "verwijder"
+
+msgid "Delete"
+msgstr "Verwijderen"
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -689,6 +692,9 @@ msgstr "ongeldige naam"
 msgid "invalid QTI XML"
 msgstr "ongeldige QTI XML"
 
+msgid "Invalid URL"
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "Is deze keuze het correcte antwoord?"
 
@@ -735,20 +741,20 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "Left"
-msgstr "Links"
-
 msgid "left"
 msgstr "links"
+
+msgid "Left"
+msgstr "Links"
 
 msgid "Left bracket"
 msgstr "Linker haakje"
@@ -771,6 +777,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "Herhaal"
 
@@ -785,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Misvormde XML[%s]:\n"
 "%s"
 
-msgid "Manage Items"
-msgstr "Beheer items"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Beheer items"
+
+msgid "Manage Items"
 msgstr "Beheer items"
 
 msgid "map response"
@@ -819,19 +828,19 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximaal aantal woorden"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximaal aantal woorden"
 
 msgid "Max. number of matches"
@@ -937,11 +946,11 @@ msgstr "Geen preview beschikbaar"
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "None"
-msgstr "Geen"
-
 msgid "none"
 msgstr "geen"
+
+msgid "None"
+msgstr "Geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1235,11 +1244,11 @@ msgstr "Antwoord verwerking"
 msgid "Response Properties"
 msgstr "Antwoord eigenschappen"
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr "Rechts"
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr "Rechter haakje"
