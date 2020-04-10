@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint124\n"
-"PO-Revision-Date: 2020-03-20T08:13:56\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:24:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -117,6 +117,9 @@ msgstr "Une erreur s'est produite pendant l'analyse des données QTI."
 msgid "An error occurred at the level of the QTI model."
 msgstr "Une erreur s'est produite au niveau du modèle QTI."
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Une erreur inattendue s'est produite pendant la transaction avec le traitement des réponses."
 
@@ -164,11 +167,11 @@ msgstr "Couleur d'arrière-plan"
 msgid "Base"
 msgstr "Base"
 
-msgid "Block"
-msgstr "Bloc"
-
 msgid "block"
 msgstr "bloc"
+
+msgid "Block"
+msgstr "Bloc"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Le bloc contient le contenu (stimulus) de l'item tel que du texte ou une image. Il est aussi demandé pour les interactions en ligne."
@@ -341,11 +344,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
 
-msgid "Delete"
-msgstr "Supprimer"
-
 msgid "delete"
 msgstr "supprimer"
+
+msgid "Delete"
+msgstr "Supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -689,6 +692,9 @@ msgstr "identifiant non valide"
 msgid "invalid QTI XML"
 msgstr "XML QTI invalide"
 
+msgid "Invalid URL"
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "Est-ce que ce choix est la réponse correcte ?"
 
@@ -735,20 +741,20 @@ msgstr "Langue"
 msgid "Large editor"
 msgstr "Éditeur large"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "Left"
-msgstr "Gauche"
-
 msgid "left"
 msgstr "gauche"
+
+msgid "Left"
+msgstr "Gauche"
 
 msgid "Left bracket"
 msgstr "Parenthèse ouvrante"
@@ -771,6 +777,9 @@ msgstr "Ln"
 msgid "Log"
 msgstr "Journal"
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "En boucle"
 
@@ -785,11 +794,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "XML mal formé[%s] :\n"
 "%s"
 
-msgid "Manage Items"
-msgstr "Gestion des items"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Gestion des items"
+
+msgid "Manage Items"
 msgstr "Gestion des items"
 
 msgid "map response"
@@ -819,19 +828,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Longueur maximale"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Longueur maximale"
 
 msgid "Max plays count"
 msgstr "Nombre max. de lectures"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximum de mots"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximum de mots"
 
 msgid "Max. number of matches"
@@ -937,11 +946,11 @@ msgstr "Pas d'aperçu disponible"
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "None"
-msgstr "Aucun"
-
 msgid "none"
 msgstr "aucun"
+
+msgid "None"
+msgstr "Aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -1235,11 +1244,11 @@ msgstr "Traitement de la réponse"
 msgid "Response Properties"
 msgstr "Propriétés de la réponse"
 
-msgid "right"
-msgstr "droite"
-
 msgid "Right"
 msgstr "Droite"
+
+msgid "right"
+msgstr "droite"
 
 msgid "Right bracket"
 msgstr "Parenthèse fermante"

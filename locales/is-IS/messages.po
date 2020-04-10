@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-03-12T13:12:31\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:24:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -116,6 +116,9 @@ msgstr "Villa kom upp þegar verið var að greina IMS QTI gögn."
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Óvænt villa kom upp þegar verið var að eiga við Svaravinnslu."
 
@@ -162,11 +165,11 @@ msgstr "Bakgrunnslitur"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
-msgstr "Blokk"
-
 msgid "block"
 msgstr "blokk"
+
+msgid "Block"
+msgstr "Blokk"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Í blokkinni er efnið (hvati) atriðisins svo sem texti eða mynd. Hennar er líka þörf í samskiptum á línunni."
@@ -183,11 +186,11 @@ msgstr "Velja..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "cancel"
-msgstr "hætta við"
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr "hætta við"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -225,11 +228,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Valmöguleikar"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -339,11 +342,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "eyða"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -473,9 +476,6 @@ msgstr ""
 
 msgid "Exponent"
 msgstr ""
-
-msgid "Export"
-msgstr "Flytja út"
 
 msgid "Export APIP 1.0 Package"
 msgstr "Flytja út APIP 1.0 pakka"
@@ -690,6 +690,9 @@ msgstr "ógilt heiti"
 msgid "invalid QTI XML"
 msgstr ""
 
+msgid "Invalid URL"
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "Er þessi valkostur rétta svarið?"
 
@@ -772,6 +775,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "Lykkja"
 
@@ -785,12 +791,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Vinna með Atriði"
-
 #, tao-public
 msgid "Manage items"
 msgstr "Vinna með atriði"
+
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
 
 msgid "map response"
 msgstr ""
@@ -819,11 +825,11 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max Length"
-msgstr "Hámarks Lengd"
-
 msgid "Max length"
 msgstr "Hámarks lengd"
+
+msgid "Max Length"
+msgstr "Hámarks Lengd"
 
 msgid "Max plays count"
 msgstr ""
@@ -937,11 +943,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "None"
-msgstr "Ekkert"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Ekkert"
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1173,11 +1179,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
-msgstr "fjarlægja"
-
 msgid "Remove"
 msgstr "Fjarlægja"
+
+msgid "remove"
+msgstr "fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1233,11 +1239,11 @@ msgstr "Úrvinnsla svars"
 msgid "Response Properties"
 msgstr "Eigindir Svars"
 
-msgid "right"
-msgstr "hægri"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "hægri"
 
 msgid "Right bracket"
 msgstr ""
@@ -1254,11 +1260,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
-msgstr "Stig"
-
 msgid "score"
 msgstr "stig"
+
+msgid "Score"
+msgstr "Stig"
 
 msgid "Score range"
 msgstr "Stigabil"
@@ -1672,11 +1678,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Afturkalla"
-
 msgid "undo"
 msgstr "afturkalla"
+
+msgid "Undo"
+msgstr "Afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
