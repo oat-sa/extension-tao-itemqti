@@ -8,5 +8,5 @@ use oat\taoQtiItem\model\qti\ImportService;
 
 return new ImportService([
     ImportService::CONFIG_VALIDATE_RESPONSE_PROCESSING => false,
-    ImportService::OPTION_IMORT_LOCK_TTL => 60,
+    ImportService::OPTION_IMPORT_LOCK_TTL => 60,
 ]);

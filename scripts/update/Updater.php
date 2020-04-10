@@ -440,7 +440,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('23.9.7')) {
             $importService = $this->getServiceManager()->get(ImportService::SERVICE_ID);
-            $importService->setOption(ImportService::OPTION_IMORT_LOCK_TTL, 60);
+            $importService->setOption(ImportService::OPTION_IMPORT_LOCK_TTL, 60);
             $this->getServiceManager()->register(ImportService::SERVICE_ID, $importService);
             $this->setVersion('23.10.0');
         }

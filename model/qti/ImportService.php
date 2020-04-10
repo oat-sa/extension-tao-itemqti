@@ -86,7 +86,7 @@ class ImportService extends ConfigurableService
      * TTL of the item importing process
      * How long item will be locked while lock service automatically release the lock
      */
-    const OPTION_IMORT_LOCK_TTL = 'importLockTtl';
+    const OPTION_IMPORT_LOCK_TTL = 'importLockTtl';
 
     const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
@@ -420,7 +420,7 @@ class ImportService extends ConfigurableService
     private function checkImportLockTime(float $startImportTime, string $itemId = ''): void
     {
         $timeElapsedSecs = microtime(true) - $startImportTime;
-        if ($timeElapsedSecs > $this->getOption(self::OPTION_IMORT_LOCK_TTL)) {
+        if ($timeElapsedSecs > $this->getOption(self::OPTION_IMPORT_LOCK_TTL)) {
             common_Logger::w('Items lock was released before item '.$itemId.' import finished.');
         }
     }
@@ -465,7 +465,7 @@ class ImportService extends ConfigurableService
 
         $lock = $this->createLock(
             __CLASS__ .'/'. __METHOD__.'/'.$qtiItemResource->getIdentifier(),
-            $this->getOption(self::OPTION_IMORT_LOCK_TTL)
+            $this->getOption(self::OPTION_IMPORT_LOCK_TTL)
         );
         $lock->acquire(true);
         try {
