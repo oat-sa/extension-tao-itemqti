@@ -29,12 +29,13 @@ define([
     var TextEntryInteractionStateQuestion = stateFactory.extend(Question);
 
     TextEntryInteractionStateQuestion.prototype.initForm = function(){
-        
+
         var _widget = this.widget,
             $form = _widget.$form,
             $inputs,
             interaction = _widget.element,
             patternMask = interaction.attr('patternMask'),
+            patternMaskMessage = interaction.attr('data-pattermask-message'),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'), 10);
 
         var constraints = {
@@ -57,6 +58,7 @@ define([
             expectedLength : parseInt(interaction.attr('expectedLength')),
             constraints : constraints,
             patternMask : patternMask,
+            patternMaskMessage : patternMaskMessage,
             maxLength : maxChars,
         }));
 
@@ -64,7 +66,8 @@ define([
 
         $inputs = {
             maxLength : $form.find('[name="maxLength"]'),
-            patternMask : $form.find('[name="patternMask"]')
+            patternMask : $form.find('[name="patternMask"]'),
+            patternMaskMessage : $form.find('[name="patternMaskMessage"]')
         };
 
         formElement.setChangeCallbacks($form, interaction, {
@@ -86,6 +89,9 @@ define([
                 interaction.attr('patternMask', attrValue);
                 //If anything is entered inside the patternMask, reset maxLength
                 $inputs.maxLength.val('');
+            },
+            patternMaskMessage : function patternMaskMessage(interaction, attrValue) {
+                interaction.attr('data-pattermask-message', attrValue);
             },
             maxLength : function maxLength(interaction, attrValue){
                 var newValue = parseInt(attrValue,10);
