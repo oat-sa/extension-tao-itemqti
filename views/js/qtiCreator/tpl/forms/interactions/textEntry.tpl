@@ -28,24 +28,36 @@
 </div>
 
 <div class="panel extendedText">
+
     {{!-- Let the user enter his own pattern --}}
-    <div class="constraint constraint-pattern" {{#unless constraints.pattern.selected}}style="display:none"{{/unless}}>
-        <label>
-            {{__ "Pattern"}}
-        </label>
+    <div class="panel constraint constraint-pattern" {{#unless constraints.pattern.selected}}style="display:none"{{/unless}}>
+
+        <label>{{__ "Pattern"}}</label>
+
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
         <span class="tooltip-content">{{__ "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"}}</span>
         <input type="text" name="patternMask" value="{{#if patternMask}}{{patternMask}}{{/if}}"/>
     </div>
+
+    <div class="panel constraint constraint-pattern" {{#unless constraints.pattern.selected}}style="display:none"{{/unless}}>
+
+        <label>{{__ "Pattern instrustion"}}</label>
+
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "User-frendly message to inform the test takers about the required format (pattern)"}}</span>
+        <input type="text" name="patternMaskMessage" value="{{#if patternMaskMessage}}{{patternMaskMessage}}{{/if}}"/>
+    </div>
+
     {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
-    <div class="constraint constraint-maxLength" {{#unless constraints.maxLength.selected}}style="display:none"{{/unless}}>
-        <label class="spinner">
-            {{__ "Max length"}}
-        </label>
+    <div class="panel constraint constraint-maxLength" {{#unless constraints.maxLength.selected}}style="display:none"{{/unless}}>
+
+        <label class="spinner">{{__ "Max length"}}</label>
+
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
         <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
-        <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" {{#if maxLength}}value="{{maxLength}}"{{/if}} />
+        <input type="text" name="maxLength" data-min="0" data-increment="1" class="incrementer" {{#if maxLength}}value="{{maxLength}}"{{/if}} />
     </div>
+
 </div>
 
 <hr>
