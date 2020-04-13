@@ -446,5 +446,16 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('23.10.0', '23.10.1');
+
+        if ($this->isVersion('23.10.1')) {
+            $eventManager = $this->getServiceManager()->get(\oat\oatbox\event\EventManager::SERVICE_ID);
+            $eventManager->attach(
+                \oat\taoItems\model\event\ItemCreatedEvent::class,
+                [\oat\taoQtiItem\model\qti\Service::class, 'catchItemCreatedEvent']
+            );
+            $this->getServiceManager()->register(\oat\oatbox\event\EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('23.11.0');
+        }
     }
 }
