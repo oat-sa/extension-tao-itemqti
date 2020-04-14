@@ -61,6 +61,9 @@ use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
 use taoItems_models_classes_ItemsService;
+use oat\taoItems\model\event\ItemCreatedEvent;
+use oat\taoQtiItem\model\qti\Service;
+use oat\oatbox\event\EventManager;
 
 /**
  *
@@ -448,12 +451,12 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('23.10.0', '23.10.1');
 
         if ($this->isVersion('23.10.1')) {
-            $eventManager = $this->getServiceManager()->get(\oat\oatbox\event\EventManager::SERVICE_ID);
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(
-                \oat\taoItems\model\event\ItemCreatedEvent::class,
-                [\oat\taoQtiItem\model\qti\Service::class, 'catchItemCreatedEvent']
+                ItemCreatedEvent::class,
+                [Service::class, 'catchItemCreatedEvent']
             );
-            $this->getServiceManager()->register(\oat\oatbox\event\EventManager::SERVICE_ID, $eventManager);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
             $this->setVersion('23.11.0');
         }
