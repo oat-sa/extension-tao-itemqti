@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -145,16 +144,14 @@ class MetaDataOntologyExtractor implements Extractor
      */
     protected function setMetaDataProperties(array $config)
     {
-        if (empty($this->metaDataProperties)) {
-            $itemTypes = $this->item->getTypes();
-            $classType = reset($itemTypes);
+        $itemTypes = $this->item->getTypes();
+        $classType = reset($itemTypes);
 
-            if (!$classType->isClass()) {
-                throw new ExtractorException('Item class type do not exists');
-            }
-
-            $this->metaDataProperties = $this->getAvailableMetaDataProperties($classType, $config['excludedProperties']);
+        if (!$classType->isClass()) {
+            throw new ExtractorException('Item class type do not exists');
         }
+
+        $this->metaDataProperties = $this->getAvailableMetaDataProperties($classType, $config['excludedProperties']);
     }
 
     /**

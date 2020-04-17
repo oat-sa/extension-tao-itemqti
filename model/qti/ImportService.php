@@ -30,6 +30,9 @@ use core_kernel_classes_Resource;
 use DOMDocument;
 use Exception;
 use helpers_File;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\TaoOntology;
+use oat\oatbox\mutex\LockTrait;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
@@ -49,9 +52,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
-use oat\taoQtiItem\model\qti\Resource as QtiResource;
 use qtism\data\QtiComponentCollection;
-use qtism\data\rules\ResponseCondition;
 use qtism\data\rules\SetOutcomeValue;
 use qtism\data\storage\xml\XmlDocument;
 use qtism\data\storage\xml\XmlStorageException;
@@ -73,6 +74,9 @@ use oat\oatbox\service\ConfigurableService;
  */
 class ImportService extends ConfigurableService
 {
+    use OntologyAwareTrait;
+
+    use LockTrait;
 
     const SERVICE_ID = 'taoQtiItem/ImportService';
 
@@ -80,6 +84,12 @@ class ImportService extends ConfigurableService
      * Checks that setOutcomeValue declared in the outcomeDeclaration
      */
     const CONFIG_VALIDATE_RESPONSE_PROCESSING = 'validateResponseProcessing';
+
+    /**
+     * TTL of the item importing process
+     * How long item will be locked while lock service automatically release the lock
+     */
+    const OPTION_IMPORT_LOCK_TTL = 'importLockTtl';
 
     const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
@@ -398,6 +408,25 @@ class ImportService extends ConfigurableService
         return $report;
     }
 
+    /**
+     * Log events when items lock released after the configured item import ttl
+     * It is possible that somehow 2 item import processes were run at once,
+     * in this case we can get a situation when process 1 started import of the
+     * item with ID item1, then process 2 started import of the same item item1,
+     * process 2 saw that item with this ID already exists and pass information that
+     * item exists, but as we know item import is in progress and if someone try to
+     * work with items files he will see an error that files (any resources of the item)
+     * are not found and show error
+     * @param float $startImportTime
+     * @param string $itemId
+     */
+    private function checkImportLockTime(float $startImportTime, string $itemId = ''): void
+    {
+        $timeElapsedSecs = microtime(true) - $startImportTime;
+        if ($timeElapsedSecs > $this->getOption(self::OPTION_IMPORT_LOCK_TTL)) {
+            common_Logger::w('Items lock was released before item '.$itemId.' import finished.');
+        }
+    }
 
     /**
      * @param $folder
@@ -414,6 +443,7 @@ class ImportService extends ConfigurableService
      * @param boolean $enableMetadataValidators
      * @param bool $itemMustExist
      * @param bool $itemMustBeOverwritten
+     * @param array $overwrittenItems
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -434,6 +464,13 @@ class ImportService extends ConfigurableService
         $itemMustBeOverwritten = false,
         &$overwrittenItems = []
     ) {
+        $startImportTime = microtime(true);
+
+        $lock = $this->createLock(
+            __CLASS__ .'/'. __METHOD__.'/'.$qtiItemResource->getIdentifier(),
+            $this->getOption(self::OPTION_IMPORT_LOCK_TTL)
+        );
+        $lock->acquire(true);
         try {
             $qtiService = Service::singleton();
             $overWriting = false;
@@ -458,6 +495,8 @@ class ImportService extends ConfigurableService
                             \common_Logger::i(
                                 'Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.'
                             );
+                            $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
+                            $lock->release();
                             return common_report_Report::createInfo(
                                 __(
                                     'The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.',
@@ -466,20 +505,21 @@ class ImportService extends ConfigurableService
                                 new MetadataGuardianResource($guardian)
                             );
                         }
-                    } else {
-                        // Item not found by guardians.
-                        if ($itemMustExist === true) {
-                            \common_Logger::i(
-                                'Resource "' . $resourceIdentifier . '" must be already stored in the database in order to proceed.'
-                            );
-                            return new common_report_Report(
-                                common_report_Report::TYPE_ERROR,
-                                __(
-                                    'The IMS QTI Item referenced as "%s" in the IMS Manifest file should have been found the Item Bank. Item not found.',
-                                    $resourceIdentifier
-                                )
-                            );
-                        }
+                    }
+                    // Item not found by guardians.
+                    elseif ($itemMustExist === true) {
+                        \common_Logger::i(
+                            'Resource "' . $resourceIdentifier . '" must be already stored in the database in order to proceed.'
+                        );
+                        $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
+                        $lock->release();
+                        return new common_report_Report(
+                            common_report_Report::TYPE_ERROR,
+                            __(
+                                'The IMS QTI Item referenced as "%s" in the IMS Manifest file should have been found the Item Bank. Item not found.',
+                                $resourceIdentifier
+                            )
+                        );
                     }
                 }
 
@@ -494,6 +534,8 @@ class ImportService extends ConfigurableService
                             ) . $validationReport->getMessage()
                         );
                         \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
+                        $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
+                        $lock->release();
                         return $validationReport;
                     }
                 }
@@ -511,6 +553,8 @@ class ImportService extends ConfigurableService
                         $qtiModel
                     )
                 ) {
+                    $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
+                    $lock->release();
                     return common_report_Report::createFailure(
                         __(
                             'The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.',
@@ -548,13 +592,19 @@ class ImportService extends ConfigurableService
                 $itemAssetManager->loadAssetHandler($peHandler);
 
                 if ($this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->isInstalled('taoMediaManager')) {
+                    // Media manager path where to store the stimulus.
+                    $path = $this->retrieveFullPathLabels($itemClass);
+                    // Uses the first created item's label as the leaf class.
+                    if (is_array($path)) {
+                        $path[] = $rdfItem->getLabel();
+                    }
                     /** Shared stimulus handler */
                     $sharedStimulusHandler = new SharedStimulusAssetHandler();
                     $sharedStimulusHandler
                         ->setQtiModel($qtiModel)
                         ->setItemSource(new ItemMediaResolver($rdfItem, ''))
                         ->setSharedFiles($sharedFiles)
-                        ->setParentPath($rdfItem->getLabel());
+                        ->setParentPath(json_encode($path));
                     $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
                 } else {
                     $handler = new StimulusHandler();
@@ -690,7 +740,8 @@ class ImportService extends ConfigurableService
             $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
             $report->add($e);
         }
-
+        $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
+        $lock->release();
         return $report;
     }
 
@@ -842,5 +893,31 @@ class ImportService extends ConfigurableService
             $this->metadataImporter = $this->getServiceLocator()->get(MetadataService::SERVICE_ID)->getImporter();
         }
         return $this->metadataImporter;
+    }
+
+    /**
+     * Retrieve the labels of all parent classes up to base item class.
+     *
+     * Return values: an empty string if the $class parameter is not a class object
+     *                an empty array if the $class parameter is the base item class
+     *                an array in other cases, ordered from base item class to the class given as parameter
+     *
+     * @param mixed $class Class from which to retrieve.
+     * @return array|string
+     */
+    public function retrieveFullPathLabels($class)
+    {
+        if (!$class instanceof core_kernel_classes_Class) {
+            return '';
+        }
+
+        $labels = [];
+        while ($class->getUri() !== TaoOntology::CLASS_URI_ITEM) {
+            $labels []= $class->getLabel();
+            $parentClasses = $class->getParentClasses();
+            $class = reset($parentClasses);
+        }
+
+        return array_reverse($labels);
     }
 }

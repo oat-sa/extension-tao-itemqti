@@ -23,7 +23,6 @@
 namespace oat\taoQtiItem\model;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoClientDiagnostic\exception\InvalidCallException;
 
 class ValidationService extends ConfigurableService
 {

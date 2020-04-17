@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-03-12T13:07:06\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:24:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -116,6 +116,9 @@ msgstr "Beim Verarbeiten von IMS QTI Daten trat ein Fehler auf."
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Bei der Antwortsverarbeitung trat ein unerwarteter Fehler auf."
 
@@ -162,10 +165,10 @@ msgstr "Hintergrundfarbe"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "Block"
 
-msgid "block"
+msgid "Block"
 msgstr "Block"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -183,11 +186,11 @@ msgstr "Durchsuchen..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "cancel"
-msgstr "abbrechen"
-
 msgid "Cancel"
 msgstr "Abbrechen"
+
+msgid "cancel"
+msgstr "abbrechen"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -225,11 +228,11 @@ msgstr "Auswahl Interaktion"
 msgid "Choice Properties"
 msgstr "Auswahleigenschaften"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Auswahl"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -339,11 +342,11 @@ msgstr "Definierte Breite"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "löschen"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Sonst-Anweisung löschen"
@@ -473,9 +476,6 @@ msgstr ""
 
 msgid "Exponent"
 msgstr ""
-
-msgid "Export"
-msgstr "Exportieren"
 
 msgid "Export APIP 1.0 Package"
 msgstr "APIP 1.0 Paket exportieren"
@@ -690,6 +690,9 @@ msgstr "ungültiger Bezeichner"
 msgid "invalid QTI XML"
 msgstr ""
 
+msgid "Invalid URL"
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "Ist diese Auswahl die korrekte Antwort?"
 
@@ -772,6 +775,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "Schleife"
 
@@ -785,11 +791,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Elemente verwalten"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Elemente verwalten"
+
+msgid "Manage Items"
 msgstr "Elemente verwalten"
 
 msgid "map response"
@@ -819,10 +825,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maximum"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximale Länge"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximale Länge"
 
 msgid "Max plays count"
@@ -937,11 +943,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Keinen Wert zugewiesen"
 
-msgid "None"
-msgstr "Keine"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Keine"
 
 msgid "None defined yet."
 msgstr "Noch keine definiert."
@@ -1174,11 +1180,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
-msgstr "entfernen"
-
 msgid "Remove"
 msgstr "Entfernen"
+
+msgid "remove"
+msgstr "entfernen"
 
 msgid "Remove custom background color"
 msgstr "Benutzerdefinierte Hintergrundfarbe entfernen"
@@ -1234,11 +1240,11 @@ msgstr "Antworten-Verarbeitung"
 msgid "Response Properties"
 msgstr "Antworten-Eigenschaften"
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr ""
@@ -1255,10 +1261,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr "Punktzahl"
 
-msgid "score"
+msgid "Score"
 msgstr "Punktzahl"
 
 msgid "Score range"
@@ -1674,10 +1680,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "Rückgängig"
 
-msgid "undo"
+msgid "Undo"
 msgstr "Rückgängig"
 
 msgid "Unknown $key to register MetadataService instance"

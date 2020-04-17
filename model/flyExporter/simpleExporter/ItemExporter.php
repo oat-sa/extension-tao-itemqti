@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -99,6 +98,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         if (!$this->extractors || !$this->columns) {
             throw new ExtractorException('Data config is not correctly set.');
         }
+
     }
 
     /**
@@ -110,6 +110,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     public function export(array $items = null)
     {
+        $this->headers = [];
         if (empty($items)) {
             $items = $this->getItems();
         }
@@ -165,11 +166,13 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
 
         $data = ['0' => []];
         foreach ($this->extractors as $extractor) {
+
             $extractor->setItem($item);
             $extractor->run();
             $values = $extractor->getData();
 
             foreach ($values as $key => $value) {
+
                 $interactionData = is_array($value) && count($value) > 1 ? $value : $values;
 
                 if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) === array_keys($interactionData)) {
@@ -226,6 +229,7 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
         $filePath = $this->getFilePath();
 
         if (file_put_contents($filePath, chr(239) . chr(187) . chr(191) . implode("\n", $contents))) {
+            $this->headers = [];
             return $filePath;
         }
 

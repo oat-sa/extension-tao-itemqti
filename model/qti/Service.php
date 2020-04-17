@@ -21,14 +21,18 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use common_exception_FileSystemError;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
+use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use \tao_models_classes_Service;
 use \core_kernel_classes_Resource;
 use \taoItems_models_classes_ItemsService;
 use \common_Logger;
@@ -44,9 +48,10 @@ use League\Flysystem\FileNotFoundException;
  * @author Somsack Sipasseuth <sam@taotesting.com>
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  */
-class Service extends tao_models_classes_Service
+class Service extends ConfigurableService
 {
     use EventManagerAwareTrait;
+    use OntologyAwareTrait;
 
     const QTI_ITEM_FILE = 'qti.xml';
 
@@ -172,6 +177,16 @@ class Service extends tao_models_classes_Service
     }
 
     /**
+     * @param ItemCreatedEvent $event
+     */
+    public function catchItemCreatedEvent(ItemCreatedEvent $event)
+    {
+        if ($event->getItemContent() !== null) {
+            $this->saveXmlItemToRdfItem($event->getItemContent(), $this->getResource($event->getItemUri()));
+        }
+    }
+
+    /**
      * Load a QTI item from a qti file in parameter.
      *
      * @param $file
@@ -251,6 +266,11 @@ class Service extends tao_models_classes_Service
         return taoItems_models_classes_ItemsService::singleton()->deleteItemContent($item);
     }
 
+    /**
+     * @param core_kernel_classes_Resource $item
+     * @return string
+     * @throws common_exception_FileSystemError
+     */
     public function backupContentByRdfItem(core_kernel_classes_Resource $item)
     {
         $storage = taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
@@ -261,15 +281,38 @@ class Service extends tao_models_classes_Service
         if ($itemDirectory->rename($newName)) {
             return $newName;
         } else {
-            throw new \common_exception_FileSystemError("Unable to backup item with URI '" . $item->getUri() . "'.");
+            throw new common_exception_FileSystemError("Unable to backup item with URI '" . $item->getUri() . "'.");
         }
     }
 
+    /**
+     * @param core_kernel_classes_Resource $item
+     * @param $backUpName
+     * @throws common_exception_FileSystemError
+     */
     public function restoreContentByRdfItem(core_kernel_classes_Resource $item, $backUpName)
     {
         $storage = taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
         $itemId = \tao_helpers_Uri::getUniqueId($item->getUri());
-        $storage->getDirectory($itemId)->deleteSelf();
+        try {
+            $isDelete = $storage->getDirectory($itemId)->deleteSelf();
+        } catch (\Exception $e) {
+            throw new common_exception_FileSystemError("Cannot delete $itemId directory. Error message: ".$e->getMessage());
+        }
+
+        if (!$isDelete) {
+            throw new common_exception_FileSystemError("Cannot delete item directory. Item id: " . $itemId);
+        }
         $storage->getDirectory($backUpName)->rename($itemId);
+
+    }
+
+    /**
+     * @deprecated use ServiceManager::get(\oat\taoQtiItem\model\qti\Service::class)
+     * @return self
+     */
+    public static function singleton()
+    {
+        return ServiceManager::getServiceManager()->get(self::class);
     }
 }
