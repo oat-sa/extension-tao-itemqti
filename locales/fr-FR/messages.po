@@ -1816,3 +1816,9 @@ msgstr "Archive ZIP"
 
 msgid "Common Interactions"
 msgstr "Interactions communes"
+
+msgid "Inline Interactions"
+msgstr "Interaction en ligne"
+
+msgid "Graphic Interactions"
+msgstr "Interaction graphique"
