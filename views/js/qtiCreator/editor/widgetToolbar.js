@@ -383,11 +383,28 @@ define([
                 buttonConfig = handleConfig(buttonConfig, barConfig.extendDefaultConfig);
                 barConfig = $.extend(defaultBarConfig, (barConfig || {}));
 
-
                 toolbar = buildToolbar(buttonConfig, target, tlbWrapper);
 
                 if(barConfig.title){
-                    title = $('<span>', { text : __(barConfig.title), 'class' : 'tlb-title', title : __(barConfig.title) });
+                    const classTitles = {
+                        choiceInteraction: __('Choice Interaction'),
+                        orderInteraction: __('Order Interaction'),
+                        associateInteraction: __('Associate Interaction'),
+                        matchInteraction: __('Match Interaction'),
+                        hottextInteraction: __('Hottext Interaction'),
+                        gapMatchInteraction: __('Gap Match Interaction'),
+                        sliderInteraction: __('Slider Interaction'),
+                        extendedTextInteraction: __('Extended Text Interaction'),
+                        uploadInteraction: __('File Upload Interaction'),
+                        mediaInteraction: __('Media Interaction'),
+                        hotspotInteraction: __('Hotspot Interaction'),
+                        graphicOrderInteraction: __('Graphic Order Interaction'),
+                        graphicAssociateInteraction: __('Graphic Associate Interaction'),
+                        graphicGapMatchInteraction: __('Graphic Gap Match Interaction'),
+                        selectPointInteraction: __('Select Point Interaction')
+                    }
+                    const getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
+                    title = $('<span>', { text : getQtiClassTitle(barConfig.title), 'class' : 'tlb-title', title : getQtiClassTitle(barConfig.title) });
                     tlbWrapper.append(title);
                 }
 

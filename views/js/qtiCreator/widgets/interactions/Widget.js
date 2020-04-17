@@ -87,8 +87,27 @@ define([
      */
     InteractionWidget.createToolbar = function(options){
 
+        const classTitles = {
+            choiceInteraction: __('Choice Interaction'),
+            orderInteraction: __('Order Interaction'),
+            associateInteraction: __('Associate Interaction'),
+            matchInteraction: __('Match Interaction'),
+            hottextInteraction: __('Hottext Interaction'),
+            gapMatchInteraction: __('Gap Match Interaction'),
+            sliderInteraction: __('Slider Interaction'),
+            extendedTextInteraction: __('Extended Text Interaction'),
+            uploadInteraction: __('File Upload Interaction'),
+            mediaInteraction: __('Media Interaction'),
+            hotspotInteraction: __('Hotspot Interaction'),
+            graphicOrderInteraction: __('Graphic Order Interaction'),
+            graphicAssociateInteraction: __('Graphic Associate Interaction'),
+            graphicGapMatchInteraction: __('Graphic Gap Match Interaction'),
+            selectPointInteraction: __('Select Point Interaction')
+        }
+        const getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
+
         options = _.defaults(options || {}, {
-            title : __(_convertToTitle(this.element.qtiClass))
+            title : _convertToTitle(getQtiClassTitle(this.element.qtiClass))
         });
 
         var _this = this,
