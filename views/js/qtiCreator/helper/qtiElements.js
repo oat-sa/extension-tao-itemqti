@@ -306,7 +306,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 icon : 'icon-choice',
                 short : __('Choice'),
                 qtiClass : 'choiceInteraction',
-                tags:['Common Interactions', 'mcq']
+                tags:[__('Common Interactions'), 'mcq']
             },
             orderInteraction : {
                 label : __('Order Interaction'),
@@ -314,7 +314,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Arrange a list of choices in the correct order.'),
                 short : __('Order'),
                 qtiClass : 'orderInteraction',
-                tags:['Common Interactions', 'ordering']
+                tags:[__('Common Interactions'), 'ordering']
             },
             associateInteraction : {
                 label : __('Associate Interaction'),
@@ -322,7 +322,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Create pair(s) from a series of choices.'),
                 short : __('Associate'),
                 qtiClass : 'associateInteraction',
-                tags:['Common Interactions', 'association']
+                tags:[__('Common Interactions'), 'association']
             },
             matchInteraction : {
                 label : __('Match Interaction'),
@@ -330,7 +330,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Create association(s) between two sets of choices displayed in a table (row and column).'),
                 short : __('Match'),
                 qtiClass : 'matchInteraction',
-                tags:['Common Interactions', 'association']
+                tags:[__('Common Interactions'), 'association']
             },
             hottextInteraction : {
                 label : __('Hottext Interaction'),
@@ -338,7 +338,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Select one or more text parts (hottext) within a text.'),
                 short : __('Hottext'),
                 qtiClass : 'hottextInteraction',
-                tags:['Common Interactions', 'text']
+                tags:[__('Common Interactions'), 'text']
             },
             gapMatchInteraction : {
                 label : __('Gap Match Interaction'),
@@ -346,7 +346,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __(' Fill in the gaps in a text from a set of choices.'),
                 short : __('Gap Match'),
                 qtiClass : 'gapMatchInteraction',
-                tags:['Common Interactions', 'text', 'association']
+                tags:[__('Common Interactions'), 'text', 'association']
             },
             sliderInteraction : {
                 label : __('Slider Interaction'),
@@ -354,7 +354,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description :__('Select a value within a numerical range.'),
                 short : __('Slider'),
                 qtiClass : 'sliderInteraction',
-                tags:['Common Interactions', 'special']
+                tags:[__('Common Interactions'), 'special']
             },
             extendedTextInteraction : {
                 label : __('Extended Text Interaction'),
@@ -362,7 +362,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Collect open-ended information in one or more text area(s) (strings or numeric values).'),
                 short : __('Extended Text'),
                 qtiClass : 'extendedTextInteraction',
-                tags:['Common Interactions', 'text']
+                tags:[__('Common Interactions'), 'text']
             },
             uploadInteraction : {
                 label : __('File Upload Interaction'),
@@ -370,7 +370,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Upload a file (e.g. document, picture...) as a response.'),
                 short : __('File Upload'),
                 qtiClass : 'uploadInteraction',
-                tags:['Common Interactions', 'special']
+                tags:[__('Common Interactions'), 'special']
             },
             mediaInteraction : {
                 label : __('Media Interaction'),
@@ -378,7 +378,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played.'),
                 short : __('Media'),
                 qtiClass : 'mediaInteraction',
-                tags:['Common Interactions', 'media']
+                tags:[__('Common Interactions'), 'media']
             },
             _container : {
                 label : __('Text Block'),

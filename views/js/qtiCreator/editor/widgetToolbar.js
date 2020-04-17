@@ -387,7 +387,7 @@ define([
                 toolbar = buildToolbar(buttonConfig, target, tlbWrapper);
 
                 if(barConfig.title){
-                    title = $('<span>', {text : barConfig.title, 'class' : 'tlb-title', title : barConfig.title});
+                    title = $('<span>', { text : __(barConfig.title), 'class' : 'tlb-title', title : __(barConfig.title) });
                     tlbWrapper.append(title);
                 }
 

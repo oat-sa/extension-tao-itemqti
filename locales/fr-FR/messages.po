@@ -536,7 +536,7 @@ msgstr "Nom de fichier"
 msgid "File Upload"
 msgstr "Fichier à envoyer"
 
-msgid "File Upload Interaction"
+msgid "Upload Interaction"
 msgstr "Interaction d'envoi de fichier"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
@@ -1329,7 +1329,7 @@ msgid "Select Point"
 msgstr "Sélectionnez le point."
 
 msgid "Select Point Interaction"
-msgstr "Sélectionnez le point d'interaction."
+msgstr "Sélectionnez le point d'interaction"
 
 msgid "Select predefined feedback style from the list."
 msgstr "Sélectionnez le style de retour prédéfini depuis la liste."
@@ -1814,3 +1814,5 @@ msgstr "Votre item a été enregistré."
 msgid "ZIP archive"
 msgstr "Archive ZIP"
 
+msgid "Common Interactions"
+msgstr "Interactions communes"
