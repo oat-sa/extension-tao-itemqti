@@ -392,7 +392,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions.'),
                 short : __('Block'),
                 qtiClass : '_container',
-                tags:[__('Inline Interactions'), 'text']
+                tags:[tagTitles.inlineInteractions, 'text']
             },
             inlineChoiceInteraction : {
                 label : __('Inline Choice Interaction'),
