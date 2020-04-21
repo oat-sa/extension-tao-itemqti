@@ -6,7 +6,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/interaction',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
     '../../helper/classTitles'
-], function(_, $, Widget, movable, toolbarTpl, okButtonTpl, classTitles){
+], function(_, $, Widget, movable, toolbarTpl, okButtonTpl, getQtiClassTitle){
 
     /**
      *
@@ -85,8 +85,7 @@ define([
     /**
      * Create a toolbar
      */
-    InteractionWidget.createToolbar = function(options){
-        var getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
+    InteractionWidget.createToolbar = function(options) {
         options = _.defaults(options || {}, {
             title : _convertToTitle(getQtiClassTitle(this.element.qtiClass))
         });

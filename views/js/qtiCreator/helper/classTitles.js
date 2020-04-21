@@ -1,5 +1,6 @@
-define(['i18n'], function(__){
-    return {
+define(['i18n'], function(__) {
+
+    const classTitles = {
         choiceInteraction: __('Choice Interaction'),
         orderInteraction: __('Order Interaction'),
         associateInteraction: __('Associate Interaction'),
@@ -15,5 +16,7 @@ define(['i18n'], function(__){
         graphicAssociateInteraction: __('Graphic Associate Interaction'),
         graphicGapMatchInteraction: __('Graphic Gap Match Interaction'),
         selectPointInteraction: __('Select Point Interaction')
-    };
+    }
+
+    return qtiClass => classTitles[qtiClass] || qtiClass;
 });
