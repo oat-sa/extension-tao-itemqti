@@ -18,5 +18,7 @@ define(['i18n'], function(__) {
         selectPointInteraction: __('Select Point Interaction')
     }
 
-    return qtiClass => classTitles[qtiClass] || qtiClass;
+    return function (qtiClass) {
+        return classTitles[qtiClass] || qtiClass;
+    }
 });
