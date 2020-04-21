@@ -299,7 +299,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
 
     QtiElements.getAvailableAuthoringElements = function(){
 
-        const tagTitles = {
+        var tagTitles = {
             commonInteractions: __('Common Interactions'),
             inlineInteractions: __('Inline Interactions'),
             graphicInteractions: __('Graphic Interactions')
