@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:24:52\n"
+"PO-Revision-Date: 2020-04-21T12:53:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -229,11 +229,11 @@ msgstr "Pasirinkimo Sąveika"
 msgid "Choice Properties"
 msgstr "Pasirinkti Savybes"
 
-msgid "Choices"
-msgstr "Pasirinkimai"
-
 msgid "choices"
 msgstr "pasirinkimai"
+
+msgid "Choices"
+msgstr "Pasirinkimai"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Pasirinkite lentelei horizontalų lygiavimą."
@@ -265,17 +265,20 @@ msgstr ""
 msgid "Color Picker"
 msgstr "Spalvos Pasirinkimas"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr ""
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Valdyk vaizdo arba garso įrašo failo atkūrimo nustatymus (automatinė paleistis, kartojimas) su ataskaita, kiek kartų buvo paleistas įrašas."
 
-msgid "correct"
-msgstr "teisingai"
-
 msgid "Correct"
 msgstr "Teisingai"
+
+msgid "correct"
+msgstr "teisingai"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
@@ -343,11 +346,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "ištrinti"
-
 msgid "Delete"
 msgstr "Ištrinti"
+
+msgid "delete"
+msgstr "ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -376,11 +379,11 @@ msgstr "Dalinti"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "atlikta"
-
 msgid "Done"
 msgstr "Atlikta"
+
+msgid "done"
+msgstr "atlikta"
 
 msgid "Download this stylesheet"
 msgstr "Atsiųsti šį stilių"
@@ -574,6 +577,9 @@ msgstr "Susiejimo poromis grafinė interakcija"
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafinė tarpų užpildymo interakcija"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "Eiliškumo nustatymas grafiniame objekte"
 
@@ -613,11 +619,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "identiška pora jau yra"
 
-msgid "Identifier"
-msgstr "Identifikatorius"
-
 msgid "identifier"
 msgstr "identifikatorius"
+
+msgid "Identifier"
+msgstr "Identifikatorius"
 
 msgid "identifier already taken"
 msgstr "identifikatorius jau užimtas"
@@ -672,6 +678,9 @@ msgstr "Įterptas Pasirinkimas"
 
 msgid "Inline Choice Interaction"
 msgstr "Įterpto Pasirinkimo Užduotis"
+
+msgid "Inline Interactions"
+msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Įterptos užduotis turi būti įdėtos į teksto bloką."
@@ -740,20 +749,20 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
-msgid "LaTeX"
-msgstr "LaTeX"
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "palikti tuščią"
 
-msgid "left"
-msgstr "kairė"
-
 msgid "Left"
 msgstr "Kairė"
+
+msgid "left"
+msgstr "kairė"
 
 msgid "Left bracket"
 msgstr "Kairys skliaustas"
@@ -827,20 +836,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maks"
 
-msgid "Max length"
-msgstr "Maks. ilgis"
-
 msgid "Max Length"
 msgstr "Maks. Ilgis"
+
+msgid "Max length"
+msgstr "Maks. ilgis"
 
 msgid "Max plays count"
 msgstr "Maks. paleidimų kiekis"
 
-msgid "Max words"
-msgstr "Maks. žodžių"
-
 msgid "Max Words"
 msgstr "Maks. Žodžių"
+
+msgid "Max words"
+msgstr "Maks. žodžių"
 
 msgid "Max. number of matches"
 msgstr "Maks. kiekis sutapimų"
@@ -1182,11 +1191,11 @@ msgstr "Registravimo metodas tikisi $key ir $name parametrų"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registravimo metodas tikisi $key ir $name parametrų."
 
-msgid "Remove"
-msgstr "Ištrinti"
-
 msgid "remove"
 msgstr "ištrinti"
+
+msgid "Remove"
+msgstr "Ištrinti"
 
 msgid "Remove custom background color"
 msgstr "Panaikinti pasirinktą fono spalvą"
@@ -1263,11 +1272,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "score"
-msgstr "balai"
-
 msgid "Score"
 msgstr "Balai"
+
+msgid "score"
+msgstr "balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"

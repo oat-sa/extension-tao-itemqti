@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:24:50\n"
+"PO-Revision-Date: 2020-04-21T12:53:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -228,11 +228,11 @@ msgstr "操作の選択"
 msgid "Choice Properties"
 msgstr "選択肢プロパティ"
 
-msgid "Choices"
-msgstr "選択肢"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "選択肢"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -264,16 +264,19 @@ msgstr "1つまたは複数のテキストエリア（文字列または数値�
 msgid "Color Picker"
 msgstr "色の取得"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "制約事項"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された時間数を報告します"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正しい"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正しい"
 
 msgid "Cosinus"
@@ -342,11 +345,11 @@ msgstr "定義された幅"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "削除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "削除"
 
 msgid "Delete else statement"
 msgstr "その他ステートメントの削除"
@@ -375,11 +378,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "完了"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "完了"
 
 msgid "Download this stylesheet"
 msgstr "このスタイルシートをダウンロード"
@@ -573,6 +576,9 @@ msgstr "画像組み合わせ操作"
 msgid "Graphic Gap Match Interaction"
 msgstr "画像穴埋め操作"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "画像並べ替え操作"
 
@@ -612,10 +618,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "同一のペアがすでに存在しています"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別"
 
 msgid "identifier already taken"
@@ -671,6 +677,9 @@ msgstr "インラインチョイス"
 
 msgid "Inline Choice Interaction"
 msgstr "インラインチョイス操作"
+
+msgid "Inline Interactions"
+msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "インライン操作は、テキストブロックに挿入する必要があります"
@@ -739,19 +748,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "空欄にしてください"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -825,19 +834,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最大文字数"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最大文字数"
 
 msgid "Max. number of matches"
@@ -1180,10 +1189,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr "削除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "削除"
 
 msgid "Remove custom background color"
@@ -1261,10 +1270,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "スコア"
 
-msgid "Score"
+msgid "score"
 msgstr "スコア"
 
 msgid "Score range"

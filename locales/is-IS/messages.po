@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:24:48\n"
+"PO-Revision-Date: 2020-04-21T12:53:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -228,11 +228,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "Choices"
-msgstr "Valmöguleikar"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Valmöguleikar"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -264,17 +264,20 @@ msgstr "Safnaðu óloknum upplýsingum í eitt eða fleiri textasvæði (strengi
 msgid "Color Picker"
 msgstr "Litaval"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "Höft"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "correct"
-msgstr "rétt"
-
 msgid "Correct"
 msgstr "Rétt"
+
+msgid "correct"
+msgstr "rétt"
 
 msgid "Cosinus"
 msgstr ""
@@ -342,11 +345,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eyða"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eyða"
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -375,11 +378,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "lokið"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "lokið"
 
 msgid "Download this stylesheet"
 msgstr "Hlaða niður háttarblaði"
@@ -573,6 +576,9 @@ msgstr "Grafísk venslasamverkun"
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafísk eyðutenging með gagnvirkni"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "Grafísk röðunargagnvirkni"
 
@@ -612,11 +618,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "eins par er þegar til"
 
-msgid "Identifier"
-msgstr "Aðgreinir"
-
 msgid "identifier"
 msgstr "aðgreinir"
+
+msgid "Identifier"
+msgstr "Aðgreinir"
 
 msgid "identifier already taken"
 msgstr ""
@@ -671,6 +677,9 @@ msgstr "Innfelldur valkostur"
 
 msgid "Inline Choice Interaction"
 msgstr "Innfelld Valkostagagnvirkni"
+
+msgid "Inline Interactions"
+msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Innfellda gagnvirkni þarf að setja inn í textabálk."
@@ -739,20 +748,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "hafa autt"
 
-msgid "left"
-msgstr "vinstri"
-
 msgid "Left"
 msgstr "Vinstri"
+
+msgid "left"
+msgstr "vinstri"
 
 msgid "Left bracket"
 msgstr ""
@@ -825,20 +834,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max length"
-msgstr "Hámarks lengd"
-
 msgid "Max Length"
 msgstr "Hámarks Lengd"
+
+msgid "Max length"
+msgstr "Hámarks lengd"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
-msgstr "Hámarksfjöldi orða"
-
 msgid "Max Words"
 msgstr "Hámarksfjöldi Orða"
+
+msgid "Max words"
+msgstr "Hámarksfjöldi orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -1179,11 +1188,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Fjarlægja"
-
 msgid "remove"
 msgstr "fjarlægja"
+
+msgid "Remove"
+msgstr "Fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1260,11 +1269,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "stig"
-
 msgid "Score"
 msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
 
 msgid "Score range"
 msgstr "Stigabil"
