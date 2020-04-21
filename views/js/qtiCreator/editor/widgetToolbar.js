@@ -387,7 +387,7 @@ define([
                 toolbar = buildToolbar(buttonConfig, target, tlbWrapper);
 
                 if (barConfig.title) {
-                    const getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
+                    var getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
                     title = $('<span>', { text : getQtiClassTitle(barConfig.title), 'class' : 'tlb-title', title : getQtiClassTitle(barConfig.title) });
                     tlbWrapper.append(title);
                 }

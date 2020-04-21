@@ -86,7 +86,7 @@ define([
      * Create a toolbar
      */
     InteractionWidget.createToolbar = function(options){
-        const getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
+        var getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
         options = _.defaults(options || {}, {
             title : _convertToTitle(getQtiClassTitle(this.element.qtiClass))
         });
