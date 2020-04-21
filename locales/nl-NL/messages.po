@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-17T14:40:25\n"
+"PO-Revision-Date: 2020-04-21T08:44:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -275,10 +275,10 @@ msgstr "Beperkingen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
 msgid "Cosinus"

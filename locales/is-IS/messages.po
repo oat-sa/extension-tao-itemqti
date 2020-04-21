@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-17T14:40:12\n"
+"PO-Revision-Date: 2020-04-21T08:44:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -273,11 +273,11 @@ msgstr "Höft"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "correct"
-msgstr "rétt"
-
 msgid "Correct"
 msgstr "Rétt"
+
+msgid "correct"
+msgstr "rétt"
 
 msgid "Cosinus"
 msgstr ""

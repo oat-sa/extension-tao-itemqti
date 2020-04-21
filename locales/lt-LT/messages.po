@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-17T14:40:22\n"
+"PO-Revision-Date: 2020-04-21T08:44:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -274,11 +274,11 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Valdyk vaizdo arba garso įrašo failo atkūrimo nustatymus (automatinė paleistis, kartojimas) su ataskaita, kiek kartų buvo paleistas įrašas."
 
-msgid "correct"
-msgstr "teisingai"
-
 msgid "Correct"
 msgstr "Teisingai"
+
+msgid "correct"
+msgstr "teisingai"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
