@@ -1,12 +1,12 @@
 define([
     'lodash',
     'jquery',
-    'i18n',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/helpers/movable',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/interaction',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton'
-], function(_, $, __, Widget, movable, toolbarTpl, okButtonTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
+    '../../helper/classTitles'
+], function(_, $, Widget, movable, toolbarTpl, okButtonTpl, classTitles){
 
     /**
      *
@@ -86,26 +86,7 @@ define([
      * Create a toolbar
      */
     InteractionWidget.createToolbar = function(options){
-
-        const classTitles = {
-            choiceInteraction: __('Choice Interaction'),
-            orderInteraction: __('Order Interaction'),
-            associateInteraction: __('Associate Interaction'),
-            matchInteraction: __('Match Interaction'),
-            hottextInteraction: __('Hottext Interaction'),
-            gapMatchInteraction: __('Gap Match Interaction'),
-            sliderInteraction: __('Slider Interaction'),
-            extendedTextInteraction: __('Extended Text Interaction'),
-            uploadInteraction: __('File Upload Interaction'),
-            mediaInteraction: __('Media Interaction'),
-            hotspotInteraction: __('Hotspot Interaction'),
-            graphicOrderInteraction: __('Graphic Order Interaction'),
-            graphicAssociateInteraction: __('Graphic Associate Interaction'),
-            graphicGapMatchInteraction: __('Graphic Gap Match Interaction'),
-            selectPointInteraction: __('Select Point Interaction')
-        }
         const getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
-
         options = _.defaults(options || {}, {
             title : _convertToTitle(getQtiClassTitle(this.element.qtiClass))
         });

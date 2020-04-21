@@ -1,7 +1,8 @@
 define([
     'jquery',
-    'i18n'
-], function($, __){
+    'i18n',
+    '../helper/classTitles'
+], function($, __, classTitles){
     'use strict';
 
 
@@ -385,24 +386,7 @@ define([
 
                 toolbar = buildToolbar(buttonConfig, target, tlbWrapper);
 
-                if(barConfig.title){
-                    const classTitles = {
-                        choiceInteraction: __('Choice Interaction'),
-                        orderInteraction: __('Order Interaction'),
-                        associateInteraction: __('Associate Interaction'),
-                        matchInteraction: __('Match Interaction'),
-                        hottextInteraction: __('Hottext Interaction'),
-                        gapMatchInteraction: __('Gap Match Interaction'),
-                        sliderInteraction: __('Slider Interaction'),
-                        extendedTextInteraction: __('Extended Text Interaction'),
-                        uploadInteraction: __('File Upload Interaction'),
-                        mediaInteraction: __('Media Interaction'),
-                        hotspotInteraction: __('Hotspot Interaction'),
-                        graphicOrderInteraction: __('Graphic Order Interaction'),
-                        graphicAssociateInteraction: __('Graphic Associate Interaction'),
-                        graphicGapMatchInteraction: __('Graphic Gap Match Interaction'),
-                        selectPointInteraction: __('Select Point Interaction')
-                    }
+                if (barConfig.title) {
                     const getQtiClassTitle = qtiClass => classTitles[qtiClass] || qtiClass;
                     title = $('<span>', { text : getQtiClassTitle(barConfig.title), 'class' : 'tlb-title', title : getQtiClassTitle(barConfig.title) });
                     tlbWrapper.append(title);
