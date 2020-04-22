@@ -21,13 +21,14 @@
  */
 
 ?>
-<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+<manifest xmlns="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_v1p1"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 http://www.imsglobal.org/xsd/qti/qtiv3p0/qtiv3p0_imscpv1p2_v1p0.xsd"
+          xmlns:imsmd="http://ltsc.ieee.org/xsd/LOM"
+          xsi:schemaLocation="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_v1p1 https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqtiv3p0_imscpv1p2_v1p0.xsd"
           identifier="<?php echo $manifestIdentifier; ?>">
     <metadata>
-        <schema>QTIv3.0 Package</schema>
-        <schemaversion>1.0.0</schemaversion>
+        <schema>QTI Package</schema>
+        <schemaversion>3.0.0</schemaversion>
     </metadata>
     <organizations/>
     <resources>

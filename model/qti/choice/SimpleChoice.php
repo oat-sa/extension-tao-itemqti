@@ -42,5 +42,5 @@ class SimpleChoice extends ContainerChoice
      * @access protected
      * @var string
      */
-    protected static $qtiTagName = 'simpleChoice';
+    protected static $qtiTagName = 'simple-choice';
 }

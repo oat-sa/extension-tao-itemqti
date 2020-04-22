@@ -117,6 +117,7 @@ class Service extends tao_models_classes_Service
         }
 
         $file = $itemService->getItemDirectory($item, $language)->getFile(self::QTI_ITEM_FILE);
+
         return $file->read();
     }
 

@@ -311,11 +311,10 @@ class ImportService extends ConfigurableService
             // The metadata import feature needs a DOM representation of the manifest.
             $domManifest = new DOMDocument('1.0', 'UTF-8');
             $domManifest->load($folder . 'imsmanifest.xml');
+            $metadataValues = $this->getMetadataImporter()->extract($domManifest);
 
             /** @var Resource[] $qtiItemResources */
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
-
-            $metadataValues = $this->getMetadataImporter()->extract($domManifest);
 
             $sharedFiles = [];
             $createdClasses = [];
@@ -681,7 +680,7 @@ class ImportService extends ConfigurableService
                 common_Logger::e($e->getMessage());
             }
         } catch (ValidationException $ve) {
-            $validationReport = common_report_Report::createFailure("The IMS Manifest file could not be validated");
+            $validationReport = common_report_Report::createFailure("The IMS Manifest file could not be validated.");
             $validationReport->add($ve->getReport());
             $report->setMessage(__("No Items could be imported from the given IMS QTI package."));
             $report->setType(common_report_Report::TYPE_ERROR);

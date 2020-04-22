@@ -30,7 +30,9 @@ class LomInjector extends ImsManifestMetadataInjector
         $mappings[] = new ImsManifestMapping(
             'http://ltsc.ieee.org/xsd/LOM',
             'imsmd',
-            'http://www.imsglobal.org/xsd/imsmd_loose_v1p3p2.xsd'
+//            $version === '3.0'
+             'https://purl.imsglobal.org/spec/md/v1p3/schema/xsd/imsmd_loose_v1p3p2.xsd'
+//            : 'http://www.imsglobal.org/xsd/imsmd_loose_v1p3p2.xsd'
         );
         parent::__construct($mappings);
     }
