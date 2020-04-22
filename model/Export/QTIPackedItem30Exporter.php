@@ -76,9 +76,9 @@ class QTIPackedItem30Exporter extends QTIPackedItemExporter
         );
 
         $responseProcessingReplacements = [
-            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct' => 'http://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct',
-            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response' => 'http://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response',
-            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point' => 'http://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point',
+            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct' => 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct.xml',
+            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response' => 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response',
+            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point' => 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response_point',
         ];
         $content = str_replace(
             array_keys($responseProcessingReplacements),
