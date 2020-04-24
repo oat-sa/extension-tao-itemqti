@@ -540,7 +540,7 @@ msgid "File Upload"
 msgstr "Fichier à envoyer"
 
 msgid "File Upload Interaction"
-msgstr ""
+msgstr "Interaction d'envoi de fichier"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Remplissez les trous sur une image avec un ensemble de choix d'images."
