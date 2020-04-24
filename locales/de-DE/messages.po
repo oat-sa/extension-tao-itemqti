@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:24:39\n"
+"PO-Revision-Date: 2020-04-24T08:26:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -228,11 +228,11 @@ msgstr "Auswahl Interaktion"
 msgid "Choice Properties"
 msgstr "Auswahleigenschaften"
 
-msgid "Choices"
-msgstr "Auswahl"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Auswahl"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -264,16 +264,19 @@ msgstr "Rufe offene Informationen in einem oder mehreren Textfeldern (Strings od
 msgid "Color Picker"
 msgstr "Farbauswahl"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "Einschränkungen"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Kontrolliert die Wiedergabe-Parameter (Auto-Start, Schleife) eines Videos oder einer Audio-Datei und berichtet über die Anzahl der Wiedergaben."
 
-msgid "correct"
+msgid "Correct"
 msgstr "Richtig"
 
-msgid "Correct"
+msgid "correct"
 msgstr "Richtig"
 
 msgid "Cosinus"
@@ -342,11 +345,11 @@ msgstr "Definierte Breite"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "löschen"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "löschen"
 
 msgid "Delete else statement"
 msgstr "Sonst-Anweisung löschen"
@@ -375,11 +378,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "Fertig"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "Fertig"
 
 msgid "Download this stylesheet"
 msgstr "Dieses Stylesheet herunterladen"
@@ -573,6 +576,9 @@ msgstr "Grafische Zuordnungsinteraktion"
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafische Lücken-Übereinstimmungsinteraktion"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "Grafische Ordnungsinteraktion"
 
@@ -612,10 +618,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "Identische Paare existieren bereits"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Bezeichner"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Bezeichner"
 
 msgid "identifier already taken"
@@ -671,6 +677,9 @@ msgstr "Eingebettete Auswahl"
 
 msgid "Inline Choice Interaction"
 msgstr "Eingebettete Auswahl-Interaktion"
+
+msgid "Inline Interactions"
+msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Einbettungs-Interaktionen müssen in einen Textblock eingefügt werden."
@@ -739,20 +748,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "frei lassen"
 
-msgid "left"
-msgstr "links"
-
 msgid "Left"
 msgstr "Links"
+
+msgid "left"
+msgstr "links"
 
 msgid "Left bracket"
 msgstr ""
@@ -825,19 +834,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maximum"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximale Länge"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximale Länge"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximale Anzahl der Wörter"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximale Anzahl der Wörter"
 
 msgid "Max. number of matches"
@@ -1180,11 +1189,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Entfernen"
-
 msgid "remove"
 msgstr "entfernen"
+
+msgid "Remove"
+msgstr "Entfernen"
 
 msgid "Remove custom background color"
 msgstr "Benutzerdefinierte Hintergrundfarbe entfernen"
@@ -1261,10 +1270,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "Punktzahl"
 
-msgid "Score"
+msgid "score"
 msgstr "Punktzahl"
 
 msgid "Score range"

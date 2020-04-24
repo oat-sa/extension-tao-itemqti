@@ -1,7 +1,8 @@
 define([
     'jquery',
-    'i18n'
-], function($, __){
+    'i18n',
+    '../helper/classTitles'
+], function($, __, getQtiClassTitle){
     'use strict';
 
 
@@ -383,11 +384,10 @@ define([
                 buttonConfig = handleConfig(buttonConfig, barConfig.extendDefaultConfig);
                 barConfig = $.extend(defaultBarConfig, (barConfig || {}));
 
-
                 toolbar = buildToolbar(buttonConfig, target, tlbWrapper);
 
-                if(barConfig.title){
-                    title = $('<span>', {text : barConfig.title, 'class' : 'tlb-title', title : barConfig.title});
+                if (barConfig.title) {
+                    title = $('<span>', { text : getQtiClassTitle(barConfig.title), 'class' : 'tlb-title', title : getQtiClassTitle(barConfig.title) });
                     tlbWrapper.append(title);
                 }
 

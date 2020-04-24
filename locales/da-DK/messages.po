@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:24:38\n"
+"PO-Revision-Date: 2020-04-24T08:25:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -228,10 +228,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -264,16 +264,19 @@ msgstr ""
 msgid "Color Picker"
 msgstr ""
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr ""
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
 msgid "Cosinus"
@@ -342,10 +345,10 @@ msgstr ""
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
 msgid "Delete else statement"
@@ -375,10 +378,10 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
+msgid "Done"
 msgstr ""
 
-msgid "Done"
+msgid "done"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -573,6 +576,9 @@ msgstr ""
 msgid "Graphic Gap Match Interaction"
 msgstr ""
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr ""
 
@@ -612,10 +618,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
 msgid "identifier already taken"
@@ -670,6 +676,9 @@ msgid "Inline Choice"
 msgstr ""
 
 msgid "Inline Choice Interaction"
+msgstr ""
+
+msgid "Inline Interactions"
 msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
@@ -739,19 +748,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr ""
 
 msgid "leave empty"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
 msgid "Left bracket"
@@ -825,19 +834,19 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -1179,10 +1188,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1260,10 +1269,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"
