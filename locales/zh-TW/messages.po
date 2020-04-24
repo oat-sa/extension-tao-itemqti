@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:25:01\n"
+"PO-Revision-Date: 2020-04-24T08:42:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -228,11 +228,11 @@ msgstr "選擇的互動"
 msgid "Choice Properties"
 msgstr "選擇的屬性"
 
-msgid "Choices"
-msgstr "選擇"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "選擇"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -264,16 +264,19 @@ msgstr "使用一個或多個文本字段的方式來收集開放式資料(串�
 msgid "Color Picker"
 msgstr "顏色挑選器"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "約束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制視頻和音頻的播放檔案(自動播放，循環)再報告已播放的次數。"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正確"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正確"
 
 msgid "Cosinus"
@@ -342,11 +345,11 @@ msgstr "限定的闊度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "刪除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "刪除"
 
 msgid "Delete else statement"
 msgstr "刪除 else 語句"
@@ -375,11 +378,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "完成"
-
 msgid "Done"
 msgstr ""
+
+msgid "done"
+msgstr "完成"
 
 msgid "Download this stylesheet"
 msgstr "下載這個樣式表"
@@ -573,6 +576,9 @@ msgstr "圖像相連互動"
 msgid "Graphic Gap Match Interaction"
 msgstr "圖像空格匹配互動"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "圖像順序互動"
 
@@ -612,10 +618,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
 msgid "identifier already taken"
@@ -671,6 +677,9 @@ msgstr "行內選擇"
 
 msgid "Inline Choice Interaction"
 msgstr "行內選擇互動"
+
+msgid "Inline Interactions"
+msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "行內互動需要被插入到文本塊中。"
@@ -739,19 +748,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "LaTeX"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -825,19 +834,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最多字數"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最多字數"
 
 msgid "Max. number of matches"
@@ -1179,10 +1188,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1260,10 +1269,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "分數"
 
-msgid "Score"
+msgid "score"
 msgstr "分數"
 
 msgid "Score range"

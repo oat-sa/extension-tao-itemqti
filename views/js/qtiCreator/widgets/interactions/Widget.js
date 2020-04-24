@@ -4,11 +4,12 @@ define([
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/helpers/movable',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/interaction',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton'
-], function(_, $, Widget, movable, toolbarTpl, okButtonTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
+    '../../helper/classTitles'
+], function(_, $, Widget, movable, toolbarTpl, okButtonTpl, getQtiClassTitle){
 
     /**
-     * 
+     *
      * Create a new widget definition from another prototype.
      */
     var InteractionWidget = Widget.clone();
@@ -17,7 +18,7 @@ define([
      * Optional method to be implemented :
      * Init the widget
      * It should never be called directly in normal usage
-     * Here, it is overwriten to accomodate for a new argument 
+     * Here, it is overwriten to accomodate for a new argument
      * that other widgets does not have: $responseForm
      */
     InteractionWidget.init = function(element, $container, $form, $responseForm, options){
@@ -37,21 +38,21 @@ define([
     };
 
     /**
-     * Required method to be implemented : 
+     * Required method to be implemented :
      * define the states and common structure valid for all states
      */
     InteractionWidget.initCreator = function(){
-        
+
         Widget.initCreator.call(this);
-        
+
         this.createToolbar({});
         this.createOkButton();
         this.listenToChoiceStates();
     };
 
     /**
-     * Required method to be implemented : 
-     * Define the contaieinr where everything is going on. 
+     * Required method to be implemented :
+     * Define the contaieinr where everything is going on.
      * It normally used this.$original as the start point : from there, you can wrap, innerWrap
      */
     InteractionWidget.buildContainer = function(){
@@ -84,10 +85,9 @@ define([
     /**
      * Create a toolbar
      */
-    InteractionWidget.createToolbar = function(options){
-
+    InteractionWidget.createToolbar = function(options) {
         options = _.defaults(options || {}, {
-            title : _convertToTitle(this.element.qtiClass)
+            title : _convertToTitle(getQtiClassTitle(this.element.qtiClass))
         });
 
         var _this = this,

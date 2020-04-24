@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:24:45\n"
+"PO-Revision-Date: 2020-04-24T08:31:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -230,11 +230,11 @@ msgstr "Choisissez l'interaction"
 msgid "Choice Properties"
 msgstr "Choisissez les propriétés"
 
-msgid "Choices"
-msgstr "Choix"
-
 msgid "choices"
 msgstr "choix"
+
+msgid "Choices"
+msgstr "Choix"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Choisissez l'alignement horizontal pour la table."
@@ -266,17 +266,20 @@ msgstr "Collectez les informations ouvertes dans une ou plusieurs aires de texte
 msgid "Color Picker"
 msgstr "Pipette à couleurs"
 
+msgid "Common Interactions"
+msgstr "Interactions communes"
+
 msgid "Contraints"
 msgstr "Contraintes"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
-msgid "correct"
-msgstr "correct"
-
 msgid "Correct"
 msgstr "Correct"
+
+msgid "correct"
+msgstr "correct"
 
 msgid "Cosinus"
 msgstr "Cosinus"
@@ -344,11 +347,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
 
-msgid "delete"
-msgstr "supprimer"
-
 msgid "Delete"
 msgstr "Supprimer"
+
+msgid "delete"
+msgstr "supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -377,11 +380,11 @@ msgstr "Diviser"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "terminé"
-
 msgid "Done"
 msgstr "Effectué"
+
+msgid "done"
+msgstr "terminé"
 
 msgid "Download this stylesheet"
 msgstr "Télécharger cette feuille de style"
@@ -537,7 +540,7 @@ msgid "File Upload"
 msgstr "Fichier à envoyer"
 
 msgid "File Upload Interaction"
-msgstr "Interaction d'envoi de fichier"
+msgstr ""
 
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Remplissez les trous sur une image avec un ensemble de choix d'images."
@@ -574,6 +577,9 @@ msgstr "Interaction d'associé graphique"
 
 msgid "Graphic Gap Match Interaction"
 msgstr "Interaction de correspondance d'espace graphique vide"
+
+msgid "Graphic Interactions"
+msgstr "Interaction graphique"
 
 msgid "Graphic Order Interaction"
 msgstr "Interaction d'ordre graphique"
@@ -614,11 +620,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "des paires identiques existent déjà"
 
-msgid "Identifier"
-msgstr "Identifiant"
-
 msgid "identifier"
 msgstr "identifiant"
+
+msgid "Identifier"
+msgstr "Identifiant"
 
 msgid "identifier already taken"
 msgstr "identifiant déjà pris"
@@ -673,6 +679,9 @@ msgstr "Choix en ligne"
 
 msgid "Inline Choice Interaction"
 msgstr "Interaction de choix en ligne"
+
+msgid "Inline Interactions"
+msgstr "Interaction en ligne"
 
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Les interactions en ligne doivent être insérées dans un bloc de texte."
@@ -741,20 +750,20 @@ msgstr "Langue"
 msgid "Large editor"
 msgstr "Éditeur large"
 
-msgid "LaTeX"
-msgstr "LaTeX"
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "left"
-msgstr "gauche"
-
 msgid "Left"
 msgstr "Gauche"
+
+msgid "left"
+msgstr "gauche"
 
 msgid "Left bracket"
 msgstr "Parenthèse ouvrante"
@@ -828,19 +837,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Longueur maximale"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Longueur maximale"
 
 msgid "Max plays count"
 msgstr "Nombre max. de lectures"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximum de mots"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximum de mots"
 
 msgid "Max. number of matches"
@@ -1184,11 +1193,11 @@ msgstr "La méthode d'inscription attend des paramètres $key et $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "La méthode d'inscription attend des paramètres $key et $name ."
 
-msgid "Remove"
-msgstr "Supprimer"
-
 msgid "remove"
 msgstr "supprimer"
+
+msgid "Remove"
+msgstr "Supprimer"
 
 msgid "Remove custom background color"
 msgstr "Supprimer une couleur de fond personnalisée"
@@ -1265,11 +1274,11 @@ msgstr "Enregistrer l'item"
 msgid "Scale size"
 msgstr "Taille d'échelle"
 
-msgid "score"
-msgstr "score"
-
 msgid "Score"
 msgstr "Score"
+
+msgid "score"
+msgstr "score"
 
 msgid "Score range"
 msgstr "Échelle de score"
@@ -1329,7 +1338,7 @@ msgid "Select Point"
 msgstr "Sélectionnez le point."
 
 msgid "Select Point Interaction"
-msgstr "Sélectionnez le point d'interaction."
+msgstr "Sélectionnez le point d'interaction"
 
 msgid "Select predefined feedback style from the list."
 msgstr "Sélectionnez le style de retour prédéfini depuis la liste."

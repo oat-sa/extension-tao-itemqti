@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:24:53\n"
+"PO-Revision-Date: 2020-04-24T08:37:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -230,11 +230,11 @@ msgstr "Keuze interactie"
 msgid "Choice Properties"
 msgstr "Keuze eigenschappen"
 
-msgid "Choices"
-msgstr "Keuzes"
-
 msgid "choices"
 msgstr "keuzes"
+
+msgid "Choices"
+msgstr "Keuzes"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Kies de horizontale uitlijning voor de lijst."
@@ -266,16 +266,19 @@ msgstr "Verzamel open einde informatie in een of meer tekst gebieden (strings of
 msgid "Color Picker"
 msgstr "Kleurkiezer"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "Beperkingen"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -344,11 +347,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
 
-msgid "delete"
-msgstr "verwijder"
-
 msgid "Delete"
 msgstr "Verwijderen"
+
+msgid "delete"
+msgstr "verwijder"
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -377,11 +380,11 @@ msgstr "Delen"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "Klaar"
-
 msgid "Done"
 msgstr "Voltooid"
+
+msgid "done"
+msgstr "Klaar"
 
 msgid "Download this stylesheet"
 msgstr "Download dit stijlblad"
@@ -575,6 +578,9 @@ msgstr "Grafische verbinding interactie"
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafische opening verbinding interactie"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "Grafische volgorde interactie"
 
@@ -614,10 +620,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Naam"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Naam"
 
 msgid "identifier already taken"
@@ -673,6 +679,9 @@ msgstr "Inline keuze"
 
 msgid "Inline Choice Interaction"
 msgstr "Inline keuze interactie"
+
+msgid "Inline Interactions"
+msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Inline interacties dienen ingevoerd te worden in een tekst blok"
@@ -741,20 +750,20 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "left"
-msgstr "links"
-
 msgid "Left"
 msgstr "Links"
+
+msgid "left"
+msgstr "links"
 
 msgid "Left bracket"
 msgstr "Linker haakje"
@@ -828,19 +837,19 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximaal aantal woorden"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximaal aantal woorden"
 
 msgid "Max. number of matches"
@@ -1184,11 +1193,11 @@ msgstr "Registreer methode verwacht $key en $name parameters"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registratie methode verwacht $key en $name parameters."
 
-msgid "Remove"
-msgstr "Verwijder"
-
 msgid "remove"
 msgstr "verwijder"
+
+msgid "Remove"
+msgstr "Verwijder"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
@@ -1265,11 +1274,11 @@ msgstr "Item sparen"
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "score"
-
 msgid "Score"
 msgstr "Score"
+
+msgid "score"
+msgstr "score"
 
 msgid "Score range"
 msgstr "Scorebereik"
