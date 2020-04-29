@@ -462,5 +462,14 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('23.11.0', '23.11.6');
+
+        if ($this->isVersion('23.11.6')) {
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+            $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
+            $clientLibRegistry = ClientLibRegistry::getRegistry();
+            $clientLibRegistry->register('taoQtiItem/reviewRenderer', $taoQtiItemNpmDist . 'reviewRenderer');
+            $this->setVersion('23.12.0');
+        }
+
     }
 }

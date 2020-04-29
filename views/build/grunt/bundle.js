@@ -43,6 +43,7 @@ module.exports = function(grunt) {
                             'taoQtiItem/mathRenderer/mathRenderer',
                             'taoQtiItem/portableElementRegistry/**/*',
                             'taoQtiItem/qtiCommonRenderer/**/*',
+                            'taoQtiItem/reviewRenderer/**/*',
                             'taoQtiItem/qtiCreator/**/*',
                             'taoQtiItem/qtiItem/**/*',
                             'taoQtiItem/qtiRunner/**/*',
