@@ -37,6 +37,7 @@ class RegisterNpmPaths extends InstallAction
         $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
         $clientLibRegistry = ClientLibRegistry::getRegistry();
         $clientLibRegistry->register('taoQtiItem/qtiCommonRenderer', $taoQtiItemNpmDist . 'qtiCommonRenderer');
+        $clientLibRegistry->register('taoQtiItem/reviewRenderer', $taoQtiItemNpmDist . 'reviewRenderer');
         $clientLibRegistry->register('taoQtiItem/qtiItem', $taoQtiItemNpmDist . 'qtiItem');
         $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . 'qtiRunner');
         $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . 'runner');
