@@ -385,7 +385,7 @@ class ImportService extends ConfigurableService
             $report->setType(common_report_Report::TYPE_ERROR);
         }
 
-        if (1 || $rollbackOnError === true) {
+        if ($rollbackOnError === true) {
             if (
                 $report->getType() === common_report_Report::TYPE_ERROR || $report->contains(
                     common_report_Report::TYPE_ERROR
