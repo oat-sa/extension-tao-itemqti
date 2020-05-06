@@ -37,10 +37,11 @@
             <baseValue baseType="identifier"><?=$feedbackIdentifierThen?></baseValue>
         </setOutcomeValue>
     </responseIf>
-<?php if (!empty($feedbackIdentifierElse)) :
-    ?><responseElse>
+    <?php if (!empty($feedbackIdentifierElse)) : ?>
+    <responseElse>
         <setOutcomeValue identifier="<?=$feedbackOutcomeIdentifier?>">
     <baseValue baseType="identifier"><?=$feedbackIdentifierElse?></baseValue>
             </setOutcomeValue>
-    </responseElse><?php endif;?>
+    </responseElse>
+    <?php endif; ?>
 </responseCondition>
