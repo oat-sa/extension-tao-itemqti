@@ -432,9 +432,6 @@ class ImportService extends ConfigurableService
      * @param array $sharedFiles
      * @param array $dependencies
      * @param array $metadataValues
-     * @param array $metadataInjectors
-     * @param array $metadataGuardians
-     * @param array $metadataClassLookups
      * @param array $createdClasses
      * @param boolean $enableMetadataGuardians
      * @param boolean $enableMetadataValidators
