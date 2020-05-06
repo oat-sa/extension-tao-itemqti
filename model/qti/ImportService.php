@@ -455,6 +455,14 @@ class ImportService extends ConfigurableService
         $itemMustBeOverwritten = false,
         &$overwrittenItems = []
     ) {
+        // if report can't be finished
+        $report = common_report_Report::createFailure(
+            __(
+                'IMS QTI Item referenced as "%s" cannot be imported.',
+                $qtiItemResource->getIdentifier()
+            )
+        );
+
         $startImportTime = microtime(true);
 
         $lock = $this->createLock(
