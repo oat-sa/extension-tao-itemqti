@@ -48,7 +48,7 @@ define(function() {
 				return factory( w );
 			};
 	} else {
-		factory( global );
+		factory( global, true );
 	}
 
 // Pass this if window is not defined yet
