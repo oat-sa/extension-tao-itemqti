@@ -36,5 +36,5 @@
         <setOutcomeValue identifier="<?=$feedbackOutcomeIdentifier?>">
     <baseValue baseType="identifier"><?=$feedbackIdentifierElse?></baseValue>
             </setOutcomeValue>
-<?php endif;?>
+    </responseElse><?php endif;?>
 </responseCondition>
