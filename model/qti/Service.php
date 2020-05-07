@@ -288,7 +288,7 @@ class Service extends ConfigurableService
 
             return $oldItemContentPropertyValues;
         } catch (Exception $e) {
-            common_Logger::e('Item content backup failed: ' . $e->getMessage());
+            $this->logError('Item content backup failed: ' . $e->getMessage());
             throw new common_Exception("QTI Item backup failed. Item uri - " . $item->getUri());
         }
     }
@@ -306,7 +306,7 @@ class Service extends ConfigurableService
                 $item->editPropertyValueByLg($itemContentProperty, $itemContentPropertyValue, $language);
             }
         } catch (Exception $e) {
-            common_Logger::e('Rollback item error: ' . $e->getMessage());
+            $this->logError('Rollback item error: ' . $e->getMessage());
             throw new common_Exception(sprintf('Cannot rollback item. Item uri - %s :: Backup folders - %s ', $item->getUri(), json_encode($backUpNames)));
         }
     }
