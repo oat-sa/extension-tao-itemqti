@@ -48,7 +48,7 @@ define(function() {
 				return factory( w );
 			};
 	} else {
-		factory( global );
+		factory( global, true );
 	}
 
 // Pass this if window is not defined yet
@@ -9207,7 +9207,5 @@ return jQuery;
 }));
 
 // END JQUERY SOURCE
-var dom = {};
-dom.query = jQuery.noConflict(true);
-return dom.query;
+return jQuery.noConflict(true);
 });
