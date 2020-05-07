@@ -21,7 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use tao_helpers_Uri;
 use common_exception_FileSystemError;
+use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -114,14 +116,12 @@ class Service extends ConfigurableService
      */
     public function getXmlByRdfItem(core_kernel_classes_Resource $item, $language = '')
     {
-        $itemService = taoItems_models_classes_ItemsService::singleton();
-
         //check if the item is QTI item
-        if (! $itemService->hasItemModel($item, [ItemModel::MODEL_URI])) {
+        if (! $this->getItemService()->hasItemModel($item, [ItemModel::MODEL_URI])) {
             throw new common_Exception('Non QTI item(' . $item->getUri() . ') opened via QTI Service');
         }
 
-        $file = $itemService->getItemDirectory($item, $language)->getFile(self::QTI_ITEM_FILE);
+        $file = $this->getItemService()->getItemDirectory($item, $language)->getFile(self::QTI_ITEM_FILE);
         return $file->read();
     }
 
@@ -268,43 +268,47 @@ class Service extends ConfigurableService
 
     /**
      * @param core_kernel_classes_Resource $item
-     * @return string
+     * @return array
      * @throws common_exception_FileSystemError
      */
-    public function backupContentByRdfItem(core_kernel_classes_Resource $item)
+    public function backupContentByRdfItem(core_kernel_classes_Resource $item): array
     {
-        $storage = taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
-        $itemId = \tao_helpers_Uri::getUniqueId($item->getUri());
-        $itemDirectory = $storage->getDirectory($itemId);
-        $newName = $storage->getPrefix() . "${itemId}." . uniqid() . '.back';
+        try {
+            $itemContentProperty = $this->getItemService()->getItemContentProperty();
 
-        if ($itemDirectory->rename($newName)) {
-            return $newName;
-        } else {
-            throw new common_exception_FileSystemError("Unable to backup item with URI '" . $item->getUri() . "'.");
+            $oldItemContentPropertyValues = [];
+            $newItemContentDirectoryName = tao_helpers_Uri::getUniqueId($item->getUri()) . '.' . uniqid();
+            $propertyLanguages = $item->getUsedLanguages($itemContentProperty);
+            foreach ($propertyLanguages as $language) {
+                $oldItemContentPropertyValues[$language] = (string) $item->getPropertyValuesByLg($itemContentProperty, $language)->get(0);
+                $serial = $this->getNewSerializedItemContentDirectory($newItemContentDirectoryName, $language);
+
+                $item->editPropertyValueByLg($itemContentProperty, $serial, $language);
+            }
+
+            return $oldItemContentPropertyValues;
+        } catch (Exception $e) {
+            common_Logger::e('Item content backup failed: ' . $e->getMessage());
+            throw new common_Exception("QTI Item backup failed. Item uri - " . $item->getUri());
         }
     }
 
     /**
      * @param core_kernel_classes_Resource $item
-     * @param $backUpName
+     * @param array $backUpNames
      * @throws common_exception_FileSystemError
      */
-    public function restoreContentByRdfItem(core_kernel_classes_Resource $item, $backUpName)
+    public function restoreContentByRdfItem(core_kernel_classes_Resource $item, array $backUpNames): void
     {
-        $storage = taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirectory();
-        $itemId = \tao_helpers_Uri::getUniqueId($item->getUri());
         try {
-            $isDelete = $storage->getDirectory($itemId)->deleteSelf();
-        } catch (\Exception $e) {
-            throw new common_exception_FileSystemError("Cannot delete $itemId directory. Error message: ".$e->getMessage());
+            $itemContentProperty = $this->getItemService()->getItemContentProperty();
+            foreach ($backUpNames as $language => $itemContentPropertyValue) {
+                $item->editPropertyValueByLg($itemContentProperty, $itemContentPropertyValue, $language);
+            }
+        } catch (Exception $e) {
+            common_Logger::e('Rollback item error: ' . $e->getMessage());
+            throw new common_Exception(sprintf('Cannot rollback item. Item uri - %s :: Backup folders - %s ', $item->getUri(), json_encode($backUpNames)));
         }
-
-        if (!$isDelete) {
-            throw new common_exception_FileSystemError("Cannot delete item directory. Item id: " . $itemId);
-        }
-        $storage->getDirectory($backUpName)->rename($itemId);
-
     }
 
     /**
@@ -314,5 +318,27 @@ class Service extends ConfigurableService
     public static function singleton()
     {
         return ServiceManager::getServiceManager()->get(self::class);
+    }
+
+    private function getItemService(): taoItems_models_classes_ItemsService
+    {
+        return $this->getServiceLocator()->get(taoItems_models_classes_ItemsService::class);
+    }
+
+    /**
+     * @param string $newItemContentDirectoryName
+     * @param $language
+     * @return mixed
+     * @throws \common_ext_ExtensionException
+     */
+    private function getNewSerializedItemContentDirectory(string $newItemContentDirectoryName, $language): string
+    {
+        $newItemContentDirectoryPath = $this->getItemService()->composeItemDirectoryPath(
+            $newItemContentDirectoryName,
+            $language
+        );
+        $newDirectory = $this->getItemService()->getDefaultItemDirectory()->getDirectory($newItemContentDirectoryPath);
+
+        return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID)->serialize($newDirectory);
     }
 }
