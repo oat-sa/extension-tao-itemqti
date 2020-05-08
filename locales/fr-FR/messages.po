@@ -736,7 +736,7 @@ msgstr "Largeur de l'item"
 
 #, tao-public
 msgid "Items"
-msgstr "Items"
+msgstr "Articles"
 
 msgid "JPEG image"
 msgstr "Image JPEG"

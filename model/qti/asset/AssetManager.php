@@ -224,9 +224,9 @@ class AssetManager
 
             $this->copyFilesToItemDir(dirname($qtiFile), $dependencyResource);
             /** @var array $dependencies recursive dependencies */
-            $dependencies = $dependencyResource->getDependencies();
-            if ($dependencies && count($dependencies)) {
-                $this->copyDependencyFiles($qtiItemResource, $dependencies);
+            $secondLevelDependencies = $dependencyResource->getDependencies();
+            if ($secondLevelDependencies && count($secondLevelDependencies)) {
+                $this->copyDependencyFiles($qtiItemResource, $secondLevelDependencies);
             }
         }
     }

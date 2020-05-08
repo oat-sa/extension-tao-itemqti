@@ -338,9 +338,6 @@ class ImportService extends ConfigurableService
                     $sharedFiles,
                     [],
                     $metadataValues,
-                    [],
-                    [],
-                    [],
                     $createdClasses,
                     $enableMetadataGuardians,
                     $enableMetadataValidators,
@@ -429,15 +426,12 @@ class ImportService extends ConfigurableService
     }
 
     /**
-     * @param $folder
+     * @param $tmpFolder
      * @param \oat\taoQtiItem\model\qti\Resource $qtiItemResource
      * @param $itemClass
      * @param array $sharedFiles
      * @param array $dependencies
      * @param array $metadataValues
-     * @param array $metadataInjectors
-     * @param array $metadataGuardians
-     * @param array $metadataClassLookups
      * @param array $createdClasses
      * @param boolean $enableMetadataGuardians
      * @param boolean $enableMetadataValidators
@@ -448,15 +442,12 @@ class ImportService extends ConfigurableService
      * @throws common_exception_Error
      */
     public function importQtiItem(
-        $folder,
+        $tmpFolder,
         Resource $qtiItemResource,
         $itemClass,
         array &$sharedFiles,
         array $dependencies = [],
         array $metadataValues = [],
-        array $metadataInjectors = [],
-        array $metadataGuardians = [],
-        array $metadataClassLookups = [],
         &$createdClasses = [],
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
@@ -464,6 +455,14 @@ class ImportService extends ConfigurableService
         $itemMustBeOverwritten = false,
         &$overwrittenItems = []
     ) {
+        // if report can't be finished
+        $report = common_report_Report::createFailure(
+            __(
+                'IMS QTI Item referenced as "%s" cannot be imported.',
+                $qtiItemResource->getIdentifier()
+            )
+        );
+
         $startImportTime = microtime(true);
 
         $lock = $this->createLock(
@@ -495,8 +494,7 @@ class ImportService extends ConfigurableService
                             \common_Logger::i(
                                 'Resource "' . $resourceIdentifier . '" is already stored in the database and will not be imported.'
                             );
-                            $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
-                            $lock->release();
+
                             return common_report_Report::createInfo(
                                 __(
                                     'The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.',
@@ -511,8 +509,7 @@ class ImportService extends ConfigurableService
                         \common_Logger::i(
                             'Resource "' . $resourceIdentifier . '" must be already stored in the database in order to proceed.'
                         );
-                        $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
-                        $lock->release();
+
                         return new common_report_Report(
                             common_report_Report::TYPE_ERROR,
                             __(
@@ -534,27 +531,24 @@ class ImportService extends ConfigurableService
                             ) . $validationReport->getMessage()
                         );
                         \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
-                        $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
-                        $lock->release();
+
                         return $validationReport;
                     }
                 }
 
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
 
-                $qtiFile = $folder . helpers_File::urlToPath($qtiItemResource->getFile());
+                $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
 
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
 
-                $qtiModel = $this->createQtiItemModel($qtiFile);
+                $qtiModel = $this->createQtiItemModel($tmpQtiFile);
 
                 if (
                     $this->getOption(self::CONFIG_VALIDATE_RESPONSE_PROCESSING) && !$this->validResponseProcessing(
                         $qtiModel
                     )
                 ) {
-                    $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
-                    $lock->release();
                     return common_report_Report::createFailure(
                         __(
                             'The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.',
@@ -580,7 +574,7 @@ class ImportService extends ConfigurableService
 
                 $itemAssetManager = new AssetManager();
                 $itemAssetManager->setItemContent($qtiModel->toXML());
-                $itemAssetManager->setSource($folder);
+                $itemAssetManager->setSource($tmpFolder);
 
                 /**
                  * Load asset handler following priority handler defined by you
@@ -588,7 +582,7 @@ class ImportService extends ConfigurableService
                  */
 
                 /** Portable element handler */
-                $peHandler = new PortableAssetHandler($qtiModel, $folder, dirname($qtiFile));
+                $peHandler = new PortableAssetHandler($qtiModel, $tmpFolder, dirname($tmpQtiFile));
                 $itemAssetManager->loadAssetHandler($peHandler);
 
                 if ($this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->isInstalled('taoMediaManager')) {
@@ -739,9 +733,11 @@ class ImportService extends ConfigurableService
         } catch (common_exception_UserReadableException $e) {
             $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
             $report->add($e);
+        } finally {
+            $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
+            $lock->release();
         }
-        $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
-        $lock->release();
+
         return $report;
     }
 
