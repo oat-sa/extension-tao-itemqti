@@ -17,6 +17,8 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA ;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\test\unit\model;
 
 use Exception;
@@ -33,7 +35,7 @@ use taoItems_models_classes_ItemsService;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\Service;
 
-class ServiceTest extends TestCase
+class QtiItemServiceTest extends TestCase
 {
     /**
      * @var Service
