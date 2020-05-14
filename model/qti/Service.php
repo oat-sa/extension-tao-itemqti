@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use tao_helpers_Uri;
 use common_exception_FileSystemError;
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -153,7 +154,7 @@ class Service extends ConfigurableService
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
         if ($success) {
-            $this->getEventManager()->trigger(new ItemUpdatedEvent($rdfItem->getUri()));
+            $this->getUpdatedItemEventDispatcher()->dispatch($qtiItem, $rdfItem);
         }
 
         return $success;
@@ -340,5 +341,10 @@ class Service extends ConfigurableService
         $newDirectory = $this->getItemService()->getDefaultItemDirectory()->getDirectory($newItemContentDirectoryPath);
 
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID)->serialize($newDirectory);
+    }
+
+    private function getUpdatedItemEventDispatcher(): UpdatedItemEventDispatcher
+    {
+        return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
     }
 }
