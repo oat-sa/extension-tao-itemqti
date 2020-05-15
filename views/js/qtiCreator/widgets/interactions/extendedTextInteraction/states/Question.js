@@ -162,23 +162,18 @@ define([
             $inputs.maxLength.val('');
         };
 
-        callbacks.expectedLength = function(interaction, attrValue){
+        function setAttributes (attribute, interaction, attrValue) {
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
-                interaction.attr('expectedLength', attrValue);
+                interaction.attr(attribute, attrValue);
             } else {
-                interaction.removeAttr('expectedLength');
+                interaction.removeAttr(attribute);
             }
         };
 
-        callbacks.expectedLines = function(interaction, attrValue){
-            var newValue = parseInt(attrValue,10);
-            if(! isNaN(newValue)){
-                interaction.attr('expectedLines', attrValue);
-            } else {
-                interaction.removeAttr('expectedLines');
-            }
-        };
+        callbacks.expectedLength = setAttributes.bind(null, 'expectedLength');
+
+        callbacks.expectedLines = setAttributes.bind(null, 'expectedLines');
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
