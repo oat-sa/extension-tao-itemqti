@@ -18,33 +18,36 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\taoQtiItem\model\qti\event;
+namespace oat\taoQtiItem\model\qti\parser;
 
-use core_kernel_classes_Resource;
-use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\parser\IncludedElementIdsExtractor;
+use tao_helpers_Uri;
 
-class UpdatedItemEventDispatcher extends ConfigurableService
+class IncludedElementIdsExtractor extends ConfigurableService
 {
-    use EventManagerAwareTrait;
-
-    public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
+    public function extract(Item $qtiItem): array
     {
-        $this->getEventManager()->trigger(
-            new ItemUpdatedEvent(
-                $rdfItem->getUri(),
-                [
-                    'includedElementIds' => $this->getIncludedElementIdsExtractor()->extract($qtiItem)
-                ]
-            )
-        );
+        $ids = [];
+
+        $elements = (array)($qtiItem->toArray()['body']['elements'] ?? []);
+
+        foreach ($elements as $element) {
+            if ($this->hasIncludedElement($element)) {
+                $ids[] = $this->formatElementId($element['attributes']['href']);
+            }
+        }
+
+        return $ids;
     }
 
-    private function getIncludedElementIdsExtractor(): IncludedElementIdsExtractor
+    private function hasIncludedElement(array $element): bool
     {
-        return $this->getServiceLocator()->get(IncludedElementIdsExtractor::class);
+        return ($element['qtiClass'] ?? '') === 'include' && !empty($element['attributes']['href']);
+    }
+
+    private function formatElementId(string $id): string
+    {
+        return tao_helpers_Uri::decode(substr($id, strpos($id, 'http')));
     }
 }
