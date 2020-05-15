@@ -188,17 +188,17 @@ define([
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('expectedLength', attrValue);
-            }else{
-                interaction.attr('expectedLength', -1);//invalid qti, 0
+            } else {
+                interaction.removeAttr('expectedLength');
             }
         };
 
-        callbacks.expectedLines = function(interactions, attrValue){
+        callbacks.expectedLines = function(interaction, attrValue){
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('expectedLines', attrValue);
-            }else{
-                interaction.attr('expectedLines',-1);//invalid qti, 0
+            } else {
+                interaction.removeAttr('expectedLines');
             }
         };
 
