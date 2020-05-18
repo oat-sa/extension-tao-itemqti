@@ -43,26 +43,31 @@ class IncludedElementIdsExtractor extends ConfigurableService
         return json_decode(json_encode($qtiItem->toArray()['body']), true);
     }
 
-    private function incrementIds($haystack): void
+    private function incrementIds(array $body): void
     {
-        foreach ($haystack as $key => $value) {
-            if (!is_array($value)) {
-                continue;
-            }
-
-            if ('elements' !== $key) {
-                $this->incrementIds($value);
-
-                continue;
-            }
-
-            foreach ($value as $element) {
-                $this->incrementIdByElement((array)$element);
-            }
+        foreach ($body as $key => $value) {
+            $this->incrementIdsByKey($key, $value);
         }
     }
 
-    private function incrementIdByElement(array $element): void
+    private function incrementIdsByKey(string $key, $value): void
+    {
+        if (!is_array($value)) {
+            return;
+        }
+
+        if ('elements' !== $key) {
+            $this->incrementIds($value);
+
+            return;
+        }
+
+        foreach ($value as $element) {
+            $this->incrementIdsByElement((array)$element);
+        }
+    }
+
+    private function incrementIdsByElement(array $element): void
     {
         if ($this->hasIncludedElement($element)) {
             $this->ids[] = $this->formatElementId($element['attributes']['href']);
