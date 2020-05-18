@@ -26,19 +26,45 @@ use tao_helpers_Uri;
 
 class IncludedElementIdsExtractor extends ConfigurableService
 {
+    /** @var string[] */
+    private $ids;
+
     public function extract(Item $qtiItem): array
     {
-        $ids = [];
+        $this->incrementIds($this->getItemBody($qtiItem));
+    }
 
-        $elements = (array)($qtiItem->toArray()['body']['elements'] ?? []);
+    private function getItemBody(Item $qtiItem): array
+    {
+        return json_decode(json_encode($qtiItem->toArray()['body']), true);
+    }
 
-        foreach ($elements as $element) {
-            if ($this->hasIncludedElement($element)) {
-                $ids[] = $this->formatElementId($element['attributes']['href']);
+    private function incrementIds($haystack): void
+    {
+        foreach ($haystack as $key => $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+
+            if ('elements' !== $key) {
+                $this->incrementIds($value);
+
+                continue;
+            }
+
+            foreach ($value as $element) {
+                $this->incrementIdByElement((array)$element);
             }
         }
+    }
 
-        return $ids;
+    private function incrementIdByElement(array $element): void
+    {
+        if ($this->hasIncludedElement($element)) {
+            $this->ids[] = $this->formatElementId($element['attributes']['href']);
+        }
+
+        $this->incrementIds($element);
     }
 
     private function hasIncludedElement(array $element): bool
