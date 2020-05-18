@@ -1,9 +1,4 @@
 /**
- * JEROME's note:
- * 
- * The only change in jQuery source is the comment added from
- * l. 9190 to l. 9192.
- *
  * Wrapped into a define call with no dependency to scope
  * the whole source code and get rid of the window.$ and window.jQuery.
  *
@@ -12,9 +7,6 @@
  */
 
 define(function(require, exports, module) {
-
-// BEGIN JQUERY SOURCE
-
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -9199,13 +9191,7 @@ if ( typeof noGlobal === strundefined ) {
 	window.jQuery = window.$ = jQuery;
 }
 
-
-
-
 return jQuery;
 
 }));
-
-// END JQUERY SOURCE
-return jQuery.noConflict(true);
 });
