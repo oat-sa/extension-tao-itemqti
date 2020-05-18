@@ -11,7 +11,7 @@
  * of jQuery.
  */
 
-define(function() {
+define(function(require, exports, module) {
 
 // BEGIN JQUERY SOURCE
 
