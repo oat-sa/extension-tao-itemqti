@@ -29,13 +29,15 @@ use oat\taoQtiItem\model\qti\parser\IncludedElementIdsExtractor;
 
 class UpdatedItemEventDispatcher extends ConfigurableService
 {
+    private const INCLUDE_ELEMENT_IDS_KEY = 'includeElementIds';
+
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
         $this->getEventManager()->trigger(
             new ItemUpdatedEvent(
                 $rdfItem->getUri(),
                 [
-                    'includedElementIds' => $this->getIncludedElementIdsExtractor()->extract($qtiItem)
+                    self::INCLUDE_ELEMENT_IDS_KEY => $this->getIncludedElementIdsExtractor()->extract($qtiItem)
                 ]
             )
         );
