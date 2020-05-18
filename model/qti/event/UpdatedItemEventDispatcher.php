@@ -21,7 +21,7 @@
 namespace oat\taoQtiItem\model\qti\event;
 
 use core_kernel_classes_Resource;
-use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\qti\Item;
@@ -29,8 +29,6 @@ use oat\taoQtiItem\model\qti\parser\IncludedElementIdsExtractor;
 
 class UpdatedItemEventDispatcher extends ConfigurableService
 {
-    use EventManagerAwareTrait;
-
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
         $this->getEventManager()->trigger(
@@ -41,6 +39,11 @@ class UpdatedItemEventDispatcher extends ConfigurableService
                 ]
             )
         );
+    }
+
+    private function getEventManager(): EventManager
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 
     private function getIncludedElementIdsExtractor(): IncludedElementIdsExtractor
