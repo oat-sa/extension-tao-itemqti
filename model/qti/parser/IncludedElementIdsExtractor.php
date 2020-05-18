@@ -31,7 +31,11 @@ class IncludedElementIdsExtractor extends ConfigurableService
 
     public function extract(Item $qtiItem): array
     {
+        $this->ids = [];
+
         $this->incrementIds($this->getItemBody($qtiItem));
+
+        return array_unique($this->ids);
     }
 
     private function getItemBody(Item $qtiItem): array
