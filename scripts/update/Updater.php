@@ -23,13 +23,19 @@ namespace oat\taoQtiItem\scripts\update;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\scripts\update\OntologyUpdater;
+use oat\taoQtiItem\controller\QtiCreator;
+use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\Export\Extractor\MetaDataOntologyExtractor;
@@ -40,24 +46,18 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
-use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\GenericLomManifestClassificationExtractor;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
-use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
-use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
-use oat\taoQtiItem\model\tasks\ImportQtiItem;
+use oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
-use oat\tao\model\accessControl\func\AclProxy;
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\taoQtiItem\controller\QtiPreview;
-use oat\taoQtiItem\controller\QtiCreator;
-use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
-use oat\taoQtiItem\model\qti\ImportService;
 use taoItems_models_classes_ItemsService;
 
 /**
@@ -438,6 +438,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('21.0.0');
         }
 
-        $this->skip('21.0.0', '21.3.8.1');
+        $this->skip('21.0.0', '21.3.8.2');
     }
 }
