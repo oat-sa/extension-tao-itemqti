@@ -17,15 +17,16 @@
  * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-use oat\taoQtiItem\controller\QtiPreview;
+
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
+use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
+use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
-use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
-use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -34,7 +35,7 @@ return array(
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '21.3.8.1',
+    'version'     => '21.3.8.2',
     'author'      => 'Open Assessment Technologies',
     'requires' => array(
         'taoItems' => '>=9.1.0',
