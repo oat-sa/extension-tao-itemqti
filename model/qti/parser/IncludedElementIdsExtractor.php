@@ -29,10 +29,11 @@ use tao_helpers_Uri;
 
 class IncludedElementIdsExtractor extends ConfigurableService
 {
-    public const OPTION_MEDIA_RESOLVER = 'mediaResolver';
-
     /** @var string[] */
     private $ids;
+
+    /** @var TaoMediaResolver */
+    private $mediaResolver;
 
     public function extract(Item $qtiItem): array
     {
@@ -41,6 +42,13 @@ class IncludedElementIdsExtractor extends ConfigurableService
         $this->incrementIds($this->normalizeItemBody($qtiItem));
 
         return array_unique($this->ids);
+    }
+
+    public function withMediaResolver(TaoMediaResolver $mediaResolver): self
+    {
+        $this->mediaResolver = $mediaResolver;
+
+        return $this;
     }
 
     private function normalizeItemBody(Item $qtiItem): array
@@ -97,6 +105,10 @@ class IncludedElementIdsExtractor extends ConfigurableService
 
     private function getMediaResolver(): TaoMediaResolver
     {
-        return $this->getOption(self::OPTION_MEDIA_RESOLVER) ?? new TaoMediaResolver();
+        if (!$this->mediaResolver) {
+            $this->mediaResolver = new TaoMediaResolver();
+        }
+
+        return $this->mediaResolver;
     }
 }

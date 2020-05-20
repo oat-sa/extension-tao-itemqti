@@ -49,8 +49,7 @@ class IncludedElementIdsExtractorTest extends TestCase
     protected function setUp(): void
     {
         $this->mediaResolver = $this->createMock(TaoMediaResolver::class);
-        $this->subject = new IncludedElementIdsExtractor();
-        $this->subject->setOption(IncludedElementIdsExtractor::OPTION_MEDIA_RESOLVER, $this->mediaResolver);
+        $this->subject = (new IncludedElementIdsExtractor())->withMediaResolver($this->mediaResolver);
     }
 
     public function testExtract(): void
