@@ -23,11 +23,14 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\parser;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use tao_helpers_Uri;
 
 class IncludedElementIdsExtractor extends ConfigurableService
 {
+    public const OPTION_MEDIA_RESOLVER = 'mediaResolver';
+
     /** @var string[] */
     private $ids;
 
@@ -35,12 +38,12 @@ class IncludedElementIdsExtractor extends ConfigurableService
     {
         $this->ids = [];
 
-        $this->incrementIds($this->getItemBody($qtiItem));
+        $this->incrementIds($this->normalizeItemBody($qtiItem));
 
         return array_unique($this->ids);
     }
 
-    private function getItemBody(Item $qtiItem): array
+    private function normalizeItemBody(Item $qtiItem): array
     {
         return json_decode(json_encode($qtiItem->toArray()['body']), true);
     }
@@ -83,8 +86,17 @@ class IncludedElementIdsExtractor extends ConfigurableService
         return ($element['qtiClass'] ?? '') === 'include' && !empty($element['attributes']['href']);
     }
 
-    private function formatElementId(string $id): string
+    private function formatElementId(string $url): string
     {
-        return tao_helpers_Uri::decode(substr($id, strpos($id, 'http')));
+        $id = $this->getMediaResolver()
+            ->resolve($url)
+            ->getMediaIdentifier();
+
+        return tao_helpers_Uri::decode($id);
+    }
+
+    private function getMediaResolver(): TaoMediaResolver
+    {
+        return $this->getOption(self::OPTION_MEDIA_RESOLVER) ?? new TaoMediaResolver();
     }
 }

@@ -21,6 +21,9 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\parser;
 
+use oat\tao\model\media\MediaAsset;
+use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\IncludedElementIdsExtractor;
 use oat\generis\test\TestCase;
@@ -28,17 +31,26 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class IncludedElementIdsExtractorTest extends TestCase
 {
-    private const MEDIA_LINK_1 = 'taomedia:\/\/mediamanager\/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
-    private const MEDIA_LINK_2 = 'taomedia:\/\/mediamanager\/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
+    private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
+    private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
+
+    private const MEDIA_LINK_1_URI = 'https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
+    private const MEDIA_LINK_2_URI = 'https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
+
     private const MEDIA_LINK_1_PARSED = 'https://test-tao-deploy.docker.localhost/ontologies/tao.rdf#i5ec293a38ebe623833180e3b0a547a6d4';
     private const MEDIA_LINK_2_PARSED = 'https://test-tao-deploy.docker.localhost/ontologies/tao.rdf#i5ec293a38ebe623833180e3b0a547a6d5';
 
     /** @var IncludedElementIdsExtractor */
     private $subject;
 
+    /** @var TaoMediaResolver */
+    private $mediaResolver;
+
     protected function setUp(): void
     {
+        $this->mediaResolver = $this->createMock(TaoMediaResolver::class);
         $this->subject = new IncludedElementIdsExtractor();
+        $this->subject->setOption(IncludedElementIdsExtractor::OPTION_MEDIA_RESOLVER, $this->mediaResolver);
     }
 
     public function testExtract(): void
@@ -48,6 +60,16 @@ class IncludedElementIdsExtractorTest extends TestCase
         $item->expects($this->once())
             ->method('toArray')
             ->willReturn($this->getBodyExample());
+
+        $this->mediaResolver
+            ->method('resolve')
+            ->willReturnOnConsecutiveCalls(
+                ... [
+                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_1_URI),
+                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_2_URI),
+                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_2_URI),
+                ]
+            );
 
         $this->assertSame(
             [
