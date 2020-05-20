@@ -18,6 +18,8 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\qti\parser;
 
 use oat\oatbox\service\ConfigurableService;
