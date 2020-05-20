@@ -27,6 +27,7 @@ use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\IncludedElementIdsExtractor;
 use oat\generis\test\TestCase;
+use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class IncludedElementIdsExtractorTest extends TestCase
@@ -54,11 +55,29 @@ class IncludedElementIdsExtractorTest extends TestCase
 
     public function testExtract(): void
     {
+        $element1 = $this->createMock(XInclude::class);
+        $element1->method('attr')
+            ->willReturn(self::MEDIA_LINK_1);
+
+        $element2 = $this->createMock(XInclude::class);
+        $element2->method('attr')
+            ->willReturn(self::MEDIA_LINK_2);
+
+        $element3 = $this->createMock(XInclude::class);
+        $element3->method('attr')
+            ->willReturn(self::MEDIA_LINK_2);
+
         /** @var Item|MockObject $item */
         $item = $this->createMock(Item::class);
         $item->expects($this->once())
-            ->method('toArray')
-            ->willReturn($this->getBodyExample());
+            ->method('getComposingElements')
+            ->willReturn(
+                [
+                    $element1,
+                    $element2,
+                    $element3,
+                ]
+            );
 
         $this->mediaResolver
             ->method('resolve')
@@ -77,41 +96,6 @@ class IncludedElementIdsExtractorTest extends TestCase
             ],
             $this->subject->extract($item)
         );
-    }
-
-    public function getBodyExample(): array
-    {
-        return [
-            'body' => [
-                'elements' => [
-                    [
-                        'qtiClass' => 'include',
-                        'body' => '',
-                        'attributes' => [
-                            'href' => self::MEDIA_LINK_1,
-                        ],
-                        'elements' => [
-                            [
-                                'qtiClass' => 'include',
-                                'body' => '',
-                                'attributes' => [
-                                    'href' => self::MEDIA_LINK_2,
-                                ],
-                                'elements' => [
-                                    [
-                                        'qtiClass' => 'include',
-                                        'body' => '',
-                                        'attributes' => [
-                                            'href' => self::MEDIA_LINK_2,
-                                        ],
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
     }
 }
 

@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\qti\parser;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\XInclude;
 use tao_helpers_Uri;
 
 class IncludedElementIdsExtractor extends ConfigurableService
@@ -39,7 +40,13 @@ class IncludedElementIdsExtractor extends ConfigurableService
     {
         $this->ids = [];
 
-        $this->incrementIds($this->normalizeItemBody($qtiItem));
+        foreach ($qtiItem->getComposingElements(XInclude::class) as $element) {
+            $id = $this->getMediaResolver()
+                ->resolve($element->attr('href'))
+                ->getMediaIdentifier();
+
+            $this->ids[] = tao_helpers_Uri::decode($id);
+        }
 
         return array_unique($this->ids);
     }
@@ -49,58 +56,6 @@ class IncludedElementIdsExtractor extends ConfigurableService
         $this->mediaResolver = $mediaResolver;
 
         return $this;
-    }
-
-    private function normalizeItemBody(Item $qtiItem): array
-    {
-        return json_decode(json_encode($qtiItem->toArray()['body']), true);
-    }
-
-    private function incrementIds(array $body): void
-    {
-        foreach ($body as $key => $value) {
-            $this->incrementIdsByKey($key, $value);
-        }
-    }
-
-    private function incrementIdsByKey(string $key, $value): void
-    {
-        if (!is_array($value)) {
-            return;
-        }
-
-        if ('elements' !== $key) {
-            $this->incrementIds($value);
-
-            return;
-        }
-
-        foreach ($value as $element) {
-            $this->incrementIdsByElement((array)$element);
-        }
-    }
-
-    private function incrementIdsByElement(array $element): void
-    {
-        if ($this->hasIncludedElement($element)) {
-            $this->ids[] = $this->formatElementId($element['attributes']['href']);
-        }
-
-        $this->incrementIds($element);
-    }
-
-    private function hasIncludedElement(array $element): bool
-    {
-        return ($element['qtiClass'] ?? '') === 'include' && !empty($element['attributes']['href']);
-    }
-
-    private function formatElementId(string $url): string
-    {
-        $id = $this->getMediaResolver()
-            ->resolve($url)
-            ->getMediaIdentifier();
-
-        return tao_helpers_Uri::decode($id);
     }
 
     private function getMediaResolver(): TaoMediaResolver
