@@ -52,6 +52,6 @@ class IncludedElementIdsExtractor extends ConfigurableService
 
     private function getElementIdsExtractor(): ElementIdsExtractor
     {
-        return $this->getServiceManager()->get(ElementIdsExtractor::class);
+        return $this->getServiceLocator()->get(ElementIdsExtractor::class);
     }
 }

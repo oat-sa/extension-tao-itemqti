@@ -25,8 +25,11 @@ use core_kernel_classes_Resource;
 use oat\oatbox\event\EventManager;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
+use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\parser\IncludedElementIdsExtractor;
+use oat\taoQtiItem\model\qti\parser\ElementIdsExtractor;
+use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\TestCase;
 
@@ -35,7 +38,7 @@ class UpdatedItemEventDispatcherTest extends TestCase
     /** @var UpdatedItemEventDispatcher */
     private $subject;
 
-    /** @var IncludedElementIdsExtractor|MockObject */
+    /** @var ElementIdsExtractor|MockObject */
     private $idsExtractor;
 
     /** @var EventManager|MockObject */
@@ -44,12 +47,12 @@ class UpdatedItemEventDispatcherTest extends TestCase
     protected function setUp(): void
     {
         $this->subject = new UpdatedItemEventDispatcher();
-        $this->idsExtractor = $this->createMock(IncludedElementIdsExtractor::class);
+        $this->idsExtractor = $this->createMock(ElementIdsExtractor::class);
         $this->eventManager = $this->createMock(EventManager::class);
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    IncludedElementIdsExtractor::class => $this->idsExtractor,
+                    ElementIdsExtractor::class => $this->idsExtractor,
                     EventManager::SERVICE_ID => $this->eventManager
                 ]
             )
@@ -73,14 +76,29 @@ class UpdatedItemEventDispatcherTest extends TestCase
                 new ItemUpdatedEvent(
                     $itemUri,
                     [
-                        'includeElementIds' => $ids
+                        'includeElementIds' => $ids,
+                        'objectElementIds' => $ids,
+                        'imgElementIds' => $ids,
                     ]
                 )
             );
 
         $this->idsExtractor
+            ->expects($this->at(0))
             ->method('extract')
-            ->with($item)
+            ->with($item, XInclude::class, 'href')
+            ->willReturn($ids);
+
+        $this->idsExtractor
+            ->expects($this->at(1))
+            ->method('extract')
+            ->with($item, QtiObject::class, 'data')
+            ->willReturn($ids);
+
+        $this->idsExtractor
+            ->expects($this->at(2))
+            ->method('extract')
+            ->with($item, Img::class, 'src')
             ->willReturn($ids);
 
         $this->assertNull($this->subject->dispatch($item, $rdfItem));

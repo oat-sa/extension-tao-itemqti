@@ -42,14 +42,16 @@ class UpdatedItemEventDispatcher extends ConfigurableService
     {
         $extractor = $this->getElementIdsExtractor();
 
+        $data = [
+            self::INCLUDE_ELEMENT_IDS_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
+            self::OBJECT_ELEMENT_IDS_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
+            self::IMG_ELEMENT_IDS_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
+        ];
+
         $this->getEventManager()->trigger(
             new ItemUpdatedEvent(
                 $rdfItem->getUri(),
-                [
-                    self::INCLUDE_ELEMENT_IDS_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
-                    self::OBJECT_ELEMENT_IDS_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
-                    self::IMG_ELEMENT_IDS_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
-                ]
+                $data
             )
         );
     }

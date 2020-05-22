@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\qti\parser;
 
 use Exception;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\media\TaoMediaException;
 use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use tao_helpers_Uri;
@@ -44,11 +45,14 @@ class ElementIdsExtractor extends ConfigurableService
         $this->ids = [];
 
         foreach ($qtiItem->getComposingElements($elementClass) as $element) {
-            $id = $this->getMediaResolver()
-                ->resolve($element->attr($attributeName))
-                ->getMediaIdentifier();
+            try {
+                $id = $this->getMediaResolver()
+                    ->resolve($element->attr($attributeName))
+                    ->getMediaIdentifier();
 
-            $this->ids[] = tao_helpers_Uri::decode($id);
+                $this->ids[] = tao_helpers_Uri::decode($id);
+            } catch (TaoMediaException $throwable) {
+            }
         }
 
         return array_unique($this->ids);

@@ -21,81 +21,44 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\parser;
 
-use oat\tao\model\media\MediaAsset;
-use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\parser\ElementIdsExtractor;
 use oat\taoQtiItem\model\qti\parser\IncludedElementIdsExtractor;
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class IncludedElementIdsExtractorTest extends TestCase
 {
-    private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
-    private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
-
-    private const MEDIA_LINK_1_URI = 'https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
-    private const MEDIA_LINK_2_URI = 'https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
-
-    private const MEDIA_LINK_1_PARSED = 'https://test-tao-deploy.docker.localhost/ontologies/tao.rdf#i5ec293a38ebe623833180e3b0a547a6d4';
-    private const MEDIA_LINK_2_PARSED = 'https://test-tao-deploy.docker.localhost/ontologies/tao.rdf#i5ec293a38ebe623833180e3b0a547a6d5';
+    /** @var ElementIdsExtractor|MockObject */
+    private $elementIdsExtractor;
 
     /** @var IncludedElementIdsExtractor */
     private $subject;
 
-    /** @var TaoMediaResolver */
-    private $mediaResolver;
-
     protected function setUp(): void
     {
-        $this->mediaResolver = $this->createMock(TaoMediaResolver::class);
-        $this->subject = (new IncludedElementIdsExtractor())->withMediaResolver($this->mediaResolver);
+        $this->elementIdsExtractor = $this->createMock(ElementIdsExtractor::class);
+        $this->subject = new IncludedElementIdsExtractor();
+        $this->subject->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    ElementIdsExtractor::class => $this->elementIdsExtractor,
+                ]
+            )
+        );
+        //$this->subject->withMediaResolver($this->createMock(TaoMediaResolver::class));
     }
 
     public function testExtract(): void
     {
-        $element1 = $this->createMock(XInclude::class);
-        $element1->method('attr')
-            ->willReturn(self::MEDIA_LINK_1);
+        $ids = ['id'];
 
-        $element2 = $this->createMock(XInclude::class);
-        $element2->method('attr')
-            ->willReturn(self::MEDIA_LINK_2);
+        $this->elementIdsExtractor
+            ->method('extract')
+            ->willReturn($ids);
 
-        $element3 = $this->createMock(XInclude::class);
-        $element3->method('attr')
-            ->willReturn(self::MEDIA_LINK_2);
-
-        /** @var Item|MockObject $item */
-        $item = $this->createMock(Item::class);
-        $item->expects($this->once())
-            ->method('getComposingElements')
-            ->willReturn(
-                [
-                    $element1,
-                    $element2,
-                    $element3,
-                ]
-            );
-
-        $this->mediaResolver
-            ->method('resolve')
-            ->willReturnOnConsecutiveCalls(
-                ... [
-                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_1_URI),
-                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_2_URI),
-                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_2_URI),
-                ]
-            );
-
-        $this->assertSame(
-            [
-                self::MEDIA_LINK_1_PARSED,
-                self::MEDIA_LINK_2_PARSED,
-            ],
-            $this->subject->extract($item)
-        );
+        $this->assertSame($ids, $this->subject->extract($this->createMock(Item::class)));
     }
 }
 
