@@ -22,36 +22,51 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\parser;
 
+use Exception;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\XInclude;
+use tao_helpers_Uri;
 
-/**
- * @deprecated Use \oat\taoQtiItem\model\qti\parser\ElementIdsExtractor
- */
-class IncludedElementIdsExtractor extends ConfigurableService
+class ElementIdsExtractor extends ConfigurableService
 {
+    /** @var string[] */
+    private $ids;
+
+    /** @var TaoMediaResolver */
+    private $mediaResolver;
+
     /**
-     * @deprecated Use \oat\taoQtiItem\model\qti\parser\ElementIdsExtractor::extract()
+     * @throws Exception
      */
-    public function extract(Item $qtiItem): array
+    public function extract(Item $qtiItem, string $elementClass, string $attributeName): array
     {
-        return $this->getElementIdsExtractor()->extract($qtiItem, XInclude::class, 'href');
+        $this->ids = [];
+
+        foreach ($qtiItem->getComposingElements($elementClass) as $element) {
+            $id = $this->getMediaResolver()
+                ->resolve($element->attr($attributeName))
+                ->getMediaIdentifier();
+
+            $this->ids[] = tao_helpers_Uri::decode($id);
+        }
+
+        return array_unique($this->ids);
     }
 
-    /**
-     * @deprecated Use \oat\taoQtiItem\model\qti\parser\ElementIdsExtractor::withMediaResolver()
-     */
     public function withMediaResolver(TaoMediaResolver $mediaResolver): self
     {
-        $this->getElementIdsExtractor()->withMediaResolver($mediaResolver);
+        $this->mediaResolver = $mediaResolver;
 
         return $this;
     }
 
-    private function getElementIdsExtractor(): ElementIdsExtractor
+    private function getMediaResolver(): TaoMediaResolver
     {
-        return $this->getServiceManager()->get(ElementIdsExtractor::class);
+        if (!$this->mediaResolver) {
+            $this->mediaResolver = new TaoMediaResolver();
+        }
+
+        return $this->mediaResolver;
     }
 }
