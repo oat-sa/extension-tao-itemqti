@@ -44,6 +44,7 @@ use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\StimulusHandler;
+use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
@@ -646,6 +647,8 @@ class ImportService extends ConfigurableService
                     );
                 }
 
+                $this->getItemEventDispatcher()->dispatch($qtiModel, $rdfItem);
+
                 $report = common_report_Report::createSuccess($msg, $rdfItem);
             } catch (ParsingException $e) {
                 $message = __('Resource "' . $resourceIdentifier . 'has an error. ') . $e->getUserMessage();
@@ -915,5 +918,10 @@ class ImportService extends ConfigurableService
         }
 
         return array_reverse($labels);
+    }
+
+    private function getItemEventDispatcher(): UpdatedItemEventDispatcher
+    {
+        return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
     }
 }
