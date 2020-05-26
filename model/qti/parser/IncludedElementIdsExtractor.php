@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\qti\parser;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\media\TaoMediaResolver;
+use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\XInclude;
 use tao_helpers_Uri;
@@ -61,7 +62,7 @@ class IncludedElementIdsExtractor extends ConfigurableService
     private function getMediaResolver(): TaoMediaResolver
     {
         if (!$this->mediaResolver) {
-            $this->mediaResolver = new TaoMediaResolver();
+            $this->mediaResolver = new ItemMediaResolver(null, '');
         }
 
         return $this->mediaResolver;
