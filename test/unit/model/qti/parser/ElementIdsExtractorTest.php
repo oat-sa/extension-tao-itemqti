@@ -21,9 +21,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\parser;
 
-use oat\tao\model\media\MediaAsset;
-use oat\tao\model\media\sourceStrategy\HttpSource;
-use oat\tao\model\media\TaoMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\ElementIdsExtractor;
 use oat\generis\test\TestCase;
@@ -32,35 +29,19 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ElementIdsExtractorTest extends TestCase
 {
-    private const MEDIA_NOT_SUPPORTED = 'my-video.mov';
-
     private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
     private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
-
-    private const MEDIA_LINK_1_URI = 'https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
-    private const MEDIA_LINK_2_URI = 'https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
-
-    private const MEDIA_LINK_1_PARSED = 'https://test-tao-deploy.docker.localhost/ontologies/tao.rdf#i5ec293a38ebe623833180e3b0a547a6d4';
-    private const MEDIA_LINK_2_PARSED = 'https://test-tao-deploy.docker.localhost/ontologies/tao.rdf#i5ec293a38ebe623833180e3b0a547a6d5';
 
     /** @var ElementIdsExtractor */
     private $subject;
 
-    /** @var TaoMediaResolver */
-    private $mediaResolver;
-
     protected function setUp(): void
     {
-        $this->mediaResolver = $this->createMock(TaoMediaResolver::class);
-        $this->subject = (new ElementIdsExtractor())->withMediaResolver($this->mediaResolver);
+        $this->subject = new ElementIdsExtractor();
     }
 
     public function testExtract(): void
     {
-        $elementNotConsidered = $this->createMock(XInclude::class);
-        $elementNotConsidered->method('attr')
-            ->willReturn(self::MEDIA_NOT_SUPPORTED);
-
         $element1 = $this->createMock(XInclude::class);
         $element1->method('attr')
             ->willReturn(self::MEDIA_LINK_1);
@@ -81,31 +62,18 @@ class ElementIdsExtractorTest extends TestCase
             ->with(XInclude::class)
             ->willReturn(
                 [
-                    $elementNotConsidered,
                     $element1,
                     $element2,
                     $element3,
                 ]
             );
 
-        $this->mediaResolver
-            ->method('resolve')
-            ->willReturnOnConsecutiveCalls(
-                ... [
-                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_1_URI),
-                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_2_URI),
-                    new MediaAsset(new HttpSource(), self::MEDIA_LINK_2_URI),
-                ]
-            );
-
         $this->assertSame(
             [
-                self::MEDIA_LINK_1_PARSED,
-                self::MEDIA_LINK_2_PARSED,
+                self::MEDIA_LINK_1,
+                self::MEDIA_LINK_2,
             ],
-            $this->subject
-                ->withOnlyMediaManager()
-                ->extract($item, XInclude::class, 'href')
+            $this->subject->extract($item, XInclude::class, 'href')
         );
     }
 }

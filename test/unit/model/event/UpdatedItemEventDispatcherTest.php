@@ -76,31 +76,27 @@ class UpdatedItemEventDispatcherTest extends TestCase
                 new ItemUpdatedEvent(
                     $itemUri,
                     [
-                        'includeElementIds' => $ids,
-                        'objectElementIds' => $ids,
-                        'imgElementIds' => $ids,
+                        'includeElementReferences' => $ids,
+                        'objectElementReferences' => $ids,
+                        'imgElementReferences' => $ids,
                     ]
                 )
             );
 
         $this->idsExtractor
-            ->method('withOnlyMediaManager')
-            ->willReturnSelf();
-
-        $this->idsExtractor
-            ->expects($this->at(1))
+            ->expects($this->at(0))
             ->method('extract')
             ->with($item, XInclude::class, 'href')
             ->willReturn($ids);
 
         $this->idsExtractor
-            ->expects($this->at(2))
+            ->expects($this->at(1))
             ->method('extract')
             ->with($item, QtiObject::class, 'data')
             ->willReturn($ids);
 
         $this->idsExtractor
-            ->expects($this->at(3))
+            ->expects($this->at(2))
             ->method('extract')
             ->with($item, Img::class, 'src')
             ->willReturn($ids);

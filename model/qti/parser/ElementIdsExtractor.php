@@ -24,74 +24,24 @@ namespace oat\taoQtiItem\model\qti\parser;
 
 use Exception;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\media\MediaService;
-use oat\tao\model\media\TaoMediaResolver;
-use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
-use tao_helpers_Uri;
 
 class ElementIdsExtractor extends ConfigurableService
 {
-    private const MEDIA_MANAGER_SCHEMA = MediaService::SCHEME_NAME . '://mediamanager';
-
     /** @var string[] */
-    private $ids;
-
-    /** @var TaoMediaResolver */
-    private $mediaResolver;
-
-    /** @var bool */
-    private $onlyMediaManager;
+    private $elementReferences;
 
     /**
      * @throws Exception
      */
     public function extract(Item $qtiItem, string $elementClass, string $attributeName): array
     {
-        $this->ids = [];
+        $this->elementReferences = [];
 
         foreach ($qtiItem->getComposingElements($elementClass) as $element) {
-            $rawId = $element->attr($attributeName);
-
-            if ($this->onlyMediaManager && !$this->isMediaManagerMedia($rawId)) {
-                continue;
-            }
-
-            $id = $this->getMediaResolver()
-                ->resolve($rawId)
-                ->getMediaIdentifier();
-
-            $this->ids[] = tao_helpers_Uri::decode($id);
+            $this->elementReferences[] = $element->attr($attributeName);
         }
 
-        return array_unique($this->ids);
-    }
-
-    public function withOnlyMediaManager(): self
-    {
-        $this->onlyMediaManager = true;
-
-        return $this;
-    }
-
-    public function withMediaResolver(TaoMediaResolver $mediaResolver): self
-    {
-        $this->mediaResolver = $mediaResolver;
-
-        return $this;
-    }
-
-    private function getMediaResolver(): TaoMediaResolver
-    {
-        if (!$this->mediaResolver) {
-            $this->mediaResolver = new ItemMediaResolver(null, '');
-        }
-
-        return $this->mediaResolver;
-    }
-
-    private function isMediaManagerMedia(string $id)
-    {
-        return strpos($id, self::MEDIA_MANAGER_SCHEMA) !== false;
+        return array_unique($this->elementReferences);
     }
 }
