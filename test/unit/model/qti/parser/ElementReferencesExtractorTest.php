@@ -22,22 +22,22 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\qti\parser;
 
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\parser\ElementIdsExtractor;
+use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ElementIdsExtractorTest extends TestCase
+class ElementReferencesExtractorTest extends TestCase
 {
     private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
     private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
 
-    /** @var ElementIdsExtractor */
+    /** @var ElementReferencesExtractor */
     private $subject;
 
     protected function setUp(): void
     {
-        $this->subject = new ElementIdsExtractor();
+        $this->subject = new ElementReferencesExtractor();
     }
 
     public function testExtract(): void

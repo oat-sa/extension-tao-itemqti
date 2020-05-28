@@ -26,7 +26,7 @@ use Exception;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\qti\Item;
 
-class ElementIdsExtractor extends ConfigurableService
+class ElementReferencesExtractor extends ConfigurableService
 {
     /** @var string[] */
     private $elementReferences;

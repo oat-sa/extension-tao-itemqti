@@ -28,7 +28,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\parser\ElementIdsExtractor;
+use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
 
@@ -40,7 +40,7 @@ class UpdatedItemEventDispatcher extends ConfigurableService
 
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
-        $extractor = $this->getElementIdsExtractor();
+        $extractor = $this->getElementReferencesExtractor();
 
         $data = [
             self::INCLUDE_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
@@ -57,8 +57,8 @@ class UpdatedItemEventDispatcher extends ConfigurableService
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 
-    private function getElementIdsExtractor(): ElementIdsExtractor
+    private function getElementReferencesExtractor(): ElementReferencesExtractor
     {
-        return $this->getServiceLocator()->get(ElementIdsExtractor::class);
+        return $this->getServiceLocator()->get(ElementReferencesExtractor::class);
     }
 }

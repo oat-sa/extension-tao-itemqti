@@ -27,7 +27,7 @@ use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\parser\ElementIdsExtractor;
+use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,8 +38,8 @@ class UpdatedItemEventDispatcherTest extends TestCase
     /** @var UpdatedItemEventDispatcher */
     private $subject;
 
-    /** @var ElementIdsExtractor|MockObject */
-    private $idsExtractor;
+    /** @var ElementReferencesExtractor|MockObject */
+    private $referencesExtractor;
 
     /** @var EventManager|MockObject */
     private $eventManager;
@@ -47,12 +47,12 @@ class UpdatedItemEventDispatcherTest extends TestCase
     protected function setUp(): void
     {
         $this->subject = new UpdatedItemEventDispatcher();
-        $this->idsExtractor = $this->createMock(ElementIdsExtractor::class);
+        $this->referencesExtractor = $this->createMock(ElementReferencesExtractor::class);
         $this->eventManager = $this->createMock(EventManager::class);
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    ElementIdsExtractor::class => $this->idsExtractor,
+                    ElementReferencesExtractor::class => $this->referencesExtractor,
                     EventManager::SERVICE_ID => $this->eventManager
                 ]
             )
@@ -83,19 +83,19 @@ class UpdatedItemEventDispatcherTest extends TestCase
                 )
             );
 
-        $this->idsExtractor
+        $this->referencesExtractor
             ->expects($this->at(0))
             ->method('extract')
             ->with($item, XInclude::class, 'href')
             ->willReturn($ids);
 
-        $this->idsExtractor
+        $this->referencesExtractor
             ->expects($this->at(1))
             ->method('extract')
             ->with($item, QtiObject::class, 'data')
             ->willReturn($ids);
 
-        $this->idsExtractor
+        $this->referencesExtractor
             ->expects($this->at(2))
             ->method('extract')
             ->with($item, Img::class, 'src')
