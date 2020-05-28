@@ -40,7 +40,7 @@ class ElementIdsExtractor extends ConfigurableService
     /** @var TaoMediaResolver */
     private $mediaResolver;
 
-    /** @var TaoMediaResolver */
+    /** @var bool */
     private $onlyMediaManager;
 
     /**
