@@ -40,7 +40,8 @@ class UpdatedItemEventDispatcher extends ConfigurableService
 
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
-        $extractor = $this->getElementIdsExtractor();
+        $extractor = $this->getElementIdsExtractor()
+            ->withOnlyMediaManager();
 
         $data = [
             self::INCLUDE_ELEMENT_IDS_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),

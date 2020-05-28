@@ -84,19 +84,23 @@ class UpdatedItemEventDispatcherTest extends TestCase
             );
 
         $this->idsExtractor
-            ->expects($this->at(0))
+            ->method('withOnlyMediaManager')
+            ->willReturnSelf();
+
+        $this->idsExtractor
+            ->expects($this->at(1))
             ->method('extract')
             ->with($item, XInclude::class, 'href')
             ->willReturn($ids);
 
         $this->idsExtractor
-            ->expects($this->at(1))
+            ->expects($this->at(2))
             ->method('extract')
             ->with($item, QtiObject::class, 'data')
             ->willReturn($ids);
 
         $this->idsExtractor
-            ->expects($this->at(2))
+            ->expects($this->at(3))
             ->method('extract')
             ->with($item, Img::class, 'src')
             ->willReturn($ids);

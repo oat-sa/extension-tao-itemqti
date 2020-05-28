@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\qti\parser;
 
 use Exception;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\media\MediaService;
 use oat\tao\model\media\TaoMediaResolver;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
@@ -31,11 +32,16 @@ use tao_helpers_Uri;
 
 class ElementIdsExtractor extends ConfigurableService
 {
+    private const MEDIA_MANAGER_SCHEMA = MediaService::SCHEME_NAME . '://mediamanager';
+
     /** @var string[] */
     private $ids;
 
     /** @var TaoMediaResolver */
     private $mediaResolver;
+
+    /** @var TaoMediaResolver */
+    private $onlyMediaManager;
 
     /**
      * @throws Exception
@@ -45,14 +51,27 @@ class ElementIdsExtractor extends ConfigurableService
         $this->ids = [];
 
         foreach ($qtiItem->getComposingElements($elementClass) as $element) {
+            $rawId = $element->attr($attributeName);
+
+            if ($this->onlyMediaManager && !$this->isMediaManagerMedia($rawId)) {
+                continue;
+            }
+
             $id = $this->getMediaResolver()
-                ->resolve($element->attr($attributeName))
+                ->resolve($rawId)
                 ->getMediaIdentifier();
 
             $this->ids[] = tao_helpers_Uri::decode($id);
         }
 
         return array_unique($this->ids);
+    }
+
+    public function withOnlyMediaManager(): self
+    {
+        $this->onlyMediaManager = true;
+
+        return $this;
     }
 
     public function withMediaResolver(TaoMediaResolver $mediaResolver): self
@@ -69,5 +88,10 @@ class ElementIdsExtractor extends ConfigurableService
         }
 
         return $this->mediaResolver;
+    }
+
+    private function isMediaManagerMedia(string $id)
+    {
+        return strpos($id, self::MEDIA_MANAGER_SCHEMA) !== false;
     }
 }

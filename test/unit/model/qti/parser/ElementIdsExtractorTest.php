@@ -32,6 +32,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ElementIdsExtractorTest extends TestCase
 {
+    private const MEDIA_NOT_SUPPORTED = 'my-video.mov';
+
     private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
     private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
 
@@ -55,6 +57,10 @@ class ElementIdsExtractorTest extends TestCase
 
     public function testExtract(): void
     {
+        $elementNotConsidered = $this->createMock(XInclude::class);
+        $elementNotConsidered->method('attr')
+            ->willReturn(self::MEDIA_NOT_SUPPORTED);
+
         $element1 = $this->createMock(XInclude::class);
         $element1->method('attr')
             ->willReturn(self::MEDIA_LINK_1);
@@ -75,6 +81,7 @@ class ElementIdsExtractorTest extends TestCase
             ->with(XInclude::class)
             ->willReturn(
                 [
+                    $elementNotConsidered,
                     $element1,
                     $element2,
                     $element3,
@@ -96,7 +103,9 @@ class ElementIdsExtractorTest extends TestCase
                 self::MEDIA_LINK_1_PARSED,
                 self::MEDIA_LINK_2_PARSED,
             ],
-            $this->subject->extract($item, XInclude::class, 'href')
+            $this->subject
+                ->withOnlyMediaManager()
+                ->extract($item, XInclude::class, 'href')
         );
     }
 }
