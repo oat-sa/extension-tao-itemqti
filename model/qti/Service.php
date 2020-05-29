@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use tao_helpers_Uri;
 use common_exception_FileSystemError;
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -57,6 +56,9 @@ class Service extends ConfigurableService
     use OntologyAwareTrait;
 
     const QTI_ITEM_FILE = 'qti.xml';
+
+    /** @var Item */
+    private $lastQtiItemSaved;
 
     /**
      * Load a QTI_Item from an, RDF Item using the itemContent property of the
@@ -153,11 +155,18 @@ class Service extends ConfigurableService
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
+        $this->lastQtiItemSaved = $qtiItem;
+
         if ($success) {
-            $this->getUpdatedItemEventDispatcher()->dispatch($qtiItem, $rdfItem);
+            $this->getEventManager()->trigger(new ItemUpdatedEvent($rdfItem->getUri()));
         }
 
         return $success;
+    }
+
+    public function getLastQtiItemSaved(): Item
+    {
+        return $this->lastQtiItemSaved;
     }
 
     /**
@@ -341,10 +350,5 @@ class Service extends ConfigurableService
         $newDirectory = $this->getItemService()->getDefaultItemDirectory()->getDirectory($newItemContentDirectoryPath);
 
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID)->serialize($newDirectory);
-    }
-
-    private function getUpdatedItemEventDispatcher(): UpdatedItemEventDispatcher
-    {
-        return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
     }
 }

@@ -32,6 +32,7 @@ use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\event\ItemCreatorLoad;
 use oat\taoQtiItem\model\HookRegistry;
+use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\Service;
 use tao_actions_CommonModule;
 use tao_helpers_File;
@@ -173,7 +174,6 @@ class QtiCreator extends tao_actions_CommonModule
 
     public function saveItem()
     {
-
         $returnValue = ['success' => false];
 
         if ($this->hasRequestParameter('uri')) {
@@ -183,13 +183,14 @@ class QtiCreator extends tao_actions_CommonModule
             /** @var Service $itemService */
             $itemService = Service::singleton();
 
-            //check if the item is QTI item
             if ($itemService->hasItemModel($rdfItem, [ItemModel::MODEL_URI])) {
                 try {
                     Authoring::checkEmptyMedia($xml);
                     $returnValue['success'] = $itemService->saveXmlItemToRdfItem($xml, $rdfItem);
                     $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
                     $eventManager->trigger(new ResourceUpdated($rdfItem));
+
+                    $this->getUpdatedItemEventDispatcher()->dispatch($itemService->getLastQtiItemSaved(), $rdfItem);
                 } catch (QtiModelException $e) {
                     $returnValue = [
                         'success' => false,
@@ -295,5 +296,10 @@ class QtiCreator extends tao_actions_CommonModule
         $config->init();
 
         return $config;
+    }
+
+    private function getUpdatedItemEventDispatcher(): UpdatedItemEventDispatcher
+    {
+        return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
     }
 }
