@@ -128,7 +128,7 @@ class QtiCreator extends tao_actions_CommonModule
 
     public function getMediaSources()
     {
-        $exclude = '';
+        $exclude = 'local';
         if ($this->hasRequestParameter('exclude')) {
             $exclude = $this->getRequestParameter('exclude');
         }
