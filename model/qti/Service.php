@@ -21,6 +21,10 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use common_exception_Error;
+use common_exception_NotFound;
+use oat\oatbox\filesystem\File;
+use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use tao_helpers_Uri;
 use common_exception_FileSystemError;
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -56,9 +60,6 @@ class Service extends ConfigurableService
     use OntologyAwareTrait;
 
     const QTI_ITEM_FILE = 'qti.xml';
-
-    /** @var Item */
-    private $lastQtiItemSaved;
 
     /**
      * Load a QTI_Item from an, RDF Item using the itemContent property of the
@@ -135,8 +136,8 @@ class Service extends ConfigurableService
      * @param \oat\taoQtiItem\model\qti\Item $qtiItem
      * @param core_kernel_classes_Resource $rdfItem
      * @return bool
-     * @throws \common_exception_Error
-     * @throws \common_exception_NotFound
+     * @throws common_exception_Error
+     * @throws common_exception_NotFound
      * @throws common_Exception
      * @throws exception\QtiModelException
      */
@@ -155,8 +156,6 @@ class Service extends ConfigurableService
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
-        $this->lastQtiItemSaved = $qtiItem;
-
         if ($success) {
             $this->getEventManager()->trigger(new ItemUpdatedEvent($rdfItem->getUri()));
         }
@@ -164,24 +163,21 @@ class Service extends ConfigurableService
         return $success;
     }
 
-    public function getLastQtiItemSaved(): Item
-    {
-        return $this->lastQtiItemSaved;
-    }
-
     /**
-     * @param $xml
+     * @param string|File $xml
      * @param core_kernel_classes_Resource $rdfItem
+     *
      * @return bool
-     * @throws exception\QtiModelException
+     *
+     * @throws common_exception_Error
+     * @throws common_exception_NotFound
+     * @throws common_Exception
      */
     public function saveXmlItemToRdfItem($xml, core_kernel_classes_Resource $rdfItem)
     {
         $sanitized = Authoring::sanitizeQtiXml($xml);
-        Authoring::validateQtiXml($sanitized);
 
-        $qtiParser = new Parser($sanitized);
-        $qtiItem = $qtiParser->load();
+        $qtiItem = $this->getXmlToItemParser()->parse($sanitized);
 
         return $this->saveDataItemToRdfItem($qtiItem, $rdfItem);
     }
@@ -350,5 +346,10 @@ class Service extends ConfigurableService
         $newDirectory = $this->getItemService()->getDefaultItemDirectory()->getDirectory($newItemContentDirectoryPath);
 
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID)->serialize($newDirectory);
+    }
+
+    private function getXmlToItemParser(): XmlToItemParser
+    {
+        return $this->getServiceLocator()->get(XmlToItemParser::class);
     }
 }
