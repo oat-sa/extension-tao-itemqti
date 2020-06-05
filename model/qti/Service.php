@@ -21,7 +21,10 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
+use common_exception_Error;
+use common_exception_NotFound;
+use oat\oatbox\filesystem\File;
+use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use tao_helpers_Uri;
 use common_exception_FileSystemError;
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -133,8 +136,8 @@ class Service extends ConfigurableService
      * @param \oat\taoQtiItem\model\qti\Item $qtiItem
      * @param core_kernel_classes_Resource $rdfItem
      * @return bool
-     * @throws \common_exception_Error
-     * @throws \common_exception_NotFound
+     * @throws common_exception_Error
+     * @throws common_exception_NotFound
      * @throws common_Exception
      * @throws exception\QtiModelException
      */
@@ -154,25 +157,27 @@ class Service extends ConfigurableService
         $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
         if ($success) {
-            $this->getUpdatedItemEventDispatcher()->dispatch($qtiItem, $rdfItem);
+            $this->getEventManager()->trigger(new ItemUpdatedEvent($rdfItem->getUri()));
         }
 
         return $success;
     }
 
     /**
-     * @param $xml
+     * @param string|File $xml
      * @param core_kernel_classes_Resource $rdfItem
+     *
      * @return bool
-     * @throws exception\QtiModelException
+     *
+     * @throws common_exception_Error
+     * @throws common_exception_NotFound
+     * @throws common_Exception
      */
     public function saveXmlItemToRdfItem($xml, core_kernel_classes_Resource $rdfItem)
     {
         $sanitized = Authoring::sanitizeQtiXml($xml);
-        Authoring::validateQtiXml($sanitized);
 
-        $qtiParser = new Parser($sanitized);
-        $qtiItem = $qtiParser->load();
+        $qtiItem = $this->getXmlToItemParser()->parse($sanitized);
 
         return $this->saveDataItemToRdfItem($qtiItem, $rdfItem);
     }
@@ -343,8 +348,8 @@ class Service extends ConfigurableService
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID)->serialize($newDirectory);
     }
 
-    private function getUpdatedItemEventDispatcher(): UpdatedItemEventDispatcher
+    private function getXmlToItemParser(): XmlToItemParser
     {
-        return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
+        return $this->getServiceLocator()->get(XmlToItemParser::class);
     }
 }
