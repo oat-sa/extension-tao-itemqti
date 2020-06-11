@@ -17,7 +17,7 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2015 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2020 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -25,26 +25,28 @@ namespace oat\taoQtiItem\model\Export;
 
 use core_kernel_classes_Property;
 use DOMDocument;
-use DOMXPath;
-use DOMNode;
 use League\Flysystem\FileNotFoundException;
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\media\MediaManagement;
+use oat\tao\model\media\MediaService;
 use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
-use Psr\Http\Message\StreamInterface;
-use taoItems_models_classes_ItemExporter;
-use oat\taoQtiItem\model\qti\AssetParser;
-use oat\taoItems\model\media\ItemMediaResolver;
-use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
+use Psr\Http\Message\StreamInterface;
+use tao_helpers_Uri;
+use taoItems_models_classes_ItemExporter;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
@@ -133,7 +135,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                 if (!$mediaSource instanceof HttpSource) {
                     $link = $mediaAsset->getMediaIdentifier();
-                    $stream = $mediaSource->getFileStream($link);
+
+                    $stream = $this->preprocessAsset($link, $mediaSource);
+                    if (null === $stream) {
+                        $stream = $mediaSource->getFileStream($link);
+                    }
+
                     $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
                     $replacementList[$assetUrl] = $replacement;
@@ -309,5 +316,22 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
         return $this->metadataExporter;
+    }
+
+    private function preprocessAsset($link, MediaManagement $mediaSource): ?StreamInterface
+    {
+        if ($this->getMediaService()->getMediaResourcePreparer() && $mediaSource->getFileInfo($link)['mime'] === 'application/qti+xml') {
+            $uri = tao_helpers_Uri::decode($link);
+            return stream_for($this->getMediaService()->getMediaResourcePreparer()->prepare(
+                $mediaSource->getResource($uri),
+                $mediaSource->getFileStream($uri)
+            ));
+        }
+        return null;
+    }
+
+    private function getMediaService(): MediaService
+    {
+        return $this->getServiceManager()->get(MediaService::SERVICE_ID);
     }
 }
