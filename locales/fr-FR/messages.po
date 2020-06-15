@@ -919,7 +919,7 @@ msgid "Modal Feedback Prop."
 msgstr "Propriété(s) du retour modal"
 
 msgid "modal feedback title"
-msgstr ""
+msgstr "feedback"
 
 msgid "Modal Feedbacks"
 msgstr "Retours modaux"

@@ -919,7 +919,7 @@ msgid "Modal Feedback Prop."
 msgstr "Standaard feedback eigen."
 
 msgid "modal feedback title"
-msgstr ""
+msgstr "feedback"
 
 msgid "Modal Feedbacks"
 msgstr "Standaard feedbacks"
