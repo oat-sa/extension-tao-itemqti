@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-24T08:37:00\n"
+"Project-Id-Version: TAO 3.4.0-sprint130\n"
+"PO-Revision-Date: 2020-06-15T16:08:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -120,6 +120,9 @@ msgstr "Er is een fout opgetreden op het niveau van het QTI-model."
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
 
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Er is een onverwachte fout opgetreden het verwerken van de antwoorden."
 
@@ -188,11 +191,11 @@ msgstr "Bladeren…"
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "Cancel"
-msgstr "Annuleren"
-
 msgid "cancel"
 msgstr "annuleren"
+
+msgid "Cancel"
+msgstr "Annuleren"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Kan geen gap maken uit deze keuze. Controleer of u geen elementen gedeeltelijk hebt geselecteerd."
@@ -347,11 +350,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
 
-msgid "Delete"
-msgstr "Verwijderen"
-
 msgid "delete"
 msgstr "verwijder"
+
+msgid "Delete"
+msgstr "Verwijderen"
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -803,11 +806,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Misvormde XML[%s]:\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Beheer items"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Beheer items"
 
 msgid "map response"
@@ -888,6 +891,9 @@ msgstr "Metadata-import vereist een instantie van core_kernel_classes_Resource o
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
 msgstr "Voor het importeren van metagegevens is een instantie van DomManifest nodig om metadata te extraheren"
 
+msgid "Metadata service successfully registered."
+msgstr ""
+
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
@@ -911,6 +917,9 @@ msgstr "Standaard feedback wordt meteen na antwoordverwerking getoond aan de kan
 
 msgid "Modal Feedback Prop."
 msgstr "Standaard feedback eigen."
+
+msgid "modal feedback title"
+msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "Standaard feedbacks"
@@ -955,11 +964,11 @@ msgstr "Geen preview beschikbaar"
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "none"
-msgstr "geen"
-
 msgid "None"
 msgstr "Geen"
+
+msgid "none"
+msgstr "geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1193,11 +1202,11 @@ msgstr "Registreer methode verwacht $key en $name parameters"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registratie methode verwacht $key en $name parameters."
 
-msgid "remove"
-msgstr "verwijder"
-
 msgid "Remove"
 msgstr "Verwijder"
+
+msgid "remove"
+msgstr "verwijder"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
@@ -1693,11 +1702,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "ongedaan maken"
-
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "undo"
+msgstr "ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
