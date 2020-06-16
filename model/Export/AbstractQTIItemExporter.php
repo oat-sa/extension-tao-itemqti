@@ -28,11 +28,9 @@ use DOMDocument;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\media\MediaManagement;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
-use oat\taoMediaManager\model\export\service\MediaResourcePreparer;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
@@ -43,10 +41,7 @@ use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Http\Message\StreamInterface;
-use tao_helpers_Uri;
 use taoItems_models_classes_ItemExporter;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
@@ -313,19 +308,5 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
         return $this->metadataExporter;
-    }
-
-    private function preprocessAsset($link, MediaManagement $mediaSource): ?StreamInterface
-    {
-        if ($mediaSource->getFileInfo($link)['mime'] === 'application/qti+xml') {
-            $uri = tao_helpers_Uri::decode($link);
-            return stream_for($mediaSource->getProcessedFileStream($uri));
-        }
-        return null;
-    }
-
-    private function getMediaResourcePreparer(): MediaResourcePreparer
-    {
-        return $this->getServiceManager()->get(MediaResourcePreparer::class);
     }
 }
