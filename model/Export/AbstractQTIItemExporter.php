@@ -28,6 +28,7 @@ use DOMDocument;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\media\ProcessedFileStreamAware;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
@@ -131,7 +132,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if (!$mediaSource instanceof HttpSource) {
                     $link = $mediaAsset->getMediaIdentifier();
 
-                    $stream = $mediaSource->getProcessedFileStream($link);
+                    if ($mediaSource instanceof ProcessedFileStreamAware) {
+                        $stream = $mediaSource->getProcessedFileStream($link);
+                    } else {
+                        $stream = $mediaSource->getFileStream($link);
+                    }
 
                     $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
