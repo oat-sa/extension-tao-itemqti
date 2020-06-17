@@ -1,13 +1,5 @@
 <?php
 
-use oat\tao\model\user\TaoRoles;
-use oat\taoQtiItem\scripts\update\Updater;
-use oat\taoQtiItem\install\scripts\setXMLParserConfig;
-use oat\taoQtiItem\scripts\install\ItemEventRegister;
-use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
-use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
-use oat\taoQtiItem\install\scripts\addValidationSettings;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,19 +15,26 @@ use oat\taoQtiItem\install\scripts\addValidationSettings;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
-use oat\taoQtiItem\controller\QtiPreview;
+use oat\tao\model\user\TaoRoles;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\controller\QtiPreview;
+use oat\taoQtiItem\install\scripts\addValidationSettings;
+use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\install\scripts\setXMLParserConfig;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
-use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
-use oat\taoQtiItem\scripts\install\SetItemModel;
-use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
+use oat\taoQtiItem\scripts\install\ItemEventRegister;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
+use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
+use oat\taoQtiItem\scripts\install\SetItemModel;
+use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
+use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
+use oat\taoQtiItem\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 $taopath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
@@ -44,11 +43,11 @@ return [
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '24.4.1',
+    'version'     => '25.0.1',
     'author'      => 'Open Assessment Technologies',
     'requires' => [
         'taoItems' => '>=10.6.0',
-        'tao'      => '>=41.14.0',
+        'tao'      => '>=43.1.0',
         'generis'  => '>=12.17.0',
     ],
     'models' => [
