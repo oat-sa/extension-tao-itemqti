@@ -15,32 +15,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
-use oat\taoQtiItem\controller\QtiPreview;
+use oat\tao\model\user\TaoRoles;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
+use oat\taoQtiItem\controller\QtiPreview;
+use oat\taoQtiItem\install\scripts\addValidationSettings;
+use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
+use oat\taoQtiItem\install\scripts\setXMLParserConfig;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
-use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
-use oat\taoQtiItem\scripts\install\SetItemModel;
-use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
+use oat\taoQtiItem\scripts\install\ItemEventRegister;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
+use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
+use oat\taoQtiItem\scripts\install\SetItemModel;
+use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
+use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
+use oat\taoQtiItem\scripts\update\Updater;
 
-$extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
-$taopath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
+$extpath = __DIR__ . DIRECTORY_SEPARATOR;
+$taopath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
 
 return [
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '24.5.1',
+    'version'     => '25.0.2',
     'author'      => 'Open Assessment Technologies',
     'requires' => [
         'taoItems' => '>=10.6.0',
-        'tao'      => '>=41.14.0',
+        'tao'      => '>=43.1.0',
         'generis'  => '>=12.17.0',
     ],
     'models' => [
@@ -48,21 +55,21 @@ return [
     ],
     'install' => [
         'rdf' => [
-            dirname(__FILE__) . '/install/ontology/taoQti.rdf',
-            dirname(__FILE__) . '/install/ontology/qtiItemRunner.rdf'
+            __DIR__ . '/install/ontology/taoQti.rdf',
+            __DIR__ . '/install/ontology/qtiItemRunner.rdf'
         ],
         'checks' => [
             ['type' => 'CheckCustom', 'value' => ['id' => 'taoQtiItem_custom_mathjax', 'name' => 'mathjax', 'extension' => 'taoQtiItem', 'optional' => true]]
         ],
         'php' => [
-            dirname(__FILE__) . '/install/local/setDefaultTheme.php',
-            dirname(__FILE__) . '/install/local/addPortableContexts.php',
-            dirname(__FILE__) . '/install/scripts/setQtiRunnerConfig.php',
-            'oat\\taoQtiItem\\install\\scripts\\addValidationSettings',
-            'oat\\taoQtiItem\\install\\scripts\\SetDragAndDropConfig',
-            'oat\\taoQtiItem\\scripts\\install\\SetQtiCreatorConfig',
-            'oat\\taoQtiItem\\scripts\\install\\ItemEventRegister',
-            'oat\\taoQtiItem\\install\\scripts\\setXMLParserConfig',
+            __DIR__ . '/install/local/setDefaultTheme.php',
+            __DIR__ . '/install/local/addPortableContexts.php',
+            __DIR__ . '/install/scripts/setQtiRunnerConfig.php',
+            addValidationSettings::class,
+            SetDragAndDropConfig::class,
+            SetQtiCreatorConfig::class,
+            ItemEventRegister::class,
+            setXMLParserConfig::class,
             InitMetadataService::class,
             SetItemModel::class,
             RegisterLegacyPortableLibraries::class,
@@ -73,10 +80,10 @@ return [
     ],
     'local' => [
         'php'   => [
-            dirname(__FILE__) . '/install/local/addQTIExamples.php'
+            __DIR__ . '/install/local/addQTIExamples.php'
         ]
     ],
-    'update' => 'oat\\taoQtiItem\\scripts\\update\\Updater',
+    'update' => Updater::class,
     'routes' => [
         '/taoQtiItem' => 'oat\\taoQtiItem\\controller'
     ],
@@ -87,7 +94,7 @@ return [
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class],
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class],
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class],
-        ['grant', \oat\tao\model\user\TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']],
+        ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']],
     ],
     'constants' => [
         # views directory
@@ -106,6 +113,6 @@ return [
         'BASE_URL'              => ROOT_URL . 'taoQtiItem/',
     ],
     'extra' => [
-        'structures' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
+        'structures' => __DIR__ . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
     ]
 ];
