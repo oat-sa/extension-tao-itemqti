@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,20 +17,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ImportService;
 
-$itemClass  = taoItems_models_classes_ItemsService::singleton()->getRootClass();
-$file       = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'qtiv2p1Examples.zip';
+$itemClass = taoItems_models_classes_ItemsService::singleton()->getRootClass();
+$samplesDirectory = new DirectoryIterator(__DIR__);
+$service = ServiceManager::getServiceManager()->get(ImportService::SERVICE_ID);
 
-$service = ImportService::singleton();
 try {
-    $service->importQTIPACKFile($file, $itemClass, false);
-} catch (Exception $e) {
-    common_Logger::e('Error Occurs when importing Qti Exemples ' . $e->getMessage());
+    foreach ($samplesDirectory as $file) {
+        if ($file->isReadable() && $file->isFile() && 'zip' === $file->getExtension()) {
+            $service->importQTIPACKFile($file->getRealPath(), $itemClass, false);
+        }
+    }
+} catch (Throwable $e) {
+    common_Logger::e('Error Occurs when importing Qti Examples ' . $e->getMessage());
     throw $e;
 }
