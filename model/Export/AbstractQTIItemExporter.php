@@ -28,8 +28,7 @@ use DOMDocument;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\media\MediaManagement;
-use oat\tao\model\media\MediaService;
+use oat\tao\model\media\ProcessedFileStreamAware;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
@@ -43,10 +42,7 @@ use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Http\Message\StreamInterface;
-use tao_helpers_Uri;
 use taoItems_models_classes_ItemExporter;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
@@ -136,8 +132,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if (!$mediaSource instanceof HttpSource) {
                     $link = $mediaAsset->getMediaIdentifier();
 
-                    $stream = $this->preprocessAsset($link, $mediaSource);
-                    if (null === $stream) {
+                    if ($mediaSource instanceof ProcessedFileStreamAware) {
+                        $stream = $mediaSource->getProcessedFileStream($link);
+                    } else {
                         $stream = $mediaSource->getFileStream($link);
                     }
 
@@ -316,22 +313,5 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
         return $this->metadataExporter;
-    }
-
-    private function preprocessAsset($link, MediaManagement $mediaSource): ?StreamInterface
-    {
-        if ($this->getMediaService()->getMediaResourcePreparer() && $mediaSource->getFileInfo($link)['mime'] === 'application/qti+xml') {
-            $uri = tao_helpers_Uri::decode($link);
-            return stream_for($this->getMediaService()->getMediaResourcePreparer()->prepare(
-                $mediaSource->getResource($uri),
-                $mediaSource->getFileStream($uri)
-            ));
-        }
-        return null;
-    }
-
-    private function getMediaService(): MediaService
-    {
-        return $this->getServiceManager()->get(MediaService::SERVICE_ID);
     }
 }

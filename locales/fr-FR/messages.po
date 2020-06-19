@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-24T08:31:30\n"
+"Project-Id-Version: TAO 3.4.0-sprint130\n"
+"PO-Revision-Date: 2020-06-15T16:06:38\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -120,6 +120,9 @@ msgstr "Une erreur s'est produite au niveau du modèle QTI."
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
 
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Une erreur inattendue s'est produite pendant la transaction avec le traitement des réponses."
 
@@ -188,11 +191,11 @@ msgstr "Parcourir..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr "annuler"
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Impossibilité de créer un espace à partir de cette sélection. Veuillez vérifier que vous n'avez pas des éléments partiellement sélectionnés."
@@ -347,11 +350,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
 
-msgid "Delete"
-msgstr "Supprimer"
-
 msgid "delete"
 msgstr "supprimer"
+
+msgid "Delete"
+msgstr "Supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -803,11 +806,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "XML mal formé[%s] :\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Gestion des items"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Gestion des items"
 
 msgid "map response"
@@ -888,6 +891,9 @@ msgstr "L'importation de métadonnées nécessite une instance de core_kernel_cl
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
 msgstr "L'importation de métadonnées nécessite une instance de DomManifest pour extraire les métadonnées"
 
+msgid "Metadata service successfully registered."
+msgstr ""
+
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
@@ -911,6 +917,9 @@ msgstr "Le retour modal est montré au candidat en suivant immédiatement le tra
 
 msgid "Modal Feedback Prop."
 msgstr "Propriété(s) du retour modal"
+
+msgid "modal feedback title"
+msgstr "feedback"
 
 msgid "Modal Feedbacks"
 msgstr "Retours modaux"
@@ -955,11 +964,11 @@ msgstr "Pas d'aperçu disponible"
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "none"
-msgstr "aucun"
-
 msgid "None"
 msgstr "Aucun"
+
+msgid "none"
+msgstr "aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -1193,11 +1202,11 @@ msgstr "La méthode d'inscription attend des paramètres $key et $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "La méthode d'inscription attend des paramètres $key et $name ."
 
-msgid "remove"
-msgstr "supprimer"
-
 msgid "Remove"
 msgstr "Supprimer"
+
+msgid "remove"
+msgstr "supprimer"
 
 msgid "Remove custom background color"
 msgstr "Supprimer une couleur de fond personnalisée"
@@ -1694,11 +1703,11 @@ msgstr "Impossible de récupérer l'item:"
 msgid "Unable to validate %s: %s"
 msgstr "Impossible de valider %s : %s"
 
-msgid "undo"
-msgstr "défaire"
-
 msgid "Undo"
 msgstr "Refaire"
+
+msgid "undo"
+msgstr "défaire"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "$key inconnue pour inscrire l'instance MetadataService"
