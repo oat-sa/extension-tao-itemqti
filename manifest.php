@@ -33,15 +33,15 @@ $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
 
 return [
-    'name'        => 'taoQtiItem',
-    'label'       => 'QTI item model',
-    'license'     => 'GPL-2.0',
-    'version'     => '23.3.0',
-    'author'      => 'Open Assessment Technologies',
+    'name' => 'taoQtiItem',
+    'label' => 'QTI item model',
+    'license' => 'GPL-2.0',
+    'version' => '23.3.0.1',
+    'author' => 'Open Assessment Technologies',
     'requires' => [
         'taoItems' => '>=10.1.0',
-        'tao'      => '>=40.3.0',
-        'generis'  => '>=12.5.0',
+        'tao' => '>=40.3.0',
+        'generis' => '>=12.5.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAOItem.rdf'
