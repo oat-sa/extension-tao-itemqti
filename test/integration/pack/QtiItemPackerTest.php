@@ -20,6 +20,7 @@
  */
 namespace oat\taoItems\test\pack;
 
+use common_Exception;
 use \core_kernel_classes_Resource;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
@@ -37,7 +38,7 @@ use oat\generis\test\MockObject;
 class QtiItemPackerTest extends TaoPhpUnitTestRunner
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
     }
@@ -53,21 +54,20 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
     /**
      * Test the exception when a wrong content is given to the parser
-     *
-     * @expectedException \common_Exception
      */
     public function testWrongContentToPack()
     {
+        $this->expectException(common_Exception::class);
         $itemPacker = new QtiItemPacker();
         $itemPacker->packItem(new core_kernel_classes_Resource('foo'), 'en-US', $this->getDirectoryStorage());
     }
 
     /**
      * Test packing an item where QTI content isn't valid
-     * @expectedException \common_Exception
      */
     public function testPackingInvalidQtiItem()
     {
+        $this->expectException(common_Exception::class);
 
         $samplePath = dirname(__FILE__) . '/../samples/wrong/';
         $sample = 'notvalid_associate.xml';
@@ -355,11 +355,9 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertCount(0, $itemPack->getAssets('font'));
     }
 
-    /**
-     * @expectedException \common_Exception
-     */
     public function testPackingItemWithCssBase64()
     {
+        $this->expectException(common_Exception::class);
         $sample = __DIR__ . '/../samples/xml/qtiv2p1/sample-elections.xml';
         $path   = __DIR__ . '/../samples/css';
 

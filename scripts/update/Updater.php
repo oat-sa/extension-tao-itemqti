@@ -15,12 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2020 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\taoQtiItem\scripts\update;
 
+use common_Exception;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
@@ -60,10 +61,14 @@ use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\model\qti\ImportService;
 use taoItems_models_classes_ItemsService;
+use oat\taoItems\model\event\ItemCreatedEvent;
+use oat\taoQtiItem\model\qti\Service;
+use oat\oatbox\event\EventManager;
 
 /**
  *
  * @author Sam <sam@taotesting.com>
+ * @deprecated use migrations instead. See https://github.com/oat-sa/generis/wiki/Tao-Update-Process
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -72,6 +77,7 @@ class Updater extends \common_ext_ExtensionUpdater
      *
      * @param string $initialVersion
      * @return string
+     * @throws common_Exception
      */
     public function update($initialVersion)
     {
@@ -434,6 +440,43 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('21.0.0');
         }
 
-        $this->skip('21.0.0', '24.0.0');
+        $this->skip('21.0.0', '23.9.7');
+
+        if ($this->isVersion('23.9.7')) {
+            $importService = $this->getServiceManager()->get(ImportService::SERVICE_ID);
+            $importService->setOption(ImportService::OPTION_IMPORT_LOCK_TTL, 60);
+            $this->getServiceManager()->register(ImportService::SERVICE_ID, $importService);
+            $this->setVersion('23.10.0');
+        }
+
+        $this->skip('23.10.0', '23.10.1');
+
+        if ($this->isVersion('23.10.1')) {
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(
+                ItemCreatedEvent::class,
+                [Service::class, 'catchItemCreatedEvent']
+            );
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('23.11.0');
+        }
+
+        $this->skip('23.11.0', '23.11.6');
+
+        if ($this->isVersion('23.11.6')) {
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+            $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
+            $clientLibRegistry = ClientLibRegistry::getRegistry();
+            $clientLibRegistry->register('taoQtiItem/reviewRenderer', $taoQtiItemNpmDist . 'reviewRenderer');
+            $this->setVersion('23.12.0');
+        }
+
+        $this->skip('23.12.0', '25.1.0');
+        
+        //Updater files are deprecated. Please use migrations.
+        //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
+
+        $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }

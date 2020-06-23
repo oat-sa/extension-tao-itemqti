@@ -51,6 +51,10 @@ class LocalAssetHandlerTest extends TestCase
         $this->assertEquals('infoFixture', $localAssetHandlerFixture->handle($absolutePath, $relativePath));
     }
 
+    /**
+     * @return array
+     * @doesNotPerformAssertions
+     */
     public function testHandleProvider()
     {
         return [

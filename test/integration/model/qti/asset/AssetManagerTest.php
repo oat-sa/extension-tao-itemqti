@@ -37,12 +37,12 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
      */
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new AssetManager();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }
@@ -53,7 +53,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function testLoadAssetHandler($itemSource, $expected, $exception = false)
     {
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         $this->assertInstanceOf(AssetManager::class, $this->instance->loadAssetHandler($itemSource));
@@ -80,7 +80,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function testGetSetSource()
     {
         $sourceFixture = 'sourceFixture';
-        $this->setExpectedException(AssetManagerException::class);
+        $this->expectException(AssetManagerException::class);
         $this->instance->getSource();
         $this->assertInstanceOf(AssetManager::class, $this->instance->setSource($sourceFixture));
         $this->assertEquals($sourceFixture, $this->instance->getSource());
@@ -103,7 +103,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         }
 
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         $reflectionClass = new \ReflectionClass(AssetManager::class);
@@ -162,7 +162,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
             ->getMock();
 
         if (!$source) {
-            $this->setExpectedException(AssetManagerException::class);
+            $this->expectException(AssetManagerException::class);
         } else {
             $assetManagerMock
                 ->expects($this->exactly(count($auxiliaryFilesFixtures)))
@@ -214,7 +214,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
             ->getMock();
 
         if (!$source) {
-            $this->setExpectedException(AssetManagerException::class);
+            $this->expectException(AssetManagerException::class);
         } else {
             $assetManagerMock
                 ->expects($this->exactly($expectedImportCallCount))
@@ -275,7 +275,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         $reflectionMethod->setAccessible(true);
 
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         if ($uri) {

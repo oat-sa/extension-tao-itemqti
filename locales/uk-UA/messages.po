@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:58\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-24T08:40:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: uk-UA\n"
@@ -116,6 +116,9 @@ msgstr ""
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
@@ -180,10 +183,13 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "cancel"
+msgid "C++ file (.cpp)"
 msgstr ""
 
 msgid "Cancel"
+msgstr ""
+
+msgid "cancel"
 msgstr ""
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -222,10 +228,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -258,16 +264,19 @@ msgstr ""
 msgid "Color Picker"
 msgstr ""
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr ""
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
 msgid "Cosinus"
@@ -306,10 +315,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define correct response"
@@ -336,10 +345,10 @@ msgstr ""
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
 msgid "Delete else statement"
@@ -471,9 +480,6 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
-msgid "Export"
-msgstr ""
-
 msgid "Export APIP 1.0 Package"
 msgstr ""
 
@@ -570,6 +576,9 @@ msgstr ""
 msgid "Graphic Gap Match Interaction"
 msgstr ""
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr ""
 
@@ -609,10 +618,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
 msgid "identifier already taken"
@@ -669,6 +678,9 @@ msgstr ""
 msgid "Inline Choice Interaction"
 msgstr ""
 
+msgid "Inline Interactions"
+msgstr ""
+
 msgid "Inline interactions need to be inserted into a text block."
 msgstr ""
 
@@ -685,6 +697,9 @@ msgid "invalid identifier"
 msgstr ""
 
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid URL"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -742,10 +757,10 @@ msgstr ""
 msgid "leave empty"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
 msgid "Left bracket"
@@ -769,6 +784,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr ""
 
@@ -782,11 +800,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr ""
-
 #, tao-public
 msgid "Manage items"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "map response"
@@ -962,6 +980,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr ""
 
@@ -978,6 +1002,9 @@ msgid "Outcome Declarations"
 msgstr ""
 
 msgid "Pair scoring"
+msgstr ""
+
+msgid "Pascal file (.pas)"
 msgstr ""
 
 msgid "Pattern"
@@ -1146,9 +1173,6 @@ msgstr ""
 msgid "Quicktime video"
 msgstr ""
 
-msgid "recommanded"
-msgstr ""
-
 msgid "Recommendations"
 msgstr ""
 
@@ -1245,10 +1269,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"
@@ -1663,10 +1687,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
 msgid "Unknown $key to register MetadataService instance"

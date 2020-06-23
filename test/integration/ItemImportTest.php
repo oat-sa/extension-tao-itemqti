@@ -20,9 +20,11 @@
 
 namespace oat\taoQtiItem\test\integration;
 
+use common_exception_Error;
 use \common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
+use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\QtiItemCompiler;
 use \taoItems_models_classes_ItemsService;
@@ -55,7 +57,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
      * tests initialization
      * load qti service
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         $this->importService = ImportService::singleton();
@@ -70,12 +72,9 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         return __DIR__ . DIRECTORY_SEPARATOR . 'samples' . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
     }
 
-    /**
-     * @expectedException oat\taoQtiItem\model\qti\exception\ParsingException
-     *
-     */
     public function testWrongPackage()
     {
+        $this->expectException(ParsingException::class);
         $itemClass = $this->itemService->getRootClass();
         $report = $this->importService->importQTIPACKFile(
             $this->getSamplePath('/package/wrong/InvalidArchive.zip'),
@@ -83,11 +82,9 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         );
     }
 
-    /**
-     * @expectedException \common_exception_Error
-     */
     public function testWrongClass()
     {
+        $this->expectException(common_exception_Error::class);
         $itemClass = new \core_kernel_classes_Class(taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL);
         $report = $this->importService->importQTIPACKFile(
             $this->getSamplePath('/package/wrong/package.zip'),
@@ -101,7 +98,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testWrongFormatClass()
     {
         $itemClass = $this->itemService->getRootClass();
-        
+
         $report = $this->importService->importQTIPACKFile(
             $this->getSamplePath('/package/wrong/MalformedItemXml.zip'),
             $itemClass,
@@ -171,7 +168,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
             $itemClass
         );
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
-        
+
         $items = [];
         foreach ($report as $itemReport) {
             $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
@@ -185,13 +182,13 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
         return $items[0];
     }
-    
+
     public function testImportApipv1p0Final()
     {
         $itemClass = $this->itemService->getRootClass();
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/APIP/apip_v1p0_final.zip'), $itemClass);
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
-        
+
         $items = [];
         foreach ($report as $itemReport) {
             $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
@@ -203,7 +200,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertCount(1, $items);
         $this->removeItem($items[0]);
     }
-    
+
     public function testImportPCI()
     {
         $itemClass = $this->itemService->getRootClass();
@@ -212,7 +209,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
             $itemClass
         );
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
-        
+
         $items = [];
         foreach ($report as $itemReport) {
             $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
@@ -223,15 +220,15 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         }
         $this->assertEquals(1, count($items));
         $item = \oat\taoQtiItem\model\qti\Service::singleton()->getDataItemByRdfItem($items[0], DEFAULT_LANG, false);
-        
+
         $itemData = $item->toArray();
         $itemDataElemetns = current($itemData['body']['elements']);
-        
+
         //ensure that path prefixed with interaction identifies was not changed;
         $this->assertEquals($itemDataElemetns['entryPoint'], "adaptiveChoiceInteraction/runtime/adaptiveChoiceInteraction.js");
         //ensure that interaction properties imported properly
         $this->assertTrue(isset($itemDataElemetns['properties']['choices'][0]['label']));
-        
+
         foreach ($items as $item) {
             $this->itemService->deleteItem($item);
         }
@@ -270,7 +267,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertTrue(isset($data['children']));
         $children = $data['children'];
         $this->assertEquals(3, count($children));
-        
+
         $check = ['/images/','/style/'];
 
         $file = null;
@@ -374,7 +371,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertFalse($item->exists());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
 
         foreach ($this->exportedZips as $path) {

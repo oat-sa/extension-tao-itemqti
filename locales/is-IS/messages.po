@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:46\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-24T08:33:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -116,6 +116,9 @@ msgstr "Villa kom upp þegar verið var að greina IMS QTI gögn."
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Óvænt villa kom upp þegar verið var að eiga við Svaravinnslu."
 
@@ -180,11 +183,14 @@ msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
 msgid "Browse..."
 msgstr "Velja..."
 
-msgid "cancel"
-msgstr "hætta við"
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr "hætta við"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -222,11 +228,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "Choices"
-msgstr "Valmöguleikar"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Valmöguleikar"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -258,17 +264,20 @@ msgstr "Safnaðu óloknum upplýsingum í eitt eða fleiri textasvæði (strengi
 msgid "Color Picker"
 msgstr "Litaval"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "Höft"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "correct"
-msgstr "rétt"
-
 msgid "Correct"
 msgstr "Rétt"
+
+msgid "correct"
+msgstr "rétt"
 
 msgid "Cosinus"
 msgstr ""
@@ -306,10 +315,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
 
-msgid "Default"
+msgid "default"
 msgstr "Sjálfgefið"
 
-msgid "default"
+msgid "Default"
 msgstr "Sjálfgefið"
 
 msgid "Define correct response"
@@ -336,11 +345,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eyða"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eyða"
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -471,9 +480,6 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
-msgid "Export"
-msgstr "Flytja út"
-
 msgid "Export APIP 1.0 Package"
 msgstr "Flytja út APIP 1.0 pakka"
 
@@ -570,6 +576,9 @@ msgstr "Grafísk venslasamverkun"
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafísk eyðutenging með gagnvirkni"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "Grafísk röðunargagnvirkni"
 
@@ -609,11 +618,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "eins par er þegar til"
 
-msgid "Identifier"
-msgstr "Aðgreinir"
-
 msgid "identifier"
 msgstr "aðgreinir"
+
+msgid "Identifier"
+msgstr "Aðgreinir"
 
 msgid "identifier already taken"
 msgstr ""
@@ -669,6 +678,9 @@ msgstr "Innfelldur valkostur"
 msgid "Inline Choice Interaction"
 msgstr "Innfelld Valkostagagnvirkni"
 
+msgid "Inline Interactions"
+msgstr ""
+
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Innfellda gagnvirkni þarf að setja inn í textabálk."
 
@@ -685,6 +697,9 @@ msgid "invalid identifier"
 msgstr "ógilt heiti"
 
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid URL"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -742,11 +757,11 @@ msgstr ""
 msgid "leave empty"
 msgstr "hafa autt"
 
-msgid "left"
-msgstr "vinstri"
-
 msgid "Left"
 msgstr "Vinstri"
+
+msgid "left"
+msgstr "vinstri"
 
 msgid "Left bracket"
 msgstr ""
@@ -769,6 +784,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "Lykkja"
 
@@ -782,12 +800,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Vinna með Atriði"
-
 #, tao-public
 msgid "Manage items"
 msgstr "Vinna með atriði"
+
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
 
 msgid "map response"
 msgstr ""
@@ -962,6 +980,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "Röð"
 
@@ -979,6 +1003,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "Paraskorun"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "Mynstur"
@@ -1146,9 +1173,6 @@ msgstr "Spurning"
 msgid "Quicktime video"
 msgstr "Quicktime myndskeið"
 
-msgid "recommanded"
-msgstr "mælt með"
-
 msgid "Recommendations"
 msgstr "Ráðleggingar"
 
@@ -1245,11 +1269,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "stig"
-
 msgid "Score"
 msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
 
 msgid "Score range"
 msgstr "Stigabil"
@@ -1663,11 +1687,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Afturkalla"
-
 msgid "undo"
 msgstr "afturkalla"
+
+msgid "Undo"
+msgstr "Afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""

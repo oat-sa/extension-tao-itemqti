@@ -17,7 +17,7 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2015 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2020 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -25,26 +25,24 @@ namespace oat\taoQtiItem\model\Export;
 
 use core_kernel_classes_Property;
 use DOMDocument;
-use DOMXPath;
-use DOMNode;
 use League\Flysystem\FileNotFoundException;
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\media\ProcessedFileStreamAware;
 use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\Service;
 use Psr\Http\Message\StreamInterface;
 use taoItems_models_classes_ItemExporter;
-use oat\taoQtiItem\model\qti\AssetParser;
-use oat\taoItems\model\media\ItemMediaResolver;
-use oat\taoQtiItem\model\qti\Parser;
-use oat\taoQtiItem\model\qti\Service;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
@@ -133,7 +131,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                 if (!$mediaSource instanceof HttpSource) {
                     $link = $mediaAsset->getMediaIdentifier();
-                    $stream = $mediaSource->getFileStream($link);
+
+                    if ($mediaSource instanceof ProcessedFileStreamAware) {
+                        $stream = $mediaSource->getProcessedFileStream($link);
+                    } else {
+                        $stream = $mediaSource->getFileStream($link);
+                    }
+
                     $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
                     $replacementList[$assetUrl] = $replacement;

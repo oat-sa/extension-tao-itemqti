@@ -35,7 +35,7 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -49,7 +49,7 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
         $hookMock = $this->getMockBuilder('oat\taoQtiItem\model\qti\interaction\CustomInteraction')
             ->setMockClassName('FakeInteractionMock')
             ->getMock();
-        
+
         CustomInteractionRegistry::getRegistry()->set('fakeInteraction', 'FakeInteractionMock');
         $interactions = CustomInteractionRegistry::getRegistry()->getMap();
         $this->assertEquals('FakeInteractionMock', $interactions['fakeInteraction']);

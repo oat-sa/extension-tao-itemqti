@@ -22,8 +22,6 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
-use oat\taoQtiItem\model\qti\interaction\GraphicGapMatchInteraction;
-use oat\taoQtiItem\model\qti\interaction\GraphicInteraction;
 use oat\taoQtiItem\model\qti\choice\GapImg;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\choice\Choice;

@@ -31,7 +31,7 @@ use oat\generis\model\OntologyAwareTrait;
 class RestQtiItemTest extends RestTestRunner
 {
     use OntologyAwareTrait;
-    
+
     public function testImport()
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoItems');
@@ -42,34 +42,34 @@ class RestQtiItemTest extends RestTestRunner
 
         $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => $post_data]);
         $data = json_decode($return, true);
-        $this->assertInternalType('array', $data);
+        $this->assertisarray($data);
         $this->assertTrue(isset($data['success']));
         $this->assertTrue($data['success']);
         $this->assertTrue(isset($data['data']['items']));
         $items = $data['data']['items'];
-        $this->assertInternalType('array', $items);
+        $this->assertisarray($items);
         $this->assertEquals(1, count($items));
         $itemUri = reset($items);
         $this->assertInternalType('string', $itemUri);
         $item = $this->getResource($itemUri);
         $this->assertTrue($item->exists());
-        
+
         $itemService = \taoItems_models_classes_ItemsService::singleton();
         $model = $itemService->getItemModel($item);
         $this->assertNotNull($model);
         $this->assertEquals(ItemModel::MODEL_URI, $itemService->getItemModel($item)->getUri());
-        
+
         $this->assertTrue($itemService->deleteResource($item));
         $this->assertFalse($item->exists());
     }
-    
+
     public function testCreateQtiItem()
     {
         $url = $this->host . 'taoQtiItem/RestQtiItem/createQtiItem';
         $return = $this->curl($url, CURLOPT_POST, 'data', [CURLOPT_POSTFIELDS => []]);
         $data = json_decode($return, true);
-        
-        $this->assertInternalType('array', $data);
+
+        $this->assertisarray($data);
         $this->assertTrue(isset($data['success']));
         $this->assertTrue($data['success']);
         $this->assertTrue(isset($data['data']));
@@ -77,12 +77,12 @@ class RestQtiItemTest extends RestTestRunner
         $this->assertInternalType('string', $itemUri);
         $item = $this->getResource($itemUri);
         $this->assertTrue($item->exists());
-        
+
         $itemService = \taoItems_models_classes_ItemsService::singleton();
         $model = $itemService->getItemModel($item);
         $this->assertNotNull($model);
         $this->assertEquals(ItemModel::MODEL_URI, $itemService->getItemModel($item)->getUri());
-        
+
         $this->assertTrue($itemService->deleteResource($item));
         $this->assertFalse($item->exists());
     }

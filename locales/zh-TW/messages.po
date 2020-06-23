@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:10:02\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-24T08:42:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -116,6 +116,9 @@ msgstr "在解析IMS QTI數據時發生錯誤。"
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "在處理回應時發生了錯誤。 "
 
@@ -180,10 +183,13 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "cancel"
-msgstr "取消"
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "Cancel"
+msgstr "取消"
+
+msgid "cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -222,11 +228,11 @@ msgstr "選擇的互動"
 msgid "Choice Properties"
 msgstr "選擇的屬性"
 
-msgid "Choices"
-msgstr "選擇"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "選擇"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -258,16 +264,19 @@ msgstr "使用一個或多個文本字段的方式來收集開放式資料(串�
 msgid "Color Picker"
 msgstr "顏色挑選器"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "約束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制視頻和音頻的播放檔案(自動播放，循環)再報告已播放的次數。"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正確"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正確"
 
 msgid "Cosinus"
@@ -306,10 +315,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
 
-msgid "Default"
+msgid "default"
 msgstr "預設值"
 
-msgid "default"
+msgid "Default"
 msgstr "預設值"
 
 msgid "Define correct response"
@@ -336,11 +345,11 @@ msgstr "限定的闊度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "刪除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "刪除"
 
 msgid "Delete else statement"
 msgstr "刪除 else 語句"
@@ -471,9 +480,6 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
-msgid "Export"
-msgstr "匯出"
-
 msgid "Export APIP 1.0 Package"
 msgstr "匯出 APIP 1.0 包"
 
@@ -570,6 +576,9 @@ msgstr "圖像相連互動"
 msgid "Graphic Gap Match Interaction"
 msgstr "圖像空格匹配互動"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "圖像順序互動"
 
@@ -609,10 +618,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
 msgid "identifier already taken"
@@ -669,6 +678,9 @@ msgstr "行內選擇"
 msgid "Inline Choice Interaction"
 msgstr "行內選擇互動"
 
+msgid "Inline Interactions"
+msgstr ""
+
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "行內互動需要被插入到文本塊中。"
 
@@ -685,6 +697,9 @@ msgid "invalid identifier"
 msgstr "無效的識別符"
 
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid URL"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -742,10 +757,10 @@ msgstr ""
 msgid "leave empty"
 msgstr "留空"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -769,6 +784,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "循環"
 
@@ -782,11 +800,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "管理題目"
-
 #, tao-public
 msgid "Manage items"
+msgstr "管理題目"
+
+msgid "Manage Items"
 msgstr "管理題目"
 
 msgid "map response"
@@ -962,6 +980,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "排序"
 
@@ -979,6 +1003,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "對得分"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "樣式"
@@ -1146,9 +1173,6 @@ msgstr "問題"
 msgid "Quicktime video"
 msgstr "QuickTime 視訊"
 
-msgid "recommanded"
-msgstr "所建議的"
-
 msgid "Recommendations"
 msgstr "建議"
 
@@ -1245,10 +1269,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "分數"
 
-msgid "Score"
+msgid "score"
 msgstr "分數"
 
 msgid "Score range"
@@ -1663,10 +1687,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "復原"
 
-msgid "undo"
+msgid "Undo"
 msgstr "復原"
 
 msgid "Unknown $key to register MetadataService instance"

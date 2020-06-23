@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:39\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-24T08:28:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -116,6 +116,9 @@ msgstr "Se produjo un error al analizar los datos de IMS QTI."
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Se ha producido un error inesperado durante la importación del artículo QTI . El sistema devuelve el siguiente error:"
 
@@ -180,11 +183,14 @@ msgstr "Busque en el equipo y seleccione el archivo apropiado."
 msgid "Browse..."
 msgstr "Buscar..."
 
-msgid "cancel"
-msgstr "cancelar"
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "cancel"
+msgstr "cancelar"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -222,11 +228,11 @@ msgstr "Interacción de Elección"
 msgid "Choice Properties"
 msgstr "Interacción de Elección"
 
-msgid "Choices"
-msgstr "Elecciones"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Elecciones"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -258,17 +264,20 @@ msgstr "Recopilar información open-ended en una o más area(s) de texto (cadena
 msgid "Color Picker"
 msgstr "Selector de color"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr "Restricciones"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Controlar los parámetros de reproducción (de inicio automático, bucle) de un archivo de vídeo o audio y reportar el número de veces que se ha reproducido."
 
-msgid "correct"
-msgstr "correcto"
-
 msgid "Correct"
 msgstr "Correcto"
+
+msgid "correct"
+msgstr "correcto"
 
 msgid "Cosinus"
 msgstr ""
@@ -306,11 +315,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Modo de Procesamiento de respuesta personalizada"
 
-msgid "Default"
-msgstr "Predeterminado"
-
 msgid "default"
 msgstr "predeterminado"
+
+msgid "Default"
+msgstr "Predeterminado"
 
 msgid "Define correct response"
 msgstr "Definir respuesta correcta"
@@ -336,11 +345,11 @@ msgstr "Defina ancho"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eliminar"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eliminar"
 
 msgid "Delete else statement"
 msgstr "Eliminar otro estado"
@@ -471,9 +480,6 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
-msgid "Export"
-msgstr "Exportar"
-
 msgid "Export APIP 1.0 Package"
 msgstr "Exportar Paquete APIP 1.0"
 
@@ -570,6 +576,9 @@ msgstr "Interacción Gráfico Asociado"
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafico de Interación escojer espacio"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "Graficar Orden de Interacción"
 
@@ -609,11 +618,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "ya existe par idéntico"
 
-msgid "Identifier"
-msgstr "Identificador"
-
 msgid "identifier"
 msgstr "identificador"
+
+msgid "Identifier"
+msgstr "Identificador"
 
 msgid "identifier already taken"
 msgstr ""
@@ -669,6 +678,9 @@ msgstr "Opción Enlinea"
 msgid "Inline Choice Interaction"
 msgstr "Interacción Opción Enlinea"
 
+msgid "Inline Interactions"
+msgstr ""
+
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Interacciones Enlinea necesitan para ser insertado un bloque de texto."
 
@@ -685,6 +697,9 @@ msgid "invalid identifier"
 msgstr "identificador no válido"
 
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid URL"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -742,11 +757,11 @@ msgstr ""
 msgid "leave empty"
 msgstr "dejar vacío"
 
-msgid "left"
-msgstr "izquierda"
-
 msgid "Left"
 msgstr "Izquierda"
+
+msgid "left"
+msgstr "izquierda"
 
 msgid "Left bracket"
 msgstr ""
@@ -769,6 +784,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "Repetir"
 
@@ -782,12 +800,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Gestionar Elementos"
-
 #, tao-public
 msgid "Manage items"
 msgstr "Gestionar elementos"
+
+msgid "Manage Items"
+msgstr "Gestionar Elementos"
 
 msgid "map response"
 msgstr ""
@@ -962,6 +980,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "Orden"
 
@@ -979,6 +1003,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "Par de puntuación"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "Patrón"
@@ -1147,9 +1174,6 @@ msgstr "Pregunta"
 msgid "Quicktime video"
 msgstr "Video QuickTime"
 
-msgid "recommanded"
-msgstr "recomendado"
-
 msgid "Recommendations"
 msgstr "Recomendaciones"
 
@@ -1246,11 +1270,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "puntuacion"
-
 msgid "Score"
 msgstr "Puntuación"
+
+msgid "score"
+msgstr "puntuacion"
 
 msgid "Score range"
 msgstr "Rango de puntuación"
@@ -1665,11 +1689,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Deshacer"
-
 msgid "undo"
 msgstr "deshacer"
+
+msgid "Undo"
+msgstr "Deshacer"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""

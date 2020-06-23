@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:51\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-24T08:36:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -116,6 +116,9 @@ msgstr "Įvyko klaida apdorojant IMS QTI duomenis."
 msgid "An error occurred at the level of the QTI model."
 msgstr "Įvyko klaida IMS QTI modelio lygmenyje."
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Įvyko netikėta klaida atliekant Atsakymo Apdorojimą."
 
@@ -181,11 +184,14 @@ msgstr "Naršyk savo kompiuterį ir pasirink atitinkamą failą."
 msgid "Browse..."
 msgstr "Naršyti..."
 
-msgid "cancel"
-msgstr "atšaukti"
+msgid "C++ file (.cpp)"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Nepavyko sukurti tarpo iš šio pasirinkimo. Prašome patikrinti, ar jūs neturite dalinai pasirinktų elementų."
@@ -223,11 +229,11 @@ msgstr "Pasirinkimo Sąveika"
 msgid "Choice Properties"
 msgstr "Pasirinkti Savybes"
 
-msgid "Choices"
-msgstr "Pasirinkimai"
-
 msgid "choices"
 msgstr "pasirinkimai"
+
+msgid "Choices"
+msgstr "Pasirinkimai"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Pasirinkite lentelei horizontalų lygiavimą."
@@ -259,17 +265,20 @@ msgstr ""
 msgid "Color Picker"
 msgstr "Spalvos Pasirinkimas"
 
+msgid "Common Interactions"
+msgstr ""
+
 msgid "Contraints"
 msgstr ""
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Valdyk vaizdo arba garso įrašo failo atkūrimo nustatymus (automatinė paleistis, kartojimas) su ataskaita, kiek kartų buvo paleistas įrašas."
 
-msgid "correct"
-msgstr "teisingai"
-
 msgid "Correct"
 msgstr "Teisingai"
+
+msgid "correct"
+msgstr "teisingai"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
@@ -307,11 +316,11 @@ msgstr "pasirinktinas"
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
-msgstr "Numatytas"
-
 msgid "default"
 msgstr "numatytas"
+
+msgid "Default"
+msgstr "Numatytas"
 
 msgid "Define correct response"
 msgstr "Nustatyti teisingą atsakymą"
@@ -337,11 +346,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "ištrinti"
-
 msgid "Delete"
 msgstr "Ištrinti"
+
+msgid "delete"
+msgstr "ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -472,9 +481,6 @@ msgstr ""
 msgid "Exponent"
 msgstr "Eksponentas"
 
-msgid "Export"
-msgstr "Eksportuoti"
-
 msgid "Export APIP 1.0 Package"
 msgstr "Eksportuoti APIP 1.0 Paketą"
 
@@ -571,6 +577,9 @@ msgstr "Susiejimo poromis grafinė interakcija"
 msgid "Graphic Gap Match Interaction"
 msgstr "Grafinė tarpų užpildymo interakcija"
 
+msgid "Graphic Interactions"
+msgstr ""
+
 msgid "Graphic Order Interaction"
 msgstr "Eiliškumo nustatymas grafiniame objekte"
 
@@ -610,11 +619,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "identiška pora jau yra"
 
-msgid "Identifier"
-msgstr "Identifikatorius"
-
 msgid "identifier"
 msgstr "identifikatorius"
+
+msgid "Identifier"
+msgstr "Identifikatorius"
 
 msgid "identifier already taken"
 msgstr "identifikatorius jau užimtas"
@@ -670,6 +679,9 @@ msgstr "Įterptas Pasirinkimas"
 msgid "Inline Choice Interaction"
 msgstr "Įterpto Pasirinkimo Užduotis"
 
+msgid "Inline Interactions"
+msgstr ""
+
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Įterptos užduotis turi būti įdėtos į teksto bloką."
 
@@ -687,6 +699,9 @@ msgstr "blogas identifikatorius"
 
 msgid "invalid QTI XML"
 msgstr "blogas QTI XML"
+
+msgid "Invalid URL"
+msgstr ""
 
 msgid "Is this choice the correct response?"
 msgstr "Ar šis pasirinkimas yra teisingas atsakymas?"
@@ -743,11 +758,11 @@ msgstr "LaTeX"
 msgid "leave empty"
 msgstr "palikti tuščią"
 
-msgid "left"
-msgstr "kairė"
-
 msgid "Left"
 msgstr "Kairė"
+
+msgid "left"
+msgstr "kairė"
 
 msgid "Left bracket"
 msgstr "Kairys skliaustas"
@@ -770,6 +785,9 @@ msgstr "Ln"
 msgid "Log"
 msgstr "Žurnalas"
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "Ciklas"
 
@@ -784,11 +802,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Klaidingas XML[%s]:\n"
 "%s"
 
-msgid "Manage Items"
-msgstr "Tvarkyti klausimus"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Tvarkyti klausimus"
+
+msgid "Manage Items"
 msgstr "Tvarkyti klausimus"
 
 msgid "map response"
@@ -965,6 +983,12 @@ msgid "One or more QTI components are not supported by the system. The system re
 msgstr "Vienas ar daugiau QTI komponentų nėra palaikomas sistemos. Sistema gražino šią klaidą: %s\n"
 ""
 
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
 msgid "Order"
 msgstr "Eiliškumas"
 
@@ -982,6 +1006,9 @@ msgstr ""
 
 msgid "Pair scoring"
 msgstr "Poros vertinimas"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Pattern"
 msgstr "Šablonas"
@@ -1149,9 +1176,6 @@ msgstr "Klausimas"
 msgid "Quicktime video"
 msgstr "Quicktime vaizdo įrašas"
 
-msgid "recommanded"
-msgstr "Patarimas"
-
 msgid "Recommendations"
 msgstr "Patarimai"
 
@@ -1248,11 +1272,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "score"
-msgstr "balai"
-
 msgid "Score"
 msgstr "Balai"
+
+msgid "score"
+msgstr "balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"
@@ -1667,11 +1691,11 @@ msgstr "Nepavyko gauti elemento : "
 msgid "Unable to validate %s: %s"
 msgstr "Nepavyko patvirtinti %s: %s"
 
-msgid "Undo"
-msgstr "Anuliuoti"
-
 msgid "undo"
 msgstr "anuliuoti"
+
+msgid "Undo"
+msgstr "Anuliuoti"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Nežinomas $key registruoti MetadataService instanciją"

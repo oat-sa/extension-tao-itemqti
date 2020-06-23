@@ -129,7 +129,7 @@ class AssetManager
             $absolutePath = $this->getAbsolutePath($auxiliaryFile);
             $relativePath = $this->getRelativePath($qtiFile, $absolutePath);
 
-            if (!helpers_File::isFileInsideDirectory($relativePath, dirname($qtiFile))) {
+            if (!helpers_File::isAbsoluteFileInsideDirectory($absolutePath, $this->getSource())) {
                 throw new InvalidSourcePathException(dirname($qtiFile), $auxiliaryFile);
             }
 
@@ -224,9 +224,9 @@ class AssetManager
 
             $this->copyFilesToItemDir(dirname($qtiFile), $dependencyResource);
             /** @var array $dependencies recursive dependencies */
-            $dependencies = $dependencyResource->getDependencies();
-            if ($dependencies && count($dependencies)) {
-                $this->copyDependencyFiles($qtiItemResource, $dependencies);
+            $secondLevelDependencies = $dependencyResource->getDependencies();
+            if ($secondLevelDependencies && count($secondLevelDependencies)) {
+                $this->copyDependencyFiles($qtiItemResource, $secondLevelDependencies);
             }
         }
     }

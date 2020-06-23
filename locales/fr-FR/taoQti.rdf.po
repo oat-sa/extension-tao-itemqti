@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:09:43\n"
+"Project-Id-Version: TAO 3.4.0-sprint130\n"
+"PO-Revision-Date: 2020-06-15T16:06:38\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -18,7 +18,7 @@ msgstr "QTI"
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "IMS Question and Test Interoperability"
-msgstr ""
+msgstr "Question et interopérabilité de test IMS"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -28,7 +28,7 @@ msgstr "Gestionnaire QTI"
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager Role"
-msgstr ""
+msgstr "Rôle de gestionnaire QTI"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
