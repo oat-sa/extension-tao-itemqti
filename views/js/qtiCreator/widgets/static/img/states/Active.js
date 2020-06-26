@@ -172,33 +172,35 @@ define([
                     }
                 };
                 media.$container = $mediaSpan.parents('.widget-box');
-                mediaEditor = mediaEditorComponent($mediaResizer, media, options)
-                    .on('change', function (nMedia) {
-                        media = nMedia;
-                        $img.prop('style', null); // not allowed by qti
-                        $img.removeAttr('style');
-                        img.data('responsive', media.responsive);
-                        _(['width', 'height']).each(function(sizeAttr){
-                            var val;
-                            if (media[sizeAttr] === '' || typeof media[sizeAttr] === 'undefined' || media[sizeAttr] === null){
-                                img.removeAttr(sizeAttr);
-                                $mediaSpan.css(sizeAttr, '');
-                            } else {
-                                val = Math.round(media[sizeAttr]);
-                                if (media.responsive) {
-                                    val += '%';
-                                    img.attr(sizeAttr, val);
-                                    $img.attr(sizeAttr, '100%');
+                if (media.$container.length) {
+                    mediaEditor = mediaEditorComponent($mediaResizer, media, options)
+                        .on('change', function (nMedia) {
+                            media = nMedia;
+                            $img.prop('style', null); // not allowed by qti
+                            $img.removeAttr('style');
+                            img.data('responsive', media.responsive);
+                            _(['width', 'height']).each(function(sizeAttr){
+                                var val;
+                                if (media[sizeAttr] === '' || typeof media[sizeAttr] === 'undefined' || media[sizeAttr] === null){
+                                    img.removeAttr(sizeAttr);
+                                    $mediaSpan.css(sizeAttr, '');
                                 } else {
-                                    img.attr(sizeAttr, val);
+                                    val = Math.round(media[sizeAttr]);
+                                    if (media.responsive) {
+                                        val += '%';
+                                        img.attr(sizeAttr, val);
+                                        $img.attr(sizeAttr, '100%');
+                                    } else {
+                                        img.attr(sizeAttr, val);
+                                    }
+                                    $mediaSpan.css(sizeAttr, val);
                                 }
-                                $mediaSpan.css(sizeAttr, val);
-                            }
-                            //trigger choice container size adaptation
-                            widget.$container.trigger('contentChange.qti-widget');
+                                //trigger choice container size adaptation
+                                widget.$container.trigger('contentChange.qti-widget');
+                            });
+                            $img.removeClass('hidden');
                         });
-                        $img.removeClass('hidden');
-                    });
+                }
             });
         }
     };
