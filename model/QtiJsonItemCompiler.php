@@ -15,18 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2016-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\taoQtiItem\model;
 
 use common_exception_Error;
 use common_report_Report;
 use core_kernel_classes_Resource;
+use DOMDocument;
 use Exception;
+use oat\oatbox\filesystem\Directory;
+use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetCompiler;
+use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetXmlReplacer;
+use oat\taoQtiItem\model\compile\QtiAssetCompiler\XIncludeXmlInjector;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
+use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Element;
 use tao_helpers_Xml;
@@ -90,12 +100,12 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
         // retrieve the media assets
         try {
-            $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
 
-            // @todo find a better solution to eliminate empty items.
-            /*if (count($qtiItem->getBody()->getElements()) === 0) {
-                return new common_report_Report(common_report_Report::TYPE_ERROR, 'The item has an empty body.');
-            }*/
+            $qtiItem = $this->createQtiItem($item, $language);
+            $resolver =  $resolver = new ItemMediaResolver($item, $language);
+            $publicLangDirectory = $publicDirectory->getDirectory($language);;
+
+            $packedAssets = $this->parseAndReplaceAssetByPlaceholder($qtiItem, $resolver, $publicLangDirectory);
 
             $this->compileItemIndex($item->getUri(), $qtiItem, $language);
 
@@ -105,8 +115,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
             //create the item.json file in private directory
             $itemPacker = new QtiItemPacker();
-            $itemPacker->setReplaceXinclude(false);
-            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem, $publicDirectory);
+            $itemPack = $itemPacker->createQtiItemPackWithAssets($item, $qtiItem, $publicDirectory, $packedAssets);
             $this->itemJson = $itemPack->JsonSerialize();
             //get the filtered data to avoid cheat
             $data = $qtiItem->getDataForDelivery();
@@ -138,6 +147,37 @@ class QtiJsonItemCompiler extends QtiItemCompiler
                 $e->getMessage()
             );
         }
+    }
+
+    private function createQtiItem(core_kernel_classes_Resource $item, $lang): Item
+    {
+        $qtiItem  = $this->getServiceLocator()->get(Service::class)->getDataItemByRdfItem($item, $lang);
+
+        if (is_null($qtiItem)) {
+            throw new taoItems_models_classes_CompilationFailedException(__('Unable to retrieve item : ' . $item->getLabel()));
+        }
+
+        return $qtiItem;
+    }
+
+    private function parseAndReplaceAssetByPlaceholder(Item &$qtiItem, ItemMediaResolver $resolver, Directory $publicLangDirectory)
+    {
+        $packedAssets = $this->getQtiItemAssetCompiler()->extractAndCopyAssetFiles($qtiItem, $publicLangDirectory, $resolver);
+
+        // Replace asset url by placeholder replacement
+        $dom = new DOMDocument('1.0', 'UTF-8');
+
+        if ($dom->loadXML($qtiItem->toXml()) === false) {
+            throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');
+        }
+
+        $this->getXIncludeXmlInjector()->injectSharedStimulus($dom, $packedAssets);
+        $this->getItemAssetXmlReplacer()->replaceAssetNodeValue($dom, $packedAssets);
+
+        $qtiParser = new Parser($dom->saveXML());
+        $qtiItem =  $qtiParser->load();
+
+        return $packedAssets;
     }
 
     /**
@@ -191,5 +231,20 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         //we also include a shortcut to the item URI
         $properties['@uri'] = $this->getResource()->getUri();
         return $properties;
+    }
+
+    private function getQtiItemAssetCompiler(): QtiItemAssetCompiler
+    {
+        return $this->getServiceLocator()->get(QtiItemAssetCompiler::class);
+    }
+
+    private function getXIncludeXmlInjector(): XIncludeXmlInjector
+    {
+        return $this->getServiceLocator()->get(XIncludeXmlInjector::class);
+    }
+
+    private function getItemAssetXmlReplacer(): QtiItemAssetXmlReplacer
+    {
+        return $this->getServiceLocator()->get(QtiItemAssetXmlReplacer::class);
     }
 }
