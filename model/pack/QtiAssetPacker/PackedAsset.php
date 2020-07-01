@@ -39,7 +39,7 @@ class PackedAsset
     /** @var string */
     private $replacedBy;
 
-    public function __construct(string $type, MediaAsset $mediaAsset, ?string $link = null, ?string $replacedBy = null)
+    public function __construct(string $type, MediaAsset $mediaAsset, string $link, string $replacedBy = null)
     {
         $this->type = $type;
         $this->link = $link;

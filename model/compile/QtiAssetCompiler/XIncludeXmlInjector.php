@@ -26,6 +26,7 @@ namespace oat\taoQtiItem\model\compile\QtiAssetCompiler;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
+use InvalidArgumentException;
 use oat\oatbox\config\ConfigurationService;
 use oat\tao\model\media\MediaAsset;
 
@@ -46,12 +47,12 @@ class XIncludeXmlInjector extends ConfigurationService
         }
     }
 
-    private function createSharedStimulusContent($xincludeNode, $packedAssets): DOMElement
+    private function createSharedStimulusContent(DOMElement $xincludeNode, array $packedAssets): DOMElement
     {
         $href = $xincludeNode->getAttribute('href');
 
         if (!isset($packedAssets[$href])) {
-            throw new \InvalidArgumentException(sprintf('SharedStimulus %s cannot be found', $href));
+            throw new InvalidArgumentException(sprintf('SharedStimulus %s cannot be found', $href));
         }
 
         /** @var MediaAsset $asset */
@@ -64,12 +65,12 @@ class XIncludeXmlInjector extends ConfigurationService
         return $this->createSharedStimulusNode($sharedStimulusContent);
     }
 
-    private function createSharedStimulusNode($sharedStimulusContent): DOMElement
+    private function createSharedStimulusNode(string $sharedStimulusContent): DOMElement
     {
         $sharedStimulusDocument = new DOMDocument('1.0', 'UTF-8');
 
         if ($sharedStimulusDocument->loadXML($sharedStimulusContent) === false) {
-            throw new \InvalidArgumentException('SharedStimulus content is not parsable.');
+            throw new InvalidArgumentException('SharedStimulus content is not parsable.');
         }
 
         $sharedStimulusXpath = new DOMXPath($sharedStimulusDocument);
