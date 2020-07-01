@@ -21,27 +21,35 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\compile\QtiAssetCompiler;
+namespace oat\taoQtiItem\test\unit\model\compile\mock;
 
-use DOMDocument;
-use DOMXPath;
-use DOMElement;
-use oat\oatbox\config\ConfigurationService;
 
-class QtiItemAssetXmlReplacer extends ConfigurationService
+use oat\taoQtiItem\model\qti\container\Container;
+use oat\taoQtiItem\model\qti\Item;
+
+class ElementMock extends Container
 {
-    public function replaceAssetNodeValue(DOMDocument $domDocument, array $packedAssets): array
+
+    public function __construct($body = '', Item $relatedItem = null, $serial = '')
     {
-        $xpath = new DOMXPath($domDocument);
-        $attributeNodes = $xpath->query('//@*');
+    }
 
-        /** @var DOMElement $node */
-        foreach ($attributeNodes as $node) {
-            if (isset($packedAssets[$node->value])) {
-                $node->value = $packedAssets[$node->value]->getLink();
-            }
-        }
+    function getValidElementTypes()
+    {
+    }
 
-        return $packedAssets;
+    public function getUsedAttributes()
+    {
+    }
+
+    public function getComposingElements($className = '')
+    {
+        return $this->elements;
+    }
+
+    public function setComposingElements(array $elements)
+    {
+        $this->elements = $elements;
+        return $this;
     }
 }
