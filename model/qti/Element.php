@@ -184,7 +184,7 @@ abstract class Element implements Exportable
      * @throws AttributeException
      * @throws QtiModelException
      */
-    public function setAttribute(string $name, $value): bool
+    public function setAttribute($name, $value): bool
     {
 
         $returnValue = false;
