@@ -94,7 +94,7 @@ class QtiItemAssetCompilerTest extends TestCase
                 new MediaAsset(
                     $this->createConfiguredMock(MediaBrowser::class, ['getFileInfo' => ['link' => 'image-link']]),
                     'image-fixture'
-                ),
+                )
             );
 
         $this->directory
