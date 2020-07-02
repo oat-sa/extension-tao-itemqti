@@ -36,7 +36,7 @@ return [
     'name' => 'taoQtiItem',
     'label' => 'QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '23.3.0.1',
+    'version' => '23.3.0.2',
     'author' => 'Open Assessment Technologies',
     'requires' => [
         'taoItems' => '>=10.1.0',
@@ -73,7 +73,6 @@ return [
     ],
     'local' => [
         'php'   => [
-            dirname(__FILE__) . '/install/local/addQTIExamples.php'
         ]
     ],
     'update' => 'oat\\taoQtiItem\\scripts\\update\\Updater',
