@@ -61,7 +61,7 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "oat-sa/lib-tao-qti": "^5.1.1",
+        "oat-sa/lib-tao-qti": "dev-feature/tca-666/aria-attributes-legacy",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "oat-sa/composer-npm-bridge": "^0.3.0",
         "naneau/semver": "~0.0.7"
