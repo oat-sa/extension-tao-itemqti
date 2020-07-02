@@ -35,6 +35,9 @@ use oat\taoQtiItem\model\qti\XIncludeLoader;
 
 class QtiItemAssetCompiler extends ConfigurationService
 {
+    /**
+     * @return PackedAsset[]
+     */
     public function extractAndCopyAssetFiles(Item $qtiItem, Directory $publicDirectory, ItemMediaResolver $resolver): array
     {
         $assetParser = new AssetParser($qtiItem, $publicDirectory);

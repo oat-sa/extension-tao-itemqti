@@ -129,7 +129,15 @@ class QtiItemPacker extends ItemPacker
         return $itemPack;
     }
 
-    public function createQtiItemPackWithAssets($item, $qtiItem, Directory $directory, $packedAssets)
+    /**
+     * @param $item
+     * @param $qtiItem
+     * @param Directory $directory
+     * @param PackedAsset[] $packedAssets
+     * @return ItemPack
+     * @throws common_Exception
+     */
+    public function createQtiItemPackWithAssets($item, $qtiItem, Directory $directory, array $packedAssets): ItemPack
     {
         try {
             $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());

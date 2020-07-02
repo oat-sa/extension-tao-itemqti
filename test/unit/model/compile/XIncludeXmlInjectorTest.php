@@ -29,8 +29,6 @@ use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\media\MediaAsset;
 use oat\tao\model\media\MediaBrowser;
-use oat\tao\model\media\sourceStrategy\HttpSource;
-use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetXmlReplacer;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\XIncludeXmlInjector;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 use Psr\Log\NullLogger;

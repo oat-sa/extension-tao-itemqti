@@ -33,6 +33,7 @@ use \stdClass;
 abstract class Element implements Exportable
 {
 
+
     protected $serial = '';
     protected $relatedItem = null;
     private static $instances = [];

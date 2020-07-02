@@ -27,9 +27,14 @@ use DOMDocument;
 use DOMXPath;
 use DOMElement;
 use oat\oatbox\config\ConfigurationService;
+use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 
 class QtiItemAssetXmlReplacer extends ConfigurationService
 {
+    /**
+     * @param PackedAsset[] $packedAssets
+     * @return PackedAsset[]
+     */
     public function replaceAssetNodeValue(DOMDocument $domDocument, array $packedAssets): array
     {
         $xpath = new DOMXPath($domDocument);

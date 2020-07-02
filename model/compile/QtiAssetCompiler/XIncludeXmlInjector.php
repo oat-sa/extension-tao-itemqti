@@ -29,10 +29,16 @@ use DOMXPath;
 use InvalidArgumentException;
 use oat\oatbox\config\ConfigurationService;
 use oat\tao\model\media\MediaAsset;
+use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
+use tao_models_classes_FileNotFoundException;
 
 class XIncludeXmlInjector extends ConfigurationService
 {
-    public function injectSharedStimulus(DOMDocument $domDocument, array $packedAssets)
+    /**
+     * @param DOMDocument $domDocument
+     * @param PackedAsset[] $packedAssets
+     */
+    public function injectSharedStimulus(DOMDocument $domDocument, array $packedAssets) : void
     {
         /** @var DOMElement $xincludeNode */
         foreach ($domDocument->getElementsByTagName('include') as $xincludeNode) {
@@ -47,6 +53,12 @@ class XIncludeXmlInjector extends ConfigurationService
         }
     }
 
+    /**
+     * @param DOMElement $xincludeNode
+     * @param PackedAsset[] $packedAssets
+     * @return DOMElement
+     * @throws tao_models_classes_FileNotFoundException
+     */
     private function createSharedStimulusContent(DOMElement $xincludeNode, array $packedAssets): DOMElement
     {
         $href = $xincludeNode->getAttribute('href');
