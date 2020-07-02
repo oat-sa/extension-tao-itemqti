@@ -621,7 +621,7 @@ abstract class Element implements Exportable
     /**
      * Get the Qti Item the current Qti Element belongs to
      */
-    public function getRelatedItem(): Item
+    public function getRelatedItem(): ?Item
     {
         return $this->relatedItem;
     }
