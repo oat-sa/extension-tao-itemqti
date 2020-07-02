@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\compile\QtiAssetCompiler;
 
+use InvalidArgumentException;
 use oat\oatbox\config\ConfigurationService;
 use oat\oatbox\filesystem\Directory;
 use oat\taoItems\model\media\ItemMediaResolver;
@@ -82,7 +83,15 @@ class QtiItemAssetCompiler extends ConfigurationService
     {
         $mediaAsset = $resolver->resolve($assetUrl);
         $mediaSource = $mediaAsset->getMediaSource();
-        $link = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier())['link'];
+
+        $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+        if (isset($fileInfo['link'])) {
+            $link = $fileInfo['link'];
+        } elseif(isset($fileInfo['filePath'])) {
+            $link = $fileInfo['filePath'];
+        } else {
+            throw new InvalidArgumentException(sprintf('Item asset %s cannot be resolved.', $assetUrl));
+        }
 
         return new PackedAsset($type, $mediaAsset, $link);
     }
@@ -90,6 +99,7 @@ class QtiItemAssetCompiler extends ConfigurationService
     private function getReplacementName(string $link, array $replacementList): string
     {
         $basename = basename($link);
+
         $replacement = $basename;
 
         $count = 0;

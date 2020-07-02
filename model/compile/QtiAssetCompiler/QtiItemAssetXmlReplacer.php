@@ -38,7 +38,7 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
         /** @var DOMElement $node */
         foreach ($attributeNodes as $node) {
             if (isset($packedAssets[$node->value])) {
-                $node->value = $packedAssets[$node->value]->getLink();
+                $node->value = $packedAssets[$node->value]->getReplacedBy();
             }
         }
 

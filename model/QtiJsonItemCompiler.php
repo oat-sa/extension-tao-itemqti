@@ -43,6 +43,7 @@ use tao_helpers_Xml;
 use tao_models_classes_service_StorageDirectory;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use taoItems_models_classes_CompilationFailedException;
+use Throwable;
 
 /**
  * The QTI Json Item Compiler
@@ -98,13 +99,13 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         $qtiService = Service::singleton();
 
 
-        // retrieve the media assets
         try {
 
             $qtiItem = $this->createQtiItem($item, $language);
             $resolver =  $resolver = new ItemMediaResolver($item, $language);
             $publicLangDirectory = $publicDirectory->getDirectory($language);;
 
+            // retrieve the media assets
             $packedAssets = $this->parseAndReplaceAssetByPlaceholder($qtiItem, $resolver, $publicLangDirectory);
 
             $this->compileItemIndex($item->getUri(), $qtiItem, $language);
@@ -164,11 +165,16 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     {
         $packedAssets = $this->getQtiItemAssetCompiler()->extractAndCopyAssetFiles($qtiItem, $publicLangDirectory, $resolver);
 
-        // Replace asset url by placeholder replacement
         $dom = new DOMDocument('1.0', 'UTF-8');
 
-        if ($dom->loadXML($qtiItem->toXml()) === false) {
-            throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');
+        try {
+            if ($dom->loadXML($qtiItem->toXML()) === false) {
+                throw new \InvalidArgumentException();
+            }
+        } catch (Throwable $e) {
+            throw new taoItems_models_classes_CompilationFailedException(
+                sprintf('Unable to load XML for item %s', $qtiItem->getIdentifier())
+            );
         }
 
         $this->getXIncludeXmlInjector()->injectSharedStimulus($dom, $packedAssets);

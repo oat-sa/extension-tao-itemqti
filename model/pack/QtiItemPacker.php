@@ -137,7 +137,9 @@ class QtiItemPacker extends ItemPacker
 
             /** @var PackedAsset $packedAsset */
             foreach ($packedAssets as $packedAsset) {
-                $itemPack->setAsset($packedAsset->getType(), $packedAsset->getMediaAsset(), $directory);
+                if ($packedAsset->getType() != 'xinclude') {
+                    $itemPack->setAsset($packedAsset->getType(), $packedAsset->getMediaAsset(), $directory);
+                }
             }
 
         } catch (Throwable $e) {
