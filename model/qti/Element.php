@@ -164,7 +164,7 @@ abstract class Element implements Exportable
      * @throws AttributeException
      * @throws QtiModelException
      */
-    public function setAttributes(array $values): void
+    public function setAttributes($values): void
     {
 
         if (is_array($values)) {
@@ -181,10 +181,11 @@ abstract class Element implements Exportable
      *
      * @param mixed $value
      *
+     * @return bool
      * @throws AttributeException
      * @throws QtiModelException
      */
-    public function setAttribute($name, $value): bool
+    public function setAttribute($name, $value)
     {
 
         $returnValue = false;
