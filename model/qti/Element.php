@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti;
 
-use common_ext_ExtensionsManager;
 use Exception;
 use InvalidArgumentException;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\service\ApplicationService;
 use oat\taoQtiItem\model\qti\attribute\Attribute;
 use oat\taoQtiItem\model\qti\attribute\AttributeException;
@@ -37,7 +37,9 @@ use ReflectionException;
 use taoItems_models_classes_TemplateRenderer;
 use ReflectionClass;
 use stdClass;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -52,9 +54,11 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * @author  Sam, <sam@taotesting.com>
  * @package taoQTI
  */
-abstract class Element implements Exportable
+abstract class Element implements Exportable, ServiceLocatorAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceLocatorAwareTrait {
+        getServiceLocator as protected getOriginalServiceLocator;
+    }
 
     /**
      * @var string
@@ -722,7 +726,7 @@ abstract class Element implements Exportable
         array $elements,
         bool $filterVariableContent = false,
         array &$filtered = []
-    ): array {
+    ) {
         if (empty($elements)) {
             $data = new stdClass();
         } else {
@@ -749,6 +753,14 @@ abstract class Element implements Exportable
             }
         }
         return $data;
+    }
+
+    public function getServiceLocator()
+    {
+        if ($this->serviceLocator instanceof ServiceLocatorInterface) {
+            return $this->serviceLocator;
+        }
+        return ServiceManager::getServiceManager();
     }
 
     private function getApplicationService(): ApplicationService
