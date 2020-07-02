@@ -42,7 +42,7 @@ class QtiItemAssetXmlReplacerTest extends TestCase
     {
         $packedAsset = $this->createMock(PackedAsset::class);
         $packedAsset->expects($this->once())
-            ->method('getLink')
+            ->method('getReplacedBy')
             ->willReturn('new-link-fixture')
         ;
 
@@ -66,13 +66,13 @@ class QtiItemAssetXmlReplacerTest extends TestCase
     {
         $packedAsset1 = $this->createMock(PackedAsset::class);
         $packedAsset1->expects($this->once())
-            ->method('getLink')
+            ->method('getReplacedBy')
             ->willReturn('new-link-fixture-1')
         ;
 
         $packedAsset2 = $this->createMock(PackedAsset::class);
         $packedAsset2->expects($this->once())
-            ->method('getLink')
+            ->method('getReplacedBy')
             ->willReturn('new-link-fixture-2')
         ;
 
