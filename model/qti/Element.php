@@ -1,20 +1,43 @@
 <?php
 
-/*
- * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; under version 2 of the License (non-upgradable). This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti;
 
+use common_ext_ExtensionsManager;
+use Exception;
 use InvalidArgumentException;
+use oat\tao\model\service\ApplicationService;
+use oat\taoQtiItem\model\qti\attribute\Attribute;
+use oat\taoQtiItem\model\qti\attribute\AttributeException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\attribute\Generic;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
-use \common_Logger;
-use \taoItems_models_classes_TemplateRenderer;
-use \ReflectionClass;
-use \stdClass;
+use common_Logger;
+use ReflectionException;
+use taoItems_models_classes_TemplateRenderer;
+use ReflectionClass;
+use stdClass;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -25,23 +48,34 @@ use \stdClass;
  *
  * @abstract
  *
- * @access public
- * @author Sam, <sam@taotesting.com>
+ * @access  public
+ * @author  Sam, <sam@taotesting.com>
  * @package taoQTI
-
  */
 abstract class Element implements Exportable
 {
+    use ServiceLocatorAwareTrait;
 
+    /**
+     * @var string
+     */
     protected $serial = '';
+
+    /**
+     * @var Item|null
+     */
     protected $relatedItem = null;
+
+    /**
+     * @var array
+     */
     private static $instances = [];
 
     /**
      * Short description of attribute templatesPath
      *
      * @access protected
-     * @var string
+     * @var    string
      */
     protected static $templatesPath = '';
 
@@ -49,7 +83,7 @@ abstract class Element implements Exportable
      * the QTI tag name as defined in QTI standard
      *
      * @access protected
-     * @var string
+     * @var    string
      */
     protected static $qtiTagName = '';
 
@@ -57,11 +91,11 @@ abstract class Element implements Exportable
      * the options of the element
      *
      * @access protected
-     * @var array
+     * @var    array
      */
     protected $attributes = [];
 
-    public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
+    public function __construct(array $attributes = [], Item $relatedItem = null, string $serial = '')
     {
         if (!is_null($relatedItem)) {
             $this->setRelatedItem($relatedItem);
@@ -92,11 +126,14 @@ abstract class Element implements Exportable
     /**
      * Reset the attributes values  to the default values defined by the standard
      */
-    public function resetAttributes()
+    public function resetAttributes(): void
     {
         $this->attributes = [];
         foreach ($this->getUsedAttributes() as $attributeClass) {
-            if (class_exists($attributeClass) && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')) {
+            if (
+                class_exists($attributeClass)
+                && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')
+            ) {
                 $attribute = new $attributeClass();
                 $this->attributes[$attribute->getName()] = $attribute;
             } else {
@@ -105,17 +142,15 @@ abstract class Element implements Exportable
         }
     }
 
-    public function getQtiTag()
+    public function getQtiTag(): string
     {
         return static::$qtiTagName;
     }
 
     /**
      * Remove the actual value of an attribute, distinguish from empty value
-     *
-     * @param string $name
      */
-    public function removeAttributeValue($name)
+    public function removeAttributeValue(string $name): void
     {
         if (isset($this->attributes[$name])) {
             $this->attributes[$name]->setNull();
@@ -126,10 +161,10 @@ abstract class Element implements Exportable
      * Set the attributes for the the Qti Element
      * Argument format: array(attributeName => value)
      *
-     * @param array $values
-     * @throws InvalidArgumentException
+     * @throws AttributeException
+     * @throws QtiModelException
      */
-    public function setAttributes($values)
+    public function setAttributes(array $values): void
     {
 
         if (is_array($values)) {
@@ -144,13 +179,12 @@ abstract class Element implements Exportable
     /**
      * Set the value of an attribute
      *
-     * @param string $name
      * @param mixed $value
-     * @return boolean
-     * @throws InvalidArgumentException
-     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
+     *
+     * @throws AttributeException
+     * @throws QtiModelException
      */
-    public function setAttribute($name, $value)
+    public function setAttribute(string $name, $value): bool
     {
 
         $returnValue = false;
@@ -174,14 +208,16 @@ abstract class Element implements Exportable
                     }
                 } elseif (is_string($value)) {
                     // try converting to string identifier and search the identified object:
-                    $identifier = (string) $value;
+                    $identifier = (string)$value;
                     $elt = $this->getIdentifiedElement($identifier, $datatypeClass::getAllowedClasses());
                     if (!is_null($elt)) {
                         // ok, found among allowed classes
                         $this->attributes[$name]->setValue($elt);
                         $returnValue = true;
                     } else {
-                        throw new QtiModelException('No QTI element with the identifier has been found: ' . $identifier);
+                        throw new QtiModelException(
+                            'No QTI element with the identifier has been found: ' . $identifier
+                        );
                     }
                 }
             } else {
@@ -200,12 +236,11 @@ abstract class Element implements Exportable
      * Validate an attribute of the element, at the element level
      * (the validator of the attributes are on the attribute level)
      *
-     * @param string $name
      * @param mixed $value
-     * @return boolean
-     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
+     *
+     * @throws QtiModelException
      */
-    public function validateAttribute($name, $value = null)
+    public function validateAttribute(string $name, $value = null): bool
     {
         $returnValue = false;
 
@@ -231,7 +266,13 @@ abstract class Element implements Exportable
                         }
                     } else {
                         common_Logger::w('iden');
-                        throw new QtiModelException('Cannot verify identifier reference because the element is not in a QTI Item ' . get_class($this) . '::' . $name, 0);
+                        throw new QtiModelException(
+                            'Cannot verify identifier reference because the element is not in a QTI Item '
+                            . get_class($this)
+                            . '::'
+                            . $name,
+                            0
+                        );
                     }
                 }
             } else {
@@ -247,12 +288,8 @@ abstract class Element implements Exportable
     /**
      * Find the identified object corresponding to the identifier string
      * The optional argument $elementClasses search a specific QTI element class
-     *
-     * @param string $identifier
-     * @param array $elementClasses
-     * @return \oat\taoQtiItem\model\qti\IdentifiedElement
      */
-    public function getIdentifiedElement($identifier, $elementClasses = [])
+    public function getIdentifiedElement(string $identifier, array $elementClasses = []): IdentifiedElement
     {
         $returnValue = null;
 
@@ -282,11 +319,8 @@ abstract class Element implements Exportable
 
     /**
      * Check if an attribute exists within the Qti Element
-     *
-     * @param string $name
-     * @return boolean
      */
-    public function hasAttribute($name)
+    public function hasAttribute(string $name): bool
     {
         return isset($this->attributes[$name]);
     }
@@ -294,11 +328,14 @@ abstract class Element implements Exportable
     /**
      * Short handy method to get/set an attribute value
      *
-     * @param string $name
      * @param mixed $value
+     *
      * @return mixed
+     *
+     * @throws QtiModelException
+     * @throws AttributeException
      */
-    public function attr($name, $value = null)
+    public function attr(string $name, $value = null)
     {
         if (is_null($value)) {
             return $this->getAttributeValue($name);
@@ -311,15 +348,19 @@ abstract class Element implements Exportable
      * Add a CSS class to the item body
      *
      * @author Dieter Raber <dieter@taotesting.com>
+     *
      * @param $className one or more class names, separated by space
+     *
+     * @throws QtiModelException
+     * @throws AttributeException
      */
-    public function addClass($className)
+    public function addClass(string $className): void
     {
-        $oldClassName    = $this->getAttributeValue('class');
+        $oldClassName = $this->getAttributeValue('class');
         $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : [];
-        $classNameArr    = array_merge($oldClassNameArr, explode(' ', $className));
+        $classNameArr = array_merge($oldClassNameArr, explode(' ', $className));
         // housekeeping
-        $classNameArr    = array_unique(array_filter(array_map('trim', $classNameArr)));
+        $classNameArr = array_unique(array_filter(array_map('trim', $classNameArr)));
         $this->setAttribute('class', implode(' ', $classNameArr));
     }
 
@@ -327,11 +368,10 @@ abstract class Element implements Exportable
      * Add a CSS class from the item body
      *
      * @author Dieter Raber <dieter@taotesting.com>
-     * @param $className
      */
-    public function removeClass($className)
+    public function removeClass(string $className): void
     {
-        $oldClassName    = $this->getAttributeValue('class');
+        $oldClassName = $this->getAttributeValue('class');
         $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : [];
         unset($oldClassNameArr[array_search($className, $oldClassNameArr)]);
         $this->setAttribute('class', implode(' ', $oldClassNameArr));
@@ -339,11 +379,8 @@ abstract class Element implements Exportable
 
     /**
      * Get the attribute as an Attribute object
-     *
-     * @param type $name
-     * @return \oat\taoQtiItem\model\qti\attribute\Attribute
      */
-    protected function getAttribute($name)
+    protected function getAttribute(string $name): Attribute
     {
         return $this->hasAttribute($name) ? $this->attributes[$name] : null;
     }
@@ -351,10 +388,9 @@ abstract class Element implements Exportable
     /**
      * Get the attribute's actual value (not as an Attribute object)
      *
-     * @param string $name
      * @return mixed
      */
-    public function getAttributeValue($name)
+    public function getAttributeValue(string $name)
     {
         $returnValue = null;
         if ($this->hasAttribute($name)) {
@@ -365,10 +401,8 @@ abstract class Element implements Exportable
 
     /**
      * Get all attributes' values
-     *
-     * @return array
      */
-    public function getAttributeValues($filterNull = true)
+    public function getAttributeValues(bool $filterNull = true): array
     {
         $returnValue = [];
         foreach ($this->attributes as $name => $attribute) {
@@ -383,9 +417,8 @@ abstract class Element implements Exportable
      * Get the placeholder of the Qti Element to used in a Container
      *
      * @see oat\taoQtiItem\model\qti\container\Container
-     * @return string
      */
-    public function getPlaceholder()
+    public function getPlaceholder(): string
     {
         return '{{' . $this->getSerial() . '}}';
     }
@@ -393,10 +426,9 @@ abstract class Element implements Exportable
     /**
      * Get the absolute path of the template of the qti.xml
      *
-     * @return string
-     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
+     * @throws QtiModelException
      */
-    public static function getTemplateQti()
+    public static function getTemplateQti(): string
     {
         if (empty(static::$qtiTagName)) {
             throw new QtiModelException('The element has no tag name defined : ' . get_called_class());
@@ -411,10 +443,8 @@ abstract class Element implements Exportable
 
     /**
      * Get the variables to be used in the qti.xml template
-     *
-     * @return array
      */
-    protected function getTemplateQtiVariables()
+    protected function getTemplateQtiVariables(): array
     {
         $variables = [];
         $variables['tag'] = static::$qtiTagName;
@@ -429,20 +459,18 @@ abstract class Element implements Exportable
     /**
      * Export the data to the QTI XML format
      *
-     * @return string
+     * @throws Exception
      */
-    public function toQTI()
+    public function toQTI(): string
     {
-
         $template = static::getTemplateQti();
         $variables = $this->getTemplateQtiVariables();
         if (isset($variables['attributes'])) {
             $variables['attributes'] = $this->xmlizeOptions($variables['attributes'], true);
         }
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
-        $returnValue = $tplRenderer->render();
 
-        return (string) $returnValue;
+        return $tplRenderer->render();
     }
 
     /**
@@ -451,6 +479,7 @@ abstract class Element implements Exportable
      *
      * @param $filterVariableContent
      * @param array $filtered
+     *
      * @return array
      */
     public function toArray($filterVariableContent = false, &$filtered = [])
@@ -469,7 +498,7 @@ abstract class Element implements Exportable
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
 
-        if (DEBUG_MODE) {
+        if ($this->getApplicationService()->isDebugMode()) {
             //in debug mode, add debug data, such as the related item
             $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
@@ -482,9 +511,8 @@ abstract class Element implements Exportable
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @return string
      */
-    public static function getTemplatePath()
+    public static function getTemplatePath(): string
     {
         if (empty(self::$templatesPath)) {
             $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -492,7 +520,7 @@ abstract class Element implements Exportable
         }
         $returnValue = self::$templatesPath;
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -500,12 +528,10 @@ abstract class Element implements Exportable
      * The related item assignment is propagated to all containing Qti Element of the current one.
      * The "force" option allows changing the associated item (even if it has already been defined)
      *
-     * @param \oat\taoQtiItem\model\qti\Item $item
-     * @param boolean $force
-     * @return boolean
-     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
+     * @throws QtiModelException*
+     * @throws ReflectionException
      */
-    public function setRelatedItem(Item $item, $force = false)
+    public function setRelatedItem(Item $item, bool $force = false): bool
     {
         $returnValue = false;
 
@@ -550,10 +576,9 @@ abstract class Element implements Exportable
     /**
      * Recursively get all Qti Elements contained within the current Qti Element
      *
-     * @param string $className
-     * @return array
+     * @throws ReflectionException
      */
-    public function getComposingElements($className = '')
+    public function getComposingElements(string $className = ''): array
     {
 
         $returnValue = [];
@@ -595,10 +620,8 @@ abstract class Element implements Exportable
 
     /**
      * Get the Qti Item the current Qti Element belongs to
-     *
-     * @return \oat\taoQtiItem\model\qti\Item
      */
-    public function getRelatedItem()
+    public function getRelatedItem(): Item
     {
         return $this->relatedItem;
     }
@@ -609,13 +632,10 @@ abstract class Element implements Exportable
      *
      * @access protected
      * @author Sam, <sam@taotesting.com>
-     * @param array formalOpts
-     * @param boolean recursive
-     * @return string
      */
-    protected function xmlizeOptions($formalOpts = [], $recursive = false)
+    protected function xmlizeOptions(array $formalOpts = [], bool $recursive = false): string
     {
-        $returnValue = (string) '';
+        $returnValue = '';
         if (!is_array($formalOpts)) {
             throw new InvalidArgumentException('formalOpts must be an array, ' . gettype($formalOpts) . ' given');
         }
@@ -624,19 +644,23 @@ abstract class Element implements Exportable
         foreach ($options as $key => $value) {
             if (is_string($value) || is_numeric($value)) {
                 // str_replace is unicode safe...
-                $returnValue .= ' ' . $key . '="' . str_replace([
-                            '&',
-                            '<',
-                            '>',
-                            '\'',
-                            '"'
-                                ], [
-                            '&amp;',
-                            '&lt;',
-                            '&gt;',
-                            '&apos;',
-                            '&quot;'
-                                ], $value) . '"';
+                $returnValue .= ' ' . $key . '="' . str_replace(
+                    [
+                        '&',
+                        '<',
+                        '>',
+                        '\'',
+                        '"',
+                    ],
+                    [
+                        '&amp;',
+                        '&lt;',
+                        '&gt;',
+                        '&apos;',
+                        '&quot;',
+                    ],
+                    $value
+                ) . '"';
             }
             if (is_bool($value)) {
                 $returnValue .= ' ' . $key . '="' . (($value) ? 'true' : 'false') . '"';
@@ -653,7 +677,7 @@ abstract class Element implements Exportable
             }
         }
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -661,16 +685,14 @@ abstract class Element implements Exportable
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return string
      */
-    public function getSerial()
+    public function getSerial(): string
     {
         if (empty($this->serial)) {
             $this->serial = $this->buildSerial();
         }
-        $returnValue = $this->serial;
 
-        return (string) $returnValue;
+        return $this->serial;
     }
 
     /**
@@ -678,12 +700,10 @@ abstract class Element implements Exportable
      *
      * @access protected
      * @author Sam, <sam@taotesting.com>
-     * @return string
      */
-    protected function buildSerial()
+    protected function buildSerial(): string
     {
-
-        if (DEBUG_MODE) {
+        if ($this->getApplicationService()->isDebugMode()) {
             //in debug mode, use more meaningful serials
             $clazz = strtolower(get_class($this));
             $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21) . '_';
@@ -694,12 +714,14 @@ abstract class Element implements Exportable
             $serial = uniqid('i');
         }
 
-        return (string) $serial;
+        return (string)$serial;
     }
 
-    protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = [])
-    {
-
+    protected function getArraySerializedElementCollection(
+        array $elements,
+        bool $filterVariableContent = false,
+        array &$filtered = []
+    ): array {
         if (empty($elements)) {
             $data = new stdClass();
         } else {
@@ -711,9 +733,8 @@ abstract class Element implements Exportable
         return $data;
     }
 
-    protected function getArraySerializedPrimitiveCollection($elements)
+    protected function getArraySerializedPrimitiveCollection(array $elements): array
     {
-
         if (empty($elements)) {
             $data = new stdClass();
         } else {
@@ -727,5 +748,15 @@ abstract class Element implements Exportable
             }
         }
         return $data;
+    }
+
+    private function getApplicationService(): ApplicationService
+    {
+        return $this->getServiceLocator()->get(ApplicationService::SERVICE_ID);
+    }
+
+    private function getExtensionManager(): common_ext_ExtensionsManager
+    {
+        return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 }
