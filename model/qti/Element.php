@@ -403,7 +403,7 @@ abstract class Element implements Exportable
     /**
      * Get all attributes' values
      */
-    public function getAttributeValues(bool $filterNull = true): array
+    public function getAttributeValues($filterNull = true)
     {
         $returnValue = [];
         foreach ($this->attributes as $name => $attribute) {
