@@ -429,7 +429,7 @@ abstract class Element implements Exportable
      *
      * @throws QtiModelException
      */
-    public static function getTemplateQti(): string
+    public static function getTemplateQti()
     {
         if (empty(static::$qtiTagName)) {
             throw new QtiModelException('The element has no tag name defined : ' . get_called_class());
@@ -445,7 +445,7 @@ abstract class Element implements Exportable
     /**
      * Get the variables to be used in the qti.xml template
      */
-    protected function getTemplateQtiVariables(): array
+    protected function getTemplateQtiVariables()
     {
         $variables = [];
         $variables['tag'] = static::$qtiTagName;
@@ -462,7 +462,7 @@ abstract class Element implements Exportable
      *
      * @throws Exception
      */
-    public function toQTI(): string
+    public function toQTI()
     {
         $template = static::getTemplateQti();
         $variables = $this->getTemplateQtiVariables();
@@ -579,7 +579,7 @@ abstract class Element implements Exportable
      *
      * @throws ReflectionException
      */
-    public function getComposingElements(string $className = ''): array
+    public function getComposingElements($className = '')
     {
 
         $returnValue = [];
@@ -622,7 +622,7 @@ abstract class Element implements Exportable
     /**
      * Get the Qti Item the current Qti Element belongs to
      */
-    public function getRelatedItem(): ?Item
+    public function getRelatedItem()
     {
         return $this->relatedItem;
     }
@@ -687,7 +687,7 @@ abstract class Element implements Exportable
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
-    public function getSerial(): string
+    public function getSerial()
     {
         if (empty($this->serial)) {
             $this->serial = $this->buildSerial();
