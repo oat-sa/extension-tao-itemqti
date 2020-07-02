@@ -754,9 +754,4 @@ abstract class Element implements Exportable
     {
         return $this->getServiceLocator()->get(ApplicationService::SERVICE_ID);
     }
-
-    private function getExtensionManager(): common_ext_ExtensionsManager
-    {
-        return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
-    }
 }
