@@ -469,7 +469,7 @@ abstract class Element implements Exportable
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
 
-        if (DEBUG_MODE) {
+        if ($this->isDebug()) {
             //in debug mode, add debug data, such as the related item
             $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
@@ -683,7 +683,7 @@ abstract class Element implements Exportable
     protected function buildSerial()
     {
 
-        if (DEBUG_MODE) {
+        if ($this->isDebug()) {
             //in debug mode, use more meaningful serials
             $clazz = strtolower(get_class($this));
             $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21) . '_';
@@ -727,5 +727,16 @@ abstract class Element implements Exportable
             }
         }
         return $data;
+    }
+
+    /**
+     * @deprecated we should not use global constant to debug classes
+     */
+    private function isDebug(): bool
+    {
+        if (defined('DEBUG_MODE')) {
+            return DEBUG_MODE;
+        }
+        return false;
     }
 }
