@@ -137,7 +137,7 @@ class QtiItemPacker extends ItemPacker
      * @return ItemPack
      * @throws common_Exception
      */
-    public function createQtiItemPackWithAssets($item, $qtiItem, Directory $directory, array $packedAssets): ItemPack
+    public function createQtiItemPackWithAssets($item, $qtiItem, array $packedAssets): ItemPack
     {
         try {
             $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
@@ -146,7 +146,7 @@ class QtiItemPacker extends ItemPacker
             /** @var PackedAsset $packedAsset */
             foreach ($packedAssets as $packedAsset) {
                 if ($packedAsset->getType() != 'xinclude') {
-                    $itemPack->setAsset($packedAsset->getType(), $packedAsset->getMediaAsset(), $directory);
+                    $itemPack->setAsset($packedAsset->getType(), $packedAsset->getMediaAsset());
                 }
             }
 
