@@ -1,45 +1,20 @@
 <?php
 
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA;
+/*
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; under version 2 of the License (non-upgradable). This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-
-declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti;
 
-use Exception;
 use InvalidArgumentException;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\service\ApplicationService;
-use oat\taoQtiItem\model\qti\attribute\Attribute;
-use oat\taoQtiItem\model\qti\attribute\AttributeException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\attribute\Generic;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
 use common_Logger;
-use ReflectionException;
 use taoItems_models_classes_TemplateRenderer;
 use ReflectionClass;
 use stdClass;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -50,36 +25,22 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @abstract
  *
- * @access  public
- * @author  Sam, <sam@taotesting.com>
+ * @access public
+ * @author Sam, <sam@taotesting.com>
  * @package taoQTI
+
  */
-abstract class Element implements Exportable, ServiceLocatorAwareInterface
+abstract class Element implements Exportable
 {
-    use ServiceLocatorAwareTrait {
-        getServiceLocator as protected getOriginalServiceLocator;
-    }
-
-    /**
-     * @var string
-     */
     protected $serial = '';
-
-    /**
-     * @var Item|null
-     */
     protected $relatedItem = null;
-
-    /**
-     * @var array
-     */
     private static $instances = [];
 
     /**
      * Short description of attribute templatesPath
      *
      * @access protected
-     * @var    string
+     * @var string
      */
     protected static $templatesPath = '';
 
@@ -87,7 +48,7 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * the QTI tag name as defined in QTI standard
      *
      * @access protected
-     * @var    string
+     * @var string
      */
     protected static $qtiTagName = '';
 
@@ -95,11 +56,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * the options of the element
      *
      * @access protected
-     * @var    array
+     * @var array
      */
     protected $attributes = [];
 
-    public function __construct(array $attributes = [], Item $relatedItem = null, string $serial = '')
+    public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
     {
         if (!is_null($relatedItem)) {
             $this->setRelatedItem($relatedItem);
@@ -130,14 +91,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Reset the attributes values  to the default values defined by the standard
      */
-    public function resetAttributes(): void
+    public function resetAttributes()
     {
         $this->attributes = [];
         foreach ($this->getUsedAttributes() as $attributeClass) {
-            if (
-                class_exists($attributeClass)
-                && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')
-            ) {
+            if (class_exists($attributeClass) && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')) {
                 $attribute = new $attributeClass();
                 $this->attributes[$attribute->getName()] = $attribute;
             } else {
@@ -146,15 +104,17 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
         }
     }
 
-    public function getQtiTag(): string
+    public function getQtiTag()
     {
         return static::$qtiTagName;
     }
 
     /**
      * Remove the actual value of an attribute, distinguish from empty value
+     *
+     * @param string $name
      */
-    public function removeAttributeValue(string $name): void
+    public function removeAttributeValue($name)
     {
         if (isset($this->attributes[$name])) {
             $this->attributes[$name]->setNull();
@@ -165,10 +125,10 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * Set the attributes for the the Qti Element
      * Argument format: array(attributeName => value)
      *
-     * @throws AttributeException
-     * @throws QtiModelException
+     * @param array $values
+     * @throws InvalidArgumentException
      */
-    public function setAttributes($values): void
+    public function setAttributes($values)
     {
 
         if (is_array($values)) {
@@ -183,11 +143,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Set the value of an attribute
      *
+     * @param string $name
      * @param mixed $value
-     *
-     * @return bool
-     * @throws AttributeException
-     * @throws QtiModelException
+     * @return boolean
+     * @throws InvalidArgumentException
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
     public function setAttribute($name, $value)
     {
@@ -213,16 +173,14 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
                     }
                 } elseif (is_string($value)) {
                     // try converting to string identifier and search the identified object:
-                    $identifier = (string)$value;
+                    $identifier = (string) $value;
                     $elt = $this->getIdentifiedElement($identifier, $datatypeClass::getAllowedClasses());
                     if (!is_null($elt)) {
                         // ok, found among allowed classes
                         $this->attributes[$name]->setValue($elt);
                         $returnValue = true;
                     } else {
-                        throw new QtiModelException(
-                            'No QTI element with the identifier has been found: ' . $identifier
-                        );
+                        throw new QtiModelException('No QTI element with the identifier has been found: ' . $identifier);
                     }
                 }
             } else {
@@ -241,11 +199,12 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * Validate an attribute of the element, at the element level
      * (the validator of the attributes are on the attribute level)
      *
+     * @param string $name
      * @param mixed $value
-     *
-     * @throws QtiModelException
+     * @return boolean
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
-    public function validateAttribute(string $name, $value = null): bool
+    public function validateAttribute($name, $value = null)
     {
         $returnValue = false;
 
@@ -271,13 +230,7 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
                         }
                     } else {
                         common_Logger::w('iden');
-                        throw new QtiModelException(
-                            'Cannot verify identifier reference because the element is not in a QTI Item '
-                            . get_class($this)
-                            . '::'
-                            . $name,
-                            0
-                        );
+                        throw new QtiModelException('Cannot verify identifier reference because the element is not in a QTI Item ' . get_class($this) . '::' . $name, 0);
                     }
                 }
             } else {
@@ -293,8 +246,12 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Find the identified object corresponding to the identifier string
      * The optional argument $elementClasses search a specific QTI element class
+     *
+     * @param string $identifier
+     * @param array $elementClasses
+     * @return \oat\taoQtiItem\model\qti\IdentifiedElement
      */
-    public function getIdentifiedElement(string $identifier, array $elementClasses = []): IdentifiedElement
+    public function getIdentifiedElement($identifier, $elementClasses = [])
     {
         $returnValue = null;
 
@@ -324,8 +281,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
 
     /**
      * Check if an attribute exists within the Qti Element
+     *
+     * @param string $name
+     * @return boolean
      */
-    public function hasAttribute(string $name): bool
+    public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
     }
@@ -333,14 +293,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Short handy method to get/set an attribute value
      *
+     * @param string $name
      * @param mixed $value
-     *
      * @return mixed
-     *
-     * @throws QtiModelException
-     * @throws AttributeException
      */
-    public function attr(string $name, $value = null)
+    public function attr($name, $value = null)
     {
         if (is_null($value)) {
             return $this->getAttributeValue($name);
@@ -353,19 +310,15 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * Add a CSS class to the item body
      *
      * @author Dieter Raber <dieter@taotesting.com>
-     *
      * @param $className one or more class names, separated by space
-     *
-     * @throws QtiModelException
-     * @throws AttributeException
      */
-    public function addClass(string $className): void
+    public function addClass($className)
     {
-        $oldClassName = $this->getAttributeValue('class');
+        $oldClassName    = $this->getAttributeValue('class');
         $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : [];
-        $classNameArr = array_merge($oldClassNameArr, explode(' ', $className));
+        $classNameArr    = array_merge($oldClassNameArr, explode(' ', $className));
         // housekeeping
-        $classNameArr = array_unique(array_filter(array_map('trim', $classNameArr)));
+        $classNameArr    = array_unique(array_filter(array_map('trim', $classNameArr)));
         $this->setAttribute('class', implode(' ', $classNameArr));
     }
 
@@ -373,10 +326,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * Add a CSS class from the item body
      *
      * @author Dieter Raber <dieter@taotesting.com>
+     * @param $className
      */
-    public function removeClass(string $className): void
+    public function removeClass($className)
     {
-        $oldClassName = $this->getAttributeValue('class');
+        $oldClassName    = $this->getAttributeValue('class');
         $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : [];
         unset($oldClassNameArr[array_search($className, $oldClassNameArr)]);
         $this->setAttribute('class', implode(' ', $oldClassNameArr));
@@ -384,8 +338,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
 
     /**
      * Get the attribute as an Attribute object
+     *
+     * @param type $name
+     * @return \oat\taoQtiItem\model\qti\attribute\Attribute
      */
-    protected function getAttribute(string $name): Attribute
+    protected function getAttribute($name)
     {
         return $this->hasAttribute($name) ? $this->attributes[$name] : null;
     }
@@ -393,9 +350,10 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Get the attribute's actual value (not as an Attribute object)
      *
+     * @param string $name
      * @return mixed
      */
-    public function getAttributeValue(string $name)
+    public function getAttributeValue($name)
     {
         $returnValue = null;
         if ($this->hasAttribute($name)) {
@@ -406,6 +364,8 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
 
     /**
      * Get all attributes' values
+     *
+     * @return array
      */
     public function getAttributeValues($filterNull = true)
     {
@@ -422,8 +382,9 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * Get the placeholder of the Qti Element to used in a Container
      *
      * @see oat\taoQtiItem\model\qti\container\Container
+     * @return string
      */
-    public function getPlaceholder(): string
+    public function getPlaceholder()
     {
         return '{{' . $this->getSerial() . '}}';
     }
@@ -431,7 +392,8 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Get the absolute path of the template of the qti.xml
      *
-     * @throws QtiModelException
+     * @return string
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
     public static function getTemplateQti()
     {
@@ -448,6 +410,8 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
 
     /**
      * Get the variables to be used in the qti.xml template
+     *
+     * @return array
      */
     protected function getTemplateQtiVariables()
     {
@@ -464,18 +428,20 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Export the data to the QTI XML format
      *
-     * @throws Exception
+     * @return string
      */
     public function toQTI()
     {
+
         $template = static::getTemplateQti();
         $variables = $this->getTemplateQtiVariables();
         if (isset($variables['attributes'])) {
             $variables['attributes'] = $this->xmlizeOptions($variables['attributes'], true);
         }
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
+        $returnValue = $tplRenderer->render();
 
-        return $tplRenderer->render();
+        return (string) $returnValue;
     }
 
     /**
@@ -484,7 +450,6 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      *
      * @param $filterVariableContent
      * @param array $filtered
-     *
      * @return array
      */
     public function toArray($filterVariableContent = false, &$filtered = [])
@@ -503,7 +468,7 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
 
-        if ($this->getApplicationService()->isDebugMode()) {
+        if (DEBUG_MODE) {
             //in debug mode, add debug data, such as the related item
             $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
@@ -516,8 +481,9 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
+     * @return string
      */
-    public static function getTemplatePath(): string
+    public static function getTemplatePath()
     {
         if (empty(self::$templatesPath)) {
             $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -525,7 +491,7 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
         }
         $returnValue = self::$templatesPath;
 
-        return $returnValue;
+        return (string) $returnValue;
     }
 
     /**
@@ -533,10 +499,12 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      * The related item assignment is propagated to all containing Qti Element of the current one.
      * The "force" option allows changing the associated item (even if it has already been defined)
      *
-     * @throws QtiModelException*
-     * @throws ReflectionException
+     * @param \oat\taoQtiItem\model\qti\Item $item
+     * @param boolean $force
+     * @return boolean
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
-    public function setRelatedItem(Item $item, bool $force = false): bool
+    public function setRelatedItem(Item $item, $force = false)
     {
         $returnValue = false;
 
@@ -581,7 +549,8 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
     /**
      * Recursively get all Qti Elements contained within the current Qti Element
      *
-     * @throws ReflectionException
+     * @param string $className
+     * @return array
      */
     public function getComposingElements($className = '')
     {
@@ -625,6 +594,8 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
 
     /**
      * Get the Qti Item the current Qti Element belongs to
+     *
+     * @return \oat\taoQtiItem\model\qti\Item
      */
     public function getRelatedItem()
     {
@@ -637,10 +608,13 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      *
      * @access protected
      * @author Sam, <sam@taotesting.com>
+     * @param array formalOpts
+     * @param boolean recursive
+     * @return string
      */
-    protected function xmlizeOptions(array $formalOpts = [], bool $recursive = false): string
+    protected function xmlizeOptions($formalOpts = [], $recursive = false)
     {
-        $returnValue = '';
+        $returnValue = (string) '';
         if (!is_array($formalOpts)) {
             throw new InvalidArgumentException('formalOpts must be an array, ' . gettype($formalOpts) . ' given');
         }
@@ -649,23 +623,19 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
         foreach ($options as $key => $value) {
             if (is_string($value) || is_numeric($value)) {
                 // str_replace is unicode safe...
-                $returnValue .= ' ' . $key . '="' . str_replace(
-                    [
-                        '&',
-                        '<',
-                        '>',
-                        '\'',
-                        '"',
-                    ],
-                    [
-                        '&amp;',
-                        '&lt;',
-                        '&gt;',
-                        '&apos;',
-                        '&quot;',
-                    ],
-                    $value
-                ) . '"';
+                $returnValue .= ' ' . $key . '="' . str_replace([
+                            '&',
+                            '<',
+                            '>',
+                            '\'',
+                            '"'
+                                ], [
+                            '&amp;',
+                            '&lt;',
+                            '&gt;',
+                            '&apos;',
+                            '&quot;'
+                                ], $value) . '"';
             }
             if (is_bool($value)) {
                 $returnValue .= ' ' . $key . '="' . (($value) ? 'true' : 'false') . '"';
@@ -682,7 +652,7 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
             }
         }
 
-        return $returnValue;
+        return (string) $returnValue;
     }
 
     /**
@@ -690,14 +660,16 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return string
      */
     public function getSerial()
     {
         if (empty($this->serial)) {
             $this->serial = $this->buildSerial();
         }
+        $returnValue = $this->serial;
 
-        return $this->serial;
+        return (string) $returnValue;
     }
 
     /**
@@ -705,10 +677,12 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
      *
      * @access protected
      * @author Sam, <sam@taotesting.com>
+     * @return string
      */
-    protected function buildSerial(): string
+    protected function buildSerial()
     {
-        if ($this->getApplicationService()->isDebugMode()) {
+
+        if (DEBUG_MODE) {
             //in debug mode, use more meaningful serials
             $clazz = strtolower(get_class($this));
             $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21) . '_';
@@ -719,14 +693,11 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
             $serial = uniqid('i');
         }
 
-        return (string)$serial;
+        return (string) $serial;
     }
 
-    protected function getArraySerializedElementCollection(
-        array $elements,
-        bool $filterVariableContent = false,
-        array &$filtered = []
-    ) {
+    protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = [])
+    {
         if (empty($elements)) {
             $data = new stdClass();
         } else {
@@ -738,8 +709,9 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
         return $data;
     }
 
-    protected function getArraySerializedPrimitiveCollection(array $elements): array
+    protected function getArraySerializedPrimitiveCollection($elements)
     {
+
         if (empty($elements)) {
             $data = new stdClass();
         } else {
@@ -753,18 +725,5 @@ abstract class Element implements Exportable, ServiceLocatorAwareInterface
             }
         }
         return $data;
-    }
-
-    public function getServiceLocator()
-    {
-        if ($this->serviceLocator instanceof ServiceLocatorInterface) {
-            return $this->serviceLocator;
-        }
-        return ServiceManager::getServiceManager();
-    }
-
-    private function getApplicationService(): ApplicationService
-    {
-        return $this->getServiceLocator()->get(ApplicationService::SERVICE_ID);
     }
 }
