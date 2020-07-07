@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-24T08:33:43\n"
+"Project-Id-Version: TAO 3.4.0-sprint132\n"
+"PO-Revision-Date: 2020-07-03T09:30:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -119,6 +119,9 @@ msgstr ""
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
 
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Óvænt villa kom upp þegar verið var að eiga við Svaravinnslu."
 
@@ -186,11 +189,11 @@ msgstr "Velja..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "cancel"
 msgstr "hætta við"
+
+msgid "Cancel"
+msgstr "Hætta við"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -345,11 +348,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "eyða"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -748,20 +751,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "hafa autt"
 
-msgid "Left"
-msgstr "Vinstri"
-
 msgid "left"
 msgstr "vinstri"
+
+msgid "Left"
+msgstr "Vinstri"
 
 msgid "Left bracket"
 msgstr ""
@@ -800,12 +803,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
+
 #, tao-public
 msgid "Manage items"
 msgstr "Vinna með atriði"
-
-msgid "Manage Items"
-msgstr "Vinna með Atriði"
 
 msgid "map response"
 msgstr ""
@@ -885,6 +888,9 @@ msgstr ""
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
 msgstr ""
 
+msgid "Metadata service successfully registered."
+msgstr ""
+
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
@@ -908,6 +914,9 @@ msgstr "Formsendurgjöf er sýnd próftaka beint eftir að unnið hefur verið �
 
 msgid "Modal Feedback Prop."
 msgstr "Tákn fyrir Formsendurgjöf."
+
+msgid "modal feedback title"
+msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "Formsendurgjafir"
@@ -1073,9 +1082,6 @@ msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Veldu samnýtta hvataskrá úr forðastjóranum."
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Veldu myndaskrá úr forðastjóranum. Þú getur bætt við skrám úr tölvunni þinni með hnappnum \"Bæta við skrá(m)\"."
 
 msgid "Please select the correct hotspot choices below."
 msgstr "Veldu réttan heitra reita valkost fyrir neðan. "
@@ -1687,11 +1693,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "afturkalla"
-
 msgid "Undo"
 msgstr "Afturkalla"
+
+msgid "undo"
+msgstr "afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""

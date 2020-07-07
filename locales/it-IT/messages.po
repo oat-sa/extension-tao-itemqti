@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-24T08:34:22\n"
+"Project-Id-Version: TAO 3.4.0-sprint132\n"
+"PO-Revision-Date: 2020-07-03T09:30:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -119,6 +119,9 @@ msgstr ""
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
 
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Si è verificato un errore imprevisto durante l'elaborazione della risposta"
 
@@ -186,11 +189,11 @@ msgstr "Esplora..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "Cancel"
-msgstr "Cancella"
-
 msgid "cancel"
 msgstr "cancella"
+
+msgid "Cancel"
+msgstr "Cancella"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -345,11 +348,11 @@ msgstr "Definisci la larghezza "
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "elimina"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Elimina ulteriore affermazione"
@@ -748,20 +751,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "Lasciare vuoto"
 
-msgid "Left"
-msgstr "Sinistra"
-
 msgid "left"
 msgstr "sinistra"
+
+msgid "Left"
+msgstr "Sinistra"
 
 msgid "Left bracket"
 msgstr ""
@@ -800,12 +803,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
+msgid "Manage Items"
+msgstr "Gestisci gli item"
+
 #, tao-public
 msgid "Manage items"
 msgstr "Gestisci item"
-
-msgid "Manage Items"
-msgstr "Gestisci gli item"
 
 msgid "map response"
 msgstr ""
@@ -885,6 +888,9 @@ msgstr ""
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
 msgstr ""
 
+msgid "Metadata service successfully registered."
+msgstr ""
+
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
@@ -908,6 +914,9 @@ msgstr "Un feedback modale viene mostrato al candidato subito dopo l'elaborazion
 
 msgid "Modal Feedback Prop."
 msgstr "Modal Feedback Prop."
+
+msgid "modal feedback title"
+msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "Modal Feedback "
@@ -1073,9 +1082,6 @@ msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Prego seleziona un file di stimolo comune dal gestore delle risorse."
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Prego, seleziona un file immagine dal gestore delle risorse. Puoi aggiungere i file dal computer con il tasto \"Aggiungi file\"."
 
 msgid "Please select the correct hotspot choices below."
 msgstr "Prego, seleziona le scelte giuste più congeniali di seguito."
@@ -1688,10 +1694,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "Ripristina"
 
-msgid "Undo"
+msgid "undo"
 msgstr "Ripristina"
 
 msgid "Unknown $key to register MetadataService instance"
