@@ -11,10 +11,10 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\attribute\Generic;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
-use \common_Logger;
-use \taoItems_models_classes_TemplateRenderer;
-use \ReflectionClass;
-use \stdClass;
+use common_Logger;
+use taoItems_models_classes_TemplateRenderer;
+use ReflectionClass;
+use stdClass;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -32,7 +32,6 @@ use \stdClass;
  */
 abstract class Element implements Exportable
 {
-
     protected $serial = '';
     protected $relatedItem = null;
     private static $instances = [];
@@ -699,7 +698,6 @@ abstract class Element implements Exportable
 
     protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = [])
     {
-
         if (empty($elements)) {
             $data = new stdClass();
         } else {
