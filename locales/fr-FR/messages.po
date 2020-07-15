@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint130\n"
-"PO-Revision-Date: 2020-06-15T16:06:38\n"
+"Project-Id-Version: TAO 3.4.0-sprint132\n"
+"PO-Revision-Date: 2020-07-03T09:30:18\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -753,20 +753,20 @@ msgstr "Langue"
 msgid "Large editor"
 msgstr "Éditeur large"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "Left"
-msgstr "Gauche"
-
 msgid "left"
 msgstr "gauche"
+
+msgid "Left"
+msgstr "Gauche"
 
 msgid "Left bracket"
 msgstr "Parenthèse ouvrante"
@@ -964,11 +964,11 @@ msgstr "Pas d'aperçu disponible"
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "None"
-msgstr "Aucun"
-
 msgid "none"
 msgstr "aucun"
+
+msgid "None"
+msgstr "Aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -1088,9 +1088,6 @@ msgstr "Veuillez sélectionner un fichier média depuis le gestionnaire de resso
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Veuillez sélectionner un stimulus partagé depuis le gestionnaire de ressources."
 
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Veuillez sélectionner un fichier image depuis le gestionnaire de ressources. Vous pouvez ajouter des fichiers depuis votre ordinateur avec le bouton \"Ajouter fichier(s)\"."
-
 msgid "Please select the correct hotspot choices below."
 msgstr "Veuillez sélectionner les choix corrects de hotspot ci-dessous."
 
@@ -1202,11 +1199,11 @@ msgstr "La méthode d'inscription attend des paramètres $key et $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "La méthode d'inscription attend des paramètres $key et $name ."
 
-msgid "Remove"
-msgstr "Supprimer"
-
 msgid "remove"
 msgstr "supprimer"
+
+msgid "Remove"
+msgstr "Supprimer"
 
 msgid "Remove custom background color"
 msgstr "Supprimer une couleur de fond personnalisée"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-24T08:36:24\n"
+"Project-Id-Version: TAO 3.4.0-sprint132\n"
+"PO-Revision-Date: 2020-07-03T09:30:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -119,6 +119,9 @@ msgstr "Įvyko klaida IMS QTI modelio lygmenyje."
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
 
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Įvyko netikėta klaida atliekant Atsakymo Apdorojimą."
 
@@ -187,11 +190,11 @@ msgstr "Naršyti..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
+
+msgid "Cancel"
+msgstr "Atšaukti"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Nepavyko sukurti tarpo iš šio pasirinkimo. Prašome patikrinti, ar jūs neturite dalinai pasirinktų elementų."
@@ -346,11 +349,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr "Ištrinti"
-
 msgid "delete"
 msgstr "ištrinti"
+
+msgid "Delete"
+msgstr "Ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -749,20 +752,20 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "palikti tuščią"
 
-msgid "Left"
-msgstr "Kairė"
-
 msgid "left"
 msgstr "kairė"
+
+msgid "Left"
+msgstr "Kairė"
 
 msgid "Left bracket"
 msgstr "Kairys skliaustas"
@@ -802,11 +805,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Klaidingas XML[%s]:\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Tvarkyti klausimus"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Tvarkyti klausimus"
 
 msgid "map response"
@@ -887,6 +890,9 @@ msgstr "Meta duomenų eksportavimui reikalinga core_kernel_classes_Resource inst
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
 msgstr "Meta duomenų eksportavimui reikalinga DomManifest instancija, kad įterpti meta duomenis"
 
+msgid "Metadata service successfully registered."
+msgstr ""
+
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
@@ -909,6 +915,9 @@ msgid "Modal feedback is shown to the candidate directly following response proc
 msgstr "Modalinis atsiliepimas yra rodomas kandidatui tiesiogiai sekant atsakymo apdorojimą."
 
 msgid "Modal Feedback Prop."
+msgstr ""
+
+msgid "modal feedback title"
 msgstr ""
 
 msgid "Modal Feedbacks"
@@ -1076,9 +1085,6 @@ msgstr "Prašome pasirinkti medijos failą iš resursų tvarkytojo. Jūs galite 
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Prašome pasirinkti bendrinamo stimulo failą iš resursų tvarkytojo."
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Prašome pasirinkti paveiksliuko failą iš resursų tvarkytojo. Jūs galite pridėti failus iš jūsų kompiuterio su mygtuku „Pridėti failą(-us)“."
 
 msgid "Please select the correct hotspot choices below."
 msgstr "Prašome pasirinkti teisingus karšto taško pasirinkimus apačioje."
@@ -1691,11 +1697,11 @@ msgstr "Nepavyko gauti elemento : "
 msgid "Unable to validate %s: %s"
 msgstr "Nepavyko patvirtinti %s: %s"
 
-msgid "undo"
-msgstr "anuliuoti"
-
 msgid "Undo"
 msgstr "Anuliuoti"
+
+msgid "undo"
+msgstr "anuliuoti"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Nežinomas $key registruoti MetadataService instanciją"

@@ -377,11 +377,16 @@ abstract class Container extends Element implements IdentifiedElementContainer
             'elements' => $this->getArraySerializedElementCollection($this->getElements(), $filterVariableContent, $filtered),
         ];
         
-        if (DEBUG_MODE) {
+        if ($this->isDebugMode()) {
             //in debug mode, add debug data, such as the related item
             $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
         
         return $data;
+    }
+
+    private function isDebugMode(): bool
+    {
+        return defined('DEBUG_MODE') ? DEBUG_MODE : false;
     }
 }

@@ -80,7 +80,6 @@ return [
     ],
     'local' => [
         'php'   => [
-            __DIR__ . '/install/local/addQTIExamples.php'
         ]
     ],
     'update' => Updater::class,
