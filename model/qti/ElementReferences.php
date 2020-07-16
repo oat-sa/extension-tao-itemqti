@@ -24,10 +24,6 @@ namespace oat\taoQtiItem\model\qti;
 
 class ElementReferences
 {
-    private const INCLUDE_ELEMENT_REFERENCES_KEY = 'includeElementReferences';
-    private const OBJECT_ELEMENT_REFERENCES_KEY = 'objectElementReferences';
-    private const IMG_ELEMENT_REFERENCES_KEY = 'imgElementReferences';
-
     /** @var string[] */
     private $xIncludeReferences;
 
@@ -57,14 +53,5 @@ class ElementReferences
     public function getImgReferences(): array
     {
         return $this->imgReferences;
-    }
-
-    public function extractReferences(): array
-    {
-        return [
-            self::INCLUDE_ELEMENT_REFERENCES_KEY => $this->getXIncludeReferences(),
-            self::OBJECT_ELEMENT_REFERENCES_KEY => $this->getObjectReferences(),
-            self::IMG_ELEMENT_REFERENCES_KEY => $this->getImgReferences(),
-        ];
     }
 }
