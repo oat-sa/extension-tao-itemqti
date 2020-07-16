@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  */
 
 declare(strict_types=1);
@@ -26,24 +27,17 @@ use core_kernel_classes_Resource;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoItems\model\event\ItemUpdatedEvent;
-use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
-use oat\taoQtiItem\model\qti\QtiObject;
-use oat\taoQtiItem\model\qti\XInclude;
 
 class UpdatedItemEventDispatcher extends ConfigurableService
 {
-    private const INCLUDE_ELEMENT_REFERENCES_KEY = 'includeElementReferences';
-    private const OBJECT_ELEMENT_REFERENCES_KEY = 'objectElementReferences';
-    private const IMG_ELEMENT_REFERENCES_KEY = 'imgElementReferences';
-
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
-        $data = $this->extractReferences($qtiItem);
+        $elementReferences = $this->getElementReferencesExtractor()->extractAll($qtiItem);
 
         $this->getEventManager()
-            ->trigger(new ItemUpdatedEvent($rdfItem->getUri(), $data));
+            ->trigger(new ItemUpdatedEvent($rdfItem->getUri(), $elementReferences->extractReferences()));
     }
 
     private function getEventManager(): EventManager
@@ -56,14 +50,4 @@ class UpdatedItemEventDispatcher extends ConfigurableService
         return $this->getServiceLocator()->get(ElementReferencesExtractor::class);
     }
 
-    public function extractReferences(Item $qtiItem): array
-    {
-        $extractor = $this->getElementReferencesExtractor();
-
-        return [
-            self::INCLUDE_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
-            self::OBJECT_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
-            self::IMG_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
-        ];
-    }
 }
