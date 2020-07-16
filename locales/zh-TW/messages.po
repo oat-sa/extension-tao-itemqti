@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-24T08:42:12\n"
+"Project-Id-Version: TAO 3.4.0-sprint132\n"
+"PO-Revision-Date: 2020-07-03T09:30:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -119,6 +119,9 @@ msgstr ""
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
 
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "在處理回應時發生了錯誤。 "
 
@@ -186,10 +189,10 @@ msgstr "瀏覽..."
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -345,11 +348,11 @@ msgstr "限定的闊度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "刪除"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "刪除 else 語句"
@@ -748,19 +751,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "LaTeX"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -800,11 +803,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "管理題目"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "管理題目"
 
 msgid "map response"
@@ -885,6 +888,9 @@ msgstr ""
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
 msgstr ""
 
+msgid "Metadata service successfully registered."
+msgstr ""
+
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
@@ -908,6 +914,9 @@ msgstr "回應處理後，模態反饋將會顯示給考生看。"
 
 msgid "Modal Feedback Prop."
 msgstr "模態反饋道具。"
+
+msgid "modal feedback title"
+msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "模態反饋"
@@ -1073,9 +1082,6 @@ msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "請從資源管理器選一個共用的刺激物檔案."
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "請從資源管理器中選擇一個圖像文檔。你可以在你的電腦有按鈕\"加入檔案\"中加入新的檔案。"
 
 msgid "Please select the correct hotspot choices below."
 msgstr "請選擇以下正確的熱點選項。"
@@ -1687,10 +1693,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "復原"
 
-msgid "Undo"
+msgid "undo"
 msgstr "復原"
 
 msgid "Unknown $key to register MetadataService instance"

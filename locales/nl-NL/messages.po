@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint130\n"
-"PO-Revision-Date: 2020-06-15T16:08:20\n"
+"Project-Id-Version: TAO 3.4.0-sprint132\n"
+"PO-Revision-Date: 2020-07-03T09:30:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -753,20 +753,20 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "Left"
-msgstr "Links"
-
 msgid "left"
 msgstr "links"
+
+msgid "Left"
+msgstr "Links"
 
 msgid "Left bracket"
 msgstr "Linker haakje"
@@ -964,11 +964,11 @@ msgstr "Geen preview beschikbaar"
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "None"
-msgstr "Geen"
-
 msgid "none"
 msgstr "geen"
+
+msgid "None"
+msgstr "Geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1088,9 +1088,6 @@ msgstr "Selecteer een mediabestand uit de resource manager. U kunt bestanden toe
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Selecteer a.u.b. een gedeelde stimulus vanuit bronbeheer."
 
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Selecteer a.u.b. een afbeelding vanuit bronbeheer. U kunt bestanden toevoegen vanaf uw computer door middel van de knop \"Voeg bestand(en) toe\"."
-
 msgid "Please select the correct hotspot choices below."
 msgstr "Selecteer hieronder a.u.b. de correcte hotspot keuzes."
 
@@ -1202,11 +1199,11 @@ msgstr "Registreer methode verwacht $key en $name parameters"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registratie methode verwacht $key en $name parameters."
 
-msgid "Remove"
-msgstr "Verwijder"
-
 msgid "remove"
 msgstr "verwijder"
+
+msgid "Remove"
+msgstr "Verwijder"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
