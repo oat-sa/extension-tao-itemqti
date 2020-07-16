@@ -47,5 +47,13 @@ class ElementReferencesTest extends TestCase
         $this->assertSame($this->subject->getXIncludeReferences(), [self::MEDIA_LINK_1]);
         $this->assertSame($this->subject->getObjectReferences(), [self::MEDIA_LINK_2]);
         $this->assertSame($this->subject->getImgReferences(), [self::MEDIA_LINK_3]);
+        $this->assertSame(
+            $this->subject->getAllReferences(),
+            [
+                self::MEDIA_LINK_1,
+                self::MEDIA_LINK_2,
+                self::MEDIA_LINK_3,
+            ]
+        );
     }
 }

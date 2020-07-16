@@ -54,4 +54,13 @@ class ElementReferences
     {
         return $this->imgReferences;
     }
+
+    public function getAllReferences(): array
+    {
+        return array_merge(
+            $this->xIncludeReferences,
+            $this->objectReferences,
+            $this->imgReferences
+        );
+    }
 }
