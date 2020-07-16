@@ -40,7 +40,13 @@ class UpdatedItemEventDispatcher extends ConfigurableService
 
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
-        $data = $this->extractReferences($qtiItem);
+        $extractor = $this->getElementReferencesExtractor();
+
+        $data = [
+            self::INCLUDE_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
+            self::OBJECT_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
+            self::IMG_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
+        ];
 
         $this->getEventManager()
             ->trigger(new ItemUpdatedEvent($rdfItem->getUri(), $data));
@@ -54,16 +60,5 @@ class UpdatedItemEventDispatcher extends ConfigurableService
     private function getElementReferencesExtractor(): ElementReferencesExtractor
     {
         return $this->getServiceLocator()->get(ElementReferencesExtractor::class);
-    }
-
-    public function extractReferences(Item $qtiItem): array
-    {
-        $extractor = $this->getElementReferencesExtractor();
-
-        return [
-            self::INCLUDE_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
-            self::OBJECT_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
-            self::IMG_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
-        ];
     }
 }
