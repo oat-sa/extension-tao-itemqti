@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\pack;
 use oat\oatbox\filesystem\Directory;
 use oat\taoItems\model\pack\ItemPack;
 use oat\taoItems\model\pack\ItemPacker;
+use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Parser as QtiParser;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -34,6 +35,7 @@ use \common_Exception;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Service;
+use Throwable;
 
 /**
  * This class pack a QTI Item. Packing instead of compiling, aims
@@ -128,11 +130,39 @@ class QtiItemPacker extends ItemPacker
     }
 
     /**
+     * @param $item
+     * @param $qtiItem
+     * @param Directory $directory
+     * @param PackedAsset[] $packedAssets
+     * @return ItemPack
+     * @throws common_Exception
+     */
+    public function createQtiItemPackWithAssets($item, $qtiItem, array $packedAssets): ItemPack
+    {
+        try {
+            $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
+            $itemPack->setAssetEncoders($this->getAssetEncoders());
+
+            /** @var PackedAsset $packedAsset */
+            foreach ($packedAssets as $packedAsset) {
+                if ($packedAsset->getType() != 'xinclude') {
+                    $itemPack->setAsset($packedAsset->getType(), $packedAsset->getMediaAsset());
+                }
+            }
+
+        } catch (Throwable $e) {
+            throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
+        }
+
+        return $itemPack;
+    }
+
+    /**
      * @param string[] $assets
      * @param ItemMediaResolver $resolver
      * @return string[]
      */
-    protected function resolveAsset($assets, ItemMediaResolver $resolver)
+    private function resolveAsset($assets, ItemMediaResolver $resolver)
     {
         foreach ($assets as &$asset) {
             $asset = $resolver->resolve($asset);

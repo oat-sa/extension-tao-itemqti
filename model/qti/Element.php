@@ -11,10 +11,10 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\attribute\Generic;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
-use \common_Logger;
-use \taoItems_models_classes_TemplateRenderer;
-use \ReflectionClass;
-use \stdClass;
+use common_Logger;
+use taoItems_models_classes_TemplateRenderer;
+use ReflectionClass;
+use stdClass;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -32,7 +32,6 @@ use \stdClass;
  */
 abstract class Element implements Exportable
 {
-
     protected $serial = '';
     protected $relatedItem = null;
     private static $instances = [];
@@ -469,7 +468,7 @@ abstract class Element implements Exportable
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
 
-        if (DEBUG_MODE) {
+        if ($this->isDebug()) {
             //in debug mode, add debug data, such as the related item
             $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
@@ -683,7 +682,7 @@ abstract class Element implements Exportable
     protected function buildSerial()
     {
 
-        if (DEBUG_MODE) {
+        if ($this->isDebug()) {
             //in debug mode, use more meaningful serials
             $clazz = strtolower(get_class($this));
             $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21) . '_';
@@ -699,7 +698,6 @@ abstract class Element implements Exportable
 
     protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = [])
     {
-
         if (empty($elements)) {
             $data = new stdClass();
         } else {
@@ -727,5 +725,16 @@ abstract class Element implements Exportable
             }
         }
         return $data;
+    }
+
+    /**
+     * @deprecated we should not use global constant to debug classes
+     */
+    private function isDebug(): bool
+    {
+        if (defined('DEBUG_MODE')) {
+            return DEBUG_MODE;
+        }
+        return false;
     }
 }
