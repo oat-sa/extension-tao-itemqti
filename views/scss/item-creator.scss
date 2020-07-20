@@ -789,6 +789,7 @@ img.dragging.ui-draggable-dragging {
         .widget-box {
             &.edit-sleep {
                 position: relative;
+                width: 100% !important;
                 &::after {
                     content: '';
                     display:block;
