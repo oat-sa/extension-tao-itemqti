@@ -22,6 +22,13 @@ define([
                     });
                 }
 
+                if (processingType === 'custom') {
+                    // change all response template "custom"
+                    _.each(this.getRootElement().getResponses(), function(r){
+                        r.setTemplate('CUSTOM');
+                    });
+                }
+
                 this.processingType = processingType;
             }
 
