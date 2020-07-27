@@ -46,9 +46,4 @@ class ModalFeedback extends Feedback
             [TitleOptional::class]
         );
     }
-    
-    public function toForm()
-    {
-        return (new self($this))->getForm();
-    }
 }
