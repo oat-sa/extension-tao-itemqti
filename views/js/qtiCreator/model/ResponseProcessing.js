@@ -1,8 +1,9 @@
 define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
-    'taoQtiItem/qtiItem/core/ResponseProcessing'
-], function(_, editable, ResponseProcessing){
+    'taoQtiItem/qtiItem/core/ResponseProcessing',
+    'taoQtiItem/qtiCreator/helper/xmlRenderer'
+], function(_, editable, ResponseProcessing, xmlRenderer){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -17,14 +18,17 @@ define([
                 if(this.processingType === 'custom'){
 
                     //change all response template to default : "correct"
-                    _.each(this.getRootElement().getResponses(), function(r){
+                    _.forEach(this.getRootElement().getResponses(), function(r){
                          r.setTemplate('MATCH_CORRECT');
                     });
                 }
 
                 if (processingType === 'custom') {
+                    // set current response processing as default
+                    this.xml = xmlRenderer.render(this.getRootElement().responseProcessing, { notAllowTemplate: true });
+
                     // change all response template "custom"
-                    _.each(this.getRootElement().getResponses(), function(r){
+                    _.forEach(this.getRootElement().getResponses(), function(r){
                         r.setTemplate('CUSTOM');
                     });
                 }

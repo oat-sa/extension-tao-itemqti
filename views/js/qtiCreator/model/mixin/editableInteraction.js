@@ -65,7 +65,8 @@ define([
                 renderer,
                 outcomeScore;
             var response = new ResponseDeclaration();
-            const processingType = this.rootElement.responseProcessing.processingType
+            const responseProcessing = this.rootElement.responseProcessing;
+            const processingType = responseProcessing && responseProcessing.processingType;
 
             if(attrs){
                 response.attr(attrs);
