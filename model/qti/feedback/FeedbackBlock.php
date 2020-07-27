@@ -1,6 +1,5 @@
 <?php
-
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,14 +15,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
 
 namespace oat\taoQtiItem\model\qti\feedback;
-
-use oat\taoQtiItem\model\qti\feedback\FeedbackBlock;
-use oat\taoQtiItem\model\qti\feedback\Feedback;
 
 /**
  * The QTI_FeedbackBlock
@@ -32,11 +26,9 @@ use oat\taoQtiItem\model\qti\feedback\Feedback;
  * @author Sam Sipasseuth, <sam.sipasseuth@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10250
-
  */
 class FeedbackBlock extends Feedback
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
