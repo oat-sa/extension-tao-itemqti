@@ -96,10 +96,7 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
         $collection = $relatedItem->getIdentifiedElements();
 
         try {
-            $feedback = $collection->getUnique($newIdentifier, self::class);
-            if (is_null($feedback)) {
-                return true;
-            }
+            return null === $collection->getUnique($newIdentifier, self::class);
         } catch (QtiModelException $e) {
         }
 
