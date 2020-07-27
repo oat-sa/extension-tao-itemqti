@@ -1,6 +1,5 @@
 <?php
-
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,19 +15,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
 
 namespace oat\taoQtiItem\model\qti\feedback;
 
-use oat\taoQtiItem\model\qti\feedback\Feedback;
+use InvalidArgumentException;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\container\ContainerStatic;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\ContentVariable;
+use oat\taoQtiItem\model\qti\attribute\OutcomeIdentifier;
+use oat\taoQtiItem\model\qti\attribute\ShowHideTemplateElement;
 
 /**
  * The QTI_Feedback object represent one of the three available feedbackElements
@@ -38,13 +37,20 @@ use oat\taoQtiItem\model\qti\ContentVariable;
  * @author Sam Sipasseuth, <sam.sipasseuth@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10243
-
  */
 abstract class Feedback extends IdentifiedElement implements FlowContainer, ContentVariable
 {
+    protected $body;
 
-    protected $body = null;
-
+    /**
+     * Feedback constructor.
+     *
+     * @param array     $attributes
+     * @param Item|null $relatedItem
+     * @param string    $serial
+     *
+     * @throws QtiModelException
+     */
     public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
     {
         parent::__construct($attributes, $relatedItem, $serial);
@@ -59,8 +65,8 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
     protected function getUsedAttributes()
     {
         return [
-            'oat\\taoQtiItem\\model\\qti\\attribute\\OutcomeIdentifier',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\ShowHideTemplateElement'
+            OutcomeIdentifier::class,
+            ShowHideTemplateElement::class
         ];
     }
 
@@ -68,44 +74,37 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
      * Check if the given new identifier is valid in the current state of the qti element
      *
      * @param string $newIdentifier
-     * @return booean
+     * @return bool
      * @throws InvalidArgumentException
      */
     public function isIdentifierAvailable($newIdentifier)
     {
-
-        $returnValue = false;
-
         if (empty($newIdentifier) || is_null($newIdentifier)) {
             throw new InvalidArgumentException("newIdentifier must be set");
         }
 
-        if (!empty($this->identifier) && $newIdentifier == $this->identifier) {
-            $returnValue = true;
-        } else {
-            $relatedItem = $this->getRelatedItem();
-            if (is_null($relatedItem)) {
-                $returnValue = true; //no restriction on identifier since not attached to any qti item
-            } else {
-                $collection = $relatedItem->getIdentifiedElements();
-
-                try {
-                    $feedback = $collection->getUnique($newIdentifier, 'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback');
-                    if (is_null($feedback)) {
-                        $returnValue = true;
-                    }
-                } catch (QtiModelException $e) {
-                    //return false
-                }
-            }
+        if (!empty($this->identifier) && $newIdentifier === $this->identifier) {
+            return true;
         }
 
-        return $returnValue;
+        $relatedItem = $this->getRelatedItem();
+
+        if (is_null($relatedItem)) {
+            return true; // no restriction on identifier since not attached to any qti item
+        }
+
+        $collection = $relatedItem->getIdentifiedElements();
+
+        try {
+            return null === $collection->getUnique($newIdentifier, self::class);
+        } catch (QtiModelException $e) {
+        }
+
+        return false;
     }
 
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
-
         $data = parent::toArray($filterVariableContent, $filtered);
 
         if ($filterVariableContent) {
