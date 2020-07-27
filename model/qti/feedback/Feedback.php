@@ -79,33 +79,31 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
      */
     public function isIdentifierAvailable($newIdentifier)
     {
-        $returnValue = false;
-
         if (empty($newIdentifier) || is_null($newIdentifier)) {
             throw new InvalidArgumentException("newIdentifier must be set");
         }
 
         if (!empty($this->identifier) && $newIdentifier === $this->identifier) {
-            $returnValue = true;
-        } else {
-            $relatedItem = $this->getRelatedItem();
-            if (is_null($relatedItem)) {
-                $returnValue = true; //no restriction on identifier since not attached to any qti item
-            } else {
-                $collection = $relatedItem->getIdentifiedElements();
-
-                try {
-                    $feedback = $collection->getUnique($newIdentifier, self::class);
-                    if (is_null($feedback)) {
-                        $returnValue = true;
-                    }
-                } catch (QtiModelException $e) {
-                    //return false
-                }
-            }
+            return true;
         }
 
-        return $returnValue;
+        $relatedItem = $this->getRelatedItem();
+
+        if (is_null($relatedItem)) {
+            return true; // no restriction on identifier since not attached to any qti item
+        }
+
+        $collection = $relatedItem->getIdentifiedElements();
+
+        try {
+            $feedback = $collection->getUnique($newIdentifier, self::class);
+            if (is_null($feedback)) {
+                return true;
+            }
+        } catch (QtiModelException $e) {
+        }
+
+        return false;
     }
 
     public function toArray($filterVariableContent = false, &$filtered = [])
