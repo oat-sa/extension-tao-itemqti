@@ -23,6 +23,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\tao\helpers\Base64;
 use core_kernel_classes_Property;
 use DOMDocument;
 use League\Flysystem\FileNotFoundException;
@@ -129,7 +130,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
 
-                if (!$mediaSource instanceof HttpSource) {
+                if (!$mediaSource instanceof HttpSource && !Base64::isEncodedImage($mediaSource)) {
                     $link = $mediaAsset->getMediaIdentifier();
 
                     if ($mediaSource instanceof ProcessedFileStreamAware) {
