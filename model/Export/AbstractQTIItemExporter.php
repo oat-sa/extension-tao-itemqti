@@ -129,9 +129,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             try {
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
+                $mediaIdentifier = $mediaAsset->getMediaIdentifier();
 
-                if (!$mediaSource instanceof HttpSource && !Base64::isEncodedImage($mediaSource)) {
-                    $link = $mediaAsset->getMediaIdentifier();
+                if (!$mediaSource instanceof HttpSource && !Base64::isEncodedImage($mediaIdentifier)) {
+                    $link = $mediaIdentifier;
 
                     if ($mediaSource instanceof ProcessedFileStreamAware) {
                         $stream = $mediaSource->getProcessedFileStream($link);
