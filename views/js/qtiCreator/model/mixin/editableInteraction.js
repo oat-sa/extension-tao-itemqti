@@ -61,11 +61,13 @@ define([
         },
 
         createResponse : function createResponse(attrs, template){
-
             var item,
                 renderer,
                 outcomeScore;
             var response = new ResponseDeclaration();
+            const responseProcessing = this.rootElement.responseProcessing;
+            const processingType = responseProcessing && responseProcessing.processingType;
+
             if(attrs){
                 response.attr(attrs);
             }
@@ -76,7 +78,11 @@ define([
 
             //assign responseIdentifier only after attaching it to the item to generate a unique id
             response.buildIdentifier('RESPONSE', false);
-            response.setTemplate(template || 'MATCH_CORRECT');
+            response.setTemplate(
+                processingType === 'custom'
+                    ? 'CUSTOM'
+                    : template || 'MATCH_CORRECT'
+            );
             this.attr('responseIdentifier', response.id());
 
             //adding a response processing template require the outcome SCORE:
