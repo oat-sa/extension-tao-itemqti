@@ -29,7 +29,16 @@ define([
         shuffleChoices : false
     }).load();
 
-    var _render = function(element){
+    /**
+     * Render elment to XML
+     *
+     * @param {Object} element
+     * @param {Object} options
+     * @param {string} options.notAllowTemplate - not allow to render as response processing template
+     *
+     * @returns {String} rendered XML
+     */
+    var _render = function(element, options){
         var xml = '';
         try{
             if(element instanceof Element) {
@@ -37,7 +46,7 @@ define([
                     maxScore.setNormalMaximum(element);
                     maxScore.setMaxScore(element);
                 }
-                xml = element.render(_xmlRenderer);
+                xml = element.render(_xmlRenderer, options);
             }
         }catch(e){
             logger.error(e);

@@ -13,8 +13,8 @@ define([
     _.extend(methods, editable);
     _.extend(methods, {
         setTemplate : function(template){
-            var templateUri = responseHelper.getTemplateUriFromName(template);
-            if(templateUri && this.template !== templateUri){
+            var templateUri = responseHelper.getTemplateUriFromName(template) || null;
+            if(this.template !== templateUri){
                 this.template = templateUri;
                 $(document).trigger('responseTemplateChange.qti-widget', {'element' : this, 'value' : template});
             }

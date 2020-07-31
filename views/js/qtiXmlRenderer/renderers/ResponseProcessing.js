@@ -70,7 +70,7 @@ define([
                     break;
                 case 'templateDriven':
                     interactions = responseProcessing.getRootElement().getInteractions();
-                    if(interactions.length === 1){
+                    if(interactions.length === 1 && !data.notAllowTemplate){
                         response = interactions[0].getResponseDeclaration();
                         if(_.size(response.getFeedbackRules()) === 0 && response.id() === 'RESPONSE'){
                             if(response.template !== 'no_response_processing'){
