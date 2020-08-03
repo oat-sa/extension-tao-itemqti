@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:21\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T19:10:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -171,10 +171,10 @@ msgstr "Hintergrundfarbe"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "Block"
 
-msgid "block"
+msgid "Block"
 msgstr "Block"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -231,11 +231,11 @@ msgstr "Auswahl Interaktion"
 msgid "Choice Properties"
 msgstr "Auswahleigenschaften"
 
-msgid "Choices"
-msgstr "Auswahl"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Auswahl"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,10 +276,10 @@ msgstr "Einschränkungen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Kontrolliert die Wiedergabe-Parameter (Auto-Start, Schleife) eines Videos oder einer Audio-Datei und berichtet über die Anzahl der Wiedergaben."
 
-msgid "correct"
+msgid "Correct"
 msgstr "Richtig"
 
-msgid "Correct"
+msgid "correct"
 msgstr "Richtig"
 
 msgid "Cosinus"
@@ -381,6 +381,9 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
+msgid "Don\\'t save"
+msgstr ""
+
 msgid "Done"
 msgstr ""
 
@@ -417,8 +420,11 @@ msgstr ""
 msgid "edit choices"
 msgstr "Antworten bearbeiten"
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
+msgstr ""
+
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr "Mathematische Ausdrücke mit LaTex Typanweisungen bearbeiten, z.B. e^{i \\pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "Mathematische Ausdrücke mit MathML bearbeiten"
@@ -480,6 +486,9 @@ msgstr ""
 msgid "Euler\'s constant"
 msgstr ""
 
+msgid "Euler\\'s constant"
+msgstr ""
+
 msgid "Exponent"
 msgstr ""
 
@@ -509,6 +518,12 @@ msgstr "Erweiterter Text"
 
 msgid "Extended Text Interaction"
 msgstr "erweiterte Textinteraktion"
+
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
 
 msgid "Fail to export item"
 msgstr ""
@@ -608,6 +623,9 @@ msgstr "Wie die mathematischen Ausdrücke dargestellt werden sollen."
 
 msgid "How the math expression should be edited"
 msgstr "Wie die mathematischen Ausdrücke bearbeitet werden sollen"
+
+msgid "Human"
+msgstr ""
 
 msgid "identical pair already exists"
 msgstr "Identische Paare existieren bereits"
@@ -720,10 +738,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Elementeigenschaften"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Elementeigenschaften"
 
 msgid "Item width"
@@ -745,20 +763,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "frei lassen"
 
-msgid "Left"
-msgstr "Links"
-
 msgid "left"
 msgstr "links"
+
+msgid "Left"
+msgstr "Links"
 
 msgid "Left bracket"
 msgstr ""
@@ -794,11 +812,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Elemente verwalten"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Elemente verwalten"
 
 msgid "map response"
@@ -1300,8 +1318,14 @@ msgstr "Wählen Sie zuerst ein Bild aus"
 msgid "Select an image first."
 msgstr "Wählen Sie zuerst ein Bild aus"
 
+msgid "Select another area to complete the association"
+msgstr "Wählen Sein einen anderen Bereich um die Verbindung zu herzustellen"
+
 msgid "select correct choice"
 msgstr "Korrekte Antwort auswählen"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "Bild auswählen"
@@ -1480,9 +1504,6 @@ msgstr "Das IMS QTI Element konnte nicht importiert werden."
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
 msgstr ""
 
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
-
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
 msgstr ""
 
@@ -1656,6 +1677,9 @@ msgstr ""
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Dieses Stylesheet wurde auf dem Server nicht gefunden. Diese Referenz sollte gelöscht werden."
 
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "Zeitabhängig"
 
@@ -1692,10 +1716,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "Rückgängig"
 
-msgid "Undo"
+msgid "undo"
 msgstr "Rückgängig"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1742,6 +1766,9 @@ msgstr "Worte"
 
 msgid "Would you like to replace the alt text"
 msgstr "Möchten Sie den Alternativ-Text ersetzen?"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""
