@@ -73,7 +73,7 @@ define([
 
             //TODO move module config away from controllers
             const config = module.config();
-
+            config.properties.allowCustomTemplate = config.plugins.some(({ name }) => name === 'xmlResponseProcessing');
             const logger = loggerFactory('controller/creator');
 
             /**
