@@ -74,11 +74,6 @@ define([
         var rp = interaction.getRootElement().responseProcessing;
         var allTemplates = getAvailableTemplates();
         var templates = {};
-        var listOfBaseTypes = {
-            STRING: 'string',
-            INTEGER: 'integer',
-            FLOAT: 'float'
-        }
         if(!_.isEmpty(filteredTemplates)){
             _.forEach(filteredTemplates, function(templateName){
                 if(allTemplates[templateName]){
@@ -115,6 +110,14 @@ define([
         }
 
         return templates;
+    };
+
+    var _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes() {
+        return {
+            STRING: 'string',
+            INTEGER: 'integer',
+            FLOAT: 'float'
+        }
     };
 
     var answerStateHelper = {
@@ -224,9 +227,10 @@ define([
                 defineCorrect : defineCorrect,
                 editMapping : editMapping,
                 editFeedbacks : (template !== 'CUSTOM'),
-                mappingDisabled: _.isEmpty(response.mapEntries),
+                mappingDisabled : _.isEmpty(response.mapEntries),
                 template : template,
                 templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
+                listOfBaseTypes : _getAvailableListOfBaseTypes(),
                 defaultValue : response.getMappingAttribute('defaultValue')
             }));
             widget.$responseForm.find('select[name=template]').val(template);
