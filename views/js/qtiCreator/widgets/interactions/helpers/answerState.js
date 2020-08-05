@@ -74,6 +74,11 @@ define([
         var rp = interaction.getRootElement().responseProcessing;
         var allTemplates = getAvailableTemplates();
         var templates = {};
+        var listOfBaseTypes = {
+            STRING: 'string',
+            INTEGER: 'integer',
+            FLOAT: 'float'
+        }
         if(!_.isEmpty(filteredTemplates)){
             _.forEach(filteredTemplates, function(templateName){
                 if(allTemplates[templateName]){

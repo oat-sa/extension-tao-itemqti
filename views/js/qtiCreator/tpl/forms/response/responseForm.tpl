@@ -22,6 +22,18 @@
     </select>
 </div>
 
+<div class="panel">
+    <label for="" class="has-icon">{{__ "Response baseType"}}</label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <div class="tooltip-content">{{__ "Select the way the response of your interaction should be processed"}}</div>
+
+    <select name="template" class="select2" data-has-search="false">
+        {{#each listOfBaseTypes}}
+        <option value="{{@key}}">{{.}}</option>
+        {{/each}}
+    </select>
+
+
 {{#if editMapping}}
 <hr/>
 
