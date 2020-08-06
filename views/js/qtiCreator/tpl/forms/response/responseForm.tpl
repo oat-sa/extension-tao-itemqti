@@ -23,7 +23,7 @@
 </div>
 
 <div class="panel">
-    <label for="" class="has-icon">{{__ "Response baseType"}}</label>
+    <label for="" class="has-icon">{{__ "Response base type"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "Select the expected input value type that will define the way the response of your interaction will be processed."}}</div>
 
