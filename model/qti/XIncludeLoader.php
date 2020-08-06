@@ -110,30 +110,31 @@ class XIncludeLoader
         if ($loadSuccess && !is_null($node)) {
             $parser = new ParserFactory($xml);
             $xincludesNodes = $parser->queryXPath(".//*[name(.)='include']");
-            foreach ($xincludesNodes as $xincludeNode) {
-                $href = $xincludeNode->getAttribute('href');
-                $asset = $this->resolver->resolve($href);
-                $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
-                if (file_exists($filePath)) {
-                    $fileContent = file_get_contents($filePath);
-                    $xmlInclude = new DOMDocument();
-                    $xmlInclude->formatOutput = true;
-                    $xmlInclude->loadXML($fileContent);
-                    foreach ($xmlInclude->documentElement->childNodes as $node) {
-                        $importNode = $xml->importNode($node, true);
-                        $xincludeNode->parentNode->insertBefore($importNode, $xincludeNode);
+            if ($xincludesNodes->count()) {
+                foreach ($xincludesNodes as $xincludeNode) {
+                    $href = $xincludeNode->getAttribute('href');
+                    $asset = $this->resolver->resolve($href);
+                    $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
+                    if (file_exists($filePath)) {
+                        $fileContent = file_get_contents($filePath);
+                        $xmlInclude = new DOMDocument();
+                        $xmlInclude->formatOutput = true;
+                        $xmlInclude->loadXML($fileContent);
+                        foreach ($xmlInclude->documentElement->childNodes as $node) {
+                            $importNode = $xml->importNode($node, true);
+                            $xincludeNode->parentNode->insertBefore($importNode, $xincludeNode);
+                        }
+                    } else {
+                        throw new XIncludeException('The file referenced by href does not exist : ' . $href, $xincludeNode);
                     }
-                } else {
-                    throw new XIncludeException('The file referenced by href does not exist : ' . $href, $xincludeNode);
+                    $xincludeNode->parentNode->removeChild($xincludeNode);
+                    $xincludes[] = $href;
                 }
-                $xincludeNode->parentNode->removeChild($xincludeNode);
-                $xincludes[] = $href;
+                $customElement->setMarkup($xml->saveXML(null, LIBXML_NOEMPTYTAG));
             }
         } else {
             throw new ParsingException('cannot parse pci markup');
         }
-
-        $customElement->setMarkup($xml->saveXML(null, LIBXML_NOEMPTYTAG));
         
         return $xincludes;
     }
