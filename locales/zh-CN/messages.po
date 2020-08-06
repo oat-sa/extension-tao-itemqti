@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:31\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T19:26:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -171,10 +171,10 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "区块"
 
-msgid "block"
+msgid "Block"
 msgstr "区块"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -231,11 +231,11 @@ msgstr "选择的互动"
 msgid "Choice Properties"
 msgstr "选择的属性"
 
-msgid "Choices"
-msgstr "选择"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "选择"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,10 +276,10 @@ msgstr "约束"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制视频和音频的播放文件(自动播放，循环)再报告已播放的次数。"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正确"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正确"
 
 msgid "Cosinus"
@@ -381,6 +381,9 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
+msgid "Don\\'t save"
+msgstr ""
+
 msgid "Done"
 msgstr ""
 
@@ -417,8 +420,11 @@ msgstr ""
 msgid "edit choices"
 msgstr "编辑选择"
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
+msgstr ""
+
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr "用LaTeX type setting系统来编辑数学表达式。 例如：e^{i \\ pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "用MathML来编辑数学表达式"
@@ -480,6 +486,9 @@ msgstr ""
 msgid "Euler\'s constant"
 msgstr ""
 
+msgid "Euler\\'s constant"
+msgstr ""
+
 msgid "Exponent"
 msgstr ""
 
@@ -509,6 +518,12 @@ msgstr "长文本"
 
 msgid "Extended Text Interaction"
 msgstr "长文本互动"
+
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
 
 msgid "Fail to export item"
 msgstr ""
@@ -608,6 +623,9 @@ msgstr "如何显示数学表达式"
 
 msgid "How the math expression should be edited"
 msgstr "如何编辑数学表达式"
+
+msgid "Human"
+msgstr ""
 
 msgid "identical pair already exists"
 msgstr "相同的对已经存在"
@@ -720,10 +738,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "题目属性"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "题目属性"
 
 msgid "Item width"
@@ -745,19 +763,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "LaTeX"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -794,11 +812,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "管理题目"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "管理题目"
 
 msgid "map response"
@@ -1299,8 +1317,14 @@ msgstr "先选择图片档案"
 msgid "Select an image first."
 msgstr "先选择图片档案。"
 
+msgid "Select another area to complete the association"
+msgstr "选择另一块区域来完成关联"
+
 msgid "select correct choice"
 msgstr "选择正确答案"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "选择图片"
@@ -1479,9 +1503,6 @@ msgstr "无法导入IMS QTI题目。"
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
 msgstr ""
 
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
-
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
 msgstr ""
 
@@ -1654,6 +1675,9 @@ msgstr ""
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "这个样式表没有在服务器上找到。 您可能需要删除这个参照。"
 
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "累计运行的时间"
 
@@ -1690,10 +1714,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "复原"
 
-msgid "Undo"
+msgid "undo"
 msgstr "复原"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1740,6 +1764,9 @@ msgstr "字词"
 
 msgid "Would you like to replace the alt text"
 msgstr "你想更换替代文字吗？"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""

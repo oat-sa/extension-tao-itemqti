@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:23\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T19:12:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-MX\n"
@@ -171,11 +171,11 @@ msgstr "Color de fondo"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
-msgstr "Bloque"
-
 msgid "block"
 msgstr "al menos"
+
+msgid "Block"
+msgstr "Bloque"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Bloque que contiene el contenido (estímulo) del elemento como texto o imagen. También se requiere para interacciones Inline."
@@ -189,11 +189,11 @@ msgstr "Busque en el equipo y seleccione el archivo apropiado."
 msgid "Browse..."
 msgstr "Buscar..."
 
-msgid "Cancel"
-msgstr "Cancelar"
-
 msgid "cancel"
 msgstr "cancelar"
+
+msgid "Cancel"
+msgstr "Cancelar"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -231,11 +231,11 @@ msgstr "Interacción de Elección"
 msgid "Choice Properties"
 msgstr "Interacción de Elección"
 
-msgid "Choices"
-msgstr "Elecciones"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Elecciones"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Modo de Procesamiento de respuesta personalizada"
 
-msgid "Default"
-msgstr "Predeterminado"
-
 msgid "default"
 msgstr "predeterminado"
+
+msgid "Default"
+msgstr "Predeterminado"
 
 msgid "Define correct response"
 msgstr "Definir respuesta correcta"
@@ -510,6 +510,12 @@ msgstr "Texto extendido"
 msgid "Extended Text Interaction"
 msgstr "Interacción de Texto Extendido"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr ""
 
@@ -608,6 +614,9 @@ msgstr "Cómo se debe mostrar la expresión matemática."
 
 msgid "How the math expression should be edited"
 msgstr "Cómo se debe editar la expresión matemática"
+
+msgid "Human"
+msgstr ""
 
 msgid "identical pair already exists"
 msgstr "ya existe par idéntico"
@@ -745,11 +754,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "dejar vacío"
@@ -794,12 +803,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
+msgid "Manage Items"
+msgstr "Gestionar Elementos"
+
 #, tao-public
 msgid "Manage items"
 msgstr "Gestionar elementos"
-
-msgid "Manage Items"
-msgstr "Gestionar Elementos"
 
 msgid "map response"
 msgstr ""
@@ -837,10 +846,10 @@ msgstr "Longitud máxima"
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Máx. de palabras"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Máx. de palabras"
 
 msgid "Max. number of matches"
@@ -946,11 +955,11 @@ msgstr ""
 msgid "No value set"
 msgstr "No hay valor asignado"
 
-msgid "None"
-msgstr "Ninguno"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Ninguno"
 
 msgid "None defined yet."
 msgstr "Aún no definido."
@@ -1302,6 +1311,9 @@ msgstr "Seleccione una imagen primero."
 
 msgid "select correct choice"
 msgstr "seleccione la opción correcta"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "Seleccionar imagen"
@@ -1655,6 +1667,9 @@ msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Esta hoja de estilo no se ha encontrado en el servidor. Es posible que desee eliminar esta referencia"
+
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
+msgstr ""
 
 msgid "Time dependent"
 msgstr "Dependiente del tiempo"
