@@ -27,7 +27,7 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "Select the expected input value type that will define the way the response of your interaction will be processed."}}</div>
 
-    <select name="template" class="select2" data-has-search="false">
+    <select name="listOfBaseType" class="select2" data-has-search="false">
         {{#each listOfBaseTypes}}
         <option value="{{@key}}">{{.}}</option>
         {{/each}}

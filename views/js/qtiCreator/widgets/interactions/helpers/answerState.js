@@ -199,6 +199,7 @@ define([
                 rp = item.responseProcessing,
                 response = interaction.getResponseDeclaration(),
                 template = responseHelper.getTemplateNameFromUri(response.template),
+                listOfBaseType = response.attributes.baseType,
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
                 defineCorrect = answerStateHelper.defineCorrect(response);
 
@@ -230,6 +231,7 @@ define([
                 mappingDisabled : _.isEmpty(response.mapEntries),
                 template : template,
                 templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
+                listOfBaseType : listOfBaseType,
                 listOfBaseTypes : _getAvailableListOfBaseTypes(),
                 defaultValue : response.getMappingAttribute('defaultValue')
             }));
@@ -266,6 +268,9 @@ define([
                     response.setTemplate(value);
                     answerStateHelper.forward(widget);
                     answerStateHelper.initResponseForm(widget);
+                },
+                listOfBaseTypes : function (res, value) {
+                    console.log(res, value)
                 },
                 defineCorrect : function(res, value){
 
