@@ -66,9 +66,10 @@ define([
      *
      * @param {Object} interaction - standard interaction object model
      * @param {Array} [filteredTemplates] - shorted listed of templates the interaction can use
+     * @param {Boolean} allowCustomTemplate - allow to select custom response processing
      * @returns {Object} templates
      */
-    var _getAvailableRpTemplates = function _getAvailableRpTemplates(interaction, filteredTemplates){
+    var _getAvailableRpTemplates = function _getAvailableRpTemplates(interaction, filteredTemplates, allowCustomTemplate){
 
         var rp = interaction.getRootElement().responseProcessing;
         var allTemplates = getAvailableTemplates();
@@ -102,7 +103,7 @@ define([
                 delete templates.MAP_RESPONSE_POINT;
         }
 
-        if(rp.processingType === 'templateDriven'){
+        if(rp.processingType === 'templateDriven' && !allowCustomTemplate){
             delete templates.CUSTOM;
         }else{
             //consider as custom
@@ -185,7 +186,7 @@ define([
          */
         initResponseForm : function initResponseForm(widget, options){
 
-            var interaction = widget.element,
+          var interaction = widget.element,
                 item = interaction.getRootElement(),
                 rp = item.responseProcessing,
                 response = interaction.getResponseDeclaration(),
@@ -220,7 +221,7 @@ define([
                 editFeedbacks : (template !== 'CUSTOM'),
                 mappingDisabled: _.isEmpty(response.mapEntries),
                 template : template,
-                templates : _getAvailableRpTemplates(interaction, options.rpTemplates),
+                templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
                 defaultValue : response.getMappingAttribute('defaultValue')
             }));
             widget.$responseForm.find('select[name=template]').val(template);
@@ -252,8 +253,7 @@ define([
                 },
                 defaultValue : _saveCallbacks.mappingAttr,
                 template : function(res, value){
-
-                    rp.setProcessingType('templateDriven');
+                    rp.setProcessingType(value === 'CUSTOM' ? 'custom' : 'templateDriven');
                     response.setTemplate(value);
                     answerStateHelper.forward(widget);
                     answerStateHelper.initResponseForm(widget);

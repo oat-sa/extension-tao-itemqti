@@ -260,8 +260,8 @@ define([
 
             var $widget = $placeholder.parent().closest('.widget-box, .qti-item');
             var $editable = $placeholder.closest('[data-html-editable], .qti-itemBody');
-            var widget = $widget.data('widget');
-            var element = widget.element;
+            var itemWidget = $widget.data('widget');
+            var element = itemWidget.element;
             var container = Element.isA(element, '_container') ? element : element.getBody();
 
             if(!element || !$editable.length){
@@ -290,7 +290,7 @@ define([
                             elt.render($placeholder);
 
                             //TODO resolve the promise it returns
-                            elt.postRender();
+                            elt.postRender(itemWidget.options);
                             widget = elt.data('widget');
                             if(Element.isA(elt, 'blockInteraction')){
                                 $widget = widget.$container;
