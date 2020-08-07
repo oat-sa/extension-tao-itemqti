@@ -1,9 +1,10 @@
 <div class="panel">
-    <label for="" class="has-icon">{{__ "Response identifier"}}</label>
+    <label for="responseIdentifier" class="has-icon">{{__ "Response identifier"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore ("_") and contain only Letters, underscores, hyphens ("-"), period (".", a.k.a. full-stop), Digits, CombiningChars and Extenders.'}}</div>
 
-    <input type="text"
+    <input id="responseIdentifier"
+            type="text"
            name="identifier"
            value="{{identifier}}"
            placeholder="e.g. RESPONSE"
@@ -11,11 +12,11 @@
 </div>
 
 <div class="panel">
-    <label for="" class="has-icon">{{__ "Response processing"}}</label>
+    <label for="responseProcessing" class="has-icon">{{__ "Response processing"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "Select the way the response of your interaction should be processed"}}</div>
 
-    <select name="template" class="select2" data-has-search="false">
+    <select id="responseProcessing" name="template" class="select2" data-has-search="false">
         {{#each templates}}
         <option value="{{@key}}">{{.}}</option>
         {{/each}}
@@ -24,11 +25,11 @@
 
 {{#if textEntryInteraction}}
 <div class="panel">
-    <label for="" class="has-icon">{{__ "Response base type"}}</label>
+    <label for="responseBaseType" class="has-icon">{{__ "Response base type"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "Select the expected input value type that will define the way the response of your interaction will be processed."}}</div>
 
-    <select name="listOfBaseType" class="select2" data-has-search="false">
+    <select id="responseBaseType" name="listOfBaseType" class="select2" data-has-search="false">
         {{#each listOfBaseTypes}}
         <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
         {{/each}}
