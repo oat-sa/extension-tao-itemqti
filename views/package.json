@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "@oat-sa/tao-item-runner": "0.4.0",
-    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#fix/TCA-737-answer-options-announced-multiple-times"
+    "@oat-sa/tao-item-runner-qti": "0.10.2"
   }
 }
