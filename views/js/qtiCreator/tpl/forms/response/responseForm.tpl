@@ -4,7 +4,7 @@
     <div class="tooltip-content">{{__ 'The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore ("_") and contain only Letters, underscores, hyphens ("-"), period (".", a.k.a. full-stop), Digits, CombiningChars and Extenders.'}}</div>
 
     <input id="responseIdentifier"
-            type="text"
+           type="text"
            name="identifier"
            value="{{identifier}}"
            placeholder="e.g. RESPONSE"
