@@ -24,8 +24,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
-    'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
-    'taoQtiItem/qtiCreator/helper/qtiElements'
+    'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule'
 ], function (
     $,
     _,
@@ -34,8 +33,7 @@ define([
     formElement,
     minMaxComponentFactory,
     responseFormTpl,
-    modalFeedbackRule,
-    qtiElements
+    modalFeedbackRule
 ) {
     'use strict';
 
@@ -217,8 +215,7 @@ define([
                 template = responseHelper.getTemplateNameFromUri(response.template),
                 listOfBaseType = response.attributes.baseType,
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
-                defineCorrect = answerStateHelper.defineCorrect(response),
-                allQtiElements = qtiElements.getAvailableAuthoringElements()
+                defineCorrect = answerStateHelper.defineCorrect(response);
 
             var _toggleCorrectWidgets = function(show){
 
@@ -250,7 +247,7 @@ define([
                 templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
                 listOfBaseType : listOfBaseType,
                 listOfBaseTypes : _getAvailableListOfBaseTypes(listOfBaseType),
-                textEntryInteraction: interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass,
+                textEntryInteraction: interaction.qtiClass === 'textEntryInteraction',
                 defaultValue : response.getMappingAttribute('defaultValue')
             }));
             widget.$responseForm.find('select[name=template]').val(template);
