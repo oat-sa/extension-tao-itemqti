@@ -218,7 +218,7 @@ define([
                 listOfBaseType = response.attributes.baseType,
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
                 defineCorrect = answerStateHelper.defineCorrect(response),
-                allQtiElements = qtiElements.getAvailableAuthoringElements()
+                allQtiElements = qtiElements.getAvailableAuthoringElements();
 
             var _toggleCorrectWidgets = function(show){
 
@@ -246,7 +246,7 @@ define([
                 editMapping : editMapping,
                 editFeedbacks : (template !== 'CUSTOM'),
                 mappingDisabled : _.isEmpty(response.mapEntries),
-                template : tem plate,
+                template : template,
                 templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
                 listOfBaseType : listOfBaseType,
                 listOfBaseTypes : _getAvailableListOfBaseTypes(listOfBaseType),
