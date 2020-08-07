@@ -65,12 +65,22 @@ define([
      * Get the list of all available base types in the platform
      * @returns {Object}
      */
-    var _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes() {
-        return {
-            STRING: 'string',
-            INTEGER: 'integer',
-            FLOAT: 'float'
-        }
+    var _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes(listOfBaseType) {
+        return [
+            {
+                label: 'string',
+                value: 'string',
+                selected: listOfBaseType === 'string'
+            }, {
+                label: 'integer',
+                value: 'integer',
+                selected: listOfBaseType === 'integer'
+            }, {
+                label: 'float',
+                value: 'float',
+                selected: listOfBaseType === 'float'
+            }
+        ]
     };
 
     /**
@@ -236,7 +246,8 @@ define([
                 template : template,
                 templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
                 listOfBaseType : listOfBaseType,
-                listOfBaseTypes : _getAvailableListOfBaseTypes(),
+                listOfBaseTypes : _getAvailableListOfBaseTypes(listOfBaseType),
+                textEntryInteraction: interaction.qtiClass === 'textEntryInteraction',
                 defaultValue : response.getMappingAttribute('defaultValue')
             }));
             widget.$responseForm.find('select[name=template]').val(template);
@@ -274,8 +285,8 @@ define([
                     answerStateHelper.initResponseForm(widget);
                 },
                 listOfBaseType : function (res, value) {
-                    const listOfBaseTypes = _getAvailableListOfBaseTypes();
-                    response.attributes.baseType = listOfBaseTypes[value];
+                    response.attributes.baseType = value;
+                    answerStateHelper.initResponseForm(widget);
                 },
                 defineCorrect : function(res, value){
 

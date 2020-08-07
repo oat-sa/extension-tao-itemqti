@@ -22,6 +22,7 @@
     </select>
 </div>
 
+{{#if textEntryInteraction}}
 <div class="panel">
     <label for="" class="has-icon">{{__ "Response base type"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
@@ -29,10 +30,11 @@
 
     <select name="listOfBaseType" class="select2" data-has-search="false">
         {{#each listOfBaseTypes}}
-        <option value="{{@key}}" ${@key === listOfBaseType ? selected : ''}>{{.}}</option>
+        <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
         {{/each}}
     </select>
-
+</div>
+{{/if}}
 
 {{#if editMapping}}
 <hr/>
