@@ -48,7 +48,7 @@ define([
     };
 
     /**
-     * Get the list of all available response processing templates available in the plateform
+     * Get the list of all available response processing templates available in the platform
      * @returns {Object}
      */
     var getAvailableTemplates = function getAvailableTemplates(){
@@ -59,6 +59,18 @@ define([
             'MAP_RESPONSE_POINT' : __('map response'),
             'NONE' : __('none')
         };
+    };
+
+    /**
+     * Get the list of all available base types in the platform
+     * @returns {Object}
+     */
+    var _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes() {
+        return {
+            STRING: 'string',
+            INTEGER: 'integer',
+            FLOAT: 'float'
+        }
     };
 
     /**
@@ -110,14 +122,6 @@ define([
         }
 
         return templates;
-    };
-
-    var _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes() {
-        return {
-            STRING: 'string',
-            INTEGER: 'integer',
-            FLOAT: 'float'
-        }
     };
 
     var answerStateHelper = {
@@ -269,7 +273,7 @@ define([
                     answerStateHelper.forward(widget);
                     answerStateHelper.initResponseForm(widget);
                 },
-                listOfBaseTypes : function (res, value) {
+                listOfBaseType : function (res, value) {
                     console.log(res, value)
                 },
                 defineCorrect : function(res, value){
