@@ -23,7 +23,7 @@ table {
         }
 
         th {
-            background-color: $uiHeaderBg;
+            background-color: rgba(whiten(black, 0.25), 0.25);
             font-weight: bold;
         }
 
