@@ -22,26 +22,37 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\parser;
 
-use Exception;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\qti\Element;
+use oat\taoQtiItem\model\qti\ElementReferences;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\XInclude;
+use oat\taoQtiItem\model\qti\Img;
 
 class ElementReferencesExtractor extends ConfigurableService
 {
     /** @var string[] */
     private $elementReferences;
 
-    /**
-     * @throws Exception
-     */
     public function extract(Item $qtiItem, string $elementClass, string $attributeName): array
     {
         $this->elementReferences = [];
 
+        /** @var Element $element */
         foreach ($qtiItem->getComposingElements($elementClass) as $element) {
             $this->elementReferences[] = $element->attr($attributeName);
         }
 
         return array_unique($this->elementReferences);
+    }
+
+    public function extractAll(Item $qtiItem): ElementReferences
+    {
+        return new ElementReferences(
+            $this->extract($qtiItem, XInclude::class, 'href'),
+            $this->extract($qtiItem, QtiObject::class, 'data'),
+            $this->extract($qtiItem, Img::class, 'src')
+        );
     }
 }
