@@ -29,7 +29,7 @@
 
     <select name="listOfBaseType" class="select2" data-has-search="false">
         {{#each listOfBaseTypes}}
-        <option value="{{@key}}">{{.}}</option>
+        <option value="{{@key}}" ${@key === listOfBaseType ? selected : ''}>{{.}}</option>
         {{/each}}
     </select>
 

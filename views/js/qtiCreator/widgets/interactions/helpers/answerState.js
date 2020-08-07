@@ -274,7 +274,8 @@ define([
                     answerStateHelper.initResponseForm(widget);
                 },
                 listOfBaseType : function (res, value) {
-                    console.log(res, value)
+                    const listOfBaseTypes = _getAvailableListOfBaseTypes();
+                    response.attributes.baseType = listOfBaseTypes[value];
                 },
                 defineCorrect : function(res, value){
 
