@@ -24,7 +24,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
-    'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule'
+    'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
+    'taoQtiItem/qtiCreator/helper/qtiElements'
 ], function (
     $,
     _,
@@ -33,7 +34,8 @@ define([
     formElement,
     minMaxComponentFactory,
     responseFormTpl,
-    modalFeedbackRule
+    modalFeedbackRule,
+    qtiElements
 ) {
     'use strict';
 
@@ -48,7 +50,7 @@ define([
     };
 
     /**
-     * Get the list of all available response processing templates available in the plateform
+     * Get the list of all available response processing templates available in the platform
      * @returns {Object}
      */
     var getAvailableTemplates = function getAvailableTemplates(){
@@ -59,6 +61,28 @@ define([
             'MAP_RESPONSE_POINT' : __('map response'),
             'NONE' : __('none')
         };
+    };
+
+    /**
+     * Get the list of all available base types in the platform
+     * @returns {Object}
+     */
+    var _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes(listOfBaseType) {
+        return [
+            {
+                label: 'string',
+                value: 'string',
+                selected: listOfBaseType === 'string'
+            }, {
+                label: 'integer',
+                value: 'integer',
+                selected: listOfBaseType === 'integer'
+            }, {
+                label: 'float',
+                value: 'float',
+                selected: listOfBaseType === 'float'
+            }
+        ]
     };
 
     /**
@@ -191,8 +215,10 @@ define([
                 rp = item.responseProcessing,
                 response = interaction.getResponseDeclaration(),
                 template = responseHelper.getTemplateNameFromUri(response.template),
+                listOfBaseType = response.attributes.baseType,
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
-                defineCorrect = answerStateHelper.defineCorrect(response);
+                defineCorrect = answerStateHelper.defineCorrect(response),
+                allQtiElements = qtiElements.getAvailableAuthoringElements();
 
             var _toggleCorrectWidgets = function(show){
 
@@ -219,9 +245,12 @@ define([
                 defineCorrect : defineCorrect,
                 editMapping : editMapping,
                 editFeedbacks : (template !== 'CUSTOM'),
-                mappingDisabled: _.isEmpty(response.mapEntries),
+                mappingDisabled : _.isEmpty(response.mapEntries),
                 template : template,
                 templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
+                listOfBaseType : listOfBaseType,
+                listOfBaseTypes : _getAvailableListOfBaseTypes(listOfBaseType),
+                textEntryInteraction: interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass,
                 defaultValue : response.getMappingAttribute('defaultValue')
             }));
             widget.$responseForm.find('select[name=template]').val(template);
@@ -256,6 +285,10 @@ define([
                     rp.setProcessingType(value === 'CUSTOM' ? 'custom' : 'templateDriven');
                     response.setTemplate(value);
                     answerStateHelper.forward(widget);
+                    answerStateHelper.initResponseForm(widget);
+                },
+                listOfBaseType : function (res, value) {
+                    response.attributes.baseType = value;
                     answerStateHelper.initResponseForm(widget);
                 },
                 defineCorrect : function(res, value){
