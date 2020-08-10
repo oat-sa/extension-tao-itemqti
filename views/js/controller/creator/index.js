@@ -70,10 +70,8 @@ define([
          * The entrypoint
          */
         start() {
-
             //TODO move module config away from controllers
             const config = module.config();
-            config.properties.allowCustomTemplate = config.plugins.some(({ name }) => name === 'xmlResponseProcessing');
             const logger = loggerFactory('controller/creator');
 
             /**
@@ -95,12 +93,15 @@ define([
             //load plugins dynamically
             if (config) {
                 if(config.plugins){
+                    config.properties.allowCustomTemplate = config.plugins.some(({ name }) => name === 'xmlResponseProcessing');
+
                     _.forEach(config.plugins, plugin => {
                         if(plugin && plugin.module){
                             pluginLoader.add(plugin);
                         }
                     });
                 }
+                
                 if(config.contextPlugins){
                     _.forEach(config.contextPlugins, plugin => {
                         if(plugin && plugin.module){
