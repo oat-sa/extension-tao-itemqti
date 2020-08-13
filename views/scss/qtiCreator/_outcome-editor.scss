@@ -80,3 +80,8 @@
         }
     }
 }
+
+// For solve issue in Chrome with scroll: https://stackoverflow.com/questions/22898335/strange-behavior-of-overflow-auto-on-chrome
+.item-editor-sidebar #sidebar-right-response-properties {
+    position: fixed;
+}
