@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:47:09\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:46:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-MX\n"
@@ -216,6 +216,9 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
+msgid "characters"
+msgstr ""
+
 msgid "chars"
 msgstr "caracteres"
 
@@ -231,11 +234,11 @@ msgstr "Interacción de Elección"
 msgid "Choice Properties"
 msgstr "Interacción de Elección"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Elecciones"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,11 +279,11 @@ msgstr "Restricciones"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Controlar los parámetros de reproducción (de inicio automático, bucle) de un archivo de vídeo o audio y reportar el número de veces que se ha reproducido."
 
-msgid "Correct"
-msgstr "Correcto"
-
 msgid "correct"
 msgstr "correcto"
+
+msgid "Correct"
+msgstr "Correcto"
 
 msgid "Cosinus"
 msgstr ""
@@ -318,11 +321,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Modo de Procesamiento de respuesta personalizada"
 
-msgid "default"
-msgstr "predeterminado"
-
 msgid "Default"
 msgstr "Predeterminado"
+
+msgid "default"
+msgstr "predeterminado"
 
 msgid "Define correct response"
 msgstr "Definir respuesta correcta"
@@ -751,11 +754,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "dejar vacío"
@@ -803,12 +806,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Gestionar Elementos"
-
 #, tao-public
 msgid "Manage items"
 msgstr "Gestionar elementos"
+
+msgid "Manage Items"
+msgstr "Gestionar Elementos"
 
 msgid "map response"
 msgstr ""
@@ -837,19 +840,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Máximo"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Longitud máxima"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Longitud máxima"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Máx. de palabras"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Máx. de palabras"
 
 msgid "Max. number of matches"
@@ -961,11 +964,11 @@ msgstr ""
 msgid "No value set"
 msgstr "No hay valor asignado"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ninguno"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Aún no definido."
@@ -1195,11 +1198,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
-msgstr "eliminar"
-
 msgid "Remove"
 msgstr "Eliminar"
+
+msgid "remove"
+msgstr "eliminar"
 
 msgid "Remove custom background color"
 msgstr "Eliminar color de fondo personalizado"
@@ -1246,6 +1249,9 @@ msgstr ""
 msgid "Response"
 msgstr "Respuesta"
 
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "Identificador de respuesta"
 
@@ -1255,11 +1261,11 @@ msgstr "Procesando respuesta"
 msgid "Response Properties"
 msgstr "Propiedades de respuesta"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "derecha"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1276,11 +1282,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
-msgstr "Puntuación"
-
 msgid "score"
 msgstr "puntuacion"
+
+msgid "Score"
+msgstr "Puntuación"
 
 msgid "Score range"
 msgstr "Rango de puntuación"
@@ -1350,6 +1356,9 @@ msgstr "Seleccione un estímulo compartido"
 
 msgid "Select the area to add an image"
 msgstr "Seleccione el área para agregar una imagen"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
 
 msgid "Select the outcome variable you want to display."
 msgstr ""

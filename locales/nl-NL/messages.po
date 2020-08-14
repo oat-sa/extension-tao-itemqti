@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:47:23\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:46:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -218,6 +218,9 @@ msgstr "Kan het bestand \"%s\" niet lokaliseren"
 msgid "Center"
 msgstr "Centreren"
 
+msgid "characters"
+msgstr ""
+
 msgid "chars"
 msgstr "Tekens"
 
@@ -233,11 +236,11 @@ msgstr "Keuze interactie"
 msgid "Choice Properties"
 msgstr "Keuze eigenschappen"
 
-msgid "choices"
-msgstr "keuzes"
-
 msgid "Choices"
 msgstr "Keuzes"
+
+msgid "choices"
+msgstr "keuzes"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Kies de horizontale uitlijning voor de lijst."
@@ -278,10 +281,10 @@ msgstr "Beperkingen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -320,11 +323,11 @@ msgstr "aangepast"
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
 
-msgid "default"
-msgstr "standaard"
-
 msgid "Default"
 msgstr "Standaard"
+
+msgid "default"
+msgstr "standaard"
 
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
@@ -753,11 +756,11 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -806,11 +809,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Misvormde XML[%s]:\n"
 "%s"
 
-msgid "Manage Items"
-msgstr "Beheer items"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Beheer items"
+
+msgid "Manage Items"
 msgstr "Beheer items"
 
 msgid "map response"
@@ -840,19 +843,19 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximaal aantal woorden"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximaal aantal woorden"
 
 msgid "Max. number of matches"
@@ -964,11 +967,11 @@ msgstr "Geen preview beschikbaar"
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "none"
-msgstr "geen"
-
 msgid "None"
 msgstr "Geen"
+
+msgid "none"
+msgstr "geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1199,11 +1202,11 @@ msgstr "Registreer methode verwacht $key en $name parameters"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registratie methode verwacht $key en $name parameters."
 
-msgid "remove"
-msgstr "verwijder"
-
 msgid "Remove"
 msgstr "Verwijder"
+
+msgid "remove"
+msgstr "verwijder"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
@@ -1250,6 +1253,9 @@ msgstr "Resource(s) met succes geëxporteerd."
 msgid "Response"
 msgstr "Antwoord"
 
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "Antwoord naam"
 
@@ -1259,11 +1265,11 @@ msgstr "Antwoord verwerking"
 msgid "Response Properties"
 msgstr "Antwoord eigenschappen"
 
-msgid "Right"
-msgstr "Rechts"
-
 msgid "right"
 msgstr "rechts"
+
+msgid "Right"
+msgstr "Rechts"
 
 msgid "Right bracket"
 msgstr "Rechter haakje"
@@ -1280,11 +1286,11 @@ msgstr "Item sparen"
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
-msgstr "Score"
-
 msgid "score"
 msgstr "score"
+
+msgid "Score"
+msgstr "Score"
 
 msgid "Score range"
 msgstr "Scorebereik"
@@ -1354,6 +1360,9 @@ msgstr "Selecteer gedeelde stimulus"
 
 msgid "Select the area to add an image"
 msgstr "Selecteer het gebied om een afbeelding toe te voegen"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
 
 msgid "Select the outcome variable you want to display."
 msgstr "Selecteer de uitkomstvariabele die u wilt weergeven."
