@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:47:22\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:46:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -217,6 +217,9 @@ msgstr "Nepavyko surasti failo \"%s"
 msgid "Center"
 msgstr "Centras"
 
+msgid "characters"
+msgstr ""
+
 msgid "chars"
 msgstr "ženklai"
 
@@ -232,11 +235,11 @@ msgstr "Pasirinkimo Sąveika"
 msgid "Choice Properties"
 msgstr "Pasirinkti Savybes"
 
-msgid "choices"
-msgstr "pasirinkimai"
-
 msgid "Choices"
 msgstr "Pasirinkimai"
+
+msgid "choices"
+msgstr "pasirinkimai"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Pasirinkite lentelei horizontalų lygiavimą."
@@ -277,11 +280,11 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Valdyk vaizdo arba garso įrašo failo atkūrimo nustatymus (automatinė paleistis, kartojimas) su ataskaita, kiek kartų buvo paleistas įrašas."
 
-msgid "Correct"
-msgstr "Teisingai"
-
 msgid "correct"
 msgstr "teisingai"
+
+msgid "Correct"
+msgstr "Teisingai"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
@@ -319,11 +322,11 @@ msgstr "pasirinktinas"
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
-msgstr "numatytas"
-
 msgid "Default"
 msgstr "Numatytas"
+
+msgid "default"
+msgstr "numatytas"
 
 msgid "Define correct response"
 msgstr "Nustatyti teisingą atsakymą"
@@ -752,11 +755,11 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
-msgid "LaTeX"
-msgstr "LaTeX"
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "palikti tuščią"
@@ -805,11 +808,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Klaidingas XML[%s]:\n"
 "%s"
 
-msgid "Manage Items"
-msgstr "Tvarkyti klausimus"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Tvarkyti klausimus"
+
+msgid "Manage Items"
 msgstr "Tvarkyti klausimus"
 
 msgid "map response"
@@ -839,20 +842,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maks"
 
-msgid "Max Length"
-msgstr "Maks. Ilgis"
-
 msgid "Max length"
 msgstr "Maks. ilgis"
+
+msgid "Max Length"
+msgstr "Maks. Ilgis"
 
 msgid "Max plays count"
 msgstr "Maks. paleidimų kiekis"
 
-msgid "Max Words"
-msgstr "Maks. Žodžių"
-
 msgid "Max words"
 msgstr "Maks. žodžių"
+
+msgid "Max Words"
+msgstr "Maks. Žodžių"
 
 msgid "Max. number of matches"
 msgstr "Maks. kiekis sutapimų"
@@ -963,11 +966,11 @@ msgstr "Peržiūrėti negalima"
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "none"
-msgstr "nėra"
-
 msgid "None"
 msgstr "Nėra"
+
+msgid "none"
+msgstr "nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -1197,11 +1200,11 @@ msgstr "Registravimo metodas tikisi $key ir $name parametrų"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registravimo metodas tikisi $key ir $name parametrų."
 
-msgid "remove"
-msgstr "ištrinti"
-
 msgid "Remove"
 msgstr "Ištrinti"
+
+msgid "remove"
+msgstr "ištrinti"
 
 msgid "Remove custom background color"
 msgstr "Panaikinti pasirinktą fono spalvą"
@@ -1248,6 +1251,9 @@ msgstr "Resursas(-ai) sėkmingai eksportuoti."
 msgid "Response"
 msgstr "Atsakymas"
 
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "Atsakymo identifikatorius"
 
@@ -1257,11 +1263,11 @@ msgstr "Atsakymų vertinimo modelis"
 msgid "Response Properties"
 msgstr "Atsakymo Savybės"
 
-msgid "Right"
-msgstr "Dešinė"
-
 msgid "right"
 msgstr "dešinė"
+
+msgid "Right"
+msgstr "Dešinė"
 
 msgid "Right bracket"
 msgstr "Dešinys skliaustas"
@@ -1278,11 +1284,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "Score"
-msgstr "Balai"
-
 msgid "score"
 msgstr "balai"
+
+msgid "Score"
+msgstr "Balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"
@@ -1352,6 +1358,9 @@ msgstr "Pasirinkti bendrinamą stimulą"
 
 msgid "Select the area to add an image"
 msgstr "Pasirinkite plotą, kad pridėti paveikslėlį"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
 
 msgid "Select the outcome variable you want to display."
 msgstr ""

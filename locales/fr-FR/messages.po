@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:47:13\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:46:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -218,6 +218,9 @@ msgstr "Impossible de localiser le fichier \"%s"
 msgid "Center"
 msgstr "Centrer"
 
+msgid "characters"
+msgstr ""
+
 msgid "chars"
 msgstr "caractères"
 
@@ -233,11 +236,11 @@ msgstr "Choisissez l'interaction"
 msgid "Choice Properties"
 msgstr "Choisissez les propriétés"
 
-msgid "choices"
-msgstr "choix"
-
 msgid "Choices"
 msgstr "Choix"
+
+msgid "choices"
+msgstr "choix"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Choisissez l'alignement horizontal pour la table."
@@ -278,11 +281,11 @@ msgstr "Contraintes"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
-msgid "Correct"
-msgstr "Correct"
-
 msgid "correct"
 msgstr "correct"
+
+msgid "Correct"
+msgstr "Correct"
 
 msgid "Cosinus"
 msgstr "Cosinus"
@@ -320,11 +323,11 @@ msgstr "personnalisé"
 msgid "Custom Response Processing Mode"
 msgstr "Mode de traitement de la réponse personnalisée"
 
-msgid "default"
-msgstr "par défaut"
-
 msgid "Default"
 msgstr "Par défaut"
+
+msgid "default"
+msgstr "par défaut"
 
 msgid "Define correct response"
 msgstr "Définir la réponse correcte"
@@ -753,11 +756,11 @@ msgstr "Langue"
 msgid "Large editor"
 msgstr "Éditeur large"
 
-msgid "LaTeX"
-msgstr "LaTeX"
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "laisser vide"
@@ -806,11 +809,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "XML mal formé[%s] :\n"
 "%s"
 
-msgid "Manage Items"
-msgstr "Gestion des items"
-
 #, tao-public
 msgid "Manage items"
+msgstr "Gestion des items"
+
+msgid "Manage Items"
 msgstr "Gestion des items"
 
 msgid "map response"
@@ -840,19 +843,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Longueur maximale"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Longueur maximale"
 
 msgid "Max plays count"
 msgstr "Nombre max. de lectures"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximum de mots"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximum de mots"
 
 msgid "Max. number of matches"
@@ -964,11 +967,11 @@ msgstr "Pas d'aperçu disponible"
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "none"
-msgstr "aucun"
-
 msgid "None"
 msgstr "Aucun"
+
+msgid "none"
+msgstr "aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -1199,11 +1202,11 @@ msgstr "La méthode d'inscription attend des paramètres $key et $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "La méthode d'inscription attend des paramètres $key et $name ."
 
-msgid "remove"
-msgstr "supprimer"
-
 msgid "Remove"
 msgstr "Supprimer"
+
+msgid "remove"
+msgstr "supprimer"
 
 msgid "Remove custom background color"
 msgstr "Supprimer une couleur de fond personnalisée"
@@ -1250,6 +1253,9 @@ msgstr "Ressource(s) exportée(s) avec succès."
 msgid "Response"
 msgstr "Réponse"
 
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "Identifiant de la réponse"
 
@@ -1259,11 +1265,11 @@ msgstr "Traitement de la réponse"
 msgid "Response Properties"
 msgstr "Propriétés de la réponse"
 
-msgid "Right"
-msgstr "Droite"
-
 msgid "right"
 msgstr "droite"
+
+msgid "Right"
+msgstr "Droite"
 
 msgid "Right bracket"
 msgstr "Parenthèse fermante"
@@ -1280,11 +1286,11 @@ msgstr "Enregistrer l'item"
 msgid "Scale size"
 msgstr "Taille d'échelle"
 
-msgid "Score"
-msgstr "Score"
-
 msgid "score"
 msgstr "score"
+
+msgid "Score"
+msgstr "Score"
 
 msgid "Score range"
 msgstr "Échelle de score"
@@ -1354,6 +1360,9 @@ msgstr "Sélectionnez le stimulus partagé."
 
 msgid "Select the area to add an image"
 msgstr "Sélectionnez l'aire à ajouter à une image."
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
 
 msgid "Select the outcome variable you want to display."
 msgstr "Sélectionner la variable de résultat que vous voulez afficher."

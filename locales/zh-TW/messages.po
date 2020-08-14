@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:47:34\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:46:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -216,6 +216,9 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
+msgid "characters"
+msgstr ""
+
 msgid "chars"
 msgstr "字符"
 
@@ -231,11 +234,11 @@ msgstr "選擇的互動"
 msgid "Choice Properties"
 msgstr "選擇的屬性"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "選擇"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,10 +279,10 @@ msgstr "約束"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制視頻和音頻的播放檔案(自動播放，循環)再報告已播放的次數。"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正確"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正確"
 
 msgid "Cosinus"
@@ -318,10 +321,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
 
-msgid "default"
+msgid "Default"
 msgstr "預設值"
 
-msgid "Default"
+msgid "default"
 msgstr "預設值"
 
 msgid "Define correct response"
@@ -751,11 +754,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "LaTeX"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "留空"
@@ -803,11 +806,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "管理題目"
-
 #, tao-public
 msgid "Manage items"
+msgstr "管理題目"
+
+msgid "Manage Items"
 msgstr "管理題目"
 
 msgid "map response"
@@ -837,19 +840,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最多字數"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最多字數"
 
 msgid "Max. number of matches"
@@ -961,11 +964,11 @@ msgstr ""
 msgid "No value set"
 msgstr "沒有設定數值"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "無"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "還未定義。"
@@ -1194,10 +1197,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1245,6 +1248,9 @@ msgstr ""
 msgid "Response"
 msgstr "回應"
 
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "回應辨識碼"
 
@@ -1254,11 +1260,11 @@ msgstr "處理回應"
 msgid "Response Properties"
 msgstr "回應屬性"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "右"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1275,10 +1281,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr "分數"
 
-msgid "score"
+msgid "Score"
 msgstr "分數"
 
 msgid "Score range"
@@ -1349,6 +1355,9 @@ msgstr "選擇共用的刺激物"
 
 msgid "Select the area to add an image"
 msgstr "選擇添加圖片的區域"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
 
 msgid "Select the outcome variable you want to display."
 msgstr ""
