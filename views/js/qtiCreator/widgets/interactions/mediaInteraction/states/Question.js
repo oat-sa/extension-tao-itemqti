@@ -178,6 +178,8 @@ define([
 
         $heightContainer = $('.height-container', $form);
 
+        const defaultSize = 100;
+
         // Initialize MediaSizer
         $form.find('.media-sizer-panel').on('sizechange.mediasizer', function() {
             $(this).find('input').trigger('change');
@@ -187,8 +189,8 @@ define([
             showReset: false,
             responsive: false,
             applyToMedium: false,
-            width: interaction.object.attr('width'),
-            height: interaction.object.attr('height'),
+            width: interaction.object.attr('width') || defaultSize,
+            height: interaction.object.attr('height') || defaultSize,
             minWidth: 50,
             maxWidth: $container.innerWidth()
         });
