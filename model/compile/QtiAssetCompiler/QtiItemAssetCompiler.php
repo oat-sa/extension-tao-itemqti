@@ -26,6 +26,7 @@ namespace oat\taoQtiItem\model\compile\QtiAssetCompiler;
 use InvalidArgumentException;
 use oat\oatbox\config\ConfigurationService;
 use oat\oatbox\filesystem\Directory;
+use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
@@ -50,9 +51,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         $replacementList = $packedAssets = [];
 
         foreach ($assetParser->extract() as $type => $assets) {
-
             foreach ($assets as $key => $assetUrl) {
-
                 if ($this->isBlacklisted($assetUrl)) {
                     continue;
                 }
@@ -87,10 +86,14 @@ class QtiItemAssetCompiler extends ConfigurationService
         $mediaAsset = $resolver->resolve($assetUrl);
         $mediaSource = $mediaAsset->getMediaSource();
 
+        if ($mediaSource instanceof HttpSource) {
+            return new PackedAsset($type, $mediaAsset, $assetUrl);
+        }
+
         $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
         if (isset($fileInfo['link'])) {
             $link = $fileInfo['link'];
-        } elseif(isset($fileInfo['filePath'])) {
+        } elseif (isset($fileInfo['filePath'])) {
             $link = $fileInfo['filePath'];
         } else {
             throw new InvalidArgumentException(sprintf('Item asset %s cannot be resolved.', $assetUrl));
@@ -101,20 +104,7 @@ class QtiItemAssetCompiler extends ConfigurationService
 
     private function getReplacementName(string $link, array $replacementList): string
     {
-        $basename = basename($link);
-
-        $replacement = $basename;
-
-        $count = 0;
-        while (in_array($replacement, $replacementList)) {
-            $dot = strrpos($basename, '.');
-            $replacement = $dot !== false
-                ? substr($basename, 0, $dot) . '_' . $count . substr($basename, $dot)
-                : $basename . $count;
-            $count++;
-        }
-
-        return $replacement;
+        return hash('crc32', basename($link));
     }
 
     private function copyAssetFileToPublicDirectory(Directory $publicDirectory, PackedAsset $packedAsset): bool
