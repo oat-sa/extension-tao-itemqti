@@ -21,9 +21,12 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\parser;
 
+use oat\taoQtiItem\model\qti\ElementReferences;
+use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\generis\test\TestCase;
+use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -31,6 +34,7 @@ class ElementReferencesExtractorTest extends TestCase
 {
     private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
     private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
+    private const MEDIA_LINK_3 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d3';
 
     /** @var ElementReferencesExtractor */
     private $subject;
@@ -74,6 +78,41 @@ class ElementReferencesExtractorTest extends TestCase
                 self::MEDIA_LINK_2,
             ],
             $this->subject->extract($item, XInclude::class, 'href')
+        );
+    }
+
+    public function testExtractAll(): void
+    {
+        $element1 = $this->createMock(XInclude::class);
+        $element1->method('attr')
+            ->willReturn(self::MEDIA_LINK_1);
+
+        $element2 = $this->createMock(Img::class);
+        $element2->method('attr')
+            ->willReturn(self::MEDIA_LINK_2);
+
+        $element3 = $this->createMock(QtiObject::class);
+        $element3->method('attr')
+            ->willReturn(self::MEDIA_LINK_3);
+
+        /** @var Item|MockObject $item */
+        $item = $this->createMock(Item::class);
+        $item->method('getComposingElements')
+            ->willReturnOnConsecutiveCalls(
+                ...[
+                    [$element1],
+                    [$element2],
+                    [$element3]
+                ]
+            );
+
+        $this->assertEquals(
+            new ElementReferences(
+                [self::MEDIA_LINK_1],
+                [self::MEDIA_LINK_2],
+                [self::MEDIA_LINK_3]
+            ),
+            $this->subject->extractAll($item)
         );
     }
 }

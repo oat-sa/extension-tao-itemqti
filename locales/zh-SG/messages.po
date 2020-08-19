@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:47:33\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:46:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-SG\n"
@@ -216,6 +216,9 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
+msgid "characters"
+msgstr ""
+
 msgid "chars"
 msgstr ""
 
@@ -231,10 +234,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -276,10 +279,10 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
 msgid "Cosinus"
@@ -318,10 +321,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -751,10 +754,10 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr ""
 
 msgid "leave empty"
@@ -803,11 +806,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr ""
-
 #, tao-public
 msgid "Manage items"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "map response"
@@ -837,19 +840,19 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -961,10 +964,10 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
-msgid "none"
+msgid "None"
 msgstr ""
 
-msgid "None"
+msgid "none"
 msgstr ""
 
 msgid "None defined yet."
@@ -1194,10 +1197,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1245,6 +1248,9 @@ msgstr ""
 msgid "Response"
 msgstr ""
 
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr ""
 
@@ -1254,10 +1260,10 @@ msgstr ""
 msgid "Response Properties"
 msgstr ""
 
-msgid "Right"
+msgid "right"
 msgstr ""
 
-msgid "right"
+msgid "Right"
 msgstr ""
 
 msgid "Right bracket"
@@ -1275,10 +1281,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
 msgid "Score range"
@@ -1348,6 +1354,9 @@ msgid "Select shared stimulus"
 msgstr ""
 
 msgid "Select the area to add an image"
+msgstr ""
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
 msgstr ""
 
 msgid "Select the outcome variable you want to display."

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:47:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:46:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -216,6 +216,9 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
+msgid "characters"
+msgstr ""
+
 msgid "chars"
 msgstr "stafir"
 
@@ -231,11 +234,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Valmöguleikar"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -276,11 +279,11 @@ msgstr "Höft"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "Correct"
-msgstr "Rétt"
-
 msgid "correct"
 msgstr "rétt"
+
+msgid "Correct"
+msgstr "Rétt"
 
 msgid "Cosinus"
 msgstr ""
@@ -318,10 +321,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
 
-msgid "default"
+msgid "Default"
 msgstr "Sjálfgefið"
 
-msgid "Default"
+msgid "default"
 msgstr "Sjálfgefið"
 
 msgid "Define correct response"
@@ -751,11 +754,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "hafa autt"
@@ -803,12 +806,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "Vinna með Atriði"
-
 #, tao-public
 msgid "Manage items"
 msgstr "Vinna með atriði"
+
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
 
 msgid "map response"
 msgstr ""
@@ -837,20 +840,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max Length"
-msgstr "Hámarks Lengd"
-
 msgid "Max length"
 msgstr "Hámarks lengd"
+
+msgid "Max Length"
+msgstr "Hámarks Lengd"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
-msgstr "Hámarksfjöldi Orða"
-
 msgid "Max words"
 msgstr "Hámarksfjöldi orða"
+
+msgid "Max Words"
+msgstr "Hámarksfjöldi Orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -961,11 +964,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ekkert"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1194,11 +1197,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
-msgstr "fjarlægja"
-
 msgid "Remove"
 msgstr "Fjarlægja"
+
+msgid "remove"
+msgstr "fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1245,6 +1248,9 @@ msgstr ""
 msgid "Response"
 msgstr "Svar"
 
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "Svarsheiti"
 
@@ -1254,11 +1260,11 @@ msgstr "Úrvinnsla svars"
 msgid "Response Properties"
 msgstr "Eigindir Svars"
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "hægri"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1275,11 +1281,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
-msgstr "Stig"
-
 msgid "score"
 msgstr "stig"
+
+msgid "Score"
+msgstr "Stig"
 
 msgid "Score range"
 msgstr "Stigabil"
@@ -1349,6 +1355,9 @@ msgstr "Veldu samnýttan hvata"
 
 msgid "Select the area to add an image"
 msgstr "Veldu svæði til að bæta við mynd"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
 
 msgid "Select the outcome variable you want to display."
 msgstr ""
