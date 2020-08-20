@@ -36,6 +36,8 @@ use oat\taoQtiItem\model\qti\XIncludeLoader;
 
 class QtiItemAssetCompiler extends ConfigurationService
 {
+    public $blacklisted;
+
     /**
      * @return PackedAsset[]
      */
@@ -53,6 +55,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         foreach ($assetParser->extract() as $type => $assets) {
             foreach ($assets as $key => $assetUrl) {
                 if ($this->isBlacklisted($assetUrl)) {
+                    $this->blacklisted[$type][$assetUrl] = $assetUrl;
                     continue;
                 }
 
