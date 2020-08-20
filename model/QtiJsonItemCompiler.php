@@ -115,7 +115,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
             //create the item.json file in private directory
             $itemPacker = new QtiItemPacker();
-            $itemPack = $itemPacker->createQtiItemPackWithAssets($item, $qtiItem, $packedAssets);
+            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem, $publicDirectory);
             $this->itemJson = $itemPack->JsonSerialize();
             //get the filtered data to avoid cheat
             $data = $qtiItem->getDataForDelivery();
