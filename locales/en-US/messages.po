@@ -598,7 +598,7 @@ msgid "Height"
 msgstr ""
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr ""
+msgstr "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
 
 msgid "Horizontal"
 msgstr ""
