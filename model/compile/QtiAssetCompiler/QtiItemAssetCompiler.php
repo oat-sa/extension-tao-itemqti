@@ -48,7 +48,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         $xincludeLoader = new XIncludeLoader($qtiItem, $resolver);
         $xincludeLoader->load();
 
-        $replacementList = $packedAssets = [];
+        $packedAssets = [];
 
         foreach ($assetParser->extract() as $type => $assets) {
             foreach ($assets as $key => $assetUrl) {
@@ -58,7 +58,7 @@ class QtiItemAssetCompiler extends ConfigurationService
 
                 $packedAsset = $this->resolve($resolver, $assetUrl, $type);
 
-                $replacement = $this->getReplacementName($packedAsset->getLink(), $replacementList);
+                $replacement = $this->getReplacementName($packedAsset->getLink());
                 $packedAsset->setReplacedBy($replacement);
 
                 $replacementList[$assetUrl] = $replacement;
@@ -102,7 +102,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         return new PackedAsset($type, $mediaAsset, $link);
     }
 
-    private function getReplacementName(string $link, array $replacementList): string
+    private function getReplacementName(string $link): string
     {
         return hash('crc32', basename($link));
     }
