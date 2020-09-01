@@ -61,8 +61,6 @@ class QtiItemAssetCompiler extends ConfigurationService
                 $replacement = $this->getReplacementName($packedAsset->getLink());
                 $packedAsset->setReplacedBy($replacement);
 
-                $replacementList[$assetUrl] = $replacement;
-
                 if ($type != 'xinclude') {
                     $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
                 }
