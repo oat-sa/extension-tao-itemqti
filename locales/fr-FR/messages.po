@@ -600,7 +600,7 @@ msgid "Height"
 msgstr "Hauteur"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr ""
+msgstr "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
 
 msgid "Horizontal"
 msgstr "Horizontal"
@@ -1840,4 +1840,3 @@ msgstr "Votre item a été enregistré."
 
 msgid "ZIP archive"
 msgstr "Archive ZIP"
-
