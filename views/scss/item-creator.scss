@@ -790,10 +790,6 @@ img.dragging.ui-draggable-dragging {
             &.edit-sleep {
                 position: relative;
 
-                img {
-                    min-width: 100%;
-                }
-
                 &::after {
                     content: '';
                     display:block;
