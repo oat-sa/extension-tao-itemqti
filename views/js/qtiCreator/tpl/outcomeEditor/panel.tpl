@@ -2,7 +2,7 @@
     <hr/>
     <h3 class="has-icon">{{__ "Outcome Declarations"}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING</span>
+    <span class="tooltip-content">{{__ "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"}}</span>
     <div class="outcomes">
         {{{listing}}}
     </div>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint135\n"
-"PO-Revision-Date: 2020-08-14T08:46:09\n"
+"Project-Id-Version: TAO 3.4.0-sprint136\n"
+"PO-Revision-Date: 2020-08-31T15:28:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -168,11 +168,11 @@ msgstr "Bakgrunnslitur"
 msgid "Base"
 msgstr ""
 
-msgid "block"
-msgstr "blokk"
-
 msgid "Block"
 msgstr "Blokk"
+
+msgid "block"
+msgstr "blokk"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Í blokkinni er efnið (hvati) atriðisins svo sem texti eða mynd. Hennar er líka þörf í samskiptum á línunni."
@@ -384,11 +384,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "lokið"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Hlaða niður háttarblaði"
@@ -597,6 +597,9 @@ msgstr ""
 msgid "Height"
 msgstr "Hæð"
 
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
+
 msgid "Horizontal"
 msgstr ""
 
@@ -754,20 +757,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "hafa autt"
 
-msgid "left"
-msgstr "vinstri"
-
 msgid "Left"
 msgstr "Vinstri"
+
+msgid "left"
+msgstr "vinstri"
 
 msgid "Left bracket"
 msgstr ""
@@ -806,12 +809,12 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
+
 #, tao-public
 msgid "Manage items"
 msgstr "Vinna með atriði"
-
-msgid "Manage Items"
-msgstr "Vinna með Atriði"
 
 msgid "map response"
 msgstr ""
@@ -840,11 +843,11 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max length"
-msgstr "Hámarks lengd"
-
 msgid "Max Length"
 msgstr "Hámarks Lengd"
+
+msgid "Max length"
+msgstr "Hámarks lengd"
 
 msgid "Max plays count"
 msgstr ""
@@ -964,11 +967,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "None"
-msgstr "Ekkert"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Ekkert"
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1197,11 +1200,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Fjarlægja"
-
 msgid "remove"
 msgstr "fjarlægja"
+
+msgid "Remove"
+msgstr "Fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1260,11 +1263,11 @@ msgstr "Úrvinnsla svars"
 msgid "Response Properties"
 msgstr "Eigindir Svars"
 
-msgid "right"
-msgstr "hægri"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "hægri"
 
 msgid "Right bracket"
 msgstr ""
@@ -1281,11 +1284,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "stig"
-
 msgid "Score"
 msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
 
 msgid "Score range"
 msgstr "Stigabil"
