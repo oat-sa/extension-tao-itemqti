@@ -34,14 +34,14 @@ use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetCompiler;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetXmlReplacer;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\XIncludeXmlInjector;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\qti\Element;
 use tao_helpers_Xml;
 use tao_models_classes_service_StorageDirectory;
-use oat\taoQtiItem\model\portableElement\PortableElementService;
 use taoItems_models_classes_CompilationFailedException;
 use Throwable;
 
@@ -100,10 +100,9 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
 
         try {
-
             $qtiItem = $this->createQtiItem($item, $language);
-            $resolver =  $resolver = new ItemMediaResolver($item, $language);
-            $publicLangDirectory = $publicDirectory->getDirectory($language);;
+            $resolver = new ItemMediaResolver($item, $language);
+            $publicLangDirectory = $publicDirectory->getDirectory($language);
 
             // retrieve the media assets
             $packedAssets = $this->parseAndReplaceAssetByPlaceholder($qtiItem, $resolver, $publicLangDirectory);
@@ -116,7 +115,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
             //create the item.json file in private directory
             $itemPacker = new QtiItemPacker();
-            $itemPack = $itemPacker->createQtiItemPackWithAssets($item, $qtiItem, $packedAssets);
+            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem, $publicDirectory);
             $this->itemJson = $itemPack->JsonSerialize();
             //get the filtered data to avoid cheat
             $data = $qtiItem->getDataForDelivery();
@@ -152,10 +151,12 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
     private function createQtiItem(core_kernel_classes_Resource $item, $lang): Item
     {
-        $qtiItem  = $this->getServiceLocator()->get(Service::class)->getDataItemByRdfItem($item, $lang);
+        $qtiItem = $this->getServiceLocator()->get(Service::class)->getDataItemByRdfItem($item, $lang);
 
         if (is_null($qtiItem)) {
-            throw new taoItems_models_classes_CompilationFailedException(__('Unable to retrieve item : ' . $item->getLabel()));
+            throw new taoItems_models_classes_CompilationFailedException(
+                __('Unable to retrieve item : "%s"', $item->getLabel())
+            );
         }
 
         return $qtiItem;
@@ -181,7 +182,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         $this->getItemAssetXmlReplacer()->replaceAssetNodeValue($dom, $packedAssets);
 
         $qtiParser = new Parser($dom->saveXML());
-        $qtiItem =  $qtiParser->load();
+        $qtiItem = $qtiParser->load();
 
         return $packedAssets;
     }
@@ -194,7 +195,6 @@ class QtiJsonItemCompiler extends QtiItemCompiler
      */
     protected function convertXmlAttributes($data)
     {
-
         if (
             is_array($data)
             && array_key_exists('core', $data)
