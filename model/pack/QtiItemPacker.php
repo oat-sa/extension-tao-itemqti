@@ -120,7 +120,7 @@ class QtiItemPacker extends ItemPacker
             $storageDirectory->setServiceLocator($directory->getServiceLocator());
 
             foreach ($assetParser->extract($itemPack) as $type => $assets) {
-                $itemPack->setAssets($type, $this->resolveAsset($assets, $resolver), $storageDirectory);
+                $itemPack->setAssets($type, $this->resolveAsset($assets, $resolver), $storageDirectory, true);
             }
         } catch (common_Exception $e) {
             throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());

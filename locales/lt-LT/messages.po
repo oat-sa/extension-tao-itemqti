@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint135\n"
-"PO-Revision-Date: 2020-08-14T08:46:14\n"
+"Project-Id-Version: TAO 3.4.0-sprint136\n"
+"PO-Revision-Date: 2020-08-31T15:28:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -169,11 +169,11 @@ msgstr "Fono spalva"
 msgid "Base"
 msgstr "Pagrindas"
 
-msgid "block"
-msgstr "blokas"
-
 msgid "Block"
 msgstr "Blokas"
+
+msgid "block"
+msgstr "blokas"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blokas sudarytas iš turinio (stimulus) elemento, kaip tekstas ar paveiksliukas. Tai taip pat privaloma Įterptoms Užduotims."
@@ -385,11 +385,11 @@ msgstr "Dalinti"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr "Atlikta"
-
 msgid "done"
 msgstr "atlikta"
+
+msgid "Done"
+msgstr "Atlikta"
 
 msgid "Download this stylesheet"
 msgstr "Atsiųsti šį stilių"
@@ -598,6 +598,9 @@ msgstr "Apsauga resursui \"%s\"..."
 msgid "Height"
 msgstr "Aukštis"
 
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
+
 msgid "Horizontal"
 msgstr "Horizontalus"
 
@@ -755,20 +758,20 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "palikti tuščią"
 
-msgid "left"
-msgstr "kairė"
-
 msgid "Left"
 msgstr "Kairė"
+
+msgid "left"
+msgstr "kairė"
 
 msgid "Left bracket"
 msgstr "Kairys skliaustas"
@@ -808,11 +811,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "Klaidingas XML[%s]:\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Tvarkyti klausimus"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Tvarkyti klausimus"
 
 msgid "map response"
@@ -842,11 +845,11 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maks"
 
-msgid "Max length"
-msgstr "Maks. ilgis"
-
 msgid "Max Length"
 msgstr "Maks. Ilgis"
+
+msgid "Max length"
+msgstr "Maks. ilgis"
 
 msgid "Max plays count"
 msgstr "Maks. paleidimų kiekis"
@@ -966,11 +969,11 @@ msgstr "Peržiūrėti negalima"
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "None"
-msgstr "Nėra"
-
 msgid "none"
 msgstr "nėra"
+
+msgid "None"
+msgstr "Nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -1200,11 +1203,11 @@ msgstr "Registravimo metodas tikisi $key ir $name parametrų"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registravimo metodas tikisi $key ir $name parametrų."
 
-msgid "Remove"
-msgstr "Ištrinti"
-
 msgid "remove"
 msgstr "ištrinti"
+
+msgid "Remove"
+msgstr "Ištrinti"
 
 msgid "Remove custom background color"
 msgstr "Panaikinti pasirinktą fono spalvą"
@@ -1263,11 +1266,11 @@ msgstr "Atsakymų vertinimo modelis"
 msgid "Response Properties"
 msgstr "Atsakymo Savybės"
 
-msgid "right"
-msgstr "dešinė"
-
 msgid "Right"
 msgstr "Dešinė"
+
+msgid "right"
+msgstr "dešinė"
 
 msgid "Right bracket"
 msgstr "Dešinys skliaustas"
@@ -1284,11 +1287,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "score"
-msgstr "balai"
-
 msgid "Score"
 msgstr "Balai"
+
+msgid "score"
+msgstr "balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"

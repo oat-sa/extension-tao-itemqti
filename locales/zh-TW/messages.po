@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint135\n"
-"PO-Revision-Date: 2020-08-14T08:46:25\n"
+"Project-Id-Version: TAO 3.4.0-sprint136\n"
+"PO-Revision-Date: 2020-08-31T15:29:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -168,10 +168,10 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr "區塊"
 
-msgid "Block"
+msgid "block"
 msgstr "區塊"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -384,11 +384,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "完成"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "下載這個樣式表"
@@ -597,6 +597,9 @@ msgstr ""
 msgid "Height"
 msgstr "長度"
 
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
+
 msgid "Horizontal"
 msgstr ""
 
@@ -754,19 +757,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "LaTeX"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -806,11 +809,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "管理題目"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "管理題目"
 
 msgid "map response"
@@ -840,10 +843,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
 msgid "Max plays count"
@@ -964,11 +967,11 @@ msgstr ""
 msgid "No value set"
 msgstr "沒有設定數值"
 
-msgid "None"
-msgstr "無"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "無"
 
 msgid "None defined yet."
 msgstr "還未定義。"
@@ -1197,10 +1200,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1260,11 +1263,11 @@ msgstr "處理回應"
 msgid "Response Properties"
 msgstr "回應屬性"
 
-msgid "right"
-msgstr "右"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "右"
 
 msgid "Right bracket"
 msgstr ""
@@ -1281,10 +1284,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "分數"
 
-msgid "Score"
+msgid "score"
 msgstr "分數"
 
 msgid "Score range"
