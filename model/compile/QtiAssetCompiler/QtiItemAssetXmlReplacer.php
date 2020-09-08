@@ -69,7 +69,7 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
 
         $attributeNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
         foreach ($attributeNodes as $node) {
-            if (!$node->nodeValue) {
+            if ($node->nodeValue) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
             }
         }
