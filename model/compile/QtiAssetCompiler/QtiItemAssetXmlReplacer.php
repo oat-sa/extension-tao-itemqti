@@ -47,6 +47,20 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
             }
         }
 
+        //replace assets in html encoded properties (such as content of text reader interaction)
+        $replacementList = [];
+        foreach ($packedAssets as $key => $asset) {
+            $replacementList[$key] = $asset->getReplacedBy();
+        }
+
+        $attributeNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
+        unset($xpath);
+        foreach ($attributeNodes as $node) {
+            if ($node->nodeValue) {
+                $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
+            }
+        }
+
         return $packedAssets;
     }
 }
