@@ -60,16 +60,16 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
      */
     private function replaceEncodedNodes($xpath, array $packedAssets)
     {
-        $replacementList = [];
-        foreach ($packedAssets as $key => $asset) {
-            if ($asset instanceof PackedAsset) {
-                $replacementList[$key] = $asset->getReplacedBy();
-            }
+        $replacementList = array_filter($packedAssets, function ($asset) {
+            return $asset instanceof PackedAsset;
+        });
+        foreach ($replacementList as $key => $asset) {
+            $replacementList[$key] = $asset->getReplacedBy();
         }
 
         $attributeNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
         foreach ($attributeNodes as $node) {
-            if ($node->nodeValue) {
+            if (!$node->nodeValue) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
             }
         }
