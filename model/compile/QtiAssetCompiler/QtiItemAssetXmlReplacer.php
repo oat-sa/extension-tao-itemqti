@@ -32,6 +32,7 @@ use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 class QtiItemAssetXmlReplacer extends ConfigurationService
 {
     /**
+     * @param DOMDocument $packedAssets
      * @param PackedAsset[] $packedAssets
      * @return PackedAsset[]
      */
@@ -47,7 +48,18 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
             }
         }
 
-        //replace assets in html encoded properties (such as content of text reader interaction)
+        $this->replaceEncodedNodes($xpath, $packedAssets);
+
+        return $packedAssets;
+    }
+
+    /**
+     * Replace assets in html encoded properties (such as content of text reader interaction)
+     * @param $xpath
+     * @param array $packedAssets
+     */
+    private function replaceEncodedNodes($xpath, array $packedAssets)
+    {
         $replacementList = [];
         foreach ($packedAssets as $key => $asset) {
             if ($asset instanceof PackedAsset) {
@@ -56,13 +68,10 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
         }
 
         $attributeNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
-        unset($xpath);
         foreach ($attributeNodes as $node) {
             if ($node->nodeValue) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
             }
         }
-
-        return $packedAssets;
     }
 }
