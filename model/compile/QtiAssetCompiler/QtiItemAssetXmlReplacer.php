@@ -50,7 +50,9 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
         //replace assets in html encoded properties (such as content of text reader interaction)
         $replacementList = [];
         foreach ($packedAssets as $key => $asset) {
-            $replacementList[$key] = $asset->getReplacedBy();
+            if ($asset instanceof PackedAsset) {
+                $replacementList[$key] = $asset->getReplacedBy();
+            }
         }
 
         $attributeNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
