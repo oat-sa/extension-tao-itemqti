@@ -46,6 +46,10 @@ define([
             this.getOption('responseOptionForm'),//note : no response required...
             options
         );
+
+        $(document).on('open-preview.qti-item', () => {
+            interaction.mediaElement.execute('pause');
+        });
     };
 
     return MediaInteraction;
