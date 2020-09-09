@@ -41,13 +41,16 @@ class QtiItemAssetXmlReplacerTest extends TestCase
     public function testReplaceAssetNodeValue()
     {
         $packedAsset = $this->createMock(PackedAsset::class);
-        $packedAsset->expects($this->once())
-            ->method('getReplacedBy')
-            ->willReturn('new-link-fixture')
-        ;
+        $packedAsset->method('getReplacedBy')
+            ->willReturn('new-link-fixture_1');
+
+        $packedAsset2 = $this->createMock(PackedAsset::class);
+        $packedAsset2->method('getReplacedBy')
+            ->willReturn('new-link-fixture_2');
 
         $packedAssets = [
             'fixture' => $packedAsset,
+            'decoded_fixture' => $packedAsset2,
             'another-fixture' => '',
         ];
 
@@ -56,23 +59,32 @@ class QtiItemAssetXmlReplacerTest extends TestCase
         $element->setAttribute('src', 'fixture');
         $domDocument->appendChild($element);
 
+        $element = $domDocument->createElement('property');
+        $element->appendChild($domDocument->createTextNode(htmlentities(
+            '<img src="decoded_fixture" alt="type="image/png"/>'
+        )));
+        $domDocument->appendChild($element);
+
         $this->subject->replaceAssetNodeValue($domDocument, $packedAssets);
 
         $attributes = $domDocument->getElementsByTagName('video')->item(0)->attributes;
-        $this->assertEquals('new-link-fixture', $attributes['src']->nodeValue);
+        $this->assertEquals('new-link-fixture_1', $attributes['src']->nodeValue);
+
+        $propertyValue = $domDocument->getElementsByTagName('property')->item(0)->nodeValue;
+        $this->assertEquals(htmlentities(
+            '<img src="new-link-fixture_2" alt="type="image/png"/>'
+        ), $propertyValue);
     }
 
     public function testReplaceAssetNodeValues()
     {
         $packedAsset1 = $this->createMock(PackedAsset::class);
-        $packedAsset1->expects($this->once())
-            ->method('getReplacedBy')
+        $packedAsset1->method('getReplacedBy')
             ->willReturn('new-link-fixture-1')
         ;
 
         $packedAsset2 = $this->createMock(PackedAsset::class);
-        $packedAsset2->expects($this->once())
-            ->method('getReplacedBy')
+        $packedAsset2->method('getReplacedBy')
             ->willReturn('new-link-fixture-2')
         ;
 
