@@ -64,6 +64,7 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
             return $asset instanceof PackedAsset;
         });
         
+        /** @var PackedAsset $asset */
         foreach ($replacementList as $key => $asset) {
             $replacementList[$key] = $asset->getReplacedBy();
         }
