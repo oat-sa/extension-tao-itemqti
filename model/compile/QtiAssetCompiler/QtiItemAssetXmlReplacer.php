@@ -58,7 +58,7 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
      * @param $xpath
      * @param array $packedAssets
      */
-    private function replaceEncodedNodes($xpath, array $packedAssets)
+    private function replaceEncodedNodes(DOMXPath $xpath, array $packedAssets): void
     {
         $replacementList = array_filter($packedAssets, function ($asset) {
             return $asset instanceof PackedAsset;
