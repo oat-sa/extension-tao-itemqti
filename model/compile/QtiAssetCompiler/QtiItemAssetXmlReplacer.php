@@ -32,6 +32,11 @@ use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 class QtiItemAssetXmlReplacer extends ConfigurationService
 {
     /**
+     * xpath query to find nodes which may contain html encoded content
+     */
+    private const HTML_CONTENT_NODES_QUERY = "//*[local-name()='entry']|//*[local-name()='property']";
+
+    /**
      * @param DOMDocument $packedAssets
      * @param PackedAsset[] $packedAssets
      * @return PackedAsset[]
@@ -67,7 +72,7 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
             $replacementList[$key] = $asset->getReplacedBy();
         }
 
-        $attributeNodes = $xpath->query("//*[local-name()='entry']|//*[local-name()='property']") ?: [];
+        $attributeNodes = $xpath->query(self::HTML_CONTENT_NODES_QUERY) ?: [];
         foreach ($attributeNodes as $node) {
             if ($node->nodeValue) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
