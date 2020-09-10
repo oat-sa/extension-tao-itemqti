@@ -26,17 +26,16 @@ define([
        //change the correct state
         _widget.on('metaChange', function(meta){
             if(meta.key === 'defineCorrect'){
-                if(meta.value){
+                if (meta.value) {
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)
                         .removeProp('disabled')
                         .removeClass('disabled');
-                } else if (meta.value === false) {
-                    response.setCorrect([]);
                 } else {
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)
                         .prop('disabled', true)
                         .prop('checked', false)
                         .addClass('disabled');
+                    response.setCorrect([]);
                 }
             }
         });
