@@ -14,6 +14,7 @@ define([
 
         //init response widget in responseMapping mode:
         responseWidget.create(_widget, true);
+
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.values(response.getCorrect()));
 
@@ -29,14 +30,13 @@ define([
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)
                         .removeProp('disabled')
                         .removeClass('disabled');
+                } else if (meta.value === false) {
+                    response.setCorrect([]);
                 } else {
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)
                         .prop('disabled', true)
                         .prop('checked', false)
                         .addClass('disabled');
-                }
-                if(meta.value === false){
-                    response.setCorrect([]);
                 }
             }
         });
