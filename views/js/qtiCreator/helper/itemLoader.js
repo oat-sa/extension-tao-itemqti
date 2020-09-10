@@ -71,7 +71,7 @@ define([
                             }
 
                             callback(loadedItem, this.getLoadedClasses());
-                        });
+                        }, true);
                     }else{
 
                         newItem = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
