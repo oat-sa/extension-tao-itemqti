@@ -32,6 +32,12 @@ use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 class QtiItemAssetXmlReplacer extends ConfigurationService
 {
     /**
+     * xpath query to find nodes which may contain html encoded content
+     */
+    private const HTML_CONTENT_NODES_QUERY = "//*[local-name()='entry']|//*[local-name()='property']";
+
+    /**
+     * @param DOMDocument $packedAssets
      * @param PackedAsset[] $packedAssets
      * @return PackedAsset[]
      */
@@ -47,6 +53,32 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
             }
         }
 
+        $this->replaceEncodedNodes($xpath, $packedAssets);
+
         return $packedAssets;
+    }
+
+    /**
+     * Replace assets in html encoded properties (such as content of text reader interaction)
+     * @param $xpath
+     * @param array $packedAssets
+     */
+    private function replaceEncodedNodes(DOMXPath $xpath, array $packedAssets): void
+    {
+        $replacementList = array_filter($packedAssets, function ($asset) {
+            return $asset instanceof PackedAsset;
+        });
+
+        /** @var PackedAsset $asset */
+        foreach ($replacementList as $key => $asset) {
+            $replacementList[$key] = $asset->getReplacedBy();
+        }
+
+        $attributeNodes = $xpath->query(self::HTML_CONTENT_NODES_QUERY) ?: [];
+        foreach ($attributeNodes as $node) {
+            if ($node->nodeValue) {
+                $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
+            }
+        }
     }
 }

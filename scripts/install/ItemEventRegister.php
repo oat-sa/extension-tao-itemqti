@@ -22,22 +22,34 @@
 
 namespace oat\taoQtiItem\scripts\install;
 
+use oat\oatbox\extension\InstallAction;
+use oat\taoItems\model\event\ItemContentClonedEvent;
+use oat\taoItems\model\event\ItemCreatedEvent;
+use oat\taoItems\model\event\ItemRdfUpdatedEvent;
+use oat\taoQtiItem\model\Listener\ItemUpdater;
+use oat\taoQtiItem\model\Listener\ReplaceCopiedQtiXmlIdentifierListener;
+use oat\taoQtiItem\model\qti\Service;
+
 /**
  * Description of ItemEventRegister
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ItemEventRegister extends \common_ext_action_InstallAction
+class ItemEventRegister extends InstallAction
 {
     public function __invoke($params)
     {
         $this->registerEvent(
-            \oat\taoItems\model\event\ItemRdfUpdatedEvent::class,
-            [\oat\taoQtiItem\model\Listener\ItemUpdater::class, 'catchItemRdfUpdatedEvent']
+            ItemRdfUpdatedEvent::class,
+            [ItemUpdater::class, 'catchItemRdfUpdatedEvent']
         );
         $this->registerEvent(
-            \oat\taoItems\model\event\ItemCreatedEvent::class,
-            [\oat\taoQtiItem\model\qti\Service::class, 'catchItemCreatedEvent']
+            ItemCreatedEvent::class,
+            [Service::class, 'catchItemCreatedEvent']
+        );
+        $this->registerEvent(
+            ItemContentClonedEvent::class,
+            [ReplaceCopiedQtiXmlIdentifierListener::class, 'catchItemCreatedFromSource']
         );
     }
 }
