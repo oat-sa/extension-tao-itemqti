@@ -17,13 +17,18 @@ define([
 
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.values(response.getCorrect()));
-        
-       //change the correct state 
-       _widget.on('metaChange', function(meta){
+
+        $('.match-interaction-area input[type="checkbox"]', _widget.$container)
+            .prop('disabled', true)
+            .prop('checked', false)
+            .addClass('disabled');
+
+       //change the correct state
+        _widget.on('metaChange', function(meta){
             if(meta.key === 'defineCorrect'){
                 if(meta.value){
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)
-                        .removeProp('disabled') 
+                        .removeProp('disabled')
                         .removeClass('disabled');
                 } else {
                     $('.match-interaction-area input[type="checkbox"]', _widget.$container)
@@ -38,9 +43,11 @@ define([
         });
 
     }, function(){
+        $('.match-interaction-area input[type="checkbox"]', this.widget.$container)
+            .removeProp('disabled')
+            .removeClass('disabled');
 
         responseWidget.destroy(this.widget);
-
     });
 
     return MatchInteractionStateMap;
