@@ -14,7 +14,6 @@ define([
 
         //init response widget in responseMapping mode:
         responseWidget.create(_widget, true);
-
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.values(response.getCorrect()));
 
