@@ -42,6 +42,8 @@ class Table extends Element implements FlowContainer
 
     protected $body = null;
 
+    private $dummy;
+
     public function __construct($attributes, Item $relatedItem = null, $serial = '')
     {
         parent::__construct($attributes, $relatedItem, $serial);
