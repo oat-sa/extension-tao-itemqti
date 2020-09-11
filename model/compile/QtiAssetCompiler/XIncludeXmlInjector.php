@@ -38,18 +38,22 @@ class XIncludeXmlInjector extends ConfigurationService
      * @param DOMDocument $domDocument
      * @param PackedAsset[] $packedAssets
      */
-    public function injectSharedStimulus(DOMDocument $domDocument, array $packedAssets) : void
+    public function injectSharedStimulus(DOMDocument $domDocument, array $packedAssets): void
     {
+        $domElementsCollection = $domDocument->getElementsByTagName('include');
+        $elements = [];
+
         /** @var DOMElement $xincludeNode */
-        foreach ($domDocument->getElementsByTagName('include') as $xincludeNode) {
+        foreach ($domElementsCollection as $xincludeNode) {
+            $elements[] = $xincludeNode;
+        }
 
+        foreach ($elements as $xincludeNode) {
             $sharedStimulusElement = $this->createSharedStimulusContent($xincludeNode, $packedAssets);
-
             $xincludeNode->parentNode->replaceChild(
                 $domDocument->importNode($sharedStimulusElement, true),
                 $xincludeNode
             );
-
         }
     }
 

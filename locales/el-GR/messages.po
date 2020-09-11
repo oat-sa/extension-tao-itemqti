@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint135\n"
-"PO-Revision-Date: 2020-08-14T08:45:57\n"
+"Project-Id-Version: TAO 3.4.0-sprint136\n"
+"PO-Revision-Date: 2020-08-31T15:28:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: el-GR\n"
@@ -168,10 +168,10 @@ msgstr ""
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -384,10 +384,10 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
+msgid "done"
 msgstr ""
 
-msgid "done"
+msgid "Done"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -597,6 +597,9 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
+
 msgid "Horizontal"
 msgstr ""
 
@@ -754,19 +757,19 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr ""
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
 msgid "Left bracket"
@@ -806,11 +809,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr ""
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr ""
 
 msgid "map response"
@@ -840,10 +843,10 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
 msgid "Max plays count"
@@ -964,10 +967,10 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
-msgid "None"
+msgid "none"
 msgstr ""
 
-msgid "none"
+msgid "None"
 msgstr ""
 
 msgid "None defined yet."
@@ -1197,10 +1200,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1260,10 +1263,10 @@ msgstr ""
 msgid "Response Properties"
 msgstr ""
 
-msgid "right"
+msgid "Right"
 msgstr ""
 
-msgid "Right"
+msgid "right"
 msgstr ""
 
 msgid "Right bracket"
@@ -1281,10 +1284,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"

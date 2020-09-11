@@ -43,10 +43,10 @@ return [
     'name'        => 'taoQtiItem',
     'label'       => 'QTI item model',
     'license'     => 'GPL-2.0',
-    'version'     => '25.8.1',
+    'version'     => '25.9.2',
     'author'      => 'Open Assessment Technologies',
     'requires' => [
-        'taoItems' => '>=10.8.2',
+        'taoItems' => '>=10.11.0',
         'tao'      => '>=45.2.0',
         'generis'  => '>=12.17.0',
     ],
