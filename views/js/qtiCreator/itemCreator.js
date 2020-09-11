@@ -54,12 +54,13 @@ define([
      * @param {String} uri - the item URI
      * @param {String} label - the item label
      * @param {String} itemDataUrl - the data url
+     * @param {Boolean} perInteractionRp - per interaction processing enabled
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    var loadItem = function loadItem(uri, label, itemDataUrl){
+    var loadItem = function loadItem(uri, label, itemDataUrl, perInteractionRp){
         return new Promise(function(resolve, reject){
-            itemLoader.loadItem({uri : uri, label : label, itemDataUrl: itemDataUrl}, function(item){
+            itemLoader.loadItem({uri : uri, label : label, itemDataUrl: itemDataUrl, perInteractionRp }, function(item){
                 if(!item){
                     reject(new Error('Unable to load the item'));
                 }
@@ -97,6 +98,7 @@ define([
      * @param {String} config.properties.uri - the URI of the item to load (properties structure is kept as legacy)
      * @param {String} config.properties.label - the label of the item to load (properties structure is kept as legacy)
      * @param {String} config.properties.baseUrl - the base URL used to resolve assets
+     * @param {Boolean} config.properties.perInteractionRp - per interaction response processing enabled
      * @param {String[]} [config.interactions] - the list of additional interactions to load (PCI)
      * @param {String[]} [config.infoControls] - the list of info controls to load (PIC)
      * @param {areaBroker} areaBroker - a mapped areaBroker
@@ -198,7 +200,7 @@ define([
                 });
 
                 var usedCustomInteractionIds = [];
-                loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl).then(function(item){
+                loadItem(config.properties.uri, config.properties.label, config.properties.itemDataUrl, config.properties.perInteractionRp).then(function(item){
                     if(! _.isObject(item)){
                         self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
                         return;
