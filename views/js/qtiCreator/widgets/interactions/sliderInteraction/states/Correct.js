@@ -4,57 +4,62 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'lodash',
-    'i18n'
-], function(stateFactory, Correct, commonRenderer, instructionMgr, _, __){
+    'i18n',
+    'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Helper'
+], function(
+    stateFactory,
+    Correct,
+    commonRenderer,
+    instructionMgr,
+    _,
+    __,
+    sliderInteractionHelper
+){
 
-    var SliderInteractionStateCorrect = stateFactory.create(Correct, function(){
-        
+    const SliderInteractionStateCorrect = stateFactory.create(Correct, function(){
+
         _createResponseWidget(this.widget);
-        
-    }, function(){
-        
-        _destroyResponseWidget(this.widget);
-        
-    });
-    
-    var _createResponseWidget = function(widget){
 
-        var interaction = widget.element;
-        var response = interaction.getResponseDeclaration();
-        var correctResponse = _.values(response.getCorrect());
+    }, function(){
+
+        _destroyResponseWidget(this.widget);
+
+    });
+
+    const _createResponseWidget = function(widget){
+        const interaction = widget.element;
+        const response = interaction.getResponseDeclaration();
+        const correctResponse = _.values(response.getCorrect());
+        sliderInteractionHelper.responseManager(interaction, response, correctResponse);
 
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
-        
-        var $sliderElt = widget.$container.find('.qti-slider');
+
+        const $sliderElt = widget.$container.find('.qti-slider');
         $sliderElt.removeAttr('disabled');
 
         instructionMgr.appendInstruction(interaction, __('Please define the correct response using the slider.'));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(_unformatResponse(data.response));
+            sliderInteractionHelper.responseManager(interaction, response, data.response.base.integer);
         });
     };
-    
-    var _destroyResponseWidget = function(widget){
-        
-        var $sliderElt = widget.$container.find('.qti-slider');
-        var lowerBound = widget.element.attributes.lowerBound;
-        
+
+    const _destroyResponseWidget = function(widget){
+
+        const $sliderElt = widget.$container.find('.qti-slider');
+        const lowerBound = widget.element.attributes.lowerBound;
+
         $sliderElt.attr('disabled', 'disabled');
         $sliderElt.val(lowerBound);
         widget.$container.find('span.qti-slider-cur-value').text('' + lowerBound);
-        
+
         instructionMgr.removeInstructions(widget.element);
         widget.$container.off('responseChange.qti-widget');
     };
-    
-    var _formatResponse = function(response){
+
+    const _formatResponse = function(response){
         return {"base" : {"integer" : response}};
     };
 
-    var _unformatResponse = function(formatedResponse){
-        return [formatedResponse.base.integer];
-    };
-    
     return SliderInteractionStateCorrect;
 });

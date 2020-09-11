@@ -13,20 +13,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2020 (original work) Open Assessment Technologies SA;
  *
  */
 define([
-'taoQtiItem/qtiCreator/widgets/states/factory',
-'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
-'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/slider'
-], function(stateFactory, Question, formElement, formTpl){
-    var SliderInteractionStateQuestion = stateFactory.extend(Question);
+    'lodash',
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/slider',
+    'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Helper'
+], function(_, stateFactory, Question, formElement, formTpl, sliderInteractionHelper){
+    const SliderInteractionStateQuestion = stateFactory.extend(Question);
     SliderInteractionStateQuestion.prototype.initForm = function(){
-        var _widget = this.widget,
+        const _widget = this.widget,
         $form = _widget.$form,
         interaction = _widget.element;
+        const responseDeclaration = interaction.getResponseDeclaration();
+        const currentResponse = _.values(responseDeclaration.getCorrect());
 
         $form.html(formTpl({
             // tpl data for the interaction
@@ -39,8 +43,12 @@ define([
         }));
 
         formElement.initWidget($form);
+
+        // check response on the interaction init
+        sliderInteractionHelper.responseManager(interaction, responseDeclaration, currentResponse);
+
         //  init data change callbacks
-        var callbacks = {};
+        const callbacks = {};
 
         // -- lowerBound Callback
         callbacks.lowerBound = (interaction, attrValue) => {
@@ -82,6 +90,8 @@ define([
             const $qtiSlider = $container.find('.qti-slider');
             $qtiSlider.noUiSlider({ range: { min: lowerBound, max: upperBound } }, true);
             $qtiSlider.val(lowerBound);
+
+            sliderInteractionHelper.responseManager(interaction, responseDeclaration, currentResponse);
         };
 
         // -- upperBound Callback
@@ -127,6 +137,7 @@ define([
                     { range: { min: lowerBound, max: upperBound } },
                     true
                 );
+            sliderInteractionHelper.responseManager(interaction, responseDeclaration, currentResponse);
         };
 
         // -- orientation Callback
