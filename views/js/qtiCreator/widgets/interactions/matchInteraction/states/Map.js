@@ -4,13 +4,14 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/matchInteraction/ResponseWidget',
     'lodash'
-], function($, stateFactory, Map, responseWidget, _){
+], function($, stateFactory, Map, responseWidget, _) {
 
-    var MatchInteractionStateMap = stateFactory.create(Map, function(){
+    return stateFactory.create(Map, function() {
 
-        var _widget = this.widget,
+        const _widget = this.widget,
             interaction = _widget.element,
-            response = interaction.getResponseDeclaration();
+            response = interaction.getResponseDeclaration(),
+            matchInteractionArea = $('.match-interaction-area input[type="checkbox"]', _widget.$container);
 
         //init response widget in responseMapping mode:
         responseWidget.create(_widget, true);
@@ -18,20 +19,20 @@ define([
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.values(response.getCorrect()));
 
-        $('.match-interaction-area input[type="checkbox"]', _widget.$container)
+        matchInteractionArea
             .prop('disabled', true)
             .prop('checked', false)
             .addClass('disabled');
 
        //change the correct state
-        _widget.on('metaChange', function(meta){
-            if(meta.key === 'defineCorrect'){
+        _widget.on('metaChange', function(meta) {
+            if (meta.key === 'defineCorrect') {
                 if (meta.value) {
-                    $('.match-interaction-area input[type="checkbox"]', _widget.$container)
+                    matchInteractionArea
                         .removeProp('disabled')
                         .removeClass('disabled');
                 } else {
-                    $('.match-interaction-area input[type="checkbox"]', _widget.$container)
+                    matchInteractionArea
                         .prop('disabled', true)
                         .prop('checked', false)
                         .addClass('disabled');
@@ -44,9 +45,6 @@ define([
         $('.match-interaction-area input[type="checkbox"]', this.widget.$container)
             .removeProp('disabled')
             .removeClass('disabled');
-
         responseWidget.destroy(this.widget);
     });
-
-    return MatchInteractionStateMap;
 });
