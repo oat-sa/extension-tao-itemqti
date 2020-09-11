@@ -11,7 +11,7 @@ define([
         this.$messageBox = $(invalidInfoBoxTpl({
             serial : this.widget.serial
         }));
-        $('.qti-item').append(this.$messageBox);
+        $('#feedback-box').append(this.$messageBox);
 
     },function(){
 
