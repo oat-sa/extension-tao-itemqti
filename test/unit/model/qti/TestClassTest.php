@@ -19,4 +19,9 @@ class TestClassTest extends TestCase
 
         $this->assertSame('26', $testClass->toString());
     }
+
+    public function testDummy()
+    {
+        $this->assertTrue(true);
+    }
 }
