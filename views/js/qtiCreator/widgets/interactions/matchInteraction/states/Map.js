@@ -8,13 +8,13 @@ define([
 
     return stateFactory.create(Map, function() {
 
-        const _widget = this.widget,
-            interaction = _widget.element,
-            response = interaction.getResponseDeclaration(),
-            matchInteractionArea = $('.match-interaction-area input[type="checkbox"]', _widget.$container);
+        const interactionContainer = this.widget;
+        const interaction = interactionContainer.element;
+        const response = interaction.getResponseDeclaration();
+        const matchInteractionArea = $('.match-interaction-area input[type="checkbox"]', interactionContainer.$container);
 
         //init response widget in responseMapping mode:
-        responseWidget.create(_widget, true);
+        responseWidget.create(interactionContainer, true);
 
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.values(response.getCorrect()));
@@ -25,7 +25,7 @@ define([
             .addClass('disabled');
 
        //change the correct state
-        _widget.on('metaChange', function(meta) {
+        interactionContainer.on('metaChange', function(meta) {
             if (meta.key === 'defineCorrect') {
                 if (meta.value) {
                     matchInteractionArea
