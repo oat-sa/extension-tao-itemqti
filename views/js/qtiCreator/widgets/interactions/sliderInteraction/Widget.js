@@ -24,7 +24,7 @@ define([
     const SliderInteractionWidget = Widget.clone();
 
     SliderInteractionWidget.initCreator = function(){
-        this.registerStates(states)
+        this.registerStates(states);
         Widget.initCreator.call(this);
 
         // Disable slider until response edition.

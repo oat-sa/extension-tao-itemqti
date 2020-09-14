@@ -36,10 +36,7 @@ define([
         }
     }
 
-    const response = {
-        setCorrect: function setCorrect(correct) {
-        }
-    }
+    const response = { setCorrect: function setCorrect(correct) {} }
 
     QUnit.module('responseManager');
 
@@ -78,7 +75,7 @@ define([
         dialogConfirm.off('message').on('message', function (msg) {
             assert.equal(msg, 'Change response ["0"] to the only possible value "2".', 'Dialog has correct message');
             ready();
-        })
+        });
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 2;
@@ -105,7 +102,7 @@ define([
         dialogConfirm.off('message').on('message', function (msg) {
             assert.equal(msg, 'Change response ["5"] to the upper bound value "3".', 'Dialog has correct message');
             ready();
-        })
+        });
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 3;
@@ -118,7 +115,7 @@ define([
         dialogConfirm.off('message').on('message', function (msg) {
             assert.equal(msg, 'Change response ["1"] to the lower bound value "2".', 'Dialog has correct message');
             ready();
-        })
+        });
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 3;
