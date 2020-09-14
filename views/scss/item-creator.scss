@@ -1311,6 +1311,18 @@ img.dragging.ui-draggable-dragging {
     color: #999;
 }
 
+.feedback-warning-popup {
+    display: block;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    margin-left: -200px;
+    width: 400px;
+    z-index: 105001;
+    border-color: #dcb66b;
+    background-color: #f7efde;
+}
+
 .extendedText{
     .incrementer-ctrl-wrapper{
         right: 10px; // to compensate the next change below
