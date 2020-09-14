@@ -35,9 +35,6 @@ define([
 
             return {
                 isValid: function () {
-                    console.log('lb', lowerBound)
-                    console.log('ub', upperBound)
-                    console.log('current', currentResponse)
                     return lowerBound <= upperBound
                         && currentResponse >= lowerBound
                         && currentResponse <= upperBound;
