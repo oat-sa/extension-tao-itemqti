@@ -43,6 +43,8 @@ define([
         renderInteraction : function(){
             var $container  = this.$original; 
             var interaction = this.element;
+            //disabled autoplay in authoring
+            interaction.attributes.autostart = false;
             commonRenderer.render.call(interaction.getRenderer(), interaction, {
                 features : 'full',
                 controlPlaying : false

@@ -48,7 +48,7 @@ define([
         );
 
         $(document).on('open-preview.qti-item', () => {
-            interaction.mediaElement.execute('pause');
+            interaction.mediaElement.execute('stop');
         });
     };
 
