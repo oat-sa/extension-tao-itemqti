@@ -13,7 +13,6 @@ define([
     instructionMgr,
     _,
     __,
-    sliderInteractionHelper
 ){
 
     const SliderInteractionStateCorrect = stateFactory.create(Correct, function(){
@@ -30,7 +29,7 @@ define([
         const interaction = widget.element;
         const response = interaction.getResponseDeclaration();
         const correctResponse = _.values(response.getCorrect());
-        sliderInteractionHelper.responseManager(interaction, response, correctResponse);
+        response.setCorrect([correctResponse]);
 
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
 
@@ -40,7 +39,7 @@ define([
         instructionMgr.appendInstruction(interaction, __('Please define the correct response using the slider.'));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            sliderInteractionHelper.responseManager(interaction, response, data.response.base.integer);
+            response.setCorrect([data.response.base.integer]);
         });
     };
 

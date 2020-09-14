@@ -29,40 +29,31 @@ define([
          * @param response
          * @param currentResponse
          */
-        responseManager: function responseManager(interaction, response, currentResponse) {
+        responseManager: function responseManager(interaction, currentResponse) {
+
             const lowerBound = interaction.attributes.lowerBound;
             const upperBound = interaction.attributes.upperBound;
 
-            let validResponse = 0;
-            let errMessage = '';
-            let warnQuestion = '';
-
-            // if response is bigger than allowed
-            if (lowerBound > upperBound) {
-                errMessage = __('Lower bound can not be bigger than upper bound.');
-            } else if (lowerBound === upperBound && currentResponse !== lowerBound) {
-                // if upper and lower are equal
-                warnQuestion = __('Change response ["%s"] to the only possible value "%s".', currentResponse, lowerBound);
-                validResponse = lowerBound;
-            } else if (currentResponse > upperBound) {
-                warnQuestion = __('Change response ["%s"] to the upper bound value "%s".', currentResponse, upperBound);
-                validResponse = upperBound;
-            } else if (currentResponse < lowerBound) {
-                warnQuestion = __('Change response ["%s"] to the lower bound value "%s".', currentResponse, lowerBound);
-                validResponse = lowerBound;
-            } else {
-                validResponse = currentResponse;
-            }
-
-            if (warnQuestion.length) {
-                dialogConfirm(warnQuestion, function () {
-                    response.setCorrect([validResponse]);
-                });
-            } else if (errMessage.length) {
-                feedback().error(errMessage);
-            } else {
-                response.setCorrect([validResponse]);
-            }
+            return {
+                isValid: function () {
+                    return lowerBound <= upperBound
+                        && currentResponse >= lowerBound
+                        && currentResponse <= upperBound;
+                },
+                getErrorMessage: function () {
+                    let msg = '';
+                    if (lowerBound > upperBound) {
+                        msg = __('Lower bound is bigger than upper bound.');
+                    } else if (lowerBound === upperBound && currentResponse !== lowerBound) {
+                        msg = __('Response ["%s"] should be the only possible value "%s".', currentResponse, lowerBound);
+                    } else if (currentResponse > upperBound) {
+                        msg = __('Response ["%s"] is bigger than the upper bound value "%s".', currentResponse, upperBound);
+                    } else if (currentResponse < lowerBound) {
+                        msg = __('Response ["%s"] is lower than the lower bound value "%s".', currentResponse, lowerBound);
+                    }
+                    return msg;
+                }
+            };
         }
     }
 });

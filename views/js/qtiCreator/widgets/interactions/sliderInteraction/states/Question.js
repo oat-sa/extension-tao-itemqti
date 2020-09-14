@@ -24,13 +24,30 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/slider',
     'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Helper'
 ], function(_, stateFactory, Question, formElement, formTpl, sliderInteractionHelper){
-    const SliderInteractionStateQuestion = stateFactory.extend(Question);
-    SliderInteractionStateQuestion.prototype.initForm = function(){
-        const _widget = this.widget,
-        $form = _widget.$form,
-        interaction = _widget.element;
+    'use strict';
+
+    const initQuestionState = function () {}
+
+    const exitQuestionState = function exitQuestionState() {
+        const _widget = this.widget;
+        const interaction = _widget.element;
         const responseDeclaration = interaction.getResponseDeclaration();
         const currentResponse = _.values(responseDeclaration.getCorrect());
+        const responseManager = sliderInteractionHelper.responseManager(interaction, currentResponse);
+        const valid = responseManager.isValid()
+
+        _widget.isValid('sliderInteraction', valid);
+
+        console.log(responseManager.getErrorMessage())
+    }
+
+    const SliderInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
+
+    SliderInteractionStateQuestion.prototype.initForm = function(){
+        console.log('here')
+        const _widget = this.widget;
+        const $form = _widget.$form;
+        const interaction = _widget.element;
 
         $form.html(formTpl({
             // tpl data for the interaction
@@ -43,9 +60,6 @@ define([
         }));
 
         formElement.initWidget($form);
-
-        // check response on the interaction init
-        sliderInteractionHelper.responseManager(interaction, responseDeclaration, currentResponse);
 
         //  init data change callbacks
         const callbacks = {};
@@ -90,8 +104,6 @@ define([
             const $qtiSlider = $container.find('.qti-slider');
             $qtiSlider.noUiSlider({ range: { min: lowerBound, max: upperBound } }, true);
             $qtiSlider.val(lowerBound);
-
-            sliderInteractionHelper.responseManager(interaction, responseDeclaration, currentResponse);
         };
 
         // -- upperBound Callback
@@ -137,7 +149,6 @@ define([
                     { range: { min: lowerBound, max: upperBound } },
                     true
                 );
-            sliderInteractionHelper.responseManager(interaction, responseDeclaration, currentResponse);
         };
 
         // -- orientation Callback
