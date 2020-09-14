@@ -34,17 +34,13 @@ define([
         const responseDeclaration = interaction.getResponseDeclaration();
         const currentResponse = _.values(responseDeclaration.getCorrect());
         const responseManager = sliderInteractionHelper.responseManager(interaction, currentResponse);
-        const valid = responseManager.isValid()
 
-        _widget.isValid('sliderInteraction', valid);
-
-        console.log(responseManager.getErrorMessage())
+        _widget.isValid('sliderInteraction', responseManager.isValid(), responseManager.getErrorMessage());
     }
 
     const SliderInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     SliderInteractionStateQuestion.prototype.initForm = function(){
-        console.log('here')
         const _widget = this.widget;
         const $form = _widget.$form;
         const interaction = _widget.element;

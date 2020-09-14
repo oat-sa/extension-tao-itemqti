@@ -4,17 +4,17 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/invalidInfoBox'
 ], function($, stateFactory, invalidInfoBoxTpl){
 
-    return stateFactory.create('invalid', ['sleep'], function(){
+    return stateFactory.create('invalid', ['sleep'], function(a){
 
         this.widget.$container.addClass('invalid');
 
         this.$messageBox = $(invalidInfoBoxTpl({
             serial : this.widget.serial
         }));
-        $('.qti-item').append(this.$messageBox);
 
+        const $scrollOuterContainer = $('#item-editor-scroll-outer');
+        $scrollOuterContainer.prepend(this.$messageBox);
     },function(){
-
         this.widget.$container.removeClass('invalid');
         this.$messageBox.remove();
     });

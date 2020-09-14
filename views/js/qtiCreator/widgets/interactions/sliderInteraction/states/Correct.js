@@ -13,24 +13,20 @@ define([
     instructionMgr,
     _,
     __,
+    sliderInteractionHelper,
 ){
 
     const SliderInteractionStateCorrect = stateFactory.create(Correct, function(){
-
         _createResponseWidget(this.widget);
-
     }, function(){
-
         _destroyResponseWidget(this.widget);
-
     });
 
     const _createResponseWidget = function(widget){
         const interaction = widget.element;
         const response = interaction.getResponseDeclaration();
         const correctResponse = _.values(response.getCorrect());
-        response.setCorrect([correctResponse]);
-
+        response.setCorrect(correctResponse);
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
 
         const $sliderElt = widget.$container.find('.qti-slider');
@@ -44,9 +40,14 @@ define([
     };
 
     const _destroyResponseWidget = function(widget){
-
         const $sliderElt = widget.$container.find('.qti-slider');
         const lowerBound = widget.element.attributes.lowerBound;
+        const interaction = widget.element;
+        const responseDeclaration = interaction.getResponseDeclaration();
+        const currentResponse = _.values(responseDeclaration.getCorrect());
+        const responseManager = sliderInteractionHelper.responseManager(interaction, currentResponse);
+
+        widget.isValid('sliderInteraction', responseManager.isValid(), responseManager.getErrorMessage());
 
         $sliderElt.attr('disabled', 'disabled');
         $sliderElt.val(lowerBound);

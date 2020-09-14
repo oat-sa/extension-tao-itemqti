@@ -26,7 +26,6 @@ define([
         /**
          * Validate all parameters and check that slider has correct values
          * @param interaction
-         * @param response
          * @param currentResponse
          */
         responseManager: function responseManager(interaction, currentResponse) {
@@ -36,6 +35,9 @@ define([
 
             return {
                 isValid: function () {
+                    console.log('lb', lowerBound)
+                    console.log('ub', upperBound)
+                    console.log('current', currentResponse)
                     return lowerBound <= upperBound
                         && currentResponse >= lowerBound
                         && currentResponse <= upperBound;
