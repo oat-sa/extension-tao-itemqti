@@ -46,79 +46,60 @@ define([
     });
 
     QUnit.test('Test manager', function (assert) {
-        assert.expect(1);
-        const ready = assert.async();
-        const testResponse = _.clone(response);
-        testResponse.setCorrect = function (val) {
-            assert.equal(val, 0, 'Default value used');
-            ready();
-        }
-        sliderInteractionHelper.responseManager(interaction, testResponse, 0);
+        assert.expect(2);
+        const responseManager = sliderInteractionHelper.responseManager(interaction, 0);
+        assert.ok(responseManager.isValid());
+        assert.equal(responseManager.getErrorMessage(), '');
     });
 
     QUnit.test('Check bound range', function (assert) {
-        assert.expect(1);
-        const ready = assert.async();
-        feedback.on('error', function (msg) {
-            assert.equal(msg, 'Lower bound can not be bigger than upper bound.', 'Error triggered')
-            ready();
-        });
+        assert.expect(2);
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 1;
-        sliderInteractionHelper.responseManager(interaction, response, 0);
+        const responseManager = sliderInteractionHelper.responseManager(testInteraction, 0);
+        assert.equal(responseManager.isValid(), false);
+        assert.equal(responseManager.getErrorMessage(), 'Lower bound is bigger than upper bound.');
     });
 
     QUnit.test('Check only possible response failed', function (assert) {
-        assert.expect(1);
-        const ready = assert.async();
-        dialogConfirm.off('message').on('message', function (msg) {
-            assert.equal(msg, 'Change response ["0"] to the only possible value "2".', 'Dialog has correct message');
-            ready();
-        });
+        assert.expect(2);
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 2;
-        sliderInteractionHelper.responseManager(interaction, response, 0);
+        const responseManager = sliderInteractionHelper.responseManager(testInteraction, 0);
+        assert.equal(responseManager.isValid(), false);
+        assert.equal(responseManager.getErrorMessage(), 'Response ["0"] should be the only possible value "2".');
     });
 
     QUnit.test('Check only possible response correct', function (assert) {
-        assert.expect(1);
-        const ready = assert.async();
-        const testResponse = _.clone(response);
-        testResponse.setCorrect = function (val) {
-            assert.equal(val, 2, 'Default value used');
-            ready();
-        }
+        assert.expect(2);
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 2;
-        sliderInteractionHelper.responseManager(interaction, testResponse, 2);
+        sliderInteractionHelper.responseManager(testInteraction, 2);
+        const responseManager = sliderInteractionHelper.responseManager(testInteraction, 2);
+        assert.equal(responseManager.isValid(), true);
+        assert.equal(responseManager.getErrorMessage(), '');
     });
 
     QUnit.test('Current response is bigger than upper bound', function (assert) {
-        assert.expect(1);
-        const ready = assert.async();
-        dialogConfirm.off('message').on('message', function (msg) {
-            assert.equal(msg, 'Change response ["5"] to the upper bound value "3".', 'Dialog has correct message');
-            ready();
-        });
+        assert.expect(2);
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 3;
-        sliderInteractionHelper.responseManager(interaction, response, 5);
+        const responseManager = sliderInteractionHelper.responseManager(testInteraction, 5);
+        assert.equal(responseManager.isValid(), false);
+        assert.equal(responseManager.getErrorMessage(), 'Response ["5"] is bigger than the upper bound value "3".');
     });
 
     QUnit.test('Current response is lower than lower bound', function (assert) {
-        assert.expect(1);
-        const ready = assert.async();
-        dialogConfirm.off('message').on('message', function (msg) {
-            assert.equal(msg, 'Change response ["1"] to the lower bound value "2".', 'Dialog has correct message');
-            ready();
-        });
+        assert.expect(2);
         const testInteraction = _.clone(interaction);
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 3;
-        sliderInteractionHelper.responseManager(interaction, response, 1);
+        const responseManager = sliderInteractionHelper.responseManager(testInteraction, 1);
+        assert.equal(responseManager.isValid(), false);
+        assert.equal(responseManager.getErrorMessage(), 'Response ["1"] is lower than the lower bound value "2".');
     });
 });
