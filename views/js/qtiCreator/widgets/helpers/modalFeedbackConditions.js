@@ -23,11 +23,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/response/choiceSelector'
 ], function(_, __, $, formElement, choiceSelector){
-    
+
     'use strict';
-    
+
     var _ns = '.modal-feedback-condition';
-    
+
     var _availableConditions = [
         {
             name : 'correct',
@@ -128,7 +128,7 @@ define([
             onSet : onSetScore
         }
     ];
-    
+
     function _resetScore(fbRule, $select){
         $select.siblings('.feedbackRule-compared-value').val('0');
     }
@@ -155,7 +155,7 @@ define([
         $select.siblings('.feedbackRule-compared-value')
             .show()
             .off('keyup' + _ns)
-            .on('keyup' + _ns, '.feedbackRule-compared-value', function(){
+            .on('keyup' + _ns, function(){
 
                 var fbRule = response.getFeedbackRule($(this).parents('.feedbackRule-container').data('serial'));
 
@@ -172,7 +172,7 @@ define([
         $select.siblings('.feedbackRule-compared-value').hide();
 
     }
-    
+
     function getAvailableConditions(response){
 
         return _.filter(_availableConditions, function(condition){
@@ -182,7 +182,7 @@ define([
             return true;//accept by default
         });
     }
-    
+
     return  {
         get : getAvailableConditions
     };
