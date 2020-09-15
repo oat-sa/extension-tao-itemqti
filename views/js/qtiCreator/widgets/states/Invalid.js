@@ -12,8 +12,10 @@ define([
             serial : this.widget.serial
         }));
 
-        const $scrollOuterContainer = $('#item-editor-scroll-outer');
-        $scrollOuterContainer.prepend(this.$messageBox);
+        /*const $scrollOuterContainer = $('#item-editor-scroll-outer');
+        $scrollOuterContainer.prepend(this.$messageBox);*/
+        const $itemEditorBar = $('.item-editor-bar');
+        $itemEditorBar.append(this.$messageBox);
     },function(){
         this.widget.$container.removeClass('invalid');
         this.$messageBox.remove();
