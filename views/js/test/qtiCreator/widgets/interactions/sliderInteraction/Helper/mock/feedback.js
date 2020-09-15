@@ -13,23 +13,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2020  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA ;
  */
-
 define([
-    'taoQtiItem/qtiCreator/widgets/interactions/Widget',
-    'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/states/states',
-], function(Widget, states){
+    'core/eventifier'
+], function (eventifier) {
+    'use strict';
 
-    const SliderInteractionWidget = Widget.clone();
+    function mockFeedbackFactory() {
+        return {
+            error : function error(err){
+                mockFeedbackFactory.trigger('error', err);
+            }
+        };
+    }
 
-    SliderInteractionWidget.initCreator = function(){
-        this.registerStates(states);
-        Widget.initCreator.call(this);
-
-        // Disable slider until response edition.
-        this.$container.find('.qti-slider').attr('disabled', 'disabled');
-    };
-
-    return SliderInteractionWidget;
+    return eventifier(mockFeedbackFactory);
 });

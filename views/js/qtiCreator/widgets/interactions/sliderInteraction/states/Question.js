@@ -13,20 +13,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2020 (original work) Open Assessment Technologies SA;
  *
  */
 define([
-'taoQtiItem/qtiCreator/widgets/states/factory',
-'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
-'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/slider'
-], function(stateFactory, Question, formElement, formTpl){
-    var SliderInteractionStateQuestion = stateFactory.extend(Question);
+    'lodash',
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/slider',
+    'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Helper'
+], function(_, stateFactory, Question, formElement, formTpl, sliderInteractionHelper){
+    'use strict';
+
+    const initQuestionState = function () {}
+
+    const exitQuestionState = function exitQuestionState() {
+        const _widget = this.widget;
+        const interaction = _widget.element;
+        const responseDeclaration = interaction.getResponseDeclaration();
+        const currentResponse = _.values(responseDeclaration.getCorrect());
+        const responseManager = sliderInteractionHelper.responseManager(interaction, currentResponse);
+
+        _widget.isValid('sliderInteraction', responseManager.isValid(), responseManager.getErrorMessage());
+    }
+
+    const SliderInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
+
     SliderInteractionStateQuestion.prototype.initForm = function(){
-        var _widget = this.widget,
-        $form = _widget.$form,
-        interaction = _widget.element;
+        const _widget = this.widget;
+        const $form = _widget.$form;
+        const interaction = _widget.element;
 
         $form.html(formTpl({
             // tpl data for the interaction
@@ -39,8 +56,9 @@ define([
         }));
 
         formElement.initWidget($form);
+
         //  init data change callbacks
-        var callbacks = {};
+        const callbacks = {};
 
         // -- lowerBound Callback
         callbacks.lowerBound = (interaction, attrValue) => {
