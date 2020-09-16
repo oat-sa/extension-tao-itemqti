@@ -209,6 +209,7 @@ define([
          * @param {Array} [options.rpTemplates] - the array of response processing templates name to be used
          */
         initResponseForm : function initResponseForm(widget, options){
+          const perInteractionRP = widget.options.perInteractionRp;
 
           var interaction = widget.element,
                 item = interaction.getRootElement(),
@@ -219,6 +220,8 @@ define([
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
                 defineCorrect = answerStateHelper.defineCorrect(response),
                 allQtiElements = qtiElements.getAvailableAuthoringElements();
+
+          const outcome = item.getOutcomeDeclaration(`SCORE_${response.id()}`);
 
             var _toggleCorrectWidgets = function(show){
 
@@ -279,6 +282,12 @@ define([
                 identifier : function(res, value){
                     response.id(value);
                     interaction.attr('responseIdentifier', value);
+
+                    if (perInteractionRP && outcome) {
+                        outcome.attr('identifier', `SCORE_${value}`);
+
+                        answerStateHelper.initResponseForm(widget);
+                    }
                 },
                 defaultValue : _saveCallbacks.mappingAttr,
                 template : function(res, value){
@@ -297,6 +306,8 @@ define([
                     answerStateHelper.defineCorrect(response, !!value);
                 }
             };
+
+            formChangeCallbacks.identifier = _.debounce(formChangeCallbacks.identifier, 500);
 
             _.assign(formChangeCallbacks,
                 formElement.getMinMaxAttributeCallbacks(
