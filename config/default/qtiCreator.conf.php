@@ -23,4 +23,4 @@
 /**
  * Default log config, does not lock resources
  */
-return ['multi-column' => false, 'perInteractionRp' => true];
+return ['multi-column' => false, 'perInteractionRp' => false];
