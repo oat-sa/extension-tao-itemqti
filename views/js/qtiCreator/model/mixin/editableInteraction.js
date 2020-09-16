@@ -75,6 +75,7 @@ define([
             //we assume in the context of edition, every element is created from the api so alwayd bound to an item:
             item = this.getRootElement();
             item.addResponseDeclaration(response);
+            const perInteractionRp = item.metaData.widget.options.perInteractionRp;
 
             //assign responseIdentifier only after attaching it to the item to generate a unique id
             response.buildIdentifier('RESPONSE', false);
@@ -84,6 +85,21 @@ define([
                     : template || 'MATCH_CORRECT'
             );
             this.attr('responseIdentifier', response.id());
+
+            // create interaction response declaration in case of per interaction response processing
+            if (perInteractionRp) {
+                const outcomeIdentifier = `SCORE_${response.attributes.identifier}`;
+
+                let interactionOutcome = item.getOutcomeDeclaration(outcomeIdentifier);
+                if(!interactionOutcome){
+                    interactionOutcome = item.createOutcomeDeclaration({
+                        cardinality : 'single',
+                        baseType : 'float'
+                    });
+
+                    interactionOutcome.attr('identifier', outcomeIdentifier);
+                }
+            }
 
             //adding a response processing template require the outcome SCORE:
             outcomeScore = item.getOutcomeDeclaration('SCORE');
@@ -121,9 +137,15 @@ define([
         },
 
         beforeRemove : function beforeRemove(){
+            const item = this.getRootElement();
+            const serial = this.serial,
+                interactions = item.getInteractions();
+            const perInteractionRp = item.metaData.widget.options.perInteractionRp;
 
-            var serial = this.serial,
-                interactions = this.getRootElement().getInteractions();
+            // remove interaction outcome
+            if (perInteractionRp && this.attributes.responseIdentifier) {
+                item.removeOutcome(`SCORE_${this.attributes.responseIdentifier}`);
+            }
 
             //delete its response
             this.deleteResponse();
@@ -136,6 +158,21 @@ define([
 
                     //find the other interaction, which will be the last remaining one
                     if(response && interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
+                        // rename interaction outcome
+                        if (perInteractionRp) {
+                            item.removeOutcome(`SCORE_${interaction.attributes.responseIdentifier}`);
+
+                            let outcome = item.getOutcomeDeclaration('SCORE_RESPONSE');
+                            if(!outcome){
+                                outcome = item.createOutcomeDeclaration({
+                                    cardinality : 'single',
+                                    baseType : 'float'
+                                });
+
+                                outcome.attr('identifier', 'SCORE_RESPONSE');
+                            }
+                        }
+
 
                         interaction.attr('responseIdentifier', 'RESPONSE');
                         response.id('RESPONSE');
