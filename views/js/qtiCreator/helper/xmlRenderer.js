@@ -18,14 +18,19 @@
 define([
     'core/logger',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
+    'taoQtiItem/qtiXmlRenderer/renderers/ScoreRenderer',
     'taoQtiItem/qtiItem/helper/maxScore',
     'taoQtiItem/qtiItem/core/Element'
-], function(loggerFactory, XmlRenderer, maxScore, Element){
+], function(loggerFactory, XmlRenderer, XmlScoreRenderer, maxScore, Element){
     'use strict';
 
     var logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
 
     var _xmlRenderer = new XmlRenderer({
+        shuffleChoices : false
+    }).load();
+
+    var _xmlScoreRenderer = new XmlScoreRenderer({
         shuffleChoices : false
     }).load();
 
@@ -46,7 +51,8 @@ define([
                     maxScore.setNormalMaximum(element);
                     maxScore.setMaxScore(element);
                 }
-                xml = element.render(_xmlRenderer, options);
+                // xml = element.render(_xmlRenderer, options);
+                xml = element.render(_xmlScoreRenderer, options);
             }
         }catch(e){
             logger.error(e);
@@ -57,7 +63,8 @@ define([
     return {
         render : _render,
         get : function(){
-            return _xmlRenderer;
+            // return _xmlRenderer;
+            return _xmlScoreRenderer;
         }
     };
 });
