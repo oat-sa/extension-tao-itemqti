@@ -19,13 +19,20 @@ define([
     'core/logger',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
     'taoQtiItem/qtiItem/helper/maxScore',
-    'taoQtiItem/qtiItem/core/Element'
-], function(loggerFactory, XmlRenderer, maxScore, Element){
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiXmlRenderer/renderers/RendererPerInteractionRP',
+], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP){
     'use strict';
 
-    var logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
+    let perInteractionRPEnabled = false;
 
-    var _xmlRenderer = new XmlRenderer({
+    const logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
+
+    const _xmlRenderer = new XmlRenderer({
+        shuffleChoices : false
+    }).load();
+
+    const _xmlRendererPerInteractionRP = new XmlRendererPerInteractionRP({
         shuffleChoices : false
     }).load();
 
@@ -46,7 +53,11 @@ define([
                     maxScore.setNormalMaximum(element);
                     maxScore.setMaxScore(element);
                 }
-                xml = element.render(_xmlRenderer, options);
+
+                xml = element.render(
+                    perInteractionRPEnabled ? _xmlRendererPerInteractionRP : _xmlRenderer,
+                    options
+                );
             }
         }catch(e){
             logger.error(e);
@@ -56,8 +67,13 @@ define([
 
     return {
         render : _render,
-        get : function(){
-            return _xmlRenderer;
+        get() {
+            return perInteractionRPEnabled
+                ? _xmlRendererPerInteractionRP
+                : _xmlRenderer;
+        },
+        switchPerInteractionRP(enabled) {
+            perInteractionRPEnabled = enabled;
         }
     };
 });
