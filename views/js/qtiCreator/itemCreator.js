@@ -214,6 +214,31 @@ define([
 
                     self.item = item;
                     return true;
+                }).then(() => {
+                    const item = self.item;
+
+                    // To migrate old test items to use per interaction response processing
+                    // missing aoutcome declarations should be added
+                    if (
+                        item.responseProcessing.processingType === 'templateDriven'
+                        && config.properties.perInteractionRp
+                    ) {
+                        const responseIdentifiers = Object.keys(item.responses || {})
+                            .map((responseKey) => item.responses[responseKey].attributes.identifier);
+
+                        _.forEach(responseIdentifiers, responseIdentifier => {
+                            const outcomeIdentifier = `SCORE_${responseIdentifier}`;
+
+                            if (!item.getOutcomeDeclaration(outcomeIdentifier)) {
+                                item
+                                    .createOutcomeDeclaration({
+                                        cardinality : 'single',
+                                        baseType : 'float'
+                                    })
+                                    .attr('identifier', outcomeIdentifier);
+                            }
+                        });
+                    }
                 }).then(function(){
                     //load custom elements
                     return Promise.all([
