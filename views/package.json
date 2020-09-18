@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "@oat-sa/tao-item-runner": "0.4.0",
-    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#feature/TAO-10497-refactor-qti-loader"
+    "@oat-sa/tao-item-runner-qti": "0.12.0"
   }
 }
