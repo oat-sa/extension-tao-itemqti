@@ -17,12 +17,14 @@
  */
 define([
     'jquery',
+    'lodash',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Item',
-    'taoQtiItem/qtiCreator/model/qtiClasses'
-], function($, Loader, Item, qtiClasses){
+    'taoQtiItem/qtiCreator/model/qtiClasses',
+    'taoQtiItem/qtiItem/helper/itemScore'
+], function ($, _, Loader, Item, qtiClasses, itemScoreHelper) {
     "use strict";
-    var _generateIdentifier = function _generateIdentifier(uri){
+    var _generateIdentifier = function _generateIdentifier(uri) {
         var pos = uri.lastIndexOf('#');
         return uri.substr(pos + 1);
     };
@@ -30,32 +32,32 @@ define([
     var qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
 
     var qtiSchemaLocation = {
-        'http://www.imsglobal.org/xsd/imsqti_v2p2' : 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
+        'http://www.imsglobal.org/xsd/imsqti_v2p2': 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
     };
 
     var creatorLoader = {
-        loadItem : function loadItem(config, callback){
+        loadItem: function loadItem(config, callback) {
 
-            if(config.uri){
+            if (config.uri) {
                 $.ajax({
-                    url : config.itemDataUrl,
-                    dataType : 'json',
-                    data : {
-                        uri : config.uri
+                    url: config.itemDataUrl,
+                    dataType: 'json',
+                    data: {
+                        uri: config.uri
                     }
-                }).done(function(data){
+                }).done(function (data) {
                     var loader, itemData, newItem;
 
-                    if(data.itemData && data.itemData.qtiClass === 'assessmentItem'){
+                    if (data.itemData && data.itemData.qtiClass === 'assessmentItem') {
 
                         loader = new Loader().setClassesLocation(qtiClasses);
                         itemData = data.itemData;
 
-                        loader.loadItemData(itemData, function(loadedItem){
+                        loader.loadItemData(itemData, function (loadedItem) {
                             var namespaces;
 
                             //hack to fix #2652
-                            if(loadedItem.isEmpty()){
+                            if (loadedItem.isEmpty()) {
                                 loadedItem.body('');
                             }
 
@@ -70,9 +72,30 @@ define([
                                 loadedItem.data('languagesList', data.languagesList);
                             }
 
+                            const { responseProcessing: { processingType } = {} } = loadedItem
+                            if (!config.perInteractionRp && processingType === 'templateDriven') {
+                                const {
+                                    responses = {},
+                                    responseProcessing: {
+                                        data,
+                                        responseRules = [],
+                                    } = {},
+                                } = itemData
+                                const responseIdentifiers = []
+
+                                _.forOwn(responses, ({ identifier }) => {
+                                    responseIdentifiers.push(identifier)
+                                });
+
+                                const itemScoreRP = itemScoreHelper(responseIdentifiers);
+                                if (responseRules.some((responseRule) => _.isEqual(responseRule, itemScoreRP))) {
+                                    loadedItem.responseProcessing.setProcessingType('custom', data);
+                                }
+                            }
+
                             callback(loadedItem, this.getLoadedClasses());
-                        }, config.perInteractionRp);
-                    }else{
+                        });
+                    } else {
 
                         newItem = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
 
@@ -80,9 +103,9 @@ define([
 
                         //set default namespaces
                         newItem.setNamespaces({
-                            '' : qtiNamespace,
-                            'xsi' : 'http://www.w3.org/2001/XMLSchema-instance',
-                            'm' :'http://www.w3.org/1998/Math/MathML'
+                            '': qtiNamespace,
+                            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                            'm': 'http://www.w3.org/1998/Math/MathML'
                         });//note : always add math element : since it has become difficult to know when a math element has been added to the item
 
                         //set default schema location

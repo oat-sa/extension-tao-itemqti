@@ -11,7 +11,7 @@ define([
         getDefaultAttributes : function(){
             return {};
         },
-        setProcessingType : function(processingType){
+        setProcessingType : function(processingType, xml){
 
             if(this.processingType !== processingType){
 
@@ -25,7 +25,7 @@ define([
 
                 if (processingType === 'custom') {
                     // set current response processing as default
-                    this.xml = xmlRenderer.render(this.getRootElement().responseProcessing, { notAllowTemplate: true });
+                    this.xml = xml || xmlRenderer.render(this.getRootElement().responseProcessing, { notAllowTemplate: true });
 
                     // change all response template "custom"
                     _.forEach(this.getRootElement().getResponses(), function(r){
