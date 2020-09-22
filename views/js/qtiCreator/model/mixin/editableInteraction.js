@@ -60,13 +60,27 @@ define([
             return this;
         },
 
+        createOutcomeDeclarationIfNotExists(outcomeIdentifier, buildIdentifier) {
+          const item = this.getRootElement();
+          let outcome = item.getOutcomeDeclaration(outcomeIdentifier);
+
+          if(!outcome){
+              outcome = item.createOutcomeDeclaration({
+                  cardinality : 'single',
+                  baseType : 'float'
+              });
+
+              buildIdentifier
+                ? outcome.buildIdentifier(outcomeIdentifier, false)
+                : outcome.attr('identifier', outcomeIdentifier);
+          }
+        },
+
         createResponse : function createResponse(attrs, template){
-            var item,
-                renderer,
-                outcomeScore;
-            var response = new ResponseDeclaration();
+            const response = new ResponseDeclaration();
             const responseProcessing = this.rootElement.responseProcessing;
             const processingType = responseProcessing && responseProcessing.processingType;
+            let item, renderer;
 
             if(attrs){
                 response.attr(attrs);
@@ -86,29 +100,14 @@ define([
             );
             this.attr('responseIdentifier', response.id());
 
+            //adding a response processing template require the outcome SCORE:
+            this.createOutcomeDeclarationIfNotExists('SCORE', true);
+
             // create interaction response declaration in case of per interaction response processing
             if (perInteractionRp) {
                 const outcomeIdentifier = `SCORE_${response.attributes.identifier}`;
 
-                let interactionOutcome = item.getOutcomeDeclaration(outcomeIdentifier);
-                if(!interactionOutcome){
-                    interactionOutcome = item.createOutcomeDeclaration({
-                        cardinality : 'single',
-                        baseType : 'float'
-                    });
-
-                    interactionOutcome.attr('identifier', outcomeIdentifier);
-                }
-            }
-
-            //adding a response processing template require the outcome SCORE:
-            outcomeScore = item.getOutcomeDeclaration('SCORE');
-            if(!outcomeScore){
-                outcomeScore = item.createOutcomeDeclaration({
-                    cardinality : 'single',
-                    baseType : 'float'
-                });
-                outcomeScore.buildIdentifier('SCORE', false);
+                this.createOutcomeDeclarationIfNotExists(outcomeIdentifier);
             }
 
             //se the default value for the score default value
@@ -162,15 +161,7 @@ define([
                         if (perInteractionRp) {
                             item.removeOutcome(`SCORE_${interaction.attributes.responseIdentifier}`);
 
-                            let outcome = item.getOutcomeDeclaration('SCORE_RESPONSE');
-                            if(!outcome){
-                                outcome = item.createOutcomeDeclaration({
-                                    cardinality : 'single',
-                                    baseType : 'float'
-                                });
-
-                                outcome.attr('identifier', 'SCORE_RESPONSE');
-                            }
+                            this.createOutcomeDeclarationIfNotExists('SCORE_RESPONSE');
                         }
 
 
