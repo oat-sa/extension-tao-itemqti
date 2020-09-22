@@ -24,10 +24,13 @@ define([
         'use strict';
 
         return Renderer.build(
-            {
-                ...config.locations,
-                responseProcessing: 'taoQtiItem/qtiXmlRenderer/renderers/ResponseProcessingPerInteractionRP',
-            },
+            Object.assign(
+                {},
+                config.locations,
+                {
+                    responseProcessing: 'taoQtiItem/qtiXmlRenderer/renderers/ResponseProcessingPerInteractionRP',
+                }
+            ),
             config.name,
             config.options
         );
