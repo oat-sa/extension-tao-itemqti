@@ -151,7 +151,7 @@ define([
 
             //when there is only one interaction remaining, its reponseIdentifier must be RESPONSE to be able to use one of the standard rp
             if(_.size(interactions) === 2){
-                _.forEach(interactions, function(interaction){
+                _.forEach(interactions, (interaction) => {
 
                     var response = interaction.getResponseDeclaration();
 
