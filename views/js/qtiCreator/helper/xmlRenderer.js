@@ -24,17 +24,19 @@ define([
 ], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP){
     'use strict';
 
-    let perInteractionRPEnabled = false;
-
     const logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
 
-    const _xmlRenderer = new XmlRenderer({
-        shuffleChoices : false
-    }).load();
+    const xmlRendererProviders = {
+        default: new XmlRenderer({
+            shuffleChoices : false
+        }).load(),
+        perInteractionRP: new XmlRendererPerInteractionRP({
+            shuffleChoices : false
+        }).load(),
+    }
 
-    const _xmlRendererPerInteractionRP = new XmlRendererPerInteractionRP({
-        shuffleChoices : false
-    }).load();
+    // set default xml renderer provider
+    let xmlRenderer = xmlRendererProviders.default;
 
     /**
      * Render elment to XML
@@ -55,7 +57,7 @@ define([
                 }
 
                 xml = element.render(
-                    perInteractionRPEnabled ? _xmlRendererPerInteractionRP : _xmlRenderer,
+                    xmlRenderer,
                     options
                 );
             }
@@ -68,12 +70,14 @@ define([
     return {
         render : _render,
         get() {
-            return perInteractionRPEnabled
-                ? _xmlRendererPerInteractionRP
-                : _xmlRenderer;
+            return xmlRenderer;
         },
-        switchPerInteractionRP(enabled) {
-            perInteractionRPEnabled = enabled;
+        setProvider(providerName) {
+            if (!xmlRendererProviders[providerName]) {
+                throw new Error('Unknown xml renderer provider');
+            }
+
+            xmlRenderer = xmlRendererProviders[providerName];
         }
     };
 });

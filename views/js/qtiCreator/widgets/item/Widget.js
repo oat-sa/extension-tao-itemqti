@@ -75,7 +75,9 @@ define([
 
         this.itemUri = config.uri;
 
-        xmlRenderer.switchPerInteractionRP(config.perInteractionRp);
+        if (config.perInteractionRp) {
+            xmlRenderer.setProvider('perInteractionRP');
+        }
 
         //this.initUiComponents();
 
