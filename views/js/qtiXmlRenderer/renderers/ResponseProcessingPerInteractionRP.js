@@ -19,52 +19,10 @@
 define([
     'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseProcessing',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/match_correct',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response_point',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/item_score'
-], function (_, tpl, correctTpl, mapTpl, mapPointTpl, itemScoreTpl) {
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/item_score',
+    'taoQtiItem/qtiXmlRenderer/helper/responseProcessingTpl'
+], function (_, tpl, itemScoreTpl, responseProcessingTpl) {
     'use strict';
-
-    const renderRpTpl = (rpTpl, data) => {
-        let ret = '';
-
-        switch (rpTpl) {
-            case 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct':
-            case 'MATCH_CORRECT':
-                ret = correctTpl(data);
-                break;
-            case 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response':
-            case 'MAP_RESPONSE':
-                ret = mapTpl(data);
-                break;
-            case 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point':
-            case 'MAP_RESPONSE_POINT':
-                ret = mapPointTpl(data);
-                break;
-            case 'no_response_processing':
-            case 'NONE':
-                ret = '';
-                break;
-            default:
-                throw new Error('unknown rp template : ' + rpTpl);
-        }
-
-        return ret;
-    };
-
-    const renderInteractionRp = (response) => {
-        let ret;
-
-        if (response.template) {
-            ret = renderRpTpl(response.template, {
-                responseIdentifier: response.id(),
-                outcomeIdentifier: `SCORE_${response.id()}`
-            });
-        }
-
-        return ret;
-    };
 
     const renderFeedbackRules = (renderer, response) => {
         const ret = [];
@@ -92,12 +50,13 @@ define([
 
                 _.forEach(interactions, (interaction) => {
                     const response = interaction.getResponseDeclaration();
-                    const responseRule = renderInteractionRp(response);
+                    const outcomeIdentifier = `SCORE_${response.id()}`;
+                    const responseRule = responseProcessingTpl.renderInteractionRp(response, outcomeIdentifier);
 
                     if (_.isString(responseRule) && responseRule.trim()) {
                         defaultData.responseRules.push(responseRule);
 
-                        outcomeIdentifiers.push(`SCORE_${response.id()}`);
+                        outcomeIdentifiers.push(outcomeIdentifier);
                     }
                 });
 

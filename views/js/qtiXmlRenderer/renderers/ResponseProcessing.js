@@ -1,51 +1,9 @@
 define([
     'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseProcessing',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/match_correct',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response_point'
-], function(_, tpl, correctTpl, mapTpl, mapPointTpl){
+    'taoQtiItem/qtiXmlRenderer/helper/responseProcessingTpl'
+], function(_, tpl, responseProcessingTpl){
     'use strict';
-
-    var _renderRpTpl = function _renderRpTpl(rpTpl, data){
-
-        var ret = '';
-
-        switch(rpTpl){
-            case 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct':
-            case 'MATCH_CORRECT':
-                ret = correctTpl(data);
-                break;
-            case 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response':
-            case 'MAP_RESPONSE':
-                ret = mapTpl(data);
-                break;
-            case 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point':
-            case 'MAP_RESPONSE_POINT':
-                ret = mapPointTpl(data);
-                break;
-            case 'no_response_processing':
-            case 'NONE':
-                ret = '';
-                break;
-            default:
-                throw new Error('unknown rp template : ' + rpTpl);
-        }
-
-        return ret;
-    };
-
-    var _renderInteractionRp = function _renderInteractionRp(interaction){
-        var ret = '',
-            response = interaction.getResponseDeclaration();
-        if(response.template){
-            ret = _renderRpTpl(response.template, {
-                responseIdentifier : response.id(),
-                outcomeIdentifier : 'SCORE'
-            });
-        }
-        return ret;
-    };
 
     var _renderFeedbackRules = function _renderFeedbackRules(renderer, response){
         var ret = [];
@@ -83,7 +41,9 @@ define([
 
                     defaultData.responseRules = [];
                     _.forEach(interactions, function(interaction){
-                        var responseRule = _renderInteractionRp(interaction);
+                        const response = interaction.getResponseDeclaration();
+                        const responseRule = responseProcessingTpl.renderInteractionRp(response, 'SCORE');
+
                         if(_.isString(responseRule) && responseRule.trim()){
                             defaultData.responseRules.push(responseRule);
                         }
