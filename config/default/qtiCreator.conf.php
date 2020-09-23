@@ -23,4 +23,4 @@
 /**
  * Default qtiCreator config
  */
-return ['multi-column' => false, 'perInteractionRp' => true];
+return ['multi-column' => false, 'perInteractionRp' => false];
