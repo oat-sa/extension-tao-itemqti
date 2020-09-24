@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "@oat-sa/tao-item-runner": "0.6.1",
-    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#feature/TAO-10499-add-support-of-per-interaction-response-processing-to-qti-loader"
+    "@oat-sa/tao-item-runner-qti": "0.13.0"
   }
 }
