@@ -234,8 +234,10 @@ class QtiCreator extends tao_actions_CommonModule
         if (tao_helpers_File::securityCheck($path, true)) {
             $resolver = new ItemMediaResolver($item, $lang);
             $asset = $resolver->resolve($path);
-            $stream = $asset->getMediaSource()->getFileStream($asset->getMediaIdentifier());
-            tao_helpers_Http::returnStream($stream);
+            $mediaSource = $asset->getMediaSource();
+            $stream = $mediaSource->getFileStream($asset->getMediaIdentifier());
+            $info = $mediaSource->getFileInfo($asset->getMediaIdentifier());
+            tao_helpers_Http::returnStream($stream, $info['mime']);
         } else {
             throw new common_exception_Error('invalid item preview file path');
         }
