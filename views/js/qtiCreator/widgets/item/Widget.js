@@ -75,6 +75,10 @@ define([
 
         this.itemUri = config.uri;
 
+        if (config.perInteractionRp) {
+            xmlRenderer.setProvider('perInteractionRP');
+        }
+
         //this.initUiComponents();
 
         return new Promise(function(resolve){
