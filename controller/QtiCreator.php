@@ -37,6 +37,7 @@ use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use tao_actions_CommonModule;
 use tao_helpers_File;
+use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\ItemModel;
@@ -230,12 +231,13 @@ class QtiCreator extends tao_actions_CommonModule
 
     private function renderFile($item, $path, $lang)
     {
-
         if (tao_helpers_File::securityCheck($path, true)) {
             $resolver = new ItemMediaResolver($item, $lang);
             $asset = $resolver->resolve($path);
-            $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
-            \tao_helpers_Http::returnFile($filePath);
+            $mediaSource = $asset->getMediaSource();
+            $stream = $mediaSource->getFileStream($asset->getMediaIdentifier());
+            $info = $mediaSource->getFileInfo($asset->getMediaIdentifier());
+            tao_helpers_Http::returnStream($stream, $info['mime']);
         } else {
             throw new common_exception_Error('invalid item preview file path');
         }
