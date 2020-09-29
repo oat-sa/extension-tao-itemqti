@@ -60,13 +60,27 @@ define([
             return this;
         },
 
+        createOutcomeDeclarationIfNotExists(outcomeIdentifier, buildIdentifier) {
+          const item = this.getRootElement();
+          let outcome = item.getOutcomeDeclaration(outcomeIdentifier);
+
+          if(!outcome){
+              outcome = item.createOutcomeDeclaration({
+                  cardinality : 'single',
+                  baseType : 'float'
+              });
+
+              buildIdentifier
+                ? outcome.buildIdentifier(outcomeIdentifier, false)
+                : outcome.attr('identifier', outcomeIdentifier);
+          }
+        },
+
         createResponse : function createResponse(attrs, template){
-            var item,
-                renderer,
-                outcomeScore;
-            var response = new ResponseDeclaration();
+            const response = new ResponseDeclaration();
             const responseProcessing = this.rootElement.responseProcessing;
             const processingType = responseProcessing && responseProcessing.processingType;
+            let item, renderer;
 
             if(attrs){
                 response.attr(attrs);
@@ -75,6 +89,7 @@ define([
             //we assume in the context of edition, every element is created from the api so alwayd bound to an item:
             item = this.getRootElement();
             item.addResponseDeclaration(response);
+            const perInteractionRp = item.metaData.widget.options.perInteractionRp;
 
             //assign responseIdentifier only after attaching it to the item to generate a unique id
             response.buildIdentifier('RESPONSE', false);
@@ -86,13 +101,13 @@ define([
             this.attr('responseIdentifier', response.id());
 
             //adding a response processing template require the outcome SCORE:
-            outcomeScore = item.getOutcomeDeclaration('SCORE');
-            if(!outcomeScore){
-                outcomeScore = item.createOutcomeDeclaration({
-                    cardinality : 'single',
-                    baseType : 'float'
-                });
-                outcomeScore.buildIdentifier('SCORE', false);
+            this.createOutcomeDeclarationIfNotExists('SCORE', true);
+
+            // create interaction response declaration in case of per interaction response processing
+            if (perInteractionRp) {
+                const outcomeIdentifier = `SCORE_${response.attributes.identifier}`;
+
+                this.createOutcomeDeclarationIfNotExists(outcomeIdentifier);
             }
 
             //se the default value for the score default value
@@ -121,21 +136,34 @@ define([
         },
 
         beforeRemove : function beforeRemove(){
+            const item = this.getRootElement();
+            const serial = this.serial,
+                interactions = item.getInteractions();
+            const perInteractionRp = item.metaData.widget.options.perInteractionRp;
 
-            var serial = this.serial,
-                interactions = this.getRootElement().getInteractions();
+            // remove interaction outcome
+            if (perInteractionRp && this.attributes.responseIdentifier) {
+                item.removeOutcome(`SCORE_${this.attributes.responseIdentifier}`);
+            }
 
             //delete its response
             this.deleteResponse();
 
             //when there is only one interaction remaining, its reponseIdentifier must be RESPONSE to be able to use one of the standard rp
             if(_.size(interactions) === 2){
-                _.forEach(interactions, function(interaction){
+                _.forEach(interactions, (interaction) => {
 
                     var response = interaction.getResponseDeclaration();
 
                     //find the other interaction, which will be the last remaining one
                     if(response && interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
+                        // rename interaction outcome
+                        if (perInteractionRp) {
+                            item.removeOutcome(`SCORE_${interaction.attributes.responseIdentifier}`);
+
+                            this.createOutcomeDeclarationIfNotExists('SCORE_RESPONSE');
+                        }
+
 
                         interaction.attr('responseIdentifier', 'RESPONSE');
                         response.id('RESPONSE');
