@@ -1028,6 +1028,13 @@ img.dragging.ui-draggable-dragging {
                 .qti-prompt .cke_editable{
                     margin-top: 1px;
                 }
+                &.qti-orderInteraction {
+                    .qti-choice.edit-answer.active {
+                        cursor: default;
+                        z-index: 9;
+                        border: 1px solid #3e7da7;
+                    }
+                }
             }
         }
         .widget-ok {
