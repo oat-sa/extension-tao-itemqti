@@ -46,7 +46,7 @@ return [
     'version'     => '25.5.0.5',
     'author'      => 'Open Assessment Technologies',
     'requires' => [
-        'taoItems' => '>=10.10.1',
+        'taoItems' => '>=10.9.0',
         'tao'      => '>=45.2.0',
         'generis'  => '>=12.17.0',
     ],
