@@ -352,6 +352,7 @@ define([
                     });
 
                     var $widget = $col.children();
+
                     if($widget.length > 1 || !$widget.hasClass('widget-blockInteraction')){//not an immediate qti element
                         if($widget.hasClass('colrow')){
                             $widget.each(function(){
@@ -362,7 +363,7 @@ define([
                                     i++;
                                 }
                             });
-                        }else{
+                        } else if ($widget.find('.widget-blockInteraction').length === 0) {
                             isTextBlock = true;
                         }
                     }
@@ -386,7 +387,7 @@ define([
                 subContainerBody = $subContainer.html();//get serialized body
 
             $originalTextBlock.removeAttr('data-text-block-id').html('{{_container:new}}');
-
+            console.log('PUSH SUBCONTAINERS');
             subContainers.push({
                 body : subContainerBody,
                 elements : subContainerElements,
@@ -400,6 +401,7 @@ define([
         var serializedItemBody = $clonedContainer.find('.qti-itemBody').html(),
             itemBody = item.getBody();
 
+        console.log('subContainers', subContainers.length)
         if(subContainers.length){
 
             containerHelper.createElements(itemBody, serializedItemBody, function(newElts){
@@ -408,26 +410,28 @@ define([
 
                     throw 'number of sub-containers mismatch';
                 }else{
-
+                    console.log('Something wrong here!!!');
                     _.each(newElts, function(container){
 
                         var containerData = subContainers.shift();//get data in order
                         var containerElements = _detachElements(itemBody, containerData.elements);
 
+                        console.log('container.setElements')
                         container.setElements(containerElements, containerData.body);
-
+                        console.log('container.initTextWidget')
                         _this.initTextWidget(container, containerData.$original);
 
                     });
 
                     _.defer(function(){
+                        console.log('callback.call');
                         callback.call(_this);
                     });
                 }
             });
 
         }else{
-
+            console.log('callback.call');
             callback.call(_this);
         }
 
