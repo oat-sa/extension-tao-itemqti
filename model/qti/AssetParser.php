@@ -253,6 +253,8 @@ class AssetParser
             $this->addAsset('audio', $object->attr('data'));
         } elseif (strpos($type, "text/html") !== false) {
             $this->addAsset('html', $object->attr('data'));
+        } elseif ($type === 'application/pdf') {
+            $this->addAsset('pdf', $object->attr('data'));
         }
     }
 

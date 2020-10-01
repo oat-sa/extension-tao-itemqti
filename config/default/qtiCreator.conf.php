@@ -21,6 +21,6 @@
  */
 
 /**
- * Default log config, does not lock resources
+ * Default qtiCreator config
  */
-return ['multi-column' => false];
+return ['multi-column' => false, 'perInteractionRp' => false];
