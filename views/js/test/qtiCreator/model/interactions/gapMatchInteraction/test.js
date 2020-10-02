@@ -157,6 +157,7 @@ define([
 
                 assert.equal($('.qti-choice', $choiceArea).length, 10, 'There are 10 choices in the item initially');
                 
+                // TODO: Implement and subscribe on ckEditor's ready event to get rid from timeout.
                 // wait till editor loads
                 setTimeout(() => {
                     deleteFirstChoice();
@@ -185,7 +186,7 @@ define([
                     assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'select box', 'The final choice is now in 1st position');
                     
                     instance.destroy();
-                }, 0);
+                }, 50);
             })
             .after('destroy', function() {
                 done();
