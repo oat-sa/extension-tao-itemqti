@@ -186,7 +186,7 @@ define([
                     assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'select box', 'The final choice is now in 1st position');
                     
                     instance.destroy();
-                }, 50);
+                }, 100);
             })
             .after('destroy', function() {
                 done();
