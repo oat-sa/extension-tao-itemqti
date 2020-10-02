@@ -56,7 +56,7 @@ define([
                     score = parseInt($tr.find('.score').val());
 
                 //@todo trigger validate score to check if is a valid score
-                if(!isNaN(score) && !(response.mapEntries.hasOwnProperty(value)){
+                if(!isNaN(score) && !response.mapEntries.hasOwnProperty(value)){
                     response.removeMapEntry(oldText, true);
                     response.setMapEntry(value, score);
                     $text.data('old-text', value);
