@@ -790,16 +790,6 @@ img.dragging.ui-draggable-dragging {
             &.edit-sleep {
                 position: relative;
 
-                img {
-                    min-width: 100%;
-                }
-
-                .qti-include {
-                    img {
-                        min-width: inherit;
-                    }
-                }
-
                 &::after {
                     content: '';
                     display:block;
