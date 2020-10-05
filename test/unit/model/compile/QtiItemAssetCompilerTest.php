@@ -88,11 +88,23 @@ class QtiItemAssetCompilerTest extends TestCase
             ->method('resolve')
             ->willReturnOnConsecutiveCalls(
                 new MediaAsset(
-                    $this->createConfiguredMock(MediaBrowser::class, ['getFileInfo' => ['link' => 'stimulus-link']]),
+                    $this->createConfiguredMock(
+                        MediaBrowser::class,
+                        [
+                            'getFileInfo' => ['link' => 'stimulus-link'],
+                            'getBaseName' => 'stimulus-link'
+                        ]
+                    ),
                     'stimulus-fixture'
                 ),
                 new MediaAsset(
-                    $this->createConfiguredMock(MediaBrowser::class, ['getFileInfo' => ['link' => 'image-link']]),
+                    $this->createConfiguredMock(
+                        MediaBrowser::class,
+                        [
+                            'getFileInfo' => ['link' => 'image-link'],
+                            'getBaseName' => 'image-link'
+                        ]
+                    ),
                     'image-fixture'
                 )
             );
@@ -141,11 +153,27 @@ class QtiItemAssetCompilerTest extends TestCase
             ->method('resolve')
             ->willReturnOnConsecutiveCalls(
                 new MediaAsset(
-                    $this->createConfiguredMock(MediaBrowser::class, ['getFileInfo' => ['link' => 'image-link']]),
+                    $this->createConfiguredMock(
+                        MediaBrowser::class,
+                        [
+                            'getFileInfo' => [
+                                'link' => 'image-link',
+                            ],
+                            'getBaseName' => 'image-link'
+                        ]
+                    ),
                     'image-fixture-1'
                 ),
                 new MediaAsset(
-                    $this->createConfiguredMock(MediaBrowser::class, ['getFileInfo' => ['link' => 'image-link']]),
+                    $this->createConfiguredMock(
+                        MediaBrowser::class,
+                        [
+                            'getFileInfo' => [
+                                'link' => 'image-link',
+                            ],
+                            'getBaseName' => 'image-link'
+                        ]
+                    ),
                     'image-fixture-2'
                 )
             );
@@ -194,7 +222,13 @@ class QtiItemAssetCompilerTest extends TestCase
             ->method('resolve')
             ->willReturn(
                 new MediaAsset(
-                    $this->createConfiguredMock(MediaBrowser::class, ['getFileInfo' => ['link' => 'image-link']]),
+                    $this->createConfiguredMock(
+                        MediaBrowser::class,
+                        [
+                            'getFileInfo' => ['link' => 'image-link'],
+                            'getBaseName' => 'image-link'
+                        ]
+                    ),
                     'image-fixture'
                 )
             );
@@ -226,6 +260,6 @@ class QtiItemAssetCompilerTest extends TestCase
 
     private function getReplacementName(string $string): string
     {
-        return hash('crc32', basename($string));
+        return $string;
     }
 }
