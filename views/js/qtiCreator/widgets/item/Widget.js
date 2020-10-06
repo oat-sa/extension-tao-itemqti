@@ -75,6 +75,10 @@ define([
 
         this.itemUri = config.uri;
 
+        if (config.perInteractionRp) {
+            xmlRenderer.setProvider('perInteractionRP');
+        }
+
         //this.initUiComponents();
 
         return new Promise(function(resolve){
@@ -352,6 +356,7 @@ define([
                     });
 
                     var $widget = $col.children();
+
                     if($widget.length > 1 || !$widget.hasClass('widget-blockInteraction')){//not an immediate qti element
                         if($widget.hasClass('colrow')){
                             $widget.each(function(){
@@ -362,7 +367,7 @@ define([
                                     i++;
                                 }
                             });
-                        }else{
+                        } else if ($widget.find('.widget-blockInteraction').length === 0) {
                             isTextBlock = true;
                         }
                     }
@@ -408,14 +413,12 @@ define([
 
                     throw 'number of sub-containers mismatch';
                 }else{
-
                     _.each(newElts, function(container){
 
                         var containerData = subContainers.shift();//get data in order
                         var containerElements = _detachElements(itemBody, containerData.elements);
 
                         container.setElements(containerElements, containerData.body);
-
                         _this.initTextWidget(container, containerData.$original);
 
                     });
@@ -427,7 +430,6 @@ define([
             });
 
         }else{
-
             callback.call(_this);
         }
 

@@ -12,35 +12,35 @@ define([
     };
 
     var TextEntryInteractionStateMap = stateFactory.create(Map, function(){
-        
+
         this.initMapEntries();
         this.initFormCallbacks();
         this.hideCorrectInput();
-        
+
     }, function(){
-        
+
         this.widget.$container.off('.map');
         this.widget.$container.find('tr[data-edit=map]:not([data-add-option])').remove();
     });
-    
+
     TextEntryInteractionStateMap.prototype.hideCorrectInput = function(){
-        
+
         var $correct = this.widget.$container.find('tr[data-edit=correct]');
-        
+
         this.widget.on('metaChange', function(data){
             if(data.key === 'defineCorrect'){
                 $correct.hide();
             }
         });
-        
+
         //@todo : fix this!
         $correct.hide();
         _.delay(function(){
             $correct.hide();
         }, 200);
-        
+
     };
-    
+
     TextEntryInteractionStateMap.prototype.initFormCallbacks = function(){
 
         var $container = this.widget.$container,
@@ -56,7 +56,7 @@ define([
                     score = parseInt($tr.find('.score').val());
 
                 //@todo trigger validate score to check if is a valid score
-                if(!isNaN(score)){
+                if(!isNaN(score) && !response.mapEntries.hasOwnProperty(value)){
                     response.removeMapEntry(oldText, true);
                     response.setMapEntry(value, score);
                     $text.data('old-text', value);
@@ -90,9 +90,9 @@ define([
             correctValue = _.values(response.getCorrect()).pop(),
             $container = this.widget.$container,
             $addOption = $container.find('tr[data-add-option]');
-        
+
         var appendOption = function(text, score){
-            
+
             var $newOption = $(optionTpl({
                 text : text || '',
                 score : score || 0,
@@ -101,10 +101,10 @@ define([
             $newOption.show();
 
             $addOption.before($newOption);
-            
+
             preventNullMapEntries();
         };
-        
+
         var preventNullMapEntries = function(){
             var $deleteButtons = $container.find('tbody [data-role=delete-option]');
             if($deleteButtons.length === 1){
@@ -113,11 +113,11 @@ define([
                 $deleteButtons.css('visibility', 'visible');
             }
         };
-        
+
         if(!_.size(response.mapEntries)){
             response.mapEntries = {'' : 0};
         }
-        
+
         _.forIn(response.mapEntries, function(score, text){
             appendOption(text, score);
         });
@@ -132,7 +132,7 @@ define([
             response.removeMapEntry(text, true);
             $del.closest('tr').remove();
             preventNullMapEntries();
-            
+
             if(correct){
                 response.resetCorrect();//remove correct
             }
