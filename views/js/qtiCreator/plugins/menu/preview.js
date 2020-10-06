@@ -71,15 +71,13 @@ define([
                 text : __('Preview'),
                 cssClass: 'preview-trigger'
             })).on('click', function previewHandler(e){
-                $(document).trigger('open-preview.qti-item');
-
-                e.preventDefault();
-
-                self.disable();
-
-                itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-
-                self.enable();
+                if (!self.$element.hasClass('disabled')) {
+                    $(document).trigger('open-preview.qti-item');
+                    e.preventDefault();
+                    self.disable();
+                    itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+                    self.enable();
+                }
             });
         },
 
@@ -90,6 +88,9 @@ define([
 
             //attach the element to the menu area
             var $container = this.getAreaBroker().getMenuArea();
+            if (this.getHost().getItem().bdy.bdy === "") {
+                this.disable();
+            }
             $container.append(this.$element);
         },
 
