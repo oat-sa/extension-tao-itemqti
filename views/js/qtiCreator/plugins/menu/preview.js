@@ -79,6 +79,17 @@ define([
                     self.enable();
                 }
             });
+
+            this.getAreaBroker()
+                .getItemPanelArea()
+                .on('dropped.gridEdit.insertable', function() {
+                    this.enable();
+                }.bind(this))
+                .on('item.deleted', function() {
+                    if (this.getHost().getItem().bdy.bdy === "") {
+                        this.disable();
+                    }
+                }.bind(this));
         },
 
         /**
