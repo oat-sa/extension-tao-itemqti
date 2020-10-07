@@ -58,7 +58,7 @@ class QtiItemAssetCompiler extends ConfigurationService
 
                 $packedAsset = $this->resolve($resolver, $assetUrl, $type);
 
-                $replacement = $this->getReplacementName($packedAsset->getLink());
+                $replacement = $this->getReplacementName($packedAsset);
                 $packedAsset->setReplacedBy($replacement);
 
                 if ($type != 'xinclude') {
@@ -100,9 +100,10 @@ class QtiItemAssetCompiler extends ConfigurationService
         return new PackedAsset($type, $mediaAsset, $link);
     }
 
-    private function getReplacementName(string $link): string
+    private function getReplacementName(PackedAsset $packedAsset): string
     {
-        return hash('crc32', basename($link));
+        $link = $packedAsset->getMediaAsset()->getMediaIdentifier();
+        return $packedAsset->getMediaAsset()->getMediaSource()->getBaseName($link);
     }
 
     private function copyAssetFileToPublicDirectory(Directory $publicDirectory, PackedAsset $packedAsset): bool
