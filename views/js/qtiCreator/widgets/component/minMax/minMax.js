@@ -69,7 +69,10 @@ define([
         upperThreshold:     4,
 
         //does the 2 fields sync themselves
-        syncValues:       true
+        syncValues:       true,
+
+        //does the input can have decimal value
+        allowDecimal: false,
     };
 
     /**
@@ -350,6 +353,27 @@ define([
                 return this;
             },
 
+            /**
+             * convert value to number
+             *
+             * @param {String} [fromField = min] - min or max, where the change comes from to update accordingly
+             * @returns {minMax} chains
+             * @throws {TypeError} if the field is unknown
+             */
+            convertToNumber: function syncValues(fromField){
+                fromField = fromField || fields.min;
+
+                if (isFieldSupported(fromField) && this.is('rendered')) {
+                    if(fromField === fields.max){
+                        this.setMaxValue(_.parseInt(this.getMaxValue()));
+                    } else {
+                        this.setMinValue(_.parseInt(this.getMinValue()));
+                    }
+                }
+
+                return this;
+            },
+
         }, defaultConfig)
             .setTemplate(minMaxTpl)
             .on('init', function(){
@@ -400,6 +424,10 @@ define([
 
                         fieldControl.input.on('change', function(){
                             self.syncValues(field);
+
+                            if (!config.allowDecimal) {
+                                self.convertToNumber(field);
+                            }
 
                             self.trigger('change');
                         });
