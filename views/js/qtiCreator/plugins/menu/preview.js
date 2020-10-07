@@ -35,6 +35,20 @@ define([
     'use strict';
 
     /**
+     * Handler for preview=
+     */
+    function previewHandler(e){
+        const itemCreator = this.getHost();
+        if (!this.$element.hasClass('disabled')) {
+            $(document).trigger('open-preview.qti-item');
+            e.preventDefault();
+            this.disable();
+            itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+            this.enable();
+        }
+    }
+
+    /**
      * Returns the configured plugin
      * @returns {Function} the plugin
      */
@@ -70,15 +84,7 @@ define([
                 title: __('Preview the item'),
                 text : __('Preview'),
                 cssClass: 'preview-trigger'
-            })).on('click', function previewHandler(e){
-                if (!self.$element.hasClass('disabled')) {
-                    $(document).trigger('open-preview.qti-item');
-                    e.preventDefault();
-                    self.disable();
-                    itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-                    self.enable();
-                }
-            });
+            })).on('click', previewHandler.bind(this));
 
             this.getAreaBroker()
                 .getItemPanelArea()
