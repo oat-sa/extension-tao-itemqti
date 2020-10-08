@@ -180,7 +180,7 @@ define([
                 if ( isFieldSupported(field) && _.isNumber(intValue) &&
                      intValue >= config.lowerThreshold && intValue <= config.upperThreshold ) {
 
-                    if ( this.is('rendered') && _.parseInt(controls[field].input.val()) !== intValue ) {
+                    if ( this.is('rendered') && parseInt(controls[field].input.val()) !== intValue ) {
                         return controls[field].input.val(intValue).trigger('change');
                     }
 
@@ -360,14 +360,12 @@ define([
              * @returns {minMax} chains
              * @throws {TypeError} if the field is unknown
              */
-            convertToNumber: function syncValues(fromField){
-                fromField = fromField || fields.min;
-
+            convertToNumber: function convertToNumber(fromField){
                 if (isFieldSupported(fromField) && this.is('rendered')) {
                     if(fromField === fields.max){
-                        this.setMaxValue(_.parseInt(this.getMaxValue()));
+                        this.setMaxValue(parseInt(this.getMaxValue()));
                     } else {
-                        this.setMinValue(_.parseInt(this.getMinValue()));
+                        this.setMinValue(parseInt(this.getMinValue()));
                     }
                 }
 
