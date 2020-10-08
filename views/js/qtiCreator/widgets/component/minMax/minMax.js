@@ -175,12 +175,13 @@ define([
              */
             setValue : function setValue(field, value){
                 var config = this.getConfig();
-                var intValue = _.parseInt(value);
+                const inputParser = config.allowDecimal ? parseFloat : parseInt
+                var intValue = inputParser(value);
 
                 if ( isFieldSupported(field) && _.isNumber(intValue) &&
                      intValue >= config.lowerThreshold && intValue <= config.upperThreshold ) {
 
-                    if ( this.is('rendered') && parseFloat(controls[field].input.val()) !== intValue ) {
+                    if ( this.is('rendered') && inputParser(controls[field].input.val()) !== intValue ) {
                         return controls[field].input.val(intValue).trigger('change');
                     }
 
