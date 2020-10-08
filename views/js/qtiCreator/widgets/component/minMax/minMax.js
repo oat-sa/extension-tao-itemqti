@@ -180,7 +180,7 @@ define([
                 if ( isFieldSupported(field) && _.isNumber(intValue) &&
                      intValue >= config.lowerThreshold && intValue <= config.upperThreshold ) {
 
-                    if ( this.is('rendered') && controls[field].input.val() !== intValue ) {
+                    if ( this.is('rendered') && _.parseInt(controls[field].input.val()) !== intValue ) {
                         return controls[field].input.val(intValue).trigger('change');
                     }
 
