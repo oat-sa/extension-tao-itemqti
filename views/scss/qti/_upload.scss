@@ -40,6 +40,10 @@
         overflow: hidden;
         display: none;
 
+        img {
+            max-width: 100%;
+        }
+
         &.visible-file-upload-preview {
             display: block;
         }
