@@ -69,7 +69,10 @@ define([
         upperThreshold:     4,
 
         //does the 2 fields sync themselves
-        syncValues:       true
+        syncValues:       true,
+
+        //does the input can have decimal value
+        allowDecimal: false,
     };
 
     /**
@@ -177,7 +180,7 @@ define([
                 if ( isFieldSupported(field) && _.isNumber(intValue) &&
                      intValue >= config.lowerThreshold && intValue <= config.upperThreshold ) {
 
-                    if ( this.is('rendered') && controls[field].input.val() !== intValue ) {
+                    if ( this.is('rendered') && controls[field].input.val() !== `${intValue}` ) {
                         return controls[field].input.val(intValue).trigger('change');
                     }
 
@@ -350,6 +353,25 @@ define([
                 return this;
             },
 
+            /**
+             * convert value to number
+             *
+             * @param {String} [fromField = min] - min or max, where the change comes from to update accordingly
+             * @returns {minMax} chains
+             * @throws {TypeError} if the field is unknown
+             */
+            convertToNumber: function convertToNumber(fromField){
+                if (isFieldSupported(fromField) && this.is('rendered')) {
+                    if(fromField === fields.max){
+                        this.setMaxValue(parseInt(this.getMaxValue()));
+                    } else {
+                        this.setMinValue(parseInt(this.getMinValue()));
+                    }
+                }
+
+                return this;
+            },
+
         }, defaultConfig)
             .setTemplate(minMaxTpl)
             .on('init', function(){
@@ -400,6 +422,10 @@ define([
 
                         fieldControl.input.on('change', function(){
                             self.syncValues(field);
+
+                            if (!config.allowDecimal) {
+                                self.convertToNumber(field);
+                            }
 
                             self.trigger('change');
                         });
