@@ -78,13 +78,15 @@ define([
                         })
                     );
                 }
-            }
-            const keyOfMatchToRemove = response.list.directedPair.map(item => item[0]);
-            const actualElements = data.interaction.bdy.elements;
-            for (let gapElement in actualElements) {
-                if (keyOfMatchToRemove.includes(actualElements[gapElement].attributes.identifier)) {
-                    delete actualElements[gapElement];
+                const keyOfMatchToRemove = response.list.directedPair.map(item => item[0]);
+                const actualElements = data.interaction.bdy.elements;
+                for (let gapElement in actualElements) {
+                    if (keyOfMatchToRemove.includes(actualElements[gapElement].attributes.identifier)) {
+                        delete actualElements[gapElement];
+                    }
                 }
+            } else {
+                response.setCorrect([]);
             }
         });
 
