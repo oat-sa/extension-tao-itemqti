@@ -67,7 +67,7 @@ define([
         );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            var type = response.attr('cardinality') === 'single' ? 'base' : 'list';
+            const type = response.attr('cardinality') === 'single' ? 'base' : 'list';
             if(data.response && data.response[type]){
                 if(type === 'base'){
                     response.setCorrect(data.response.base.directedPair.join(' '));
@@ -77,13 +77,6 @@ define([
                             return pair.join(' ');
                         })
                     );
-                }
-                const keyOfMatchToRemove = response.list.directedPair.map(item => item[0]);
-                const actualElements = data.interaction.bdy.elements;
-                for (let gapElement in actualElements) {
-                    if (keyOfMatchToRemove.includes(actualElements[gapElement].attributes.identifier)) {
-                        delete actualElements[gapElement];
-                    }
                 }
             } else {
                 response.setCorrect([]);
