@@ -257,6 +257,7 @@ img.dragging.ui-draggable-dragging {
 .item-editor-sidebar-wrapper {
     background: $canvas;
     position: relative;
+    padding-bottom: 35px;
 
     @include simple-flex-box(195px);
     overflow-y: auto;
