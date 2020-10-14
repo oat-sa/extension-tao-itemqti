@@ -39,7 +39,7 @@ define([
      */
     function previewHandler(e){
         const itemCreator = this.getHost();
-        if (!this.$element.hasClass('disabled')) {
+        if (!this.$element.hasClass('disabled') || itemCreator.isSaved) {
             $(document).trigger('open-preview.qti-item');
             e.preventDefault();
             this.disable();
@@ -69,13 +69,15 @@ define([
              * @event itemCreator#preview
              * @param {String} uri - the uri of this item to preview
              */
-            itemCreator.on('preview', function(uri){
-              	var type = 'qtiItem';
+            itemCreator.on('preview', function(uri) {
+                if (this.isSaved()) {
+                    var type = 'qtiItem';
 
-                previewerFactory(type, uri, { }, {
-                    readOnly: false,
-                    fullPage: true
-                });
+                    previewerFactory(type, uri, {}, {
+                        readOnly: false,
+                        fullPage: true
+                    });
+                }
             });
 
             //creates the preview button
@@ -90,9 +92,10 @@ define([
                 .getItemPanelArea()
                 .on('dropped.gridEdit.insertable', function() {
                     this.enable();
+                    this.getHost().setSaved(false);
                 }.bind(this))
                 .on('item.deleted', function() {
-                    if (this.getHost().getItem().bdy.bdy === "") {
+                    if (this.getHost().isEmpty()) {
                         this.disable();
                     }
                 }.bind(this));
@@ -105,7 +108,7 @@ define([
 
             //attach the element to the menu area
             var $container = this.getAreaBroker().getMenuArea();
-            if (this.getHost().getItem().bdy.bdy === "") {
+            if (this.getHost().isEmpty()) {
                 this.disable();
             }
             $container.append(this.$element);
