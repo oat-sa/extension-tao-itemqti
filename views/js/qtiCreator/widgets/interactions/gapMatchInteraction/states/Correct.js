@@ -67,7 +67,7 @@ define([
         );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            var type = response.attr('cardinality') === 'single' ? 'base' : 'list';
+            const type = response.attr('cardinality') === 'single' ? 'base' : 'list';
             if(data.response && data.response[type]){
                 if(type === 'base'){
                     response.setCorrect(data.response.base.directedPair.join(' '));
@@ -78,6 +78,8 @@ define([
                         })
                     );
                 }
+            } else {
+                response.setCorrect([]);
             }
         });
 
