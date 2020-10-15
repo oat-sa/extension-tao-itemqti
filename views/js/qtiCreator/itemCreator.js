@@ -401,7 +401,7 @@ define([
             /**
              * Set the value of saved
              */
-            setSaved : function isSaved(value){
+            setSaved : function setSaved(value){
                 saved = value;
             },
 
