@@ -37,14 +37,32 @@ define([
     /**
      * Handler for preview=
      */
-    function previewHandler(e){
-        const itemCreator = this.getHost();
-        if (!this.$element.hasClass('disabled') || itemCreator.isSaved()) {
+    function previewHandler(e, that) {
+        const itemCreator = that.getHost();
+        if (!that.$element.hasClass('disabled') || itemCreator.isSaved()) {
             $(document).trigger('open-preview.qti-item');
             e.preventDefault();
-            this.disable();
+            that.disable();
             itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-            this.enable();
+            that.enable();
+        }
+    }
+
+    /**
+     * Handler for enable preview=
+     */
+    function enablePreview(that) {
+        that.enable();
+        that.getHost().setSaved(false);
+    }
+
+    /**
+     * Handler for disable preview=
+     */
+    function disablePreview(that) {
+        if (that.getHost().isEmpty()) {
+            that.disable();
+            that.getHost().setSaved(false);
         }
     }
 
@@ -86,20 +104,12 @@ define([
                 title: __('Preview the item'),
                 text : __('Preview'),
                 cssClass: 'preview-trigger'
-            })).on('click', previewHandler.bind(this));
+            })).on('click', e => previewHandler(e, this));
 
             this.getAreaBroker()
                 .getItemPanelArea()
-                .on('dropped.gridEdit.insertable', function() {
-                    this.enable();
-                    this.getHost().setSaved(false);
-                }.bind(this))
-                .on('item.deleted', function() {
-                    if (this.getHost().isEmpty()) {
-                        this.disable();
-                        this.getHost().setSaved(false);
-                    }
-                }.bind(this));
+                .on('dropped.gridEdit.insertable', () => enablePreview(this))
+                .on('item.deleted', () => disablePreview(this));
         },
 
         /**
