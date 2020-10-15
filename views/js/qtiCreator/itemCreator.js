@@ -112,7 +112,7 @@ define([
         var qtiCreatorContext = qtiCreatorContextFactory();
         var plugins = {};
 
-        let saved;
+        let saved = true;
 
         /**
          * Run a method in all plugins

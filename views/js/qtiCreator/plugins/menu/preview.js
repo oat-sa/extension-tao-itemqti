@@ -39,7 +39,7 @@ define([
      */
     function previewHandler(e){
         const itemCreator = this.getHost();
-        if (!this.$element.hasClass('disabled') || itemCreator.isSaved) {
+        if (!this.$element.hasClass('disabled') || itemCreator.isSaved()) {
             $(document).trigger('open-preview.qti-item');
             e.preventDefault();
             this.disable();
@@ -70,7 +70,7 @@ define([
              * @param {String} uri - the uri of this item to preview
              */
             itemCreator.on('preview', function(uri) {
-                if (this.isSaved()) {
+                if (!this.isEmpty()) {
                     var type = 'qtiItem';
 
                     previewerFactory(type, uri, {}, {
@@ -97,6 +97,7 @@ define([
                 .on('item.deleted', function() {
                     if (this.getHost().isEmpty()) {
                         this.disable();
+                        this.getHost().setSaved(false);
                     }
                 }.bind(this));
         },
