@@ -39,13 +39,16 @@ define([
      */
     function previewHandler(e, that) {
         const itemCreator = that.getHost();
-        if (!that.$element.hasClass('disabled') || itemCreator.isSaved()) {
-            $(document).trigger('open-preview.qti-item');
-            e.preventDefault();
-            that.disable();
-            itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-            that.enable();
+
+        if (that.$element.hasClass('disabled') && !itemCreator.isSaved()) {
+            return;
         }
+
+        $(document).trigger('open-preview.qti-item');
+        e.preventDefault();
+        that.disable();
+        itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+        that.enable();
     }
 
     /**
