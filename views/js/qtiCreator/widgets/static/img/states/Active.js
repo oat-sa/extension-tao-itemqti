@@ -137,7 +137,11 @@ define([
                         media = nMedia;
                         $img.prop('style', null); // not allowed by qti
                         $img.removeAttr('style');
-                        img.data('responsive', media.responsive);
+
+                        if (img.data('responsive') !== media.responsive) {
+                            img.data('responsive', media.responsive);
+                        }
+
                         _(['width', 'height']).each(function (sizeAttr) {
                             var val;
                             if (
