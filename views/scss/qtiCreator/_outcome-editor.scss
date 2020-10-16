@@ -29,6 +29,7 @@
             display: inline-block;
             margin: 0;
             width: calc(100% - 44px);
+            overflow: hidden;
             input.identifier {
                 min-width: 80px;
                 display: none;
