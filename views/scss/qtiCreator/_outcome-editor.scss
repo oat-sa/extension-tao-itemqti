@@ -30,6 +30,7 @@
             margin: 0;
             width: calc(100% - 44px);
             overflow: hidden;
+            text-overflow: ellipsis;
             input.identifier {
                 min-width: 80px;
                 display: none;
