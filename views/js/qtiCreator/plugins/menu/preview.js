@@ -40,7 +40,7 @@ define([
     function previewHandler(e, that) {
         const itemCreator = that.getHost();
 
-        if (that.$element.hasClass('disabled') && !itemCreator.isSaved()) {
+        if (itemCreator.isEmpty() || !itemCreator.isSaved()) {
             return;
         }
 
@@ -54,10 +54,10 @@ define([
     /**
      * Handler for enable preview=
      */
-    function enablePreview(that) {
-        that.enable();
-        that.getHost().setSaved(false);
-    }
+    // function enablePreview(that) {
+    //     that.enable();
+    //     that.getHost().setSaved(false);
+    // }
 
     /**
      * Handler for disable preview=
@@ -101,6 +101,12 @@ define([
                 }
             });
 
+            itemCreator.on('saved', function() {
+                if (!this.getHost().isEmpty()) {
+                    this.enable();
+                }
+            }.bind(this));
+
             //creates the preview button
             this.$element = $(buttonTpl({
                 icon: 'preview',
@@ -111,7 +117,7 @@ define([
 
             this.getAreaBroker()
                 .getItemPanelArea()
-                .on('dropped.gridEdit.insertable', () => enablePreview(this))
+                .on('dropped.gridEdit.insertable', () => disablePreview(this))
                 .on('item.deleted', () => disablePreview(this));
         },
 
