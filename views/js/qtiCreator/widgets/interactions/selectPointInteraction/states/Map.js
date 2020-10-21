@@ -10,7 +10,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SelectPointInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicScorePopup',
@@ -26,7 +26,7 @@ define([
     function initMapState(){
         var widget          = this.widget;
         var interaction     = widget.element;
-        var $container      = widget.$original; 
+        var $container      = widget.$original;
         var response        = interaction.getResponseDeclaration();
 
         widget._targets = [];
@@ -35,12 +35,12 @@ define([
             return;
         }
 
-        //really need to destroy before ? 
-        commonRenderer.resetResponse(interaction); 
+        //really need to destroy before ?
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
-        
+
         //add a specific instruction
-        instructionMgr.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score.\n' + 
+        instructionMgr.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score.\n' +
                                                  'You can also position the target to the exact point as the correct response.'));
         interaction.responseMappingMode = true;
         if(_.isPlainObject(response.mapEntries)){
@@ -48,16 +48,16 @@ define([
         }
 
         //here we do not use the common renderer but the creator's widget to get only a basic paper with the choices
-        interaction.paper = widget.createPaper(); 
-       
-        //we create the shapes from the response mapping 
+        interaction.paper = widget.createPaper();
+
+        //we create the shapes from the response mapping
         setCurrentResponses(widget);
-        
+
         //set up of the shape editor
         widget._editor = createEditor(widget);
-     
+
         listenResponseAttrChange(widget);
-  
+
     }
 
     /**
@@ -87,8 +87,8 @@ define([
         });
         return found;
     }
- 
-     
+
+
     /**
      * Creates the shapes on the paper from the responses
      * @private
@@ -96,14 +96,14 @@ define([
      */
     function setCurrentResponses(widget){
         var interaction = widget.element;
-        var $container  = widget.$original; 
+        var $container  = widget.$original;
         var response    = interaction.getResponseDeclaration();
         var corrects    = _.values(response.getCorrect());
 
         //set up for the existing areas
         _.forEach(response.mapEntries, function(area){
             var shape = widget.createResponseArea(area.shape, area.coords);
-            setUpScoringArea(widget, area, shape, false); 
+            setUpScoringArea(widget, area, shape, false);
         });
 
         //set up a target if
@@ -116,20 +116,67 @@ define([
                             x : point[0],
                             y : point[1]
                         }
-                   }); 
+                   });
                    widget._targets.push(target.id);
                 }
            });
         }
 
-        //hide popups by clicking the paper 
+        //hide popups by clicking the paper
         interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
             $('.-mapping-editor', $container).hide();
         });
     }
 
     /**
-     * Creates and initialize the shape editor 
+     * Adding behavior on arrow keys pressed
+     * (when the focus in the score input - then arrows should control cursor and do not control shape position)
+     * @private
+     * @param $scorePopup
+     */
+    function declareScoreInputControls($scorePopup) {
+        // jquery score input
+        const $scoreInput = $('.score', $scorePopup);
+        // move caret position in the input element
+        const caretTo = function (el, index) {
+            if (el.createTextRange) {
+                const range = el.createTextRange();
+                range.move("character", index);
+                range.select();
+            } else if (el.selectionStart != null) {
+                el.focus();
+                el.setSelectionRange(index, index);
+            }
+        };
+
+        // add feature on the score input selected
+        $scoreInput.off('focus').on('focus', () => {
+            // change arrows behavior in the input
+            $scoreInput.off('keydown').on('keydown', (e) => {
+                if ([37, 38, 39, 40].includes(e.keyCode)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    let pos = e.target.selectionStart;
+                    // go right
+                    if (e.keyCode === 39 || e.keyCode === 40) {
+                        pos++;
+                        const len = $scoreInput.val().length;
+                        pos = pos <= len ? pos : len;
+                    } else {
+                        // go left
+                        pos--;
+                        pos = pos >= 0 ? pos : 0;
+                    }
+
+                    caretTo($scoreInput[0], pos)
+                }
+            });
+        })
+    }
+
+    /**
+     * Creates and initialize the shape editor
      * @private
      * @param {Object} widget - the current widget
      * @return {ShapeEditor} the editor
@@ -146,7 +193,7 @@ define([
             shapeCreated : function(shape, type){
                 var point, corrects, area;
                 if(type === 'target'){
-                    //add a correct response 
+                    //add a correct response
                     point = shape.data('target');
                     corrects = response.getCorrect() || [];
                     corrects.push(qtiPoint(point));
@@ -177,8 +224,8 @@ define([
                     if(scoreElt){
                         scoreElt.remove();
                     }
-                    $('#score-popup-' + id).remove(); 
-                    
+                    $('#score-popup-' + id).remove();
+
                     //remove the area from the mapping
                     _.remove(response.mapEntries, function(area){
                         return id && areaId(area) === id;
@@ -186,8 +233,8 @@ define([
                 }
             },
             enterHandling : function(shape){
-                var $scorePopup = $('#score-popup-' + shape.id);
-                var $reference = $('.icon-help', $scorePopup);
+                const $scorePopup = $('#score-popup-' + shape.id);
+                const $reference = $('.icon-help', $scorePopup);
 
                 if(shape.type === 'set'){
                     shape.forEach(function(setElt){
@@ -196,11 +243,13 @@ define([
                             return;
                         }
                     });
-    
+
                 } else {
                     //move the score back the shape and show the popup
                     shape.toFront();
                     $scorePopup.show();
+
+                    declareScoreInputControls($scorePopup);
 
                     //the click on the cross hides the popup
                     $('.mapping-editor', $container).on('click', '.closer', function () {
@@ -227,7 +276,7 @@ define([
                         scoreElt.show().toFront();
                     }
                     $('#score-popup-' + shape.id).hide();
-                } 
+                }
             },
             shapeChanging : function(shape){
                 //move the score and the popup to create them again once the shape has moved
@@ -235,7 +284,7 @@ define([
                 if(scoreElt){
                     scoreElt.remove();
                 }
-                $('#score-popup-' + shape.id).remove(); 
+                $('#score-popup-' + shape.id).remove();
             },
             shapeChange : function(shape){
                 //now the shape has moved, so we update the mapping and create again the score and the popup
@@ -259,28 +308,28 @@ define([
     /**
      * Format a point to the qti format
      * @param {Object} point
-     * @param {Number} point.x 
+     * @param {Number} point.x
      * @param {Number} point.y
      * @returns {String} the point as "x y"
      */
     function qtiPoint(point){
         return Math.round(point.x) + ' ' + Math.round(point.y);
     }
- 
+
     /**
-     * Creates the score element and the popup to view/edit the score 
+     * Creates the score element and the popup to view/edit the score
      * @private
      * @param {Object} widget - the current widget
      * @param {Object} area   - the response area entry
      * @param {Raphael.Element} shape   - the related shape
-     * @param {Boolean} default - if the score uses the default value
+     * @param {Boolean} defaults - if the score uses the default value
      */
     function setUpScoringArea(widget, area, shape, defaults){
         var interaction     = widget.element;
-        var $container      = widget.$original; 
+        var $container      = widget.$original;
         var isResponsive    = $container.hasClass('responsive');
         var response        = interaction.getResponseDeclaration();
-        var id              = areaId(area);        
+        var id              = areaId(area);
         var $imageBox       = $('.main-image-box', $container);
         var $popup          = grahicScorePopup(interaction.paper, shape, $imageBox, isResponsive);
         var score           = area.mappedValue || response.mappingAttributes.defaultValue || '0';
@@ -293,7 +342,7 @@ define([
                     shapeClick  : true
                 });
         scoreElt.data('default', !!defaults);
-        shape.id = id; 
+        shape.id = id;
 
         $popup.attr('id', 'score-popup-' + id);
 
@@ -304,7 +353,7 @@ define([
             scoreMax  : response.getMappingAttribute('upperBound'),
             noCorrect : true
         }));
-        
+
         //set up the form data binding
         formElement.setChangeCallbacks($form, response, {
             score : function(response, value){
@@ -322,13 +371,13 @@ define([
     }
 
     /**
-     * Listen for changes in the response form that affects the creator : defaultValue and defineCorrect. 
+     * Listen for changes in the response form that affects the creator : defaultValue and defineCorrect.
      * @private
      * @param {Object} widget - the current widget
      */
     function listenResponseAttrChange(widget){
         var interaction = widget.element;
-        var $container = widget.$container;        
+        var $container = widget.$container;
         var $target = $container.find('[data-type="target"]');
         var $separator = $target.prev('.separator');
 
@@ -352,16 +401,16 @@ define([
                 } else {
                     $target.hide();
                     $separator.hide();
-    
+
                     //remove targets
                     _.forEach(widget._targets, function(targetId){
                         var target = interaction.paper.getById(targetId);
                         var layer  = interaction.paper.getById('layer-' + targetId);
                         target.remove();
                         layer.remove();
-                    }); 
+                    });
                 }
-            } 
+            }
         });
     }
 
@@ -379,10 +428,10 @@ define([
         if(widget._editor){
             widget._editor.destroy();
         }
-        
+
         //destroy the common renderer
-        commonRenderer.resetResponse(interaction); 
-        commonRenderer.destroy(interaction); 
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction);
         instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
