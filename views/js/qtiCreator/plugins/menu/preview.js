@@ -52,15 +52,16 @@ define([
     }
 
     /**
-     * Handler for enable preview=
+     * Handler for disable preview if its empty
      */
-    // function enablePreview(that) {
-    //     that.enable();
-    //     that.getHost().setSaved(false);
-    // }
+    function disablePreviewIfEmpty(that) {
+        if (!that.getHost().isEmpty()) {
+            that.enable();
+        }
+    }
 
     /**
-     * Handler for disable preview=
+     * Handler for disable preview
      */
     function disablePreview(that) {
         if (that.getHost().isEmpty()) {
@@ -101,11 +102,7 @@ define([
                 }
             });
 
-            itemCreator.on('saved', function() {
-                if (!this.getHost().isEmpty()) {
-                    this.enable();
-                }
-            }.bind(this));
+            itemCreator.on('saved', () => disablePreviewIfEmpty(this));
 
             //creates the preview button
             this.$element = $(buttonTpl({
