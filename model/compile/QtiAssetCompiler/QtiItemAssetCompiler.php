@@ -103,7 +103,7 @@ class QtiItemAssetCompiler extends ConfigurationService
     private function getReplacementName(PackedAsset $packedAsset): string
     {
         $link = $packedAsset->getMediaAsset()->getMediaIdentifier();
-        return $packedAsset->getMediaAsset()->getMediaSource()->getBaseName($link);
+        return uniqid() . '/' . $packedAsset->getMediaAsset()->getMediaSource()->getBaseName($link);
     }
 
     private function copyAssetFileToPublicDirectory(Directory $publicDirectory, PackedAsset $packedAsset): bool
