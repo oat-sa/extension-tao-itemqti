@@ -102,7 +102,7 @@ define([
                 }
             });
 
-            itemCreator.on('saved', () => disablePreviewIfEmpty(this));
+            itemCreator.on('saved', () => enablePreviewIfNotEmpty(this));
 
             //creates the preview button
             this.$element = $(buttonTpl({
@@ -114,8 +114,8 @@ define([
 
             this.getAreaBroker()
                 .getItemPanelArea()
-                .on('dropped.gridEdit.insertable', () => disablePreview(this))
-                .on('item.deleted', () => disablePreview(this));
+                .on('dropped.gridEdit.insertable', () => disablePreviewIfEmpty(this))
+                .on('item.deleted', () => disablePreviewIfEmpty(this));
         },
 
         /**
