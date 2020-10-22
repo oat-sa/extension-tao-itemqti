@@ -34,13 +34,15 @@ define([
 ], function($, __, pluginFactory, hider, previewerFactory, buttonTpl){
     'use strict';
 
+    let saved = true;
+
     /**
      * Handler for preview=
      */
     function previewHandler(e, that) {
         const itemCreator = that.getHost();
 
-        if (itemCreator.isEmpty() || !itemCreator.isSaved()) {
+        if (itemCreator.isEmpty() || !isSaved()) {
             return;
         }
 
@@ -52,9 +54,25 @@ define([
     }
 
     /**
+     * Set the value of saved
+     */
+    function setSaved(value) {
+        saved = value;
+    }
+
+    /**
+     * Return if item is saved or not
+     * @returns {Boolean} true/false
+     */
+    function isSaved() {
+        return saved;
+    }
+
+    /**
      * Handler for disable preview if its empty
      */
     function enablePreviewIfNotEmpty(that) {
+        setSaved(true);
         if (!that.getHost().isEmpty()) {
             that.enable();
         }

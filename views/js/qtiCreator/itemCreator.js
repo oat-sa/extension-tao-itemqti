@@ -112,8 +112,6 @@ define([
         var qtiCreatorContext = qtiCreatorContextFactory();
         var plugins = {};
 
-        let saved = true;
-
         /**
          * Run a method in all plugins
          *
@@ -190,7 +188,6 @@ define([
                         if(!silent){
                             self.trigger('success', __('Your item has been saved'));
                         }
-                        self.setSaved(true);
                         self.trigger('saved');
                     }).catch(function(err){
                         self.trigger('error', err);
@@ -388,21 +385,6 @@ define([
             isEmpty : function isEmpty(){
                 const item = this.item;
                 return item.bdy.bdy === "";
-            },
-
-            /**
-             * Return if item is saved or not
-             * @returns {Boolean} true/false
-             */
-            isSaved : function isSaved(){
-                return saved;
-            },
-
-            /**
-             * Set the value of saved
-             */
-            setSaved : function setSaved(value){
-                saved = value;
             },
 
             /**
