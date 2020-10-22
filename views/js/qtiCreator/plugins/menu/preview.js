@@ -63,7 +63,7 @@ define([
     /**
      * Handler for disable preview
      */
-    function disablePreview(that) {
+    function disablePreviewIfEmpty(that) {
         if (that.getHost().isEmpty()) {
             that.disable();
             that.getHost().setSaved(false);
