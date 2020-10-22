@@ -33,6 +33,7 @@ define([
         options.lang = this.getOption('lang');
         options.mediaManager = this.getOption('mediaManager');
         options.assetManager = this.getAssetManager();
+        options.state = img.metaData.widget && img.metaData.widget.getCurrentState().name;
 
         Widget.build(
             img,
