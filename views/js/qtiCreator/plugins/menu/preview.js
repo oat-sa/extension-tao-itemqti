@@ -54,7 +54,7 @@ define([
     /**
      * Handler for disable preview if its empty
      */
-    function disablePreviewIfEmpty(that) {
+    function enablePreviewIfNotEmpty(that) {
         if (!that.getHost().isEmpty()) {
             that.enable();
         }
