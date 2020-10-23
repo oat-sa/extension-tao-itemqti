@@ -132,7 +132,6 @@ define([
 
             this.getAreaBroker()
                 .getItemPanelArea()
-                .on('dropped.gridEdit.insertable', () => disablePreviewIfEmpty(this))
                 .on('item.deleted', () => disablePreviewIfEmpty(this));
         },
 
