@@ -231,9 +231,8 @@ define([
         if(this.updateBody){
             //need to update item body
             this.item.body(contentHelper.getContent(this.$item));
+            this.$item.trigger('item.deleted');
         }
-
-        this.$item.trigger('item.deleted');
     };
 
     return DeletingState;
