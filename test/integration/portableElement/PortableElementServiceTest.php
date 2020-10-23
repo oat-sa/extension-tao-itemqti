@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,16 +17,19 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
+declare(strict_types=1);
 
 namespace oat\taoQtiItem\portableElement\test;
 
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\websource\ActionWebSource;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
 use oat\taoQtiItem\model\portableElement\exception\PortableModelMissing;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementFileStorage;
 use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\taoQtiItem\model\qti\Service;
 
 class PortableElementServiceTest extends TaoPhpUnitTestRunner
 {
@@ -36,11 +38,41 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
      */
     protected $instance;
 
+    /** @var PortableElementService  */
+    private $service;
+
     public function setUp(): void
     {
         $this->service = new PortableElementService();
         $this->service->setServiceLocator(ServiceManager::getServiceManager());
+        $this->createFileStorage();
         $this->clearSamplePortableElements();
+    }
+
+    private function createFileStorage(): void
+    {
+        $fsId = 'portableElementStorage';
+        /** @var FileSystemService $fsm */
+        $fsm = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
+        if (!ServiceManager::getServiceManager()->has(FileSystemService::SERVICE_ID)) {
+            ServiceManager::getServiceManager()->registerService(FileSystemService::SERVICE_ID, $fsm);
+        }
+        if (! $fsm->hasDirectory($fsId)) {
+            $fsm->createFileSystem($fsId);
+        }
+        $itemImsPci = 'qtiItemImsPci';
+        if (!$fsm->hasDirectory($itemImsPci)) {
+            $fsm->createFileSystem($itemImsPci);
+        }
+
+        if (!ServiceManager::getServiceManager()->has(PortableElementFileStorage::SERVICE_ID) ) {
+            $portableElementStorage = new PortableElementFileStorage([
+                PortableElementFileStorage::OPTION_FILESYSTEM => $fsId,
+                PortableElementFileStorage::OPTION_WEBSOURCE => ActionWebSource::spawnWebsource($fsId)->getId()
+            ]);
+            ServiceManager::getServiceManager()->register(PortableElementFileStorage::SERVICE_ID,
+                $portableElementStorage);
+        }
     }
 
     public function tearDown(): void
@@ -49,7 +81,7 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->service = null;
     }
 
-    private function clearSamplePortableElements()
+    private function clearSamplePortableElements(): void
     {
         $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
         if (!is_null($pciLast)) {
@@ -58,11 +90,10 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         }
     }
 
-    public function testRegisterFromDirectorySource()
+    public function testRegisterFromDirectorySource(): void
     {
-
         //register an initial version v0.4.0;
-        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir040');
+        $this->service->registerFromDirectorySource(__DIR__ . '/samples/pciDir040');
 
         $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
         $registry = $pciLast->getModel()->getRegistry();
