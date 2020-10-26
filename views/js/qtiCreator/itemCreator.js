@@ -383,8 +383,8 @@ define([
              * @returns {Boolean} true/false
              */
             isEmpty : function isEmpty(){
-                const item = this.item;
-                return item.bdy.bdy === "";
+                const item = this.item.bdy.bdy;
+                return item === "" || item === "\n    ";
             },
 
             /**
