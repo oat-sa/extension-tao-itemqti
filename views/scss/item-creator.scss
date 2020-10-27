@@ -90,9 +90,14 @@ img.dragging.ui-draggable-dragging {
         cursor: pointer;
         margin: 0;
         display: inline-block;
+        position: relative;
         color: $info !important;
         [class^="icon-"], [class*=" icon-"] {
             font-size: 14px !important;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         &:hover {
             color: $uiClickableHoverBg !important;
@@ -936,13 +941,18 @@ img.dragging.ui-draggable-dragging {
                 }
                 .state-switcher {
                     .selected {
+                        font-size: 1.4rem;
                         font-weight: bold;
                     }
                     .link {
+                        font-size: 1.4rem;
                         &:hover {
                             cursor: pointer;
                             text-decoration: underline;
                         }
+                    }
+                    .separator {
+                        font-size: 1.4rem;
                     }
                     margin-right: 15px
                 }
@@ -957,6 +967,7 @@ img.dragging.ui-draggable-dragging {
                         opacity: 1;
                     }
                     [class^="icon-"], [class*=" icon-"] {
+                        font-size: inherit;
                         text-shadow: 1px 1px 0 blacken($info, .2);
                     }
                 }
@@ -1246,6 +1257,15 @@ img.dragging.ui-draggable-dragging {
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
         }
+    }
+}
+
+// Choises editable input
+.choice-area {
+    [data-html-editable] {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }
 

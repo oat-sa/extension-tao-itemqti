@@ -1,158 +1,194 @@
 @import "inc/bootstrap";
 
 .qti-choiceInteraction {
+    $column-space: 10px;
+
+    .label-box {
+        min-height: 16px;
+        display: flex;
+        align-items: center;
+    }
     .overlay-answer-eliminator {
         display: none;
     }
-
-    $elimCbOffsetLeft: 50;
-    $captionOffsetLeft: 17;
-    $elimListStyleCbOffsetLeft: $elimCbOffsetLeft + 23;
-
     [data-eliminable="container"] {
         display: none;
-        position: absolute;
-        top: 0;
-        left: $elimCbOffsetLeft * 1px;
-        height: 100%;
-        padding-top: 6px;
-        z-index: 3;
         [data-eliminable="trigger"] {
             font-size: 1.6rem;
             position: relative;
             z-index: 4;
             cursor: pointer;
         }
-        // label above ol
-        &::before {
+    }
+
+    // List item
+    .qti-choice {
+        display: flex;
+
+         //Real list-style (hidden)
+         &::before {
+            visibility: hidden;
             position: absolute;
-            top: -33px;
-            left: $captionOffsetLeft * -1px;
-            font: inherit;
-            cursor: default;
+            pointer-events: none;
+        }
+
+        .cell {
+            position: relative;
+            min-width: 18px;
+            min-height: 18px;
+
+            .icon-radio,
+            .icon-checkbox,
+            .list-symbol {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            &:before {
+                content: "0";
+                visibility: hidden;
+                pointer-events: none;
+            }
+        }
+
+        // List style (optional)
+        .list-symbol-container {
+            display: none;
+            flex: 0;
+            order: 2;
+            margin: 0 $column-space 0 0;
+
+            .cell:before {
+                content: "00";
+            }
+        }
+        .list-symbol {
+            min-width: 25px;
+            text-align: center;
+        }
+
+        // Checkbox/Radio for selecting item
+        .real-label {
+            flex: 0;
+            order: 1;
+            padding: 0;
+            margin: 0 $column-space 0 0;
+        }
+
+        // Eliminate checkbox (optional)
+        .choice-eliminate {
+            display: none;
+            order: 3;
+            flex: 0;
+            padding: 0;
+            margin: 0 $column-space 0 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        &:first-child .choice-eliminate:before {
+            content: attr(data-label);
+            position: absolute;
+            bottom: calc(100% + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        // Item Content
+        .label-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            order: 4;
+            position: relative;
+
+            .content-body {
+                display: flex;
+                align-items: center;
+                min-height: 18px;
+                width: 100%;
+            }
+
+            &:after {
+                content: "";
+                flex: 1;
+            }
+        }
+
+        // Eliminated item
+        &.eliminated {
+            .list-symbol-container,
+            .real-label,
+            .label-content {
+                opacity: .7;
+                pointer-events: none;
+                cursor: not-allowed;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                background: white(.7);
+                cursor: not-allowed;
+            }
+            [data-eliminable="trigger"]:before {
+                @include icon-checkbox-crossed();
+            }
+            .overlay-answer-eliminator {
+                display: block;
+            }
         }
     }
-    // parent .qti-interaction
-    &.eliminable {
-        .label-box {
-            margin-left: 85px;
-        }
-        // ol
-        .choice-area {
-            margin-top: 25px;
-            // there might be list-styles that move everything to the right
-            &[class^="list-style-"], &[class*=" list-style-"] {
-                [data-eliminable="container"] {
-                    left: $elimListStyleCbOffsetLeft * 1px;
-                }
-                // li
-                .qti-choice {
-                    // when checked
-                    &.eliminated {
-                        [data-eliminable="container"] {
-                            padding-left: $elimListStyleCbOffsetLeft * 1px;
-                            //&::before {
-                            //    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
-                            //}
-                        }
-                    }
-                    &:first-child {
-                        &.eliminated {
-                            [data-eliminable="container"] {
-                                // label above ol
-                                &::before {
-                                    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //both label and checkbox
-        [data-eliminable] {
-            display:block;
-        }
-        // eliminator outer layer
-        .qti-choice {
-            // when checked
-            &.eliminated {
-                .label-box {
-                    .label-content {
-                        position: relative;
 
-                        .qti-block {
-                            &:after {
-                                content:' ';
-                                width: 100%;
-                                position: relative;
-                                top: -21px;
-                            }
-                        }
-
-                        .overlay-answer-eliminator {
-                            stroke:rgb(0,0,0);
-                            stroke-width:1;
-                            display: inline;
-                            height: 100%;
-                            left: 0;
-                            overflow: hidden;
-                            position: absolute;
-                            top: 0;
-                            width: 100%;
-                        }
-                    }
-                }
-                [data-eliminable="container"] {
-                    width: 100%;
-                    padding-left: $elimCbOffsetLeft * 1px;
-                    left: 0;
-                    background: white(.7);
-                    cursor: not-allowed;
-                    [data-eliminable="trigger"] {
-                        &:before {
-                            @include icon-checkbox-crossed();
-                        }
-                    }
-                    &::before {
-                        left: ($elimCbOffsetLeft - $captionOffsetLeft) * 1px !important;
-                    }
-                }
-            }
-            &:first-child {
-                [data-eliminable="container"] {
-                    // label above ol
-                    &::before {
-                        content: attr(data-label);
-                    }
-                }
-            }
-        }
+    .overlay-answer-eliminator {
+        stroke: rgb(0,0,0);
+        stroke-width: 1;
+        overflow: hidden;
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
-    .qti-choice .real-label{
-        top:1px;
+    .header-dummy {
+        padding: 5px 0 0;
+    }
+
+    // Eliminatable item
+    .eliminable {
+        .header-dummy,
+        .choice-eliminate {
+            display: block;
+        }
+
+    }
+
+    // Add button
+    .add-option::before {
+        display: none;
     }
 
     .choice-area {
+        // is list style ON
         &[class^="list-style-"], &[class*=" list-style-"] {
-
-
-            .label-content {
-                margin-left: 30px;
+            .list-symbol-container {
+                display: block;
             }
+        }
+    }
 
-            p, div, li {
-                &::before {
-                    position: absolute;
-                    left: 30px;
-                    top: 6px
-                }
-                &.add-option:before {
-                    content: '';
-                    display:inline;
-                }
-            }
+    // Is eliminatable ON
+    &.eliminable {
+        [data-eliminable] {
+            display: block;
         }
     }
 

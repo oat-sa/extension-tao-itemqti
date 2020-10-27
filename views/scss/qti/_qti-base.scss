@@ -139,6 +139,11 @@ $mainContainer : '.qti-item';
         }
     }
 
+    .header-dummy {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
     .prompt, .qti-prompt {
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -200,7 +205,7 @@ $mainContainer : '.qti-item';
                 @extend .clearfix:before;
             }
             & > li {
-                display: block;
+                display: flex;
                 float: left;
             }
         }

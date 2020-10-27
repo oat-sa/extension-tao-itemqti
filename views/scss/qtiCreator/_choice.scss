@@ -3,9 +3,6 @@
     .real-label input[disabled] ~ [class^="icon-"]{
         cursor:pointer !important;
     }
-    .choice-area .label-content{
-        display: block;
-    }
     .mini-tlb[data-edit=answer]{
         width: 38px;
         background: transparent;

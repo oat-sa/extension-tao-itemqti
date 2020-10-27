@@ -121,7 +121,7 @@ define([
         //modify the checkbox/radio input appearances
         widget.on('attributeChange', function(data){
 
-            var $checkboxIcons = widget.$container.find('.real-label > span');
+            var $checkboxIcons = widget.$container.find('.real-label span');
 
             if(data.element.serial === interaction.serial && data.key === 'maxChoices'){
                 if(parseInt(data.value) === 1){

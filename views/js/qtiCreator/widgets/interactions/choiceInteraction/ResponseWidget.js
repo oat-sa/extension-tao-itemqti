@@ -37,7 +37,7 @@ define([
 
         if(widget.element.attr('maxChoices') === 1){
             //enforce radios:
-            widget.$container.find('.real-label > :checkbox').replaceWith(function(){
+            widget.$container.find('.real-label :checkbox').replaceWith(function(){
 
                 var $checkbox = $(this);
 
@@ -52,7 +52,7 @@ define([
         }else{
 
             //enforce radios:
-            widget.$container.find('.real-label > :radio').replaceWith(function(){
+            widget.$container.find('.real-label :radio').replaceWith(function(){
 
                 var $radio = $(this);
 
@@ -111,7 +111,7 @@ define([
 
             widget.$container.off('responseChange.qti-widget');
 
-            widget.$container.find('.real-label > input').attr('disabled', 'disabled');
+            widget.$container.find('.real-label input').attr('disabled', 'disabled');
 
             widget.$container.find('.mini-tlb-label[data-edit=answer], .mini-tlb[data-edit=answer]').remove();
 
@@ -190,7 +190,7 @@ define([
             var $container = widget.$container,
                 interaction = widget.element,
                 response = interaction.getResponseDeclaration(),
-                $corrects = $container.find('.real-label > input');
+                $corrects = $container.find('.real-label input');
 
             $container.find('.qti-choice:first .pseudo-label-box').append(labelTpl({
                 label : __('correct'),
