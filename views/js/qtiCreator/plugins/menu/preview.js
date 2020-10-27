@@ -153,6 +153,7 @@ define([
 
         /**
          * Set the value of saved
+         * @param {Boolean} value - New value for variable saved
          */
         setSaved: function setSaved(value) {
             this.saved = value;
@@ -168,6 +169,7 @@ define([
 
         /**
          * Handler for disable preview if its empty
+         * @param {Object} that- Context of preview
          */
         enablePreviewIfNotEmpty: function enablePreviewIfNotEmpty(that) {
             this.setSaved(true);
@@ -178,6 +180,7 @@ define([
 
         /**
          * Handler for disable preview
+         * @param {Object} that- Context of preview
          */
         disablePreviewIfEmpty: function disablePreviewIfEmpty(that) {
             if (that.getHost().isEmpty()) {
