@@ -35,6 +35,64 @@ define([
     'use strict';
 
     /**
+     * Handler for preview
+     * @param {Object} e - Preview event fired
+     * @param {Object} plugin - Context of preview
+     */
+    function previewHandler(e, plugin) {
+        const itemCreator = plugin.getHost();
+
+        if (itemCreator.isEmpty() || !isSaved()) {
+            return;
+        }
+
+        $(document).trigger('open-preview.qti-item');
+        e.preventDefault();
+        plugin.disable();
+        itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+        plugin.enable();
+    }
+
+    /**
+     * Set the value of saved
+     * @param {Boolean} value - Value of new saved status
+     * @param {Object} plugin - Context of preview
+     */
+    function setSaved(value, plugin) {
+        plugin.saved = value;
+    }
+
+    /**
+     * Return if item is saved or not
+     * @param {Object} plugin - Context of preview
+     * @returns {Boolean} true/false
+     */
+    function isSaved(plugin) {
+        return plugin.saved;
+    }
+
+    /**
+     * Handler for disable preview if its empty
+     * @param {Object} plugin - Context of preview
+     */
+    function enablePreviewIfNotEmpty(plugin) {
+        setSaved(true, plugin);
+        if (!plugin.getHost().isEmpty()) {
+            plugin.enable();
+        }
+    }
+
+    /**
+     * Handler for disable preview
+     * @param {Object} plugin - Context of preview
+     */
+    function disablePreviewIfEmpty(plugin) {
+        if (plugin.getHost().isEmpty()) {
+            plugin.disable();
+            setSaved(false, plugin);
+        }
+    }
+    /**
      * Returns the configured plugin
      * @returns {Function} the plugin
      */
@@ -130,63 +188,6 @@ define([
          */
         hide: function hide(){
             hider.hide(this.$element);
-        },
-
-        /**
-         * Handler for preview
-         * @param {Object} e - Preview event fired
-         * @param {Object} plugin - Context of preview
-         */
-        previewHandler: function previewHandler(e, plugin) {
-            const itemCreator = plugin.getHost();
-
-            if (itemCreator.isEmpty() || !this.isSaved()) {
-                return;
-            }
-
-            $(document).trigger('open-preview.qti-item');
-            e.preventDefault();
-            plugin.disable();
-            itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-            plugin.enable();
-        },
-
-        /**
-         * Set the value of saved
-         * @param {Boolean} value - New value for variable saved
-         */
-        setSaved: function setSaved(value) {
-            this.saved = value;
-        },
-
-        /**
-         * Return if item is saved or not
-         * @returns {Boolean} true/false
-         */
-        isSaved: function isSaved() {
-            return this.saved;
-        },
-
-        /**
-         * Handler for disable preview if its empty
-         * @param {Object} plugin- Context of preview
-         */
-        enablePreviewIfNotEmpty: function enablePreviewIfNotEmpty(plugin) {
-            this.setSaved(true);
-            if (!plugin.getHost().isEmpty()) {
-                plugin.enable();
-            }
-        },
-
-        /**
-         * Handler for disable preview
-         * @param {Object} plugin- Context of preview
-         */
-        disablePreviewIfEmpty: function disablePreviewIfEmpty(plugin) {
-            if (plugin.getHost().isEmpty()) {
-                plugin.disable();
-                this.setSaved(false);
-            }
         }
     });
 });
