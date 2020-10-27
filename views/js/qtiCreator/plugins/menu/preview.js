@@ -34,62 +34,6 @@ define([
 ], function($, __, pluginFactory, hider, previewerFactory, buttonTpl){
     'use strict';
 
-    let saved = true;
-
-    /**
-     * Handler for preview
-     * @param {Object} e - Preview event fired
-     * @param {Object} that- Context of preview
-     */
-    function previewHandler(e, that) {
-        const itemCreator = that.getHost();
-
-        if (itemCreator.isEmpty() || !isSaved()) {
-            return;
-        }
-
-        $(document).trigger('open-preview.qti-item');
-        e.preventDefault();
-        that.disable();
-        itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-        that.enable();
-    }
-
-    /**
-     * Set the value of saved
-     */
-    function setSaved(value) {
-        saved = value;
-    }
-
-    /**
-     * Return if item is saved or not
-     * @returns {Boolean} true/false
-     */
-    function isSaved() {
-        return saved;
-    }
-
-    /**
-     * Handler for disable preview if its empty
-     */
-    function enablePreviewIfNotEmpty(that) {
-        setSaved(true);
-        if (!that.getHost().isEmpty()) {
-            that.enable();
-        }
-    }
-
-    /**
-     * Handler for disable preview
-     */
-    function disablePreviewIfEmpty(that) {
-        if (that.getHost().isEmpty()) {
-            that.disable();
-            setSaved(false);
-        }
-    }
-
     /**
      * Returns the configured plugin
      * @returns {Function} the plugin
@@ -97,6 +41,7 @@ define([
     return pluginFactory({
 
         name : 'preview',
+        saved : true,
 
         /**
          * Initialize the plugin (called during itemCreator's init)
@@ -185,6 +130,60 @@ define([
          */
         hide: function hide(){
             hider.hide(this.$element);
+        },
+
+        /**
+         * Handler for preview
+         * @param {Object} e - Preview event fired
+         * @param {Object} that- Context of preview
+         */
+        previewHandler: function previewHandler(e, that) {
+            const itemCreator = that.getHost();
+
+            if (itemCreator.isEmpty() || !this.isSaved()) {
+                return;
+            }
+
+            $(document).trigger('open-preview.qti-item');
+            e.preventDefault();
+            that.disable();
+            itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+            that.enable();
+        },
+
+        /**
+         * Set the value of saved
+         */
+        setSaved: function setSaved(value) {
+            this.saved = value;
+        },
+
+        /**
+         * Return if item is saved or not
+         * @returns {Boolean} true/false
+         */
+        isSaved: function isSaved() {
+            return this.saved;
+        },
+
+        /**
+         * Handler for disable preview if its empty
+         */
+        enablePreviewIfNotEmpty: function enablePreviewIfNotEmpty(that) {
+            this.setSaved(true);
+            if (!that.getHost().isEmpty()) {
+                that.enable();
+            }
+        },
+
+        /**
+         * Handler for disable preview
+         */
+        disablePreviewIfEmpty: function disablePreviewIfEmpty(that) {
+            if (that.getHost().isEmpty()) {
+                that.disable();
+                this.setSaved(false);
+            }
         }
     });
 });
