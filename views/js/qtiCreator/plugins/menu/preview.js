@@ -37,7 +37,7 @@ define([
     let saved = true;
 
     /**
-     * Handler for preview=
+     * Handler for preview
      */
     function previewHandler(e, that) {
         const itemCreator = that.getHost();
