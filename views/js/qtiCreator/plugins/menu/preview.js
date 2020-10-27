@@ -135,10 +135,10 @@ define([
         /**
          * Handler for preview
          * @param {Object} e - Preview event fired
-         * @param {Object} that- Context of preview
+         * @param {Object} plugin - Context of preview
          */
-        previewHandler: function previewHandler(e, that) {
-            const itemCreator = that.getHost();
+        previewHandler: function previewHandler(e, plugin) {
+            const itemCreator = plugin.getHost();
 
             if (itemCreator.isEmpty() || !this.isSaved()) {
                 return;
@@ -146,9 +146,9 @@ define([
 
             $(document).trigger('open-preview.qti-item');
             e.preventDefault();
-            that.disable();
+            plugin.disable();
             itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-            that.enable();
+            plugin.enable();
         },
 
         /**
@@ -169,22 +169,22 @@ define([
 
         /**
          * Handler for disable preview if its empty
-         * @param {Object} that- Context of preview
+         * @param {Object} plugin- Context of preview
          */
-        enablePreviewIfNotEmpty: function enablePreviewIfNotEmpty(that) {
+        enablePreviewIfNotEmpty: function enablePreviewIfNotEmpty(plugin) {
             this.setSaved(true);
-            if (!that.getHost().isEmpty()) {
-                that.enable();
+            if (!plugin.getHost().isEmpty()) {
+                plugin.enable();
             }
         },
 
         /**
          * Handler for disable preview
-         * @param {Object} that- Context of preview
+         * @param {Object} plugin- Context of preview
          */
-        disablePreviewIfEmpty: function disablePreviewIfEmpty(that) {
-            if (that.getHost().isEmpty()) {
-                that.disable();
+        disablePreviewIfEmpty: function disablePreviewIfEmpty(plugin) {
+            if (plugin.getHost().isEmpty()) {
+                plugin.disable();
                 this.setSaved(false);
             }
         }
