@@ -38,6 +38,8 @@ define([
 
     /**
      * Handler for preview
+     * @param {Object} e - Preview event fired
+     * @param {Object} that- Context of preview
      */
     function previewHandler(e, that) {
         const itemCreator = that.getHost();
