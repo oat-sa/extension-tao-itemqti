@@ -42,7 +42,7 @@ define([
     function previewHandler(e, plugin) {
         const itemCreator = plugin.getHost();
 
-        if (itemCreator.isEmpty() || !isSaved()) {
+        if (itemCreator.isEmpty() || !isSaved(plugin)) {
             return;
         }
 
