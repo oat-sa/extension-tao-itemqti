@@ -25,10 +25,31 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
+    'util/typeCaster',
     'ui/resourcemgr',
-    'ui/tooltip'
-], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer){
+    'ui/tooltip',
+], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, typeCaster){
     'use strict';
+
+    var scrollingHeights = [{
+        value: '100',
+        name: 'Full height'
+    }, {
+        value: '75',
+        name: '3/4 of height'
+    }, {
+        value: '66.6666',
+        name: '2/3 of height'
+    }, {
+        value: '50',
+        name: 'Half height'
+    }, {
+        value: '33.3333',
+        name: '1/3 of height'
+    }, {
+        value: '25',
+        name: '1/4 of height'
+    }];
 
     var IncludeStateActive = stateFactory.extend(Active, function(){
 
@@ -44,18 +65,49 @@ define([
         var _widget = this.widget,
             $form = _widget.$form,
             include = _widget.element,
-            baseUrl = _widget.options.baseUrl;
+            baseUrl = _widget.options.baseUrl,
+            $wrap = _widget.$container.parent('.text-block-wrap'),
+            isScrolling = typeCaster.strToBool($wrap.length > 0 ? $wrap.attr('data-scrolling') : 'false'),
+            selectedHeight = $wrap.attr('data-scrolling-height');
 
         $form.html(formTpl({
             baseUrl : baseUrl || '',
-            href : include.attr('href')
+            href : include.attr('href'),
+            scrolling: isScrolling,
+            scrollingHeights: scrollingHeights,
+            selectedHeight: selectedHeight
         }));
+
+        isScrolling ? $form.find('.scrollingSelect').show() : $form.find('.scrollingSelect').hide();
+        selectedHeight && $form.find('.scrollingSelect select').val(selectedHeight).change();
 
         //init slider and set align value before ...
         _initUpload(_widget);
 
         //... init standard ui widget
         formElement.initWidget($form);
+
+        formElement.setChangeCallbacks($form, _widget.element, {
+            scrolling: function (element, value) {
+                var $wrap = _widget.$container.parent('.text-block-wrap');
+                var $form = _widget.$form;
+
+                if (!$wrap.length) {
+                    $wrap = _widget.$container
+                        .wrap('<div class="text-block-wrap" />')
+                        .parent();
+                }
+
+                value ? $form.find('.scrollingSelect').show() : $form.find('.scrollingSelect').hide();
+
+                $wrap.attr('data-scrolling', value);
+            },
+            scrollingHeight: function (element, value) {
+                var $wrap = _widget.$container.parent('.text-block-wrap');
+
+                $wrap.attr('data-scrolling-height', value);
+            }
+        });
 
     };
 
@@ -91,7 +143,7 @@ define([
 
                         file = files[0].file;
                         $href.val(file);
-                        
+
                         //set the selected file as the new href and refresh rendering
                         xincludeRenderer.render(widget, options.baseUrl, file);
 
@@ -107,12 +159,12 @@ define([
                     }
                 },
                 close : function(){
-                    //triggers validation : 
+                    //triggers validation :
                     $href.blur();
                 }
             });
         };
-        
+
         $uploadTrigger.on('click', _openResourceMgr);
         $href.on('click', _openResourceMgr);//href input is read only
 
