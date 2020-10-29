@@ -106,7 +106,6 @@ define([
          * @fires {itemCreator#preview}
          */
         init : function init(){
-            var self = this;
             var itemCreator = this.getHost();
 
             /**
@@ -115,9 +114,9 @@ define([
              * @param {String} uri - the uri of this item to preview
              */
             itemCreator.on('preview', function(uri) {
-                if (!this.isEmpty()) {
-                    var type = 'qtiItem';
+                var type = 'qtiItem';
 
+                if (!this.isEmpty()) {
                     previewerFactory(type, uri, {}, {
                         readOnly: false,
                         fullPage: true
