@@ -87,12 +87,17 @@ img.dragging.ui-draggable-dragging {
         width: 26px;
         height: 24px;
         text-align: center;
+        position: relative;
         cursor: pointer;
         margin: 0;
         display: inline-block;
         color: $info !important;
         [class^="icon-"], [class*=" icon-"] {
             font-size: 14px !important;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         &:hover {
             color: $uiClickableHoverBg !important;
@@ -911,7 +916,7 @@ img.dragging.ui-draggable-dragging {
             box-shadow: 0 0 0 1px whiten($info, .2);
 
             .tlb-title {
-                margin-top: 1px;
+                margin-top: 3px;
                 line-height: 1.4;
                 @include font-size(14, true);
                 position: absolute;
@@ -933,17 +938,22 @@ img.dragging.ui-draggable-dragging {
                     @include font-size(14, true);
                 }
                 & > div {
-                    margin: 1px 0 2px;
+                    margin: 3px 0 2px;
                 }
                 .state-switcher {
                     .selected {
+                        font-size: 1.4rem;
                         font-weight: bold;
                     }
                     .link {
+                        font-size: 1.4rem;
                         &:hover {
                             cursor: pointer;
                             text-decoration: underline;
                         }
+                    }
+                    .separator {
+                        font-size: 1.4rem;
                     }
                     margin-right: 15px
                 }
@@ -958,6 +968,7 @@ img.dragging.ui-draggable-dragging {
                         opacity: 1;
                     }
                     [class^="icon-"], [class*=" icon-"] {
+                        font-size: inherit;
                         text-shadow: 1px 1px 0 blacken($info, .2);
                     }
                 }

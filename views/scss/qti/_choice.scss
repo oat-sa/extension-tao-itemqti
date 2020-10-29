@@ -146,7 +146,9 @@
                 &::before {
                     position: absolute;
                     left: 30px;
-                    top: 6px
+                    min-height: 22px;
+                    display: flex;
+                    align-items: center;
                 }
                 &.add-option:before {
                     content: '';
@@ -177,6 +179,13 @@
         margin: 3px;
         border: 1px solid #eee;
         @include border-radius(2);
+    }
+    .label-content [data-html-editable=true],
+    .label-content {
+        min-height: 22px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
     }
 
 
