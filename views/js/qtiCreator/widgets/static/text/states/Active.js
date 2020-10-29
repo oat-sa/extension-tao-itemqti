@@ -92,20 +92,13 @@ define([
 
                 if (!$block.length) {
                     if (!$wrap.length) {
-                        $block = widget.$container
-                            .find('[data-html-editable="true"]')
-                            .wrapInner('<div />')
-                            .children();
+                        $block = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
                     } else {
-                        $block = widget.$container
-                            .find('.text-block-wrap')
-                            .wrapInner('<div />')
-                            .children();
+                        $block = widget.$container.find('.text-block-wrap').wrapInner('<div />').children();
                     }
                 }
 
                 $block.attr('class', wrapperCls + ' ' + value);
-
             },
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'inner')
