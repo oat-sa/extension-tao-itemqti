@@ -48,6 +48,8 @@ define([
         interactiontoolbarready : 'interactiontoolbarready.qti-widget'
     };
 
+    var timeouts = null;
+
     function getGroupId(groupLabel){
         return groupLabel.replace(/\W+/g, '-').toLowerCase();
     }
@@ -72,8 +74,9 @@ define([
     
     function create($sidebar, interactions){
 
+        var index = 0;
         _.each(interactions, function(interactionAuthoringData){
-            add($sidebar, interactionAuthoringData);
+            add($sidebar, interactionAuthoringData, ++index);
         });
 
         buildSubGroups($sidebar);
@@ -121,7 +124,7 @@ define([
         return !!$sidebar.find('li[data-qti-class="' + interactionClass + '"]').length;
     }
     
-    function add($sidebar, interactionAuthoringData){
+    function add($sidebar, interactionAuthoringData, index){
 
         if(exists($sidebar, interactionAuthoringData.qtiClass)){
             throw 'the interaction is already in the sidebar';
@@ -157,8 +160,28 @@ define([
             //the group does not exist yet : create a <section> for the group
             $group = addGroup($sidebar, groupLabel);
         }
+
+        var $interaction;
+        if (index < 20) {
+            $interaction = $(insertInteractionTpl(tplData));
+        } else {
+            if (!timeouts) {
+                timeouts = [];
+            }
+            $interaction = $('<li>Loading...</li>');
+            timeouts.push(setTimeout(() => {
+                if ($.contains(document, $interaction[0])) {
+                    $interaction.replaceWith(insertInteractionTpl(tplData));
+                } else {
+                    _.each(timeouts, function(timeoutID){
+                        clearTimeout(timeoutID);
+                    });
+                    timeouts = null;
+                }
+            }, 10000 + Number(index / 10).toFixed() * 1000));
+        }
         
-        var $interaction = $(insertInteractionTpl(tplData));
+
         $group.find('.tool-list').append($interaction);
         
         return $interaction;
