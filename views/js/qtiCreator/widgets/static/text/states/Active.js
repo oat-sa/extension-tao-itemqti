@@ -6,13 +6,13 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
 ], function (typeCaster, stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
     'use strict';
 
-    const wrapperCls = 'custom-text-box';
+    var wrapperCls = 'text-block-wrap';
 
-    const TextActive = stateFactory.extend(Active, function () {
+    var TextActive = stateFactory.extend(Active, function () {
 
         this.buildEditor();
         this.initForm();
@@ -59,9 +59,8 @@ define([
     TextActive.prototype.initForm = function () {
         var widget = this.widget,
             $form = widget.$form,
-            $block = widget.$container.find('.' + wrapperCls),
             $wrap = widget.$container.find('.text-block-wrap'),
-            blockCls = $block.attr('class'),
+            blockCls = $wrap.attr('class'),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
@@ -78,27 +77,21 @@ define([
         formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget));
     };
 
-    const changeCallbacks = function (widget) {
+    var changeCallbacks = function (widget) {
         return {
             textBlockCssClass: function (element, value) {
-                const $wrap = widget.$container.find('.text-block-wrap');
-                let $block = widget.$container.find('.' + wrapperCls);
+                var $wrap = widget.$container.find('[data-html-editable="true"]').children('.text-block-wrap');
 
-                // prevent to have the wrapper class twice
                 value = value.trim();
                 if (value === wrapperCls) {
                     value = '';
                 }
 
-                if (!$block.length) {
-                    if (!$wrap.length) {
-                        $block = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
-                    } else {
-                        $block = widget.$container.find('.text-block-wrap').wrapInner('<div />').children();
-                    }
+                if (!$wrap.length) {
+                    $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
                 }
 
-                $block.attr('class', wrapperCls + ' ' + value);
+                $wrap.attr('class', wrapperCls + ' ' + value);
             },
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'inner')

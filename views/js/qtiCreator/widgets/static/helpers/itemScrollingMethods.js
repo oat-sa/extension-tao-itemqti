@@ -56,10 +56,17 @@ define([
         },
         wrapContent: function (widget, value, wrapType) {
             const $form = widget.$form;
-            let $wrap = wrapType === 'inner' ? widget.$container.find('.text-block-wrap')[0] : widget.$container.parent('.text-block-wrap');
+            let $wrap = wrapType === 'inner' ? widget.$container
+                .find('[data-html-editable]')
+                .children('.text-block-wrap') : widget.$container.parent('.text-block-wrap');
+
+            if (wrapType !== 'inner' && $wrap.parent('[data-html-editable="true"]').length > 0) {
+                $wrap.length = 0;
+            }
 
             if (!$wrap.length) {
                 $wrap = wrapType === 'inner' ? widget.$container
+                    .find('[data-html-editable]')
                     .wrapInner('<div class="text-block-wrap" />')
                     .children() : widget.$container
                     .wrap('<div class="text-block-wrap" />')

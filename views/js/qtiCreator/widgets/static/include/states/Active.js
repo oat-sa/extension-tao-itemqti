@@ -45,10 +45,16 @@ define([
         var _widget = this.widget,
             $form = _widget.$form,
             include = _widget.element,
-            baseUrl = _widget.options.baseUrl,
-            $wrap = _widget.$container.parent('.text-block-wrap'),
-            isScrolling = itemScrollingMethods.isScrolling($wrap),
-            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
+            baseUrl = _widget.options.baseUrl;
+
+        var $wrap = _widget.$container.parent('.text-block-wrap');
+
+        if ($wrap.parent('[data-html-editable="true"]').length > 0) {
+            $wrap.length = 0;
+        }
+
+        var isScrolling = itemScrollingMethods.isScrolling($wrap);
+        var selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(formTpl({
             baseUrl : baseUrl || '',
@@ -60,21 +66,23 @@ define([
 
         itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
 
-        //init slider and set align value before ...
         _initUpload(_widget);
 
-        //... init standard ui widget
         formElement.initWidget($form);
 
-        formElement.setChangeCallbacks($form, _widget.element, {
+        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
+
+    };
+
+    var changeCallbacks = function (widget) {
+        return {
             scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(_widget, value)
+                itemScrollingMethods.wrapContent(widget, value)
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(_widget.$container.parent('.text-block-wrap'), value)
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.text-block-wrap'), value)
             }
-        });
-
+        }
     };
 
     var _initUpload = function(widget){
