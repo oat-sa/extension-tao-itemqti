@@ -17,6 +17,7 @@
  *
  */
 define([
+    'module',
     'jquery',
     'lodash',
     'i18n',
@@ -25,7 +26,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltip'
-], function($, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+], function(module, $, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     'use strict';
 
     /**
@@ -49,6 +50,15 @@ define([
     };
 
     var timeouts = null;
+    var configs = module.config();
+    var syncLoading = _.defaults(
+        configs && configs.sync || {}, 
+        {
+            first: 20,
+            part: 10,
+            delay: 10000,
+            pause: 1000
+        });
 
     function getGroupId(groupLabel){
         return groupLabel.replace(/\W+/g, '-').toLowerCase();
@@ -162,7 +172,7 @@ define([
         }
 
         var $interaction;
-        if (index < 20) {
+        if (index < syncLoading.first) {
             $interaction = $(insertInteractionTpl(tplData));
         } else {
             if (!timeouts) {
@@ -178,7 +188,7 @@ define([
                     });
                     timeouts = null;
                 }
-            }, 10000 + Number(index / 10).toFixed() * 1000));
+            }, syncLoading.delay + Number(index / syncLoading.part).toFixed() * syncLoading.pause));
         }
         
 
