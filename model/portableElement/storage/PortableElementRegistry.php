@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\portableElement\storage;
 
-use oat\oatbox\AbstractRegistry;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
@@ -54,6 +53,12 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     private static $registries = [];
 
+    /** @var [] */
+    private $cache;
+
+    /** @var [] */
+    private $objectCache;
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -84,12 +89,16 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         // No version, return latest version
         if (is_null($version)) {
             $this->krsortByVersion($portableElements);
-            return $this->getModel()->createDataObject(reset($portableElements));
+            $target = reset($portableElements);
         }
 
         // Version is set, return associated record
         if (isset($portableElements[$version])) {
-            return $this->getModel()->createDataObject($portableElements[$version]);
+            $target = $portableElements[$version];
+        }
+
+        if (isset($target)){
+            return $this->createDataObject($target);
         }
 
         // Version is set, no record found
@@ -130,8 +139,12 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         $fileSystem = $this->getConfigFileSystem();
 
-        if ($fileSystem->has($identifier)) {
-            return json_decode($fileSystem->read($identifier), true);
+        if($fileSystem->has($identifier)){
+            if(!isset($this->cache[$identifier])){
+                $content = json_decode($fileSystem->read($identifier),true);
+                $this->cache[$identifier] = $content;
+            }
+            return $this->cache[$identifier];
         }
 
         return false;
@@ -160,6 +173,9 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     private function set($identifier, $value)
     {
+        if(array_key_exists($identifier, $this->cache)){
+            $this->cache[$identifier] = $value;
+        }
         $this->getConfigFileSystem()->put($identifier, json_encode($value));
     }
 
@@ -250,7 +266,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         }
 
         foreach ($this->getAllVersions($identifier) as $version) {
-            $this->unregister($this->getModel()->createDataObject($version));
+            $this->unregister($this->createDataObject($version));
         }
     }
 
@@ -301,7 +317,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         }
 
         $this->krsortByVersion($portableElements);
-        return $this->getModel()->createDataObject(reset($portableElements));
+        return $this->createDataObject(reset($portableElements));
     }
 
     /**
@@ -400,8 +416,8 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             }
 
             $this->krsortByVersion($versions);
-            $object = $this->getModel()->createDataObject(reset($versions));
-            if ($useVersionAlias) {
+            $object = $this->createDataObject(reset($versions));
+            if($useVersionAlias){
                 $object->setVersion($this->getAliasVersion($object->getVersion()));
             }
             $all[$typeIdentifier] = $object;
@@ -580,4 +596,14 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             return -version_compare($a, $b);
         });
     }
+
+    private function createDataObject(array $component)
+    {
+        $componentId = $component['typeIdentifier'].$component['version'];
+        if(!isset($this->objectCache[$componentId])){
+            $this->objectCache[$componentId] = $this->getModel()->createDataObject($component);
+        }
+        return $this->objectCache[$componentId];
+    }
+
 }
