@@ -12,24 +12,31 @@
     [data-eliminable="container"] {
         display: none;
         position: absolute;
-        top: 0;
         left: $elimCbOffsetLeft * 1px;
-        height: 100%;
-        padding-top: 6px;
         z-index: 3;
+        top: 5px;
+        min-height: 22px;
+        min-width: 20px;
+        padding: 0;
+        margin: 0;
+        &:after {
+            content: "0";
+            visibility: hidden;
+            pointer-events: none;
+        }
         [data-eliminable="trigger"] {
             font-size: 1.6rem;
-            position: relative;
             z-index: 4;
             cursor: pointer;
         }
         // label above ol
         &::before {
             position: absolute;
-            top: -33px;
-            left: $captionOffsetLeft * -1px;
             font: inherit;
             cursor: default;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: calc(100% + 18px);
         }
     }
     // parent .qti-interaction
@@ -45,38 +52,18 @@
                 [data-eliminable="container"] {
                     left: $elimListStyleCbOffsetLeft * 1px;
                 }
-                // li
-                .qti-choice {
-                    // when checked
-                    &.eliminated {
-                        [data-eliminable="container"] {
-                            padding-left: $elimListStyleCbOffsetLeft * 1px;
-                            //&::before {
-                            //    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
-                            //}
-                        }
-                    }
-                    &:first-child {
-                        &.eliminated {
-                            [data-eliminable="container"] {
-                                // label above ol
-                                &::before {
-                                    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
-                                }
-                            }
-                        }
-                    }
-                }
             }
-        }
-        //both label and checkbox
-        [data-eliminable] {
-            display:block;
+            //both label and checkbox
+            [data-eliminable] {
+                display: block;
+            }
         }
         // eliminator outer layer
         .qti-choice {
             // when checked
             &.eliminated {
+                background: white(.7);
+
                 .label-box {
                     .label-content {
                         position: relative;
@@ -103,19 +90,23 @@
                         }
                     }
                 }
+
+                &:before,
+                .pseudo-label-box {
+                    opacity: .3;
+                }
+
+                &:before,
+                .label-box {
+                    cursor: not-allowed;
+                }
+
                 [data-eliminable="container"] {
-                    width: 100%;
-                    padding-left: $elimCbOffsetLeft * 1px;
-                    left: 0;
-                    background: white(.7);
                     cursor: not-allowed;
                     [data-eliminable="trigger"] {
                         &:before {
                             @include icon-checkbox-crossed();
                         }
-                    }
-                    &::before {
-                        left: ($elimCbOffsetLeft - $captionOffsetLeft) * 1px !important;
                     }
                 }
             }
@@ -131,7 +122,23 @@
     }
 
     .qti-choice .real-label{
-        top:1px;
+        min-height: 22px;
+        display: flex;
+        align-items: center;
+        &:before {
+            content: "0";
+            min-width: 20px;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    }
+
+    .icon-radio,
+    .icon-checkbox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .choice-area {
