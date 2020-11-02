@@ -218,7 +218,6 @@ define([
                         loadCustomInteractions(usedCustomInteractionIds),
                         loadInfoControls()
                     ]);
-                    // return true;
                 }).then(function(){
                     //initialize all the plugins
                     return pluginRun('init').then(function(){
