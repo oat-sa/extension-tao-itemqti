@@ -240,13 +240,10 @@ define([
                     }
                 }).then(function(){
                     //load custom elements
-                    console.log('PCI+Pic start loading');
                     return Promise.all([
                         loadCustomInteractions(usedCustomInteractionIds),
                         loadInfoControls()
-                    ]).then(() => {
-                        console.log('PCI+Pic are loaded');
-                    })
+                    ]);
                     // return true;
                 }).then(function(){
                     //initialize all the plugins
