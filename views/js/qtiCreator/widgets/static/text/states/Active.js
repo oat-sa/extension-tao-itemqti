@@ -83,7 +83,7 @@ define([
                 var $wrap = widget.$container.find('[data-html-editable="true"]').children('.text-block-wrap.inner');
 
                 value = value.trim();
-                if (value === wrapperCls + 'inner') {
+                if (value === wrapperCls + ' inner') {
                     value = '';
                 }
 
