@@ -17,6 +17,7 @@
  *
  */
 define([
+    'module',
     'jquery',
     'lodash',
     'i18n',
@@ -25,7 +26,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltip'
-], function($, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+], function(module, $, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     'use strict';
 
     /**
@@ -47,6 +48,17 @@ define([
     var _events = {
         interactiontoolbarready : 'interactiontoolbarready.qti-widget'
     };
+
+    var timeouts = null;
+    var configs = module.config();
+    var syncLoading = _.defaults(
+        configs && configs.sync || {}, 
+        {
+            first: 20,
+            part: 10,
+            delay: 10000,
+            pause: 1000
+        });
 
     function getGroupId(groupLabel){
         return groupLabel.replace(/\W+/g, '-').toLowerCase();
@@ -72,8 +84,9 @@ define([
     
     function create($sidebar, interactions){
 
+        var index = 0;
         _.each(interactions, function(interactionAuthoringData){
-            add($sidebar, interactionAuthoringData);
+            add($sidebar, interactionAuthoringData, ++index);
         });
 
         buildSubGroups($sidebar);
@@ -121,7 +134,7 @@ define([
         return !!$sidebar.find('li[data-qti-class="' + interactionClass + '"]').length;
     }
     
-    function add($sidebar, interactionAuthoringData){
+    function add($sidebar, interactionAuthoringData, index){
 
         if(exists($sidebar, interactionAuthoringData.qtiClass)){
             throw 'the interaction is already in the sidebar';
@@ -157,8 +170,28 @@ define([
             //the group does not exist yet : create a <section> for the group
             $group = addGroup($sidebar, groupLabel);
         }
+
+        var $interaction;
+        if (index < syncLoading.first) {
+            $interaction = $(insertInteractionTpl(tplData));
+        } else {
+            if (!timeouts) {
+                timeouts = [];
+            }
+            $interaction = $('<li>Loading...</li>');
+            timeouts.push(setTimeout(() => {
+                if ($.contains(document, $interaction[0])) {
+                    $interaction.replaceWith(insertInteractionTpl(tplData));
+                } else {
+                    _.each(timeouts, function(timeoutID){
+                        clearTimeout(timeoutID);
+                    });
+                    timeouts = null;
+                }
+            }, syncLoading.delay + Number(index / syncLoading.part).toFixed() * syncLoading.pause));
+        }
         
-        var $interaction = $(insertInteractionTpl(tplData));
+
         $group.find('.tool-list').append($interaction);
         
         return $interaction;

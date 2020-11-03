@@ -194,7 +194,7 @@ define([
                 });
 
                 this.on('exit', function() {
-                    $('.item-editor-item', areaBroker.getItemPanelArea()).empty();
+                    areaBroker.getInteractionPanelArea().empty();
                 })
 
                 var usedCustomInteractionIds = [];
