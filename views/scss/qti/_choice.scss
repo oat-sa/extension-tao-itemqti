@@ -62,8 +62,6 @@
         .qti-choice {
             // when checked
             &.eliminated {
-                background: white(.7);
-
                 .label-box {
                     .label-content {
                         position: relative;
@@ -102,6 +100,7 @@
                 }
 
                 [data-eliminable="container"] {
+                    background: white(.7);
                     cursor: not-allowed;
                     [data-eliminable="trigger"] {
                         &:before {
