@@ -59,13 +59,13 @@ define([
     TextActive.prototype.initForm = function () {
         var widget = this.widget,
             $form = widget.$form,
-            $wrap = widget.$container.find('.text-block-wrap'),
+            $wrap = widget.$container.find('.text-block-wrap.inner'),
             blockCls = $wrap.attr('class'),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(formTpl({
-            textBlockCssClass: (blockCls || '').replace(wrapperCls, '').trim(),
+            textBlockCssClass: (blockCls || '').replace(wrapperCls + ' inner', '').trim(),
             scrolling: isScrolling,
             scrollingHeights: itemScrollingMethods.options(),
         }));
@@ -80,10 +80,10 @@ define([
     var changeCallbacks = function (widget) {
         return {
             textBlockCssClass: function (element, value) {
-                var $wrap = widget.$container.find('[data-html-editable="true"]').children('.text-block-wrap');
+                var $wrap = widget.$container.find('[data-html-editable="true"]').children('.text-block-wrap.inner');
 
                 value = value.trim();
-                if (value === wrapperCls) {
+                if (value === wrapperCls + 'inner') {
                     value = '';
                 }
 
@@ -91,13 +91,13 @@ define([
                     $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
                 }
 
-                $wrap.attr('class', wrapperCls + ' ' + value);
+                $wrap.attr('class', wrapperCls + ' inner' + ' ' + value);
             },
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'inner')
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.find('.text-block-wrap').first(), value)
+                itemScrollingMethods.setScrollingHeight(widget.$container.find('.text-block-wrap.inner').first(), value)
             }
         }
     };

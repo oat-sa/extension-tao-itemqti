@@ -45,16 +45,10 @@ define([
         var _widget = this.widget,
             $form = _widget.$form,
             include = _widget.element,
-            baseUrl = _widget.options.baseUrl;
-
-        var $wrap = _widget.$container.parent('.text-block-wrap');
-
-        if ($wrap.parent('[data-html-editable="true"]').length > 0) {
-            $wrap.length = 0;
-        }
-
-        var isScrolling = itemScrollingMethods.isScrolling($wrap);
-        var selectedHeight = itemScrollingMethods.selectedHeight($wrap);
+            baseUrl = _widget.options.baseUrl,
+            $wrap = _widget.$container.parent('.text-block-wrap.outer'),
+            isScrolling = itemScrollingMethods.isScrolling($wrap),
+            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(formTpl({
             baseUrl : baseUrl || '',
@@ -80,7 +74,7 @@ define([
                 itemScrollingMethods.wrapContent(widget, value)
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.text-block-wrap'), value)
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.text-block-wrap.outer'), value)
             }
         }
     };
