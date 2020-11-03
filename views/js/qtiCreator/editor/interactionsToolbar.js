@@ -179,7 +179,7 @@ define([
                 timeouts = [];
             }
             $interaction = $('<li>Loading...</li>');
-            timeouts.push(setTimeout(() => {
+            timeouts.push(setTimeout(function () {
                 if ($.contains(document, $interaction[0])) {
                     $interaction.replaceWith(insertInteractionTpl(tplData));
                 } else {
