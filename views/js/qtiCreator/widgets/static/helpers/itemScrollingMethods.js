@@ -45,7 +45,7 @@ define([
             }];
         },
         isScrolling: function (wrapper) {
-            return typeCaster.strToBool(wrapper.length > 0 ? wrapper.attr('data-scrolling') : 'false')
+            return typeCaster.strToBool(wrapper.length > 0 ? wrapper.attr('data-scrolling') : 'false');
         },
         selectedHeight: function (wrapper) {
             return wrapper.attr('data-scrolling-height');

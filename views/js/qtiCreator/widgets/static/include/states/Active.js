@@ -71,10 +71,10 @@ define([
     var changeCallbacks = function (widget) {
         return {
             scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(widget, value)
+                itemScrollingMethods.wrapContent(widget, value);
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.text-block-wrap.outer'), value)
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.text-block-wrap.outer'), value);
             }
         }
     };

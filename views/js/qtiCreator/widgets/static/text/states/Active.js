@@ -94,10 +94,10 @@ define([
                 $wrap.attr('class', wrapperCls + ' inner' + ' ' + value);
             },
             scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(widget, value, 'inner')
+                itemScrollingMethods.wrapContent(widget, value, 'inner');
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.find('.text-block-wrap.inner').first(), value)
+                itemScrollingMethods.setScrollingHeight(widget.$container.find('.text-block-wrap.inner').first(), value);
             }
         }
     };
