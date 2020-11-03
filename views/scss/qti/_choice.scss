@@ -103,7 +103,8 @@
                     content: "";
                     width: 100%;
                     height: 100%;
-                    background: white(.7);
+                    background: $uiGeneralContentBg;
+                    opacity: .7;
                     display: block;
                     position: absolute;
                     top: 0;
