@@ -87,7 +87,7 @@ define([
      * @param {Object} plugin - Context of preview
      */
     function disablePreviewIfEmpty(plugin) {
-        if (plugin.getHost().isEmpty()) {
+        if (plugin.getHost().isEmpty() || !isSaved(plugin)) {
             plugin.disable();
             setSaved(false, plugin);
         }
