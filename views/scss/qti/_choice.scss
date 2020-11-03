@@ -14,7 +14,7 @@
         position: absolute;
         left: $elimCbOffsetLeft * 1px;
         z-index: 3;
-        top: 5px;
+        top: 7px;
         min-height: 22px;
         min-width: 20px;
         padding: 0;
@@ -36,7 +36,7 @@
             cursor: default;
             left: 50%;
             transform: translateX(-50%);
-            bottom: calc(100% + 18px);
+            bottom: calc(100% + 20px);
         }
     }
     // parent .qti-interaction
@@ -125,6 +125,7 @@
         min-height: 22px;
         display: flex;
         align-items: center;
+        top: 2px;
         &:before {
             content: "0";
             min-width: 20px;
@@ -152,6 +153,7 @@
             p, div, li {
                 &::before {
                     position: absolute;
+                    top: 5px;
                     left: 30px;
                     min-height: 22px;
                     display: flex;
