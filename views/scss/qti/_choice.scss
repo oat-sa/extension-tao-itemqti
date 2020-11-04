@@ -7,6 +7,7 @@
 
     $elimCbOffsetLeft: 50;
     $captionOffsetLeft: 17;
+    $minRowHeight: 22;
     $elimListStyleCbOffsetLeft: $elimCbOffsetLeft + 23;
 
     [data-eliminable="container"] {
@@ -14,10 +15,11 @@
         position: absolute;
         left: $elimCbOffsetLeft * 1px;
         z-index: 3;
-        top: 7px;
-        min-height: 22px;
+        top: 2px;
+        min-height: $minRowHeight * 1px;
+        max-height: 100%;
         min-width: 20px;
-        padding: 0;
+        padding: 5px 0;
         margin: 0;
         &:after {
             content: "0";
@@ -133,7 +135,8 @@
     }
 
     .qti-choice .real-label{
-        min-height: 22px;
+        min-height: $minRowHeight * 1px;
+        max-height: 100%;
         display: flex;
         align-items: center;
         top: 2px;
@@ -166,7 +169,8 @@
                     position: absolute;
                     top: 5px;
                     left: 30px;
-                    min-height: 22px;
+                    min-height: $minRowHeight * 1px;
+                    max-height: 100%;
                     display: flex;
                     align-items: center;
                 }
@@ -202,7 +206,8 @@
     }
     .label-content [data-html-editable=true],
     .label-content {
-        min-height: 22px;
+        min-height: $minRowHeight * 1px;
+        max-height: 100%;
         display: flex;
         justify-content: center;
         flex-direction: column;
