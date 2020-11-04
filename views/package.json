@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.6.1",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#fix/TR-10/accept-null-response-in-extended-text-interaction"
+        "@oat-sa/tao-item-runner-qti": "^0.14.1"
     }
 }
