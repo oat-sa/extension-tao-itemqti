@@ -40,35 +40,15 @@ define([
      * @param {Object} plugin - Context of preview
      */
     function previewHandler(e, plugin) {
-        const itemCreator = plugin.getHost();
-
-        if (itemCreator.isEmpty() || !isSaved(plugin)) {
-            return;
+        if (!plugin.$element.hasClass('disabled')) {
+            const itemCreator = plugin.getHost();
+            $(document).trigger('open-preview.qti-item');
+            e.preventDefault();
+            plugin.disable();
+            itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+            plugin.enable();
         }
 
-        $(document).trigger('open-preview.qti-item');
-        e.preventDefault();
-        plugin.disable();
-        itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-        plugin.enable();
-    }
-
-    /**
-     * Set the value of saved
-     * @param {Boolean} value - Value of new saved status
-     * @param {Object} plugin - Context of preview
-     */
-    function setSaved(value, plugin) {
-        plugin.saved = value;
-    }
-
-    /**
-     * Return if item is saved or not
-     * @param {Object} plugin - Context of preview
-     * @returns {Boolean} true/false
-     */
-    function isSaved(plugin) {
-        return plugin.saved;
     }
 
     /**
@@ -76,7 +56,6 @@ define([
      * @param {Object} plugin - Context of preview
      */
     function enablePreviewIfNotEmpty(plugin) {
-        setSaved(true, plugin);
         if (!plugin.getHost().isEmpty()) {
             plugin.enable();
         }
@@ -87,9 +66,8 @@ define([
      * @param {Object} plugin - Context of preview
      */
     function disablePreviewIfEmpty(plugin) {
-        if (plugin.getHost().isEmpty() || !isSaved(plugin)) {
+        if (plugin.getHost().isEmpty()) {
             plugin.disable();
-            setSaved(false, plugin);
         }
     }
     /**
@@ -99,7 +77,6 @@ define([
     return pluginFactory({
 
         name : 'preview',
-        saved : true,
 
         /**
          * Initialize the plugin (called during itemCreator's init)
@@ -136,7 +113,6 @@ define([
 
             this.getAreaBroker()
                 .getItemPanelArea()
-                .on('dropped.gridEdit.insertable', () => setSaved(false, this))
                 .on('item.deleted', () => disablePreviewIfEmpty(this));
         },
 
