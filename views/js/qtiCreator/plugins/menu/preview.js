@@ -35,19 +35,77 @@ define([
     'use strict';
 
     /**
+     * Handler for preview
+     * @param {Object} e - Preview event fired
+     * @param {Object} plugin - Context of preview
+     */
+    function previewHandler(e, plugin) {
+        const itemCreator = plugin.getHost();
+
+        if (itemCreator.isEmpty() || !isSaved(plugin)) {
+            return;
+        }
+
+        $(document).trigger('open-preview.qti-item');
+        e.preventDefault();
+        plugin.disable();
+        itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+        plugin.enable();
+    }
+
+    /**
+     * Set the value of saved
+     * @param {Boolean} value - Value of new saved status
+     * @param {Object} plugin - Context of preview
+     */
+    function setSaved(value, plugin) {
+        plugin.saved = value;
+    }
+
+    /**
+     * Return if item is saved or not
+     * @param {Object} plugin - Context of preview
+     * @returns {Boolean} true/false
+     */
+    function isSaved(plugin) {
+        return plugin.saved;
+    }
+
+    /**
+     * Handler for disable preview if its empty
+     * @param {Object} plugin - Context of preview
+     */
+    function enablePreviewIfNotEmpty(plugin) {
+        setSaved(true, plugin);
+        if (!plugin.getHost().isEmpty()) {
+            plugin.enable();
+        }
+    }
+
+    /**
+     * Handler for disable preview
+     * @param {Object} plugin - Context of preview
+     */
+    function disablePreviewIfEmpty(plugin) {
+        if (plugin.getHost().isEmpty()) {
+            plugin.disable();
+            setSaved(false, plugin);
+        }
+    }
+    /**
      * Returns the configured plugin
      * @returns {Function} the plugin
      */
     return pluginFactory({
 
         name : 'preview',
+        saved : true,
 
         /**
          * Initialize the plugin (called during itemCreator's init)
          * @fires {itemCreator#preview}
          */
         init : function init(){
-            var self = this;
             var itemCreator = this.getHost();
 
             /**
@@ -55,14 +113,18 @@ define([
              * @event itemCreator#preview
              * @param {String} uri - the uri of this item to preview
              */
-            itemCreator.on('preview', function(uri){
-              	var type = 'qtiItem';
+            itemCreator.on('preview', function(uri) {
+                var type = 'qtiItem';
 
-                previewerFactory(type, uri, { }, {
-                    readOnly: false,
-                    fullPage: true
-                });
+                if (!this.isEmpty()) {
+                    previewerFactory(type, uri, {}, {
+                        readOnly: false,
+                        fullPage: true
+                    });
+                }
             });
+
+            itemCreator.on('saved', () => enablePreviewIfNotEmpty(this));
 
             //creates the preview button
             this.$element = $(buttonTpl({
@@ -70,17 +132,12 @@ define([
                 title: __('Preview the item'),
                 text : __('Preview'),
                 cssClass: 'preview-trigger'
-            })).on('click', function previewHandler(e){
-                $(document).trigger('open-preview.qti-item');
+            })).on('click', e => previewHandler(e, this));
 
-                e.preventDefault();
-
-                self.disable();
-
-                itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-
-                self.enable();
-            });
+            this.getAreaBroker()
+                .getItemPanelArea()
+                .on('dropped.gridEdit.insertable', () => setSaved(false, this))
+                .on('item.deleted', () => disablePreviewIfEmpty(this));
         },
 
         /**
@@ -90,6 +147,9 @@ define([
 
             //attach the element to the menu area
             var $container = this.getAreaBroker().getMenuArea();
+            if (this.getHost().isEmpty()) {
+                this.disable();
+            }
             $container.append(this.$element);
         },
 
