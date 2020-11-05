@@ -58,14 +58,14 @@ define([
             const $form = widget.$form;
             let $wrap = wrapType === 'inner' ? widget.$container
                 .find('[data-html-editable]')
-                .children('.custom-text-box.inner') : widget.$container.parent('.custom-text-box.outer');
+                .children('.custom-text-box') : widget.$container.parent('.custom-text-box');
 
             if (!$wrap.length) {
                 $wrap = wrapType === 'inner' ? widget.$container
                     .find('[data-html-editable]')
-                    .wrapInner('<div class="custom-text-box inner" />')
+                    .wrapInner('<div class="custom-text-box" />')
                     .children() : widget.$container
-                    .wrap('<div class="custom-text-box outer" />')
+                    .wrap('<div class="custom-text-box" />')
                     .parent();
             }
 

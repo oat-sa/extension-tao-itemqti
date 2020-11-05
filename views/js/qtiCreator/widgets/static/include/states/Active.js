@@ -46,7 +46,7 @@ define([
             $form = _widget.$form,
             include = _widget.element,
             baseUrl = _widget.options.baseUrl,
-            $wrap = _widget.$container.parent('.custom-text-box.outer'),
+            $wrap = _widget.$container.parent('.custom-text-box'),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
@@ -71,10 +71,11 @@ define([
     var changeCallbacks = function (widget) {
         return {
             scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(widget, value);
+                itemScrollingMethods.wrapContent(widget, value, 'outer');
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box'), itemScrollingMethods.options()[0].value);
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box.outer'), value);
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box'), value);
             }
         }
     };
