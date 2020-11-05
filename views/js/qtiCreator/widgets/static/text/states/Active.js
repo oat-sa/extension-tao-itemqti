@@ -1,5 +1,4 @@
 define([
-    'util/typeCaster',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
@@ -7,7 +6,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function (typeCaster, stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
+], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
     'use strict';
 
     var wrapperCls = 'custom-text-box';
