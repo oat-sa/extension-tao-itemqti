@@ -17,6 +17,7 @@
  *
  */
 define([
+    'context',
     'module',
     'jquery',
     'lodash',
@@ -26,7 +27,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltip'
-], function(module, $, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+], function(context, module, $, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     'use strict';
 
     /**
@@ -52,9 +53,9 @@ define([
     var timeouts = null;
     var configs = module.config();
     var syncLoading = _.defaults(
-        configs && configs.sync || {}, 
+        configs && configs.sync || {},
         {
-            first: 20,
+            first: 30,
             part: 10,
             delay: 10000,
             pause: 1000
@@ -172,16 +173,19 @@ define([
         }
 
         var $interaction;
-        if (index < syncLoading.first) {
+        if (index < syncLoading.first || tplData.iconFont) {
             $interaction = $(insertInteractionTpl(tplData));
         } else {
             if (!timeouts) {
                 timeouts = [];
             }
-            $interaction = $('<li>Loading...</li>');
-            timeouts.push(setTimeout(() => {
+            tplData.iconLoading = tplData.icon;
+            tplData.icon = context.root_url + '/tao/views/img/ajax-loader.gif';
+            $interaction = $(insertInteractionTpl(tplData));
+            timeouts.push(setTimeout(function () {
                 if ($.contains(document, $interaction[0])) {
-                    $interaction.replaceWith(insertInteractionTpl(tplData));
+                    tplData.icon = tplData.iconLoading;
+                    $interaction.find('img.icon').attr('src', tplData.iconLoading);
                 } else {
                     _.each(timeouts, function(timeoutID){
                         clearTimeout(timeoutID);
