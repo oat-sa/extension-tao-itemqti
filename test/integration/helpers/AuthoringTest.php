@@ -63,7 +63,8 @@ class AuthoringTest extends TaoPhpUnitTestRunner
      */
     public function testValidateSanitizedString($xmlStr)
     {
-        Authoring::loadQtiXml($xmlStr);
+        $dom = Authoring::loadQtiXml($xmlStr);
+        self::assertInstanceOf(\DOMDocument::class, $dom);
     }
 
     public function testSanitizeQtiXmlMultipleIds()
@@ -118,7 +119,8 @@ class AuthoringTest extends TaoPhpUnitTestRunner
      */
     public function testValidateSanitizedStringSingleId($xmlStr)
     {
-        Authoring::loadQtiXml($xmlStr);
+        $dom = Authoring::loadQtiXml($xmlStr);
+        self::assertInstanceOf(\DOMDocument::class, $dom);
     }
 
     public function testLoadQtiXml()
@@ -150,30 +152,28 @@ class AuthoringTest extends TaoPhpUnitTestRunner
             glob($this->getSamplePath('/xml/qtiv2p1/*.xml')),
             glob($this->getSamplePath('/xml/qtiv2p1/rubricBlock/*.xml'))
         );
-        $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
         }
+        self::assertTrue(true, 'No exceptions triggered');
     }
 
     public function testValidateQtiXmlQti2p0()
     {
         $files = glob($this->getSamplePath('/xml/qtiv2p0/*.xml'));
-
-        $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
         }
+        self::assertTrue(true, 'No exceptions triggered');
     }
 
     public function testFileParsingApipv1p0()
     {
         $files = glob($this->getSamplePath('/xml/apipv1p0/*.xml'));
-
-        $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
         }
+        self::assertTrue(true, 'No exceptions triggered');
     }
 
     /**
