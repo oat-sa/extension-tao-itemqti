@@ -10,7 +10,7 @@ define([
 ], function (typeCaster, stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
     'use strict';
 
-    var wrapperCls = 'text-block-wrap';
+    var wrapperCls = 'custom-text-box';
 
     var TextActive = stateFactory.extend(Active, function () {
 
@@ -59,7 +59,7 @@ define([
     TextActive.prototype.initForm = function () {
         var widget = this.widget,
             $form = widget.$form,
-            $wrap = widget.$container.find('.text-block-wrap.inner'),
+            $wrap = widget.$container.find('.custom-text-box.inner'),
             blockCls = $wrap.attr('class'),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
@@ -80,7 +80,7 @@ define([
     var changeCallbacks = function (widget) {
         return {
             textBlockCssClass: function (element, value) {
-                var $wrap = widget.$container.find('[data-html-editable="true"]').children('.text-block-wrap.inner');
+                var $wrap = widget.$container.find('[data-html-editable="true"]').children('.custom-text-box.inner');
 
                 value = value.trim();
                 if (value === wrapperCls + ' inner') {
@@ -97,7 +97,7 @@ define([
                 itemScrollingMethods.wrapContent(widget, value, 'inner');
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.find('.text-block-wrap.inner').first(), value);
+                itemScrollingMethods.setScrollingHeight(widget.$container.find('.custom-text-box.inner').first(), value);
             }
         }
     };

@@ -46,7 +46,7 @@ define([
             $form = _widget.$form,
             include = _widget.element,
             baseUrl = _widget.options.baseUrl,
-            $wrap = _widget.$container.parent('.text-block-wrap.outer'),
+            $wrap = _widget.$container.parent('.custom-text-box.outer'),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
@@ -74,7 +74,7 @@ define([
                 itemScrollingMethods.wrapContent(widget, value);
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.text-block-wrap.outer'), value);
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box.outer'), value);
             }
         }
     };
