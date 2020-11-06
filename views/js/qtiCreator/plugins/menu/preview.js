@@ -35,6 +35,42 @@ define([
     'use strict';
 
     /**
+     * Handler for preview
+     * @param {Object} e - Preview event fired
+     * @param {Object} plugin - Context of preview
+     */
+    function previewHandler(e, plugin) {
+        if (!plugin.$element.hasClass('disabled')) {
+            const itemCreator = plugin.getHost();
+            $(document).trigger('open-preview.qti-item');
+            e.preventDefault();
+            plugin.disable();
+            itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+            plugin.enable();
+        }
+
+    }
+
+    /**
+     * Handler for disable preview if its empty
+     * @param {Object} plugin - Context of preview
+     */
+    function enablePreviewIfNotEmpty(plugin) {
+        if (!plugin.getHost().isEmpty()) {
+            plugin.enable();
+        }
+    }
+
+    /**
+     * Handler for disable preview
+     * @param {Object} plugin - Context of preview
+     */
+    function disablePreviewIfEmpty(plugin) {
+        if (plugin.getHost().isEmpty()) {
+            plugin.disable();
+        }
+    }
+    /**
      * Returns the configured plugin
      * @returns {Function} the plugin
      */
@@ -47,7 +83,6 @@ define([
          * @fires {itemCreator#preview}
          */
         init : function init(){
-            var self = this;
             var itemCreator = this.getHost();
 
             /**
@@ -55,14 +90,18 @@ define([
              * @event itemCreator#preview
              * @param {String} uri - the uri of this item to preview
              */
-            itemCreator.on('preview', function(uri){
-              	var type = 'qtiItem';
+            itemCreator.on('preview', function(uri) {
+                var type = 'qtiItem';
 
-                previewerFactory(type, uri, { }, {
-                    readOnly: false,
-                    fullPage: true
-                });
+                if (!this.isEmpty()) {
+                    previewerFactory(type, uri, {}, {
+                        readOnly: false,
+                        fullPage: true
+                    });
+                }
             });
+
+            itemCreator.on('saved', () => enablePreviewIfNotEmpty(this));
 
             //creates the preview button
             this.$element = $(buttonTpl({
@@ -70,17 +109,11 @@ define([
                 title: __('Preview the item'),
                 text : __('Preview'),
                 cssClass: 'preview-trigger'
-            })).on('click', function previewHandler(e){
-                $(document).trigger('open-preview.qti-item');
+            })).on('click', e => previewHandler(e, this));
 
-                e.preventDefault();
-
-                self.disable();
-
-                itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-
-                self.enable();
-            });
+            this.getAreaBroker()
+                .getItemPanelArea()
+                .on('item.deleted', () => disablePreviewIfEmpty(this));
         },
 
         /**
@@ -90,6 +123,9 @@ define([
 
             //attach the element to the menu area
             var $container = this.getAreaBroker().getMenuArea();
+            if (this.getHost().isEmpty()) {
+                this.disable();
+            }
             $container.append(this.$element);
         },
 

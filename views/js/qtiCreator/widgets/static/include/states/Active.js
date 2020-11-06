@@ -25,9 +25,10 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
     'ui/resourcemgr',
-    'ui/tooltip'
-], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer){
+    'ui/tooltip',
+], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, itemScrollingMethods){
     'use strict';
 
     var IncludeStateActive = stateFactory.extend(Active, function(){
@@ -44,19 +45,39 @@ define([
         var _widget = this.widget,
             $form = _widget.$form,
             include = _widget.element,
-            baseUrl = _widget.options.baseUrl;
+            baseUrl = _widget.options.baseUrl,
+            $wrap = _widget.$container.parent('.custom-text-box'),
+            isScrolling = itemScrollingMethods.isScrolling($wrap),
+            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(formTpl({
             baseUrl : baseUrl || '',
-            href : include.attr('href')
+            href : include.attr('href'),
+            scrolling: isScrolling,
+            scrollingHeights: itemScrollingMethods.options(),
+            selectedHeight: selectedHeight
         }));
 
-        //init slider and set align value before ...
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
+
         _initUpload(_widget);
 
-        //... init standard ui widget
         formElement.initWidget($form);
 
+        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
+
+    };
+
+    var changeCallbacks = function (widget) {
+        return {
+            scrolling: function (element, value) {
+                itemScrollingMethods.wrapContent(widget, value, 'outer');
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box'), itemScrollingMethods.options()[0].value);
+            },
+            scrollingHeight: function (element, value) {
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box'), value);
+            }
+        }
     };
 
     var _initUpload = function(widget){
@@ -91,7 +112,7 @@ define([
 
                         file = files[0].file;
                         $href.val(file);
-                        
+
                         //set the selected file as the new href and refresh rendering
                         xincludeRenderer.render(widget, options.baseUrl, file);
 
@@ -107,12 +128,12 @@ define([
                     }
                 },
                 close : function(){
-                    //triggers validation : 
+                    //triggers validation :
                     $href.blur();
                 }
             });
         };
-        
+
         $uploadTrigger.on('click', _openResourceMgr);
         $href.on('click', _openResourceMgr);//href input is read only
 
