@@ -26,21 +26,10 @@
 </div>
 
 <div data-role="advanced" style="display:none">
-    
-    <hr/>
-    
-<!--
-    <div class="panel">
 
-        <label for="align">{{__ "Alignment"}}</label>
-        <select name="align" class="select2" data-has-search="false">
-            <option value="default">{{__ 'default'}}</option>
-            <option value="left">{{__ 'left'}}</option>
-            <option value="right">{{__ 'right'}}</option>
-        </select>
-    </div>-->
-    
+    <hr/>
+
     <h3>{{__ 'Size and position'}}</h3>
     <div class="panel img-resizer"></div>
-    
+
 </div>
