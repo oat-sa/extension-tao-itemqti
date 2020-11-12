@@ -22,33 +22,44 @@ define([
 ], function ($, typeCaster) {
     'use strict';
 
+    const wrapperTextCls = 'custom-text-box';
+    const wrapperIncludeCls = 'custom-include-box';
+    const newUIclass = 'tao-overflow-y';
+    const options = [{
+        value: '100',
+        name: 'Full height',
+        class: 'tao-full-height'
+    }, {
+        value: '75',
+        name: '3/4 of height',
+        class: 'tao-three-quarters-height'
+    }, {
+        value: '66.6666',
+        name: '2/3 of height',
+        class: 'tao-two-thirds-height'
+    }, {
+        value: '50',
+        name: 'Half height',
+        class: 'tao-half-height'
+    }, {
+        value: '33.3333',
+        name: '1/3 of height',
+        class: 'tao-third-height'
+    }, {
+        value: '25',
+        name: '1/4 of height',
+        class: 'tao-quarter-height'
+    }];
+
     return {
         options: function () {
-            return [{
-                value: '100',
-                name: 'Full height'
-            }, {
-                value: '75',
-                name: '3/4 of height'
-            }, {
-                value: '66.6666',
-                name: '2/3 of height'
-            }, {
-                value: '50',
-                name: 'Half height'
-            }, {
-                value: '33.3333',
-                name: '1/3 of height'
-            }, {
-                value: '25',
-                name: '1/4 of height'
-            }];
+            return options;
         },
-        isScrolling: function (wrapper) {
-            return typeCaster.strToBool(wrapper.length > 0 ? wrapper.attr('data-scrolling') : 'false');
+        isScrolling: function ($wrapper) {
+            return typeCaster.strToBool($wrapper.length > 0 ? $wrapper.attr('data-scrolling') : 'false');
         },
-        selectedHeight: function (wrapper) {
-            return wrapper.attr('data-scrolling-height');
+        selectedHeight: function ($wrapper) {
+            return $wrapper.attr('data-scrolling-height');
         },
         initSelect: function ($form, isScroll, height) {
             isScroll ? $form.find('.scrollingSelect').show() : $form.find('.scrollingSelect').hide();
@@ -56,25 +67,52 @@ define([
         },
         wrapContent: function (widget, value, wrapType) {
             const $form = widget.$form;
-            let $wrap = wrapType === 'inner' ? widget.$container
+            let $wrapper = wrapType === 'inner' ? widget.$container
                 .find('[data-html-editable]')
-                .children('.custom-text-box') : widget.$container.parent('.custom-text-box');
+                .children(`.${wrapperTextCls}`) : widget.$container.parent(`.${wrapperIncludeCls}`);
 
-            if (!$wrap.length) {
-                $wrap = wrapType === 'inner' ? widget.$container
+            if (!$wrapper.length) {
+                $wrapper = wrapType === 'inner' ? widget.$container
                     .find('[data-html-editable]')
-                    .wrapInner('<div class="custom-text-box" />')
+                    .wrapInner(`<div class="${wrapperTextCls}" />`)
                     .children() : widget.$container
-                    .wrap('<div class="custom-text-box" />')
+                    .wrap(`<div class="${wrapperIncludeCls}" />`)
                     .parent();
             }
 
             value ? $form.find('.scrollingSelect').show() : $form.find('.scrollingSelect').hide();
 
-            $wrap.attr('data-scrolling', value);
+            // add attr for curGen plugin itemScrolling
+            $wrapper.attr('data-scrolling', value);
+
+            // add classes for new UI test Runner
+            if (value) {
+                $wrapper.addClass(`${newUIclass} ${options[0].class}`);
+                // need to set tao-full-height to grid-row
+                widget.$container.parents('.grid-row').addClass(options[0].class);
+            } else {
+                $wrapper.removeClass(newUIclass);
+                options.forEach((opt) => {
+                    $wrapper.removeClass(opt.class);
+                });
+                //remove tao-full-height from grid-row if no tao-full-height children
+                const gridRow = widget.$container.parents('.grid-row');
+                if (!gridRow.find(`.${newUIclass}`).length) {
+                    gridRow.removeClass(options[0].class);
+                }
+            }
         },
-        setScrollingHeight: function (wrapper, value) {
-            wrapper.attr('data-scrolling-height', value);
+        setScrollingHeight: function ($wrapper, value) {
+            $wrapper.attr('data-scrolling-height', value);
+            const opt = options.find((opt) => opt.value === value);
+            $wrapper.addClass(opt.class);
+        },
+        cutScrollClasses: function (classes) {
+            classes.replace(newUIclass, '');
+            options.forEach((opt) => {
+                classes.replace(opt.class, '');
+            });
+            return classes;
         }
     };
 });
