@@ -9,7 +9,7 @@ define([
         widget.afterStateExit(function(e, element, state){
             const serial = element.getSerial();
             if(state.name === 'active' && serial !== widget.serial && element.qtiClass === 'include'){
-                // update bdy of container in case include is wrapped in custom-text-box
+                // update bdy of container in case include is wrapped in custom-include-box
                 const composingElts = widget.element.getComposingElements();
                 if(composingElts[serial]){
                     const $pseudoContainer = $('<div>').html(widget.$container.children().html());
