@@ -108,11 +108,11 @@ define([
             $wrapper.addClass(opt.class);
         },
         cutScrollClasses: function (classes) {
-            classes.replace(newUIclass, '');
+            let clearClasses = classes.replace(newUIclass, '');
             options.forEach((opt) => {
-                classes.replace(opt.class, '');
+                clearClasses = clearClasses.replace(opt.class, '');
             });
-            return classes;
+            return clearClasses;
         }
     };
 });
