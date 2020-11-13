@@ -75,6 +75,8 @@ define([
         return {
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'outer');
+                // test attributes.class in Include for new UI test runner
+                // element.attr('class', 'tao-overflow-y tao-full-height');
             },
             scrollingHeight: function (element, value) {
                 itemScrollingMethods.setScrollingHeight(widget.$container.parent(`.${wrapperCls}`), value);
