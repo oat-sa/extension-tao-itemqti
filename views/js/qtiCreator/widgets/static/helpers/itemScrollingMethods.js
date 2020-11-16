@@ -24,6 +24,7 @@ define([
 
     const wrapperTextCls = 'custom-text-box';
     const wrapperIncludeCls = 'custom-include-box';
+    const wrapperFocusCls = 'key-navigation-focusable';
     const newUIclass = 'tao-overflow-y';
     const options = [{
         value: '100',
@@ -84,6 +85,7 @@ define([
 
             // add attr for curGen plugin itemScrolling
             $wrapper.attr('data-scrolling', value);
+            value ? $wrapper.addClass(wrapperFocusCls) : $wrapper.removeClass(wrapperFocusCls);
 
             // add classes for new UI test Runner
             if (value) {
@@ -108,7 +110,8 @@ define([
             $wrapper.addClass(opt.class);
         },
         cutScrollClasses: function (classes) {
-            let clearClasses = classes.replace(newUIclass, '');
+            let clearClasses = classes.replace(wrapperFocusCls, '');
+            clearClasses = clearClasses.replace(newUIclass, '');
             options.forEach((opt) => {
                 clearClasses = clearClasses.replace(opt.class, '');
             });
