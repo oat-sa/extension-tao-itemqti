@@ -12,7 +12,7 @@ define([
                 // update bdy of container in case include is wrapped in custom-include-box
                 const composingElts = widget.element.getComposingElements();
                 if(composingElts[serial]){
-                    const $pseudoContainer = $('<div>').html(widget.$container.children().html());
+                    const $pseudoContainer = $('<div>').html(widget.$container.find('[data-html-editable="true"]').html());
                     const newBody = contentHelper.getContent($pseudoContainer);
                     const container = widget.element;
                     container.body(newBody);
