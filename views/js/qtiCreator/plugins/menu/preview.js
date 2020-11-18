@@ -25,13 +25,14 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'jquery',
     'i18n',
     'core/plugin',
     'ui/hider',
     'taoItems/previewer/factory',
     'tpl!taoQtiItem/qtiCreator/plugins/button',
-], function($, __, pluginFactory, hider, previewerFactory, buttonTpl){
+], function(module, $, __, pluginFactory, hider, previewerFactory, buttonTpl){
     'use strict';
 
     /**
@@ -91,7 +92,8 @@ define([
              * @param {String} uri - the uri of this item to preview
              */
             itemCreator.on('preview', function(uri) {
-                var type = 'qtiItem';
+                const config = module.config();
+                var type = config.provider || 'qtiItem';
 
                 if (!this.isEmpty()) {
                     previewerFactory(type, uri, {}, {
