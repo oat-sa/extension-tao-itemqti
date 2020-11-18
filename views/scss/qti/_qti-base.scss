@@ -147,6 +147,7 @@ $mainContainer : '.qti-item';
 
     // MathJax reset
     .MathJax {
+        display: inline-table;
         &:focus {
             outline: 0;
         }
