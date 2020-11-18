@@ -63,7 +63,6 @@
     "require": {
         "oat-sa/lib-tao-qti": "5.5.0",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/composer-npm-bridge": "^0.4.0",
         "naneau/semver": "~0.0.7"
     },
     "autoload": {
