@@ -87,23 +87,27 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
                         : widget.$container.wrap(`<div class="${wrapperIncludeCls}" />`).parent();
             }
 
-            value ? $form.find('.scrollingSelect').show() : $form.find('.scrollingSelect').hide();
-
-            // add attr for curGen plugin itemScrolling, and class for keynavigation
+            // add attr for curGen plugin itemScrolling
             $wrapper.attr('data-scrolling', value);
-            value ? $wrapper.addClass(wrapperFocusCls) : $wrapper.removeClass(wrapperFocusCls);
-
-            // add classes for new UI test Runner
+            
             if (value) {
+                $form.find('.scrollingSelect').show()
+                // add class for keynavigation
+                $wrapper.addClass(wrapperFocusCls)
+                // add classes for new UI test Runner
                 $wrapper.addClass(`${newUIclass} ${options[0].class}`);
                 // need to set tao-full-height to grid-row
                 widget.$container.parents('.grid-row').addClass(options[0].class);
             } else {
+                $form.find('.scrollingSelect').hide()
+                // remove class for keynavigation
+                $wrapper.removeClass(wrapperFocusCls)
+                // remove classes for new UI test Runner
                 $wrapper.removeClass(newUIclass);
                 options.forEach(opt => {
                     $wrapper.removeClass(opt.class);
                 });
-                //remove tao-full-height from grid-row if no tao-full-height children
+                // remove tao-full-height from grid-row if no tao-full-height children
                 const gridRow = widget.$container.parents('.grid-row');
                 if (!gridRow.find(`.${newUIclass}`).length) {
                     gridRow.removeClass(options[0].class);
@@ -112,12 +116,16 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
         },
         setScrollingHeight: function ($wrapper, value) {
             $wrapper.attr('data-scrolling-height', value);
+            // remove classes tao-*-height for new UI test Runner
+            options.forEach(opt => {
+                $wrapper.removeClass(opt.class);
+            });
+            // add class tao-*-height for new UI test Runner
             const opt = options.find(opt => opt.value === value);
             $wrapper.addClass(opt.class);
         },
         cutScrollClasses: function (classes) {
-            let clearClasses = classes.replace(wrapperFocusCls, '');
-            clearClasses = clearClasses.replace(newUIclass, '');
+            let clearClasses = classes.replace(wrapperFocusCls, '').replace(newUIclass, '');
             options.forEach(opt => {
                 clearClasses = clearClasses.replace(opt.class, '');
             });
