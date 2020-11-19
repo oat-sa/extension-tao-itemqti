@@ -28,7 +28,6 @@ use oat\taoQtiItem\model\qti\asset\AssetManagerException;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
-use Prophecy\Argument;
 
 class AssetManagerTest extends TaoPhpUnitTestRunner
 {
@@ -219,7 +218,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
             $assetManagerMock
                 ->expects($this->exactly($expectedImportCallCount))
                 ->method('importAsset')
-                ->withConsecutive($this->returnValueMap($expectedCalls));
+                ->withConsecutive($expectedCalls);
 
             $qtiResourceMock
                 ->expects($this->once())
@@ -249,8 +248,13 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
 
         return [
             [
-                '/source/fixture/', 'qti/file/fixture.txt', ['path1', 'path2', 'path3'],
-                [[$this->equalTo('/source/fixture/path1'), $this->equalTo('../../path1')]],//, ['/source/fixture/path2', '../../path2'], ['/source/fixture/path3', '../../path3']],
+                '/source/fixture/',
+                'qti/file/fixture.txt',
+                ['path1', 'path2', 'path3'],
+                # [
+                #     [$this->equalTo('/source/fixture/path1'), $this->equalTo('../../path1')]
+                # ],
+                ['/source/fixture/path4', '../../path4'],
                 ['path1' => $mock, 'path3' => $mock], 2
             ],
             [

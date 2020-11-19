@@ -4,97 +4,101 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text'
-], function(stateFactory, Active, htmlEditor, content, formElement, formTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
+], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
     'use strict';
 
-    var wrapperCls = 'custom-text-box';
+    const wrapperCls = 'custom-text-box';
 
-    var TextActive = stateFactory.extend(Active, function(){
+    const TextActive = stateFactory.extend(Active, function () {
 
         this.buildEditor();
         this.initForm();
 
-    }, function(){
+    }, function () {
 
         this.destroyEditor();
         this.widget.$form.empty();
     });
 
-    TextActive.prototype.buildEditor = function(){
+    TextActive.prototype.buildEditor = function () {
 
-        var widget = this.widget;
-        var $editableContainer = widget.$container;
-        var container = widget.element;
-        var changeCallback = content.getChangeCallback(container);
+        const widget = this.widget;
+        const $editableContainer = widget.$container;
+        const container = widget.element;
+        const changeCallback = content.getChangeCallback(container);
 
         $editableContainer.attr('data-html-editable-container', true);
 
-        if(!htmlEditor.hasEditor($editableContainer)){
+        if (!htmlEditor.hasEditor($editableContainer)) {
 
             htmlEditor.buildEditor($editableContainer, {
-                change : function(data) {
+                change: function (data) {
                     changeCallback.call(this, data);
-
-                    // remove the form value if there is no content to apply on
                     if (!data) {
                         widget.$form.find('[name="textBlockCssClass"]').val('');
                     }
                 },
-                blur : function(){
+                blur: function () {
                     widget.changeState('sleep');
                 },
-                data : {
-                    widget : widget,
-                    container : container
+                data: {
+                    widget: widget,
+                    container: container
                 }
             });
         }
     };
 
-    TextActive.prototype.destroyEditor = function(){
-        //search and destroy the editor
+    TextActive.prototype.destroyEditor = function () {
         htmlEditor.destroyEditor(this.widget.$container);
     };
 
-    TextActive.prototype.initForm = function(){
-        var widget = this.widget;
-        var $form = widget.$form;
-        var blockCls = widget.$container.find('.' + wrapperCls).attr('class');
+    TextActive.prototype.initForm = function () {
+        const widget = this.widget,
+            $form = widget.$form,
+            $wrap = widget.$container.find(`.${wrapperCls}`),
+            blockCls = itemScrollingMethods.cutScrollClasses($wrap.attr('class') || ''),
+            isScrolling = itemScrollingMethods.isScrolling($wrap),
+            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(formTpl({
-            textBlockCssClass: (blockCls || '').replace(wrapperCls, '').trim()
+            textBlockCssClass: blockCls.replace(wrapperCls, '').trim(),
+            scrolling: isScrolling,
+            scrollingHeights: itemScrollingMethods.options(),
         }));
+
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
 
         formElement.initWidget($form);
 
-        formElement.setChangeCallbacks($form, widget.element, {
-            textBlockCssClass: function(element, value) {
-                var $block = widget.$container.find('.' + wrapperCls);
+        formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget));
+    };
 
-                // prevent to have the wrapper class twice
+    const changeCallbacks = function (widget) {
+        return {
+            textBlockCssClass: function (element, value) {
+                let $wrap = widget.$container.find(`.${wrapperCls}`);
+
                 value = value.trim();
                 if (value === wrapperCls) {
                     value = '';
                 }
 
-                if (!value) {
-                    // no need to have a wrapper if no block class is set
-                    $block.children().unwrap();
-                } else {
-                    if (!$block.length) {
-                        // no wrapper found, insert one
-                        $block = widget.$container
-                            .find('[data-html-editable="true"]')
-                            .wrapInner('<div />')
-                            .children();
-                    }
-
-                    // replace the block class
-                    $block.attr('class', wrapperCls + ' ' + value);
+                if (!$wrap.length) {
+                    $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
                 }
+
+                $wrap.attr('class', wrapperCls + ' ' + value);
+            },
+            scrolling: function (element, value) {
+                itemScrollingMethods.wrapContent(widget, value, 'inner');
+            },
+            scrollingHeight: function (element, value) {
+                itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
             }
-        });
+        }
     };
 
     return TextActive;

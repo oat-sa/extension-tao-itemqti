@@ -127,13 +127,13 @@ class QtiItemAssetCompilerTest extends TestCase
         $this->assertInstanceOf(PackedAsset::class, $packedAssets['stimulus-href']);
         $this->assertSame('xinclude', $packedAssets['stimulus-href']->getType());
         $this->assertSame('stimulus-link', $packedAssets['stimulus-href']->getLink());
-        $this->assertSame($this->getReplacementName('stimulus-link'), $packedAssets['stimulus-href']->getReplacedBy());
+        $this->assertSame($this->getReplacementName('stimulus-link'), $this->getFilenameWithoutPrefix($packedAssets['stimulus-href']->getReplacedBy()));
 
         $this->assertArrayHasKey('image-src', $packedAssets);
         $this->assertInstanceOf(PackedAsset::class, $packedAssets['image-src']);
         $this->assertSame('img', $packedAssets['image-src']->getType());
         $this->assertSame('image-link', $packedAssets['image-src']->getLink());
-        $this->assertSame($this->getReplacementName('image-link'), $packedAssets['image-src']->getReplacedBy());
+        $this->assertSame($this->getReplacementName('image-link'), $this->getFilenameWithoutPrefix($packedAssets['image-src']->getReplacedBy()));
     }
 
     public function testExtractAndCopyAssetFilesWithImageTwice()
@@ -196,13 +196,13 @@ class QtiItemAssetCompilerTest extends TestCase
         $this->assertInstanceOf(PackedAsset::class, $packedAssets['image-src-1']);
         $this->assertSame('img', $packedAssets['image-src-1']->getType());
         $this->assertSame('image-link', $packedAssets['image-src-1']->getLink());
-        $this->assertSame($this->getReplacementName('image-link'), $packedAssets['image-src-1']->getReplacedBy());
+        $this->assertSame($this->getReplacementName('image-link'), $this->getFilenameWithoutPrefix($packedAssets['image-src-1']->getReplacedBy()));
 
         $this->assertArrayHasKey('image-src-2', $packedAssets);
         $this->assertInstanceOf(PackedAsset::class, $packedAssets['image-src-2']);
         $this->assertSame('img', $packedAssets['image-src-2']->getType());
         $this->assertSame('image-link', $packedAssets['image-src-2']->getLink());
-        $this->assertSame($this->getReplacementName('image-link'), $packedAssets['image-src-2']->getReplacedBy());
+        $this->assertSame($this->getReplacementName('image-link'), $this->getFilenameWithoutPrefix($packedAssets['image-src-2']->getReplacedBy()));
     }
 
     public function testExtractAndCopyAssetFilesWithHttpBlacklisted()
@@ -255,11 +255,17 @@ class QtiItemAssetCompilerTest extends TestCase
         $this->assertInstanceOf(PackedAsset::class, $packedAssets['image-src']);
         $this->assertSame('img', $packedAssets['image-src']->getType());
         $this->assertSame('image-link', $packedAssets['image-src']->getLink());
-        $this->assertSame($this->getReplacementName('image-link'), $packedAssets['image-src']->getReplacedBy());
+        $this->assertSame($this->getReplacementName('image-link'), $this->getFilenameWithoutPrefix($packedAssets['image-src']->getReplacedBy()));
     }
 
     private function getReplacementName(string $string): string
     {
         return $string;
+    }
+
+    private function getFilenameWithoutPrefix(string $filename): string
+    {
+        $delimiter = '_';
+        return substr($filename, strpos($filename, $delimiter) + 1);
     }
 }

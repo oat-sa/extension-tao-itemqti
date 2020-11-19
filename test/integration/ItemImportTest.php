@@ -282,7 +282,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         }
 
         $this->assertEquals("qti.xml", $file['name']);
-        $this->assertContains("/xml", $file['mime']);
+        $this->assertStringContainsString("/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
 
 

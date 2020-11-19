@@ -188,7 +188,6 @@ define([
                         if(!silent){
                             self.trigger('success', __('Your item has been saved'));
                         }
-
                         self.trigger('saved');
                     }).catch(function(err){
                         self.trigger('error', err);
@@ -377,6 +376,15 @@ define([
              */
             getItem : function getItem(){
                 return this.item;
+            },
+
+            /**
+             * Return if item is empty or not
+             * @returns {Boolean} true/false
+             */
+            isEmpty : function isEmpty(){
+                const item = this.item.bdy.bdy;
+                return item === "" || item === "\n    ";
             },
 
             /**

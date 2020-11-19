@@ -165,7 +165,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
 
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
 
-        foreach (glob(dirname(__FILE__) . '/samples/xml/apipv1p0/*.xml') as $file) {
+        foreach ([__DIR__ . '/samples/apip/apip_choice_empty_apip.xml'] as $file) {
             $qtiParser = new Parser($file);
             $qtiParser->validate($basePath . 'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd');
             if (!$qtiParser->isValid()) {
@@ -227,30 +227,6 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
     {
 
         $files = glob(dirname(__FILE__) . '/samples/xml/qtiv2p1/pci/*.xml');
-
-        //check if samples are loaded
-        foreach ($files as $file) {
-            $qtiParser = new Parser($file);
-
-            $qtiParser->validate();
-            if (!$qtiParser->isValid()) {
-                echo $qtiParser->displayErrors();
-            }
-
-            $item = $qtiParser->load();
-            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-        }
-    }
-
-    public function testFileParsingQtiPic()
-    {
-        $extensionManager = common_ext_ExtensionsManager::singleton();
-
-        if (!$extensionManager->isInstalled('qtiItemPic') || !$extensionManager->isEnabled('qtiItemPic')) {
-            $this->markTestSkipped('The extension qtiItemPic is required to run this test.');
-        }
-
-        $files = glob(dirname(__FILE__) . '/samples/xml/qtiv2p1/pic/*.xml');
 
         //check if samples are loaded
         foreach ($files as $file) {

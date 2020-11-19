@@ -20,6 +20,9 @@
 
 namespace oat\taoQtiItem\test\integration\metadata;
 
+use core_kernel_classes_Class;
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\ImportService;
@@ -65,7 +68,17 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
         $this->setInaccessibleProperty($importService, 'metadataImporter', null);
 
         // Create fake class.
-        \core_kernel_classes_ClassFactory::createSubClass($itemClass, 'mytestclasslabel', 'mytestclasslabel', 'http://www.test.com#mytestclass');
+        $class = new core_kernel_classes_Class(OntologyRdfs::RDFS_CLASS);
+        $instance = new core_kernel_classes_Class('http://www.test.com#mytestclass');
+        $propertiesValues = [
+            OntologyRdf::RDF_TYPE => $class->getUri(),
+            OntologyRdfs::RDFS_LABEL => 'mytestclasslabel',
+            OntologyRdfs::RDFS_COMMENT => 'mytestclasslabel',
+        ];
+        $instance->setPropertiesValues($propertiesValues);
+
+        $returnValue = new core_kernel_classes_Class($instance->getUri());
+        $returnValue->setSubClassOf($itemClass);
 
         // Import myTestClassLabel sample...
         $samplePath = dirname(__FILE__) . '/../samples/metadata/metadataClassLookups/mytestclasslabel.zip';

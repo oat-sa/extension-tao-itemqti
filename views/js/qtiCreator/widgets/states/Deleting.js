@@ -233,6 +233,9 @@ define([
             this.item.body(contentHelper.getContent(this.$item));
         }
 
+        if (this.$item) {
+            this.$item.trigger('item.deleted');
+        }
     };
 
     return DeletingState;
