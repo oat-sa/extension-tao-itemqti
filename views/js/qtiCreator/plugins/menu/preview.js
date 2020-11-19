@@ -84,7 +84,7 @@ define([
          * @fires {itemCreator#preview}
          */
         init : function init(){
-            var itemCreator = this.getHost();
+            const itemCreator = this.getHost();
 
             /**
              * Preview an item
@@ -93,7 +93,7 @@ define([
              */
             itemCreator.on('preview', function(uri) {
                 const config = module.config();
-                var type = config.provider || 'qtiItem';
+                const type = config.provider || 'qtiItem';
 
                 if (!this.isEmpty()) {
                     previewerFactory(type, uri, {}, {
@@ -124,7 +124,7 @@ define([
         render : function render(){
 
             //attach the element to the menu area
-            var $container = this.getAreaBroker().getMenuArea();
+            const $container = this.getAreaBroker().getMenuArea();
             if (this.getHost().isEmpty()) {
                 this.disable();
             }
