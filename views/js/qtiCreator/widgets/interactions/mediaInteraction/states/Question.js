@@ -28,21 +28,43 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
+    'ui/mediaEditor/mediaEditorComponent',
     'ui/resourcemgr',
-    'ui/mediasizer',
     'ui/tooltip'
-], function($, _, __, stateFactory, Question, formElement, formTpl){
+], function($, _, __, stateFactory, Question, formElement, formTpl, mediaEditorComponent){
     'use strict';
 
-    var initQuestionState = function initQuestionState(){
-        this.widget.renderInteraction();
-    };
+    function _initMediaSizer(widget) {
+        const $container = widget.$original;
+        const interaction = widget.element;
 
-    var exitQuestionState = function exitQuestionState(){
-        this.widget.destroyInteraction();
-    };
+        const $mediaResizer = widget.$form.find('.media-sizer-panel');
+        return mediaEditorComponent(
+            $mediaResizer, 
+            {
+                $node: $container,
+                $container: widget.$container,
+                type: interaction.object.attr('type'),
+                width: interaction.object.attr('width'),
+                height: interaction.object.attr('height'),
+                responsive: interaction.object.attr('responsive')
+            }, {
+                mediaDimension: {
+                    active: true
+                }
+            }
+        );
+    }
 
-    var MediaInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
+    const MediaInteractionStateQuestion = stateFactory.extend(
+        Question,
+        function initQuestionState(){
+            this.widget.renderInteraction();
+        },
+        function exitQuestionState(){
+            this.widget.destroyInteraction();
+        }
+    );
 
     /**
      * Initialize the attribute form : file, type, size, etc.
@@ -169,32 +191,23 @@ define([
             // tpl data for the "object", this part is going to be reused by the "objectWidget"
             // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
             data:      interaction.object.attr('data'),
-            type:      interaction.object.attr('type'), //use the same as the uploadInteraction, contact jerome@taotesting.com for this
-            width:     interaction.object.attr('width'),
-            height:    interaction.object.attr('height')
+            type:      interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
         }));
 
         formElement.initWidget($form);
 
         $heightContainer = $('.height-container', $form);
 
-        // Initialize MediaSizer
-        $form.find('.media-sizer-panel').on('sizechange.mediasizer', function() {
-            $(this).find('input').trigger('change');
-        }).mediasizer({
-            showResponsiveToggle: false,
-            showSync: false,
-            showReset: false,
-            responsive: false,
-            applyToMedium: false,
-            width: interaction.object.attr('width'),
-            height: interaction.object.attr('height'),
-            minWidth: 50,
-            maxWidth: $container.innerWidth()
-        });
-
-
         switchMode();
+        _initMediaSizer(widget).on('change', function (nMedia) {
+            interaction.object.attr('width', nMedia.width);
+            if (nMedia.height) {
+                interaction.object.removeAttr('height');
+            } else {
+                interaction.object.attr('height', nMedia.height);
+            }
+            reRender();
+        });
 
         //init data change callbacks
         callbacks = {
@@ -222,18 +235,6 @@ define([
                 } else {
                     $container.removeClass('pause');
                     interaction.removeClass('pause');
-                }
-            },
-
-            width : function width(boundInteraction, attrValue, attrName){
-                interaction.object.attr(attrName, attrValue);
-                reRender();
-            },
-
-            height : function height(boundInteraction, attrValue, attrName){
-                if(!isAudio){
-                    interaction.object.attr(attrName, attrValue);
-                    reRender();
                 }
             },
 
