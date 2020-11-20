@@ -111,6 +111,8 @@ define([
      */
     ItemWidget.save = function(){
         var self = this;
+        // in case of enabled scrolling the class tao-full-height was added to div.grid-row and item.body should be updated
+        this.element.body(this.$container.find('.qti-itemBody').gridEditor('getContent'));
         return new Promise(function(resolve, reject){
             var xml;
 

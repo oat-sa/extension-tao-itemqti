@@ -25,13 +25,14 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'jquery',
     'i18n',
     'core/plugin',
     'ui/hider',
     'taoItems/previewer/factory',
     'tpl!taoQtiItem/qtiCreator/plugins/button',
-], function($, __, pluginFactory, hider, previewerFactory, buttonTpl){
+], function(module, $, __, pluginFactory, hider, previewerFactory, buttonTpl){
     'use strict';
 
     /**
@@ -83,7 +84,7 @@ define([
          * @fires {itemCreator#preview}
          */
         init : function init(){
-            var itemCreator = this.getHost();
+            const itemCreator = this.getHost();
 
             /**
              * Preview an item
@@ -91,7 +92,8 @@ define([
              * @param {String} uri - the uri of this item to preview
              */
             itemCreator.on('preview', function(uri) {
-                var type = 'qtiItem';
+                const config = module.config();
+                const type = config.provider || 'qtiItem';
 
                 if (!this.isEmpty()) {
                     previewerFactory(type, uri, {}, {
@@ -122,7 +124,7 @@ define([
         render : function render(){
 
             //attach the element to the menu area
-            var $container = this.getAreaBroker().getMenuArea();
+            const $container = this.getAreaBroker().getMenuArea();
             if (this.getHost().isEmpty()) {
                 this.disable();
             }
