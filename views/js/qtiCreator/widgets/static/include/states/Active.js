@@ -31,22 +31,25 @@ define([
 ], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, itemScrollingMethods){
     'use strict';
 
-    var IncludeStateActive = stateFactory.extend(Active, function(){
+    const wrapperCls = 'custom-include-box';
+
+    const IncludeStateActive = stateFactory.extend(Active, function(){
 
         this.initForm();
 
     }, function(){
 
         this.widget.$form.empty();
+        this.widget.$container.find('.mini-tlb').remove();
     });
 
     IncludeStateActive.prototype.initForm = function(){
 
-        var _widget = this.widget,
+        const _widget = this.widget,
             $form = _widget.$form,
             include = _widget.element,
             baseUrl = _widget.options.baseUrl,
-            $wrap = _widget.$container.parent('.custom-text-box'),
+            $wrap = _widget.$container.parent(`.${wrapperCls}`),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
@@ -68,26 +71,25 @@ define([
 
     };
 
-    var changeCallbacks = function (widget) {
+    const changeCallbacks = function (widget) {
         return {
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'outer');
-                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box'), itemScrollingMethods.options()[0].value);
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.parent('.custom-text-box'), value);
+                itemScrollingMethods.setScrollingHeight(widget.$container.parent(`.${wrapperCls}`), value);
             }
         }
     };
 
-    var _initUpload = function(widget){
+    const _initUpload = function(widget){
 
-        var $form = widget.$form,
+        const $form = widget.$form,
             options = widget.options,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $href = $form.find('input[name=href]');
 
-        var _openResourceMgr = function(){
+        const _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
                 title : __('Please select a shared stimulus file from the resource manager.'),
                 appendContainer : options.mediaManager.appendContainer,
@@ -106,7 +108,7 @@ define([
                 pathParam : 'path',
                 select : function(e, files){
 
-                    var file;
+                    let file;
 
                     if(files && files.length){
 

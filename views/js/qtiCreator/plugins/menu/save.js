@@ -44,25 +44,29 @@ define([
          * Initialize the plugin (called during itemCreator's init)
          */
         init : function init(){
-            var self = this;
-            var itemCreator = this.getHost();
+            const itemCreator = this.getHost();
 
             this.$element = $(buttonTpl({
                 icon: 'save',
                 title: __('Save the item'),
                 text : __('Save'),
                 cssClass: 'save-trigger'
-            })).on('click', function saveHandler(e){
+            })).on('click', e => {
                 e.preventDefault();
-                self.disable();
-                itemCreator.trigger('save');
+                this.disable();
+                // trigger save event
+                $('#item-editor-panel').trigger('beforesave.qti-creator');
+                // defer execution of save function to give beforesave chance to be executed
+                _.defer(function(){
+                    itemCreator.trigger('save');
+                });
             });
 
             this.hide();
             this.disable();
 
-            itemCreator.on('ready saved error', function(){
-                self.enable();
+            itemCreator.on('ready saved error', () => {
+                this.enable();
             });
         },
 
@@ -72,7 +76,7 @@ define([
         render : function render(){
 
             //attach the element to the menu area
-            var $container = this.getAreaBroker().getMenuArea();
+            const $container = this.getAreaBroker().getMenuArea();
             $container.append(this.$element);
             this.show();
         },

@@ -9,9 +9,9 @@ define([
 ], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
     'use strict';
 
-    var wrapperCls = 'custom-text-box';
+    const wrapperCls = 'custom-text-box';
 
-    var TextActive = stateFactory.extend(Active, function () {
+    const TextActive = stateFactory.extend(Active, function () {
 
         this.buildEditor();
         this.initForm();
@@ -24,10 +24,10 @@ define([
 
     TextActive.prototype.buildEditor = function () {
 
-        var widget = this.widget;
-        var $editableContainer = widget.$container;
-        var container = widget.element;
-        var changeCallback = content.getChangeCallback(container);
+        const widget = this.widget;
+        const $editableContainer = widget.$container;
+        const container = widget.element;
+        const changeCallback = content.getChangeCallback(container);
 
         $editableContainer.attr('data-html-editable-container', true);
 
@@ -56,15 +56,15 @@ define([
     };
 
     TextActive.prototype.initForm = function () {
-        var widget = this.widget,
+        const widget = this.widget,
             $form = widget.$form,
-            $wrap = widget.$container.find('.custom-text-box'),
-            blockCls = $wrap.attr('class'),
+            $wrap = widget.$container.find(`.${wrapperCls}`),
+            blockCls = itemScrollingMethods.cutScrollClasses($wrap.attr('class') || ''),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(formTpl({
-            textBlockCssClass: (blockCls || '').replace(wrapperCls, '').trim(),
+            textBlockCssClass: blockCls.replace(wrapperCls, '').trim(),
             scrolling: isScrolling,
             scrollingHeights: itemScrollingMethods.options(),
         }));
@@ -76,10 +76,10 @@ define([
         formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget));
     };
 
-    var changeCallbacks = function (widget) {
+    const changeCallbacks = function (widget) {
         return {
             textBlockCssClass: function (element, value) {
-                var $wrap = widget.$container.find('[data-html-editable="true"]').children('.custom-text-box');
+                let $wrap = widget.$container.find(`.${wrapperCls}`);
 
                 value = value.trim();
                 if (value === wrapperCls) {
@@ -94,10 +94,9 @@ define([
             },
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'inner');
-                itemScrollingMethods.setScrollingHeight(widget.$container.find('[data-html-editable="true"]').children('.custom-text-box'), itemScrollingMethods.options()[0].value);
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.find('[data-html-editable="true"]').children('.custom-text-box'), value);
+                itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
             }
         }
     };
