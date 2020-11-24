@@ -38,6 +38,7 @@ define([
                 baseType:'integer',
                 cardinality:'single'
             });
+            this.data('responsive', true);
             
         },
         createChoice : function(){

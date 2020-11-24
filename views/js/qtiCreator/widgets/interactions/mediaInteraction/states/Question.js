@@ -38,6 +38,15 @@ define([
         const $container = widget.$original;
         const interaction = widget.element;
 
+        //init data-responsive:
+        if (typeof interaction.data('responsive') === 'undefined') {
+            if (interaction.object.attr('width') && !/[0-9]+%/.test(interaction.object.attr('width'))) {
+                interaction.data('responsive', false);
+            } else {
+                interaction.data('responsive', true);
+            }
+        }
+
         const $mediaResizer = widget.$form.find('.media-sizer-panel');
         return mediaEditorComponent(
             $mediaResizer, 
@@ -47,7 +56,7 @@ define([
                 type: interaction.object.attr('type'),
                 width: interaction.object.attr('width'),
                 height: interaction.object.attr('height'),
-                responsive: interaction.object.attr('responsive')
+                responsive: interaction.data('responsive')
             }, {
                 mediaDimension: {
                     active: true
