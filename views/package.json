@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.6.1",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feature/TR-157/rework-renderer-strategies"
+        "@oat-sa/tao-item-runner-qti": "^0.15.0"
     }
 }
