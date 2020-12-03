@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.6.1",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#fix/TR-213/limit-the-number-of-times-a-media-can-be-played"
+        "@oat-sa/tao-item-runner-qti": "0.15.1"
     }
 }
