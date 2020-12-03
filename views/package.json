@@ -1,6 +1,6 @@
 {
     "name": "@oat-sa/tao-qti-item",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "license": "GPL-2.0",
     "description": "taoQtiItem frontend modules",
     "repository": {
@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.6.1",
-        "@oat-sa/tao-item-runner-qti": "0.14.1"
+        "@oat-sa/tao-item-runner-qti": "0.15.0"
     }
 }
