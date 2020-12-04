@@ -21,11 +21,8 @@
 define([
     'taoQtiItem/portableLib/jquery_2_1_1',
     'taoQtiItem/portableLib/lodash',
-
-    // fixme: we should package a lightweight media player as a proper PCI shared lib with no dependencies
-    'core/promise',
-    'ui/mediaplayer'
-], function($, _, Promise, mediaplayer) {
+    'taoQtiItem/portableLib/ui/mediaplayer'
+], function($, _, mediaplayer) {
     'use strict';
 
     //some default values
