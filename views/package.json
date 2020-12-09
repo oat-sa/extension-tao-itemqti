@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.6.1",
-        "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#fix/MS-532/allow-interaction-text-reader"
+        "@oat-sa/tao-item-runner-qti": "0.15.2"
     }
 }
