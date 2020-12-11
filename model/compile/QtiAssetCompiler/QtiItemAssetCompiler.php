@@ -28,6 +28,7 @@ use oat\oatbox\config\ConfigurationService;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 use oat\taoQtiItem\model\qti\AssetParser;
@@ -41,6 +42,8 @@ class QtiItemAssetCompiler extends ConfigurationService
      */
     public function extractAndCopyAssetFiles(Item $qtiItem, Directory $publicDirectory, ItemMediaResolver $resolver): array
     {
+        $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
+
         $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(true);
@@ -62,7 +65,12 @@ class QtiItemAssetCompiler extends ConfigurationService
                 $packedAsset->setReplacedBy($replacement);
 
                 if ($type != 'xinclude') {
-                    $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
+                    if ($qtiItemAssetReplacer->shouldBeReplacedWithExternal($packedAsset)) {
+                        $replacement = $qtiItemAssetReplacer->replaceToExternalSource($packedAsset, $qtiItem->getIdentifier());
+                        $packedAsset->setReplacedBy($replacement);
+                    } else {
+                        $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
+                    }
                 }
 
                 $packedAssets[$assetUrl] = $packedAsset;
@@ -120,4 +128,10 @@ class QtiItemAssetCompiler extends ConfigurationService
 
         return $publicDirectory->getFile($packedAsset->getReplacedBy())->write($content);
     }
+
+    private function getQtiItemAssetReplacer(): QtiItemAssetReplacer
+    {
+        return $this->getServiceLocator()->get(QtiItemAssetReplacer::SERVICE_ID);
+    }
+
 }
