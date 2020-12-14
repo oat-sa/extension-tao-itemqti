@@ -50,7 +50,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         Directory $publicDirectory,
         ItemMediaResolver $resolver
     ): array {
-
+        $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
         $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(true);
@@ -64,7 +64,17 @@ class QtiItemAssetCompiler extends ConfigurationService
                 if ($this->isBlacklisted($assetUrl)) {
                     continue;
                 }
-                $packedAsset = $this->resolvePacketAssets($qtiItem, $publicDirectory, $resolver, $assetUrl, $type);
+                $packedAsset = $this->resolve($resolver, $assetUrl, $type);
+                $replacement = $this->getReplacementName($packedAsset);
+                $packedAsset->setReplacedBy($replacement);
+
+                if ($type != 'xinclude') {
+                    if ($qtiItemAssetReplacer->shouldBeReplacedWithExternal($packedAsset)) {
+                        $packedAsset = $this->replaceToExternalSource($packedAsset, $qtiItem);
+                    } else {
+                        $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
+                    }
+                }
                 $packedAssets[$assetUrl] = $packedAsset;
             }
         }
@@ -72,25 +82,16 @@ class QtiItemAssetCompiler extends ConfigurationService
         return $packedAssets;
     }
 
-    private function resolvePacketAssets($qtiItem, $publicDirectory, $resolver, $assetUrl, $type): PackedAsset
+    private function replaceToExternalSource(PackedAsset $packedAsset, Item $qtiItem): PackedAsset
     {
         $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
-        $packedAsset = $this->resolve($resolver, $assetUrl, $type);
 
-        $replacement = $this->getReplacementName($packedAsset);
+        $replacement = $qtiItemAssetReplacer->replaceToExternalSource(
+            $packedAsset,
+            $qtiItem->getIdentifier()
+        );
         $packedAsset->setReplacedBy($replacement);
 
-        if ($type != 'xinclude') {
-            if ($qtiItemAssetReplacer->shouldBeReplacedWithExternal($packedAsset)) {
-                $replacement = $qtiItemAssetReplacer->replaceToExternalSource(
-                    $packedAsset,
-                    $qtiItem->getIdentifier()
-                );
-                $packedAsset->setReplacedBy($replacement);
-            } else {
-                $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
-            }
-        }
         return $packedAsset;
     }
 
