@@ -31,6 +31,8 @@ use oat\tao\model\media\MediaAsset;
 use oat\tao\model\media\MediaBrowser;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetCompiler;
+use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
+use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemNonReplacer;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 use oat\taoQtiItem\model\qti\Img;
@@ -63,7 +65,8 @@ class QtiItemAssetCompilerTest extends TestCase
         $this->blackListService = $this->createMock(QtiItemCompilerAssetBlacklist::class);
         $this->subject->setServiceLocator($this->getServiceLocatorMock([
             QtiItemCompilerAssetBlacklist::SERVICE_ID => $this->blackListService,
-            LoggerService::SERVICE_ID => new NullLogger()
+            LoggerService::SERVICE_ID => new NullLogger(),
+            QtiItemAssetReplacer::SERVICE_ID => new QtiItemNonReplacer()
         ]));
 
         $this->resolver = $this->createMock(ItemMediaResolver::class);

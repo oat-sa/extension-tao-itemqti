@@ -50,7 +50,6 @@ class QtiItemAssetCompiler extends ConfigurationService
         Directory $publicDirectory,
         ItemMediaResolver $resolver
     ): array {
-        $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
         $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(true);
@@ -69,9 +68,7 @@ class QtiItemAssetCompiler extends ConfigurationService
                 $packedAsset->setReplacedBy($replacement);
 
                 if ($type != 'xinclude') {
-                    if ($qtiItemAssetReplacer->shouldBeReplacedWithExternal($packedAsset)) {
-                        $packedAsset = $this->replaceToExternalSource($packedAsset, $qtiItem);
-                    } else {
+                    if (!$this->replaceToExternalSource($packedAsset, $qtiItem)) {
                         $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
                     }
                 }
@@ -82,9 +79,12 @@ class QtiItemAssetCompiler extends ConfigurationService
         return $packedAssets;
     }
 
-    private function replaceToExternalSource(PackedAsset $packedAsset, Item $qtiItem): PackedAsset
+    private function replaceToExternalSource(PackedAsset &$packedAsset, Item $qtiItem): bool
     {
         $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
+        if (!$qtiItemAssetReplacer->shouldBeReplacedWithExternal($packedAsset)) {
+            return false;
+        }
 
         $replacement = $qtiItemAssetReplacer->replaceToExternalSource(
             $packedAsset,
@@ -92,7 +92,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         );
         $packedAsset->setReplacedBy($replacement);
 
-        return $packedAsset;
+        return true;
     }
 
     private function isBlacklisted(string $assetUrl): bool
