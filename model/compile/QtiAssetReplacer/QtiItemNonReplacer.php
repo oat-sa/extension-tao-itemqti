@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,11 +30,11 @@ class QtiItemNonReplacer extends ConfigurableService implements QtiItemAssetRepl
 {
     public function shouldBeReplacedWithExternal(PackedAsset $packetAsset): bool
     {
-       return false;
+        return false;
     }
 
     public function replaceToExternalSource(PackedAsset $packetAsset, $itemId): string
     {
-       return '';
+        return '';
     }
 }
