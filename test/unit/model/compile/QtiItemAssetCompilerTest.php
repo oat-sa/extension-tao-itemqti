@@ -58,15 +58,21 @@ class QtiItemAssetCompilerTest extends TestCase
     /** @var Directory */
     private $directory;
 
+    /**
+     * @var QtiItemCompilerAssetBlacklist
+     */
+    private $qtiItemNonReplacer;
+
     public function setUp(): void
     {
         $this->subject = new QtiItemAssetCompiler();
 
         $this->blackListService = $this->createMock(QtiItemCompilerAssetBlacklist::class);
+        $this->qtiItemNonReplacer = $this->createMock(QtiItemNonReplacer::class);
         $this->subject->setServiceLocator($this->getServiceLocatorMock([
             QtiItemCompilerAssetBlacklist::SERVICE_ID => $this->blackListService,
             LoggerService::SERVICE_ID => new NullLogger(),
-            QtiItemAssetReplacer::SERVICE_ID => new QtiItemNonReplacer()
+            QtiItemAssetReplacer::SERVICE_ID => $this->qtiItemNonReplacer
         ]));
 
         $this->resolver = $this->createMock(ItemMediaResolver::class);
@@ -119,6 +125,7 @@ class QtiItemAssetCompilerTest extends TestCase
             );
 
         $this->blackListService->method('isBlacklisted')->willReturn(false);
+        $this->qtiItemNonReplacer->method('shouldBeReplacedWithExternal')->willReturn(false);
 
         $packedAssets = $this->subject->extractAndCopyAssetFiles(
             $this->item,
@@ -188,6 +195,7 @@ class QtiItemAssetCompilerTest extends TestCase
             );
 
         $this->blackListService->method('isBlacklisted')->willReturn(false);
+        $this->qtiItemNonReplacer->method('shouldBeReplacedWithExternal')->willReturn(false);
 
         $packedAssets = $this->subject->extractAndCopyAssetFiles(
             $this->item,
@@ -246,6 +254,8 @@ class QtiItemAssetCompilerTest extends TestCase
             ->method('isBlacklisted')
             ->willReturnOnConsecutiveCalls(true, false);
 
+        $this->qtiItemNonReplacer->method('shouldBeReplacedWithExternal')->willReturn(false);
+
         $packedAssets = $this->subject->extractAndCopyAssetFiles(
             $this->item,
             $this->directory,
@@ -259,6 +269,74 @@ class QtiItemAssetCompilerTest extends TestCase
         $this->assertSame('img', $packedAssets['image-src']->getType());
         $this->assertSame('image-link', $packedAssets['image-src']->getLink());
         $this->assertSame($this->getReplacementName('image-link'), $this->getFilenameWithoutPrefix($packedAssets['image-src']->getReplacedBy()));
+    }
+
+    public function testReplaceAssets()
+    {
+        $this->item
+            ->method('getComposingElements')
+            ->willReturn([
+                             (new ElementMock())->setComposingElements([
+                                                                           $this->createConfiguredMock(XInclude::class, ['attr' => 'stimulus-href'])
+                                                                       ]),
+                             (new ElementMock())->setComposingElements([
+                                                                           $this->createConfiguredMock(Img::class, ['attr' => 'image-src'])
+                                                                       ])
+                         ]);
+
+        $this->resolver->expects($this->exactly(2))
+            ->method('resolve')
+            ->willReturnOnConsecutiveCalls(
+                new MediaAsset(
+                    $this->createConfiguredMock(
+                        MediaBrowser::class,
+                        [
+                            'getFileInfo' => ['link' => 'stimulus-link'],
+                            'getBaseName' => 'stimulus-link'
+                        ]
+                    ),
+                    'stimulus-fixture'
+                ),
+                new MediaAsset(
+                    $this->createConfiguredMock(
+                        MediaBrowser::class,
+                        [
+                            'getFileInfo' => ['link' => 'image-link'],
+                            'getBaseName' => 'image-link'
+                        ]
+                    ),
+                    'image-fixture'
+                )
+            );
+
+        $this->directory
+            ->method('getFile')
+            ->willReturn(
+                $this->createConfiguredMock(File::class, ['write' => true])
+            );
+
+        $this->blackListService->method('isBlacklisted')->willReturn(false);
+
+        $this->qtiItemNonReplacer->method('shouldBeReplacedWithExternal')->willReturn(true);
+        $this->qtiItemNonReplacer->method('replaceToExternalSource')->willReturn('remote_asset_url');
+
+        $packedAssets = $this->subject->extractAndCopyAssetFiles(
+            $this->item,
+            $this->directory,
+            $this->resolver
+        );
+
+        $this->assertArrayHasKey('stimulus-href', $packedAssets);
+        $this->assertInstanceOf(PackedAsset::class, $packedAssets['stimulus-href']);
+        $this->assertSame('xinclude', $packedAssets['stimulus-href']->getType());
+        $this->assertSame('stimulus-link', $packedAssets['stimulus-href']->getLink());
+        $this->assertSame($this->getReplacementName('stimulus-link'), $this->getFilenameWithoutPrefix($packedAssets['stimulus-href']->getReplacedBy()));
+
+        $this->assertArrayHasKey('image-src', $packedAssets);
+        $this->assertInstanceOf(PackedAsset::class, $packedAssets['image-src']);
+        $this->assertSame('img', $packedAssets['image-src']->getType());
+        $this->assertSame('image-link', $packedAssets['image-src']->getLink());
+        $this->assertSame($this->getReplacementName('asset_url'), $this->getFilenameWithoutPrefix($packedAssets['image-src']->getReplacedBy()));
     }
 
     private function getReplacementName(string $string): string
