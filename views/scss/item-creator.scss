@@ -149,10 +149,10 @@ img.dragging.ui-draggable-dragging {
     [class^="icon-"], [class*=" icon-"] {
         @include font-size(16);
         position: relative;
-        top: 1px;
+        top: 2px;
         left: 2px;
         color: $info;
-        padding-right: 5px
+        padding-right: 8px
     }
     &:hover {
         opacity: .8;
