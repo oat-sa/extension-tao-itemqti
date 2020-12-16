@@ -68,8 +68,9 @@ class QtiItemAssetCompiler extends ConfigurationService
                 $packedAsset->setReplacedBy($replacement);
 
                 if ($type != 'xinclude') {
-                    $packedAsset = $this->replaceWithExternalSource($packedAsset, $qtiItem);
-                    if (!$this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset)) {
+                    if ($this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset)) {
+                        $packedAsset = $this->replaceWithExternalSource($packedAsset, $qtiItem);
+                    } else {
                         $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
                     }
                 }
@@ -83,10 +84,6 @@ class QtiItemAssetCompiler extends ConfigurationService
     private function replaceWithExternalSource(PackedAsset $packedAsset, Item $qtiItem): PackedAsset
     {
         $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
-        if (!$qtiItemAssetReplacer->shouldBeReplaced($packedAsset)) {
-            return $packedAsset;
-        }
-
         return $qtiItemAssetReplacer->replace(
             $packedAsset,
             $qtiItem->getIdentifier()

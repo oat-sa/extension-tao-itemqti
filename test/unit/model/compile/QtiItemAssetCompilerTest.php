@@ -319,8 +319,8 @@ class QtiItemAssetCompilerTest extends TestCase
 
         $this->blackListService->method('isBlacklisted')->willReturn(false);
 
-        $this->nullQtiItemAssetReplacer->method('shouldBeReplaced')->willReturn(true);
-        $this->nullQtiItemAssetReplacer->method('replace')->willReturn(new PackedAsset(
+        $this->nullQtiItemAssetReplacer->expects($this->exactly(1))->method('shouldBeReplaced')->willReturn(true);
+        $this->nullQtiItemAssetReplacer->expects($this->exactly(1))->method('replace')->willReturn(new PackedAsset(
             'img',
             $mediaAsset2,
             'image-link',
@@ -333,16 +333,6 @@ class QtiItemAssetCompilerTest extends TestCase
             $this->resolver
         );
 
-        $this->assertArrayHasKey('stimulus-href', $packedAssets);
-        $this->assertInstanceOf(PackedAsset::class, $packedAssets['stimulus-href']);
-        $this->assertSame('xinclude', $packedAssets['stimulus-href']->getType());
-        $this->assertSame('stimulus-link', $packedAssets['stimulus-href']->getLink());
-        $this->assertSame($this->getReplacementName('stimulus-link'), $this->getFilenameWithoutPrefix($packedAssets['stimulus-href']->getReplacedBy()));
-
-        $this->assertArrayHasKey('image-src', $packedAssets);
-        $this->assertInstanceOf(PackedAsset::class, $packedAssets['image-src']);
-        $this->assertSame('img', $packedAssets['image-src']->getType());
-        $this->assertSame('image-link', $packedAssets['image-src']->getLink());
         $this->assertSame($this->getReplacementName('new_asset_url'), $packedAssets['image-src']->getReplacedBy());
     }
 
