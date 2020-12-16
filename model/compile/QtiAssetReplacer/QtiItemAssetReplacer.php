@@ -37,7 +37,7 @@ interface QtiItemAssetReplacer
     /**
      * Default patterns for excluding
      */
-    const EXCLUDE_PATTERNS = [
+    const DEFAULT_EXCLUDE_PATTERNS = [
         '/\.css/',
         '/\.js/',
         '/textReaderInteraction/',
