@@ -29,6 +29,14 @@ interface QtiItemAssetReplacer
 {
     const SERVICE_ID = 'taoQtiItem/ItemAssetReplacer';
 
+    /**
+     * This option can be used for replacement default patterns
+     */
+    const OPTION_EXCLUDE_PATTERNS = 'exclude_patterns';
+
+    /**
+     * Default patterns for excluding
+     */
     const EXCLUDE_PATTERNS = [
         '/\.css/',
         '/\.js/',
@@ -83,23 +91,18 @@ interface QtiItemAssetReplacer
         '/SnapForTao/'
     ];
 
-    const WEBSITE_ASSETS_PATTERNS = [
-        '/\.css/',
-        '/\.js/',
-    ];
-
     /**
      * Check if an asset can be replaced with an external source
      * @param PackedAsset $packetAsset
      * @return bool
      */
-    public function shouldBeReplacedWithExternal(PackedAsset $packetAsset): bool;
+    public function shouldBeReplaced(PackedAsset $packetAsset): bool;
 
     /**
      * Replace the current asset with the external
      * @param PackedAsset $packetAsset
      * @param string $itemId
-     * @return string
+     * @return PackedAsset
      */
-    public function replaceToExternalSource(PackedAsset $packetAsset, string $itemId): string;
+    public function replace(PackedAsset $packetAsset, string $itemId): PackedAsset;
 }

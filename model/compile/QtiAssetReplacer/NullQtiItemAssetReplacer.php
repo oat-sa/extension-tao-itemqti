@@ -26,15 +26,15 @@ namespace oat\taoQtiItem\model\compile\QtiAssetReplacer;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 
-class QtiItemNonReplacer extends ConfigurableService implements QtiItemAssetReplacer
+class NullQtiItemAssetReplacer extends ConfigurableService implements QtiItemAssetReplacer
 {
-    public function shouldBeReplacedWithExternal(PackedAsset $packetAsset): bool
+    public function shouldBeReplaced(PackedAsset $packetAsset): bool
     {
         return false;
     }
 
-    public function replaceToExternalSource(PackedAsset $packetAsset, $itemId): string
+    public function replace(PackedAsset $packetAsset, $itemId): PackedAsset
     {
-        return '';
+        return $packetAsset;
     }
 }

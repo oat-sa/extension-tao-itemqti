@@ -68,7 +68,8 @@ class QtiItemAssetCompiler extends ConfigurationService
                 $packedAsset->setReplacedBy($replacement);
 
                 if ($type != 'xinclude') {
-                    if (!$this->replaceToExternalSource($packedAsset, $qtiItem)) {
+                    $packedAsset = $this->replaceWithExternalSource($packedAsset, $qtiItem);
+                    if (!$this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset)) {
                         $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
                     }
                 }
@@ -79,20 +80,17 @@ class QtiItemAssetCompiler extends ConfigurationService
         return $packedAssets;
     }
 
-    private function replaceToExternalSource(PackedAsset &$packedAsset, Item $qtiItem): bool
+    private function replaceWithExternalSource(PackedAsset $packedAsset, Item $qtiItem): PackedAsset
     {
         $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
-        if (!$qtiItemAssetReplacer->shouldBeReplacedWithExternal($packedAsset)) {
-            return false;
+        if (!$qtiItemAssetReplacer->shouldBeReplaced($packedAsset)) {
+            return $packedAsset;
         }
 
-        $replacement = $qtiItemAssetReplacer->replaceToExternalSource(
+        return $qtiItemAssetReplacer->replace(
             $packedAsset,
             $qtiItem->getIdentifier()
         );
-        $packedAsset->setReplacedBy($replacement);
-
-        return true;
     }
 
     private function isBlacklisted(string $assetUrl): bool
