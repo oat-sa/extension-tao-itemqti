@@ -59,20 +59,20 @@ class QtiItemAssetCompilerTest extends TestCase
     private $directory;
 
     /**
-     * @var QtiItemCompilerAssetBlacklist
+     * @var QtiItemAssetReplacer
      */
-    private $qtiItemNonReplacer;
+    private $nullQtiItemAssetReplacer;
 
     public function setUp(): void
     {
         $this->subject = new QtiItemAssetCompiler();
 
         $this->blackListService = $this->createMock(QtiItemCompilerAssetBlacklist::class);
-        $this->qtiItemNonReplacer = $this->createMock(NullQtiItemAssetReplacer::class);
+        $this->nullQtiItemAssetReplacer = $this->createMock(NullQtiItemAssetReplacer::class);
         $this->subject->setServiceLocator($this->getServiceLocatorMock([
             QtiItemCompilerAssetBlacklist::SERVICE_ID => $this->blackListService,
             LoggerService::SERVICE_ID => new NullLogger(),
-            QtiItemAssetReplacer::SERVICE_ID => $this->qtiItemNonReplacer
+            QtiItemAssetReplacer::SERVICE_ID => $this->nullQtiItemAssetReplacer
         ]));
 
         $this->resolver = $this->createMock(ItemMediaResolver::class);
@@ -125,7 +125,7 @@ class QtiItemAssetCompilerTest extends TestCase
             );
 
         $this->blackListService->method('isBlacklisted')->willReturn(false);
-        $this->qtiItemNonReplacer->method('shouldBeReplaced')->willReturn(false);
+        $this->nullQtiItemAssetReplacer->method('shouldBeReplaced')->willReturn(false);
 
         $packedAssets = $this->subject->extractAndCopyAssetFiles(
             $this->item,
@@ -195,7 +195,7 @@ class QtiItemAssetCompilerTest extends TestCase
             );
 
         $this->blackListService->method('isBlacklisted')->willReturn(false);
-        $this->qtiItemNonReplacer->method('shouldBeReplaced')->willReturn(false);
+        $this->nullQtiItemAssetReplacer->method('shouldBeReplaced')->willReturn(false);
 
         $packedAssets = $this->subject->extractAndCopyAssetFiles(
             $this->item,
@@ -254,7 +254,7 @@ class QtiItemAssetCompilerTest extends TestCase
             ->method('isBlacklisted')
             ->willReturnOnConsecutiveCalls(true, false);
 
-        $this->qtiItemNonReplacer->method('shouldBeReplaced')->willReturn(false);
+        $this->nullQtiItemAssetReplacer->method('shouldBeReplaced')->willReturn(false);
 
         $packedAssets = $this->subject->extractAndCopyAssetFiles(
             $this->item,
@@ -319,8 +319,8 @@ class QtiItemAssetCompilerTest extends TestCase
 
         $this->blackListService->method('isBlacklisted')->willReturn(false);
 
-        $this->qtiItemNonReplacer->method('shouldBeReplaced')->willReturn(true);
-        $this->qtiItemNonReplacer->method('replace')->willReturn(new PackedAsset(
+        $this->nullQtiItemAssetReplacer->method('shouldBeReplaced')->willReturn(true);
+        $this->nullQtiItemAssetReplacer->method('replace')->willReturn(new PackedAsset(
             'img',
             $mediaAsset2,
             'image-link',
