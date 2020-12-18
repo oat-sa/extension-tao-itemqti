@@ -28,19 +28,28 @@ use oat\oatbox\config\ConfigurationService;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 use oat\taoQtiItem\model\qti\AssetParser;
+use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 
 class QtiItemAssetCompiler extends ConfigurationService
 {
     /**
+     * @param Item $qtiItem
+     * @param Directory $publicDirectory
+     * @param ItemMediaResolver $resolver
      * @return PackedAsset[]
+     * @throws XIncludeException
      */
-    public function extractAndCopyAssetFiles(Item $qtiItem, Directory $publicDirectory, ItemMediaResolver $resolver): array
-    {
+    public function extractAndCopyAssetFiles(
+        Item $qtiItem,
+        Directory $publicDirectory,
+        ItemMediaResolver $resolver
+    ): array {
         $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(true);
@@ -49,27 +58,36 @@ class QtiItemAssetCompiler extends ConfigurationService
         $xincludeLoader->load();
 
         $packedAssets = [];
-
         foreach ($assetParser->extract() as $type => $assets) {
             foreach ($assets as $key => $assetUrl) {
                 if ($this->isBlacklisted($assetUrl)) {
                     continue;
                 }
-
                 $packedAsset = $this->resolve($resolver, $assetUrl, $type);
-
                 $replacement = $this->getReplacementName($packedAsset);
                 $packedAsset->setReplacedBy($replacement);
 
                 if ($type != 'xinclude') {
-                    $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
+                    if ($this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset)) {
+                        $packedAsset = $this->replaceWithExternalSource($packedAsset, $qtiItem);
+                    } else {
+                        $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
+                    }
                 }
-
                 $packedAssets[$assetUrl] = $packedAsset;
             }
         }
 
         return $packedAssets;
+    }
+
+    private function replaceWithExternalSource(PackedAsset $packedAsset, Item $qtiItem): PackedAsset
+    {
+        $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
+        return $qtiItemAssetReplacer->replace(
+            $packedAsset,
+            $qtiItem->getIdentifier()
+        );
     }
 
     private function isBlacklisted(string $assetUrl): bool
@@ -115,9 +133,16 @@ class QtiItemAssetCompiler extends ConfigurationService
 
         $this->logInfo(sprintf(
             'Copying %s reference %s to file %s',
-            $packedAsset->getType(),$mediaAsset->getMediaIdentifier(), $packedAsset->getReplacedBy()
+            $packedAsset->getType(),
+            $mediaAsset->getMediaIdentifier(),
+            $packedAsset->getReplacedBy()
         ));
 
         return $publicDirectory->getFile($packedAsset->getReplacedBy())->write($content);
+    }
+
+    private function getQtiItemAssetReplacer(): QtiItemAssetReplacer
+    {
+        return $this->getServiceLocator()->get(QtiItemAssetReplacer::SERVICE_ID);
     }
 }
