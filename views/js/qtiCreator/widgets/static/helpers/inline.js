@@ -39,6 +39,7 @@ define([
 
             var $container = options.container;
             var $placeholder = $container.siblings('.dummy-element');
+
             if(widget.element.isEmpty()){
 
                 $container.hide();
@@ -51,6 +52,7 @@ define([
                 $placeholder.show();
 
             }else{
+
                 $container.show();
                 $placeholder.hide();
             }
