@@ -39,7 +39,7 @@ define([
 
             var $container = options.container;
             var $placeholder = $container.siblings('.dummy-element');
-            
+
             if(widget.element.isEmpty()){
 
                 $container.hide();
@@ -52,7 +52,7 @@ define([
                 $placeholder.show();
 
             }else{
-                
+
                 $container.show();
                 $placeholder.hide();
             }
@@ -65,18 +65,22 @@ define([
                 elt = widget.element;
 
             //remove class
-            $container.removeClass('rgt lft');
+            $container.removeClass('rgt txt-rgt lft txt-lft');
 
-            elt.removeClass('rgt');
-            elt.removeClass('lft');
+            elt.removeClass('rgt txt-rgt');
+            elt.removeClass('lft txt-lft');
             switch(position){
                 case 'right':
                     $container.addClass('rgt');
+                    $container.addClass('txt-rgt');
                     elt.addClass('rgt');
+                    elt.addClass('txt-rgt');
                     break;
                 case 'left':
                     $container.addClass('lft');
+                    $container.addClass('txt-lft');
                     elt.addClass('lft');
+                    elt.addClass('txt-lft');
                     break;
             }
         }
