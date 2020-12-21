@@ -175,12 +175,12 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     {
         return [
             'oat\\taoQtiItem\\model\\qti\\attribute\\Title',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\Label',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\Lang',
             'oat\\taoQtiItem\\model\\qti\\attribute\\Adaptive',
             'oat\\taoQtiItem\\model\\qti\\attribute\\TimeDependent',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Lang',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Label',
             'oat\\taoQtiItem\\model\\qti\\attribute\\ToolName',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\ToolVersion'
+            'oat\\taoQtiItem\\model\\qti\\attribute\\ToolVersion',
         ];
     }
 
