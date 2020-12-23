@@ -161,21 +161,36 @@ define([
 
             _endInsertion();
         }
+        /**
+         * Append the "plus" button into a widget
+         *
+         * @param {JQuery} $widget
+         * @returns {undefined}
+         */
+        function _appendButton($widget){
+
+            //only append button to no-tmp widget and only add it once:
+            if(!$widget.children('.add-block-element').length &&
+                !$widget.parent('.colrow.tmp').length){
+
+                var $adder = $(adderTpl());
+                $widget.append($adder);
+                $adder.on('click', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var $widget = $(this).parents('.widget-box');
+                    _initInsertion($widget);
+                });
+            }
+        }
 
         $editorPanel.find('.widget-block, .widget-blockInteraction').each(function(){
             _appendButton($(this));
         });
 
         //bind add event
-        $editorPanel.on('mousedown', '.add-block-element .circle', function(e){
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            var $widget = $(this).parents('.widget-box');
-            _initInsertion($widget);
-
-        }).on('ready.qti-widget', function(e, _widget){
+        $editorPanel.on('ready.qti-widget', function(e, _widget){
 
             var qtiElement = _widget.element;
 
@@ -201,28 +216,6 @@ define([
 
         });
 
-    }
-
-    /**
-     * Append the "plus" button into a widget
-     *
-     * @param {JQuery} $widget
-     * @returns {undefined}
-     */
-    function _appendButton($widget){
-
-        //only append button to no-tmp widget and only add it once:
-        if(!$widget.children('.add-block-element').length &&
-            !$widget.parent('.colrow.tmp').length){
-
-            var $adder = $(adderTpl());
-            $widget.append($adder);
-            $adder.on('click mouseenter mouseleave', function(e){
-                e.stopPropagation();
-                //consider it outside of the widget element
-                $(this).parent().trigger('mouseleave');
-            });
-        }
     }
 
     /**
@@ -283,7 +276,9 @@ define([
                         widget = TextWidget.build(elt, $textBlock, creator.getOption('textOptionForm'), {
                             ready : function(){
                                 //remove the temorary container
-                                this.$container.unwrap();
+                                if(this.$container.parent('.text-block').length) {
+                                    this.$container.unwrap();
+                                }
                             }
                         });
                         $widget = widget.$container;
