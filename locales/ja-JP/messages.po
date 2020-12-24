@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-31T15:28:30\n"
+"Project-Id-Version: TAO 3.4.0-sprint143\n"
+"PO-Revision-Date: 2020-12-18T09:25:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -168,14 +168,17 @@ msgstr "背景色"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "ブロック"
 
-msgid "block"
+msgid "Block"
 msgstr "ブロック"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "ブロックは、テキストや画像などの項目のコンテンツ（スティミュラス）が含まれています。また、インライン操作で必要です"
+
+msgid "Block height (%)"
+msgstr ""
 
 msgid "Border color"
 msgstr "枠の色"
@@ -234,11 +237,11 @@ msgstr "操作の選択"
 msgid "Choice Properties"
 msgstr "選択肢プロパティ"
 
-msgid "Choices"
-msgstr "選択肢"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "選択肢"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -279,10 +282,10 @@ msgstr "制約事項"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された時間数を報告します"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正しい"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正しい"
 
 msgid "Cosinus"
@@ -321,10 +324,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
 msgid "Define correct response"
@@ -351,11 +354,11 @@ msgstr "定義された幅"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "削除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "削除"
 
 msgid "Delete else statement"
 msgstr "その他ステートメントの削除"
@@ -447,8 +450,14 @@ msgstr "エレメント"
 msgid "Eliminate"
 msgstr ""
 
+msgid "Enable Scrolling"
+msgstr ""
+
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "一時停止、再起動を受験者に有効にします"
+
+msgid "Enable/disable scrolling."
+msgstr ""
 
 msgid "End Attempt"
 msgstr "エンドアテンプト"
@@ -757,11 +766,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "空欄にしてください"
@@ -801,6 +810,9 @@ msgstr "繰り返し"
 
 msgid "Lower Bound"
 msgstr "下限"
+
+msgid "Lower bound is bigger than upper bound."
+msgstr ""
 
 msgid "Lower than or equal"
 msgstr ""
@@ -843,19 +855,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最大文字数"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最大文字数"
 
 msgid "Max. number of matches"
@@ -967,11 +979,11 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "なし"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "未定義"
@@ -1252,6 +1264,15 @@ msgstr ""
 msgid "Response"
 msgstr "応答"
 
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr ""
+
 msgid "Response base type"
 msgstr ""
 
@@ -1326,6 +1347,12 @@ msgstr "まず画像を選んでください"
 
 msgid "select correct choice"
 msgstr "正しい選択肢を指定してください"
+
+msgid "Select height of passage base of conatainer height"
+msgstr ""
+
+msgid "Select height of text block base of conatainer height"
+msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr ""
@@ -1704,13 +1731,16 @@ msgstr "アセント\"%sを取得できません"
 msgid "Unable to retrieve item : "
 msgstr ""
 
+msgid "Unable to retrieve item : \"%s"
+msgstr ""
+
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "取り消し"
 
-msgid "undo"
+msgid "Undo"
 msgstr "取り消し"
 
 msgid "Unknown $key to register MetadataService instance"

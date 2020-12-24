@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-31T15:28:43\n"
+"Project-Id-Version: TAO 3.4.0-sprint143\n"
+"PO-Revision-Date: 2020-12-18T09:25:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -168,13 +168,16 @@ msgstr ""
 msgid "Base"
 msgstr ""
 
-msgid "Block"
-msgstr ""
-
 msgid "block"
 msgstr ""
 
+msgid "Block"
+msgstr ""
+
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
+msgstr ""
+
+msgid "Block height (%)"
 msgstr ""
 
 msgid "Border color"
@@ -234,10 +237,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -279,10 +282,10 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
 msgid "Cosinus"
@@ -321,10 +324,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define correct response"
@@ -351,10 +354,10 @@ msgstr ""
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
 msgid "Delete else statement"
@@ -447,7 +450,13 @@ msgstr ""
 msgid "Eliminate"
 msgstr ""
 
+msgid "Enable Scrolling"
+msgstr ""
+
 msgid "Enable the test taker to pause and restart the playing."
+msgstr ""
+
+msgid "Enable/disable scrolling."
 msgstr ""
 
 msgid "End Attempt"
@@ -757,10 +766,10 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr ""
 
 msgid "leave empty"
@@ -800,6 +809,9 @@ msgid "Loop"
 msgstr ""
 
 msgid "Lower Bound"
+msgstr ""
+
+msgid "Lower bound is bigger than upper bound."
 msgstr ""
 
 msgid "Lower than or equal"
@@ -843,19 +855,19 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -967,10 +979,10 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
-msgid "none"
+msgid "None"
 msgstr ""
 
-msgid "None"
+msgid "none"
 msgstr ""
 
 msgid "None defined yet."
@@ -1251,6 +1263,15 @@ msgstr ""
 msgid "Response"
 msgstr ""
 
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr ""
+
 msgid "Response base type"
 msgstr ""
 
@@ -1324,6 +1345,12 @@ msgid "Select an image first."
 msgstr ""
 
 msgid "select correct choice"
+msgstr ""
+
+msgid "Select height of passage base of conatainer height"
+msgstr ""
+
+msgid "Select height of text block base of conatainer height"
 msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
@@ -1702,13 +1729,16 @@ msgstr ""
 msgid "Unable to retrieve item : "
 msgstr ""
 
+msgid "Unable to retrieve item : \"%s"
+msgstr ""
+
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
 msgid "Unknown $key to register MetadataService instance"

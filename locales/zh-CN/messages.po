@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-31T15:28:56\n"
+"Project-Id-Version: TAO 3.4.0-sprint143\n"
+"PO-Revision-Date: 2020-12-18T09:26:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -168,14 +168,17 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "区块"
 
-msgid "block"
+msgid "Block"
 msgstr "区块"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "区块中含有题目内容(刺激物)，例如：文字或图片。 这是在线互动所需要的。"
+
+msgid "Block height (%)"
+msgstr ""
 
 msgid "Border color"
 msgstr "边界色彩"
@@ -234,11 +237,11 @@ msgstr "选择的互动"
 msgid "Choice Properties"
 msgstr "选择的属性"
 
-msgid "Choices"
-msgstr "选择"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "选择"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -279,10 +282,10 @@ msgstr "约束"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制视频和音频的播放文件(自动播放，循环)再报告已播放的次数。"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正确"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正确"
 
 msgid "Cosinus"
@@ -321,10 +324,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
 
-msgid "Default"
+msgid "default"
 msgstr "默认值"
 
-msgid "default"
+msgid "Default"
 msgstr "默认值"
 
 msgid "Define correct response"
@@ -351,11 +354,11 @@ msgstr "限定的阔度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "删除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "删除"
 
 msgid "Delete else statement"
 msgstr "删除else语句"
@@ -447,8 +450,14 @@ msgstr "元素"
 msgid "Eliminate"
 msgstr ""
 
+msgid "Enable Scrolling"
+msgstr ""
+
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "允许考生暂停并重新启动播放。"
+
+msgid "Enable/disable scrolling."
+msgstr ""
 
 msgid "End Attempt"
 msgstr "结束考试"
@@ -757,11 +766,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "LaTeX"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "留空"
@@ -801,6 +810,9 @@ msgstr "循环"
 
 msgid "Lower Bound"
 msgstr "下限"
+
+msgid "Lower bound is bigger than upper bound."
+msgstr ""
 
 msgid "Lower than or equal"
 msgstr ""
@@ -843,19 +855,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大长度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大长度"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最多字数"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最多字数"
 
 msgid "Max. number of matches"
@@ -967,11 +979,11 @@ msgstr ""
 msgid "No value set"
 msgstr "没有设定数值"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "无"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "还未定义。"
@@ -1251,6 +1263,15 @@ msgstr ""
 msgid "Response"
 msgstr "回应"
 
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr ""
+
 msgid "Response base type"
 msgstr ""
 
@@ -1325,6 +1346,12 @@ msgstr "先选择图片档案。"
 
 msgid "select correct choice"
 msgstr "选择正确答案"
+
+msgid "Select height of passage base of conatainer height"
+msgstr ""
+
+msgid "Select height of text block base of conatainer height"
+msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr ""
@@ -1702,13 +1729,16 @@ msgstr ""
 msgid "Unable to retrieve item : "
 msgstr ""
 
+msgid "Unable to retrieve item : \"%s"
+msgstr ""
+
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "复原"
 
-msgid "undo"
+msgid "Undo"
 msgstr "复原"
 
 msgid "Unknown $key to register MetadataService instance"
