@@ -1528,16 +1528,14 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildStylesheet(DOMElement $data)
+    private function buildStylesheet(DOMElement $data): Stylesheet
     {
-        $returnValue = new Stylesheet([
-            'href' => (string) $data->getAttribute('href'),
-            'title' => $data->hasAttribute('title') ? (string) $data->getAttribute('title') : '',
-            'media' => $data->hasAttribute('media') ? (string) $data->getAttribute('media') : 'screen',
-            'type' => $data->hasAttribute('type') ? (string) $data->getAttribute('type') : 'text/css',
+        return new Stylesheet([
+            'href' => $data->getAttribute('href'),
+            'type' => $data->hasAttribute('type') ? $data->getAttribute('type') : 'text/css',
+            'media' => $data->hasAttribute('media') ? $data->getAttribute('media') : 'screen',
+            'title' => $data->getAttribute('title'),
         ]);
-
-        return $returnValue;
     }
 
     private function buildRubricBlock(DOMElement $data)
