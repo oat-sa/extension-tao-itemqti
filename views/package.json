@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.6.1",
-        "@oat-sa/tao-item-runner-qti": "0.15.5"
+        "@oat-sa/tao-item-runner-qti": "git://github.com/oat-sa/tao-item-runner-qti-fe#fix/CON-173/incorrect-counting-of-characters"
     }
 }
