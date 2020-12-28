@@ -11,9 +11,9 @@ define([
 ], function($, _, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector, TextWidget){
     'use strict';
 
-    var _ns = '.block-adder';
-    var _wrap = '<div class="colrow"></div>';
-    var _placeholder = '<div class="placeholder">';
+    const _ns = '.block-adder';
+    const _wrap = '<div class="colrow"></div>';
+    const _placeholder = '<div class="placeholder">';
 
     /**
      * Init the block adder on the item editor panel
@@ -24,8 +24,8 @@ define([
      */
     function create(item, $editorPanel, interactions){
 
-        var selector, widget;
-        var $itemEditorPanel = $('#item-editor-panel');
+        let selector, widget;
+        const $itemEditorPanel = $('#item-editor-panel');
 
         /**
          * Get the qti item body dom
@@ -43,8 +43,8 @@ define([
          */
         function _initInsertion($widget){
 
-            var $wrap = $(_wrap);
-            var $colRow = $widget.parent('.colrow');
+            const $wrap = $(_wrap);
+            let $colRow = $widget.parent('.colrow');
 
             //trigger event to restore all currently active widget back to sleep state
             $itemEditorPanel.trigger('beforesave.qti-creator.active');
@@ -60,7 +60,7 @@ define([
 
             $editorPanel.off('.element-selector').on('selected.element-selector', function(e, qtiClass){
 
-                var $placeholder = $(_placeholder);
+                const $placeholder = $(_placeholder);
 
                 //remove old widget if applicable:
                 if(widget){
@@ -82,8 +82,8 @@ define([
             });
 
             //when clicking outside of the selector popup, consider it done
-            $itemEditorPanel.on('click' + _ns + ' mousedown' + _ns, function(e){
-                var popup = selector.getPopup()[0];
+            $itemEditorPanel.on(`click${_ns} mousedown${_ns}`, function(e){
+                const popup = selector.getPopup()[0];
                 if(popup !== e.target && !$.contains(popup, e.target)){
                     _done($wrap);
                 }
@@ -161,23 +161,38 @@ define([
 
             _endInsertion();
         }
+        /**
+         * Append the "plus" button into a widget
+         *
+         * @param {JQuery} $widget
+         * @returns {undefined}
+         */
+        function _appendButton($widget){
+
+            //only append button to no-tmp widget and only add it once:
+            if(!$widget.children('.add-block-element').length &&
+                !$widget.parent('.colrow.tmp').length){
+
+                const $adder = $(adderTpl());
+                $widget.append($adder);
+                $adder.on('click', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const $widgetParent = $(this).parents('.widget-box');
+                    _initInsertion($widgetParent);
+                });
+            }
+        }
 
         $editorPanel.find('.widget-block, .widget-blockInteraction').each(function(){
             _appendButton($(this));
         });
 
         //bind add event
-        $editorPanel.on('mousedown', '.add-block-element .circle', function(e){
+        $editorPanel.on('ready.qti-widget', function(e, _widget){
 
-            e.preventDefault();
-            e.stopPropagation();
-
-            var $widget = $(this).parents('.widget-box');
-            _initInsertion($widget);
-
-        }).on('ready.qti-widget', function(e, _widget){
-
-            var qtiElement = _widget.element;
+            const qtiElement = _widget.element;
 
             if(qtiElement.is('blockInteraction') || qtiElement.is('_container') || qtiElement.is('customInteraction')){
 
@@ -204,28 +219,6 @@ define([
     }
 
     /**
-     * Append the "plus" button into a widget
-     *
-     * @param {JQuery} $widget
-     * @returns {undefined}
-     */
-    function _appendButton($widget){
-
-        //only append button to no-tmp widget and only add it once:
-        if(!$widget.children('.add-block-element').length &&
-            !$widget.parent('.colrow.tmp').length){
-
-            var $adder = $(adderTpl());
-            $widget.append($adder);
-            $adder.on('click mouseenter mouseleave', function(e){
-                e.stopPropagation();
-                //consider it outside of the widget element
-                $(this).parent().trigger('mouseleave');
-            });
-        }
-    }
-
-    /**
      * Create a new qti element in place of the give $placehoder
      *
      * @param {String} qtiClass
@@ -249,11 +242,11 @@ define([
             'data-qti-class' : qtiClass
         });//add data attribute to get the dom ready to be replaced by rendering
 
-        var $widget = $placeholder.parent().closest('.widget-box, .qti-item');
-        var $editable = $placeholder.closest('[data-html-editable], .qti-itemBody');
-        var widget = $widget.data('widget');
-        var element = widget.element;
-        var container = Element.isA(element, '_container') ? element : element.getBody();
+        const $widget = $placeholder.parent().closest('.widget-box, .qti-item');
+        const $editable = $placeholder.closest('[data-html-editable], .qti-itemBody');
+        const widget = $widget.data('widget');
+        const element = widget.element;
+        const container = Element.isA(element, '_container') ? element : element.getBody();
 
         if(!element || !$editable.length){
             throw new Error('cannot create new element');
@@ -261,48 +254,50 @@ define([
 
         containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
 
-            var creator = creatorRenderer.get();
+            const creator = creatorRenderer.get();
             creator.load(function(){
 
-                for(var serial in newElts){
+                for(const serial in newElts){
 
-                    var elt = newElts[serial],
-                        $widget,
-                        widget,
-                        $colParent = $placeholder.parent();
+                    const elt = newElts[serial];
+                    let $widgetElem;
+                    let widgetElem;
+                    let $colParent = $placeholder.parent();
 
                     elt.setRenderer(this);
 
                     if(Element.isA(elt, '_container')){
                         //the text widget is "inner-wrapped" so need to build a temporary container:
                         $placeholder.replaceWith('<div class="text-block"></div>');
-                        var $textBlock = $colParent.find('.text-block');
+                        const $textBlock = $colParent.find('.text-block');
                         $textBlock.html(elt.render());
 
                         //build the widget
-                        widget = TextWidget.build(elt, $textBlock, creator.getOption('textOptionForm'), {
+                        widgetElem = TextWidget.build(elt, $textBlock, creator.getOption('textOptionForm'), {
                             ready : function(){
                                 //remove the temorary container
-                                this.$container.unwrap();
+                                if(this.$container.parent('.text-block').length) {
+                                    this.$container.unwrap();
+                                }
                             }
                         });
-                        $widget = widget.$container;
+                        $widgetElem = widgetElem.$container;
 
                     }else{
                         elt.render($placeholder);
                         elt.postRender();
-                        widget = elt.data('widget');
+                        widgetElem = elt.data('widget');
                         if(Element.isA(elt, 'blockInteraction')){
-                            $widget = widget.$container;
+                            $widgetElem = widget.$container;
                         }else{
                             //leave the container in place
-                            $widget = widget.$original;
+                            $widgetElem = widget.$original;
                         }
                     }
 
                     //inform height modification
-                    $widget.trigger('contentChange.gridEdit');
-                    $widget.trigger('resize.gridEdit');
+                    $widgetElem.trigger('contentChange.gridEdit');
+                    $widgetElem.trigger('resize.gridEdit');
 
                 }
             }, this.getUsedClasses());
