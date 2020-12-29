@@ -73,9 +73,8 @@ class QtiItemPacker extends ItemPacker
         $content = $this->getXmlByItem($item, $lang);
         //load content
         $qtiParser = new QtiParser($content);
-        //validate it
-        $qtiParser->validate();
-        if (!$qtiParser->isValid()) {
+
+        if ($this->skipValidation === false && !$qtiParser->validate()) {
             throw new common_Exception('Invalid QTI content : ' . $qtiParser->displayErrors(false));
         }
 
