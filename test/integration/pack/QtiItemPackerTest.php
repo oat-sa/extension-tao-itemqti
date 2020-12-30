@@ -87,6 +87,29 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * Test packing an item where QTI content isn't valid, but validation skipped
+     */
+    public function testPackingInvalidQtiItemWithoutValidation()
+    {
+        $filename = dirname(__FILE__) . '/../samples/wrong/notvalid_associate.xml';
+        $this->assertTrue(file_exists($filename));
+
+        $itemPackerMock = $this
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(['getXmlByItem'])
+            ->getMock();
+
+        $itemPackerMock
+            ->method('getXmlByItem')
+            ->will($this->returnValue(file_get_contents($filename)));
+        $itemPackerMock->setSkipValidation(true);
+
+        $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US', $this->getDirectoryStorage());
+
+        $this->assertTrue(true);
+    }
+
+    /**
      * Test packing a simple item that has no assets.
      */
     public function testPackingSimpleItem()
