@@ -28,6 +28,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\generis\test\MockObject;
+use oat\taoQtiItem\model\qti\Parser as QtiParser;
 
 /**
  * Test the class {@link ItemPack}
@@ -86,27 +87,24 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US', $this->getDirectoryStorage());
     }
 
-    /**
-     * Test packing an item where QTI content isn't valid, but validation skipped
-     */
-    public function testPackingInvalidQtiItemWithoutValidation()
+    public function testPackingWithoutValidation(): void
     {
-        $filename = dirname(__FILE__) . '/../samples/wrong/notvalid_associate.xml';
-        $this->assertTrue(file_exists($filename));
+        $content = file_get_contents(dirname(__FILE__) . '/../samples/xml/qtiv2p1/inline_choice.xml');
 
-        $itemPackerMock = $this
-            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-            ->setMethods(['getXmlByItem'])
+        $qtiParser = $this
+            ->getMockBuilder(QtiParser::class)
+            ->enableOriginalConstructor()
+            ->setConstructorArgs([$content])
+            ->onlyMethods(['validate'])
             ->getMock();
+        $qtiParser
+            ->expects($this->never())
+            ->method('validate');
 
-        $itemPackerMock
-            ->method('getXmlByItem')
-            ->will($this->returnValue(file_get_contents($filename)));
-        $itemPackerMock->setSkipValidation(true);
-
-        $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US', $this->getDirectoryStorage());
-
-        $this->assertTrue(true);
+        $itemPacker = new QtiItemPackerTestable();
+        $itemPacker->setSkipValidation(true);
+        $itemPacker->setQtiParser($qtiParser);
+        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), 'en-US', $this->getDirectoryStorage());
     }
 
     /**
@@ -530,10 +528,18 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @return MockObject
+     * @return MockObject|Directory
      */
     protected function getDirectoryStorage()
     {
         return $this->getTempDirectory();
+    }
+}
+
+class QtiItemPackerTestable extends QtiItemPacker
+{
+    protected function getXmlByItem(core_kernel_classes_Resource $item, $lang = '')
+    {
+        return dirname(__FILE__) . '/../samples/xml/qtiv2p1/inline_choice.xml';
     }
 }

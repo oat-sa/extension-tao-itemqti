@@ -60,6 +60,14 @@ class QtiItemPacker extends ItemPacker
      */
     protected $replaceXinclude = true;
 
+    /** @var QtiParser|null */
+    private $qtiParser;
+
+    public function setQtiParser(QtiParser $parser): void
+    {
+        $this->qtiParser = $parser;
+    }
+
     /**
      * packItem implementation for QTI
      * @inheritdoc
@@ -72,7 +80,7 @@ class QtiItemPacker extends ItemPacker
         //use the QtiParser to transform the QTI XML into an assoc array representation
         $content = $this->getXmlByItem($item, $lang);
         //load content
-        $qtiParser = new QtiParser($content);
+        $qtiParser = $this->qtiParser ?? new QtiParser($content);
 
         if ($this->skipValidation === false && !$qtiParser->validate()) {
             throw new common_Exception('Invalid QTI content : ' . $qtiParser->displayErrors(false));
