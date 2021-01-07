@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.6.1",
-        "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#feature/MS-772/prevent-scrolling-text-entry"
+        "@oat-sa/tao-item-runner-qti": "0.16.0"
     }
 }
