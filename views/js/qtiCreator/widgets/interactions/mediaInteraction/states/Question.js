@@ -28,11 +28,16 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
+    'ui/mediaEditor/mediaEditorComponent',
     'ui/resourcemgr',
-    'ui/mediasizer',
     'ui/tooltip'
-], function($, _, __, stateFactory, Question, formElement, formTpl){
+], function($, _, __, stateFactory, Question, formElement, formTpl, mediaEditorComponent){
     'use strict';
+    /**
+     * media Editor instance if has been initialized
+     * @type {null}
+     */
+    var mediaEditor = null;
 
     var initQuestionState = function initQuestionState(){
         this.widget.renderInteraction();
@@ -58,7 +63,7 @@ define([
         var defaultVideoHeight = 270;
         var defaultAudioHeight = 30;
         var callbacks;
-        var $heightContainer;
+        var $heightContainer, $mediaSizerLabel;
 
         /**
          * Each change triggers an re rendering of the interaction
@@ -77,7 +82,11 @@ define([
             isAudio = true;
 
             $heightContainer.hide();
+            $mediaSizerLabel.hide();
             interaction.object.attr('height', defaultAudioHeight);
+            if (mediaEditor) {
+                mediaEditor.destroy();
+            }
         };
 
         /**
@@ -89,7 +98,52 @@ define([
                 isAudio = false;
                 interaction.object.attr('height', defaultVideoHeight);
                 $heightContainer.show();
+                $mediaSizerLabel.show();
             }
+            $container.off('playerready').on('playerready', function () {
+                const originalSize = interaction.mediaElement.getMediaOriginalSize();
+                let width = interaction.object.attr('width');
+                let height = interaction.object.attr('height');
+                const containerWidth = $container.find('.media-container').width();
+                // the default % and by that the size of the video is based on the original video size compared to the container size
+                // for old format (height is set) the default % depends on width
+                if (!width || height && containerWidth < width) {
+                    width = Math.round(100 / (containerWidth / originalSize.width));
+                } else if (height && containerWidth > width) {
+                    width = Math.round(100 / (containerWidth / width));
+                }
+
+                if (height) {
+                    interaction.object.removeAttr('height');
+                    height = 0;
+                }
+
+                if (mediaEditor) {
+                    mediaEditor.destroy();
+                }
+                const onChange = _.debounce((nMedia) => {
+                    if (interaction.object.attr('width') !== (nMedia['width'] + '%')) {
+                        interaction.object.attr('width', Math.round(nMedia['width']) + '%');
+                        reRender();
+                    }
+                }, 200);
+                mediaEditor = mediaEditorComponent($form.find('.media-sizer-panel'),
+                    {
+                        $node: $container,
+                        $container: $container,
+                        type: interaction.object.attr('type'),
+                        width,
+                        height,
+                        responsive: true
+                    },
+                    {
+                        mediaDimension: {
+                            active: true,
+                            showResponsiveToggle: false
+                        }
+                    })
+                .on('change', onChange);
+            });
         };
 
         /**
@@ -169,30 +223,13 @@ define([
             // tpl data for the "object", this part is going to be reused by the "objectWidget"
             // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
             data:      interaction.object.attr('data'),
-            type:      interaction.object.attr('type'), //use the same as the uploadInteraction, contact jerome@taotesting.com for this
-            width:     interaction.object.attr('width'),
-            height:    interaction.object.attr('height')
+            type:      interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
         }));
 
         formElement.initWidget($form);
 
         $heightContainer = $('.height-container', $form);
-
-        // Initialize MediaSizer
-        $form.find('.media-sizer-panel').on('sizechange.mediasizer', function() {
-            $(this).find('input').trigger('change');
-        }).mediasizer({
-            showResponsiveToggle: false,
-            showSync: false,
-            showReset: false,
-            responsive: false,
-            applyToMedium: false,
-            width: interaction.object.attr('width'),
-            height: interaction.object.attr('height'),
-            minWidth: 50,
-            maxWidth: $container.innerWidth()
-        });
-
+        $mediaSizerLabel = $('.media-sizer-panel-label', $form);
 
         switchMode();
 
@@ -225,18 +262,6 @@ define([
                 }
             },
 
-            width : function width(boundInteraction, attrValue, attrName){
-                interaction.object.attr(attrName, attrValue);
-                reRender();
-            },
-
-            height : function height(boundInteraction, attrValue, attrName){
-                if(!isAudio){
-                    interaction.object.attr(attrName, attrValue);
-                    reRender();
-                }
-            },
-
             data : function data(boundInteraction, attrValue, attrName){
                 var value;
                 if(interaction.object.attr(attrName) !== attrValue){
@@ -251,11 +276,6 @@ define([
                         switchToAudio();
                     } else {
                         switchToVideo();
-                    }
-
-                    if(interaction.object && (!interaction.object.attr('width')
-                            || parseInt(interaction.object.attr('width'), 10) <= 0)){
-                        interaction.object.attr('width', widget.$original.innerWidth());
                     }
 
                     reRender();

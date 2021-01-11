@@ -8,7 +8,7 @@
         </label>
     </div>
 
-
+    <h3 class="media-sizer-panel-label">{{__ 'Size and position'}}</h3>
     <div class="panel media-sizer-panel">
       <!-- media sizer goes here -->
     </div>
