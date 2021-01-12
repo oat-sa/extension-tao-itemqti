@@ -106,14 +106,14 @@ define([
                 let height = interaction.object.attr('height');
                 const containerWidth = $container.find('.media-container').width();
                 // the default % and by that the size of the video is based on the original video size compared to the container size
-                // for old format (height is set) the default % depends on width
-                if (!width || height && containerWidth < width) {
+                if (!width) {
                     width = Math.round(100 / (containerWidth / originalSize.width));
-                } else if (height && containerWidth > width) {
-                    width = Math.round(100 / (containerWidth / width));
-                }
-
-                if (height) {
+                } else if (height) {
+                    // for old format (px and height is set) the default % is calculated on rendered width and height
+                    const scaleHeight = (Math.max(height, 200) - $container.find('.media-container .controls').height()) / originalSize.height;
+                    const scaleWidth = width / originalSize.width;
+                    const scale = Math.min(scaleHeight, scaleWidth);
+                    width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
                     interaction.object.removeAttr('height');
                     height = 0;
                 }
@@ -129,7 +129,7 @@ define([
                 }, 200);
                 mediaEditor = mediaEditorComponent($form.find('.media-sizer-panel'),
                     {
-                        $node: $container,
+                        $node: $container.find('.media-container video'),
                         $container: $container,
                         type: interaction.object.attr('type'),
                         width,
