@@ -25,11 +25,17 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/object',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
+    'ui/mediaEditor/mediaEditorComponent',
     'ui/previewer',
     'ui/resourcemgr',
     'ui/tooltip'
-], function(_, $, __, stateFactory, Active, formTpl, formElement, inlineHelper){
+], function(_, $, __, stateFactory, Active, formTpl, formElement, inlineHelper, mediaEditorComponent){
     'use strict';
+    /**
+     * media Editor instance if has been initialized
+     * @type {null}
+     */
+    var mediaEditor = null;
 
     var _config = {
         renderingThrottle : 1000,
@@ -52,9 +58,8 @@ define([
         if(obj.attr('height')){
             previewOptions.height = obj.attr('height');
         }
-        if(obj.attr('width')){
-            previewOptions.width = obj.attr('width');
-        }
+        previewOptions.width = obj.attr('width') || '100%';
+        previewOptions.height = obj.attr('height') || 'auto';
         if(previewOptions.url && previewOptions.mime){
             $container.previewer(previewOptions);
         }
@@ -81,12 +86,75 @@ define([
         //init standard ui widget
         formElement.initWidget($form);
 
+        const $panelObjectSize = $('.size-panel', $form);
+        const $panelMediaSize = $('.media-size-panel', $form);
+
+        const setMediaSizeEditor = () => {
+            const type = qtiObject.attr('type');
+            const $container = _widget.$original;
+            if (mediaEditor) {
+                mediaEditor.destroy();
+            }
+            if (/video/.test(type)) {
+                $panelObjectSize.hide();
+                $panelMediaSize.show();
+                const mediaplayer = $container.data('player');
+                mediaplayer.off('ready').on('ready', function() {
+                    let width = qtiObject.attr('width');
+                    let height = qtiObject.attr('height');
+                    const originalSize = mediaplayer.getMediaOriginalSize();
+                    const containerWidth = $('.qti-itemBody').width();
+                    // the default % and by that the size of the video is based on the original video size compared to the container size
+                    if (!width) {
+                        width = Math.round(100 / (containerWidth / originalSize.width));
+                        height = 0;
+                    } else if (height) {
+                        // for old format (px and height is set) the default % is calculated on rendered width and height
+                        const scaleHeight = (Math.max(height, 200) - $container.find('.mediaplayer .controls').height()) / originalSize.height;
+                        const scaleWidth = width / originalSize.width;
+                        const scale = Math.min(scaleHeight, scaleWidth);
+                        width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
+                        qtiObject.removeAttr('height');
+                        height = 0;
+                    }
+                    const onChange = _.debounce((nMedia) => {
+                        if (qtiObject.attr('width') !== (nMedia['width'] + '%')) {
+                            qtiObject.attr('width', Math.round(nMedia['width']) + '%');
+                            refreshRendering(_widget);
+                        }
+                    }, 200);
+                    mediaEditor = mediaEditorComponent($panelMediaSize,
+                        {
+                            $node: $container.find('.mediaplayer video'),
+                            $container: $container,
+                            type: qtiObject.attr('type'),
+                            width,
+                            height,
+                            responsive: true
+                        },
+                        {
+                            mediaDimension: {
+                                active: true,
+                                showResponsiveToggle: false
+                            }
+                        })
+                    .on('change', onChange);
+                });
+            } else {
+                $panelObjectSize.show();
+                $panelMediaSize.hide();
+            }
+        };
+
+        setMediaSizeEditor();
+
         //init data change callbacks
         formElement.setChangeCallbacks($form, qtiObject, {
             src : function(object, value){
                 qtiObject.attr('data', value);
                 inlineHelper.togglePlaceholder(_widget);
                 refreshRendering(_widget);
+                setMediaSizeEditor();
             },
             width : function(object, value){
                 var val = parseInt(value, 10);
