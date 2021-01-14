@@ -18,6 +18,7 @@
  */
 define([
     'lodash',
+    'context',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableContainer',
     'taoQtiItem/qtiItem/core/Item',
@@ -25,7 +26,7 @@ define([
     'taoQtiItem/qtiCreator/model/ResponseProcessing',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
-], function(_, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
+], function(_, context, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback, config){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -37,7 +38,7 @@ define([
                 title : 'Item title',
                 adaptive : false,
                 timeDependent : false,
-                'xml:lang' : 'en-US'
+                'xml:lang' : context.base_authoring_lang || 'en-US'
             };
         },
         createResponseProcessing : function(){
