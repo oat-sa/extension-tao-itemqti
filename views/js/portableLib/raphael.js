@@ -5776,7 +5776,7 @@
                                 }
                                 if (type != "none") {
                                     var pathId = "raphael-marker-" + type,
-                                        markerId = "raphael-marker-" + se + type + w + h + (attrs.stroke || "").replace(/(|, |)/g, "");
+                                        markerId = "raphael-marker-" + se + type + w + h + "-obj" + o.id;
                                     if (!R._g.doc.getElementById(pathId)) {
                                         p.defs.appendChild($($("path"), {
                                             "stroke-linecap": "round",
@@ -8060,11 +8060,15 @@
                     /*\
      * eve
      [ method ]
+
      * Fires event with given `name`, given scope and other parameters.
+
      > Arguments
+
      - name (string) name of the *event*, dot (`.`) or slash (`/`) separated
      - scope (object) context for the event handlers
      - varargs (...) the rest of arguments will be sent to event handlers
+
      = (object) array of returned values from the listeners. Array has two methods `.firstDefined()` and `.lastDefined()` to get first or last not `undefined` value.
     \*/
                     var eve = function (name, scope) {
@@ -8134,9 +8138,13 @@
                     /*\
      * eve.listeners
      [ method ]
+
      * Internal method which gives you array of all event handlers that will be triggered by the given `name`.
+
      > Arguments
+
      - name (string) name of the event, dot (`.`) or slash (`/`) separated
+
      = (array) array of event handlers
     \*/
                     eve.listeners = function (name) {
@@ -8173,9 +8181,11 @@
                     /*\
      * eve.separator
      [ method ]
+
      * If for some reasons you don’t like default separators (`.` or `/`) you can specify yours
      * here. Be aware that if you pass a string longer than one character it will be treated as
      * a list of characters.
+
      - separator (string) new separator. Empty string resets to default: `.` or `/`.
     \*/
                     eve.separator = function (sep) {
