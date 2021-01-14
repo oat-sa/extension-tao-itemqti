@@ -5776,7 +5776,7 @@
                                 }
                                 if (type != "none") {
                                     var pathId = "raphael-marker-" + type,
-                                        markerId = "raphael-marker-" + se + type + w + h + "-obj" + o.id;
+                                        markerId = "raphael-marker-" + se + type + w + h + (attrs.stroke || "").replace(/(|, |)/g, "");
                                     if (!R._g.doc.getElementById(pathId)) {
                                         p.defs.appendChild($($("path"), {
                                             "stroke-linecap": "round",
