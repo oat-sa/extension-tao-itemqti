@@ -91,11 +91,8 @@ define([
 
         const setMediaSizeEditor = () => {
             const type = qtiObject.attr('type');
-            const $container = _widget.$original;
-            if (mediaEditor) {
-                mediaEditor.destroy();
-            }
             if (/video/.test(type)) {
+                const $container = _widget.$original;
                 $panelObjectSize.hide();
                 $panelMediaSize.show();
                 const mediaplayer = $container.data('player');
@@ -123,6 +120,9 @@ define([
                             refreshRendering(_widget);
                         }
                     }, 200);
+                    if (mediaEditor) {
+                        mediaEditor.destroy();
+                    }
                     mediaEditor = mediaEditorComponent($panelMediaSize,
                         {
                             $node: $container.find('.mediaplayer video'),
