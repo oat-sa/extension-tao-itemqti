@@ -55,10 +55,11 @@ use Throwable;
 class QtiJsonItemCompiler extends QtiItemCompiler
 {
 
-    const ITEM_FILE_NAME = 'item.json';
-    const VAR_ELT_FILE_NAME = 'variableElements.json';
-    const METADATA_FILE_NAME = 'metadataElements.json';
-    const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
+    public const ITEM_FILE_NAME = 'item.json';
+    public const VAR_ELT_FILE_NAME = 'variableElements.json';
+    public const METADATA_FILE_NAME = 'metadataElements.json';
+    public const ENHANCED_METADATA_FILE_NAME = 'metadataElementsEnhanced.json';
+    public const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
 
     /**
      * @var string json from the item packed
@@ -95,7 +96,8 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         $language,
         tao_models_classes_service_StorageDirectory $publicDirectory,
         tao_models_classes_service_StorageDirectory $privateDirectory
-    ) {
+    )
+    {
         $qtiService = Service::singleton();
 
 
@@ -122,9 +124,14 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $data = $this->convertXmlAttributes($data);
             $this->itemJson['data'] = $data['core'];
             $metadata = $this->getMetadataProperties();
+            $enhancedMetadata = $this->getEnhancedMetadataProperties();
 
             $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::ITEM_FILE_NAME, json_encode($this->itemJson));
             $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::METADATA_FILE_NAME, json_encode($metadata));
+            $privateDirectory->write(
+                $language . DIRECTORY_SEPARATOR . self::ENHANCED_METADATA_FILE_NAME,
+                json_encode($enhancedMetadata)
+            );
             $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::PORTABLE_ELEMENT_FILE_NAME, json_encode($this->getItemPortableElements($qtiItem)));
 
             return new common_report_Report(
@@ -252,5 +259,55 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private function getItemAssetXmlReplacer(): QtiItemAssetXmlReplacer
     {
         return $this->getServiceLocator()->get(QtiItemAssetXmlReplacer::class);
+    }
+
+    private function getEnhancedMetadataProperties(): array
+    {
+        $triples = $this->getResource()->getRdfTriples();
+        $properties = [];
+        $metaDataKeysContext = [];
+        $metaDataValuesContext = [];
+        foreach ($triples as $triple) {
+            if (!empty($properties[$triple->predicate])) {
+                $properties[$triple->predicate] = [$properties[$triple->predicate], $triple->object];
+            } else {
+                $properties[$triple->predicate] = $triple->object;
+            }
+            $metaDataKeysContext[] = $triple->predicate;
+            if (strpos($triple->object, 'http') !== false) {
+                $metaDataValuesContext[] = $triple->object;
+            }
+        }
+        //we also include a shortcut to the item URI
+        $properties['metaDataKeysContext'] = $this->retrieveMetaDataContext(array_unique($metaDataKeysContext));
+        $properties['metaDataValuesContext'] = $this->retrieveMetaDataContext(array_unique($metaDataValuesContext));
+        $properties['@uri'] = $this->getResource()->getUri();
+
+        return $properties;
+    }
+
+    private function retrieveMetaDataContext(array $array): iterable
+    {
+        $newArray = [];
+        foreach ($array as $key) {
+            $resource = $this->getResourceLabelByIdentifier($key);
+            $newArray[] = [
+                '@id' => $key,
+                '@label' => !is_null($resource) ? $resource->getLabel() : null
+            ];
+        }
+
+        return $newArray;
+    }
+
+    private function getResourceLabelByIdentifier(string $uri): ?core_kernel_classes_Resource
+    {
+        try {
+            return new core_kernel_classes_Resource($uri);
+        } catch (common_exception_Error $e) {
+            error_log('ERROR::' . $e->getMessage());
+        }
+
+        return null;
     }
 }
