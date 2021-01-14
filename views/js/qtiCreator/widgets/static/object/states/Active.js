@@ -108,10 +108,10 @@ define([
                     if (!width) {
                         width = Math.round(100 / (containerWidth / originalSize.width));
                         height = 0;
-                    } else if (height) {
+                    } else if (!/%/.test(width) || height) {
                         // for old format (px and height is set) the default % is calculated on rendered width and height
-                        const scaleHeight = (Math.max(height, 200) - $container.find('.mediaplayer .controls').height()) / originalSize.height;
-                        const scaleWidth = width / originalSize.width;
+                        const scaleHeight = (Math.max(height || 0, 200) - $container.find('.mediaplayer .controls').height()) / originalSize.height;
+                        const scaleWidth = Math.max(width || 0, 200) / originalSize.width;
                         const scale = Math.min(scaleHeight, scaleWidth);
                         width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
                         qtiObject.removeAttr('height');

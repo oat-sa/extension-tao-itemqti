@@ -110,9 +110,12 @@ define([
                     width = Math.round(100 / (containerWidth / originalSize.width));
                 } else if (height) {
                     // for old format (px and height is set) the default % is calculated on rendered width and height
-                    const scaleHeight = (Math.max(height, 200) - $container.find('.media-container .controls').height()) / originalSize.height;
                     const scaleWidth = width / originalSize.width;
-                    const scale = Math.min(scaleHeight, scaleWidth);
+                    let scale = scaleWidth;
+                    if (!/youtube/.test(interaction.object.attr('type'))) {
+                        const scaleHeight = (Math.max(height, 200) - $container.find('.media-container .controls').height()) / originalSize.height;
+                        scale = Math.min(scaleHeight, scaleWidth);
+                    }
                     width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
                     interaction.object.removeAttr('height');
                     height = 0;
@@ -129,7 +132,7 @@ define([
                 }, 200);
                 mediaEditor = mediaEditorComponent($form.find('.media-sizer-panel'),
                     {
-                        $node: $container.find('.media-container video'),
+                        $node: $container.find('.media-container .media'),
                         $container: $container,
                         type: interaction.object.attr('type'),
                         width,
