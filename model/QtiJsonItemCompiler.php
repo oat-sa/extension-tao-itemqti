@@ -29,6 +29,7 @@ use core_kernel_classes_Resource;
 use DOMDocument;
 use Exception;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetCompiler;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetXmlReplacer;
@@ -54,6 +55,7 @@ use Throwable;
  */
 class QtiJsonItemCompiler extends QtiItemCompiler
 {
+    use LoggerAwareTrait;
 
     public const ITEM_FILE_NAME = 'item.json';
     public const VAR_ELT_FILE_NAME = 'variableElements.json';
@@ -305,7 +307,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         try {
             return new core_kernel_classes_Resource($uri);
         } catch (common_exception_Error $e) {
-            error_log('ERROR::' . $e->getMessage());
+            $this->logError('MetaData resource retrieving failed: ' . $e->getMessage());
         }
 
         return null;
