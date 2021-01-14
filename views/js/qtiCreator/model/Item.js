@@ -26,7 +26,7 @@ define([
     'taoQtiItem/qtiCreator/model/ResponseProcessing',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
-], function(_, context, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback, config){
+], function(_, context, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
