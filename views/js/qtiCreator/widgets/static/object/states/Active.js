@@ -45,6 +45,10 @@ define([
     var ObjectStateActive = stateFactory.extend(Active, function(){
         this.initForm();
     }, function(){
+        if (mediaEditor) {
+            mediaEditor.destroy();
+        }
+        this.widget.$original.off('playerready');
         this.widget.$form.empty();
     });
 
@@ -58,19 +62,84 @@ define([
         if(obj.attr('height')){
             previewOptions.height = obj.attr('height');
         }
-        previewOptions.width = obj.attr('width') || '100%';
-        previewOptions.height = obj.attr('height') || 'auto';
+        if(obj.attr('width')){
+            previewOptions.width = obj.attr('width');
+        }
         if(previewOptions.url && previewOptions.mime){
+            $container.off('playerready').on('playerready', function() {
+                setMediaSizeEditor(widget);
+            });
             $container.previewer(previewOptions);
         }
     }, _config.renderingThrottle);
 
+    const setMediaSizeEditor = (widget) => {
+        const $form = widget.$form;
+        const qtiObject = widget.element;
+        const $panelObjectSize = $('.size-panel', $form);
+        const $panelMediaSize = $('.media-size-panel', $form);
+        const type = qtiObject.attr('type');
+        if (/video/.test(type)) {
+            const $container = widget.$original;
+            $panelObjectSize.hide();
+            $panelMediaSize.show();
+            const mediaplayer = $container.data('player');
+            let width = qtiObject.attr('width');
+            let height = qtiObject.attr('height');
+            if (!/%/.test(width)) {
+                const originalSize = mediaplayer.getMediaOriginalSize();
+                const containerWidth = $('.qti-itemBody').width();
+                // the default % and by that the size of the video is based on the original video size compared to the container size
+                if (!width) {
+                    width = Math.round(100 / (containerWidth / originalSize.width));
+                    height = 0;
+                } else if (height) {
+                    // for old format (px and height is set) the default % is calculated on rendered width and height
+                    const scaleHeight = (Math.max(height || 0, 200) - $container.find('.mediaplayer .controls').height()) / originalSize.height;
+                    const scaleWidth = Math.max(width || 0, 200) / originalSize.width;
+                    const scale = Math.min(scaleHeight, scaleWidth);
+                    width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
+                    qtiObject.removeAttr('height');
+                    height = 0;
+                }
+            }
+            const onChange = _.debounce((nMedia) => {
+                if (qtiObject.attr('width') !== (nMedia['width'] + '%')) {
+                    const newWidth = Math.round(nMedia['width']) + '%';
+                    qtiObject.attr('width', newWidth);
+                    mediaplayer.resize(newWidth, 'auto');
+                }
+            }, 200);
+            if (mediaEditor) {
+                mediaEditor.destroy();
+            }
+            mediaEditor = mediaEditorComponent($panelMediaSize,
+                {
+                    $node: $container.find('.mediaplayer video'),
+                    $container: $container,
+                    type: qtiObject.attr('type'),
+                    width,
+                    height,
+                    responsive: true
+                },
+                {
+                    mediaDimension: {
+                        active: true,
+                        showResponsiveToggle: false
+                    }
+                })
+            .on('change', onChange);
+        } else {
+            $panelObjectSize.show();
+            $panelMediaSize.hide();
+        }
+    };
     ObjectStateActive.prototype.initForm = function(){
-
         var _widget = this.widget,
             $form = _widget.$form,
             qtiObject = _widget.element,
             baseUrl = _widget.options.baseUrl;
+        const $container = _widget.$original;
 
         $form.html(formTpl({
             baseUrl : baseUrl || '',
@@ -86,67 +155,10 @@ define([
         //init standard ui widget
         formElement.initWidget($form);
 
-        const $panelObjectSize = $('.size-panel', $form);
-        const $panelMediaSize = $('.media-size-panel', $form);
-
-        const setMediaSizeEditor = () => {
-            const type = qtiObject.attr('type');
-            if (/video/.test(type)) {
-                const $container = _widget.$original;
-                $panelObjectSize.hide();
-                $panelMediaSize.show();
-                const mediaplayer = $container.data('player');
-                mediaplayer.off('ready').on('ready', function() {
-                    let width = qtiObject.attr('width');
-                    let height = qtiObject.attr('height');
-                    const originalSize = mediaplayer.getMediaOriginalSize();
-                    const containerWidth = $('.qti-itemBody').width();
-                    // the default % and by that the size of the video is based on the original video size compared to the container size
-                    if (!width) {
-                        width = Math.round(100 / (containerWidth / originalSize.width));
-                        height = 0;
-                    } else if (!/%/.test(width) || height) {
-                        // for old format (px and height is set) the default % is calculated on rendered width and height
-                        const scaleHeight = (Math.max(height || 0, 200) - $container.find('.mediaplayer .controls').height()) / originalSize.height;
-                        const scaleWidth = Math.max(width || 0, 200) / originalSize.width;
-                        const scale = Math.min(scaleHeight, scaleWidth);
-                        width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
-                        qtiObject.removeAttr('height');
-                        height = 0;
-                    }
-                    const onChange = _.debounce((nMedia) => {
-                        if (qtiObject.attr('width') !== (nMedia['width'] + '%')) {
-                            qtiObject.attr('width', Math.round(nMedia['width']) + '%');
-                            refreshRendering(_widget);
-                        }
-                    }, 200);
-                    if (mediaEditor) {
-                        mediaEditor.destroy();
-                    }
-                    mediaEditor = mediaEditorComponent($panelMediaSize,
-                        {
-                            $node: $container.find('.mediaplayer video'),
-                            $container: $container,
-                            type: qtiObject.attr('type'),
-                            width,
-                            height,
-                            responsive: true
-                        },
-                        {
-                            mediaDimension: {
-                                active: true,
-                                showResponsiveToggle: false
-                            }
-                        })
-                    .on('change', onChange);
-                });
-            } else {
-                $panelObjectSize.show();
-                $panelMediaSize.hide();
-            }
-        };
-
-        setMediaSizeEditor();
+        $container.off('playerready').on('playerready', function() {
+            setMediaSizeEditor(_widget);
+            $container.off('playerready');
+        });
 
         //init data change callbacks
         formElement.setChangeCallbacks($form, qtiObject, {
@@ -154,7 +166,6 @@ define([
                 qtiObject.attr('data', value);
                 inlineHelper.togglePlaceholder(_widget);
                 refreshRendering(_widget);
-                setMediaSizeEditor();
             },
             width : function(object, value){
                 var val = parseInt(value, 10);
