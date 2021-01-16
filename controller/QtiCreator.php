@@ -25,7 +25,9 @@ namespace oat\taoQtiItem\controller;
 use common_exception_Error;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
@@ -55,6 +57,9 @@ use common_exception_BadRequest;
  */
 class QtiCreator extends tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
+    use HttpJsonResponseTrait;
+
     /**
      * @return EventManager
      */
@@ -177,36 +182,44 @@ class QtiCreator extends tao_actions_CommonModule
     public function saveItem()
     {
         $returnValue = ['success' => false];
-
-        if ($this->hasRequestParameter('uri')) {
-            $uri = urldecode($this->getRequestParameter('uri'));
-            $xml = file_get_contents('php://input');
-            $rdfItem = new core_kernel_classes_Resource($uri);
+        $request = $this->getPsrRequest();
+        $queryParams = $request->getQueryParams();
+        if (isset($queryParams['uri'])) {
+            $xml = $request->getBody()->getContents();
+            $rdfItem = $this->getResource(urldecode($queryParams['uri']));
             /** @var Service $itemService */
-            $itemService = Service::singleton();
+            $itemService = $this->getServiceLocator()->get(Service::class);
 
             if ($itemService->hasItemModel($rdfItem, [ItemModel::MODEL_URI])) {
                 try {
+                    $this->validateXmlInput($xml);
                     Authoring::checkEmptyMedia($xml);
 
                     $item = $this->getXmlToItemParser()->parseAndSanitize($xml);
 
                     $returnValue['success'] = $itemService->saveDataItemToRdfItem($item, $rdfItem);
-                    $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-                    $eventManager->trigger(new ResourceUpdated($rdfItem));
 
+                    $this->getEventManager()->trigger(new ResourceUpdated($rdfItem));
                     $this->getUpdatedItemEventDispatcher()->dispatch($item, $rdfItem);
                 } catch (QtiModelException $e) {
+                    $this->logError($e->getMessage());
                     $returnValue = [
                         'success' => false,
                         'type' => 'Error',
                         'message' => $e->getUserMessage()
                     ];
+                } catch (common_exception_Error $e) {
+                    $this->logError(sprintf('Item XML is not valid: %s', $e->getMessage()));
+                    $returnValue = [
+                        'success' => false,
+                        'type' => 'Error',
+                        'message' => 'Item XML is not valid'
+                    ];
                 }
             }
         }
 
-        $this->returnJson($returnValue);
+        $this->setSuccessJsonResponse($returnValue);
     }
 
     public function getFile()
@@ -312,5 +325,19 @@ class QtiCreator extends tao_actions_CommonModule
     private function getXmlToItemParser(): XmlToItemParser
     {
         return $this->getServiceLocator()->get(XmlToItemParser::class);
+    }
+
+    /**
+     * Check if given string is a valid xml. Throw common_exception_Error if not.
+     *
+     * @param string $xml
+     * @throws common_exception_Error
+     */
+    private function validateXmlInput(string $xml)
+    {
+        if (trim($xml) === '') {
+            throw new common_exception_Error('Empty string given');
+        }
+        \tao_helpers_Xml::getSimpleXml($xml);
     }
 }
