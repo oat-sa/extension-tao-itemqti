@@ -66,9 +66,6 @@ define([
             previewOptions.width = obj.attr('width');
         }
         if(previewOptions.url && previewOptions.mime){
-            $container.off('playerready').on('playerready', function() {
-                setMediaSizeEditor(widget);
-            });
             $container.previewer(previewOptions);
         }
     }, _config.renderingThrottle);
@@ -88,7 +85,11 @@ define([
             let height = qtiObject.attr('height');
             if (!/%/.test(width)) {
                 const originalSize = mediaplayer.getMediaOriginalSize();
-                const containerWidth = $('.qti-itemBody').width();
+                if (!originalSize.width) {
+                    // video is not loaded yet
+                    return;
+                }
+                const containerWidth = $container.closest('.widget-textBlock').width();
                 // the default % and by that the size of the video is based on the original video size compared to the container size
                 if (!width) {
                     width = Math.round(100 / (containerWidth / originalSize.width));
@@ -115,7 +116,7 @@ define([
             }
             mediaEditor = mediaEditorComponent($panelMediaSize,
                 {
-                    $node: $container.find('.mediaplayer video'),
+                    $node: $container.find('.mediaplayer .media'),
                     $container: $container,
                     type: qtiObject.attr('type'),
                     width,
@@ -157,7 +158,6 @@ define([
 
         $container.off('playerready').on('playerready', function() {
             setMediaSizeEditor(_widget);
-            $container.off('playerready');
         });
 
         //init data change callbacks
