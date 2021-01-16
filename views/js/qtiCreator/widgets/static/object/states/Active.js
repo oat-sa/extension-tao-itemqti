@@ -75,6 +75,33 @@ define([
         }
     }, _config.renderingThrottle);
 
+    const videoResponsiveWidth = widget => {
+        const $container = widget.$original;
+        const qtiObject = widget.element;
+        const mediaplayer = $container.data('player');
+        const originalSize = mediaplayer.getMediaOriginalSize();
+        let width = qtiObject.attr('width');
+        let height = qtiObject.attr('height');
+        if (!originalSize.width) {
+            // video is not loaded yet
+            return 0;
+        }
+        const containerWidth = $container.closest('.widget-textBlock').width();
+        // the default % and by that the size of the video is based on the original video size compared to the container size
+        if (!width) {
+            width = Math.round(100 / (containerWidth / originalSize.width));
+        } else if (height) {
+            // for old format (px and height is set) the default % is calculated on rendered width and height
+            const scaleHeight =
+                (Math.max(height || 0, 200) - $container.find('.mediaplayer .controls').height()) /
+                originalSize.height;
+            const scaleWidth = Math.max(width || 0, 200) / originalSize.width;
+            const scale = Math.min(scaleHeight, scaleWidth);
+            width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
+        }
+        return width;
+    };
+
     const setMediaSizeEditor = widget => {
         const $form = widget.$form;
         const qtiObject = widget.element;
@@ -89,27 +116,9 @@ define([
             let width = qtiObject.attr('width');
             let height = qtiObject.attr('height');
             if (!/%/.test(width)) {
-                const originalSize = mediaplayer.getMediaOriginalSize();
-                if (!originalSize.width) {
-                    // video is not loaded yet
-                    return;
-                }
-                const containerWidth = $container.closest('.widget-textBlock').width();
-                // the default % and by that the size of the video is based on the original video size compared to the container size
-                if (!width) {
-                    width = Math.round(100 / (containerWidth / originalSize.width));
-                    height = 0;
-                } else if (height) {
-                    // for old format (px and height is set) the default % is calculated on rendered width and height
-                    const scaleHeight =
-                        (Math.max(height || 0, 200) - $container.find('.mediaplayer .controls').height()) /
-                        originalSize.height;
-                    const scaleWidth = Math.max(width || 0, 200) / originalSize.width;
-                    const scale = Math.min(scaleHeight, scaleWidth);
-                    width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
-                    qtiObject.removeAttr('height');
-                    height = 0;
-                }
+                width = videoResponsiveWidth(widget);
+                height = 0;
+                qtiObject.removeAttr('height');
             }
             const onChange = _.debounce(nMedia => {
                 if (qtiObject.attr('width') !== `${nMedia['width']}%`) {
