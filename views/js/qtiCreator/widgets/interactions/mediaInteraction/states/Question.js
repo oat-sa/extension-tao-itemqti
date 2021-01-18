@@ -87,7 +87,54 @@ define([
                 mediaEditor.destroy();
             }
         };
-
+        const videoResponsiveWidth = () => {
+            const originalSize = interaction.mediaElement.getMediaOriginalSize();
+            if (!originalSize.width) {
+                // video is not loaded yet
+                return 0;
+            }
+            let width = interaction.object.attr('width');
+            let height = interaction.object.attr('height');
+            const containerWidth = $container.find('.media-container').width();
+            // the default % and by that the size of the video is based on the original video size compared to the container size
+            if (!width) {
+                width = Math.round(100 / (containerWidth / originalSize.width));
+            } else if (height) {
+                // for old format (px and height is set) the default % is calculated on rendered width and height
+                const scaleWidth = width / originalSize.width;
+                let scale = scaleWidth;
+                if (!/youtube/.test(interaction.object.attr('type'))) {
+                    const scaleHeight =
+                        (Math.max(height, 200) - $container.find('.media-container .controls').height()) /
+                        originalSize.height;
+                    scale = Math.min(scaleHeight, scaleWidth);
+                }
+                width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
+            }
+            return width;
+        };
+        const createMediaEditor = ($panel, width, height, onChange) => {
+            if (mediaEditor) {
+                mediaEditor.destroy();
+            }
+            mediaEditor = mediaEditorComponent(
+                $panel,
+                {
+                    $node: $container.find('.media-container .media'),
+                    $container: $container,
+                    type: interaction.object.attr('type'),
+                    width,
+                    height,
+                    responsive: true
+                },
+                {
+                    mediaDimension: {
+                        active: true,
+                        showResponsiveToggle: false
+                    }
+                }
+            ).on('change', onChange);
+        };
         /**
          * Switch to video mode:
          * update height and enable the field
@@ -100,30 +147,15 @@ define([
                 $mediaSizerLabel.show();
             }
             $container.off('playerready').on('playerready', function () {
-                const originalSize = interaction.mediaElement.getMediaOriginalSize();
                 let width = interaction.object.attr('width');
                 let height = interaction.object.attr('height');
-                const containerWidth = $container.find('.media-container').width();
-                // the default % and by that the size of the video is based on the original video size compared to the container size
-                if (!width) {
-                    width = Math.round(100 / (containerWidth / originalSize.width));
-                } else if (height) {
-                    // for old format (px and height is set) the default % is calculated on rendered width and height
-                    const scaleWidth = width / originalSize.width;
-                    let scale = scaleWidth;
-                    if (!/youtube/.test(interaction.object.attr('type'))) {
-                        const scaleHeight =
-                            (Math.max(height, 200) - $container.find('.media-container .controls').height()) /
-                            originalSize.height;
-                        scale = Math.min(scaleHeight, scaleWidth);
+                if (!/%/.test(width)) {
+                    width = videoResponsiveWidth(widget);
+                    if (!width) {
+                        return;
                     }
-                    width = Math.round(100 / (containerWidth / (scale * originalSize.width)));
-                    interaction.object.removeAttr('height');
                     height = 0;
-                }
-
-                if (mediaEditor) {
-                    mediaEditor.destroy();
+                    interaction.object.removeAttr('height');
                 }
                 const onChange = _.debounce(nMedia => {
                     if (interaction.object.attr('width') !== `${nMedia['width']}%`) {
@@ -132,23 +164,7 @@ define([
                         interaction.mediaElement.resize(newWidth, 'auto');
                     }
                 }, 200);
-                mediaEditor = mediaEditorComponent(
-                    $form.find('.media-sizer-panel'),
-                    {
-                        $node: $container.find('.media-container .media'),
-                        $container: $container,
-                        type: interaction.object.attr('type'),
-                        width,
-                        height,
-                        responsive: true
-                    },
-                    {
-                        mediaDimension: {
-                            active: true,
-                            showResponsiveToggle: false
-                        }
-                    }
-                ).on('change', onChange);
+                createMediaEditor($form.find('.media-sizer-panel'), width, height, onChange);
             });
         };
 
