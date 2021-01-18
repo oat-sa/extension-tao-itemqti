@@ -53,6 +53,15 @@ class QtiItemAssetXmlReplacer extends ConfigurationService
             }
         }
 
+        $fileHrefNodes =  $xpath->query("//*[local-name()='fileHref']");
+
+        /** @var DOMElement $fileHrefNodes */
+        foreach ($fileHrefNodes as $node) {
+            if (isset($packedAssets[$node->nodeValue])) {
+                $node->nodeValue = $packedAssets[$node->nodeValue]->getReplacedBy();
+            }
+        }
+
         $this->replaceEncodedNodes($xpath, $packedAssets);
 
         return $packedAssets;

@@ -48,10 +48,15 @@ class QtiItemAssetXmlReplacerTest extends TestCase
         $packedAsset2->method('getReplacedBy')
             ->willReturn('new-link-fixture_2');
 
+        $packedAsset3 = $this->createMock(PackedAsset::class);
+        $packedAsset3->method('getReplacedBy')
+            ->willReturn('new-link-fixture_3');
+
         $packedAssets = [
             'fixture' => $packedAsset,
             'decoded_fixture' => $packedAsset2,
             'another-fixture' => '',
+            'hrefFixture' => $packedAsset3,
         ];
 
         $domDocument = new DOMDocument('1.0', 'UTF-8');
@@ -65,6 +70,11 @@ class QtiItemAssetXmlReplacerTest extends TestCase
         )));
         $domDocument->appendChild($element);
 
+        $element = $domDocument->createElement('fileHref');
+        $element->appendChild($domDocument->createTextNode('hrefFixture'));
+        $domDocument->appendChild($element);
+
+
         $this->subject->replaceAssetNodeValue($domDocument, $packedAssets);
 
         $attributes = $domDocument->getElementsByTagName('video')->item(0)->attributes;
@@ -74,6 +84,9 @@ class QtiItemAssetXmlReplacerTest extends TestCase
         $this->assertEquals(htmlentities(
             '<img src="new-link-fixture_2" alt="type="image/png"/>'
         ), $propertyValue);
+
+        $hrefValue = $domDocument->getElementsByTagName('fileHref')->item(0)->nodeValue;
+        $this->assertEquals('new-link-fixture_3', $hrefValue);
     }
 
     public function testReplaceAssetNodeValues()
