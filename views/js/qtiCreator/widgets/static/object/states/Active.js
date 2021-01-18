@@ -102,13 +102,35 @@ define([
         return width;
     };
 
+    const createMediaEditor = ($panel, $container, qtiObject, width, height, onChange) => {
+        if (mediaEditor) {
+            mediaEditor.destroy();
+        }
+        mediaEditor = mediaEditorComponent(
+            $panel,
+            {
+                $node: $container.find('.mediaplayer .media'),
+                $container: $container,
+                type: qtiObject.attr('type'),
+                width,
+                height,
+                responsive: true
+            },
+            {
+                mediaDimension: {
+                    active: true,
+                    showResponsiveToggle: false
+                }
+            }
+        ).on('change', onChange);
+    };
+
     const setMediaSizeEditor = widget => {
         const $form = widget.$form;
         const qtiObject = widget.element;
         const $panelObjectSize = $('.size-panel', $form);
         const $panelMediaSize = $('.media-size-panel', $form);
-        const type = qtiObject.attr('type');
-        if (/video/.test(type)) {
+        if (/video/.test( qtiObject.attr('type'))) {
             const $container = widget.$original;
             $panelObjectSize.hide();
             $panelMediaSize.show();
@@ -117,6 +139,9 @@ define([
             let height = qtiObject.attr('height');
             if (!/%/.test(width)) {
                 width = videoResponsiveWidth(widget);
+                if (!width) {
+                    return;
+                }
                 height = 0;
                 qtiObject.removeAttr('height');
             }
@@ -127,26 +152,7 @@ define([
                     mediaplayer.resize(newWidth, 'auto');
                 }
             }, 200);
-            if (mediaEditor) {
-                mediaEditor.destroy();
-            }
-            mediaEditor = mediaEditorComponent(
-                $panelMediaSize,
-                {
-                    $node: $container.find('.mediaplayer .media'),
-                    $container: $container,
-                    type: qtiObject.attr('type'),
-                    width,
-                    height,
-                    responsive: true
-                },
-                {
-                    mediaDimension: {
-                        active: true,
-                        showResponsiveToggle: false
-                    }
-                }
-            ).on('change', onChange);
+            createMediaEditor($panelMediaSize, $container, qtiObject, width, height, onChange);
         } else {
             $panelObjectSize.show();
             $panelMediaSize.hide();
