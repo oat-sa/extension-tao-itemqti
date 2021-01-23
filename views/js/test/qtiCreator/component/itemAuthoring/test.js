@@ -145,6 +145,15 @@ define([
                 label: 'Item'
             }
         }
+    }, {
+        title: 'Missing itemData url',
+        config: {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar/'
+            }
+        }
     }]).test('error ', (data, assert) => {
         const ready = assert.async();
         const $container = $('#fixture-error');
@@ -171,7 +180,8 @@ define([
             properties: {
                 uri: 'http://item#rdf-123',
                 label: 'Item',
-                baseUrl: 'http://foo/bar/'
+                baseUrl: 'http://foo/bar/',
+                itemDataUrl: '/',
             }
         };
         const instance = itemAuthoringFactory($container, config);
@@ -192,7 +202,7 @@ define([
                 assert.ok(false, 'The operation should not fail!');
                 assert.pushResult({
                     result: false,
-                    message: err
+                    message: JSON.stringify(err)
                 });
                 ready();
             });
@@ -205,7 +215,8 @@ define([
             properties: {
                 uri: 'http://item#rdf-123',
                 label: 'Item',
-                baseUrl: 'http://foo/bar/'
+                baseUrl: 'http://foo/bar/',
+                itemDataUrl: '/',
             }
         };
 
@@ -233,7 +244,7 @@ define([
                 assert.ok(false, 'The operation should not fail!');
                 assert.pushResult({
                     result: false,
-                    message: err
+                    message: JSON.stringify(err)
                 });
                 ready();
             });
@@ -246,7 +257,8 @@ define([
             properties: {
                 uri: 'http://item#rdf-123',
                 label: 'Item',
-                baseUrl: 'http://foo/bar/'
+                baseUrl: 'http://foo/bar/',
+                itemDataUrl: '/'
             }
         };
 
@@ -271,7 +283,7 @@ define([
                 assert.ok(false, 'The operation should not fail!');
                 assert.pushResult({
                     result: false,
-                    message: err
+                    message: JSON.stringify(err)
                 });
                 ready();
             });
