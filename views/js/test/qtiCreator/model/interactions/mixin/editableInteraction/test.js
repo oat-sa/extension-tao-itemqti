@@ -35,16 +35,24 @@ define([
     $.mockjaxSettings.responseTime = 1;
 
     // Mock the item data query
-    $.mockjax({
+    $.mockjax([{
         url: /mockItemEndpoint/,
-        response: function () {
-            this.responseText = {
-                success: true,
-                itemIdentifier: 'item-1',
-                itemData: itemJson
-            };
+        status: 200,
+        responseText: {
+            itemIdentifier: 'item-1',
+            itemData: itemJson
         }
-    });
+    }, {
+        url: 'undefined/tao/Languages/index',
+        responseText: {
+            "success": true,
+            "data": {
+                "en-GB":"British English",
+                "en-US":"English"
+            }
+        },
+        status: 200
+    }]);
 
     QUnit.module('editableInteraction mixin');
 
