@@ -2,16 +2,20 @@
 
 .qti-extendedTextInteraction {
 
-    .text-container{
+    .text-container {
         min-height: 50px;
 
-        &.text-preformatted{
+        &.text-preformatted {
             font-family: $monospaceFont;
         }
     }
 
     input {
         width: 100%
+    }
+
+    pre {
+        font-family: $regularFont;
     }
 
     .solid, .bordered {
