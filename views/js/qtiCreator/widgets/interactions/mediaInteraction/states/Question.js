@@ -291,6 +291,8 @@ define([
                 let value;
                 if (interaction.object.attr(attrName) !== attrValue) {
                     interaction.object.attr(attrName, attrValue);
+                    interaction.object.removeAttr('width');
+                    interaction.object.removeAttr('height');
 
                     value = $.trim(attrValue).toLowerCase();
 
