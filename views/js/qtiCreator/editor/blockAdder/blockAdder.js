@@ -84,9 +84,11 @@ define([
             //when clicking outside of the selector popup, consider it done
             $editorPanel.on('ready.qti-widget', function () {
                 $itemEditorPanel.off(`click${_ns} mousedown${_ns}`).on(`click${_ns} mousedown${_ns}`, function (e) {
-                    const popup = selector.getPopup()[0];
-                    if (widget && widget.element && popup !== e.target && !$.contains(popup, e.target)) {
-                        _done($wrap);
+                    if (selector) {
+                        const popup = selector.getPopup()[0];
+                        if (widget && widget.element && popup !== e.target && !$.contains(popup, e.target)) {
+                            _done($wrap);
+                        }
                     }
                 });
             });
