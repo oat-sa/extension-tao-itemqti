@@ -82,11 +82,13 @@ define([
             });
 
             //when clicking outside of the selector popup, consider it done
-            $itemEditorPanel.on(`click${_ns} mousedown${_ns}`, function(e){
-                const popup = selector.getPopup()[0];
-                if(popup !== e.target && !$.contains(popup, e.target)){
-                    _done($wrap);
-                }
+            $editorPanel.on('ready.qti-widget', function(e){
+                $itemEditorPanel.off(`click${_ns} mousedown${_ns}`).on(`click${_ns} mousedown${_ns}`, function() {
+                    const popup = selector.getPopup()[0];
+                    if(widget && widget.element && popup !== e.target && !$.contains(popup, e.target)){
+                        _done($wrap);
+                    }
+                });
             });
 
             //select a default element type
@@ -137,12 +139,14 @@ define([
 
             //activate the new widget:
             _.defer(function(){
-                if(widget.element.is('interaction')){
-                    widget.changeState('question');
-                }else{
-                    widget.changeState('active');
+                if(widget) {
+                    if(widget.elemen && widget.element.is('interaction')){
+                        widget.changeState('question');
+                    }else{
+                        widget.changeState('active');
+                    }
+                    _endInsertion();
                 }
-                _endInsertion();
             });
 
         }
