@@ -219,7 +219,7 @@ class QtiCreator extends tao_actions_CommonModule
             }
         }
 
-        $this->setSuccessJsonResponse($returnValue);
+        $this->returnJson($returnValue);
     }
 
     public function getFile()
