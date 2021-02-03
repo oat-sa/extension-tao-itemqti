@@ -1,6 +1,6 @@
 {
     "name": "@oat-sa/tao-qti-item",
-    "version": "0.3.5",
+    "version": "0.4.0",
     "license": "GPL-2.0",
     "description": "taoQtiItem frontend modules",
     "repository": {
@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.7.1",
-        "@oat-sa/tao-item-runner-qti": "0.17.2"
+        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feature/TR-508_implement-ims-pci-onready"
     }
 }
