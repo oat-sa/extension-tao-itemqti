@@ -27,20 +27,15 @@ final class Version202102051019351101_taoQtiItem extends AbstractMigration
         if ($registry->isRegistered(QtiCreatorClientConfigRegistry::CREATOR)) {
             /** @var array $config */
             $config = $registry->get(QtiCreatorClientConfigRegistry::CREATOR);
-            $plugins = [];
             if (!empty($config['plugins'])) {
-                foreach ($config['plugins'] as $plugin) {
-                    $plugins[] = $plugin;
-                }
+                $config['plugins'] = array_values($config['plugins']);
             }
-            $config['plugins'] = $plugins;
             $registry->set(QtiCreatorClientConfigRegistry::CREATOR, $config);
         }
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-
+        $this->throwIrreversibleMigrationException();
     }
 }
