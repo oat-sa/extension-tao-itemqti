@@ -29,6 +29,18 @@ define([
         return uri.substr(pos + 1);
     };
 
+    var decodeHtml = function (str) {
+        var map =
+            {
+                '&amp;': '&',
+                '&lt;': '<',
+                '&gt;': '>',
+                '&quot;': '"',
+                '&#039;': "'"
+            };
+        return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
+    };
+
     var qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
 
     var qtiSchemaLocation = {
@@ -47,6 +59,14 @@ define([
                     }
                 }).done(function (data) {
                     var loader, itemData, newItem;
+
+                    let newObject = {};
+                    for (var response in data.itemData.responses) {
+                        for (var mapKey in data.itemData.responses[response].mapping) {
+                            newObject[decodeHtml(mapKey)] = data.itemData.responses[response].mapping[mapKey];
+                        }
+                        data.itemData.responses[response].mapping = newObject;
+                    }
 
                     if (data.itemData && data.itemData.qtiClass === 'assessmentItem') {
 
