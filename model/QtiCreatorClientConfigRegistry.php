@@ -76,7 +76,7 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
             'position' => $position,
         ];
 
-        $config['plugins'] = $plugins;
+        $config['plugins'] = array_values($plugins);
         $registry->set(self::CREATOR, $config);
     }
 
