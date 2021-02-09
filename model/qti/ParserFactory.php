@@ -855,7 +855,6 @@ class ParserFactory
         foreach ($correctResponseNodes as $correctResponseNode) {
             foreach ($correctResponseNode->value as $value) {
                 $correct = (string) $value;
-                //$correct = str_replace('<', '&lt', $correct);
                 $response = new Value();
                 foreach ($value->attributes() as $attrName => $attrValue) {
                     $response->setAttribute($attrName, strval($attrValue));
