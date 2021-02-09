@@ -31,16 +31,17 @@ define([
         return uri.substr(pos + 1);
     };
 
-    var decodeHtml = function (str) {
-        var map =
-            {
-                '&amp;': '&',
-                '&lt;': '<',
-                '&gt;': '>',
-                '&quot;': '"',
-                '&#039;': "'"
-            };
-        return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
+    const decodeHtml = function (str) {
+        const map = {
+            '&amp;': '&',
+            '&lt;': '<',
+            '&gt;': '>',
+            '&quot;': '"',
+            '&#039;': "'"
+        };
+        return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {
+            return map[m];
+        });
     };
 
     var qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
@@ -63,8 +64,8 @@ define([
                     var loader, itemData, newItem;
 
                     let newObject = {};
-                    for (var response in data.itemData.responses) {
-                        for (var mapKey in data.itemData.responses[response].mapping) {
+                    for (const response in data.itemData.responses) {
+                        for (const mapKey in data.itemData.responses[response].mapping) {
                             newObject[decodeHtml(mapKey)] = data.itemData.responses[response].mapping[mapKey];
                         }
                         data.itemData.responses[response].mapping = newObject;
