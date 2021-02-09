@@ -63,12 +63,14 @@ define([
                 Promise.all([langList, itemRdf]).then(([languagesList, data]) => {
                     var loader, itemData, newItem;
 
-                    let newObject = {};
-                    for (const response in data.itemData.responses) {
-                        for (const mapKey in data.itemData.responses[response].mapping) {
-                            newObject[decodeHtml(mapKey)] = data.itemData.responses[response].mapping[mapKey];
+                    if (data.itemData) {
+                        let newObject = {};
+                        for (const response in data.itemData.responses) {
+                            for (const mapKey in data.itemData.responses[response].mapping) {
+                                newObject[decodeHtml(mapKey)] = data.itemData.responses[response].mapping[mapKey];
+                            }
+                            data.itemData.responses[response].mapping = newObject;
                         }
-                        data.itemData.responses[response].mapping = newObject;
                     }
 
                     if (data.itemData && data.itemData.qtiClass === 'assessmentItem') {
