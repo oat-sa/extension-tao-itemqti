@@ -8,8 +8,9 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/GraphicGapMatchInteraction',
     'taoQtiItem/qtiCreator/model/choices/GapImg',
-    'taoQtiItem/qtiCreator/model/choices/AssociableHotspot'
-], function($, _, editable, editableInteraction, Interaction, GapImg, AssociableHotspot){
+    'taoQtiItem/qtiCreator/model/choices/AssociableHotspot',
+    'taoQtiItem/qtiCreator/model/choices/GapText',
+], function($, _, editable, editableInteraction, Interaction, GapImg, AssociableHotspot,  GapText){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -63,6 +64,43 @@ define([
             $(document).trigger('choiceCreated.qti-widget', {'choice' : gapImg, 'interaction' : this});
 
             return gapImg;
+        },
+
+        getNextPlaceholder : function getNextPlaceholder() {
+            var allChoices = this.getChoices(),
+                existingChoicesLabels = _.map(allChoices, function(choice) {                  
+                    if (typeof choice.getBody === 'function') {
+                        return choice.getBody().bdy
+                    }
+                }),
+                placeHolderIndex = 1,
+                placeHolderPrefix = 'choice #',
+                placeHolder = placeHolderPrefix + placeHolderIndex;
+
+            while (existingChoicesLabels.indexOf(placeHolder) !== -1) {
+                placeHolderIndex++;
+                placeHolder = placeHolderPrefix + placeHolderIndex;
+            }
+            return placeHolder;
+        },
+
+        createGapText : function(value = ''){
+            var choice = new GapText();
+            if(!this.gapTexts){
+                this.gapTexts = [];
+            }
+            this.addGapText(choice);
+
+            choice
+                .body(value || this.getNextPlaceholder())
+                .buildIdentifier('gaptext');
+
+            if(this.getRenderer()){
+                choice.setRenderer(this.getRenderer());
+            }
+    
+            $(document).trigger('choiceCreated.qti-widget', {'choice' : choice, 'interaction' : this});
+                return choice;
         },
 
         /**

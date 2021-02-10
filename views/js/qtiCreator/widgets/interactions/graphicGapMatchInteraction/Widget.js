@@ -39,7 +39,6 @@ define([
      * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/Widget
      */
     var GraphicGapMatchInteractionWidget = _.extend(Widget.clone(), GraphicWidget, {
-
         /**
          * Initialize the widget
          * @see {taoQtiItem/qtiCreator/widgets/interactions/Widget#initCreator}
@@ -62,6 +61,7 @@ define([
                 this.element.paper = paper;
                 this.createChoices();
                 this.createGapImgs();
+                this.createGapTexts();
             }
         },
 
@@ -70,7 +70,6 @@ define([
          * @see {taoQtiItem/qtiCreator/widgets/Widget#destroy}
          */
         destroy : function(){
-
             var $container = this.$original;
             var $item      = $container.parents('.qti-item');
 
@@ -89,7 +88,6 @@ define([
          * @param {Number} [factor=1] - scaling factor
          */
         scaleGapList : function(newSize, factor){
-
             var $container = this.$original;
             var $gapList   = $('ul.source', $container);
             $gapList.css('max-width', newSize + 'px');
@@ -110,10 +108,20 @@ define([
             var interaction = this.element;
             var $container  = this.$original;
             var $gapList    = $('ul.source', $container);
-
+            
             $gapList.empty();
             _.forEach(interaction.gapImgs, function(gapImg){
                 $gapList.append(gapImg.render());
+            });
+        },
+
+        createGapTexts : function(){
+            var interaction = this.element;
+            var $container  = this.$original;
+            var $gapList    = $('ul.source', $container);
+            
+            _.forEach(interaction.gapTexts, function(gapText){
+                $gapList.append(gapText.render());
             });
         }
     });
