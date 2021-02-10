@@ -90,8 +90,6 @@ define([
             .attr('height', params.height);
     }
 
-
-
     /**
      * Question State initialization: set up side bar, editors and shape factory
      */
@@ -159,8 +157,8 @@ define([
         widget._editor.create();
 
         _.forEach(interaction.getGapImgs(), setUpGapImg);
-
-        createGapImgAddOption();
+        _.forEach(interaction.getGapTexts(), setUpGapText);
+        createGapImgControlsBar();
 
         // stop the question mode on resize to keep the coordinate system coherent,
         // even in responsive (the side bar behaves weirdly)
@@ -168,20 +166,28 @@ define([
             widget.changeState('sleep');
         });
 
-
+        /**
+         * Create the controls bar
+         */
+        function createGapImgControlsBar() {
+            const $gapList = $('ul.source', widget.$original);
+            const $controlsBar = $(`<div class="controls-bar"></div>`);
+            $controlsBar.insertAfter($gapList);
+            createGapImgAddOption($controlsBar);
+            createGapTextAddOption($controlsBar);
+        }
 
         /**
          * Create the 'add option' button
          */
-        function createGapImgAddOption() {
-            var $gapList = $('ul.source', widget.$original);
-            var $addOption =
-                $('<li class="empty add-option">' +
-                    '<div><span class="icon-add"></span></div>' +
-                    '</li>');
+        function createGapImgAddOption($controlsBar) {
+            const title = 'Add image option'
+            const $addOption = $(`<button class="add-option">
+                    <span class="icon-add"></span>${title}
+                    </button>`);
 
             $addOption.on('click', function () {
-                var gapImgObj = interaction.createGapImg({});
+                const gapImgObj = interaction.createGapImg({});
                 gapImgObj.object.removeAttr('type');
 
                 // on successful upload
@@ -198,9 +204,33 @@ define([
                 resourceManager($addOption, gapImgSelectorOptions);
 
             });
-            $addOption.appendTo($gapList);
+            $addOption.appendTo($controlsBar);
         }
 
+        function createGapTextAddOption($controlsBar) {
+            const title = 'Add text option'
+            const $addOption = $(`<button class="add-option">
+                    <span class="icon-add"></span>${title}
+                    </button>`);
+
+            $addOption.on('click', function () {
+                const gapTextObj = interaction.createGapText();
+                setUpGapText(gapTextObj)
+            });
+
+            $addOption.appendTo($controlsBar);
+        }
+
+        function setUpGapText(gapTextObj) {
+            const $gapList = $('ul.source', widget.$original);
+            let $gapTextBox = $('[data-serial="' + gapTextObj.serial + '"]', $gapList);
+            if (!$gapTextBox.length) {
+                $gapTextBox = $(gapTextObj.render()).appendTo($gapList)
+                gapTextObj.postRender();
+                const newChoiceWidget = gapTextObj.data('widget');
+                newChoiceWidget.changeState('choice');
+            }
+        }
 
         /**
          * Insert and setup the gap image
@@ -208,14 +238,12 @@ define([
          * @param gapImgObj
          */
         function setUpGapImg(gapImgObj) {
-
             var $gapList = $('ul.source', widget.$original);
-            var $addOption = $('.empty', $gapList);
             var $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
             var $deleteBtn = $(mediaTlbTpl());
 
             if (!$gapImgBox.length) {
-                $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
+                $gapImgBox = $(gapImgObj.render()).appendTo($gapList);
             }
 
             //manage gap deletion
@@ -344,7 +372,6 @@ define([
                 $mediaSizer;
 
             if (gapImg) {
-
                 $choiceForm.empty().html(gapImgFormTpl({
                     identifier: gapImg.id(),
                     fixed: gapImg.attr('fixed'),
@@ -488,7 +515,7 @@ define([
         }
 
         //remove gapImg placeholder
-        $('ul.source .empty', widget.$original).remove();
+        $('.controls-bar', widget.$original).remove();
 
         //restore gapImg appearance
         widget.$container.find('.qti-gapImg').removeClass('active')
