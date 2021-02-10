@@ -1,6 +1,6 @@
 {
     "name": "@oat-sa/tao-qti-item",
-    "version": "0.3.3",
+    "version": "0.3.5",
     "license": "GPL-2.0",
     "description": "taoQtiItem frontend modules",
     "repository": {
@@ -8,7 +8,7 @@
         "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
     },
     "dependencies": {
-        "@oat-sa/tao-item-runner": "0.6.1",
+        "@oat-sa/tao-item-runner": "0.7.1",
         "@oat-sa/tao-item-runner-qti": "git://github.com/oat-sa/tao-item-runner-qti-fe#feat/CON-234/grafic-gap-match-add-text"
     }
 }

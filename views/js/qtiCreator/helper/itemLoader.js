@@ -21,12 +21,27 @@ define([
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses',
-    'taoQtiItem/qtiItem/helper/itemScore'
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper) {
+    'taoQtiItem/qtiItem/helper/itemScore',
+    'util/url',
+    'core/dataProvider/request',
+], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, urlUtil, request) {
     "use strict";
     var _generateIdentifier = function _generateIdentifier(uri) {
         var pos = uri.lastIndexOf('#');
         return uri.substr(pos + 1);
+    };
+
+    const decodeHtml = function (str) {
+        const map = {
+            '&amp;': '&',
+            '&lt;': '<',
+            '&gt;': '>',
+            '&quot;': '"',
+            '&#039;': "'"
+        };
+        return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {
+            return map[m];
+        });
     };
 
     var qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
@@ -35,18 +50,28 @@ define([
         'http://www.imsglobal.org/xsd/imsqti_v2p2': 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
     };
 
+    const languagesUrl = urlUtil.route('index', 'Languages', 'tao');
+
     var creatorLoader = {
         loadItem: function loadItem(config, callback) {
 
             if (config.uri) {
-                $.ajax({
-                    url: config.itemDataUrl,
-                    dataType: 'json',
-                    data: {
-                        uri: config.uri
-                    }
-                }).done(function (data) {
+                const langList = request(languagesUrl);
+                // request doesn't handle empty response with 200 code. See: core/request.js:240
+                const itemRdf = request(config.itemDataUrl, { uri: config.uri }).catch(d => d)
+
+                Promise.all([langList, itemRdf]).then(([languagesList, data]) => {
                     var loader, itemData, newItem;
+
+                    if (data.itemData) {
+                        let newObject = {};
+                        for (const response in data.itemData.responses) {
+                            for (const mapKey in data.itemData.responses[response].mapping) {
+                                newObject[decodeHtml(mapKey)] = data.itemData.responses[response].mapping[mapKey];
+                            }
+                            data.itemData.responses[response].mapping = newObject;
+                        }
+                    }
 
                     if (data.itemData && data.itemData.qtiClass === 'assessmentItem') {
 
@@ -68,8 +93,8 @@ define([
                             loadedItem.setSchemaLocations(qtiSchemaLocation);
 
                             //add languages list to the item
-                            if (data.languagesList) {
-                                loadedItem.data('languagesList', data.languagesList);
+                            if (languagesList) {
+                                loadedItem.data('languagesList', languagesList);
                             }
 
                             const { responseProcessing: { processingType } = {} } = loadedItem
@@ -115,8 +140,8 @@ define([
                         newItem.data('new', true);
 
                         //add languages list to the item
-                        if (data.languagesList) {
-                            newItem.data('languagesList', data.languagesList);
+                        if (languagesList) {
+                            newItem.data('languagesList', languagesList);
                         }
 
                         callback(newItem);
