@@ -5,8 +5,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/movable',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/interaction',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     '../../helper/classTitles'
-], function(_, $, Widget, movable, toolbarTpl, okButtonTpl, getQtiClassTitle){
+], function(_, $, Widget, movable, toolbarTpl, okButtonTpl, contentHelper, getQtiClassTitle){
 
     /**
      *
@@ -48,6 +49,7 @@ define([
         this.createToolbar({});
         this.createOkButton();
         this.listenToChoiceStates();
+        this.listenToIncludeStates();
     };
 
     /**
@@ -170,6 +172,28 @@ define([
             }
         });
 
+    };
+
+    InteractionWidget.listenToIncludeStates = function(){
+
+        var _this = this;
+
+        this.afterStateExit(function(e, element, state){
+            const serial = element.getSerial();
+            if(state.name === 'active' && serial !== _this.serial && element.qtiClass === 'include'){
+                // update bdy of container in case include is wrapped in custom-include-box
+                let container = _this.element;
+                const composingElts = _this.element.getComposingElements();
+                if(composingElts[serial]){
+                    const $pseudoContainer = $('<div>').html(_this.$container.find('[data-html-editable="true"]').html());
+                    const newBody = contentHelper.getContent($pseudoContainer);
+                    if (container.prompt) {
+                        container = container.prompt;
+                    }
+                    container.body(newBody);
+                }
+            }
+        });
     };
 
     return InteractionWidget;
