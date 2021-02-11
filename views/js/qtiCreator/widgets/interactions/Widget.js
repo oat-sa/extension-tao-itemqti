@@ -174,22 +174,28 @@ define([
 
     };
 
-    InteractionWidget.listenToIncludeStates = function(){
-
+    InteractionWidget.listenToIncludeStates = function () {
         var _this = this;
 
-        this.afterStateExit(function(e, element, state){
+        this.afterStateExit(function (e, element, state) {
             const serial = element.getSerial();
-            if(state.name === 'active' && serial !== _this.serial && element.qtiClass === 'include'){
+
+            if (state.name === 'active' && serial !== _this.serial && element.qtiClass === 'include') {
                 // update bdy of container in case include is wrapped in custom-include-box
                 let container = _this.element;
+
                 const composingElts = _this.element.getComposingElements();
-                if(composingElts[serial]){
-                    const $pseudoContainer = $('<div>').html(_this.$container.find('[data-html-editable="true"]').html());
-                    const newBody = contentHelper.getContent($pseudoContainer);
-                    if (container.prompt) {
-                        container = container.prompt;
+                if (composingElts[serial]) {
+                    const $editableContainer = element.metaData.widget.$container.closest('[data-html-editable="true"]');
+                    for (const el of Object.values(composingElts)) {
+                        if (el.elements && el.elements[serial]) {
+                            container = el;
+                            break;
+                        }
                     }
+
+                    const editableContent = $editableContainer.wrap($('<div>'));
+                    const newBody = contentHelper.getContent(editableContent);
                     container.body(newBody);
                 }
             }
