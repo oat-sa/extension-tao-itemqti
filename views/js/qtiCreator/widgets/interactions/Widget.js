@@ -181,18 +181,17 @@ define([
             const serial = element.getSerial();
 
             if (state.name === 'active' && serial !== _this.serial && element.qtiClass === 'include') {
-                // update bdy of container in case include is wrapped in custom-include-box
+                // update body of container in case include is wrapped in custom-include-box
                 let container = _this.element;
 
                 const composingElts = _this.element.getComposingElements();
                 if (composingElts[serial]) {
                     const $editableContainer = element.metaData.widget.$container.closest('[data-html-editable="true"]');
-                    for (const el of Object.values(composingElts)) {
+                    Object.values(composingElts).forEach(function(el) {
                         if (el.elements && el.elements[serial]) {
                             container = el;
-                            break;
                         }
-                    }
+                    });
 
                     const editableContent = $editableContainer.wrap($('<div>'));
                     const newBody = contentHelper.getContent(editableContent);
