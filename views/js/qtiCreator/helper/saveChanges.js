@@ -27,6 +27,9 @@ define(function () {
      * @returns {Promise}
      */
     return itemCreator => new Promise((resolve, reject) => {
+        //trigger event to restore all currently active widget back to sleep state
+        $('#item-editor-panel').trigger('beforesave.qti-creator');
+
         itemCreator
             .on('saved.saveChanges', () => {
                 itemCreator.off('.saveChanges');

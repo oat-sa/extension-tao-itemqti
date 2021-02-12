@@ -96,7 +96,6 @@ define([
                 itemScrollingMethods.wrapContent(widget, value, 'inner');
             },
             scrollingHeight: function (element, value) {
-                console.log('TEXT')
                 itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
             }
         }
