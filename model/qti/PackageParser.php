@@ -22,6 +22,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\parser\TempFolder;
 use \tao_models_classes_Parser;
 use \Exception;
 use \tao_helpers_File;
@@ -152,11 +153,8 @@ class PackageParser extends tao_models_classes_Parser
     {
         if ($this->extracted === null) {
             if ($this->source instanceof File) {
-                $archiveFolder = tao_helpers_File::createTempDir();
-                if (!is_dir($archiveFolder)) {
-                    mkdir($archiveFolder);
-                }
-                $filename = $archiveFolder . basename($this->source->getPrefix());
+                $archiveFolder = new TempFolder();
+                $filename = $archiveFolder->getDirname() . basename($this->source->getPrefix());
                 file_put_contents($filename, $this->source->read());
                 $this->source = $filename;
             }
@@ -165,20 +163,21 @@ class PackageParser extends tao_models_classes_Parser
                 throw new common_exception_Error("source " . $this->source . " not a file");
             }
 
-            $folder = tao_helpers_File::createTempDir();
-            if (!is_dir($folder)) {
-                mkdir($folder);
-            }
+            $folder = new TempFolder();
 
             $zip = new ZipArchive();
             if ($zip->open($this->source) === true) {
                 if (tao_helpers_File::checkWhetherArchiveIsBomb($zip)) {
                     throw new common_exception_Error(sprintf('Source %s seems to be a ZIP bomb', $this->source));
                 }
-                if ($zip->extractTo($folder)) {
-                    $this->extracted = $folder;
+                if ($zip->extractTo($folder->getDirname())) {
+                    $this->extracted = $folder->getDirname();
                 }
                 $zip->close();
+            }
+
+            if (isset($archiveFolder)) {
+                $archiveFolder->delete();
             }
         }
 
