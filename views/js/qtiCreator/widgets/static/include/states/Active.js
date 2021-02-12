@@ -61,14 +61,13 @@ define([
             selectedHeight: selectedHeight
         }));
 
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
-
         _initUpload(_widget);
 
         formElement.initWidget($form);
 
         formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
 
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };
 
     const changeCallbacks = function (widget) {

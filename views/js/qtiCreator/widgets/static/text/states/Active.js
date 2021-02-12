@@ -69,11 +69,11 @@ define([
             scrollingHeights: itemScrollingMethods.options(),
         }));
 
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
-
         formElement.initWidget($form);
 
         formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget));
+
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };
 
     const changeCallbacks = function (widget) {
@@ -96,6 +96,7 @@ define([
                 itemScrollingMethods.wrapContent(widget, value, 'inner');
             },
             scrollingHeight: function (element, value) {
+                console.log('TEXT')
                 itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
             }
         }
