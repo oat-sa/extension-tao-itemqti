@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint143\n"
-"PO-Revision-Date: 2020-12-18T09:25:58\n"
+"Project-Id-Version: TAO 3.4.0-sprint148\n"
+"PO-Revision-Date: 2021-02-12T10:16:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -284,10 +284,10 @@ msgstr "Beperkingen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -356,11 +356,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
 
-msgid "Delete"
-msgstr "Verwijderen"
-
 msgid "delete"
 msgstr "verwijder"
+
+msgid "Delete"
+msgstr "Verwijderen"
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -777,11 +777,11 @@ msgstr ""
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "Left"
-msgstr "Links"
-
 msgid "left"
 msgstr "links"
+
+msgid "Left"
+msgstr "Links"
 
 msgid "Left bracket"
 msgstr "Linker haakje"
@@ -858,19 +858,19 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximaal aantal woorden"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximaal aantal woorden"
 
 msgid "Max. number of matches"
@@ -1100,9 +1100,6 @@ msgstr "Set a.u.b. hieronder de keuzevolgorde om het correcte antwoord in te ste
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Selecteer a.u.b. een media bestand (video of audio) vanuit bron beheer. U kunt bestanden toevoegen vanaf uw computer door middel van de knop \"Voeg bestand(en) toe\"."
 
-msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Selecteer een mediabestand uit de resource manager. U kunt bestanden toevoegen vanaf uw computer met de knop \"Bestand(en) toevoegen\"."
-
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Selecteer a.u.b. een gedeelde stimulus vanuit bronbeheer."
 
@@ -1217,11 +1214,11 @@ msgstr "Registreer methode verwacht $key en $name parameters"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registratie methode verwacht $key en $name parameters."
 
-msgid "remove"
-msgstr "verwijder"
-
 msgid "Remove"
 msgstr "Verwijder"
+
+msgid "remove"
+msgstr "verwijder"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
@@ -1741,11 +1738,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "ongedaan maken"
-
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "undo"
+msgstr "ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""

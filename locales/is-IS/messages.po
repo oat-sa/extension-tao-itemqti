@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint143\n"
-"PO-Revision-Date: 2020-12-18T09:25:55\n"
+"Project-Id-Version: TAO 3.4.0-sprint148\n"
+"PO-Revision-Date: 2021-02-12T10:15:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -282,11 +282,11 @@ msgstr "Höft"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "Correct"
-msgstr "Rétt"
-
 msgid "correct"
 msgstr "rétt"
+
+msgid "Correct"
+msgstr "Rétt"
 
 msgid "Cosinus"
 msgstr ""
@@ -354,11 +354,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "eyða"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -775,11 +775,11 @@ msgstr ""
 msgid "leave empty"
 msgstr "hafa autt"
 
-msgid "Left"
-msgstr "Vinstri"
-
 msgid "left"
 msgstr "vinstri"
+
+msgid "Left"
+msgstr "Vinstri"
 
 msgid "Left bracket"
 msgstr ""
@@ -855,20 +855,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max length"
-msgstr "Hámarks lengd"
-
 msgid "Max Length"
 msgstr "Hámarks Lengd"
+
+msgid "Max length"
+msgstr "Hámarks lengd"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
-msgstr "Hámarksfjöldi Orða"
-
 msgid "Max words"
 msgstr "Hámarksfjöldi orða"
+
+msgid "Max Words"
+msgstr "Hámarksfjöldi Orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -1095,9 +1095,6 @@ msgstr "Raðaðu valkostunum fyrir neðan til að fá rétt svar"
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Veldu miðilsskrá (myndskeið eða hljóðskrá) úr forðastjóranum. Þú gætur bætt við skrám úr tölvunni þinni með hnappnum \"Bæta við skrá(m)\"."
 
-msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
-
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Veldu samnýtta hvataskrá úr forðastjóranum."
 
@@ -1212,11 +1209,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
-msgstr "fjarlægja"
-
 msgid "Remove"
 msgstr "Fjarlægja"
+
+msgid "remove"
+msgstr "fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1735,11 +1732,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "afturkalla"
-
 msgid "Undo"
 msgstr "Afturkalla"
+
+msgid "undo"
+msgstr "afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
