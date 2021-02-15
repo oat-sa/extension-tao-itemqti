@@ -18,7 +18,9 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define(function () {
+define([
+    'jquery'
+], function ($) {
     'use strict';
 
     /**
