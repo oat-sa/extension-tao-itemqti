@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint141\n"
-"PO-Revision-Date: 2020-11-20T10:16:37\n"
+"Project-Id-Version: TAO 3.4.0-sprint148\n"
+"PO-Revision-Date: 2021-02-12T10:14:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -282,10 +282,10 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
 msgid "Cosinus"
@@ -354,10 +354,10 @@ msgstr ""
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
 msgid "Delete else statement"
@@ -775,10 +775,10 @@ msgstr ""
 msgid "leave empty"
 msgstr ""
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
 msgid "Left bracket"
@@ -855,19 +855,19 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -1095,9 +1095,6 @@ msgstr ""
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
-msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
-
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr ""
 
@@ -1212,10 +1209,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1735,10 +1732,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
 msgid "Unknown $key to register MetadataService instance"

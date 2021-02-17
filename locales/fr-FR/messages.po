@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint141\n"
-"PO-Revision-Date: 2020-11-20T10:16:39\n"
+"Project-Id-Version: TAO 3.4.0-sprint148\n"
+"PO-Revision-Date: 2021-02-12T10:15:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -284,11 +284,11 @@ msgstr "Contraintes"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
-msgid "Correct"
-msgstr "Correct"
-
 msgid "correct"
 msgstr "correct"
+
+msgid "Correct"
+msgstr "Correct"
 
 msgid "Cosinus"
 msgstr "Cosinus"
@@ -356,11 +356,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
 
-msgid "Delete"
-msgstr "Supprimer"
-
 msgid "delete"
 msgstr "supprimer"
+
+msgid "Delete"
+msgstr "Supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -777,11 +777,11 @@ msgstr "LaTeX"
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "Left"
-msgstr "Gauche"
-
 msgid "left"
 msgstr "gauche"
+
+msgid "Left"
+msgstr "Gauche"
 
 msgid "Left bracket"
 msgstr "Parenthèse ouvrante"
@@ -858,19 +858,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Longueur maximale"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Longueur maximale"
 
 msgid "Max plays count"
 msgstr "Nombre max. de lectures"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximum de mots"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximum de mots"
 
 msgid "Max. number of matches"
@@ -1100,9 +1100,6 @@ msgstr "Veuillez ordonner les choix ci-dessous pour définir la réponse correct
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Veuillez sélectionner un fichier média (vidéo ou audio) depuis le gestionnaire de ressources. Vous pouvez ajouter des fichiers depuis votre ordinateur avec le bouton \"Ajouter fichier(s)\"."
 
-msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Veuillez sélectionner un fichier média depuis le gestionnaire de ressources. Vous pouvez ajouter des fichiers depuis votre ordinateur avec le bouton \"Ajouter fichier(s)\"."
-
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Veuillez sélectionner un stimulus partagé depuis le gestionnaire de ressources."
 
@@ -1217,11 +1214,11 @@ msgstr "La méthode d'inscription attend des paramètres $key et $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "La méthode d'inscription attend des paramètres $key et $name ."
 
-msgid "remove"
-msgstr "supprimer"
-
 msgid "Remove"
 msgstr "Supprimer"
+
+msgid "remove"
+msgstr "supprimer"
 
 msgid "Remove custom background color"
 msgstr "Supprimer une couleur de fond personnalisée"
@@ -1742,11 +1739,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr "Impossible de valider %s : %s"
 
-msgid "undo"
-msgstr "défaire"
-
 msgid "Undo"
 msgstr "Refaire"
+
+msgid "undo"
+msgstr "défaire"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "$key inconnue pour inscrire l'instance MetadataService"

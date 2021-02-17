@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint141\n"
-"PO-Revision-Date: 2020-11-20T10:16:43\n"
+"Project-Id-Version: TAO 3.4.0-sprint148\n"
+"PO-Revision-Date: 2021-02-12T10:15:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -283,11 +283,11 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Valdyk vaizdo arba garso įrašo failo atkūrimo nustatymus (automatinė paleistis, kartojimas) su ataskaita, kiek kartų buvo paleistas įrašas."
 
-msgid "Correct"
-msgstr "Teisingai"
-
 msgid "correct"
 msgstr "teisingai"
+
+msgid "Correct"
+msgstr "Teisingai"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
@@ -355,11 +355,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr "Ištrinti"
-
 msgid "delete"
 msgstr "ištrinti"
+
+msgid "Delete"
+msgstr "Ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -776,11 +776,11 @@ msgstr "LaTeX"
 msgid "leave empty"
 msgstr "palikti tuščią"
 
-msgid "Left"
-msgstr "Kairė"
-
 msgid "left"
 msgstr "kairė"
+
+msgid "Left"
+msgstr "Kairė"
 
 msgid "Left bracket"
 msgstr "Kairys skliaustas"
@@ -857,20 +857,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maks"
 
-msgid "Max length"
-msgstr "Maks. ilgis"
-
 msgid "Max Length"
 msgstr "Maks. Ilgis"
+
+msgid "Max length"
+msgstr "Maks. ilgis"
 
 msgid "Max plays count"
 msgstr "Maks. paleidimų kiekis"
 
-msgid "Max Words"
-msgstr "Maks. Žodžių"
-
 msgid "Max words"
 msgstr "Maks. žodžių"
+
+msgid "Max Words"
+msgstr "Maks. Žodžių"
 
 msgid "Max. number of matches"
 msgstr "Maks. kiekis sutapimų"
@@ -1098,9 +1098,6 @@ msgstr "Prašome surikiuoti variantus apačioje, kad nustatytumėte teisingą at
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Prašome pasirinkti medijos failą (vaizdo arba garso) iš resursų tvarkytojo. Jūs galite pridėti failus iš jūsų kompiuterio su mygtuku \"Pridėti failą(-us)\"."
 
-msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Prašome pasirinkti medijos failą iš resursų tvarkytojo. Jūs galite pridėti failus iš jūsų kompiuterio su mygtuku „Pridėti failą(-us)“."
-
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Prašome pasirinkti bendrinamo stimulo failą iš resursų tvarkytojo."
 
@@ -1215,11 +1212,11 @@ msgstr "Registravimo metodas tikisi $key ir $name parametrų"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registravimo metodas tikisi $key ir $name parametrų."
 
-msgid "remove"
-msgstr "ištrinti"
-
 msgid "Remove"
 msgstr "Ištrinti"
+
+msgid "remove"
+msgstr "ištrinti"
 
 msgid "Remove custom background color"
 msgstr "Panaikinti pasirinktą fono spalvą"
@@ -1739,11 +1736,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr "Nepavyko patvirtinti %s: %s"
 
-msgid "undo"
-msgstr "anuliuoti"
-
 msgid "Undo"
 msgstr "Anuliuoti"
+
+msgid "undo"
+msgstr "anuliuoti"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Nežinomas $key registruoti MetadataService instanciją"

@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div class="panel">
+<div class="panel size-panel">
     <div>
         <label for="width" class="spinner">Width</label>
         <input name="width" value="{{width}}" type="text" class="large" data-increment="10" data-min="10"
@@ -18,5 +18,12 @@
         <label for="height" class="spinner">Height</label>
         <input name="height" value="{{height}}" type="text" class="large" data-increment="10" data-min="10"
                data-max="1080"/>
+    </div>
+</div>
+
+<div class="panel media-size-panel">
+    <h3>{{__ 'Size and position'}}</h3>
+    <div class="media-sizer">
+        <!-- mediaEditorComponent goes here -->
     </div>
 </div>
