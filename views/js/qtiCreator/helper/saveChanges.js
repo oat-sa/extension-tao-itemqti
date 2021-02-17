@@ -18,9 +18,7 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define([
-    'jquery'
-], function ($) {
+define(['jquery'], function ($) {
     'use strict';
 
     /**
@@ -28,19 +26,20 @@ define([
      * @param {itemCreator} itemCreator
      * @returns {Promise}
      */
-    return itemCreator => new Promise((resolve, reject) => {
-        //trigger event to restore all currently active widget back to sleep state
-        $('#item-editor-panel').trigger('beforesave.qti-creator');
+    return itemCreator =>
+        new Promise((resolve, reject) => {
+            //trigger event to restore all currently active widget back to sleep state
+            $('#item-editor-panel').trigger('beforesave.qti-creator');
 
-        itemCreator
-            .on('saved.saveChanges', () => {
-                itemCreator.off('.saveChanges');
-                resolve();
-            })
-            .on('error.saveChanges', err => {
-                itemCreator.off('.saveChanges');
-                reject(err);
-            })
-            .trigger('save', true);
-    });
+            itemCreator
+                .on('saved.saveChanges', () => {
+                    itemCreator.off('.saveChanges');
+                    resolve();
+                })
+                .on('error.saveChanges', err => {
+                    itemCreator.off('.saveChanges');
+                    reject(err);
+                })
+                .trigger('save', true);
+        });
 });
