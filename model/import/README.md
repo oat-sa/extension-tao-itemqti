@@ -11,7 +11,7 @@ We currently support only **multiple-choices** questions.
 | name | yes | yes | String | - | - | Valid QTI string |
 | language | no | yes | String | Default setting | - | Valid QTI language |
 | shuffle | no | - | 0 or 1 | 0 | - | Whenever or not shuffle choices |
-| max_choices | no | - | Numeric 0...N | 0 | - | - |
+| max_choices | no | - | Numeric 0...N | 0 | - | 0 means unlimited |
 | min_choices | no | - | Numeric 0...N | 0 | - | - |
 | question | yes | yes | String | - | - | String, including QTI compatible XHTML elements |
 | choice_1...choice_N | yes | yes | String | - | - | String, including QTI compatible XHTML elements |
@@ -19,7 +19,17 @@ We currently support only **multiple-choices** questions.
 | correct_answer | no | - | List of choices | - | List of choices separated by "/" |
 | metadata_{property_alias} | no | - | - | - | Matching properties based on existent property alias |
 
-### Links
+### Score setup
 
-- You can see an [example here](./../../../templates/import/import.sample.csv).
-- You can download the [template here](./../../../templates/import/import.template.xml).
+How the score is set on the QTI Item based on the import fields.
+
+- *match_correct*: In case there is just one `choice_N_score`, the score will be considered `match_correct`
+- *map_response*: In case there is more than one `choice_N_score`.
+- *MAXSCORE*:
+    - If `max_choices` = 0 (unlimited), it will be the sum of all `choice_N_score` without include negative values.
+    - If `max_choices` = 1, it will be the higher `choice_N_score` value.
+    - If `max_choices` = 2..N, it will be higher possible sum of `choice_N_score`.
+
+### Examples
+
+- You can see an [example here](./../../templates/import/import.sample.csv).
