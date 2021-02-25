@@ -9,15 +9,15 @@ We currently support only **multiple-choices** questions.
 | field | required | qti compliant | allowed values | Default value | existent on tao | Comments |
 |---|---|---|---|---|---|---|
 | name | yes | yes | String | - | - | Valid QTI string |
-| language | no | yes | String | Default setting | - | Valid QTI language |
-| shuffle | no | - | 0 or 1 | 0 | - | Whenever or not shuffle choices |
-| max_choices | no | - | Numeric 0...N | 0 | - | 0 means unlimited |
-| min_choices | no | - | Numeric 0...N | 0 | - | - |
+| language | - | yes | String | Default setting | - | Valid QTI language |
+| shuffle | - | - | 0 or 1 | 0 | - | Whenever or not shuffle choices |
+| max_choices | - | - | Numeric 0...N | 0 | - | 0 means unlimited |
+| min_choices | - | - | Numeric 0...N | 0 | - | - |
 | question | yes | yes | String | - | - | String, including QTI compatible XHTML elements |
 | choice_1...choice_N | yes | yes | String | - | - | String, including QTI compatible XHTML elements |
 | choice_1_score...choice_N_score | yes | - | Numerical | - | - | MUST be 1 to 1 with the previous field |
-| correct_answer | no | - | List of choices | - | List of choices separated by "/" |
-| metadata_{property_alias} | no | - | - | - | Matching properties based on existent property alias |
+| correct_answer | - | - | List of choices | - | List of choices separated by "/" |
+| metadata_{property_alias} | - | - | - | - | Matching properties based on existent property alias |
 
 ### Score setup
 
