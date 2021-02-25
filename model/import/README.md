@@ -16,7 +16,7 @@ We currently support only **multiple-choices** questions.
 | question | yes | yes | String | - | - | String, including QTI compatible XHTML elements |
 | choice_1...choice_N | yes | yes | String | - | - | String, including QTI compatible XHTML elements |
 | choice_1_score...choice_N_score | yes | - | Numerical | - | - | MUST be 1 to 1 with the previous field |
-| correct_answer | - | - | List of choices | - | List of choices separated by "/" |
+| correct_answer | - | - | List of choices | - | List of choices separated by "," |
 | metadata_{property_alias} | - | - | - | - | Matching properties based on existent property alias |
 
 ### Score setup
