@@ -11,19 +11,19 @@ define([
 
     const wrapperCls = 'custom-text-box';
 
-    const TextActive = stateFactory.extend(Active, function () {
-
-        this.buildEditor();
-        this.initForm();
-
-    }, function () {
-
-        this.destroyEditor();
-        this.widget.$form.empty();
-    });
+    const TextActive = stateFactory.extend(
+        Active,
+        function () {
+            this.buildEditor();
+            this.initForm();
+        },
+        function () {
+            this.destroyEditor();
+            this.widget.$form.empty();
+        }
+    );
 
     TextActive.prototype.buildEditor = function () {
-
         const widget = this.widget;
         const $editableContainer = widget.$container;
         const container = widget.element;
@@ -32,7 +32,6 @@ define([
         $editableContainer.attr('data-html-editable-container', true);
 
         if (!htmlEditor.hasEditor($editableContainer)) {
-
             htmlEditor.buildEditor($editableContainer, {
                 change: function (data) {
                     changeCallback.call(this, data);
@@ -63,17 +62,19 @@ define([
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
-        $form.html(formTpl({
-            textBlockCssClass: blockCls.replace(wrapperCls, '').trim(),
-            scrolling: isScrolling,
-            scrollingHeights: itemScrollingMethods.options(),
-        }));
-
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
+        $form.html(
+            formTpl({
+                textBlockCssClass: blockCls.replace(wrapperCls, '').trim(),
+                scrolling: isScrolling,
+                scrollingHeights: itemScrollingMethods.options()
+            })
+        );
 
         formElement.initWidget($form);
 
         formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget));
+
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };
 
     const changeCallbacks = function (widget) {
@@ -98,7 +99,7 @@ define([
             scrollingHeight: function (element, value) {
                 itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
             }
-        }
+        };
     };
 
     return TextActive;
