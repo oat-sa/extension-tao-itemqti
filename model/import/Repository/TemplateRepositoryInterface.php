@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Repository;
 
-use oat\taoQtiItem\model\import\CsvTemplate;
+use oat\taoQtiItem\model\import\TemplateInterface;
 
-interface CsvTemplateRepositoryInterface
+interface TemplateRepositoryInterface
 {
     public const DEFAULT = 'default';
     public const DEFAULT_DEFINITION = [
@@ -54,5 +54,5 @@ interface CsvTemplateRepositoryInterface
         ],
     ];
 
-    public function findById(string $id): ?CsvTemplate;
+    public function findById(string $id): ?TemplateInterface;
 }

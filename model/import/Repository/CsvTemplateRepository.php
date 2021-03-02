@@ -23,18 +23,18 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Repository;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\CsvTemplate;
+use oat\taoQtiItem\model\import\TemplateInterface;
 
-class CsvTemplateRepository extends ConfigurableService implements CsvTemplateRepositoryInterface
+class CsvTemplateRepository extends ConfigurableService implements TemplateRepositoryInterface
 {
     public const OPTION_TEMPLATES = 'templates';
 
-    public function findById(string $id): ?CsvTemplate
+    public function findById(string $id): ?TemplateInterface
     {
         if ($id === self::DEFAULT) {
             return new CsvTemplate(
-                CsvTemplateRepositoryInterface::DEFAULT,
-                CsvTemplateRepositoryInterface::DEFAULT_DEFINITION
+                TemplateRepositoryInterface::DEFAULT,
+                TemplateRepositoryInterface::DEFAULT_DEFINITION
             );
         }
 
