@@ -27,24 +27,24 @@ define([
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
     'ui/resourcemgr',
-    'ui/tooltip',
-], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, itemScrollingMethods){
+    'ui/tooltip'
+], function ($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, itemScrollingMethods) {
     'use strict';
 
     const wrapperCls = 'custom-include-box';
 
-    const IncludeStateActive = stateFactory.extend(Active, function(){
+    const IncludeStateActive = stateFactory.extend(
+        Active,
+        function () {
+            this.initForm();
+        },
+        function () {
+            this.widget.$form.empty();
+            this.widget.$container.find('.mini-tlb').remove();
+        }
+    );
 
-        this.initForm();
-
-    }, function(){
-
-        this.widget.$form.empty();
-        this.widget.$container.find('.mini-tlb').remove();
-    });
-
-    IncludeStateActive.prototype.initForm = function(){
-
+    IncludeStateActive.prototype.initForm = function () {
         const _widget = this.widget,
             $form = _widget.$form,
             include = _widget.element,
@@ -53,15 +53,15 @@ define([
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
-        $form.html(formTpl({
-            baseUrl : baseUrl || '',
-            href : include.attr('href'),
-            scrolling: isScrolling,
-            scrollingHeights: itemScrollingMethods.options(),
-            selectedHeight: selectedHeight
-        }));
-
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
+        $form.html(
+            formTpl({
+                baseUrl: baseUrl || '',
+                href: include.attr('href'),
+                scrolling: isScrolling,
+                scrollingHeights: itemScrollingMethods.options(),
+                selectedHeight: selectedHeight
+            })
+        );
 
         _initUpload(_widget);
 
@@ -69,6 +69,7 @@ define([
 
         formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
 
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };
 
     const changeCallbacks = function (widget) {
@@ -79,57 +80,54 @@ define([
             scrollingHeight: function (element, value) {
                 itemScrollingMethods.setScrollingHeight(widget.$container.parent(`.${wrapperCls}`), value);
             }
-        }
+        };
     };
 
-    const _initUpload = function(widget){
-
+    const _initUpload = function (widget) {
         const $form = widget.$form,
             options = widget.options,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $href = $form.find('input[name=href]');
 
-        const _openResourceMgr = function(){
+        const _openResourceMgr = function () {
             $uploadTrigger.resourcemgr({
-                title : __('Please select a shared stimulus file from the resource manager.'),
-                appendContainer : options.mediaManager.appendContainer,
-                mediaSourcesUrl : options.mediaManager.mediaSourcesUrl+'?exclude=local',
-                browseUrl : options.mediaManager.browseUrl,
-                uploadUrl : options.mediaManager.uploadUrl,
-                deleteUrl : options.mediaManager.deleteUrl,
-                downloadUrl : options.mediaManager.downloadUrl,
-                fileExistsUrl : options.mediaManager.fileExistsUrl,
-                disableUpload : true,
-                params : {
-                    uri : options.uri,
-                    lang : options.lang,
-                    filters : 'application/qti+xml'
+                title: __('Please select a shared stimulus file from the resource manager.'),
+                appendContainer: options.mediaManager.appendContainer,
+                mediaSourcesUrl: options.mediaManager.mediaSourcesUrl + '?exclude=local',
+                browseUrl: options.mediaManager.browseUrl,
+                uploadUrl: options.mediaManager.uploadUrl,
+                deleteUrl: options.mediaManager.deleteUrl,
+                downloadUrl: options.mediaManager.downloadUrl,
+                fileExistsUrl: options.mediaManager.fileExistsUrl,
+                disableUpload: true,
+                params: {
+                    uri: options.uri,
+                    lang: options.lang,
+                    filters: 'application/qti+xml'
                 },
-                pathParam : 'path',
-                select : function(e, files){
-
+                pathParam: 'path',
+                select: function (e, files) {
                     let file;
 
-                    if(files && files.length){
-
+                    if (files && files.length) {
                         file = files[0].file;
                         $href.val(file);
 
                         //set the selected file as the new href and refresh rendering
                         xincludeRenderer.render(widget, options.baseUrl, file);
 
-                        _.defer(function(){
+                        _.defer(function () {
                             $href.trigger('change');
                         });
                     }
                 },
-                open : function(){
+                open: function () {
                     //hide tooltip if displayed
-                    if($href.data('$tooltip')){
+                    if ($href.data('$tooltip')) {
                         $href.blur().data('$tooltip').hide();
                     }
                 },
-                close : function(){
+                close: function () {
                     //triggers validation :
                     $href.blur();
                 }
@@ -137,13 +135,12 @@ define([
         };
 
         $uploadTrigger.on('click', _openResourceMgr);
-        $href.on('click', _openResourceMgr);//href input is read only
+        $href.on('click', _openResourceMgr); //href input is read only
 
         //if empty, open file manager immediately
-        if(!$href.val()){
+        if (!$href.val()) {
             _openResourceMgr();
         }
-
     };
 
     return IncludeStateActive;
