@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Service;
+namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\TemplateInterface;

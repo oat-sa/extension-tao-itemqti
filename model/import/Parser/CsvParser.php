@@ -23,9 +23,9 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Service\HeaderValidator;
-use oat\taoQtiItem\model\import\Service\LineValidator;
-use oat\taoQtiItem\model\import\Service\ValidatorInterface;
+use oat\taoQtiItem\model\import\Validator\HeaderValidator;
+use oat\taoQtiItem\model\import\Validator\LineValidator;
+use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvParser extends ConfigurableService implements ParserInterface
