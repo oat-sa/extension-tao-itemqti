@@ -31,6 +31,9 @@ use oat\tao\model\import\ImportHandlerHelperTrait;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\ParserInterface;
+use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
+use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
 use tao_models_classes_import_ImportHandler;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -72,14 +75,12 @@ class ItemCsvImporter implements
         try {
             $uploadedFile = $this->fetchUploadedFile($form);
 
+            $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
+
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
-            //@TODO Parse file...
             /** @var CsvParser $parser */
-            //$parser = $this->getServiceLocator()->get(CsvParser::class);
-
-            //FIXME remove log after tests
-            common_Logger::e('======> CONTENT: ' . $uploadedFile->readPsrStream()->getContents());
+            $items = $this->getParser()->parseFile($uploadedFile, $template);
 
             helpers_TimeOutHelper::reset();
 
@@ -105,5 +106,15 @@ class ItemCsvImporter implements
         }
 
         return $report;
+    }
+
+    public function getParser(): ParserInterface
+    {
+        return $this->getServiceLocator()->get(CsvParser::class);
+    }
+
+    public function getTemplateRepository(): TemplateRepositoryInterface
+    {
+        return $this->getServiceLocator()->get(CsvTemplateRepository::class);
     }
 }

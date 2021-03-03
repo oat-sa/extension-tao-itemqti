@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Repository;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\CsvTemplate;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvTemplateRepository extends ConfigurableService implements TemplateRepositoryInterface

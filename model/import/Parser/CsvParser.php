@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Parser;
 
+use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
@@ -30,10 +31,10 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
-    public function parse(string $fileContent, TemplateInterface $template): array
+    public function parseFile(File $file, TemplateInterface $template): array
     {
-        $lines = explode(PHP_EOL, $fileContent);
-        $header = $lines[0];
+        $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
+        $header = str_getcsv($lines[0]);
 
         $this->getHeaderValidator()->validate($header, $template);
 

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Parser;
 
+use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
@@ -32,5 +33,5 @@ interface ParserInterface
      *
      * @throws InvalidImportException
      */
-    public function parse(string $fileContent, TemplateInterface $template): array;
+    public function parseFile(File $file, TemplateInterface $template): array;
 }

@@ -29,8 +29,8 @@ class InvalidImportException extends Exception
     /** @var array */
     private $errors;
 
-    /** @var array */
-    private $totalErrors;
+    /** @var int */
+    private $totalErrors = 0;
 
     public function addError(int $line, string $message): self
     {
@@ -48,7 +48,7 @@ class InvalidImportException extends Exception
         return $this->errors;
     }
 
-    public function getTotalErrors(): array
+    public function getTotalErrors(): int
     {
         return $this->totalErrors;
     }
