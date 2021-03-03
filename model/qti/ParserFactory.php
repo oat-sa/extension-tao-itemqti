@@ -899,7 +899,7 @@ class ParserFactory
 
             $mapping = [];
             foreach ($mappingNode->mapEntry as $mapEntry) {
-                $mapping[(string) $mapEntry['mapKey']] = (string) $mapEntry['mappedValue'];
+                $mapping[(string) htmlspecialchars($mapEntry['mapKey'])] = (string) $mapEntry['mappedValue'];
             }
             $myResponse->setMapping($mapping);
 
