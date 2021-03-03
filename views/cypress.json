@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://bosa.docker.localhost",
+  "baseUrl": "https://tao.docker.localhost",
   "integrationFolder": ".",
   "fixturesFolder": "./cypress",
   "supportFile": "./node_modules/@oat-sa-private/e2e-runner/support/index.js",
