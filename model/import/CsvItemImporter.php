@@ -87,8 +87,8 @@ class CsvItemImporter implements
         } catch (InvalidCsvImportException $e) {
             $report = Report::createError(
                 __(
-                    'CSV import failed: required columns are missing (%)',
-                    $e->getMissingHeaderColumns()
+                    'CSV import failed: required columns are missing (%s)',
+                    implode(', ', $e->getMissingHeaderColumns())
                 )
             );
         } catch (Throwable $e) {
