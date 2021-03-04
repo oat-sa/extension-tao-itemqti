@@ -38,6 +38,6 @@ class LineValidatorTest extends TestCase
 
     public function testValidateSuccessfully(): void
     {
-        $this->subject->validate([], $this->createMock(TemplateInterface::class));
+        $this->assertNull($this->subject->validate([], $this->createMock(TemplateInterface::class)));
     }
 }

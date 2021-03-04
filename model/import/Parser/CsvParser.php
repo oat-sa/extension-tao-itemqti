@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\CsvItem;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
@@ -34,19 +35,48 @@ class CsvParser extends ConfigurableService implements ParserInterface
     public function parseFile(File $file, TemplateInterface $template): array
     {
         $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
-        $header = str_getcsv($lines[0]);
+        $header = $this->convertCsvLineToArray($lines[0]);
 
         $this->getHeaderValidator()->validate($header, $template);
 
-        $lines = array_shift($lines);
+        array_shift($lines);
 
         $lineValidator = $this->getLineValidator();
 
+        $items = [];
+
         foreach ($lines as $line) {
-            $lineValidator->validate($line, $template);
+            $parsedLine = $this->convertCsvLineToArray($line);
+
+            $lineValidator->validate($parsedLine, $template);
+
+            $items[] = $this->convertLineToItem($parsedLine, $template);
         }
 
-        return []; //@TODO Return a collection of objects to populate the QTI template
+        return $items;
+    }
+
+    private function convertLineToItem(array $line, TemplateInterface $template): CsvItem
+    {
+        /**
+         * @TODO Conversion will be done later DYNAMICALLY based on $template
+         */
+        return new CsvItem(
+            '',
+            '',
+            true,
+            0,
+            1,
+            'en-US',
+            [],
+            [],
+            7.5
+        );
+    }
+
+    private function convertCsvLineToArray(string $line): array
+    {
+        return str_getcsv($line);
     }
 
     private function getHeaderValidator(): ValidatorInterface

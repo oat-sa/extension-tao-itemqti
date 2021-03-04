@@ -35,8 +35,16 @@ class CsvTemplateRepositoryTest extends TestCase
         $this->subject = new CsvTemplateRepository();
     }
 
-    public function testParseFile(): void
+    public function testFindById(): void
     {
-        $this->subject->findById(); //@TODO To be implemented
+        $template = $this->subject->findById(CsvTemplateRepository::DEFAULT);
+
+        $this->assertSame(CsvTemplateRepository::DEFAULT, $template->getId());
+        $this->assertSame(CsvTemplateRepository::DEFAULT_DEFINITION, $template->getDefinition());
+    }
+
+    public function testCannotFindById(): void
+    {
+        $this->assertNull($this->subject->findById('doesNotExist'));
     }
 }
