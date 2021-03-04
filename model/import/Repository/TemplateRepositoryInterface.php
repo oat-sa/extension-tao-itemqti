@@ -40,6 +40,14 @@ interface TemplateRepositoryInterface
             'header' => 'optional',
             'value' => 'boolean'
         ],
+        'min_choices' => [
+            'header' => 'optional',
+            'value' => 'integer'
+        ],
+        'max_choices' => [
+            'header' => 'optional',
+            'value' => 'integer'
+        ],
         'choice_[1-99]' => [
             'header' => 'required|min_occurrences:2',
             'value' => 'string'

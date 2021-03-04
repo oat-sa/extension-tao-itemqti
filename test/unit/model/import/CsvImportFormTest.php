@@ -38,11 +38,11 @@ class CsvItemImportTest extends TestCase
 
     public function testInitForm(): void
     {
-        $this->subject->initForm(); //@TODO To be implemented
+        $this->assertNull($this->subject->initForm());
     }
 
     public function testInitElements(): void
     {
-        $this->subject->initElements(); //@TODO To be implemented
+        $this->assertNull($this->subject->initElements());
     }
 }

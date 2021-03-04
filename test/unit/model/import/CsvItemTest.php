@@ -50,7 +50,7 @@ class CsvItemTest extends TestCase
         $this->assertSame('name', $this->subject->getName());
         $this->assertSame('question', $this->subject->getQuestion());
         $this->assertSame(5, $this->subject->getMinChoices());
-        $this->assertSame(7, $this->subject->getMaxChoices());
+        $this->assertSame(10, $this->subject->getMaxChoices());
         $this->assertSame(7.5, $this->subject->getMaxScore());
         $this->assertSame([], $this->subject->getChoices());
         $this->assertSame([], $this->subject->getMetadata());

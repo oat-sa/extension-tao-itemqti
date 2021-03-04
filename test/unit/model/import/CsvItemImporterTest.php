@@ -37,6 +37,6 @@ class CsvItemImporterTest extends TestCase
 
     public function testImport(): void
     {
-        $this->subject->import(); //@TODO To be implemented
+        $this->markTestIncomplete();
     }
 }
