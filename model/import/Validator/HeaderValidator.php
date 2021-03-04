@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class HeaderValidator extends ConfigurableService implements ValidatorInterface
@@ -32,7 +32,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
     {
         $validationConfig = $csvTemplate->getDefinition();
 
-        $error = new InvalidImportException();
+        $error = new InvalidCsvImportException();
 
         foreach ($validationConfig as $headerRegex => $validations) {
             $validations = explode('|', $validationConfig[$headerRegex]['header']);
@@ -42,10 +42,12 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
             $occurrences = $this->findOccurrences($content, $headerRegex);
 
             if ($isRequired && $occurrences === 0) {
+                $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(0, sprintf('Header %s is required', $headerRegex));
             }
 
             if ($occurrences < $minOccurrences) {
+                $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(
                     0,
                     sprintf('Header %s must be provided at least %s times', $headerRegex, $minOccurrences)
@@ -60,7 +62,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 
     private function isRequired(array $validations): bool
     {
-        return array_key_exists('required', $validations);
+        return in_array('required', $validations);
     }
 
     private function getMinOccurrences(array $validations): int
@@ -79,7 +81,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
         $occurrences = 0;
 
         foreach ($header as $headerName) {
-            if (preg_match('\b(' . $headerRegex . ')\b', $headerName) === 1) {
+            if (preg_match('/\b(' . $headerRegex . ')\b/', $headerName) === 1) {
                 $occurrences++;
             }
         }

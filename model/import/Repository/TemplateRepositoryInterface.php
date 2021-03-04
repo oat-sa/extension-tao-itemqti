@@ -40,15 +40,15 @@ interface TemplateRepositoryInterface
             'header' => 'optional',
             'value' => 'boolean'
         ],
-        '(choice_[1-99])' => [
+        'choice_[1-99]' => [
             'header' => 'required|min_occurrences:2',
             'value' => 'string'
         ],
-        '(choice_[1-99]_score)' => [
+        'choice_[1-99]_score' => [
             'header' => 'required|min_occurrences:1',
             'value' => 'float'
         ],
-        '(metadata_[a-z0-9\-_])' => [
+        'metadata_[a-z0-9\-_]' => [
             'header' => 'optional',
             'value' => 'any'
         ],

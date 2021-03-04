@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
-use common_Logger;
 use helpers_TimeOutHelper;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializeStateless;
@@ -30,7 +29,7 @@ use oat\oatbox\reporting\Report;
 use oat\tao\model\import\ImportHandlerHelperTrait;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
@@ -80,16 +79,16 @@ class CsvItemImporter implements
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
             /** @var CsvParser $parser */
-            $items = $this->getParser()->parseFile($uploadedFile, $template);
+            $items = $this->getParser()->parseFile($uploadedFile, $template); //@TODO $items will be used in the future
 
             helpers_TimeOutHelper::reset();
 
-            $report = Report::createSuccess(__('CSV imported successfully')); //@FIXME @TODO Validate message with BA
-        } catch (InvalidImportException $e) {
+            $report = Report::createSuccess(__('CSV imported successfully'));
+        } catch (InvalidCsvImportException $e) {
             $report = Report::createError(
                 __(
                     'CSV import failed: required columns are missing (%)',
-                    'col1, col2, col3' //@FIXME Get this from exception
+                    $e->getMissingHeaderColumns()
                 )
             );
         } catch (Throwable $e) {
