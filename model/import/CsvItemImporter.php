@@ -38,7 +38,7 @@ use tao_models_classes_import_ImportHandler;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-class ItemCsvImporter implements
+class CsvItemImporter implements
     tao_models_classes_import_ImportHandler,
     ServiceLocatorAwareInterface,
     TaskParameterProviderInterface
