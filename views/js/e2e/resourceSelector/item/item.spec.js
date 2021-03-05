@@ -13,19 +13,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
 import itemData from './itemData';
-import { selectors }  from '../resourceTree';
+import { selectors } from '../resourceTree';
 
 describe('Items', () => {
     const newItemName = itemData.name;
 
     /**
-     * - Set up the server & routes
-     * - Log in
-     * - Visit the page
+     * Set up the server & routes
+     * Log in
+     * Visit the page
      */
     beforeEach(() => {
         cy.setupServer();
@@ -37,7 +37,7 @@ describe('Items', () => {
     });
 
     /**
-     * Destroy everything we created, leaving the environment clean for next time.
+     * Delete newly created items after each step
      */
     afterEach(() => {
         if (Cypress.$(`[title="${newItemName}"]`).length > 0) {
@@ -48,18 +48,13 @@ describe('Items', () => {
     /**
      * Item tests
      */
-    describe('Item creation, edit and delete', () => {
-
-        it('items page loads', function() {
-            cy.get(selectors.resourceTree);
-        });
-
+    describe('Item creation, editing and deletion', () => {
         it('can create and rename a new item', function() {
             cy.addItem(selectors.itemsRootClass);
 
             cy.renameSelectedItem(newItemName);
 
-            cy.get(selectors.resourceTree)
+            cy.get(selectors.itemsRootClass)
                 .contains(newItemName)
                 .should('exist');
         });
@@ -81,38 +76,18 @@ describe('Items', () => {
             cy.renameSelectedItem(newItemName);
 
             cy.get(`[title="${newItemName}"]`)
-                .closest(selectors.treeNode)
+                .closest(selectors.itemsRootClass)
                 .should('not.have.class', 'closed');
 
             cy.get(selectors.actionsContainer).within(() => {
-                [
-                    'newClass',
-                    'deleteItem',
-                    'import',
-                    'export',
-                    'moveTo',
-                    'copyTo',
-                    'duplicate',
-                    'newItem'
-                ].forEach((action) => {
-                    cy.get(selectors.actions[action])
-                        .should('exist')
-                        .and('be.visible');
-                });
+                ['newClass', 'deleteItem', 'import', 'export', 'moveTo', 'copyTo', 'duplicate', 'newItem'].forEach(
+                    action => {
+                        cy.get(selectors.actions[action])
+                            .should('exist')
+                            .and('be.visible');
+                    }
+                );
             });
         });
-
-        it('has correct action buttons when nothing is selected', function() {
-            // deselect selected list item
-            cy.get(selectors.resourceTree)
-                .find('.selected').first()
-                .click({ force: true });
-
-            cy.get(selectors.actionsContainer).within(() => {
-                cy.get(selectors.actionBtn)
-                    .should('not.be.visible');
-            });
-        });
-
     });
 });

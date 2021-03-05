@@ -18,7 +18,7 @@
 
 import classData from './classData';
 import subClassData from './subClassData';
-import { selectors }  from '../resourceTree';
+import { selectors } from '../resourceTree';
 
 describe('Classes', () => {
     const newClassName = classData.name;
@@ -39,7 +39,7 @@ describe('Classes', () => {
     });
 
     /**
-     * Destroy everything we created, leaving the environment clean for next time.
+     * Delete added classes after each step
      */
     afterEach(() => {
         if (Cypress.$(`[title="${newClassName}"]`).length > 0) {
@@ -51,11 +51,6 @@ describe('Classes', () => {
      * Class tests
      */
     describe('Class creation, editing and deletion', () => {
-
-        it('items page loads', function() {
-            cy.get(selectors.resourceTree);
-        });
-
         it('can create and rename a new class from the root class', function() {
             cy.addClass(selectors.itemsRootClass);
 
@@ -93,8 +88,7 @@ describe('Classes', () => {
             cy.renameSelectedClass(newSubClassName); // rename causes tree to close (BRS bug)
 
             cy.get(selectors.resourceTree).within(() => {
-                cy.contains(newSubClassName)
-                    .should('exist');
+                cy.contains(newSubClassName).should('exist');
             });
         });
 
@@ -103,20 +97,12 @@ describe('Classes', () => {
 
             // check the visible action buttons
             cy.get(selectors.actionsContainer).within(() => {
-                [
-                    'newClass',
-                    'deleteClass',
-                    'import',
-                    'export',
-                    'moveTo',
-                    'newItem'
-                ].forEach((action) => {
+                ['newClass', 'deleteClass', 'import', 'export', 'moveTo', 'newItem'].forEach(action => {
                     cy.get(selectors.actions[action])
                         .should('exist')
                         .and('be.visible');
                 });
             });
         });
-
     });
 });

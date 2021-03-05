@@ -1,9 +1,6 @@
 {
-  "baseUrl": "https://tao.docker.localhost",
+  "baseUrl": "https://sds-tao-1.docker.localhost",
   "integrationFolder": ".",
-  "fixturesFolder": "./cypress",
-  "supportFile": "./node_modules/@oat-sa-private/e2e-runner/support/index.js",
   "testFiles": "./js/e2e/**/*.spec.js",
-  "adminUser": "admin",
-  "adminPass": "Admin.12345"
+  "pluginsFile": "./node_modules/@oat-sa-private/e2e-runner/plugins/index.js"
 }
