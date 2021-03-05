@@ -83,19 +83,36 @@ class CsvItemImporter implements
 
             helpers_TimeOutHelper::reset();
 
-            $report = Report::createSuccess(__('CSV imported successfully'));
+            $report = Report::createSuccess(__('CSV imported successfully'), []);
+            $report->add(
+                Report::createSuccess(
+                    __(
+                        'CSV file %s imported',
+                        $uploadedFile->getBasename()
+                    ),
+                    []
+                )
+            );
         } catch (InvalidCsvImportException $e) {
-            $report = Report::createError(
-                __(
-                    'CSV import failed: required columns are missing (%s)',
-                    implode(', ', $e->getMissingHeaderColumns())
+            $report = Report::createError(__('CSV import failed'), []);
+            $report->add(
+                Report::createError(
+                    __(
+                        'CSV import failed: required columns are missing (%s)',
+                        implode(', ', $e->getMissingHeaderColumns())
+                    ),
+                    []
                 )
             );
         } catch (Throwable $e) {
-            $report = Report::createError(
-                __(
-                    'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
-                    $e->getMessage()
+            $report = Report::createError(__('CSV import failed'), []);
+            $report->add(
+                Report::createError(
+                    __(
+                        'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
+                        $e->getMessage()
+                    ),
+                    []
                 )
             );
         } finally {
