@@ -56,7 +56,6 @@ define([
         }
 
         for (var i in types) {
-
             if (_.indexOf(preselected, types[i].mime) >= 0) {
                 types[i].selected = true;
                 selectedMime = types[i].mime;
