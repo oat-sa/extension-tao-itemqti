@@ -24,7 +24,7 @@ define([
 ], function(validators, _, __, Element) {
     'use strict';
 
-    var _qtiIdPattern = /^[_a-zA-Z]{1}[a-zA-Z0-9\-._]{0,31}$/i;
+    var _qtiIdPattern = /^[_a-zA-Z]{1}[a-zA-Z0-9\-_]{0,31}$/i;
 
     var qtiValidators = [
         {
