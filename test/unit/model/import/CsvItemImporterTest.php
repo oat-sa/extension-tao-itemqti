@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\import;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\import\CsvItemImporter;
+use tao_helpers_form_xhtml_Form;
 
 class CsvItemImporterTest extends TestCase
 {
@@ -35,8 +36,13 @@ class CsvItemImporterTest extends TestCase
         $this->subject = new CsvItemImporter();
     }
 
-    public function testImport(): void
+    public function testGetForm(): void
     {
-        $this->markTestIncomplete();
+        $this->assertInstanceOf(tao_helpers_form_xhtml_Form::class, $this->subject->getForm());
+    }
+
+    public function testGetLabel(): void
+    {
+        $this->assertSame(__('CSV content + metadata'), $this->subject->getLabel());
     }
 }
