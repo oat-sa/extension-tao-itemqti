@@ -25,6 +25,8 @@ namespace oat\taoQtiItem\test\unit\model\import;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\import\CsvImportForm;
 use oat\taoQtiItem\model\import\CsvItemImporter;
+use tao_helpers_form_elements_xhtml_AsyncFile;
+use tao_helpers_form_elements_xhtml_Hidden;
 
 class CsvItemImportTest extends TestCase
 {
@@ -39,10 +41,24 @@ class CsvItemImportTest extends TestCase
     public function testInitForm(): void
     {
         $this->assertNull($this->subject->initForm());
+
+        $this->assertSame('export', $this->subject->getForm()->getName());
+        $this->assertContains(
+            [
+                'name' => 'import',
+                'value' => '<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> Import</a>',
+            ],
+            (array)$this->subject->getForm()->getActions()[0]
+        );
     }
 
     public function testInitElements(): void
     {
         $this->assertNull($this->subject->initElements());
+
+        $elements = $this->subject->getForm()->getElements();
+
+        $this->assertInstanceOf(tao_helpers_form_elements_xhtml_AsyncFile::class, $elements[0]);
+        $this->assertInstanceOf(tao_helpers_form_elements_xhtml_Hidden::class, $elements[1]);
     }
 }

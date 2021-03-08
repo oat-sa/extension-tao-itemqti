@@ -56,16 +56,16 @@ class CsvImportForm extends tao_models_classes_import_CsvUploadForm
      */
     public function initElements()
     {
-        $fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-        $fileElt->setDescription(__("Add a CSV file"));
+        $formElement = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
+        $formElement->setDescription(__("Add a CSV file"));
 
         if (isset($_POST['import_sent_csv'])) {
-            $fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+            $formElement->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         } else {
-            $fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', ['message' => '']));
+            $formElement->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', ['message' => '']));
         }
 
-        $fileElt->addValidators(
+        $formElement->addValidators(
             [
                 tao_helpers_form_FormFactory::getValidator(
                     'FileMimeType',
@@ -93,7 +93,7 @@ class CsvImportForm extends tao_models_classes_import_CsvUploadForm
             ]
         );
 
-        $this->form->addElement($fileElt);
+        $this->form->addElement($formElement);
         $this->form->createGroup(
             'file',
             __(
