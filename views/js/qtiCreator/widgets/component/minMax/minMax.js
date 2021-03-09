@@ -348,6 +348,9 @@ define([
                         if(fromField === fields.min && minValue > maxValue){
                             this.setMaxValue(minValue);
                         }
+                    } else if (minValue === 0 && maxValue > 0) {
+                        this.enableField(fields.min, 1);
+                        this.setMinValue(maxValue);
                     }
                 }
                 return this;
