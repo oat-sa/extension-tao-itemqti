@@ -36,6 +36,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
     {
         $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
         $header = $this->convertCsvLineToArray($lines[0]);
+        $header = $this->trimHeader($header);
 
         $this->getHeaderValidator()->validate($header, $template);
 
@@ -72,6 +73,17 @@ class CsvParser extends ConfigurableService implements ParserInterface
             [],
             7.5
         );
+    }
+
+    private function trimHeader(array $header): array
+    {
+        $newHeader = [];
+
+        foreach ($header as $value) {
+            $newHeader[] = trim((string)$value);
+        }
+
+        return $newHeader;
     }
 
     private function convertCsvLineToArray(string $line): array

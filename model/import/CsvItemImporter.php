@@ -83,13 +83,10 @@ class CsvItemImporter implements
 
             helpers_TimeOutHelper::reset();
 
-            $report = Report::createSuccess(__('CSV imported successfully'), []);
+            $report = Report::createSuccess(__('CSV file imported successfully'), []);
             $report->add(
                 Report::createSuccess(
-                    __(
-                        'CSV file %s imported',
-                        $uploadedFile->getBasename()
-                    ),
+                    __('CSV file imported'),
                     []
                 )
             );
