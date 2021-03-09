@@ -43,8 +43,8 @@ define([
 
         const config = module.config();
 
-        if (preselected.length === 0 && config.defaultList.length > 0) {
-            preselected = preselected.concat(config.defaultList)
+        if (preselected.length === 0 && config.defaultList && config.defaultList.length > 0) {
+            preselected = preselected.concat(config.defaultList);
             uploadHelper.setExpectedTypes(interaction, config.defaultList);
         }
 
