@@ -26,6 +26,7 @@ use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\import\CsvTemplate;
 use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
+use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 
 class HeaderValidatorTest extends TestCase
@@ -40,15 +41,12 @@ class HeaderValidatorTest extends TestCase
 
     public function testValidateSuccessfully(): void
     {
-        $template = new CsvTemplate(
-            CsvTemplateRepository::DEFAULT,
-            CsvTemplateRepository::DEFAULT_DEFINITION
-        );
-
         $content = [
             'name',
             'question',
             'shuffle',
+            'min_choices',
+            'max_choices',
             'choice_1',
             'choice_2',
             'choice_3',
@@ -60,16 +58,11 @@ class HeaderValidatorTest extends TestCase
             'metadata_alias3'
         ];
 
-        $this->assertNull($this->subject->validate($content, $template));
+        $this->assertNull($this->subject->validate($content, $this->getDefaultTemplate()));
     }
 
     public function testValidateRequiredColumnsAreSent(): void
     {
-        $template = new CsvTemplate(
-            CsvTemplateRepository::DEFAULT,
-            CsvTemplateRepository::DEFAULT_DEFINITION
-        );
-
         $content = [
             'shuffle',
             'metadata_alias1',
@@ -78,12 +71,73 @@ class HeaderValidatorTest extends TestCase
         ];
 
         try {
-            $this->subject->validate($content, $template);
+            $this->subject->validate($content, $this->getDefaultTemplate());
         } catch (InvalidCsvImportException $exception) {
             $this->assertContains('name', $exception->getMissingHeaderColumns());
             $this->assertContains('question', $exception->getMissingHeaderColumns());
             $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
             $this->assertContains('choice_[1-99]_score', $exception->getMissingHeaderColumns());
         }
+    }
+
+    public function testValidateMissingMatchingColumnsAreSent(): void
+    {
+        $content = [
+            'name',
+            'question',
+            'shuffle',
+            'min_choices',
+            'max_choices',
+            'choice_1',
+            'choice_2', // missing choice_2_score
+            'choice_1_score',
+            'choice_3_score', // missing choice_3
+            'metadata_alias1',
+            'metadata_alias2',
+            'metadata_alias3'
+        ];
+
+        try {
+            $this->subject->validate($content, $this->getDefaultTemplate());
+        } catch (InvalidCsvImportException $exception) {
+            $this->assertContains('choice_2_score', $exception->getMissingHeaderColumns());
+            $this->assertContains('choice_3', $exception->getMissingHeaderColumns());
+        }
+    }
+
+    public function testValidateNullHeader(): void
+    {
+        $content = [null];
+
+        try {
+            $this->subject->validate($content, $this->getDefaultTemplate());
+        } catch (InvalidCsvImportException $exception) {
+            $this->assertContains('name', $exception->getMissingHeaderColumns());
+            $this->assertContains('question', $exception->getMissingHeaderColumns());
+            $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
+            $this->assertContains('choice_[1-99]_score', $exception->getMissingHeaderColumns());
+        }
+    }
+
+    public function testValidateEmptyHeader(): void
+    {
+        $content = [];
+
+        try {
+            $this->subject->validate($content, $this->getDefaultTemplate());
+        } catch (InvalidCsvImportException $exception) {
+            $this->assertContains('name', $exception->getMissingHeaderColumns());
+            $this->assertContains('question', $exception->getMissingHeaderColumns());
+            $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
+            $this->assertContains('choice_[1-99]_score', $exception->getMissingHeaderColumns());
+        }
+    }
+
+    private function getDefaultTemplate(): TemplateInterface
+    {
+        return new CsvTemplate(
+            CsvTemplateRepository::DEFAULT,
+            CsvTemplateRepository::DEFAULT_DEFINITION
+        );
     }
 }

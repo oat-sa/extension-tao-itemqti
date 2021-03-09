@@ -40,13 +40,19 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
             $isRequired = $this->isRequired($validations);
             $minOccurrences = $this->getMinOccurrences($validations);
             $occurrences = $this->findOccurrences($content, $headerRegex);
+            $totalOccurrences = count($occurrences);
 
-            if ($isRequired && $occurrences === 0) {
+            foreach ($this->getMissingMatches($headerRegex, $validations, $content, $occurrences) as $missingMatch) {
+                $error->addMissingHeaderColumn($missingMatch);
+                $error->addError(0, sprintf('Header %s is required', $missingMatch));
+            }
+
+            if ($isRequired && $totalOccurrences === 0) {
                 $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(0, sprintf('Header %s is required', $headerRegex));
             }
 
-            if ($occurrences < $minOccurrences) {
+            if ($totalOccurrences < $minOccurrences) {
                 $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(
                     0,
@@ -68,7 +74,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
     private function getMinOccurrences(array $validations): int
     {
         foreach ($validations as $validation) {
-            if (strpos($validation, 'min_occurrences:')) {
+            if (strpos($validation, 'min_occurrences:') !== false) {
                 return (int)str_replace('min_occurrences:', '', $validation);
             }
         }
@@ -76,13 +82,62 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
         return 0;
     }
 
-    private function findOccurrences(array $header, string $headerRegex): int
+    private function getMissingMatches(
+        string $headerRegex,
+        array $validations,
+        array $headers,
+        array $occurrences
+    ): array {
+        $matchHeader = $this->getMatchHeader($validations);
+
+        if ($matchHeader === null) {
+            return [];
+        }
+
+        $missingColumns = [];
+
+        foreach ($occurrences as $occurrence) {
+            $open = strpos($headerRegex, '[');
+            $close = strpos($headerRegex, ']');
+            $regex = substr($headerRegex, $open + 1, $close - $open - 1);
+            $number = (int)preg_replace('/[^' . $regex . ']/', '', $occurrence);
+            $search = str_replace('[' . $regex . ']', $number, $matchHeader);
+            $found = false;
+
+            foreach ($headers as $header) {
+                if ($header === $search) {
+                    $found = true;
+
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $missingColumns[] = $search;
+            }
+        }
+
+        return $missingColumns;
+    }
+
+    private function getMatchHeader(array $validations): ?string
     {
-        $occurrences = 0;
+        foreach ($validations as $validation) {
+            if (strpos($validation, 'match_header:') !== false) {
+                return str_replace('match_header:', '', $validation);
+            }
+        }
+
+        return null;
+    }
+
+    private function findOccurrences(array $header, string $headerRegex): array
+    {
+        $occurrences = [];
 
         foreach ($header as $headerName) {
-            if (preg_match('/\b(' . $headerRegex . ')\b/', $headerName) === 1) {
-                $occurrences++;
+            if (preg_match('/\b(' . $headerRegex . ')\b/', (string)$headerName) === 1) {
+                $occurrences[] = $headerName;
             }
         }
 
