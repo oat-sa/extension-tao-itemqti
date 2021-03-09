@@ -16,7 +16,27 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
+/**
+ * CSS Selectors
+ */
+const selectors = {
+    manageItems: 'Manage Items',
+    itemEditor: '.item-editor-drop-area'
+};
 
 export default {
-    name: '_Temporary subclass from E2E test tool'
+    selectors: selectors
 };
+
+/**
+ * Commands
+ */
+Cypress.Commands.add('addAuthoringRoutes', () => {
+
+});
+
+Cypress.Commands.add('returnToManageItems', () => {
+    // cy.loadItemsPage();
+    cy.contains(selectors.manageItems).click();
+});
+

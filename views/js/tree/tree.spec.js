@@ -16,8 +16,8 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
-import classData from '../class/classData';
-import { selectors } from '../resourceTree';
+import classData from '../e2e/resourceSelector/class/classData';
+import { selectors }  from '../e2e/resourceSelector/resourceTree';
 
 describe('ResourceSelector Tree', () => {
     const newClassName = classData.name;
@@ -70,12 +70,12 @@ describe('ResourceSelector Tree', () => {
      * Tree browsing tests
      */
     describe('Tree node opening and closing', () => {
+
         it('can open and close the root node', function() {
             // @action: close via toggler
             cy.get(selectors.itemsRootClass)
-                .find(selectors.toggler)
-                .first()
-                .click({ force: true });
+                .find(selectors.toggler).first()
+                .click({force: true});
 
             // @test: is root closed?
             cy.get(selectors.itemsRootClass)
@@ -85,9 +85,8 @@ describe('ResourceSelector Tree', () => {
 
             // @action: open via toggler
             cy.get(selectors.itemsRootClass)
-                .find(selectors.toggler)
-                .first()
-                .click({ force: true });
+                .find(selectors.toggler).first()
+                .click({force: true});
 
             // @test: is root open?
             cy.get(selectors.itemsRootClass)
@@ -100,29 +99,28 @@ describe('ResourceSelector Tree', () => {
             cy.get(selectors.resourceTree).within(() => {
                 // @action: close via toggler
                 cy.get(`[title="${newClassName}"]`)
-                    .find(selectors.toggler)
-                    .first()
-                    .click({ force: true });
+                    .find(selectors.toggler).first()
+                    .click({force: true});
 
                 // @test: is class closed?
                 cy.get(`[title="${newClassName}"]`)
-                    .closest(selectors.itemsRootClass)
+                    .closest(selectors.treeNode)
                     .should('have.class', 'closed')
                     .find('.instance, .class')
                     .should('not.be.visible');
 
                 // @test: is root class still open?
-                cy.get(selectors.itemsRootClass).should('not.have.class', 'closed');
+                cy.get(selectors.itemsRootClass)
+                    .should('not.have.class', 'closed');
 
                 // @action: open via toggler
                 cy.get(`[title="${newClassName}"]`)
-                    .find(selectors.toggler)
-                    .first()
-                    .click({ force: true });
+                    .find(selectors.toggler).first()
+                    .click({force: true});
 
                 // @test: is class open?
                 cy.get(`[title="${newClassName}"]`)
-                    .closest(selectors.itemsRootClass)
+                    .closest(selectors.treeNode)
                     .should('not.have.class', 'closed')
                     .find('.instance, .class')
                     .should('be.visible');

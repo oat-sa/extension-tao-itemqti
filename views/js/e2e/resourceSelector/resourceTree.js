@@ -23,12 +23,10 @@ import urlParams from '@oat-sa-private/e2e-runner/data/urlParams.json';
  * CSS Selectors
  */
 const selectors = {
-    resourceTree: '.resource-tree',
     actionsContainer: '.tree-action-bar',
     contentContainer: 'form[action^="/taoItems/Items"]',
     itemsRootClass: '[data-rootnode$="/Ontologies/TAOItem.rdf#Item"]',
     itemClass: '[data-uri$="/Ontologies/TAOItem.rdf#Item"]',
-    toggler: '.class-toggler',
     labelInput: 'input[name$="label"]',
     saveBtn: '#Save',
     actions: {
@@ -40,7 +38,17 @@ const selectors = {
         export: 'a[href$="ItemExport/index"]',
         moveTo: 'a[href$="Items/moveResource"]',
         copyTo: 'a[href$="Items/copyInstance"]',
-        duplicate: 'a[href$="Items/cloneInstance"]'
+        duplicate: 'a[href$="Items/cloneInstance"]',
+        gotToAuthoring: 'a[href$="Items/authoring"]'
+        // newItem: '.action[data-action="instanciate"]',
+        // newClass: '.action[data-action="subClass"]',
+        // deleteItem: '.action[data-action="removeNode"][data-context="instance"]',
+        // deleteClass: '.action[data-action="removeNode"][data-context="class"]',
+        // import: '.action[data-action="loadClass"]',
+        // export: '.action[data-action="load"]',
+        // moveTo: '.action[data-action="moveTo"]',
+        // copyTo: '.action[data-action="copyTo"]',
+        // duplicate: '.action[data-action="duplicateNode"]'
     }
 };
 
@@ -57,6 +65,7 @@ Cypress.Commands.add('addTreeRoutes', () => {
     cy.route('POST', '**/editClassLabel').as('editClass');
     cy.route('POST', '**/deleteItem').as('deleteItem');
     cy.route('POST', '**/deleteClass').as('deleteClass');
+    cy.route('GET', '**/authoring?id=https://*/ontologies/tao.rdf#*').as('authoring');
 });
 
 Cypress.Commands.add('loadItemsPage', () => {
@@ -101,24 +110,22 @@ Cypress.Commands.add('renameSelectedClass', newName => {
             .type(newName);
 
         cy.get(selectors.saveBtn).click();
+        cy.wait('@editClass');
     });
-
-    cy.wait('@editClass');
 });
 
 Cypress.Commands.add('renameSelectedItem', newName => {
     cy.log('COMMAND: renameSelectedItem', newName);
 
     // assumes that editing form has already been rendered
-    cy.get(selectors.contentContainer).within(() => {
+    cy.get(selectors.contentContainer, { timeout: 10000 }).within(() => {
         cy.get(selectors.labelInput)
             .clear()
             .type(newName);
 
         cy.get(selectors.saveBtn).click();
+        cy.wait('@editItem', { timeout: 10000 }).wait('@editItem');
     });
-    // this event needs to fire twice before proceeding
-    cy.wait('@editItem', { timeout: 10000 }).wait('@editItem');
 });
 
 Cypress.Commands.add('addClass', cssSelector => {
@@ -162,4 +169,14 @@ Cypress.Commands.add('deleteItem', cssSelector => {
     cy.get('.modal-body [data-control="ok"]').click();
 
     cy.wait('@deleteItem');
+});
+
+Cypress.Commands.add('goToItemAuthoring', cssSelector => {
+    cy.log('COMMAND: goToItemAuthoring', cssSelector);
+
+    cy.selectTreeNode(cssSelector);
+
+    cy.get(selectors.actions.gotToAuthoring).click({ force: true });
+
+    cy.wait('@authoring');
 });

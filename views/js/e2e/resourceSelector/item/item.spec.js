@@ -59,7 +59,7 @@ describe('Items', () => {
                 .should('exist');
         });
 
-        it('can delete previously created item', function() {
+        it('can delete item', function() {
             cy.addItem(selectors.itemsRootClass);
 
             cy.renameSelectedItem(newItemName);
@@ -83,8 +83,7 @@ describe('Items', () => {
                 ['newClass', 'deleteItem', 'import', 'export', 'moveTo', 'copyTo', 'duplicate', 'newItem'].forEach(
                     action => {
                         cy.get(selectors.actions[action])
-                            .should('exist')
-                            .and('be.visible');
+                            .should('exist');
                     }
                 );
             });

@@ -1,6 +1,7 @@
 {
-  "baseUrl": "https://sds-tao-1.docker.localhost",
+  "baseUrl": "https://bosa.docker.localhost",
   "integrationFolder": ".",
   "testFiles": "./js/e2e/**/*.spec.js",
-  "pluginsFile": "./node_modules/@oat-sa-private/e2e-runner/plugins/index.js"
+  "pluginsFile": "./node_modules/@oat-sa-private/e2e-runner/plugins/index.js",
+  "videoUploadOnPasses": false
 }

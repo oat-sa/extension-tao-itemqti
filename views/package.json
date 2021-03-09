@@ -1,10 +1,12 @@
 {
     "name": "@oat-sa/tao-qti-item",
     "version": "0.4.0",
+    "prettier": "@oat-sa/prettier-config",
     "license": "GPL-2.0",
     "description": "taoQtiItem frontend modules",
     "scripts": {
-        "cy:open": "cypress open"
+        "cy:open": "cypress open",
+        "cy:run": "cypress run --headless"
     },
     "repository": {
         "type": "git",
@@ -12,6 +14,7 @@
     },
     "dependencies": {
         "@oat-sa-private/e2e-runner": "github:oat-sa/e2e-runner#feature/TRN-605/e2e-core-setup",
+        "@oat-sa/prettier-config": "github:oat-sa/prettier-config",
         "@oat-sa/tao-item-runner": "0.7.1",
         "@oat-sa/tao-item-runner-qti": "^0.19.3"
     }

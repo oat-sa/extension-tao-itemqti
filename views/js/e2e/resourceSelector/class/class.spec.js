@@ -56,10 +56,9 @@ describe('Classes', () => {
 
             cy.renameSelectedClass(newClassName);
 
-            cy.get(selectors.resourceTree)
+            cy.get(selectors.itemsRootClass)
                 .contains(newClassName)
-                .should('exist')
-                .and('be.visible');
+                .should('exist');
         });
 
         it('can delete previously created class', function() {
@@ -72,25 +71,25 @@ describe('Classes', () => {
 
             cy.wait('@deleteClass');
 
-            cy.get(selectors.resourceTree)
+            cy.get(selectors.itemsRootClass)
                 .contains(newClassName)
                 .should('not.exist');
         });
 
         // Following test skipped pending fix of BRS behaviour
-        it.skip('can create a new subclass from created class', function() {
-            cy.addClass(selectors.itemsRootClass);
-
-            cy.renameSelectedClass(newClassName);
-
-            cy.addClass(`[title="${newClassName}"]`);
-
-            cy.renameSelectedClass(newSubClassName); // rename causes tree to close (BRS bug)
-
-            cy.get(selectors.resourceTree).within(() => {
-                cy.contains(newSubClassName).should('exist');
-            });
-        });
+        // it.skip('can create a new subclass from created class', function() {
+        //     cy.addClass(selectors.itemsRootClass);
+        //
+        //     cy.renameSelectedClass(newClassName);
+        //
+        //     cy.addClass(`[title="${newClassName}"]`);
+        //
+        //     cy.renameSelectedClass(newSubClassName); // rename causes tree to close (BRS bug)
+        //
+        //     cy.get(selectors.itemsRootClass).within(() => {
+        //         cy.contains(newSubClassName).should('exist');
+        //     });
+        // });
 
         it('has correct action buttons when class is selected', function() {
             cy.selectTreeNode(selectors.itemsRootClass);
@@ -99,8 +98,7 @@ describe('Classes', () => {
             cy.get(selectors.actionsContainer).within(() => {
                 ['newClass', 'deleteClass', 'import', 'export', 'moveTo', 'newItem'].forEach(action => {
                     cy.get(selectors.actions[action])
-                        .should('exist')
-                        .and('be.visible');
+                        .should('exist');
                 });
             });
         });
