@@ -18,6 +18,7 @@
  */
 
 define([
+    'module',
     'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -25,50 +26,56 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/helpers/uploadMime',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/upload'
-], function(_, __, stateFactory, Question, formElement, uploadHelper, formTpl){
-
+], function (module, _, __, stateFactory, Question, formElement, uploadHelper, formTpl) {
     'use strict';
-    var UploadInteractionStateQuestion = stateFactory.extend(Question);
+    const UploadInteractionStateQuestion = stateFactory.extend(Question);
 
-    UploadInteractionStateQuestion.prototype.initForm = function() {
-        var _widget = this.widget,
+    UploadInteractionStateQuestion.prototype.initForm = function () {
+        const _widget = this.widget,
             $form = _widget.$form,
             interaction = _widget.element,
             callbacks = {},
-            types = uploadHelper.getMimeTypes(),
-            selectedMime = '',
-            // Pre-select a value in the types combo box if needed.
-            preselected = uploadHelper.getExpectedTypes(interaction);
+            types = uploadHelper.getMimeTypes();
+        // Pre-select a value in the types combo box if needed.
+        let preselected = uploadHelper.getExpectedTypes(interaction);
 
-        types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
+        const config = module.config();
+
+        if (preselected.length === 0 && config.defaultList && config.defaultList.length > 0) {
+            preselected = preselected.concat(config.defaultList);
+            uploadHelper.setExpectedTypes(interaction, config.defaultList);
+        }
+
+        types.unshift({ mime: 'any/kind', label: __('-- Any kind of file --') });
 
         if (interaction.attr('type') === '') {
             // Kill the attribute if it is empty.
             delete interaction.attributes.type;
         }
 
-        for (var i in types) {
+        for (let i in types) {
             if (_.indexOf(preselected, types[i].mime) >= 0) {
                 types[i].selected = true;
-                selectedMime = types[i].mime;
             }
         }
-        $form.html(formTpl({
-            types : types
-        }));
+        $form.html(
+            formTpl({
+                types: types
+            })
+        );
 
         formElement.initWidget($form);
-        var $select = $form.find('[name="type"]');
+        const $select = $form.find('[name="type"]');
         $select.select2({
             width: '100%',
-            formatNoMatches : function(){
+            formatNoMatches: function () {
                 return __('Enter a select MIME-type');
             }
         });
 
         // -- type callback.
-        callbacks.type = function(interaction, attrValue) {
-            uploadHelper.setExpectedTypes(interaction, attrValue);
+        callbacks.type = function (interactionChanged, attrValue) {
+            uploadHelper.setExpectedTypes(interactionChanged, attrValue);
         };
 
         //init data change callbacks
@@ -77,4 +84,3 @@ define([
 
     return UploadInteractionStateQuestion;
 });
-
