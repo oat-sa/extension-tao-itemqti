@@ -350,7 +350,7 @@ define([
                         }
                     } else if (minValue === 0 && maxValue > 0) {
                         this.enableField(fields.min, 1);
-                        this.setMinValue(maxValue);
+                        this.$component[0].querySelector('input[name=minChoices-toggler]').checked = true;
                     }
                 }
                 return this;
