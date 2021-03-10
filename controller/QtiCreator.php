@@ -185,7 +185,7 @@ class QtiCreator extends tao_actions_CommonModule
         $request = $this->getPsrRequest();
         $queryParams = $request->getQueryParams();
         if (isset($queryParams['uri'])) {
-            $xml = $request->getBody()->getContents();
+            $xml = file_get_contents('php://input');
             $rdfItem = $this->getResource(urldecode($queryParams['uri']));
             /** @var Service $itemService */
             $itemService = $this->getServiceLocator()->get(Service::class);
