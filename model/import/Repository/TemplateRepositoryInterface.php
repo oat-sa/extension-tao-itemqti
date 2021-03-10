@@ -49,11 +49,11 @@ interface TemplateRepositoryInterface
             'value' => 'integer'
         ],
         'choice_[1-99]' => [
-            'header' => 'required|min_occurrences:2',
+            'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
             'value' => 'string'
         ],
         'choice_[1-99]_score' => [
-            'header' => 'required|min_occurrences:1',
+            'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
             'value' => 'float'
         ],
         'metadata_[a-z0-9\-_]' => [
