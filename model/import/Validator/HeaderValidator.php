@@ -44,19 +44,19 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 
             foreach ($this->getMissingMatches($headerRegex, $validations, $content, $occurrences) as $missingMatch) {
                 $error->addMissingHeaderColumn($missingMatch);
-                $error->addError(0, sprintf('Header %s is required', $missingMatch));
+                $error->addError(0, sprintf('Header `%s` is required', $missingMatch));
             }
 
             if ($isRequired && $totalOccurrences === 0) {
                 $error->addMissingHeaderColumn($headerRegex);
-                $error->addError(0, sprintf('Header %s is required', $headerRegex));
+                $error->addError(0, sprintf('Header `%s` is required', $headerRegex));
             }
 
             if ($totalOccurrences < $minOccurrences) {
                 $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(
                     0,
-                    sprintf('Header %s must be provided at least %s times', $headerRegex, $minOccurrences)
+                    sprintf('Header `%s` must be provided at least `%s` times', $headerRegex, $minOccurrences)
                 );
             }
         }
@@ -97,11 +97,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
         $missingColumns = [];
 
         foreach ($occurrences as $occurrence) {
-            $open = strpos($headerRegex, '[');
-            $close = strpos($headerRegex, ']');
-            $regex = substr($headerRegex, $open + 1, $close - $open - 1);
-            $number = (int)preg_replace('/[^' . $regex . ']/', '', $occurrence);
-            $search = str_replace('[' . $regex . ']', $number, $matchHeader);
+            $search = $this->getSearchMatch($headerRegex, $matchHeader, $occurrence);
             $found = false;
 
             foreach ($headers as $header) {
@@ -118,6 +114,16 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
         }
 
         return $missingColumns;
+    }
+
+    private function getSearchMatch(string $headerRegex, string $matchHeader, string $occurrence): string
+    {
+        $open = strpos($headerRegex, '[');
+        $close = strpos($headerRegex, ']');
+        $regex = substr($headerRegex, $open + 1, $close - $open - 1);
+        $number = (int)preg_replace('/[^' . $regex . ']/', '', $occurrence);
+
+        return str_replace('[' . $regex . ']', $number, $matchHeader);
     }
 
     private function getMatchHeader(array $validations): ?string
