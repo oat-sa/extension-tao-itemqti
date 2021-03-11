@@ -24,18 +24,18 @@ define([
 ], function(validators, _, __, Element) {
     'use strict';
 
-    var _qtiIdPattern = /^[_a-zA-Z]{1}[a-zA-Z0-9\-_]{0,31}$/i;
+    // var _qtiIdPattern = /^[_a-zA-Z]{1}[a-zA-Z0-9\-._]{0,31}$/i;
 
     var qtiValidators = [
-        {
-            name: 'qtiIdentifier',
-            message: __('invalid identifier'),
-            validate: function validate(value, callback) {
-                if (typeof callback === 'function') {
-                    callback(_qtiIdPattern.test(value));
-                }
-            }
-        },
+        // {
+        //     name: 'qtiIdentifier',
+        //     message: __('invalid identifier'),
+        //     validate: function validate(value, callback) {
+        //         if (typeof callback === 'function') {
+        //             callback(_qtiIdPattern.test(value));
+        //         }
+        //     }
+        // },
         //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
         {
             name: 'availableIdentifier',
