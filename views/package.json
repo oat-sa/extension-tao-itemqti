@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.7.1",
-        "@oat-sa/tao-item-runner-qti": "^0.19.3"
+        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feature/TR-765/load-test-taker-response-in-audio-pci"
     }
 }
