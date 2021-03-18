@@ -350,7 +350,8 @@ define([
                         }
                     } else if (minValue === 0 && maxValue > 0) {
                         this.enableField(fields.min, 1);
-                        this.$component[0].querySelector('input[name=minChoices-toggler]').checked = true;
+                        const input = this.$component[0].querySelector('input[name=minChoices-toggler]') || this.$component[0].querySelector('input[name=minAssociations]');
+                        input.checked = true;
                     }
                 }
                 return this;
