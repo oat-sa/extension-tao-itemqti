@@ -177,21 +177,22 @@ define([
                  * @fires itemCreator#error
                  */
                 this.on('save', function(silent){
-                    var item = this.getItem();
-                    var itemWidget = item.data('widget');
+                    const item = this.getItem();
+                    const itemWidget = item.data('widget');
 
                     //do the save
-                    Promise.all([
-                        itemWidget.save(),
-                        styleEditor.save()
-                    ]).then(function(){
-                        if(!silent){
-                            self.trigger('success', __('Your item has been saved'));
-                        }
-                        self.trigger('saved');
-                    }).catch(function(err){
-                        self.trigger('error', err);
-                    });
+                    return this.beforeSaveProcess
+                        .then(() => Promise.all([
+                            itemWidget.save(),
+                            styleEditor.save()
+                        ])).then(() => {
+                            if (!silent){
+                                self.trigger('success', __('Your item has been saved'));
+                            }
+                            self.trigger('saved');
+                        }).catch(err => {
+                            self.trigger('error', err);
+                        });
                 });
 
                 this.on('exit', function() {
@@ -258,6 +259,12 @@ define([
                     // forward context error
                     qtiCreatorContext.on('error', function(err) {
                         self.trigger('error', err);
+                    });
+
+                    // handle before save processes
+                    self.beforeSaveProcess = Promise.resolve();
+                    qtiCreatorContext.on('registerBeforeSaveProcess', beforeSaveProcess => {
+                        self.beforeSaveProcess = Promise.all([self.beforeSaveProcess, beforeSaveProcess]);
                     });
                     return qtiCreatorContext.init();
                 }).catch(function(err){
