@@ -24,19 +24,9 @@ define([
 ], function(validators, _, __, Element) {
     'use strict';
 
-    var _qtiIdPattern = /^[_a-zA-Z]{1}[a-zA-Z0-9\-._]{0,31}$/i;
+    /* TODO: _qtiIdPattern and validator object/  callback was remove and will be properly implemented */
 
     var qtiValidators = [
-        {
-            name: 'qtiIdentifier',
-            message: __('invalid identifier'),
-            validate: function validate(value, callback) {
-                if (typeof callback === 'function') {
-                    callback(_qtiIdPattern.test(value));
-                }
-            }
-        },
-        //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
         {
             name: 'availableIdentifier',
             message: __('this identifier is already in use'),
