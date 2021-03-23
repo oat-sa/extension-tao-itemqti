@@ -282,7 +282,10 @@ define([
                     updateResponseDeclaration(element, value, options.updateCardinality);
                 }
 
-                if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
+                if ((this.name === 'upperBound') && this.disabled) {
+                    // if upperBound field triggered this callback and it is disabled, upperbound attribute should be removed.
+                    element[options.attrMethodNames.remove](name);
+                } else if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
                     element[options.attrMethodNames.remove](name); //to be removed for order interactions
                 } else {
                     element[options.attrMethodNames.set](name, value); //required
