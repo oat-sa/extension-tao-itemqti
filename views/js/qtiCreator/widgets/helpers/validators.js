@@ -20,25 +20,56 @@ define([
     'ui/validator/validators',
     'lodash',
     'i18n',
-    'taoQtiItem/qtiItem/core/Element'
-], function(validators, _, __, Element) {
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/model/helper/invalidator'
+], function (validators, _, __, Element, invalidator) {
     'use strict';
 
-    /* TODO: _qtiIdPattern and validator object/  callback was remove and will be properly implemented */
+    var _qtiIdPattern = /^[A-Za-z_][A-Za-z_0-9-]*$/u;
+    const typeToMessage = {
+        response: 'Invalid response identifier',
+        item: 'Invalid identifier',
+        default: 'Invalid identifier'
+    };
 
     var qtiValidators = [
         {
+            name: 'qtiIdentifier',
+            message: __(
+                'Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
+            ),
+            validate: function validate(value, callback, options) {
+                if (typeof callback === 'function') {
+                    const valid = _qtiIdPattern.test(value);
+                    if (options && options.serial) {
+                        const element = Element.getElementBySerial(options.serial);
+                        if (valid) {
+                            invalidator.valid(element, 'qtiIdentifier');
+                        } else {
+                            invalidator.invalid(
+                                element,
+                                'qtiIdentifier',
+                                options.type ? typeToMessage[options.type] : typeToMessage.default
+                            );
+                        }
+                    }
+                    callback(valid);
+                }
+            }
+        },
+        //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
+        {
             name: 'availableIdentifier',
-            message: __('this identifier is already in use'),
+            message: __('This identifier must not be used by any other response or item variable.'),
             validate: function validate(value, callback, options) {
                 if (options.serial) {
                     var element = Element.getElementBySerial(options.serial);
                     if (element && typeof callback === 'function') {
                         var ids = element.getRootElement().getUsedIdentifiers();
-                        var available = (!ids[value] || ids[value].serial === element.serial);
+                        var available = !ids[value] || ids[value].serial === element.serial;
                         callback(available);
                     }
-                }else{
+                } else {
                     throw 'missing required option "serial"';
                 }
             }
@@ -52,10 +83,13 @@ define([
                     var element = Element.getElementBySerial(options.serial);
                     if (element && typeof callback === 'function') {
                         var ids = element.getRootElement().getUsedIdentifiers();
-                        var available = (!ids[value] || ids[value].serial === element.serial || !ids[value].is('variableDeclaration'));
+                        var available =
+                            !ids[value] ||
+                            ids[value].serial === element.serial ||
+                            !ids[value].is('variableDeclaration');
                         callback(available);
                     }
-                }else{
+                } else {
                     throw 'missing required option "serial"';
                 }
             }
@@ -65,10 +99,10 @@ define([
             name: 'isValidUrl',
             message: __('Invalid URL'),
             validate: function validate(value, callback) {
-                if(value) {
-                    try{
+                if (value) {
+                    try {
                         callback(new URL(value));
-                    } catch(error) {
+                    } catch (error) {
                         callback(false);
                     }
                 } else {
@@ -78,10 +112,9 @@ define([
         }
     ];
 
-    _.each(qtiValidators, function(rule) {
+    _.each(qtiValidators, function (rule) {
         validators.register(rule.name, rule);
     });
 
     return validators;
 });
-

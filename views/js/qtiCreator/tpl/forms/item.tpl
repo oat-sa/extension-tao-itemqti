@@ -7,7 +7,7 @@
            name="identifier" 
            value="{{identifier}}" 
            placeholder="e.g. my-item_123456" 
-           data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{serial}});">
+           data-validate="$notEmpty; $qtiIdentifier(serial={{serial}}); $availableIdentifier(serial={{serial}});">
     
 </div>
 
