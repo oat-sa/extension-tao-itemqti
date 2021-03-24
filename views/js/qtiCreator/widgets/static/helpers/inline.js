@@ -64,19 +64,18 @@ define([
             var $container = widget.$container,
                 elt = widget.element;
 
-            //remove class
-            $container.removeClass('rgt txt-rgt lft txt-lft');
-
-            elt.removeClass('rgt txt-rgt');
-            elt.removeClass('lft txt-lft');
             switch(position){
                 case 'right':
+                    $container.removeClass('lft txt-lft');
+                    elt.removeClass('lft txt-lft');
                     $container.addClass('rgt');
                     $container.addClass('txt-rgt');
                     elt.addClass('rgt');
                     elt.addClass('txt-rgt');
                     break;
                 case 'left':
+                    $container.removeClass('rgt txt-rgt');
+                    elt.removeClass('rgt txt-rgt');
                     $container.addClass('lft');
                     $container.addClass('txt-lft');
                     elt.addClass('lft');
