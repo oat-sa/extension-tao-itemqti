@@ -348,7 +348,7 @@ define([
                         if(fromField === fields.min && minValue > maxValue){
                             this.setMaxValue(minValue);
                         }
-                    } else if (minValue === 0 && maxValue > 0) {
+                    } else if ((minValue === 0 && maxValue > 0) && (document.querySelector('.qti-orderInteraction') || document.querySelector('.qti-graphicOrderInteraction'))) {
                         this.enableField(fields.min, 1);
                         this.$component[0].querySelector('input[name=minChoices-toggler]').checked = true;
                     }
