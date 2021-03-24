@@ -68,18 +68,14 @@ define([
                 case 'right':
                     $container.removeClass('lft txt-lft');
                     elt.removeClass('lft txt-lft');
-                    $container.addClass('rgt');
-                    $container.addClass('txt-rgt');
-                    elt.addClass('rgt');
-                    elt.addClass('txt-rgt');
+                    $container.addClass('rgt txt-rgt wrap-right');
+                    elt.addClass('rgt txt-rgt wrap-right');
                     break;
                 case 'left':
                     $container.removeClass('rgt txt-rgt');
                     elt.removeClass('rgt txt-rgt');
-                    $container.addClass('lft');
-                    $container.addClass('txt-lft');
-                    elt.addClass('lft');
-                    elt.addClass('txt-lft');
+                    $container.addClass('lft txt-lft wrap-left');
+                    elt.addClass('lft txt-lft wrap-left');
                     break;
             }
         }
