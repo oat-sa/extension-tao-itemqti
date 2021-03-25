@@ -32,7 +32,7 @@ define([
     'ui/inplacer',
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators'
-], function($, _, __, Element, dom, spinner, tooltip, select2) {
+], function ($, _, __, Element, dom, spinner, tooltip, select2) {
     'use strict';
 
     /**
@@ -46,19 +46,21 @@ define([
         var responseDeclaration;
         var correct = [];
 
-        if (! Element.isA(interaction, 'interaction') ) {
-            throw new Error('The first argument must be an interaction, the current element is ' + interaction.qtiClass);
+        if (!Element.isA(interaction, 'interaction')) {
+            throw new Error(
+                'The first argument must be an interaction, the current element is ' + interaction.qtiClass
+            );
         }
 
-        updateCardinality = (typeof updateCardinality === 'undefined') ? true : !!updateCardinality;
+        updateCardinality = typeof updateCardinality === 'undefined' ? true : !!updateCardinality;
         responseDeclaration = interaction.getResponseDeclaration();
         if (updateCardinality) {
-            responseDeclaration.attr('cardinality', (maxChoice === 1) ? 'single' : 'multiple');
+            responseDeclaration.attr('cardinality', maxChoice === 1 ? 'single' : 'multiple');
         }
 
         if (maxChoice) {
             //always update the correct response then:
-            _.forEach(responseDeclaration.getCorrect(), function(c) {
+            _.forEach(responseDeclaration.getCorrect(), function (c) {
                 if (correct.length < maxChoice) {
                     correct.push(c);
                 } else {
@@ -77,8 +79,7 @@ define([
      */
     var createTooltip = function createTooltip($input, validatorOptions) {
         var formElementTooltip = tooltip.error($input, ' ', {
-            trigger: 'manual',
-            container: validatorOptions.$container[0]
+            trigger: 'manual'
         });
 
         if ($input.data('$tooltip')) {
@@ -86,8 +87,10 @@ define([
             $input.removeData('$tooltip');
         }
 
+        $input.siblings('.tooltip.tooltip-red').remove();
+
         $input.data('$tooltip', formElementTooltip);
-        $input.attr('data-has-tooltip',true);
+        $input.attr('data-has-tooltip', true);
     };
     /**
      * Validation callback, used as a groupvalidator callback
@@ -97,12 +100,10 @@ define([
      * @param {Object} [validatorOptions]
      */
     var validationCallback = function validationCallback(valid, results, validatorOptions) {
-
         var rule;
         var $input = $(this);
 
         if (dom.contains($input)) {
-
             createTooltip($input, validatorOptions);
 
             if (!valid) {
@@ -115,16 +116,13 @@ define([
                     //only show it when the file manager is hidden
                     $input.data('$tooltip').show();
                 }
-
             } else {
                 $input.data('$tooltip').hide();
             }
         }
     };
 
-
     var formElement = {
-
         initWidget: function initWidget($form) {
             spinner($form);
             tooltip.lookup($form);
@@ -142,7 +140,6 @@ define([
          * @param {Boolean} [options.invalidate=false] - define if the validation set the valid/invalidate state to the widget of the element
          */
         setChangeCallbacks: function setChangeCallbacks($form, element, attributes, options) {
-
             var applyCallback = function applyCallback(name, value, $elt) {
                 var cb = attributes && attributes[name];
                 if (_.isFunction(cb)) {
@@ -150,7 +147,7 @@ define([
                 }
             };
 
-            var callbackSimple =  function callbackSimple() {
+            var callbackSimple = function callbackSimple() {
                 var $elt = $(this);
                 var name = $elt.attr('name');
 
@@ -165,7 +162,6 @@ define([
                 var $elt;
                 var name;
                 if (e.namespace === 'group') {
-
                     $elt = $(elt);
                     name = $elt.attr('name');
 
@@ -184,18 +180,26 @@ define([
             });
 
             $form.off('.databinding');
-            $form.on('change.databinding keyup.databinding', ':checkbox, :radio, select, :text:not([data-validate]), :hidden:not([data-validate])', callbackSimple);
+            $form.on(
+                'change.databinding keyup.databinding',
+                ':checkbox, :radio, select, :text:not([data-validate]), :hidden:not([data-validate])',
+                callbackSimple
+            );
             $form.on('keyup.databinding input.databinding propertychange.databinding', 'textarea', callbackSimple);
 
             $form.on('validated.group.databinding', callbackWithValidation);
 
-            _.defer(function() {
+            _.defer(function () {
                 $form.groupValidator({
                     validateOnInit: options.validateOnInit,
-                    events: ['change', 'blur', {
-                        type: 'keyup',
-                        length: 0
-                    }],
+                    events: [
+                        'change',
+                        'blur',
+                        {
+                            type: 'keyup',
+                            length: 0
+                        }
+                    ],
                     callback: validationCallback
                 });
             });
@@ -217,7 +221,7 @@ define([
          * @returns {function} - the callback function to be called elsewhere
          */
         getAttributeChangeCallback: function getAttributeChangeCallback(allowEmpty) {
-            return function(element, value, name) {
+            return function (element, value, name) {
                 if (!allowEmpty && value === '') {
                     element.removeAttr(name);
                 } else {
@@ -236,8 +240,12 @@ define([
          * @param {Object} options
          * @returns {Object} the list of callbacks
          */
-        getMinMaxAttributeCallbacks: function getMinMaxAttributeCallbacks($form, attributeNameMin, attributeNameMax, options) {
-
+        getMinMaxAttributeCallbacks: function getMinMaxAttributeCallbacks(
+            $form,
+            attributeNameMin,
+            attributeNameMax,
+            options
+        ) {
             var callbacks = {};
 
             //prepare options object
@@ -252,20 +260,16 @@ define([
                 callback: _.noop
             });
 
-            callbacks[attributeNameMin] = function(element, value, name) {
-
+            callbacks[attributeNameMin] = function (element, value, name) {
                 var isActualNumber;
 
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10);
                 isActualNumber = !isNaN(value);
 
                 if (!options.allowNull && (value === 0 || !isActualNumber)) {
-
                     //if a null attribute is not allowed, remove it !
                     element[options.attrMethodNames.remove](name);
-
                 } else if (isActualNumber) {
-
                     //if the value is an actual number
                     element[options.attrMethodNames.set](name, value);
                 }
@@ -273,8 +277,7 @@ define([
                 options.callback(element, value, name);
             };
 
-            callbacks[attributeNameMax] = function(element, value, name) {
-
+            callbacks[attributeNameMax] = function (element, value, name) {
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
 
                 if (element.is('interaction')) {
