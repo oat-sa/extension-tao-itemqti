@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -282,7 +282,10 @@ define([
                     updateResponseDeclaration(element, value, options.updateCardinality);
                 }
 
-                if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
+                if (this.disabled) {
+                    // if the field is disabled, the corresponding attribute should be removed.
+                    element[options.attrMethodNames.remove](name);
+                } else if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
                     element[options.attrMethodNames.remove](name); //to be removed for order interactions
                 } else {
                     element[options.attrMethodNames.set](name, value); //required
