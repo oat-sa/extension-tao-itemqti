@@ -36,7 +36,7 @@ define([
         {
             name: 'qtiIdentifier',
             message: __(
-                'Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
+                '<b>Invalid identifier</b></br>Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
             ),
             validate: function validate(value, callback, options) {
                 if (typeof callback === 'function') {
@@ -54,6 +54,17 @@ define([
                         }
                     }
                     callback(valid);
+                }
+            }
+        },
+        {
+            name: 'qtiResponseIdentifier',
+            message: __(
+                '<b>Invalid response identifier</b></br>Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
+            ),
+            validate: function validate(value, callback, options) {
+                if (typeof callback === 'function') {
+                    callback(_qtiIdPattern.test(value));
                 }
             }
         },
