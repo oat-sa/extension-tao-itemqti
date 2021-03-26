@@ -28,15 +28,7 @@ define([
     'core/eventifier',
     'ui/dialog',
     'taoQtiItem/qtiCreator/helper/saveChanges'
-], function (
-    $,
-    _,
-    __,
-    uuid,
-    eventifier,
-    dialog,
-    saveChanges
-) {
+], function ($, _, __, uuid, eventifier, dialog, saveChanges) {
     'use strict';
 
     /**
@@ -121,26 +113,29 @@ define([
                     // since we don't know how to prevent history based events, we just stop the handling
                     .on('popstate', () => this.uninstall());
 
-                // every click outside the authoring
-                $(wrapperSelector)
-                    .on(`click${eventNS}`, e => {
-                        if (!$.contains(container, e.target) && this.hasChanged()) {
-                            e.stopImmediatePropagation();
-                            e.preventDefault();
+                // every click outside the authoring (except feedback message)
+                $(wrapperSelector).on(`click${eventNS}`, e => {
+                    if (
+                        !$.contains(container, e.target) &&
+                        !$(e.target).parents('#feedback-box').length &&
+                        this.hasChanged()
+                    ) {
+                        e.stopImmediatePropagation();
+                        e.preventDefault();
 
-                            this.confirmBefore('exit')
-                                .then(() => {
-                                    // @todo improve this:
-                                    // When clicking outside, and accepting the confirm dialog (one way or another),
-                                    // the tracker is disabled, and changes won't be detected anymore. So it could be
-                                    // an issue if the click was not triggering any move.
-                                    this.uninstall();
-                                    e.target.click();
-                                })
-                                //do nothing but prevent uncaught error
-                                .catch(() => {});
-                        }
-                    });
+                        this.confirmBefore('exit')
+                            .then(() => {
+                                // @todo improve this:
+                                // When clicking outside, and accepting the confirm dialog (one way or another),
+                                // the tracker is disabled, and changes won't be detected anymore. So it could be
+                                // an issue if the click was not triggering any move.
+                                this.uninstall();
+                                e.target.click();
+                            })
+                            //do nothing but prevent uncaught error
+                            .catch(() => {});
+                    }
+                });
 
                 itemCreator
                     .on(`ready${eventNS} saved${eventNS}`, () => this.init())
@@ -156,9 +151,7 @@ define([
              */
             uninstall() {
                 // remove all global handlers
-                $(window.document)
-                    .off(eventNS)
-                    .off('stylechange.qti-creator', onStyleChange);
+                $(window.document).off(eventNS).off('stylechange.qti-creator', onStyleChange);
                 $(window).off(eventNS);
                 $(wrapperSelector).off(eventNS);
                 itemCreator.off(eventNS);
@@ -191,32 +184,35 @@ define([
 
                     const confirmDlg = dialog({
                         message: message,
-                        buttons: [{
-                            id: 'dontsave',
-                            type: 'regular',
-                            label: __('Don\'t save'),
-                            close: true
-                        }, {
-                            id: 'cancel',
-                            type: 'regular',
-                            label: __('Cancel'),
-                            close: true
-                        }, {
-                            id: 'save',
-                            type: 'info',
-                            label: __('Save'),
-                            close: true
-                        }],
+                        buttons: [
+                            {
+                                id: 'dontsave',
+                                type: 'regular',
+                                label: __('Don\'t save'),
+                                close: true
+                            },
+                            {
+                                id: 'cancel',
+                                type: 'regular',
+                                label: __('Cancel'),
+                                close: true
+                            },
+                            {
+                                id: 'save',
+                                type: 'info',
+                                label: __('Save'),
+                                close: true
+                            }
+                        ],
                         autoRender: true,
                         autoDestroy: true,
                         onSaveBtn: () => saveChanges(itemCreator).then(resolve).catch(reject),
                         onDontsaveBtn: resolve,
                         onCancelBtn: () => {
                             confirmDlg.hide();
-                            reject({cancel: true});
+                            reject({ cancel: true });
                         }
-                    })
-                        .on('closed.modal', () => asking = false);
+                    }).on('closed.modal', () => (asking = false));
                 });
             },
 
