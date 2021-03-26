@@ -74,7 +74,7 @@ define([
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    var loadItem = function loadItem(uri, label, itemDataUrl, perInteractionRp) {
+    const loadItem = function loadItem(uri, label, itemDataUrl, perInteractionRp) {
         return new Promise(function (resolve, reject) {
             itemLoader.loadItem(
                 { uri: uri, label: label, itemDataUrl: itemDataUrl, perInteractionRp },
@@ -96,7 +96,7 @@ define([
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    var loadCustomInteractions = function loadCustomInteractions(interactionsIds) {
+    const loadCustomInteractions = function loadCustomInteractions(interactionsIds) {
         return ciRegistry.loadCreators({
             include: interactionsIds
         });
@@ -107,7 +107,7 @@ define([
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    var loadInfoControls = function loadInfoControls() {
+    const loadInfoControls = function loadInfoControls() {
         return icRegistry.loadCreators();
     };
 
@@ -125,10 +125,10 @@ define([
      * @returns {itemCreator} an event emitter object, with the usual lifecycle
      * @throws {TypeError}
      */
-    var itemCreatorFactory = function itemCreatorFactory(config, areaBroker, pluginFactories) {
-        var itemCreator;
-        var qtiCreatorContext = qtiCreatorContextFactory();
-        var plugins = {};
+    const itemCreatorFactory = function itemCreatorFactory(config, areaBroker, pluginFactories) {
+        let itemCreator;
+        const qtiCreatorContext = qtiCreatorContextFactory();
+        const plugins = {};
 
         /**
          * Run a method in all plugins
@@ -136,8 +136,8 @@ define([
          * @param {String} method - the method to run
          * @returns {Promise} once that resolve when all plugins are done
          */
-        var pluginRun = function pluginRun(method) {
-            var execStack = [];
+        const pluginRun = function pluginRun(method) {
+            const execStack = [];
 
             _.forEach(plugins, function (plugin) {
                 if (_.isFunction(plugin[method])) {
@@ -181,11 +181,11 @@ define([
              * @fires itemCreator#error - if something went wrong
              */
             init: function init() {
-                var self = this;
+                const self = this;
 
                 //instantiate the plugins first
                 _.forEach(pluginFactories, function (pluginFactory) {
-                    var plugin = pluginFactory(self, areaBroker);
+                    const plugin = pluginFactory(self, areaBroker);
                     plugins[plugin.getName()] = plugin;
                 });
 
@@ -201,8 +201,8 @@ define([
                  * @fires itemCreator#error
                  */
                 this.on('save', function (silent) {
-                    var item = this.getItem();
-                    var itemWidget = item.data('widget');
+                    const item = this.getItem();
+                    const itemWidget = item.data('widget');
 
                     if (!itemWidget.isValid()) {
                         const invalidElements = item.data('invalid') || {};
@@ -233,7 +233,7 @@ define([
                     $('.item-editor-item', areaBroker.getItemPanelArea()).empty();
                 });
 
-                var usedCustomInteractionIds = [];
+                const usedCustomInteractionIds = [];
                 loadItem(
                     config.properties.uri,
                     config.properties.label,
@@ -318,8 +318,8 @@ define([
              * @fires itemCreator#error - if something went wrong
              */
             render: function render() {
-                var self = this;
-                var item = this.getItem();
+                const self = this;
+                const item = this.getItem();
 
                 if (!item || !_.isFunction(item.getUsedClasses)) {
                     return this.trigger('error', new Error('We need an item to render.'));
@@ -346,7 +346,7 @@ define([
                     .get(true, config, areaBroker)
                     .setOptions(config.properties)
                     .load(function () {
-                        var widget;
+                        let widget;
 
                         //set renderer
                         item.setRenderer(this);
@@ -390,19 +390,17 @@ define([
              * @returns {itemCreator} chains
              */
             destroy: function destroy() {
-                var self = this;
-
                 $(document).off('.qti-widget');
 
                 pluginRun('destroy')
-                    .then(function () {
+                    .then(() => {
                         return qtiCreatorContext.destroy();
                     })
-                    .then(function () {
-                        self.trigger('destroy');
+                    .then(() => {
+                        this.trigger('destroy');
                     })
-                    .catch(function (err) {
-                        self.trigger('error', err);
+                    .catch(err => {
+                        this.trigger('error', err);
                     });
                 return this;
             },

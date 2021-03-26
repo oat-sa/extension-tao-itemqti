@@ -25,14 +25,14 @@ define([
 ], function (validators, _, __, Element, invalidator) {
     'use strict';
 
-    var _qtiIdPattern = /^[A-Za-z_][A-Za-z_0-9-]*$/u;
+    const _qtiIdPattern = /^[A-Za-z_][A-Za-z_0-9-]*$/u;
     const typeToMessage = {
         response: 'Invalid response identifier',
         item: 'Invalid identifier',
         default: 'Invalid identifier'
     };
 
-    var qtiValidators = [
+    const qtiValidators = [
         {
             name: 'qtiIdentifier',
             message: __(
@@ -74,10 +74,10 @@ define([
             message: __('This identifier must not be used by any other response or item variable.'),
             validate: function validate(value, callback, options) {
                 if (options.serial) {
-                    var element = Element.getElementBySerial(options.serial);
+                    const element = Element.getElementBySerial(options.serial);
                     if (element && typeof callback === 'function') {
-                        var ids = element.getRootElement().getUsedIdentifiers();
-                        var available = !ids[value] || ids[value].serial === element.serial;
+                        const ids = element.getRootElement().getUsedIdentifiers();
+                        const available = !ids[value] || ids[value].serial === element.serial;
                         callback(available);
                     }
                 } else {
@@ -91,10 +91,10 @@ define([
             message: __('identifier already taken'),
             validate: function validate(value, callback, options) {
                 if (options.serial) {
-                    var element = Element.getElementBySerial(options.serial);
+                    const element = Element.getElementBySerial(options.serial);
                     if (element && typeof callback === 'function') {
-                        var ids = element.getRootElement().getUsedIdentifiers();
-                        var available =
+                        const ids = element.getRootElement().getUsedIdentifiers();
+                        const available =
                             !ids[value] ||
                             ids[value].serial === element.serial ||
                             !ids[value].is('variableDeclaration');

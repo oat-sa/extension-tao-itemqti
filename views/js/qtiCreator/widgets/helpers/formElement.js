@@ -42,9 +42,9 @@ define([
      * @param {Boolean} [updateCardinality=true]
      * @throws {Error} if the element is not an interaction
      */
-    var updateResponseDeclaration = function updateResponseDeclaration(interaction, maxChoice, updateCardinality) {
-        var responseDeclaration;
-        var correct = [];
+    const updateResponseDeclaration = function updateResponseDeclaration(interaction, maxChoice, updateCardinality) {
+        let responseDeclaration;
+        const correct = [];
 
         if (!Element.isA(interaction, 'interaction')) {
             throw new Error(
@@ -77,8 +77,8 @@ define([
      * @param {Object} validatorOptions
      *
      */
-    var createTooltip = function createTooltip($input, validatorOptions) {
-        var formElementTooltip = tooltip.error($input, ' ', {
+    const createTooltip = function createTooltip($input, validatorOptions) {
+        const formElementTooltip = tooltip.error($input, ' ', {
             trigger: 'manual'
         });
 
@@ -99,9 +99,9 @@ define([
      * @param {Object} results
      * @param {Object} [validatorOptions]
      */
-    var validationCallback = function validationCallback(valid, results, validatorOptions) {
-        var rule;
-        var $input = $(this);
+    const validationCallback = function validationCallback(valid, results, validatorOptions) {
+        let rule;
+        const $input = $(this);
 
         if (dom.contains($input)) {
             createTooltip($input, validatorOptions);
@@ -122,7 +122,7 @@ define([
         }
     };
 
-    var formElement = {
+    const formElement = {
         initWidget: function initWidget($form) {
             spinner($form);
             tooltip.lookup($form);
@@ -140,16 +140,16 @@ define([
          * @param {Boolean} [options.invalidate=false] - define if the validation set the valid/invalidate state to the widget of the element
          */
         setChangeCallbacks: function setChangeCallbacks($form, element, attributes, options) {
-            var applyCallback = function applyCallback(name, value, $elt) {
-                var cb = attributes && attributes[name];
+            const applyCallback = function applyCallback(name, value, $elt) {
+                const cb = attributes && attributes[name];
                 if (_.isFunction(cb)) {
                     cb.call($elt[0], element, value, name);
                 }
             };
 
-            var callbackSimple = function callbackSimple() {
-                var $elt = $(this);
-                var name = $elt.attr('name');
+            const callbackSimple = function callbackSimple() {
+                const $elt = $(this);
+                const name = $elt.attr('name');
 
                 if ($elt.is(':checkbox')) {
                     applyCallback(name, $elt.prop('checked'), $elt);
@@ -158,9 +158,9 @@ define([
                 }
             };
 
-            var callbackWithValidation = function callbackWithValidation(e, valid, elt) {
-                var $elt;
-                var name;
+            const callbackWithValidation = function callbackWithValidation(e, valid, elt) {
+                let $elt;
+                let name;
                 if (e.namespace === 'group') {
                     $elt = $(elt);
                     name = $elt.attr('name');
@@ -246,7 +246,7 @@ define([
             attributeNameMax,
             options
         ) {
-            var callbacks = {};
+            const callbacks = {};
 
             //prepare options object
             options = _.defaults(options || {}, {
@@ -261,7 +261,7 @@ define([
             });
 
             callbacks[attributeNameMin] = function (element, value, name) {
-                var isActualNumber;
+                let isActualNumber;
 
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10);
                 isActualNumber = !isNaN(value);
