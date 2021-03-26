@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.7.1",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#fix/ms-988/audio-pci"
+        "@oat-sa/tao-item-runner-qti": "0.21.0"
     }
 }
