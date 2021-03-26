@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2021 (original work) Open Assessment Technologies SA ;
  *
  */
 
@@ -215,16 +215,17 @@ define([
                         self.trigger('error', new Error(`${__('Item cannot be saved.')} ${reasons.join(', ')}.`));
                         return;
                     }
-
                     //do the save
-                    Promise.all([itemWidget.save(), styleEditor.save()])
-                        .then(function () {
-                            if (!silent) {
+                    return this.beforeSaveProcess
+                        .then(() => Promise.all([
+                            itemWidget.save(),
+                            styleEditor.save()
+                        ])).then(() => {
+                            if (!silent){
                                 self.trigger('success', __('Your item has been saved'));
                             }
                             self.trigger('saved');
-                        })
-                        .catch(function (err) {
+                        }).catch(err => {
                             self.trigger('error', err);
                         });
                 });
@@ -298,6 +299,11 @@ define([
                         // forward context error
                         qtiCreatorContext.on('error', function (err) {
                             self.trigger('error', err);
+                        });
+                        // handle before save processes
+                        self.beforeSaveProcess = Promise.resolve();
+                        qtiCreatorContext.on('registerBeforeSaveProcess', beforeSaveProcess => {
+                            self.beforeSaveProcess = Promise.all([self.beforeSaveProcess, beforeSaveProcess]);
                         });
                         return qtiCreatorContext.init();
                     })
