@@ -118,6 +118,7 @@ define([
                     if (
                         !$.contains(container, e.target) &&
                         !$(e.target).parents('#feedback-box').length &&
+                        !$(e.target).hasClass('icon-close') &&
                         this.hasChanged()
                     ) {
                         e.stopImmediatePropagation();
