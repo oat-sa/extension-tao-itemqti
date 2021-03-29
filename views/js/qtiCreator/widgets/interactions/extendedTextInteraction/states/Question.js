@@ -47,6 +47,7 @@ define([
             $original = _widget.$original,
             $inputs,
             interaction = _widget.element,
+            isMathEntry = interaction.attr('data-math-entry') === 'true',
             format = interaction.attr('format'),
             patternMask = interaction.attr('patternMask'),
             expectedLength = parseInt(interaction.attr('expectedLength'), 10),
@@ -57,9 +58,10 @@ define([
             $counterMaxLength = $('.text-counter-chars > .count-max-length', $original);
 
         var formats = {
-            plain : {label : __("Plain text"), selected : false},
-            preformatted : {label : __("Pre-formatted text"), selected : false},
-            xhtml : {label : __("XHTML"), selected : false}
+            plain : {label : __('Plain text'), selected : false},
+            preformatted : {label : __('Pre-formatted text'), selected : false},
+            xhtml : {label : __('Rich text'), selected : false},
+            math : {label : __('Rich text') + ' + ' + __('math'), selected : false}
         };
 
         var constraints = {
@@ -82,6 +84,11 @@ define([
             constraints.none.selected = false;
             constraints.pattern.selected = true;
         }
+
+        if (format === 'xhtml' && isMathEntry) {
+            format = 'math';
+        }
+
         /**
          * Set the selected on the right items before sending it to the view for formats
          */
@@ -119,16 +126,19 @@ define([
             var response = interaction.getResponseDeclaration();
             var correctResponse = _.values(response.getCorrect());
             var previousFormat = interaction.attr('format');
+            var isMath = attrValue === 'math';
+            var format = isMath ? 'xhtml' : attrValue;
 
             //remove the interaction
             renderer.destroy(interaction);
 
             //change the format and rerender
-            interaction.attr('format', attrValue);
+            interaction.attr('format', format);
+            interaction.attr('data-math-entry', isMath ? 'true' : 'false');
             renderer.render(interaction);
 
-            if(previousFormat === 'xhtml'){
-                if(typeof correctResponse[0] !== 'undefined'){
+            if (format !=='xhtml' && previousFormat === 'xhtml') {
+                if (typeof correctResponse[0] !== 'undefined') {
                     // Get a correct response with all possible html tags removed.
                     // (Why not let jquery do that :-) ?)
                     response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
@@ -191,7 +201,7 @@ define([
             } else {
                 interaction.removeAttr(attribute);
             }
-        };
+        }
 
         callbacks.expectedLength = setAttributes.bind(null, 'expectedLength');
 
