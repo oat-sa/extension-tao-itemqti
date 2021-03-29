@@ -19,14 +19,17 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'module',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText'
-], function($, _, __, stateFactory, Question, formElement, renderer, patternMaskHelper, formTpl){
+], function($, _, __, module, stateFactory, Question, formElement, renderer, patternMaskHelper, formTpl){
     'use strict';
+
+    var config = module.config();
 
     var initState = function initState(){
         // Disable inputs until response edition.
@@ -60,9 +63,12 @@ define([
         var formats = {
             plain : {label : __('Plain text'), selected : false},
             preformatted : {label : __('Pre-formatted text'), selected : false},
-            xhtml : {label : __('Rich text'), selected : false},
-            math : {label : __('Rich text') + ' + ' + __('math'), selected : false}
+            xhtml : {label : __('Rich text'), selected : false}
         };
+
+        if (config.hasMath) {
+            formats.math = {label : __('Rich text') + ' + ' + __('math'), selected : false};
+        }
 
         var constraints = {
             none : {label : __("None"), selected : true},
