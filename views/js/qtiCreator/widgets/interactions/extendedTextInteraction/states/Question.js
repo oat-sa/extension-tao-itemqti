@@ -143,7 +143,7 @@ define([
             interaction.attr('data-math-entry', isMath ? 'true' : 'false');
             renderer.render(interaction);
 
-            if (format !=='xhtml' && previousFormat === 'xhtml') {
+            if (format !== 'xhtml' && previousFormat === 'xhtml') {
                 if (typeof correctResponse[0] !== 'undefined') {
                     // Get a correct response with all possible html tags removed.
                     // (Why not let jquery do that :-) ?)
