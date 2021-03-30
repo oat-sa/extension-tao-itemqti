@@ -18,6 +18,7 @@
  */
 
 define([
+    'module',
     'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -25,7 +26,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/helpers/uploadMime',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/upload'
-], function(_, __, stateFactory, Question, formElement, uploadHelper, formTpl){
+], function(module, _, __, stateFactory, Question, formElement, uploadHelper, formTpl){
 
     'use strict';
     var UploadInteractionStateQuestion = stateFactory.extend(Question);
@@ -39,6 +40,13 @@ define([
             selectedMime = '',
             // Pre-select a value in the types combo box if needed.
             preselected = uploadHelper.getExpectedTypes(interaction);
+
+        const config = module.config();
+
+        if (preselected.length === 0 && config.defaultList && config.defaultList.length > 0) {
+            preselected = preselected.concat(config.defaultList);
+            uploadHelper.setExpectedTypes(interaction, config.defaultList);
+        }
 
         types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
 
