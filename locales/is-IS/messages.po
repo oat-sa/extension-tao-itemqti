@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-26T14:48:06\n"
+"PO-Revision-Date: 2021-03-30T17:14:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -1296,11 +1296,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "remove"
-msgstr "fjarlægja"
-
 msgid "Remove"
 msgstr "Fjarlægja"
+
+msgid "remove"
+msgstr "fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1367,6 +1367,12 @@ msgstr "Úrvinnsla svars"
 
 msgid "Response Properties"
 msgstr "Eigindir Svars"
+
+msgid "Rich text"
+msgstr ""
+
+msgid "Rich text + math"
+msgstr ""
 
 msgid "Rich Text Format file"
 msgstr ""
@@ -1905,9 +1911,6 @@ msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr ""
-
-msgid "XHTML"
-msgstr "XHTML"
 
 msgid "XML file"
 msgstr ""
