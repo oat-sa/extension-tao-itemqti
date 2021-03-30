@@ -39,6 +39,9 @@ class SetupExtendedTextInteractionConfigurationRegistry extends ScriptAction
 {
     public const HAS_MATH = 'math';
 
+    /** @var ExtendedTextInteractionConfigurationRegistry */
+    private $registry;
+
     protected function provideOptions(): array
     {
         return [
@@ -57,18 +60,21 @@ class SetupExtendedTextInteractionConfigurationRegistry extends ScriptAction
 
     protected function run(): Report
     {
-        $setValues = [];
+        $this->registry = $this->propagate(new ExtendedTextInteractionConfigurationRegistry());
 
-        /** @var ExtendedTextInteractionConfigurationRegistry $registry */
-        $registry = $this->propagate(new ExtendedTextInteractionConfigurationRegistry());
+        if ($this->hasOption(self::HAS_MATH)) {
+            $this->registry->setHasMath(
+                (bool)$this->getOption(self::HAS_MATH)
+            );
+        }
 
-        $this->setHasMath($registry, $setValues);
-
-        return $this->createReport($setValues);
+        return $this->createReport();
     }
 
-    private function createReport(array $setValues): Report
+    private function createReport(): Report
     {
+        $setValues = $this->registry->get(ExtendedTextInteractionConfigurationRegistry::ID);
+
         return $setValues
             ? Report::createSuccess(
                 sprintf(
@@ -80,18 +86,5 @@ class SetupExtendedTextInteractionConfigurationRegistry extends ScriptAction
             : Report::createError(
                 sprintf('No values set to `%s`', ExtendedTextInteractionConfigurationRegistry::class)
             );
-    }
-
-    private function setHasMath(ExtendedTextInteractionConfigurationRegistry $registry, array &$setValues): void
-    {
-        if (!$this->hasOption(self::HAS_MATH)) {
-            return;
-        }
-
-        $hasMath = (bool)$this->getOption(self::HAS_MATH);
-
-        $setValues[self::HAS_MATH] = $hasMath;
-
-        $registry->setHasMath($hasMath);
     }
 }
