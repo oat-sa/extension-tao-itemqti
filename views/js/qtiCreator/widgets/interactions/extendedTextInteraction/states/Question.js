@@ -67,7 +67,7 @@ define([
         };
 
         if (config.hasMath) {
-            formats.math = {label : __('Rich text') + ' + ' + __('math'), selected : false};
+            formats.math = {label : __('Rich text + math'), selected : false};
         }
 
         var constraints = {
