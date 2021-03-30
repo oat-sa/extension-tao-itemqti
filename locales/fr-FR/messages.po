@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-26T14:48:00\n"
+"PO-Revision-Date: 2021-03-30T17:13:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -1301,11 +1301,11 @@ msgstr "La méthode d'inscription attend des paramètres $key et $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "La méthode d'inscription attend des paramètres $key et $name ."
 
-msgid "remove"
-msgstr "supprimer"
-
 msgid "Remove"
 msgstr "Supprimer"
+
+msgid "remove"
+msgstr "supprimer"
 
 msgid "Remove custom background color"
 msgstr "Supprimer une couleur de fond personnalisée"
@@ -1372,6 +1372,12 @@ msgstr "Traitement de la réponse"
 
 msgid "Response Properties"
 msgstr "Propriétés de la réponse"
+
+msgid "Rich text"
+msgstr ""
+
+msgid "Rich text + math"
+msgstr ""
 
 msgid "Rich Text Format file"
 msgstr ""
@@ -1912,9 +1918,6 @@ msgstr ""
 
 msgid "WYSIWYG editor"
 msgstr "Éditeur WYSIWYG"
-
-msgid "XHTML"
-msgstr "XHTML"
 
 msgid "XML file"
 msgstr ""
