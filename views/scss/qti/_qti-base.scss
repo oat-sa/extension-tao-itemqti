@@ -11,7 +11,7 @@ $mainContainer : '.qti-item';
 @import "inc/mediaelementplayer";
 
 %selectableHover {
-    background: whiten($info, .95) !important;
+    background: whiten($info, .9) !important;
     color: darken($textColor, .95) !important;
     cursor: pointer !important;
 }
