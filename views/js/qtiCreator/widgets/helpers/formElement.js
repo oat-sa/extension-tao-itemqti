@@ -282,7 +282,7 @@ define([
                     updateResponseDeclaration(element, value, options.updateCardinality);
                 }
 
-                if ((name === 'maxChoices' || name === 'upperBound') && this.disabled) {
+                if (name === 'upperBound' && this.disabled) {
                     // if the field is disabled, the corresponding attribute should be removed.
                     element[options.attrMethodNames.remove](name);
                 } else if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
