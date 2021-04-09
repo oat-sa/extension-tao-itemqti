@@ -61,7 +61,7 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "oat-sa/lib-tao-qti": "7.0.2",
+        "oat-sa/lib-tao-qti": "7.1.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
         "oat-sa/generis" : ">=14.0.0",
