@@ -33,6 +33,8 @@ use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetCompiler;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetXmlReplacer;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\XIncludeXmlInjector;
+use oat\taoQtiItem\model\compile\QtiAssetXmlReplacer\Replacer\QtiItemAssetReplacerInterface;
+use oat\taoQtiItem\model\compile\QtiAssetXmlReplacer\Service\QtiItemAssetReplacerServiceInterface;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 use oat\taoQtiItem\model\qti\Element;
@@ -179,7 +181,10 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         }
 
         $this->getXIncludeXmlInjector()->injectSharedStimulus($dom, $packedAssets);
-        $this->getItemAssetXmlReplacer()->replaceAssetNodeValue($dom, $packedAssets);
+        $this->getQtiItemAssetReplacerService()->replace($dom, $packedAssets);
+
+        //to be removed
+//        $this->getItemAssetXmlReplacer()->replaceAssetNodeValue($dom, $packedAssets);
 
         $qtiParser = new Parser($dom->saveXML());
         $qtiItem = $qtiParser->load();
@@ -252,5 +257,10 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private function getItemAssetXmlReplacer(): QtiItemAssetXmlReplacer
     {
         return $this->getServiceLocator()->get(QtiItemAssetXmlReplacer::class);
+    }
+
+    private function getQtiItemAssetReplacerService(): QtiItemAssetReplacerServiceInterface
+    {
+        return $this->getServiceLocator()->get(QtiItemAssetReplacerServiceInterface::SERVICE_ID);
     }
 }
