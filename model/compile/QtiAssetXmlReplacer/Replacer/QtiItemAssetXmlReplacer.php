@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -26,22 +26,36 @@ namespace oat\taoQtiItem\model\compile\QtiAssetXmlReplacer\Replacer;
 use \DOMDocument;
 use \DOMXPath;
 use \DOMElement;
+use oat\taoQtiItem\model\compile\QtiAssetXmlReplacer\Exceptions\ReplacementException;
 
 class QtiItemAssetXmlReplacer implements QtiItemAssetReplacerInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function replace(DOMDocument &$domDocument, array $packedAssets): void
+    public function replace(DOMDocument $dom, array $packedAssets): DOMDocument
     {
-        $xpath = new DOMXPath($domDocument);
+        $xpath = new DOMXPath($dom);
         $attributeNodes = $xpath->query('//@*');
 
-        /** @var DOMElement $node */
-        foreach ($attributeNodes as $node) {
-            if (isset($packedAssets[$node->value])) {
-                $node->value = $packedAssets[$node->value]->getReplacedBy();
+        try {
+            /** @var DOMElement $node */
+            foreach ($attributeNodes as $node) {
+                if (isset($packedAssets[$node->value])) {
+                    $node->value = $packedAssets[$node->value]->getReplacedBy();
+                }
             }
+        } catch (\Throwable $e) {
+            throw new ReplacementException(
+                sprintf(
+                    'Bad XML after replacing assets with `%s` replacer',
+                    self::class
+                ),
+                $e->getCode(),
+                $e
+            );
         }
+
+        return $dom;
     }
 }
