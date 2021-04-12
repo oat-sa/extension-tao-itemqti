@@ -32,5 +32,5 @@ interface QtiItemAssetReplacerServiceInterface
      *
      * @throws \Exception
      */
-    public function replace(DOMDocument $dom, array $packedAssets): void;
+    public function replace(DOMDocument &$dom, array $packedAssets): void;
 }

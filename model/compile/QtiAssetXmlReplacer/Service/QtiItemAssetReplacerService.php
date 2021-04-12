@@ -13,7 +13,7 @@ class QtiItemAssetReplacerService extends ConfigurableService implements QtiItem
         return $this->getOption(QtiItemAssetReplacerServiceInterface::OPTION_TYPE);
     }
 
-    public function replace(DOMDocument $dom, array $packedAssets): void
+    public function replace(DOMDocument &$dom, array $packedAssets): void
     {
         if ($this->getType() === QtiItemAssetReplacerServiceInterface::TYPE_SINGLE) {
             /** @var QtiItemAssetReplacerServiceInterface $callable */
@@ -30,7 +30,7 @@ class QtiItemAssetReplacerService extends ConfigurableService implements QtiItem
         }
     }
 
-    private function callReplacer($replacer, DOMDocument $dom, array $packedAssets): void
+    private function callReplacer($replacer, DOMDocument &$dom, array $packedAssets): void
     {
         if ($replacer instanceof QtiItemAssetReplacerInterface) {
             $this->logInfo('Going to replace asset link');
