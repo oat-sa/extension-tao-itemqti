@@ -75,7 +75,7 @@ class QtiItemAssetXmlReplacerTest extends TestCase
         $domDocument->appendChild($element);
 
 
-        $this->subject->replace($domDocument, $packedAssets);
+        $domDocument = $this->subject->replace($domDocument, $packedAssets);
 
         $attributes = $domDocument->getElementsByTagName('video')->item(0)->attributes;
         $this->assertEquals('new-link-fixture_1', $attributes['src']->nodeValue);
