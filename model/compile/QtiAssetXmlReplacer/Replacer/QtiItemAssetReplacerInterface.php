@@ -12,6 +12,6 @@ interface QtiItemAssetReplacerInterface
      * @param DOMDocument $dom
      * @param PackedAsset[] $packedAssets
      */
-    public function replace(DOMDocument $dom, array $packedAssets): void;
+    public function replace(DOMDocument &$dom, array $packedAssets): void;
 
 }

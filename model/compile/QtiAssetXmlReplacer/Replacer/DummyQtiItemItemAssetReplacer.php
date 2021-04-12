@@ -9,5 +9,5 @@ class DummyQtiItemItemAssetReplacer implements QtiItemAssetReplacerInterface
      *
      * {@inheritDoc}
      */
-    public function replace(\DOMDocument $dom, array $packedAssets): void {}
+    public function replace(\DOMDocument &$dom, array $packedAssets): void {}
 }

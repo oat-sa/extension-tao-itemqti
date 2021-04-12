@@ -24,13 +24,15 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\compile\QtiAssetXmlReplacer\Replacer;
 
 use \DOMDocument;
+use \DOMXPath;
+use \DOMElement;
 
 class QtiItemAssetXmlReplacer implements QtiItemAssetReplacerInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function replace(DOMDocument $domDocument, array $packedAssets): void
+    public function replace(DOMDocument &$domDocument, array $packedAssets): void
     {
         $xpath = new DOMXPath($domDocument);
         $attributeNodes = $xpath->query('//@*');
