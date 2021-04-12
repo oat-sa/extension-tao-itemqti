@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\test\unit\model\compile;
 
 use DOMDocument;
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetXmlReplacer;
+use oat\taoQtiItem\model\compile\QtiAssetXmlReplacer\Replacer\QtiItemAssetXmlReplacer;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 
 class QtiItemAssetXmlReplacerTest extends TestCase
@@ -75,7 +75,7 @@ class QtiItemAssetXmlReplacerTest extends TestCase
         $domDocument->appendChild($element);
 
 
-        $this->subject->replaceAssetNodeValue($domDocument, $packedAssets);
+        $this->subject->replace($domDocument, $packedAssets);
 
         $attributes = $domDocument->getElementsByTagName('video')->item(0)->attributes;
         $this->assertEquals('new-link-fixture_1', $attributes['src']->nodeValue);
@@ -116,7 +116,7 @@ class QtiItemAssetXmlReplacerTest extends TestCase
         $element->setAttribute('do-not-care', 'fixture-2');
         $domDocument->appendChild($element);
 
-        $this->subject->replaceAssetNodeValue($domDocument, $packedAssets);
+        $this->subject->replace($domDocument, $packedAssets);
 
         $attributes = $domDocument->getElementsByTagName('video')->item(0)->attributes;
         $this->assertEquals('new-link-fixture-1', $attributes['src']->nodeValue);
