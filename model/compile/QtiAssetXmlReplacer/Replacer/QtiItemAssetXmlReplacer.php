@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\compile\QtiAssetXmlReplacer\Replacer;
 
+use \DOMDocument;
+
 class QtiItemAssetXmlReplacer implements QtiItemAssetReplacerInterface
 {
     /**
