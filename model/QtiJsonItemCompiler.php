@@ -181,9 +181,10 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         }
 
         $this->getXIncludeXmlInjector()->injectSharedStimulus($dom, $packedAssets);
-        $this->getQtiItemAssetReplacerService()->replace($dom, $packedAssets);
 
-        //to be removed
+        $dom = $this->getQtiItemAssetReplacerService()->replaceLinksInXML($dom, $packedAssets);
+
+        //to be removed, the old call
 //        $this->getItemAssetXmlReplacer()->replaceAssetNodeValue($dom, $packedAssets);
 
         $qtiParser = new Parser($dom->saveXML());
