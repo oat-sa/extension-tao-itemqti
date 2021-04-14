@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint148\n"
-"PO-Revision-Date: 2021-02-12T10:16:02\n"
+"Project-Id-Version: TAO 3.4.0-sprint151\n"
+"PO-Revision-Date: 2021-03-30T17:17:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -36,6 +36,9 @@ msgstr "-- Elk soort van bestand --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 item geïmporteerd uit het betreffende QTI/APIP XML-itemdocument."
+
+msgid "7-zip archive"
+msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Er moet een keuze worden geselecteerd."
@@ -80,6 +83,9 @@ msgstr "Voeg nieuwe paren toe"
 
 msgid "Add Style Sheet"
 msgstr "Voeg stijlblad toe"
+
+msgid "Adobe Flash file"
+msgstr ""
 
 msgid "Alignment"
 msgstr "Uitlijning"
@@ -158,6 +164,9 @@ msgstr "Verbind paren"
 msgid "at least"
 msgstr "ten minste"
 
+msgid "Audio Video Interleave"
+msgstr ""
+
 msgid "Autostart"
 msgstr "Automatisch starten"
 
@@ -168,6 +177,9 @@ msgid "Background color"
 msgstr "Achtergrondkleur"
 
 msgid "Base"
+msgstr ""
+
+msgid "Bitmap image"
 msgstr ""
 
 msgid "block"
@@ -191,14 +203,20 @@ msgstr "Blader door uw computer en selecteer het juiste bestand"
 msgid "Browse..."
 msgstr "Bladeren…"
 
+msgid "C file"
+msgstr ""
+
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "cancel"
-msgstr "annuleren"
+msgid "Calc speadsheet (Staroffice)"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Annuleren"
+
+msgid "cancel"
+msgstr "annuleren"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Kan geen gap maken uit deze keuze. Controleer of u geen elementen gedeeltelijk hebt geselecteerd."
@@ -217,6 +235,9 @@ msgstr "kan de QTI XML niet laden."
 
 msgid "Cannot locate the file \"%s"
 msgstr "Kan het bestand \"%s\" niet lokaliseren"
+
+msgid "Cascading Style Sheets"
+msgstr ""
 
 msgid "Center"
 msgstr "Centreren"
@@ -278,16 +299,19 @@ msgstr "Kleurkiezer"
 msgid "Common Interactions"
 msgstr ""
 
+msgid "Compressed tar file"
+msgstr ""
+
 msgid "Contraints"
 msgstr "Beperkingen"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -325,6 +349,9 @@ msgstr "aangepast"
 
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
+
+msgid "Database file"
+msgstr ""
 
 msgid "default"
 msgstr "standaard"
@@ -385,6 +412,9 @@ msgstr "Geef de keuzes horizontaal of verticaal weer"
 
 msgid "Divide"
 msgstr "Delen"
+
+msgid "Document templates (Staroffice)"
+msgstr ""
 
 msgid "Don\'t save"
 msgstr ""
@@ -466,6 +496,9 @@ msgstr "Einde poging"
 
 msgid "End Attempt Interaction"
 msgstr "Einde interactie poging"
+
+msgid "Enhanced metafile"
+msgstr ""
 
 msgid "Enlarge font size"
 msgstr "Vergroot de tekengrootte"
@@ -563,6 +596,9 @@ msgstr "Vul de lege plekken in op een afbeelding met een set van keuzenbeelden"
 msgid "Flash video"
 msgstr "Flash-video"
 
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr ""
+
 msgid "Font family"
 msgstr "Lettertypefamilie"
 
@@ -584,6 +620,9 @@ msgstr "Overeenkomende opening"
 msgid "Gap Match Interaction"
 msgstr "Overeenkomende opening interactie"
 
+msgid "Geogebra data file"
+msgstr ""
+
 msgid "GIF image"
 msgstr "GIF-afbeelding"
 
@@ -603,6 +642,12 @@ msgid "Greater than or equal"
 msgstr "Groter dan of gelijk aan"
 
 msgid "Guard for resource \"%s\"..."
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensions"
 msgstr ""
 
 msgid "Height"
@@ -635,13 +680,16 @@ msgstr "Hoe de wiskundige expressies moeten worden bewerkt"
 msgid "Human"
 msgstr ""
 
+msgid "Hypertext markup language"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Naam"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Naam"
 
 msgid "identifier already taken"
@@ -713,9 +761,6 @@ msgstr "Interactie eigenschappen"
 msgid "Interpretation"
 msgstr "Interpretatie"
 
-msgid "invalid identifier"
-msgstr "ongeldige naam"
-
 msgid "invalid QTI XML"
 msgstr "ongeldige QTI XML"
 
@@ -743,10 +788,10 @@ msgstr "Item \"%s\" is klaar om te worden geëxporteerd."
 msgid "Item metadata successfully exported."
 msgstr "Itemmetadata met succes geëxporteerd."
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Itemeigenschappen"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Itemeigenschappen"
 
 msgid "Item width"
@@ -755,6 +800,9 @@ msgstr "Item breedte"
 #, tao-public
 msgid "Items"
 msgstr "Items"
+
+msgid "Javascript code"
+msgstr ""
 
 msgid "JPEG image"
 msgstr "JPEG-afbeelding"
@@ -768,11 +816,11 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -858,10 +906,10 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
@@ -915,17 +963,38 @@ msgstr ""
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
 msgid "Microsoft Powerpoint"
 msgstr "Microsoft PowerPoint"
 
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
 msgid "Microsoft Word"
 msgstr "Microsoft Word"
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
 
 msgid "MIME-type"
 msgstr "MIME-type"
 
 msgid "Min"
 msgstr "Min"
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Minimum score voor deze interactie"
@@ -950,6 +1019,9 @@ msgstr "MPEG audio"
 
 msgid "MPEG video"
 msgstr "MPEG video"
+
+msgid "MPEG-4 audio file"
+msgstr ""
 
 msgid "Multiply"
 msgstr "Vermenigvuldigen"
@@ -982,11 +1054,11 @@ msgstr "Geen preview beschikbaar"
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "None"
-msgstr "Geen"
-
 msgid "none"
 msgstr "geen"
+
+msgid "None"
+msgstr "Geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1011,10 +1083,19 @@ msgid "One or more QTI components are not supported by the system. The system re
 msgstr "Een of meedere QTI-componenten worden niet door het systeem ondersteund. Het systeem heeft de volgende fout geretourneerd: %s\n"
 ""
 
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
 msgid "OpenDocument spreadsheet document"
 msgstr ""
 
 msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
 msgstr ""
 
 msgid "Order"
@@ -1199,6 +1280,12 @@ msgstr "Vraag"
 msgid "Quicktime video"
 msgstr "QuickTime-video"
 
+msgid "RAR archive"
+msgstr ""
+
+msgid "RealMedia file"
+msgstr ""
+
 msgid "Recommendations"
 msgstr "Aanbevelingen"
 
@@ -1285,6 +1372,15 @@ msgstr "Antwoord verwerking"
 
 msgid "Response Properties"
 msgstr "Antwoord eigenschappen"
+
+msgid "Rich text"
+msgstr ""
+
+msgid "Rich text + math"
+msgstr ""
+
+msgid "Rich Text Format file"
+msgstr ""
 
 msgid "Right"
 msgstr "Rechts"
@@ -1415,6 +1511,9 @@ msgstr "Vorm de positie"
 msgid "Shuffle choices"
 msgstr "Schud de keuzes"
 
+msgid "Sibelius music notation"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1438,6 +1537,9 @@ msgstr "standaard"
 
 msgid "Step"
 msgstr "Stap"
+
+msgid "Storing digital video data on a computer game"
+msgstr ""
 
 msgid "Style Editor"
 msgstr "Stijl Editor"
@@ -1463,10 +1565,19 @@ msgstr "SVG-afbeelding"
 msgid "Table headings"
 msgstr "Tabelkoppen"
 
+msgid "Tagged image file"
+msgstr ""
+
 msgid "TAO default styles"
 msgstr "TAO standaard stijlen"
 
+msgid "Tape Archive (TAR)"
+msgstr ""
+
 msgid "Target Class Lookup for resource \"%s\"..."
+msgstr ""
+
+msgid "TeX file"
 msgstr ""
 
 msgid "Text Block"
@@ -1480,6 +1591,9 @@ msgstr "Tekstblok eigenschappen"
 
 msgid "Text color"
 msgstr "Tekstkleur"
+
+msgid "Text document file format (Staroffice)"
+msgstr ""
 
 msgid "Text Entry"
 msgstr "Tekstinvoer"
@@ -1744,6 +1858,9 @@ msgstr "Ongedaan maken"
 msgid "undo"
 msgstr "ongedaan maken"
 
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
@@ -1777,8 +1894,14 @@ msgstr "We zullen de patternmMask gebruiken om dit te doen, zodat we compliant b
 msgid "Width"
 msgstr "Breedte"
 
+msgid "Windows help file"
+msgstr ""
+
 msgid "Windows Media audio"
 msgstr "Windows Media-audio"
+
+msgid "Windows Media file (metafile)"
+msgstr ""
 
 msgid "Windows Media video"
 msgstr "Windows Media-video"
@@ -1789,11 +1912,14 @@ msgstr "woorden"
 msgid "Would you like to replace the alt text"
 msgstr "Wilt u de alt tekst vervangen?"
 
+msgid "Write Document"
+msgstr ""
+
 msgid "WYSIWYG editor"
 msgstr ""
 
-msgid "XHTML"
-msgstr "XHTML"
+msgid "XML file"
+msgstr ""
 
 msgid "Yes"
 msgstr "Ja"

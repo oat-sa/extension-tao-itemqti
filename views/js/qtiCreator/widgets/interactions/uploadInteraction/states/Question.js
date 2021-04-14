@@ -46,7 +46,7 @@ define([
             uploadHelper.setExpectedTypes(interaction, config.defaultList);
         }
 
-        types.unshift({ mime: 'any/kind', label: __('-- Any kind of file --') });
+        types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
 
         if (interaction.attr('type') === '') {
             // Kill the attribute if it is empty.
