@@ -31,8 +31,10 @@ define([
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'
-], function(_, $, Promise, Loader, Container, Item, event, allQtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor){
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'lib/dompurify/purify'
+], function(_, $, Promise, Loader, Container, Item, event, allQtiClasses, commonRenderer, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor, contentHelper, DOMPurify){
     "use strict";
 
     var _ns = 'containereditor';
@@ -183,17 +185,26 @@ define([
 
     }
 
-    function buildContainer($container){
+    function buildContainer($container) {
 
         $container.wrapInner($('<div>', {'class' : 'container-editor', 'data-html-editable' : true}));
     }
 
-    function cleanup($container){
-        var container = $container.data('container');
+    function cleanup($container) {
+        const container = $container.data('container');
+
         return new Promise(function (resolve) {
-            if(container){
+            if (container) {
                 $(document).off('.' + container.serial);
                 commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable', '_tooltip'], function(){
+                    // update container editor body with sanitized value to prevent xss
+                    const newBody = contentHelper.getContent($container.find('.container-editor'));
+                    if (newBody) {
+                        container.body(DOMPurify.sanitize(newBody, {
+                            FORBID_TAGS: ['script'],
+                            KEEP_CONTENT: false
+                        }));
+                    }
                     $container.html(container.render(this));
                     resolve();
                 });
