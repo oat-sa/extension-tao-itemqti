@@ -200,10 +200,7 @@ define([
                     // update container editor body with sanitized value to prevent xss
                     const newBody = contentHelper.getContent($container.find('.container-editor'));
                     if (newBody) {
-                        container.body(DOMPurify.sanitize(newBody, {
-                            FORBID_TAGS: ['script'],
-                            KEEP_CONTENT: false
-                        }));
+                        container.body(DOMPurify.sanitize(newBody));
                     }
                     $container.html(container.render(this));
                     resolve();
