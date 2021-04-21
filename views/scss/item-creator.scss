@@ -774,7 +774,7 @@ img.dragging.ui-draggable-dragging {
     }
 
     /*hack to fix unwanted contenteditable behaviour in chrome : @see*/
-    p, span, ol, ul {
+    p, span:not([class*="hottext"]), ol, ul {
         line-height: 1.4;
         font-size: 1.4rem;
     }
