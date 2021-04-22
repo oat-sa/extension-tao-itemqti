@@ -614,11 +614,12 @@ define([
          * @param {JQuery} $editable
          */
         getData : function($editable) {
-            const editor = $editable.data('editor');
-            if (editor) {
+            var editor = $editable.data('editor');
+            if(editor){
                 return _htmlEncode(editor.getData());
+            }else{
+                throw new Error('no editor attached to the DOM element');
             }
-            return false
         },
         /**
          * Allow to set the editor content. Works only with plain text for now.
@@ -626,14 +627,16 @@ define([
          * @param {JQuery} $editable
          * @param {String} data
          */
-        setData : function($editable, data) {
-            const editor = $editable.data('editor');
-            if (editor) {
+        setData : function(
+            $editable, data) {
+            var editor = $editable.data('editor');
+            if(editor){
                 if (_.isString(data)) {
                     editor.setData(_.escape(data));
                 }
+            }else{
+                throw new Error('no editor attached to the DOM element');
             }
-            return false
         },
         /**
          * Focus all the editors found in the given container
