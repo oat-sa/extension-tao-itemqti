@@ -16,18 +16,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
-interface TemplateInterface
+
+class ParsedChoice
 {
-    public function getId(): string;
+    /** @var string */
+    private $choice;
 
-    public function getDefinition(): array;
+    /** @var float */
+    private $choiceScore;
 
-    public function getQtiTemplate(): string;
+    /** @var string */
+    private $id;
+
+    public function __construct(string $id, string $choice, float $choiceScore)
+    {
+        $this->choice = $choice;
+        $this->choiceScore = $choiceScore;
+        $this->id = $id;
+    }
+
+    public function getChoiceScore(): float
+    {
+        return $this->choiceScore;
+    }
+
+    public function getChoice(): string
+    {
+        return $this->choice;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
 }

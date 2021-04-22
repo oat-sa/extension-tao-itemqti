@@ -23,15 +23,13 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\filesystem\File;
-use oat\taoQtiItem\model\import\ItemInterface;
+use oat\taoQtiItem\model\import\CvsItemResult;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 interface ParserInterface
 {
     /**
-     * @return ItemInterface[]
-     *
      * @throws InvalidImportException
      */
-    public function parseFile(File $file, TemplateInterface $template): array;
+    public function parseFile(File $file, TemplateInterface $template): CvsItemResult;
 }
