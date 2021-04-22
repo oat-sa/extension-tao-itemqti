@@ -35,13 +35,14 @@ class CsvTemplateRepository extends ConfigurableService implements TemplateRepos
         if ($id === self::DEFAULT) {
             return new CsvTemplate(
                 TemplateRepositoryInterface::DEFAULT,
-                TemplateRepositoryInterface::DEFAULT_DEFINITION
+                TemplateRepositoryInterface::DEFAULT_DEFINITION,
+                TemplateRepositoryInterface::DEFAULT_XML
             );
         }
 
         foreach ($this->getTemplates() as $template) {
             if ($template['id'] === $id) {
-                return new CsvTemplate($template['id'], $template['definition']);
+                return new CsvTemplate($template['id'], $template['definition'], $template['xmlTemplate']);
             }
         }
 

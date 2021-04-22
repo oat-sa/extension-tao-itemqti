@@ -44,19 +44,19 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 
             foreach ($this->getMissingMatches($headerRegex, $validations, $content, $occurrences) as $missingMatch) {
                 $error->addMissingHeaderColumn($missingMatch);
-                $error->addError(0, sprintf('Header `%s` is required', $missingMatch));
+                $error->addError(0, __('%s `%s` is required', $this->getErrorMessagePrefix(), $missingMatch));
             }
 
             if ($isRequired && $totalOccurrences === 0) {
                 $error->addMissingHeaderColumn($headerRegex);
-                $error->addError(0, sprintf('Header `%s` is required', $headerRegex));
+                $error->addError(0, __('%s `%s` is required', $this->getErrorMessagePrefix(), $headerRegex));
             }
 
             if ($totalOccurrences < $minOccurrences) {
                 $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(
                     0,
-                    sprintf('Header `%s` must be provided at least `%s` times', $headerRegex, $minOccurrences)
+                    __('%s `%s` must be provided at least `%s` times', $this->getErrorMessagePrefix(), $headerRegex, $minOccurrences)
                 );
             }
         }
@@ -148,5 +148,10 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
         }
 
         return $occurrences;
+    }
+
+    protected function getErrorMessagePrefix(): string
+    {
+        return __('Header');
     }
 }

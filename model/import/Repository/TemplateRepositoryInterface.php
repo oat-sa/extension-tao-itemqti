@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Repository;
 
+use oat\taoQtiItem\model\import\Parser\ChoiceParser;
+use oat\taoQtiItem\model\import\Parser\NopeParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 interface TemplateRepositoryInterface
@@ -30,37 +32,48 @@ interface TemplateRepositoryInterface
     public const DEFAULT_DEFINITION = [
         'name' => [
             'header' => 'required',
-            'value' => 'string'
+            'value' => 'string',
         ],
         'question' => [
             'header' => 'required',
-            'value' => 'string'
+            'value' => 'string',
         ],
         'shuffle' => [
             'header' => 'optional',
-            'value' => 'boolean'
+            'value' => 'boolean',
+            'default' => 'false',
+        ],
+        'language' => [
+            'header' => 'optional',
+            'value' => 'string',
+            'default' => DEFAULT_LANG,
         ],
         'min_choices' => [
             'header' => 'optional',
-            'value' => 'integer'
+            'value' => 'integer',
+            'default' => 0,
         ],
         'max_choices' => [
             'header' => 'optional',
-            'value' => 'integer'
+            'value' => 'integer',
+            'default' => 0,
         ],
         'choice_[1-99]' => [
             'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
-            'value' => 'string'
+            'value' => 'string',
+            'parser'=> ChoiceParser::class
         ],
         'choice_[1-99]_score' => [
             'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
-            'value' => 'float'
+            'value' => 'float',
+            'parser'=> NopeParser::class,
         ],
         'metadata_[a-z0-9\-_]' => [
             'header' => 'optional',
-            'value' => 'any'
+            'value' => 'any',
         ],
     ];
+    public const DEFAULT_XML = 'taoQtiItem/model/import/Template/item.xml.tpl';
 
     public function findById(string $id): ?TemplateInterface;
 }

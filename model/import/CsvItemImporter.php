@@ -31,8 +31,12 @@ use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
+use oat\taoQtiItem\model\import\Report\ErrorReportFormatter;
+use oat\taoQtiItem\model\import\Report\WarningReportFormatter;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
+use oat\taoQtiItem\model\import\Template\TemplateProcessor;
+use oat\taoQtiItem\model\qti\ImportService;
 use tao_models_classes_import_ImportHandler;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -78,16 +82,24 @@ class CsvItemImporter implements
 
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
-            /** @var CsvParser $parser */
-            $items = $this->getParser()->parseFile($uploadedFile, $template); //@TODO $items will be used in the future
+            $itemReport = $this->getParser()->parseFile($uploadedFile, $template);
+
+            $importService = $this->getItemImportService();
+            $templateProcessor = $this->getTemplateProcessor();
+
+            $importingReports = [];
+            foreach ($itemReport->getCsvItems() as $item) {
+                $xmlItem = $templateProcessor->process($item, $template);
+                $importingReports[] = $importService->importQTIFile($xmlItem, $class, true);
+            }
 
             helpers_TimeOutHelper::reset();
 
-            $report = Report::createSuccess(__('CSV file imported successfully'), []);
+            $report = Report::createInfo(__('CSV file imported successfully'), []);
             $report->add(
                 Report::createSuccess(
                     __('CSV file imported'),
-                    []
+                    $importingReports ?? []
                 )
             );
         } catch (InvalidCsvImportException $e) {
@@ -98,7 +110,7 @@ class CsvItemImporter implements
                         'CSV import failed: required columns are missing (%s)',
                         implode(', ', $e->getMissingHeaderColumns())
                     ),
-                    []
+                    $importingReports ?? []
                 )
             );
         } catch (Throwable $e) {
@@ -109,12 +121,23 @@ class CsvItemImporter implements
                         'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
                         $e->getMessage()
                     ),
-                    []
+                    $importingReports ?? []
                 )
             );
         } finally {
+            if (isset($itemReport)) {
+                $warningParsingReport = $itemReport->getWarningReports();
+                $errorParsingReport = $itemReport->getErrorReports();
+                if ($errorParsingReport) {
+                    $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
+                }
+                if ($warningParsingReport) {
+                    $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
+                }
+            }
+
             if (isset($uploadedFile)) {
-                $this->getUploadService()->remove($uploadedFile);
+//                $this->getUploadService()->remove($uploadedFile);
             }
         }
 
@@ -129,5 +152,25 @@ class CsvItemImporter implements
     public function getTemplateRepository(): TemplateRepositoryInterface
     {
         return $this->getServiceLocator()->get(CsvTemplateRepository::class);
+    }
+
+    public function getItemImportService(): ImportService
+    {
+        return $this->getServiceLocator()->get(ImportService::SERVICE_ID);
+    }
+
+    public function getTemplateProcessor(): TemplateProcessor
+    {
+        return $this->getServiceLocator()->get(TemplateProcessor::class);
+    }
+
+    public function getWarningReportFormatter(): WarningReportFormatter
+    {
+        return $this->getServiceLocator()->get(WarningReportFormatter::class);
+    }
+
+    public function getErrorReportFormatter(): ErrorReportFormatter
+    {
+        return $this->getServiceLocator()->get(ErrorReportFormatter::class);
     }
 }

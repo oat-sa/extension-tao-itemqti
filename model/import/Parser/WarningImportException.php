@@ -20,32 +20,34 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Validator;
+namespace oat\taoQtiItem\model\import\Parser;
 
-use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
-use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
-use oat\taoQtiItem\model\import\TemplateInterface;
-
-
-class LineValidator extends HeaderValidator
+class WarningImportException extends InvalidImportException
 {
-    public function validate(array $content, TemplateInterface $csvTemplate): void
-    {
-        parent::validate(array_keys(array_filter($content,function($value){return !is_null($value) && $value !== '';})), $csvTemplate);
+    /** @var array */
+    private $warnings;
 
-        $this->validateLine($content, $csvTemplate); // warnings only
+    /** @var int */
+    private $totalWarning = 0;
+
+    public function addWarning(int $line, string $message): self
+    {
+        $this->totalWarning++;
+        $this->warnings[$line] = $this->warnings[$line] ?? [];
+        $this->warnings[$line][] = $message;
+
+        $this->message .= rtrim($message, '.') . '. ';
+
+        return $this;
     }
 
-    protected function getErrorMessagePrefix(): string
+    public function getWarnings(): array
     {
-        return '';
+        return $this->warnings;
     }
 
-    /**
-     * @throws RecoverableLineValidationException
-     */
-    private function validateLine(array $content, TemplateInterface $csvTemplate): void
+    public function getTotalWarnings(): int
     {
+        return $this->totalWarning;
     }
-
 }

@@ -20,32 +20,27 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Validator;
+namespace oat\taoQtiItem\model\import\Report;
 
-use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
-use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
-use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\oatbox\reporting\Report;
+use oat\oatbox\service\ConfigurableService;
 
-
-class LineValidator extends HeaderValidator
+class WarningReportFormatter extends ConfigurableService implements ReportFormatter
 {
-    public function validate(array $content, TemplateInterface $csvTemplate): void
-    {
-        parent::validate(array_keys(array_filter($content,function($value){return !is_null($value) && $value !== '';})), $csvTemplate);
 
-        $this->validateLine($content, $csvTemplate); // warnings only
+    public function format(array $report): Report
+    {
+        return Report::createWarning(
+            sprintf(
+                '%s line{{s}} are imported with warnings',
+                count($report)
+            ),
+            $this->combineLines($report)
+        );
     }
 
-    protected function getErrorMessagePrefix(): string
+    private function combineLines(array $report): array
     {
-        return '';
+        return $report; // should flatten warning related to the same line into one
     }
-
-    /**
-     * @throws RecoverableLineValidationException
-     */
-    private function validateLine(array $content, TemplateInterface $csvTemplate): void
-    {
-    }
-
 }
