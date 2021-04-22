@@ -56,5 +56,5 @@ class CsvLineConverter extends ConfigurableService
             $parsed['maxScore'] ?? 0.0
         );
     }
-
+    
 }
