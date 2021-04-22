@@ -613,7 +613,7 @@ define([
          *
          * @param {JQuery} $editable
          */
-        getData : function($editable) {
+        getData : function($editable){
             var editor = $editable.data('editor');
             if(editor){
                 return _htmlEncode(editor.getData());
@@ -627,8 +627,7 @@ define([
          * @param {JQuery} $editable
          * @param {String} data
          */
-        setData : function(
-            $editable, data) {
+        setData : function($editable, data) {
             var editor = $editable.data('editor');
             if(editor){
                 if (_.isString(data)) {
