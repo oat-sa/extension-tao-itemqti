@@ -137,7 +137,8 @@ class HeaderValidatorTest extends TestCase
     {
         return new CsvTemplate(
             CsvTemplateRepository::DEFAULT,
-            CsvTemplateRepository::DEFAULT_DEFINITION
+            CsvTemplateRepository::DEFAULT_DEFINITION,
+            CsvTemplateRepository::DEFAULT_XML
         );
     }
 }

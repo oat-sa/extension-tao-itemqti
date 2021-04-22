@@ -35,7 +35,8 @@ class CsvTemplateTest extends TestCase
     {
         $this->subject = new CsvTemplate(
             CsvTemplateRepository::DEFAULT,
-            CsvTemplateRepository::DEFAULT_DEFINITION
+            CsvTemplateRepository::DEFAULT_DEFINITION,
+            CsvTemplateRepository::DEFAULT_XML
         );
     }
 
@@ -43,5 +44,6 @@ class CsvTemplateTest extends TestCase
     {
         $this->assertSame(CsvTemplateRepository::DEFAULT, $this->subject->getId());
         $this->assertSame(CsvTemplateRepository::DEFAULT_DEFINITION, $this->subject->getDefinition());
+        $this->assertSame(CsvTemplateRepository::DEFAULT_XML, $this->subject->getQtiTemplate());
     }
 }
