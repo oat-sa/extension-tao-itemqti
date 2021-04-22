@@ -86,7 +86,7 @@ define([
          * ck automatically wraps it in a <p>, which breaks QTI compatibility.
          * Therefore, we replace an empty choice with a placeholder text.
          */
-        if (! htmlEditor.getData($editable) || htmlEditor.getData($editable) === '') {
+        if (!htmlEditor.getData($editable) || htmlEditor.getData($editable) === '' || !$editable.data('editor')) {
             placeholder = interaction.getNextPlaceholder();
             htmlEditor.setData($editable, placeholder);
         }
