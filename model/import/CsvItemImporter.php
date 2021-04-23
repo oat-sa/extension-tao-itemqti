@@ -144,10 +144,10 @@ class CsvItemImporter implements
             if (isset($itemValidatorResults)) {
                 $warningParsingReport = $itemValidatorResults->getWarningReports();
                 $errorParsingReport = $itemValidatorResults->getErrorReports();
-                if ($errorParsingReport) {
+                if (!empty($errorParsingReport)) {
                     $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
                 }
-                if ($warningParsingReport) {
+                if (!empty($warningParsingReport)) {
                     $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
                 }
             }

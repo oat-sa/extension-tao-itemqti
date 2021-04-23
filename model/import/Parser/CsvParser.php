@@ -87,7 +87,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
         return $this->getServiceLocator()->get(HeaderValidator::class);
     }
 
-    private function getLineValidator(): LineValidator
+    private function getLineValidator(): ValidatorInterface
     {
         return $this->getServiceLocator()->get(LineValidator::class);
     }
