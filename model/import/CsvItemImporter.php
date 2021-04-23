@@ -82,24 +82,40 @@ class CsvItemImporter implements
 
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
-            $itemReport = $this->getParser()->parseFile($uploadedFile, $template);
+            $itemValidatorResults = $this->getParser()->parseFile($uploadedFile, $template);
 
             $importService = $this->getItemImportService();
             $templateProcessor = $this->getTemplateProcessor();
 
-            $importingReports = [];
-            foreach ($itemReport->getCsvItems() as $item) {
+            $successReportsImport = [];
+            $errorReportsImport = [];
+            foreach ($itemValidatorResults->getCsvItems() as $item) {
                 $xmlItem = $templateProcessor->process($item, $template);
-                $importingReports[] = $importService->importQTIFile($xmlItem, $class, true);
+                $itemImportReport = $importService->importQTIFile($xmlItem, $class, true);
+
+                if($itemImportReport->getType() === Report::TYPE_SUCCESS) {
+                    $successReportsImport[] = $itemImportReport;
+                }else{
+                    $errorReportsImport[] = $itemImportReport;
+                }
             }
 
             helpers_TimeOutHelper::reset();
 
-            $report = Report::createInfo(__('CSV file imported successfully'), []);
+            $report = Report::createInfo(
+                __(
+                    'CSV import partially successful: %s/%s line{{s}} are imported (%s warning{{s}}, %s  error{{s}})',
+                    count($successReportsImport),
+                    count($itemValidatorResults->getCsvItems()),
+                    count($itemValidatorResults->getWarningReports()),
+                    count($itemValidatorResults->getErrorReports()) + count($errorReportsImport)
+                ),
+                []
+            );
             $report->add(
                 Report::createSuccess(
                     __('CSV file imported'),
-                    $importingReports ?? []
+                    $successReportsImport ?? []
                 )
             );
         } catch (InvalidCsvImportException $e) {
@@ -110,7 +126,7 @@ class CsvItemImporter implements
                         'CSV import failed: required columns are missing (%s)',
                         implode(', ', $e->getMissingHeaderColumns())
                     ),
-                    $importingReports ?? []
+                    $errorReportsImport ?? []
                 )
             );
         } catch (Throwable $e) {
@@ -121,13 +137,13 @@ class CsvItemImporter implements
                         'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
                         $e->getMessage()
                     ),
-                    $importingReports ?? []
+                    $errorReportsImport ?? []
                 )
             );
         } finally {
-            if (isset($itemReport)) {
-                $warningParsingReport = $itemReport->getWarningReports();
-                $errorParsingReport = $itemReport->getErrorReports();
+            if (isset($itemValidatorResults)) {
+                $warningParsingReport = $itemValidatorResults->getWarningReports();
+                $errorParsingReport = $itemValidatorResults->getErrorReports();
                 if ($errorParsingReport) {
                     $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
                 }
@@ -137,7 +153,7 @@ class CsvItemImporter implements
             }
 
             if (isset($uploadedFile)) {
-//                $this->getUploadService()->remove($uploadedFile);
+//                $this->getUploadService()->remove($uploadedFile); @FIX uncomment before merge
             }
         }
 

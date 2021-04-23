@@ -40,7 +40,10 @@ class CsvLineConverter extends ConfigurableService
                 $parser = $this->getServiceLocator()->get($rules['parser']);
                 $parsed[$columnName] = $parser->parse($line, $rules, $columnName);
             } else {
-                $parsed[$columnName] = $line[$columnName] ?? $rules['default'] ?? '';
+                $parsed[$columnName] = array_key_exists(
+                    $columnName,
+                    $line
+                ) && $line[$columnName] !== '' ? $line[$columnName] : $rules['default'];
             }
         }
 
@@ -50,11 +53,16 @@ class CsvLineConverter extends ConfigurableService
             (bool)$parsed['shuffle'],
             (int)$parsed['min_choices'],
             (int)$parsed['max_choices'],
-            $parsed['language'],
+            $parsed['language'] ?? $this->getDefaultLang(),
             $parsed['choice_[1-99]'],
             $parsed['metaData'] ?? [],
             $parsed['maxScore'] ?? 0.0
         );
     }
-    
+
+    private function getDefaultLang(): string
+    {
+        return defined(DEFAULT_LANG) ? DEFAULT_LANG : 'en-US';
+    }
+
 }

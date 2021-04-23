@@ -36,7 +36,7 @@ class WarningImportException extends InvalidImportException
         $this->warnings[$line] = $this->warnings[$line] ?? [];
         $this->warnings[$line][] = $message;
 
-        $this->message .= rtrim($message, '.') . '. ';
+        $this->message .= rtrim($message, ',') . ', ';
 
         return $this;
     }

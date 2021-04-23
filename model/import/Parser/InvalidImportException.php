@@ -38,7 +38,7 @@ class InvalidImportException extends Exception
         $this->errors[$line] = $this->errors[$line] ?? [];
         $this->errors[$line][] = $message;
 
-        $this->message .= rtrim($message, '.') . '. ';
+        $this->message .= rtrim($message, ',') . ', ';
 
         return $this;
     }

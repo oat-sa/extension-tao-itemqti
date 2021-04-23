@@ -23,24 +23,23 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Report;
 
 use oat\oatbox\reporting\Report;
-use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Parser\WarningImportException;
 
-class WarningReportFormatter extends ConfigurableService implements ReportFormatter
+class WarningReportFormatter extends AbstractReportFormatter
 {
 
+    /**
+     * @param  WarningImportException[]  $report
+     */
     public function format(array $report): Report
     {
         return Report::createWarning(
-            sprintf(
+            __(
                 '%s line{{s}} are imported with warnings',
                 count($report)
             ),
-            $this->combineLines($report)
+            $this->buildLineMessages($report)
         );
     }
 
-    private function combineLines(array $report): array
-    {
-        return $report; // should flatten warning related to the same line into one
-    }
 }
