@@ -26,7 +26,6 @@ use oat\taoQtiItem\model\import\ParsedChoice;
 
 class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 {
-
     public function parse(array $line, array $rules, string ...$fields)
     {
         $parsedChoices = [];

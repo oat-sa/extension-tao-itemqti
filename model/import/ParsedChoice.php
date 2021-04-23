@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
-
 class ParsedChoice
 {
     /** @var string */
@@ -55,5 +54,4 @@ class ParsedChoice
     {
         return $this->id;
     }
-
 }
