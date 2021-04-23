@@ -102,7 +102,7 @@ class CsvItemImporter implements
 
             helpers_TimeOutHelper::reset();
 
-            $report = Report::createInfo(
+            $report = Report::createSuccess(
                 __(
                     'CSV import partially successful: %s/%s line{{s}} are imported (%s warning{{s}}, %s  error{{s}})',
                     count($successReportsImport),
@@ -115,7 +115,7 @@ class CsvItemImporter implements
             $report->add(
                 Report::createSuccess(
                     __('CSV file imported'),
-                    $successReportsImport ?? []
+                    $successReportsImport
                 )
             );
         } catch (InvalidCsvImportException $e) {
@@ -126,7 +126,7 @@ class CsvItemImporter implements
                         'CSV import failed: required columns are missing (%s)',
                         implode(', ', $e->getMissingHeaderColumns())
                     ),
-                    $errorReportsImport ?? []
+                    $errorReportsImport
                 )
             );
         } catch (Throwable $e) {
@@ -137,7 +137,7 @@ class CsvItemImporter implements
                         'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
                         $e->getMessage()
                     ),
-                    $errorReportsImport ?? []
+                    $errorReportsImport
                 )
             );
         } finally {
@@ -146,6 +146,9 @@ class CsvItemImporter implements
                 $errorParsingReport = $itemValidatorResults->getErrorReports();
                 if (!empty($errorParsingReport)) {
                     $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
+                }
+                if(!empty($errorReportsImport)){
+                    $report->add($errorReportsImport);
                 }
                 if (!empty($warningParsingReport)) {
                     $report->add($this->getWarningReportFormatter()->format($warningParsingReport));

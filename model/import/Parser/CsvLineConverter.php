@@ -26,11 +26,12 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\CsvItem;
+use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvLineConverter extends ConfigurableService
 {
-    public function convert(array $line, TemplateInterface $template): CsvItem
+    public function convert(array $line, TemplateInterface $template): ItemInterface
     {
         $validationConfig = $template->getDefinition();
         $parsed = [];

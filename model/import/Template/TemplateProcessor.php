@@ -27,16 +27,11 @@ use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use Renderer;
 
-use function Webmozart\Assert\Tests\StaticAnalysis\string;
-
 class TemplateProcessor extends ConfigurableService
 {
     /** @var Renderer */
     private $renderer;
 
-    /**
-     * @return string XML
-     */
     public function process(ItemInterface $item, TemplateInterface $xmlQtiTemplate): string
     {
         $renderer = $this->getRenderer();
@@ -58,7 +53,7 @@ class TemplateProcessor extends ConfigurableService
         return $renderer->render();
     }
 
-    public function withRenderer(Renderer $renderer)
+    public function withRenderer(Renderer $renderer): self
     {
         $this->renderer = $renderer;
         return $this;

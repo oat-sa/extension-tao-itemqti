@@ -31,7 +31,17 @@ class LineValidator extends HeaderValidator
 {
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
-        parent::validate(array_keys(array_filter($content,function($value){return !is_null($value) && $value !== '';})), $csvTemplate);
+        parent::validate(
+            array_keys(
+                array_filter(
+                    $content,
+                    function ($value) {
+                        return !is_null($value) && $value !== '';
+                    }
+                )
+            ),
+            $csvTemplate
+        );
 
         $this->validateLine($content, $csvTemplate); // warnings only
     }

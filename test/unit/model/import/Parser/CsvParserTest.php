@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\import\Parser;
 
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\File;
-use oat\taoQtiItem\model\import\CvsItemResult;
+use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\Parser\CsvLineConverter;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
@@ -84,6 +84,6 @@ class CsvParserTest extends TestCase
 
         $items = $this->subject->parseFile($file, $template);
 
-        $this->assertInstanceOf(CvsItemResult::class, $items);
+        $this->assertInstanceOf(ItemImportResult::class, $items);
     }
 }

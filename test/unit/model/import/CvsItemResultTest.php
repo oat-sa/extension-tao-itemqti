@@ -30,8 +30,8 @@ class CvsItemResultTest extends TestCase
         $csvItems = [1];
         $errorReports = [2];
         $warningReports = [3];
-        $sut = new CvsItemResult($csvItems, $warningReports, $errorReports);
-        $this->assertSame($csvItems, $sut->getCsvItems());
+        $sut = new ItemImportResult($csvItems, $warningReports, $errorReports);
+        $this->assertSame($csvItems, $sut->getItems());
         $this->assertSame($errorReports, $sut->getErrorReports());
         $this->assertSame($warningReports, $sut->getWarningReports());
     }
