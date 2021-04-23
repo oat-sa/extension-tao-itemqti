@@ -19,9 +19,7 @@
 
 declare(strict_types=1);
 
-
 namespace oat\taoQtiItem\model\import\Parser;
-
 
 interface ColumnParserInterface
 {
