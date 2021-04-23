@@ -25,10 +25,10 @@ namespace oat\taoQtiItem\model\import;
 use oat\taoQtiItem\model\import\Parser\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\WarningImportException;
 
-class CvsItemResult
+class ItemImportResult
 {
-    /** @var CsvItem[] */
-    private $csvItems;
+    /** @var ItemInterface[] */
+    private $items;
 
     /** @var WarningImportException[] */
     private $warningReports;
@@ -38,23 +38,23 @@ class CvsItemResult
     private $errorReports;
 
     /**
-     * @param  CsvItem[]  $csvItems
+     * @param  ItemInterface[]  $items
      * @param  WarningImportException[]  $warningReports
      * @param  InvalidImportException[]  $errorReports
      */
-    public function __construct(array $csvItems, array $warningReports, array $errorReports)
+    public function __construct(array $items, array $warningReports, array $errorReports)
     {
-        $this->csvItems = $csvItems;
+        $this->items = $items;
         $this->warningReports = $warningReports;
         $this->errorReports = $errorReports;
     }
 
     /**
-     * @return CsvItem[]
+     * @return ItemInterface[]
      */
-    public function getCsvItems(): array
+    public function getItems(): array
     {
-        return $this->csvItems;
+        return $this->items;
     }
 
     /**

@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\CvsItemResult;
+use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
@@ -36,7 +36,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
     /**
      * @throws InvalidImportException
      */
-    public function parseFile(File $file, TemplateInterface $template): CvsItemResult
+    public function parseFile(File $file, TemplateInterface $template): ItemImportResult
     {
         $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
         $header = $this->convertCsvLineToArray($lines[0]);
@@ -63,7 +63,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
             }
             $items[] = $this->getCsvLineConverter()->convert($headedLine, $template);
         }
-        return new CvsItemResult($items, $validationReport, $errorsReport);
+        return new ItemImportResult($items, $validationReport, $errorsReport);
     }
 
     private function trimLine(array $line): array

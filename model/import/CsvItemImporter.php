@@ -89,7 +89,7 @@ class CsvItemImporter implements
 
             $successReportsImport = [];
             $errorReportsImport = [];
-            foreach ($itemValidatorResults->getCsvItems() as $item) {
+            foreach ($itemValidatorResults->getItems() as $item) {
                 $xmlItem = $templateProcessor->process($item, $template);
                 $itemImportReport = $importService->importQTIFile($xmlItem, $class, true);
 
@@ -106,7 +106,7 @@ class CsvItemImporter implements
                 __(
                     'CSV import partially successful: %s/%s line{{s}} are imported (%s warning{{s}}, %s  error{{s}})',
                     count($successReportsImport),
-                    count($itemValidatorResults->getCsvItems()),
+                    count($itemValidatorResults->getItems()),
                     count($itemValidatorResults->getWarningReports()),
                     count($itemValidatorResults->getErrorReports()) + count($errorReportsImport)
                 ),
