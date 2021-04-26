@@ -170,7 +170,7 @@ define([
 
         $newHottextBtn.on('mousedown.hottextcreator', function() {
             $newHottextBtn.hide();
-            if (wrapper.wrapWith($newHottext)) {
+            if (wrapper.wrapHTMLWith($newHottext)) {
                 self.createNewHottext($newHottext.clone());
             }
         });
@@ -178,7 +178,7 @@ define([
 
     /**
      * Create a new hottext
-     * @param $hottextContent - content of the hottext. May contain plain text or qti inline static elements
+     * @param $hottextContent - content of the hottext. May contain plain text, html or qti inline static elements
      */
     HottextInteractionStateQuestion.prototype.createNewHottext = function createNewHottext($hottextContent) {
         var interactionWidget = this.widget,
@@ -220,8 +220,7 @@ define([
                     eltWidget.destroy();
                 });
             }
-            // strip everything that hasn't been replaced and that is not pure text
-            newHottextBody = _.escape($hottextContent.text());
+            newHottextBody = $hottextContent.html();
 
             if (newHottextBody.trim() !== '') {
                 // update model and render it inline

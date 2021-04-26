@@ -125,6 +125,30 @@ define(['jquery'], function($) {
                     }
                 }
                 return false;
+            },
+
+            /**
+             * Wraps the current active selection inside the given element
+             * Warning: will lose any event handlers attached to the wrapped nodes!
+             *
+             * @param {jQuery} $wrapper - the element that will wrap the selection
+             * @returns {boolean}
+             */
+            wrapHTMLWith: function wrapWith($wrapper) {
+                var range = selection.getRangeAt(0);
+
+                if (this.canWrap()) {
+                    try {
+                        $wrapper[0].appendChild(range.extractContents());
+                        range.insertNode($wrapper[0]);
+                        selection.removeAllRanges();
+                        return true;
+                    } catch (err) {
+                        // this happens when wrapping of partially selected nodes is attempted, which would result in an invalid markup
+                        // we return false to feedback the wrapping failure
+                    }
+                }
+                return false;
             }
         };
     };
