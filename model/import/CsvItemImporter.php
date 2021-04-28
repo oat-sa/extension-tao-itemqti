@@ -35,7 +35,7 @@ use oat\taoQtiItem\model\import\Report\ErrorReportFormatter;
 use oat\taoQtiItem\model\import\Report\WarningReportFormatter;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
-use oat\taoQtiItem\model\import\Template\TemplateProcessor;
+use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
 use oat\taoQtiItem\model\qti\ImportService;
 use tao_models_classes_import_ImportHandler;
 use Throwable;
@@ -89,13 +89,13 @@ class CsvItemImporter implements
 
             $successReportsImport = [];
             $errorReportsImport = [];
-            foreach ($itemValidatorResults->getItems() as $item) {
-                $xmlItem = $templateProcessor->process($item, $template);
+            $xmlItems = $templateProcessor->processResultSet($itemValidatorResults, $template);
+            foreach ($xmlItems as $xmlItem) {
                 $itemImportReport = $importService->importQTIFile($xmlItem, $class, true);
 
-                if($itemImportReport->getType() === Report::TYPE_SUCCESS) {
+                if ($itemImportReport->getType() === Report::TYPE_SUCCESS) {
                     $successReportsImport[] = $itemImportReport;
-                }else{
+                } else {
                     $errorReportsImport[] = $itemImportReport;
                 }
             }
@@ -147,7 +147,7 @@ class CsvItemImporter implements
                 if (!empty($errorParsingReport)) {
                     $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
                 }
-                if(!empty($errorReportsImport)){
+                if (!empty($errorReportsImport)) {
                     $report->add($errorReportsImport);
                 }
                 if (!empty($warningParsingReport)) {
@@ -178,9 +178,9 @@ class CsvItemImporter implements
         return $this->getServiceLocator()->get(ImportService::SERVICE_ID);
     }
 
-    public function getTemplateProcessor(): TemplateProcessor
+    public function getTemplateProcessor(): ItemsQtiTemplateRender
     {
-        return $this->getServiceLocator()->get(TemplateProcessor::class);
+        return $this->getServiceLocator()->get(ItemsQtiTemplateRender::class);
     }
 
     public function getWarningReportFormatter(): WarningReportFormatter

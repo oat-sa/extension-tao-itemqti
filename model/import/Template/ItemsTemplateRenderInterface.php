@@ -1,5 +1,6 @@
 <?php
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,30 +18,17 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\test\unit\model\import;
+namespace oat\taoQtiItem\model\import\Template;
 
+
+use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\ItemInterface;
-use oat\taoQtiItem\model\import\Template\TemplateProcessor;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use PHPUnit\Framework\TestCase;
 
-class TemplateProcessorTest extends TestCase
+interface ItemsTemplateRenderInterface
 {
+    public function processItem(ItemInterface $item, TemplateInterface $xmlQtiTemplate): string;
 
-    public function testProcess()
-    {
-        $renderMock = $this->createMock(\Renderer::class);
-        $renderMock->expects($this->once())->method('render')->willReturn('');
+    public function processResultSet(ItemImportResult $itemResults, TemplateInterface $xmlQtiTemplate): iterable;
 
-        $itemMock = $this->createMock(ItemInterface::class);
-        $itemMock->expects($this->once())->method('getName');
-
-        $templateMock = $this->createMock(TemplateInterface::class);
-        $templateMock->expects($this->once())->method('getQtiTemplate');
-
-        $subject = new TemplateProcessor();
-        $subject->withRenderer($renderMock);
-        $this->assertSame('', $subject->process($itemMock, $templateMock));
-    }
 }
-

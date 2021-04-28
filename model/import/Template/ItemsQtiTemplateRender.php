@@ -23,16 +23,17 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Template;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use Renderer;
 
-class TemplateProcessor extends ConfigurableService
+class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplateRenderInterface
 {
     /** @var Renderer */
     private $renderer;
 
-    public function process(ItemInterface $item, TemplateInterface $xmlQtiTemplate): string
+    public function processItem(ItemInterface $item, TemplateInterface $xmlQtiTemplate): string
     {
         $renderer = $this->getRenderer();
 
@@ -51,6 +52,15 @@ class TemplateProcessor extends ConfigurableService
             ]
         );
         return $renderer->render();
+    }
+
+    public function processResultSet(ItemImportResult $itemResults, TemplateInterface $xmlQtiTemplate): iterable
+    {
+        $result = [];
+        foreach ($itemResults->getItems() as $item) {
+            $result[] = $this->processItem($item, $xmlQtiTemplate);
+        }
+        return $result;
     }
 
     public function withRenderer(Renderer $renderer): self
