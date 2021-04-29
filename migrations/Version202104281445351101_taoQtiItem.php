@@ -24,29 +24,29 @@ namespace oat\taoQtiItem\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\taoQtiItem\model\qti\metadata\guardians\MetadataGuardian;
+use oat\taoQtiItem\model\qti\metadata\guardians\ItemMetadataGuardian;
 
 final class Version202104281445351101_taoQtiItem extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Register service ' . MetadataGuardian::class;
+        return 'Register service ' . ItemMetadataGuardian::class;
     }
 
     public function up(Schema $schema): void
     {
-        $this->getServiceManager()->register(MetadataGuardian::SERVICE_ID, new MetadataGuardian([
-            MetadataGuardian::OPTION_EXPECTED_PATH => [
+        $this->getServiceManager()->register(ItemMetadataGuardian::SERVICE_ID, new ItemMetadataGuardian([
+            ItemMetadataGuardian::OPTION_EXPECTED_PATH => [
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
             ],
-            MetadataGuardian::OPTION_PROPERTY_URI => 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ItemMetadataGuardian::OPTION_PROPERTY_URI => 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
         ]));
     }
 
     public function down(Schema $schema): void
     {
-        $this->getServiceManager()->unregister(MetadataGuardian::SERVICE_ID);
+        $this->getServiceManager()->unregister(ItemMetadataGuardian::SERVICE_ID);
     }
 }

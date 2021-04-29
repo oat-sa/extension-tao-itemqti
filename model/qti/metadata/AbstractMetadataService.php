@@ -311,7 +311,7 @@ abstract class AbstractMetadataService extends ConfigurableService
         $isConfigurableService = is_a($instance, ConfigurableService::class, true);
 
         if ($isConfigurableService) {
-            return $this->getServiceManager()->get($this->getConfigurableServiceKey($instance));
+            return $this->getServiceLocator()->get($this->getConfigurableServiceKey($instance));
         }
 
         return new $instance();

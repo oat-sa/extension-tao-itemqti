@@ -25,39 +25,38 @@ namespace oat\taoQtiItem\test\unit\model\qti\metadata\guardians;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\data\Ontology;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
-use oat\taoQtiItem\model\qti\metadata\guardians\MetadataGuardian;
+use oat\taoQtiItem\model\qti\metadata\guardians\ItemMetadataGuardian;
 
-class MetadataGuardianTest extends TestCase
+class ItemMetadataGuardianTest extends TestCase
 {
-    /** @var core_kernel_classes_Class|MockObject */
-    private $class;
+    /** @var core_kernel_classes_Resource|MockObject */
+    private $instanceMock;
 
-    /** @var MetadataGuardian|MockObject */
-    private $metadataGuardian;
+    /** @var core_kernel_classes_Class|MockObject */
+    private $classMock;
+
+    /** @var ItemMetadataGuardian|MockObject */
+    private $sut;
 
     protected function setUp(): void
     {
-        $this->class = $this->createMock(core_kernel_classes_Class::class);
+        $this->classMock = $this->createMock(core_kernel_classes_Class::class);
+        $this->instanceMock = $this->createMock(core_kernel_classes_Resource::class);
 
-        $this->metadataGuardian = $this->getMockBuilder(MetadataGuardian::class)
-            ->enableOriginalConstructor()
-            ->setConstructorArgs([
-                [
-                    MetadataGuardian::OPTION_EXPECTED_PATH => [
-                        'path1',
-                        'path2',
-                    ],
-                    MetadataGuardian::OPTION_PROPERTY_URI => 'propertyUri',
-                ],
-            ])
-            ->onlyMethods(['getClass'])
-            ->getMock();
-        $this->metadataGuardian
-            ->expects(static::once())
-            ->method('getClass')
-            ->willReturn($this->class);
+        $ontologyMock = $this->createMock(Ontology::class);
+        $ontologyMock->method('getClass')->willReturn($this->classMock);
+
+        $this->sut = new ItemMetadataGuardian([
+            ItemMetadataGuardian::OPTION_EXPECTED_PATH => [
+                'path1',
+                'path2',
+            ],
+            ItemMetadataGuardian::OPTION_PROPERTY_URI => 'http://www.tao.lu/TestProperty',
+        ]);
+        $this->sut->setModel($ontologyMock);
     }
 
     /**
@@ -65,17 +64,13 @@ class MetadataGuardianTest extends TestCase
      */
     public function testGuard(array $instances, array $metadataValues, $expected): void
     {
-        $this->class
-            ->method('searchInstances')
-            ->willReturn($instances);
+        $this->classMock->method('searchInstances')->willReturn($instances);
 
-        $this->assertEquals($expected, $this->metadataGuardian->guard($metadataValues));
+        $this->assertEquals($expected, $this->sut->guard($metadataValues));
     }
 
     public function guardData(): array
     {
-        $resource = $this->createMock(core_kernel_classes_Resource::class);
-
         return [
             'noMetadataValues' => [
                 'instances' => [],
@@ -85,39 +80,35 @@ class MetadataGuardianTest extends TestCase
             'wrongMetadataValuesPath' => [
                 'instances' => [],
                 'metadataValues' => [
-                    $this->createMetadataValue('Item', ['path1']),
+                    $this->getMetadataValue('Item', ['path1']),
                 ],
                 'expected' => false,
             ],
             'noInstancesFound' => [
                 'instances' => [],
                 'metadataValues' => [
-                    $this->createMetadataValue('Item', ['path1', 'path2']),
+                    $this->getMetadataValue('Item', ['path1', 'path2']),
                 ],
                 'expected' => false,
             ],
             'instancesFound' => [
                 'instances' => [
-                    $resource,
+                    $this->instanceMock,
                 ],
                 'metadataValues' => [
-                    $this->createMetadataValue('Item', ['path1', 'path2']),
+                    $this->getMetadataValue('Item', ['path1', 'path2']),
                 ],
-                'expected' => $resource,
+                'expected' => $this->instanceMock,
             ],
         ];
     }
 
-    private function createMetadataValue(string $value, array $path): MetadataValue
+    private function getMetadataValue(string $value, array $path): MetadataValue
     {
-        $metadataValue = $this->createMock(MetadataValue::class);
-        $metadataValue
-            ->method('getValue')
-            ->willReturn($value);
-        $metadataValue
-            ->method('getPath')
-            ->willReturn($path);
+        $metadataValueMock = $this->createMock(MetadataValue::class);
+        $metadataValueMock->method('getValue')->willReturn($value);
+        $metadataValueMock->method('getPath')->willReturn($path);
 
-        return $metadataValue;
+        return $metadataValueMock;
     }
 }

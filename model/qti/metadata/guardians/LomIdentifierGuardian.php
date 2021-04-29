@@ -28,7 +28,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
  *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
- * @deprecated Use oat\taoQtiItem\model\qti\metadata\guardians\MetadataGuardian with default config instead
+ * @deprecated Use oat\taoQtiItem\model\qti\metadata\guardians\ItemMetadataGuardian with default config instead
  */
 class LomIdentifierGuardian implements MetadataGuardian
 {

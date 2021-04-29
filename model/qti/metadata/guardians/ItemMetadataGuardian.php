@@ -22,15 +22,17 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\metadata\guardians;
 
-use core_kernel_classes_Class;
 use oat\tao\model\TaoOntology;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardian as MetadataGuardianInterface;
 
-class MetadataGuardian extends ConfigurableService implements MetadataGuardianInterface
+class ItemMetadataGuardian extends ConfigurableService implements MetadataGuardianInterface
 {
-    public const SERVICE_ID = 'taoQtiItem/MetadataGuardian';
+    use OntologyAwareTrait;
+
+    public const SERVICE_ID = 'taoQtiItem/ItemMetadataGuardian';
 
     /** Path to find metadata value */
     public const OPTION_EXPECTED_PATH = 'expectedPath';
@@ -42,7 +44,7 @@ class MetadataGuardian extends ConfigurableService implements MetadataGuardianIn
     {
         $expectedPath = $this->getOption(self::OPTION_EXPECTED_PATH, []);
         $propertyUri = $this->getOption(self::OPTION_PROPERTY_URI, '');
-        $class = $this->getClass();
+        $class = $this->getClass(TaoOntology::CLASS_URI_ITEM);
 
         /** @var MetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
@@ -59,10 +61,5 @@ class MetadataGuardian extends ConfigurableService implements MetadataGuardianIn
         }
 
         return false;
-    }
-
-    protected function getClass(): core_kernel_classes_Class
-    {
-        return new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM);
     }
 }
