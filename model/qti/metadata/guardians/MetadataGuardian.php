@@ -42,7 +42,7 @@ class MetadataGuardian extends ConfigurableService implements MetadataGuardianIn
     {
         $expectedPath = $this->getOption(self::OPTION_EXPECTED_PATH, []);
         $propertyUri = $this->getOption(self::OPTION_PROPERTY_URI, '');
-        $class = new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM);
+        $class = $this->getClass();
 
         /** @var MetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
@@ -59,5 +59,10 @@ class MetadataGuardian extends ConfigurableService implements MetadataGuardianIn
         }
 
         return false;
+    }
+
+    protected function getClass(): core_kernel_classes_Class
+    {
+        return new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM);
     }
 }
