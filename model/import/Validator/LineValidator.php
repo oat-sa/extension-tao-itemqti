@@ -22,9 +22,12 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
-use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqual;
+use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
+use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguage;
+use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
 
 class LineValidator extends HeaderValidator
@@ -56,6 +59,27 @@ class LineValidator extends HeaderValidator
      */
     private function validateLine(array $content, TemplateInterface $csvTemplate): void
     {
+        $warnings = new RecoverableLineValidationException();
+        $validationConfig = $csvTemplate->getDefinition();
+        foreach ($validationConfig as $headerRegex => $validations) {
+            $validations = $validations['value'] ??'';
+
+            foreach (explode('|',$validations) as $validation) {
+                $rules = explode(':',$validation);
+                $name = array_pop($rules);
+                $validator = $this->getValidator($name);
+                if ($validator){
+                    try{
+                        $validator->validate($content[$headerRegex], $rules, $content);
+                    }catch (\Exception $exception){
+                        $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex));
+                    }
+                }
+            }
+        }
+        if ($warnings->getTotalWarnings()){
+            throw $warnings;
+        }
     }
 
 }

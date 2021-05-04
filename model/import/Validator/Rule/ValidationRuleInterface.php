@@ -18,25 +18,10 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Report;
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 
-use Exception;
-use oat\oatbox\service\ConfigurableService;
-
-abstract class AbstractReportFormatter extends ConfigurableService implements ReportFormatter
+interface ValidationRuleInterface
 {
-    /**
-     * @param  Exception[]  $exceptions
-     * @return string[]
-     */
-    protected function buildLineMessages(array $exceptions): array
-    {
-        $formattedReports = [];
-        asort($exceptions);
-        foreach ($exceptions as $lineNumber => $lineReport) {
-            $formattedReports[$lineNumber] = __('line %s: %s', $lineNumber, rtrim($lineReport->getMessage(), ', '));
-        }
-        return $formattedReports;
-    }
+    public function validate($value, $rules = null, array $context = []): void;
 }

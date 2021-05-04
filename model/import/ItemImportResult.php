@@ -73,4 +73,9 @@ class ItemImportResult
         return $this->errorReports;
     }
 
+    public function getTotalSuccessfulImport(): int
+    {
+        return $this->totalSuccessfulImport;
+    }
+
 }

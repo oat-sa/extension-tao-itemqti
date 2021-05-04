@@ -57,8 +57,8 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
     public function processResultSet(ItemImportResult $itemResults, TemplateInterface $xmlQtiTemplate): iterable
     {
         $result = [];
-        foreach ($itemResults->getItems() as $item) {
-            $result[] = $this->processItem($item, $xmlQtiTemplate);
+        foreach ($itemResults->getItems() as $lineNumber => $item) {
+            $result[$lineNumber] = $this->processItem($item, $xmlQtiTemplate);
         }
         return $result;
     }

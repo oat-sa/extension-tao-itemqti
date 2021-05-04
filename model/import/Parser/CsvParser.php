@@ -61,7 +61,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
                 $errorsReport[$lineNumber] = $exception;
                 continue;
             }
-            $items[] = $this->getCsvLineConverter()->convert($headedLine, $template);
+            $items[$lineNumber] = $this->getCsvLineConverter()->convert($headedLine, $template);
         }
         return new ItemImportResult($items, $validationReport, $errorsReport);
     }

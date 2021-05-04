@@ -26,28 +26,37 @@ use oat\taoQtiItem\model\import\ParsedChoice;
 
 class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 {
-    public function parse(array $line, array $rules, string ...$fields)
+    public function parse(array $line, array $rules, string ...$fields): array
     {
         $parsedChoices = [];
         $columnName = $fields[0];
 
         $choices = $this->findKeysByMask($columnName, $line);
 
-        $choicesScores = array_map('floatval', $this->findKeysByMask($this->findDependentColumn($columnName), $line));
+        $columnPattern = $this->findMatchingColumn($rules['header']);
+        $choicesScores = array_map(
+            'floatval',
+            $this->findKeysByMask($columnPattern, $line)
+        );
         foreach ($choices as $choiceId => $choice) {
             $parsedChoices[] = new ParsedChoice($choiceId, $choice, $choicesScores[$choiceId.'_score'] ?? 0.0);
         }
         return $parsedChoices;
     }
 
-    private function findKeysByMask(string $pattern, array $input, $flags = 0): array
+    private function findKeysByMask(string $pattern, array $input): array
     {
         $pattern = '/\b('.$pattern.')\b/';
-        return array_intersect_key($input, array_flip(preg_grep($pattern, array_keys($input), $flags)));
+        return array_intersect_key($input, array_flip(preg_grep($pattern, array_keys($input))));
     }
 
-    private function findDependentColumn(string $column): ?string
+    private function findMatchingColumn(string $rules): ?string
     {
-        return 'choice_[1-99]_score';//
+        foreach (explode('|', $rules) as $validation) {
+            if (strpos($validation, 'match_header:') !== false) {
+                return str_replace('match_header:', '', $validation);
+            }
+        }
+        return null;
     }
 }

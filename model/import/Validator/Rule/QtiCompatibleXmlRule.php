@@ -18,25 +18,23 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Report;
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-
-use Exception;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 
-abstract class AbstractReportFormatter extends ConfigurableService implements ReportFormatter
+class QtiCompatibleXmlRule extends ConfigurableService implements ValidationRuleInterface
 {
-    /**
-     * @param  Exception[]  $exceptions
-     * @return string[]
-     */
-    protected function buildLineMessages(array $exceptions): array
+
+    public function validate($value, $rules = null, array $context = []): void
     {
-        $formattedReports = [];
-        asort($exceptions);
-        foreach ($exceptions as $lineNumber => $lineReport) {
-            $formattedReports[$lineNumber] = __('line %s: %s', $lineNumber, rtrim($lineReport->getMessage(), ', '));
+        if (!$this->isQtiComplient($value)) {
+            throw new RecoverableLineValidationException('%s is invalid');
         }
-        return $formattedReports;
+    }
+
+    private function isQtiComplient($value)
+    {
+        return true;
     }
 }

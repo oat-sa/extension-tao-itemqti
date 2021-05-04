@@ -22,24 +22,19 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
-use helpers_TimeOutHelper;
-use oat\oatbox\event\EventManagerAwareTrait;
+use Throwable;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\PhpSerializeStateless;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\import\ImportHandlerHelperTrait;
-use oat\tao\model\import\TaskParameterProviderInterface;
-use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
-use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Report\ErrorReportFormatter;
 use oat\taoQtiItem\model\import\Report\WarningReportFormatter;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
-use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
-use oat\taoQtiItem\model\qti\ImportService;
+use oat\tao\model\import\ImportHandlerHelperTrait;
+use oat\tao\model\import\TaskParameterProviderInterface;
 use tao_models_classes_import_ImportHandler;
-use Throwable;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class CsvItemImporter implements
     tao_models_classes_import_ImportHandler,
@@ -77,7 +72,6 @@ class CsvItemImporter implements
     {
         try {
             $uploadedFile = $this->fetchUploadedFile($form);
-
             $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
 
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
@@ -104,18 +98,11 @@ class CsvItemImporter implements
 
             $report = Report::createSuccess(
                 __(
-                    'CSV import partially successful: %s/%s line{{s}} are imported (%s warning{{s}}, %s  error{{s}})',
-                    count($successReportsImport),
-                    count($itemValidatorResults->getItems()),
-                    count($itemValidatorResults->getWarningReports()),
-                    count($itemValidatorResults->getErrorReports()) + count($errorReportsImport)
-                ),
-                []
-            );
-            $report->add(
-                Report::createSuccess(
-                    __('CSV file imported'),
-                    $successReportsImport
+                    'CSV import partially successful: %s/%s line{{s}} are imported (%s warning{{s}}, %s error{{s}})',
+                    $importerResults->getTotalSuccessfulImport(),
+                    count($importerResults->getItems()),
+                    count($importerResults->getWarningReports()),
+                    count($importerResults->getErrorReports())
                 )
             );
         } catch (InvalidCsvImportException $e) {
@@ -125,8 +112,7 @@ class CsvItemImporter implements
                     __(
                         'CSV import failed: required columns are missing (%s)',
                         implode(', ', $e->getMissingHeaderColumns())
-                    ),
-                    $errorReportsImport
+                    )
                 )
             );
         } catch (Throwable $e) {
@@ -136,23 +122,17 @@ class CsvItemImporter implements
                     __(
                         'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
                         $e->getMessage()
-                    ),
-                    $errorReportsImport
+                    )
                 )
             );
         } finally {
-            if (isset($itemValidatorResults)) {
-                $warningParsingReport = $itemValidatorResults->getWarningReports();
-                $errorParsingReport = $itemValidatorResults->getErrorReports();
-                if (!empty($errorParsingReport)) {
-                    $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
-                }
-                if (!empty($errorReportsImport)) {
-                    $report->add($errorReportsImport);
-                }
-                if (!empty($warningParsingReport)) {
-                    $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
-                }
+            $warningParsingReport = $importerResults->getWarningReports();
+            $errorParsingReport = $importerResults->getErrorReports();
+            if (!empty($errorParsingReport)) {
+                $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
+            }
+            if (!empty($warningParsingReport)) {
+                $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
             }
 
             if (isset($uploadedFile)) {
@@ -163,33 +143,23 @@ class CsvItemImporter implements
         return $report;
     }
 
-    public function getParser(): ParserInterface
-    {
-        return $this->getServiceLocator()->get(CsvParser::class);
-    }
-
-    public function getTemplateRepository(): TemplateRepositoryInterface
+    private function getTemplateRepository(): TemplateRepositoryInterface
     {
         return $this->getServiceLocator()->get(CsvTemplateRepository::class);
     }
 
-    public function getItemImportService(): ImportService
-    {
-        return $this->getServiceLocator()->get(ImportService::SERVICE_ID);
-    }
-
-    public function getTemplateProcessor(): ItemsQtiTemplateRender
-    {
-        return $this->getServiceLocator()->get(ItemsQtiTemplateRender::class);
-    }
-
-    public function getWarningReportFormatter(): WarningReportFormatter
+    private function getWarningReportFormatter(): WarningReportFormatter
     {
         return $this->getServiceLocator()->get(WarningReportFormatter::class);
     }
 
-    public function getErrorReportFormatter(): ErrorReportFormatter
+    private function getErrorReportFormatter(): ErrorReportFormatter
     {
         return $this->getServiceLocator()->get(ErrorReportFormatter::class);
+    }
+
+    private function getCsvImporter(): CsvItemImportHandler
+    {
+        return $this->getServiceLocator()->get(CsvItemImportHandler::class);
     }
 }
