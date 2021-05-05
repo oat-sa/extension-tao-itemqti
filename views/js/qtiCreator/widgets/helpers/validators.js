@@ -39,11 +39,10 @@ define([
             const valid = _qtiIdPattern.test(value);
             if (options && options.serial) {
                 const element = Element.getElementBySerial(options.serial);
-                const item = element.getRootElement();
                 if (valid) {
-                    invalidator.valid(item, options.serial, options.serial);
+                    invalidator.valid(element, 'invalidIdentifier');
                 } else {
-                    invalidator.invalid(item, options.serial, typeToMessage[type]);
+                    invalidator.invalid(element, 'invalidIdentifier', typeToMessage[type]);
                 }
             }
             callback(valid);

@@ -94,6 +94,7 @@ define([
     /**
      * load custom interactions registered from the custom interaction registry
      *
+     * @param {Array} interactionsIds
      * @returns {Promise} that resolve with the loaded item model
      */
     const loadCustomInteractions = function loadCustomInteractions(interactionsIds) {
@@ -203,9 +204,9 @@ define([
                 this.on('save', function (silent) {
                     const item = this.getItem();
                     const itemWidget = item.data('widget');
+                    const invalidElements = item.data('invalid') || {};
 
-                    if (!itemWidget.isValid()) {
-                        const invalidElements = item.data('invalid') || {};
+                    if (_.size(invalidElements)) {
                         const reasons = [];
                         Object.keys(invalidElements).forEach(serial => {
                             Object.keys(invalidElements[serial]).forEach(key => {
@@ -243,7 +244,7 @@ define([
                 )
                     .then(function (item) {
                         if (!_.isObject(item)) {
-                            self.trigger('error', new Error('Unable to load the item ' + config.properties.label));
+                            self.trigger('error', new Error(`Unable to load the item ${config.properties.label}`));
                             return;
                         }
 
@@ -399,9 +400,7 @@ define([
                 $(document).off('.qti-widget');
 
                 pluginRun('destroy')
-                    .then(() => {
-                        return qtiCreatorContext.destroy();
-                    })
+                    .then(() => qtiCreatorContext.destroy())
                     .then(() => {
                         this.trigger('destroy');
                     })
