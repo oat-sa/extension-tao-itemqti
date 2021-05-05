@@ -39,20 +39,22 @@ interface TemplateRepositoryInterface
         ],
         'shuffle' => [
             'header' => 'optional',
+            'value' => 'optional',
             'default' => 'false',
         ],
         'language' => [
             'header' => 'optional',
-            'value' => 'language',
+            'value' => 'optional|language',
             'default' => DEFAULT_LANG,
         ],
         'min_choices' => [
             'header' => 'optional',
-            'value' => 'less_or_equals:max_choices',
+            'value' => 'optional|less_or_equals:max_choices',
             'default' => 0,
         ],
         'max_choices' => [
             'header' => 'optional',
+            'value' => 'optional',
             'default' => 0,
         ],
         'choice_[1-99]' => [

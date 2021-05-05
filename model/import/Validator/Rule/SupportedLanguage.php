@@ -35,17 +35,20 @@ class SupportedLanguage extends ConfigurableService implements ValidationRuleInt
      */
     private $languages;
 
+    /**
+     * @throws RecoverableLineValidationException
+     */
     public function validate($value, $rules = null, array $context = []): void
     {
         if (false === array_search(
                 strtolower($value),
                 $this->getLanguages()
             )) {
-            throw  new RecoverableLineValidationException('%s is invalid');
+            throw new RecoverableLineValidationException('%s is invalid');
         }
     }
 
-    private function getLanguages()
+    private function getLanguages(): array
     {
         if (null === $this->languages) {
             $this->languages = array_map(
