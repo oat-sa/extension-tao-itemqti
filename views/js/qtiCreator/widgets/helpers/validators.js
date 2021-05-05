@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2016 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA
  *
  */
 define([
@@ -27,45 +27,49 @@ define([
 
     const _qtiIdPattern = /^[A-Za-z_][A-Za-z_0-9-]*$/u;
     const typeToMessage = {
-        response: 'Invalid response identifier',
-        item: 'Invalid identifier',
-        default: 'Invalid identifier'
+        item: __('Invalid identifier'),
+        response: __('Invalid response identifier'),
+        outcome: __('Invalid Outcome Declaration')
+    };
+    const invalidIdentifier = __(
+        'Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
+    );
+    const validateIdentifier = (value, callback, options, type) => {
+        if (typeof callback === 'function') {
+            const valid = _qtiIdPattern.test(value);
+            if (options && options.serial) {
+                const element = Element.getElementBySerial(options.serial);
+                const item = element.getRootElement();
+                if (valid) {
+                    invalidator.valid(item, options.serial, options.serial);
+                } else {
+                    invalidator.invalid(item, options.serial, typeToMessage[type]);
+                }
+            }
+            callback(valid);
+        }
     };
 
     const qtiValidators = [
         {
             name: 'qtiIdentifier',
-            message: __(
-                '<b>Invalid identifier</b></br>Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
-            ),
+            message: `<b>${typeToMessage.item}</b></br>${invalidIdentifier}`,
             validate: function validate(value, callback, options) {
-                if (typeof callback === 'function') {
-                    const valid = _qtiIdPattern.test(value);
-                    if (options && options.serial) {
-                        const element = Element.getElementBySerial(options.serial);
-                        if (valid) {
-                            invalidator.valid(element, 'qtiIdentifier');
-                        } else {
-                            invalidator.invalid(
-                                element,
-                                'qtiIdentifier',
-                                options.type ? typeToMessage[options.type] : typeToMessage.default
-                            );
-                        }
-                    }
-                    callback(valid);
-                }
+                validateIdentifier(value, callback, options, 'item');
             }
         },
         {
             name: 'qtiResponseIdentifier',
-            message: __(
-                '<b>Invalid response identifier</b></br>Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
-            ),
+            message: `<b>${typeToMessage.response}</b></br>${invalidIdentifier}`,
             validate: function validate(value, callback, options) {
-                if (typeof callback === 'function') {
-                    callback(_qtiIdPattern.test(value));
-                }
+                validateIdentifier(value, callback, options, 'response');
+            }
+        },
+        {
+            name: 'qtiOutcomeIdentifier',
+            message: `<b>${typeToMessage.outcome}</b></br>${invalidIdentifier}`,
+            validate: function validate(value, callback, options) {
+                validateIdentifier(value, callback, options, 'outcome');
             }
         },
         //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
@@ -81,7 +85,7 @@ define([
                         callback(available);
                     }
                 } else {
-                    throw 'missing required option "serial"';
+                    throw new Error('missing required option "serial"');
                 }
             }
         },
@@ -101,7 +105,7 @@ define([
                         callback(available);
                     }
                 } else {
-                    throw 'missing required option "serial"';
+                    throw new Error('missing required option "serial"');
                 }
             }
         },

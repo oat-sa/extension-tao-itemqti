@@ -8,7 +8,7 @@
            name="identifier"
            value="{{identifier}}"
            placeholder="e.g. RESPONSE"
-           data-validate="$notEmpty; $qtiResponseIdentifier; $availableIdentifier(serial={{serial}});">
+           data-validate="$notEmpty; $qtiResponseIdentifier(serial={{serial}}); $availableIdentifier(serial={{serial}});">
 </div>
 
 <div class="panel">

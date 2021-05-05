@@ -48,7 +48,7 @@ define([
 
         if (!Element.isA(interaction, 'interaction')) {
             throw new Error(
-                'The first argument must be an interaction, the current element is ' + interaction.qtiClass
+                `The first argument must be an interaction, the current element is ${interaction.qtiClass}`
             );
         }
 
@@ -74,10 +74,9 @@ define([
     /**
      * Create a tooltip for the given input
      * @param {jQueryElement} $input
-     * @param {Object} validatorOptions
      *
      */
-    const createTooltip = function createTooltip($input, validatorOptions) {
+    const createTooltip = function createTooltip($input) {
         const formElementTooltip = tooltip.error($input, ' ', {
             trigger: 'manual'
         });
@@ -165,7 +164,7 @@ define([
                     $elt = $(elt);
                     name = $elt.attr('name');
 
-                    if (valid) {
+                    if (valid || options.saveInvalid) {
                         applyCallback(name, $elt.val(), $elt);
                     }
                     if (options.invalidate) {
@@ -213,6 +212,7 @@ define([
             $form.off('.databinding');
             $form.find(':input[data-has-tooltip]').data('$tooltip').dispose();
             $form.find(':input[data-has-tooltip]').removeAttr('data-has-tooltip').removeData('$tooltip');
+            $form.find('.tooltip.tooltip-red').remove();
         },
 
         /**
