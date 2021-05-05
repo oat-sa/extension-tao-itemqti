@@ -22,10 +22,11 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
+use Exception;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqual;
-use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
+use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
 use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguage;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
@@ -71,7 +72,7 @@ class LineValidator extends HeaderValidator
                 if ($validator){
                     try{
                         $validator->validate($content[$headerRegex], $rules, $content);
-                    }catch (\Exception $exception){
+                    }catch (Exception $exception){
                         $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex));
                     }
                 }

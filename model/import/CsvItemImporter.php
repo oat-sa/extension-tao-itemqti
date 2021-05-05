@@ -100,7 +100,7 @@ class CsvItemImporter implements
                 __(
                     'CSV import partially successful: %s/%s line{{s}} are imported (%s warning{{s}}, %s error{{s}})',
                     $importerResults->getTotalSuccessfulImport(),
-                    count($importerResults->getItems()),
+                    count($importerResults->getItems()) + count($importerResults->getErrorReports()),
                     count($importerResults->getWarningReports()),
                     count($importerResults->getErrorReports())
                 )

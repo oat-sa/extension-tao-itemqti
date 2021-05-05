@@ -26,14 +26,17 @@ use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 class QtiCompatibleXmlRule extends ConfigurableService implements ValidationRuleInterface
 {
 
+    /**
+     * @throws RecoverableLineValidationException
+     */
     public function validate($value, $rules = null, array $context = []): void
     {
-        if (!$this->isQtiComplient($value)) {
+        if (!$this->isQtiCompliant($value)) {
             throw new RecoverableLineValidationException('%s is invalid');
         }
     }
 
-    private function isQtiComplient($value)
+    private function isQtiCompliant(string $value): bool
     {
         return true;
     }

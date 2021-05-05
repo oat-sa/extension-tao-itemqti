@@ -1,6 +1,6 @@
 <?php
-
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,32 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-declare(strict_types=1);
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-namespace oat\taoQtiItem\model\import\Report;
 
-use oat\oatbox\reporting\Report;
-use oat\taoQtiItem\model\import\Parser\WarningImportException;
+use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 
-class WarningReportFormatter extends AbstractReportFormatter
+class OptionalRule extends ConfigurableService implements ValidationRuleInterface
 {
-
     /**
-     * @param  WarningImportException[]  $report
+     * @throws RecoverableLineValidationException
      */
-    public function format(array $report): Report
+    public function validate($value, $rules = null, array $context = []): void
     {
-        return Report::createWarning(
-            __(
-                '%s line{{s}} are imported with warnings %s %s' ,
-                count($report),
-                '<br>',
-                implode('<br>', $this->buildLineMessages($report))
-            )
-        );
+        if (null == $value || empty($value) || $value === '') {
+            throw new RecoverableLineValidationException('%s is empty');
+        }
     }
-
 }

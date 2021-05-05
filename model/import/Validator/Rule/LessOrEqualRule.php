@@ -24,9 +24,12 @@ namespace oat\taoQtiItem\model\import\Validator\Rule;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 
-class LessOrEqual extends ConfigurableService implements ValidationRuleInterface
+class LessOrEqualRule extends ConfigurableService implements ValidationRuleInterface
 {
 
+    /**
+     * @throws RecoverableLineValidationException
+     */
     public function validate($value, $rules = null, array $context = []): void
     {
         if ($value > $context[$rules[0]] ?? 0) {

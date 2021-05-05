@@ -34,11 +34,12 @@ class ErrorReportFormatter extends AbstractReportFormatter
     public function format(array $report): Report
     {
         return Report::createError(
-            sprintf(
-                '%s line{{s}} contain{{s}} an error and cannot be imported',
-                count($report)
-            ),
-            $report
+            __(
+                '%s line{{s}} contain{{s}} an error and cannot be imported %s %s',
+                count($report),
+                '<br>',
+                implode('<br>', $this->buildLineMessages($report))
+            )
         );
     }
 }
