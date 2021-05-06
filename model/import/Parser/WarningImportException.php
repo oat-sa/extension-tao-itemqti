@@ -24,26 +24,19 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 class WarningImportException extends InvalidImportException
 {
-    /** @var array */
-    private $warnings;
-
-    /** @var int */
     private $totalWarning = 0;
+    protected const LEVEL = 2;
 
     public function addWarning(int $line, string $message): self
     {
         $this->totalWarning++;
-        $this->warnings[$line] = $this->warnings[$line] ?? [];
-        $this->warnings[$line][] = $message;
 
-        $this->message .= rtrim($message, ',') . ', ';
-
-        return $this;
+        return $this->addMessage($line, $message, static::LEVEL);
     }
 
     public function getWarnings(): array
     {
-        return $this->warnings;
+        return $this->message[static::LEVEL];
     }
 
     public function getTotalWarnings(): int

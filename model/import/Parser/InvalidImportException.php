@@ -26,26 +26,33 @@ use Exception;
 
 class InvalidImportException extends Exception
 {
-    /** @var array */
-    private $errors;
-
-    /** @var int */
     private $totalErrors = 0;
+    private $messages = [];
 
-    public function addError(int $line, string $message): self
+    protected const LEVEL = 1;
+
+    protected function addMessage(int $line, string $message, int $errorLevel): self
     {
-        $this->totalErrors++;
-        $this->errors[$line] = $this->errors[$line] ?? [];
-        $this->errors[$line][] = $message;
+        $this->message .= rtrim($message, ',').', ';
 
-        $this->message .= rtrim($message, ',') . ', ';
+        $this->messages[$errorLevel][] = [
+            'line' => $line,
+            'message' => $message,
+        ];
 
         return $this;
     }
 
+    public function addError(int $line, string $message): self
+    {
+        $this->totalErrors++;
+
+        return $this->addMessage($line, $message, static::LEVEL);
+    }
+
     public function getErrors(): array
     {
-        return $this->errors;
+        return $this->messages[static::LEVEL];
     }
 
     public function getTotalErrors(): int
