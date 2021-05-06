@@ -27,12 +27,8 @@ use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use tao_helpers_I18n;
 use tao_models_classes_LanguageService;
 
-class SupportedLanguage extends ConfigurableService implements ValidationRuleInterface
+class SupportedLanguageRule extends ConfigurableService implements ValidationRuleInterface
 {
-
-    /**
-     * @var array
-     */
     private $languages;
 
     /**

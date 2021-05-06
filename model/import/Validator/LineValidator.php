@@ -27,7 +27,7 @@ use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
-use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguage;
+use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
 
@@ -87,9 +87,12 @@ class LineValidator extends HeaderValidator
     {
         $mapper = [
             'less_or_equals' => LessOrEqualRule::class,
-            'language' => SupportedLanguage::class,
+            'language' => SupportedLanguageRule::class,
             'qtiXmlString' => QtiCompatibleXmlRule::class,
             'optional' => OptionalRule::class,
+            'one_of' => OneOfRule::class,
+            'is_integer' => IsIntegerRule::class,
+            'strict_numeric' => StrictNumericRule::class,
         ];
 
         if (isset($mapper[$key])) {

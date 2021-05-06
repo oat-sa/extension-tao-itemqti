@@ -39,7 +39,7 @@ interface TemplateRepositoryInterface
         ],
         'shuffle' => [
             'header' => 'optional',
-            'value' => 'optional',
+            'value' => 'optional|one_of:0,1,true,false',
             'default' => 'false',
         ],
         'language' => [
@@ -49,21 +49,22 @@ interface TemplateRepositoryInterface
         ],
         'min_choices' => [
             'header' => 'optional',
-            'value' => 'optional|less_or_equals:max_choices',
+            'value' => 'optional|less_or_equals:max_choices|is_integer',
             'default' => 0,
         ],
         'max_choices' => [
             'header' => 'optional',
-            'value' => 'optional',
+            'value' => 'optional|is_integer',
             'default' => 0,
         ],
         'choice_[1-99]' => [
             'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
-            'parser' => ChoiceParser::class
+            'parser' => ChoiceParser::class,
         ],
         'choice_[1-99]_score' => [
             'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
             'parser' => NopeParser::class,
+            'value' => 'strict_numeric',
         ],
         'metadata_[a-z0-9\-_]' => [
             'header' => 'optional',
