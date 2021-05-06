@@ -78,35 +78,17 @@ class CsvItemImporter implements
 
             $itemValidatorResults = $this->getParser()->parseFile($uploadedFile, $template);
 
-            $importService = $this->getItemImportService();
-            $templateProcessor = $this->getTemplateProcessor();
-
-            $successReportsImport = [];
-            $errorReportsImport = [];
-            $xmlItems = $templateProcessor->processResultSet($itemValidatorResults, $template);
-            foreach ($xmlItems as $xmlItem) {
-                $itemImportReport = $importService->importQTIFile($xmlItem, $class, true);
-
-                if ($itemImportReport->getType() === Report::TYPE_SUCCESS) {
-                    $successReportsImport[] = $itemImportReport;
-                } else {
-                    $errorReportsImport[] = $itemImportReport;
-                }
-            }
-
-            helpers_TimeOutHelper::reset();
-
-            $report = Report::createSuccess(
-                __(
-                    0===count($importerResults->getErrorReports())?
-                    'CSV import successful: %s/%s line(s) are imported':
-                    'CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))',
-                    $importerResults->getTotalSuccessfulImport(),
-                    count($importerResults->getItems()) + count($importerResults->getErrorReports()),
-                    count($importerResults->getWarningReports()),
-                    count($importerResults->getErrorReports())
-                )
+            $reportHeader = sprintf(
+                0 === count($importerResults->getErrorReports()) ?
+                    __('CSV import successful: %s/%s line(s) are imported') :
+                    __('CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))'),
+                $importerResults->getTotalSuccessfulImport(),
+                count($importerResults->getItems()) + count($importerResults->getErrorReports()),
+                count($importerResults->getWarningReports()),
+                count($importerResults->getErrorReports())
             );
+            $report = Report::createInfo($reportHeader, []);
+            $report->add(Report::createSuccess($reportHeader, []));
         } catch (InvalidCsvImportException $e) {
             $report = Report::createError(__('CSV import failed'), []);
             $report->add(

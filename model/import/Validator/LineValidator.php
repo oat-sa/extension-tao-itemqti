@@ -67,7 +67,7 @@ class LineValidator extends HeaderValidator
 
             foreach (explode('|',$validations) as $validation) {
                 $rules = explode(':',$validation);
-                $name = array_pop($rules);
+                $name = array_shift($rules);
                 $validator = $this->getValidator($name);
                 if ($validator){
                     try{

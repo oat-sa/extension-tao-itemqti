@@ -46,6 +46,7 @@ class ErrorReportFormatterTest extends TestCase
             1 => $error1
         ];
         $output = $sut->format($reports);
-        $this->assertSame(sprintf('%s line(s) contain(s) an error and cannot be imported <br> line 1: e1, e2, e3<br>line 2: oh, ah, oi', count($reports)), $output->getMessage());
+        $this->assertCount(2, $output->getChildren());
+        $this->assertContains('e1', $output->getChildren()[0]->getMessage());
     }
 }

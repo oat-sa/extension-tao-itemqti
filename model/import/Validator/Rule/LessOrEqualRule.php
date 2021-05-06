@@ -33,7 +33,9 @@ class LessOrEqualRule extends ConfigurableService implements ValidationRuleInter
     public function validate($value, $rules = null, array $context = []): void
     {
         if ($value > $context[$rules[0]] ?? 0) {
-            throw new RecoverableLineValidationException('%s is invalid');
+            throw new RecoverableLineValidationException(
+                sprintf('%s is invalid, should be less or equal then `%s`(%s)', '%s', $rules[0], $context[$rules[0]])
+            );
         }
     }
 }
