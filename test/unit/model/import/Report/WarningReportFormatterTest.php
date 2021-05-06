@@ -45,8 +45,6 @@ class WarningReportFormatterTest extends TestCase
             1 => $wr1
         ];
         $output = $sut->format($reports);
-//        $this->assertIsArray($output->getData());
-//        $this->assertSame([1 => 'line 1: w11, w12, w13', 2 => 'line 2: w21, w22, w23'], $output->getData());
-        $this->assertSame(sprintf('%s line{{s}} are imported with warnings <br> line 1: w11, w12, w13<br>line 2: w21, w22, w23', count($reports)), $output->getMessage());
+        $this->assertSame(sprintf('%s line(s) are imported with warnings <br> line 1: w11, w12, w13<br>line 2: w21, w22, w23', count($reports)), $output->getMessage());
     }
 }

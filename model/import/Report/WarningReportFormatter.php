@@ -35,7 +35,7 @@ class WarningReportFormatter extends AbstractReportFormatter
     {
         return Report::createWarning(
             __(
-                '%s line{{s}} are imported with warnings %s %s' ,
+                '%s line(s) are imported with warnings %s %s' ,
                 count($report),
                 '<br>',
                 implode('<br>', $this->buildLineMessages($report))

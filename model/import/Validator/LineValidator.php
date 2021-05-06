@@ -47,7 +47,7 @@ class LineValidator extends HeaderValidator
             $csvTemplate
         );
 
-        $this->validateLine($content, $csvTemplate); // warnings only
+        $this->validateLine($content, $csvTemplate);
     }
 
     protected function getErrorMessagePrefix(): string

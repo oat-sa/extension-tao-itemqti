@@ -98,7 +98,9 @@ class CsvItemImporter implements
 
             $report = Report::createSuccess(
                 __(
-                    'CSV import partially successful: %s/%s line{{s}} are imported (%s warning{{s}}, %s error{{s}})',
+                    0===count($importerResults->getErrorReports())?
+                    'CSV import successful: %s/%s line(s) are imported':
+                    'CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))',
                     $importerResults->getTotalSuccessfulImport(),
                     count($importerResults->getItems()) + count($importerResults->getErrorReports()),
                     count($importerResults->getWarningReports()),
@@ -128,13 +130,12 @@ class CsvItemImporter implements
         } finally {
             $warningParsingReport = $importerResults->getWarningReports();
             $errorParsingReport = $importerResults->getErrorReports();
-            if (!empty($errorParsingReport)) {
-                $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
-            }
             if (!empty($warningParsingReport)) {
                 $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
             }
-
+            if (!empty($errorParsingReport)) {
+                $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
+            }
             if (isset($uploadedFile)) {
 //                $this->getUploadService()->remove($uploadedFile); @FIX uncomment before merge
             }

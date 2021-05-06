@@ -35,9 +35,9 @@ class ErrorReportFormatter extends AbstractReportFormatter
     {
         return Report::createError(
             __(
-                '%s line{{s}} contain{{s}} an error and cannot be imported %s %s',
+                '%s line(s) contain(s) an error and cannot be imported %s %s',
                 count($report),
-                '<br>',
+                '<br><br>',
                 implode('<br>', $this->buildLineMessages($report))
             )
         );
