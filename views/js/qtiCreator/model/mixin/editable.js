@@ -23,44 +23,39 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/invalidator'
-], function(_, $, entity, Element, event, invalidator){
-    "use strict";
+], function (_, $, entity, Element, event, invalidator) {
+    'use strict';
 
-    var _removeSelf = function(element){
+    const _removeSelf = function (element) {
+        let removed = false;
+        const related = element.getRootElement();
 
-        var removed = false;
-        var related = element.getRootElement();
-        var found;
-        var parent;
+        if (related) {
+            const found = related.find(element.getSerial());
 
-        if(related){
-
-            found = related.find(element.getSerial());
-
-            if(found){
-
-                parent = found.parent;
-                if(Element.isA(parent, 'interaction')){
-
-                    if(element.qtiClass === 'gapImg'){
+            if (found) {
+                const parent = found.parent;
+                const response = element.getResponseDeclaration();
+                if (response) {
+                    invalidator.completelyValid(response);
+                    Element.unsetElement(response);
+                }
+                if (Element.isA(parent, 'interaction')) {
+                    if (element.qtiClass === 'gapImg') {
                         parent.removeGapImg(element);
-                    }else if(Element.isA(element, 'choice')){
+                    } else if (Element.isA(element, 'choice')) {
                         parent.removeChoice(element);
                     }
                     removed = true;
-
-                }else if(found.location === 'body' && _.isFunction(parent.initContainer)){
-
-                    if(_.isFunction(element.beforeRemove)){
+                } else if (found.location === 'body' && _.isFunction(parent.initContainer)) {
+                    if (_.isFunction(element.beforeRemove)) {
                         element.beforeRemove();
                     }
 
                     parent.getBody().removeElement(element);
                     removed = true;
-
-                }else if(Element.isA(parent, '_container')){
-
-                    if(_.isFunction(element.beforeRemove)){
+                } else if (Element.isA(parent, '_container')) {
+                    if (_.isFunction(element.beforeRemove)) {
                         element.beforeRemove();
                     }
 
@@ -68,7 +63,7 @@ define([
                     removed = true;
                 }
 
-                if(removed){
+                if (removed) {
                     //mark it instantly as removed in case its is being used somewhere else
                     element.data('removed', true);
                     invalidator.completelyValid(element);
@@ -82,21 +77,20 @@ define([
         return removed;
     };
 
-    var _removeElement = function(element, containerPropName, eltToBeRemoved){
-        var targetSerial = '',
+    const _removeElement = function (element, containerPropName, eltToBeRemoved) {
+        let targetSerial = '',
             targetElt;
 
-        if(element[containerPropName]){
-
-            if(typeof (eltToBeRemoved) === 'string'){
+        if (element[containerPropName]) {
+            if (typeof eltToBeRemoved === 'string') {
                 targetSerial = eltToBeRemoved;
                 targetElt = Element.getElementBySerial(targetSerial);
-            }else if(eltToBeRemoved instanceof Element){
+            } else if (eltToBeRemoved instanceof Element) {
                 targetSerial = eltToBeRemoved.getSerial();
                 targetElt = eltToBeRemoved;
             }
 
-            if(targetSerial){
+            if (targetSerial) {
                 invalidator.completelyValid(targetElt);
                 delete element[containerPropName][targetSerial];
                 Element.unsetElement(targetSerial);
@@ -106,17 +100,17 @@ define([
         return element;
     };
 
-    var methods = {
-        init : function(serial, attributes){
-            var attr = {};
+    const methods = {
+        init: function (serial, attributes) {
+            const attr = {};
 
             //init call in the format init(attributes)
-            if(typeof (serial) === 'object'){
+            if (typeof serial === 'object') {
                 attributes = serial;
                 serial = '';
             }
 
-            if(_.isFunction(this.getDefaultAttributes)){
+            if (_.isFunction(this.getDefaultAttributes)) {
                 _.extend(attr, this.getDefaultAttributes());
             }
             _.extend(attr, attributes);
@@ -130,30 +124,30 @@ define([
          * @param {String} [value] - only to set the new value, let empty for a get
          * @returns {String} the attribute value
          */
-        attr : function(key, value){
-            var ret = this._super(key, value);
+        attr: function (key, value) {
+            const ret = this._super(key, value);
 
-            if(typeof key !== 'undefined' && typeof value !== 'undefined'){
+            if (typeof key !== 'undefined' && typeof value !== 'undefined') {
                 $(document).trigger('attributeChange.qti-widget', {
-                    'element' : this,
-                    'key' : key,
-                    'value' : entity.encode(value)
+                    element: this,
+                    key: key,
+                    value: entity.encode(value)
                 });
             }
             return _.isString(ret) ? entity.decode(ret) : ret;
         },
 
-        removeAttr : function(key){
-            var ret = this._super(key);
-            $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : null});
+        removeAttr: function (key) {
+            const ret = this._super(key);
+            $(document).trigger('attributeChange.qti-widget', { element: this, key: key, value: null });
             return ret;
         },
-        remove : function(){
-            if(arguments.length === 0){
+        remove: function () {
+            if (arguments.length === 0) {
                 return _removeSelf(this);
-            }else if(arguments.length === 2){
+            } else if (arguments.length === 2) {
                 return _removeElement(this, arguments[0], arguments[1]);
-            }else{
+            } else {
                 throw new Error('invalid number of argument given');
             }
         }

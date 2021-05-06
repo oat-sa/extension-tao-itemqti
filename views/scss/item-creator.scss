@@ -277,6 +277,9 @@ img.dragging.ui-draggable-dragging {
         .item-editor-sidebar {
             border-left: 1px solid $uiGeneralContentBg;
         }
+        .tooltip {
+            max-width: 200px;
+        }
     }
 }
 
