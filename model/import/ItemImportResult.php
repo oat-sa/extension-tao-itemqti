@@ -32,21 +32,34 @@ class ItemImportResult
 
     /** @var WarningImportException[] */
     private $warningReports;
-    /**
-     * @var InvalidImportException[]
-     */
+
+    /** @var InvalidImportException[] */
     private $errorReports;
+
+    /** @var int */
+    private $totalSuccessfulImport;
 
     /**
      * @param  ItemInterface[]  $items
      * @param  WarningImportException[]  $warningReports
      * @param  InvalidImportException[]  $errorReports
      */
-    public function __construct(array $items, array $warningReports, array $errorReports)
+    public function __construct(array $items, array $warningReports, array $errorReports, int $totalSuccessfulImport = 0)
     {
         $this->items = $items;
         $this->warningReports = $warningReports;
         $this->errorReports = $errorReports;
+        $this->totalSuccessfulImport = $totalSuccessfulImport;
+    }
+
+    public function setTotalSuccessfulImport(int $totalSuccessfulImport): void
+    {
+        $this->totalSuccessfulImport = $totalSuccessfulImport;
+    }
+
+    public function addErrorReport(InvalidImportException  $exception): void
+    {
+        $this->errorReports[] = $exception;
     }
 
     /**

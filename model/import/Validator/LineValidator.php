@@ -83,4 +83,20 @@ class LineValidator extends HeaderValidator
         }
     }
 
+    private function getValidator(string $key): ?ValidationRuleInterface
+    {
+        $mapper = [
+            'less_or_equals' => LessOrEqualRule::class,
+            'language' => SupportedLanguage::class,
+            'qtiXmlString' => QtiCompatibleXmlRule::class,
+            'optional' => OptionalRule::class,
+        ];
+
+        if (isset($mapper[$key])) {
+            return $this->getServiceLocator()->get($mapper[$key]);
+        }
+
+        return null;
+    }
+
 }

@@ -74,9 +74,7 @@ class CsvItemImporter implements
             $uploadedFile = $this->fetchUploadedFile($form);
             $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
 
-            helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
-
-            $itemValidatorResults = $this->getParser()->parseFile($uploadedFile, $template);
+            $importerResults = $this->getCsvImporter()->import($uploadedFile, $template, $class);
 
             $reportHeader = sprintf(
                 0 === count($importerResults->getErrorReports()) ?
