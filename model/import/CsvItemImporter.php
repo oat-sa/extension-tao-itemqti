@@ -108,13 +108,15 @@ class CsvItemImporter implements
                 )
             );
         } finally {
-            $warningParsingReport = $importerResults->getWarningReports();
-            $errorParsingReport = $importerResults->getErrorReports();
-            if (!empty($warningParsingReport)) {
-                $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
-            }
-            if (!empty($errorParsingReport)) {
-                $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
+            if (isset($importerResults)) {
+                $warningParsingReport = $importerResults->getWarningReports();
+                $errorParsingReport = $importerResults->getErrorReports();
+                if (!empty($warningParsingReport)) {
+                    $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
+                }
+                if (!empty($errorParsingReport)) {
+                    $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
+                }
             }
             if (isset($uploadedFile)) {
 //                $this->getUploadService()->remove($uploadedFile); @FIX uncomment before merge

@@ -37,6 +37,9 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class CsvItemImportHandler extends ConfigurableService
 {
+    /**
+     * @throws InvalidImportException
+     */
     public function import(
         File $uploadedFile,
         TemplateInterface $template,
