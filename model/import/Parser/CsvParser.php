@@ -50,18 +50,19 @@ class CsvParser extends ConfigurableService implements ParserInterface
         $validationReport = [];
         $errorsReport = [];
         foreach (array_filter($lines) as $lineNumber => $line) {
+            $humanReadableNumber = $lineNumber + 1;
             $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
             $headedLine = array_combine($header, $parsedLine);
 
             try {
                 $this->getLineValidator()->validate($headedLine, $template);
             } catch (RecoverableLineValidationException $exception) {
-                $validationReport[$lineNumber] = $exception;
+                $validationReport[$humanReadableNumber] = $exception;
             } catch (InvalidCsvImportException $exception) {
-                $errorsReport[$lineNumber] = $exception;
+                $errorsReport[$humanReadableNumber] = $exception;
                 continue;
             }
-            $items[$lineNumber] = $this->getCsvLineConverter()->convert($headedLine, $template);
+            $items[$humanReadableNumber] = $this->getCsvLineConverter()->convert($headedLine, $template);
         }
         return new ItemImportResult($items, $validationReport, $errorsReport);
     }
