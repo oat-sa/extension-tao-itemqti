@@ -25,7 +25,6 @@ use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 
 class QtiCompatibleXmlRule extends ConfigurableService implements ValidationRuleInterface
 {
-
     /**
      * @throws RecoverableLineValidationException
      */

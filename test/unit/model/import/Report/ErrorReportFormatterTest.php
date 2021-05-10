@@ -26,8 +26,7 @@ use PHPUnit\Framework\TestCase;
 
 class ErrorReportFormatterTest extends TestCase
 {
-
-    public function testFormat()
+    public function testFormat(): void
     {
         $sut = new ErrorReportFormatter();
 

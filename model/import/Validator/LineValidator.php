@@ -30,7 +30,6 @@ use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;use oat\taoQtiItem\m
 use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
-
 class LineValidator extends HeaderValidator
 {
     public function validate(array $content, TemplateInterface $csvTemplate): void

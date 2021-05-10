@@ -27,7 +27,6 @@ use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
 class StrictNumericRule extends ConfigurableService implements ValidationRuleInterface
 {
-
     /**
      * @throws InvalidImportException
      */

@@ -24,8 +24,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParsedChoiceTest extends TestCase
 {
-
-    public function testGetters()
+    public function testGetters(): void
     {
         $id = 'id';
         $choiceScore = 0.0;

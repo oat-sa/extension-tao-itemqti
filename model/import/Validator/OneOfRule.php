@@ -28,7 +28,6 @@ use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 {
     public const EMPTY_VALUE = '_empty_';
-
     /**
      * @throws RecoverableLineValidationException
      */

@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 

@@ -25,8 +25,7 @@ use PHPUnit\Framework\TestCase;
 
 class WarningReportFormatterTest extends TestCase
 {
-
-    public function testFormat()
+    public function testFormat(): void
     {
         $sut = new WarningReportFormatter();
 

@@ -27,8 +27,7 @@ use Renderer;
 
 class ItemsQtiTemplateRenderTest extends TestCase
 {
-
-    public function testProcess()
+    public function testProcess(): void
     {
         $renderMock = $this->createMock(Renderer::class);
         $renderMock->expects($this->once())->method('render')->willReturn('');
@@ -44,4 +43,3 @@ class ItemsQtiTemplateRenderTest extends TestCase
         $this->assertSame('', $subject->processItem($itemMock, $templateMock));
     }
 }
-

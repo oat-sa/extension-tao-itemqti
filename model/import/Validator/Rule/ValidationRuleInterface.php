@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-
 interface ValidationRuleInterface
 {
     public function validate($value, $rules = null, array $context = []): void;

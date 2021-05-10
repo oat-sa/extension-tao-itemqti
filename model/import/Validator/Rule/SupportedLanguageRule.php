@@ -19,8 +19,6 @@
  */
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
-
-
 use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;

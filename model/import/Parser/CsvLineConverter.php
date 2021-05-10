@@ -20,9 +20,7 @@
 
 declare(strict_types=1);
 
-
 namespace oat\taoQtiItem\model\import\Parser;
-
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\CsvItem;
@@ -36,7 +34,7 @@ class CsvLineConverter extends ConfigurableService
         $validationConfig = $template->getDefinition();
         $parsed = [];
         foreach ($validationConfig as $columnName => $rules) {
-            if ($rules['parser'] ?? null) {
+            if (!empty($rules['parser'])) {
                 /** @var ColumnParserInterface $parser */
                 $parser = $this->getServiceLocator()->get($rules['parser']);
                 $parsed[$columnName] = $parser->parse($line, $rules, $columnName);

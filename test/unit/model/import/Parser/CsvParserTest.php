@@ -43,9 +43,8 @@ class CsvParserTest extends TestCase
 
     /** @var LineValidator|MockObject */
     private $lineValidator;
-    /**
-     * @var CsvLineConverter|MockObject
-     */
+
+    /** @var CsvLineConverter|MockObject */
     private $lineConvertor;
 
     public function setUp(): void

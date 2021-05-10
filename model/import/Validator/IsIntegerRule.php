@@ -19,15 +19,12 @@
  */
 
 namespace oat\taoQtiItem\model\import\Validator;
-
-
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
 class IsIntegerRule extends ConfigurableService implements ValidationRuleInterface
 {
-
     /**
      * @throws RecoverableLineValidationException
      */

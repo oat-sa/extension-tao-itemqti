@@ -24,7 +24,6 @@ use PHPUnit\Framework\TestCase;
 
 class CvsItemResultTest extends TestCase
 {
-
     public function testGetters()
     {
         $csvItems = [1];
