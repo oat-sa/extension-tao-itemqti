@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
  */
 define([
@@ -39,11 +39,11 @@ define([
 ) {
     'use strict';
 
-    var _saveCallbacks = {
-        mappingAttr : function mappingAttr(response, value, key){
-            if(value === ''){
+    const _saveCallbacks = {
+        mappingAttr: function mappingAttr(response, value, key) {
+            if (value === '') {
                 response.removeMappingAttribute(key);
-            }else{
+            } else {
                 response.setMappingAttribute(key, value);
             }
         }
@@ -53,36 +53,39 @@ define([
      * Get the list of all available response processing templates available in the platform
      * @returns {Object}
      */
-    var getAvailableTemplates = function getAvailableTemplates(){
+    const getAvailableTemplates = function getAvailableTemplates() {
         return {
-            'CUSTOM' : __('custom'),
-            'MATCH_CORRECT' : __('match correct'),
-            'MAP_RESPONSE' : __('map response'),
-            'MAP_RESPONSE_POINT' : __('map response'),
-            'NONE' : __('none')
+            CUSTOM: __('custom'),
+            MATCH_CORRECT: __('match correct'),
+            MAP_RESPONSE: __('map response'),
+            MAP_RESPONSE_POINT: __('map response'),
+            NONE: __('none')
         };
     };
 
     /**
      * Get the list of all available base types in the platform
      * @returns {Object}
+     * @param {String} listOfBaseType
      */
-    var _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes(listOfBaseType) {
+    const _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes(listOfBaseType) {
         return [
             {
                 label: 'string',
                 value: 'string',
                 selected: listOfBaseType === 'string'
-            }, {
+            },
+            {
                 label: 'integer',
                 value: 'integer',
                 selected: listOfBaseType === 'integer'
-            }, {
+            },
+            {
                 label: 'float',
                 value: 'float',
                 selected: listOfBaseType === 'float'
             }
-        ]
+        ];
     };
 
     /**
@@ -93,22 +96,25 @@ define([
      * @param {Boolean} allowCustomTemplate - allow to select custom response processing
      * @returns {Object} templates
      */
-    var _getAvailableRpTemplates = function _getAvailableRpTemplates(interaction, filteredTemplates, allowCustomTemplate){
-
-        var rp = interaction.getRootElement().responseProcessing;
-        var allTemplates = getAvailableTemplates();
-        var templates = {};
-        if(!_.isEmpty(filteredTemplates)){
-            _.forEach(filteredTemplates, function(templateName){
-                if(allTemplates[templateName]){
+    const _getAvailableRpTemplates = function _getAvailableRpTemplates(
+        interaction,
+        filteredTemplates,
+        allowCustomTemplate
+    ) {
+        const rp = interaction.getRootElement().responseProcessing;
+        const allTemplates = getAvailableTemplates();
+        let templates = {};
+        if (!_.isEmpty(filteredTemplates)) {
+            _.forEach(filteredTemplates, function (templateName) {
+                if (allTemplates[templateName]) {
                     templates[templateName] = allTemplates[templateName];
                 }
             });
-        }else{
+        } else {
             templates = allTemplates;
         }
 
-        switch(interaction.qtiClass){
+        switch (interaction.qtiClass) {
             case 'orderInteraction':
             case 'graphicOrderInteraction':
             case 'extendedTextInteraction':
@@ -127,36 +133,32 @@ define([
                 delete templates.MAP_RESPONSE_POINT;
         }
 
-        if(rp.processingType === 'templateDriven' && !allowCustomTemplate){
+        if (rp.processingType === 'templateDriven' && !allowCustomTemplate) {
             delete templates.CUSTOM;
-        }else{
+        } else {
             //consider as custom
         }
 
         return templates;
     };
 
-    var answerStateHelper = {
+    const answerStateHelper = {
         /**
          * forward to one of the available sub-state of the answer, according to the response processing template
          * @param {Object} widget
          */
-        forward : function forward(widget){
-
-            var response = widget.element.getResponseDeclaration();
-            if(responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')){
-
+        forward: function forward(widget) {
+            const response = widget.element.getResponseDeclaration();
+            if (responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')) {
                 widget.changeState('correct');
-
-            }else if(responseHelper.isUsingTemplate(response, 'MAP_RESPONSE') ||
-                responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT')){
-
+            } else if (
+                responseHelper.isUsingTemplate(response, 'MAP_RESPONSE') ||
+                responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT')
+            ) {
                 widget.changeState('map');
-            }else if(responseHelper.isUsingTemplate(response, 'NONE')){
-
+            } else if (responseHelper.isUsingTemplate(response, 'NONE')) {
                 widget.changeState('norp');
-            }else{
-
+            } else {
                 widget.changeState('custom');
             }
         },
@@ -167,32 +169,28 @@ define([
          * @param {boolean} [newDefineCorrectActive] - set the possibility or not to define the correct response
          * @returns {boolean}
          */
-        defineCorrect : function defineCorrect(response, newDefineCorrectActive){
+        defineCorrect: function defineCorrect(response, newDefineCorrectActive) {
+            let defineCorrectActive = false;
+            const template = responseHelper.getTemplateNameFromUri(response.template);
+            const corrects = response.getCorrect();
 
-            var defineCorrectActive = false,
-                template = responseHelper.getTemplateNameFromUri(response.template),
-                corrects = response.getCorrect();
-
-            if(_.isUndefined(newDefineCorrectActive)){
+            if (_.isUndefined(newDefineCorrectActive)) {
                 //get:
 
-                if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT'){
-
-                    if(!_.isUndefined(response.data('defineCorrect'))){
+                if (template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT') {
+                    if (!_.isUndefined(response.data('defineCorrect'))) {
                         defineCorrectActive = !!response.data('defineCorrect');
-                    }else{
+                    } else {
                         //infer it :
-                        defineCorrectActive = (corrects && _.size(corrects));
-                        response.data('defineCorrect', defineCorrectActive);//set it
+                        defineCorrectActive = corrects && _.size(corrects);
+                        response.data('defineCorrect', defineCorrectActive); //set it
                     }
-
-                }else if(template === 'MATCH_CORRECT'){
+                } else if (template === 'MATCH_CORRECT') {
                     defineCorrectActive = true;
                 }
-
-            }else{
+            } else {
                 //set:
-                if(!newDefineCorrectActive){
+                if (!newDefineCorrectActive) {
                     //empty correct response
                     response.correctResponse = [];
                 }
@@ -208,78 +206,83 @@ define([
          * @param {Object} [options]
          * @param {Array} [options.rpTemplates] - the array of response processing templates name to be used
          */
-        initResponseForm : function initResponseForm(widget, options){
-          const perInteractionRP = widget.options.perInteractionRp;
+        initResponseForm: function initResponseForm(widget, options) {
+            const perInteractionRP = widget.options.perInteractionRp;
 
-          var interaction = widget.element,
+            const interaction = widget.element,
                 item = interaction.getRootElement(),
                 rp = item.responseProcessing,
-                response = interaction.getResponseDeclaration(),
-                template = responseHelper.getTemplateNameFromUri(response.template),
-                listOfBaseType = response.attributes.baseType,
-                editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
+                response = interaction.getResponseDeclaration();
+            let template = responseHelper.getTemplateNameFromUri(response.template);
+            const listOfBaseType = response.attributes.baseType,
+                editMapping = _.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0,
                 defineCorrect = answerStateHelper.defineCorrect(response),
                 allQtiElements = qtiElements.getAvailableAuthoringElements();
 
-          const outcome = item.getOutcomeDeclaration(`SCORE_${response.id()}`);
+            const outcome = item.getOutcomeDeclaration(`SCORE_${response.id()}`);
 
-            var _toggleCorrectWidgets = function(show){
+            const _toggleCorrectWidgets = function (show) {
+                const $correctWidgets = widget.$container.find('[data-edit=correct]');
 
-                var $correctWidgets = widget.$container.find('[data-edit=correct]');
-
-                if(show){
+                if (show) {
                     $correctWidgets.show();
-                }else{
+                } else {
                     $correctWidgets.hide();
                 }
             };
 
             options = _.defaults(options || {}, {
-                rpTemplates : []
+                rpTemplates: []
             });
 
-            if(!template || rp.processingType === 'custom'){
+            if (!template || rp.processingType === 'custom') {
                 template = 'CUSTOM';
             }
 
-            widget.$responseForm.html(responseFormTpl({
-                identifier : response.id(),
-                serial : response.getSerial(),
-                defineCorrect : defineCorrect,
-                editMapping : editMapping,
-                editFeedbacks : (template !== 'CUSTOM'),
-                mappingDisabled : _.isEmpty(response.mapEntries),
-                template : template,
-                templates : _getAvailableRpTemplates(interaction, options.rpTemplates, widget.options.allowCustomTemplate),
-                listOfBaseType : listOfBaseType,
-                listOfBaseTypes : _getAvailableListOfBaseTypes(listOfBaseType),
-                textEntryInteraction: interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass,
-                defaultValue : response.getMappingAttribute('defaultValue')
-            }));
+            widget.$responseForm.html(
+                responseFormTpl({
+                    identifier: response.id(),
+                    serial: response.getSerial(),
+                    defineCorrect: defineCorrect,
+                    editMapping: editMapping,
+                    editFeedbacks: template !== 'CUSTOM',
+                    mappingDisabled: _.isEmpty(response.mapEntries),
+                    template: template,
+                    templates: _getAvailableRpTemplates(
+                        interaction,
+                        options.rpTemplates,
+                        widget.options.allowCustomTemplate
+                    ),
+                    listOfBaseType: listOfBaseType,
+                    listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
+                    textEntryInteraction: interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass,
+                    defaultValue: response.getMappingAttribute('defaultValue')
+                })
+            );
             widget.$responseForm.find('select[name=template]').val(template);
 
-            if(editMapping){
+            if (editMapping) {
                 _toggleCorrectWidgets(defineCorrect);
             }
 
             minMaxComponentFactory(widget.$responseForm.find('.response-mapping-attributes > .min-max-panel'), {
                 min: {
                     fieldName: 'lowerBound',
-                    value : _.parseInt(response.getMappingAttribute('lowerBound')) || 0,
-                    helpMessage: __("Minimal  score for this interaction.")
+                    value: _.parseInt(response.getMappingAttribute('lowerBound')) || 0,
+                    helpMessage: __('Minimal  score for this interaction.')
                 },
                 max: {
                     fieldName: 'upperBound',
-                    value : _.parseInt(response.getMappingAttribute('upperBound')) || 0,
-                    helpMessage: __("Maximal score for this interaction.")
+                    value: _.parseInt(response.getMappingAttribute('upperBound')) || 0,
+                    helpMessage: __('Maximal score for this interaction.')
                 },
                 lowerThreshold: 0, // the same as unchecked
                 upperThreshold: Number.MAX_SAFE_INTEGER,
                 syncValues: true
             });
 
-            var formChangeCallbacks = {
-                identifier : function(res, value){
+            const formChangeCallbacks = {
+                identifier: function (res, value) {
                     response.id(value);
                     interaction.attr('responseIdentifier', value);
 
@@ -289,19 +292,18 @@ define([
                         answerStateHelper.initResponseForm(widget);
                     }
                 },
-                defaultValue : _saveCallbacks.mappingAttr,
-                template : function(res, value){
+                defaultValue: _saveCallbacks.mappingAttr,
+                template: function (res, value) {
                     rp.setProcessingType(value === 'CUSTOM' ? 'custom' : 'templateDriven');
                     response.setTemplate(value);
                     answerStateHelper.forward(widget);
                     answerStateHelper.initResponseForm(widget);
                 },
-                listOfBaseType : function (res, value) {
+                listOfBaseType: function (res, value) {
                     response.attributes.baseType = value;
                     answerStateHelper.initResponseForm(widget);
                 },
-                defineCorrect : function(res, value){
-
+                defineCorrect: function (res, value) {
                     _toggleCorrectWidgets(value);
                     answerStateHelper.defineCorrect(response, !!value);
                 }
@@ -309,20 +311,20 @@ define([
 
             formChangeCallbacks.identifier = _.debounce(formChangeCallbacks.identifier, 500);
 
-            _.assign(formChangeCallbacks,
-                formElement.getMinMaxAttributeCallbacks(
-                    response,
-                    'lowerBound',
-                    'upperBound',
-                    {
-                        attrMethodNames: {
-                            set: 'setMappingAttribute',
-                            remove: 'removeMappingAttribute'
-                        }
-                    })
+            _.assign(
+                formChangeCallbacks,
+                formElement.getMinMaxAttributeCallbacks(response, 'lowerBound', 'upperBound', {
+                    attrMethodNames: {
+                        set: 'setMappingAttribute',
+                        remove: 'removeMappingAttribute'
+                    }
+                })
             );
 
-            formElement.setChangeCallbacks(widget.$responseForm, response, formChangeCallbacks);
+            formElement.setChangeCallbacks(widget.$responseForm, response, formChangeCallbacks, {
+                saveInvalid: true,
+                validateOnInit: true
+            });
 
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
 
@@ -336,8 +338,8 @@ define([
          * @param {Object} widget
          * @returns {Boolean}
          */
-        isCorrectDefined : function isCorrectDefined(widget){
-            var response = widget.element.getResponseDeclaration();
+        isCorrectDefined: function isCorrectDefined(widget) {
+            const response = widget.element.getResponseDeclaration();
             return !!_.size(response.getCorrect());
         }
     };
