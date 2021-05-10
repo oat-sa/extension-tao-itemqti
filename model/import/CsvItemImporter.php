@@ -94,7 +94,7 @@ class CsvItemImporter implements
                     __(
                         'CSV import failed: required columns are missing (%s)',
                         implode(', ', $e->getMissingHeaderColumns())
-                    )
+                    ),[]
                 )
             );
         } catch (Throwable $e) {
@@ -104,7 +104,8 @@ class CsvItemImporter implements
                     __(
                         'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
                         $e->getMessage()
-                    )
+                    ),
+                    []
                 )
             );
         } finally {

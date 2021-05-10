@@ -33,7 +33,7 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        if (in_array($value, explode(',', $rules[0]))) {
+        if (!in_array($value, explode(',', $rules[0]))) {
             throw new RecoverableLineValidationException(
                 sprintf('%s is invalid, must be one of (%s)', '%s', $rules[0])
             );
