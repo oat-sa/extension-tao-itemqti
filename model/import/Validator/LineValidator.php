@@ -93,6 +93,7 @@ class LineValidator extends HeaderValidator
             'one_of' => OneOfRule::class,
             'is_integer' => IsIntegerRule::class,
             'strict_numeric' => StrictNumericRule::class,
+            'no_gaps' => StrictNoGapsRule::class,
         ];
 
         if (isset($mapper[$key])) {

@@ -22,25 +22,34 @@ namespace oat\taoQtiItem\model\import\Validator;
 
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\InvalidImportException;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
-class OneOfRule extends ConfigurableService implements ValidationRuleInterface
+class StrictNoGapsRule extends ConfigurableService implements ValidationRuleInterface
 {
-    public const EMPTY_VALUE = '_empty_';
-
     /**
-     * @throws RecoverableLineValidationException
+     * @throws InvalidImportException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        $allowedValues = explode(',', $rules[0]);
-        $allowedValues = str_replace(self::EMPTY_VALUE, '', $allowedValues);
+        $groupName = $rules[0];
+        ksort($context, SORT_NATURAL);
 
-        if (!in_array($value, $allowedValues)) {
-            throw new RecoverableLineValidationException(
-                sprintf('%s is invalid, must be one of (%s)', '%s', $rules[0])
-            );
+        $occurrences = [];
+
+        foreach ($context as $headerName => $cellValue) {
+            if (preg_match('/\b('.$groupName.')\b/', (string)$headerName) === 1) {
+                $occurrences[$headerName] = $cellValue;
+            }
+        }
+
+
+        while (in_array(end($occurrences), ['', null], true)) {
+            array_pop($occurrences);
+        }
+
+        if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
+            throw new InvalidImportException('%s have gaps in between its values'); //@TODO proper message
         }
     }
 }

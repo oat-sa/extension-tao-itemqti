@@ -27,20 +27,20 @@ class ParsedChoice
     /** @var string */
     private $choice;
 
-    /** @var float */
+    /** @var float|null */
     private $choiceScore;
 
     /** @var string */
     private $id;
 
-    public function __construct(string $id, string $choice, float $choiceScore)
+    public function __construct(string $id, string $choice, ?float $choiceScore = null)
     {
         $this->choice = $choice;
         $this->choiceScore = $choiceScore;
         $this->id = $id;
     }
 
-    public function getChoiceScore(): float
+    public function getChoiceScore(): ?float
     {
         return $this->choiceScore;
     }

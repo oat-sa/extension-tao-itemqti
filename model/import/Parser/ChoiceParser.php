@@ -26,21 +26,29 @@ use oat\taoQtiItem\model\import\ParsedChoice;
 
 class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 {
+    /**
+     * @throws InvalidCsvImportException
+     */
     public function parse(array $line, array $rules, string ...$fields): array
     {
         $parsedChoices = [];
         $columnName = $fields[0];
-
-        $choices = $this->findKeysByMask($columnName, $line);
-
         $columnPattern = $this->findMatchingColumn($rules['header']);
-        $choicesScores = array_map(
-            'floatval',
-            $this->findKeysByMask($columnPattern, $line)
-        );
+
+        $choices = array_filter($this->findKeysByMask($columnName, $line));
+        $choicesScores = array_map('floatval', array_filter($this->findKeysByMask($columnPattern, $line)));
+
+        $missingScoresCount = 0;
         foreach ($choices as $choiceId => $choice) {
-            $parsedChoices[] = new ParsedChoice($choiceId, $choice, $choicesScores[$choiceId.'_score'] ?? 0.0);
+            if (!isset($choicesScores[$choiceId.'_score'])) {
+                $missingScoresCount++;
+            }
+            $parsedChoices[] = new ParsedChoice($choiceId, $choice, $choicesScores[$choiceId.'_score']);
         }
+        if ($missingScoresCount > 0 && $missingScoresCount != count($parsedChoices)) {
+            throw new InvalidCsvImportException('Choices do not match their scores 1:1');
+        }
+
         return $parsedChoices;
     }
 

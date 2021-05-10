@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\import\Repository;
 use oat\taoQtiItem\model\import\Parser\ChoiceParser;
 use oat\taoQtiItem\model\import\Parser\NopeParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\OneOfRule;
 
 interface TemplateRepositoryInterface
 {
@@ -39,7 +40,7 @@ interface TemplateRepositoryInterface
         ],
         'shuffle' => [
             'header' => 'optional',
-            'value' => 'optional|one_of:0,1,true,false',
+            'value' => 'one_of:0,1,true,false,'.OneOfRule::EMPTY_VALUE,
             'default' => 'false',
         ],
         'language' => [
@@ -59,12 +60,13 @@ interface TemplateRepositoryInterface
         ],
         'choice_[1-99]' => [
             'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
+            'value' => 'no_gaps:choice_[1-99]',
             'parser' => ChoiceParser::class,
         ],
         'choice_[1-99]_score' => [
             'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
             'parser' => NopeParser::class,
-            'value' => 'strict_numeric',
+            'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
         ],
         'metadata_[a-z0-9\-_]' => [
             'header' => 'optional',
