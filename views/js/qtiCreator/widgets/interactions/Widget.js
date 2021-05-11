@@ -106,8 +106,8 @@ define([
         //if the answer state has been registered
         if (this.registeredStates.answer) {
             //initialize the state switcher
-            $toolbar.on('click', '.link', () => {
-                const $link = $(this),
+            $toolbar.on('click', '.link', (e) => {
+                const $link = $(e.target),
                     state = $link.data('state');
 
                 $link.siblings('.selected').removeClass('selected').addClass('link');
