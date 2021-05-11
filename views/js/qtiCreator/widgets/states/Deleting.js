@@ -224,6 +224,19 @@ define([
 
         this.refactoredUnits = [];
 
+        // remove inner widgets
+        const container = this.widget.element;
+
+        if (container.getBody && container.getBody().elements) {
+            _.each(_.values(container.getBody().elements), function (elt) {
+                if (elt.metaData && elt.metaData.widget) {
+                    const widget = elt.metaData.widget
+                    widget.destroy();
+                    widget.element.remove();
+                }
+            });
+        }
+
         this.$elementToRemove.remove();//remove html from the dom
         this.widget.destroy();//remove what remains of the widget (almost nothing), call this after element remove
         this.widget.element.remove();//remove from model
