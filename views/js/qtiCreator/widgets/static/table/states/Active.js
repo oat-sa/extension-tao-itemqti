@@ -68,21 +68,6 @@ define([
         }, 400);
     }
 
-    // delete all widgets from column or row
-    function deleteInnerWidgets(container, colRows) {
-        colRows.each(function () {
-            $(this).find('.widget-box').each(function () {
-                const serial = $(this).data('serial');
-                if (container.elements[serial]) {
-                    const wdg = container.elements[serial].metaData.widget;
-                    wdg.element.remove();
-                    wdg.destroy();
-                    delete container.elements[serial];
-                }
-            });
-        });
-    }
-
     TableStateActive.prototype.initForm = function initForm(){
         var _widget     = this.widget,
             $form       = _widget.$form,
@@ -179,9 +164,6 @@ define([
                     deleteTitle: 'Delete column'
                 })
                     .on('delete', function() {
-                        const cols = getCurrentColCells(editor);
-                        deleteInnerWidgets(container, cols);
-
                         editor.execCommand('columnDelete');
                         updateTable(editor, $editableContainer);
                         hideTableActions();
@@ -212,11 +194,7 @@ define([
                     insertRow: true,
                     deleteTitle: 'Delete row'
                 })
-
                     .on('delete', function() {
-                        const rows = getCurrentRowCells(editor);
-                        deleteInnerWidgets(container, rows);
-
                         editor.execCommand('rowDelete');
                         updateTable(editor, $editableContainer);
                         hideTableActions();
@@ -381,20 +359,6 @@ define([
                 x: currentCell.cellIndex,
                 y: currentCell.parentNode.rowIndex
             };
-        }
-    }
-
-    function getCurrentRowCells(editor) {
-        const currentCellPos = getCurrentCellPos(editor);
-        if (currentCellPos) {
-            return tableModel.getRowCells(currentCellPos.y)
-        }
-    }
-
-    function getCurrentColCells(editor) {
-        const currentCellPos = getCurrentCellPos(editor);
-        if (currentCellPos) {
-            return tableModel.getColCells(currentCellPos.x)
         }
     }
 
