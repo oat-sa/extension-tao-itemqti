@@ -30,10 +30,10 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
     /**
      * @throws RecoverableLineValidationException
      */
-    public function parse(array $line, array $rules, string ...$fields): array
+    public function parse(array $line, array $rules, array $fields): array
     {
         $parsedChoices = [];
-        $columnName = $fields[0];
+        $columnName = $fields['columnName'];
         $columnPattern = $this->findMatchingColumn($rules['header']);
 
         $choices = array_filter($this->findKeysByMask($columnName, $line));

@@ -26,7 +26,7 @@ use oat\oatbox\service\ConfigurableService;
 class NopeParser extends ConfigurableService implements ColumnParserInterface
 {
 
-    public function parse(array $line, array $rules, string ...$fields)
+    public function parse(array $line, array $rules, array $fields)
     {
     }
 }
