@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
-use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class HeaderValidator extends ConfigurableService implements ValidatorInterface

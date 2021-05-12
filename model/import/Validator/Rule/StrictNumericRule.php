@@ -21,7 +21,7 @@
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
 class StrictNumericRule extends ConfigurableService implements ValidationRuleInterface
 {

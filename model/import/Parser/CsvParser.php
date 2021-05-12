@@ -25,6 +25,8 @@ namespace oat\taoQtiItem\model\import\Parser;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;

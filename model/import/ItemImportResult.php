@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\WarningImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
 class ItemImportResult
 {

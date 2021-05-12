@@ -30,7 +30,7 @@ class CsvItem implements ItemInterface
     /** @var string */
     private $question;
 
-    /** @var boolean */
+    /** @var bool */
     private $shuffle;
 
     /** @var int */

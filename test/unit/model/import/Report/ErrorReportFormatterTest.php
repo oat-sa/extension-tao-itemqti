@@ -20,8 +20,7 @@
 
 namespace oat\taoQtiItem\model\import\Report;
 
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\WarningImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use PHPUnit\Framework\TestCase;
 
 class ErrorReportFormatterTest extends TestCase

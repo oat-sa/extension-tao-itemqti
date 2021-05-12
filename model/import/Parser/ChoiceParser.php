@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ParsedChoice;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 
 class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 {

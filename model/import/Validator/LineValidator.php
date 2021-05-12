@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\model\import\Validator;
 use Exception;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
-use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\Rule\IsIntegerRule;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;

@@ -28,7 +28,7 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
 use oat\taoQtiItem\model\qti\ImportService;
