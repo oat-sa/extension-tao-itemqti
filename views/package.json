@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "@oat-sa/tao-item-runner": "0.6.1",
-    "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#hotfix/TR-1098_implement-review-mode-file-upload-interaction"
+    "@oat-sa/tao-item-runner-qti": "0.13.0-4"
   }
 }
