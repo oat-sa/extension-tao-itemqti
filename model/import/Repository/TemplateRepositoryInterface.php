@@ -64,9 +64,14 @@ interface TemplateRepositoryInterface
             'parser' => ChoiceParser::class,
         ],
         'choice_[1-99]_score' => [
-            'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
+            'header' => 'match_header:choice_[1-99]', //FIXME Testing it is not required, can be empty
+            //'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
             'parser' => NopeParser::class,
-            'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
+            'value' => 'no_gaps:choice_[1-99]_score', //FIXME Can be empty not numeric
+            //'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
+        ],
+        'correct_answer' => [
+            'header' => 'optional',
         ],
         'metadata_[a-z0-9\-_]' => [
             'header' => 'optional',

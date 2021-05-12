@@ -23,29 +23,19 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Validator;
 
 use Exception;
+use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
-use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
+use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
 use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
-class LineValidator extends HeaderValidator
+class LineValidator extends ConfigurableService implements ValidatorInterface
 {
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
-        parent::validate(
-            array_keys(
-                array_filter(
-                    $content,
-                    function ($value) {
-                        return !is_null($value) && $value !== '';
-                    }
-                )
-            ),
-            $csvTemplate
-        );
-
         $this->validateLine($content, $csvTemplate);
     }
 
