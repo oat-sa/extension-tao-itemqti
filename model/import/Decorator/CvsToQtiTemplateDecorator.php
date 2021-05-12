@@ -51,15 +51,15 @@ class CvsToQtiTemplateDecorator
     public function getQtiTemplatePath(ItemInterface $item): string
     {
         if ($item->isNoneResponse()) {
-            return $this->qtiTemplatePath . 'item_none_response.xml.tpl';
+            return $this->qtiTemplatePath['noResponse'];
         }
 
         if ($item->isMapResponse()) {
-            return $this->qtiTemplatePath . 'item_map_response.xml.tpl';
+            return $this->qtiTemplatePath['mapResponse'];
         }
 
         if ($item->isMatchCorrectResponse()) {
-            return $this->qtiTemplatePath . 'item_match_correct_response.xml.tpl';
+            return $this->qtiTemplatePath['matchCorrectResponse'];
         }
     }
 }

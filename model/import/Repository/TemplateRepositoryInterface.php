@@ -33,7 +33,11 @@ interface TemplateRepositoryInterface
 
     public const DEFAULT_DEFINITION = [
         'target' => [
-            'templatePath' => 'taoQtiItem/model/import/Template/',
+            'templatePath' => [
+                'noResponse' => 'taoQtiItem/templates/import/item_none_response.xml.tpl',
+                'mapResponse' => 'taoQtiItem/templates/import/item_map_response.xml.tpl',
+                'matchCorrectResponse' => 'taoQtiItem/templates/import/item_match_correct_response.xml.tpl',
+            ],
             'version' => '2.2',
             'standard' => 'QTI',
         ],
