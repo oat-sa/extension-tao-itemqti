@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Decorator;
 
+use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CvsToQtiTemplateDecorator
@@ -47,8 +48,18 @@ class CvsToQtiTemplateDecorator
         return $this->csvColumns;
     }
 
-    public function getQtiTemplatePath(): string
+    public function getQtiTemplatePath(ItemInterface $item): string
     {
-        return $this->qtiTemplatePath;
+        if ($item->isNoneResponse()) {
+            return $this->qtiTemplatePath . 'item_none_response.xml.tpl';
+        }
+
+        if ($item->isMapResponse()) {
+            return $this->qtiTemplatePath . 'item_map_response.xml.tpl';
+        }
+
+        if ($item->isMatchCorrectResponse()) {
+            return $this->qtiTemplatePath . 'item_match_correct_response.xml.tpl';
+        }
     }
 }

@@ -33,7 +33,7 @@ interface TemplateRepositoryInterface
 
     public const DEFAULT_DEFINITION = [
         'target' => [
-            'templatePath' => 'taoQtiItem/model/import/Template/item.xml.tpl',
+            'templatePath' => 'taoQtiItem/model/import/Template/',
             'version' => '2.2',
             'standard' => 'QTI',
         ],
@@ -66,9 +66,9 @@ interface TemplateRepositoryInterface
                 'default' => 0,
             ],
             'choice_[1-99]' => [
-                'header' => 'match_header:choice_[1-99]', //FIXME Testing it is not required, can be empty
+                'header' => 'match_header:choice_[1-99]_score', //FIXME Testing it is not required, can be empty
                 //'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
-                'parser' => NopeParser::class,
+                'parser' => ChoiceParser::class,
                 'value' => 'no_gaps:choice_[1-99]_score', //FIXME Can be empty not numeric
                 //'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
             ],

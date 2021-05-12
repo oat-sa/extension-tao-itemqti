@@ -40,7 +40,9 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
 
         $decorator = new CvsToQtiTemplateDecorator($xmlQtiTemplate);
 
-        $renderer->setTemplate($decorator->getQtiTemplatePath());
+        $templatePath = $decorator->getQtiTemplatePath($item);
+
+        $renderer->setTemplate($templatePath);
         $renderer->setMultipleData(
             [
                 'isMapResponse' => $item->isMapResponse(),
@@ -81,26 +83,5 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
             $this->renderer = new Renderer();
         }
         return $this->renderer;
-    }
-
-    private function getTemplatePath(ItemInterface $item)
-    {
-        //FIXME @TODO THe path must come from configuration
-        $templatePath = 'taoQtiItem/model/import/Template/';
-        $templateFullPath = null;
-
-        if ($item->isNoneResponse()) {
-            $templateFullPath = $templatePath . 'item_none_response.xml.tpl';
-        }
-
-        if ($item->isMapResponse()) {
-            $templateFullPath = $templatePath . 'item_map_response.xml.tpl';
-        }
-
-        if ($item->isMatchCorrectResponse()) {
-            $templateFullPath = $templatePath . 'item_match_correct_response.xml.tpl';
-        }
-
-        return $templateFullPath;
     }
 }
