@@ -188,7 +188,7 @@ class CsvItem implements ItemInterface
 
     public function isMapResponse(): bool
     {
-        return $this->getScoreCount() > 2;
+        return $this->getScoreCount() > 1;
     }
 
     public function isNoneResponse(): bool
