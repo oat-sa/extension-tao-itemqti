@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint148\n"
-"PO-Revision-Date: 2021-02-12T10:17:02\n"
+"Project-Id-Version: TAO 3.4.0-sprint151\n"
+"PO-Revision-Date: 2021-03-26T14:48:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -35,6 +35,9 @@ msgid "-- Any kind of file --"
 msgstr "-- 任何類型的檔案 --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
+msgid "7-zip archive"
 msgstr ""
 
 msgid "A choice must be selected"
@@ -79,6 +82,9 @@ msgstr "新增配對選項"
 
 msgid "Add Style Sheet"
 msgstr "新增樣式表"
+
+msgid "Adobe Flash file"
+msgstr ""
 
 msgid "Alignment"
 msgstr "對齊方式"
@@ -156,6 +162,9 @@ msgstr "關聯配對"
 msgid "at least"
 msgstr "最少"
 
+msgid "Audio Video Interleave"
+msgstr ""
+
 msgid "Autostart"
 msgstr "自動啟動"
 
@@ -166,6 +175,9 @@ msgid "Background color"
 msgstr "背景色彩"
 
 msgid "Base"
+msgstr ""
+
+msgid "Bitmap image"
 msgstr ""
 
 msgid "block"
@@ -189,13 +201,19 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
+msgid "C file"
+msgstr ""
+
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "cancel"
-msgstr "取消"
+msgid "Calc speadsheet (Staroffice)"
+msgstr ""
 
 msgid "Cancel"
+msgstr "取消"
+
+msgid "cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -214,6 +232,9 @@ msgid "cannot load QTI XML"
 msgstr ""
 
 msgid "Cannot locate the file \"%s"
+msgstr ""
+
+msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Center"
@@ -276,16 +297,19 @@ msgstr "顏色挑選器"
 msgid "Common Interactions"
 msgstr ""
 
+msgid "Compressed tar file"
+msgstr ""
+
 msgid "Contraints"
 msgstr "約束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制視頻和音頻的播放檔案(自動播放，循環)再報告已播放的次數。"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正確"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正確"
 
 msgid "Cosinus"
@@ -323,6 +347,9 @@ msgstr ""
 
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
+
+msgid "Database file"
+msgstr ""
 
 msgid "default"
 msgstr "預設值"
@@ -382,6 +409,9 @@ msgid "Display the choices either horizontally or vertically"
 msgstr ""
 
 msgid "Divide"
+msgstr ""
+
+msgid "Document templates (Staroffice)"
 msgstr ""
 
 msgid "Don\'t save"
@@ -464,6 +494,9 @@ msgstr "結束考試"
 
 msgid "End Attempt Interaction"
 msgstr "結束考試互動"
+
+msgid "Enhanced metafile"
+msgstr ""
 
 msgid "Enlarge font size"
 msgstr "放大字型大小"
@@ -561,6 +594,9 @@ msgstr "在空格中填充的一組選擇的圖像的圖片。"
 msgid "Flash video"
 msgstr "Flash 視訊"
 
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr ""
+
 msgid "Font family"
 msgstr "字型家族"
 
@@ -582,6 +618,9 @@ msgstr "空格匹配"
 msgid "Gap Match Interaction"
 msgstr "空格匹配互動"
 
+msgid "Geogebra data file"
+msgstr ""
+
 msgid "GIF image"
 msgstr "GIF 圖片"
 
@@ -601,6 +640,12 @@ msgid "Greater than or equal"
 msgstr ""
 
 msgid "Guard for resource \"%s\"..."
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensions"
 msgstr ""
 
 msgid "Height"
@@ -633,13 +678,16 @@ msgstr "如何編輯數學表達式應"
 msgid "Human"
 msgstr ""
 
+msgid "Hypertext markup language"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
 msgid "identifier already taken"
@@ -711,9 +759,6 @@ msgstr "互動屬性"
 msgid "Interpretation"
 msgstr ""
 
-msgid "invalid identifier"
-msgstr "無效的識別符"
-
 msgid "invalid QTI XML"
 msgstr ""
 
@@ -741,10 +786,10 @@ msgstr ""
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "題目屬性"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "題目屬性"
 
 msgid "Item width"
@@ -753,6 +798,9 @@ msgstr "題目闊度"
 #, tao-public
 msgid "Items"
 msgstr "題目"
+
+msgid "Javascript code"
+msgstr ""
 
 msgid "JPEG image"
 msgstr "JPEG 圖片"
@@ -766,11 +814,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "LaTeX"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
@@ -855,10 +903,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
 msgid "Max plays count"
@@ -912,17 +960,38 @@ msgstr ""
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
 msgid "Microsoft Powerpoint"
 msgstr "Microsoft Powerpoint"
 
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
 msgid "Microsoft Word"
 msgstr "Microsoft Word"
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
 
 msgid "MIME-type"
 msgstr "MIME 類型"
 
 msgid "Min"
 msgstr "最低"
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "此互動的最低分數。"
@@ -947,6 +1016,9 @@ msgstr "MPEG 音效檔"
 
 msgid "MPEG video"
 msgstr "MPEG 影音檔"
+
+msgid "MPEG-4 audio file"
+msgstr ""
 
 msgid "Multiply"
 msgstr ""
@@ -979,11 +1051,11 @@ msgstr ""
 msgid "No value set"
 msgstr "沒有設定數值"
 
-msgid "None"
-msgstr "無"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "無"
 
 msgid "None defined yet."
 msgstr "還未定義。"
@@ -1007,10 +1079,19 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
 msgid "OpenDocument spreadsheet document"
 msgstr ""
 
 msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
 msgstr ""
 
 msgid "Order"
@@ -1194,6 +1275,12 @@ msgstr "問題"
 msgid "Quicktime video"
 msgstr "QuickTime 視訊"
 
+msgid "RAR archive"
+msgstr ""
+
+msgid "RealMedia file"
+msgstr ""
+
 msgid "Recommendations"
 msgstr "建議"
 
@@ -1209,10 +1296,10 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1280,6 +1367,9 @@ msgstr "處理回應"
 
 msgid "Response Properties"
 msgstr "回應屬性"
+
+msgid "Rich Text Format file"
+msgstr ""
 
 msgid "Right"
 msgstr ""
@@ -1410,6 +1500,9 @@ msgstr "形成的位置"
 msgid "Shuffle choices"
 msgstr "隨機設定選擇的位置"
 
+msgid "Sibelius music notation"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1433,6 +1526,9 @@ msgstr ""
 
 msgid "Step"
 msgstr "步驟"
+
+msgid "Storing digital video data on a computer game"
+msgstr ""
 
 msgid "Style Editor"
 msgstr "樣式編輯器"
@@ -1458,10 +1554,19 @@ msgstr "SVG 圖片"
 msgid "Table headings"
 msgstr "表格標題"
 
+msgid "Tagged image file"
+msgstr ""
+
 msgid "TAO default styles"
 msgstr "TAO預設的樣式"
 
+msgid "Tape Archive (TAR)"
+msgstr ""
+
 msgid "Target Class Lookup for resource \"%s\"..."
+msgstr ""
+
+msgid "TeX file"
 msgstr ""
 
 msgid "Text Block"
@@ -1475,6 +1580,9 @@ msgstr "文本區塊屬性"
 
 msgid "Text color"
 msgstr "文字顏色"
+
+msgid "Text document file format (Staroffice)"
+msgstr ""
 
 msgid "Text Entry"
 msgstr "文字輸入"
@@ -1738,6 +1846,9 @@ msgstr "復原"
 msgid "undo"
 msgstr "復原"
 
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
@@ -1771,8 +1882,14 @@ msgstr "我們用樣式面具，這樣才符合 IMS 標準"
 msgid "Width"
 msgstr "寬度"
 
+msgid "Windows help file"
+msgstr ""
+
 msgid "Windows Media audio"
 msgstr "Windows Media 音訊"
+
+msgid "Windows Media file (metafile)"
+msgstr ""
 
 msgid "Windows Media video"
 msgstr "Windows Media 視訊"
@@ -1783,11 +1900,17 @@ msgstr "字詞"
 msgid "Would you like to replace the alt text"
 msgstr "你想更換替代文字嗎？"
 
+msgid "Write Document"
+msgstr ""
+
 msgid "WYSIWYG editor"
 msgstr ""
 
 msgid "XHTML"
 msgstr "XHTML"
+
+msgid "XML file"
+msgstr ""
 
 msgid "Yes"
 msgstr "是"

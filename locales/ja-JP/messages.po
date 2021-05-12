@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint148\n"
-"PO-Revision-Date: 2021-02-12T10:15:43\n"
+"Project-Id-Version: TAO 3.4.0-sprint151\n"
+"PO-Revision-Date: 2021-03-30T17:16:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -35,6 +35,9 @@ msgid "-- Any kind of file --"
 msgstr "-- すべてのファイル --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
+msgid "7-zip archive"
 msgstr ""
 
 msgid "A choice must be selected"
@@ -79,6 +82,9 @@ msgstr "新しいペアを追加します"
 
 msgid "Add Style Sheet"
 msgstr "スタイルシートを追加"
+
+msgid "Adobe Flash file"
+msgstr ""
 
 msgid "Alignment"
 msgstr "配置"
@@ -156,6 +162,9 @@ msgstr "組み合わせ"
 msgid "at least"
 msgstr "最低"
 
+msgid "Audio Video Interleave"
+msgstr ""
+
 msgid "Autostart"
 msgstr "自動起動"
 
@@ -166,6 +175,9 @@ msgid "Background color"
 msgstr "背景色"
 
 msgid "Base"
+msgstr ""
+
+msgid "Bitmap image"
 msgstr ""
 
 msgid "block"
@@ -189,13 +201,19 @@ msgstr "コンピュータを参照し、適切なファイルを選択します
 msgid "Browse..."
 msgstr "参照..."
 
+msgid "C file"
+msgstr ""
+
 msgid "C++ file (.cpp)"
 msgstr ""
 
-msgid "cancel"
-msgstr "キャンセル"
+msgid "Calc speadsheet (Staroffice)"
+msgstr ""
 
 msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -214,6 +232,9 @@ msgid "cannot load QTI XML"
 msgstr ""
 
 msgid "Cannot locate the file \"%s"
+msgstr ""
+
+msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Center"
@@ -276,16 +297,19 @@ msgstr "色の取得"
 msgid "Common Interactions"
 msgstr ""
 
+msgid "Compressed tar file"
+msgstr ""
+
 msgid "Contraints"
 msgstr "制約事項"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された時間数を報告します"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正しい"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正しい"
 
 msgid "Cosinus"
@@ -323,6 +347,9 @@ msgstr ""
 
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
+
+msgid "Database file"
+msgstr ""
 
 msgid "default"
 msgstr "デフォルト"
@@ -382,6 +409,9 @@ msgid "Display the choices either horizontally or vertically"
 msgstr ""
 
 msgid "Divide"
+msgstr ""
+
+msgid "Document templates (Staroffice)"
 msgstr ""
 
 msgid "Don\'t save"
@@ -464,6 +494,9 @@ msgstr "エンドアテンプト"
 
 msgid "End Attempt Interaction"
 msgstr "エンドアテンプトインタラクション"
+
+msgid "Enhanced metafile"
+msgstr ""
 
 msgid "Enlarge font size"
 msgstr "フォントサイズを拡大"
@@ -561,6 +594,9 @@ msgstr "選択肢のイメージから画像上の空白を埋めなさい"
 msgid "Flash video"
 msgstr "Flash 動画"
 
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr ""
+
 msgid "Font family"
 msgstr "フォントファミリ"
 
@@ -582,6 +618,9 @@ msgstr "ギャップマッチ"
 msgid "Gap Match Interaction"
 msgstr "ギャップマッチ操作"
 
+msgid "Geogebra data file"
+msgstr ""
+
 msgid "GIF image"
 msgstr "GIF 画像"
 
@@ -601,6 +640,12 @@ msgid "Greater than or equal"
 msgstr ""
 
 msgid "Guard for resource \"%s\"..."
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensions"
 msgstr ""
 
 msgid "Height"
@@ -633,13 +678,16 @@ msgstr "どのように数式を編集できるのでしょうか"
 msgid "Human"
 msgstr ""
 
+msgid "Hypertext markup language"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "同一のペアがすでに存在しています"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別"
 
 msgid "identifier already taken"
@@ -711,9 +759,6 @@ msgstr "操作のプロパティ"
 msgid "Interpretation"
 msgstr ""
 
-msgid "invalid identifier"
-msgstr "無効な識別子"
-
 msgid "invalid QTI XML"
 msgstr ""
 
@@ -741,10 +786,10 @@ msgstr ""
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "アイテムプロパティ"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "アイテムプロパティ"
 
 msgid "Item width"
@@ -753,6 +798,9 @@ msgstr "項目の幅"
 #, tao-public
 msgid "Items"
 msgstr "アイテム"
+
+msgid "Javascript code"
+msgstr ""
 
 msgid "JPEG image"
 msgstr "JPEG 画像"
@@ -766,11 +814,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "空欄にしてください"
@@ -855,10 +903,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長"
 
 msgid "Max plays count"
@@ -912,17 +960,38 @@ msgstr ""
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
 msgid "Microsoft Powerpoint"
 msgstr "Microsoft PowerPoint"
 
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
 msgid "Microsoft Word"
 msgstr "Microsoft Word"
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
 
 msgid "MIME-type"
 msgstr "MIMEタイプ"
 
 msgid "Min"
 msgstr "最小"
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "この操作の最低　スコア　"
@@ -947,6 +1016,9 @@ msgstr "MPEGオーディオ"
 
 msgid "MPEG video"
 msgstr "MPEG ビデオ"
+
+msgid "MPEG-4 audio file"
+msgstr ""
 
 msgid "Multiply"
 msgstr ""
@@ -979,11 +1051,11 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "None"
-msgstr "なし"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "なし"
 
 msgid "None defined yet."
 msgstr "未定義"
@@ -1007,10 +1079,19 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
 msgid "OpenDocument spreadsheet document"
 msgstr ""
 
 msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
 msgstr ""
 
 msgid "Order"
@@ -1195,6 +1276,12 @@ msgstr "問題"
 msgid "Quicktime video"
 msgstr "QuickTime 動画"
 
+msgid "RAR archive"
+msgstr ""
+
+msgid "RealMedia file"
+msgstr ""
+
 msgid "Recommendations"
 msgstr "推奨"
 
@@ -1281,6 +1368,15 @@ msgstr "応答処理中"
 
 msgid "Response Properties"
 msgstr "レスポンスプロパティ"
+
+msgid "Rich text"
+msgstr ""
+
+msgid "Rich text + math"
+msgstr ""
+
+msgid "Rich Text Format file"
+msgstr ""
 
 msgid "Right"
 msgstr ""
@@ -1411,6 +1507,9 @@ msgstr "シェープポジション"
 msgid "Shuffle choices"
 msgstr "選択肢をシャッフル"
 
+msgid "Sibelius music notation"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1434,6 +1533,9 @@ msgstr ""
 
 msgid "Step"
 msgstr "ステップ"
+
+msgid "Storing digital video data on a computer game"
+msgstr ""
 
 msgid "Style Editor"
 msgstr "スタイルエディタ"
@@ -1459,10 +1561,19 @@ msgstr "SVG 画像"
 msgid "Table headings"
 msgstr "表の見出し"
 
+msgid "Tagged image file"
+msgstr ""
+
 msgid "TAO default styles"
 msgstr "TAO　標準スタイル"
 
+msgid "Tape Archive (TAR)"
+msgstr ""
+
 msgid "Target Class Lookup for resource \"%s\"..."
+msgstr ""
+
+msgid "TeX file"
 msgstr ""
 
 msgid "Text Block"
@@ -1476,6 +1587,9 @@ msgstr "テキストブロックプロパティ"
 
 msgid "Text color"
 msgstr "文字色"
+
+msgid "Text document file format (Staroffice)"
+msgstr ""
 
 msgid "Text Entry"
 msgstr "テキスト入力"
@@ -1740,6 +1854,9 @@ msgstr "取り消し"
 msgid "undo"
 msgstr "取り消し"
 
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
@@ -1773,8 +1890,14 @@ msgstr "IMS Standardに準拠するために、これのためにpatternMaskを�
 msgid "Width"
 msgstr "幅"
 
+msgid "Windows help file"
+msgstr ""
+
 msgid "Windows Media audio"
 msgstr "Windows Media オーディオ"
+
+msgid "Windows Media file (metafile)"
+msgstr ""
 
 msgid "Windows Media video"
 msgstr "Windows メディアビデオ"
@@ -1785,11 +1908,14 @@ msgstr "語数"
 msgid "Would you like to replace the alt text"
 msgstr "代替えテキストを変更したいですか"
 
+msgid "Write Document"
+msgstr ""
+
 msgid "WYSIWYG editor"
 msgstr ""
 
-msgid "XHTML"
-msgstr "XHTML"
+msgid "XML file"
+msgstr ""
 
 msgid "Yes"
 msgstr "はい"

@@ -22,31 +22,33 @@
 
 namespace oat\taoQtiItem\controller;
 
+use common_exception_BadRequest;
 use common_exception_Error;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\media\MediaService;
 use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
+use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\event\ItemCreatorLoad;
 use oat\taoQtiItem\model\HookRegistry;
+use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
+use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
-use oat\taoQtiItem\model\ItemModel;
-use oat\taoItems\model\media\ItemMediaResolver;
-use oat\tao\model\media\MediaService;
-use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use common_exception_BadRequest;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -196,6 +198,7 @@ class QtiCreator extends tao_actions_CommonModule
                     Authoring::checkEmptyMedia($xml);
 
                     $item = $this->getXmlToItemParser()->parseAndSanitize($xml);
+                    $this->getItemIdentifierValidator()->validate($item);
 
                     $returnValue['success'] = $itemService->saveDataItemToRdfItem($item, $rdfItem);
 
@@ -325,6 +328,11 @@ class QtiCreator extends tao_actions_CommonModule
     private function getXmlToItemParser(): XmlToItemParser
     {
         return $this->getServiceLocator()->get(XmlToItemParser::class);
+    }
+
+    private function getItemIdentifierValidator(): ItemIdentifierValidator
+    {
+        return $this->getServiceLocator()->get(ItemIdentifierValidator::class);
     }
 
     /**
