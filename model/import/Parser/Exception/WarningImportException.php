@@ -23,25 +23,30 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Parser\Exception;
 
-class WarningImportException extends InvalidImportException
+class WarningImportException extends AbstractImportException
 {
     private $totalWarning = 0;
-    protected const LEVEL = 2;
+    private const LEVEL = 2;
 
     public function addWarning(int $line, string $message): self
     {
         $this->totalWarning++;
 
-        return $this->addMessage($line, $message, static::LEVEL);
+        return $this->addMessage($line, $message, $this->getErrorLevel());
     }
 
     public function getWarnings(): array
     {
-        return $this->message[static::LEVEL];
+        return $this->message[$this->getErrorLevel()];
     }
 
     public function getTotalWarnings(): int
     {
         return $this->totalWarning;
+    }
+
+    protected function getErrorLevel(): int
+    {
+        return self::LEVEL;
     }
 }
