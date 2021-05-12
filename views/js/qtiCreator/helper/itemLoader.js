@@ -64,8 +64,8 @@ define([
                     var loader, itemData, newItem;
 
                     if (data.itemData) {
-                        let newObject = {};
                         for (const response in data.itemData.responses) {
+                            const newObject = {};
                             for (const mapKey in data.itemData.responses[response].mapping) {
                                 newObject[decodeHtml(mapKey)] = data.itemData.responses[response].mapping[mapKey];
                             }
