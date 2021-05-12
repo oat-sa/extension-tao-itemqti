@@ -53,7 +53,7 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
             foreach (explode('|', $validations) as $validation) {
                 $rules = explode(':', $validation);
                 $name = array_shift($rules);
-                $validator = $this->getValidator($name);
+                $validator = $this->getValidatorMapper()->getValidator($name);
                 if ($validator) {
                     try {
                         $validator->validate($content[$headerRegex], $rules, $content);
@@ -68,24 +68,9 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
         }
     }
 
-    private function getValidator(string $key): ?ValidationRuleInterface
+    private function getValidatorMapper(): ValidationRulesMapper
     {
-        $mapper = [
-            'less_or_equals' => LessOrEqualRule::class,
-            'language' => SupportedLanguageRule::class,
-            'qtiXmlString' => QtiCompatibleXmlRule::class,
-            'optional' => OptionalRule::class,
-            'one_of' => OneOfRule::class,
-            'is_integer' => IsIntegerRule::class,
-            'strict_numeric' => StrictNumericRule::class,
-            'no_gaps' => StrictNoGapsRule::class,
-        ];
-
-        if (isset($mapper[$key])) {
-            return $this->getServiceLocator()->get($mapper[$key]);
-        }
-
-        return null;
+        return $this->getServiceLocator()->get(ValidationRulesMapper::class);
     }
 
 }
