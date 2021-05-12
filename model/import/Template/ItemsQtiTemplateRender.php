@@ -40,6 +40,9 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
         $renderer->setTemplate($xmlQtiTemplate->getQtiTemplate());
         $renderer->setMultipleData(
             [
+                'isMapResponse' => $item->isMapResponse(),
+                'isMatchCorrectResponse' => $item->isMatchCorrectResponse(),
+                'isNoneResponse' => $item->isNoneResponse(),
                 'choices' => $item->getChoices(),
                 'language' => $item->getLanguage(),
                 'maxChoices' => $item->getMaxChoices(),

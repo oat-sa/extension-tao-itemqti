@@ -122,6 +122,91 @@ class CsvItem implements ItemInterface
 
     public function getMaxScore(): float
     {
-        return $this->maxScore;
+        /*
+        WHEN choice_1_score … choice_N_score and correct_answer are ALL EMPTY
+            THEN system shall consider this as warning
+            set Response Processing to none (survey use case)
+            set MAXSCORE to 0
+        */
+
+        // If max_choices = 0 (unlimited), it will be the sum of all choice_N_score without include negative values.
+        if ($this->maxChoices === 0) { // unlimited choices map_response
+            $totalScore = 0;
+
+            foreach ($this->choices as $choice) {
+                if ($choice->getChoiceScore() > 0) {
+                    $totalScore += $choice->getChoiceScore();
+                }
+            }
+
+            return $totalScore;
+        }
+
+        // If max_choices = 1, it will be the higher choice_N_score value.
+        if ($this->maxChoices === 1) { // match_correct
+            $scores = [];
+
+            foreach ($this->choices as $choice) {
+                if ($choice->getChoiceScore() > 0) {
+                    $scores[$choice->getChoiceScore()] = $choice->getChoiceScore();
+                }
+            }
+
+            return max($scores);
+        }
+
+        // If max_choices = 2..N, it will be higher possible sum of choice_N_score.
+        if ($this->maxChoices > 1) {
+            $scores = [];
+
+            foreach ($this->choices as $choice) {
+                if ($choice->getChoiceScore() > 0) {
+                    $scores[$choice->getChoiceScore()] = $choice->getChoiceScore();
+                }
+            }
+
+            krsort($scores);
+
+            $totalScore = 0;
+
+            for ($i = 0; $i < $this->maxChoices; $i++) {
+                $totalScore += current($scores);
+
+                next($scores);
+            }
+
+            return max($scores);
+        }
+
+        return 0;
+    }
+
+    public function isMatchCorrectResponse(): bool
+    {
+        return $this->getScoreCount() === 1;
+    }
+
+    public function isMapResponse(): bool
+    {
+        return $this->getScoreCount() > 2;
+    }
+
+    public function isNoneResponse(): bool
+    {
+        return $this->getScoreCount() === 0;
+    }
+
+    private function getScoreCount(): int
+    {
+        $totalScores = 0;
+
+        // map_response: In case there is more than one choice_N_score.
+        foreach ($this->choices as $choice) {
+            if ($choice->getChoiceScore() > 0) {
+                $totalScores++;
+            }
+        }
+
+        return $totalScores;
     }
 }
