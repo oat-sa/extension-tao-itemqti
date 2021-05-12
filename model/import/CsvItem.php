@@ -161,11 +161,11 @@ class CsvItem implements ItemInterface
 
             foreach ($this->choices as $choice) {
                 if ($choice->getChoiceScore() > 0) {
-                    $scores[$choice->getChoiceScore()] = $choice->getChoiceScore();
+                    $scores[] = $choice->getChoiceScore();
                 }
             }
 
-            krsort($scores);
+            rsort($scores);
 
             $totalScore = 0;
 
@@ -175,7 +175,7 @@ class CsvItem implements ItemInterface
                 next($scores);
             }
 
-            return max($scores);
+            return $totalScore;
         }
 
         return 0;
@@ -183,12 +183,18 @@ class CsvItem implements ItemInterface
 
     public function isMatchCorrectResponse(): bool
     {
-        return $this->getScoreCount() === 1;
+        foreach ($this->choices as $choice) {
+            if ($choice->isCorrect()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isMapResponse(): bool
     {
-        return $this->getScoreCount() > 1;
+        return !$this->isMatchCorrectResponse() && $this->getScoreCount() > 1;
     }
 
     public function isNoneResponse(): bool
