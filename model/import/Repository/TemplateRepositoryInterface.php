@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\model\import\Repository;
 use oat\taoQtiItem\model\import\Parser\ChoiceParser;
 use oat\taoQtiItem\model\import\Parser\NopeParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use oat\taoQtiItem\model\import\Validator\OneOfRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 
 interface TemplateRepositoryInterface
 {

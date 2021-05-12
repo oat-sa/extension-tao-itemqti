@@ -18,20 +18,35 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Validator;
-use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
-use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-class IsIntegerRule extends ConfigurableService implements ValidationRuleInterface
+use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Parser\InvalidImportException;
+
+class StrictNoGapsRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
-     * @throws RecoverableLineValidationException
+     * @throws InvalidImportException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        if (!is_numeric($value)) {
-            throw new RecoverableLineValidationException('%s is invalid, must be integer');
+        $groupName = $rules[0];
+        ksort($context, SORT_NATURAL);
+
+        $occurrences = [];
+
+        foreach ($context as $headerName => $cellValue) {
+            if (preg_match('/\b('.$groupName.')\b/', (string)$headerName) === 1) {
+                $occurrences[$headerName] = $cellValue;
+            }
+        }
+
+        while (in_array(end($occurrences), ['', null], true)) {
+            array_pop($occurrences);
+        }
+
+        if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
+            throw new InvalidImportException('%s have gaps in between its values'); //@TODO proper message
         }
     }
 }

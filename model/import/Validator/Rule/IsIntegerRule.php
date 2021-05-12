@@ -18,36 +18,20 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Validator;
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
-use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
+use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 
-class StrictNoGapsRule extends ConfigurableService implements ValidationRuleInterface
+class IsIntegerRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
-     * @throws InvalidImportException
+     * @throws RecoverableLineValidationException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        $groupName = $rules[0];
-        ksort($context, SORT_NATURAL);
-
-        $occurrences = [];
-
-        foreach ($context as $headerName => $cellValue) {
-            if (preg_match('/\b('.$groupName.')\b/', (string)$headerName) === 1) {
-                $occurrences[$headerName] = $cellValue;
-            }
-        }
-
-        while (in_array(end($occurrences), ['', null], true)) {
-            array_pop($occurrences);
-        }
-
-        if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
-            throw new InvalidImportException('%s have gaps in between its values'); //@TODO proper message
+        if (!is_numeric($value)) {
+            throw new RecoverableLineValidationException('%s is invalid, must be integer');
         }
     }
 }

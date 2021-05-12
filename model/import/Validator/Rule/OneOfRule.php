@@ -18,22 +18,26 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Validator;
-
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
-use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
+use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 
-class StrictNumericRule extends ConfigurableService implements ValidationRuleInterface
+class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 {
+    public const EMPTY_VALUE = '_empty_';
     /**
-     * @throws InvalidImportException
+     * @throws RecoverableLineValidationException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        if (!is_numeric($value)) {
-            throw new InvalidImportException('%s is invalid, must be numeric');
+        $allowedValues = explode(',', $rules[0]);
+        $allowedValues = str_replace(self::EMPTY_VALUE, '', $allowedValues);
+
+        if (!in_array($value, $allowedValues)) {
+            throw new RecoverableLineValidationException(
+                sprintf('%s is invalid, must be one of (%s)', '%s', $rules[0])
+            );
         }
     }
 }

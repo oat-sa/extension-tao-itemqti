@@ -27,9 +27,13 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\Rule\IsIntegerRule;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
 use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
+use oat\taoQtiItem\model\import\Validator\Rule\StrictNoGapsRule;
+use oat\taoQtiItem\model\import\Validator\Rule\StrictNumericRule;
 use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
