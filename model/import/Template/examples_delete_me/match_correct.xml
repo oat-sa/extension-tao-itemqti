@@ -19,8 +19,8 @@
             </value>
         </correctResponse>
     </responseDeclaration>
-    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE" normalMaximum="1"/>
     <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE_RESPONSE"/>
+    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE" normalMaximum="1"/>
     <outcomeDeclaration cardinality="single" baseType="float" identifier="MAXSCORE">
         <defaultValue>
             <value>1</value>

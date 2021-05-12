@@ -38,13 +38,21 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
         $choices = array_filter($this->findKeysByMask($columnName, $line));
         $choicesScores = $this->findKeysByMask($columnPattern, $line);
 
+        $correctAnswers = $this->findCorrectAnswers($line);
         $missingScoresCount = 0;
         foreach ($choices as $choiceId => $choice) {
-            if (!isset($choicesScores[$choiceId.'_score'])) {
+            if (!isset($choicesScores[$choiceId . '_score'])) {
                 $missingScoresCount++;
             }
-            $parsedChoices[] = new ParsedChoice($choiceId, $choice, (float)$choicesScores[$choiceId.'_score']);
+
+            $parsedChoices[] = new ParsedChoice(
+                $choiceId,
+                $choice,
+                (float)$choicesScores[$choiceId . '_score'],
+                in_array($choiceId, $correctAnswers)
+            );
         }
+
         if ($missingScoresCount > 0 && $missingScoresCount != count($parsedChoices)) {
             throw new InvalidCsvImportException('Choices do not match their scores 1:1');
         }
@@ -66,5 +74,14 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
             }
         }
         return null;
+    }
+
+    private function findCorrectAnswers(array $line): array
+    {
+        return (array)(
+            $line['correct_answer']
+                ? explode(',', str_replace('', '', $line['correct_answer']))
+                : []
+        );
     }
 }

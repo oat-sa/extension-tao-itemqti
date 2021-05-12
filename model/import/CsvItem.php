@@ -152,7 +152,7 @@ class CsvItem implements ItemInterface
                 }
             }
 
-            return max($scores);
+            return count($scores) ? max($scores) : 0;
         }
 
         // If max_choices = 2..N, it will be higher possible sum of choice_N_score.
