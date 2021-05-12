@@ -35,10 +35,12 @@ define([
 
             if (found) {
                 const parent = found.parent;
-                const response = element.getResponseDeclaration();
-                if (response) {
-                    invalidator.completelyValid(response);
-                    Element.unsetElement(response);
+                if (element.getResponseDeclaration) {
+                    const response = element.getResponseDeclaration();
+                    if (response) {
+                        invalidator.completelyValid(response);
+                        Element.unsetElement(response);
+                    }
                 }
                 if (Element.isA(parent, 'interaction')) {
                     if (element.qtiClass === 'gapImg') {
