@@ -42,7 +42,6 @@ class StrictNoGapsRule extends ConfigurableService implements ValidationRuleInte
             }
         }
 
-
         while (in_array(end($occurrences), ['', null], true)) {
             array_pop($occurrences);
         }

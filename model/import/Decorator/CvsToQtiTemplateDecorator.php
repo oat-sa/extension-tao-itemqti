@@ -1,6 +1,6 @@
 <?php
-
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,43 +15,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import;
+namespace oat\taoQtiItem\model\import\Decorator;
 
-class ParsedChoice
+use oat\taoQtiItem\model\import\TemplateInterface;
+
+class CvsToQtiTemplateDecorator
 {
-    /** @var string */
-    private $choice;
+    /**
+     * @var array
+     */
+    private $csvColumns;
 
-    /** @var float|null */
-    private $choiceScore;
+    /**
+     * @var string
+     */
+    private $qtiTemplatePath;
 
-    /** @var string */
-    private $id;
-
-    public function __construct(string $id, string $choice, ?float $choiceScore = null)
+    public function __construct(TemplateInterface $template)
     {
-        $this->choice = $choice;
-        $this->choiceScore = $choiceScore ?? 0.0; //@TODO fix at the scope of score processing
-        $this->id = $id;
+        $this->qtiTemplatePath = $template->getDefinition()['target']['templatePath'];
+        $this->csvColumns = $template->getDefinition()['columns'];
     }
 
-    public function getChoiceScore(): ?float
+    public function getCsvColumns(): array
     {
-        return $this->choiceScore;
+        return $this->csvColumns;
     }
 
-    public function getChoice(): string
+    public function getQtiTemplatePath(): string
     {
-        return $this->choice;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
+        return $this->qtiTemplatePath;
     }
 }

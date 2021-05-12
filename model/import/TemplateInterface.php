@@ -28,6 +28,4 @@ interface TemplateInterface
     public function getId(): string;
 
     public function getDefinition(): array;
-
-    public function getQtiTemplate(): string;
 }

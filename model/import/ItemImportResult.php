@@ -44,8 +44,12 @@ class ItemImportResult
      * @param  WarningImportException[]  $warningReports
      * @param  InvalidImportException[]  $errorReports
      */
-    public function __construct(array $items, array $warningReports, array $errorReports, int $totalSuccessfulImport = 0)
-    {
+    public function __construct(
+        array $items,
+        array $warningReports,
+        array $errorReports,
+        int $totalSuccessfulImport = 0
+    ) {
         $this->items = $items;
         $this->warningReports = $warningReports;
         $this->errorReports = $errorReports;
@@ -57,7 +61,7 @@ class ItemImportResult
         $this->totalSuccessfulImport = $totalSuccessfulImport;
     }
 
-    public function addErrorReport(InvalidImportException  $exception): void
+    public function addErrorReport(InvalidImportException $exception): void
     {
         $this->errorReports[] = $exception;
     }

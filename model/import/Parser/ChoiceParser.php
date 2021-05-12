@@ -27,7 +27,7 @@ use oat\taoQtiItem\model\import\ParsedChoice;
 class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 {
     /**
-     * @throws InvalidCsvImportException
+     * @throws RecoverableLineValidationException
      */
     public function parse(array $line, array $rules, string ...$fields): array
     {
@@ -46,7 +46,7 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
             $parsedChoices[] = new ParsedChoice($choiceId, $choice, $choicesScores[$choiceId.'_score']);
         }
         if ($missingScoresCount > 0 && $missingScoresCount != count($parsedChoices)) {
-            throw new InvalidCsvImportException('Choices do not match their scores 1:1');
+//            throw new RecoverableLineValidationException('Choices do not match their scores 1:1');
         }
 
         return $parsedChoices;

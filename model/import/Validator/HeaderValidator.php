@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
@@ -30,7 +31,9 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 {
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
-        $validationConfig = $csvTemplate->getDefinition();
+        $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
+
+        $validationConfig = $decorator->getCsvColumns();
 
         $error = new InvalidCsvImportException();
 

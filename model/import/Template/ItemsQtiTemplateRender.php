@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\import\Template;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\ItemInterface;
+use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use Renderer;
 
@@ -37,7 +38,9 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
     {
         $renderer = $this->getRenderer();
 
-        $renderer->setTemplate($xmlQtiTemplate->getQtiTemplate());
+        $decorator = new CvsToQtiTemplateDecorator($xmlQtiTemplate);
+
+        $renderer->setTemplate($decorator->getQtiTemplatePath());
         $renderer->setMultipleData(
             [
                 'choices' => $item->getChoices(),

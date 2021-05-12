@@ -23,61 +23,43 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Validator;
 
 use Exception;
+use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
-use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
+use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
 use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
-class LineValidator extends HeaderValidator
+class LineValidator extends ConfigurableService implements ValidatorInterface
 {
-    public function validate(array $content, TemplateInterface $csvTemplate): void
-    {
-        parent::validate(
-            array_keys(
-                array_filter(
-                    $content,
-                    function ($value) {
-                        return !is_null($value) && $value !== '';
-                    }
-                )
-            ),
-            $csvTemplate
-        );
-
-        $this->validateLine($content, $csvTemplate);
-    }
-
-    protected function getErrorMessagePrefix(): string
-    {
-        return '';
-    }
-
     /**
      * @throws RecoverableLineValidationException
      */
-    private function validateLine(array $content, TemplateInterface $csvTemplate): void
+    public function validate(array $content, TemplateInterface $csvTemplate): void
     {
+        $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
         $warnings = new RecoverableLineValidationException();
-        $validationConfig = $csvTemplate->getDefinition();
-        foreach ($validationConfig as $headerRegex => $validations) {
-            $validations = $validations['value'] ??'';
 
-            foreach (explode('|',$validations) as $validation) {
-                $rules = explode(':',$validation);
+        foreach ($decorator->getCsvColumns() as $headerRegex => $validations) {
+            $validations = $validations['value'] ?? '';
+
+            foreach (explode('|', $validations) as $validation) {
+                $rules = explode(':', $validation);
                 $name = array_shift($rules);
                 $validator = $this->getValidator($name);
-                if ($validator){
-                    try{
+                if ($validator) {
+                    try {
                         $validator->validate($content[$headerRegex], $rules, $content);
-                    }catch (Exception $exception){
+                    } catch (Exception $exception) {
                         $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex));
                     }
                 }
             }
         }
-        if ($warnings->getTotalWarnings()){
+        if ($warnings->getTotalWarnings()) {
             throw $warnings;
         }
     }
