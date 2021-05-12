@@ -18,11 +18,10 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Validator;
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
-use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 
 class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 {

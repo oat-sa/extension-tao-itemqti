@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\import\Validator;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\import\CsvTemplate;
-use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;

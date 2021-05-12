@@ -39,7 +39,7 @@ class ParsedChoice
     public function __construct(string $id, string $choice, float $choiceScore, bool $isCorrect)
     {
         $this->choice = $choice;
-        $this->choiceScore = $choiceScore;
+        $this->choiceScore = $choiceScore ?? 0.0; //@TODO fix at the scope of score processing
         $this->id = $id;
         $this->isCorrect = $isCorrect;
     }

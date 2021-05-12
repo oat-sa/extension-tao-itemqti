@@ -23,5 +23,5 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 interface ColumnParserInterface
 {
-    public function parse(array $line, array $rules, string ...$fields);
+    public function parse(array $line, array $rules, array $fields);
 }

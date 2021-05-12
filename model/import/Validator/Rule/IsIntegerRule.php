@@ -18,22 +18,20 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Validator;
-
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
-use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 
-class StrictNumericRule extends ConfigurableService implements ValidationRuleInterface
+class IsIntegerRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
-     * @throws InvalidImportException
+     * @throws RecoverableLineValidationException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
         if (!is_numeric($value)) {
-            throw new InvalidImportException('%s is invalid, must be numeric');
+            throw new RecoverableLineValidationException('%s is invalid, must be integer');
         }
     }
 }

@@ -23,14 +23,17 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class HeaderValidator extends ConfigurableService implements ValidatorInterface
 {
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
-        $validationConfig = $csvTemplate->getDefinition();
+        $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
+
+        $validationConfig = $decorator->getCsvColumns();
 
         $error = new InvalidCsvImportException();
 
@@ -44,19 +47,19 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 
             foreach ($this->getMissingMatches($headerRegex, $validations, $content, $occurrences) as $missingMatch) {
                 $error->addMissingHeaderColumn($missingMatch);
-                $error->addError(0, __('%s `%s` is required', $this->getErrorMessagePrefix(), $missingMatch));
+                $error->addError(0, __('Header `%s` is required', $missingMatch));
             }
 
             if ($isRequired && $totalOccurrences === 0) {
                 $error->addMissingHeaderColumn($headerRegex);
-                $error->addError(0, __('%s `%s` is required', $this->getErrorMessagePrefix(), $headerRegex));
+                $error->addError(0, __('Header `%s` is required', $headerRegex));
             }
 
             if ($totalOccurrences < $minOccurrences) {
                 $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(
                     0,
-                    __('%s `%s` must be provided at least `%s` times', $this->getErrorMessagePrefix(), $headerRegex, $minOccurrences)
+                    __('Header `%s` must be provided at least `%s` times', $headerRegex, $minOccurrences)
                 );
             }
         }
@@ -148,10 +151,5 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
         }
 
         return $occurrences;
-    }
-
-    protected function getErrorMessagePrefix(): string
-    {
-        return __('Header');
     }
 }

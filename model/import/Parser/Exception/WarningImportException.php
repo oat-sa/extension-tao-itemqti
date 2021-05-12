@@ -1,6 +1,7 @@
 <?php
 
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,17 +16,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import;
+namespace oat\taoQtiItem\model\import\Parser\Exception;
 
-interface TemplateInterface
+class WarningImportException extends AbstractImportException
 {
-    public function getId(): string;
+    private $totalWarning = 0;
+    private const LEVEL = 2;
 
-    public function getDefinition(): array;
+    public function addWarning(int $line, string $message): self
+    {
+        $this->totalWarning++;
+
+        return $this->addMessage($line, $message, $this->getErrorLevel());
+    }
+
+    public function getWarnings(): array
+    {
+        return $this->message[$this->getErrorLevel()];
+    }
+
+    public function getTotalWarnings(): int
+    {
+        return $this->totalWarning;
+    }
+
+    protected function getErrorLevel(): int
+    {
+        return self::LEVEL;
+    }
 }

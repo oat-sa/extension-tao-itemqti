@@ -31,14 +31,10 @@ class CsvTemplate implements TemplateInterface
     /** @var array */
     private $definition;
 
-    /** @var string */
-    private $qtiTemplate;
-
-    public function __construct(string $id, array $definition, string $qtiTemplate)
+    public function __construct(string $id, array $definition)
     {
         $this->id = $id;
         $this->definition = $definition;
-        $this->qtiTemplate = $qtiTemplate;
     }
 
     public function getId(): string
@@ -49,10 +45,5 @@ class CsvTemplate implements TemplateInterface
     public function getDefinition(): array
     {
         return $this->definition;
-    }
-
-    public function getQtiTemplate(): string
-    {
-        return $this->qtiTemplate;
     }
 }

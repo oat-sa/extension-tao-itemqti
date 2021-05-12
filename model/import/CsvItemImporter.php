@@ -27,7 +27,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\reporting\Report;
-use oat\taoQtiItem\model\import\Parser\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Report\ErrorReportFormatter;
 use oat\taoQtiItem\model\import\Report\WarningReportFormatter;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;

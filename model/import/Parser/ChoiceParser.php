@@ -23,16 +23,17 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ParsedChoice;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 
 class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 {
     /**
-     * @throws InvalidCsvImportException
+     * @throws RecoverableLineValidationException
      */
-    public function parse(array $line, array $rules, string ...$fields): array
+    public function parse(array $line, array $rules, array $fields): array
     {
         $parsedChoices = [];
-        $columnName = $fields[0];
+        $columnName = $fields['columnName'];
         $columnPattern = $this->findMatchingColumn($rules['header']);
 
         $choices = array_filter($this->findKeysByMask($columnName, $line));
@@ -54,7 +55,7 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
         }
 
         if ($missingScoresCount > 0 && $missingScoresCount != count($parsedChoices)) {
-            throw new InvalidCsvImportException('Choices do not match their scores 1:1');
+//            throw new RecoverableLineValidationException('Choices do not match their scores 1:1');
         }
 
         return $parsedChoices;

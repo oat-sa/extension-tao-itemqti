@@ -24,72 +24,53 @@ namespace oat\taoQtiItem\model\import\Validator;
 
 use Exception;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\Rule\IsIntegerRule;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
 use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
+use oat\taoQtiItem\model\import\Validator\Rule\StrictNoGapsRule;
+use oat\taoQtiItem\model\import\Validator\Rule\StrictNumericRule;
 use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
 use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
 class LineValidator extends ConfigurableService implements ValidatorInterface
 {
-    public function validate(array $content, TemplateInterface $csvTemplate): void
-    {
-        $this->validateLine($content, $csvTemplate);
-    }
-
-    protected function getErrorMessagePrefix(): string
-    {
-        return '';
-    }
-
     /**
      * @throws RecoverableLineValidationException
      */
-    private function validateLine(array $content, TemplateInterface $csvTemplate): void
+    public function validate(array $content, TemplateInterface $csvTemplate): void
     {
+        $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
         $warnings = new RecoverableLineValidationException();
-        $validationConfig = $csvTemplate->getDefinition();
-        foreach ($validationConfig as $headerRegex => $validations) {
-            $validations = $validations['value'] ??'';
 
-            foreach (explode('|',$validations) as $validation) {
-                $rules = explode(':',$validation);
+        foreach ($decorator->getCsvColumns() as $headerRegex => $validations) {
+            $validations = $validations['value'] ?? '';
+
+            foreach (explode('|', $validations) as $validation) {
+                $rules = explode(':', $validation);
                 $name = array_shift($rules);
-                $validator = $this->getValidator($name);
-                if ($validator){
-                    try{
+                $validator = $this->getValidatorMapper()->getValidator($name);
+                if ($validator) {
+                    try {
                         $validator->validate($content[$headerRegex], $rules, $content);
-                    }catch (Exception $exception){
+                    } catch (Exception $exception) {
                         $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex));
                     }
                 }
             }
         }
-        if ($warnings->getTotalWarnings()){
+        if ($warnings->getTotalWarnings()) {
             throw $warnings;
         }
     }
 
-    private function getValidator(string $key): ?ValidationRuleInterface
+    private function getValidatorMapper(): ValidationRulesMapper
     {
-        $mapper = [
-            'less_or_equals' => LessOrEqualRule::class,
-            'language' => SupportedLanguageRule::class,
-            'qtiXmlString' => QtiCompatibleXmlRule::class,
-            'optional' => OptionalRule::class,
-            'one_of' => OneOfRule::class,
-            'is_integer' => IsIntegerRule::class,
-            'strict_numeric' => StrictNumericRule::class,
-            'no_gaps' => StrictNoGapsRule::class,
-        ];
-
-        if (isset($mapper[$key])) {
-            return $this->getServiceLocator()->get($mapper[$key]);
-        }
-
-        return null;
+        return $this->getServiceLocator()->get(ValidationRulesMapper::class);
     }
 
 }

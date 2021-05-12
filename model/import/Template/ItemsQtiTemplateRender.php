@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\import\Template;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\ItemInterface;
+use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use Renderer;
 
@@ -37,9 +38,9 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
     {
         $renderer = $this->getRenderer();
 
-        $templateFullPath = $this->getTemplatePath($item);
+        $decorator = new CvsToQtiTemplateDecorator($xmlQtiTemplate);
 
-        $renderer->setTemplate($templateFullPath);
+        $renderer->setTemplate($decorator->getQtiTemplatePath());
         $renderer->setMultipleData(
             [
                 'isMapResponse' => $item->isMapResponse(),
@@ -76,9 +77,9 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
 
     private function getRenderer(): Renderer
     {
-        //if (!$this->renderer) {
+        if (!$this->renderer) {
             $this->renderer = new Renderer();
-        //} //@FIXME @TODO Cannot be cached
+        }
         return $this->renderer;
     }
 

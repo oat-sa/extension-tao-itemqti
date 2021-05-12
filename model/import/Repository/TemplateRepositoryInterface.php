@@ -25,56 +25,66 @@ namespace oat\taoQtiItem\model\import\Repository;
 use oat\taoQtiItem\model\import\Parser\ChoiceParser;
 use oat\taoQtiItem\model\import\Parser\NopeParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use oat\taoQtiItem\model\import\Validator\OneOfRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 
 interface TemplateRepositoryInterface
 {
     public const DEFAULT = 'default';
+
     public const DEFAULT_DEFINITION = [
-        'name' => [
-            'header' => 'required',
+        'target' => [
+            'templatePath' => 'taoQtiItem/model/import/Template/item.xml.tpl',
+            'version' => '2.2',
+            'standard' => 'QTI',
         ],
-        'question' => [
-            'header' => 'required',
-            'value' => 'qtiXmlString',
-        ],
-        'shuffle' => [
-            'header' => 'optional',
-            'value' => 'one_of:0,1,true,false,'.OneOfRule::EMPTY_VALUE,
-            'default' => 'false',
-        ],
-        'language' => [
-            'header' => 'optional',
-            'value' => 'optional|language',
-            'default' => DEFAULT_LANG,
-        ],
-        'min_choices' => [
-            'header' => 'optional',
-            'value' => 'optional|less_or_equals:max_choices|is_integer',
-            'default' => 0,
-        ],
-        'max_choices' => [
-            'header' => 'optional',
-            'value' => 'optional|is_integer',
-            'default' => 0,
-        ],
-        'choice_[1-99]' => [
-            'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
-            'value' => 'no_gaps:choice_[1-99]',
-            'parser' => ChoiceParser::class,
-        ],
-        'choice_[1-99]_score' => [
-            'header' => 'match_header:choice_[1-99]', //FIXME Testing it is not required, can be empty
-            //'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
-            'parser' => NopeParser::class,
-            'value' => 'no_gaps:choice_[1-99]_score', //FIXME Can be empty not numeric
-            //'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
-        ],
-        'correct_answer' => [
-            'header' => 'optional',
-        ],
-        'metadata_[a-z0-9\-_]' => [
-            'header' => 'optional',
+        'columns' => [
+            'name' => [
+                'header' => 'required',
+            ],
+            'question' => [
+                'header' => 'required',
+                'value' => 'qtiXmlString',
+            ],
+            'shuffle' => [
+                'header' => 'optional',
+                'value' => 'one_of:0,1,true,false,'.OneOfRule::EMPTY_VALUE,
+                'default' => 'false',
+            ],
+            'language' => [
+                'header' => 'optional',
+                'value' => 'optional|language',
+                'default' => DEFAULT_LANG,
+            ],
+            'min_choices' => [
+                'header' => 'optional',
+                'value' => 'optional|less_or_equals:max_choices|is_integer',
+                'default' => 0,
+            ],
+            'max_choices' => [
+                'header' => 'optional',
+                'value' => 'optional|is_integer',
+                'default' => 0,
+            ],
+            'choice_[1-99]' => [
+                'header' => 'match_header:choice_[1-99]', //FIXME Testing it is not required, can be empty
+                //'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
+                'parser' => NopeParser::class,
+                'value' => 'no_gaps:choice_[1-99]_score', //FIXME Can be empty not numeric
+                //'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
+            ],
+            'choice_[1-99]_score' => [
+                'header' => 'match_header:choice_[1-99]', //FIXME Testing it is not required, can be empty
+                //'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
+                'parser' => NopeParser::class,
+                'value' => 'no_gaps:choice_[1-99]_score', //FIXME Can be empty not numeric
+                //'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
+            ],
+            'correct_answer' => [
+                'header' => 'optional',
+            ],
+            'metadata_[a-z0-9\-_]' => [
+                'header' => 'optional',
+            ],
         ],
     ];
     public const DEFAULT_XML = 'taoQtiItem/model/import/Template/item.xml.tpl';
