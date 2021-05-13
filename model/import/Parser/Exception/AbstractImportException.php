@@ -27,7 +27,7 @@ abstract class AbstractImportException extends Exception
 
     protected $messages = [];
 
-    protected function addMessage(int $line, string $message, int $errorLevel, string $field): self
+    protected function addMessage(int $line, string $message, int $errorLevel, string $field = null): self
     {
         $this->message .= rtrim($message, ',').', ';
 
@@ -40,5 +40,5 @@ abstract class AbstractImportException extends Exception
         return $this;
     }
 
-     abstract protected function getErrorLevel(): int;
+    abstract protected function getErrorLevel(): int;
 }

@@ -28,7 +28,7 @@ class WarningImportException extends InvalidImportException
     private $totalWarning = 0;
     protected const LEVEL = 2;
 
-    public function addWarning(int $line, string $message, string $field): self
+    public function addWarning(int $line, string $message, string $field = null): self
     {
         $this->totalWarning++;
 

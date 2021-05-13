@@ -78,7 +78,7 @@ class CsvItemImportHandler extends ConfigurableService
                 }
             } catch (Throwable $exception) {
                 $this->getLogger()->warning(
-                    sprintf('Tabular import: import failure %s', $itemImportReport->getMessage())
+                    sprintf('Tabular import: import failure %s', $exception->getMessage())
                 );
 
                 // Ask business if we want to revert what was imported (probably, yes)
@@ -87,7 +87,7 @@ class CsvItemImportHandler extends ConfigurableService
                 $errorReportsImport++;
 
                 $error = new InvalidImportException();
-                $error->addError($lineNumber, $itemImportReport->getMessage());
+                $error->addError($lineNumber, $exception->getMessage(),'');
 
                 $itemValidatorResults->addErrorReport($lineNumber, $error);
             }

@@ -29,7 +29,7 @@ class InvalidImportException extends AbstractImportException
 
     private $totalErrors = 0;
 
-    public function addError(int $line, string $message, string $field): self
+    public function addError(int $line, string $message, string $field = null): self
     {
         $this->totalErrors++;
 
