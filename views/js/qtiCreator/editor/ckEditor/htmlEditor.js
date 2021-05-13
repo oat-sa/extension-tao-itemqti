@@ -319,7 +319,7 @@ define([
      * @param {String} serial
      */
     function _findWidgetContainer($container, serial){
-        return $.find($container.selector + ' .widget-box[data-serial=' + serial + ']')
+        return $.find($container.selector + ' .widget-box[data-serial=' + serial + ']');
     }
 
     /**
