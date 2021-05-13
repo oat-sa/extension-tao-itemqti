@@ -38,7 +38,7 @@ class SupportedLanguageRule extends ConfigurableService implements ValidationRul
                 strtolower($value),
                 $this->getLanguages()
             )) {
-            throw new RecoverableLineValidationException('%s is invalid');
+            throw new RecoverableLineValidationException(__('`%s` is invalid'));
         }
     }
 

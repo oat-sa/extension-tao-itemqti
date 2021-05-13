@@ -31,7 +31,7 @@ class IsIntegerRule extends ConfigurableService implements ValidationRuleInterfa
     public function validate($value, $rules = null, array $context = []): void
     {
         if (!is_numeric($value) || $value < 0) {
-            throw new RecoverableLineValidationException('%s is invalid, must be positive integer');
+            throw new RecoverableLineValidationException(__('`%s` is invalid, must be positive integer'));
         }
     }
 }
