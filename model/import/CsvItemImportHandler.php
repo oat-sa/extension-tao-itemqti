@@ -77,6 +77,10 @@ class CsvItemImportHandler extends ConfigurableService
                     $errorReportsImport++;
                 }
             } catch (Throwable $exception) {
+                $this->getLogger()->warning(
+                    sprintf('Tabular import: import failure %s', $itemImportReport->getMessage())
+                );
+
                 // Ask business if we want to revert what was imported (probably, yes)
                 //FIXME Rollback any DB + FS change
 

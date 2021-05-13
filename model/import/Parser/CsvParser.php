@@ -58,7 +58,9 @@ class CsvParser extends ConfigurableService implements ParserInterface
             $headedLine = array_combine($header, $parsedLine);
 
             try {
+                $this->getLogger()->debug(sprintf('Tabular import: line %s validation started', $lineNumber));
                 $this->getLineValidator()->validate($headedLine, $template);
+                $this->getLogger()->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
             } catch (RecoverableLineValidationException $exception) {
                 $validationReport[$humanReadableNumber] = $exception;
                 if ($exception->getTotalErrors()) {
@@ -69,7 +71,9 @@ class CsvParser extends ConfigurableService implements ParserInterface
                 $errorsReport[$humanReadableNumber] = $exception;
                 continue;
             }
+            $this->getLogger()->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
             $items[$humanReadableNumber] = $this->getCsvLineConverter()->convert($headedLine, $template);
+            $this->getLogger()->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
         }
         return new ItemImportResult($items, $validationReport, $errorsReport);
     }

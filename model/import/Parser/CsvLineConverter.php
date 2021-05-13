@@ -42,10 +42,10 @@ class CsvLineConverter extends ConfigurableService
                 $parser = $this->getServiceLocator()->get($rules['parser']);
                 $parsed[$columnName] = $parser->parse($line, $rules, ['columnName' => $columnName]);
             } else {
-                $parsed[$columnName] = array_key_exists(
-                    $columnName,
-                    $line
-                ) && $line[$columnName] !== '' ? $line[$columnName] : $rules['default'];
+                $parsed[$columnName] = (array_key_exists(
+                        $columnName,
+                        $line
+                    ) && $line[$columnName] !== '') ? $line[$columnName] : ($rules['default'] ?? null);
             }
         }
 
