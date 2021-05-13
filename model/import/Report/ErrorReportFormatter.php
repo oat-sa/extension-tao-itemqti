@@ -29,7 +29,7 @@ class ErrorReportFormatter extends AbstractReportFormatter
 {
 
     /**
-     * @param  Exception[]  $report
+     * @param Exception[]  $report
      */
     public function format(array $report): Report
     {

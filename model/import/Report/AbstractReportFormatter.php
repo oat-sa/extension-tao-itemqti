@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\import\Report;
 
-
 use Exception;
 use oat\oatbox\service\ConfigurableService;
 
