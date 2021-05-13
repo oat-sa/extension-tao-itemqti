@@ -26,6 +26,7 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
@@ -58,10 +59,13 @@ class CsvParser extends ConfigurableService implements ParserInterface
 
             try {
                 $this->getLineValidator()->validate($headedLine, $template);
-
             } catch (RecoverableLineValidationException $exception) {
                 $validationReport[$humanReadableNumber] = $exception;
-            } catch (InvalidCsvImportException $exception) {
+                if ($exception->getTotalErrors()) {
+                    $errorsReport[$humanReadableNumber] = $exception;
+                    continue;
+                }
+            } catch (InvalidImportException | InvalidCsvImportException $exception) {
                 $errorsReport[$humanReadableNumber] = $exception;
                 continue;
             }

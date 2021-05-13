@@ -40,14 +40,15 @@ interface TemplateRepositoryInterface
         'columns' => [
             'name' => [
                 'header' => 'required',
+                'value' => 'required',
             ],
             'question' => [
                 'header' => 'required',
-                'value' => 'qtiXmlString',
+                'value' => 'required|qtiXmlString',
             ],
             'shuffle' => [
                 'header' => 'optional',
-                'value' => 'one_of:0,1,true,false,'.OneOfRule::EMPTY_VALUE,
+                'value' => 'one_of:0,1,true,false,'.OneOfRule::EMPTY_VALUE.':'.OneOfRule::CASE_INSENSITIVE,
                 'default' => 'false',
             ],
             'language' => [
@@ -74,14 +75,13 @@ interface TemplateRepositoryInterface
                 'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
                 'parser' => NopeParser::class,
 //                'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
-                'value' => 'strict_numeric',
+//                'value' => 'strict_numeric',
             ],
             'metadata_[a-z0-9\-_]' => [
                 'header' => 'optional',
             ],
         ],
     ];
-    public const DEFAULT_XML = 'taoQtiItem/model/import/Template/item.xml.tpl';
 
     public function findById(string $id): ?TemplateInterface;
 }

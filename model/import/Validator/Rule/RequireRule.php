@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * This program is free software; you can redistribute it and/or
@@ -19,34 +18,20 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-declare(strict_types=1);
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-namespace oat\taoQtiItem\model\import\Parser\Exception;
+use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
-class WarningImportException extends InvalidImportException
+class RequireRule extends ConfigurableService implements ValidationRuleInterface
 {
-    private $totalWarning = 0;
-    private const LEVEL = 2;
-
-    public function addWarning(int $line, string $message): self
+    /**
+     * @throws InvalidImportException
+     */
+    public function validate($value, $rules = null, array $context = []): void
     {
-        $this->totalWarning++;
-
-        return $this->addMessage($line, $message, $this->getErrorLevel());
-    }
-
-    public function getWarnings(): array
-    {
-        return $this->message[$this->getErrorLevel()];
-    }
-
-    public function getTotalWarnings(): int
-    {
-        return $this->totalWarning;
-    }
-
-    protected function getErrorLevel(): int
-    {
-        return self::LEVEL;
+        if (empty($value)) {
+            throw new InvalidImportException('`%s` is required');
+        }
     }
 }

@@ -26,6 +26,7 @@ use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
 use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
+use oat\taoQtiItem\model\import\Validator\Rule\RequireRule;
 use oat\taoQtiItem\model\import\Validator\Rule\StrictNoGapsRule;
 use oat\taoQtiItem\model\import\Validator\Rule\StrictNumericRule;
 use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
@@ -42,6 +43,7 @@ class ValidationRulesMapper extends ConfigurableService
             'no_gaps' => StrictNoGapsRule::class,
             'one_of' => OneOfRule::class,
             'optional' => OptionalRule::class,
+            'required' => RequireRule::class,
             'qtiXmlString' => QtiCompatibleXmlRule::class,
             'strict_numeric' => StrictNumericRule::class,
         ];
