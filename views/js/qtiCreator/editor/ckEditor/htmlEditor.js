@@ -320,7 +320,7 @@ define([
      */
     function _findWidgetContainer($container, serial){
         // re-query widget container to apply changes in case of deletion
-        return $.find($container.selector + ' .widget-box[data-serial=' + serial + ']');
+        return $($container.selector).find('.widget-box[data-serial=' + serial + ']');
     }
 
     /**

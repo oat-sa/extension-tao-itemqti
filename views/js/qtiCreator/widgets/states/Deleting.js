@@ -230,7 +230,7 @@ define([
         if (container.getBody && container.getBody().elements) {
             _.each(_.values(container.getBody().elements), function (elt) {
                 if (elt.metaData && elt.metaData.widget) {
-                    const widget = elt.metaData.widget
+                    const widget = elt.metaData.widget;
                     widget.destroy();
                     widget.element.remove();
                 }
