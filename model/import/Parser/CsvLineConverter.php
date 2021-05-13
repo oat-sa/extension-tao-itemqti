@@ -52,7 +52,7 @@ class CsvLineConverter extends ConfigurableService
         return new CsvItem(
             $parsed['name'],
             $parsed['question'],
-            (bool)$parsed['shuffle'],
+            filter_var($parsed['shuffle'], FILTER_VALIDATE_BOOLEAN),
             (int)$parsed['min_choices'],
             (int)$parsed['max_choices'],
             $parsed['language'] ?? $this->getDefaultLang(),
