@@ -48,7 +48,7 @@ interface TemplateRepositoryInterface
             ],
             'shuffle' => [
                 'header' => 'optional',
-                'value' => 'one_of:0,1,true,false,'.OneOfRule::EMPTY_VALUE.':'.OneOfRule::CASE_INSENSITIVE,
+                'value' => 'optional|one_of:0,1,true,false:'.OneOfRule::CASE_INSENSITIVE,
                 'default' => 'false',
             ],
             'language' => [
