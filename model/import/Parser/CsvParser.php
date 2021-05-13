@@ -62,17 +62,22 @@ class CsvParser extends ConfigurableService implements ParserInterface
                 $this->getLineValidator()->validate($headedLine, $template);
                 $this->getLogger()->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
             } catch (RecoverableLineValidationException $exception) {
-                $validationReport[$humanReadableNumber] = $exception;
                 if ($exception->getTotalErrors()) {
                     $errorsReport[$humanReadableNumber] = $exception;
                     continue;
                 }
+                $validationReport[$humanReadableNumber] = $exception;
+
             } catch (InvalidImportException | InvalidCsvImportException $exception) {
                 $errorsReport[$humanReadableNumber] = $exception;
                 continue;
             }
             $this->getLogger()->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
-            $items[$humanReadableNumber] = $this->getCsvLineConverter()->convert($headedLine, $template);
+            $items[$humanReadableNumber] = $this->getCsvLineConverter()->convert(
+                $headedLine,
+                $template,
+                $validationReport[$humanReadableNumber] ?? null
+            );
             $this->getLogger()->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
         }
         return new ItemImportResult($items, $validationReport, $errorsReport);

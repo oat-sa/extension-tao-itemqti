@@ -25,15 +25,15 @@ namespace oat\taoQtiItem\model\import\Parser\Exception;
 
 class InvalidImportException extends AbstractImportException
 {
-    private const LEVEL = 1;
+    protected const LEVEL = 1;
 
     private $totalErrors = 0;
 
-    public function addError(int $line, string $message): self
+    public function addError(int $line, string $message, string $field): self
     {
         $this->totalErrors++;
 
-        return $this->addMessage($line, $message, $this->getErrorLevel());
+        return $this->addMessage($line, $message, $this->getErrorLevel(), $field);
     }
 
     public function getTotalErrors(): int
@@ -43,6 +43,11 @@ class InvalidImportException extends AbstractImportException
 
     protected function getErrorLevel(): int
     {
-        return self::LEVEL;
+        return static::LEVEL;
+    }
+
+    public function getErrors(): array
+    {
+        return $this->messages[$this->getErrorLevel()];
     }
 }

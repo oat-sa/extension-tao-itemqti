@@ -51,9 +51,9 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
                     try {
                         $validator->validate($content[$headerRegex] ?? null, $rules, $content);
                     } catch (RecoverableLineValidationException $exception) {
-                        $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex));
+                        $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
                     } catch (InvalidImportException|InvalidCsvImportException $exception){
-                        $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex));
+                        $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
                     }
                 }
             }

@@ -26,11 +26,12 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\CsvItem;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\ItemInterface;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvLineConverter extends ConfigurableService
 {
-    public function convert(array $line, TemplateInterface $template): ItemInterface
+    public function convert(array $line, TemplateInterface $template, $validationReport = null): ItemInterface
     {
         $decorator = new CvsToQtiTemplateDecorator($template);
 
@@ -42,10 +43,9 @@ class CsvLineConverter extends ConfigurableService
                 $parser = $this->getServiceLocator()->get($rules['parser']);
                 $parsed[$columnName] = $parser->parse($line, $rules, ['columnName' => $columnName]);
             } else {
-                $parsed[$columnName] = (array_key_exists(
-                        $columnName,
-                        $line
-                    ) && $line[$columnName] !== '') ? $line[$columnName] : ($rules['default'] ?? null);
+                $isInvalid = $validationReport && $this->hasValidationIssues($columnName, $validationReport);
+                $isOmitted = !array_key_exists($columnName, $line) || $line[$columnName] === '';
+                $parsed[$columnName] = ($isInvalid || $isOmitted) ? ($rules['default'] ?? null) : $line[$columnName];
             }
         }
 
@@ -55,16 +55,16 @@ class CsvLineConverter extends ConfigurableService
             filter_var($parsed['shuffle'], FILTER_VALIDATE_BOOLEAN),
             (int)$parsed['min_choices'],
             (int)$parsed['max_choices'],
-            $parsed['language'] ?? $this->getDefaultLang(),
+            $parsed['language'],
             $parsed['choice_[1-99]'],
             $parsed['metaData'] ?? [],
             $parsed['maxScore'] ?? 0.0
         );
     }
 
-    private function getDefaultLang(): string
+    private function hasValidationIssues(string $field, RecoverableLineValidationException $report): bool
     {
-        return defined(DEFAULT_LANG) ? DEFAULT_LANG : 'en-US';
+        return in_array($field, array_column($report->getWarnings(), 'field'));
     }
 
 }
