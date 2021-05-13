@@ -89,7 +89,7 @@ class CsvItemImportHandler extends ConfigurableService
                 $error = new InvalidImportException();
                 $error->addError($lineNumber, $itemImportReport->getMessage());
 
-                $itemValidatorResults->addErrorReport($error);
+                $itemValidatorResults->addErrorReport($lineNumber, $error);
             }
         }
 
