@@ -41,7 +41,7 @@ class ItemImportResult
 
     /**
      * @param  ItemInterface[]  $items
-     * @param  WarningImportException[]  $warningReports
+     * @param  WarningImportException[]  $warningReports ( keys of array are equal to the line number where issue occurred
      * @param  InvalidImportException[]  $errorReports
      */
     public function __construct(
@@ -61,9 +61,9 @@ class ItemImportResult
         $this->totalSuccessfulImport = $totalSuccessfulImport;
     }
 
-    public function addErrorReport(InvalidImportException $exception): void
+    public function addErrorReport(int $lineNumber, InvalidImportException $exception): void
     {
-        $this->errorReports[] = $exception;
+        $this->errorReports[$lineNumber] = $exception;
     }
 
     /**
@@ -75,7 +75,7 @@ class ItemImportResult
     }
 
     /**
-     * @return InvalidImportException[]
+     * @return WarningImportException[]
      */
     public function getWarningReports(): array
     {
@@ -83,7 +83,7 @@ class ItemImportResult
     }
 
     /**
-     * @return WarningImportException[]
+     * @return InvalidImportException[]
      */
     public function getErrorReports(): array
     {
