@@ -34,7 +34,7 @@
                 <choiceInteraction responseIdentifier="RESPONSE" shuffle="<?=get_data('shuffle')?>" maxChoices="<?=get_data('maxChoices')?>" minChoices="<?=get_data('minChoices')?>" orientation="vertical">
                     <prompt><?=get_data('question')?></prompt>
                     <?foreach(get_data('choices') as $choice):?>
-                        <simpleChoice identifier="<?=$choice->getId()?>" fixed="false" showHide="show"><?=_dh($choice->getChoice())?></simpleChoice>
+                        <simpleChoice identifier="<?=$choice->getId()?>" fixed="false" showHide="show"><?=$choice->getChoice()?></simpleChoice>
                     <?endforeach?>
                 </choiceInteraction>
             </div>
