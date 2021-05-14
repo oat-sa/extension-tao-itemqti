@@ -80,7 +80,7 @@ interface TemplateRepositoryInterface
             ],
             'correct_answer' => [
                 'header' => 'optional',
-                //@TODO Validate that correct answer is among the choices
+                'value' => 'one_of_columns:choice_[1-99]',
             ],
             'metadata_[a-z0-9\-_]' => [
                 'header' => 'optional',
