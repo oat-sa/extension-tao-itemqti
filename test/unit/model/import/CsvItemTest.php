@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\import;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\import\CsvItem;
+use oat\taoQtiItem\model\import\ParsedChoice;
 
 class CsvItemTest extends TestCase
 {
@@ -40,8 +41,7 @@ class CsvItemTest extends TestCase
             10,
             'en-US',
             [],
-            [],
-            7.5
+            []
         );
     }
 
@@ -51,9 +51,77 @@ class CsvItemTest extends TestCase
         $this->assertSame('question', $this->subject->getQuestion());
         $this->assertSame(5, $this->subject->getMinChoices());
         $this->assertSame(10, $this->subject->getMaxChoices());
-        $this->assertSame(7.5, $this->subject->getMaxScore());
+        $this->assertSame(0.0, $this->subject->getMaxScore());
         $this->assertSame([], $this->subject->getChoices());
         $this->assertSame([], $this->subject->getMetadata());
         $this->assertTrue($this->subject->isShuffle());
+    }
+
+    /**
+     * @dataProvider getMaxScoreProvider
+     */
+    public function testGetMaxScore(array $choices, int $minChoices, int $maxChoices, float $maxScore): void
+    {
+        $subject = new CsvItem(
+            'name',
+            'question',
+            true,
+            $minChoices,
+            $maxChoices,
+            'en-US',
+            $choices,
+            []
+        );
+
+        $this->assertSame($subject->getMaxScore(), $maxScore);
+    }
+
+    public function getMaxScoreProvider(): array
+    {
+        return [
+            'correct_answer' => [
+                [
+                    new ParsedChoice('id', 'choice', 999, true),
+                    new ParsedChoice('id', 'choice', 999, true),
+                    new ParsedChoice('id', 'choice', 999, false),
+                ],
+                1,
+                1,
+                1.0
+            ],
+            'map_response' => [
+                [
+                    new ParsedChoice('id', 'choice', 1, false),
+                    new ParsedChoice('id', 'choice', 2, false),
+                    new ParsedChoice('id', 'choice', -1, false),
+                    new ParsedChoice('id', 'choice', 3, false),
+                ],
+                1,
+                3,
+                6.0
+            ],
+            'map_response_slice' => [
+                [
+                    new ParsedChoice('id', 'choice', 1, false),
+                    new ParsedChoice('id', 'choice', 2, false),
+                    new ParsedChoice('id', 'choice', -1, false),
+                    new ParsedChoice('id', 'choice', 3, false),
+                ],
+                1,
+                2,
+                5.0
+            ],
+            'none_response' => [
+                [
+                    new ParsedChoice('id', 'choice', 0, false),
+                    new ParsedChoice('id', 'choice', 0, false),
+                    new ParsedChoice('id', 'choice', 0, false),
+                    new ParsedChoice('id', 'choice', 0, false),
+                ],
+                1,
+                1,
+                0.0
+            ]
+        ];
     }
 }
