@@ -39,6 +39,9 @@ class ItemImportResult
     /** @var int */
     private $totalSuccessfulImport;
 
+    /** @var int */
+    private $totalScannedItems;
+
     /**
      * @param  ItemInterface[]  $items
      * @param  WarningImportException[]  $warningReports ( keys of array are equal to the line number where issue occurred
@@ -48,12 +51,14 @@ class ItemImportResult
         array $items,
         array $warningReports,
         array $errorReports,
+        int $totalScannedItems = 0,
         int $totalSuccessfulImport = 0
     ) {
         $this->items = $items;
         $this->warningReports = $warningReports;
         $this->errorReports = $errorReports;
         $this->totalSuccessfulImport = $totalSuccessfulImport;
+        $this->totalScannedItems = $totalScannedItems;
     }
 
     public function setTotalSuccessfulImport(int $totalSuccessfulImport): void
@@ -93,6 +98,11 @@ class ItemImportResult
     public function getTotalSuccessfulImport(): int
     {
         return $this->totalSuccessfulImport;
+    }
+
+    public function getTotalScannedItems(): int
+    {
+        return $this->totalScannedItems;
     }
 
 }
