@@ -106,6 +106,19 @@ class CsvItem implements ItemInterface
         return $this->choices;
     }
 
+    public function getCorrectChoices(): array
+    {
+        $choices = [];
+
+        foreach ($this->choices as $choice) {
+            if ($choice->isCorrect()) {
+                $choices[] = $choice;
+            }
+        }
+
+        return $choices;
+    }
+
     /**
      * @return Metadata[]
      */
@@ -156,13 +169,7 @@ class CsvItem implements ItemInterface
 
     private function hasAtLeastOneCorrectAnswer(): bool
     {
-        foreach ($this->choices as $choice) {
-            if ($choice->isCorrect()) {
-                return true;
-            }
-        }
-
-        return false;
+        return count($this->getCorrectChoices()) > 0;
     }
 
     private function getMaxTotalScore(): float

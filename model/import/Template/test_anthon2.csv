@@ -1,4 +1,0 @@
-name   ,question                            ,shuffle,min_choices,max_choices,language,choice_1 ,choice_1_score,choice_2   ,choice_2_score,choice_3 ,choice_3_score,correct_answer,metadata_alias
-QCM_MR1,Map Response over Match Correct (C1),0      ,1          ,1          ,en-US   ,something,7             ,the_correct,2             ,something,3             ,choice_2      ,GEO_b
-QCM_MR2,Map Response over Match Correct (C2),0      ,1          ,1          ,en-US   ,something,7             ,the_correct,              ,something,              ,choice_2      ,GEO_b
-QCM_MR3,Match Correct - No Scores           ,0      ,1          ,1          ,en-US   ,something,              ,the_correct,              ,something,              ,choice_2      ,GEO_b

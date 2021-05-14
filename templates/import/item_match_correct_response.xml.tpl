@@ -12,13 +12,11 @@
     toolName="TAO"
     toolVersion="3.4.0-sprint146">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
-        <?foreach(get_data('choices') as $choice):?>
-            <?if($choice->isCorrect()):?>
-                <correctResponse>
-                    <value><![CDATA[<?=$choice->getId()?>]]></value>
-                </correctResponse>
-            <?endif?>
-        <?endforeach?>
+        <correctResponse>
+            <?foreach(get_data('correctChoices') as $choice):?>
+                <value><![CDATA[<?=$choice->getId()?>]]></value>
+            <?endforeach?>
+        </correctResponse>
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1" />
     <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">

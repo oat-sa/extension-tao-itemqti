@@ -38,6 +38,8 @@ interface ItemInterface
 
     public function getChoices(): array;
 
+    public function getCorrectChoices(): array;
+
     public function getMetadata(): array;
 
     public function getMaxScore(): float;
