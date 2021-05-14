@@ -12,19 +12,16 @@
     toolName="TAO"
     toolVersion="3.4.0-sprint146">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
-        <?foreach(get_data('choices') as $choice):?>
-            <?if($choice->isCorrect()):?>
-                <correctResponse>
-                    <value><![CDATA[<?=$choice->getId()?>]]></value>
-                </correctResponse>
-            <?endif?>
-        <?endforeach?>
+        <correctResponse>
+            <?foreach(get_data('correctChoices') as $choice):?>
+                <value><![CDATA[<?=$choice->getId()?>]]></value>
+            <?endforeach?>
+        </correctResponse>
     </responseDeclaration>
-    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE_RESPONSE"/>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="<?=get_data('maxScore')?>" />
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1" />
     <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
         <defaultValue>
-            <value><?=get_data('maxScore')?></value>
+            <value>1</value>
         </defaultValue>
     </outcomeDeclaration>
     <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
@@ -40,25 +37,5 @@
             </div>
         </div>
     </itemBody>
-    <responseProcessing>
-        <responseCondition>
-            <responseIf>
-                <match>
-                    <variable identifier="RESPONSE"/>
-                    <correct identifier="RESPONSE"/>
-                </match>
-                <setOutcomeValue identifier="SCORE_RESPONSE">
-                    <sum>
-                        <variable identifier="SCORE_RESPONSE"/>
-                        <baseValue baseType="integer">1</baseValue>
-                    </sum>
-                </setOutcomeValue>
-            </responseIf>
-        </responseCondition>
-        <setOutcomeValue identifier="SCORE">
-            <sum>
-                <variable identifier="SCORE_RESPONSE"/>
-            </sum>
-        </setOutcomeValue>
-    </responseProcessing>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
 </assessmentItem>

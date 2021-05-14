@@ -106,6 +106,19 @@ class CsvItem implements ItemInterface
         return $this->choices;
     }
 
+    public function getCorrectChoices(): array
+    {
+        $choices = [];
+
+        foreach ($this->choices as $choice) {
+            if ($choice->isCorrect()) {
+                $choices[] = $choice;
+            }
+        }
+
+        return $choices;
+    }
+
     /**
      * @return Metadata[]
      */
@@ -118,6 +131,10 @@ class CsvItem implements ItemInterface
     {
         if ($this->isMatchCorrectResponse()) {
             return 1;
+        }
+
+        if ($this->isNoneResponse()) {
+            return 0;
         }
 
         if ($this->maxChoices === 0) {
@@ -137,23 +154,22 @@ class CsvItem implements ItemInterface
 
     public function isMatchCorrectResponse(): bool
     {
-        foreach ($this->choices as $choice) {
-            if ($choice->isCorrect()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->getScoreCount() === 0 && $this->hasAtLeastOneCorrectAnswer();
     }
 
     public function isMapResponse(): bool
     {
-        return !$this->isMatchCorrectResponse() && $this->getScoreCount() > 1;
+        return $this->getScoreCount() > 0;
     }
 
     public function isNoneResponse(): bool
     {
-        return $this->getScoreCount() === 0;
+        return $this->getScoreCount() === 0 && !$this->hasAtLeastOneCorrectAnswer();
+    }
+
+    private function hasAtLeastOneCorrectAnswer(): bool
+    {
+        return count($this->getCorrectChoices()) > 0;
     }
 
     private function getMaxTotalScore(): float

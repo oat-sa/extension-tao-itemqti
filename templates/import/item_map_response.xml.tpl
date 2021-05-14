@@ -12,6 +12,13 @@
     toolName="TAO"
     toolVersion="3.4.0-sprint146">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
+        <?if(get_data('hasCorrectChoices')):?>
+            <correctResponse>
+                <?foreach(get_data('correctChoices') as $choice):?>
+                    <value><![CDATA[<?=$choice->getId()?>]]></value>
+                <?endforeach?>
+            </correctResponse>
+        <?endif?>
         <mapping defaultValue="0">
             <?foreach(get_data('choices') as $choice):?>
                 <mapEntry mapKey="<?=$choice->getId()?>" mappedValue="<?=_dh($choice->getChoiceScore())?>"/>

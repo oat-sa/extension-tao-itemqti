@@ -42,6 +42,8 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
 
         $templatePath = $decorator->getQtiTemplatePath($item);
 
+        $correctChoices = $item->getCorrectChoices();
+
         $renderer->setTemplate($templatePath);
         $renderer->setMultipleData(
             [
@@ -49,6 +51,8 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
                 'isMatchCorrectResponse' => $item->isMatchCorrectResponse(),
                 'isNoneResponse' => $item->isNoneResponse(),
                 'choices' => $item->getChoices(),
+                'hasCorrectChoices' => !empty($correctChoices),
+                'correctChoices' => $correctChoices,
                 'language' => $item->getLanguage(),
                 'maxChoices' => $item->getMaxChoices(),
                 'maxScore' => $item->getMaxScore(),

@@ -59,8 +59,17 @@ class CsvItemTest extends TestCase
 
     /**
      * @dataProvider getMaxScoreProvider
+     * @covers CsvItem::isMatchCorrectResponse
+     * @covers CsvItem::isMapResponse
+     * @covers CsvItem::isNoneResponse
      */
-    public function testGetMaxScore(array $choices, int $minChoices, int $maxChoices, float $maxScore): void
+    public function testGetMaxScore(
+        array $choices,
+        int $minChoices,
+        int $maxChoices,
+        float $maxScore,
+        string $isTrue
+    ): void
     {
         $subject = new CsvItem(
             'name',
@@ -74,53 +83,74 @@ class CsvItemTest extends TestCase
         );
 
         $this->assertSame($subject->getMaxScore(), $maxScore);
+        $this->assertTrue($subject->$isTrue());
     }
 
     public function getMaxScoreProvider(): array
     {
         return [
+            // Correct answer is considered only when all scores are 0 and at least one choice isCorrect
             'correct_answer' => [
-                [
-                    new ParsedChoice('id', 'choice', 999, true),
-                    new ParsedChoice('id', 'choice', 999, true),
-                    new ParsedChoice('id', 'choice', 999, false),
+                'choices' => [
+                    new ParsedChoice('id', 'choice', 0, true),
+                    new ParsedChoice('id', 'choice', 0, true),
+                    new ParsedChoice('id', 'choice', 0, false),
                 ],
-                1,
-                1,
-                1.0
+                'minChoices' => 1,
+                'maxChoices' => 1,
+                'maxScore' => 1.0,
+                'isTrue' => 'isMatchCorrectResponse',
             ],
+            // Even if isCorrect is provided, since scores are also provided, it will be considered a map response
+            'force_map_response_OVER_correct_answer' => [
+                'choices' => [
+                    new ParsedChoice('id', 'choice', 1, true),
+                    new ParsedChoice('id', 'choice', 2, true),
+                    new ParsedChoice('id', 'choice', 0, false),
+                ],
+                'minChoices' => 1,
+                'maxChoices' => 2,
+                'maxScore' => 3.0,
+                'isTrue' => 'isMapResponse',
+            ],
+            // Map response is considered whenever we have at least one score
             'map_response' => [
-                [
+                'choices' => [
                     new ParsedChoice('id', 'choice', 1, false),
                     new ParsedChoice('id', 'choice', 2, false),
                     new ParsedChoice('id', 'choice', -1, false),
                     new ParsedChoice('id', 'choice', 3, false),
                 ],
-                1,
-                3,
-                6.0
+                'minChoices' => 1,
+                'maxChoices' => 0,
+                'maxScore' => 6.0,
+                'isTrue' => 'isMapResponse',
             ],
+            // Map response max score is based on max number of choices
             'map_response_slice' => [
-                [
+                'choices' => [
                     new ParsedChoice('id', 'choice', 1, false),
                     new ParsedChoice('id', 'choice', 2, false),
                     new ParsedChoice('id', 'choice', -1, false),
                     new ParsedChoice('id', 'choice', 3, false),
                 ],
-                1,
-                2,
-                5.0
+                'minChoices' => 1,
+                'maxChoices' => 2,
+                'maxScore' => 5.0,
+                'isTrue' => 'isMapResponse',
             ],
+            // If no score is provided and no correct answer, than there is none response processing
             'none_response' => [
-                [
+                'choices' => [
                     new ParsedChoice('id', 'choice', 0, false),
                     new ParsedChoice('id', 'choice', 0, false),
                     new ParsedChoice('id', 'choice', 0, false),
                     new ParsedChoice('id', 'choice', 0, false),
                 ],
-                1,
-                1,
-                0.0
+                'minChoices' => 1,
+                'maxChoices' => 1,
+                'maxScore' => 0.0,
+                'isTrue' => 'isNoneResponse',
             ]
         ];
     }
