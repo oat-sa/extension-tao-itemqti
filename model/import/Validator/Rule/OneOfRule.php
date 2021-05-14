@@ -27,12 +27,14 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 {
     public const EMPTY_VALUE = '_empty_';
     public const CASE_INSENSITIVE = 'CASE_INSENSITIVE';
+
     /**
      * @throws RecoverableLineValidationException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        $allowedValues = explode(',', $rules[0]);
+        $allowedValuesRule = $rules[0];
+        $allowedValues = explode(',', $allowedValuesRule);
 
         $flags = $rules[1];
         if ($flags == self::CASE_INSENSITIVE){
@@ -44,7 +46,7 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 
         if (!in_array($value, $allowedValues)) {
             throw new RecoverableLineValidationException(
-                __('`%s` is invalid, must be one of [%s]', '%s', $rules[0])
+                __('invalid value for `%s`(%s), expect values are [%s]', '%s', $value, $allowedValuesRule)
             );
         }
     }

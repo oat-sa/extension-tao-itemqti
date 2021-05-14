@@ -40,7 +40,7 @@ class StrictNoGapsRule extends AbstractGroupRule implements ValidationRuleInterf
         }
 
         if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
-            throw new InvalidImportException(__('`%s` have gaps in between its values')); //@TODO proper message
+            throw new InvalidImportException(__('`%s`expects consecutive values without gaps')); //@TODO proper message
         }
     }
 }

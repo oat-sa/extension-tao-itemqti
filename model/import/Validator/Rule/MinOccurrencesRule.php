@@ -32,12 +32,13 @@ class MinOccurrencesRule extends AbstractGroupRule implements ValidationRuleInte
     {
         $groupName = $rules[0];
         $minCount = $rules[1];
+        $alias = $rules[2];
 
         $occurrences = $this->getGroupValues($context, $groupName);
 
         if ($minCount > count(array_filter($occurrences))) {
             throw new InvalidImportException(
-                __('%s is invalid, must have at least %s values', $groupName, $minCount)
+                __('at least %s %s are required', $minCount, $alias)
             );
         }
     }
