@@ -75,8 +75,8 @@ interface TemplateRepositoryInterface
                 'parser' => ChoiceParser::class,
             ],
             'choice_[1-99]_score' => [
-                'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
-                'value' => 'no_gaps:choice_[1-99]_score|numeric_or_empty:choice_[1-99]_score',
+                'header' => 'match_header:choice_[1-99]',
+                'value' => 'numeric_or_empty:choice_[1-99]_score',
             ],
             'correct_answer' => [
                 'header' => 'optional',
