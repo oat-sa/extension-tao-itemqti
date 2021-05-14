@@ -48,9 +48,6 @@ class CsvItem implements ItemInterface
     /** @var Metadata[] */
     private $metadata;
 
-    /** @var float */
-    private $maxScore;
-
     public function __construct(
         string $name,
         string $question,
@@ -59,8 +56,7 @@ class CsvItem implements ItemInterface
         int $maxChoices,
         string $language,
         array $choices,
-        array $metadata,
-        float $maxScore
+        array $metadata
     ) {
         $this->name = $name;
         $this->question = $question;
@@ -70,7 +66,6 @@ class CsvItem implements ItemInterface
         $this->language = $language;
         $this->choices = $choices;
         $this->metadata = $metadata;
-        $this->maxScore = $maxScore;
     }
 
     public function getName(): string
@@ -121,6 +116,10 @@ class CsvItem implements ItemInterface
 
     public function getMaxScore(): float
     {
+        if ($this->isMatchCorrectResponse()) {
+            return 1;
+        }
+
         if ($this->maxChoices === 0) {
             return $this->getMaxTotalScore();
         }

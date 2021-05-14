@@ -57,8 +57,7 @@ class CsvLineConverter extends ConfigurableService
             (int)$parsed['max_choices'],
             $parsed['language'],
             $parsed['choice_[1-99]'],
-            $parsed['metaData'] ?? [],
-            $parsed['maxScore'] ?? 0.0
+            $parsed['metaData'] ?? []
         );
     }
 
