@@ -61,22 +61,20 @@ define([
         },
         positionFloat : function(widget, position){
 
-            var $container = widget.$container,
-                elt = widget.element;
+            const $container = widget.$container;
 
             switch(position){
                 case 'right':
-                    $container.removeClass('lft txt-lft');
-                    elt.removeClass('lft txt-lft');
+                    $container.removeClass('lft txt-lft wrap-inline wrap-left');
                     $container.addClass('rgt txt-rgt wrap-right');
-                    elt.addClass('rgt txt-rgt wrap-right');
                     break;
                 case 'left':
-                    $container.removeClass('rgt txt-rgt');
-                    elt.removeClass('rgt txt-rgt');
+                    $container.removeClass('rgt txt-rgt wrap-inline wrap-right');
                     $container.addClass('lft txt-lft wrap-left');
-                    elt.addClass('lft txt-lft wrap-left');
                     break;
+                case 'default':
+                    $container.removeClass('rgt txt-rgt lft txt-lft wrap-right wrap-left');
+                    $container.addClass('wrap-inline');
             }
         }
     };
