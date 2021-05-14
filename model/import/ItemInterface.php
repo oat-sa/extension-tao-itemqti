@@ -41,4 +41,10 @@ interface ItemInterface
     public function getMetadata(): array;
 
     public function getMaxScore(): float;
+
+    public function isMatchCorrectResponse(): bool;
+
+    public function isMapResponse(): bool;
+
+    public function isNoneResponse(): bool;
 }

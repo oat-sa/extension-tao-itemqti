@@ -37,15 +37,24 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
         $columnPattern = $this->findMatchingColumn($rules['header']);
 
         $choices = array_filter($this->findKeysByMask($columnName, $line));
-        $choicesScores = array_map('floatval', array_filter($this->findKeysByMask($columnPattern, $line)));
+        $choicesScores = $this->findKeysByMask($columnPattern, $line);
 
+        $correctAnswers = $this->findCorrectAnswers($line);
         $missingScoresCount = 0;
         foreach ($choices as $choiceId => $choice) {
-            if (!isset($choicesScores[$choiceId.'_score'])) {
+            if (!isset($choicesScores[$choiceId . '_score'])) {
                 $missingScoresCount++;
             }
-            $parsedChoices[] = new ParsedChoice($choiceId, $choice, $choicesScores[$choiceId.'_score']);
+
+            $parsedChoices[] = new ParsedChoice(
+                $choiceId,
+                $choice,
+                (float)$choicesScores[$choiceId . '_score'],
+                in_array($choiceId, $correctAnswers)
+            );
         }
+
+        //@TODO Validate scores requirements properly
         if ($missingScoresCount > 0 && $missingScoresCount != count($parsedChoices)) {
 //            throw new RecoverableLineValidationException('Choices do not match their scores 1:1');
         }
@@ -67,5 +76,14 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
             }
         }
         return null;
+    }
+
+    private function findCorrectAnswers(array $line): array
+    {
+        return (array)(
+            $line['correct_answer']
+                ? explode(',', str_replace('', '', $line['correct_answer']))
+                : []
+        );
     }
 }

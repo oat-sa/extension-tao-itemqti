@@ -33,7 +33,11 @@ interface TemplateRepositoryInterface
 
     public const DEFAULT_DEFINITION = [
         'target' => [
-            'templatePath' => 'taoQtiItem/model/import/Template/item.xml.tpl',
+            'templatePath' => [
+                'noResponse' => 'taoQtiItem/templates/import/item_none_response.xml.tpl',
+                'mapResponse' => 'taoQtiItem/templates/import/item_map_response.xml.tpl',
+                'matchCorrectResponse' => 'taoQtiItem/templates/import/item_match_correct_response.xml.tpl',
+            ],
             'version' => '2.2',
             'standard' => 'QTI',
         ],
@@ -68,14 +72,17 @@ interface TemplateRepositoryInterface
             ],
             'choice_[1-99]' => [
                 'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
-//                'value' => 'no_gaps:choice_[1-99]',
+                'value' => 'no_gaps:choice_[1-99]',
                 'parser' => ChoiceParser::class,
             ],
             'choice_[1-99]_score' => [
                 'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
                 'parser' => NopeParser::class,
-//                'value' => 'no_gaps:choice_[1-99]_score|strict_numeric',
-//                'value' => 'strict_numeric',
+                'value' => 'no_gaps:choice_[1-99]_score',
+            ],
+            'correct_answer' => [
+                'header' => 'optional',
+                //@TODO Validate that correct answer is among the choices
             ],
             'metadata_[a-z0-9\-_]' => [
                 'header' => 'optional',

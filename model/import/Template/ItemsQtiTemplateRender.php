@@ -40,9 +40,14 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
 
         $decorator = new CvsToQtiTemplateDecorator($xmlQtiTemplate);
 
-        $renderer->setTemplate($decorator->getQtiTemplatePath());
+        $templatePath = $decorator->getQtiTemplatePath($item);
+
+        $renderer->setTemplate($templatePath);
         $renderer->setMultipleData(
             [
+                'isMapResponse' => $item->isMapResponse(),
+                'isMatchCorrectResponse' => $item->isMatchCorrectResponse(),
+                'isNoneResponse' => $item->isNoneResponse(),
                 'choices' => $item->getChoices(),
                 'language' => $item->getLanguage(),
                 'maxChoices' => $item->getMaxChoices(),

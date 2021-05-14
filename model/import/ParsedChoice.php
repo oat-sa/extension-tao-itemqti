@@ -33,11 +33,20 @@ class ParsedChoice
     /** @var string */
     private $id;
 
-    public function __construct(string $id, string $choice, ?float $choiceScore = null)
+    /** @var bool */
+    private $isCorrect;
+
+    public function __construct(string $id, string $choice, float $choiceScore, bool $isCorrect)
     {
         $this->choice = $choice;
-        $this->choiceScore = $choiceScore ?? 0.0; //@TODO fix at the scope of score processing
+        $this->choiceScore = $choiceScore;
         $this->id = $id;
+        $this->isCorrect = $isCorrect;
+    }
+
+    public function isCorrect(): bool
+    {
+        return $this->isCorrect;
     }
 
     public function getChoiceScore(): ?float

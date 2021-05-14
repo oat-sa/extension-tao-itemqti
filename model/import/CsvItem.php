@@ -61,8 +61,7 @@ class CsvItem implements ItemInterface
         array $choices,
         array $metadata,
         float $maxScore
-    )
-    {
+    ) {
         $this->name = $name;
         $this->question = $question;
         $this->shuffle = $shuffle;
@@ -122,6 +121,101 @@ class CsvItem implements ItemInterface
 
     public function getMaxScore(): float
     {
-        return $this->maxScore;
+        if ($this->maxChoices === 0) {
+            return $this->getMaxTotalScore();
+        }
+
+        if ($this->maxChoices === 1) {
+            return $this->getHigherScore();
+        }
+
+        if ($this->maxChoices > 1) {
+            return $this->getHigherPossibleTotalScore();
+        }
+
+        return 0;
+    }
+
+    public function isMatchCorrectResponse(): bool
+    {
+        foreach ($this->choices as $choice) {
+            if ($choice->isCorrect()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isMapResponse(): bool
+    {
+        return !$this->isMatchCorrectResponse() && $this->getScoreCount() > 1;
+    }
+
+    public function isNoneResponse(): bool
+    {
+        return $this->getScoreCount() === 0;
+    }
+
+    private function getMaxTotalScore(): float
+    {
+        $totalScore = 0;
+
+        foreach ($this->choices as $choice) {
+            if ($choice->getChoiceScore() > 0) {
+                $totalScore += $choice->getChoiceScore();
+            }
+        }
+
+        return $totalScore;
+    }
+
+    private function getHigherScore(): float
+    {
+        $scores = [];
+
+        foreach ($this->choices as $choice) {
+            if ($choice->getChoiceScore() > 0) {
+                $scores[$choice->getChoiceScore()] = $choice->getChoiceScore();
+            }
+        }
+
+        return count($scores) ? max($scores) : 0;
+    }
+
+    private function getHigherPossibleTotalScore(): float
+    {
+        $scores = [];
+
+        foreach ($this->choices as $choice) {
+            if ($choice->getChoiceScore() > 0) {
+                $scores[] = $choice->getChoiceScore();
+            }
+        }
+
+        rsort($scores);
+
+        $totalScore = 0;
+
+        for ($i = 0; $i < $this->maxChoices; $i++) {
+            $totalScore += current($scores);
+
+            next($scores);
+        }
+
+        return $totalScore;
+    }
+
+    private function getScoreCount(): int
+    {
+        $totalScores = 0;
+
+        foreach ($this->choices as $choice) {
+            if ($choice->getChoiceScore() > 0) {
+                $totalScores++;
+            }
+        }
+
+        return $totalScores;
     }
 }
