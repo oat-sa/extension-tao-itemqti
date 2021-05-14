@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import;
 
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\taoQtiItem\model\import\Report\ReportBuilder;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\PhpSerializeStateless;
@@ -74,37 +75,25 @@ class CsvItemImporter implements
     {
         try {
             $uploadedFile = $this->fetchUploadedFile($form);
+            $reportBuilder = $this->getReportBuilder();
             $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
 
             $importerResults = $this->getCsvImporter()->import($uploadedFile, $template, $class);
 
-            $reportHeader = sprintf(
-                0 === count($importerResults->getErrorReports()) ?
-                    __('CSV import successful: %s/%s line(s) are imported') :
-                    __('CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))'),
-                $importerResults->getTotalSuccessfulImport(),
-                $importerResults->getTotalScannedItems(),
-                count($importerResults->getWarningReports()),
-                count($importerResults->getErrorReports())
-            );
-            $report = Report::createInfo($reportHeader, []);
-            $report->add(Report::createSuccess($reportHeader, []));
+            $reportTitle = $reportBuilder->getReportTitle($importerResults);
+            $report = $reportBuilder->buildReportsContainer($reportTitle, $reportTitle, $importerResults);
         } catch (InvalidCsvImportException $e) {
-            $report = Report::createError(__('CSV import failed'), []);
-            $errorMessage = sprintf(
-                'CSV import failed: required columns are missing (%s)',
-                implode(', ', $e->getMissingHeaderColumns())
-            );
-            $this->getLogger()->info($errorMessage);
-            $report->add(Report::createError(__($errorMessage), []));
+            $missingHeaders = implode(', ', $e->getMissingHeaderColumns());
+            $errorMessage = __('CSV import failed: required columns are missing (%s)', $missingHeaders);
+            $report = $reportBuilder->buildReportsContainer(__('CSV import failed'), $errorMessage);
+            $this->getLogger()->warning($errorMessage);
         } catch (Throwable $e) {
-            $report = Report::createError(__('CSV import failed'), []);
-            $errorMessage = sprintf(
+            $errorMessage = __(
                 'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
                 $e->getMessage()
             );
-            $this->getLogger()->info($errorMessage);
-            $report->add(Report::createError(__($errorMessage),[]));
+            $this->getLogger()->warning($errorMessage);
+            $report = $reportBuilder->buildReportsContainer(__('CSV import failed'), $errorMessage);
         } finally {
             if (isset($importerResults)) {
                 $warningParsingReport = $importerResults->getWarningReports();
@@ -142,5 +131,10 @@ class CsvItemImporter implements
     private function getCsvImporter(): CsvItemImportHandler
     {
         return $this->getServiceLocator()->get(CsvItemImportHandler::class);
+    }
+
+    private function getReportBuilder(): ReportBuilder
+    {
+        return $this->getServiceLocator()->get(ReportBuilder::class);
     }
 }
