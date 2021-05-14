@@ -52,7 +52,7 @@ interface TemplateRepositoryInterface
             ],
             'shuffle' => [
                 'header' => 'optional',
-                'value' => 'optional|one_of:0,1,true,false:'.OneOfRule::CASE_INSENSITIVE,
+                'value' => 'optional|one_of:0,1,true,false:' . OneOfRule::CASE_INSENSITIVE,
                 'default' => 'false',
             ],
             'language' => [
