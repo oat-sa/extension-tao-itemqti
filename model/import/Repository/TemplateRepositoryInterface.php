@@ -80,7 +80,7 @@ interface TemplateRepositoryInterface
             ],
             'correct_answer' => [
                 'header' => 'optional',
-                'value' => 'one_of_columns:choice_[1-99]',
+                'value' => 'one_of_columns_or_empty:choice_[1-99]',
             ],
             'metadata_[a-z0-9\-_]' => [
                 'header' => 'optional',

@@ -22,13 +22,17 @@ namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
-class OneOfColumnsRule extends AbstractGroupRule implements ValidationRuleInterface
+class OneOfColumnsOrEmptyRule extends AbstractGroupRule implements ValidationRuleInterface
 {
     /**
      * @throws InvalidImportException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
+        if (empty(trim($value))) {
+            return;
+        }
+
         $groupName = $rules[0];
 
         $allowedValues = array_keys($this->getGroupValues($context, $groupName));

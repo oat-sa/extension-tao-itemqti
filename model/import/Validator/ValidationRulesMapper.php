@@ -25,7 +25,7 @@ use oat\taoQtiItem\model\import\Validator\Rule\IsIntegerRule;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
 use oat\taoQtiItem\model\import\Validator\Rule\MinOccurrencesRule;
 use oat\taoQtiItem\model\import\Validator\Rule\NumericOrEmptyRule;
-use oat\taoQtiItem\model\import\Validator\Rule\OneOfColumnsRule;
+use oat\taoQtiItem\model\import\Validator\Rule\OneOfColumnsOrEmptyRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
 use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
@@ -51,7 +51,7 @@ class ValidationRulesMapper extends ConfigurableService
             'strict_numeric' => StrictNumericRule::class,
             'numeric_or_empty' => NumericOrEmptyRule::class,
             'min_occurrences' => MinOccurrencesRule::class,
-            'one_of_columns' => OneOfColumnsRule::class,
+            'one_of_columns_or_empty' => OneOfColumnsOrEmptyRule::class,
         ];
 
         if (isset($mapper[$key])) {
