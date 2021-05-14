@@ -20,27 +20,25 @@
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
-class StrictNoGapsRule extends AbstractGroupRule implements ValidationRuleInterface
+class MinOccurrencesRule extends AbstractGroupRule implements ValidationRuleInterface
 {
+
     /**
      * @throws InvalidImportException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
         $groupName = $rules[0];
-        ksort($context, SORT_NATURAL);
+        $minCount = $rules[1];
 
         $occurrences = $this->getGroupValues($context, $groupName);
 
-        while (in_array(end($occurrences), ['', null], true)) {
-            array_pop($occurrences);
-        }
-
-        if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
-            throw new InvalidImportException(__('`%s` have gaps in between its values')); //@TODO proper message
+        if ($minCount > count(array_filter($occurrences))) {
+            throw new InvalidImportException(
+                __('%s is invalid, must have at least %s values', $groupName, $minCount)
+            );
         }
     }
 }
