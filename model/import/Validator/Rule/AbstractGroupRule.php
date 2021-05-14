@@ -20,27 +20,19 @@
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
+
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
-class StrictNoGapsRule extends AbstractGroupRule implements ValidationRuleInterface
+abstract class AbstractGroupRule extends ConfigurableService
 {
-    /**
-     * @throws InvalidImportException
-     */
-    public function validate($value, $rules = null, array $context = []): void
+    protected function getGroupValues(array $context, string $groupName): array
     {
-        $groupName = $rules[0];
-        ksort($context, SORT_NATURAL);
-
-        $occurrences = $this->getGroupValues($context, $groupName);
-
-        while (in_array(end($occurrences), ['', null], true)) {
-            array_pop($occurrences);
+        $occurrences = [];
+        foreach ($context as $headerName => $cellValue) {
+            if (preg_match('/\b('.$groupName.')\b/', (string)$headerName) === 1) {
+                $occurrences[$headerName] = $cellValue;
+            }
         }
-
-        if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
-            throw new InvalidImportException(__('`%s`expects consecutive values without gaps')); //@TODO proper message
-        }
+        return $occurrences;
     }
 }

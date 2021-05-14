@@ -72,7 +72,7 @@ interface TemplateRepositoryInterface
             ],
             'choice_[1-99]' => [
                 'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
-                'value' => 'no_gaps:choice_[1-99]',
+                'value' => 'no_gaps:choice_[1-99]|min_occurrences:choice_[1-99]:2:choices',
                 'parser' => ChoiceParser::class,
             ],
             'choice_[1-99]_score' => [

@@ -80,7 +80,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
             );
             $this->getLogger()->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
         }
-        return new ItemImportResult($items, $validationReport, $errorsReport);
+        return new ItemImportResult($items, $validationReport, $errorsReport, $humanReadableNumber);
     }
 
     private function trimLine(array $line): array

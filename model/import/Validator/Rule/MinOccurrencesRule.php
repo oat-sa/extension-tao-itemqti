@@ -20,33 +20,25 @@
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
-class OneOfRule extends ConfigurableService implements ValidationRuleInterface
+class MinOccurrencesRule extends AbstractGroupRule implements ValidationRuleInterface
 {
-    public const EMPTY_VALUE = '_empty_';
-    public const CASE_INSENSITIVE = 'CASE_INSENSITIVE';
 
     /**
-     * @throws RecoverableLineValidationException
+     * @throws InvalidImportException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        $allowedValuesRule = $rules[0];
-        $allowedValues = explode(',', $allowedValuesRule);
+        $groupName = $rules[0];
+        $minCount = $rules[1];
+        $alias = $rules[2];
 
-        $flags = $rules[1];
-        if ($flags == self::CASE_INSENSITIVE){
-            $allowedValues = array_map('strtolower', $allowedValues);
-            $value = strtolower($value);
-        }
+        $occurrences = $this->getGroupValues($context, $groupName);
 
-        $allowedValues = str_ireplace(self::EMPTY_VALUE, '', $allowedValues);
-
-        if (!in_array($value, $allowedValues)) {
-            throw new RecoverableLineValidationException(
-                __('invalid value for `%s`(%s), expect values are [%s]', '%s', $value, $allowedValuesRule)
+        if ($minCount > count(array_filter($occurrences))) {
+            throw new InvalidImportException(
+                __('at least %s %s are required', $minCount, $alias)
             );
         }
     }
