@@ -1,6 +1,6 @@
 <?php
-
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,36 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-declare(strict_types=1);
+namespace oat\taoQtiItem\model\import\Template;
 
-namespace oat\taoQtiItem\model\import;
 
-interface ItemInterface
+use oat\taoQtiItem\model\import\ItemImportResult;
+use oat\taoQtiItem\model\import\ItemInterface;
+use oat\taoQtiItem\model\import\TemplateInterface;
+
+interface ItemsTemplateRenderInterface
 {
-    public function getName(): string;
+    public function processItem(ItemInterface $item, TemplateInterface $xmlQtiTemplate): string;
 
-    public function getQuestion(): string;
+    public function processResultSet(ItemImportResult $itemResults, TemplateInterface $xmlQtiTemplate): iterable;
 
-    public function isShuffle(): bool;
-
-    public function getMinChoices(): int;
-
-    public function getMaxChoices(): int;
-
-    public function getLanguage(): string;
-
-    public function getChoices(): array;
-
-    public function getMetadata(): array;
-
-    public function getMaxScore(): float;
-
-    public function isMatchCorrectResponse(): bool;
-
-    public function isMapResponse(): bool;
-
-    public function isNoneResponse(): bool;
 }

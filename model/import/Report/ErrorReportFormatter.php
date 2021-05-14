@@ -20,22 +20,28 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Parser;
+namespace oat\taoQtiItem\model\import\Report;
 
-class InvalidCsvImportException extends InvalidImportException
+use Exception;
+use oat\oatbox\reporting\Report;
+
+class ErrorReportFormatter extends AbstractReportFormatter
 {
-    /** @var array */
-    private $missingHeaderColumns = [];
 
-    public function addMissingHeaderColumn(string $headerColumn): self
+    /**
+     * @param Exception[]  $report
+     */
+    public function format(array $report): Report
     {
-        $this->missingHeaderColumns[$headerColumn] = $headerColumn;
-
-        return $this;
-    }
-
-    public function getMissingHeaderColumns(): array
-    {
-        return $this->missingHeaderColumns;
+        $reportObject = Report::createError(
+            __(
+                '%s line(s) contain(s) an error and cannot be imported',
+                count($report)
+            )
+        );
+        foreach ($this->buildLineMessages($report) as $message) {
+            $reportObject->add(Report::createError($message));
+        }
+        return $reportObject;
     }
 }

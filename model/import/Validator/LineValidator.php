@@ -22,13 +22,50 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
+use Exception;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class LineValidator extends ConfigurableService implements ValidatorInterface
 {
+    /**
+     * @throws RecoverableLineValidationException
+     */
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
-        //@TODO TO be done in the scope of the item parse/validation task
+        $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
+        $warnings = new RecoverableLineValidationException();
+
+        foreach ($decorator->getCsvColumns() as $headerRegex => $validations) {
+            $validations = $validations['value'] ?? '';
+
+            foreach (explode('|', $validations) as $validation) {
+                $rules = explode(':', $validation);
+                $name = array_shift($rules);
+                $validator = $this->getValidatorMapper()->getValidator($name);
+                if ($validator) {
+                    try {
+                        $validator->validate($content[$headerRegex] ?? null, $rules, $content);
+                    } catch (RecoverableLineValidationException $exception) {
+                        $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
+                    } catch (InvalidImportException|InvalidCsvImportException $exception){
+                        $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
+                    }
+                }
+            }
+        }
+        if ($warnings->getTotalWarnings() || $warnings->getTotalErrors()) {
+            throw $warnings;
+        }
     }
+
+    private function getValidatorMapper(): ValidationRulesMapper
+    {
+        return $this->getServiceLocator()->get(ValidationRulesMapper::class);
+    }
+
 }

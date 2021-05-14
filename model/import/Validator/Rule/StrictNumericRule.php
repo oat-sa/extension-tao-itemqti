@@ -1,6 +1,6 @@
 <?php
-
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,36 +15,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-declare(strict_types=1);
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-namespace oat\taoQtiItem\model\import;
+use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
-interface ItemInterface
+class StrictNumericRule extends ConfigurableService implements ValidationRuleInterface
 {
-    public function getName(): string;
-
-    public function getQuestion(): string;
-
-    public function isShuffle(): bool;
-
-    public function getMinChoices(): int;
-
-    public function getMaxChoices(): int;
-
-    public function getLanguage(): string;
-
-    public function getChoices(): array;
-
-    public function getMetadata(): array;
-
-    public function getMaxScore(): float;
-
-    public function isMatchCorrectResponse(): bool;
-
-    public function isMapResponse(): bool;
-
-    public function isNoneResponse(): bool;
+    /**
+     * @throws InvalidImportException
+     */
+    public function validate($value, $rules = null, array $context = []): void
+    {
+        if (!is_numeric($value)) {
+            throw new InvalidImportException(__('`%s` is invalid, must be numeric'));
+        }
+    }
 }

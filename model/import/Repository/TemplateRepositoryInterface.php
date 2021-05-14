@@ -22,43 +22,71 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Repository;
 
+use oat\taoQtiItem\model\import\Parser\ChoiceParser;
+use oat\taoQtiItem\model\import\Parser\NopeParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 
 interface TemplateRepositoryInterface
 {
     public const DEFAULT = 'default';
+
     public const DEFAULT_DEFINITION = [
-        'name' => [
-            'header' => 'required',
-            'value' => 'string'
+        'target' => [
+            'templatePath' => [
+                'noResponse' => 'taoQtiItem/templates/import/item_none_response.xml.tpl',
+                'mapResponse' => 'taoQtiItem/templates/import/item_map_response.xml.tpl',
+                'matchCorrectResponse' => 'taoQtiItem/templates/import/item_match_correct_response.xml.tpl',
+            ],
+            'version' => '2.2',
+            'standard' => 'QTI',
         ],
-        'question' => [
-            'header' => 'required',
-            'value' => 'string'
-        ],
-        'shuffle' => [
-            'header' => 'optional',
-            'value' => 'boolean'
-        ],
-        'min_choices' => [
-            'header' => 'optional',
-            'value' => 'integer'
-        ],
-        'max_choices' => [
-            'header' => 'optional',
-            'value' => 'integer'
-        ],
-        'choice_[1-99]' => [
-            'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
-            'value' => 'string'
-        ],
-        'choice_[1-99]_score' => [
-            'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
-            'value' => 'float'
-        ],
-        'metadata_[a-z0-9\-_]' => [
-            'header' => 'optional',
-            'value' => 'any'
+        'columns' => [
+            'name' => [
+                'header' => 'required',
+                'value' => 'required',
+            ],
+            'question' => [
+                'header' => 'required',
+                'value' => 'required|qtiXmlString',
+            ],
+            'shuffle' => [
+                'header' => 'optional',
+                'value' => 'optional|one_of:0,1,true,false:'.OneOfRule::CASE_INSENSITIVE,
+                'default' => 'false',
+            ],
+            'language' => [
+                'header' => 'optional',
+                'value' => 'optional|language',
+                'default' => DEFAULT_LANG,
+            ],
+            'min_choices' => [
+                'header' => 'optional',
+                'value' => 'optional|less_or_equals:max_choices|is_integer',
+                'default' => 0,
+            ],
+            'max_choices' => [
+                'header' => 'optional',
+                'value' => 'optional|is_integer',
+                'default' => 0,
+            ],
+            'choice_[1-99]' => [
+                'header' => 'required|min_occurrences:2|match_header:choice_[1-99]_score',
+                'value' => 'no_gaps:choice_[1-99]',
+                'parser' => ChoiceParser::class,
+            ],
+            'choice_[1-99]_score' => [
+                'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
+                'parser' => NopeParser::class,
+                'value' => 'no_gaps:choice_[1-99]_score',
+            ],
+            'correct_answer' => [
+                'header' => 'optional',
+                //@TODO Validate that correct answer is among the choices
+            ],
+            'metadata_[a-z0-9\-_]' => [
+                'header' => 'optional',
+            ],
         ],
     ];
 

@@ -1,6 +1,7 @@
 <?php
 
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,41 +16,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Parser;
+namespace oat\taoQtiItem\model\import\Parser\Exception;
 
-use Exception;
-
-class InvalidImportException extends Exception
+class InvalidImportException extends AbstractImportException
 {
-    /** @var array */
-    private $errors;
+    protected const LEVEL = 1;
 
-    /** @var int */
     private $totalErrors = 0;
 
-    public function addError(int $line, string $message): self
+    public function addError(int $line, string $message, string $field = null): self
     {
         $this->totalErrors++;
-        $this->errors[$line] = $this->errors[$line] ?? [];
-        $this->errors[$line][] = $message;
 
-        $this->message .= rtrim($message, '.') . '. ';
-
-        return $this;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
+        return $this->addMessage($line, $message, $this->getErrorLevel(), $field);
     }
 
     public function getTotalErrors(): int
     {
         return $this->totalErrors;
+    }
+
+    protected function getErrorLevel(): int
+    {
+        return static::LEVEL;
+    }
+
+    public function getErrors(): array
+    {
+        return $this->messages[$this->getErrorLevel()];
     }
 }

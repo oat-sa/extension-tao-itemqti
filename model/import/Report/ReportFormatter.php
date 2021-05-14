@@ -20,31 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import;
+namespace oat\taoQtiItem\model\import\Report;
 
-interface ItemInterface
+use oat\oatbox\reporting\Report;
+
+interface ReportFormatter
 {
-    public function getName(): string;
-
-    public function getQuestion(): string;
-
-    public function isShuffle(): bool;
-
-    public function getMinChoices(): int;
-
-    public function getMaxChoices(): int;
-
-    public function getLanguage(): string;
-
-    public function getChoices(): array;
-
-    public function getMetadata(): array;
-
-    public function getMaxScore(): float;
-
-    public function isMatchCorrectResponse(): bool;
-
-    public function isMapResponse(): bool;
-
-    public function isNoneResponse(): bool;
+    public function format(array $report): Report;
 }

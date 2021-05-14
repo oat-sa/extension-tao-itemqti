@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
-use oat\taoQtiItem\model\import\Parser\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 interface ValidatorInterface

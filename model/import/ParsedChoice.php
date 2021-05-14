@@ -22,29 +22,45 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
-interface ItemInterface
+class ParsedChoice
 {
-    public function getName(): string;
+    /** @var string */
+    private $choice;
 
-    public function getQuestion(): string;
+    /** @var float|null */
+    private $choiceScore;
 
-    public function isShuffle(): bool;
+    /** @var string */
+    private $id;
 
-    public function getMinChoices(): int;
+    /** @var bool */
+    private $isCorrect;
 
-    public function getMaxChoices(): int;
+    public function __construct(string $id, string $choice, float $choiceScore, bool $isCorrect)
+    {
+        $this->choice = $choice;
+        $this->choiceScore = $choiceScore;
+        $this->id = $id;
+        $this->isCorrect = $isCorrect;
+    }
 
-    public function getLanguage(): string;
+    public function isCorrect(): bool
+    {
+        return $this->isCorrect;
+    }
 
-    public function getChoices(): array;
+    public function getChoiceScore(): ?float
+    {
+        return $this->choiceScore;
+    }
 
-    public function getMetadata(): array;
+    public function getChoice(): string
+    {
+        return $this->choice;
+    }
 
-    public function getMaxScore(): float;
-
-    public function isMatchCorrectResponse(): bool;
-
-    public function isMapResponse(): bool;
-
-    public function isNoneResponse(): bool;
+    public function getId(): string
+    {
+        return $this->id;
+    }
 }

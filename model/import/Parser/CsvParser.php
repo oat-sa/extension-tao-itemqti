@@ -24,7 +24,10 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\CsvItem;
+use oat\taoQtiItem\model\import\ItemImportResult;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
@@ -32,58 +35,63 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
-    public function parseFile(File $file, TemplateInterface $template): array
+
+    /**
+     * @throws InvalidImportException
+     */
+    public function parseFile(File $file, TemplateInterface $template): ItemImportResult
     {
         $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
         $header = $this->convertCsvLineToArray($lines[0]);
-        $header = $this->trimHeader($header);
+        $header = $this->trimLine($header);
 
         $this->getHeaderValidator()->validate($header, $template);
 
         array_shift($lines);
 
-        $lineValidator = $this->getLineValidator();
-
         $items = [];
+        $validationReport = [];
+        $errorsReport = [];
+        foreach (array_filter($lines) as $lineNumber => $line) {
+            $humanReadableNumber = $lineNumber + 1;
+            $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
+            $headedLine = array_combine($header, $parsedLine);
 
-        foreach ($lines as $line) {
-            $parsedLine = $this->convertCsvLineToArray($line);
+            try {
+                $this->getLogger()->debug(sprintf('Tabular import: line %s validation started', $lineNumber));
+                $this->getLineValidator()->validate($headedLine, $template);
+                $this->getLogger()->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
+            } catch (RecoverableLineValidationException $exception) {
+                if ($exception->getTotalErrors()) {
+                    $errorsReport[$humanReadableNumber] = $exception;
+                    continue;
+                }
+                $validationReport[$humanReadableNumber] = $exception;
 
-            $lineValidator->validate($parsedLine, $template);
-
-            $items[] = $this->convertLineToItem($parsedLine, $template);
+            } catch (InvalidImportException | InvalidCsvImportException $exception) {
+                $errorsReport[$humanReadableNumber] = $exception;
+                continue;
+            }
+            $this->getLogger()->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
+            $items[$humanReadableNumber] = $this->getCsvLineConverter()->convert(
+                $headedLine,
+                $template,
+                $validationReport[$humanReadableNumber] ?? null
+            );
+            $this->getLogger()->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
         }
-
-        return $items;
+        return new ItemImportResult($items, $validationReport, $errorsReport);
     }
 
-    private function convertLineToItem(array $line, TemplateInterface $template): CsvItem
+    private function trimLine(array $line): array
     {
-        /**
-         * @TODO Conversion will be done later DYNAMICALLY based on $template
-         */
-        return new CsvItem(
-            '',
-            '',
-            true,
-            0,
-            1,
-            'en-US',
-            [],
-            [],
-            7.5
-        );
-    }
+        $newLine = [];
 
-    private function trimHeader(array $header): array
-    {
-        $newHeader = [];
-
-        foreach ($header as $value) {
-            $newHeader[] = trim((string)$value);
+        foreach ($line as $value) {
+            $newLine[] = trim((string)$value);
         }
 
-        return $newHeader;
+        return $newLine;
     }
 
     private function convertCsvLineToArray(string $line): array
@@ -100,4 +108,10 @@ class CsvParser extends ConfigurableService implements ParserInterface
     {
         return $this->getServiceLocator()->get(LineValidator::class);
     }
+
+    private function getCsvLineConverter(): CsvLineConverter
+    {
+        return $this->getServiceLocator()->get(CsvLineConverter::class);
+    }
+
 }

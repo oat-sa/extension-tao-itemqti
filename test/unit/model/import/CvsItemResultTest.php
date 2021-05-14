@@ -1,6 +1,6 @@
 <?php
-
 /*
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,36 +15,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
-
-declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
-interface ItemInterface
+use PHPUnit\Framework\TestCase;
+
+class CvsItemResultTest extends TestCase
 {
-    public function getName(): string;
-
-    public function getQuestion(): string;
-
-    public function isShuffle(): bool;
-
-    public function getMinChoices(): int;
-
-    public function getMaxChoices(): int;
-
-    public function getLanguage(): string;
-
-    public function getChoices(): array;
-
-    public function getMetadata(): array;
-
-    public function getMaxScore(): float;
-
-    public function isMatchCorrectResponse(): bool;
-
-    public function isMapResponse(): bool;
-
-    public function isNoneResponse(): bool;
+    public function testGetters()
+    {
+        $csvItems = [1];
+        $errorReports = [2];
+        $warningReports = [3];
+        $sut = new ItemImportResult($csvItems, $warningReports, $errorReports);
+        $this->assertSame($csvItems, $sut->getItems());
+        $this->assertSame($errorReports, $sut->getErrorReports());
+        $this->assertSame($warningReports, $sut->getWarningReports());
+    }
 }

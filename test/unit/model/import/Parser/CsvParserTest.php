@@ -24,7 +24,8 @@ namespace oat\taoQtiItem\test\unit\model\import\Parser;
 
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\File;
-use oat\taoQtiItem\model\import\CsvItem;
+use oat\taoQtiItem\model\import\ItemImportResult;
+use oat\taoQtiItem\model\import\Parser\CsvLineConverter;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
@@ -43,10 +44,14 @@ class CsvParserTest extends TestCase
     /** @var LineValidator|MockObject */
     private $lineValidator;
 
+    /** @var CsvLineConverter|MockObject */
+    private $lineConvertor;
+
     public function setUp(): void
     {
         $this->lineValidator = $this->createMock(LineValidator::class);
         $this->headerValidator = $this->createMock(HeaderValidator::class);
+        $this->lineConvertor = $this->createMock(CsvLineConverter::class);
 
         $this->subject = new CsvParser();
         $this->subject->setServiceLocator(
@@ -54,6 +59,7 @@ class CsvParserTest extends TestCase
                 [
                     HeaderValidator::class => $this->headerValidator,
                     LineValidator::class => $this->lineValidator,
+                    CsvLineConverter::class => $this->lineConvertor,
                 ]
             )
         );
@@ -77,7 +83,6 @@ class CsvParserTest extends TestCase
 
         $items = $this->subject->parseFile($file, $template);
 
-        $this->assertIsArray($items);
-        $this->assertInstanceOf(CsvItem::class, current($items));
+        $this->assertInstanceOf(ItemImportResult::class, $items);
     }
 }
