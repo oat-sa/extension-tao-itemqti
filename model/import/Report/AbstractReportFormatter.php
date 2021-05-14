@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\import\Report;
 
-
 use Exception;
 use oat\oatbox\service\ConfigurableService;
 
@@ -33,7 +32,6 @@ abstract class AbstractReportFormatter extends ConfigurableService implements Re
     protected function buildLineMessages(array $exceptions): array
     {
         $formattedReports = [];
-        asort($exceptions);
         foreach ($exceptions as $lineNumber => $lineReport) {
             $formattedReports[$lineNumber] = __('line %s: %s', $lineNumber, rtrim($lineReport->getMessage(), ', '));
         }

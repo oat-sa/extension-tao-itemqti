@@ -31,7 +31,7 @@ class OptionalRule extends ConfigurableService implements ValidationRuleInterfac
     public function validate($value, $rules = null, array $context = []): void
     {
         if (null == $value || $value === '') {
-            throw new RecoverableLineValidationException('%s is empty');
+            throw new RecoverableLineValidationException(__('`%s` is empty'));
         }
     }
 }

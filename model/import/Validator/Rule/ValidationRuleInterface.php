@@ -20,7 +20,12 @@
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
+use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+
 interface ValidationRuleInterface
 {
+    /**
+     * @throws RecoverableLineValidationException
+     */
     public function validate($value, $rules = null, array $context = []): void;
 }

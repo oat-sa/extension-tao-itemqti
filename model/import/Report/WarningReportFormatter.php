@@ -22,14 +22,14 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Report;
 
+use Exception;
 use oat\oatbox\reporting\Report;
-use oat\taoQtiItem\model\import\Parser\WarningImportException;
 
 class WarningReportFormatter extends AbstractReportFormatter
 {
 
     /**
-     * @param  WarningImportException[]  $report
+     * @param  Exception[]  $report
      */
     public function format(array $report): Report
     {

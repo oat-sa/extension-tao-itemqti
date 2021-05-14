@@ -73,19 +73,23 @@ class CsvItemImportHandler extends ConfigurableService
                     $error = new InvalidImportException();
                     $error->addError($lineNumber, $itemImportReport->getMessage());
 
-                    $itemValidatorResults->addErrorReport($error);
+                    $itemValidatorResults->addErrorReport($lineNumber, $error);
                     $errorReportsImport++;
                 }
             } catch (Throwable $exception) {
+                $this->getLogger()->warning(
+                    sprintf('Tabular import: import failure %s', $exception->getMessage())
+                );
+
                 // Ask business if we want to revert what was imported (probably, yes)
                 //FIXME Rollback any DB + FS change
 
                 $errorReportsImport++;
 
                 $error = new InvalidImportException();
-                $error->addError($lineNumber, $itemImportReport->getMessage());
+                $error->addError($lineNumber, $exception->getMessage(),'');
 
-                $itemValidatorResults->addErrorReport($error);
+                $itemValidatorResults->addErrorReport($lineNumber, $error);
             }
         }
 

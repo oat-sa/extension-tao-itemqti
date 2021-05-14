@@ -31,7 +31,7 @@ class QtiCompatibleXmlRule extends ConfigurableService implements ValidationRule
     public function validate($value, $rules = null, array $context = []): void
     {
         if (!$this->isQtiCompliant($value)) {
-            throw new RecoverableLineValidationException('%s is invalid');
+            throw new RecoverableLineValidationException(__('`%s` is invalid'));
         }
     }
 

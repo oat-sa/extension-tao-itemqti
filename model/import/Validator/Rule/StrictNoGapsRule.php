@@ -46,7 +46,7 @@ class StrictNoGapsRule extends ConfigurableService implements ValidationRuleInte
         }
 
         if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
-            throw new InvalidImportException('%s have gaps in between its values'); //@TODO proper message
+            throw new InvalidImportException(__('`%s` have gaps in between its values')); //@TODO proper message
         }
     }
 }

@@ -26,17 +26,25 @@ use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationExcept
 class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 {
     public const EMPTY_VALUE = '_empty_';
+    public const CASE_INSENSITIVE = 'CASE_INSENSITIVE';
     /**
      * @throws RecoverableLineValidationException
      */
     public function validate($value, $rules = null, array $context = []): void
     {
         $allowedValues = explode(',', $rules[0]);
-        $allowedValues = str_replace(self::EMPTY_VALUE, '', $allowedValues);
+
+        $flags = $rules[1];
+        if ($flags == self::CASE_INSENSITIVE){
+            $allowedValues = array_map('strtolower', $allowedValues);
+            $value = strtolower($value);
+        }
+
+        $allowedValues = str_ireplace(self::EMPTY_VALUE, '', $allowedValues);
 
         if (!in_array($value, $allowedValues)) {
             throw new RecoverableLineValidationException(
-                sprintf('%s is invalid, must be one of (%s)', '%s', $rules[0])
+                __('`%s` is invalid, must be one of [%s]', '%s', $rules[0])
             );
         }
     }

@@ -31,7 +31,7 @@ class StrictNumericRule extends ConfigurableService implements ValidationRuleInt
     public function validate($value, $rules = null, array $context = []): void
     {
         if (!is_numeric($value)) {
-            throw new InvalidImportException('%s is invalid, must be numeric');
+            throw new InvalidImportException(__('`%s` is invalid, must be numeric'));
         }
     }
 }

@@ -25,17 +25,10 @@ namespace oat\taoQtiItem\model\import\Validator;
 use Exception;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use oat\taoQtiItem\model\import\Validator\Rule\IsIntegerRule;
-use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
-use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
-use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
-use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
-use oat\taoQtiItem\model\import\Validator\Rule\StrictNoGapsRule;
-use oat\taoQtiItem\model\import\Validator\Rule\StrictNumericRule;
-use oat\taoQtiItem\model\import\Validator\Rule\SupportedLanguageRule;
-use oat\taoQtiItem\model\import\Validator\Rule\ValidationRuleInterface;
 
 class LineValidator extends ConfigurableService implements ValidatorInterface
 {
@@ -56,14 +49,16 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
                 $validator = $this->getValidatorMapper()->getValidator($name);
                 if ($validator) {
                     try {
-                        $validator->validate($content[$headerRegex], $rules, $content);
-                    } catch (Exception $exception) {
-                        $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex));
+                        $validator->validate($content[$headerRegex] ?? null, $rules, $content);
+                    } catch (RecoverableLineValidationException $exception) {
+                        $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
+                    } catch (InvalidImportException|InvalidCsvImportException $exception){
+                        $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
                     }
                 }
             }
         }
-        if ($warnings->getTotalWarnings()) {
+        if ($warnings->getTotalWarnings() || $warnings->getTotalErrors()) {
             throw $warnings;
         }
     }

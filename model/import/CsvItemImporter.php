@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
+use oat\oatbox\log\LoggerAwareTrait;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\PhpSerializeStateless;
@@ -41,6 +42,7 @@ class CsvItemImporter implements
     ServiceLocatorAwareInterface,
     TaskParameterProviderInterface
 {
+    use LoggerAwareTrait;
     use PhpSerializeStateless;
     use EventManagerAwareTrait;
     use ImportHandlerHelperTrait {
@@ -89,25 +91,20 @@ class CsvItemImporter implements
             $report->add(Report::createSuccess($reportHeader, []));
         } catch (InvalidCsvImportException $e) {
             $report = Report::createError(__('CSV import failed'), []);
-            $report->add(
-                Report::createError(
-                    __(
-                        'CSV import failed: required columns are missing (%s)',
-                        implode(', ', $e->getMissingHeaderColumns())
-                    ),[]
-                )
+            $errorMessage = sprintf(
+                'CSV import failed: required columns are missing (%s)',
+                implode(', ', $e->getMissingHeaderColumns())
             );
+            $this->getLogger()->info($errorMessage);
+            $report->add(Report::createError(__($errorMessage), []));
         } catch (Throwable $e) {
             $report = Report::createError(__('CSV import failed'), []);
-            $report->add(
-                Report::createError(
-                    __(
-                        'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
-                        $e->getMessage()
-                    ),
-                    []
-                )
+            $errorMessage = sprintf(
+                'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
+                $e->getMessage()
             );
+            $this->getLogger()->info($errorMessage);
+            $report->add(Report::createError(__($errorMessage),[]));
         } finally {
             if (isset($importerResults)) {
                 $warningParsingReport = $importerResults->getWarningReports();
@@ -120,7 +117,7 @@ class CsvItemImporter implements
                 }
             }
             if (isset($uploadedFile)) {
-//                $this->getUploadService()->remove($uploadedFile); @FIX uncomment before merge
+                $this->getUploadService()->remove($uploadedFile);
             }
         }
 
