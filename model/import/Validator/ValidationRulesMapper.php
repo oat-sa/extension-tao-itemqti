@@ -24,6 +24,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Validator\Rule\IsIntegerRule;
 use oat\taoQtiItem\model\import\Validator\Rule\LessOrEqualRule;
 use oat\taoQtiItem\model\import\Validator\Rule\MinOccurrencesRule;
+use oat\taoQtiItem\model\import\Validator\Rule\NumericOrEmptyRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 use oat\taoQtiItem\model\import\Validator\Rule\OptionalRule;
 use oat\taoQtiItem\model\import\Validator\Rule\QtiCompatibleXmlRule;
@@ -47,6 +48,7 @@ class ValidationRulesMapper extends ConfigurableService
             'required' => RequireRule::class,
             'qtiXmlString' => QtiCompatibleXmlRule::class,
             'strict_numeric' => StrictNumericRule::class,
+            'numeric_or_empty' => NumericOrEmptyRule::class,
             'min_occurrences' => MinOccurrencesRule::class,
         ];
 
@@ -56,5 +58,4 @@ class ValidationRulesMapper extends ConfigurableService
 
         return null;
     }
-
 }

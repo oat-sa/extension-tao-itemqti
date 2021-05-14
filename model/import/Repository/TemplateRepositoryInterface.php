@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Repository;
 
 use oat\taoQtiItem\model\import\Parser\ChoiceParser;
-use oat\taoQtiItem\model\import\Parser\NopeParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 
@@ -77,8 +76,7 @@ interface TemplateRepositoryInterface
             ],
             'choice_[1-99]_score' => [
                 'header' => 'required|min_occurrences:1|match_header:choice_[1-99]',
-                'parser' => NopeParser::class,
-                'value' => 'no_gaps:choice_[1-99]_score',
+                'value' => 'no_gaps:choice_[1-99]_score|numeric_or_empty:choice_[1-99]_score',
             ],
             'correct_answer' => [
                 'header' => 'optional',
