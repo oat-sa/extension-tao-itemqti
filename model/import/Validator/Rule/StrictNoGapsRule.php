@@ -39,8 +39,17 @@ class StrictNoGapsRule extends AbstractGroupRule implements ValidationRuleInterf
             array_pop($occurrences);
         }
 
-        if (!empty($occurrences) && count(array_filter($occurrences, 'strlen')) != count($occurrences)) {
-            throw new InvalidImportException(__('`%s`expects consecutive values without gaps')); //@TODO proper message
+        $missingChoices = [];
+        foreach ($occurrences as $k => $v) {
+            if (empty($v)) {
+                $missingChoices[] = $k;
+            }
+        }
+
+        if (!empty($missingChoices)) {
+            throw new InvalidImportException(
+                __('Error: %s is empty, although it is mandatory.', implode(', ', $missingChoices))
+            );
         }
     }
 }
