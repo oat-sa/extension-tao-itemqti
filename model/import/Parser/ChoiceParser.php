@@ -54,6 +54,7 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
             );
         }
 
+        //@TODO Validate scores requirements properly
         if ($missingScoresCount > 0 && $missingScoresCount != count($parsedChoices)) {
 //            throw new RecoverableLineValidationException('Choices do not match their scores 1:1');
         }

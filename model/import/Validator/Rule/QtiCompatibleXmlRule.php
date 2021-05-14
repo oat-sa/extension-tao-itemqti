@@ -37,6 +37,7 @@ class QtiCompatibleXmlRule extends ConfigurableService implements ValidationRule
 
     private function isQtiCompliant(string $value): bool
     {
+        //@TODO Do proper QTI Validation or remove it if not necessary
         return true;
     }
 }
