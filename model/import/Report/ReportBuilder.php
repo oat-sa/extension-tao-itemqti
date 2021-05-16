@@ -47,7 +47,7 @@ class ReportBuilder extends ConfigurableService
     public function getReportTitle(ItemImportResult $importerResults): string
     {
         $title = __('CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))');
-        if (0 === count($importerResults->getErrorReports())) {
+        if (0 === count($importerResults->getErrorReports()) && 0 === count($importerResults->getWarningReports())) {
             $title = __('CSV import successful: %s/%s line(s) are imported');
         }
         if (0 === $importerResults->getTotalSuccessfulImport()) {
