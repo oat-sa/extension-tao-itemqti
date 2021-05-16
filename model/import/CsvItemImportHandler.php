@@ -27,6 +27,7 @@ use helpers_TimeOutHelper;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
@@ -65,7 +66,22 @@ class CsvItemImportHandler extends ConfigurableService
         // Ask business if we want to revert what was imported (probably, yes)
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
-                $itemImportReport = $importService->importQTIFile($xmlItem, $class, true);
+//                $itemImportReport = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
+                $item = $importService->importQTIAndMetadataFile($xmlItem->getItemXML(), $xmlItem->getMetadata(), $class);
+                $path = \tao_helpers_Export::getExportFile();
+                $tmpZip = new \ZipArchive();
+                $tmpZip->open($path, \ZipArchive::CREATE);
+
+                $exporter = new QTIPackedItemExporter($item, $tmpZip);
+                $exporter->export();
+
+                $exporter->getZip()->close();
+
+//                /** @var \core_kernel_classes_Resource $itemTest */
+//                $itemTest = $itemImportReport->getData();
+//                \common_Logger::e(print_r($itemTest->getModel(), true));
+
+                $itemImportReport = \common_report_Report::createSuccess(__('The IMS QTI Item was successfully imported.'));
 
                 if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {
                     $successReportsImport++;

@@ -23,9 +23,12 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Template;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
+use oat\taoQtiItem\model\import\ParsedMetadatum;
+use oat\taoQtiItem\model\import\ProcessedItemResult;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use Renderer;
 
@@ -66,11 +69,23 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
         return $renderer->render();
     }
 
+    public function processMetadata(ItemInterface $item): string
+    {
+//        return $item->getMetadata();
+        return '';
+    }
+
+    /**
+     * @return iterable<ProcessedItemResult>
+     */
     public function processResultSet(ItemImportResult $itemResults, TemplateInterface $xmlQtiTemplate): iterable
     {
         $result = [];
         foreach ($itemResults->getItems() as $lineNumber => $item) {
-            $result[$lineNumber] = $this->processItem($item, $xmlQtiTemplate);
+            $result[$lineNumber] = new ProcessedItemResult(
+                $this->processItem($item, $xmlQtiTemplate),
+                $this->processMetaData($item)
+            );
         }
         return $result;
     }
