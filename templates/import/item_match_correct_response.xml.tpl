@@ -24,7 +24,6 @@
             <value>1</value>
         </defaultValue>
     </outcomeDeclaration>
-    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
     <itemBody>
         <div class="grid-row">
             <div class="col-12">

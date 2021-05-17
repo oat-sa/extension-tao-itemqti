@@ -12,7 +12,6 @@
     toolName="TAO"
     toolVersion="3.4.0-sprint146">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"/>
-    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
