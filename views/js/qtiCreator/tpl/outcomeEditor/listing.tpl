@@ -7,7 +7,7 @@
                value="{{identifier}}"
                type="text"
                placeholder="e.g. CONTENT"
-               data-validate="$notEmpty; $qtiIdentifier; $availableVariableIdentifier(serial={{serial}});">
+               data-validate="$notEmpty; $qtiOutcomeIdentifier(serial={{serial}}); $availableVariableIdentifier(serial={{serial}});">
     </div>
     <span class="trigger icon-bin" title="{{titleDelete}}" data-role="delete"></span>
     <span class="trigger icon-edit sidebar-popup-trigger" data-popup="~ .sidebar-popup" title="{{titleEdit}}" data-role="edit"></span>

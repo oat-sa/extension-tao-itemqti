@@ -277,6 +277,9 @@ img.dragging.ui-draggable-dragging {
         .item-editor-sidebar {
             border-left: 1px solid $uiGeneralContentBg;
         }
+        .tooltip {
+            max-width: 200px;
+        }
     }
 }
 
@@ -919,7 +922,6 @@ img.dragging.ui-draggable-dragging {
                 margin-top: 3px;
                 line-height: 1.4;
                 @include font-size(14, true);
-                position: absolute;
             }
             .tlb {
                 position: relative;
