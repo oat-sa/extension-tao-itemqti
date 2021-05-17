@@ -26,14 +26,16 @@ use core_kernel_classes_Class;
 use helpers_TimeOutHelper;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
+use oat\oatbox\reporting\ReportInterface;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
 use oat\taoQtiItem\model\qti\ImportService;
+use tao_models_classes_dataBinding_GenerisFormDataBinder;
+use tao_models_classes_dataBinding_GenerisFormDataBindingException;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -67,24 +69,11 @@ class CsvItemImportHandler extends ConfigurableService
         // Ask business if we want to revert what was imported (probably, yes)
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
-//                $itemImportReport = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
-	            $resolvedMetadataAliases = $this->getMetadataResolver()->resolveAliases($class, $xmlItem->getMetadata());
-	            $importableMetadata = $this->prepareMetadataForImport($resolvedMetadataAliases);
-                $item = $importService->importQTIAndMetadataFile($xmlItem->getItemXML(), $importableMetadata, $class);
-                $path = \tao_helpers_Export::getExportFile();
-                $tmpZip = new \ZipArchive();
-                $tmpZip->open($path, \ZipArchive::CREATE);
+                $itemImportReport        = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
+                $resolvedMetadataAliases = $this->getMetadataResolver()->resolveAliases($class, $xmlItem->getMetadata());
+                $metaData = $this->getMetadataResolver()->prepareBindableMetadata($resolvedMetadataAliases);
 
-                $exporter = new QTIPackedItemExporter($item, $tmpZip);
-                $exporter->export();
-
-                $exporter->getZip()->close();
-
-//                /** @var \core_kernel_classes_Resource $itemTest */
-//                $itemTest = $itemImportReport->getData();
-//                \common_Logger::e(print_r($itemTest->getModel(), true));
-
-                $itemImportReport = \common_report_Report::createSuccess(__('The IMS QTI Item was successfully imported.'));
+                $this->importMetadata($metaData, $itemImportReport);
 
                 if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {
                     $successReportsImport++;
@@ -106,7 +95,7 @@ class CsvItemImportHandler extends ConfigurableService
                 $errorReportsImport++;
 
                 $error = new InvalidImportException();
-                $error->addError($lineNumber, $exception->getMessage(),'');
+                $error->addError($lineNumber, $exception->getMessage(), '');
 
                 $itemValidatorResults->addErrorReport($lineNumber, $error);
             }
@@ -134,16 +123,18 @@ class CsvItemImportHandler extends ConfigurableService
         return $this->getServiceLocator()->get(ItemsQtiTemplateRender::class);
     }
 
-	private function getMetadataResolver(): MetadataResolver {
-		return $this->getServiceManager()->get( MetadataResolver::class );
-	}
-
-    /**
-     * @TODO whatever it should do to reformat data into expected format
-     */
-    private function prepareMetadataForImport(array $resolvedMetadata):string
+    private function getMetadataResolver(): MetadataResolver
     {
-        return '';
+        return $this->getServiceManager()->get(MetadataResolver::class);
     }
 
+    /**
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
+     */
+    private function importMetadata(array $metaData, ReportInterface $itemImportReport): void
+    {
+        $itemRdf  = $itemImportReport->getData();
+        $binder   = new tao_models_classes_dataBinding_GenerisFormDataBinder($itemRdf);
+        $binder->bind($metaData);
+    }
 }

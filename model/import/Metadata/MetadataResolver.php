@@ -71,6 +71,20 @@ class MetadataResolver extends ConfigurableService
         return $result;
     }
 
+
+    /**
+     * @param  ParsedMetadatum[]  $resolvedMetadata
+     */
+    public function prepareBindableMetadata(array $resolvedMetadata): array
+    {
+        $result = [];
+        foreach ($resolvedMetadata as $metadatum) {
+            $result[$metadatum->getAliasUri()] = $metadatum->getMetadatum();
+        }
+
+        return $result;
+    }
+
     private function isEmptyAlias(ParsedMetadatum $metadata): bool
     {
         return empty($metadata->getAliasUri());
