@@ -52,10 +52,10 @@ class CsvLineConverter extends ConfigurableService
         return new CsvItem(
             $parsed['name'],
             $parsed['question'],
-            filter_var($parsed['shuffle'], FILTER_VALIDATE_BOOLEAN),
+            $this->normalizeShuffle($parsed['shuffle']), //@TODO make normalizers configurable
             (int)$parsed['min_choices'],
             (int)$parsed['max_choices'],
-            $parsed['language'],
+            $this->normalizeLanguage($parsed['language']),
             $parsed['choice_[1-99]'],
             $parsed['metaData'] ?? []
         );
@@ -64,6 +64,17 @@ class CsvLineConverter extends ConfigurableService
     private function hasValidationIssues(string $field, RecoverableLineValidationException $report): bool
     {
         return in_array($field, array_column($report->getWarnings(), 'field'));
+    }
+
+    private function normalizeLanguage(string $language): string
+    {
+        $groups = explode('-', $language);
+        return sprintf('%s-%s', strtolower($groups[0] ?? ''), strtoupper($groups[1] ?? ''));
+    }
+
+    private function normalizeShuffle($value): bool
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
 }
