@@ -40,6 +40,7 @@ interface ItemInterface
 
     public function getCorrectChoices(): array;
 
+    /** @return ParsedMetadatum[] */
     public function getMetadata(): array;
 
     public function getMaxScore(): float;

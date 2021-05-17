@@ -69,10 +69,17 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
         return $renderer->render();
     }
 
-    public function processMetadata(ItemInterface $item): string
+    /**
+     * @return array<string, string> alias => value
+     */
+    public function processMetadata(ItemInterface $item): array
     {
-//        return $item->getMetadata();
-        return '';
+        $processedMetaData = [];
+        foreach ($item->getMetadata() as $metaDatum) {
+            $trimmedAlias = str_replace('metadata_', '', $metaDatum->getAlias());
+            $processedMetaData[$trimmedAlias] = $metaDatum->getMetadatum();
+        }
+        return $processedMetaData;
     }
 
     /**

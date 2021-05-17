@@ -31,11 +31,13 @@ use DOMDocument;
 use Exception;
 use helpers_File;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\TaoOntology;
 use oat\oatbox\mutex\LockTrait;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
@@ -50,6 +52,9 @@ use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationEntryMetadataValue;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationSourceMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
@@ -138,28 +143,60 @@ class ImportService extends ConfigurableService
         return $report;
     }
 
-    public function importQTIAndMetadataFile(string $qtiFile, string $metaData, core_kernel_classes_Class $itemClass): core_kernel_classes_Resource
+    public function importQTIAndMetadataFile(string $qtiFile, array $metaData, core_kernel_classes_Class $itemClass, bool $validate = true): Report
     {
-//        $metadataImporter = $this->getMetadataImporter();
-//
-//        // The metadata import feature needs a DOM representation of the manifest.
-//        $domManifest = new \DOMDocument('1.0', 'UTF-8');
-//        $domManifest->loadXML($metaData);
-//        $metadataValues = $metadataImporter->extract($domManifest);
-//
-//        $metadataImporter->setMetadataValues($metadataValues);
+        $properties = [
+            'subject_code' => 'https://tabular.docker.loc/sample.rdf#i609d7a4286c389a6773f3cfbdc72b7',
+            'identifier' => 'https://tabular.docker.loc/sample.rdf#i609d7ba046d4c84aa44680e107f50e',
+            'grade' => 'https://tabular.docker.loc/sample.rdf#i609d7ba6dc16188556aeade19e3c4d',
+        ];
 
-        $qtiModel = $this->createQtiItemModel($qtiFile, true);
-        $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
+        try {
+            $qtiModel = $this->createQtiItemModel($qtiFile, $validate);
+            $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
 
-        /** @var MetadataExporter $metaDataExporter */
-        $metaDataExporter = $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
+            $metadataImporter = $this->getMetadataImporter();
+//            /** @var MetadataExporter $metaDataExporter */
+//            $metaDataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
+//            $metaDataValues = $metaDataExporter->extract($rdfItem);
 
-        \common_Logger::e(print_r($metaDataExporter->extract($rdfItem), true));
+            \common_Logger::e(print_r($metaData, true));
 
-//        $this->getMetadataImporter()->inject($qtiModel->getIdentifier(), $rdfItem);
+            $rdfItemIdentifier = \tao_helpers_Uri::getUniqueId($rdfItem->getUri());
+            $metaDataValues = [$rdfItemIdentifier => []];
+            foreach ($metaData as $metaDatumAlias => $metaDatumValue) {
+                $metaDataValues[$rdfItemIdentifier][] = new ClassificationMetadataValue(
+                    new ClassificationSourceMetadataValue($rdfItem->getUri(), $properties[$metaDatumAlias]),
+                    [new ClassificationEntryMetadataValue($rdfItem->getUri(), $metaDatumValue)]
+                );
+            }
+//            \common_Logger::e(print_r($metaDataValues, true));
 
-        return $rdfItem;
+//            // The metadata import feature needs a DOM representation of the manifest.
+//            $domManifest = new \DOMDocument('1.0', 'UTF-8');
+//            $domManifest->loadXML($metaData);
+//            $metadataValues = $metadataImporter->extract($domManifest);
+
+            $metadataImporter->setMetadataValues($metaDataValues);
+            $metadataImporter->inject($qtiModel->getIdentifier(), $rdfItem);
+
+            $path = \tao_helpers_Export::getExportFile();
+            $tmpZip = new \ZipArchive();
+            $tmpZip->open($path, \ZipArchive::CREATE);
+
+            $exporter = new QTIPackedItemExporter($rdfItem, $tmpZip);
+            $exporter->export();
+
+            $exporter->getZip()->close();
+
+
+            $report = Report::createSuccess(__('The IMS QTI Item was successfully imported.'), $rdfItem);
+        } catch (ValidationException $ve) {
+            $report = Report::createError(__('The IMS QTI Item could not be imported.'));
+            $report->add($ve->getReport());
+        }
+
+        return $report;
     }
 
     /**

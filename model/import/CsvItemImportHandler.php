@@ -67,15 +67,7 @@ class CsvItemImportHandler extends ConfigurableService
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
 //                $itemImportReport = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
-                $item = $importService->importQTIAndMetadataFile($xmlItem->getItemXML(), $xmlItem->getMetadata(), $class);
-                $path = \tao_helpers_Export::getExportFile();
-                $tmpZip = new \ZipArchive();
-                $tmpZip->open($path, \ZipArchive::CREATE);
-
-                $exporter = new QTIPackedItemExporter($item, $tmpZip);
-                $exporter->export();
-
-                $exporter->getZip()->close();
+                $importService->importQTIAndMetadataFile($xmlItem->getItemXML(), $xmlItem->getMetadata(), $class);
 
 //                /** @var \core_kernel_classes_Resource $itemTest */
 //                $itemTest = $itemImportReport->getData();
