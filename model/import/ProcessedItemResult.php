@@ -27,10 +27,10 @@ class ProcessedItemResult
     /** @var string */
     private $itemXML;
 
-    /** @var string */
+    /** @var ParsedMetadatum[] */
     private $metadata;
 
-    public function __construct(string $itemXML, string $metadata)
+    public function __construct(string $itemXML, array $metadata)
     {
         $this->itemXML = $itemXML;
         $this->metadata = $metadata;
@@ -41,7 +41,7 @@ class ProcessedItemResult
         return $this->itemXML;
     }
 
-    public function getMetadata(): ?string
+    public function getMetadata(): array
     {
         return $this->metadata;
     }

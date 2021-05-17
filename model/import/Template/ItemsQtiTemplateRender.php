@@ -69,10 +69,13 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
         return $renderer->render();
     }
 
-    public function processMetadata(ItemInterface $item): string
+    /**
+     * @return ParsedMetadatum[]
+     */
+    public function processMetadata(ItemInterface $item):array
     {
-//        return $item->getMetadata();
-        return '';
+        return $item->getMetadata();
+//        return '';
     }
 
     /**

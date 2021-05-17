@@ -28,6 +28,7 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
+use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
@@ -67,7 +68,9 @@ class CsvItemImportHandler extends ConfigurableService
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
 //                $itemImportReport = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
-                $item = $importService->importQTIAndMetadataFile($xmlItem->getItemXML(), $xmlItem->getMetadata(), $class);
+	            $resolvedMetadataAliases = $this->getMetadataResolver()->resolveAliases($class, $xmlItem->getMetadata());
+	            $importableMetadata = $this->prepareMetadataForImport($resolvedMetadataAliases);
+                $item = $importService->importQTIAndMetadataFile($xmlItem->getItemXML(), $importableMetadata, $class);
                 $path = \tao_helpers_Export::getExportFile();
                 $tmpZip = new \ZipArchive();
                 $tmpZip->open($path, \ZipArchive::CREATE);
@@ -130,4 +133,17 @@ class CsvItemImportHandler extends ConfigurableService
     {
         return $this->getServiceLocator()->get(ItemsQtiTemplateRender::class);
     }
+
+	private function getMetadataResolver(): MetadataResolver {
+		return $this->getServiceManager()->get( MetadataResolver::class );
+	}
+
+    /**
+     * @TODO whatever it should do to reformat data into expected format
+     */
+    private function prepareMetadataForImport(array $resolvedMetadata):string
+    {
+        return '';
+    }
+
 }

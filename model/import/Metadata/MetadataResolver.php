@@ -1,0 +1,101 @@
+<?php
+
+/*
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ */
+declare(strict_types=1);
+
+namespace oat\taoQtiItem\model\import\Metadata;
+
+use core_kernel_classes_Class;
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiItem\model\import\ParsedMetadatum;
+
+
+class MetadataResolver extends ConfigurableService
+{
+    use OntologyAwareTrait;
+
+    private const MAX_CACHE_SIZE = 1000;
+    private $cache = [];
+
+    /**
+     * @param  ParsedMetadatum[]  $metadata
+     *
+     * @return ParsedMetadatum[]
+     */
+    public function resolveAliases(core_kernel_classes_Class $class, array $metadata): array
+    {
+        $result          = [];
+        $aliasProperty   = $this->getProperty(GenerisRdf::PROPERTY_ALIAS);
+        $classProperties = $class->getProperties(true);
+        $classUri        = $class->getUri();
+        foreach ($classProperties as $property) {
+            if (0 === count($this->getUnproceededMetadata($metadata))) {
+                return $metadata;
+            }
+            $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
+
+            foreach ($this->getUnproceededMetadata($metadata) as $metadatum) {
+                if ($cachedAliasUri = $this->getCached($classUri, $aliasName)) {
+                    $metadatum->setAliasUri($cachedAliasUri);
+                    $result[] = $metadatum;
+                    break;
+                }
+                if ($metadatum->getAlias() === $aliasName) {
+                    $this->add($classUri, $aliasName, $property->getUri());
+                    $metadatum->setAliasUri($property->getUri());
+                    $result[] = $metadatum;
+                    break;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    private function isEmptyAlias(ParsedMetadatum $metadata): bool
+    {
+        return empty($metadata->getAliasUri());
+    }
+
+    /**
+     * @param  ParsedMetadatum[]  $metadata
+     *
+     * @return ParsedMetadatum[]
+     */
+    private function getUnproceededMetadata(array $metadata): array
+    {
+        return array_filter($metadata, [$this, 'isEmptyAlias']);
+    }
+
+    private function add(string $classUri, string $aliasName, string $aliasUri): void
+    {
+        $this->cache[$classUri . $aliasName] = $aliasUri;
+        if (count($this->cache) > self::MAX_CACHE_SIZE) {
+            array_shift($this->cache);
+        }
+    }
+
+    private function getCached(string $classUri, string $aliasName): ?string
+    {
+        return $this->cache[$classUri . $aliasName] ?? null;
+    }
+}
