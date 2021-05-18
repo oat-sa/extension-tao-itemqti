@@ -85,7 +85,6 @@ interface TemplateRepositoryInterface
             ],
             'metadata_[a-z0-9\-_]+' => [
                 'header' => 'optional',
-                'value' => 'optional',
                 'parser' => MetadataParser::class,
             ],
         ],
