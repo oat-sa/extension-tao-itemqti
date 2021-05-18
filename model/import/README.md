@@ -2,6 +2,9 @@
 
 Here you can find instructions about import items using TAO platform.
 
+## Configuration
+The feature is disabled by default, to enable it flag `FEATURE_FLAG_TABULAR_IMPORT_ENABLED` should be set at the env variables.
+
 ## Tabular Import with CSV Template
 
 We currently support only **multiple-choices** questions.
