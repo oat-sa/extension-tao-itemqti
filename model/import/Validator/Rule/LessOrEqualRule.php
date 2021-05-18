@@ -33,7 +33,7 @@ class LessOrEqualRule extends ConfigurableService implements ValidationRuleInter
     {
         if ($value > $context[$rules[0]] ?? 0) {
             throw new RecoverableLineValidationException(
-                __('%s is invalid, should be less or equal then `%s`(%s)', '%s', $rules[0], $context[$rules[0]])
+                __('%s is invalid, should be less or equal than `%s`(%s)', '%s', $rules[0], $context[$rules[0]])
             );
         }
     }
