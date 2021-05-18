@@ -30,7 +30,7 @@ class ReportBuilder extends ConfigurableService
         string $outerHeader,
         string $innerHeader,
         ItemImportResult $importerResults = null,
-        $class = null
+        $class = []
     ): Report {
         if ($importerResults && 0 === $importerResults->getTotalSuccessfulImport()) {
             $report = Report::createError($outerHeader, []);
