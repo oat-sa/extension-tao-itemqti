@@ -18,33 +18,42 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Report;
 
-use oat\taoQtiItem\model\import\Parser\WarningImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 use PHPUnit\Framework\TestCase;
 
 class WarningReportFormatterTest extends TestCase
 {
+    /** @var WarningReportFormatter */
+    private $subject;
+
+    public function setUp(): void
+    {
+        $this->subject = new WarningReportFormatter();
+    }
+
     public function testFormat(): void
     {
-        $sut = new WarningReportFormatter();
+        $warning1 = new WarningImportException();
+        $warning1->addWarning(1, 'w11');
+        $warning1->addWarning(1, 'w12');
 
-        $wr2 = new WarningImportException();
-        $wr2->addWarning(2, 'w21');
-        $wr2->addWarning(2, 'w22');
-        $wr2->addWarning(2, 'w23');
+        $warning2 = new WarningImportException();
+        $warning2->addWarning(2, 'w21');
+        $warning2->addWarning(2, 'w22');
 
-        $wr1 = new WarningImportException();
-        $wr1->addWarning(1, 'w11');
-        $wr1->addWarning(1, 'w12');
-        $wr1->addWarning(1, 'w13');
+        $output = $this->subject->format(
+            [
+                1 => $warning1,
+                2 => $warning2
+            ]
+        );
 
-        $reports = [
-            2 => $wr2,
-            1 => $wr1
-        ];
-        $output = $sut->format($reports);
         $this->assertCount(2, $output->getChildren());
-        $this->assertContains('w13', $output->getChildren()[0]->getMessage());
+        $this->assertSame('line 1: w11, w12', $output->getChildren()[0]->getMessage());
+        $this->assertSame('line 2: w21, w22', $output->getChildren()[1]->getMessage());
     }
 }
