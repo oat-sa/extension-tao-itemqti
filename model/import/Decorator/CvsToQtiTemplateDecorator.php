@@ -39,8 +39,8 @@ class CvsToQtiTemplateDecorator
 
     public function __construct(TemplateInterface $template)
     {
-        $this->qtiTemplatePath = $template->getDefinition()['target']['templatePath'];
-        $this->csvColumns = $template->getDefinition()['columns'];
+        $this->qtiTemplatePath = $template->getDefinition()['target']['templatePath'] ?? [];
+        $this->csvColumns = $template->getDefinition()['columns'] ?? [];
     }
 
     public function getCsvColumns(): array
