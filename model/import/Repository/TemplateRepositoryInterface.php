@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Repository;
 
 use oat\taoQtiItem\model\import\Parser\ChoiceParser;
+use oat\taoQtiItem\model\import\Parser\MetadataParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\Rule\OneOfRule;
 
@@ -82,8 +83,10 @@ interface TemplateRepositoryInterface
                 'header' => 'optional',
                 'value' => 'one_of_columns_or_empty:choice_[1-99]',
             ],
-            'metadata_[a-z0-9\-_]' => [
+            'metadata_[a-z0-9\-_]+' => [
                 'header' => 'optional',
+                'value' => 'optional',
+                'parser' => MetadataParser::class,
             ],
         ],
     ];

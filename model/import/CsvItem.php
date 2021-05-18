@@ -120,7 +120,7 @@ class CsvItem implements ItemInterface
     }
 
     /**
-     * @return Metadata[]
+     * @return ParsedMetadatum[]
      */
     public function getMetadata(): array
     {
