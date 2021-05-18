@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
+use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
@@ -42,6 +43,9 @@ class ItemImportResult
     /** @var int */
     private $totalScannedItems;
 
+    /** @var core_kernel_classes_Resource */
+    private $firstItem;
+
     /**
      * @param  ItemInterface[]  $items
      * @param  WarningImportException[]  $warningReports ( keys of array are equal to the line number where issue occurred
@@ -59,6 +63,16 @@ class ItemImportResult
         $this->errorReports = $errorReports;
         $this->totalSuccessfulImport = $totalSuccessfulImport;
         $this->totalScannedItems = $totalScannedItems;
+    }
+
+    public function getFirstItem(): ?core_kernel_classes_Resource
+    {
+        return $this->firstItem;
+    }
+
+    public function setFirstItem(core_kernel_classes_Resource $firstItem): void
+    {
+        $this->firstItem = $firstItem;
     }
 
     public function setTotalSuccessfulImport(int $totalSuccessfulImport): void

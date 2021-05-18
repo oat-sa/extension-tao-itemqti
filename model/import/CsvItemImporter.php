@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\taoQtiItem\model\import\Report\ReportBuilder;
 use Throwable;
@@ -44,6 +45,7 @@ class CsvItemImporter implements
     TaskParameterProviderInterface
 {
     use LoggerAwareTrait;
+    use OntologyAwareTrait;
     use PhpSerializeStateless;
     use EventManagerAwareTrait;
     use ImportHandlerHelperTrait {
@@ -81,7 +83,7 @@ class CsvItemImporter implements
             $importerResults = $this->getCsvImporter()->import($uploadedFile, $template, $class);
 
             $reportTitle = $reportBuilder->getReportTitle($importerResults);
-            $report = $reportBuilder->buildReportsContainer($reportTitle, $reportTitle, $importerResults);
+            $report = $reportBuilder->buildReportsContainer($reportTitle, $reportTitle, $importerResults, $importerResults->getFirstItem());
         } catch (InvalidCsvImportException $e) {
             $missingHeaders = implode(', ', $e->getMissingHeaderColumns());
             $errorMessage = __('CSV import failed: required columns are missing (%s)', $missingHeaders);
