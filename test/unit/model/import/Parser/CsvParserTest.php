@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\import\Parser;
 
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\File;
+use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\Parser\CsvLineConverter;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
@@ -60,6 +61,7 @@ class CsvParserTest extends TestCase
                     HeaderValidator::class => $this->headerValidator,
                     LineValidator::class => $this->lineValidator,
                     CsvLineConverter::class => $this->lineConvertor,
+                    LoggerService::SERVICE_ID => $this->createMock(LoggerService::class),
                 ]
             )
         );
