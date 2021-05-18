@@ -70,14 +70,6 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
     }
 
     /**
-     * @return ParsedMetadatum[]
-     */
-    public function processMetadata(ItemInterface $item):array
-    {
-        return $item->getMetadata();
-    }
-
-    /**
      * @return iterable<ProcessedItemResult>
      */
     public function processResultSet(ItemImportResult $itemResults, TemplateInterface $xmlQtiTemplate): iterable
@@ -86,7 +78,7 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
         foreach ($itemResults->getItems() as $lineNumber => $item) {
             $result[$lineNumber] = new ProcessedItemResult(
                 $this->processItem($item, $xmlQtiTemplate),
-                $this->processMetaData($item)
+                $item->getMetadata()
             );
         }
         return $result;
