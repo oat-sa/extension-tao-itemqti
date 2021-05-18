@@ -18,6 +18,8 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import;
 
 use PHPUnit\Framework\TestCase;
@@ -29,7 +31,8 @@ class ParsedChoiceTest extends TestCase
         $id = 'id';
         $choiceScore = 0.0;
         $choice = 'cho';
-        $sut = new ParsedChoice($id, $choice, $choiceScore);
+        $isCorrect = true;
+        $sut = new ParsedChoice($id, $choice, $choiceScore, $isCorrect);
         $this->assertSame($id, $sut->getId());
         $this->assertSame($choice, $sut->getChoice());
         $this->assertSame($choiceScore, $sut->getChoiceScore());
