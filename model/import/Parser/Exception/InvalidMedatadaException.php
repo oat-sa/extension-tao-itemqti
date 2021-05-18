@@ -29,7 +29,7 @@ class InvalidMedatadaException extends Exception
 {
     public function __construct(array $aliases)
     {
-        $message = __('Metadata with aliases %s is not correct', implode(', ', $aliases));
+        $message = __('Metadata with aliases %s are not correct', implode(', ', $aliases));
 
         parent::__construct($message);
     }
