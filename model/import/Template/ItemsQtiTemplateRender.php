@@ -75,7 +75,6 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
     public function processMetadata(ItemInterface $item):array
     {
         return $item->getMetadata();
-//        return '';
     }
 
     /**
