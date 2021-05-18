@@ -67,9 +67,10 @@ class MetadataResolver extends ConfigurableService
                 if ($cachedAliasUri = $this->getCached($classUri, $aliasName)) {
                     $metadatum->setPropertyUri($cachedAliasUri);
                     $errors = $this->validate($property, $aliasName, $metadatum->getMetadatum(), $errors);
-                    $result[$property->getUri()] = $metadatum->getMetadatum();
+                    $result[$cachedAliasUri] = $metadatum->getMetadatum();
                     break;
                 }
+
                 if ($metadatum->getAlias() === $aliasName) {
                     $this->add($classUri, $aliasName, $property->getUri());
                     $metadatum->setPropertyUri($property->getUri());
