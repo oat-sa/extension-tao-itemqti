@@ -26,12 +26,19 @@ use core_kernel_classes_Class;
 use helpers_TimeOutHelper;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
+use oat\oatbox\reporting\ReportInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\form\ElementMapFactory;
+use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidMedatadaException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\qti\metadata\MetadataValidator;
+use tao_models_classes_dataBinding_GenerisFormDataBinder;
+use tao_models_classes_dataBinding_GenerisFormDataBindingException;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -65,7 +72,10 @@ class CsvItemImportHandler extends ConfigurableService
         // Ask business if we want to revert what was imported (probably, yes)
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
-                $itemImportReport = $importService->importQTIFile($xmlItem, $class, true);
+                $metaData = $this->getMetadataResolver()->resolve($class, $xmlItem->getMetadata());
+
+                $itemImportReport  = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
+                $this->importMetadata($metaData, $itemImportReport);
 
                 if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {
                     $itemValidatorResults->setFirstItem($itemImportReport->getData());
@@ -78,6 +88,12 @@ class CsvItemImportHandler extends ConfigurableService
                     $itemValidatorResults->addErrorReport($lineNumber, $error);
                     $errorReportsImport++;
                 }
+            } catch (InvalidMedatadaException $exception) {
+                $error = new InvalidImportException();
+                $error->addError($lineNumber, $exception->getMessage());
+
+                $itemValidatorResults->addErrorReport($lineNumber, $error);
+                $errorReportsImport++;
             } catch (Throwable $exception) {
                 $this->getLogger()->warning(
                     sprintf('Tabular import: import failure %s', $exception->getMessage())
@@ -89,7 +105,7 @@ class CsvItemImportHandler extends ConfigurableService
                 $errorReportsImport++;
 
                 $error = new InvalidImportException();
-                $error->addError($lineNumber, $exception->getMessage(),'');
+                $error->addError($lineNumber, $exception->getMessage(), '');
 
                 $itemValidatorResults->addErrorReport($lineNumber, $error);
             }
@@ -115,5 +131,20 @@ class CsvItemImportHandler extends ConfigurableService
     private function getTemplateProcessor(): ItemsQtiTemplateRender
     {
         return $this->getServiceLocator()->get(ItemsQtiTemplateRender::class);
+    }
+
+    private function getMetadataResolver(): MetadataResolver
+    {
+        return $this->getServiceManager()->get(MetadataResolver::class);
+    }
+
+    /**
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
+     */
+    private function importMetadata(array $metaData, ReportInterface $itemImportReport): void
+    {
+        $itemRdf  = $itemImportReport->getData();
+        $binder   = new tao_models_classes_dataBinding_GenerisFormDataBinder($itemRdf);
+        $binder->bind($metaData);
     }
 }
