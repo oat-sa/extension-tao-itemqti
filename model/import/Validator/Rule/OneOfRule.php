@@ -46,7 +46,7 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 
         if (!in_array($value, $allowedValues)) {
             throw new RecoverableLineValidationException(
-                __('invalid value for `%s`(%s), expect values are [%s]', '%s', $value, $allowedValuesRule)
+                __('invalid value for `%s`(%s), expected values are [%s]', '%s', $value, $allowedValuesRule)
             );
         }
     }
