@@ -29,17 +29,18 @@ class ReportBuilder extends ConfigurableService
     public function buildReportsContainer(
         string $outerHeader,
         string $innerHeader,
-        ItemImportResult $importerResults = null
+        ItemImportResult $importerResults = null,
+        $class = null
     ): Report {
         if ($importerResults && 0 === $importerResults->getTotalSuccessfulImport()) {
             $report = Report::createError($outerHeader, []);
             $report->add(Report::createError($innerHeader, []));
         } else {
-            $report = Report::createInfo($outerHeader, []);
+            $report = Report::createInfo($outerHeader, $class);
             if (0 == count($importerResults->getWarningReports()) && 0 === count($importerResults->getErrorReports())) {
                 $report = Report::createSuccess($outerHeader, []);
             }
-            $report->add(Report::createSuccess($innerHeader, []));
+            $report->add(Report::createSuccess($innerHeader, $class));
         }
         return $report;
     }

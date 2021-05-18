@@ -81,7 +81,7 @@ class CsvItemImporter implements
             $importerResults = $this->getCsvImporter()->import($uploadedFile, $template, $class);
 
             $reportTitle = $reportBuilder->getReportTitle($importerResults);
-            $report = $reportBuilder->buildReportsContainer($reportTitle, $reportTitle, $importerResults);
+            $report = $reportBuilder->buildReportsContainer($reportTitle, $reportTitle, $importerResults, $class);
         } catch (InvalidCsvImportException $e) {
             $missingHeaders = implode(', ', $e->getMissingHeaderColumns());
             $errorMessage = __('CSV import failed: required columns are missing (%s)', $missingHeaders);
