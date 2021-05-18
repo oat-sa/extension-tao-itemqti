@@ -23,12 +23,13 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Metadata;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\taoQtiItem\model\import\ParsedMetadatum;
-
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidMedatadaException;
 
 class MetadataResolver extends ConfigurableService
 {
@@ -38,50 +39,68 @@ class MetadataResolver extends ConfigurableService
     private $cache = [];
 
     /**
-     * @param  ParsedMetadatum[]  $metadata
+     * @param ParsedMetadatum[] $metadata
      *
      * @return ParsedMetadatum[]
      */
     public function resolve(core_kernel_classes_Class $class, array $metadata): array
     {
-        $result          = [];
-        $aliasProperty   = $this->getProperty(GenerisRdf::PROPERTY_ALIAS);
+        $result = [];
+        $aliasProperty = $this->getProperty(GenerisRdf::PROPERTY_ALIAS);
         $classProperties = $class->getProperties(true);
-        $classUri        = $class->getUri();
-        $unproceededMetaData = $this->getUnproceededMetadata($metadata);
-        if (0 === count($unproceededMetaData)) {
+        $classUri = $class->getUri();
+        $metaDataWithAlias = $this->getMetadataWithAlias($metadata);
+        $errors = [];
+
+        if (empty($metaDataWithAlias)) {
             return $metadata;
         }
+
         foreach ($classProperties as $property) {
             $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
 
-            foreach ($unproceededMetaData as $metadatum) {
+            if (empty($aliasName)) {
+                continue;
+            }
+
+            foreach ($metaDataWithAlias as $metadatum) {
                 if ($cachedAliasUri = $this->getCached($classUri, $aliasName)) {
                     $metadatum->setPropertyUri($cachedAliasUri);
-                    $this->validate($property, $metadatum->getMetadatum());
-                    $result[$property->getUri()] = $metadatum;
+                    $errors = $this->validate($property, $aliasName, $metadatum->getMetadatum(), $errors);
+                    $result[$property->getUri()] = $metadatum->getMetadatum();
                     break;
                 }
                 if ($metadatum->getAlias() === $aliasName) {
                     $this->add($classUri, $aliasName, $property->getUri());
                     $metadatum->setPropertyUri($property->getUri());
-                    $this->validate($property, $metadatum->getMetadatum());
-                    $result[$property->getUri()] = $metadatum;
+                    $errors = $this->validate($property, $aliasName, $metadatum->getMetadatum(), $errors);
+                    $result[$property->getUri()] = $metadatum->getMetadatum();
                     break;
                 }
             }
         }
 
-        return $result;
+        if (empty($errors)) {
+            return $result;
+        }
+
+        throw new InvalidMedatadaException($errors);
     }
 
-    private function validate(\core_kernel_classes_Property $property, string $value): void
-    {
+    private function validate(
+        core_kernel_classes_Property $property,
+        string $alias,
+        string $value,
+        array $errors
+    ): array {
         $element = $this->getElementMapFactory()->create($property);
         $element->setValue($value);
-        $result = $element->validate();
-        \common_Logger::e(print_r($result, true));
-        \common_Logger::e(print_r($value, true));
+
+        if (!$element->validate()) {
+            $errors[] = $alias;
+        }
+
+        return $errors;
     }
 
     private function isEmptyAlias(ParsedMetadatum $metadata): bool
@@ -90,11 +109,11 @@ class MetadataResolver extends ConfigurableService
     }
 
     /**
-     * @param  ParsedMetadatum[]  $metadata
+     * @param ParsedMetadatum[] $metadata
      *
      * @return ParsedMetadatum[]
      */
-    private function getUnproceededMetadata(array $metadata): array
+    private function getMetadataWithAlias(array $metadata): array
     {
         return array_filter($metadata, [$this, 'isEmptyAlias']);
     }

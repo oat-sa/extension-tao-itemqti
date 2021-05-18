@@ -32,6 +32,7 @@ use oat\tao\helpers\form\ElementMapFactory;
 use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidMedatadaException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
 use oat\taoQtiItem\model\qti\ImportService;
@@ -85,6 +86,12 @@ class CsvItemImportHandler extends ConfigurableService
                     $itemValidatorResults->addErrorReport($lineNumber, $error);
                     $errorReportsImport++;
                 }
+            } catch (InvalidMedatadaException $exception) {
+                $error = new InvalidImportException();
+                $error->addError($lineNumber, $exception->getMessage());
+
+                $itemValidatorResults->addErrorReport($lineNumber, $error);
+                $errorReportsImport++;
             } catch (Throwable $exception) {
                 $this->getLogger()->warning(
                     sprintf('Tabular import: import failure %s', $exception->getMessage())

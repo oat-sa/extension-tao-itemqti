@@ -31,7 +31,7 @@ class MetadataParser extends ConfigurableService implements ColumnParserInterfac
         $parsedMetadata = [];
         $columnName = $fields['columnName'];
 
-        $metadata = array_filter($this->findKeysByMask($columnName, $line));
+        $metadata = $this->findKeysByMask($columnName, $line);
 
         foreach ($metadata as $metadataAlias => $metadatum) {
             $parsedMetadata[] = new ParsedMetadatum($metadatum, str_replace('metadata_', '', $metadataAlias));
