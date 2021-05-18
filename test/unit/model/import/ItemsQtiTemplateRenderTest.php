@@ -17,6 +17,8 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\test\unit\model\import;
 
 use oat\taoQtiItem\model\import\ItemInterface;
@@ -27,19 +29,44 @@ use Renderer;
 
 class ItemsQtiTemplateRenderTest extends TestCase
 {
-    public function testProcess(): void
+    /** @var ItemsQtiTemplateRender */
+    private $subject;
+
+    public function setUp(): void
     {
         $renderMock = $this->createMock(Renderer::class);
         $renderMock->expects($this->once())->method('render')->willReturn('');
 
+        $this->subject = new ItemsQtiTemplateRender();
+        $this->subject->withRenderer($renderMock);
+    }
+
+    public function testProcess(): void
+    {
         $itemMock = $this->createMock(ItemInterface::class);
-        $itemMock->expects($this->once())->method('getName');
+
+        $itemMock->expects($this->once())
+            ->method('getName');
+
+        $itemMock->expects($this->any())
+            ->method('isNoneResponse')
+            ->willReturn(true);
 
         $templateMock = $this->createMock(TemplateInterface::class);
-        $templateMock->expects($this->once())->method('getQtiTemplate');
+        $templateMock->expects($this->any())
+            ->method('getDefinition')
+            ->willReturn(
+                [
+                    'target' => [
+                        'templatePath' => [
+                            'noResponse' => '...',
+                            'mapResponse' => '...',
+                            'matchCorrectResponse' => '...',
+                        ],
+                    ],
+                ]
+            );
 
-        $subject = new ItemsQtiTemplateRender();
-        $subject->withRenderer($renderMock);
-        $this->assertSame('', $subject->processItem($itemMock, $templateMock));
+        $this->assertSame('', $this->subject->processItem($itemMock, $templateMock));
     }
 }
