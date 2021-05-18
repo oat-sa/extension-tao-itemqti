@@ -24,7 +24,8 @@ use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
 class OneOfColumnsOrEmptyRule extends AbstractGroupRule implements ValidationRuleInterface
 {
-    /**
+    /** redirectUrl: "https://demo.udir.taocloud.org/taoBackOffice/Redirector/redirectTaskToInstance?taskId=https%3A%2F%2Fdemo.udir.taocloud.org%2Ftao.rdf%23i60a365bf5011b1110c6f4aebc1fbf834"
+
      * @throws InvalidImportException
      */
     public function validate($value, $rules = null, array $context = []): void

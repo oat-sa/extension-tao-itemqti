@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\import\Report;
 
+use core_kernel_classes_Resource;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
@@ -30,17 +31,18 @@ class ReportBuilder extends ConfigurableService
         string $outerHeader,
         string $innerHeader,
         ItemImportResult $importerResults = null,
-        $class = []
+        core_kernel_classes_Resource $resource = null
     ): Report {
+        $resource = $resource ?? [];
         if ($importerResults && 0 === $importerResults->getTotalSuccessfulImport()) {
             $report = Report::createError($outerHeader, []);
             $report->add(Report::createError($innerHeader, []));
         } else {
-            $report = Report::createInfo($outerHeader, $class);
+            $report = Report::createInfo($outerHeader, $resource);
             if (0 == count($importerResults->getWarningReports()) && 0 === count($importerResults->getErrorReports())) {
-                $report = Report::createSuccess($outerHeader, []);
+                $report = Report::createSuccess($outerHeader, $resource);
             }
-            $report->add(Report::createSuccess($innerHeader, $class));
+            $report->add(Report::createSuccess($innerHeader, $resource));
         }
         return $report;
     }

@@ -68,6 +68,8 @@ class CsvItemImportHandler extends ConfigurableService
                 $itemImportReport = $importService->importQTIFile($xmlItem, $class, true);
 
                 if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {
+                    $itemValidatorResults->setFirstItem($itemImportReport->getData());
+
                     $successReportsImport++;
                 } else {
                     $error = new InvalidImportException();
