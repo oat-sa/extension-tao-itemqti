@@ -76,7 +76,6 @@ class HeaderValidatorTest extends TestCase
             $this->assertContains('name', $exception->getMissingHeaderColumns());
             $this->assertContains('question', $exception->getMissingHeaderColumns());
             $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
-            $this->assertContains('choice_[1-99]_score', $exception->getMissingHeaderColumns());
         }
     }
 
@@ -115,7 +114,6 @@ class HeaderValidatorTest extends TestCase
             $this->assertContains('name', $exception->getMissingHeaderColumns());
             $this->assertContains('question', $exception->getMissingHeaderColumns());
             $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
-            $this->assertContains('choice_[1-99]_score', $exception->getMissingHeaderColumns());
         }
     }
 
@@ -129,7 +127,6 @@ class HeaderValidatorTest extends TestCase
             $this->assertContains('name', $exception->getMissingHeaderColumns());
             $this->assertContains('question', $exception->getMissingHeaderColumns());
             $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
-            $this->assertContains('choice_[1-99]_score', $exception->getMissingHeaderColumns());
         }
     }
 
@@ -137,8 +134,7 @@ class HeaderValidatorTest extends TestCase
     {
         return new CsvTemplate(
             CsvTemplateRepository::DEFAULT,
-            CsvTemplateRepository::DEFAULT_DEFINITION,
-            CsvTemplateRepository::DEFAULT_XML
+            CsvTemplateRepository::DEFAULT_DEFINITION
         );
     }
 }

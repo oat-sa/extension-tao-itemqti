@@ -31,7 +31,6 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 {
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
-        $this->getLogger()->debug('Tabular import: header validation started');
         $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
 
         $validationConfig = $decorator->getCsvColumns();
