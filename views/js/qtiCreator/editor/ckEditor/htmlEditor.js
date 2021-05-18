@@ -319,7 +319,8 @@ define([
      * @param {String} serial
      */
     function _findWidgetContainer($container, serial){
-        return $container.find('.widget-box[data-serial=' + serial + ']');
+        // re-query widget container to apply changes in case of deletion
+        return $($container.selector).find('.widget-box[data-serial=' + serial + ']');
     }
 
     /**
