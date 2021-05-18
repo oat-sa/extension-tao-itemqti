@@ -63,19 +63,12 @@ class MetadataResolver extends ConfigurableService
                 continue;
             }
 
-            foreach ($metaDataWithAlias as $metadatum) {
-                if ($cachedAliasUri = $this->getCached($classUri, $aliasName)) {
-                    $metadatum->setPropertyUri($cachedAliasUri);
-                    $errors = $this->validate($property, $aliasName, $metadatum->getMetadatum(), $errors);
-                    $result[$cachedAliasUri] = $metadatum->getMetadatum();
-                    break;
-                }
-
-                if ($metadatum->getAlias() === $aliasName) {
-                    $this->add($classUri, $aliasName, $property->getUri());
-                    $metadatum->setPropertyUri($property->getUri());
-                    $errors = $this->validate($property, $aliasName, $metadatum->getMetadatum(), $errors);
-                    $result[$property->getUri()] = $metadatum->getMetadatum();
+            foreach ($metaDataWithAlias as $metaDataItem) {
+                if ($metaDataItem->getAlias() === $aliasName) {
+                    $propertyUri = $this->getPropertyUri($property, $classUri, $aliasName);
+                    $metaDataItem->setPropertyUri($propertyUri);
+                    $errors = $this->validate($property, $aliasName, $metaDataItem->getValue(), $errors);
+                    $result[$propertyUri] = $metaDataItem->getValue();
                     break;
                 }
             }
@@ -130,6 +123,17 @@ class MetadataResolver extends ConfigurableService
     private function getCached(string $classUri, string $aliasName): ?string
     {
         return $this->cache[$classUri . $aliasName] ?? null;
+    }
+
+    private function getPropertyUri(core_kernel_classes_Property $property, string $classUri, string $aliasName): ?string
+    {
+        $cachedPropertyUri = $this->getCached($classUri, $aliasName);
+        if(null !== $cachedPropertyUri) {
+            return $cachedPropertyUri;
+        }
+
+        $this->add($classUri, $aliasName, $property->getUri());
+        return $property->getUri();
     }
 
     private function getElementMapFactory(): ElementMapFactory

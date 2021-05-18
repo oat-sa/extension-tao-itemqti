@@ -39,7 +39,7 @@ class ParsedMetadatum
         $this->alias = $alias;
     }
 
-    public function getMetadatum(): string
+    public function getValue(): string
     {
         return $this->metadatum;
     }
