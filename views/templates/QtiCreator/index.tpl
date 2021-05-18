@@ -33,7 +33,6 @@ use oat\tao\helpers\Template;
 
     <!-- item panel -->
     <main id="item-editor-panel" class="clearfix">
-
         <div class="item-editor-bar">
             <h1 class="truncate"></h1>
             <div id="toolbar-top"></div>
@@ -222,7 +221,6 @@ use oat\tao\helpers\Template;
             <div class="item-editor-choice-related sidebar-right-section-box" id="item-editor-choice-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-choice-properties">
                     <h2><?= __('Choice Properties') ?></h2>
-
                     <div class="panel"></div>
                 </section>
             </div>
