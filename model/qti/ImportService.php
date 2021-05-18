@@ -48,7 +48,6 @@ use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
-use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
@@ -136,30 +135,6 @@ class ImportService extends ConfigurableService
         }
 
         return $report;
-    }
-
-    public function importQTIAndMetadataFile(string $qtiFile, string $metaData, core_kernel_classes_Class $itemClass): core_kernel_classes_Resource
-    {
-//        $metadataImporter = $this->getMetadataImporter();
-//
-//        // The metadata import feature needs a DOM representation of the manifest.
-//        $domManifest = new \DOMDocument('1.0', 'UTF-8');
-//        $domManifest->loadXML($metaData);
-//        $metadataValues = $metadataImporter->extract($domManifest);
-//
-//        $metadataImporter->setMetadataValues($metadataValues);
-
-        $qtiModel = $this->createQtiItemModel($qtiFile, true);
-        $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
-
-        /** @var MetadataExporter $metaDataExporter */
-        $metaDataExporter = $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
-
-        \common_Logger::e(print_r($metaDataExporter->extract($rdfItem), true));
-
-//        $this->getMetadataImporter()->inject($qtiModel->getIdentifier(), $rdfItem);
-
-        return $rdfItem;
     }
 
     /**
@@ -650,7 +625,7 @@ class ImportService extends ConfigurableService
                 if (isset($sharedStimulusHandler) && $sharedStimulusHandler instanceof SharedStimulusAssetHandler) {
                     $sharedFiles = $sharedStimulusHandler->getSharedFiles();
                 }
-                
+
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
