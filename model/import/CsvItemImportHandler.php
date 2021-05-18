@@ -56,20 +56,12 @@ class CsvItemImportHandler extends ConfigurableService
 
         $itemValidatorResults = $this->getParser()->parseFile($uploadedFile, $template);
 
-        // 1 - You validate header (Breaks import)
-        // 2 - Validate line by line (Follow until the end and stores error + warnings)
-        // 3 - Parse the lines replacing to default content if necessary (Output = XML string)
-        // 4 - For each xmlstring, tries to create a QTI Item (import to DB + FS).
-
         $successReportsImport = 0;
         $importService = $this->getItemImportService();
         $templateProcessor = $this->getTemplateProcessor();
         $errorReportsImport = count($itemValidatorResults->getErrorReports());
         $xmlItems = $templateProcessor->processResultSet($itemValidatorResults, $template);
 
-        // Maybe extract and increment $itemValidatorResults with errors?
-        // Maybe rollback if import item does not work
-        // Ask business if we want to revert what was imported (probably, yes)
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
                 $metaData = $this->getMetadataResolver()->resolve($class, $xmlItem->getMetadata());
