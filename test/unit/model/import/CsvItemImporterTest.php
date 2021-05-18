@@ -38,6 +38,7 @@ class CsvItemImporterTest extends TestCase
 
     public function testGetForm(): void
     {
+        $this->markTestSkipped('Refactoring of underlying code is required');
         $this->assertInstanceOf(tao_helpers_form_xhtml_Form::class, $this->subject->getForm());
     }
 

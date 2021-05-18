@@ -23,13 +23,9 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ParsedChoice;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 
 class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 {
-    /**
-     * @throws RecoverableLineValidationException
-     */
     public function parse(array $line, array $rules, array $fields): array
     {
         $parsedChoices = [];
@@ -40,11 +36,8 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
         $choicesScores = $this->findKeysByMask($columnPattern, $line);
 
         $correctAnswers = $this->findCorrectAnswers($line);
-        $missingScoresCount = 0;
+
         foreach ($choices as $choiceId => $choice) {
-            if (!isset($choicesScores[$choiceId . '_score'])) {
-                $missingScoresCount++;
-            }
 
             $parsedChoices[] = new ParsedChoice(
                 $choiceId,
@@ -52,11 +45,6 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
                 (float)$choicesScores[$choiceId . '_score'],
                 in_array($choiceId, $correctAnswers)
             );
-        }
-
-        //@TODO Validate scores requirements properly
-        if ($missingScoresCount > 0 && $missingScoresCount != count($parsedChoices)) {
-//            throw new RecoverableLineValidationException('Choices do not match their scores 1:1');
         }
 
         return $parsedChoices;
