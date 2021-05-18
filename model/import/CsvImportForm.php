@@ -94,11 +94,14 @@ class CsvImportForm extends tao_models_classes_import_CsvUploadForm
         );
 
         $this->form->addElement($formElement);
+        $downloadLink = '#';
         $this->form->createGroup(
             'file',
-            __(
-                'Import item content and metadata from CSV file. Only choice interactions are supported. <a href="%s">[Download sample csv file]</a>',
-                '#'
+            sprintf(
+                '%s <a href="%s">[%s]</a>',
+                __('Import item content and metadata from CSV file. Only choice interactions are supported.'),
+                $downloadLink,
+                __('Download sample csv file')
             ),
             [
                 'source'
