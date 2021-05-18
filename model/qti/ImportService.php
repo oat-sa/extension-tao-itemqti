@@ -625,7 +625,7 @@ class ImportService extends ConfigurableService
                 if (isset($sharedStimulusHandler) && $sharedStimulusHandler instanceof SharedStimulusAssetHandler) {
                     $sharedFiles = $sharedStimulusHandler->getSharedFiles();
                 }
-                
+
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
