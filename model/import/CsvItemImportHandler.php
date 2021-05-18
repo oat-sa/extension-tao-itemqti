@@ -32,7 +32,7 @@ use oat\tao\helpers\form\ElementMapFactory;
 use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidMedatadaException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidMetadataException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
 use oat\taoQtiItem\model\qti\ImportService;
@@ -88,7 +88,7 @@ class CsvItemImportHandler extends ConfigurableService
                     $itemValidatorResults->addErrorReport($lineNumber, $error);
                     $errorReportsImport++;
                 }
-            } catch (InvalidMedatadaException $exception) {
+            } catch (InvalidMetadataException $exception) {
                 $error = new InvalidImportException();
                 $error->addError($lineNumber, $exception->getMessage());
 

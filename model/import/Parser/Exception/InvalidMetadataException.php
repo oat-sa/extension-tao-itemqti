@@ -25,11 +25,17 @@ namespace oat\taoQtiItem\model\import\Parser\Exception;
 
 use Exception;
 
-class InvalidMedatadaException extends Exception
+class InvalidMetadataException extends Exception
 {
-    public function __construct(array $aliases)
+    public function __construct(array $errorsByAlias)
     {
-        $message = __('Metadata with aliases %s are not correct', implode(', ', $aliases));
+        $messages = [];
+
+        foreach ($errorsByAlias as $alias => $message) {
+            $messages[] = '"' . $alias . '" ' . $message;
+        }
+
+        $message = __('Metadata are not correct: %s', implode('. ', $messages));
 
         parent::__construct($message);
     }

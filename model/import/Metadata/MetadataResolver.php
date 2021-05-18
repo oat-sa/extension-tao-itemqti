@@ -29,7 +29,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\taoQtiItem\model\import\ParsedMetadatum;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidMedatadaException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidMetadataException;
 
 class MetadataResolver extends ConfigurableService
 {
@@ -85,7 +85,7 @@ class MetadataResolver extends ConfigurableService
             return $result;
         }
 
-        throw new InvalidMedatadaException($errors);
+        throw new InvalidMetadataException($errors);
     }
 
     private function validate(
@@ -98,7 +98,7 @@ class MetadataResolver extends ConfigurableService
         $element->setValue($value);
 
         if (!$element->validate()) {
-            $errors[] = $alias;
+            $errors[$alias] = $element->getError();
         }
 
         return $errors;
