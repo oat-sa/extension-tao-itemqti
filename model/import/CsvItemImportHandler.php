@@ -28,12 +28,14 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\reporting\ReportInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\form\ElementMapFactory;
 use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\qti\metadata\MetadataValidator;
 use tao_models_classes_dataBinding_GenerisFormDataBinder;
 use tao_models_classes_dataBinding_GenerisFormDataBindingException;
 use Throwable;
@@ -69,10 +71,9 @@ class CsvItemImportHandler extends ConfigurableService
         // Ask business if we want to revert what was imported (probably, yes)
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
-                $itemImportReport        = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
-                $resolvedMetadataAliases = $this->getMetadataResolver()->resolveAliases($class, $xmlItem->getMetadata());
-                $metaData = $this->getMetadataResolver()->prepareBindableMetadata($resolvedMetadataAliases);
+                $metaData = $this->getMetadataResolver()->resolve($class, $xmlItem->getMetadata());
 
+                $itemImportReport  = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
                 $this->importMetadata($metaData, $itemImportReport);
 
                 if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {

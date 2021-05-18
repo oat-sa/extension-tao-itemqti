@@ -26,6 +26,7 @@ use core_kernel_classes_Class;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\form\ElementMapFactory;
 use oat\taoQtiItem\model\import\ParsedMetadatum;
 
 
@@ -41,28 +42,31 @@ class MetadataResolver extends ConfigurableService
      *
      * @return ParsedMetadatum[]
      */
-    public function resolveAliases(core_kernel_classes_Class $class, array $metadata): array
+    public function resolve(core_kernel_classes_Class $class, array $metadata): array
     {
         $result          = [];
         $aliasProperty   = $this->getProperty(GenerisRdf::PROPERTY_ALIAS);
         $classProperties = $class->getProperties(true);
         $classUri        = $class->getUri();
+        $unproceededMetaData = $this->getUnproceededMetadata($metadata);
+        if (0 === count($unproceededMetaData)) {
+            return $metadata;
+        }
         foreach ($classProperties as $property) {
-            if (0 === count($this->getUnproceededMetadata($metadata))) {
-                return $metadata;
-            }
             $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
 
-            foreach ($this->getUnproceededMetadata($metadata) as $metadatum) {
+            foreach ($unproceededMetaData as $metadatum) {
                 if ($cachedAliasUri = $this->getCached($classUri, $aliasName)) {
-                    $metadatum->setAliasUri($cachedAliasUri);
-                    $result[] = $metadatum;
+                    $metadatum->setPropertyUri($cachedAliasUri);
+                    $this->validate($property, $metadatum->getMetadatum());
+                    $result[$property->getUri()] = $metadatum;
                     break;
                 }
                 if ($metadatum->getAlias() === $aliasName) {
                     $this->add($classUri, $aliasName, $property->getUri());
-                    $metadatum->setAliasUri($property->getUri());
-                    $result[] = $metadatum;
+                    $metadatum->setPropertyUri($property->getUri());
+                    $this->validate($property, $metadatum->getMetadatum());
+                    $result[$property->getUri()] = $metadatum;
                     break;
                 }
             }
@@ -71,23 +75,18 @@ class MetadataResolver extends ConfigurableService
         return $result;
     }
 
-
-    /**
-     * @param  ParsedMetadatum[]  $resolvedMetadata
-     */
-    public function prepareBindableMetadata(array $resolvedMetadata): array
+    private function validate(\core_kernel_classes_Property $property, string $value): void
     {
-        $result = [];
-        foreach ($resolvedMetadata as $metadatum) {
-            $result[$metadatum->getAliasUri()] = $metadatum->getMetadatum();
-        }
-
-        return $result;
+        $element = $this->getElementMapFactory()->create($property);
+        $element->setValue($value);
+        $result = $element->validate();
+        \common_Logger::e(print_r($result, true));
+        \common_Logger::e(print_r($value, true));
     }
 
     private function isEmptyAlias(ParsedMetadatum $metadata): bool
     {
-        return empty($metadata->getAliasUri());
+        return empty($metadata->getPropertyUri());
     }
 
     /**
@@ -111,5 +110,10 @@ class MetadataResolver extends ConfigurableService
     private function getCached(string $classUri, string $aliasName): ?string
     {
         return $this->cache[$classUri . $aliasName] ?? null;
+    }
+
+    private function getElementMapFactory(): ElementMapFactory
+    {
+        return $this->getServiceManager()->get(ElementMapFactory::class);
     }
 }

@@ -31,13 +31,12 @@ class ParsedMetadatum
     private $alias;
 
     /** @var string */
-    private $aliasUri;
+    private $propertyUri;
 
-    public function __construct(string $metadatum, string $alias, string $aliasUri = null)
+    public function __construct(string $metadatum, string $alias)
     {
         $this->metadatum = $metadatum;
         $this->alias = $alias;
-        $this->aliasUri = $aliasUri;
     }
 
     public function getMetadatum(): string
@@ -50,14 +49,14 @@ class ParsedMetadatum
         return $this->alias;
     }
 
-    public function getAliasUri(): ?string
+    public function getPropertyUri(): ?string
     {
-        return $this->aliasUri;
+        return $this->propertyUri;
     }
 
-    public function setAliasUri(string $aliasUri): void
+    public function setPropertyUri(string $propertyUri): void
     {
-        $this->aliasUri = $aliasUri;
+        $this->propertyUri = $propertyUri;
     }
 
 
