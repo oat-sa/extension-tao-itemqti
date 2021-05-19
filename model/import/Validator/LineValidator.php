@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
-use Exception;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
@@ -33,7 +32,7 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 class LineValidator extends ConfigurableService implements ValidatorInterface
 {
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
@@ -52,12 +51,13 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
                         $validator->validate($content[$headerRegex] ?? null, $rules, $content);
                     } catch (RecoverableLineValidationException $exception) {
                         $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
-                    } catch (InvalidImportException|InvalidCsvImportException $exception){
+                    } catch (InvalidImportException | InvalidCsvImportException $exception) {
                         $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
                     }
                 }
             }
         }
+
         if ($warnings->getTotalWarnings() || $warnings->getTotalErrors()) {
             throw $warnings;
         }

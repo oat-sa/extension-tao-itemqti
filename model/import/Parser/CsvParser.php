@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
-
     /**
      * @throws InvalidImportException
      */
@@ -52,35 +51,57 @@ class CsvParser extends ConfigurableService implements ParserInterface
         $items = [];
         $validationReport = [];
         $errorsReport = [];
+        $currentLineNumber = 0;
+        $logger = $this->getLogger();
+        $lineValidator = $this->getLineValidator();
+        $csvLineConverter = $this->getCsvLineConverter();
+
         foreach (array_filter($lines) as $lineNumber => $line) {
-            $humanReadableNumber = $lineNumber + 1;
+            $currentLineNumber = $lineNumber + 1;
             $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
             $headedLine = array_combine($header, $parsedLine);
 
             try {
-                $this->getLogger()->debug(sprintf('Tabular import: line %s validation started', $lineNumber));
-                $this->getLineValidator()->validate($headedLine, $template);
-                $this->getLogger()->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
+                $logger->debug(sprintf('Tabular import: line %s validation started', $lineNumber));
+
+                $lineValidator->validate($headedLine, $template);
+
+                $logger->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
             } catch (RecoverableLineValidationException $exception) {
                 if ($exception->getTotalErrors()) {
-                    $errorsReport[$humanReadableNumber] = $exception;
+                    $errorsReport[$currentLineNumber] = $exception;
                     continue;
                 }
-                $validationReport[$humanReadableNumber] = $exception;
 
+                $validationReport[$currentLineNumber] = $exception;
             } catch (InvalidImportException | InvalidCsvImportException $exception) {
-                $errorsReport[$humanReadableNumber] = $exception;
+                $errorsReport[$currentLineNumber] = $exception;
                 continue;
             }
-            $this->getLogger()->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
-            $items[$humanReadableNumber] = $this->getCsvLineConverter()->convert(
-                $headedLine,
-                $template,
-                $validationReport[$humanReadableNumber] ?? null
-            );
-            $this->getLogger()->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
+
+            $logger->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
+
+            $item = $csvLineConverter->convert($headedLine, $template, $validationReport[$currentLineNumber] ?? null);
+
+            if ($item->isNoneResponse()) {
+                $warning = new RecoverableLineValidationException();
+                $warning->addWarning(
+                    $lineNumber,
+                    __(
+                        'A value should be provided for at least one of the columns: %s',
+                        'choice_[1-99]_score, correct_answer'
+                    )
+                );
+
+                $validationReport[$currentLineNumber] = $warning;
+            }
+
+            $items[$currentLineNumber] = $item;
+
+            $logger->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
         }
-        return new ItemImportResult($items, $validationReport, $errorsReport, $humanReadableNumber);
+
+        return new ItemImportResult($items, $validationReport, $errorsReport, $currentLineNumber);
     }
 
     private function trimLine(array $line): array
