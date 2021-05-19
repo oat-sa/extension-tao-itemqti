@@ -34,16 +34,20 @@ class ReportBuilder extends ConfigurableService
         core_kernel_classes_Resource $resource = null
     ): Report {
         $resource = $resource ?? [];
-        if ($importerResults && 0 === $importerResults->getTotalSuccessfulImport()) {
+        if (!$importerResults || 0 === $importerResults->getTotalSuccessfulImport()) {
             $report = Report::createError($outerHeader, []);
             $report->add(Report::createError($innerHeader, []));
-        } else {
-            $report = Report::createInfo($outerHeader, $resource);
-            if (0 == count($importerResults->getWarningReports()) && 0 === count($importerResults->getErrorReports())) {
-                $report = Report::createSuccess($outerHeader, $resource);
-            }
-            $report->add(Report::createSuccess($innerHeader, $resource));
+
+            return $report;
         }
+
+        $type = (0 == count($importerResults->getWarningReports()) && 0 === count(
+                $importerResults->getErrorReports()
+            )) ? Report::TYPE_SUCCESS : Report::TYPE_INFO;
+
+        $report = new Report($type, $outerHeader, $resource);
+        $report->add(Report::createSuccess($innerHeader, $resource));
+
         return $report;
     }
 
