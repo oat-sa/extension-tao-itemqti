@@ -29,6 +29,9 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 
 class HeaderValidator extends ConfigurableService implements ValidatorInterface
 {
+    /**
+     * @inheritDoc
+     */
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
         $decorator = new CvsToQtiTemplateDecorator($csvTemplate);

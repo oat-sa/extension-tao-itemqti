@@ -1,6 +1,6 @@
 <?php
+
 /*
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,6 +17,8 @@
  *
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
