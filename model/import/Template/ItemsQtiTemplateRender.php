@@ -23,11 +23,9 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Template;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
-use oat\taoQtiItem\model\import\ParsedMetadatum;
 use oat\taoQtiItem\model\import\ProcessedItemResult;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use Renderer;

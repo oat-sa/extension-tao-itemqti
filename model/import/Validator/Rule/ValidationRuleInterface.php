@@ -1,6 +1,6 @@
 <?php
+
 /*
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,14 +18,18 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 
 interface ValidationRuleInterface
 {
     /**
-     * @throws RecoverableLineValidationException
+     * @throws RecoverableLineValidationException|InvalidImportException|InvalidCsvImportException
      */
     public function validate($value, $rules = null, array $context = []): void;
 }
