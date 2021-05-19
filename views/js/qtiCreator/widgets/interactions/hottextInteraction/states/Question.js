@@ -170,8 +170,9 @@ define([
 
         $newHottextBtn.on('mousedown.hottextcreator', function() {
             $newHottextBtn.hide();
-            if (wrapper.wrapHTMLWith($newHottext)) {
-                self.createNewHottext($newHottext.clone());
+            const $newHottextClone = $newHottext.clone();
+            if (wrapper.wrapHTMLWith($newHottextClone)) {
+                self.createNewHottext($newHottextClone);
             }
         });
     };
