@@ -1155,7 +1155,11 @@ img.dragging.ui-draggable-dragging {
             right:-32px !important;
         }
     }
-
+    .qti-hottext {
+        .hottext-content {
+            user-select: none;
+        }
+    }
     .qti-gap{
         margin-right: 30px;
     }
