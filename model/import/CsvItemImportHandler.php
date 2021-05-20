@@ -159,7 +159,7 @@ class CsvItemImportHandler extends ConfigurableService
 
             $this->getLogger()->warning(
                 sprintf(
-                    'Tabular import: rollback line `%s` created with uri: `%s`, label: %s',
+                    'Tabular import: line `%s` rollback item with uri `%s` and label %s',
                     $lineNumber,
                     $item->getUri(),
                     $item->getLabel()
