@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2021 (original work) Open Assessment Technologies SA;
  */
 define([
     'jquery',
@@ -32,7 +32,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hottext',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create'
-], function(
+], function (
     $,
     _,
     module,
@@ -49,57 +49,61 @@ define([
     formTpl,
     toolbarTpl,
     newHottextBtnTpl
-){
+) {
     'use strict';
 
     const config = module.config();
     const allowedInlineStaticElts = ['math']; // support for more inline static elements (img...) can be added here
-    var HottextInteractionStateQuestion = stateFactory.extend(Question, function(){
-        this.buildEditor();
-    }, function(){
-        this.destroyEditor();
-    });
+    const HottextInteractionStateQuestion = stateFactory.extend(
+        Question,
+        function () {
+            this.buildEditor();
+        },
+        function () {
+            this.destroyEditor();
+        }
+    );
 
-    HottextInteractionStateQuestion.prototype.buildEditor = function buildEditor(){
-
-        var self = this,
-            _widget = this.widget,
+    HottextInteractionStateQuestion.prototype.buildEditor = function buildEditor() {
+        const _widget = this.widget,
             container = _widget.element.getBody(),
             $container = _widget.$container,
-            $editableContainer = $container.find('.qti-flow-container'),
-            $bodyTlb;
+            $editableContainer = $container.find('.qti-flow-container');
+        let $bodyTlb;
 
         $editableContainer.attr('data-html-editable-container', true);
 
-        if(!htmlEditor.hasEditor($editableContainer)){
-            $bodyTlb = $(toolbarTpl({
-                serial : _widget.serial,
-                state : 'question'
-            }));
+        if (!htmlEditor.hasEditor($editableContainer)) {
+            $bodyTlb = $(
+                toolbarTpl({
+                    serial: _widget.serial,
+                    state: 'question'
+                })
+            );
 
             //add toolbar once only:
             $editableContainer.append($bodyTlb);
             $bodyTlb.show();
 
             //init hot text creator
-            self.initHottextCreator();
+            this.initHottextCreator();
 
             //create editor
             htmlEditor.buildEditor($editableContainer, {
-                shieldInnerContent : false,
-                change : gridContentHelper.getChangeCallbackForBlockStatic(container),
-                data : {
-                    container : container,
-                    widget : _widget
+                shieldInnerContent: false,
+                change: gridContentHelper.getChangeCallbackForBlockStatic(container),
+                data: {
+                    container: container,
+                    widget: _widget
                 }
             });
         }
     };
 
-    HottextInteractionStateQuestion.prototype.destroyEditor = function destroyEditor(){
-        var $container = this.widget.$container,
+    HottextInteractionStateQuestion.prototype.destroyEditor = function destroyEditor() {
+        const $container = this.widget.$container,
             $flowContainer = $container.find('.qti-flow-container'),
-            $editable      = $container.find('.qti-flow-container [data-html-editable]');
+            $editable = $container.find('.qti-flow-container [data-html-editable]');
 
         $editable.off('hottextcreator');
 
@@ -110,25 +114,23 @@ define([
         $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]').remove();
     };
 
-    HottextInteractionStateQuestion.prototype.initForm = function initForm(){
-
-        var widget      = this.widget;
-        var $form       = widget.$form;
-        var interaction = widget.element;
-        var callbacks;
+    HottextInteractionStateQuestion.prototype.initForm = function initForm() {
+        const widget = this.widget;
+        const $form = widget.$form;
+        const interaction = widget.element;
+        let callbacks;
 
         $form.html(formTpl());
 
         //controls min and max choices
         minMaxComponentFactory($form.find('.min-max-panel'), {
-            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
-            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
-            upperThreshold : _.size(interaction.getChoices())
-        }).on('render', function(){
-            var self = this;
-            widget.on('choiceCreated choiceDeleted', function(data){
-                if(data.interaction.serial === interaction.serial){
-                    self.updateThresholds(1, _.size(interaction.getChoices()));
+            min: { value: _.parseInt(interaction.attr('minChoices')) || 0 },
+            max: { value: _.parseInt(interaction.attr('maxChoices')) || 0 },
+            upperThreshold: _.size(interaction.getChoices())
+        }).on('render', function () {
+            widget.on('choiceCreated choiceDeleted', data => {
+                if (data.interaction.serial === interaction.serial) {
+                    this.updateThresholds(1, _.size(interaction.getChoices()));
                 }
             });
         });
@@ -142,20 +144,17 @@ define([
     /**
      * Add the button that allow to create hottext when a selection is made
      */
-    HottextInteractionStateQuestion.prototype.initHottextCreator = function initHottextCreator(){
-        var self = this,
-            interactionWidget = this.widget,
-
-            $editable       = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
-            $flowContainer  = interactionWidget.$container.find('.qti-flow-container'),
-            $toolbar        = $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]'),
-            $newHottextBtn  = $(newHottextBtnTpl()),
-            $newHottext     = $('<span>', {
+    HottextInteractionStateQuestion.prototype.initHottextCreator = function initHottextCreator() {
+        const interactionWidget = this.widget,
+            $editable = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
+            $flowContainer = interactionWidget.$container.find('.qti-flow-container'),
+            $toolbar = $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]'),
+            $newHottextBtn = $(newHottextBtnTpl()),
+            $newHottext = $('<span>', {
                 class: 'widget-box',
                 'data-new': true,
                 'data-qti-class': 'hottext'
             }),
-
             wrapper = selectionWrapper({
                 $container: $editable,
                 allowQtiElements: false,
@@ -166,25 +165,29 @@ define([
         $newHottextBtn.hide();
 
         $editable
-            .on('mouseup.hottextcreator', function() {
+            .on('mouseup.hottextcreator', function () {
                 if (wrapper.canWrap()) {
                     $newHottextBtn.show();
                 } else {
                     $newHottextBtn.hide();
                 }
             })
-            .on('blur.hottextcreator', function() {
+            .on('blur.hottextcreator', function () {
                 $newHottextBtn.hide();
             });
 
-        $newHottextBtn.on('mousedown.hottextcreator', function() {
+        $newHottextBtn.on('mousedown.hottextcreator', () => {
             $newHottextBtn.hide();
             const $newHottextClone = $newHottext.clone();
             const wrapFunction = !config.disallowHTMLInHottext ? 'wrapHTMLWith' : 'wrapWith';
             if (wrapper[wrapFunction]($newHottextClone)) {
-                self.createNewHottext($newHottextClone);
+                this.createNewHottext($newHottextClone);
             } else {
-                feedback().error(__('Cannot create hottext from this selection. Please check that you do not have partially selected elements.'));
+                feedback().error(
+                    __(
+                        'Cannot create hottext from this selection. Please check that you do not have partially selected elements.'
+                    )
+                );
             }
         });
     };
@@ -194,63 +197,64 @@ define([
      * @param {JQueryElement} $hottextContent - content of the hottext. May contain plain text and html if not disallowed by flag disallowHTMLInHottext
      */
     HottextInteractionStateQuestion.prototype.createNewHottext = function createNewHottext($hottextContent) {
-        var interactionWidget = this.widget,
+        const interactionWidget = this.widget,
             interaction = interactionWidget.element,
+            $editable = interactionWidget.$container.find('.qti-flow-container [data-html-editable]');
 
-            $editable = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
+        let $inlineStaticWidgets, newHottextElt, newHottextBody;
 
-            $inlineStaticWidgets,
-            newHottextElt,
-            newHottextBody;
+        htmlContentHelper.createElements(
+            interaction.getBody(),
+            $editable,
+            htmlEditor.getData($editable),
+            function (newHottextWidget) {
+                newHottextElt = newHottextWidget.element;
 
-        htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function (newHottextWidget) {
+                // look for nested inlineStatic elements
+                $inlineStaticWidgets = $hottextContent.find(
+                    allowedInlineStaticElts
+                        .map(function (qtiClass) {
+                            return `.widget-${qtiClass}`;
+                        })
+                        .join(',')
+                );
 
-            newHottextElt = newHottextWidget.element;
+                // update elements hierarchy
+                if ($inlineStaticWidgets && $inlineStaticWidgets.length > 0) {
+                    $inlineStaticWidgets.each(function () {
+                        const serial = $(this).data('serial'),
+                            elt = interaction.getElement(serial),
+                            eltWidget = elt.data('widget');
 
-            // look for nested inlineStatic elements
-            $inlineStaticWidgets = $hottextContent.find(
-                allowedInlineStaticElts
-                    .map(function(qtiClass) {
-                        return '.widget-' + qtiClass;
-                    })
-                    .join(',')
-            );
+                        // move element from interaction to hottext element
+                        interaction.removeElement(elt);
+                        newHottextElt.setElement(elt);
 
-            // update elements hierarchy
-            if($inlineStaticWidgets && $inlineStaticWidgets.length > 0) {
-                $inlineStaticWidgets.each(function() {
-                    var serial = $(this).data('serial'),
-                        elt = interaction.getElement(serial),
-                        eltWidget = elt.data('widget');
+                        // destroy the widget and replace it with a placeholder that will be used for rendering
+                        $(this).replaceWith(elt.placeholder());
+                        eltWidget.destroy();
+                    });
+                }
+                if (!config.disallowHTMLInHottext) {
+                    newHottextBody = $hottextContent.html();
+                } else {
+                    // strip everything that hasn't been replaced and that is not pure text
+                    newHottextBody = _.escape($hottextContent.text());
+                }
 
-                    // move element from interaction to hottext element
-                    interaction.removeElement(elt);
-                    newHottextElt.setElement(elt);
+                if (newHottextBody.trim() !== '') {
+                    // update model and render it inline
+                    newHottextElt.body(newHottextBody);
+                    newHottextElt.render(newHottextElt.getContainer());
+                    newHottextElt.postRender();
 
-                    // destroy the widget and replace it with a placeholder that will be used for rendering
-                    $(this).replaceWith(elt.placeholder());
-                    eltWidget.destroy();
-                });
+                    // recreate editing widget
+                    newHottextWidget.destroy();
+                    newHottextWidget = newHottextElt.data('widget');
+                    newHottextWidget.changeState('choice');
+                }
             }
-            if (!config.disallowHTMLInHottext) {
-                newHottextBody = $hottextContent.html();
-            } else {
-                // strip everything that hasn't been replaced and that is not pure text
-                newHottextBody = _.escape($hottextContent.text());
-            }
-
-            if (newHottextBody.trim() !== '') {
-                // update model and render it inline
-                newHottextElt.body(newHottextBody);
-                newHottextElt.render(newHottextElt.getContainer());
-                newHottextElt.postRender();
-
-                // recreate editing widget
-                newHottextWidget.destroy();
-                newHottextWidget = newHottextElt.data('widget');
-                newHottextWidget.changeState('choice');
-            }
-        });
+        );
     };
 
     return HottextInteractionStateQuestion;
