@@ -13,12 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2021 (original work) Open Assessment Technologies SA;
  */
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define(['jquery'], function($) {
+define(['jquery'], function ($) {
     'use strict';
 
     /**
@@ -26,26 +26,27 @@ define(['jquery'], function($) {
      * @param {jQuery} options.$container - the element in which the selection is allowed
      * @param {boolean} options.allowQtiElements - if qtiElements can be wrapped
      * @param {Array} options.whiteListQtiClasses - array of allowed qtiClasses
+     * @returns {Object} selection wrapper helper
      */
-    return function(options) {
-        var $container = options.$container;
-        var allowQtiElements = options.allowQtiElements;
-        var whiteListQtiClasses = options.whiteListQtiClasses || [];
+    return function (options) {
+        const $container = options.$container;
+        const allowQtiElements = options.allowQtiElements;
+        const whiteListQtiClasses = options.whiteListQtiClasses || [];
 
-        var selection = window.getSelection();
-        var containForbiddenQtiElement;
+        const selection = window.getSelection();
+        let containForbiddenQtiElement;
 
         /**
          * traverse a DOM tree to check if it contains a QTI element
          * @param {Node} rootNode
          */
         function searchQtiElement(rootNode) {
-            var childNodes = rootNode.childNodes,
-                currentNode, i;
+            const childNodes = rootNode.childNodes;
+            let currentNode, i;
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
                 if (!containForbiddenQtiElement && isElement(currentNode)) {
-                    if(isQtiElement(currentNode) && !isQtiClassFromWhiteList(currentNode)) {
+                    if (isQtiElement(currentNode) && !isQtiClassFromWhiteList(currentNode)) {
                         containForbiddenQtiElement = true;
                     } else {
                         searchQtiElement(currentNode);
@@ -69,7 +70,9 @@ define(['jquery'], function($) {
          * @returns {boolean}
          */
         function isQtiElement(node) {
-            return node.className && (node.className.indexOf('qti-choice') > -1) || node.dataset && node.dataset.qtiClass;
+            return (
+                (node.className && node.className.indexOf('qti-choice') > -1) || (node.dataset && node.dataset.qtiClass)
+            );
         }
 
         /**
@@ -87,8 +90,10 @@ define(['jquery'], function($) {
          * @returns {boolean}
          */
         function isRangeValid(range) {
-            return $.contains($container.get(0), range.commonAncestorContainer)
-                || $container.get(0).isSameNode(range.commonAncestorContainer);
+            return (
+                $.contains($container.get(0), range.commonAncestorContainer) ||
+                $container.get(0).isSameNode(range.commonAncestorContainer)
+            );
         }
 
         /**
@@ -100,17 +105,15 @@ define(['jquery'], function($) {
              * @returns {boolean|*}
              */
             canWrap: function canWrap() {
-                var range = !selection.isCollapsed && selection.getRangeAt(0);
+                const range = !selection.isCollapsed && selection.getRangeAt(0);
 
                 if (range) {
                     containForbiddenQtiElement = false;
-                    if (! allowQtiElements) {
+                    if (!allowQtiElements) {
                         searchQtiElement(range.cloneContents());
                     }
 
-                    return range.toString().trim() !== ''
-                        && isRangeValid(range)
-                        && !containForbiddenQtiElement;
+                    return range.toString().trim() !== '' && isRangeValid(range) && !containForbiddenQtiElement;
                 }
                 return false;
             },
@@ -123,7 +126,7 @@ define(['jquery'], function($) {
              * @returns {boolean}
              */
             wrapWith: function wrapWith($wrapper) {
-                var range = selection.getRangeAt(0);
+                const range = selection.getRangeAt(0);
 
                 if (this.canWrap()) {
                     try {
@@ -146,7 +149,7 @@ define(['jquery'], function($) {
              * @returns {boolean}
              */
             wrapHTMLWith: function wrapWith($wrapper) {
-                var range = selection.getRangeAt(0);
+                const range = selection.getRangeAt(0);
 
                 if (this.canWrap()) {
                     try {
