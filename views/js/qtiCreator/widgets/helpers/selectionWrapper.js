@@ -69,11 +69,11 @@ define(['jquery'], function($) {
          * @returns {boolean}
          */
         function isQtiElement(node) {
-            return node.className && node.dataset && node.dataset.qtiClass;
+            return node.className && (node.className.indexOf('qti-choice') > -1) || node.dataset && node.dataset.qtiClass;
         }
 
         /**
-         * Get data-qti-class
+         * Checks data-qti-class in whiteListQtiClasses
          * @param {Node} node
          * @returns {boolean}
          */
