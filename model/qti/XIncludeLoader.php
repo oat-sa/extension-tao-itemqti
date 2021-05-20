@@ -71,6 +71,7 @@ class XIncludeLoader
                     $asset = $this->resolver->resolve($href);
                     $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
                     $this->loadXInclude($xinclude, $filePath);
+                    $this->removeTemporaryFile($filePath);
                 } catch (\tao_models_classes_FileNotFoundException $exception) {
                     if ($removeUnfoundHref) {
                         $xinclude->attr('href', '');
@@ -88,6 +89,13 @@ class XIncludeLoader
         }
 
         return $xincludes;
+    }
+
+    private function removeTemporaryFile(string $filePath): void
+    {
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
     }
     
     /**
