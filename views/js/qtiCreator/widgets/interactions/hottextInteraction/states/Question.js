@@ -18,6 +18,7 @@
 define([
     'jquery',
     'lodash',
+    'module',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
@@ -32,6 +33,7 @@ define([
 ], function(
     $,
     _,
+    module,
     stateFactory,
     Question,
     htmlEditor,
@@ -46,6 +48,8 @@ define([
 ){
     'use strict';
 
+    const config = module.config();
+    const allowedInlineStaticElts = ['math']; // support for more inline static elements (img...) can be added here
     var HottextInteractionStateQuestion = stateFactory.extend(Question, function(){
         this.buildEditor();
     }, function(){
@@ -150,7 +154,8 @@ define([
 
             wrapper = selectionWrapper({
                 $container: $editable,
-                allowQtiElements: false
+                allowQtiElements: false,
+                whiteListQtiClasses: !config.disallowHTMLInHottext ? allowedInlineStaticElts : []
             });
 
         $toolbar.append($newHottextBtn);
@@ -171,7 +176,8 @@ define([
         $newHottextBtn.on('mousedown.hottextcreator', function() {
             $newHottextBtn.hide();
             const $newHottextClone = $newHottext.clone();
-            if (wrapper.wrapHTMLWith($newHottextClone)) {
+            const wrapFunction = !config.disallowHTMLInHottext ? 'wrapHTMLWith' : 'wrapWith';
+            if (wrapper[wrapFunction]($newHottextClone)) {
                 self.createNewHottext($newHottextClone);
             }
         });
@@ -179,7 +185,7 @@ define([
 
     /**
      * Create a new hottext
-     * @param $hottextContent - content of the hottext. May contain plain text, html or qti inline static elements
+     * @param {JQueryElement} $hottextContent - content of the hottext. May contain plain text and html if not disallowed by flag disallowHTMLInHottext
      */
     HottextInteractionStateQuestion.prototype.createNewHottext = function createNewHottext($hottextContent) {
         var interactionWidget = this.widget,
@@ -188,7 +194,6 @@ define([
             $editable = interactionWidget.$container.find('.qti-flow-container [data-html-editable]'),
 
             $inlineStaticWidgets,
-            allowedInlineStaticElts = ['math'], // support for more inline static elements (img...) can be added here
             newHottextElt,
             newHottextBody;
 

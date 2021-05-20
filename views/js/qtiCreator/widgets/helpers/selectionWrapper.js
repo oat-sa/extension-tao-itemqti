@@ -24,14 +24,16 @@ define(['jquery'], function($) {
     /**
      * @param {Object} options
      * @param {jQuery} options.$container - the element in which the selection is allowed
-     * @param {jQuery} options.allowQtiElements - if qtiElements can be wrapped
+     * @param {boolean} options.allowQtiElements - if qtiElements can be wrapped
+     * @param {Array} options.whiteListQtiClasses - array of allowed qtiClasses
      */
     return function(options) {
         var $container = options.$container;
         var allowQtiElements = options.allowQtiElements;
+        var whiteListQtiClasses = options.whiteListQtiClasses || [];
 
         var selection = window.getSelection();
-        var containQtiElement;
+        var containForbiddenQtiElement;
 
         /**
          * traverse a DOM tree to check if it contains a QTI element
@@ -42,9 +44,9 @@ define(['jquery'], function($) {
                 currentNode, i;
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
-                if (!containQtiElement && isElement(currentNode)) {
-                    if(isQtiElement(currentNode)) {
-                        containQtiElement = true;
+                if (!containForbiddenQtiElement && isElement(currentNode)) {
+                    if(isQtiElement(currentNode) && !isQtiClassFromWhiteList(currentNode)) {
+                        containForbiddenQtiElement = true;
                     } else {
                         searchQtiElement(currentNode);
                     }
@@ -71,6 +73,15 @@ define(['jquery'], function($) {
         }
 
         /**
+         * Get data-qti-class
+         * @param {Node} node
+         * @returns {boolean}
+         */
+        function isQtiClassFromWhiteList(node) {
+            return whiteListQtiClasses.includes(node.dataset && node.dataset.qtiClass);
+        }
+
+        /**
          * Check that the given range is in the allowed container
          * @param {Range} range
          * @returns {boolean}
@@ -92,14 +103,14 @@ define(['jquery'], function($) {
                 var range = !selection.isCollapsed && selection.getRangeAt(0);
 
                 if (range) {
-                    containQtiElement = false;
+                    containForbiddenQtiElement = false;
                     if (! allowQtiElements) {
                         searchQtiElement(range.cloneContents());
                     }
 
                     return range.toString().trim() !== ''
                         && isRangeValid(range)
-                        && !containQtiElement;
+                        && !containForbiddenQtiElement;
                 }
                 return false;
             },
