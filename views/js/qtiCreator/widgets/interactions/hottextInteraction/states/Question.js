@@ -19,6 +19,8 @@ define([
     'jquery',
     'lodash',
     'module',
+    'i18n',
+    'ui/feedback',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
@@ -34,6 +36,8 @@ define([
     $,
     _,
     module,
+    __,
+    feedback,
     stateFactory,
     Question,
     htmlEditor,
@@ -179,6 +183,8 @@ define([
             const wrapFunction = !config.disallowHTMLInHottext ? 'wrapHTMLWith' : 'wrapWith';
             if (wrapper[wrapFunction]($newHottextClone)) {
                 self.createNewHottext($newHottextClone);
+            } else {
+                feedback().error(__('Cannot create hottext from this selection. Please check that you do not have partially selected elements.'));
             }
         });
     };
@@ -226,7 +232,12 @@ define([
                     eltWidget.destroy();
                 });
             }
-            newHottextBody = $hottextContent.html();
+            if (!config.disallowHTMLInHottext) {
+                newHottextBody = $hottextContent.html();
+            } else {
+                // strip everything that hasn't been replaced and that is not pure text
+                newHottextBody = _.escape($hottextContent.text());
+            }
 
             if (newHottextBody.trim() !== '') {
                 // update model and render it inline
