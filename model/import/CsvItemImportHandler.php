@@ -80,6 +80,7 @@ class CsvItemImportHandler extends ConfigurableService
                     $itemValidatorResults->addErrorReport($lineNumber, $error);
                     $errorReportsImport++;
                 }
+                unset($itemImportReport);
             } catch (InvalidMetadataException $exception) {
                 $error = new InvalidImportException();
                 $error->addError($lineNumber, $exception->getMessage());
