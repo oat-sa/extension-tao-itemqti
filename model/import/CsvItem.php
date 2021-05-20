@@ -45,7 +45,7 @@ class CsvItem implements ItemInterface
     /** @var ParsedChoice[] */
     private $choices;
 
-    /** @var Metadata[] */
+    /** @var ParsedMetadatum[] */
     private $metadata;
 
     public function __construct(
