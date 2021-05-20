@@ -208,12 +208,7 @@
     .label-content {
         min-height: $minRowHeight * 1px;
         max-height: 100%;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: row;
-        align-content: center;
-        flex-wrap: wrap;
-        align-items: baseline;
+        display: block;
     }
 
 
