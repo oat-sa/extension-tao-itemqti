@@ -130,7 +130,7 @@ define([
                     mediaDimension: {
                         active: true
                     },
-                    mediaAlign: {
+                    mediaAlignment: {
                         active: true
                     }
                 };
