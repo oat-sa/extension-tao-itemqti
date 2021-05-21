@@ -871,7 +871,7 @@ img.dragging.ui-draggable-dragging {
                     display: flex;
                     height: 100%;
                 }
-                &.wrap-left {
+                &.wrap-left, &.wrap-inline {
                     margin-right: 20px;
                 }
                 &.wrap-right {
