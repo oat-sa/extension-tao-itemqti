@@ -129,6 +129,9 @@ define([
                 var options = {
                     mediaDimension: {
                         active: true
+                    },
+                    mediaAlign: {
+                        active: true
                     }
                 };
                 media.$container = $mediaSpan.parents('.widget-box');
