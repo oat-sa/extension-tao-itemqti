@@ -62,14 +62,13 @@ define([
         var align = 'default';
 
         //init float positioning:
-        if (widget.element.hasClass('rgt')) {
+        if (widget.$container.hasClass('rgt')) {
             align = 'right';
-        } else if (widget.element.hasClass('lft')) {
+        } else if (widget.$container.hasClass('lft')) {
             align = 'left';
         }
 
         inlineHelper.positionFloat(widget, align);
-        widget.$form.find('select[name=align]').val(align);
     };
 
     var _getMedia = function (imgQtiElement, $imgNode, cb) {
