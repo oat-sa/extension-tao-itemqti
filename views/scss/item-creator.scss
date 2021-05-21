@@ -871,6 +871,12 @@ img.dragging.ui-draggable-dragging {
                     display: flex;
                     height: 100%;
                 }
+                &.wrap-left {
+                    margin-right: 20px;
+                }
+                &.wrap-right {
+                    margin-left: 20px;
+                }
             }
         }
     }

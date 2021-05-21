@@ -138,6 +138,9 @@ define([
                 if (media.$container.length) {
                     mediaEditor = mediaEditorComponent($mediaResizer, media, options).on('change', function (nMedia) {
                         media = nMedia;
+
+                        inlineHelper.positionFloat(widget, media.align);
+
                         $img.prop('style', null); // not allowed by qti
                         $img.removeAttr('style');
 
