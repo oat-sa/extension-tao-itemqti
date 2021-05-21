@@ -11,6 +11,10 @@
 
 .qti-hottextInteraction {
 
+    strong, em {
+        text-decoration: inherit;
+    }
+
     .qti-hottext {
         display: inline-block;
         background: $uiClickableDefaultBg;
@@ -31,6 +35,8 @@
 
         .hottext-checkmark {
             padding-left: 3px;
+            padding-right: 0;
+            width: 20px;
         }
 
         [class^="icon-"], [class*=" icon-"] {
