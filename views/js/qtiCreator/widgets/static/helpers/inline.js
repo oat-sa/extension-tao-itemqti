@@ -60,9 +60,12 @@ define([
             widget.$container.trigger('contentChange.qti-widget');
         },
         positionFloat : function(widget, position) {
+            if (!position) {
+                return;
+            }
 
             const $container = widget.$container;
-            const elt = widget.element;
+            const elt = widget.$original;
 
             $container.removeClass('rgt txt-rgt wrap-right lft txt-lft wrap-left wrap-inline');
             elt.removeClass('rgt txt-rgt wrap-right lft txt-lft wrap-left wrap-inline');
