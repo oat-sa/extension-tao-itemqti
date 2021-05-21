@@ -871,10 +871,10 @@ img.dragging.ui-draggable-dragging {
                     display: flex;
                     height: 100%;
                 }
-                &.wrap-left, &.wrap-inline {
+                &.wrap-left, .wrap-left, &.wrap-inline, .wrap-inline {
                     margin-right: 20px;
                 }
-                &.wrap-right {
+                &.wrap-right, .wrap-right {
                     margin-left: 20px;
                 }
             }

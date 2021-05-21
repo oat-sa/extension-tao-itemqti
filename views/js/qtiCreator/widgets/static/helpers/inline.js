@@ -59,22 +59,26 @@ define([
 
             widget.$container.trigger('contentChange.qti-widget');
         },
-        positionFloat : function(widget, position){
+        positionFloat : function(widget, position) {
 
             const $container = widget.$container;
+            const elt = widget.element;
 
-            switch(position){
+            $container.removeClass('rgt txt-rgt wrap-right lft txt-lft wrap-left wrap-inline');
+            elt.removeClass('rgt txt-rgt wrap-right lft txt-lft wrap-left wrap-inline');
+
+            switch(position) {
                 case 'right':
-                    $container.removeClass('lft txt-lft wrap-inline wrap-left');
                     $container.addClass('rgt txt-rgt wrap-right');
+                    elt.addClass('rgt txt-rgt wrap-right');
                     break;
                 case 'left':
-                    $container.removeClass('rgt txt-rgt wrap-inline wrap-right');
                     $container.addClass('lft txt-lft wrap-left');
+                    elt.addClass('lft txt-lft wrap-left');
                     break;
                 case 'default':
-                    $container.removeClass('rgt txt-rgt lft txt-lft wrap-right wrap-left');
                     $container.addClass('wrap-inline');
+                    elt.addClass('wrap-inline');
             }
         }
     };
