@@ -179,6 +179,15 @@ define([
         $newHottextBtn.on('mousedown.hottextcreator', () => {
             $newHottextBtn.hide();
             const $newHottextClone = $newHottext.clone();
+            const $cloneContent = wrapper.getCloneOfContents();
+            if ($cloneContent.find('p').length) {
+                feedback().error(
+                    __(
+                        'Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines.'
+                    )
+                );
+                return;
+            }
             if (!config.disallowHTMLInHottext) {
                 if (wrapper.wrapHTMLWith($newHottextClone)) {
                     this.createNewHottext($newHottextClone);
@@ -190,7 +199,7 @@ define([
                     );
                 }
             } else {
-                if (wrapper.wrapWith($newHottextClone) && $newHottextClone.text() === $newHottextClone.html()) {
+                if ($cloneContent.text() === $cloneContent.html() && wrapper.wrapWith($newHottextClone)) {
                     this.createNewHottext($newHottextClone);
                 } else {
                     feedback().error(
