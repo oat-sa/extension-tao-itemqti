@@ -5,6 +5,10 @@
 
 .qti-hottextInteraction {
 
+    sub, sup {
+        text-decoration: inherit;
+    }
+
     .qti-hottext {
         input[disabled] ~ [class^="icon-"] {
             cursor : pointer !important;
