@@ -163,7 +163,17 @@ define(['jquery'], function ($) {
                     }
                 }
                 return false;
-            }
+            },
+
+            /**
+             * Return span with selected fragment
+             *
+             * @returns {JQueryElement}
+             */
+            getCloneOfContents: function getCloneOfContents() {
+                const range = selection.getRangeAt(0);
+                return $('<span>').append(range.cloneContents());
+            },
         };
     };
 });
