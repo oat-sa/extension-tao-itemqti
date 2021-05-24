@@ -13,9 +13,9 @@
     toolVersion="3.4.0-sprint146">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
         <correctResponse>
-            <?foreach(get_data('correctChoices') as $choice):?>
+            <?php foreach(get_data('correctChoices') as $choice):?>
                 <value><![CDATA[<?=$choice->getId()?>]]></value>
-            <?endforeach?>
+            <?php endforeach ?>
         </correctResponse>
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1" />
@@ -29,9 +29,9 @@
             <div class="col-12">
                 <choiceInteraction responseIdentifier="RESPONSE" shuffle="<?=get_data('shuffle')?>" maxChoices="<?=get_data('maxChoices')?>" minChoices="<?=get_data('minChoices')?>" orientation="vertical">
                     <prompt><?=get_data('question')?></prompt>
-                    <?foreach(get_data('choices') as $choice):?>
+                    <?php foreach(get_data('choices') as $choice):?>
                         <simpleChoice identifier="<?=$choice->getId()?>" fixed="false" showHide="show"><?=$choice->getChoice()?></simpleChoice>
-                    <?endforeach?>
+                    <?php endforeach ?>
                 </choiceInteraction>
             </div>
         </div>
