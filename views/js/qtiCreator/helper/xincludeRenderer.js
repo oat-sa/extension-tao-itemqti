@@ -16,10 +16,14 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
-    'taoQtiItem/qtiItem/helper/xincludeLoader'
-], function(_, commonRenderer, xincludeLoader){
+    'taoQtiItem/qtiItem/helper/xincludeLoader',
+    'uri',
+    'util/url',
+    'core/dataProvider/request'
+], function ($, _, commonRenderer, xincludeLoader, uri, urlUtil, request) {
     'use strict';
 
     return {
@@ -28,30 +32,44 @@ define([
          *
          * @param {Object} xincludeWidget
          * @param {String} baseUrl
+         * @param {String} newHref
          * @returns {undefined}
          */
-        render : function render(xincludeWidget, baseUrl, newHref){
-
-            var xinclude = xincludeWidget.element;
-            if(newHref){
+        render: function render(xincludeWidget, baseUrl, newHref) {
+            const xinclude = xincludeWidget.element;
+            if (newHref) {
                 xinclude.attr('href', newHref);
             }
 
-            xincludeLoader.load(xinclude, baseUrl, function(xi, data, loadedClasses){
-                if(data){
+            xincludeLoader.load(xinclude, baseUrl, function (xi, data, loadedClasses) {
+                if (data) {
                     //loading success :
-                    commonRenderer.get().load(function(){
-
+                    commonRenderer.get().load(function () {
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")
-                        _.each(xinclude.getComposingElements(), function(elt){
+                        _.each(xinclude.getComposingElements(), function (elt) {
                             elt.setRenderer(commonRenderer.get());
                         });
 
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
-
                     }, loadedClasses);
-                }else{
+                    const passageUri = uri.decode(xinclude.attr('href').replace('taomedia://mediamanager/', ''));
+                    request(urlUtil.route('getStylesheets', 'SharedStimulusStyling', 'taoMediaManager'), {
+                        uri: passageUri
+                    }).then(response => {
+                        response.forEach(element => {
+                            const styleElem = $('<link>', {
+                                rel: 'stylesheet',
+                                type: 'text/css',
+                                href: urlUtil.route('loadStylesheet', 'SharedStimulusStyling', 'taoMediaManager', {
+                                    uri: passageUri,
+                                    stylesheet: element
+                                })
+                            });
+                            $('head').append(styleElem);
+                        });
+                    });
+                } else {
                     //loading failure :
                     xinclude.removeAttr('href');
                 }
