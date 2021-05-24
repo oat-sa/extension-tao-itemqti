@@ -52,7 +52,7 @@ define([
 ) {
     'use strict';
 
-    const config = module.config();
+    const config = module.config(); // flag config.disallowHTMLInHottext - only pure text is allowed for hottext
     const allowedInlineStaticElts = ['math']; // support for more inline static elements (img...) can be added here
     const HottextInteractionStateQuestion = stateFactory.extend(
         Question,
@@ -179,15 +179,26 @@ define([
         $newHottextBtn.on('mousedown.hottextcreator', () => {
             $newHottextBtn.hide();
             const $newHottextClone = $newHottext.clone();
-            const wrapFunction = !config.disallowHTMLInHottext ? 'wrapHTMLWith' : 'wrapWith';
-            if (wrapper[wrapFunction]($newHottextClone)) {
-                this.createNewHottext($newHottextClone);
+            if (!config.disallowHTMLInHottext) {
+                if (wrapper.wrapHTMLWith($newHottextClone)) {
+                    this.createNewHottext($newHottextClone);
+                } else {
+                    feedback().error(
+                        __(
+                            'Cannot create hottext from this selection.'
+                        )
+                    );
+                }
             } else {
-                feedback().error(
-                    __(
-                        'Cannot create hottext from this selection. Please check that you do not have partially selected elements.'
-                    )
-                );
+                if (wrapper.wrapWith($newHottextClone) && $newHottextClone.text() === $newHottextClone.html()) {
+                    this.createNewHottext($newHottextClone);
+                } else {
+                    feedback().error(
+                        __(
+                            'Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words.'
+                        )
+                    );
+                }
             }
         });
     };
