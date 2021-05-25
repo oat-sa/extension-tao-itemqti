@@ -437,8 +437,10 @@ class QtiCreator extends tao_actions_CommonModule
             $map_response,
             $combination_response
         );
+        
+        $filename = $this->getFileName();
         header("Content-type: text/csv");
-        header("Content-Disposition: attachment; filename=result_file.csv");
+        header(sprintf('Content-Disposition: attachment; filename=%s', $filename));
         $output = fopen("php://output", "w");
         foreach ($final_csv_array as $row) {
             fputcsv($output, $row);
@@ -507,5 +509,17 @@ class QtiCreator extends tao_actions_CommonModule
         return ($widgetUri)
             ? in_array($widgetUri, self::TEXT_WIDGETS, true)
             : false;
+    }
+
+    /**
+     * Get file name
+     * @return string
+     */
+    private function getFileName()
+    {
+        return 'input_sample'
+            . '_'
+            . date('YmdHis') . rand(10, 99) //more unique name
+            . '.csv';
     }
 }
