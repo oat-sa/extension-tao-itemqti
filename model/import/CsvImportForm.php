@@ -94,7 +94,7 @@ class CsvImportForm extends tao_models_classes_import_CsvUploadForm
         );
 
         $this->form->addElement($formElement);
-        $downloadLink = '#';
+        $downloadLink = '/taoQtiItem/QtiCreator/downloadCsv?uri='.urlencode($_POST['classUri']);
         $this->form->createGroup(
             'file',
             sprintf(
