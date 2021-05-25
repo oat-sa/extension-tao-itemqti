@@ -29,8 +29,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'ui/mediaEditor/mediaEditorComponent',
-    'util/urlParser'
-], function ($, _, __, stateFactory, Question, formElement, formTpl, mediaEditorComponent, urlParser) {
+    'ui/resourcemgr',
+    'ui/tooltip'
+], function ($, _, __, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
     'use strict';
     /**
      * media Editor instance if has been initialized
@@ -289,6 +290,7 @@ define([
             data: function data(boundInteraction, attrValue, attrName) {
                 let value;
                 let youTubeUrl;
+                let parsedUrl;
                 if (interaction.object.attr(attrName) !== attrValue) {
                     interaction.object.attr(attrName, attrValue);
                     interaction.object.removeAttr('width');
@@ -299,8 +301,9 @@ define([
                     if (/^http(s)?:\/\/(www\.)?youtu/.test(value)) {
                         if (attrValue.indexOf('&' > 0)) {
                             youTubeUrl = new URL(attrValue);
-                            youTubeUrl.searchParams.delete('ab_channel');
-                            this.value = youTubeUrl.toString();
+                            parsedUrl = new URL(youTubeUrl.origin + youTubeUrl.pathname);
+                            parsedUrl.searchParams.append('v', youTubeUrl.searchParams.get('v'));
+                            this.value = parsedUrl.toJSON();
                         }
                         interaction.object.attr('type', 'video/youtube');
                         switchToVideo();
