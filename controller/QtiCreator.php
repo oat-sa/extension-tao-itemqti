@@ -45,8 +45,11 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
-use oat\generis\model\GenerisRdf;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
+use oat\taoQtiItem\model\import\Repository\MetadataRepository;
+use oat\taoQtiItem\model\import\Parser\TemplateHeaderParser;
+use oat\taoQtiItem\model\import\Parser\TemplateDataParser;
+use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
@@ -364,7 +367,7 @@ class QtiCreator extends tao_actions_CommonModule
     /**
      * Download sample template for tabular import
      *
-     * @param string 
+     * @param string
      * @throws common_exception_Error
      */
     public function downloadCsv()
@@ -373,142 +376,22 @@ class QtiCreator extends tao_actions_CommonModule
             throw new common_exception_MissingParameter('uri', __METHOD__);
         }
 
-        $metaDataArray = $this->getMetadataArray();
-
-        $headers = $this->getHeaderList();
-
-        $final_header = array_merge($headers, $metaDataArray);
-
-        $correct_response = array(
-            "item with correct answer",
-            'Select the correct response (no restriction on number of selectable choices). The value in "correct_answer" should be choice identifiers (listed in the column header) and not the actual text content of the choices. In this example, "choice_2" is the correct answer and gives the score 1',
-            '',
-            'en-US',
-            '',
-            '',
-            'text for choice_1',
-            'text for choice_2',
-            'text for choice_3',
-            'text for choice_4',
-            '',
-            '',
-            '',
-            '',
-            'choice_2'
-        );
-        $map_response = array(
-            "item with partial score",
-            'Select the correct response (the choices are shuffled, at least 1 choice must be selected and maximum of 2 allowed, this item uses partial scoring)',
-            '1',
-            'en-US',
-            '1',
-            '2',
-            'A',
-            'B',
-            'C',
-            'D',
-            '3',
-            '0',
-            '-2',
-            '-1',
-            ''
-        );
-        $combination_response = array(
-            "item with both correct answer and partial score",
-            'Select the correct response (1 single choice allowed, the correct answer is "X" and "Y", this item uses partial scoring)',
-            '',
-            'en-US',
-            '',
-            '1',
-            'W',
-            'X',
-            'Y',
-            'Z',
-            '-1',
-            '1',
-            '1',
-            '0',
-            'choice_2,choice_4'
-        );
-
-        $final_csv_array = array(
-            $final_header,
-            $correct_response,
-            $map_response,
-            $combination_response
-        );
+        $metaDataArray = $this->getMetadataRepository()->getMetadataArray($this->getRequestParameter('uri'));
         
+        $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
+
+        $headers  = $this->getTemplateHeaderParser()->parse($template);
+        $finalHeader = array_merge($headers, $metaDataArray);
+
+        $finalSampleCSV  = $this->getTemplateDataParser()->parser($finalHeader);
         $filename = $this->getFileName();
         header("Content-type: text/csv");
         header(sprintf('Content-Disposition: attachment; filename=%s', $filename));
         $output = fopen("php://output", "w");
-        foreach ($final_csv_array as $row) {
+        foreach ($finalSampleCSV as $row) {
             fputcsv($output, $row);
         }
         fclose($output);
-    }
-
-    /**
-     * Get metadata list
-     * @return array
-     */
-    private function getMetadataArray(): array
-    {
-        $metaDataArray      = array();
-        $class              = new core_kernel_classes_Class($this->getRequestParameter('uri'));
-        $returnValue[]      = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $aliasProperty      = $class->getProperty(GenerisRdf::PROPERTY_ALIAS);
-        $classProperties    = $class->getProperties(true);
-        foreach ($classProperties as $property) {
-            $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
-            if (!$property->getWidget()) {
-                continue;
-            }
-            $widgetUri = $property->getWidget()->getUri();
-            if ($aliasName && $this->isTextWidget($widgetUri)) {
-                $metaDataArray[] = "metadata_" . $property->getLabel() . "_" . $aliasName;
-            }
-        }
-        return $metaDataArray;
-    }
-
-    /**
-     * Get Header list
-     * @return array
-     */
-    private function getHeaderList(): array
-    {
-        $template_definition = CsvTemplateRepository::DEFAULT_DEFINITION;
-        foreach ($template_definition['columns'] as $key => $val) {
-            if (strpos($key, "_score") !== false) {
-                for ($i = 1; $i <= 4; $i++) {
-                    $headers[] = "choice_" . $i . "_score";
-                }
-                continue;
-            }
-            if (strpos($key, "choice_") !== false) {
-                for ($i = 1; $i <= 4; $i++) {
-                    $headers[] = "choice_" . $i;
-                }
-                continue;
-            }
-            if (strpos($key, "metadata") !== false) {
-                continue;
-            }
-            $headers[] = $key;
-        }
-        return $headers;
-    }
-
-    /**
-     * Check whether it is a text widget
-     * @return bool
-     */
-    private function isTextWidget($widgetUri): bool
-    {
-        return ($widgetUri)
-            ? in_array($widgetUri, self::TEXT_WIDGETS, true)
-            : false;
     }
 
     /**
@@ -521,5 +404,25 @@ class QtiCreator extends tao_actions_CommonModule
             . '_'
             . date('YmdHis') . rand(10, 99) //more unique name
             . '.csv';
+    }
+
+    private function getMetadataRepository(): MetadataRepository
+    {
+        return $this->getServiceLocator()->get(MetadataRepository::class);
+    }
+
+    private function getTemplateHeaderParser(): TemplateHeaderParser
+    {
+        return $this->getServiceLocator()->get(TemplateHeaderParser::class);
+    }
+
+    private function getTemplateDataParser(): TemplateDataParser
+    {
+        return $this->getServiceLocator()->get(TemplateDataParser::class);
+    }
+
+    private function getTemplateRepository(): TemplateRepositoryInterface
+    {
+        return $this->getServiceLocator()->get(CsvTemplateRepository::class);
     }
 }
