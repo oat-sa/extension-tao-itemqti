@@ -30,7 +30,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'ui/mediaEditor/mediaEditorComponent',
     'ui/resourcemgr',
-    'ui/tooltip'
+    'ui/tooltip',
+    'url-polyfill'
 ], function ($, _, __, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
     'use strict';
     /**
@@ -303,7 +304,7 @@ define([
                             youTubeUrl = new URL(attrValue);
                             parsedUrl = new URL(youTubeUrl.origin + youTubeUrl.pathname);
                             parsedUrl.searchParams.append('v', youTubeUrl.searchParams.get('v'));
-                            this.value = parsedUrl.toJSON();
+                            this.value = parsedUrl.toString();
                         }
                         interaction.object.attr('type', 'video/youtube');
                         switchToVideo();
