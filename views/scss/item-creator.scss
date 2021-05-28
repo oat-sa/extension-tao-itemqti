@@ -277,6 +277,9 @@ img.dragging.ui-draggable-dragging {
         .item-editor-sidebar {
             border-left: 1px solid $uiGeneralContentBg;
         }
+        .tooltip {
+            max-width: 200px;
+        }
     }
 }
 
@@ -773,12 +776,6 @@ img.dragging.ui-draggable-dragging {
         position: relative;
     }
 
-    /*hack to fix unwanted contenteditable behaviour in chrome : @see*/
-    p, span, ol, ul {
-        line-height: 1.4;
-        font-size: 1.4rem;
-    }
-
     .inserting {
         .widget-block, .widget-blockInteraction {
             border: 1px dashed #ddd;
@@ -919,7 +916,6 @@ img.dragging.ui-draggable-dragging {
                 margin-top: 3px;
                 line-height: 1.4;
                 @include font-size(14, true);
-                position: absolute;
             }
             .tlb {
                 position: relative;
@@ -1164,7 +1160,11 @@ img.dragging.ui-draggable-dragging {
             right:-32px !important;
         }
     }
-
+    .qti-hottext {
+        .hottext-content {
+            user-select: none;
+        }
+    }
     .qti-gap{
         margin-right: 30px;
     }
