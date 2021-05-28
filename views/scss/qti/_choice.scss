@@ -230,6 +230,10 @@
         input{
             position: absolute;
             left: -10000px;
+
+            &[type=radio], &[type=checkbox] {
+                display: none;
+            }
         }
     }
     //END IE specific
