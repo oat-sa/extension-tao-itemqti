@@ -25,7 +25,6 @@ namespace oat\taoQtiItem\controller;
 use common_exception_BadRequest;
 use common_exception_Error;
 use core_kernel_classes_Resource;
-use core_kernel_classes_Class;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
@@ -45,20 +44,11 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
-use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
-use oat\taoQtiItem\model\import\Repository\MetadataRepository;
-use oat\taoQtiItem\model\import\Parser\TemplateHeaderParser;
-use oat\taoQtiItem\model\import\Parser\TemplateDataParser;
-use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
-use tao_helpers_form_elements_Htmlarea as HtmlArea;
-use tao_helpers_form_elements_Textarea as TextArea;
-use tao_helpers_form_elements_Textbox as TextBox;
-use common_exception_MissingParameter;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -71,12 +61,7 @@ class QtiCreator extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
     use HttpJsonResponseTrait;
-
-    private const TEXT_WIDGETS = [
-        TextBox::WIDGET_ID,
-        TextArea::WIDGET_ID,
-        HtmlArea::WIDGET_ID,
-    ];
+    
     /**
      * @return EventManager
      */
@@ -362,67 +347,5 @@ class QtiCreator extends tao_actions_CommonModule
             throw new common_exception_Error('Empty string given');
         }
         \tao_helpers_Xml::getSimpleXml($xml);
-    }
-
-    /**
-     * Download sample template for tabular import
-     *
-     * @param string
-     * @throws common_exception_Error
-     */
-    public function downloadCsv()
-    {
-        if (!$this->hasRequestParameter('uri')) {
-            throw new common_exception_MissingParameter('uri', __METHOD__);
-        }
-
-        $metaDataArray = $this->getMetadataRepository()->getMetadataArray($this->getRequestParameter('uri'));
-        
-        $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
-
-        $headers  = $this->getTemplateHeaderParser()->parse($template);
-        $finalHeader = array_merge($headers, $metaDataArray);
-
-        $finalSampleCSV  = $this->getTemplateDataParser()->parser($finalHeader);
-        $filename = $this->getFileName();
-        header("Content-type: text/csv");
-        header(sprintf('Content-Disposition: attachment; filename=%s', $filename));
-        $output = fopen("php://output", "w");
-        foreach ($finalSampleCSV as $row) {
-            fputcsv($output, $row);
-        }
-        fclose($output);
-    }
-
-    /**
-     * Get file name
-     * @return string
-     */
-    private function getFileName()
-    {
-        return 'input_sample'
-            . '_'
-            . date('YmdHis') . rand(10, 99) //more unique name
-            . '.csv';
-    }
-
-    private function getMetadataRepository(): MetadataRepository
-    {
-        return $this->getServiceLocator()->get(MetadataRepository::class);
-    }
-
-    private function getTemplateHeaderParser(): TemplateHeaderParser
-    {
-        return $this->getServiceLocator()->get(TemplateHeaderParser::class);
-    }
-
-    private function getTemplateDataParser(): TemplateDataParser
-    {
-        return $this->getServiceLocator()->get(TemplateDataParser::class);
-    }
-
-    private function getTemplateRepository(): TemplateRepositoryInterface
-    {
-        return $this->getServiceLocator()->get(CsvTemplateRepository::class);
-    }
+    }    
 }

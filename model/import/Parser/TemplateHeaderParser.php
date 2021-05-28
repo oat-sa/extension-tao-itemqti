@@ -24,11 +24,22 @@ namespace oat\taoQtiItem\model\import\Parser;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use tao_helpers_form_elements_Htmlarea as HtmlArea;
+use tao_helpers_form_elements_Textarea as TextArea;
+use tao_helpers_form_elements_Textbox as TextBox;
+use oat\generis\model\GenerisRdf;
 
 class TemplateHeaderParser extends ConfigurableService
 {
-    public function parse(TemplateInterface $template): array
+    private const TEXT_WIDGETS = [
+        TextBox::WIDGET_ID,
+        TextArea::WIDGET_ID,
+        HtmlArea::WIDGET_ID,
+    ];
+
+    public function parse(TemplateInterface $template, array $metaDataArray): array
     {
+        $headers = [];
         $csvColumns = $template->getDefinition()['columns'] ?? [];
         foreach ($csvColumns as $key => $val) {
             if (strpos($key, "_score") !== false) {
@@ -48,6 +59,28 @@ class TemplateHeaderParser extends ConfigurableService
             }
             $headers[] = $key;
         }
+
+        if (isset($metaDataArray)) {
+            foreach ($metaDataArray as $property) {
+                $aliasProperty       = $property->getProperty(GenerisRdf::PROPERTY_ALIAS);
+                $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
+                if ($this->isTextWidget($property)) {
+                    $headers[] = "metadata_" . $property->getLabel() . "_" . $aliasName;
+                }
+            }
+        }
         return $headers;
+    }
+
+    /**
+     * Check whether it is a text widget
+     * @return bool
+     */
+    private function isTextWidget($property): bool
+    {
+        $widgetUri = $property->getWidget()->getUri();
+        return ($widgetUri)
+            ? in_array($widgetUri, self::TEXT_WIDGETS, true)
+            : false;
     }
 }
