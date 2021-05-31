@@ -36,15 +36,17 @@ class MetadataRepository extends ConfigurableService
         $class              = $this->getClass($uri);
         $aliasProperty      = $class->getProperty(GenerisRdf::PROPERTY_ALIAS);
         $classProperties    = $class->getProperties(true);
-        foreach ($classProperties as $property) {
-            $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
-            if (!$property->getWidget()) {
-                continue;
+        if($classProperties){
+            foreach ($classProperties as $property) {
+                $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
+                if (!$property->getWidget()) {
+                    continue;
+                }
+                if ($aliasName) {
+                    $metaDataArray[] = $property;
+                }
             }
-            if ($aliasName) {
-                $metaDataArray[] = $property;
-            }
-        }
+        }        
         return $metaDataArray;
     }
 }
