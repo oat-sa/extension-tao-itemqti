@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-30T17:13:16\n"
+"Project-Id-Version: TAO 3.4.0-sprint154\n"
+"PO-Revision-Date: 2021-05-27T13:49:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -36,9 +36,6 @@ msgstr "Tout type de fichier"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 item importé depuis le document QTI/APIP Item XML."
-
-msgid "7-zip archive"
-msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Un choix doit être selectionné"
@@ -83,9 +80,6 @@ msgstr "Ajouter de nouvelles paires"
 
 msgid "Add Style Sheet"
 msgstr "Ajouter une feuille de style"
-
-msgid "Adobe Flash file"
-msgstr ""
 
 msgid "Alignment"
 msgstr "Alignement"
@@ -164,9 +158,6 @@ msgstr "paires associées"
 msgid "at least"
 msgstr "au moins"
 
-msgid "Audio Video Interleave"
-msgstr ""
-
 msgid "Autostart"
 msgstr "Démarrage automatique"
 
@@ -178,9 +169,6 @@ msgstr "Couleur d'arrière-plan"
 
 msgid "Base"
 msgstr "Base"
-
-msgid "Bitmap image"
-msgstr ""
 
 msgid "block"
 msgstr "bloc"
@@ -202,15 +190,6 @@ msgstr "Naviguez dans vos fichiers et sélectionnez le fichier approprié."
 
 msgid "Browse..."
 msgstr "Parcourir..."
-
-msgid "C file"
-msgstr ""
-
-msgid "C++ file (.cpp)"
-msgstr ""
-
-msgid "Calc speadsheet (Staroffice)"
-msgstr ""
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -235,9 +214,6 @@ msgstr "ne peut charger le XML QTI"
 
 msgid "Cannot locate the file \"%s"
 msgstr "Impossible de localiser le fichier \"%s"
-
-msgid "Cascading Style Sheets"
-msgstr ""
 
 msgid "Center"
 msgstr "Centrer"
@@ -299,20 +275,17 @@ msgstr "Pipette à couleurs"
 msgid "Common Interactions"
 msgstr "Interactions communes"
 
-msgid "Compressed tar file"
-msgstr ""
-
-msgid "Contraints"
+msgid "Constraints"
 msgstr "Contraintes"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
-msgid "Correct"
-msgstr "Correct"
-
 msgid "correct"
 msgstr "correct"
+
+msgid "Correct"
+msgstr "Correct"
 
 msgid "Cosinus"
 msgstr "Cosinus"
@@ -335,9 +308,6 @@ msgstr "Créer un hottext"
 msgid "Create pair(s) from a series of choices."
 msgstr "Créer une ou des paires à partir d'une série de choix."
 
-msgid "CSV file"
-msgstr "Fichier CSV"
-
 msgid "Current value:"
 msgstr "Valeur actuelle :"
 
@@ -350,14 +320,11 @@ msgstr "personnalisé"
 msgid "Custom Response Processing Mode"
 msgstr "Mode de traitement de la réponse personnalisée"
 
-msgid "Database file"
-msgstr ""
+msgid "Default"
+msgstr "Par défaut"
 
 msgid "default"
 msgstr "par défaut"
-
-msgid "Default"
-msgstr "Par défaut"
 
 msgid "Define correct response"
 msgstr "Définir la réponse correcte"
@@ -383,11 +350,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
 
-msgid "delete"
-msgstr "supprimer"
-
 msgid "Delete"
 msgstr "Supprimer"
+
+msgid "delete"
+msgstr "supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -413,9 +380,6 @@ msgstr "Afficher les choix horizontalement ou verticalement"
 msgid "Divide"
 msgstr "Diviser"
 
-msgid "Document templates (Staroffice)"
-msgstr ""
-
 msgid "Don\'t save"
 msgstr ""
 
@@ -424,6 +388,9 @@ msgstr "terminé"
 
 msgid "Done"
 msgstr "Effectué"
+
+msgid "Download"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Télécharger cette feuille de style"
@@ -496,9 +463,6 @@ msgstr "Terminer la tentative"
 
 msgid "End Attempt Interaction"
 msgstr "Interaction de fin d'essai"
-
-msgid "Enhanced metafile"
-msgstr ""
 
 msgid "Enlarge font size"
 msgstr "Agrandir la taille de police"
@@ -593,12 +557,6 @@ msgstr "Interaction d'envoi de fichier"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Remplissez les trous sur une image avec un ensemble de choix d'images."
 
-msgid "Flash video"
-msgstr "vidéo Flash"
-
-msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
-
 msgid "Font family"
 msgstr "Famille de police"
 
@@ -620,12 +578,6 @@ msgstr "Correspondance d'espace vide"
 msgid "Gap Match Interaction"
 msgstr "Interaction de correspondance d'espace vide"
 
-msgid "Geogebra data file"
-msgstr ""
-
-msgid "GIF image"
-msgstr "Image GIF"
-
 msgid "Graphic Associate Interaction"
 msgstr "Interaction d'associé graphique"
 
@@ -643,12 +595,6 @@ msgstr "Supérieur ou égal"
 
 msgid "Guard for resource \"%s\"..."
 msgstr "Garder pour la ressource \"%s\"..."
-
-msgid "GZip Compressed Archive"
-msgstr ""
-
-msgid "Header file with extensions"
-msgstr ""
 
 msgid "Height"
 msgstr "Hauteur"
@@ -680,17 +626,14 @@ msgstr "La façon dont l'expression mathématique devrait être éditée"
 msgid "Human"
 msgstr ""
 
-msgid "Hypertext markup language"
-msgstr ""
-
 msgid "identical pair already exists"
 msgstr "des paires identiques existent déjà"
 
-msgid "Identifier"
-msgstr "Identifiant"
-
 msgid "identifier"
 msgstr "identifiant"
+
+msgid "Identifier"
+msgstr "Identifiant"
 
 msgid "identifier already taken"
 msgstr "identifiant déjà pris"
@@ -761,8 +704,17 @@ msgstr "Propriétés de l'interaction"
 msgid "Interpretation"
 msgstr "Interprétation"
 
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
+
 msgid "invalid QTI XML"
 msgstr "XML QTI invalide"
+
+msgid "Invalid response identifier"
+msgstr ""
 
 msgid "Invalid URL"
 msgstr ""
@@ -785,13 +737,16 @@ msgstr "L'item \"%s\" n'est pas disponible dans ma langue."
 msgid "Item \"%s\" is ready to be exported"
 msgstr "L'item \"%s\" est prêt a être exporté."
 
+msgid "Item cannot be saved."
+msgstr ""
+
 msgid "Item metadata successfully exported."
 msgstr "Métadonnée de l'item exporté avec succès."
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Propriétés de l'item"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Propriétés de l'item"
 
 msgid "Item width"
@@ -800,12 +755,6 @@ msgstr "Largeur de l'item"
 #, tao-public
 msgid "Items"
 msgstr "Articles"
-
-msgid "Javascript code"
-msgstr ""
-
-msgid "JPEG image"
-msgstr "Image JPEG"
 
 msgid "Label"
 msgstr "Étiquette"
@@ -816,11 +765,11 @@ msgstr "Langue"
 msgid "Large editor"
 msgstr "Éditeur large"
 
-msgid "LaTeX"
-msgstr "LaTeX"
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "laisser vide"
@@ -906,19 +855,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Longueur maximale"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Longueur maximale"
 
 msgid "Max plays count"
 msgstr "Nombre max. de lectures"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximum de mots"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximum de mots"
 
 msgid "Max. number of matches"
@@ -960,41 +909,11 @@ msgstr "L'importation de métadonnées nécessite une instance de DomManifest po
 msgid "Metadata service successfully registered."
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Office Document Imaging"
-msgstr ""
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft PowerPoint"
-
-msgid "Microsoft Project file"
-msgstr ""
-
-msgid "Microsoft Visio file"
-msgstr ""
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
-
-msgid "Microsoft Works file"
-msgstr ""
-
-msgid "Microsoft XPS file"
-msgstr ""
-
-msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
-
 msgid "MIME-type"
 msgstr "Type MIME"
 
 msgid "Min"
 msgstr "Min"
-
-msgid "Mind mapping software application (free mind open source)"
-msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Score minimal pour cette interaction"
@@ -1010,18 +929,6 @@ msgstr "feedback"
 
 msgid "Modal Feedbacks"
 msgstr "Retours modaux"
-
-msgid "MP4 video"
-msgstr "vidéo MP4"
-
-msgid "MPEG audio"
-msgstr "Audio MPEG"
-
-msgid "MPEG video"
-msgstr "Vidéo MPEG"
-
-msgid "MPEG-4 audio file"
-msgstr ""
 
 msgid "Multiply"
 msgstr "Multiplier"
@@ -1051,14 +958,17 @@ msgstr "Aucun item n'a pu être importé à partir du paquet QTI IMS donné."
 msgid "No preview available"
 msgstr "Pas d'aperçu disponible"
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "none"
-msgstr "aucun"
-
 msgid "None"
 msgstr "Aucun"
+
+msgid "none"
+msgstr "aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -1083,21 +993,6 @@ msgid "One or more QTI components are not supported by the system. The system re
 msgstr "Un ou plusieurs composants QTI ne sont pas supportés par le système. Le système renvoie l'erreur suivante : %s\n"
 ""
 
-msgid "OpenDocument Database"
-msgstr ""
-
-msgid "OpenDocument Presentation"
-msgstr ""
-
-msgid "OpenDocument spreadsheet document"
-msgstr ""
-
-msgid "OpenDocument text document"
-msgstr ""
-
-msgid "OpenDocument Text Template"
-msgstr ""
-
 msgid "Order"
 msgstr "Ordre"
 
@@ -1116,17 +1011,11 @@ msgstr "Déclarations de résultats"
 msgid "Pair scoring"
 msgstr "Notation par paire"
 
-msgid "Pascal file (.pas)"
-msgstr ""
-
 msgid "Pattern"
 msgstr "Motif"
 
 msgid "Pause"
 msgstr "Pause"
-
-msgid "PDF file"
-msgstr "Fichier PDF"
 
 msgid "Pi"
 msgstr "Pi"
@@ -1202,9 +1091,6 @@ msgstr "Veuillez entrer la réponse correcte ci-dessous."
 msgid "Please type the correct response in the box below."
 msgstr "Veuillez entrer la réponse correcte dans la boîte ci-dessous."
 
-msgid "PNG image"
-msgstr "image PNG"
-
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Modèle d'élément portable %s non trouvé. Il se peut que l'extension requise soit manquante."
 
@@ -1277,15 +1163,6 @@ msgstr "Document Item XML QTI/APIP"
 msgid "Question"
 msgstr "Question"
 
-msgid "Quicktime video"
-msgstr "vidéo QuickTime"
-
-msgid "RAR archive"
-msgstr ""
-
-msgid "RealMedia file"
-msgstr ""
-
 msgid "Recommendations"
 msgstr "Recommandations"
 
@@ -1301,11 +1178,11 @@ msgstr "La méthode d'inscription attend des paramètres $key et $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "La méthode d'inscription attend des paramètres $key et $name ."
 
-msgid "Remove"
-msgstr "Supprimer"
-
 msgid "remove"
 msgstr "supprimer"
+
+msgid "Remove"
+msgstr "Supprimer"
 
 msgid "Remove custom background color"
 msgstr "Supprimer une couleur de fond personnalisée"
@@ -1379,14 +1256,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Rich Text Format file"
-msgstr ""
+msgid "right"
+msgstr "droite"
 
 msgid "Right"
 msgstr "Droite"
-
-msgid "right"
-msgstr "droite"
 
 msgid "Right bracket"
 msgstr "Parenthèse fermante"
@@ -1511,9 +1385,6 @@ msgstr "Position de la forme"
 msgid "Shuffle choices"
 msgstr "Mélanger les choix"
 
-msgid "Sibelius music notation"
-msgstr ""
-
 msgid "Sinus"
 msgstr "Sinus"
 
@@ -1538,9 +1409,6 @@ msgstr "standard"
 msgid "Step"
 msgstr "Étape"
 
-msgid "Storing digital video data on a computer game"
-msgstr ""
-
 msgid "Style Editor"
 msgstr "Éditeur de style"
 
@@ -1559,26 +1427,14 @@ msgstr "\"%s compilé avec succès"
 msgid "Successfully created item \"%s"
 msgstr ""
 
-msgid "SVG image"
-msgstr "Image SVG"
-
 msgid "Table headings"
 msgstr "En-tête du tableau"
-
-msgid "Tagged image file"
-msgstr ""
 
 msgid "TAO default styles"
 msgstr "Styles TAO par défaut"
 
-msgid "Tape Archive (TAR)"
-msgstr ""
-
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Recherche de Classe Cible pour la ressource \"%s\"..."
-
-msgid "TeX file"
-msgstr ""
 
 msgid "Text Block"
 msgstr "Bloc de texte"
@@ -1591,9 +1447,6 @@ msgstr "Propriétés du bloc de texte"
 
 msgid "Text color"
 msgstr "Couleur du texte"
-
-msgid "Text document file format (Staroffice)"
-msgstr ""
 
 msgid "Text Entry"
 msgstr "Saisie de texte"
@@ -1796,8 +1649,8 @@ msgstr "Il y a un élément incomplet dans votre item : veuillez cliquer dessus 
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Il y a eu un problème lors du téléchargement de votre CSS, veuillez réessayer."
 
-msgid "this identifier is already in use"
-msgstr "cet identifiant est déjà utilisé"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr ""
@@ -1810,9 +1663,6 @@ msgstr "Ceci est requis"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Cette feuille de style n'a pas été trouvée sur le serveur. Vous voudrez peut-être supprimer cette référence."
-
-msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
-msgstr ""
 
 msgid "Time dependent"
 msgstr "Dépendant du temps"
@@ -1859,9 +1709,6 @@ msgstr "Refaire"
 msgid "undo"
 msgstr "défaire"
 
-msgid "UNIX Compressed Archive File"
-msgstr ""
-
 msgid "Unknown $key to register MetadataService instance"
 msgstr "$key inconnue pour inscrire l'instance MetadataService"
 
@@ -1886,26 +1733,11 @@ msgstr "Valeur"
 msgid "Vertical"
 msgstr "Vertical"
 
-msgid "WAV audio"
-msgstr "audio WAV"
-
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Nous utiliserons le patternMask pour faire cela, pour rester en conformité avec le standard IMS."
 
 msgid "Width"
 msgstr "Largeur"
-
-msgid "Windows help file"
-msgstr ""
-
-msgid "Windows Media audio"
-msgstr "audio Windows Media"
-
-msgid "Windows Media file (metafile)"
-msgstr ""
-
-msgid "Windows Media video"
-msgstr "vidéo Windows Media"
 
 msgid "words"
 msgstr "mots"
@@ -1913,14 +1745,8 @@ msgstr "mots"
 msgid "Would you like to replace the alt text"
 msgstr "Voudriez-vous remplacer le texte alternatif ?"
 
-msgid "Write Document"
-msgstr ""
-
 msgid "WYSIWYG editor"
 msgstr "Éditeur WYSIWYG"
-
-msgid "XML file"
-msgstr ""
 
 msgid "Yes"
 msgstr "Oui"
@@ -1990,7 +1816,4 @@ msgstr "Vous devez faire"
 
 msgid "Your item has been saved"
 msgstr "Votre item a été enregistré."
-
-msgid "ZIP archive"
-msgstr "Archive ZIP"
 
