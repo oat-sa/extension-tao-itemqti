@@ -129,6 +129,10 @@ class AssetManager
             $absolutePath = $this->getAbsolutePath($auxiliaryFile);
             $relativePath = $this->getRelativePath($qtiFile, $absolutePath);
 
+            if (is_dir($absolutePath) || $this->isAssetCssFolder($relativePath)) {
+                continue;
+            }
+
             if (!helpers_File::isAbsoluteFileInsideDirectory($absolutePath, $this->getSource())) {
                 throw new InvalidSourcePathException(dirname($qtiFile), $auxiliaryFile);
             }
@@ -145,6 +149,13 @@ class AssetManager
             }
         }
         return $this;
+    }
+
+    private function isAssetCssFolder(string $relativePath): bool
+    {
+        $relativePathParts = explode('/', dirname($relativePath));
+
+        return $relativePathParts[0] === 'assets' && $relativePathParts[count($relativePathParts) - 1] === 'css';
     }
 
     /**

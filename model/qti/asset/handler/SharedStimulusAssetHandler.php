@@ -94,7 +94,7 @@ class SharedStimulusAssetHandler implements AssetHandler
 
         SharedStimulusImporter::isValidSharedStimulus($absolutePath);
         $newXmlFile = SharedStimulusPackageImporter::embedAssets($absolutePath);
-        $itemContent = $this->sharedStorage->add($newXmlFile, basename($relativePath), $this->parentPath);
+        $itemContent = $this->sharedStorage->addSharedStimulus($newXmlFile, $this->parentPath, $absolutePath);
 
         if (method_exists($this->sharedStorage, 'forceMimeType')) {
             $asset = $this->itemSource->resolve($itemContent['uri']);

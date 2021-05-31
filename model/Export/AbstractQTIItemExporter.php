@@ -23,16 +23,21 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use tao_helpers_Uri as UriHelper;
 use oat\tao\helpers\Base64;
 use core_kernel_classes_Property;
 use DOMDocument;
+use core_kernel_classes_Resource;
+use oat\taoMediaManager\model\MediaSource;
 use League\Flysystem\FileNotFoundException;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\service\ServiceManager;
+use oat\taoMediaManager\model\MediaService;
 use oat\tao\model\media\ProcessedFileStreamAware;
 use oat\tao\model\media\sourceStrategy\HttpSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
+use oat\taoMediaManager\model\export\service\SharedStimulusCSSExporter;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidAssetException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
@@ -47,18 +52,16 @@ use taoItems_models_classes_ItemExporter;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
+    /** @var MetadataExporter Service to export metadata to IMSManifest */
+    protected $metadataExporter;
 
-    /**
-    * List of regexp of media that should be excluded from retrieval
-    */
+    /** List of regexp of media that should be excluded from retrieval */
     private static $BLACKLIST = [
         '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
     ];
 
-    /**
-     * @var MetadataExporter Service to export metadata to IMSManifest
-     */
-    protected $metadataExporter;
+    /** @var SharedStimulusCSSExporter */
+    private $sharedStimulusCSSExporter;
 
     abstract public function buildBasePath();
 
@@ -140,7 +143,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                         $stream = $mediaSource->getFileStream($link);
                     }
 
-                    $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
+                    $baseName = $link;
+
+                    if ($mediaSource instanceof MediaSource) {
+                        $baseName = $this->copySharedStimulusCssFiles($link, $basePath);
+                    } elseif (!$mediaSource instanceof LocalItemSource) {
+                        $baseName = 'assets/' . $mediaSource->getBaseName($link);
+                    }
+
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
                     $replacementList[$assetUrl] = $replacement;
                 }
@@ -242,12 +252,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     /**
      * Get the item's assets
      *
-     * @param \core_kernel_classes_Resource $item The item
+     * @param core_kernel_classes_Resource $item The item
      * @param string                        $lang The item lang
      *
      * @return string[] The assets URLs
      */
-    protected function getAssets(\core_kernel_classes_Resource $item, $lang)
+    protected function getAssets(core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
         if (is_null($qtiItem)) {
@@ -269,7 +279,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return $returnValue;
     }
 
-    protected function getPortableElementAssets(\core_kernel_classes_Resource $item, $lang)
+    protected function getPortableElementAssets(core_kernel_classes_Resource $item, $lang)
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
         if (is_null($qtiItem)) {
@@ -284,12 +294,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     /**
      * Get the item's directory
      *
-     * @param \core_kernel_classes_Resource $item The item
+     * @param core_kernel_classes_Resource $item The item
      * @param string                        $lang The item lang
      *
      * @return Directory The directory
      */
-    protected function getStorageDirectory(\core_kernel_classes_Resource $item, $lang)
+    protected function getStorageDirectory(core_kernel_classes_Resource $item, $lang)
     {
         $itemService = \taoItems_models_classes_ItemsService::singleton();
         $directory = $itemService->getItemDirectory($item, $lang);
@@ -315,5 +325,27 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
         return $this->metadataExporter;
+    }
+
+    private function copySharedStimulusCssFiles(string $link, string $basePath): string
+    {
+        $asset = new core_kernel_classes_Resource(UriHelper::decode($link));
+        $baseName = 'assets/' . $this->getSharedStimulusCSSExporter()->getResourceLink($asset);
+        $this->getSharedStimulusCSSExporter()->pack(
+            $asset,
+            $this->getZip(),
+            $basePath . '/' . dirname($baseName)
+        );
+
+        return $baseName;
+    }
+
+    private function getSharedStimulusCSSExporter(): SharedStimulusCSSExporter
+    {
+        if (!isset($this->sharedStimulusCSSExporter)) {
+            $this->sharedStimulusCSSExporter = $this->getServiceManager()->get(SharedStimulusCSSExporter::class);
+        }
+
+        return $this->sharedStimulusCSSExporter;
     }
 }
