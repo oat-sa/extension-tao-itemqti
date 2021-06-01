@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-06-02T00:35:56\n"
+"PO-Revision-Date: 2021-06-02T00:41:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -311,16 +311,16 @@ msgstr "Kleurkiezer"
 msgid "Common Interactions"
 msgstr ""
 
-msgid "Contraints"
-msgstr "Beperkingen"
+msgid "Constraints"
+msgstr ""
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -698,10 +698,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Naam"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Naam"
 
 msgid "identifier already taken"
@@ -840,11 +840,11 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -1045,11 +1045,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "None"
-msgstr "Geen"
-
 msgid "none"
 msgstr "geen"
+
+msgid "None"
+msgstr "Geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1337,11 +1337,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr "Rechts"
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr "Rechter haakje"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-06-02T00:36:06\n"
+"PO-Revision-Date: 2021-06-02T00:41:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -63,9 +63,6 @@ msgstr "`%s` ist ungültig, muss eine ganze positive Zahl sein"
 
 msgid "`%s` is required"
 msgstr "`%s` ist erforderlich"
-
-msgid "7-zip archive"
-msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Es muss etwas ausgewählt werden"
@@ -195,9 +192,6 @@ msgstr "mindestens"
 msgid "at least %s %s are required"
 msgstr "Mindestens %s und %s sind erforderlich"
 
-msgid "Audio Video Interleave"
-msgstr ""
-
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -230,15 +224,6 @@ msgstr "Computer durchsuchen und die geeignete Datei auswählen."
 
 msgid "Browse..."
 msgstr "Durchsuchen..."
-
-msgid "C file"
-msgstr ""
-
-msgid "C++ file (.cpp)"
-msgstr ""
-
-msgid "Calc speadsheet (Staroffice)"
-msgstr ""
 
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -324,11 +309,8 @@ msgstr "Farbauswahl"
 msgid "Common Interactions"
 msgstr ""
 
-msgid "Compressed tar file"
+msgid "Constraints"
 msgstr ""
-
-msgid "Contraints"
-msgstr "Einschränkungen"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Kontrolliert die Wiedergabe-Parameter (Auto-Start, Schleife) eines Videos oder einer Audio-Datei und berichtet über die Anzahl der Wiedergaben."
@@ -360,9 +342,6 @@ msgstr "Hot-Text erstellen"
 msgid "Create pair(s) from a series of choices."
 msgstr "Bilde Paare aus einer Reihe von Auswahlmöglichkeiten."
 
-msgid "CSV file"
-msgstr "CSV-Datei"
-
 msgid "CSV content + metadata"
 msgstr "CSV Inhalt + Metadaten"
 
@@ -392,12 +371,6 @@ msgstr ""
 
 msgid "Custom Response Processing Mode"
 msgstr "benutzerdefinierter Antwortsverarbeitungsmodus"
-
-msgid "Database file"
-msgstr ""
-
-msgid "default"
-msgstr "Standard"
 
 msgid "Default"
 msgstr "Standard"
@@ -467,9 +440,6 @@ msgstr ""
 
 msgid "done"
 msgstr "Fertig"
-
-msgid "Download"
-msgstr ""
 
 msgid "Download"
 msgstr ""
@@ -687,12 +657,6 @@ msgstr ""
 msgid "Guard for resource \"%s\"..."
 msgstr ""
 
-msgid "GZip Compressed Archive"
-msgstr ""
-
-msgid "Header file with extensions"
-msgstr ""
-
 msgid "Header `%s` is required"
 msgstr "Die Überschrift `%s` ist erforderlich"
 
@@ -732,10 +696,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "Identische Paare existieren bereits"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Bezeichner"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Bezeichner"
 
 msgid "identifier already taken"
@@ -874,11 +838,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "frei lassen"
@@ -1078,11 +1042,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Keinen Wert zugewiesen"
 
-msgid "None"
-msgstr "Keine"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Keine"
 
 msgid "None defined yet."
 msgstr "Noch keine definiert."
@@ -1369,11 +1333,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr ""
