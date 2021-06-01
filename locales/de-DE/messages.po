@@ -35,7 +35,7 @@ msgid "%s line(s) are imported with warnings"
 msgstr "% Zeile(n) wurden mit Warnung importiert"
 
 msgid "%s line(s) contain(s) an error and cannot be imported"
-msgstr "% Zeile(n) beinhaltet(n) einen Fehler und kann (können) nicht importiert werdeneine"
+msgstr "% Zeile(n) beinhaltet(n) einen Fehler und kann (können) nicht importiert werden"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
@@ -84,7 +84,7 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 msgid "Add a CSV file"
-msgstr "CSV Datei hinzufügen"
+msgstr "eine CSV Datei hinzufügen"
 
 msgid "Add a modal feedback"
 msgstr "Modales Feedback hinzufügen"
@@ -156,7 +156,7 @@ msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Bei der Antwortsverarbeitung trat ein unerwarteter Fehler auf."
 
 msgid "An unexpected error occurred during the CSV import. The system returned the following error: \"%s"
-msgstr "Fehler ist während des CSV Import aufgetreten. Das System meldet folgenden Fehler"
+msgstr "ein unerwarteter Fehler ist während des CSV Import aufgetreten. Das System meldet folgenden Fehler: `%s`"
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
 msgstr ""
@@ -727,7 +727,7 @@ msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
 
 msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
-msgstr "Import des Iteminhalts und der Metadaten der CSV Datei. Einzig QCM Interaktionen werden unterstüt"
+msgstr "Import des Iteminhalts und der Metadaten der CSV Datei. Einzig QCM Interaktionen werden unterstützt."
 
 msgid "Import QTI ITEM into \"%s"
 msgstr ""
