@@ -354,9 +354,7 @@ define([
 
                 //bind each individual event listener to the document
                 $document.on(eventNameToken.join('.'), function(e, data){
-                    if (data.serial === self.serial) {
-                        callback.call(self, data);
-                    }
+                    callback.call(self, data);
                 });
 
             });
