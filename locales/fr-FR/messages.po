@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-06-01T09:23:01\n"
+"PO-Revision-Date: 2021-06-01T09:50:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -156,6 +156,9 @@ msgstr ""
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Une erreur inattendue s'est produite pendant la transaction avec le traitement des réponses."
 
+msgid "An unexpected error occurred during the CSV import. The system returned the following error: \"%s"
+msgstr "Une erreur inattendue est apparue pendant l'import du CSV. Le système renvoie l'erreur suivante : `%s`"
+
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
 msgstr "Une erreur inattendue s'est produite au cours de l'import d'un paquet d'items IMS QTI."
 
@@ -203,11 +206,11 @@ msgstr "Couleur d'arrière-plan"
 msgid "Base"
 msgstr "Base"
 
-msgid "Block"
-msgstr "Bloc"
-
 msgid "block"
 msgstr "bloc"
+
+msgid "Block"
+msgstr "Bloc"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Le bloc contient le contenu (stimulus) de l'item tel que du texte ou une image. Il est aussi demandé pour les interactions en ligne."
@@ -314,11 +317,11 @@ msgstr "Contraintes"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
-msgid "correct"
-msgstr "correct"
-
 msgid "Correct"
 msgstr "Correct"
+
+msgid "correct"
+msgstr "correct"
 
 msgid "Cosinus"
 msgstr "Cosinus"
@@ -401,11 +404,11 @@ msgstr "Largeur définie"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
 
-msgid "delete"
-msgstr "supprimer"
-
 msgid "Delete"
 msgstr "Supprimer"
+
+msgid "delete"
+msgstr "supprimer"
 
 msgid "Delete else statement"
 msgstr "Supprimer l'autre déclaration"
@@ -434,11 +437,11 @@ msgstr "Diviser"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "done"
-msgstr "terminé"
-
 msgid "Done"
 msgstr "Effectué"
+
+msgid "done"
+msgstr "terminé"
 
 msgid "Download"
 msgstr ""
@@ -695,11 +698,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "des paires identiques existent déjà"
 
-msgid "identifier"
-msgstr "identifiant"
-
 msgid "Identifier"
 msgstr "Identifiant"
+
+msgid "identifier"
+msgstr "identifiant"
 
 msgid "identifier already taken"
 msgstr "identifiant déjà pris"
@@ -846,11 +849,11 @@ msgstr "Latex"
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "Left"
-msgstr "Gauche"
-
 msgid "left"
 msgstr "gauche"
+
+msgid "Left"
+msgstr "Gauche"
 
 msgid "Left bracket"
 msgstr "Parenthèse ouvrante"
@@ -896,11 +899,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "XML mal formé[%s] :\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "Gestion des items"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "Gestion des items"
 
 msgid "map response"
@@ -930,19 +933,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Longueur maximale"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Longueur maximale"
 
 msgid "Max plays count"
 msgstr "Nombre max. de lectures"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximum de mots"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximum de mots"
 
 msgid "Max. number of matches"
@@ -1355,11 +1358,11 @@ msgstr "Enregistrer l'item"
 msgid "Scale size"
 msgstr "Taille d'échelle"
 
-msgid "Score"
-msgstr "Score"
-
 msgid "score"
 msgstr "score"
+
+msgid "Score"
+msgstr "Score"
 
 msgid "Score range"
 msgstr "Échelle de score"
