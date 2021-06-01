@@ -34,9 +34,14 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
      */
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
+        $logger = $this->getLogger();
         $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
 
         $validationConfig = $decorator->getCsvColumns();
+
+        if ([] === $validationConfig) {
+            $logger->debug('Tabular import: empty header columns');
+        }
 
         $error = new InvalidCsvImportException();
 
@@ -51,11 +56,13 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
             foreach ($this->getMissingMatches($headerRegex, $validations, $content, $occurrences) as $missingMatch) {
                 $error->addMissingHeaderColumn($missingMatch);
                 $error->addError(0, __('Header `%s` is required', $missingMatch));
+                $logger->debug(sprintf('Tabular import: Header `%s` is required', $missingMatch));
             }
 
             if ($isRequired && $totalOccurrences === 0) {
                 $error->addMissingHeaderColumn($headerRegex);
                 $error->addError(0, __('Header `%s` is required', $headerRegex));
+                $logger->debug(sprintf('Tabular import: Header `%s` is required', $headerRegex));
             }
 
             if ($totalOccurrences < $minOccurrences) {
@@ -64,6 +71,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
                     0,
                     __('Header `%s` must be provided at least `%s` times', $headerRegex, $minOccurrences)
                 );
+                $logger->debug(sprintf('Tabular import: Header `%s` must be provided at least `%s` times', $headerRegex, $minOccurrences));
             }
         }
 

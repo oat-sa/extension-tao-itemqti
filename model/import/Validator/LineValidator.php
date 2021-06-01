@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use function Webmozart\Assert\Tests\StaticAnalysis\string;
 
 class LineValidator extends ConfigurableService implements ValidatorInterface
 {
@@ -36,6 +37,7 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
      */
     public function validate(array $content, TemplateInterface $csvTemplate): void
     {
+        $logger = $this->getLogger();
         $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
         $warnings = new RecoverableLineValidationException();
 
@@ -48,11 +50,23 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
                 $validator = $this->getValidatorMapper()->getValidator($name);
                 if ($validator) {
                     try {
-                        $validator->validate($content[$headerRegex] ?? null, $rules, $content);
+                        $validatedValue = $content[$headerRegex] ?? null;
+
+                        $loggedValue = is_null($validatedValue) ?
+                            'NULL' :
+                            sprintf('"%s"', $validatedValue);
+
+                        $validator->validate($validatedValue, $rules, $content);
+
+                        $logger->debug(sprintf('Tabular import: successful validation on %s by "%s" validator', $loggedValue, $name));
                     } catch (RecoverableLineValidationException $exception) {
                         $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
+
+                        $logger->warning(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
                     } catch (InvalidImportException | InvalidCsvImportException $exception) {
                         $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
+
+                        $logger->error(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
                     }
                 }
             }
