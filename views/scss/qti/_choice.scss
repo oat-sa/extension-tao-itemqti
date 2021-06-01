@@ -140,6 +140,7 @@
         display: flex;
         align-items: center;
         top: 2px;
+        -webkit-tap-highlight-color: transparent; // mobile safari fix
         &:before {
             content: "0";
             min-width: 20px;
