@@ -59,13 +59,7 @@ class MetadataRepository extends ConfigurableService
             }
         }
         return $metaDataArray;
-    }
-
-    public function getClassName(string $uri): string
-    {
-        $class = $this->getClass($uri);
-        return $class->getLabel();
-    }
+    }    
 
     private function isTextWidget(core_kernel_classes_Property $property): bool
     {

@@ -61,7 +61,7 @@ class QtiCreator extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
     use HttpJsonResponseTrait;
-    
+
     /**
      * @return EventManager
      */
@@ -347,5 +347,5 @@ class QtiCreator extends tao_actions_CommonModule
             throw new common_exception_Error('Empty string given');
         }
         \tao_helpers_Xml::getSimpleXml($xml);
-    }    
+    }
 }

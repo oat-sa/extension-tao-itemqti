@@ -1,11 +1,22 @@
 <?php
 
 /**
- * DownloadSampleCsv Controller provide actions to download sample CSV
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
  *
- * @author Chinnu Francis - TAO Team - {@link http://www.tao.lu}
- * @package taoQtiItem
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA
+ *
  */
 
 declare(strict_types=1);
@@ -19,6 +30,7 @@ use oat\taoQtiItem\model\import\Parser\TemplateHeaderParser;
 use oat\taoQtiItem\model\import\Factory\CsvTemplateSampleLineFactory;
 use oat\oatbox\service\ConfigurableService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\generis\model\OntologyAwareTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use function GuzzleHttp\Psr7\stream_for;
@@ -27,6 +39,8 @@ use common_exception_MissingParameter;
 
 class SampleTemplateDownload extends ConfigurableService implements ServiceLocatorAwareInterface
 {
+    use OntologyAwareTrait;
+
     /**
      * @throws common_exception_Error
      */
@@ -42,9 +56,9 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
         $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
         $headers = $this->getTemplateHeaderParser()->parse($template, $metaDataArray);
 
-        $templateSampleLines = $this->getTemplateSampleLines()->getSampleLines($template);
+        $templateSampleLines = $this->getTemplateSampleLines()->createMultiple($template);
 
-        $className = $this->getMetadataRepository()->getClassName($uri);
+        $className = $this->getClassName($uri);
         $filename = $this->getFileName($className);
 
         $csvContent = $this->getCsvContent($headers, $templateSampleLines);
@@ -55,16 +69,13 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
     }
 
     private function getCsvContent($headers, $templateSampleLines): string
-    {
-        $file = fopen('php://temp', 'rw');
-        fputcsv($file, $headers);
+    {        
+        $sampleLines = implode(",",$headers).PHP_EOL;
         foreach ($templateSampleLines as $row) {
-            fputcsv($file, $row);
+            $line = str_replace('"', '""',implode(","."\t",$row));
+            $sampleLines .= '"'.str_replace(","."\t", '","', $line).'"'.PHP_EOL;
         }
-        rewind($file);
-        $csvContent = stream_get_contents($file);
-        fclose($file);
-        return $csvContent;
+        return $sampleLines;
     }
 
     private function getFileName($className): string
@@ -74,6 +85,12 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
             . '_'
             . date('YmdHis') . rand(10, 99)
             . '.csv';
+    }
+
+    public function getClassName(string $uri): string
+    {
+        $class = $this->getClass($uri);
+        return $class->getLabel();
     }
 
     private function getMetadataRepository(): MetadataRepository

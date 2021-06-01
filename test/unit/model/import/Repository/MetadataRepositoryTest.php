@@ -37,7 +37,6 @@ class MetadataRepositoryTest extends TestCase
     /** @var MetadataRepository */
     private $repository;
 
-
     public function setUp(): void
     {
         $this->repository = new MetadataRepository();

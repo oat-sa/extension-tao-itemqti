@@ -32,10 +32,12 @@ class CsvTemplateSampleLineFactoryTest extends TestCase
     {
         $this->subject = new CsvTemplateSampleLineFactory();        
     }
+    
     public function testfindMetadataByClassUri(): void
     {        
         $template = $this->createMock(TemplateInterface::class);
         $sampleLines = $this->subject->getSampleLines($template);
+        
         $this->assertNotNull($sampleLines);
     }
 }

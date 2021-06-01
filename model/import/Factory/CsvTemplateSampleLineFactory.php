@@ -27,7 +27,7 @@ use oat\oatbox\service\ConfigurableService;
 
 class CsvTemplateSampleLineFactory extends ConfigurableService
 {
-    public function getSampleLines(TemplateInterface $template): array
+    public function createMultiple(TemplateInterface $template): array
     {
         $correctResponse = array(
             "[please remove] EXAMPLE 1 - item with correct answer",
