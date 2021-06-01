@@ -32,11 +32,11 @@ use oat\tao\helpers\UrlHelper;
 
 class CsvImportForm extends tao_models_classes_import_CsvUploadForm
 {
-    public $uri;
+    private $uri;
 
     public function __construct(array $data = [], array $options = [])
     {   
-        $this->uri = $options['classUri'];
+        $this->uri = $options['classUri'] ?? '';
         $options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE] = false;        
         parent::__construct($data, $options);
     }

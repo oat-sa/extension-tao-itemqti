@@ -62,6 +62,7 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
         $filename = $this->getFileName($className);
 
         $csvContent = $this->getCsvContent($headers, $templateSampleLines);
+
         return $response
             ->withHeader('Content-Type', 'text/csv')
             ->withHeader("Content-Disposition", "attachment; filename=" . $filename)
@@ -69,16 +70,18 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
     }
 
     private function getCsvContent($headers, $templateSampleLines): string
-    {        
-        $sampleLines = implode(",",$headers).PHP_EOL;
+    {
+        $sampleLines = implode(",", $headers) . PHP_EOL;
+
         foreach ($templateSampleLines as $row) {
-            $line = str_replace('"', '""',implode(","."\t",$row));
-            $sampleLines .= '"'.str_replace(","."\t", '","', $line).'"'.PHP_EOL;
+            $line = str_replace('"', '""', implode("," . "\t", $row));
+            $sampleLines .= '"' . str_replace("," . "\t", '","', $line) . '"' . PHP_EOL;
         }
+
         return $sampleLines;
     }
 
-    private function getFileName($className): string
+    private function getFileName(string $className): string
     {
         return 'tablular_template_for_'
             . $className
@@ -89,8 +92,7 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
 
     public function getClassName(string $uri): string
     {
-        $class = $this->getClass($uri);
-        return $class->getLabel();
+        return $this->getClass($uri)->getLabel();
     }
 
     private function getMetadataRepository(): MetadataRepository

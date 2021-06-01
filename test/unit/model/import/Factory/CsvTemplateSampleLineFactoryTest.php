@@ -36,8 +36,8 @@ class CsvTemplateSampleLineFactoryTest extends TestCase
     public function testfindMetadataByClassUri(): void
     {        
         $template = $this->createMock(TemplateInterface::class);
-        $sampleLines = $this->subject->getSampleLines($template);
+        $sampleLines = $this->subject->createMultiple($template);
         
-        $this->assertNotNull($sampleLines);
+        $this->assertCount(3, $sampleLines);
     }
 }

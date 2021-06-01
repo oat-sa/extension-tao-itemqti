@@ -71,9 +71,12 @@ class CsvItemImporter implements
      */
     public function getForm()
     {
-        $form = new CsvImportForm([], [
-            'classUri' => $this->request->getParsedBody()['classUri']
-        ]);
+        $form = new CsvImportForm(
+            [], 
+            [
+                'classUri' => $this->request->getParsedBody()['classUri']
+            ]
+        );
 
         return $form->getForm();
     }

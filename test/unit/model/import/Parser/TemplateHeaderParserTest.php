@@ -51,8 +51,9 @@ class TemplateHeaderParserTest extends TestCase
 
         $this->template = $this->createMock(TemplateInterface::class);
         $items = $this->subject->parse($this->getDefaultTemplate(), $metaDataArray);
-        $this->AssertGreaterThan(1, count($items));
+        $this->assertGreaterThan(1, count($items));
     }
+
     private function getDefaultTemplate(): TemplateInterface
     {
         return new CsvTemplate(

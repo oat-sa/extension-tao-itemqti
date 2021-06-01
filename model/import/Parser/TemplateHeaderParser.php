@@ -38,19 +38,24 @@ class TemplateHeaderParser extends ConfigurableService
         foreach ($csvColumns as $key => $val) {
             if (strpos($key, "_score") !== false) {
                 for ($i = 1; $i <= 4; $i++) {
-                    $headers[] = "choice_" . $i . "_score";
+                    $headers[] = 'choice_' . $i . '_score';
                 }
+                
                 continue;
             }
-            if (strpos($key, "choice_") !== false) {
+            
+            if (strpos($key, 'choice_') !== false) {
                 for ($i = 1; $i <= 4; $i++) {
-                    $headers[] = "choice_" . $i;
+                    $headers[] = 'choice_' . $i;
                 }
+                
                 continue;
             }
-            if (strpos($key, "metadata") !== false) {
+            
+            if (strpos($key, 'metadata') !== false) {
                 continue;
             }
+            
             $headers[] = $key;
         }
 
