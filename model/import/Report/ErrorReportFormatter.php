@@ -34,10 +34,7 @@ class ErrorReportFormatter extends AbstractReportFormatter
     public function format(array $report): Report
     {
         $reportObject = Report::createError(
-            __(
-                '%s line(s) contain(s) an error and cannot be imported',
-                count($report)
-            )
+            __('%s line(s) contain(s) an error and cannot be imported', count($report))
         );
         foreach ($this->buildLineMessages($report) as $message) {
             $reportObject->add(Report::createError($message));

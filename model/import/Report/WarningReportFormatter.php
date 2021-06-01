@@ -34,10 +34,7 @@ class WarningReportFormatter extends AbstractReportFormatter
     public function format(array $report): Report
     {
         $reportObject = Report::createWarning(
-            __(
-                '%s line(s) are imported with warnings',
-                count($report)
-            )
+            __('%s line(s) are imported with warnings', count($report))
         );
         foreach ($this->buildLineMessages($report) as $message) {
             $reportObject->add(Report::createWarning($message));
