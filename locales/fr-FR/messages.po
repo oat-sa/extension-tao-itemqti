@@ -317,11 +317,11 @@ msgstr "Contraintes"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
-msgid "Correct"
-msgstr "Correct"
-
 msgid "correct"
 msgstr "correct"
+
+msgid "Correct"
+msgstr "Correct"
 
 msgid "Cosinus"
 msgstr "Cosinus"
@@ -698,11 +698,11 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "des paires identiques existent déjà"
 
-msgid "Identifier"
-msgstr "Identifiant"
-
 msgid "identifier"
 msgstr "identifiant"
+
+msgid "Identifier"
+msgstr "Identifiant"
 
 msgid "identifier already taken"
 msgstr "identifiant déjà pris"
@@ -840,11 +840,11 @@ msgstr "Langue"
 msgid "Large editor"
 msgstr "Éditeur large"
 
-msgid "LaTeX"
-msgstr "LaTeX"
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "laisser vide"
@@ -1045,11 +1045,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
-msgid "none"
-msgstr "aucun"
-
 msgid "None"
 msgstr "Aucun"
+
+msgid "none"
+msgstr "aucun"
 
 msgid "None defined yet."
 msgstr "Pas encore défini"
@@ -1337,11 +1337,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Right"
-msgstr "Droite"
-
 msgid "right"
 msgstr "droite"
+
+msgid "Right"
+msgstr "Droite"
 
 msgid "Right bracket"
 msgstr "Parenthèse fermante"

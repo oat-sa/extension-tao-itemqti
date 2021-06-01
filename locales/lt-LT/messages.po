@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-30T17:17:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint154\n"
+"PO-Revision-Date: 2021-05-27T13:49:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -36,9 +36,6 @@ msgstr "-- Betkoks failas --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 elementas buvo importuotas iš pateikto QTI/APIP XML Elemento Dokumentas."
-
-msgid "7-zip archive"
-msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Privaloma pasirinkti"
@@ -82,9 +79,6 @@ msgstr "Pridėti naujas poras"
 
 msgid "Add Style Sheet"
 msgstr "Pridėti Stiliaus Lapą"
-
-msgid "Adobe Flash file"
-msgstr ""
 
 msgid "Alignment"
 msgstr "Lygiavimas"
@@ -163,9 +157,6 @@ msgstr "vieną asocijuotą porą "
 msgid "at least"
 msgstr "bent"
 
-msgid "Audio Video Interleave"
-msgstr ""
-
 msgid "Autostart"
 msgstr "Automatiškai pradėti"
 
@@ -177,9 +168,6 @@ msgstr "Fono spalva"
 
 msgid "Base"
 msgstr "Pagrindas"
-
-msgid "Bitmap image"
-msgstr ""
 
 msgid "block"
 msgstr "blokas"
@@ -201,15 +189,6 @@ msgstr "Naršyk savo kompiuterį ir pasirink atitinkamą failą."
 
 msgid "Browse..."
 msgstr "Naršyti..."
-
-msgid "C file"
-msgstr ""
-
-msgid "C++ file (.cpp)"
-msgstr ""
-
-msgid "Calc speadsheet (Staroffice)"
-msgstr ""
 
 msgid "Cancel"
 msgstr "Atšaukti"
@@ -234,9 +213,6 @@ msgstr "nepavyko rasti QTI XML"
 
 msgid "Cannot locate the file \"%s"
 msgstr "Nepavyko surasti failo \"%s"
-
-msgid "Cascading Style Sheets"
-msgstr ""
 
 msgid "Center"
 msgstr "Centras"
@@ -298,20 +274,17 @@ msgstr "Spalvos Pasirinkimas"
 msgid "Common Interactions"
 msgstr ""
 
-msgid "Compressed tar file"
-msgstr ""
-
-msgid "Contraints"
+msgid "Constraints"
 msgstr ""
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Valdyk vaizdo arba garso įrašo failo atkūrimo nustatymus (automatinė paleistis, kartojimas) su ataskaita, kiek kartų buvo paleistas įrašas."
 
-msgid "Correct"
-msgstr "Teisingai"
-
 msgid "correct"
 msgstr "teisingai"
+
+msgid "Correct"
+msgstr "Teisingai"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
@@ -334,9 +307,6 @@ msgstr "Sukurti karštąjį tekstą"
 msgid "Create pair(s) from a series of choices."
 msgstr "Sukurti porą(–as) iš pasirinkimų serijos."
 
-msgid "CSV file"
-msgstr "CSV failas"
-
 msgid "Current value:"
 msgstr "Dabartinė reikšmė:"
 
@@ -349,14 +319,11 @@ msgstr "pasirinktinas"
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Database file"
-msgstr ""
+msgid "Default"
+msgstr "Numatytas"
 
 msgid "default"
 msgstr "numatytas"
-
-msgid "Default"
-msgstr "Numatytas"
 
 msgid "Define correct response"
 msgstr "Nustatyti teisingą atsakymą"
@@ -382,11 +349,11 @@ msgstr "Nustatytas plotis"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "ištrinti"
-
 msgid "Delete"
 msgstr "Ištrinti"
+
+msgid "delete"
+msgstr "ištrinti"
 
 msgid "Delete else statement"
 msgstr ""
@@ -412,9 +379,6 @@ msgstr "Rodyti variantus horizontaliai arba vertikaliai"
 msgid "Divide"
 msgstr "Dalinti"
 
-msgid "Document templates (Staroffice)"
-msgstr ""
-
 msgid "Don\'t save"
 msgstr ""
 
@@ -423,6 +387,9 @@ msgstr "atlikta"
 
 msgid "Done"
 msgstr "Atlikta"
+
+msgid "Download"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Atsiųsti šį stilių"
@@ -495,9 +462,6 @@ msgstr "Baigti Bandymą"
 
 msgid "End Attempt Interaction"
 msgstr "Užbaigimo Užduotis"
-
-msgid "Enhanced metafile"
-msgstr ""
 
 msgid "Enlarge font size"
 msgstr "Padidinti šriftą"
@@ -592,12 +556,6 @@ msgstr "Failo Įkėlimo Sąveika"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Užpildyti tarpus su paveiksliuku iš paveiksliukų pasirikimų rinkinio."
 
-msgid "Flash video"
-msgstr "Flash vaizdo įrašas"
-
-msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
-
 msgid "Font family"
 msgstr "Šrifto šeima"
 
@@ -619,12 +577,6 @@ msgstr "Užpildyti tarpus"
 msgid "Gap Match Interaction"
 msgstr "Tarpų užpildymo interakcija"
 
-msgid "Geogebra data file"
-msgstr ""
-
-msgid "GIF image"
-msgstr "GIF paveikslėlis"
-
 msgid "Graphic Associate Interaction"
 msgstr "Susiejimo poromis grafinė interakcija"
 
@@ -642,12 +594,6 @@ msgstr "Daugiau negu arba lygu"
 
 msgid "Guard for resource \"%s\"..."
 msgstr "Apsauga resursui \"%s\"..."
-
-msgid "GZip Compressed Archive"
-msgstr ""
-
-msgid "Header file with extensions"
-msgstr ""
 
 msgid "Height"
 msgstr "Aukštis"
@@ -679,17 +625,14 @@ msgstr "Kaip matematinė išraiška turėtų būti redaguojama"
 msgid "Human"
 msgstr ""
 
-msgid "Hypertext markup language"
-msgstr ""
-
 msgid "identical pair already exists"
 msgstr "identiška pora jau yra"
 
-msgid "Identifier"
-msgstr "Identifikatorius"
-
 msgid "identifier"
 msgstr "identifikatorius"
+
+msgid "Identifier"
+msgstr "Identifikatorius"
 
 msgid "identifier already taken"
 msgstr "identifikatorius jau užimtas"
@@ -760,8 +703,17 @@ msgstr "Sąveikos Savybės"
 msgid "Interpretation"
 msgstr "Interpretacija"
 
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
+
 msgid "invalid QTI XML"
 msgstr "blogas QTI XML"
+
+msgid "Invalid response identifier"
+msgstr ""
 
 msgid "Invalid URL"
 msgstr ""
@@ -784,14 +736,17 @@ msgstr "Klausimas \"%s\" nėra galimas jokia kalba"
 msgid "Item \"%s\" is ready to be exported"
 msgstr "Elementas \"%s\" paruoštas būti eksportuotam"
 
+msgid "Item cannot be saved."
+msgstr ""
+
 msgid "Item metadata successfully exported."
 msgstr "Elemento meta duomenys sėkmingai išeksportuoti."
 
-msgid "Item Properties"
-msgstr "Nuotraukos Savybės"
-
 msgid "Item properties"
 msgstr "Elemento savybės"
+
+msgid "Item Properties"
+msgstr "Nuotraukos Savybės"
 
 msgid "Item width"
 msgstr "Elemento plotis"
@@ -799,12 +754,6 @@ msgstr "Elemento plotis"
 #, tao-public
 msgid "Items"
 msgstr "Elementai"
-
-msgid "Javascript code"
-msgstr ""
-
-msgid "JPEG image"
-msgstr "JPEG paveiksliukas"
 
 msgid "Label"
 msgstr "Pavadinimas"
@@ -815,11 +764,11 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
-msgid "LaTeX"
-msgstr "LaTeX"
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "palikti tuščią"
@@ -905,20 +854,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maks"
 
-msgid "Max length"
-msgstr "Maks. ilgis"
-
 msgid "Max Length"
 msgstr "Maks. Ilgis"
+
+msgid "Max length"
+msgstr "Maks. ilgis"
 
 msgid "Max plays count"
 msgstr "Maks. paleidimų kiekis"
 
-msgid "Max words"
-msgstr "Maks. žodžių"
-
 msgid "Max Words"
 msgstr "Maks. Žodžių"
+
+msgid "Max words"
+msgstr "Maks. žodžių"
 
 msgid "Max. number of matches"
 msgstr "Maks. kiekis sutapimų"
@@ -959,41 +908,11 @@ msgstr "Meta duomenų eksportavimui reikalinga DomManifest instancija, kad įter
 msgid "Metadata service successfully registered."
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Office Document Imaging"
-msgstr ""
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft Powerpoint"
-
-msgid "Microsoft Project file"
-msgstr ""
-
-msgid "Microsoft Visio file"
-msgstr ""
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
-
-msgid "Microsoft Works file"
-msgstr ""
-
-msgid "Microsoft XPS file"
-msgstr ""
-
-msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
-
 msgid "MIME-type"
 msgstr "MIME tipas"
 
 msgid "Min"
 msgstr "Min."
-
-msgid "Mind mapping software application (free mind open source)"
-msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Minimalūs balai šiai užduočiai."
@@ -1009,18 +928,6 @@ msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "Modaliniai Atsiliepimai"
-
-msgid "MP4 video"
-msgstr "MP4 vaizdo įrašas"
-
-msgid "MPEG audio"
-msgstr "MPEG garso įrašas"
-
-msgid "MPEG video"
-msgstr "MPEG vaizdo įrašas"
-
-msgid "MPEG-4 audio file"
-msgstr ""
 
 msgid "Multiply"
 msgstr "Dauginti"
@@ -1050,14 +957,17 @@ msgstr "Joks Elementas negali būti importuotas iš pateikto IMS QTI paketo."
 msgid "No preview available"
 msgstr "Peržiūrėti negalima"
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "none"
-msgstr "nėra"
-
 msgid "None"
 msgstr "Nėra"
+
+msgid "none"
+msgstr "nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -1082,21 +992,6 @@ msgid "One or more QTI components are not supported by the system. The system re
 msgstr "Vienas ar daugiau QTI komponentų nėra palaikomas sistemos. Sistema gražino šią klaidą: %s\n"
 ""
 
-msgid "OpenDocument Database"
-msgstr ""
-
-msgid "OpenDocument Presentation"
-msgstr ""
-
-msgid "OpenDocument spreadsheet document"
-msgstr ""
-
-msgid "OpenDocument text document"
-msgstr ""
-
-msgid "OpenDocument Text Template"
-msgstr ""
-
 msgid "Order"
 msgstr "Eiliškumas"
 
@@ -1115,17 +1010,11 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "Poros vertinimas"
 
-msgid "Pascal file (.pas)"
-msgstr ""
-
 msgid "Pattern"
 msgstr "Šablonas"
 
 msgid "Pause"
 msgstr "Pristabdyti"
-
-msgid "PDF file"
-msgstr "PDF failas"
 
 msgid "Pi"
 msgstr "Pi"
@@ -1200,9 +1089,6 @@ msgstr "Prašome įvesti teisingą atsakymą apačioje."
 msgid "Please type the correct response in the box below."
 msgstr "Prašome įvesti teisingą atsakymą ploto apačioje."
 
-msgid "PNG image"
-msgstr "PNG paveiksliukas"
-
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Portatyvus elemento modelis %s nerastas. Reikalaujamas plėtinys galbūt nerastas"
 
@@ -1275,15 +1161,6 @@ msgstr "QTI/APIP XML Elemento Dokumentas"
 msgid "Question"
 msgstr "Klausimas"
 
-msgid "Quicktime video"
-msgstr "Quicktime vaizdo įrašas"
-
-msgid "RAR archive"
-msgstr ""
-
-msgid "RealMedia file"
-msgstr ""
-
 msgid "Recommendations"
 msgstr "Patarimai"
 
@@ -1299,11 +1176,11 @@ msgstr "Registravimo metodas tikisi $key ir $name parametrų"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registravimo metodas tikisi $key ir $name parametrų."
 
-msgid "Remove"
-msgstr "Ištrinti"
-
 msgid "remove"
 msgstr "ištrinti"
+
+msgid "Remove"
+msgstr "Ištrinti"
 
 msgid "Remove custom background color"
 msgstr "Panaikinti pasirinktą fono spalvą"
@@ -1377,14 +1254,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Rich Text Format file"
-msgstr ""
+msgid "right"
+msgstr "dešinė"
 
 msgid "Right"
 msgstr "Dešinė"
-
-msgid "right"
-msgstr "dešinė"
 
 msgid "Right bracket"
 msgstr "Dešinys skliaustas"
@@ -1509,9 +1383,6 @@ msgstr "Formos pozicija"
 msgid "Shuffle choices"
 msgstr "Sumaišyti atsakymus"
 
-msgid "Sibelius music notation"
-msgstr ""
-
 msgid "Sinus"
 msgstr "Sinusas"
 
@@ -1536,9 +1407,6 @@ msgstr "standartas"
 msgid "Step"
 msgstr "Žingsnis"
 
-msgid "Storing digital video data on a computer game"
-msgstr ""
-
 msgid "Style Editor"
 msgstr "Stiliaus Redagavimas"
 
@@ -1557,26 +1425,14 @@ msgstr "Sėkmingai sukompiliuota \"%s"
 msgid "Successfully created item \"%s"
 msgstr ""
 
-msgid "SVG image"
-msgstr "SVG paveiksliukas"
-
 msgid "Table headings"
 msgstr "Lentelės antraštės"
-
-msgid "Tagged image file"
-msgstr ""
 
 msgid "TAO default styles"
 msgstr "TAO numatyti stiliai"
 
-msgid "Tape Archive (TAR)"
-msgstr ""
-
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Pasirinktos Klasės Paieška resursui \"%s\"..."
-
-msgid "TeX file"
-msgstr ""
 
 msgid "Text Block"
 msgstr "Teksto Blokas"
@@ -1589,9 +1445,6 @@ msgstr "Teksto Bloko Savybės"
 
 msgid "Text color"
 msgstr "Teksto spalva"
-
-msgid "Text document file format (Staroffice)"
-msgstr ""
 
 msgid "Text Entry"
 msgstr "Teksto Įvestis"
@@ -1793,8 +1646,8 @@ msgstr "Yra neužbaigta dalis jūsų elemente: prašome paspausti kad užbaigtum
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Įvyko problema atsiunčiant jūsų CSS, prašome bandyti dar kartą."
 
-msgid "this identifier is already in use"
-msgstr "identifikatorius jau yra užimtas"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr ""
@@ -1807,9 +1660,6 @@ msgstr "Šis laukas yra privalomas"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Stiliaus šablonas nerastas serveryje. Jums galite ištrinti šį šaltinį"
-
-msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
-msgstr ""
 
 msgid "Time dependent"
 msgstr "Laiko priklausomas"
@@ -1856,9 +1706,6 @@ msgstr "Anuliuoti"
 msgid "undo"
 msgstr "anuliuoti"
 
-msgid "UNIX Compressed Archive File"
-msgstr ""
-
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Nežinomas $key registruoti MetadataService instanciją"
 
@@ -1883,26 +1730,11 @@ msgstr "Reikšmė"
 msgid "Vertical"
 msgstr "Veritkalus"
 
-msgid "WAV audio"
-msgstr "WAV garso įrašas"
-
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Mes naudosime patternMask atlikti tai, kad atitiktų IMS standartą"
 
 msgid "Width"
 msgstr "Plotis"
-
-msgid "Windows help file"
-msgstr ""
-
-msgid "Windows Media audio"
-msgstr "Windows Media garso įrašas"
-
-msgid "Windows Media file (metafile)"
-msgstr ""
-
-msgid "Windows Media video"
-msgstr "Windows Media vaizdo įrašas"
 
 msgid "words"
 msgstr "žodžiai"
@@ -1910,14 +1742,8 @@ msgstr "žodžiai"
 msgid "Would you like to replace the alt text"
 msgstr "Ar jūs norėtumėte pakeisti alternatyvų tekstą"
 
-msgid "Write Document"
-msgstr ""
-
 msgid "WYSIWYG editor"
 msgstr "WYSIWYG redaktorius"
-
-msgid "XML file"
-msgstr ""
 
 msgid "Yes"
 msgstr "Taip"
@@ -1987,7 +1813,4 @@ msgstr "Jums reikia padaryti"
 
 msgid "Your item has been saved"
 msgstr "Jūsų elementas buvo išsaugotas"
-
-msgid "ZIP archive"
-msgstr "ZIP archyvas"
 
