@@ -28,11 +28,14 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvTemplateSampleLineFactoryTest extends TestCase
 {
-    public function testfindMetadataByClassUri(): void
+    public function setUp(): void
     {
-        
+        $this->subject = new CsvTemplateSampleLineFactory();        
+    }
+    public function testfindMetadataByClassUri(): void
+    {        
         $template = $this->createMock(TemplateInterface::class);
-        $sampleLines = CsvTemplateSampleLineFactory::getSampleLines($template);
+        $sampleLines = $this->subject->getSampleLines($template);
         $this->assertNotNull($sampleLines);
     }
 }

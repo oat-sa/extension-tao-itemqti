@@ -38,6 +38,7 @@ use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
 use oat\tao\model\import\ImportHandlerHelperTrait;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use tao_models_classes_import_ImportHandler;
+use Psr\Http\Message\RequestInterface;
 
 class CsvItemImporter implements
     tao_models_classes_import_ImportHandler,
@@ -50,6 +51,11 @@ class CsvItemImporter implements
     use EventManagerAwareTrait;
     use ImportHandlerHelperTrait {
         getTaskParameters as getDefaultTaskParameters;
+    }
+
+    public function __construct($request)
+    {
+        $this->request = $request;
     }
 
     /**
@@ -65,7 +71,9 @@ class CsvItemImporter implements
      */
     public function getForm()
     {
-        $form = new CsvImportForm();
+        $form = new CsvImportForm([], [
+            'classUri' => $this->request
+        ]);
 
         return $form->getForm();
     }

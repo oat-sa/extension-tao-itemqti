@@ -8,7 +8,7 @@
                     <action id="item-new" name="New item" url="/taoQtiItem/QtiCreator/createItem" context="resource" group="tree" binding="instanciate">
                         <icon id="icon-item"/>
                     </action>
-                    <action id="download-template" name="download-template" url="/taoQtiItem/DownloadSampleTemplate/downloadCsv" context="resource" group="tree" binding="instanciate">
+                    <action id="download-template" name="download-template" url="/taoQtiItem/ItemImportSampleDownload/downloadTemplate" context="resource" group="tree" binding="instanciate">
                         <icon id="icon-item"/>
                     </action>
                 </actions>

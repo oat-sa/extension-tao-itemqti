@@ -23,10 +23,11 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import\Factory;
 
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\oatbox\service\ConfigurableService;
 
-class CsvTemplateSampleLineFactory
+class CsvTemplateSampleLineFactory extends ConfigurableService
 {
-    public static function getSampleLines(TemplateInterface $template): array
+    public function getSampleLines(TemplateInterface $template): array
     {
         $correctResponse = array(
             "[please remove] EXAMPLE 1 - item with correct answer",

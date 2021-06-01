@@ -25,28 +25,51 @@ namespace oat\taoQtiItem\model\import\Repository;
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
+use tao_helpers_form_elements_Htmlarea as HtmlArea;
+use tao_helpers_form_elements_Textarea as TextArea;
+use tao_helpers_form_elements_Textbox as TextBox;
+use core_kernel_classes_Property;
 
 class MetadataRepository extends ConfigurableService
 {
     use OntologyAwareTrait;
 
+    private const TEXT_WIDGETS = [
+        TextBox::WIDGET_ID,
+        TextArea::WIDGET_ID,
+        HtmlArea::WIDGET_ID,
+    ];
+
     public function findMetadataByClassUri(string $uri): array
     {
-        $metaDataArray      = array();
-        $class              = $this->getClass($uri);
-        $aliasProperty      = $class->getProperty(GenerisRdf::PROPERTY_ALIAS);
-        $classProperties    = $class->getProperties(true);
-        if($classProperties){
+        $metaDataArray = [];
+        $class = $this->getClass($uri);
+        $aliasProperty = $class->getProperty(GenerisRdf::PROPERTY_ALIAS);
+        $classProperties = $class->getProperties(true);
+
+        if ($classProperties) {
             foreach ($classProperties as $property) {
                 $aliasName = (string)$property->getOnePropertyValue($aliasProperty);
                 if (!$property->getWidget()) {
                     continue;
                 }
-                if ($aliasName) {
+                if ($aliasName && $this->isTextWidget($property)) {
                     $metaDataArray[] = $property;
                 }
             }
-        }        
+        }
         return $metaDataArray;
+    }
+
+    public function getClassName(string $uri): string
+    {
+        $class = $this->getClass($uri);
+        return $class->getLabel();
+    }
+
+    private function isTextWidget(core_kernel_classes_Property $property): bool
+    {
+        $widgetUri = $property->getWidget()->getUri();
+        return in_array($widgetUri, self::TEXT_WIDGETS, true);
     }
 }
