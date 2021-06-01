@@ -10,7 +10,7 @@
 </div>
 <hr>
 <div class="panel">
-    <h3 class="full-width">{{__ "Contraints"}}</h3>
+    <h3 class="full-width">{{__ "Constraints"}}</h3>
     <select name="constraint" class="select2" data-has-search="false">
         {{#each constraints}}
             <option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>

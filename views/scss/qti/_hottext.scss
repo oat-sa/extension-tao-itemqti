@@ -10,6 +10,9 @@
 }
 
 .qti-hottextInteraction {
+    strong, em, sub, sup {
+        text-decoration: inherit;
+    }
 
     .qti-hottext {
         display: inline-block;
@@ -19,6 +22,7 @@
         @include border-radius();
         position: relative;
         border-width: 0px !important;
+        text-decoration: inherit;
 
         &:hover {
             @extend %selectableHover;
@@ -30,6 +34,8 @@
 
         .hottext-checkmark {
             padding-left: 3px;
+            padding-right: 0;
+            width: 20px;
         }
 
         [class^="icon-"], [class*=" icon-"] {
