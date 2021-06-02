@@ -32,7 +32,6 @@ use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use function Webmozart\Assert\Tests\StaticAnalysis\string;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
