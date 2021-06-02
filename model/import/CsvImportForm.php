@@ -32,12 +32,13 @@ use oat\tao\helpers\UrlHelper;
 
 class CsvImportForm extends tao_models_classes_import_CsvUploadForm
 {
-    private $uri;
+    /** @var string */
+    private $classUri;
 
     public function __construct(array $data = [], array $options = [])
-    {   
-        $this->uri = $options['classUri'] ?? '';
-        $options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE] = false;        
+    {
+        $this->classUri = $options['classUri'] ?? '';
+        $options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE] = false;
         parent::__construct($data, $options);
     }
 
@@ -103,7 +104,7 @@ class CsvImportForm extends tao_models_classes_import_CsvUploadForm
             'downloadTemplate',
             'ItemImportSampleDownload',
             'taoQtiItem',
-            ['uri' => $this->uri]
+            ['uri' => $this->classUri]
         );
         $this->form->createGroup(
             'file',

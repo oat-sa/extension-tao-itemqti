@@ -43,6 +43,7 @@ class MetadataRepositoryTest extends TestCase
         $this->ontology = $this->createMock(Ontology::class);
         $this->generis = $this->createMock(GenerisRdf::class);
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);
+        $this->propertyMock = $this->createMock(core_kernel_classes_Property::class);
         $this->repository->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
@@ -54,25 +55,33 @@ class MetadataRepositoryTest extends TestCase
 
     public function testFindMetadataByClassUri(): void
     {
-        $class = $this->createMock(core_kernel_classes_Class::class);
         $this->ontology
             ->method('getClass')
-            ->willReturn($class);
-        
-        $class->method('getProperty')
-            ->willReturn($this->createMock(core_kernel_classes_Property::class));
-        
+            ->willReturn($this->classMock);
+
+        $this->classMock
+            ->method('getProperty')
+            ->with($this->generis::PROPERTY_ALIAS)
+            ->willReturn($this->propertyMock);
+
         $this->classMock
             ->method('getProperties')
             ->with(true)
-            ->willReturnOnConsecutiveCalls()
             ->willReturn(
                 [
-                    new core_kernel_classes_Resource(self::URI)
+                    $this->propertyMock
                 ]
             );
 
+        $this->propertyMock
+        ->method('getWidget')
+        ->willReturn($this->propertyMock);
+   
+        $this->propertyMock
+        ->method('getOnePropertyValue')
+        ->willReturn("Alias Value");
+
         $metaDataArray = $this->repository->findMetadataByClassUri(self::URI);
-        $this->assertIsArray($metaDataArray);
+        $this->assertContainsOnlyInstancesOf(core_kernel_classes_Property::class, $metaDataArray);
     }
 }
