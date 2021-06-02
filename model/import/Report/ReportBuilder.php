@@ -53,20 +53,14 @@ class ReportBuilder extends ConfigurableService
 
     public function getReportTitle(ItemImportResult $importerResults): string
     {
-        $title = __('CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))');
         if (0 === count($importerResults->getErrorReports()) && 0 === count($importerResults->getWarningReports())) {
-            $title = __('CSV import successful: %s/%s line(s) are imported');
-        }
-        if (0 === $importerResults->getTotalSuccessfulImport()) {
-            $title = __('CSV import failed: %s/%s line(s) are imported');
+            return __('CSV import successful: %s/%s line(s) are imported', $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems());
         }
 
-        return sprintf(
-            $title,
-            $importerResults->getTotalSuccessfulImport(),
-            $importerResults->getTotalScannedItems(),
-            count($importerResults->getWarningReports()),
-            count($importerResults->getErrorReports())
-        );
+        if (0 === $importerResults->getTotalSuccessfulImport()) {
+            return __('CSV import failed: %s/%s line(s) are imported', $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems());
+        }
+
+        return __('CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))', $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems(), count($importerResults->getWarningReports()), count($importerResults->getErrorReports()));
     }
 }
