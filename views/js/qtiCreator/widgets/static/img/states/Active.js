@@ -10,10 +10,11 @@ define([
     'lodash',
     'util/image',
     'ui/mediaEditor/mediaEditorComponent',
+    'ui/mediaEditor/plugins/mediaAlignment/helper',
     'core/mimetype',
     'ui/resourcemgr',
     'nouislider',
-    'ui/tooltip'
+    'ui/tooltip',
 ], function (
     $,
     __,
@@ -26,7 +27,8 @@ define([
     _,
     imageUtil,
     mediaEditorComponent,
-    mimeType
+    alignmentHelper,
+    mimeType,
 ) {
     'use strict';
 
@@ -57,19 +59,6 @@ define([
             .replace(/^(.*)\//, '')
             .replace(/\W/, ' ')
             .substr(0, 255);
-    };
-    var _initAlign = function (widget) {
-        var align = 'default';
-
-        //init float positioning:
-        if (widget.element.hasClass('rgt')) {
-            align = 'right';
-        } else if (widget.element.hasClass('lft')) {
-            align = 'left';
-        }
-
-        inlineHelper.positionFloat(widget, align);
-        widget.$form.find('select[name=align]').val(align);
     };
 
     var _getMedia = function (imgQtiElement, $imgNode, cb) {
@@ -113,63 +102,72 @@ define([
         }
     };
 
-    var _initMediaSizer = function (widget) {
-        var img = widget.element,
-            $src = widget.$form.find('input[name=src]'),
-            $mediaResizer = widget.$form.find('.img-resizer'),
-            $mediaSpan = widget.$container,
-            $img = widget.$original;
+    var _initMediaEditor = function (widget) {
+        var $src = widget.$form.find('input[name=src]'),
+            $mediaResizer = widget.$form.find('.img-resizer');
 
         if (mediaEditor) {
             mediaEditor.destroy();
         }
 
-        if ($src.val()) {
-            _getMedia(img, $img, function (media) {
-                var options = {
-                    mediaDimension: {
-                        active: true
-                    }
-                };
-                media.$container = $mediaSpan.parents('.widget-box');
-                if (media.$container.length) {
-                    mediaEditor = mediaEditorComponent($mediaResizer, media, options).on('change', function (nMedia) {
-                        media = nMedia;
-                        $img.prop('style', null); // not allowed by qti
-                        $img.removeAttr('style');
-
-                        if (img.data('responsive') !== media.responsive) {
-                            img.data('responsive', media.responsive);
-                        }
-
-                        _(['width', 'height']).each(function (sizeAttr) {
-                            var val;
-                            if (
-                                media[sizeAttr] === '' ||
-                                typeof media[sizeAttr] === 'undefined' ||
-                                media[sizeAttr] === null
-                            ) {
-                                img.removeAttr(sizeAttr);
-                                $mediaSpan.css(sizeAttr, '');
-                            } else {
-                                val = Math.round(media[sizeAttr]);
-                                if (media.responsive) {
-                                    val += '%';
-                                    img.attr(sizeAttr, val);
-                                    $img.attr(sizeAttr, '100%');
-                                } else {
-                                    img.attr(sizeAttr, val);
-                                }
-                                $mediaSpan.css(sizeAttr, val);
-                            }
-                            //trigger choice container size adaptation
-                            widget.$container.trigger('contentChange.qti-widget');
-                        });
-                        $img.removeClass('hidden');
-                    });
-                }
-            });
+        if (!$src.val()) {
+            return;
         }
+
+        _getMedia(widget.element, widget.$original, function (media) {
+            var options = {
+                mediaDimension: {
+                    active: true
+                },
+                mediaAlignment: {
+                    active: true
+                }
+            };
+            media.$container = widget.$container.parents('.widget-box');
+            if (media.$container.length) {
+                mediaEditor = mediaEditorComponent($mediaResizer, media, options).on('change', function (nMedia) {
+                    media = nMedia;
+                    widget.$original.prop('style', null); // not allowed by qti
+                    widget.$original.removeAttr('style');
+                    alignmentHelper.positionFloat(widget, media.align)
+                    _mediaSizer(media, widget)
+                    widget.$original.removeClass('hidden');
+                });
+            }
+        });
+        
+    };
+
+    var _mediaSizer = function (media, widget) {
+        var img = widget.element, $mediaSpan = widget.$container, $img = widget.$original;
+
+        if (img.data('responsive') !== media.responsive) {
+            img.data('responsive', media.responsive);
+        }
+
+        _(['width', 'height']).each(function (sizeAttr) {
+            var val;
+            if (
+                media[sizeAttr] === '' ||
+                typeof media[sizeAttr] === 'undefined' ||
+                media[sizeAttr] === null
+            ) {
+                img.removeAttr(sizeAttr);
+                $mediaSpan.css(sizeAttr, '');
+            } else {
+                val = Math.round(media[sizeAttr]);
+                if (media.responsive) {
+                    val += '%';
+                    img.attr(sizeAttr, val);
+                    $img.attr(sizeAttr, '100%');
+                } else {
+                    img.attr(sizeAttr, val);
+                }
+                $mediaSpan.css(sizeAttr, val);
+            }
+            //trigger choice container size adaptation
+            widget.$container.trigger('contentChange.qti-widget');
+        });
     };
 
     var _initAdvanced = function (widget) {
@@ -292,8 +290,7 @@ define([
 
         //init slider and set align value before ...
         _initAdvanced(_widget);
-        _initMediaSizer(_widget);
-        _initAlign(_widget);
+        _initMediaEditor(_widget);
         _initUpload(_widget);
 
         //... init standard ui widget
@@ -315,7 +312,7 @@ define([
                 if (img.attr('off-media-editor') === 1) {
                     img.removeAttr('off-media-editor');
                 } else {
-                    _initMediaSizer(_widget);
+                    _initMediaEditor(_widget);
                 }
             }, 1000),
             alt: function (img, value) {
