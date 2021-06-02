@@ -10,3 +10,4 @@ composer.lock
 /.idea
 
 node_modules
+/views/js/mathjax
