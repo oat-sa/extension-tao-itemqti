@@ -26,13 +26,19 @@ use oat\generis\Helper\SystemHelper;
 use tao_helpers_form_FormFactory;
 use tao_helpers_form_xhtml_Form;
 use tao_models_classes_import_CsvUploadForm;
+use oat\oatbox\service\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\tao\helpers\UrlHelper;
 
 class CsvImportForm extends tao_models_classes_import_CsvUploadForm
 {
+    /** @var string */
+    private $classUri;
+
     public function __construct(array $data = [], array $options = [])
     {
+        $this->classUri = $options['classUri'] ?? '';
         $options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE] = false;
-
         parent::__construct($data, $options);
     }
 
@@ -94,7 +100,12 @@ class CsvImportForm extends tao_models_classes_import_CsvUploadForm
         );
 
         $this->form->addElement($formElement);
-        $downloadLink = '#';
+        $downloadLink = $this->getServiceLocator()->get(UrlHelper::class)->buildUrl(
+            'downloadTemplate',
+            'ItemImportSampleDownload',
+            'taoQtiItem',
+            ['uri' => $this->classUri]
+        );
         $this->form->createGroup(
             'file',
             sprintf(
@@ -112,5 +123,10 @@ class CsvImportForm extends tao_models_classes_import_CsvUploadForm
         $csvSentElt->setValue(1);
 
         $this->form->addElement($csvSentElt);
+    }
+
+    private function getServiceLocator(): ServiceLocatorInterface
+    {
+        return ServiceManager::getServiceManager();
     }
 }
