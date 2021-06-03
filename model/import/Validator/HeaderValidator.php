@@ -39,10 +39,6 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 
         $validationConfig = $decorator->getCsvColumns();
 
-        if ([] === $validationConfig) {
-            $logger->debug('Tabular import: empty header columns');
-        }
-
         $error = new InvalidCsvImportException();
 
         foreach ($validationConfig as $headerRegex => $validations) {

@@ -64,8 +64,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
         foreach (array_filter($lines) as $lineNumber => $line) {
             $currentLineNumber = $lineNumber + 1;
 
-            $logger->debug(sprintf('Tabular import: line %s parsing started', $currentLineNumber));
-            $logger->debug(sprintf('Tabular import: line %s raw data is "%s"', $currentLineNumber, $line));
+            $logger->debug(sprintf('Tabular import: line: %s raw data: "%s"', $currentLineNumber, $line));
 
             $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
             $headedLine = array_combine($header, $parsedLine);

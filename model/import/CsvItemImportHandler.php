@@ -81,7 +81,7 @@ class CsvItemImportHandler extends ConfigurableService
 
                     $successReportsImport++;
                 } else {
-                    $logger->error(sprintf(
+                    $logger->debug(sprintf(
                             'Tabular import: failed import of item from line %s due to %s',
                             $lineNumber,
                             $itemImportReport->getMessage())
@@ -95,7 +95,7 @@ class CsvItemImportHandler extends ConfigurableService
                 }
                 unset($itemImportReport);
             } catch (InvalidMetadataException $exception) {
-                $logger->error(sprintf(
+                $logger->debug(sprintf(
                         'Tabular import: failed import of item from line %s due to %s',
                         $lineNumber,
                         $exception->getMessage())

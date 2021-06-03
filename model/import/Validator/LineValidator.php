@@ -62,11 +62,11 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
                     } catch (RecoverableLineValidationException $exception) {
                         $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
 
-                        $logger->warning(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
+                        $logger->debug(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
                     } catch (InvalidImportException | InvalidCsvImportException $exception) {
                         $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
 
-                        $logger->error(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
+                        $logger->debug(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
                     }
                 }
             }
