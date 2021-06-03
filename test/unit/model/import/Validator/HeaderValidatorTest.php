@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\import\Validator;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\import\CsvTemplate;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
@@ -36,7 +37,10 @@ class HeaderValidatorTest extends TestCase
 
     public function setUp(): void
     {
+        $loggerMock = $this->createMock(LoggerService::class);
+
         $this->subject = new HeaderValidator();
+        $this->subject->setLogger($loggerMock);
     }
 
     public function testValidateSuccessfully(): void
