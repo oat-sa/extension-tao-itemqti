@@ -32,10 +32,10 @@ msgid "%s is invalid, should be less or equal than `%s`(%s)"
 msgstr "%s est invalide, doit être inférieur ou égal à `%s` (%s)"
 
 msgid "%s line(s) are imported with warnings"
-msgstr "% ligne(s) sont importées avec des avertissements"
+msgstr "%s ligne(s) sont importées avec des avertissements"
 
 msgid "%s line(s) contain(s) an error and cannot be imported"
-msgstr "% lignes(s) contient(ennent) une erreur et ne peut(vent) pas être importée(s)"
+msgstr "%s lignes(s) contient(ennent) une erreur et ne peut(vent) pas être importée(s)"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s valeurs de métadonnées trouvées dans la source par l'/les extracteur(s)"
