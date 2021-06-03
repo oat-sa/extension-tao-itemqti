@@ -28,7 +28,6 @@ use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use function Webmozart\Assert\Tests\StaticAnalysis\string;
 
 class LineValidator extends ConfigurableService implements ValidatorInterface
 {
