@@ -42,7 +42,7 @@ define([
     const createEventName = (widget, name, ns) => {
         const eventName = `${name}.qti-widget.${widget.serial}`;
         if (ns) {
-            return `${name}.${ns}`;
+            return `${eventName}.${ns}`;
         }
         return eventName;
     };
