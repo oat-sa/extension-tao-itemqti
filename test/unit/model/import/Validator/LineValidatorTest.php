@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\import\Validator;
 
-use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\import\TemplateInterface;
