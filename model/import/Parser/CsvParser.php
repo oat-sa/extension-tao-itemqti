@@ -40,11 +40,16 @@ class CsvParser extends ConfigurableService implements ParserInterface
      */
     public function parseFile(File $file, TemplateInterface $template): ItemImportResult
     {
+        $logger = $this->getLogger();
         $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
         $header = $this->convertCsvLineToArray($lines[0]);
         $header = $this->trimLine($header);
 
+        $logger->debug('Tabular import: header validation started');
+
         $this->getHeaderValidator()->validate($header, $template);
+
+        $logger->debug('Tabular import: header validation finished');
 
         array_shift($lines);
 
@@ -52,12 +57,14 @@ class CsvParser extends ConfigurableService implements ParserInterface
         $validationReport = [];
         $errorsReport = [];
         $currentLineNumber = 0;
-        $logger = $this->getLogger();
         $lineValidator = $this->getLineValidator();
         $csvLineConverter = $this->getCsvLineConverter();
 
         foreach (array_filter($lines) as $lineNumber => $line) {
             $currentLineNumber = $lineNumber + 1;
+
+            $logger->debug(sprintf('Tabular import: line: %s raw data: "%s"', $currentLineNumber, $line));
+
             $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
             $headedLine = array_combine($header, $parsedLine);
 

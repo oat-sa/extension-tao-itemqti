@@ -54,7 +54,12 @@ class CsvItemImportHandler extends ConfigurableService
     ): ItemImportResult {
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
+        $logger = $this->getLogger();
+        $logger->debug('Tabular import: CSV parsing started');
+
         $itemValidatorResults = $this->getParser()->parseFile($uploadedFile, $template);
+
+        $logger->debug('Tabular import: CSV parsing finished');
 
         $successReportsImport = 0;
         $importService = $this->getItemImportService();
@@ -72,8 +77,16 @@ class CsvItemImportHandler extends ConfigurableService
                 if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {
                     $itemValidatorResults->setFirstItem($itemImportReport->getData());
 
+                    $logger->debug(sprintf('Tabular import: successful import of item from line %s', $lineNumber));
+
                     $successReportsImport++;
                 } else {
+                    $logger->debug(sprintf(
+                            'Tabular import: failed import of item from line %s due to %s',
+                            $lineNumber,
+                            $itemImportReport->getMessage())
+                    );
+
                     $error = new InvalidImportException();
                     $error->addError($lineNumber, $itemImportReport->getMessage());
 
@@ -82,6 +95,11 @@ class CsvItemImportHandler extends ConfigurableService
                 }
                 unset($itemImportReport);
             } catch (InvalidMetadataException $exception) {
+                $logger->debug(sprintf(
+                        'Tabular import: failed import of item from line %s due to %s',
+                        $lineNumber,
+                        $exception->getMessage())
+                );
                 $error = new InvalidImportException();
                 $error->addError($lineNumber, $exception->getMessage());
                 if (isset($itemImportReport)) {
@@ -91,8 +109,10 @@ class CsvItemImportHandler extends ConfigurableService
                 $itemValidatorResults->addErrorReport($lineNumber, $error);
                 $errorReportsImport++;
             } catch (Throwable $exception) {
-                $this->getLogger()->warning(
-                    sprintf('Tabular import: import failure %s', $exception->getMessage())
+                $logger->error(sprintf(
+                        'Tabular import: failed import of item from line %s due to %s',
+                        $lineNumber,
+                        $exception->getMessage())
                 );
 
                 if (isset($itemImportReport)){
@@ -109,6 +129,12 @@ class CsvItemImportHandler extends ConfigurableService
         }
 
         helpers_TimeOutHelper::reset();
+
+        $logger->debug(sprintf(
+                'Tabular import: successful import %s items from %s',
+                $successReportsImport,
+                count($xmlItems)
+        ));
 
         $itemValidatorResults->setTotalSuccessfulImport($successReportsImport);
 
