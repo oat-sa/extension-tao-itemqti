@@ -53,11 +53,13 @@ class CsvItemImporter implements
         getTaskParameters as getDefaultTaskParameters;
     }
 
-    //@TODO @FIXME We need to fix this after get fix from Chinnu
-//    public function __construct(ServerRequestInterface $request)
-//    {
-//        $this->request = $request;
-//    }
+    /** @var ServerRequestInterface|null */
+    private $request;
+
+    public function __construct(ServerRequestInterface $request = null)
+    {
+        $this->request = $request;
+    }
 
     /**
      * @inheritdoc
@@ -75,7 +77,7 @@ class CsvItemImporter implements
         $form = new CsvImportForm(
             [],
             [
-                'classUri' => $_POST['classUri'] //@TODO @FIXME We need to fix this after get fix from Chinnu
+                'classUri' => $this->request ? $this->request->getParsedBody()['classUri'] : null
             ]
         );
 
