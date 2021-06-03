@@ -33,9 +33,10 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\generis\model\OntologyAwareTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use function GuzzleHttp\Psr7\stream_for;
 use common_exception_Error;
 use common_exception_MissingParameter;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 class SampleTemplateDownload extends ConfigurableService implements ServiceLocatorAwareInterface
 {

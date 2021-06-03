@@ -40,7 +40,7 @@ class TemplateHeaderParser extends ConfigurableService
                 for ($i = 1; $i <= 4; $i++) {
                     $headers[] = 'choice_' . $i . '_score';
                 }
-                
+
                 continue;
             }
             
@@ -48,14 +48,14 @@ class TemplateHeaderParser extends ConfigurableService
                 for ($i = 1; $i <= 4; $i++) {
                     $headers[] = 'choice_' . $i;
                 }
-                
+
                 continue;
             }
-            
+
             if (strpos($key, 'metadata') !== false) {
                 continue;
             }
-            
+
             $headers[] = $key;
         }
 

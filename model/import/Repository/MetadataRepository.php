@@ -59,7 +59,7 @@ class MetadataRepository extends ConfigurableService
             }
         }
         return $metaDataArray;
-    }    
+    }
 
     private function isTextWidget(core_kernel_classes_Property $property): bool
     {
