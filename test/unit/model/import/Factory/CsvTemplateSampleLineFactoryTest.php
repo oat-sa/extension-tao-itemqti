@@ -20,28 +20,24 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model\import\Validator;
+namespace oat\taoQtiItem\test\unit\model\import\Factory;
 
 use oat\generis\test\TestCase;
-use oat\oatbox\log\LoggerService;
+use oat\taoQtiItem\model\import\Factory\CsvTemplateSampleLineFactory;
 use oat\taoQtiItem\model\import\TemplateInterface;
-use oat\taoQtiItem\model\import\Validator\LineValidator;
 
-class LineValidatorTest extends TestCase
+class CsvTemplateSampleLineFactoryTest extends TestCase
 {
-    /** @var LineValidator */
-    private $subject;
-
     public function setUp(): void
     {
-        $loggerMock = $this->createMock(LoggerService::class);
-
-        $this->subject = new LineValidator();
-        $this->subject->setLogger($loggerMock);
+        $this->subject = new CsvTemplateSampleLineFactory();        
     }
-
-    public function testValidateSuccessfully(): void
-    {
-        $this->assertNull($this->subject->validate([], $this->createMock(TemplateInterface::class)));
+    
+    public function testfindMetadataByClassUri(): void
+    {        
+        $template = $this->createMock(TemplateInterface::class);
+        $sampleLines = $this->subject->createMultiple($template);
+        
+        $this->assertCount(3, $sampleLines);
     }
 }

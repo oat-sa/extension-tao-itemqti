@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,33 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model\import\Validator;
+namespace oat\taoQtiItem\controller;
 
-use oat\generis\test\TestCase;
-use oat\oatbox\log\LoggerService;
-use oat\taoQtiItem\model\import\TemplateInterface;
-use oat\taoQtiItem\model\import\Validator\LineValidator;
+use oat\taoQtiItem\model\import\SampleTemplateDownload;
+use tao_actions_CommonModule;
 
-class LineValidatorTest extends TestCase
+class ItemImportSampleDownload extends tao_actions_CommonModule
 {
-    /** @var LineValidator */
-    private $subject;
-
-    public function setUp(): void
+    public function downloadTemplate()
     {
-        $loggerMock = $this->createMock(LoggerService::class);
-
-        $this->subject = new LineValidator();
-        $this->subject->setLogger($loggerMock);
+        return $this->getSampleTemplateDownload()->download($this->getPsrRequest(), $this->getPsrResponse());
     }
 
-    public function testValidateSuccessfully(): void
+    private function getSampleTemplateDownload(): SampleTemplateDownload
     {
-        $this->assertNull($this->subject->validate([], $this->createMock(TemplateInterface::class)));
+        return $this->getServiceLocator()->get(SampleTemplateDownload::class);
     }
 }
