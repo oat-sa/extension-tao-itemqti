@@ -96,12 +96,6 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             });
             
             _bindEvents($messageBox);
-            
-            _.each(widgets, function(w){
-                w.on('beforeStateInit', function(){
-                    _confirmDeletion($messageBox, 400);
-                });
-            });
         
             return $messageBox;
         }
