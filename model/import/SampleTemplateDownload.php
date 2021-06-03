@@ -53,7 +53,7 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
         }
         $uri = $queryParams['uri'];
         $metaDataArray = $this->getMetadataRepository()->findMetadataByClassUri($uri);
-    
+
         $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
         $headers = $this->getTemplateHeaderParser()->parse($template, $metaDataArray);
 

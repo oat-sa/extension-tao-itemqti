@@ -43,7 +43,7 @@ class TemplateHeaderParser extends ConfigurableService
 
                 continue;
             }
-            
+
             if (strpos($key, 'choice_') !== false) {
                 for ($i = 1; $i <= 4; $i++) {
                     $headers[] = 'choice_' . $i;
