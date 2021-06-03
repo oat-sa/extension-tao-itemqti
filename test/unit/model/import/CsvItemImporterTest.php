@@ -25,15 +25,19 @@ namespace oat\taoQtiItem\test\unit\model\import;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\import\CsvItemImporter;
 use tao_helpers_form_xhtml_Form;
+use Psr\Http\Message\ServerRequestInterface;
 
 class CsvItemImporterTest extends TestCase
 {
     /** @var CsvItemImporter */
     private $subject;
+    /** @var RequestMock */
+    private $requestMock;
 
     public function setUp(): void
     {
-        $this->subject = new CsvItemImporter();
+        $this->requestMock = $this->createMock(ServerRequestInterface::class);
+        $this->subject = new CsvItemImporter($this->requestMock);
     }
 
     public function testGetForm(): void

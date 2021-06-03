@@ -39,7 +39,6 @@ class TemplateHeaderParserTest extends TestCase
     public function setUp(): void
     {
         $this->subject = new TemplateHeaderParser();
-        define('DEFAULT_LANG','en-US');        
     }
 
     public function testParse(): void
