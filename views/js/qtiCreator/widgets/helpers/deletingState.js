@@ -13,31 +13,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technlogies SA
+ * Copyright (c) 2016-2021 (original work) Open Assessment Technlogies SA
  *
  */
-define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox'], function(_, $, deletingInfoTpl){
+define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox'], function (
+    _,
+    $,
+    deletingInfoTpl
+) {
     'use strict';
 
-    var _timeout = 10000;
+    const _timeout = 10000;
 
-    var _destroy = function _destroy($messageBox){
+    const _destroy = function _destroy($messageBox) {
         $('body').off('.deleting');
         $messageBox.remove();
     };
 
-    var undo = function undo($messageBox){
+    const undo = function undo($messageBox) {
         $messageBox.trigger('undo.deleting');
         _destroy($messageBox);
     };
 
-    var _bindEvents = function _bindEvents($messageBox){
+    const _confirmDeletion = function ($messageBox, fadeDelay) {
+        //only allow deletion if the message has not already been deleted yet
+        if ($messageBox.length && $.contains(document, $messageBox[0])) {
+            $messageBox.trigger('confirm.deleting');
+            $messageBox.fadeOut(fadeDelay, function () {
+                _destroy($messageBox);
+            });
+        }
+    };
 
-        $('body').on('mousedown.deleting keydown.deleting', function(e){
-
-            if(e.ctrlKey || e.metaKey){
+    const _bindEvents = function _bindEvents($messageBox) {
+        $('body').on('mousedown.deleting keydown.deleting', function (e) {
+            if (e.ctrlKey || e.metaKey) {
                 //trigger undo callback if the standard keyboard shortcut ctrl+z is triggered
-                if(e.keyCode == 90){//z-key
+                if (e.keyCode === 90) {
+                    //z-key
                     undo($messageBox);
                 }
                 e.preventDefault();
@@ -45,58 +58,49 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             }
 
             //confirm deleting whenever user interact with another object
-            if(e.target !== $messageBox[0] && !$.contains($messageBox[0], e.target)){
+            if (e.target !== $messageBox[0] && !$.contains($messageBox[0], e.target)) {
                 _confirmDeletion($messageBox, 400);
             }
         });
-        
-        $messageBox.find('a.undo').on('click', function(e){
+
+        $messageBox.find('a.undo').on('click', function (e) {
             e.preventDefault();
             undo($messageBox);
         });
 
-        $messageBox.find('.close-trigger').on('click', function(e){
+        $messageBox.find('.close-trigger').on('click', function (e) {
             e.preventDefault();
             _confirmDeletion($messageBox, 0);
         });
 
-        setTimeout(function(){
+        setTimeout(function () {
             _confirmDeletion($messageBox, 1000);
         }, _timeout);
     };
 
-    var _confirmDeletion = function($messageBox, fadeDelay){
-        //only allow deletion if the message has not already been deleted yet
-        if($messageBox.length && $.contains(document, $messageBox[0])){
-            $messageBox.trigger('confirm.deleting');
-            $messageBox.fadeOut(fadeDelay, function(){
-                _destroy($messageBox);
-            });
-        }
-    };
-    
-    var deletingHelper = {
-        createInfoBox : function(widgets){
-
-            var $messageBox = $(deletingInfoTpl({
-                serial : 'widgets',
-                count : widgets.length
-            }));
+    const deletingHelper = {
+        createInfoBox: function (widgets) {
+            const $messageBox = $(
+                deletingInfoTpl({
+                    serial: 'widgets',
+                    count: widgets.length
+                })
+            );
 
             $('body').append($messageBox);
 
             $messageBox.css({
-                'display' : 'block',
-                'position' : 'fixed',
-                'top' : '50px',
-                'left' : '50%',
-                'margin-left' : '-200px',
-                'width' : '400px',
-                zIndex : 999999
+                display: 'block',
+                position: 'fixed',
+                top: '50px',
+                left: '50%',
+                'margin-left': '-200px',
+                width: '400px',
+                zIndex: 999999
             });
-            
+
             _bindEvents($messageBox);
-        
+
             return $messageBox;
         }
     };
