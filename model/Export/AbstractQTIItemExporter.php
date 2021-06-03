@@ -17,13 +17,15 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2020 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2021 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\taoQtiItem\model\Export;
 
 use oat\tao\helpers\Base64;
+use oat\taoQtiItem\model\Export\Exception\AssetStylesheetZipTransferException;
+use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use core_kernel_classes_Property;
 use DOMDocument;
 use League\Flysystem\FileNotFoundException;
@@ -47,6 +49,10 @@ use taoItems_models_classes_ItemExporter;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
+    public const PROPERTY_LINK = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Link';
+    public const ASSETS_DIRECTORY_NAME = 'assets';
+    public const CSS_DIRECTORY_NAME = 'css';
+    public const CSS_FILE_NAME = 'tao-user-styles.css';
 
     /**
     * List of regexp of media that should be excluded from retrieval
@@ -140,8 +146,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                         $stream = $mediaSource->getFileStream($link);
                     }
 
-                    $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
+                    $baseName = ($mediaSource instanceof LocalItemSource)
+                        ? $link
+                        : 'assets/' . $mediaSource->getBaseName($link);
+
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
+                    $this->addAssetStylesheetToZip($link, $basePath);
                     $replacementList[$assetUrl] = $replacement;
                 }
             } catch (\tao_models_classes_FileNotFoundException $e) {
@@ -315,5 +325,34 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
         return $this->metadataExporter;
+    }
+
+    /**
+     * @throws AssetStylesheetZipTransferException
+     */
+    private function addAssetStylesheetToZip(string $link, string $basePath): void
+    {
+        if ($assetStylesheetStream = $this->getAssetStylesheetLoader()->loadAssetFromAssetResource($link)) {
+            $transferedFiles = $this->addFile($assetStylesheetStream, $this->buildAssetBasePath($basePath));
+            if ($transferedFiles !== 1) {
+                throw new AssetStylesheetZipTransferException('This should only transfer 1 file to zip');
+            }
+        }
+    }
+
+    private function buildAssetBasePath(string $basePath): string
+    {
+        return $basePath
+            . DIRECTORY_SEPARATOR
+            . self::ASSETS_DIRECTORY_NAME
+            . DIRECTORY_SEPARATOR
+            . self::CSS_DIRECTORY_NAME
+            . DIRECTORY_SEPARATOR
+            . self::CSS_FILE_NAME;
+    }
+
+    private function getAssetStylesheetLoader(): AssetStylesheetLoader
+    {
+        return $this->getServiceManager()->get(AssetStylesheetLoader::class);
     }
 }
