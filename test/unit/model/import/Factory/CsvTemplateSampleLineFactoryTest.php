@@ -20,34 +20,24 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model\import;
+namespace oat\taoQtiItem\test\unit\model\import\Factory;
 
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\import\CsvItemImporter;
-use tao_helpers_form_xhtml_Form;
-use Psr\Http\Message\ServerRequestInterface;
+use oat\taoQtiItem\model\import\Factory\CsvTemplateSampleLineFactory;
+use oat\taoQtiItem\model\import\TemplateInterface;
 
-class CsvItemImporterTest extends TestCase
+class CsvTemplateSampleLineFactoryTest extends TestCase
 {
-    /** @var CsvItemImporter */
-    private $subject;
-    /** @var RequestMock */
-    private $requestMock;
-
     public function setUp(): void
     {
-        $this->requestMock = $this->createMock(ServerRequestInterface::class);
-        $this->subject = new CsvItemImporter($this->requestMock);
+        $this->subject = new CsvTemplateSampleLineFactory();        
     }
-
-    public function testGetForm(): void
-    {
-        $this->markTestSkipped('Refactoring of underlying code is required');
-        $this->assertInstanceOf(tao_helpers_form_xhtml_Form::class, $this->subject->getForm());
-    }
-
-    public function testGetLabel(): void
-    {
-        $this->assertSame(__('CSV content + metadata'), $this->subject->getLabel());
+    
+    public function testfindMetadataByClassUri(): void
+    {        
+        $template = $this->createMock(TemplateInterface::class);
+        $sampleLines = $this->subject->createMultiple($template);
+        
+        $this->assertCount(3, $sampleLines);
     }
 }
