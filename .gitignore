@@ -11,3 +11,4 @@ composer.lock
 
 node_modules
 /views/js/mathjax
+.DS_Store
