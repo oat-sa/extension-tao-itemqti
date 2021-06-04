@@ -53,7 +53,10 @@ class CsvItemImporter implements
         getTaskParameters as getDefaultTaskParameters;
     }
 
-    public function __construct(ServerRequestInterface $request)
+    /** @var ServerRequestInterface|null */
+    private $request;
+
+    public function __construct(ServerRequestInterface $request = null)
     {
         $this->request = $request;
     }
@@ -72,9 +75,9 @@ class CsvItemImporter implements
     public function getForm()
     {
         $form = new CsvImportForm(
-            [], 
+            [],
             [
-                'classUri' => $this->request->getParsedBody()['classUri']
+                'classUri' => $this->request ? $this->request->getParsedBody()['classUri'] : null
             ]
         );
 
