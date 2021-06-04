@@ -84,11 +84,41 @@ class CsvItemImporter implements
         return $form->getForm();
     }
 
+    private function convertTranslation(string $string, array $data): string
+    {
+        //@TODO Move to proper class (PoC only)
+        return '__(|||' . $string . '|||' . implode('|||', $data);
+        //return '__(' . $string . ', ' . implode('","', $data) . ')';
+    }
+
     /**
      * @inheritdoc
      */
     public function import($class, $form, $userId = null)
     {
+        //@TODO Test PoC only
+        $report = Report::createError(
+            $this->convertTranslation(
+                'CSV import failed: required columns are missing (%s)',
+                ['A']
+            ),
+            []
+        );
+        $report->add(
+            Report::createError(
+                $this->convertTranslation(
+                    'CSV import failed: required columns are missing (%s)',
+                    ['B']
+                ),
+                []
+            )
+        );
+
+        return $report;
+        //FIXME
+        //FIXME
+        //FIXME
+
         try {
             $uploadedFile = $this->fetchUploadedFile($form);
             $reportBuilder = $this->getReportBuilder();
