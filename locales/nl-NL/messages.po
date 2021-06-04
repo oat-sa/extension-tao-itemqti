@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-06-03T10:11:29\n"
+"PO-Revision-Date: 2021-06-04T13:44:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -77,6 +77,9 @@ msgstr "Een QTI-component wordt niet ondersteund. Het systeem heeft de volgende 
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Een rubriek blok staat voor dat deel van een toets items' itembody dat instructies voor een of meer van de actoren bevat om dat item te bekijken. Hoewel rubriek blokken gedefinieerd zijn als simpleBlocks mogen ze geen interacties bevatten."
+
+msgid "A value should be provided for at least one of the columns: %s"
+msgstr ""
 
 msgid "Adapt to screen size"
 msgstr "Pas aan schermgrootte aan"
@@ -156,7 +159,7 @@ msgstr ""
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Er is een onverwachte fout opgetreden het verwerken van de antwoorden."
 
-msgid "An unexpected error occurred during the CSV import. The system returned the following error: \"%s"
+msgid "An unexpected error occurred during the CSV import. The system returned the following error: `%s`"
 msgstr "Er is een onverwachte fout opgetreden tijdens de CSV-import. Het systeem gaf de volgende foutmelding: `%s`"
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
@@ -206,11 +209,11 @@ msgstr "Achtergrondkleur"
 msgid "Base"
 msgstr ""
 
-msgid "block"
-msgstr "blok"
-
 msgid "Block"
 msgstr "Blok"
+
+msgid "block"
+msgstr "blok"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Blok bevat de inhoud (stimulus) van het item zoals tekst of een afbeelding. Het is ook nodig voor in lijn interacties."
@@ -317,10 +320,10 @@ msgstr "Beperkingen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -374,11 +377,11 @@ msgstr "aangepast"
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
 
-msgid "Default"
-msgstr "Standaard"
-
 msgid "default"
 msgstr "standaard"
+
+msgid "Default"
+msgstr "Standaard"
 
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
@@ -404,11 +407,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
 
-msgid "Delete"
-msgstr "Verwijderen"
-
 msgid "delete"
 msgstr "verwijder"
+
+msgid "Delete"
+msgstr "Verwijderen"
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -437,11 +440,11 @@ msgstr "Delen"
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr "Voltooid"
-
 msgid "done"
 msgstr "Klaar"
+
+msgid "Done"
+msgstr "Voltooid"
 
 msgid "Download"
 msgstr ""
@@ -698,10 +701,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Naam"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Naam"
 
 msgid "identifier already taken"
@@ -849,11 +852,11 @@ msgstr "Latex"
 msgid "leave empty"
 msgstr "laat leeg"
 
-msgid "left"
-msgstr "links"
-
 msgid "Left"
 msgstr "Links"
+
+msgid "left"
+msgstr "links"
 
 msgid "Left bracket"
 msgstr "Linker haakje"
@@ -933,10 +936,10 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
@@ -1045,11 +1048,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "none"
-msgstr "geen"
-
 msgid "None"
 msgstr "Geen"
+
+msgid "none"
+msgstr "geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1358,11 +1361,11 @@ msgstr "Item sparen"
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "score"
-
 msgid "Score"
 msgstr "Score"
+
+msgid "score"
+msgstr "score"
 
 msgid "Score range"
 msgstr "Scorebereik"
@@ -1783,11 +1786,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "ongedaan maken"
-
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "undo"
+msgstr "ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""

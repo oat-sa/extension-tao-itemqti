@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-06-03T10:11:14\n"
+"PO-Revision-Date: 2021-06-04T13:44:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -76,6 +76,9 @@ msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Ein Rubrik-Block identifiziert den Teil des Item-Bodys eines Assessment-Items, das Instruktionen für einen oder mehrere Akteure darstellt. Obwohl Rubrik-Blöcke als Simple-Blöcke definiert sind, dürfen sie keine Interaktionen enthalten."
+
+msgid "A value should be provided for at least one of the columns: %s"
+msgstr ""
 
 msgid "Adapt to screen size"
 msgstr "An Bildschirm-Größe anpassen"
@@ -155,7 +158,7 @@ msgstr ""
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Bei der Antwortsverarbeitung trat ein unerwarteter Fehler auf."
 
-msgid "An unexpected error occurred during the CSV import. The system returned the following error: \"%s"
+msgid "An unexpected error occurred during the CSV import. The system returned the following error: `%s`"
 msgstr "ein unerwarteter Fehler ist während des CSV Import aufgetreten. Das System meldet folgenden Fehler: `%s`"
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
@@ -204,10 +207,10 @@ msgstr "Hintergrundfarbe"
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr "Block"
 
-msgid "Block"
+msgid "block"
 msgstr "Block"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -315,10 +318,10 @@ msgstr "Einschränkungen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Kontrolliert die Wiedergabe-Parameter (Auto-Start, Schleife) eines Videos oder einer Audio-Datei und berichtet über die Anzahl der Wiedergaben."
 
-msgid "Correct"
+msgid "correct"
 msgstr "Richtig"
 
-msgid "correct"
+msgid "Correct"
 msgstr "Richtig"
 
 msgid "Cosinus"
@@ -372,10 +375,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "benutzerdefinierter Antwortsverarbeitungsmodus"
 
-msgid "Default"
+msgid "default"
 msgstr "Standard"
 
-msgid "default"
+msgid "Default"
 msgstr "Standard"
 
 msgid "Define correct response"
@@ -402,11 +405,11 @@ msgstr "Definierte Breite"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "löschen"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Sonst-Anweisung löschen"
@@ -435,11 +438,11 @@ msgstr ""
 msgid "Don\'t save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "Fertig"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download"
 msgstr ""
@@ -696,10 +699,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr "Identische Paare existieren bereits"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Bezeichner"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Bezeichner"
 
 msgid "identifier already taken"
@@ -847,11 +850,11 @@ msgstr "Latex"
 msgid "leave empty"
 msgstr "frei lassen"
 
-msgid "left"
-msgstr "links"
-
 msgid "Left"
 msgstr "Links"
+
+msgid "left"
+msgstr "links"
 
 msgid "Left bracket"
 msgstr ""
@@ -930,10 +933,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maximum"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximale Länge"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximale Länge"
 
 msgid "Max plays count"
@@ -1042,11 +1045,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Keinen Wert zugewiesen"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Keine"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Noch keine definiert."
@@ -1354,10 +1357,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "Punktzahl"
 
-msgid "Score"
+msgid "score"
 msgstr "Punktzahl"
 
 msgid "Score range"
@@ -1779,10 +1782,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "Rückgängig"
 
-msgid "Undo"
+msgid "undo"
 msgstr "Rückgängig"
 
 msgid "Unknown $key to register MetadataService instance"

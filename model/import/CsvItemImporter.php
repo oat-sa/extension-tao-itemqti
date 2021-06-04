@@ -104,7 +104,7 @@ class CsvItemImporter implements
             $report = $reportBuilder->buildReportsContainer(__('CSV import failed'), $errorMessage);
             $this->getLogger()->warning($errorMessage);
         } catch (Throwable $e) {
-            $errorMessage = __('An unexpected error occurred during the CSV import. The system returned the following error: "%s"', $e->getMessage());
+            $errorMessage = __('An unexpected error occurred during the CSV import. The system returned the following error: `%s`', $e->getMessage());
             $this->getLogger()->warning($errorMessage);
             $report = $reportBuilder->buildReportsContainer(__('CSV import failed'), $errorMessage);
         } finally {
