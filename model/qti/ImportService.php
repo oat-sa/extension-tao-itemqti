@@ -595,6 +595,7 @@ class ImportService extends ConfigurableService
                     }
                     /** Shared stimulus handler */
                     $sharedStimulusHandler = new SharedStimulusAssetHandler();
+                    $sharedStimulusHandler->setServiceLocator($this->getServiceLocator());
                     $sharedStimulusHandler
                         ->setQtiModel($qtiModel)
                         ->setItemSource(new ItemMediaResolver($rdfItem, ''))

@@ -21,17 +21,26 @@
 
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\helpers\FileUploadException;
 use oat\tao\model\media\MediaManagement;
 use oat\tao\model\media\MediaService;
+use oat\taoMediaManager\model\MediaService as MediaManagerService;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoMediaManager\model\MediaSource;
+use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
 use oat\taoMediaManager\model\SharedStimulusImporter;
 use oat\taoMediaManager\model\SharedStimulusPackageImporter;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\Item;
+use tao_helpers_Uri;
 
 class SharedStimulusAssetHandler implements AssetHandler
 {
+    use OntologyAwareTrait;
+    use ServiceLocatorAwareTrait;
+
     /** @var  ItemMediaResolver */
     protected $itemSource;
 
@@ -96,15 +105,57 @@ class SharedStimulusAssetHandler implements AssetHandler
         $newXmlFile = SharedStimulusPackageImporter::embedAssets($absolutePath);
         $itemContent = $this->sharedStorage->add($newXmlFile, basename($relativePath), $this->parentPath);
 
-        if (method_exists($this->sharedStorage, 'forceMimeType')) {
-            $asset = $this->itemSource->resolve($itemContent['uri']);
-            $this->sharedStorage->forceMimeType($asset->getMediaIdentifier(), 'application/qti+xml');
-        }
+        $assetWithCss = $this->getStoreService()->store(
+            $newXmlFile,
+            basename($relativePath),
+            [
+                dirname($absolutePath) . DIRECTORY_SEPARATOR . 'css/tao-user-styles.css'
+            ]
+        );
 
-        $this->addSharedFile($md5, $itemContent);
+        $mediaResourceUri = $this->getMediaService()->createSharedStimulusInstance(
+            $assetWithCss . DIRECTORY_SEPARATOR . basename($relativePath) ,
+            'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media',
+            'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US'
+        );
+
+//        $this->addSharedFile($md5, $itemContent);
         \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' added to shared storage.');
 
-        return $itemContent;
+
+
+        return [
+            'uri' => MediaSource::SCHEME_NAME .  tao_helpers_Uri::encode($mediaResourceUri)
+        ];
+    }
+
+    /**
+     *
+     * @param string $path
+     * @return \core_kernel_classes_Class
+     */
+    private function getOrCreatePath($path)
+    {
+        $rootClass = $this->getRootClass();
+
+        if ($path === '') {
+            return $rootClass;
+        }
+
+        // If the path is a class URI, returns the existing class.
+        $class = $this->getClass(tao_helpers_Uri::decode($path));
+        if ($class->isSubClassOf($rootClass) || $class->equals($rootClass) || $class->exists()) {
+            return $class;
+        }
+
+        // If the given path is a json-encoded array, creates the full path from root class.
+        $labels = $this->getArrayFromJson($path);
+        if ($labels) {
+            return $rootClass->createSubClassPathByLabel($labels);
+        }
+
+        // Retrieve or create a direct subclass of the root class.
+        return $rootClass->retrieveOrCreateSubClassByLabel($path);
     }
 
     /**
@@ -206,5 +257,15 @@ class SharedStimulusAssetHandler implements AssetHandler
     public function finalize()
     {
         // Nothing to do
+    }
+
+    private function getStoreService(): StoreService
+    {
+        return $this->getServiceLocator()->get(StoreService::class);
+    }
+
+    private function getMediaService(): MediaManagerService
+    {
+        return $this->getServiceLocator()->get(MediaManagerService::class);
     }
 }
