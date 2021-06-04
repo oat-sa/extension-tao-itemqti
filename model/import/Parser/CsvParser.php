@@ -94,10 +94,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
                 $warning = new RecoverableLineValidationException();
                 $warning->addWarning(
                     $lineNumber,
-                    __(
-                        'A value should be provided for at least one of the columns: %s',
-                        'choice_[1-99]_score, correct_answer'
-                    )
+                    __('A value should be provided for at least one of the columns: %s', 'choice_[1-99]_score, correct_answer')
                 );
 
                 $validationReport[$currentLineNumber] = $warning;
