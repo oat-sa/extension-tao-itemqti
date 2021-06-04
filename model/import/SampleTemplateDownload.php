@@ -84,7 +84,7 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
 
     private function getFileName(string $className): string
     {
-        return 'tablular_template_for_'
+        return 'tabular_template_for_'
             . $className
             . '_'
             . date('YmdHis') . rand(10, 99)
