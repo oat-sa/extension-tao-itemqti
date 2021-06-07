@@ -97,20 +97,16 @@ class CsvItemImporter implements
     public function import($class, $form, $userId = null)
     {
         //@TODO Test PoC only
-        $report = Report::createError(
-            $this->convertTranslation(
-                'CSV import failed: required columns are missing (%s)',
-                ['A']
-            ),
-            []
+        $report = Report::create(
+            Report::TYPE_ERROR,
+            'CSV import failed: required columns are missing (%s)',
+            ['A']
         );
         $report->add(
-            Report::createError(
-                $this->convertTranslation(
-                    'CSV import failed: required columns are missing (%s)',
-                    ['B']
-                ),
-                []
+            Report::create(
+                Report::TYPE_ERROR,
+                'CSV import failed: required columns are missing (%s)',
+                ['B']
             )
         );
 
