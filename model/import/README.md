@@ -3,7 +3,7 @@
 Here you can find instructions about import items using TAO platform.
 
 ## Configuration
-The feature is disabled by default, to enable it flag `FEATURE_FLAG_TABULAR_IMPORT_ENABLED` should be set at the env variables.
+The feature is disabled by default. To enable it, flag `FEATURE_FLAG_TABULAR_IMPORT_ENABLED` should be set to True at the env variables.
 
 ## Tabular Import with CSV Template
 
@@ -36,3 +36,10 @@ How the score is set on the QTI Item based on the import fields.
 ### Examples
 
 - You can see an [example here](./../../templates/import/import.sample.csv).
+
+### Limitations
+
+In the current state of work, following are some limitations:
+   - Only choice interactions are supported for CSV 
+   - Text property type with one of the following types: Text Short Field, Text Long Box,  Text HTML editor values are supported
+   - All metadata properties that define the “alias” attribute only considered
