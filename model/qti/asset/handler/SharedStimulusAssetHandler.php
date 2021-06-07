@@ -98,7 +98,7 @@ class SharedStimulusAssetHandler implements AssetHandler
             $newXmlFile,
             $relativePath,
             $absolutePath,
-            $this->buildLabelBaseOnParentPath(),
+            $this->buildLabelBaseOnParentPath()
         );
 
         \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' added to shared storage.');

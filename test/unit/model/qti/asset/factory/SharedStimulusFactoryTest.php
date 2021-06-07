@@ -110,3 +110,4 @@ class SharedStimulusFactoryTest extends TestCase
         $this->assertEquals($result, 'id');
     }
 }
+
