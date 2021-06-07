@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-26T14:48:30\n"
+"Project-Id-Version: TAO 3.4.0-sprint154\n"
+"PO-Revision-Date: 2021-05-27T13:49:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -35,9 +35,6 @@ msgid "-- Any kind of file --"
 msgstr "--任何类型的文件--"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
-msgstr ""
-
-msgid "7-zip archive"
 msgstr ""
 
 msgid "A choice must be selected"
@@ -82,9 +79,6 @@ msgstr "添加配对选项"
 
 msgid "Add Style Sheet"
 msgstr "添加样式表"
-
-msgid "Adobe Flash file"
-msgstr ""
 
 msgid "Alignment"
 msgstr "对齐方式"
@@ -162,9 +156,6 @@ msgstr "关联配对"
 msgid "at least"
 msgstr "最少"
 
-msgid "Audio Video Interleave"
-msgstr ""
-
 msgid "Autostart"
 msgstr "自动启动"
 
@@ -175,9 +166,6 @@ msgid "Background color"
 msgstr "背景色彩"
 
 msgid "Base"
-msgstr ""
-
-msgid "Bitmap image"
 msgstr ""
 
 msgid "block"
@@ -201,15 +189,6 @@ msgstr "浏览你的电脑，并选择文件。"
 msgid "Browse..."
 msgstr "浏览..."
 
-msgid "C file"
-msgstr ""
-
-msgid "C++ file (.cpp)"
-msgstr ""
-
-msgid "Calc speadsheet (Staroffice)"
-msgstr ""
-
 msgid "Cancel"
 msgstr "取消"
 
@@ -232,9 +211,6 @@ msgid "cannot load QTI XML"
 msgstr ""
 
 msgid "Cannot locate the file \"%s"
-msgstr ""
-
-msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Center"
@@ -297,19 +273,16 @@ msgstr "颜色挑选器"
 msgid "Common Interactions"
 msgstr ""
 
-msgid "Compressed tar file"
-msgstr ""
-
-msgid "Contraints"
+msgid "Constraints"
 msgstr "约束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制视频和音频的播放文件(自动播放，循环)再报告已播放的次数。"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正确"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正确"
 
 msgid "Cosinus"
@@ -333,9 +306,6 @@ msgstr "建立突出文字"
 msgid "Create pair(s) from a series of choices."
 msgstr "从一系列的选择创建对组"
 
-msgid "CSV file"
-msgstr "CSV 文件"
-
 msgid "Current value:"
 msgstr "当前值："
 
@@ -348,13 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
 
-msgid "Database file"
-msgstr ""
-
-msgid "default"
+msgid "Default"
 msgstr "默认值"
 
-msgid "Default"
+msgid "default"
 msgstr "默认值"
 
 msgid "Define correct response"
@@ -381,11 +348,11 @@ msgstr "限定的阔度"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "删除"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "删除"
 
 msgid "Delete else statement"
 msgstr "删除else语句"
@@ -411,9 +378,6 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
-msgid "Document templates (Staroffice)"
-msgstr ""
-
 msgid "Don\'t save"
 msgstr ""
 
@@ -421,6 +385,9 @@ msgid "done"
 msgstr "完成"
 
 msgid "Done"
+msgstr ""
+
+msgid "Download"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -494,9 +461,6 @@ msgstr "结束考试"
 
 msgid "End Attempt Interaction"
 msgstr "结束考试互动"
-
-msgid "Enhanced metafile"
-msgstr ""
 
 msgid "Enlarge font size"
 msgstr "放大字型大小"
@@ -591,12 +555,6 @@ msgstr "上传文件的互动"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "在空格中填充的一组选择的图像的图片。"
 
-msgid "Flash video"
-msgstr "Flash视讯"
-
-msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
-
 msgid "Font family"
 msgstr "字型家族"
 
@@ -618,12 +576,6 @@ msgstr "空格匹配"
 msgid "Gap Match Interaction"
 msgstr "空格匹配互动"
 
-msgid "Geogebra data file"
-msgstr ""
-
-msgid "GIF image"
-msgstr "GIF 图像"
-
 msgid "Graphic Associate Interaction"
 msgstr "图像相连互动"
 
@@ -640,12 +592,6 @@ msgid "Greater than or equal"
 msgstr ""
 
 msgid "Guard for resource \"%s\"..."
-msgstr ""
-
-msgid "GZip Compressed Archive"
-msgstr ""
-
-msgid "Header file with extensions"
 msgstr ""
 
 msgid "Height"
@@ -678,16 +624,13 @@ msgstr "如何编辑数学表达式"
 msgid "Human"
 msgstr ""
 
-msgid "Hypertext markup language"
-msgstr ""
-
 msgid "identical pair already exists"
 msgstr "相同的对已经存在"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "识别码"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "识别码"
 
 msgid "identifier already taken"
@@ -759,7 +702,16 @@ msgstr "互动属性"
 msgid "Interpretation"
 msgstr ""
 
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
+
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid response identifier"
 msgstr ""
 
 msgid "Invalid URL"
@@ -783,13 +735,16 @@ msgstr ""
 msgid "Item \"%s\" is ready to be exported"
 msgstr ""
 
+msgid "Item cannot be saved."
+msgstr ""
+
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "题目属性"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "题目属性"
 
 msgid "Item width"
@@ -798,12 +753,6 @@ msgstr "题目阔度"
 #, tao-public
 msgid "Items"
 msgstr "题目"
-
-msgid "Javascript code"
-msgstr ""
-
-msgid "JPEG image"
-msgstr "JPEG图片"
 
 msgid "Label"
 msgstr "标签"
@@ -814,11 +763,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "LaTeX"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "留空"
@@ -903,19 +852,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大长度"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大长度"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最多字数"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最多字数"
 
 msgid "Max. number of matches"
@@ -957,41 +906,11 @@ msgstr ""
 msgid "Metadata service successfully registered."
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Office Document Imaging"
-msgstr ""
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft PowerPoint"
-
-msgid "Microsoft Project file"
-msgstr ""
-
-msgid "Microsoft Visio file"
-msgstr ""
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
-
-msgid "Microsoft Works file"
-msgstr ""
-
-msgid "Microsoft XPS file"
-msgstr ""
-
-msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
-
 msgid "MIME-type"
 msgstr "MIME 类型"
 
 msgid "Min"
 msgstr "最低"
-
-msgid "Mind mapping software application (free mind open source)"
-msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "这个互动的最低分数。"
@@ -1007,18 +926,6 @@ msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "模态反馈"
-
-msgid "MP4 video"
-msgstr "模态反馈"
-
-msgid "MPEG audio"
-msgstr "MPEG音效档"
-
-msgid "MPEG video"
-msgstr "MPEG影音档"
-
-msgid "MPEG-4 audio file"
-msgstr ""
 
 msgid "Multiply"
 msgstr ""
@@ -1048,14 +955,17 @@ msgstr "没有题目可以从所选择的IMS QTI包导入。"
 msgid "No preview available"
 msgstr ""
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "没有设定数值"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "无"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "还未定义。"
@@ -1079,21 +989,6 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
-msgid "OpenDocument Database"
-msgstr ""
-
-msgid "OpenDocument Presentation"
-msgstr ""
-
-msgid "OpenDocument spreadsheet document"
-msgstr ""
-
-msgid "OpenDocument text document"
-msgstr ""
-
-msgid "OpenDocument Text Template"
-msgstr ""
-
 msgid "Order"
 msgstr "排序"
 
@@ -1112,17 +1007,11 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "对得分"
 
-msgid "Pascal file (.pas)"
-msgstr ""
-
 msgid "Pattern"
 msgstr "样式"
 
 msgid "Pause"
 msgstr "暂停"
-
-msgid "PDF file"
-msgstr "PDF文件"
 
 msgid "Pi"
 msgstr ""
@@ -1197,9 +1086,6 @@ msgstr "请输入以下正确的回应。"
 msgid "Please type the correct response in the box below."
 msgstr "请在下面的框中输入正确的回应。"
 
-msgid "PNG image"
-msgstr "PNG图像"
-
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr ""
 
@@ -1271,15 +1157,6 @@ msgstr ""
 
 msgid "Question"
 msgstr "问题"
-
-msgid "Quicktime video"
-msgstr "QuickTime视讯"
-
-msgid "RAR archive"
-msgstr ""
-
-msgid "RealMedia file"
-msgstr ""
 
 msgid "Recommendations"
 msgstr "建议"
@@ -1368,14 +1245,17 @@ msgstr "处理回应"
 msgid "Response Properties"
 msgstr "回应属性"
 
-msgid "Rich Text Format file"
+msgid "Rich text"
 msgstr ""
 
-msgid "Right"
+msgid "Rich text + math"
 msgstr ""
 
 msgid "right"
 msgstr "右"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1500,9 +1380,6 @@ msgstr "形成的位置"
 msgid "Shuffle choices"
 msgstr "随机设定选择的位置"
 
-msgid "Sibelius music notation"
-msgstr ""
-
 msgid "Sinus"
 msgstr ""
 
@@ -1527,9 +1404,6 @@ msgstr ""
 msgid "Step"
 msgstr "步骤"
 
-msgid "Storing digital video data on a computer game"
-msgstr ""
-
 msgid "Style Editor"
 msgstr "样式编辑器"
 
@@ -1548,25 +1422,13 @@ msgstr ""
 msgid "Successfully created item \"%s"
 msgstr ""
 
-msgid "SVG image"
-msgstr "SVG图片"
-
 msgid "Table headings"
 msgstr "表格标题"
-
-msgid "Tagged image file"
-msgstr ""
 
 msgid "TAO default styles"
 msgstr "TAO默认的样式"
 
-msgid "Tape Archive (TAR)"
-msgstr ""
-
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr ""
-
-msgid "TeX file"
 msgstr ""
 
 msgid "Text Block"
@@ -1580,9 +1442,6 @@ msgstr "文本区块属性"
 
 msgid "Text color"
 msgstr "文字颜色"
-
-msgid "Text document file format (Staroffice)"
-msgstr ""
 
 msgid "Text Entry"
 msgstr "文字输入"
@@ -1783,8 +1642,8 @@ msgstr "在您的题目中有个一个不完整的元素：请点击它来完成
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "下载CSS时发生了问题，请重试一次。"
 
-msgid "this identifier is already in use"
-msgstr "这个标识符已被使用"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr ""
@@ -1797,9 +1656,6 @@ msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "这个样式表没有在服务器上找到。 您可能需要删除这个参照。"
-
-msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
-msgstr ""
 
 msgid "Time dependent"
 msgstr "累计运行的时间"
@@ -1846,9 +1702,6 @@ msgstr "复原"
 msgid "undo"
 msgstr "复原"
 
-msgid "UNIX Compressed Archive File"
-msgstr ""
-
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
@@ -1873,26 +1726,11 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
-msgid "WAV audio"
-msgstr "WAV音讯"
-
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "我们用样式面具，这样才符合IMS标准"
 
 msgid "Width"
 msgstr "宽度"
-
-msgid "Windows help file"
-msgstr ""
-
-msgid "Windows Media audio"
-msgstr "Windows Media音讯"
-
-msgid "Windows Media file (metafile)"
-msgstr ""
-
-msgid "Windows Media video"
-msgstr "Windows Media视讯"
 
 msgid "words"
 msgstr "字词"
@@ -1900,16 +1738,7 @@ msgstr "字词"
 msgid "Would you like to replace the alt text"
 msgstr "你想更换替代文字吗？"
 
-msgid "Write Document"
-msgstr ""
-
 msgid "WYSIWYG editor"
-msgstr ""
-
-msgid "XHTML"
-msgstr "XHTML"
-
-msgid "XML file"
 msgstr ""
 
 msgid "Yes"
@@ -1980,7 +1809,4 @@ msgstr "您必需使"
 
 msgid "Your item has been saved"
 msgstr "您的题目已储存"
-
-msgid "ZIP archive"
-msgstr "ZIP压缩档"
 

@@ -298,10 +298,29 @@ abstract class AbstractMetadataService extends ConfigurableService
         } else {
             foreach ($this->getOption($id) as $instance) {
                 if (is_a($instance, $interface, true)) {
-                    $this->instances[$id][] = new $instance();
+                    $this->instances[$id][] = $this->getInstance($instance);
                 }
             }
         }
+
         return $this->instances[$id];
+    }
+
+    private function getInstance(string $instance): object
+    {
+        $isConfigurableService = is_a($instance, ConfigurableService::class, true);
+
+        if ($isConfigurableService) {
+            return $this->getServiceLocator()->get($this->getConfigurableServiceKey($instance));
+        }
+
+        return new $instance();
+    }
+
+    private function getConfigurableServiceKey(string $instance): string
+    {
+        return defined($instance . '::SERVICE_ID')
+            ? $instance::SERVICE_ID
+            : $instance;
     }
 }

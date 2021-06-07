@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-30T17:17:54\n"
+"Project-Id-Version: TAO 3.4.0-sprint154\n"
+"PO-Revision-Date: 2021-05-27T13:49:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -36,9 +36,6 @@ msgstr "-- Elk soort van bestand --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 item geïmporteerd uit het betreffende QTI/APIP XML-itemdocument."
-
-msgid "7-zip archive"
-msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Er moet een keuze worden geselecteerd."
@@ -83,9 +80,6 @@ msgstr "Voeg nieuwe paren toe"
 
 msgid "Add Style Sheet"
 msgstr "Voeg stijlblad toe"
-
-msgid "Adobe Flash file"
-msgstr ""
 
 msgid "Alignment"
 msgstr "Uitlijning"
@@ -164,9 +158,6 @@ msgstr "Verbind paren"
 msgid "at least"
 msgstr "ten minste"
 
-msgid "Audio Video Interleave"
-msgstr ""
-
 msgid "Autostart"
 msgstr "Automatisch starten"
 
@@ -177,9 +168,6 @@ msgid "Background color"
 msgstr "Achtergrondkleur"
 
 msgid "Base"
-msgstr ""
-
-msgid "Bitmap image"
 msgstr ""
 
 msgid "block"
@@ -202,15 +190,6 @@ msgstr "Blader door uw computer en selecteer het juiste bestand"
 
 msgid "Browse..."
 msgstr "Bladeren…"
-
-msgid "C file"
-msgstr ""
-
-msgid "C++ file (.cpp)"
-msgstr ""
-
-msgid "Calc speadsheet (Staroffice)"
-msgstr ""
 
 msgid "Cancel"
 msgstr "Annuleren"
@@ -235,9 +214,6 @@ msgstr "kan de QTI XML niet laden."
 
 msgid "Cannot locate the file \"%s"
 msgstr "Kan het bestand \"%s\" niet lokaliseren"
-
-msgid "Cascading Style Sheets"
-msgstr ""
 
 msgid "Center"
 msgstr "Centreren"
@@ -299,19 +275,16 @@ msgstr "Kleurkiezer"
 msgid "Common Interactions"
 msgstr ""
 
-msgid "Compressed tar file"
-msgstr ""
-
-msgid "Contraints"
+msgid "Constraints"
 msgstr "Beperkingen"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
-msgid "Correct"
+msgid "correct"
 msgstr "Goed!"
 
-msgid "correct"
+msgid "Correct"
 msgstr "Goed!"
 
 msgid "Cosinus"
@@ -335,9 +308,6 @@ msgstr "Maak een hottext aan"
 msgid "Create pair(s) from a series of choices."
 msgstr "Maak paren aan van een serie keuzes."
 
-msgid "CSV file"
-msgstr "CSV-bestand"
-
 msgid "Current value:"
 msgstr "Huidige waarde:"
 
@@ -350,14 +320,11 @@ msgstr "aangepast"
 msgid "Custom Response Processing Mode"
 msgstr "Aangepaste antwoord verwerkingsmode"
 
-msgid "Database file"
-msgstr ""
+msgid "Default"
+msgstr "Standaard"
 
 msgid "default"
 msgstr "standaard"
-
-msgid "Default"
-msgstr "Standaard"
 
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
@@ -383,11 +350,11 @@ msgstr "De vaste breedte"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
 
-msgid "delete"
-msgstr "verwijder"
-
 msgid "Delete"
 msgstr "Verwijderen"
+
+msgid "delete"
+msgstr "verwijder"
 
 msgid "Delete else statement"
 msgstr "Verwijder else statement"
@@ -413,9 +380,6 @@ msgstr "Geef de keuzes horizontaal of verticaal weer"
 msgid "Divide"
 msgstr "Delen"
 
-msgid "Document templates (Staroffice)"
-msgstr ""
-
 msgid "Don\'t save"
 msgstr ""
 
@@ -424,6 +388,9 @@ msgstr "Klaar"
 
 msgid "Done"
 msgstr "Voltooid"
+
+msgid "Download"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "Download dit stijlblad"
@@ -496,9 +463,6 @@ msgstr "Einde poging"
 
 msgid "End Attempt Interaction"
 msgstr "Einde interactie poging"
-
-msgid "Enhanced metafile"
-msgstr ""
 
 msgid "Enlarge font size"
 msgstr "Vergroot de tekengrootte"
@@ -593,12 +557,6 @@ msgstr "Bestand upload interactie"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Vul de lege plekken in op een afbeelding met een set van keuzenbeelden"
 
-msgid "Flash video"
-msgstr "Flash-video"
-
-msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
-
 msgid "Font family"
 msgstr "Lettertypefamilie"
 
@@ -620,12 +578,6 @@ msgstr "Overeenkomende opening"
 msgid "Gap Match Interaction"
 msgstr "Overeenkomende opening interactie"
 
-msgid "Geogebra data file"
-msgstr ""
-
-msgid "GIF image"
-msgstr "GIF-afbeelding"
-
 msgid "Graphic Associate Interaction"
 msgstr "Grafische verbinding interactie"
 
@@ -642,12 +594,6 @@ msgid "Greater than or equal"
 msgstr "Groter dan of gelijk aan"
 
 msgid "Guard for resource \"%s\"..."
-msgstr ""
-
-msgid "GZip Compressed Archive"
-msgstr ""
-
-msgid "Header file with extensions"
 msgstr ""
 
 msgid "Height"
@@ -680,16 +626,13 @@ msgstr "Hoe de wiskundige expressies moeten worden bewerkt"
 msgid "Human"
 msgstr ""
 
-msgid "Hypertext markup language"
-msgstr ""
-
 msgid "identical pair already exists"
 msgstr "Identieke paar bestaat al"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Naam"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Naam"
 
 msgid "identifier already taken"
@@ -761,8 +704,17 @@ msgstr "Interactie eigenschappen"
 msgid "Interpretation"
 msgstr "Interpretatie"
 
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
+
 msgid "invalid QTI XML"
 msgstr "ongeldige QTI XML"
+
+msgid "Invalid response identifier"
+msgstr ""
 
 msgid "Invalid URL"
 msgstr ""
@@ -785,13 +737,16 @@ msgstr "Item \"%s\" is in geen enkele taal beschikbaar"
 msgid "Item \"%s\" is ready to be exported"
 msgstr "Item \"%s\" is klaar om te worden geëxporteerd."
 
+msgid "Item cannot be saved."
+msgstr ""
+
 msgid "Item metadata successfully exported."
 msgstr "Itemmetadata met succes geëxporteerd."
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Itemeigenschappen"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Itemeigenschappen"
 
 msgid "Item width"
@@ -800,12 +755,6 @@ msgstr "Item breedte"
 #, tao-public
 msgid "Items"
 msgstr "Items"
-
-msgid "Javascript code"
-msgstr ""
-
-msgid "JPEG image"
-msgstr "JPEG-afbeelding"
 
 msgid "Label"
 msgstr "Label"
@@ -816,11 +765,11 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -906,19 +855,19 @@ msgstr "mathML"
 msgid "Max"
 msgstr "Max"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximumlengte"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximumlengte"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximaal aantal woorden"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximaal aantal woorden"
 
 msgid "Max. number of matches"
@@ -960,41 +909,11 @@ msgstr "Voor het importeren van metagegevens is een instantie van DomManifest no
 msgid "Metadata service successfully registered."
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Office Document Imaging"
-msgstr ""
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft PowerPoint"
-
-msgid "Microsoft Project file"
-msgstr ""
-
-msgid "Microsoft Visio file"
-msgstr ""
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
-
-msgid "Microsoft Works file"
-msgstr ""
-
-msgid "Microsoft XPS file"
-msgstr ""
-
-msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
-
 msgid "MIME-type"
 msgstr "MIME-type"
 
 msgid "Min"
 msgstr "Min"
-
-msgid "Mind mapping software application (free mind open source)"
-msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Minimum score voor deze interactie"
@@ -1010,18 +929,6 @@ msgstr "feedback"
 
 msgid "Modal Feedbacks"
 msgstr "Standaard feedbacks"
-
-msgid "MP4 video"
-msgstr "MP4 video"
-
-msgid "MPEG audio"
-msgstr "MPEG audio"
-
-msgid "MPEG video"
-msgstr "MPEG video"
-
-msgid "MPEG-4 audio file"
-msgstr ""
 
 msgid "Multiply"
 msgstr "Vermenigvuldigen"
@@ -1051,14 +958,17 @@ msgstr "Er konden geen items worden geïmporteerd van het opgegeven IMS QTI pakk
 msgid "No preview available"
 msgstr "Geen preview beschikbaar"
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "none"
-msgstr "geen"
-
 msgid "None"
 msgstr "Geen"
+
+msgid "none"
+msgstr "geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1083,21 +993,6 @@ msgid "One or more QTI components are not supported by the system. The system re
 msgstr "Een of meedere QTI-componenten worden niet door het systeem ondersteund. Het systeem heeft de volgende fout geretourneerd: %s\n"
 ""
 
-msgid "OpenDocument Database"
-msgstr ""
-
-msgid "OpenDocument Presentation"
-msgstr ""
-
-msgid "OpenDocument spreadsheet document"
-msgstr ""
-
-msgid "OpenDocument text document"
-msgstr ""
-
-msgid "OpenDocument Text Template"
-msgstr ""
-
 msgid "Order"
 msgstr "Volgorde"
 
@@ -1116,17 +1011,11 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "Score van paren"
 
-msgid "Pascal file (.pas)"
-msgstr ""
-
 msgid "Pattern"
 msgstr "Patroon"
 
 msgid "Pause"
 msgstr "Pauzeer"
-
-msgid "PDF file"
-msgstr "PDF-bestand"
 
 msgid "Pi"
 msgstr ""
@@ -1202,9 +1091,6 @@ msgstr "Type a.u.b. hieronder het correcte antwoord."
 msgid "Please type the correct response in the box below."
 msgstr "Type a.u.b. hieronder het correcte antwoord in het venster."
 
-msgid "PNG image"
-msgstr "PNG-afbeelding"
-
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Portable element model %s niet gevonden. Vereiste extensie kan ontbreken"
 
@@ -1277,15 +1163,6 @@ msgstr ""
 msgid "Question"
 msgstr "Vraag"
 
-msgid "Quicktime video"
-msgstr "QuickTime-video"
-
-msgid "RAR archive"
-msgstr ""
-
-msgid "RealMedia file"
-msgstr ""
-
 msgid "Recommendations"
 msgstr "Aanbevelingen"
 
@@ -1301,11 +1178,11 @@ msgstr "Registreer methode verwacht $key en $name parameters"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registratie methode verwacht $key en $name parameters."
 
-msgid "Remove"
-msgstr "Verwijder"
-
 msgid "remove"
 msgstr "verwijder"
+
+msgid "Remove"
+msgstr "Verwijder"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
@@ -1379,14 +1256,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Rich Text Format file"
-msgstr ""
+msgid "right"
+msgstr "rechts"
 
 msgid "Right"
 msgstr "Rechts"
-
-msgid "right"
-msgstr "rechts"
 
 msgid "Right bracket"
 msgstr "Rechter haakje"
@@ -1511,9 +1385,6 @@ msgstr "Vorm de positie"
 msgid "Shuffle choices"
 msgstr "Schud de keuzes"
 
-msgid "Sibelius music notation"
-msgstr ""
-
 msgid "Sinus"
 msgstr ""
 
@@ -1538,9 +1409,6 @@ msgstr "standaard"
 msgid "Step"
 msgstr "Stap"
 
-msgid "Storing digital video data on a computer game"
-msgstr ""
-
 msgid "Style Editor"
 msgstr "Stijl Editor"
 
@@ -1559,25 +1427,13 @@ msgstr "\"%s Met succes gecompileerd"
 msgid "Successfully created item \"%s"
 msgstr ""
 
-msgid "SVG image"
-msgstr "SVG-afbeelding"
-
 msgid "Table headings"
 msgstr "Tabelkoppen"
-
-msgid "Tagged image file"
-msgstr ""
 
 msgid "TAO default styles"
 msgstr "TAO standaard stijlen"
 
-msgid "Tape Archive (TAR)"
-msgstr ""
-
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr ""
-
-msgid "TeX file"
 msgstr ""
 
 msgid "Text Block"
@@ -1591,9 +1447,6 @@ msgstr "Tekstblok eigenschappen"
 
 msgid "Text color"
 msgstr "Tekstkleur"
-
-msgid "Text document file format (Staroffice)"
-msgstr ""
 
 msgid "Text Entry"
 msgstr "Tekstinvoer"
@@ -1795,8 +1648,8 @@ msgstr "Er is een incompleet element in uw item: Klik er a.u.b. op om het comple
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Er was een probleem bij het downloaden van uw CSS. Probeert u het a.u.b. opnieuw."
 
-msgid "this identifier is already in use"
-msgstr "Deze naam is al in gebruik"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr ""
@@ -1809,9 +1662,6 @@ msgstr "Dit is vereist"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Dit stijlblad kan niet worden gevonden op de server. Misschien wilt u deze verwijzing verwijderen?"
-
-msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
-msgstr ""
 
 msgid "Time dependent"
 msgstr "Tijdafhankelijk"
@@ -1858,9 +1708,6 @@ msgstr "Ongedaan maken"
 msgid "undo"
 msgstr "ongedaan maken"
 
-msgid "UNIX Compressed Archive File"
-msgstr ""
-
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
@@ -1885,26 +1732,11 @@ msgstr ""
 msgid "Vertical"
 msgstr "Verticaal"
 
-msgid "WAV audio"
-msgstr "WAV-audio"
-
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "We zullen de patternmMask gebruiken om dit te doen, zodat we compliant blijven met de IMS standaard"
 
 msgid "Width"
 msgstr "Breedte"
-
-msgid "Windows help file"
-msgstr ""
-
-msgid "Windows Media audio"
-msgstr "Windows Media-audio"
-
-msgid "Windows Media file (metafile)"
-msgstr ""
-
-msgid "Windows Media video"
-msgstr "Windows Media-video"
 
 msgid "words"
 msgstr "woorden"
@@ -1912,13 +1744,7 @@ msgstr "woorden"
 msgid "Would you like to replace the alt text"
 msgstr "Wilt u de alt tekst vervangen?"
 
-msgid "Write Document"
-msgstr ""
-
 msgid "WYSIWYG editor"
-msgstr ""
-
-msgid "XML file"
 msgstr ""
 
 msgid "Yes"
@@ -1989,7 +1815,4 @@ msgstr "U dient te maken"
 
 msgid "Your item has been saved"
 msgstr "Uw item is opgeslagen"
-
-msgid "ZIP archive"
-msgstr "Zip-archief"
 
