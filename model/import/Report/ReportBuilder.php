@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,49 +18,111 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Report;
 
 use core_kernel_classes_Resource;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
+use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
+use Throwable;
 
 class ReportBuilder extends ConfigurableService
 {
-    public function buildReportsContainer(
-        string $outerHeader,
-        string $innerHeader,
-        ItemImportResult $importerResults = null,
-        core_kernel_classes_Resource $resource = null
-    ): Report {
-        $resource = $resource ?? [];
-        if (!$importerResults || 0 === $importerResults->getTotalSuccessfulImport()) {
-            $report = Report::createError($outerHeader, []);
-            $report->add(Report::createError($innerHeader, []));
+    public function buildByResults(ItemImportResult $results, core_kernel_classes_Resource $resource = null): Report
+    {
+        $reportType = $this->getReportType($results);
+        $subReportType = in_array($reportType, [Report::TYPE_INFO, Report::TYPE_SUCCESS])
+            ? Report::TYPE_SUCCESS
+            : $reportType;
 
-            return $report;
-        }
-
-        $type = (0 == count($importerResults->getWarningReports()) && 0 === count(
-                $importerResults->getErrorReports()
-            )) ? Report::TYPE_SUCCESS : Report::TYPE_INFO;
-
-        $report = new Report($type, $outerHeader, $resource);
-        $report->add(Report::createSuccess($innerHeader, $resource));
+        $report = $this->createReportByResults($reportType, $results);
+        $report->setData($resource ?? []);
+        $report->add($this->createReportByResults($subReportType, $results));
 
         return $report;
     }
 
-    public function getReportTitle(ItemImportResult $importerResults): string
+    public function buildByException(Throwable $exception): Report
+    {
+        $report = Report::create(Report::TYPE_ERROR, 'CSV import failed');
+
+        if ($exception instanceof InvalidCsvImportException) {
+            $missingHeaders = implode(', ', $exception->getMissingHeaderColumns());
+
+            $report->add(
+                Report::create(
+                    Report::TYPE_ERROR,
+                    'CSV import failed: required columns are missing (%s)',
+                    [
+                        $missingHeaders,
+                    ]
+                )
+            );
+
+            return $report;
+        }
+
+        $report->add(
+            Report::create(
+                Report::TYPE_ERROR,
+                'An unexpected error occurred during the CSV import. The system returned the following error: `%s`',
+                [
+                    $exception->getMessage(),
+                ]
+            )
+        );
+
+        return $report;
+    }
+
+    private function createReportByResults(string $type, ItemImportResult $importerResults): Report
     {
         if (0 === count($importerResults->getErrorReports()) && 0 === count($importerResults->getWarningReports())) {
-            return __('CSV import successful: %s/%s line(s) are imported', $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems());
+            return Report::create(
+                $type,
+                'CSV import successful: %s/%s line(s) are imported',
+                [
+                    $importerResults->getTotalSuccessfulImport(),
+                    $importerResults->getTotalScannedItems()
+                ]
+            );
         }
 
         if (0 === $importerResults->getTotalSuccessfulImport()) {
-            return __('CSV import failed: %s/%s line(s) are imported', $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems());
+            return Report::create(
+                $type,
+                'CSV import failed: %s/%s line(s) are imported',
+                [
+                    $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems()
+                ]
+            );
         }
 
-        return __('CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))', $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems(), count($importerResults->getWarningReports()), count($importerResults->getErrorReports()));
+        return Report::create(
+            $type,
+            'CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))',
+            [
+                $importerResults->getTotalSuccessfulImport(),
+                $importerResults->getTotalScannedItems(),
+                count($importerResults->getWarningReports()),
+                count($importerResults->getErrorReports())
+            ]
+        );
+    }
+
+    private function getReportType(ItemImportResult $results): string
+    {
+        if ($results->getTotalSuccessfulImport() === 0) {
+            return Report::TYPE_ERROR;
+        }
+
+        if (count($results->getWarningReports()) === 0 && count($results->getErrorReports()) === 0) {
+            return Report::TYPE_SUCCESS;
+        }
+
+        return Report::TYPE_INFO;
     }
 }
