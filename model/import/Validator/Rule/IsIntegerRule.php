@@ -21,17 +21,17 @@
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
 class IsIntegerRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
         if (!is_numeric($value) || $value < 0) {
-            throw new RecoverableLineValidationException(__('`%s` is invalid, must be positive integer'));
+            throw new WarningImportException(__('`%s` is invalid, must be positive integer')); //@FIXME @TODO Adapt for translations
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -27,18 +27,23 @@ use oat\oatbox\reporting\Report;
 
 class ErrorReportFormatter extends AbstractReportFormatter
 {
-
     /**
-     * @param Exception[]  $report
+     * @param Exception[]  $exceptions
      */
-    public function format(array $report): Report
+    public function format(array $exceptions): Report
     {
-        $reportObject = Report::createError(
-            __('%s line(s) contain(s) an error and cannot be imported', count($report))
+        $report = Report::create(
+            Report::TYPE_ERROR,
+            '%s line(s) contain(s) an error and cannot be imported',
+            [
+                count($exceptions),
+            ]
         );
-        foreach ($this->buildLineMessages($report) as $message) {
-            $reportObject->add(Report::createError($message));
+
+        foreach ($this->buildLineReports(Report::TYPE_ERROR, $exceptions) as $report) {
+            $report->add($report);
         }
-        return $reportObject;
+
+        return $report;
     }
 }

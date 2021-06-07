@@ -21,17 +21,17 @@
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
 class OptionalRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
         if (null == $value || $value === '') {
-            throw new RecoverableLineValidationException(__('`%s` is empty'));
+            throw new WarningImportException(__('`%s` is empty')); //@FIXME @TODO Adapt for translations
         }
     }
 }

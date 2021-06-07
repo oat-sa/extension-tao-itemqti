@@ -25,9 +25,8 @@ namespace oat\taoQtiItem\model\import\Parser;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
@@ -36,7 +35,7 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 class CsvParser extends ConfigurableService implements ParserInterface
 {
     /**
-     * @throws InvalidImportException
+     * @inheritDoc
      */
     public function parseFile(File $file, TemplateInterface $template): ItemImportResult
     {
@@ -54,7 +53,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
         array_shift($lines);
 
         $items = [];
-        $validationReport = [];
+        $warningReport = [];
         $errorsReport = [];
         $currentLineNumber = 0;
         $lineValidator = $this->getLineValidator();
@@ -74,30 +73,34 @@ class CsvParser extends ConfigurableService implements ParserInterface
                 $lineValidator->validate($headedLine, $template);
 
                 $logger->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
-            } catch (RecoverableLineValidationException $exception) {
-                if ($exception->getTotalErrors()) {
+            } catch (WarningImportException $exception) {
+                if ($exception->getTotal()) {
                     $errorsReport[$currentLineNumber] = $exception;
+
                     continue;
                 }
 
-                $validationReport[$currentLineNumber] = $exception;
-            } catch (InvalidImportException | InvalidCsvImportException $exception) {
+                $warningReport[$currentLineNumber] = $exception;
+            } catch (InvalidImportException $exception) {
                 $errorsReport[$currentLineNumber] = $exception;
+
                 continue;
             }
 
             $logger->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
 
-            $item = $csvLineConverter->convert($headedLine, $template, $validationReport[$currentLineNumber] ?? null);
+            $item = $csvLineConverter->convert($headedLine, $template, $warningReport[$currentLineNumber] ?? null);
 
             if ($item->isNoneResponse()) {
-                $warning = new RecoverableLineValidationException();
-                $warning->addWarning(
-                    $lineNumber,
-                    __('A value should be provided for at least one of the columns: %s', 'choice_[1-99]_score, correct_answer')
+                $warning = new WarningImportException();
+                $warning->addMessage(
+                    'A value should be provided for at least one of the columns: %s',
+                    [
+                        'choice_[1-99]_score, correct_answer',
+                    ]
                 );
 
-                $validationReport[$currentLineNumber] = $warning;
+                $warningReport[$currentLineNumber] = $warning;
             }
 
             $items[$currentLineNumber] = $item;
@@ -105,7 +108,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
             $logger->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
         }
 
-        return new ItemImportResult($items, $validationReport, $errorsReport, $currentLineNumber);
+        return new ItemImportResult($items, $warningReport, $errorsReport, $currentLineNumber);
     }
 
     private function trimLine(array $line): array

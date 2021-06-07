@@ -21,7 +21,7 @@
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
 class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 {
@@ -29,7 +29,7 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
     public const CASE_INSENSITIVE = 'CASE_INSENSITIVE';
 
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
@@ -45,8 +45,8 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
         $allowedValues = str_ireplace(self::EMPTY_VALUE, '', $allowedValues);
 
         if (!in_array($value, $allowedValues)) {
-            throw new RecoverableLineValidationException(
-                __('invalid value for `%s`(%s), expected values are [%s]', '%s', $value, $allowedValuesRule)
+            throw new WarningImportException(
+                __('invalid value for `%s`(%s), expected values are [%s]', '%s', $value, $allowedValuesRule) //@FIXME @TODO Adapt for translations
             );
         }
     }

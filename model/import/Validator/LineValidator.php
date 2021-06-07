@@ -24,9 +24,8 @@ namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\AbstractImportException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class LineValidator extends ConfigurableService implements ValidatorInterface
@@ -38,7 +37,7 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
     {
         $logger = $this->getLogger();
         $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
-        $warnings = new RecoverableLineValidationException();
+        $warnings = new WarningImportException();
 
         foreach ($decorator->getCsvColumns() as $headerRegex => $validations) {
             $validations = $validations['value'] ?? '';
@@ -57,13 +56,38 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
 
                         $validator->validate($validatedValue, $rules, $content);
 
-                        $logger->debug(sprintf('Tabular import: successful validation on %s by "%s" validator', $loggedValue, $name));
-                    } catch (RecoverableLineValidationException $exception) {
-                        $warnings->addWarning(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
+                        $logger->debug(
+                            sprintf(
+                                'Tabular import: successful validation on %s by "%s" validator',
+                                $loggedValue,
+                                $name
+                            )
+                        );
+                    } catch (WarningImportException $exception) {
+                        $warnings->addMessage(
+                            $exception->getMessage(),
+                            [
+                                $headerRegex,
+                            ],
+                            $headerRegex
+                        );
 
-                        $logger->debug(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
-                    } catch (InvalidImportException | InvalidCsvImportException $exception) {
-                        $warnings->addError(0, sprintf($exception->getMessage(), $headerRegex), $headerRegex);
+                        $logger->debug(
+                            sprintf(
+                                'Tabular import: failed validation on %s by "%s" validator',
+                                $loggedValue,
+                                $name
+                            )
+                        );
+                    } catch (AbstractImportException $exception) {
+                        //@TODO @FIXME Check why we take all the 2 types of exceptions here
+                        $warnings->addMessage(
+                            $exception->getMessage(),
+                            [
+                                $headerRegex,
+                            ],
+                            $headerRegex
+                        );
 
                         $logger->debug(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
                     }
@@ -71,7 +95,7 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
             }
         }
 
-        if ($warnings->getTotalWarnings() || $warnings->getTotalErrors()) {
+        if ($warnings->getTotal() || $warnings->getTotalErrors()) {
             throw $warnings;
         }
     }

@@ -26,13 +26,16 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\CsvItem;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\ItemInterface;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvLineConverter extends ConfigurableService
 {
-    public function convert(array $line, TemplateInterface $template, $validationReport = null): ItemInterface
-    {
+    public function convert(
+        array $line,
+        TemplateInterface $template,
+        WarningImportException $validationReport = null
+    ): ItemInterface {
         $decorator = new CvsToQtiTemplateDecorator($template);
 
         $validationConfig = $decorator->getCsvColumns();
@@ -52,7 +55,7 @@ class CsvLineConverter extends ConfigurableService
         return new CsvItem(
             $parsed['name'],
             $parsed['question'],
-            $this->normalizeShuffle($parsed['shuffle']), //@TODO make normalizers configurable
+            $this->normalizeShuffle($parsed['shuffle']),
             (int)$parsed['min_choices'],
             (int)$parsed['max_choices'],
             $this->normalizeLanguage($parsed['language']),
@@ -61,9 +64,9 @@ class CsvLineConverter extends ConfigurableService
         );
     }
 
-    private function hasValidationIssues(string $field, RecoverableLineValidationException $report): bool
+    private function hasValidationIssues(string $field, WarningImportException $report): bool
     {
-        return in_array($field, array_column($report->getWarnings(), 'field'));
+        return in_array($field, array_column($report->getMessages(), 'field'));
     }
 
     private function normalizeLanguage(string $language): string

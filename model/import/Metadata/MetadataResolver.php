@@ -1,7 +1,6 @@
 <?php
 
-/*
- *
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -78,6 +77,7 @@ class MetadataResolver extends ConfigurableService
             return $result;
         }
 
+        //@TODO @FIXME Delete InvalidMetadataException and use InvalidImportException instead
         throw new InvalidMetadataException($errors);
     }
 

@@ -22,14 +22,13 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
 interface ValidationRuleInterface
 {
     /**
-     * @throws RecoverableLineValidationException|InvalidImportException|InvalidCsvImportException
+     * @throws WarningImportException|InvalidImportException
      */
     public function validate($value, $rules = null, array $context = []): void;
 }

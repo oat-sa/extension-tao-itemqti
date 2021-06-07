@@ -24,9 +24,8 @@ use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
 class MinOccurrencesRule extends AbstractGroupRule implements ValidationRuleInterface
 {
-
     /**
-     * @throws InvalidImportException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
@@ -38,7 +37,7 @@ class MinOccurrencesRule extends AbstractGroupRule implements ValidationRuleInte
 
         if ($minCount > count(array_filter($occurrences))) {
             throw new InvalidImportException(
-                __('at least %s %s are required', $minCount, $alias)
+                __('at least %s %s are required', $minCount, $alias) //@FIXME @TODO Adapt for translations
             );
         }
     }

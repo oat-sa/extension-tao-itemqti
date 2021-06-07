@@ -35,7 +35,7 @@ class InvalidMetadataException extends Exception
             $messages[] = '"' . $alias . '" ' . $message;
         }
 
-        $message = __('Metadata are not correct: %s', implode('. ', $messages));
+        $message = __('Metadata are not correct: %s', implode('. ', $messages)); //@FIXME @TODO Adapt for translations
 
         parent::__construct($message);
     }

@@ -25,7 +25,7 @@ use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 class NumericOrEmptyRule extends AbstractGroupRule implements ValidationRuleInterface
 {
     /**
-     * @throws InvalidImportException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
@@ -41,7 +41,7 @@ class NumericOrEmptyRule extends AbstractGroupRule implements ValidationRuleInte
         }
 
         if (count($errors) > 0) {
-            throw new InvalidImportException(__('`%s` is invalid, must be numeric or empty'));
+            throw new InvalidImportException(__('`%s` is invalid, must be numeric or empty')); //@FIXME @TODO Adapt for translations
         }
     }
 }

@@ -18,27 +18,28 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
+
 use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 use tao_helpers_I18n;
 use tao_models_classes_LanguageService;
 
 class SupportedLanguageRule extends ConfigurableService implements ValidationRuleInterface
 {
+    /** @var array */
     private $languages;
 
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
-        if (false === array_search(
-                strtolower($value),
-                $this->getLanguages()
-            )) {
-            throw new RecoverableLineValidationException(__('`%s` is invalid'));
+        if (false === array_search(strtolower($value), $this->getLanguages())) {
+            throw new WarningImportException(__('`%s` is invalid')); //@FIXME @TODO Adapt for translations
         }
     }
 

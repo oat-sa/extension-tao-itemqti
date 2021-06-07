@@ -26,5 +26,5 @@ use oat\oatbox\reporting\Report;
 
 interface ReportFormatter
 {
-    public function format(array $report): Report;
+    public function format(array $exceptions): Report;
 }

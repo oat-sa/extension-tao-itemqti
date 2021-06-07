@@ -21,17 +21,17 @@
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
 class QtiCompatibleXmlRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
         if (!$this->isQtiCompliant($value)) {
-            throw new RecoverableLineValidationException(__('`%s` is invalid'));
+            throw new WarningImportException(__('`%s` is invalid')); //@FIXME @TODO Adapt for translations
         }
     }
 

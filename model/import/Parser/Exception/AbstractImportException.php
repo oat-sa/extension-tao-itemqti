@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,27 +18,40 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Parser\Exception;
 
 use Exception;
 
 abstract class AbstractImportException extends Exception
 {
-
+    /** @var string[][] */
     protected $messages = [];
 
-    protected function addMessage(int $line, string $message, int $errorLevel, string $field = null): self
-    {
-        $this->message .= rtrim($message, ',').', ';
+    /** @var int */
+    protected $total = 0;
 
-        $this->messages[$errorLevel][] = [
-            'line' => $line,
+    public function addMessage(string $message, array $messageData = [], string $field = null): self
+    {
+        $this->total++;
+        $this->message .= rtrim($message, ',') . ', ';
+        $this->messages[] = [
             'message' => $message,
+            'messageData' => $messageData,
             'field' => $field,
         ];
 
         return $this;
     }
 
-    abstract protected function getErrorLevel(): int;
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
+
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
 }

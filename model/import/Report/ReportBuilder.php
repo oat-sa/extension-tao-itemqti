@@ -26,7 +26,6 @@ use core_kernel_classes_Resource;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use Throwable;
 
 class ReportBuilder extends ConfigurableService
@@ -48,23 +47,6 @@ class ReportBuilder extends ConfigurableService
     public function buildByException(Throwable $exception): Report
     {
         $report = Report::create(Report::TYPE_ERROR, 'CSV import failed');
-
-        if ($exception instanceof InvalidCsvImportException) {
-            $missingHeaders = implode(', ', $exception->getMissingHeaderColumns());
-
-            $report->add(
-                Report::create(
-                    Report::TYPE_ERROR,
-                    'CSV import failed: required columns are missing (%s)',
-                    [
-                        $missingHeaders,
-                    ]
-                )
-            );
-
-            return $report;
-        }
-
         $report->add(
             Report::create(
                 Report::TYPE_ERROR,

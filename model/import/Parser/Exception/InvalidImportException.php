@@ -1,7 +1,6 @@
 <?php
 
-/*
- *
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -25,29 +24,4 @@ namespace oat\taoQtiItem\model\import\Parser\Exception;
 
 class InvalidImportException extends AbstractImportException
 {
-    protected const LEVEL = 1;
-
-    private $totalErrors = 0;
-
-    public function addError(int $line, string $message, string $field = null): self
-    {
-        $this->totalErrors++;
-
-        return $this->addMessage($line, $message, $this->getErrorLevel(), $field);
-    }
-
-    public function getTotalErrors(): int
-    {
-        return $this->totalErrors;
-    }
-
-    protected function getErrorLevel(): int
-    {
-        return static::LEVEL;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->messages[$this->getErrorLevel()];
-    }
 }

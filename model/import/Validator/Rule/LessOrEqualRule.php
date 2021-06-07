@@ -18,22 +18,23 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 
 class LessOrEqualRule extends ConfigurableService implements ValidationRuleInterface
 {
-
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
         if ($value > $context[$rules[0]] ?? 0) {
-            throw new RecoverableLineValidationException(
-                __('%s is invalid, should be less or equal than `%s`(%s)', '%s', $rules[0], $context[$rules[0]])
+            throw new WarningImportException(
+                __('%s is invalid, should be less or equal than `%s`(%s)', '%s', $rules[0], $context[$rules[0]]) //@FIXME @TODO Adapt for translations
             );
         }
     }

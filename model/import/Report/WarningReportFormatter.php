@@ -27,19 +27,23 @@ use oat\oatbox\reporting\Report;
 
 class WarningReportFormatter extends AbstractReportFormatter
 {
-
     /**
-     * @param  Exception[]  $report
+     * @param Exception[] $exceptions
      */
-    public function format(array $report): Report
+    public function format(array $exceptions): Report
     {
-        $reportObject = Report::createWarning(
-            __('%s line(s) are imported with warnings', count($report))
+        $report = Report::create(
+            Report::TYPE_WARNING,
+            '%s line(s) are imported with warnings',
+            [
+                count($exceptions),
+            ]
         );
-        foreach ($this->buildLineMessages($report) as $message) {
-            $reportObject->add(Report::createWarning($message));
-        }
-        return $reportObject;
-    }
 
+        foreach ($this->buildLineReports(Report::TYPE_WARNING, $exceptions) as $report) {
+            $report->add($report);
+        }
+
+        return $report;
+    }
 }

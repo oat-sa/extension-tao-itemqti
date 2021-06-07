@@ -20,13 +20,12 @@
 
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 
 class StrictNoGapsRule extends AbstractGroupRule implements ValidationRuleInterface
 {
     /**
-     * @throws InvalidImportException
+     * @inheritDoc
      */
     public function validate($value, $rules = null, array $context = []): void
     {
@@ -48,7 +47,7 @@ class StrictNoGapsRule extends AbstractGroupRule implements ValidationRuleInterf
 
         if (!empty($missingChoices)) {
             throw new InvalidImportException(
-                __('Error: %s is empty, although it is mandatory.', implode(', ', $missingChoices))
+                __('Error: %s is empty, although it is mandatory.', implode(', ', $missingChoices)) //@FIXME @TODO Adapt for translations
             );
         }
     }

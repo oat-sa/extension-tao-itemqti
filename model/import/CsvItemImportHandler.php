@@ -81,27 +81,34 @@ class CsvItemImportHandler extends ConfigurableService
 
                     $successReportsImport++;
                 } else {
-                    $logger->debug(sprintf(
+                    $logger->debug(
+                        sprintf(
                             'Tabular import: failed import of item from line %s due to %s',
                             $lineNumber,
-                            $itemImportReport->getMessage())
+                            $itemImportReport->getMessage()
+                        )
                     );
 
                     $error = new InvalidImportException();
-                    $error->addError($lineNumber, $itemImportReport->getMessage());
+                    //@TODO @FIXE Need to get translation somehow...
+                    $error->addMessage($itemImportReport->getMessage());
 
                     $itemValidatorResults->addErrorReport($lineNumber, $error);
                     $errorReportsImport++;
                 }
                 unset($itemImportReport);
             } catch (InvalidMetadataException $exception) {
-                $logger->debug(sprintf(
+                $logger->debug(
+                    sprintf(
                         'Tabular import: failed import of item from line %s due to %s',
                         $lineNumber,
-                        $exception->getMessage())
+                        $exception->getMessage()
+                    )
                 );
                 $error = new InvalidImportException();
-                $error->addError($lineNumber, $exception->getMessage());
+                //@TODO @FIXME Need to add support for translation to InvalidMetadataException
+                $error->addMessage($exception->getMessage());
+
                 if (isset($itemImportReport)) {
                     $this->rollbackItem($itemImportReport, $lineNumber);
                 }
@@ -109,20 +116,23 @@ class CsvItemImportHandler extends ConfigurableService
                 $itemValidatorResults->addErrorReport($lineNumber, $error);
                 $errorReportsImport++;
             } catch (Throwable $exception) {
-                $logger->error(sprintf(
+                $logger->error(
+                    sprintf(
                         'Tabular import: failed import of item from line %s due to %s',
                         $lineNumber,
-                        $exception->getMessage())
+                        $exception->getMessage()
+                    )
                 );
 
-                if (isset($itemImportReport)){
+                if (isset($itemImportReport)) {
                     $this->rollbackItem($itemImportReport, $lineNumber);
                 }
 
                 $errorReportsImport++;
 
                 $error = new InvalidImportException();
-                $error->addError($lineNumber, $exception->getMessage(), '');
+                //@TODO Add support for translation here somehow
+                $error->addMessage($exception->getMessage());
 
                 $itemValidatorResults->addErrorReport($lineNumber, $error);
             }
@@ -130,11 +140,13 @@ class CsvItemImportHandler extends ConfigurableService
 
         helpers_TimeOutHelper::reset();
 
-        $logger->debug(sprintf(
+        $logger->debug(
+            sprintf(
                 'Tabular import: successful import %s items from %s',
                 $successReportsImport,
                 count($xmlItems)
-        ));
+            )
+        );
 
         $itemValidatorResults->setTotalSuccessfulImport($successReportsImport);
 

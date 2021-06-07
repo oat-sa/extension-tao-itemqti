@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,23 +18,36 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Report;
 
 use Exception;
+use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 
 abstract class AbstractReportFormatter extends ConfigurableService implements ReportFormatter
 {
     /**
-     * @param  Exception[]  $exceptions
-     * @return string[]
+     * @param Exception[] $exceptions
+     *
+     * @return Report[]
      */
-    protected function buildLineMessages(array $exceptions): array
+    protected function buildLineReports(string $type, array $exceptions): array
     {
-        $formattedReports = [];
+        $reports = [];
+
         foreach ($exceptions as $lineNumber => $lineReport) {
-            $formattedReports[$lineNumber] = __('line %s: %s', $lineNumber, rtrim($lineReport->getMessage(), ', '));
+            $reports[$lineNumber] = Report::create(
+                $type,
+                'line %s: %s',
+                [
+                    $lineNumber,
+                    rtrim($lineReport->getMessage(), ', '),
+                ]
+            );
         }
-        return $formattedReports;
+
+        return $reports;
     }
 }
