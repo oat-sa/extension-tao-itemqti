@@ -23,6 +23,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
 use oat\tao\model\media\MediaBrowser;
 use oat\taoQtiItem\model\Export\Exception\AssetStylesheetZipTransferException;
@@ -46,6 +47,7 @@ use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Http\Message\StreamInterface;
+use tao_models_classes_FileNotFoundException;
 use taoItems_models_classes_ItemExporter;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
@@ -155,10 +157,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $this->addAssetStylesheetToZip($link, dirname($baseName), $basePath);
                     $replacementList[$assetUrl] = $replacement;
                 }
-            } catch (\tao_models_classes_FileNotFoundException $e) {
+            } catch (tao_models_classes_FileNotFoundException $e) {
                 $replacementList[$assetUrl] = '';
                 $report->setMessage('Missing resource for ' . $assetUrl);
-                $report->setType(\common_report_Report::TYPE_ERROR);
+                $report->setType(Report::TYPE_ERROR);
+            } catch (AssetStylesheetZipTransferException $e) {
+                $replacementList[$assetUrl] = '';
+                $report->setMessage($e->getMessage());
+                $report->setType(Report::TYPE_ERROR);
             }
         }
 
@@ -346,7 +352,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
     private function getUniqueAssetDirectoryByLink(MediaBrowser $mediaSource, string $link)
     {
-        return 'assets' . DIRECTORY_SEPARATOR . $mediaSource->getFileInfo($link)['link'];
+        return self::ASSETS_DIRECTORY_NAME
+            . DIRECTORY_SEPARATOR
+            . $mediaSource->getFileInfo($link)['link'];
     }
 
     private function buildAssetStylesheetPath(string $basepath, string $baseDirectoryName): string
