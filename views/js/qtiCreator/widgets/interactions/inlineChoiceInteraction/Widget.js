@@ -28,7 +28,7 @@ define([
     };
 
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
-
+const t = choice.getBody();
         var tplData = {
             tag : choice.qtiClass,
             serial : choice.serial,
