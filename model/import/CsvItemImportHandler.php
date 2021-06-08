@@ -47,8 +47,7 @@ class CsvItemImportHandler extends ConfigurableService
         File $uploadedFile,
         TemplateInterface $template,
         core_kernel_classes_Class $class
-    ): ItemImportResult
-    {
+    ): ItemImportResult {
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
         $logger = $this->getLogger();

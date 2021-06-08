@@ -58,7 +58,7 @@ class ReportBuilder extends ConfigurableService
                 }
 
                 if ($exception instanceof ErrorValidationException) {
-                    $warningReports[] = $this->createReportByException($exception);
+                    $errorReports[] = $this->createReportByException($exception);
                 }
             }
 
@@ -67,7 +67,7 @@ class ReportBuilder extends ConfigurableService
             }
 
             $lineMainReport = Report::create(
-                empty($errors) ? Report::TYPE_WARNING : Report::TYPE_ERROR,
+                empty($errorReports) ? Report::TYPE_WARNING : Report::TYPE_ERROR,
                 'line %s: %s',
                 [
                     $lineNumber,
@@ -92,21 +92,21 @@ class ReportBuilder extends ConfigurableService
             }
         }
 
-        if (!empty($onlyWarningReports)) {
-            $this->createAndAddSubReport(
-                $report,
-                $onlyWarningReports,
-                Report::TYPE_WARNING,
-                '%s line(s) are imported with warnings'
-            );
-        }
-
         if (!empty($warningAndErrorReports)) {
             $this->createAndAddSubReport(
                 $report,
                 $warningAndErrorReports,
                 Report::TYPE_ERROR,
                 '%s line(s) contain(s) an error and cannot be imported'
+            );
+        }
+
+        if (!empty($onlyWarningReports)) {
+            $this->createAndAddSubReport(
+                $report,
+                $onlyWarningReports,
+                Report::TYPE_WARNING,
+                '%s line(s) are imported with warnings'
             );
         }
 

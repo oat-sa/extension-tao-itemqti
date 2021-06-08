@@ -40,6 +40,12 @@ class ItemImportResult
     /** @var WarningValidationException[] */
     private $warnings;
 
+    /** @var int*/
+    private $totalWarnings;
+
+    /** @var int */
+    private $totalErrors;
+
     /** @var ErrorValidationException[]|WarningValidationException[] */
     private $errorsAndWarnings;
 
@@ -57,6 +63,8 @@ class ItemImportResult
         $this->items = [];
         $this->errors = [];
         $this->warnings = [];
+        $this->totalErrors = 0;
+        $this->totalWarnings = 0;
         $this->errorsAndWarnings = [];
         $this->totalSuccessfulImport = 0;
         $this->totalScannedItems = 0;
@@ -89,6 +97,16 @@ class ItemImportResult
         $this->totalScannedItems = $totalScannedItems;
     }
 
+    public function getTotalSuccessfulImport(): int
+    {
+        return $this->totalSuccessfulImport;
+    }
+
+    public function getTotalScannedItems(): int
+    {
+        return $this->totalScannedItems;
+    }
+
     /**
      * @return ItemInterface[]
      */
@@ -99,12 +117,12 @@ class ItemImportResult
 
     public function getTotalWarnings(): int
     {
-        return count($this->warnings, COUNT_RECURSIVE);
+        return $this->totalWarnings;
     }
 
     public function getTotalErrors(): int
     {
-        return count($this->errors, COUNT_RECURSIVE);
+        return $this->totalErrors;
     }
 
     /**
@@ -121,16 +139,6 @@ class ItemImportResult
     public function getErrors(): array
     {
         return $this->errors;
-    }
-
-    public function getTotalSuccessfulImport(): int
-    {
-        return $this->totalSuccessfulImport;
-    }
-
-    public function getTotalScannedItems(): int
-    {
-        return $this->totalScannedItems;
     }
 
     /**
@@ -182,10 +190,14 @@ class ItemImportResult
         $this->errorsAndWarnings[$line][] = $exception;
 
         if ($exception instanceof ErrorValidationException) {
+            $this->totalErrors++;
+
             $this->errors[$line][] = $exception;
         }
 
         if ($exception instanceof WarningValidationException) {
+            $this->totalWarnings++;
+
             $this->warnings[$line][] = $exception;
         }
 

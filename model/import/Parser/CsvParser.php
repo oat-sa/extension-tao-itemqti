@@ -67,7 +67,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
         array_shift($lines);
 
         foreach (array_filter($lines) as $lineNumber => $line) {
-            $currentLineNumber = $lineNumber + 1;
+            $currentLineNumber = $lineNumber + 2;
             $aggregatedException = null;
 
             $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
@@ -110,7 +110,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
             $results->addItem($currentLineNumber, $item);
         }
 
-        $results->setTotalScannedItems($currentLineNumber);
+        $results->setTotalScannedItems($currentLineNumber - 1);
 
         return $results;
     }
