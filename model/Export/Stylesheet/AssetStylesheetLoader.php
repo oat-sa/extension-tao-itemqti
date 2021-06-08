@@ -55,11 +55,14 @@ class AssetStylesheetLoader extends ConfigurableService
 
     private function buildAssetPathFromPropertyName(string $property)
     {
-        return dirname($property)
-            . DIRECTORY_SEPARATOR
-            . self::ASSET_CSS_DIRECTORY_NAME
-            . DIRECTORY_SEPARATOR
-            . self::ASSET_CSS_FILENAME;
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                dirname($property),
+                self::ASSET_CSS_DIRECTORY_NAME,
+                self::ASSET_CSS_FILENAME
+            ]
+        );
     }
 
     protected function getFileManagement(): FileManagement

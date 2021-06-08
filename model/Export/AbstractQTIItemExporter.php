@@ -359,13 +359,15 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
     private function buildAssetStylesheetPath(string $basepath, string $baseDirectoryName): string
     {
-        return $basepath
-            . DIRECTORY_SEPARATOR
-            . $baseDirectoryName
-            . DIRECTORY_SEPARATOR
-            . self::CSS_DIRECTORY_NAME
-            . DIRECTORY_SEPARATOR
-            . self::CSS_FILE_NAME;
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                $basepath,
+                $baseDirectoryName,
+                self::CSS_DIRECTORY_NAME,
+                self::CSS_FILE_NAME
+            ]
+        );
     }
 
     private function getAssetStylesheetLoader(): AssetStylesheetLoader
