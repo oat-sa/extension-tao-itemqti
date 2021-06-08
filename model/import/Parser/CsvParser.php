@@ -25,12 +25,13 @@ namespace oat\taoQtiItem\model\import\Parser;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\WarningValidationException;
+use Throwable;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
@@ -39,76 +40,79 @@ class CsvParser extends ConfigurableService implements ParserInterface
      */
     public function parseFile(File $file, TemplateInterface $template): ItemImportResult
     {
+        $results = new ItemImportResult();
         $logger = $this->getLogger();
+        $lineValidator = $this->getLineValidator();
+        $csvLineConverter = $this->getCsvLineConverter();
+        $currentLineNumber = 0;
+
         $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
         $header = $this->convertCsvLineToArray($lines[0]);
         $header = $this->trimLine($header);
 
-        $logger->debug('Tabular import: header validation started');
+        try {
+            $this->getHeaderValidator()->validate($header, $template);
+        } catch (Throwable $exception) {
+            $logger->warning(
+                sprintf(
+                    'Tabular import: Unexpected error on line %s: %s',
+                    1,
+                    $exception->getMessage()
+                )
+            );
 
-        $this->getHeaderValidator()->validate($header, $template);
-
-        $logger->debug('Tabular import: header validation finished');
+            return $results->addException(1, $exception);
+        }
 
         array_shift($lines);
 
-        $items = [];
-        $warningReport = [];
-        $errorsReport = [];
-        $currentLineNumber = 0;
-        $lineValidator = $this->getLineValidator();
-        $csvLineConverter = $this->getCsvLineConverter();
-
         foreach (array_filter($lines) as $lineNumber => $line) {
             $currentLineNumber = $lineNumber + 1;
-
-            $logger->debug(sprintf('Tabular import: line: %s raw data: "%s"', $currentLineNumber, $line));
+            $aggregatedException = null;
 
             $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
             $headedLine = array_combine($header, $parsedLine);
 
             try {
-                $logger->debug(sprintf('Tabular import: line %s validation started', $lineNumber));
-
                 $lineValidator->validate($headedLine, $template);
+            } catch (AggregatedValidationException $aggregatedException) {
+                $results->addException($currentLineNumber, $aggregatedException);
 
-                $logger->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
-            } catch (WarningImportException $exception) {
-                if ($exception->getTotal()) {
-                    $errorsReport[$currentLineNumber] = $exception;
-
+                if ($aggregatedException->hasErrors()) {
                     continue;
                 }
+            } catch (Throwable $exception) {
+                $results->addException($currentLineNumber, $exception);
 
-                $warningReport[$currentLineNumber] = $exception;
-            } catch (InvalidImportException $exception) {
-                $errorsReport[$currentLineNumber] = $exception;
-
-                continue;
+                $logger->error(
+                    sprintf(
+                        'Tabular import: Unexpected error on line %s: %s',
+                        $currentLineNumber,
+                        $exception->getMessage()
+                    )
+                );
             }
 
-            $logger->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
-
-            $item = $csvLineConverter->convert($headedLine, $template, $warningReport[$currentLineNumber] ?? null);
+            $item = $csvLineConverter->convert($headedLine, $template, $aggregatedException);
 
             if ($item->isNoneResponse()) {
-                $warning = new WarningImportException();
-                $warning->addMessage(
-                    'A value should be provided for at least one of the columns: %s',
-                    [
-                        'choice_[1-99]_score, correct_answer',
-                    ]
+                $results->addException(
+                    $currentLineNumber,
+                    new WarningValidationException(
+                        'A value should be provided for at least one of the columns: %s',
+                        [
+                            'choice_[1-99]_score, correct_answer',
+                        ]
+                    )
                 );
-
-                $warningReport[$currentLineNumber] = $warning;
             }
 
-            $items[$currentLineNumber] = $item;
-
-            $logger->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
+            $results->addItem($currentLineNumber, $item);
         }
 
-        return new ItemImportResult($items, $warningReport, $errorsReport, $currentLineNumber);
+        $results->setTotalScannedItems($currentLineNumber);
+
+        return $results;
     }
 
     private function trimLine(array $line): array
@@ -141,5 +145,4 @@ class CsvParser extends ConfigurableService implements ParserInterface
     {
         return $this->getServiceLocator()->get(CsvLineConverter::class);
     }
-
 }

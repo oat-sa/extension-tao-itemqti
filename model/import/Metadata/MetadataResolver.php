@@ -28,7 +28,8 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\taoQtiItem\model\import\ParsedMetadatum;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidMetadataException;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 
 class MetadataResolver extends ConfigurableService
 {
@@ -41,6 +42,8 @@ class MetadataResolver extends ConfigurableService
      * @param ParsedMetadatum[] $metadata
      *
      * @return ParsedMetadatum[]
+     *
+     * @throws AggregatedValidationException
      */
     public function resolve(core_kernel_classes_Class $class, array $metadata): array
     {
@@ -77,8 +80,24 @@ class MetadataResolver extends ConfigurableService
             return $result;
         }
 
-        //@TODO @FIXME Delete InvalidMetadataException and use InvalidImportException instead
-        throw new InvalidMetadataException($errors);
+        $messages = [];
+
+        foreach ($errors as $alias => $message) {
+            $messages[] = '"' . $alias . '" ' . $message;
+        }
+
+        //@TODO In the future, create one separate error for each metadata. Requires new translations
+        throw new AggregatedValidationException(
+            [
+                new ErrorValidationException(
+                    'Metadata are not correct: %s',
+                    [
+                        implode('. ', $messages)
+                    ]
+                )
+            ],
+            []
+        );
     }
 
     private function validate(
@@ -86,7 +105,8 @@ class MetadataResolver extends ConfigurableService
         string $alias,
         string $value,
         array $errors
-    ): array {
+    ): array
+    {
         $element = $this->getElementMapFactory()->create($property);
         $element->setValue($value);
 
@@ -128,7 +148,7 @@ class MetadataResolver extends ConfigurableService
     private function getPropertyUri(core_kernel_classes_Property $property, string $classUri, string $aliasName): ?string
     {
         $cachedPropertyUri = $this->getCached($classUri, $aliasName);
-        if(null !== $cachedPropertyUri) {
+        if (null !== $cachedPropertyUri) {
             return $cachedPropertyUri;
         }
 

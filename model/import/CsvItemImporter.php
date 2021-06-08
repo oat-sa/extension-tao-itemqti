@@ -29,8 +29,6 @@ use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\event\EventManagerAwareTrait;
-use oat\taoQtiItem\model\import\Report\ErrorReportFormatter;
-use oat\taoQtiItem\model\import\Report\WarningReportFormatter;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
 use oat\tao\model\import\ImportHandlerHelperTrait;
@@ -101,19 +99,6 @@ class CsvItemImporter implements
 
             $this->getLogger()->warning($report->getMessage());
         } finally {
-            if (isset($importResults)) {
-                $warningParsingReport = $importResults->getWarningReports();
-                $errorParsingReport = $importResults->getErrorReports();
-
-                if (!empty($warningParsingReport)) {
-                    $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
-                }
-
-                if (!empty($errorParsingReport)) {
-                    $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
-                }
-            }
-
             if (isset($uploadedFile)) {
                 $this->getUploadService()->remove($uploadedFile);
             }
@@ -125,16 +110,6 @@ class CsvItemImporter implements
     private function getTemplateRepository(): TemplateRepositoryInterface
     {
         return $this->getServiceLocator()->get(CsvTemplateRepository::class);
-    }
-
-    private function getWarningReportFormatter(): WarningReportFormatter
-    {
-        return $this->getServiceLocator()->get(WarningReportFormatter::class);
-    }
-
-    private function getErrorReportFormatter(): ErrorReportFormatter
-    {
-        return $this->getServiceLocator()->get(ErrorReportFormatter::class);
     }
 
     private function getCsvImporter(): CsvItemImportHandler

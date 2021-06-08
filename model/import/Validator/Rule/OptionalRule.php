@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,20 +18,31 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
+use oat\taoQtiItem\model\import\Validator\WarningValidationException;
 
 class OptionalRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
      * @inheritDoc
      */
-    public function validate($value, $rules = null, array $context = []): void
+    public function validate(string $column, $value, $rules = null, array $context = []): void
     {
-        if (null == $value || $value === '') {
-            throw new WarningImportException(__('`%s` is empty')); //@FIXME @TODO Adapt for translations
+        if (null === $value || $value === '') {
+            $exception = new WarningValidationException(
+                '`%s` is empty',
+                [
+                    $column,
+                ]
+            );
+
+            $exception->setColumn($column);
+
+            throw $exception;
         }
     }
 }

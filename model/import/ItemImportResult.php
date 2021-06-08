@@ -23,19 +23,25 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import;
 
 use core_kernel_classes_Resource;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
+use oat\taoQtiItem\model\import\Validator\AbstractValidationException;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
+use oat\taoQtiItem\model\import\Validator\WarningValidationException;
+use Throwable;
 
 class ItemImportResult
 {
     /** @var ItemInterface[] */
     private $items;
 
-    /** @var WarningImportException[] */
-    private $warningReports;
+    /** @var ErrorValidationException[] */
+    private $errors;
 
-    /** @var InvalidImportException[] */
-    private $errorReports;
+    /** @var WarningValidationException[] */
+    private $warnings;
+
+    /** @var ErrorValidationException[]|WarningValidationException[] */
+    private $errorsAndWarnings;
 
     /** @var int */
     private $totalSuccessfulImport;
@@ -43,26 +49,24 @@ class ItemImportResult
     /** @var int */
     private $totalScannedItems;
 
-    /** @var core_kernel_classes_Resource */
+    /** @var core_kernel_classes_Resource|null */
     private $firstItem;
 
-    /**
-     * @param  ItemInterface[]  $items
-     * @param  WarningImportException[]  $warningReports ( keys of array are equal to the line number where issue occurred
-     * @param  InvalidImportException[]  $errorReports
-     */
-    public function __construct(
-        array $items,
-        array $warningReports,
-        array $errorReports,
-        int $totalScannedItems = 0,
-        int $totalSuccessfulImport = 0
-    ) {
-        $this->items = $items;
-        $this->warningReports = $warningReports;
-        $this->errorReports = $errorReports;
-        $this->totalSuccessfulImport = $totalSuccessfulImport;
-        $this->totalScannedItems = $totalScannedItems;
+    public function __construct()
+    {
+        $this->items = [];
+        $this->errors = [];
+        $this->warnings = [];
+        $this->errorsAndWarnings = [];
+        $this->totalSuccessfulImport = 0;
+        $this->totalScannedItems = 0;
+    }
+
+    public function addItem(int $line, ItemInterface $item): self
+    {
+        $this->items[$line] = $item;
+
+        return $this;
     }
 
     public function getFirstItem(): ?core_kernel_classes_Resource
@@ -80,9 +84,9 @@ class ItemImportResult
         $this->totalSuccessfulImport = $totalSuccessfulImport;
     }
 
-    public function addErrorReport(int $lineNumber, InvalidImportException $exception): void
+    public function setTotalScannedItems(int $totalScannedItems): void
     {
-        $this->errorReports[$lineNumber] = $exception;
+        $this->totalScannedItems = $totalScannedItems;
     }
 
     /**
@@ -93,20 +97,30 @@ class ItemImportResult
         return $this->items;
     }
 
-    /**
-     * @return WarningImportException[]
-     */
-    public function getWarningReports(): array
+    public function getTotalWarnings(): int
     {
-        return $this->warningReports;
+        return count($this->warnings, COUNT_RECURSIVE);
+    }
+
+    public function getTotalErrors(): int
+    {
+        return count($this->errors, COUNT_RECURSIVE);
     }
 
     /**
-     * @return InvalidImportException[]
+     * @return WarningValidationException[]
      */
-    public function getErrorReports(): array
+    public function getWarnings(): array
     {
-        return $this->errorReports;
+        return $this->warnings;
+    }
+
+    /**
+     * @return ErrorValidationException[]
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 
     public function getTotalSuccessfulImport(): int
@@ -119,4 +133,62 @@ class ItemImportResult
         return $this->totalScannedItems;
     }
 
+    /**
+     * @return ErrorValidationException[]|WarningValidationException[]
+     */
+    public function getErrorsAndWarnings(): array
+    {
+        return $this->errorsAndWarnings;
+    }
+
+    public function addException(int $line, Throwable $exception): self
+    {
+        if ($exception instanceof AggregatedValidationException) {
+            $this->addAggregatedException($line, $exception);
+
+            return $this;
+        }
+
+        if ($exception instanceof AbstractValidationException) {
+            $this->addInternalException($line, $exception);
+
+            return $this;
+        }
+
+        $this->addInternalException($line, new ErrorValidationException($exception->getMessage()));
+
+        return $this;
+    }
+
+    private function addAggregatedException(int $line, AggregatedValidationException $exception): self
+    {
+        foreach ($exception->getErrors() as $errorException) {
+            $this->addInternalException($line, $errorException);
+        }
+
+        foreach ($exception->getWarnings() as $warningException) {
+            $this->addInternalException($line, $warningException);
+        }
+
+        return $this;
+    }
+
+    private function addInternalException(int $line, AbstractValidationException $exception): self
+    {
+        $this->errorsAndWarnings[$line] = isset($this->errorsAndWarnings[$line]) ? $this->errorsAndWarnings[$line] : [];
+        $this->errors[$line] = isset($this->errors[$line]) ? $this->errors[$line] : [];
+        $this->warnings[$line] = isset($this->warnings[$line]) ? $this->warnings[$line] : [];
+
+        $this->errorsAndWarnings[$line][] = $exception;
+
+        if ($exception instanceof ErrorValidationException) {
+            $this->errors[$line][] = $exception;
+        }
+
+        if ($exception instanceof WarningValidationException) {
+            $this->warnings[$line][] = $exception;
+        }
+
+        return $this;
+    }
 }

@@ -26,6 +26,9 @@ use core_kernel_classes_Resource;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
+use oat\taoQtiItem\model\import\Validator\AbstractValidationException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
+use oat\taoQtiItem\model\import\Validator\WarningValidationException;
 use Throwable;
 
 class ReportBuilder extends ConfigurableService
@@ -40,6 +43,72 @@ class ReportBuilder extends ConfigurableService
         $report = $this->createReportByResults($reportType, $results);
         $report->setData($resource ?? []);
         $report->add($this->createReportByResults($subReportType, $results));
+
+        $onlyWarningReports = [];
+        $warningAndErrorReports = [];
+
+        /** @var WarningValidationException[]|ErrorValidationException[] $exceptions */
+        foreach ($results->getErrorsAndWarnings() as $lineNumber => $exceptions) {
+            $warningReports = [];
+            $errorReports = [];
+
+            foreach ($exceptions as $exception) {
+                if ($exception instanceof WarningValidationException) {
+                    $warningReports[] = $this->createReportByException($exception);
+                }
+
+                if ($exception instanceof ErrorValidationException) {
+                    $warningReports[] = $this->createReportByException($exception);
+                }
+            }
+
+            if (empty($errorReports) && empty($warningReports)) {
+                continue;
+            }
+
+            $lineMainReport = Report::create(
+                empty($errors) ? Report::TYPE_WARNING : Report::TYPE_ERROR,
+                'line %s: %s',
+                [
+                    $lineNumber,
+                    '',
+                ]
+            );
+
+            foreach ($errorReports as $errorReport) {
+                $lineMainReport->add($errorReport);
+            }
+
+            foreach ($warningReports as $warningReport) {
+                $lineMainReport->add($warningReport);
+            }
+
+            if (empty($errorReports)) {
+                $onlyWarningReports[$lineNumber] = $lineMainReport;
+            }
+
+            if (!empty($errorReports)) {
+                $warningAndErrorReports[$lineNumber] = $lineMainReport;
+            }
+        }
+
+        if (!empty($onlyWarningReports)) {
+            $this->createAndAddSubReport(
+                $report,
+                $onlyWarningReports,
+                Report::TYPE_WARNING,
+                '%s line(s) are imported with warnings'
+            );
+        }
+
+        if (!empty($warningAndErrorReports)) {
+            $this->createAndAddSubReport(
+                $report,
+                $warningAndErrorReports,
+                Report::TYPE_ERROR,
+                '%s line(s) contain(s) an error and cannot be imported'
+            );
+        }
 
         return $report;
     }
@@ -60,9 +129,30 @@ class ReportBuilder extends ConfigurableService
         return $report;
     }
 
+    private function createAndAddSubReport(
+        Report $mainReport,
+        array $reports,
+        string $reportType,
+        string $message
+    ): void {
+        $newReport = Report::create(
+            $reportType,
+            $message,
+            [
+                count($reports),
+            ]
+        );
+
+        foreach ($reports as $subReport) {
+            $newReport->add($subReport);
+        }
+
+        $mainReport->add($newReport);
+    }
+
     private function createReportByResults(string $type, ItemImportResult $importerResults): Report
     {
-        if (0 === count($importerResults->getErrorReports()) && 0 === count($importerResults->getWarningReports())) {
+        if (0 === $importerResults->getTotalErrors() && 0 === $importerResults->getTotalWarnings()) {
             return Report::create(
                 $type,
                 'CSV import successful: %s/%s line(s) are imported',
@@ -89,10 +179,29 @@ class ReportBuilder extends ConfigurableService
             [
                 $importerResults->getTotalSuccessfulImport(),
                 $importerResults->getTotalScannedItems(),
-                count($importerResults->getWarningReports()),
-                count($importerResults->getErrorReports())
+                $importerResults->getTotalWarnings(),
+                $importerResults->getTotalErrors()
             ]
         );
+    }
+
+    private function createReportByException(AbstractValidationException $exception): Report
+    {
+        if ($exception instanceof WarningValidationException) {
+            return Report::create(
+                Report::TYPE_WARNING,
+                $exception->getMessage(),
+                $exception->getInterpolationData()
+            );
+        }
+
+        if ($exception instanceof ErrorValidationException) {
+            return Report::create(
+                Report::TYPE_ERROR,
+                $exception->getMessage(),
+                $exception->getInterpolationData()
+            );
+        }
     }
 
     private function getReportType(ItemImportResult $results): string
@@ -101,7 +210,7 @@ class ReportBuilder extends ConfigurableService
             return Report::TYPE_ERROR;
         }
 
-        if (count($results->getWarningReports()) === 0 && count($results->getErrorReports()) === 0) {
+        if ($results->getTotalWarnings() === 0 && $results->getTotalErrors() === 0) {
             return Report::TYPE_SUCCESS;
         }
 

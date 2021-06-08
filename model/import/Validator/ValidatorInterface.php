@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -22,14 +22,12 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 interface ValidatorInterface
 {
     /**
-     * @throws InvalidImportException|WarningImportException
+     * @throws AggregatedValidationException
      */
     public function validate(array $content, TemplateInterface $csvTemplate): void;
 }

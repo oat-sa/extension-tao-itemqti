@@ -31,10 +31,10 @@ use oat\oatbox\reporting\ReportInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidMetadataException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 use oat\taoQtiItem\model\qti\ImportService;
 use tao_models_classes_dataBinding_GenerisFormDataBinder;
 use tao_models_classes_dataBinding_GenerisFormDataBindingException;
@@ -44,14 +44,12 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class CsvItemImportHandler extends ConfigurableService
 {
-    /**
-     * @throws InvalidImportException
-     */
     public function import(
         File $uploadedFile,
         TemplateInterface $template,
         core_kernel_classes_Class $class
-    ): ItemImportResult {
+    ): ItemImportResult
+    {
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
         $logger = $this->getLogger();
@@ -64,58 +62,35 @@ class CsvItemImportHandler extends ConfigurableService
         $successReportsImport = 0;
         $importService = $this->getItemImportService();
         $templateProcessor = $this->getTemplateProcessor();
-        $errorReportsImport = count($itemValidatorResults->getErrorReports());
         $xmlItems = $templateProcessor->processResultSet($itemValidatorResults, $template);
 
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
                 $metaData = $this->getMetadataResolver()->resolve($class, $xmlItem->getMetadata());
 
-                $itemImportReport  = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
-                $this->importMetadata($metaData, $itemImportReport);
+                $itemImportReport = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
 
-                if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {
-                    $itemValidatorResults->setFirstItem($itemImportReport->getData());
-
-                    $logger->debug(sprintf('Tabular import: successful import of item from line %s', $lineNumber));
-
-                    $successReportsImport++;
-                } else {
-                    $logger->debug(
-                        sprintf(
-                            'Tabular import: failed import of item from line %s due to %s',
-                            $lineNumber,
-                            $itemImportReport->getMessage()
-                        )
+                if (Report::TYPE_SUCCESS !== $itemImportReport->getType()) {
+                    $itemValidatorResults->addException(
+                        $lineNumber,
+                        new ErrorValidationException($itemImportReport->getMessage())
                     );
 
-                    $error = new InvalidImportException();
-                    //@TODO @FIXE Need to get translation somehow...
-                    $error->addMessage($itemImportReport->getMessage());
-
-                    $itemValidatorResults->addErrorReport($lineNumber, $error);
-                    $errorReportsImport++;
+                    continue;
                 }
-                unset($itemImportReport);
-            } catch (InvalidMetadataException $exception) {
-                $logger->debug(
-                    sprintf(
-                        'Tabular import: failed import of item from line %s due to %s',
-                        $lineNumber,
-                        $exception->getMessage()
-                    )
-                );
-                $error = new InvalidImportException();
-                //@TODO @FIXME Need to add support for translation to InvalidMetadataException
-                $error->addMessage($exception->getMessage());
 
+                $this->importMetadata($metaData, $itemImportReport);
+
+                $itemValidatorResults->setFirstItem($itemImportReport->getData());
+
+                $logger->debug(sprintf('Tabular import: successful import of item from line %s', $lineNumber));
+
+                $successReportsImport++;
+            } catch (Throwable $exception) {
                 if (isset($itemImportReport)) {
                     $this->rollbackItem($itemImportReport, $lineNumber);
                 }
 
-                $itemValidatorResults->addErrorReport($lineNumber, $error);
-                $errorReportsImport++;
-            } catch (Throwable $exception) {
                 $logger->error(
                     sprintf(
                         'Tabular import: failed import of item from line %s due to %s',
@@ -124,17 +99,11 @@ class CsvItemImportHandler extends ConfigurableService
                     )
                 );
 
+                $itemValidatorResults->addException($lineNumber, $exception);
+            } finally {
                 if (isset($itemImportReport)) {
-                    $this->rollbackItem($itemImportReport, $lineNumber);
+                    unset($itemImportReport);
                 }
-
-                $errorReportsImport++;
-
-                $error = new InvalidImportException();
-                //@TODO Add support for translation here somehow
-                $error->addMessage($exception->getMessage());
-
-                $itemValidatorResults->addErrorReport($lineNumber, $error);
             }
         }
 
@@ -183,8 +152,8 @@ class CsvItemImportHandler extends ConfigurableService
      */
     private function importMetadata(array $metaData, ReportInterface $itemImportReport): void
     {
-        $itemRdf  = $itemImportReport->getData();
-        $binder   = new tao_models_classes_dataBinding_GenerisFormDataBinder($itemRdf);
+        $itemRdf = $itemImportReport->getData();
+        $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($itemRdf);
         $binder->bind($metaData);
     }
 

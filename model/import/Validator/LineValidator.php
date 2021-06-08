@@ -24,8 +24,6 @@ namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
-use oat\taoQtiItem\model\import\Parser\Exception\AbstractImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\WarningImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class LineValidator extends ConfigurableService implements ValidatorInterface
@@ -37,7 +35,8 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
     {
         $logger = $this->getLogger();
         $decorator = new CvsToQtiTemplateDecorator($csvTemplate);
-        $warnings = new WarningImportException();
+        $warnings = [];
+        $errors = [];
 
         foreach ($decorator->getCsvColumns() as $headerRegex => $validations) {
             $validations = $validations['value'] ?? '';
@@ -46,57 +45,36 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
                 $rules = explode(':', $validation);
                 $name = array_shift($rules);
                 $validator = $this->getValidatorMapper()->getValidator($name);
-                if ($validator) {
-                    try {
-                        $validatedValue = $content[$headerRegex] ?? null;
 
-                        $loggedValue = is_null($validatedValue) ?
-                            'NULL' :
-                            sprintf('"%s"', $validatedValue);
+                if (!$validator) {
+                    continue;
+                }
 
-                        $validator->validate($validatedValue, $rules, $content);
+                $exception = null;
+                $validatedValue = $content[$headerRegex] ?? null;
 
-                        $logger->debug(
-                            sprintf(
-                                'Tabular import: successful validation on %s by "%s" validator',
-                                $loggedValue,
-                                $name
-                            )
-                        );
-                    } catch (WarningImportException $exception) {
-                        $warnings->addMessage(
-                            $exception->getMessage(),
-                            [
-                                $headerRegex,
-                            ],
-                            $headerRegex
-                        );
-
+                try {
+                    $validator->validate($headerRegex, $validatedValue, $rules, $content);
+                } catch (ErrorValidationException $exception) {
+                    $errors[] = $exception;
+                } catch (WarningValidationException $exception) {
+                    $warnings[] = $exception;
+                } finally {
+                    if ($exception) {
                         $logger->debug(
                             sprintf(
                                 'Tabular import: failed validation on %s by "%s" validator',
-                                $loggedValue,
+                                $validatedValue ?? '',
                                 $name
                             )
                         );
-                    } catch (AbstractImportException $exception) {
-                        //@TODO @FIXME Check why we take all the 2 types of exceptions here
-                        $warnings->addMessage(
-                            $exception->getMessage(),
-                            [
-                                $headerRegex,
-                            ],
-                            $headerRegex
-                        );
-
-                        $logger->debug(sprintf('Tabular import: failed validation on %s by "%s" validator', $loggedValue, $name));
                     }
                 }
             }
         }
 
-        if ($warnings->getTotal() || $warnings->getTotalErrors()) {
-            throw $warnings;
+        if (!empty($warnings) || !empty($errors)) {
+            throw new AggregatedValidationException($errors, $warnings);
         }
     }
 
@@ -104,5 +82,4 @@ class LineValidator extends ConfigurableService implements ValidatorInterface
     {
         return $this->getServiceLocator()->get(ValidationRulesMapper::class);
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,16 +18,18 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 
 class OneOfColumnsOrEmptyRule extends AbstractGroupRule implements ValidationRuleInterface
 {
     /**
      * @inheritDoc
      */
-    public function validate($value, $rules = null, array $context = []): void
+    public function validate(string $column, $value, $rules = null, array $context = []): void
     {
         if (empty(trim($value))) {
             return;
@@ -40,9 +42,16 @@ class OneOfColumnsOrEmptyRule extends AbstractGroupRule implements ValidationRul
         $searchValues = explode(',', str_replace(' ', '', $value));
 
         if (count(array_intersect($searchValues, $allowedValues)) !== count($searchValues)) {
-            throw new InvalidImportException(
-                __("Error: %s doesn't contain the allowed values")
+            $exception = new ErrorValidationException(
+                "Error: %s doesn't contain the allowed values",
+                [
+                    $column,
+                ]
             );
+
+            $exception->setColumn($column);
+
+            throw $exception;
         }
     }
 }

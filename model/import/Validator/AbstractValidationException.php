@@ -15,43 +15,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Parser\Exception;
+namespace oat\taoQtiItem\model\import\Validator;
 
 use Exception;
 
-abstract class AbstractImportException extends Exception
+abstract class AbstractValidationException extends Exception
 {
-    /** @var string[][] */
-    protected $messages = [];
+    /** @var string[] */
+    private $interpolationData;
 
-    /** @var int */
-    protected $total = 0;
+    /** @var string */
+    private $column;
 
-    public function addMessage(string $message, array $messageData = [], string $field = null): self
+    public function __construct(string $message, array $interpolationData = [])
     {
-        $this->total++;
-        $this->message .= rtrim($message, ',') . ', ';
-        $this->messages[] = [
-            'message' => $message,
-            'messageData' => $messageData,
-            'field' => $field,
-        ];
+        parent::__construct($message);
+
+        $this->interpolationData = $interpolationData;
+    }
+
+    public function setColumn(string $column): self
+    {
+        $this->column = $column;
 
         return $this;
     }
 
-    public function getTotal(): int
+    public function getColumn(): string
     {
-        return $this->total;
+        return $this->column;
     }
 
-    public function getMessages(): array
+    public function getInterpolationData(): array
     {
-        return $this->messages;
+        return $this->interpolationData;
     }
 }

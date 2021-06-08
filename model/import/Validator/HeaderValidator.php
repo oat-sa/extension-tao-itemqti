@@ -24,7 +24,6 @@ namespace oat\taoQtiItem\model\import\Validator;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 class HeaderValidator extends ConfigurableService implements ValidatorInterface
@@ -39,7 +38,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
 
         $validationConfig = $decorator->getCsvColumns();
 
-        $error = new InvalidImportException();
+        $errors = [];
 
         foreach ($validationConfig as $headerRegex => $validations) {
             $validations = explode('|', $validationConfig[$headerRegex]['header']);
@@ -50,7 +49,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
             $totalOccurrences = count($occurrences);
 
             foreach ($this->getMissingMatches($headerRegex, $validations, $content, $occurrences) as $missingMatch) {
-                $error->addMessage(
+                $errors[] = new ErrorValidationException(
                     'Header `%s` is required',
                     [
                         $missingMatch,
@@ -60,7 +59,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
             }
 
             if ($isRequired && $totalOccurrences === 0) {
-                $error->addMessage(
+                $errors[] = new ErrorValidationException(
                     'Header `%s` is required',
                     [
                         $headerRegex
@@ -70,7 +69,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
             }
 
             if ($totalOccurrences < $minOccurrences) {
-                $error->addMessage(
+                $errors[] = new ErrorValidationException(
                     'Header `%s` must be provided at least `%s` times',
                     [
                         $headerRegex,
@@ -88,8 +87,8 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
             }
         }
 
-        if ($error->getTotal() > 0) {
-            throw $error;
+        if (count($errors) > 0) {
+            throw new AggregatedValidationException($errors, []);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,16 +18,18 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 
 class MinOccurrencesRule extends AbstractGroupRule implements ValidationRuleInterface
 {
     /**
      * @inheritDoc
      */
-    public function validate($value, $rules = null, array $context = []): void
+    public function validate(string $column, $value, $rules = null, array $context = []): void
     {
         $groupName = $rules[0];
         $minCount = $rules[1];
@@ -36,9 +38,17 @@ class MinOccurrencesRule extends AbstractGroupRule implements ValidationRuleInte
         $occurrences = $this->getGroupValues($context, $groupName);
 
         if ($minCount > count(array_filter($occurrences))) {
-            throw new InvalidImportException(
-                __('at least %s %s are required', $minCount, $alias) //@FIXME @TODO Adapt for translations
+            $exception = new ErrorValidationException(
+                'at least %s %s are required',
+                [
+                    $minCount,
+                    $alias
+                ]
             );
+
+            $exception->setColumn($column);
+
+            throw $exception;
         }
     }
 }
