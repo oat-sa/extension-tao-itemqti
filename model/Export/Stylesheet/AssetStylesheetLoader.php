@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\Export\Stylesheet;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoMediaManager\model\fileManagement\FileManagement;
+use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
 use Psr\Http\Message\StreamInterface;
 use tao_helpers_Uri as UriHelper;
 
@@ -32,7 +33,6 @@ class AssetStylesheetLoader extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    public const PROPERTY_LINK = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Link';
     public const ASSET_CSS_DIRECTORY_NAME = 'css';
     public const ASSET_CSS_FILENAME = 'tao-user-styles.css';
 
@@ -42,7 +42,7 @@ class AssetStylesheetLoader extends ConfigurableService
 
         if ($asset->exists()) {
             $property = (string) $asset->getUniquePropertyValue(
-                $this->getProperty(self::PROPERTY_LINK)
+                $this->getProperty(AbstractQTIItemExporter::PROPERTY_LINK)
             );
 
             return $this->getFileManagement()->getFileStream(

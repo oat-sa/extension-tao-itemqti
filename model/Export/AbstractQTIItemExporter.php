@@ -350,7 +350,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
     }
 
-    private function getUniqueAssetDirectoryByLink(MediaBrowser $mediaSource, string $link)
+    private function getUniqueAssetDirectoryByLink(MediaBrowser $mediaSource, string $link): string
     {
         return self::ASSETS_DIRECTORY_NAME
             . DIRECTORY_SEPARATOR
