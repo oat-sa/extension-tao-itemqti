@@ -42,7 +42,7 @@ class SharedStimulusFactory extends ConfigurableService
         string $relativePath,
         string $absolutePath,
         string $label
-    ) {
+    ): string {
         $assetWithCss = $this->getStoreService()->store(
             $newXmlFile,
             basename($relativePath),
@@ -58,13 +58,16 @@ class SharedStimulusFactory extends ConfigurableService
         );
     }
 
-    private function getRelatedCssFilePath(string $absolutePath)
+    private function getRelatedCssFilePath(string $absolutePath): string
     {
-        return dirname($absolutePath)
-            . DIRECTORY_SEPARATOR
-            . AbstractQTIItemExporter::CSS_DIRECTORY_NAME
-            . DIRECTORY_SEPARATOR
-            . AbstractQTIItemExporter::CSS_FILE_NAME;
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                dirname($absolutePath),
+                AbstractQTIItemExporter::CSS_DIRECTORY_NAME,
+                AbstractQTIItemExporter::CSS_FILE_NAME
+            ]
+        );
     }
 
     private function getParentClassUri(string $label): string
