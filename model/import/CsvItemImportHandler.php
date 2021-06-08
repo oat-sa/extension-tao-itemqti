@@ -33,7 +33,6 @@ use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
-use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
 use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 use oat\taoQtiItem\model\qti\ImportService;
 use tao_models_classes_dataBinding_GenerisFormDataBinder;

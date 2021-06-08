@@ -46,7 +46,7 @@ abstract class AbstractValidationException extends Exception
         return $this;
     }
 
-    public function getColumn(): string
+    public function getColumn(): ?string
     {
         return $this->column;
     }
