@@ -22,32 +22,41 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Report;
 
-use Exception;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 
 abstract class AbstractReportFormatter extends ConfigurableService implements ReportFormatter
 {
     /**
-     * @param Exception[] $exceptions
-     *
-     * @return Report[]
+     * @inheritDoc
      */
-    protected function buildLineReports(string $type, array $exceptions): array
+    public function format(array $exceptions): Report
     {
-        $reports = [];
+        $report = Report::create(
+            $this->getReportType(),
+            $this->getReportMessage(),
+            [
+                count($exceptions),
+            ]
+        );
 
         foreach ($exceptions as $lineNumber => $lineReport) {
-            $reports[$lineNumber] = Report::create(
-                $type,
-                'line %s: %s',
-                [
-                    $lineNumber,
-                    rtrim($lineReport->getMessage(), ', '),
-                ]
+            $report->add(
+                Report::create(
+                    $this->getReportType(),
+                    'line %s: %s',
+                    [
+                        $lineNumber,
+                        rtrim($lineReport->getMessage(), ', '),
+                    ]
+                )
             );
         }
 
-        return $reports;
+        return $report;
     }
+
+    abstract protected function getReportMessage(): string;
+
+    abstract protected function getReportType(): string;
 }

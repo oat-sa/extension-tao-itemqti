@@ -22,28 +22,17 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Report;
 
-use Exception;
 use oat\oatbox\reporting\Report;
 
 class ErrorReportFormatter extends AbstractReportFormatter
 {
-    /**
-     * @param Exception[]  $exceptions
-     */
-    public function format(array $exceptions): Report
+    protected function getReportMessage(): string
     {
-        $report = Report::create(
-            Report::TYPE_ERROR,
-            '%s line(s) contain(s) an error and cannot be imported',
-            [
-                count($exceptions),
-            ]
-        );
+        return '%s line(s) contain(s) an error and cannot be imported';
+    }
 
-        foreach ($this->buildLineReports(Report::TYPE_ERROR, $exceptions) as $report) {
-            $report->add($report);
-        }
-
-        return $report;
+    protected function getReportType(): string
+    {
+        return Report::TYPE_ERROR;
     }
 }
