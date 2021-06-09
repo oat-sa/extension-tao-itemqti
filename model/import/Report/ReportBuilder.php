@@ -36,13 +36,9 @@ class ReportBuilder extends ConfigurableService
     public function buildByResults(ItemImportResult $results, core_kernel_classes_Resource $resource = null): Report
     {
         $reportType = $this->getReportType($results);
-        $subReportType = in_array($reportType, [Report::TYPE_INFO, Report::TYPE_SUCCESS])
-            ? Report::TYPE_SUCCESS
-            : $reportType;
 
         $report = $this->createReportByResults($reportType, $results);
         $report->setData($resource ?? []);
-        $report->add($this->createReportByResults($subReportType, $results));
 
         $onlyWarningReports = [];
         $warningAndErrorReports = [];

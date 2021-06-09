@@ -28,7 +28,7 @@ use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 use oat\taoQtiItem\model\import\Validator\WarningValidationException;
 use PHPUnit\Framework\TestCase;
 
-class CsvItemResultTest extends TestCase
+class ItemImportResultTest extends TestCase
 {
     public function testGetters(): void
     {
