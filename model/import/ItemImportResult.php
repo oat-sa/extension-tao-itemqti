@@ -126,7 +126,7 @@ class ItemImportResult
     }
 
     /**
-     * @return WarningValidationException[]
+     * @return WarningValidationException[][]
      */
     public function getWarnings(): array
     {
@@ -134,7 +134,7 @@ class ItemImportResult
     }
 
     /**
-     * @return ErrorValidationException[]
+     * @return ErrorValidationException[][]
      */
     public function getErrors(): array
     {
@@ -142,7 +142,7 @@ class ItemImportResult
     }
 
     /**
-     * @return ErrorValidationException[]|WarningValidationException[]
+     * @return ErrorValidationException[][]|WarningValidationException[][]
      */
     public function getErrorsAndWarnings(): array
     {
