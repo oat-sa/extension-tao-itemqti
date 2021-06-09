@@ -184,20 +184,19 @@ class ItemImportResult
     private function addInternalException(int $line, AbstractValidationException $exception): self
     {
         $this->errorsAndWarnings[$line] = isset($this->errorsAndWarnings[$line]) ? $this->errorsAndWarnings[$line] : [];
-        $this->errors[$line] = isset($this->errors[$line]) ? $this->errors[$line] : [];
-        $this->warnings[$line] = isset($this->warnings[$line]) ? $this->warnings[$line] : [];
-
         $this->errorsAndWarnings[$line][] = $exception;
 
         if ($exception instanceof ErrorValidationException) {
             $this->totalErrors++;
 
+            $this->errors[$line] = isset($this->errors[$line]) ? $this->errors[$line] : [];
             $this->errors[$line][] = $exception;
         }
 
         if ($exception instanceof WarningValidationException) {
             $this->totalWarnings++;
 
+            $this->warnings[$line] = isset($this->warnings[$line]) ? $this->warnings[$line] : [];
             $this->warnings[$line][] = $exception;
         }
 

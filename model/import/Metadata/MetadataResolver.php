@@ -36,6 +36,8 @@ class MetadataResolver extends ConfigurableService
     use OntologyAwareTrait;
 
     private const MAX_CACHE_SIZE = 1000;
+
+    /** @var array */
     private $cache = [];
 
     /**
@@ -105,8 +107,7 @@ class MetadataResolver extends ConfigurableService
         string $alias,
         string $value,
         array $errors
-    ): array
-    {
+    ): array {
         $element = $this->getElementMapFactory()->create($property);
         $element->setValue($value);
 
@@ -135,6 +136,7 @@ class MetadataResolver extends ConfigurableService
     private function add(string $classUri, string $aliasName, string $aliasUri): void
     {
         $this->cache[$classUri . $aliasName] = $aliasUri;
+
         if (count($this->cache) > self::MAX_CACHE_SIZE) {
             array_shift($this->cache);
         }
@@ -148,11 +150,13 @@ class MetadataResolver extends ConfigurableService
     private function getPropertyUri(core_kernel_classes_Property $property, string $classUri, string $aliasName): ?string
     {
         $cachedPropertyUri = $this->getCached($classUri, $aliasName);
+
         if (null !== $cachedPropertyUri) {
             return $cachedPropertyUri;
         }
 
         $this->add($classUri, $aliasName, $property->getUri());
+
         return $property->getUri();
     }
 
