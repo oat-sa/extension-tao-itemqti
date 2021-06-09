@@ -95,6 +95,48 @@ class ReportBuilderTest extends TestCase
         $this->assertSame('warning', $subSubReport2p1->getMessage());
     }
 
+    public function testBuildResultsWithErrors(): void
+    {
+        $errorException = new ErrorValidationException('error');
+
+        $sut = new ItemImportResult();
+        $sut->setTotalScannedItems(1);
+        $sut->setTotalSuccessfulImport(0);
+        $sut->addException(1, new AggregatedValidationException([$errorException], []));
+
+        $report = $this->subject->buildByResults($sut);
+
+        /** @var Report $subReport1 */
+        $subReport1 = $report->getChildren()[0];
+
+        /** @var Report $subReport1p1 */
+        $subReport1p1 = $subReport1->getChildren()[0];
+
+        /** @var Report $subSubReport1p1 */
+        $subSubReport1p1 = $subReport1p1->getChildren()[0];
+
+        $this->assertSame('CSV import failed: 0/1 line(s) are imported', $report->getMessage());
+        $this->assertSame('1 line(s) contain(s) an error and cannot be imported', $subReport1->getMessage());
+        $this->assertSame('line 1: ', $subReport1p1->getMessage());
+        $this->assertSame('error', $subSubReport1p1->getMessage());
+    }
+
+    public function testBuildByResultsWithNoError(): void
+    {
+        $firstItem = $this->createMock(core_kernel_classes_Resource::class);
+        $item = $this->createMock(ItemInterface::class);
+
+        $sut = new ItemImportResult();
+        $sut->setTotalScannedItems(1);
+        $sut->setTotalSuccessfulImport(1);
+        $sut->setFirstItem($firstItem);
+        $sut->addItem(1, $item);
+
+        $report = $this->subject->buildByResults($sut);
+
+        $this->assertSame('CSV import successful: 1/1 line(s) are imported', $report->getMessage());
+    }
+
     public function testBuildByException(): void
     {
         $error = new InvalidArgumentException('error');
