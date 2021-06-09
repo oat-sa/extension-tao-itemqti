@@ -110,7 +110,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
             $results->addItem($currentLineNumber, $item);
         }
 
-        $results->setTotalScannedItems($currentLineNumber - 1);
+        $results->setTotalScannedItems(max($currentLineNumber - 1, 0));
 
         return $results;
     }

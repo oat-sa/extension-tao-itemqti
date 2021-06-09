@@ -150,25 +150,25 @@ class ReportBuilder extends ConfigurableService
         $mainReport->add($newReport);
     }
 
-    private function createReportByResults(string $type, ItemImportResult $importerResults): Report
+    private function createReportByResults(string $type, ItemImportResult $results): Report
     {
-        if (0 === $importerResults->getTotalErrors() && 0 === $importerResults->getTotalWarnings()) {
-            return Report::create(
-                $type,
-                'CSV import successful: %s/%s line(s) are imported',
-                [
-                    $importerResults->getTotalSuccessfulImport(),
-                    $importerResults->getTotalScannedItems()
-                ]
-            );
-        }
-
-        if (0 === $importerResults->getTotalSuccessfulImport()) {
+        if (0 === $results->getTotalSuccessfulImport() || $results->getTotalScannedItems() === 0) {
             return Report::create(
                 $type,
                 'CSV import failed: %s/%s line(s) are imported',
                 [
-                    $importerResults->getTotalSuccessfulImport(), $importerResults->getTotalScannedItems()
+                    $results->getTotalSuccessfulImport(), $results->getTotalScannedItems()
+                ]
+            );
+        }
+
+        if (0 === $results->getTotalErrors() && 0 === $results->getTotalWarnings()) {
+            return Report::create(
+                $type,
+                'CSV import successful: %s/%s line(s) are imported',
+                [
+                    $results->getTotalSuccessfulImport(),
+                    $results->getTotalScannedItems()
                 ]
             );
         }
@@ -177,10 +177,10 @@ class ReportBuilder extends ConfigurableService
             $type,
             'CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))',
             [
-                $importerResults->getTotalSuccessfulImport(),
-                $importerResults->getTotalScannedItems(),
-                $importerResults->getTotalWarnings(),
-                $importerResults->getTotalErrors()
+                $results->getTotalSuccessfulImport(),
+                $results->getTotalScannedItems(),
+                $results->getTotalWarnings(),
+                $results->getTotalErrors()
             ]
         );
     }
