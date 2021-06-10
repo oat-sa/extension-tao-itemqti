@@ -28,24 +28,14 @@ define([
     };
 
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
-// const t = choice.getBody();
-// choiсe.elements = {
-//     math_1234: {
-//         serial: '123',
-//         qtiClass: 'math',
-//
-//     }
-// }
-        var tplData = {
-            tag : choice.qtiClass,
-            serial : choice.serial,
-            attributes : choice.attributes,
-            body : choice.getBody(),
-            interactionShuffle:shuffleChoice
-        };
-
-        const r = inlineChoiceTpl(tplData);
-        return choice.renderer.renderTpl(choice, tplData);
+        const interaction = this.element;
+        const interactionData = { interaction };
+        return choice.render(
+            _.clone(interactionData, true),
+            null,
+            choice.qtiClass + '.' + interaction.qtiClass,
+            interaction.getRenderer()
+        );
     };
 
 
