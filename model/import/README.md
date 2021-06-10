@@ -3,7 +3,7 @@
 Here you can find instructions about import items using TAO platform.
 
 ## Configuration
-The feature is disabled by default, to enable it flag `FEATURE_FLAG_TABULAR_IMPORT_ENABLED` should be set at the env variables.
+The feature is disabled by default. It can be enabled by the feature flag `FEATURE_FLAG_TABULAR_IMPORT_ENABLED`.
 
 ## Tabular Import with CSV Template
 
@@ -26,8 +26,9 @@ We currently support only **multiple-choices** questions.
 
 How the score is set on the QTI Item based on the import fields.
 
-- *match_correct*: In case there is just one `choice_N_score`, the score will be considered `match_correct`
+- *match_correct*: In case there are empty `choice_N_score` and `correct_answer` is provided.
 - *map_response*: In case there is more than one `choice_N_score`.
+- *none*: In case there is only empty `choice_N_score` fields and no `correct_answer`.
 - *MAXSCORE*:
     - If `max_choices` = 0 (unlimited), it will be the sum of all `choice_N_score` without include negative values.
     - If `max_choices` = 1, it will be the higher `choice_N_score` value.
@@ -36,3 +37,12 @@ How the score is set on the QTI Item based on the import fields.
 ### Examples
 
 - You can see an [example here](./../../templates/import/import.sample.csv).
+
+### Limitations
+
+- Only single/multiple choice interactions are supported.
+- Only those types of metadata are supported: 
+    - Text Short Field
+    - Text Long Box
+    - Text HTML editor
+- Only metadata properties with the attribute “alias” will be considered.
