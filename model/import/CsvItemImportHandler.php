@@ -31,6 +31,7 @@ use oat\oatbox\reporting\ReportInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
+use oat\taoQtiItem\model\import\Parser\CsvSeparatorTrait;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidMetadataException;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
@@ -44,6 +45,8 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class CsvItemImportHandler extends ConfigurableService
 {
+    use CsvSeparatorTrait;
+
     /**
      * @throws InvalidImportException
      */
@@ -143,7 +146,11 @@ class CsvItemImportHandler extends ConfigurableService
 
     private function getParser(): ParserInterface
     {
-        return $this->getServiceLocator()->get(CsvParser::class);
+        /** @var CsvParser $parser */
+        $parser = $this->getServiceLocator()->get(CsvParser::class);
+        $parser->setCsvSeparator($this->getCsvSeparator());
+
+        return $parser;
     }
 
     private function getItemImportService(): ImportService

@@ -35,6 +35,8 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
+    use CsvSeparatorTrait;
+
     /**
      * @throws InvalidImportException
      */
@@ -124,7 +126,7 @@ class CsvParser extends ConfigurableService implements ParserInterface
 
     private function convertCsvLineToArray(string $line): array
     {
-        return str_getcsv($line);
+        return str_getcsv($line, $this->getCsvSeparator());
     }
 
     private function getHeaderValidator(): ValidatorInterface
