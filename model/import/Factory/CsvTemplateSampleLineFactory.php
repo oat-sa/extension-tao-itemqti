@@ -35,10 +35,10 @@ class CsvTemplateSampleLineFactory extends ConfigurableService
             . 'The value in ""correct_answer"" should be choice identifiers (listed in the column header) '
             . 'and not the actual text content of the choices. In this example, ""choice_2"" is the correct answer '
             . 'and gives the score 1',
-            '',
+            '0',
             'en-US',
-            '',
-            '',
+            '0',
+            '0',
             'text for choice_1',
             'text for choice_2',
             'text for choice_3',
@@ -71,9 +71,9 @@ class CsvTemplateSampleLineFactory extends ConfigurableService
             '[please remove] EXAMPLE 3 - item with both correct answer and partial score',
             'Select the correct response (1 single choice allowed, the correct answer is ""X"" and ""Y"", '
             . 'this item uses partial scoring)',
-            '',
+            '0',
             'en-US',
-            '',
+            '0',
             '1',
             'W',
             'X',
