@@ -10,11 +10,15 @@ define([
 ], function ($, _, CKEditor, stateFactory, QuestionState, formElement, htmlEditor, contentHelper) {
     'use strict';
 
-    const ChoiceStateQuestion = stateFactory.extend(QuestionState, function initStateQuestion() {
-        this.buildEditor();
-    }, function exitStateQuestion() {
-        this.destroyEditor();
-    });
+    const ChoiceStateQuestion = stateFactory.extend(
+        QuestionState,
+        function () {
+            this.buildEditor();
+        },
+        function () {
+            this.destroyEditor();
+        }
+    );
 
     ChoiceStateQuestion.prototype.createToolbar = function () {
 

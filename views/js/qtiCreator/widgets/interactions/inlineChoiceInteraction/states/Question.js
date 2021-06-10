@@ -10,14 +10,14 @@ define([
 
         var $mainOption = this.widget.$container.find('.main-option'),
             $original = this.widget.$original;
-        
+
         //listener to children choice widget change and update the original interaction placeholder
         $(document).on('choiceTextChange.qti-widget.question', function(){
             $original.width($mainOption.width());
         });
 
     }, function(){
-        
+
         $(document).off('.qti-widget.question');
     });
 
