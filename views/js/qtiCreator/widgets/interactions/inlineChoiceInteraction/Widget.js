@@ -28,14 +28,37 @@ define([
     };
 
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
+// const t = choice.getBody();
+// choiсe.elements = {
+//     math_1234: {
+//         serial: '123',
+//         qtiClass: 'math',
+//
+//     }
+// }
+        //return choice.renderer.renderTpl(choice, tplData);
+
         const interaction = this.element;
         const interactionData = { interaction };
-        return choice.render(
+        const container = choice.metaData.widget.element.getBody();
+        const body = container.render(
             _.clone(interactionData, true),
             null,
-            choice.qtiClass + '.' + interaction.qtiClass,
+            container.qtiClass + '.' + interaction.qtiClass,
             interaction.getRenderer()
         );
+
+        var tplData = {
+            tag : choice.qtiClass,
+            serial : choice.serial,
+            attributes : choice.attributes,
+            body,
+            interactionShuffle:shuffleChoice
+        };
+
+        const r = inlineChoiceTpl(tplData);
+
+        return inlineChoiceTpl(tplData);
     };
 
 
