@@ -27,16 +27,7 @@ define([
        this.$container.find('.tlb-title').remove();
     };
 
-    InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
-// const t = choice.getBody();
-// choiсe.elements = {
-//     math_1234: {
-//         serial: '123',
-//         qtiClass: 'math',
-//
-//     }
-// }
-        //return choice.renderer.renderTpl(choice, tplData);
+    InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice) {
 
         const interaction = this.element;
         const interactionData = { interaction };
@@ -48,15 +39,13 @@ define([
             interaction.getRenderer()
         );
 
-        var tplData = {
+        const tplData = {
             tag : choice.qtiClass,
             serial : choice.serial,
             attributes : choice.attributes,
             body,
             interactionShuffle:shuffleChoice
         };
-
-        const r = inlineChoiceTpl(tplData);
 
         return inlineChoiceTpl(tplData);
     };

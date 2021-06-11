@@ -1,7 +1,7 @@
 <tr class="widget-box widget-inlineChoice qti-choice" data-edit="active" data-serial="{{serial}}">
     <td class="option">
         <div class="editable-container">
-            <div class="editable-content" contenteditable="true">{{{body}}}</div>
+            {{{body}}}
         </div>
     </td>
     <td class="mini-tlb">
