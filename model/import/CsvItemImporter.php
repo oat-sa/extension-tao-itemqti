@@ -41,6 +41,8 @@ class CsvItemImporter implements
     ServiceLocatorAwareInterface,
     TaskParameterProviderInterface
 {
+    private const DEFAULT_CSV_SEPARATOR = ';';
+
     use LoggerAwareTrait;
     use OntologyAwareTrait;
     use PhpSerializeStateless;
@@ -91,7 +93,10 @@ class CsvItemImporter implements
             $uploadedFile = $this->fetchUploadedFile($form);
             $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
 
-            $importResults = $this->getCsvImporter()->import($uploadedFile, $template, $class);
+            $importer = $this->getCsvImporter();
+            $importer->setCsvSeparator(self::DEFAULT_CSV_SEPARATOR); //@TODO Get it from UI/Task
+
+            $importResults = $importer->import($uploadedFile, $template, $class);
 
             $report = $reportBuilder->buildByResults($importResults, $importResults->getFirstItem());
         } catch (Throwable $e) {

@@ -22,8 +22,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/img/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/inline'
-], function($, Widget, states, helper, toolbarTpl, inlineHelper){
+    'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
+    'ui/mediaEditor/plugins/mediaAlignment/helper'
+], function($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper){
     'use strict';
 
     var ImgWidget = Widget.clone();
@@ -38,6 +39,8 @@ define([
         Widget.initCreator.call(this);
 
         inlineHelper.togglePlaceholder(this);
+        // Resets classes for dom elements: img and wrapper on initial load and in sleep / inactive mode
+        alignmentHelper.initAlignment(this);
 
         //check file exists:
         inlineHelper.checkFileExists(this, 'src', options.baseUrl);

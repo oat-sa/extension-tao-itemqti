@@ -42,6 +42,8 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
 {
     use OntologyAwareTrait;
 
+    private const CSV_SEPARATOR = ';';
+
     /**
      * @throws common_exception_Error
      */
@@ -65,18 +67,26 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
         $csvContent = $this->getCsvContent($headers, $templateSampleLines);
 
         return $response
-            ->withHeader('Content-Type', 'text/csv')
+            ->withHeader('Content-Encoding', 'UTF-8')
+            ->withHeader('Content-Type', 'text/csv; charset=UTF-8')
             ->withHeader("Content-Disposition", "attachment; filename=" . $filename)
             ->withBody(stream_for($csvContent));
     }
 
     private function getCsvContent($headers, $templateSampleLines): string
     {
-        $sampleLines = implode(",", $headers) . PHP_EOL;
+        $extraMetadataColumns = str_repeat(
+            self::CSV_SEPARATOR . '""',
+            count($headers) - count($templateSampleLines[0])
+        );
+        $sampleLines = implode(self::CSV_SEPARATOR, $headers) . PHP_EOL;
 
         foreach ($templateSampleLines as $row) {
-            $line = str_replace('"', '""', implode("," . "\t", $row));
-            $sampleLines .= '"' . str_replace("," . "\t", '","', $line) . '"' . PHP_EOL;
+            foreach ($row as &$column) {
+                $column = '"' . $column . '"';
+            }
+
+            $sampleLines .= implode(self::CSV_SEPARATOR, $row) . $extraMetadataColumns . PHP_EOL;
         }
 
         return $sampleLines;
@@ -84,7 +94,7 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
 
     private function getFileName(string $className): string
     {
-        return 'tablular_template_for_'
+        return 'tabular_template_for_'
             . $className
             . '_'
             . date('YmdHis') . rand(10, 99)

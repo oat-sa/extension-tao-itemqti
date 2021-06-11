@@ -35,6 +35,8 @@ use Throwable;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
+    use CsvSeparatorTrait;
+
     /**
      * @inheritDoc
      */
@@ -128,7 +130,12 @@ class CsvParser extends ConfigurableService implements ParserInterface
 
     private function convertCsvLineToArray(string $line): array
     {
-        return str_getcsv($line);
+        return str_getcsv($this->removeBOM($line), $this->getCsvSeparator());
+    }
+
+    private function removeBOM(string $line): string
+    {
+        return str_replace("\xEF\xBB\xBF", '', $line);
     }
 
     private function getHeaderValidator(): ValidatorInterface

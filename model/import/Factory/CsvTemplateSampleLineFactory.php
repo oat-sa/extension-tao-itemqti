@@ -30,15 +30,15 @@ class CsvTemplateSampleLineFactory extends ConfigurableService
     public function createMultiple(TemplateInterface $template): array
     {
         $correctResponse = array(
-            "[please remove] EXAMPLE 1 - item with correct answer",
+            '[please remove] EXAMPLE 1 - item with correct answer',
             'Select the correct response (no restriction on number of selectable choices).'
-            . 'The value in "correct_answer" should be choice identifiers (listed in the column header) '
-            . 'and not the actual text content of the choices. In this example, "choice_2" is the correct answer '
+            . 'The value in ""correct_answer"" should be choice identifiers (listed in the column header) '
+            . 'and not the actual text content of the choices. In this example, ""choice_2"" is the correct answer '
             . 'and gives the score 1',
-            '',
+            '0',
             'en-US',
-            '',
-            '',
+            '0',
+            '0',
             'text for choice_1',
             'text for choice_2',
             'text for choice_3',
@@ -50,7 +50,7 @@ class CsvTemplateSampleLineFactory extends ConfigurableService
             'choice_2'
         );
         $mapResponse = array(
-            "[please remove] EXAMPLE 2 - item with partial score",
+            '[please remove] EXAMPLE 2 - item with partial score',
             'Select the correct response (the choices are shuffled, at least 1 choice must be selected and '
             . 'maximum of 2 allowed, this item uses partial scoring)',
             '1',
@@ -68,12 +68,12 @@ class CsvTemplateSampleLineFactory extends ConfigurableService
             ''
         );
         $combinationResponse = array(
-            "[please remove] EXAMPLE 3 - item with both correct answer and partial score",
-            'Select the correct response (1 single choice allowed, the correct answer is "X" and "Y", '
+            '[please remove] EXAMPLE 3 - item with both correct answer and partial score',
+            'Select the correct response (1 single choice allowed, the correct answer is ""X"" and ""Y"", '
             . 'this item uses partial scoring)',
-            '',
+            '0',
             'en-US',
-            '',
+            '0',
             '1',
             'W',
             'X',
