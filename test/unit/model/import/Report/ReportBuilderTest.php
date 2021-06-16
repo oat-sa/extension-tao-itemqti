@@ -61,7 +61,7 @@ class ReportBuilderTest extends TestCase
         $report = $this->subject->buildByResults($sut);
 
         /** @var Report $subReport1 */
-        $subReport1 = $report->getChildren()[0];
+        $subReport1 = $report->getChildren()[1];
 
         /** @var Report $subReport1p1 */
         $subReport1p1 = $subReport1->getChildren()[0];
@@ -73,7 +73,7 @@ class ReportBuilderTest extends TestCase
         $subSubReport1p2 = $subReport1p1->getChildren()[1];
 
         /** @var Report $subReport2 */
-        $subReport2 = $report->getChildren()[1];
+        $subReport2 = $report->getChildren()[2];
 
         /** @var Report $subReport2p1 */
         $subReport2p1 = $subReport2->getChildren()[0];
@@ -107,7 +107,7 @@ class ReportBuilderTest extends TestCase
         $report = $this->subject->buildByResults($sut);
 
         /** @var Report $subReport1 */
-        $subReport1 = $report->getChildren()[0];
+        $subReport1 = $report->getChildren()[1];
 
         /** @var Report $subReport1p1 */
         $subReport1p1 = $subReport1->getChildren()[0];
