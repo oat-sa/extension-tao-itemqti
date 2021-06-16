@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -20,28 +20,39 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Report;
+namespace oat\taoQtiItem\model\import\Validator;
 
 use Exception;
-use oat\oatbox\reporting\Report;
 
-class ErrorReportFormatter extends AbstractReportFormatter
+abstract class AbstractValidationException extends Exception
 {
+    /** @var string[] */
+    private $interpolationData;
 
-    /**
-     * @param Exception[]  $report
-     */
-    public function format(array $report): Report
+    /** @var string */
+    private $column;
+
+    public function __construct(string $message, array $interpolationData = [])
     {
-        $reportObject = Report::createError(
-            __(
-                '%s line(s) contain(s) an error and cannot be imported',
-                count($report)
-            )
-        );
-        foreach ($this->buildLineMessages($report) as $message) {
-            $reportObject->add(Report::createError($message));
-        }
-        return $reportObject;
+        parent::__construct($message);
+
+        $this->interpolationData = $interpolationData;
+    }
+
+    public function setColumn(string $column): self
+    {
+        $this->column = $column;
+
+        return $this;
+    }
+
+    public function getColumn(): ?string
+    {
+        return $this->column;
+    }
+
+    public function getInterpolationData(): array
+    {
+        return $this->interpolationData;
     }
 }

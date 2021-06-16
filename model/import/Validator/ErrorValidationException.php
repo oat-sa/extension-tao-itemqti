@@ -1,6 +1,6 @@
 <?php
+
 /*
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,30 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\taoQtiItem\model\import\Parser\Exception;
+declare(strict_types=1);
 
-use Exception;
+namespace oat\taoQtiItem\model\import\Validator;
 
-abstract class AbstractImportException extends Exception
+class ErrorValidationException extends AbstractValidationException
 {
-
-    protected $messages = [];
-
-    protected function addMessage(int $line, string $message, int $errorLevel, string $field = null): self
-    {
-        $this->message .= rtrim($message, ',').', ';
-
-        $this->messages[$errorLevel][] = [
-            'line' => $line,
-            'message' => $message,
-            'field' => $field,
-        ];
-
-        return $this;
-    }
-
-    abstract protected function getErrorLevel(): int;
 }
