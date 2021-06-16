@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,7 +39,6 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
         $correctAnswers = $this->findCorrectAnswers($line);
 
         foreach ($choices as $choiceId => $choice) {
-
             $parsedChoices[] = new ParsedChoice(
                 $choiceId,
                 $choice,
@@ -52,7 +52,8 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
 
     private function findKeysByMask(string $pattern, array $input): array
     {
-        $pattern = '/\b('.$pattern.')\b/';
+        $pattern = '/\b(' . $pattern . ')\b/';
+
         return array_intersect_key($input, array_flip(preg_grep($pattern, array_keys($input))));
     }
 
@@ -69,9 +70,9 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
     private function findCorrectAnswers(array $line): array
     {
         return (array)(
-            $line['correct_answer']
-                ? explode(',', str_replace('', '', $line['correct_answer']))
-                : []
+        $line['correct_answer']
+            ? explode(',', str_replace('', '', $line['correct_answer']))
+            : []
         );
     }
 }
