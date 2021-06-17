@@ -31,9 +31,9 @@ class HasValueFilterTest extends TestCase
     public function testFilter()
     {
         $subject = new HasValueFilter();
-        $this->assertTrue($subject->filter('text'));
-        $this->assertFalse($subject->filter('    '));
-        $this->assertFalse($subject->filter(chr(9)));
+        $this->assertSame('text', $subject->filter('text'));
+        $this->assertSame('', $subject->filter('    '));
+        $this->assertSame('', $subject->filter(chr(9)));
     }
 
 

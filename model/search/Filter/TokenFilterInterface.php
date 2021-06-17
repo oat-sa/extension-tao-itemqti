@@ -25,5 +25,5 @@ namespace oat\taoQtiItem\model\search\Filter;
 
 interface TokenFilterInterface
 {
-    public function filter($data): bool;
+    public function filter(string $data): string;
 }

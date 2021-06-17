@@ -8,6 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\taoQtiItem\model\search\Filter\HasValueFilter;
 use oat\taoQtiItem\model\search\Filter\NotBase64ContentFilter;
+use oat\taoQtiItem\model\search\Filter\NotJsonFilter;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
 
 final class Version202106170629531101_taoQtiItem extends AbstractMigration
@@ -23,8 +24,9 @@ final class Version202106170629531101_taoQtiItem extends AbstractMigration
         $this->getServiceManager()->register(QtiItemContentTokenizer::SERVICE_ID, new QtiItemContentTokenizer(
             [
                 QtiItemContentTokenizer::OPTION_FILTERS => [
-                    new NotBase64ContentFilter(),
                     new HasValueFilter(),
+                    new NotJsonFilter(),
+                    new NotBase64ContentFilter(),
                 ]
             ]
         ));

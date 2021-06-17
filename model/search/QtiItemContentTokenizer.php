@@ -91,14 +91,12 @@ class QtiItemContentTokenizer extends ConfigurableService implements ResourceTok
         return $this->getServiceManager()->get(FileReferenceSerializer::SERVICE_ID);
     }
 
-    protected function applyFilters($data): bool
+    protected function applyFilters(string $data): string
     {
         /** @var TokenFilterInterface $filter */
         foreach ($this->getOption(self::OPTION_FILTERS, []) as $filter) {
-            if (!$filter->filter($data)) {
-                return false;
-            }
+            $output = $filter->filter($output ?? $data);
         }
-        return true;
+        return $output ?? $data;
     }
 }

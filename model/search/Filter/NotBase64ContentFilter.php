@@ -23,13 +23,11 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\search\Filter;
 
-use oat\tao\helpers\Base64;
-
 class NotBase64ContentFilter implements TokenFilterInterface
 {
 
-    public function filter($data): bool
+    public function filter(string $data): string
     {
-        return !Base64::isEncoded($data);
+        return implode('', preg_split('/data:[a-zA-Z]*\/[a-zA-Z]*;base64,[a-zA-Z0-9+\/=]*/', $data));
     }
 }

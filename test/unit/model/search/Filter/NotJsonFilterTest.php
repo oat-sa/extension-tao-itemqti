@@ -23,17 +23,19 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model;
 
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\search\Filter\NotBase64ContentFilter;
+use oat\taoQtiItem\model\search\Filter\NotJsonFilter;
 
-class NotBase64ContentFilterTest extends TestCase
+class NotJsonFilterTests extends TestCase
 {
     public function testFilter()
     {
-        $subject = new NotBase64ContentFilter();
+        $sample1 = ['a'=>'b'];
+        $sample2 = new \stdClass();
+        $sample2->a = $sample1;
+
+        $subject = new NotJsonFilter();
+        $this->assertSame('', $subject->filter(json_encode($sample1)));
+        $this->assertSame('', $subject->filter(json_encode($sample2)));
         $this->assertSame('text', $subject->filter('text'));
-        $this->assertSame('', $subject->filter('data:audio/mpeg;base64,SUQzBAAAAA'));
-        $this->assertSame('[{"x1":"Test 1","x":"', $subject->filter('[{"x1":"Test 1","x":"data:audio/mpeg;base64,SUQzBAAAAABKElRQRTEAAAAHAAADU2hpcHMAVElUMgAAABMAAANBc'));
     }
-
-
 }

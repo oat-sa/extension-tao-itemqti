@@ -25,8 +25,8 @@ namespace oat\taoQtiItem\model\search\Filter;
 
 class HasValueFilter implements TokenFilterInterface
 {
-    public function filter($data): bool
+    public function filter(string $data): string
     {
-        return ctype_space($data) === false;
+        return trim($data);
     }
 }

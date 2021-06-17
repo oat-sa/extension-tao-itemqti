@@ -15,25 +15,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model;
+namespace oat\taoQtiItem\model\search\Filter;
 
-use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\search\Filter\NotBase64ContentFilter;
-
-class NotBase64ContentFilterTest extends TestCase
+class NotJsonFilter implements TokenFilterInterface
 {
-    public function testFilter()
+    public function filter(string $data): string
     {
-        $subject = new NotBase64ContentFilter();
-        $this->assertSame('text', $subject->filter('text'));
-        $this->assertSame('', $subject->filter('data:audio/mpeg;base64,SUQzBAAAAA'));
-        $this->assertSame('[{"x1":"Test 1","x":"', $subject->filter('[{"x1":"Test 1","x":"data:audio/mpeg;base64,SUQzBAAAAABKElRQRTEAAAAHAAADU2hpcHMAVElUMgAAABMAAANBc'));
+        $data = trim($data);
+        if (in_array($data[0] ?? '', ['{', '[']) && null !== json_decode($data)) {
+            return '';
+        }
+
+        return $data;
     }
-
-
 }
