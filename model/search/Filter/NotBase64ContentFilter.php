@@ -21,7 +21,6 @@
 
 declare(strict_types=1);
 
-
 namespace oat\taoQtiItem\model\search\Filter;
 
 use oat\tao\helpers\Base64;
