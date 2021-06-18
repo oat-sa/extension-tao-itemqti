@@ -15,23 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model;
+namespace oat\taoQtiItem\model\search\Tokenizer\Filter;
 
-use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\search\Tokenizer\Filter\HasValueFilter;
-
-class HasValueFilterTest extends TestCase
+class ClearValueFilter implements TokenFilterInterface
 {
-    public function testFilter()
+    public function filter(string $data): string
     {
-        $subject = new HasValueFilter();
-        $this->assertSame('text', $subject->filter('text'));
-        $this->assertSame('', $subject->filter('    '));
-        $this->assertSame('', $subject->filter(chr(9)));
+        return trim($data);
     }
 }

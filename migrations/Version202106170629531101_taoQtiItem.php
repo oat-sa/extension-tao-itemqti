@@ -6,7 +6,7 @@ namespace oat\taoQtiItem\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\taoQtiItem\model\search\Tokenizer\Filter\HasValueFilter;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\ClearValueFilter;
 use oat\taoQtiItem\model\search\Tokenizer\Filter\NotBase64ContentFilter;
 use oat\taoQtiItem\model\search\Tokenizer\Filter\NotJsonFilter;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
@@ -26,7 +26,7 @@ final class Version202106170629531101_taoQtiItem extends AbstractMigration
             new QtiItemContentTokenizer(
                 [
                     QtiItemContentTokenizer::OPTION_FILTERS => [
-                        new HasValueFilter(),
+                        new ClearValueFilter(),
                         new NotJsonFilter(),
                         new NotBase64ContentFilter(),
                     ]
