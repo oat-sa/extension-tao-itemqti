@@ -21,13 +21,12 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\search\Filter;
+namespace oat\taoQtiItem\model\search\Tokenizer\Filter;
 
-class NotBase64ContentFilter implements TokenFilterInterface
+class HasValueFilter implements TokenFilterInterface
 {
-
     public function filter(string $data): string
     {
-        return implode('', preg_split('/data:[a-zA-Z]*\/[a-zA-Z]*;base64,[a-zA-Z0-9+\/=]*/', $data));
+        return trim($data);
     }
 }

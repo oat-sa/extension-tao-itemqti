@@ -21,12 +21,17 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\search\Filter;
+namespace oat\taoQtiItem\model\search\Tokenizer\Filter;
 
-class HasValueFilter implements TokenFilterInterface
+class NotJsonFilter implements TokenFilterInterface
 {
     public function filter(string $data): string
     {
-        return trim($data);
+        $data = trim($data);
+        if (in_array($data[0] ?? '', ['{', '[']) && null !== json_decode($data)) {
+            return '';
+        }
+
+        return $data;
     }
 }

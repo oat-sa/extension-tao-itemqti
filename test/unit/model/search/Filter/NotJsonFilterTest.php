@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model;
 
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\search\Filter\NotJsonFilter;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\NotJsonFilter;
 
 class NotJsonFilterTests extends TestCase
 {

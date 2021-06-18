@@ -27,7 +27,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\search\Filter\TokenFilterInterface;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\TokenFilterInterface;
 use taoItems_models_classes_ItemsService;
 
 class QtiItemContentTokenizer extends ConfigurableService implements ResourceTokenizer

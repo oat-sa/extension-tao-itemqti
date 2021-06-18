@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model;
 
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\search\Filter\NotBase64ContentFilter;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\NotBase64ContentFilter;
 
 class NotBase64ContentFilterTest extends TestCase
 {
@@ -34,6 +34,4 @@ class NotBase64ContentFilterTest extends TestCase
         $this->assertSame('', $subject->filter('data:audio/mpeg;base64,SUQzBAAAAA'));
         $this->assertSame('[{"x1":"Test 1","x":"', $subject->filter('[{"x1":"Test 1","x":"data:audio/mpeg;base64,SUQzBAAAAABKElRQRTEAAAAHAAADU2hpcHMAVElUMgAAABMAAANBc'));
     }
-
-
 }

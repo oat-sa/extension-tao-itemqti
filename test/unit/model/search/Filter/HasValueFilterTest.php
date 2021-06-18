@@ -23,8 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model;
 
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\search\Filter\HasValueFilter;
-use oat\taoQtiItem\model\search\Filter\NotBase64ContentFilter;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\HasValueFilter;
 
 class HasValueFilterTest extends TestCase
 {
@@ -35,6 +34,4 @@ class HasValueFilterTest extends TestCase
         $this->assertSame('', $subject->filter('    '));
         $this->assertSame('', $subject->filter(chr(9)));
     }
-
-
 }

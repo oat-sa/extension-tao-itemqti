@@ -15,15 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\search\Filter;
+namespace oat\taoQtiItem\model\search\Tokenizer\Filter;
 
-interface TokenFilterInterface
+class NotBase64ContentFilter implements TokenFilterInterface
 {
-    public function filter(string $data): string;
+
+    public function filter(string $data): string
+    {
+        return implode('', preg_split('/data:[a-zA-Z]*\/[a-zA-Z]*;base64,[a-zA-Z0-9+\/=]*/', $data));
+    }
 }

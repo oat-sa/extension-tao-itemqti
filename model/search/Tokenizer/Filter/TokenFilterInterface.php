@@ -15,23 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\search\Filter;
+namespace oat\taoQtiItem\model\search\Tokenizer\Filter;
 
-class NotJsonFilter implements TokenFilterInterface
+interface TokenFilterInterface
 {
-    public function filter(string $data): string
-    {
-        $data = trim($data);
-        if (in_array($data[0] ?? '', ['{', '[']) && null !== json_decode($data)) {
-            return '';
-        }
-
-        return $data;
-    }
+    public function filter(string $data): string;
 }

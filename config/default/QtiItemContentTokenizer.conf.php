@@ -3,9 +3,9 @@
  * Default config header created during install
  */
 
-use oat\taoQtiItem\model\search\Filter\HasValueFilter;
-use oat\taoQtiItem\model\search\Filter\NotBase64ContentFilter;
-use oat\taoQtiItem\model\search\Filter\NotJsonFilter;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\HasValueFilter;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\NotBase64ContentFilter;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\NotJsonFilter;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
 
 return new oat\taoQtiItem\model\search\QtiItemContentTokenizer(
