@@ -28,7 +28,7 @@ class NotJsonFilter implements TokenFilterInterface
     public function filter(string $data): string
     {
         $data = trim($data);
-        if (in_array($data[0] ?? '', ['{', '[']) && null !== json_decode($data)) {
+        if (in_array($data[0] ?? '', ['{', '['], true) && null !== json_decode($data)) {
             return '';
         }
 
