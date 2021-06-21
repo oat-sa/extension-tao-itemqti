@@ -23,6 +23,7 @@
 namespace oat\taoQtiItem\model;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\taoItems\model\search\IndexableItemModel;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
@@ -39,7 +40,6 @@ use taoItems_models_classes_itemModel;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoQTI
-
  */
 class ItemModel extends ConfigurableService implements
     taoItems_models_classes_itemModel,
@@ -73,27 +73,27 @@ class ItemModel extends ConfigurableService implements
      * render used for deploy and preview
      *
      * @access public
-     * @author Joel Bout, <joel@taotesting.com>
      * @param core_kernel_classes_Resource $item
      * @param $langCode
-     * @throws \common_Exception
      * @return string
+     * @throws \common_Exception
+     * @author Joel Bout, <joel@taotesting.com>
      */
     public function render(core_kernel_classes_Resource $item, $langCode)
     {
-        $returnValue = (string) '';
+        $returnValue = (string)'';
 
         $qitService = Service::singleton();
-        
+
         $qtiItem = $qitService->getDataItemByRdfItem($item, $langCode);
-        
+
         if (!is_null($qtiItem)) {
             $returnValue = $qitService->renderQTIItem($qtiItem, $langCode);
         } else {
             common_Logger::w('No qti data for item ' . $item->getUri() . ' in ' . __FUNCTION__, 'taoQtiItem');
         }
 
-        return (string) $returnValue;
+        return (string)$returnValue;
     }
 
     /**
@@ -104,7 +104,7 @@ class ItemModel extends ConfigurableService implements
     {
         return _url('index', 'QtiPreview', 'taoQtiItem', ['uri' => $item->getUri(), 'lang' => $languageCode]);
     }
-    
+
     /**
      * @see taoItems_models_classes_itemModel::getPreviewUrl()
      */
@@ -149,13 +149,8 @@ class ItemModel extends ConfigurableService implements
         return 'oat\\taoQtiItem\\model\\pack\\QtiItemPacker';
     }
 
-    /**
-     * Get tokenizer to index qti.xml content
-     *
-     * @return QtiItemContentTokenizer
-     */
-    public function getItemContentTokenizer()
+    public function getItemContentTokenizer(): ResourceTokenizer
     {
-        return new QtiItemContentTokenizer();
+        return $this->getServiceLocator()->get(QtiItemContentTokenizer::SERVICE_ID);
     }
 }
