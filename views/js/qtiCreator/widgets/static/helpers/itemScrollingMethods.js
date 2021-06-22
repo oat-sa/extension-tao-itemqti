@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA ;
  */
 
 define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
@@ -96,8 +96,6 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
                 $wrapper.addClass(wrapperFocusCls)
                 // add classes for new UI test Runner
                 $wrapper.addClass(`${newUIclass} ${options[0].class}`);
-                // need to set tao-full-height to grid-row
-                widget.$container.parents('.grid-row').addClass(options[0].class);
             } else {
                 $form.find('.scrollingSelect').hide()
                 // remove class for keynavigation
@@ -107,11 +105,6 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
                 options.forEach(opt => {
                     $wrapper.removeClass(opt.class);
                 });
-                // remove tao-full-height from grid-row if no tao-full-height children
-                const gridRow = widget.$container.parents('.grid-row');
-                if (!gridRow.find(`.${newUIclass}`).length) {
-                    gridRow.removeClass(options[0].class);
-                }
             }
         },
         setScrollingHeight: function ($wrapper, value) {

@@ -18,8 +18,9 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoQtiItem\model\import\Validator\Rule;
+declare(strict_types=1);
 
+namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
 
@@ -28,11 +29,13 @@ abstract class AbstractGroupRule extends ConfigurableService
     protected function getGroupValues(array $context, string $groupName): array
     {
         $occurrences = [];
+
         foreach ($context as $headerName => $cellValue) {
-            if (preg_match('/\b('.$groupName.')\b/', (string)$headerName) === 1) {
+            if (preg_match('/\b(' . $groupName . ')\b/', (string)$headerName) === 1) {
                 $occurrences[$headerName] = $cellValue;
             }
         }
+
         return $occurrences;
     }
 }

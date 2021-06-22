@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint154\n"
-"PO-Revision-Date: 2021-05-27T13:49:21\n"
+"Project-Id-Version: TAO 3.4.0-sprint155\n"
+"PO-Revision-Date: 2021-06-04T13:44:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -28,6 +28,15 @@ msgstr ""
 msgid "%d/%d"
 msgstr ""
 
+msgid "%s is invalid, should be less or equal than `%s`(%s)"
+msgstr "%s ist ungültig, muss kleiner oder gleich sein an `%s` (%s)"
+
+msgid "%s line(s) are imported with warnings"
+msgstr "% Zeile(n) wurden mit Warnung importiert"
+
+msgid "%s line(s) contain(s) an error and cannot be imported"
+msgstr "% Zeile(n) beinhaltet(n) einen Fehler und kann (können) nicht importiert werden"
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
 
@@ -36,6 +45,24 @@ msgstr "-- Jede Art von Datei --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr ""
+
+msgid "`%s` is empty"
+msgstr "`%s` ist leer"
+
+msgid "`%s` is invalid"
+msgstr "`%s` ist ungültig"
+
+msgid "`%s` is invalid, must be numeric"
+msgstr "`%s` ist ungültig, muss numerisch sein"
+
+msgid "`%s` is invalid, must be numeric or empty"
+msgstr "`%s` ist ungültig, muss numerisch oder leer sein"
+
+msgid "`%s` is invalid, must be positive integer"
+msgstr "`%s` ist ungültig, muss eine ganze positive Zahl sein"
+
+msgid "`%s` is required"
+msgstr "`%s` ist erforderlich"
 
 msgid "A choice must be selected"
 msgstr "Es muss etwas ausgewählt werden"
@@ -50,11 +77,17 @@ msgstr ""
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Ein Rubrik-Block identifiziert den Teil des Item-Bodys eines Assessment-Items, das Instruktionen für einen oder mehrere Akteure darstellt. Obwohl Rubrik-Blöcke als Simple-Blöcke definiert sind, dürfen sie keine Interaktionen enthalten."
 
+msgid "A value should be provided for at least one of the columns: %s"
+msgstr ""
+
 msgid "Adapt to screen size"
 msgstr "An Bildschirm-Größe anpassen"
 
 msgid "Add"
 msgstr "Hinzufügen"
+
+msgid "Add a CSV file"
+msgstr "eine CSV Datei hinzufügen"
 
 msgid "Add a modal feedback"
 msgstr "Modales Feedback hinzufügen"
@@ -125,6 +158,9 @@ msgstr ""
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Bei der Antwortsverarbeitung trat ein unerwarteter Fehler auf."
 
+msgid "An unexpected error occurred during the CSV import. The system returned the following error: `%s`"
+msgstr "ein unerwarteter Fehler ist während des CSV Import aufgetreten. Das System meldet folgenden Fehler: `%s`"
+
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
 msgstr ""
 
@@ -156,6 +192,9 @@ msgstr "Verbundene Paare"
 msgid "at least"
 msgstr "mindestens"
 
+msgid "at least %s %s are required"
+msgstr "Mindestens %s und %s sind erforderlich"
+
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -168,10 +207,10 @@ msgstr "Hintergrundfarbe"
 msgid "Base"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr "Block"
 
-msgid "Block"
+msgid "block"
 msgstr "Block"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -234,11 +273,11 @@ msgstr "Auswahl Interaktion"
 msgid "Choice Properties"
 msgstr "Auswahleigenschaften"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Auswahl"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -306,6 +345,24 @@ msgstr "Hot-Text erstellen"
 msgid "Create pair(s) from a series of choices."
 msgstr "Bilde Paare aus einer Reihe von Auswahlmöglichkeiten."
 
+msgid "CSV content + metadata"
+msgstr "CSV Inhalt + Metadaten"
+
+msgid "CSV import failed"
+msgstr "CSV Import fehlgeschlagen"
+
+msgid "CSV import failed: %s/%s line(s) are imported"
+msgstr "CSV Import fehlgeschlagen: %s/%s Zeile(n) ist(sind) importiert"
+
+msgid "CSV import failed: required columns are missing (%s)"
+msgstr "CSV Import fehlgeschlagen: die erforderlichen Spalten fehlen (%s)"
+
+msgid "CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))"
+msgstr "CSV Import teilweise erfolgreich : %s/%s Zeile(n) ist (sind) importiert (%s Warnung(en), %s Fehler)"
+
+msgid "CSV import successful: %s/%s line(s) are imported"
+msgstr "CSV Import erfolgreich: %s/%s Zeile(n) ist(sind) importiert"
+
 msgid "Current value:"
 msgstr "Gegenwärtiger Wert:"
 
@@ -318,10 +375,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "benutzerdefinierter Antwortsverarbeitungsmodus"
 
-msgid "Default"
+msgid "default"
 msgstr "Standard"
 
-msgid "default"
+msgid "Default"
 msgstr "Standard"
 
 msgid "Define correct response"
@@ -348,11 +405,11 @@ msgstr "Definierte Breite"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "delete"
 msgstr "löschen"
+
+msgid "Delete"
+msgstr ""
 
 msgid "Delete else statement"
 msgstr "Sonst-Anweisung löschen"
@@ -389,6 +446,9 @@ msgstr ""
 
 msgid "Download"
 msgstr ""
+
+msgid "Download sample csv file"
+msgstr "Download Muster CSV Datei"
 
 msgid "Download this stylesheet"
 msgstr "Dieses Stylesheet herunterladen"
@@ -485,6 +545,12 @@ msgstr ""
 
 msgid "Error to export item %s: %s"
 msgstr ""
+
+msgid "Error: %s doesn't contain the allowed values"
+msgstr "Fehler: %s enthält nicht die erlaubten Werte"
+
+msgid "Error: %s is empty, although it is mandatory."
+msgstr "Fehler: %s ist leer, obwohl es verpflichtend ist"
 
 msgid "Euler\'s constant"
 msgstr ""
@@ -594,6 +660,12 @@ msgstr ""
 msgid "Guard for resource \"%s\"..."
 msgstr ""
 
+msgid "Header `%s` is required"
+msgstr "Die Überschrift `%s` ist erforderlich"
+
+msgid "Header `%s` must be provided at least `%s` times"
+msgstr "Die Überschrift `%s` muss mindestens `%s` Mal vorhanden sein"
+
 msgid "Height"
 msgstr "Höhe"
 
@@ -649,13 +721,16 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr ""
 
 msgid "Import"
-msgstr "Importieren"
+msgstr "Import"
 
 msgid "Import a QTI/APIP Content Package"
 msgstr ""
 
 msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
+
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr "Import des Iteminhalts und der Metadaten der CSV Datei. Einzig QCM Interaktionen werden unterstützt."
 
 msgid "Import QTI ITEM into \"%s"
 msgstr ""
@@ -717,6 +792,9 @@ msgstr ""
 msgid "Invalid URL"
 msgstr ""
 
+msgid "invalid value for `%s`(%s), expected values are [%s]"
+msgstr "ungültiger Wert für `%s` (%s), die erwarteten Werte sind [%s]"
+
 msgid "Is this choice the correct response?"
 msgstr "Ist diese Auswahl die korrekte Antwort?"
 
@@ -763,20 +841,20 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "frei lassen"
 
-msgid "left"
-msgstr "links"
-
 msgid "Left"
 msgstr "Links"
+
+msgid "left"
+msgstr "links"
 
 msgid "Left bracket"
 msgstr ""
@@ -786,6 +864,9 @@ msgstr "Länge"
 
 msgid "Level"
 msgstr ""
+
+msgid "line %s: %s"
+msgstr "Zeile  %s : %s"
 
 msgid "Lines"
 msgstr "Zeilen"
@@ -852,10 +933,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Maximum"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maximale Länge"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maximale Länge"
 
 msgid "Max plays count"
@@ -890,6 +971,9 @@ msgstr "Pfadangabe Mediendatei oder YouTube-Video-Adresse"
 
 msgid "Media Interaction"
 msgstr "Medien-Interaktion"
+
+msgid "Metadata are not correct: %s"
+msgstr "Die Metadaten sind nicht korrekt: %s"
 
 msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
 msgstr ""
@@ -1252,11 +1336,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "rechts"
 
 msgid "Right bracket"
 msgstr ""

@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,23 +18,33 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Validator\WarningValidationException;
 
 class LessOrEqualRule extends ConfigurableService implements ValidationRuleInterface
 {
-
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
-    public function validate($value, $rules = null, array $context = []): void
+    public function validate(string $column, $value, $rules = null, array $context = []): void
     {
         if ($value > $context[$rules[0]] ?? 0) {
-            throw new RecoverableLineValidationException(
-                __('%s is invalid, should be less or equal than `%s`(%s)', '%s', $rules[0], $context[$rules[0]])
+            $exception = new WarningValidationException(
+                '%s is invalid, should be less or equal than `%s`(%s)',
+                [
+                    $column,
+                    $rules[0],
+                    $context[$rules[0]],
+                ]
             );
+
+            $exception->setColumn($column);
+
+            throw $exception;
         }
     }
 }

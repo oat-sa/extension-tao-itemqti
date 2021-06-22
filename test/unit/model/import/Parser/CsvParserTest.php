@@ -25,10 +25,12 @@ namespace oat\taoQtiItem\test\unit\model\import\Parser;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\log\LoggerService;
-use oat\taoQtiItem\model\import\ItemImportResult;
+use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\Parser\CsvLineConverter;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -67,7 +69,91 @@ class CsvParserTest extends TestCase
         );
     }
 
-    public function testParseFile(): void
+    public function testParseFileWithSuccess(): void
+    {
+        $file = $this->expectFileReading();
+        $item = $this->createMock(ItemInterface::class);
+
+        $this->lineConvertor
+            ->method('convert')
+            ->willReturn($item);
+
+        $this->headerValidator
+            ->method('validate');
+
+        $this->lineValidator
+            ->method('validate');
+
+        $template = $this->createMock(TemplateInterface::class);
+
+        $result = $this->subject->parseFile($file, $template);
+
+        $this->assertSame(1, $result->getTotalScannedItems());
+        $this->assertSame(0, $result->getTotalSuccessfulImport());
+        $this->assertCount(0, $result->getErrors());
+        $this->assertCount(0, $result->getWarnings());
+        $this->assertCount(0, $result->getErrorsAndWarnings());
+        $this->assertCount(1, $result->getItems());
+    }
+
+    public function testParseWithInvalidHeader(): void
+    {
+        $file = $this->expectFileReading();
+
+        $this->headerValidator
+            ->method('validate')
+            ->willThrowException(
+                new AggregatedValidationException(
+                    [
+                        new ErrorValidationException('error')
+                    ],
+                    []
+                )
+            );
+
+        $template = $this->createMock(TemplateInterface::class);
+
+        $result = $this->subject->parseFile($file, $template);
+
+        $this->assertSame(0, $result->getTotalScannedItems());
+        $this->assertSame(0, $result->getTotalSuccessfulImport());
+        $this->assertCount(1, $result->getErrors());
+        $this->assertCount(0, $result->getWarnings());
+        $this->assertCount(1, $result->getErrorsAndWarnings());
+        $this->assertCount(0, $result->getItems());
+    }
+
+    public function testParseWithInvalidLine(): void
+    {
+        $file = $this->expectFileReading();
+
+        $this->headerValidator
+            ->method('validate');
+
+        $this->lineValidator
+            ->method('validate')
+            ->willThrowException(
+                new AggregatedValidationException(
+                    [
+                        new ErrorValidationException('error')
+                    ],
+                    []
+                )
+            );
+
+        $template = $this->createMock(TemplateInterface::class);
+
+        $result = $this->subject->parseFile($file, $template);
+
+        $this->assertSame(1, $result->getTotalScannedItems());
+        $this->assertSame(0, $result->getTotalSuccessfulImport());
+        $this->assertCount(1, $result->getErrors());
+        $this->assertCount(0, $result->getWarnings());
+        $this->assertCount(1, $result->getErrorsAndWarnings());
+        $this->assertCount(0, $result->getItems());
+    }
+
+    public function expectFileReading(): File
     {
         $file = $this->createMock(File::class);
         $stream = $this->createMock(StreamInterface::class);
@@ -81,10 +167,6 @@ class CsvParserTest extends TestCase
         $stream->method('getContents')
             ->willReturn($content);
 
-        $template = $this->createMock(TemplateInterface::class);
-
-        $items = $this->subject->parseFile($file, $template);
-
-        $this->assertInstanceOf(ItemImportResult::class, $items);
+        return $file;
     }
 }

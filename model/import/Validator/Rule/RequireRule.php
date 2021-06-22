@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,20 +18,31 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 
 class RequireRule extends ConfigurableService implements ValidationRuleInterface
 {
     /**
-     * @throws InvalidImportException
+     * @inheritDoc
      */
-    public function validate($value, $rules = null, array $context = []): void
+    public function validate(string $column, $value, $rules = null, array $context = []): void
     {
         if (empty($value)) {
-            throw new InvalidImportException(__('`%s` is required'));
+            $exception = new ErrorValidationException(
+                '`%s` is required',
+                [
+                    $column,
+                ]
+            );
+
+            $exception->setColumn($column);
+
+            throw $exception;
         }
     }
 }
