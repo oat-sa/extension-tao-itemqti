@@ -45,8 +45,8 @@ define([
             var config = this.getHost().getConfig();
             var item   = this.getHost().getItem();
 
-            if(item && !_.isEmpty(item.attr('title'))){
-                this.title = item.attr('title');
+            if(item && !_.isEmpty(item.attr('label'))){
+                this.title = item.attr('label');
             }
             else if(config && config.properties && config.properties.label){
                 this.title = config.properties.label;
