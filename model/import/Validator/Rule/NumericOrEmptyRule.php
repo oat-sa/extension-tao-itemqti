@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,16 +18,18 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 
 class NumericOrEmptyRule extends AbstractGroupRule implements ValidationRuleInterface
 {
     /**
-     * @throws InvalidImportException
+     * @inheritDoc
      */
-    public function validate($value, $rules = null, array $context = []): void
+    public function validate(string $column, $value, $rules = null, array $context = []): void
     {
         $groupName = $rules[0];
         $occurrences = $this->getGroupValues($context, $groupName);
@@ -41,7 +43,16 @@ class NumericOrEmptyRule extends AbstractGroupRule implements ValidationRuleInte
         }
 
         if (count($errors) > 0) {
-            throw new InvalidImportException(__('`%s` is invalid, must be numeric or empty'));
+            $exception = new ErrorValidationException(
+                '`%s` is invalid, must be numeric or empty',
+                [
+                    $column,
+                ]
+            );
+
+            $exception->setColumn($column);
+
+            throw $exception;
         }
     }
 }

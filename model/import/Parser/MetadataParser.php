@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -42,7 +43,8 @@ class MetadataParser extends ConfigurableService implements ColumnParserInterfac
 
     private function findKeysByMask(string $pattern, array $input): array
     {
-        $pattern = '/\b('.$pattern.')\b/';
+        $pattern = '/\b(' . $pattern . ')\b/';
+
         return array_intersect_key($input, array_flip(preg_grep($pattern, array_keys($input))));
     }
 }

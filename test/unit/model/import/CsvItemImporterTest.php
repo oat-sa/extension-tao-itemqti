@@ -31,13 +31,14 @@ class CsvItemImporterTest extends TestCase
 {
     /** @var CsvItemImporter */
     private $subject;
-    /** @var RequestMock */
-    private $requestMock;
+
+    /** @var ServerRequestInterface */
+    private $request;
 
     public function setUp(): void
     {
-        $this->requestMock = $this->createMock(ServerRequestInterface::class);
-        $this->subject = new CsvItemImporter($this->requestMock);
+        $this->request = $this->createMock(ServerRequestInterface::class);
+        $this->subject = new CsvItemImporter($this->request);
     }
 
     public function testGetForm(): void

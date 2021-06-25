@@ -29,10 +29,6 @@ use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\event\EventManagerAwareTrait;
-use oat\oatbox\reporting\Report;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
-use oat\taoQtiItem\model\import\Report\ErrorReportFormatter;
-use oat\taoQtiItem\model\import\Report\WarningReportFormatter;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\Repository\TemplateRepositoryInterface;
 use oat\tao\model\import\ImportHandlerHelperTrait;
@@ -91,41 +87,23 @@ class CsvItemImporter implements
      */
     public function import($class, $form, $userId = null)
     {
+        $reportBuilder = $this->getReportBuilder();
+
         try {
             $uploadedFile = $this->fetchUploadedFile($form);
-            $reportBuilder = $this->getReportBuilder();
             $template = $this->getTemplateRepository()->findById(CsvTemplateRepository::DEFAULT);
 
             $importer = $this->getCsvImporter();
             $importer->setCsvSeparator(self::DEFAULT_CSV_SEPARATOR); //@TODO Get it from UI/Task
 
-            $importerResults = $importer->import($uploadedFile, $template, $class);
+            $importResults = $importer->import($uploadedFile, $template, $class);
 
-            $reportTitle = $reportBuilder->getReportTitle($importerResults);
-            $report = $reportBuilder->buildReportsContainer($reportTitle, $reportTitle, $importerResults, $importerResults->getFirstItem());
-        } catch (InvalidCsvImportException $e) {
-            $missingHeaders = implode(', ', $e->getMissingHeaderColumns());
-            $errorMessage = __('CSV import failed: required columns are missing (%s)', $missingHeaders);
-            $report = $reportBuilder->buildReportsContainer(__('CSV import failed'), $errorMessage);
-            $this->getLogger()->warning($errorMessage);
+            $report = $reportBuilder->buildByResults($importResults, $importResults->getFirstItem());
         } catch (Throwable $e) {
-            $errorMessage = __(
-                'An unexpected error occurred during the CSV import. The system returned the following error: "%s"',
-                $e->getMessage()
-            );
-            $this->getLogger()->warning($errorMessage);
-            $report = $reportBuilder->buildReportsContainer(__('CSV import failed'), $errorMessage);
+            $report = $reportBuilder->buildByException($e);
+
+            $this->getLogger()->warning($report->getMessage());
         } finally {
-            if (isset($importerResults)) {
-                $warningParsingReport = $importerResults->getWarningReports();
-                $errorParsingReport = $importerResults->getErrorReports();
-                if (!empty($warningParsingReport)) {
-                    $report->add($this->getWarningReportFormatter()->format($warningParsingReport));
-                }
-                if (!empty($errorParsingReport)) {
-                    $report->add($this->getErrorReportFormatter()->format($errorParsingReport));
-                }
-            }
             if (isset($uploadedFile)) {
                 $this->getUploadService()->remove($uploadedFile);
             }
@@ -137,16 +115,6 @@ class CsvItemImporter implements
     private function getTemplateRepository(): TemplateRepositoryInterface
     {
         return $this->getServiceLocator()->get(CsvTemplateRepository::class);
-    }
-
-    private function getWarningReportFormatter(): WarningReportFormatter
-    {
-        return $this->getServiceLocator()->get(WarningReportFormatter::class);
-    }
-
-    private function getErrorReportFormatter(): ErrorReportFormatter
-    {
-        return $this->getServiceLocator()->get(ErrorReportFormatter::class);
     }
 
     private function getCsvImporter(): CsvItemImportHandler
