@@ -337,7 +337,7 @@ class QtiExtractor implements Extractor
         $first = strpos($value, '>') + 1;
         $last = strrpos($value, '<') - $first;
         $value = substr($value, $first, $last);
-        $value = str_replace('"', "'", $value);
+        $value = str_replace('"', "\"\"", $value);
         return trim($value);
     }
 
