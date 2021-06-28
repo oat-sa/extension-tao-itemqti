@@ -278,7 +278,10 @@ define([
             };
 
             callbacks[attributeNameMax] = function (element, value, name) {
+
+                let isActualNumber;
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
+                isActualNumber = !isNaN(value);
 
                 if (element.is('interaction')) {
                     //update response
@@ -288,15 +291,15 @@ define([
                 if (name === 'upperBound' && this.disabled) {
                     // if the field is disabled, the corresponding attribute should be removed.
                     element[options.attrMethodNames.remove](name);
-                } else if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
-                    element[options.attrMethodNames.remove](name); //to be removed for order interactions
-                } else {
+                } else if (!options.allowNull && (value === 0 || !isActualNumber)) {
+                    //if a null attribute is not allowed, should be removed.
+                    element[options.attrMethodNames.remove](name);
+                } else  {
                     element[options.attrMethodNames.set](name, value); //required
                 }
 
                 options.callback(element, value, name);
             };
-
             return callbacks;
         }
     };
