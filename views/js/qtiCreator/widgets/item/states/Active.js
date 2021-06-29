@@ -86,6 +86,11 @@ define([
             }
         });
 
+        // set dir='rtl' if 'xml:lang' in rtl array
+        if (rtl.includes(item.attr('xml:lang'))) {
+            item.attr('dir', 'rtl');
+        }
+
     }, _.noop);
 
     return ItemStateActive;
