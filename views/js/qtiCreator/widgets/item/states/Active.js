@@ -23,8 +23,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'select2'
-], function(_, locale, stateFactory, Active, formTpl, formElement){
+], function(_, locale, stateFactory, Active, formTpl, formElement, contentHelper){
     'use strict';
 
     var ItemStateActive = stateFactory.create(Active, function enterActiveState(){
@@ -58,11 +59,16 @@ define([
             timeDependent : formElement.getAttributeChangeCallback(),
             'xml:lang' : function langChange(i, lang){
                 item.attr('xml:lang', lang);
+                const $itemBody = _widget.$container.find('.qti-itemBody');
                 if (rtl.includes(lang)) {
                     item.attr('dir', 'rtl');
+                    $itemBody.find('.grid-row').attr('dir', 'rtl');
                 } else {
                     item.removeAttr('dir');
+                    $itemBody.find('.grid-row').removeAttr('dir');
                 }
+                //need to update item body
+                item.body(contentHelper.getContent($itemBody));
             },
         });
 
