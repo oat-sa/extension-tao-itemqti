@@ -18,11 +18,13 @@
  */
 define([
     'lodash',
+    'util/locale',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
-    'taoQtiItem/qtiCreator/widgets/helpers/formElement'
-], function(_, stateFactory, Active, formTpl, formElement){
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'select2'
+], function(_, locale, stateFactory, Active, formTpl, formElement){
     'use strict';
 
     var ItemStateActive = stateFactory.create(Active, function enterActiveState(){
@@ -38,7 +40,8 @@ define([
             title : item.attr('title'),
             timeDependent : !!item.attr('timeDependent'),
             'xml:lang' : item.attr('xml:lang'),
-            languagesList : item.data('languagesList')
+            languagesList : item.data('languagesList'),
+            rtl: locale.getConfig().rtl || []
         }));
 
         //init widget
@@ -53,6 +56,20 @@ define([
             },
             timeDependent : formElement.getAttributeChangeCallback(),
             'xml:lang' : formElement.getAttributeChangeCallback()
+        });
+
+        const $selectBox = $form.find('select');
+
+        $selectBox.select2({
+            dropdownAutoWidth: true,
+            width: 'resolve',
+            minimumResultsForSearch: -1,
+            formatSelection: data => {
+                if (data.css) {
+                    return `<span class="${data.css}">${data.text}</span>`;
+                }
+                return data.text;
+            }
         });
 
     }, _.noop);
