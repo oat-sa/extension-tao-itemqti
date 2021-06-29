@@ -1350,8 +1350,10 @@ img.dragging.ui-draggable-dragging {
 .select2-result.rtl-lang {
     &.select2-highlighted {
         span.select2-match {
-            color: #fff;
-            border-color: #fff;
+            &:after {
+                color: #fff;
+                border-color: #fff;
+            }
         }
     }
 }
