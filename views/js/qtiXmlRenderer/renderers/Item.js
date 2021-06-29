@@ -28,6 +28,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
             var self = this;
             var defaultData = {
                 'class' : data.attributes.class || '',
+                'dir': data.attributes.dir || '',
                 responses : [],
                 outcomes : [],
                 stylesheets : [],
@@ -64,6 +65,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
             
             data = _.merge({}, data || {}, defaultData);
             delete data.attributes.class;
+            delete data.attributes.dir;
 
             data.attributes = _.mapValues(data.attributes, function (val) {
                 return _.isString(val) ? _.escape(val) : val;

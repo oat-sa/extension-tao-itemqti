@@ -14,7 +14,7 @@
         {{{.}}}
     {{~/stylesheets}}
     
-    <itemBody{{#if class}} class="{{class}}"{{/if}}>
+    <itemBody{{#if class}} class="{{class}}"{{/if}}{{#if dir}} dir="{{dir}}"{{/if}}>
         {{#if empty}}
             <div class="empty"></div>
         {{else}}

@@ -33,6 +33,7 @@ define([
         var $form = _widget.$form;
         var areaBroker = this.widget.getAreaBroker();
 
+        const rtl = locale.getConfig().rtl || [];
         //build form:
         $form.html(formTpl({
             serial : item.getSerial(),
@@ -41,7 +42,7 @@ define([
             timeDependent : !!item.attr('timeDependent'),
             'xml:lang' : item.attr('xml:lang'),
             languagesList : item.data('languagesList'),
-            rtl: locale.getConfig().rtl || []
+            rtl
         }));
 
         //init widget
@@ -55,7 +56,14 @@ define([
                 areaBroker.getTitleArea().text(item.attr('title'));
             },
             timeDependent : formElement.getAttributeChangeCallback(),
-            'xml:lang' : formElement.getAttributeChangeCallback()
+            'xml:lang' : function langChange(i, lang){
+                item.attr('xml:lang', lang);
+                if (rtl.includes(lang)) {
+                    item.attr('dir', 'rtl');
+                } else {
+                    item.removeAttr('dir');
+                }
+            },
         });
 
         const $selectBox = $form.find('select');
