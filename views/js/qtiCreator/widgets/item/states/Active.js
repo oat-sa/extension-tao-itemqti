@@ -28,11 +28,11 @@ define([
 ], function(_, locale, stateFactory, Active, formTpl, formElement, contentHelper){
     'use strict';
 
-    var ItemStateActive = stateFactory.create(Active, function enterActiveState(){
-        var _widget = this.widget;
-        var item = _widget.element;
-        var $form = _widget.$form;
-        var areaBroker = this.widget.getAreaBroker();
+    const ItemStateActive = stateFactory.create(Active, function enterActiveState(){
+        const _widget = this.widget;
+        const item = _widget.element;
+        const $form = _widget.$form;
+        const areaBroker = this.widget.getAreaBroker();
 
         const rtl = locale.getConfig().rtl || [];
         //build form:
