@@ -60,7 +60,7 @@ define([
 
                 $responseWidget.siblings('.padding').width($responseWidget.width() + 50);//plus icons width
 
-            }, ['inlineChoice', 'inlineChoiceInteraction']);
+            }, ['inlineChoice', 'inlineChoiceInteraction', '_container']);
 
         },
         setResponse : function(widget, response){
