@@ -276,7 +276,6 @@ define([
                     value: _.parseInt(response.getMappingAttribute('upperBound')) || 0,
                     helpMessage: __('Maximal score for this interaction.')
                 },
-                lowerThreshold: 0, // the same as unchecked
                 upperThreshold: Number.MAX_SAFE_INTEGER,
                 syncValues: true
             });
