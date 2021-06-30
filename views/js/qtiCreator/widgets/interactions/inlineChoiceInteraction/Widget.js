@@ -8,18 +8,18 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoice'
 ], function(_, Element, InteractionWidget, ChoiceWidget, states, inlineChoiceInteractionTpl, inlineChoiceTpl){
 
-    var InlineChoiceInteractionWidget = InteractionWidget.clone();
+    const InlineChoiceInteractionWidget = InteractionWidget.clone();
 
-    InlineChoiceInteractionWidget.initCreator = function(options){
+    InlineChoiceInteractionWidget.initCreator = function(options) {
 
-        var _this = this;
+        const _this = this;
 
         this.registerStates(states);
 
         InteractionWidget.initCreator.call(this);
 
         this.$choiceOptionForm = options.choiceOptionForm;
-        _.each(this.element.getChoices(), function(choice){
+        _.each(this.element.getChoices(), function(choice) {
             _this.buildChoice(choice);
         });
 
@@ -31,7 +31,13 @@ define([
 
         const interaction = this.element;
         const interactionData = { interaction };
-        const container = choice.metaData.widget.element.getBody();
+
+        const widget = choice.metaData.widget;
+        let container = choice.getBody();
+        if (widget) {
+            container = widget.element.getBody();
+        }
+
         const body = container.render(
             _.clone(interactionData, true),
             null,
@@ -51,9 +57,9 @@ define([
     };
 
 
-    InlineChoiceInteractionWidget.renderInteraction = function(){
+    InlineChoiceInteractionWidget.renderInteraction = function() {
 
-        var _this = this,
+        const _this = this,
             interaction = this.element,
             shuffleChoice = interaction.attr('shuffle'),
             tplData = {
@@ -63,7 +69,7 @@ define([
                 choices : []
             };
 
-        _.each(interaction.getChoices(), function(choice){
+        _.each(interaction.getChoices(), function(choice) {
             if(Element.isA(choice, 'choice')){
                 tplData.choices.push(_this.renderChoice(choice, shuffleChoice));
             }
@@ -73,27 +79,27 @@ define([
     };
 
 
-    InlineChoiceInteractionWidget.buildChoice = function(choice, options){
+    InlineChoiceInteractionWidget.buildChoice = function(choice, options) {
 
         ChoiceWidget.build(
             choice,
             this.$container.find('.widget-inlineChoice[data-serial="' + choice.serial + '"]'),
             this.$choiceOptionForm,
             options
-            );
+        );
     };
 
-    InlineChoiceInteractionWidget.buildContainer = function(){
-        var previous, next;
+    InlineChoiceInteractionWidget.buildContainer = function() {
+        let previous, next;
         //add a space to be able to place the cursor before and after it.
-        if(this.$original.length){
+        if(this.$original.length) {
             previous = this.$original[0].previousSibling;
             next = this.$original[0].nextSibling;
 
-            if(!previous || (previous.nodeType === 3 && previous.nodeValue === '') || previous.nodeType !== 3){
+            if(!previous || (previous.nodeType === 3 && previous.nodeValue === '') || previous.nodeType !== 3) {
                 this.$original.before('&nbsp;');
             }
-            if(!next || (next.nodeType === 3 && next.nodeValue === '') || next.nodeType !== 3){
+            if(!next || (next.nodeType === 3 && next.nodeValue === '') || next.nodeType !== 3) {
                 this.$original.after('&nbsp;');
             }
         }
