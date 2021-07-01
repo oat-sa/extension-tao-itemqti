@@ -291,10 +291,12 @@ define([
                 if (name === 'upperBound' && this.disabled) {
                     // if the field is disabled, the corresponding attribute should be removed.
                     element[options.attrMethodNames.remove](name);
-                } else if (!options.allowNull && (value === 0 || !isActualNumber)) {
-                    //if a null attribute is not allowed, should be removed.
-                    element[options.attrMethodNames.remove](name);
-                } else  {
+
+                } else if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
+
+                    element[options.attrMethodNames.remove](name); //to be removed for order interactions
+
+                } else {
                     element[options.attrMethodNames.set](name, value); //required
                 }
 
