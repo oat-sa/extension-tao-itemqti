@@ -61,7 +61,7 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "oat-sa/lib-tao-qti": "7.1.4",
+        "oat-sa/lib-tao-qti": "dev-feat/TR-1432/bump-required-sdk-version as 7.1.8",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
         "oat-sa/generis" : ">=14.4.0",
