@@ -21,7 +21,6 @@ define([
     );
 
     ChoiceStateQuestion.prototype.createToolbar = function () {
-
         const _widget = this.widget,
             $toolbar = _widget.$container.find('td:last');
 
@@ -33,7 +32,6 @@ define([
     };
 
     ChoiceStateQuestion.prototype.buildEditor = function () {
-
         const _widget = this.widget,
             container = _widget.element.getBody(),
             $editable = _widget.$container.find('.editable-content'),
@@ -44,18 +42,21 @@ define([
 
         if (!htmlEditor.hasEditor($editableContainer)) {
             htmlEditor.buildEditor($editableContainer, {
-                change : contentHelper.getChangeCallback(container),
+                change: contentHelper.getChangeCallback(container),
                 data: {
                     container,
                     widget: _widget
                 },
-                toolbar: [ {
-                    name: 'basicstyles',
-                    items: [ 'Bold', 'Italic', 'Subscript', 'Superscript' ]
-                }, {
-                    name: 'insert',
-                    items: [ 'SpecialChar' ]
-                } ],
+                toolbar: [
+                    {
+                        name: 'basicstyles',
+                        items: ['Bold', 'Italic', 'Subscript', 'Superscript']
+                    },
+                    {
+                        name: 'insert',
+                        items: ['SpecialChar']
+                    }
+                ],
                 qtiMedia: false,
                 qtiImage: false,
                 qtiInclude: false,
@@ -74,18 +75,17 @@ define([
                     $(this).blur();
                     _widget.changeState('question');
                 }
-        });
+            });
     };
 
     ChoiceStateQuestion.prototype.destroyEditor = function () {
-
-        this.widget.$container.find('.editable-content')
+        this.widget.$container
+            .find('.editable-content')
             .removeAttr('contentEditable')
             .removeAttr('data-html-editable')
             .off('keyup.qti-widget');
 
-        this.widget.$container.find('.editable-container')
-            .removeAttr('data-html-editable-container');
+        this.widget.$container.find('.editable-container').removeAttr('data-html-editable-container');
     };
 
     return ChoiceStateQuestion;
