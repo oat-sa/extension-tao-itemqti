@@ -24,8 +24,7 @@ describe('Items Page', () => {
      */
     before(() => {
         cy.loginAsAdmin();
-        cy.server();
-        cy.route('POST', '**/edit*').as('edit');
+        cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
         cy.wait('@edit', {
             requestTimeout: 10000
