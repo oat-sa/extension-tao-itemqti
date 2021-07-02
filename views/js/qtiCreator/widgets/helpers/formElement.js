@@ -279,9 +279,7 @@ define([
 
             callbacks[attributeNameMax] = function (element, value, name) {
 
-                let isActualNumber;
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
-                isActualNumber = !isNaN(value);
 
                 if (element.is('interaction')) {
                     //update response
