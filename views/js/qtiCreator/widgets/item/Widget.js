@@ -214,6 +214,11 @@ define([
                 const element = itemWidget.element;
                 const container = Element.isA(element, '_container') ? element : element.getBody();
 
+                if (element.attr('dir') === 'rtl') {
+                    // add dir='rtl' to new div.grid-row
+                    $placeholder.parent('.col-12').parent('.grid-row').attr('dir', 'rtl');
+                }
+
                 if (!element || !$editable.length) {
                     throw new Error('cannot create new element');
                 }
