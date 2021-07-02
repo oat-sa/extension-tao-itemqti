@@ -22,10 +22,14 @@ describe('Items Page', () => {
      * Log in
      * Visit the page
      */
-    beforeEach(() => {
+    before(() => {
         cy.loginAsAdmin();
+        cy.server();
+        cy.route('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
-        cy.wait(1000);
+        cy.wait('@edit', {
+            requestTimeout: 10000
+        });
     });
 
     describe('Items page', () => {
