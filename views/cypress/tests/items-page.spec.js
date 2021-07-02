@@ -28,9 +28,6 @@ describe('Items Page', () => {
         cy.wait(1000);
     });
 
-    /**
-     * Tests
-     */
     describe('Items page', () => {
         it('should be menu button', function () {
             cy.get('nav ul.main-menu li.active a span.icon-item').should('have.length', 1);
