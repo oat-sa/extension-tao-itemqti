@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\import\CsvTemplate;
 use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
 use oat\taoQtiItem\model\import\Repository\CsvTemplateRepository;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 
 class HeaderValidatorTest extends TestCase
@@ -76,10 +77,18 @@ class HeaderValidatorTest extends TestCase
 
         try {
             $this->subject->validate($content, $this->getDefaultTemplate());
-        } catch (InvalidCsvImportException $exception) {
-            $this->assertContains('name', $exception->getMissingHeaderColumns());
-            $this->assertContains('question', $exception->getMissingHeaderColumns());
-            $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
+        } catch (AggregatedValidationException $exception) {
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[0]->getMessage());
+            $this->assertEquals('name', $exception->getErrors()[0]->getInterpolationData()[0]);
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[1]->getMessage());
+            $this->assertEquals('question', $exception->getErrors()[1]->getInterpolationData()[0]);
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[2]->getMessage());
+            $this->assertEquals('choice_[1-99]', $exception->getErrors()[2]->getInterpolationData()[0]);
+            $this->assertEquals(
+                'Header `%s` must be provided at least `%s` times',
+                $exception->getErrors()[3]->getMessage()
+            );
+            $this->assertEquals('choice_[1-99]', $exception->getErrors()[3]->getInterpolationData()[0]);
         }
     }
 
@@ -102,9 +111,11 @@ class HeaderValidatorTest extends TestCase
 
         try {
             $this->subject->validate($content, $this->getDefaultTemplate());
-        } catch (InvalidCsvImportException $exception) {
-            $this->assertContains('choice_2_score', $exception->getMissingHeaderColumns());
-            $this->assertContains('choice_3', $exception->getMissingHeaderColumns());
+        } catch (AggregatedValidationException $exception) {
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[0]->getMessage());
+            $this->assertEquals('choice_2_score', $exception->getErrors()[0]->getInterpolationData()[0]);
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[1]->getMessage());
+            $this->assertEquals('choice_3', $exception->getErrors()[1]->getInterpolationData()[0]);
         }
     }
 
@@ -114,10 +125,13 @@ class HeaderValidatorTest extends TestCase
 
         try {
             $this->subject->validate($content, $this->getDefaultTemplate());
-        } catch (InvalidCsvImportException $exception) {
-            $this->assertContains('name', $exception->getMissingHeaderColumns());
-            $this->assertContains('question', $exception->getMissingHeaderColumns());
-            $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
+        } catch (AggregatedValidationException $exception) {
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[0]->getMessage());
+            $this->assertEquals('name', $exception->getErrors()[0]->getInterpolationData()[0]);
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[1]->getMessage());
+            $this->assertEquals('question', $exception->getErrors()[1]->getInterpolationData()[0]);
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[2]->getMessage());
+            $this->assertEquals('choice_[1-99]', $exception->getErrors()[2]->getInterpolationData()[0]);
         }
     }
 
@@ -127,10 +141,13 @@ class HeaderValidatorTest extends TestCase
 
         try {
             $this->subject->validate($content, $this->getDefaultTemplate());
-        } catch (InvalidCsvImportException $exception) {
-            $this->assertContains('name', $exception->getMissingHeaderColumns());
-            $this->assertContains('question', $exception->getMissingHeaderColumns());
-            $this->assertContains('choice_[1-99]', $exception->getMissingHeaderColumns());
+        } catch (AggregatedValidationException $exception) {
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[0]->getMessage());
+            $this->assertEquals('name', $exception->getErrors()[0]->getInterpolationData()[0]);
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[1]->getMessage());
+            $this->assertEquals('question', $exception->getErrors()[1]->getInterpolationData()[0]);
+            $this->assertEquals('Header `%s` is required', $exception->getErrors()[2]->getMessage());
+            $this->assertEquals('choice_[1-99]', $exception->getErrors()[2]->getInterpolationData()[0]);
         }
     }
 

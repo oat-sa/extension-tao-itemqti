@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -22,15 +22,12 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Validator;
 
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
 
 interface ValidatorInterface
 {
     /**
-     * @throws InvalidImportException|RecoverableLineValidationException|InvalidCsvImportException
+     * @throws AggregatedValidationException
      */
     public function validate(array $content, TemplateInterface $csvTemplate): void;
 }

@@ -123,7 +123,9 @@ class OntologyExtractor implements Extractor
                         continue;
                     }
 
-                    $data[] = ($itemValue instanceof \core_kernel_classes_Resource) ? $itemValue->getLabel() : (string)$itemValue;
+                    $data[] = ($itemValue instanceof \core_kernel_classes_Resource)
+                        ? $itemValue->getLabel()
+                        : str_replace('"', '""', (string) $itemValue);
                 }
             } catch (\Exception $e) {
                 \common_Logger::e('ERROR on column ' . $column . ' : ' . $e->getMessage());

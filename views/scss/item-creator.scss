@@ -1328,6 +1328,35 @@ img.dragging.ui-draggable-dragging {
         }
     }
 }
+.select2-result.rtl-lang {
+    position: relative;
+}
+.select2-chosen .rtl-lang,
+.select2-result.rtl-lang span.select2-match {
+    &:after {
+        content: 'RTL';
+        display: block;
+        color: $grey;
+        border: $grey 1px solid;
+        border-radius: 2px;
+        position: absolute;
+        right: 20px;
+        font-size: 10px;
+        top: 6px;
+        line-height: 12px;
+        padding: 0 4px;
+    }
+}
+.select2-result.rtl-lang {
+    &.select2-highlighted {
+        span.select2-match {
+            &:after {
+                color: #fff;
+                border-color: #fff;
+            }
+        }
+    }
+}
 
 @media print {
 
