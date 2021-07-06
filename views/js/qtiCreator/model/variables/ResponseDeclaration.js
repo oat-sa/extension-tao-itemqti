@@ -98,7 +98,7 @@ define([
                     caseSensitive : caseSensitive
                 });
             }else{
-                throw 'the mapped value is not a number';
+                this.mapEntries[mapKey] = 0;
             }
 
             return this;
