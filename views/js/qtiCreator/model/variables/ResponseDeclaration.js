@@ -65,41 +65,39 @@ define([
             mappedValue = parseFloat(mappedValue);
             caseSensitive = caseSensitive ? true : false;
 
-            if(!isNaN(mappedValue)){
-                if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
+            if (!isNaN(mappedValue)) {
+                if (this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair') {
                     //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
+                    const mapKeys = mapKey.split(' ');
+                    const mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
 
-                    var mapKeys = mapKey.split(' '),
-                        mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
-
-                    if(this.mapEntries[mapKeysReverse]){
+                    if (this.mapEntries[mapKeysReverse]) {
                         this.mapEntries[mapKeysReverse] = mappedValue;
-                    }else{
+                    } else {
                         this.mapEntries[mapKey] = mappedValue;
                     }
-                }else{
+                } else {
                     this.mapEntries[mapKey] = mappedValue;
                 }
+            } else {
+                this.mapEntries[mapKey] = 0;
+            }
 
-                this.toggleMappingForm();
+            this.toggleMappingForm();
 
-                /**
-                 * @todo caseSensitive is always set to "false" currently, need to add an option for this
-                 * this.mapEntries[mapKey] = {
+            /**
+             * @todo caseSensitive is always set to "false" currently, need to add an option for this
+             * this.mapEntries[mapKey] = {
                  'mappedValue' : mappedValue,
                  'caseSensitive' : caseSensitive
                  };
-                 */
-
-                $(document).trigger('mapEntryChange.qti-widget', {
-                    element : this,
-                    mapKey : mapKey,
-                    mappedValue : mappedValue,
-                    caseSensitive : caseSensitive
-                });
-            }else{
-                this.mapEntries[mapKey] = 0;
-            }
+             */
+            $(document).trigger('mapEntryChange.qti-widget', {
+                element : this,
+                mapKey : mapKey,
+                mappedValue : mappedValue,
+                caseSensitive : caseSensitive
+            });
 
             return this;
         },
