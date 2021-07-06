@@ -47,7 +47,7 @@ class CssHelper
 
         // make sure that 'no custom css' means exactly that
         if (empty($cssArr) && $file->exists()) {
-            $file->delete();
+            return $file->delete();
         }
 
         $css = self::_buildWarning() . self::arrayToCss($cssArr);
