@@ -49,6 +49,8 @@ class CssHelper
 
     /**
      * Download existing CSS file
+     *
+     * @return string with css classes on null if file not exist
      */
     public static function downloadCssFile(RdfResource $item, string $lang, string $styleSheetPath): ?string
     {
