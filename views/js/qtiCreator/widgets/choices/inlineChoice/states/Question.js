@@ -81,11 +81,11 @@ define([
     ChoiceStateQuestion.prototype.destroyEditor = function () {
         this.widget.$container
             .find('.editable-content')
-            .removeAttr('contentEditable')
+            .removeAttr('contenteditable')
             .removeAttr('data-html-editable')
             .off('keyup.qti-widget');
 
-        this.widget.$container.find('.editable-container').removeAttr('data-html-editable-container');
+        this.widget.$container.find('.editable-container').removeAttr('data-html-editable');
     };
 
     return ChoiceStateQuestion;
