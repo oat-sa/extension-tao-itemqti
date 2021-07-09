@@ -29,12 +29,7 @@ define([
         const interaction = this.element;
         const interactionData = { interaction };
 
-        const widget = choice.metaData.widget;
-        let container = choice.getBody();
-        if (widget) {
-            container = widget.element.getBody();
-        }
-
+        const container = choice.getBody();
         const body = container.render(
             _.clone(interactionData, true),
             null,
