@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "@oat-sa/tao-item-runner": "0.4.0",
-    "@oat-sa/tao-item-runner-qti": "0.10.6"
+    "@oat-sa/tao-item-runner-qti": "git://github.com/oat-sa/tao-item-runner-qti-fe#hotfix/TR-1535/choice-container-remains-expanded"
   }
 }
