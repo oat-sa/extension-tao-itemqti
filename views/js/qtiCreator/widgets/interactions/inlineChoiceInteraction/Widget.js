@@ -10,15 +10,13 @@ define([
     const InlineChoiceInteractionWidget = InteractionWidget.clone();
 
     InlineChoiceInteractionWidget.initCreator = function (options) {
-        const _this = this;
-
         this.registerStates(states);
 
         InteractionWidget.initCreator.call(this);
 
         this.$choiceOptionForm = options.choiceOptionForm;
-        _.each(this.element.getChoices(), function (choice) {
-            _this.buildChoice(choice);
+        _.each(this.element.getChoices(), (choice) => {
+            this.buildChoice(choice);
         });
 
         //remove toolbar title, because it is too large
@@ -49,8 +47,7 @@ define([
     };
 
     InlineChoiceInteractionWidget.renderInteraction = function () {
-        const _this = this,
-            interaction = this.element,
+        const interaction = this.element,
             shuffleChoice = interaction.attr('shuffle'),
             tplData = {
                 tag: interaction.qtiClass,
@@ -59,9 +56,9 @@ define([
                 choices: []
             };
 
-        _.each(interaction.getChoices(), function (choice) {
+        _.each(interaction.getChoices(), choice => {
             if (Element.isA(choice, 'choice')) {
-                tplData.choices.push(_this.renderChoice(choice, shuffleChoice));
+                tplData.choices.push(this.renderChoice(choice, shuffleChoice));
             }
         });
 
