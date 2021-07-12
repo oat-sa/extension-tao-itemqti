@@ -17,13 +17,17 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2020 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2021 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
+use oat\tao\model\media\MediaBrowser;
+use oat\taoQtiItem\model\Export\Exception\AssetStylesheetZipTransferException;
+use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use core_kernel_classes_Property;
 use DOMDocument;
 use League\Flysystem\FileNotFoundException;
@@ -43,14 +47,19 @@ use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Http\Message\StreamInterface;
+use tao_models_classes_FileNotFoundException;
 use taoItems_models_classes_ItemExporter;
 
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
+    public const PROPERTY_LINK = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Link';
+    public const ASSETS_DIRECTORY_NAME = 'assets';
+    public const CSS_DIRECTORY_NAME = 'css';
+    public const CSS_FILE_NAME = 'tao-user-styles.css';
 
     /**
-    * List of regexp of media that should be excluded from retrieval
-    */
+     * List of regexp of media that should be excluded from retrieval
+     */
     private static $BLACKLIST = [
         '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
     ];
@@ -91,7 +100,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
         }
-        $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
+        $dataFile = (string)$this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
         $replacementList = [];
         $portableElements = $this->getPortableElementAssets($this->getItem(), $lang);
@@ -102,7 +111,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $portableAssets = [];
 
         foreach ($portableElements as $element) {
-            if (! $element instanceof Element) {
+            if (!$element instanceof Element) {
                 continue;
             }
 
@@ -119,7 +128,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $portableAssets = array_merge($portableAssets, $portableElementExporter->copyAssetFiles($replacementList));
             } catch (\tao_models_classes_FileNotFoundException $e) {
                 \common_Logger::i($e->getMessage());
-                $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' .  $e->getMessage());
+                $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' . $e->getMessage());
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
@@ -140,14 +149,22 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                         $stream = $mediaSource->getFileStream($link);
                     }
 
-                    $baseName = ($mediaSource instanceof LocalItemSource) ? $link : 'assets/' . $mediaSource->getBaseName($link);
+                    $baseName = ($mediaSource instanceof LocalItemSource)
+                        ? $link
+                        : $this->getUniqueAssetDirectoryByLink($mediaSource, $link);
+
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
+                    $this->addAssetStylesheetToZip($link, dirname($baseName), $basePath);
                     $replacementList[$assetUrl] = $replacement;
                 }
-            } catch (\tao_models_classes_FileNotFoundException $e) {
+            } catch (tao_models_classes_FileNotFoundException $e) {
                 $replacementList[$assetUrl] = '';
                 $report->setMessage('Missing resource for ' . $assetUrl);
-                $report->setType(\common_report_Report::TYPE_ERROR);
+                $report->setType(Report::TYPE_ERROR);
+            } catch (AssetStylesheetZipTransferException $e) {
+                $replacementList[$assetUrl] = '';
+                $report->setMessage($e->getMessage());
+                $report->setType(Report::TYPE_ERROR);
             }
         }
 
@@ -197,7 +214,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
 
-        if (! $report->getMessage()) {
+        if (!$report->getMessage()) {
             $report->setMessage(__('Item "%s" is ready to be exported', $this->getItem()->getLabel()));
         }
 
@@ -233,7 +250,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // To check if replacement is to replace basename ???
         // Please check it seriously next time!
-        $newRelPath = (empty($basePath) ? '' : $basePath . '/' ) . preg_replace('/^(.\/)/', '', $replacement);
+        $newRelPath = (empty($basePath) ? '' : $basePath . '/') . preg_replace('/^(.\/)/', '', $replacement);
         $this->addFile($stream, $newRelPath);
         $stream->close();
         return $replacement;
@@ -243,7 +260,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * Get the item's assets
      *
      * @param \core_kernel_classes_Resource $item The item
-     * @param string                        $lang The item lang
+     * @param string $lang The item lang
      *
      * @return string[] The assets URLs
      */
@@ -285,7 +302,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * Get the item's directory
      *
      * @param \core_kernel_classes_Resource $item The item
-     * @param string                        $lang The item lang
+     * @param string $lang The item lang
      *
      * @return Directory The directory
      */
@@ -311,9 +328,50 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      */
     protected function getMetadataExporter()
     {
-        if (! $this->metadataExporter) {
+        if (!$this->metadataExporter) {
             $this->metadataExporter = $this->getServiceManager()->get(MetadataService::SERVICE_ID)->getExporter();
         }
         return $this->metadataExporter;
+    }
+
+    /**
+     * @throws AssetStylesheetZipTransferException
+     */
+    private function addAssetStylesheetToZip(string $link, string $baseDirectoryName, string $basepath): void
+    {
+        if ($assetStylesheetStream = $this->getAssetStylesheetLoader()->loadAssetFromAssetResource($link)) {
+            $transferedFiles = $this->addFile(
+                $assetStylesheetStream,
+                $this->buildAssetStylesheetPath($basepath, $baseDirectoryName)
+            );
+            if ($transferedFiles !== 1) {
+                throw new AssetStylesheetZipTransferException('This should only transfer 1 file to zip');
+            }
+        }
+    }
+
+    private function getUniqueAssetDirectoryByLink(MediaBrowser $mediaSource, string $link): string
+    {
+        return self::ASSETS_DIRECTORY_NAME
+            . DIRECTORY_SEPARATOR
+            . $mediaSource->getFileInfo($link)['link'];
+    }
+
+    private function buildAssetStylesheetPath(string $basepath, string $baseDirectoryName): string
+    {
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                $basepath,
+                $baseDirectoryName,
+                self::CSS_DIRECTORY_NAME,
+                self::CSS_FILE_NAME
+            ]
+        );
+    }
+
+    private function getAssetStylesheetLoader(): AssetStylesheetLoader
+    {
+        return $this->getServiceManager()->get(AssetStylesheetLoader::class);
     }
 }
