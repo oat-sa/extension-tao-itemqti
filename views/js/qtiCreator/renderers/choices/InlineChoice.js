@@ -20,17 +20,13 @@ define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/InlineChoice',
     'taoQtiItem/qtiCreator/widgets/choices/inlineChoice/Widget'
-], function(_, InlineChoice, InlineChoiceWidget){
+], function (_, InlineChoice, InlineChoiceWidget) {
     'use strict';
 
     var CreatorInlineChoice = _.clone(InlineChoice);
 
-    CreatorInlineChoice.render = function(choice, options){
-        InlineChoiceWidget.build(
-            choice,
-            InlineChoice.getContainer(choice),
-            options
-        );
+    CreatorInlineChoice.render = function (choice, options) {
+        InlineChoiceWidget.build(choice, InlineChoice.getContainer(choice), options);
     };
 
     return CreatorInlineChoice;

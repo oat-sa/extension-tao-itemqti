@@ -15,7 +15,7 @@ define([
         InteractionWidget.initCreator.call(this);
 
         this.$choiceOptionForm = options.choiceOptionForm;
-        _.each(this.element.getChoices(), (choice) => {
+        _.each(this.element.getChoices(), choice => {
             this.buildChoice(choice);
         });
 
