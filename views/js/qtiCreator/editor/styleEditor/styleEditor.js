@@ -84,7 +84,8 @@ define([
             failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
             isInValidLocalTxt: __('This stylesheet has not been found on the server. you may want to delete this reference')
         },
-        customStylesheet = '';
+        customStylesheet = null;
+    const customStylesheetHref = 'style/custom/tao-user-styles.css';
 
     /**
      * Delete all custom styles
@@ -202,9 +203,21 @@ define([
     var save = function save () {
         return new Promise(function (resolve, reject){
             verifyInit();
+            const isStyles = _.size(style) > 0;
+            if (!isStyles && !customStylesheet) {
+                return resolve();
+            }
+            // if no custom css had been found, add empty stylesheet anyway
+            if (isStyles && !customStylesheet) {
+                customStylesheet = currentItem.createStyleSheet(customStylesheetHref);
+            }
+            if (!isStyles && customStylesheet) {
+                currentItem.removeStyleSheet(customStylesheet);
+                customStylesheet = null;
+            }
             $.post(_getUri('save'), _.extend({}, itemConfig,{
                 cssJson: JSON.stringify(style),
-                stylesheetUri: customStylesheet.attr('href')
+                stylesheetUri: customStylesheetHref
             }))
             .done(resolve)
             .fail(function(xhr, status, err){
@@ -352,11 +365,6 @@ define([
             // add those that are loaded synchronously
             addStylesheet(currentItem.stylesheets[key]);
         }
-
-        // if no custom css had been found, add empty stylesheet anyway
-        if(!customStylesheet) {
-            customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
-        }
     };
 
     /**
@@ -397,34 +405,31 @@ define([
 
         removeOrphanedStylesheets();
 
-        // this creates at the same time customStylesheet in case it doesn't exist yet
         addItemStylesheets();
 
         resizerTarget = $('#item-editor-item-resizer').data('target');
-        href = customStylesheet.attr('href');
-
         currentItem.data('responsive', true);
 
-        $.when(
-            $.getJSON (
-                _getUri('load'),
-                _.extend({}, itemConfig, { stylesheetUri: href })
-            )
-        ).then(function(_style) {
-            // copy style to global style
-            style = _style;
-
-            // apply rules
-            create();
-
-            // reset meta in case the width is set in the custom stylesheet
-            if(style.length){
-                currentItem.data('responsive', !!(style[resizerTarget] && style[resizerTarget].width));
-            }
-
-            // inform editors about custom sheet
-            $(document).trigger('customcssloaded.styleeditor', [style]);
-        });
+        if (customStylesheet) {
+            href = customStylesheet.attr('href');
+            $.when(
+                $.getJSON (
+                    _getUri('load'),
+                    _.extend({}, itemConfig, { stylesheetUri: href })
+                )
+            ).then(function(_style) {
+                // copy style to global style
+                style = _style;
+                // apply rules
+                create();
+                // reset meta in case the width is set in the custom stylesheet
+                if(style.length){
+                    currentItem.data('responsive', !!(style[resizerTarget] && style[resizerTarget].width));
+                }
+                // inform editors about custom sheet
+                $(document).trigger('customcssloaded.styleeditor', [style]);
+            });
+        }
     };
 
     var getStyle = function() {
