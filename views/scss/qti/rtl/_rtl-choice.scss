@@ -1,0 +1,67 @@
+// parent .qti-interaction
+
+&[dir=rtl] {
+
+  $elimCbOffsetLeft: 50;
+  $elimListStyleCbOffsetLeft: $elimCbOffsetLeft + 23;
+  $elimIconOffset: -13;
+
+  .qti-choiceInteraction {
+    .qti-choice {
+      .pseudo-label-box>label+div {
+        margin-left: 0px;
+        margin-right: 24px;
+      }
+      .real-label {
+        right: 0px;
+        .icon-radio, .icon-checkbox {
+          left: 150%;
+          top: calc(50% - 2px);
+        }
+      }
+    }
+
+    .block-listing.horizontal>li{
+      float: right;
+    }
+
+    &.eliminable {
+      .qti-choice {
+        .pseudo-label-box > label + div.label-box {
+          padding-right: $elimListStyleCbOffsetLeft * 1px;
+        }
+        .real-label {
+          right: $elimCbOffsetLeft * 1px;
+        }
+      }
+
+      // ol
+      .choice-area {
+        [data-eliminable="container"] {
+          left: auto;
+          right: $elimIconOffset * 1px;
+          top: 0px;
+        }
+        &[class^="list-style-"], &[class*=" list-style-"] {
+          [data-eliminable="container"] {
+            left: auto;
+            right: $elimIconOffset * 1px;
+          }
+          p, div, li {
+            &::before {
+              left: auto;
+              right:30px;
+            }
+          }
+        }
+
+        //both label and checkbox
+        [data-eliminable] {
+          display: block;
+        }
+      }
+    }
+  }
+
+
+}
