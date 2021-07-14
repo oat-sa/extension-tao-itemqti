@@ -776,12 +776,6 @@ img.dragging.ui-draggable-dragging {
         position: relative;
     }
 
-    /*hack to fix unwanted contenteditable behaviour in chrome : @see*/
-    p, span, ol, ul {
-        line-height: 1.4;
-        font-size: 1.4rem;
-    }
-
     .inserting {
         .widget-block, .widget-blockInteraction {
             border: 1px dashed #ddd;
@@ -1166,7 +1160,11 @@ img.dragging.ui-draggable-dragging {
             right:-32px !important;
         }
     }
-
+    .qti-hottext {
+        .hottext-content {
+            user-select: none;
+        }
+    }
     .qti-gap{
         margin-right: 30px;
     }
@@ -1327,6 +1325,35 @@ img.dragging.ui-draggable-dragging {
         right: 10px; // to compensate the next change below
         .incrementer{
             width: 50px !important // 10px more than the default 40px value
+        }
+    }
+}
+.select2-result.rtl-lang {
+    position: relative;
+}
+.select2-chosen .rtl-lang,
+.select2-result.rtl-lang span.select2-match {
+    &:after {
+        content: 'RTL';
+        display: block;
+        color: $grey;
+        border: $grey 1px solid;
+        border-radius: 2px;
+        position: absolute;
+        right: 20px;
+        font-size: 10px;
+        top: 6px;
+        line-height: 12px;
+        padding: 0 4px;
+    }
+}
+.select2-result.rtl-lang {
+    &.select2-highlighted {
+        span.select2-match {
+            &:after {
+                color: #fff;
+                border-color: #fff;
+            }
         }
     }
 }

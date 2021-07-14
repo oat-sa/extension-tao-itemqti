@@ -12,17 +12,17 @@
     toolName="TAO"
     toolVersion="3.4.0-sprint146">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
-        <?if(get_data('hasCorrectChoices')):?>
+        <?php if(get_data('hasCorrectChoices')): ?>
             <correctResponse>
-                <?foreach(get_data('correctChoices') as $choice):?>
+                <?php foreach(get_data('correctChoices') as $choice):?>
                     <value><![CDATA[<?=$choice->getId()?>]]></value>
-                <?endforeach?>
+                <?php endforeach ?>
             </correctResponse>
-        <?endif?>
+        <?php endif ?>
         <mapping defaultValue="0">
-            <?foreach(get_data('choices') as $choice):?>
+            <?php foreach(get_data('choices') as $choice):?>
                 <mapEntry mapKey="<?=$choice->getId()?>" mappedValue="<?=_dh($choice->getChoiceScore())?>"/>
-            <?endforeach?>
+            <?php endforeach ?>
         </mapping>
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="<?=get_data('maxScore')?>" />
@@ -36,9 +36,9 @@
             <div class="col-12">
                 <choiceInteraction responseIdentifier="RESPONSE" shuffle="<?=get_data('shuffle')?>" maxChoices="<?=get_data('maxChoices')?>" minChoices="<?=get_data('minChoices')?>" orientation="vertical">
                     <prompt><?=get_data('question')?></prompt>
-                    <?foreach(get_data('choices') as $choice):?>
+                    <?php foreach(get_data('choices') as $choice):?>
                         <simpleChoice identifier="<?=$choice->getId()?>" fixed="false" showHide="show"><?=$choice->getChoice()?></simpleChoice>
-                    <?endforeach?>
+                    <?php endforeach ?>
                 </choiceInteraction>
             </div>
         </div>

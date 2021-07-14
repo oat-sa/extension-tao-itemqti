@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -23,28 +23,35 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator',
     'core/logger'
-], function(_, $, Promise, Element, invalidator, loggerFactory){
+], function (_, $, Promise, Element, invalidator, loggerFactory) {
     'use strict';
 
-    var _pushState = function(widget, stateName){
-        var currentState = new widget.registeredStates[stateName](widget);
+    const _pushState = function (widget, stateName) {
+        const currentState = new widget.registeredStates[stateName](widget);
         widget.stateStack.push(currentState);
         currentState.init();
     };
 
-    var _popState = function(widget){
-        var state = widget.stateStack.pop();
-        if(state){
+    const _popState = function (widget) {
+        const state = widget.stateStack.pop();
+        if (state) {
             state.exit();
         }
     };
 
+    const createEventName = (widget, name, ns) => {
+        const eventName = `${name}.qti-widget.${widget.serial}`;
+        if (ns) {
+            return `${eventName}.${ns}`;
+        }
+        return eventName;
+    };
     /**
      * Create a logger
      */
-    var logger = loggerFactory('taoQtiItem/qtiCreator/widget');
+    const logger = loggerFactory('taoQtiItem/qtiCreator/widget');
 
-    var Widget = {
+    const Widget = {
         /**
          * Intialize qti element creator widget
          *
@@ -55,11 +62,8 @@ define([
          * @fires ready.qti-widget after it is executed
          * @returns {Object} The initialized widget
          */
-        init : function(element, $original, $form, options){
-            var self = this;
-
-            if(element instanceof Element){
-
+        init: function (element, $original, $form, options) {
+            if (element instanceof Element) {
                 options = options || {};
 
                 this.element = element;
@@ -80,73 +84,73 @@ define([
                 this.element.data('widget', this);
 
                 //clean old referenced event
-                this.offEvents();//not sure if still required after state definition
+                this.offEvents(); //not sure if still required after state definition
 
                 //pass the options to the initCreator for custom options usage
-                _.each(this.getRequiredOptions(), function(opt){
-                    if(!options[opt]){
-                        throw new Error('missing required option for image creator : ' + opt);
+                _.each(this.getRequiredOptions(), function (opt) {
+                    if (!options[opt]) {
+                        throw new Error(`missing required option for image creator : ${opt}`);
                     }
                 });
                 this.options = options;
-                Promise.resolve(this.initCreator(options)).then(function(){
+                Promise.resolve(this.initCreator(options)).then(() => {
                     //communicate the widget readiness
-                    if(_.isFunction(self.options.ready)){
-                        self.options.ready.call(self, self);
+                    if (_.isFunction(this.options.ready)) {
+                        this.options.ready.call(this, this);
                     }
-                    self.$container.trigger('ready.qti-widget', [self]);
+                    this.$container.trigger('ready.qti-widget', [this]);
                 });
 
                 //init state after creator init
-                if(this.options.state){
+                if (this.options.state) {
                     this.changeState(this.options.state);
-                }else{
+                } else {
                     this.changeState('sleep');
                 }
-            }else{
+            } else {
                 throw new Error('element is not a QTI Element');
             }
             return this;
         },
-        getAreaBroker : function getAreaBroker() {
-            var element = this.element,
+        getAreaBroker: function getAreaBroker() {
+            const element = this.element,
                 renderer = element.getRenderer();
 
             if (renderer) {
                 return renderer.getAreaBroker();
             }
         },
-        getCreatorContext : function getCreatorContext() {
-            var element = this.element,
+        getCreatorContext: function getCreatorContext() {
+            const element = this.element,
                 renderer = element.getRenderer();
 
             if (renderer) {
                 return renderer.getCreatorContext();
             }
         },
-        getRequiredOptions : function(){
+        getRequiredOptions: function () {
             return [];
         },
-        buildContainer : function(){
+        buildContainer: function () {
             throw new Error('method buildContainer must be implemented');
         },
-        build : function(element, $container, $form, options){
+        build: function (element, $container, $form, options) {
             return this.clone().init(element, $container, $form, options);
         },
-        clone : function(){
+        clone: function () {
             return _.clone(this);
         },
-        initCreator : function(){
+        initCreator: function () {
             //prepare all common actions, event handlers and dom for every state of the widget
 
-            var $interaction = this.$container.find('.qti-interaction');
-            var serial       = $interaction.data('serial');
+            const $interaction = this.$container.find('.qti-interaction');
+            const serial = $interaction.data('serial');
 
-            this.$container.on('resize.itemResizer', function() {
-                $(window).trigger('resize.qti-widget.' + serial);
+            this.$container.on('resize.itemResizer', function () {
+                $(window).trigger(`resize.qti-widget.${serial}`);
             });
         },
-        getCurrentState : function(){
+        getCurrentState: function () {
             return _.last(this.stateStack);
         },
         /**
@@ -157,154 +161,134 @@ define([
          * @param {string} stateName
          * @returns {object} this
          */
-        changeState : function(stateName){
-
-            var self = this,
-                state,
+        changeState: function (stateName) {
+            let state,
                 superStateName,
                 currentState = this.getCurrentState(),
                 exitedStates,
                 enteredStates,
                 i;
 
-            logger.info('changing state of ' + this.serial + ': ' + (currentState || {}).name + ' => ' + stateName);
+            logger.info(`changing state of ${this.serial}: ${(currentState || {}).name} => ${stateName}`);
 
-            if(this.registeredStates[stateName]){
+            if (this.registeredStates[stateName]) {
                 state = new this.registeredStates[stateName]();
-            }else{
-                throw new Error('unknown target state : ' + stateName);
+            } else {
+                throw new Error(`unknown target state : ${stateName}`);
             }
 
-            if(currentState){
+            if (currentState) {
                 // hide widget tooltips when interaction leaves response mapping ('map') state:
                 if (currentState.name === 'map' && state.name !== 'map') {
-                    this.$container
-                        .find('[data-has-tooltip]')
-                        .each(function(j, el) {
-                            $(el).data('$tooltip').hide();
-                        });
+                    this.$container.find('[data-has-tooltip]').each(function (j, el) {
+                        $(el).data('$tooltip').hide();
+                    });
                 }
 
-                if(currentState.name === state.name){
+                if (currentState.name === state.name) {
                     return this;
-                }else if(_.indexOf(state.superState, currentState.name) >= 0){
-
+                } else if (_.indexOf(state.superState, currentState.name) >= 0) {
                     //initialize super states in reverse order:
-                    for(i = _.indexOf(state.superState, currentState.name) - 1; i >= 0; i--){
+                    for (i = _.indexOf(state.superState, currentState.name) - 1; i >= 0; i--) {
                         superStateName = state.superState[i];
                         _pushState(this, superStateName);
                     }
-
-                }else if(_.indexOf(currentState.superState, state.name) >= 0){
-
+                } else if (_.indexOf(currentState.superState, state.name) >= 0) {
                     //just exit as much state as needed to get to it:
-                    for(i = 0; i <= _.indexOf(currentState.superState, state.name); i++){
-                        _popState(self);
+                    for (i = 0; i <= _.indexOf(currentState.superState, state.name); i++) {
+                        _popState(this);
                     }
 
                     return this;
-
-                }else{
-
+                } else {
                     //first, exit the current state
-                    _popState(self);
+                    _popState(this);
 
                     //then, exit super states in order:
                     exitedStates = _.difference(currentState.superState, state.superState);
-                    _.each(exitedStates, function(){
-                        _popState(self);
+                    _.each(exitedStates, () => {
+                        _popState(this);
                     });
 
                     //finally, init super states in reverse order:
                     enteredStates = _.difference(state.superState, currentState.superState);
-                    _.eachRight(enteredStates, function(_superStateName){
-                        _pushState(self, _superStateName);
+                    _.eachRight(enteredStates, _superStateName => {
+                        _pushState(this, _superStateName);
                     });
                 }
-
-            }else{
-                _.eachRight(state.superState, function(_superStateName){
-                    _pushState(self, _superStateName);
+            } else {
+                _.eachRight(state.superState, _superStateName => {
+                    _pushState(this, _superStateName);
                 });
             }
 
             _pushState(this, stateName);
             return this;
         },
-        registerState : function(name, State){
-            if(name && State){
+        registerState: function (name, State) {
+            if (name && State) {
                 this.registeredStates[name] = State;
-            }else{
+            } else {
                 throw new Error('missing required arguments in state registration');
             }
         },
-        registerStates : function(states){
-            var self = this;
-            _.forIn(states, function(State, name){
-                self.registerState(name, State);
+        registerStates: function (states) {
+            _.forIn(states, (State, name) => {
+                this.registerState(name, State);
             });
         },
-        afterStateInit : function(callback, ns){
-            var evtName = 'afterStateInit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
-            $(document).on(evtName, callback);
+        afterStateInit: function (callback, ns) {
+            $(document).on(createEventName(this, 'afterStateInit', ns), callback);
         },
-        beforeStateInit : function(callback, ns){
-            var evtName = 'beforeStateInit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
-            $(document).on(evtName, callback);
+        beforeStateInit: function (callback, ns) {
+            $(document).on(createEventName(this, 'beforeStateInit', ns), callback);
         },
-        afterStateExit : function(callback, ns){
-            var evtName = 'afterStateExit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
-            $(document).on(evtName, callback);
+        afterStateExit: function (callback, ns) {
+            $(document).on(createEventName(this, 'afterStateExit', ns), callback);
         },
-        beforeStateExit : function(callback, ns){
-            var evtName = 'beforeStateExit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
-            $(document).on(evtName, callback);
+        beforeStateExit: function (callback, ns) {
+            $(document).on(createEventName(this, 'beforeStateExit', ns), callback);
         },
-        offEvents : function(ns){
-            var evtName = '.qti-widget.' + this.serial + (ns ? '.' + ns : '');
-            $(document).off(evtName);
+        offEvents: function (ns) {
+            $(document).off(createEventName(this, '', ns));
 
             this.$container.off('resize.itemResizer');
         },
-        destroy : function(){
-
-            logger.info('destroying widget ' + this.serial);
+        destroy: function () {
+            logger.info(`destroying widget ${this.serial}`);
 
             //to call exit method and clean up listeners
             this.changeState('sleep');
 
             //remove editable widgets
             this.$container.find('[data-edit]').remove();
-            $('[data-widget-component=' + this.serial + ']').remove();
+            $(`[data-widget-component=${this.serial}]`).remove();
 
             //clean old referenced event
             this.offEvents();
         },
-        rebuild : function(options){
-            var element,
-                postRenderOpts,
-                $container,
-                renderer;
+        rebuild: function (options) {
+            let element, postRenderOpts, $container, renderer;
 
             options = options || {};
 
             element = this.element;
             postRenderOpts = {};
-            if(_.isFunction(options.ready)){
+            if (_.isFunction(options.ready)) {
                 postRenderOpts.ready = options.ready;
             }
 
             $container = null;
-            if(options.context && options.context.length){
+            if (options.context && options.context.length) {
                 //if the context option is provided, the function will fetch the widget container that in this context
                 //mandatory for detached of duplicated DOM element (e.g. ckEditor)
-                $container = options.context.find('.widget-box[data-serial=' + element.serial + ']');
-            }else if(this.$container.length && $.contains(document, this.$container[0])){
+                $container = options.context.find(`.widget-box[data-serial=${element.serial}]`);
+            } else if (this.$container.length && $.contains(document, this.$container[0])) {
                 //if the container exist and is NOT detached
                 $container = this.$container;
-            }else{
+            } else {
                 //otherwise use less performance efficient selector
-                $container = $('.widget-box[data-serial=' + element.serial + ']');
+                $container = $(`.widget-box[data-serial=${element.serial}]`);
             }
 
             //once required data ref has been set, destroy it:
@@ -313,72 +297,65 @@ define([
             //we assume that the element still has its renderer set, check renderer:
             renderer = element.getRenderer();
 
-            if(renderer && renderer.isRenderer){
-                if(renderer.name === 'creatorRenderer'){
+            if (renderer && renderer.isRenderer) {
+                if (renderer.name === 'creatorRenderer') {
                     element.render($container);
                     element.postRender(postRenderOpts);
                     return element.data('widget');
-                }else{
+                } else {
                     throw new Error('The renderer is no longer the creatorRenderer');
                 }
-            }else{
+            } else {
                 throw new Error('No renderer found to rebuild the widget');
             }
         },
 
-        refresh : function(){
-
-            var currentState = this.getCurrentState().name;
+        refresh: function () {
+            const currentState = this.getCurrentState().name;
 
             this.rebuild({
-                ready:function(widget){
+                ready: function (widget) {
                     widget.changeState(currentState);
                 }
             });
         },
 
         //assign an event listener that lives with the state
-        on : function(qtiElementEventName, callback, live){
-
-            var self = this,
-                eventNames = qtiElementEventName.replace(/\s+/g, ' ').split(' '),
+        on: function (qtiElementEventName, callback, live) {
+            const eventNames = qtiElementEventName.replace(/\s+/g, ' ').split(' '),
                 $document = $(document);
 
-            _.each(eventNames, function(eventName){
+            _.each(eventNames, eventName => {
+                const eventNameToken = [eventName, 'qti-widget', this.serial];
 
-                var eventNameToken = [eventName, 'qti-widget', self.serial];
-
-                if(!live){
-                    eventNameToken.push(self.getCurrentState().name);
+                if (!live) {
+                    eventNameToken.push(this.getCurrentState().name);
                 }
 
                 //bind each individual event listener to the document
-                $document.on(eventNameToken.join('.'), function(e, data){
-                    if (data.serial === self.serial) {
-                        callback.call(self, data);
-                    }
+                $document.on(eventNameToken.join('.'), (e, data) => {
+                    callback.call(this, data);
                 });
-
             });
 
-            return this;//for chaining
+            return this; //for chaining
         },
         /**
          * Get / Set the validation state
          * @param {String} [what] - key to identify the validation
          * @param {Boolean} [valid] - false to invalidate
          * @param {String} [why] - message
+         * @returns {boolean} - if what return isValid
          */
-        isValid : function(what, valid, why){
+        isValid: function (what, valid, why) {
+            const element = this.element;
 
-            var element = this.element;
-
-            if(typeof what === 'undefined'){
+            if (typeof what === 'undefined') {
                 //get
                 return invalidator.isValid(element);
-            }else if(valid){
+            } else if (valid) {
                 invalidator.valid(element, what);
-            }else{
+            } else {
                 invalidator.invalid(element, what, why, this.getCurrentState().name);
             }
         }

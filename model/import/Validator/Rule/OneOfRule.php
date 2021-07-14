@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,10 +18,12 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\taoQtiItem\model\import\Validator\Rule;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Validator\WarningValidationException;
 
 class OneOfRule extends ConfigurableService implements ValidationRuleInterface
 {
@@ -29,15 +31,16 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
     public const CASE_INSENSITIVE = 'CASE_INSENSITIVE';
 
     /**
-     * @throws RecoverableLineValidationException
+     * @inheritDoc
      */
-    public function validate($value, $rules = null, array $context = []): void
+    public function validate(string $column, $value, $rules = null, array $context = []): void
     {
         $allowedValuesRule = $rules[0];
         $allowedValues = explode(',', $allowedValuesRule);
 
         $flags = $rules[1];
-        if ($flags == self::CASE_INSENSITIVE){
+
+        if ($flags === self::CASE_INSENSITIVE) {
             $allowedValues = array_map('strtolower', $allowedValues);
             $value = strtolower($value);
         }
@@ -45,9 +48,18 @@ class OneOfRule extends ConfigurableService implements ValidationRuleInterface
         $allowedValues = str_ireplace(self::EMPTY_VALUE, '', $allowedValues);
 
         if (!in_array($value, $allowedValues)) {
-            throw new RecoverableLineValidationException(
-                __('invalid value for `%s`(%s), expected values are [%s]', '%s', $value, $allowedValuesRule)
+            $exception = new WarningValidationException(
+                'invalid value for `%s`(%s), expected values are [%s]',
+                [
+                    $column,
+                    $value,
+                    $allowedValuesRule
+                ]
             );
+
+            $exception->setColumn($column);
+
+            throw $exception;
         }
     }
 }

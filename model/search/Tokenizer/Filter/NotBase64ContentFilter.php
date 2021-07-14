@@ -1,6 +1,6 @@
 <?php
-/*
- *
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,26 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  */
 
-namespace oat\taoQtiItem\model\import\Report;
+declare(strict_types=1);
 
-use Exception;
-use oat\oatbox\service\ConfigurableService;
+namespace oat\taoQtiItem\model\search\Tokenizer\Filter;
 
-abstract class AbstractReportFormatter extends ConfigurableService implements ReportFormatter
+class NotBase64ContentFilter implements TokenFilterInterface
 {
-    /**
-     * @param  Exception[]  $exceptions
-     * @return string[]
-     */
-    protected function buildLineMessages(array $exceptions): array
+    public function filter(string $data): string
     {
-        $formattedReports = [];
-        foreach ($exceptions as $lineNumber => $lineReport) {
-            $formattedReports[$lineNumber] = __('line %s: %s', $lineNumber, rtrim($lineReport->getMessage(), ', '));
-        }
-        return $formattedReports;
+        return implode('', preg_split('/data:[a-zA-Z]*\/[a-zA-Z]*;base64,[a-zA-Z0-9+\/=]*/', $data));
     }
 }

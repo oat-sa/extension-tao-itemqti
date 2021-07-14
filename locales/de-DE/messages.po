@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-30T17:09:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint155\n"
+"PO-Revision-Date: 2021-06-04T13:44:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -28,6 +28,15 @@ msgstr ""
 msgid "%d/%d"
 msgstr ""
 
+msgid "%s is invalid, should be less or equal than `%s`(%s)"
+msgstr "%s ist ungültig, muss kleiner oder gleich sein an `%s` (%s)"
+
+msgid "%s line(s) are imported with warnings"
+msgstr "% Zeile(n) wurden mit Warnung importiert"
+
+msgid "%s line(s) contain(s) an error and cannot be imported"
+msgstr "% Zeile(n) beinhaltet(n) einen Fehler und kann (können) nicht importiert werden"
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
 
@@ -37,8 +46,23 @@ msgstr "-- Jede Art von Datei --"
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr ""
 
-msgid "7-zip archive"
-msgstr ""
+msgid "`%s` is empty"
+msgstr "`%s` ist leer"
+
+msgid "`%s` is invalid"
+msgstr "`%s` ist ungültig"
+
+msgid "`%s` is invalid, must be numeric"
+msgstr "`%s` ist ungültig, muss numerisch sein"
+
+msgid "`%s` is invalid, must be numeric or empty"
+msgstr "`%s` ist ungültig, muss numerisch oder leer sein"
+
+msgid "`%s` is invalid, must be positive integer"
+msgstr "`%s` ist ungültig, muss eine ganze positive Zahl sein"
+
+msgid "`%s` is required"
+msgstr "`%s` ist erforderlich"
 
 msgid "A choice must be selected"
 msgstr "Es muss etwas ausgewählt werden"
@@ -53,11 +77,17 @@ msgstr ""
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Ein Rubrik-Block identifiziert den Teil des Item-Bodys eines Assessment-Items, das Instruktionen für einen oder mehrere Akteure darstellt. Obwohl Rubrik-Blöcke als Simple-Blöcke definiert sind, dürfen sie keine Interaktionen enthalten."
 
+msgid "A value should be provided for at least one of the columns: %s"
+msgstr ""
+
 msgid "Adapt to screen size"
 msgstr "An Bildschirm-Größe anpassen"
 
 msgid "Add"
 msgstr "Hinzufügen"
+
+msgid "Add a CSV file"
+msgstr "eine CSV Datei hinzufügen"
 
 msgid "Add a modal feedback"
 msgstr "Modales Feedback hinzufügen"
@@ -82,9 +112,6 @@ msgstr "Neue Paare hinzufügen"
 
 msgid "Add Style Sheet"
 msgstr "Stilvorlage hinzufügen"
-
-msgid "Adobe Flash file"
-msgstr ""
 
 msgid "Alignment"
 msgstr "Ausrichtung"
@@ -131,6 +158,9 @@ msgstr ""
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "Bei der Antwortsverarbeitung trat ein unerwarteter Fehler auf."
 
+msgid "An unexpected error occurred during the CSV import. The system returned the following error: `%s`"
+msgstr "ein unerwarteter Fehler ist während des CSV Import aufgetreten. Das System meldet folgenden Fehler: `%s`"
+
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
 msgstr ""
 
@@ -162,8 +192,8 @@ msgstr "Verbundene Paare"
 msgid "at least"
 msgstr "mindestens"
 
-msgid "Audio Video Interleave"
-msgstr ""
+msgid "at least %s %s are required"
+msgstr "Mindestens %s und %s sind erforderlich"
 
 msgid "Autostart"
 msgstr "Autostart"
@@ -177,13 +207,10 @@ msgstr "Hintergrundfarbe"
 msgid "Base"
 msgstr ""
 
-msgid "Bitmap image"
-msgstr ""
-
-msgid "block"
+msgid "Block"
 msgstr "Block"
 
-msgid "Block"
+msgid "block"
 msgstr "Block"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -200,15 +227,6 @@ msgstr "Computer durchsuchen und die geeignete Datei auswählen."
 
 msgid "Browse..."
 msgstr "Durchsuchen..."
-
-msgid "C file"
-msgstr ""
-
-msgid "C++ file (.cpp)"
-msgstr ""
-
-msgid "Calc speadsheet (Staroffice)"
-msgstr ""
 
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -234,9 +252,6 @@ msgstr ""
 msgid "Cannot locate the file \"%s"
 msgstr ""
 
-msgid "Cascading Style Sheets"
-msgstr ""
-
 msgid "Center"
 msgstr ""
 
@@ -258,11 +273,11 @@ msgstr "Auswahl Interaktion"
 msgid "Choice Properties"
 msgstr "Auswahleigenschaften"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Auswahl"
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -297,19 +312,16 @@ msgstr "Farbauswahl"
 msgid "Common Interactions"
 msgstr ""
 
-msgid "Compressed tar file"
-msgstr ""
-
-msgid "Contraints"
+msgid "Constraints"
 msgstr "Einschränkungen"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Kontrolliert die Wiedergabe-Parameter (Auto-Start, Schleife) eines Videos oder einer Audio-Datei und berichtet über die Anzahl der Wiedergaben."
 
-msgid "Correct"
+msgid "correct"
 msgstr "Richtig"
 
-msgid "correct"
+msgid "Correct"
 msgstr "Richtig"
 
 msgid "Cosinus"
@@ -333,8 +345,23 @@ msgstr "Hot-Text erstellen"
 msgid "Create pair(s) from a series of choices."
 msgstr "Bilde Paare aus einer Reihe von Auswahlmöglichkeiten."
 
-msgid "CSV file"
-msgstr "CSV-Datei"
+msgid "CSV content + metadata"
+msgstr "CSV Inhalt + Metadaten"
+
+msgid "CSV import failed"
+msgstr "CSV Import fehlgeschlagen"
+
+msgid "CSV import failed: %s/%s line(s) are imported"
+msgstr "CSV Import fehlgeschlagen: %s/%s Zeile(n) ist(sind) importiert"
+
+msgid "CSV import failed: required columns are missing (%s)"
+msgstr "CSV Import fehlgeschlagen: die erforderlichen Spalten fehlen (%s)"
+
+msgid "CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))"
+msgstr "CSV Import teilweise erfolgreich : %s/%s Zeile(n) ist (sind) importiert (%s Warnung(en), %s Fehler)"
+
+msgid "CSV import successful: %s/%s line(s) are imported"
+msgstr "CSV Import erfolgreich: %s/%s Zeile(n) ist(sind) importiert"
 
 msgid "Current value:"
 msgstr "Gegenwärtiger Wert:"
@@ -347,9 +374,6 @@ msgstr ""
 
 msgid "Custom Response Processing Mode"
 msgstr "benutzerdefinierter Antwortsverarbeitungsmodus"
-
-msgid "Database file"
-msgstr ""
 
 msgid "default"
 msgstr "Standard"
@@ -411,9 +435,6 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
-msgid "Document templates (Staroffice)"
-msgstr ""
-
 msgid "Don\'t save"
 msgstr ""
 
@@ -422,6 +443,12 @@ msgstr "Fertig"
 
 msgid "Done"
 msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download sample csv file"
+msgstr "Download Muster CSV Datei"
 
 msgid "Download this stylesheet"
 msgstr "Dieses Stylesheet herunterladen"
@@ -495,9 +522,6 @@ msgstr "Beende Versuch"
 msgid "End Attempt Interaction"
 msgstr "Beende Versuchsinteraktion"
 
-msgid "Enhanced metafile"
-msgstr ""
-
 msgid "Enlarge font size"
 msgstr "Schriftgröße erhöhen"
 
@@ -521,6 +545,12 @@ msgstr ""
 
 msgid "Error to export item %s: %s"
 msgstr ""
+
+msgid "Error: %s doesn't contain the allowed values"
+msgstr "Fehler: %s enthält nicht die erlaubten Werte"
+
+msgid "Error: %s is empty, although it is mandatory."
+msgstr "Fehler: %s ist leer, obwohl es verpflichtend ist"
 
 msgid "Euler\'s constant"
 msgstr ""
@@ -591,12 +621,6 @@ msgstr "Datei-Upload Interaktion"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Fülle die Lücken in einem Bild durch eine Auswahl an Darstellungen."
 
-msgid "Flash video"
-msgstr "Flash-Video"
-
-msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
-
 msgid "Font family"
 msgstr "Schriftartfamilie"
 
@@ -618,12 +642,6 @@ msgstr "Lücken-Übereinstimmung"
 msgid "Gap Match Interaction"
 msgstr "Lücken-Übereinstimmungs-Interaktion"
 
-msgid "Geogebra data file"
-msgstr ""
-
-msgid "GIF image"
-msgstr "GIF Datei"
-
 msgid "Graphic Associate Interaction"
 msgstr "Grafische Zuordnungsinteraktion"
 
@@ -642,11 +660,11 @@ msgstr ""
 msgid "Guard for resource \"%s\"..."
 msgstr ""
 
-msgid "GZip Compressed Archive"
-msgstr ""
+msgid "Header `%s` is required"
+msgstr "Die Überschrift `%s` ist erforderlich"
 
-msgid "Header file with extensions"
-msgstr ""
+msgid "Header `%s` must be provided at least `%s` times"
+msgstr "Die Überschrift `%s` muss mindestens `%s` Mal vorhanden sein"
 
 msgid "Height"
 msgstr "Höhe"
@@ -678,16 +696,13 @@ msgstr "Wie die mathematischen Ausdrücke bearbeitet werden sollen"
 msgid "Human"
 msgstr ""
 
-msgid "Hypertext markup language"
-msgstr ""
-
 msgid "identical pair already exists"
 msgstr "Identische Paare existieren bereits"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "Bezeichner"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "Bezeichner"
 
 msgid "identifier already taken"
@@ -706,13 +721,16 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr ""
 
 msgid "Import"
-msgstr "Importieren"
+msgstr "Import"
 
 msgid "Import a QTI/APIP Content Package"
 msgstr ""
 
 msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
+
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr "Import des Iteminhalts und der Metadaten der CSV Datei. Einzig QCM Interaktionen werden unterstützt."
 
 msgid "Import QTI ITEM into \"%s"
 msgstr ""
@@ -759,11 +777,23 @@ msgstr "Interaktions-Eigenschaften"
 msgid "Interpretation"
 msgstr ""
 
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
+
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid response identifier"
 msgstr ""
 
 msgid "Invalid URL"
 msgstr ""
+
+msgid "invalid value for `%s`(%s), expected values are [%s]"
+msgstr "ungültiger Wert für `%s` (%s), die erwarteten Werte sind [%s]"
 
 msgid "Is this choice the correct response?"
 msgstr "Ist diese Auswahl die korrekte Antwort?"
@@ -783,13 +813,16 @@ msgstr "Element \"%s\" ist in keiner Sprache verfügbar"
 msgid "Item \"%s\" is ready to be exported"
 msgstr ""
 
+msgid "Item cannot be saved."
+msgstr ""
+
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Elementeigenschaften"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Elementeigenschaften"
 
 msgid "Item width"
@@ -798,12 +831,6 @@ msgstr "Elementbreite"
 #, tao-public
 msgid "Items"
 msgstr "Elemente"
-
-msgid "Javascript code"
-msgstr ""
-
-msgid "JPEG image"
-msgstr "JPEG-Bild"
 
 msgid "Label"
 msgstr "Beschriftung"
@@ -823,11 +850,11 @@ msgstr "Latex"
 msgid "leave empty"
 msgstr "frei lassen"
 
-msgid "left"
-msgstr "links"
-
 msgid "Left"
 msgstr "Links"
+
+msgid "left"
+msgstr "links"
 
 msgid "Left bracket"
 msgstr ""
@@ -837,6 +864,9 @@ msgstr "Länge"
 
 msgid "Level"
 msgstr ""
+
+msgid "line %s: %s"
+msgstr "Zeile  %s : %s"
 
 msgid "Lines"
 msgstr "Zeilen"
@@ -912,10 +942,10 @@ msgstr "Maximale Länge"
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maximale Anzahl der Wörter"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maximale Anzahl der Wörter"
 
 msgid "Max. number of matches"
@@ -942,6 +972,9 @@ msgstr "Pfadangabe Mediendatei oder YouTube-Video-Adresse"
 msgid "Media Interaction"
 msgstr "Medien-Interaktion"
 
+msgid "Metadata are not correct: %s"
+msgstr "Die Metadaten sind nicht korrekt: %s"
+
 msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
 msgstr ""
 
@@ -957,41 +990,11 @@ msgstr ""
 msgid "Metadata service successfully registered."
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Office Document Imaging"
-msgstr ""
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft PowerPoint"
-
-msgid "Microsoft Project file"
-msgstr ""
-
-msgid "Microsoft Visio file"
-msgstr ""
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
-
-msgid "Microsoft Works file"
-msgstr ""
-
-msgid "Microsoft XPS file"
-msgstr ""
-
-msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
-
 msgid "MIME-type"
 msgstr "MIME-Typ"
 
 msgid "Min"
 msgstr "Minimum"
-
-msgid "Mind mapping software application (free mind open source)"
-msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Mindestpunktzahl für diese Interaktion."
@@ -1007,18 +1010,6 @@ msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "Modale Feedbacks"
-
-msgid "MP4 video"
-msgstr "MP4-Video"
-
-msgid "MPEG audio"
-msgstr "MPEG-Audio"
-
-msgid "MPEG video"
-msgstr "MPEG-Video"
-
-msgid "MPEG-4 audio file"
-msgstr ""
 
 msgid "Multiply"
 msgstr ""
@@ -1048,14 +1039,17 @@ msgstr "Aus dem vorgegebenen IMS QTI Paket konnten keine Einheiten importiert we
 msgid "No preview available"
 msgstr ""
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "Keinen Wert zugewiesen"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Keine"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Noch keine definiert."
@@ -1079,21 +1073,6 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
-msgid "OpenDocument Database"
-msgstr ""
-
-msgid "OpenDocument Presentation"
-msgstr ""
-
-msgid "OpenDocument spreadsheet document"
-msgstr ""
-
-msgid "OpenDocument text document"
-msgstr ""
-
-msgid "OpenDocument Text Template"
-msgstr ""
-
 msgid "Order"
 msgstr "Reihenfolge"
 
@@ -1112,17 +1091,11 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "Paar-Punkte"
 
-msgid "Pascal file (.pas)"
-msgstr ""
-
 msgid "Pattern"
 msgstr "Muster"
 
 msgid "Pause"
 msgstr "Pause"
-
-msgid "PDF file"
-msgstr "PDF-Datei"
 
 msgid "Pi"
 msgstr ""
@@ -1198,9 +1171,6 @@ msgstr "Bitte geben Sie die korrekte Antwort ein."
 msgid "Please type the correct response in the box below."
 msgstr "Bitte tragen Sie die korrekte Antwort in das unten stehende Feld ein."
 
-msgid "PNG image"
-msgstr "PNG-Bild"
-
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr ""
 
@@ -1273,15 +1243,6 @@ msgstr ""
 msgid "Question"
 msgstr "Frage"
 
-msgid "Quicktime video"
-msgstr "QuickTime-Video"
-
-msgid "RAR archive"
-msgstr ""
-
-msgid "RealMedia file"
-msgstr ""
-
 msgid "Recommendations"
 msgstr "Empfehlungen"
 
@@ -1297,11 +1258,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Entfernen"
-
 msgid "remove"
 msgstr "entfernen"
+
+msgid "Remove"
+msgstr "Entfernen"
 
 msgid "Remove custom background color"
 msgstr "Benutzerdefinierte Hintergrundfarbe entfernen"
@@ -1373,9 +1334,6 @@ msgid "Rich text"
 msgstr ""
 
 msgid "Rich text + math"
-msgstr ""
-
-msgid "Rich Text Format file"
 msgstr ""
 
 msgid "Right"
@@ -1507,9 +1465,6 @@ msgstr "Form-Position"
 msgid "Shuffle choices"
 msgstr "Antwortmöglichkeiten mischen"
 
-msgid "Sibelius music notation"
-msgstr ""
-
 msgid "Sinus"
 msgstr ""
 
@@ -1534,9 +1489,6 @@ msgstr ""
 msgid "Step"
 msgstr "Schritt"
 
-msgid "Storing digital video data on a computer game"
-msgstr ""
-
 msgid "Style Editor"
 msgstr "Style Editor"
 
@@ -1555,25 +1507,13 @@ msgstr "\"%s\" wurde erfolgreich zusammengestellt"
 msgid "Successfully created item \"%s"
 msgstr ""
 
-msgid "SVG image"
-msgstr "SVG-Bild"
-
 msgid "Table headings"
 msgstr "Tabellenüberschriften"
-
-msgid "Tagged image file"
-msgstr ""
 
 msgid "TAO default styles"
 msgstr "TAO Standard-Stil"
 
-msgid "Tape Archive (TAR)"
-msgstr ""
-
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr ""
-
-msgid "TeX file"
 msgstr ""
 
 msgid "Text Block"
@@ -1587,9 +1527,6 @@ msgstr "Textblock-Eigenschaften"
 
 msgid "Text color"
 msgstr "Textfarbe"
-
-msgid "Text document file format (Staroffice)"
-msgstr ""
 
 msgid "Text Entry"
 msgstr "Texteintrag"
@@ -1791,8 +1728,8 @@ msgstr "Es gibt einen unvollständigen Bestandteil in ihrem Element: Darauf klic
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Es gab ein Problem beim Download des CSS, bitte erneut versuchen."
 
-msgid "this identifier is already in use"
-msgstr "Dieser Bezeichner existiert bereits"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr ""
@@ -1805,9 +1742,6 @@ msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Dieses Stylesheet wurde auf dem Server nicht gefunden. Diese Referenz sollte gelöscht werden."
-
-msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
-msgstr ""
 
 msgid "Time dependent"
 msgstr "Zeitabhängig"
@@ -1854,9 +1788,6 @@ msgstr "Rückgängig"
 msgid "undo"
 msgstr "Rückgängig"
 
-msgid "UNIX Compressed Archive File"
-msgstr ""
-
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
@@ -1881,26 +1812,11 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
-msgid "WAV audio"
-msgstr "WAV-Audio"
-
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Wir nutzen die patternMask um dies zu tun und dem mit dem IMS Standard konform zu sein"
 
 msgid "Width"
 msgstr "Breite"
-
-msgid "Windows help file"
-msgstr ""
-
-msgid "Windows Media audio"
-msgstr "Windows-Media-Audio"
-
-msgid "Windows Media file (metafile)"
-msgstr ""
-
-msgid "Windows Media video"
-msgstr "Windows-Media-Video"
 
 msgid "words"
 msgstr "Worte"
@@ -1908,13 +1824,7 @@ msgstr "Worte"
 msgid "Would you like to replace the alt text"
 msgstr "Möchten Sie den Alternativ-Text ersetzen?"
 
-msgid "Write Document"
-msgstr ""
-
 msgid "WYSIWYG editor"
-msgstr ""
-
-msgid "XML file"
 msgstr ""
 
 msgid "Yes"
@@ -1985,7 +1895,4 @@ msgstr "Sie müssen dafür"
 
 msgid "Your item has been saved"
 msgstr "Ihr Element wurde gespeichert"
-
-msgid "ZIP archive"
-msgstr "ZIP-Archiv"
 

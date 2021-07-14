@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,15 +16,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Report;
+namespace oat\taoQtiItem\model\search\Tokenizer\Filter;
 
-use oat\oatbox\reporting\Report;
-
-interface ReportFormatter
+class NotJsonFilter implements TokenFilterInterface
 {
-    public function format(array $report): Report;
+    public function filter(string $data): string
+    {
+        $data = trim($data);
+        if (in_array($data[0] ?? '', ['{', '['], true) && null !== json_decode($data)) {
+            return '';
+        }
+
+        return $data;
+    }
 }

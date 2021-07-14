@@ -31,10 +31,10 @@ use oat\oatbox\reporting\ReportInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\Metadata\MetadataResolver;
 use oat\taoQtiItem\model\import\Parser\CsvParser;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidMetadataException;
+use oat\taoQtiItem\model\import\Parser\CsvSeparatorTrait;
 use oat\taoQtiItem\model\import\Parser\ParserInterface;
 use oat\taoQtiItem\model\import\Template\ItemsQtiTemplateRender;
+use oat\taoQtiItem\model\import\Validator\ErrorValidationException;
 use oat\taoQtiItem\model\qti\ImportService;
 use tao_models_classes_dataBinding_GenerisFormDataBinder;
 use tao_models_classes_dataBinding_GenerisFormDataBindingException;
@@ -44,9 +44,8 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class CsvItemImportHandler extends ConfigurableService
 {
-    /**
-     * @throws InvalidImportException
-     */
+    use CsvSeparatorTrait;
+
     public function import(
         File $uploadedFile,
         TemplateInterface $template,
@@ -54,61 +53,70 @@ class CsvItemImportHandler extends ConfigurableService
     ): ItemImportResult {
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
+        $logger = $this->getLogger();
+        $logger->debug('Tabular import: CSV parsing started');
+
         $itemValidatorResults = $this->getParser()->parseFile($uploadedFile, $template);
+
+        $logger->debug('Tabular import: CSV parsing finished');
 
         $successReportsImport = 0;
         $importService = $this->getItemImportService();
         $templateProcessor = $this->getTemplateProcessor();
-        $errorReportsImport = count($itemValidatorResults->getErrorReports());
         $xmlItems = $templateProcessor->processResultSet($itemValidatorResults, $template);
 
         foreach ($xmlItems as $lineNumber => $xmlItem) {
             try {
                 $metaData = $this->getMetadataResolver()->resolve($class, $xmlItem->getMetadata());
 
-                $itemImportReport  = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
+                $itemImportReport = $importService->importQTIFile($xmlItem->getItemXML(), $class, true);
+
+                if (Report::TYPE_SUCCESS !== $itemImportReport->getType()) {
+                    $itemValidatorResults->addException(
+                        $lineNumber,
+                        new ErrorValidationException($itemImportReport->getMessage())
+                    );
+
+                    continue;
+                }
+
                 $this->importMetadata($metaData, $itemImportReport);
 
-                if (Report::TYPE_SUCCESS === $itemImportReport->getType()) {
-                    $itemValidatorResults->setFirstItem($itemImportReport->getData());
+                $itemValidatorResults->setFirstItem($itemImportReport->getData());
 
-                    $successReportsImport++;
-                } else {
-                    $error = new InvalidImportException();
-                    $error->addError($lineNumber, $itemImportReport->getMessage());
+                $logger->debug(sprintf('Tabular import: successful import of item from line %s', $lineNumber));
 
-                    $itemValidatorResults->addErrorReport($lineNumber, $error);
-                    $errorReportsImport++;
-                }
-                unset($itemImportReport);
-            } catch (InvalidMetadataException $exception) {
-                $error = new InvalidImportException();
-                $error->addError($lineNumber, $exception->getMessage());
+                $successReportsImport++;
+            } catch (Throwable $exception) {
                 if (isset($itemImportReport)) {
                     $this->rollbackItem($itemImportReport, $lineNumber);
                 }
 
-                $itemValidatorResults->addErrorReport($lineNumber, $error);
-                $errorReportsImport++;
-            } catch (Throwable $exception) {
-                $this->getLogger()->warning(
-                    sprintf('Tabular import: import failure %s', $exception->getMessage())
+                $logger->error(
+                    sprintf(
+                        'Tabular import: failed import of item from line %s due to %s',
+                        $lineNumber,
+                        $exception->getMessage()
+                    )
                 );
 
-                if (isset($itemImportReport)){
-                    $this->rollbackItem($itemImportReport, $lineNumber);
+                $itemValidatorResults->addException($lineNumber, $exception);
+            } finally {
+                if (isset($itemImportReport)) {
+                    unset($itemImportReport);
                 }
-
-                $errorReportsImport++;
-
-                $error = new InvalidImportException();
-                $error->addError($lineNumber, $exception->getMessage(), '');
-
-                $itemValidatorResults->addErrorReport($lineNumber, $error);
             }
         }
 
         helpers_TimeOutHelper::reset();
+
+        $logger->debug(
+            sprintf(
+                'Tabular import: successful import %s items from %s',
+                $successReportsImport,
+                count($xmlItems)
+            )
+        );
 
         $itemValidatorResults->setTotalSuccessfulImport($successReportsImport);
 
@@ -117,7 +125,11 @@ class CsvItemImportHandler extends ConfigurableService
 
     private function getParser(): ParserInterface
     {
-        return $this->getServiceLocator()->get(CsvParser::class);
+        /** @var CsvParser $parser */
+        $parser = $this->getServiceLocator()->get(CsvParser::class);
+        $parser->setCsvSeparator($this->getCsvSeparator());
+
+        return $parser;
     }
 
     private function getItemImportService(): ImportService
@@ -145,8 +157,8 @@ class CsvItemImportHandler extends ConfigurableService
      */
     private function importMetadata(array $metaData, ReportInterface $itemImportReport): void
     {
-        $itemRdf  = $itemImportReport->getData();
-        $binder   = new tao_models_classes_dataBinding_GenerisFormDataBinder($itemRdf);
+        $itemRdf = $itemImportReport->getData();
+        $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($itemRdf);
         $binder->bind($metaData);
     }
 

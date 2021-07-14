@@ -1,7 +1,6 @@
 <?php
 
-/*
- *
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,36 +16,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ *
  */
-
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Parser\Exception;
+namespace oat\taoQtiItem\test\unit\model;
 
-class WarningImportException extends InvalidImportException
+use oat\generis\test\TestCase;
+use oat\taoQtiItem\model\search\Tokenizer\Filter\NotBase64ContentFilter;
+
+class NotBase64ContentFilterTest extends TestCase
 {
-    private $totalWarning = 0;
-    protected const LEVEL = 2;
-
-    public function addWarning(int $line, string $message, string $field = null): self
+    public function testFilter()
     {
-        $this->totalWarning++;
-
-        return $this->addMessage($line, $message, $this->getErrorLevel(), $field);
-    }
-
-    public function getWarnings(): array
-    {
-        return $this->messages[$this->getErrorLevel()];
-    }
-
-    public function getTotalWarnings(): int
-    {
-        return $this->totalWarning;
-    }
-
-    protected function getErrorLevel(): int
-    {
-        return static::LEVEL;
+        $subject = new NotBase64ContentFilter();
+        $this->assertSame('text', $subject->filter('text'));
+        $this->assertSame('', $subject->filter('data:audio/mpeg;base64,SUQzBAAAAA'));
+        $this->assertSame('[{"x1":"Test 1","x":"', $subject->filter('[{"x1":"Test 1","x":"data:audio/mpeg;base64,SUQzBAAAAABKElRQRTEAAAAHAAADU2hpcHMAVElUMgAAABMAAANBc'));
     }
 }

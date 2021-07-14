@@ -20,29 +20,8 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Report;
+namespace oat\taoQtiItem\model\import\Validator;
 
-use Exception;
-use oat\oatbox\reporting\Report;
-
-class WarningReportFormatter extends AbstractReportFormatter
+class WarningValidationException extends AbstractValidationException
 {
-
-    /**
-     * @param  Exception[]  $report
-     */
-    public function format(array $report): Report
-    {
-        $reportObject = Report::createWarning(
-            __(
-                '%s line(s) are imported with warnings',
-                count($report)
-            )
-        );
-        foreach ($this->buildLineMessages($report) as $message) {
-            $reportObject->add(Report::createWarning($message));
-        }
-        return $reportObject;
-    }
-
 }

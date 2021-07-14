@@ -1,7 +1,6 @@
 <?php
 
 /*
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,38 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Parser\Exception;
+namespace oat\taoQtiItem\model\import\Parser;
 
-class InvalidImportException extends AbstractImportException
+trait CsvSeparatorTrait
 {
-    protected const LEVEL = 1;
+    /** @var string */
+    private $csvSeparator = ',';
 
-    private $totalErrors = 0;
-
-    public function addError(int $line, string $message, string $field = null): self
+    public function getCsvSeparator(): string
     {
-        $this->totalErrors++;
-
-        return $this->addMessage($line, $message, $this->getErrorLevel(), $field);
+        return $this->csvSeparator;
     }
 
-    public function getTotalErrors(): int
+    public function setCsvSeparator(string $csvSeparator): self
     {
-        return $this->totalErrors;
-    }
+        $this->csvSeparator = $csvSeparator;
 
-    protected function getErrorLevel(): int
-    {
-        return static::LEVEL;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->messages[$this->getErrorLevel()];
+        return $this;
     }
 }

@@ -39,7 +39,7 @@ class OntologyExtractorRunner
     public static function run(core_kernel_classes_Resource $item, core_kernel_classes_Property $classProperty)
     {
         $itemProperty = $item->getProperty($classProperty->getUri());
-        $labelItemProperty = $itemProperty->getLabel();
+        $labelItemProperty = str_replace('"', '""', $itemProperty->getLabel());
 
         $extractor = new OntologyExtractor();
         $extractor->addColumn($labelItemProperty, ['property' => $classProperty->getUri()]);

@@ -1,7 +1,6 @@
 <?php
 
-/*
- *
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -21,22 +20,24 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\import\Parser\Exception;
+namespace oat\taoQtiItem\test\unit\model\import\Factory;
 
-use Exception;
+use oat\generis\test\TestCase;
+use oat\taoQtiItem\model\import\Factory\CsvTemplateSampleLineFactory;
+use oat\taoQtiItem\model\import\TemplateInterface;
 
-class InvalidMetadataException extends Exception
+class CsvTemplateSampleLineFactoryTest extends TestCase
 {
-    public function __construct(array $errorsByAlias)
+    public function setUp(): void
     {
-        $messages = [];
-
-        foreach ($errorsByAlias as $alias => $message) {
-            $messages[] = '"' . $alias . '" ' . $message;
-        }
-
-        $message = __('Metadata are not correct: %s', implode('. ', $messages));
-
-        parent::__construct($message);
+        $this->subject = new CsvTemplateSampleLineFactory();        
+    }
+    
+    public function testfindMetadataByClassUri(): void
+    {        
+        $template = $this->createMock(TemplateInterface::class);
+        $sampleLines = $this->subject->createMultiple($template);
+        
+        $this->assertCount(3, $sampleLines);
     }
 }

@@ -133,6 +133,13 @@ define([
                 delete templates.MAP_RESPONSE_POINT;
         }
 
+        switch (interaction.typeIdentifier) {
+            case 'liquidsInteraction':
+                delete templates.MAP_RESPONSE_POINT;
+                delete templates.MAP_RESPONSE;
+                break;
+        }
+
         if (rp.processingType === 'templateDriven' && !allowCustomTemplate) {
             delete templates.CUSTOM;
         } else {
@@ -276,7 +283,6 @@ define([
                     value: _.parseInt(response.getMappingAttribute('upperBound')) || 0,
                     helpMessage: __('Maximal score for this interaction.')
                 },
-                lowerThreshold: 0, // the same as unchecked
                 upperThreshold: Number.MAX_SAFE_INTEGER,
                 syncValues: true
             });

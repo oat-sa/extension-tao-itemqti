@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-30T17:14:59\n"
+"Project-Id-Version: TAO 3.4.0-sprint154\n"
+"PO-Revision-Date: 2021-05-27T13:49:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -35,9 +35,6 @@ msgid "-- Any kind of file --"
 msgstr "-- Hvaða skráartegund sem er --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
-msgstr ""
-
-msgid "7-zip archive"
 msgstr ""
 
 msgid "A choice must be selected"
@@ -82,9 +79,6 @@ msgstr "Bæta við nýjum pörum"
 
 msgid "Add Style Sheet"
 msgstr "Bæta við hönnunarlýsingu"
-
-msgid "Adobe Flash file"
-msgstr ""
 
 msgid "Alignment"
 msgstr "Jöfnun"
@@ -162,9 +156,6 @@ msgstr "venslapör"
 msgid "at least"
 msgstr "að minnsta kosti"
 
-msgid "Audio Video Interleave"
-msgstr ""
-
 msgid "Autostart"
 msgstr "Sjálfræsing"
 
@@ -175,9 +166,6 @@ msgid "Background color"
 msgstr "Bakgrunnslitur"
 
 msgid "Base"
-msgstr ""
-
-msgid "Bitmap image"
 msgstr ""
 
 msgid "block"
@@ -201,15 +189,6 @@ msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
 msgid "Browse..."
 msgstr "Velja..."
 
-msgid "C file"
-msgstr ""
-
-msgid "C++ file (.cpp)"
-msgstr ""
-
-msgid "Calc speadsheet (Staroffice)"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -232,9 +211,6 @@ msgid "cannot load QTI XML"
 msgstr ""
 
 msgid "Cannot locate the file \"%s"
-msgstr ""
-
-msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Center"
@@ -297,20 +273,17 @@ msgstr "Litaval"
 msgid "Common Interactions"
 msgstr ""
 
-msgid "Compressed tar file"
-msgstr ""
-
-msgid "Contraints"
+msgid "Constraints"
 msgstr "Höft"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "Correct"
-msgstr "Rétt"
-
 msgid "correct"
 msgstr "rétt"
+
+msgid "Correct"
+msgstr "Rétt"
 
 msgid "Cosinus"
 msgstr ""
@@ -333,9 +306,6 @@ msgstr "Búa til hottext"
 msgid "Create pair(s) from a series of choices."
 msgstr "Búa til par/pör úr syrpum af valkostum."
 
-msgid "CSV file"
-msgstr "CSV skrá"
-
 msgid "Current value:"
 msgstr "Núverandi gildi:"
 
@@ -348,13 +318,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
 
-msgid "Database file"
-msgstr ""
-
-msgid "default"
+msgid "Default"
 msgstr "Sjálfgefið"
 
-msgid "Default"
+msgid "default"
 msgstr "Sjálfgefið"
 
 msgid "Define correct response"
@@ -381,11 +348,11 @@ msgstr "Skilgreind breidd"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
 
-msgid "delete"
-msgstr "eyða"
-
 msgid "Delete"
 msgstr ""
+
+msgid "delete"
+msgstr "eyða"
 
 msgid "Delete else statement"
 msgstr "Eyða annars yrðingu"
@@ -411,9 +378,6 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
-msgid "Document templates (Staroffice)"
-msgstr ""
-
 msgid "Don\'t save"
 msgstr ""
 
@@ -421,6 +385,9 @@ msgid "done"
 msgstr "lokið"
 
 msgid "Done"
+msgstr ""
+
+msgid "Download"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -494,9 +461,6 @@ msgstr "Hætta tilraun"
 
 msgid "End Attempt Interaction"
 msgstr "Hætta samverkun tilraunar"
-
-msgid "Enhanced metafile"
-msgstr ""
 
 msgid "Enlarge font size"
 msgstr "Stækka letur"
@@ -591,12 +555,6 @@ msgstr "Skráarflutnings Samverkun"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Fylltu í eyðurnar á myndinni með valkvæðum myndum."
 
-msgid "Flash video"
-msgstr "Flassmyndskeið"
-
-msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
-
 msgid "Font family"
 msgstr "Leturfjölskylda"
 
@@ -618,12 +576,6 @@ msgstr "Eyðutenging"
 msgid "Gap Match Interaction"
 msgstr "Eyðutenging með Samverkun"
 
-msgid "Geogebra data file"
-msgstr ""
-
-msgid "GIF image"
-msgstr "GIF mynd"
-
 msgid "Graphic Associate Interaction"
 msgstr "Grafísk venslasamverkun"
 
@@ -640,12 +592,6 @@ msgid "Greater than or equal"
 msgstr ""
 
 msgid "Guard for resource \"%s\"..."
-msgstr ""
-
-msgid "GZip Compressed Archive"
-msgstr ""
-
-msgid "Header file with extensions"
 msgstr ""
 
 msgid "Height"
@@ -678,17 +624,14 @@ msgstr "Hvernig á að breyta stærðfræðitákninu."
 msgid "Human"
 msgstr ""
 
-msgid "Hypertext markup language"
-msgstr ""
-
 msgid "identical pair already exists"
 msgstr "eins par er þegar til"
 
-msgid "Identifier"
-msgstr "Aðgreinir"
-
 msgid "identifier"
 msgstr "aðgreinir"
+
+msgid "Identifier"
+msgstr "Aðgreinir"
 
 msgid "identifier already taken"
 msgstr ""
@@ -759,7 +702,16 @@ msgstr "Eiginleikar Gagnvirkni"
 msgid "Interpretation"
 msgstr ""
 
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
+
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid response identifier"
 msgstr ""
 
 msgid "Invalid URL"
@@ -783,14 +735,17 @@ msgstr ""
 msgid "Item \"%s\" is ready to be exported"
 msgstr ""
 
+msgid "Item cannot be saved."
+msgstr ""
+
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item Properties"
-msgstr "Eiginleikar Atriðis"
-
 msgid "Item properties"
 msgstr "Eiginleikar atriðis"
+
+msgid "Item Properties"
+msgstr "Eiginleikar Atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -798,12 +753,6 @@ msgstr "Breidd atriðis"
 #, tao-public
 msgid "Items"
 msgstr "Atriði"
-
-msgid "Javascript code"
-msgstr ""
-
-msgid "JPEG image"
-msgstr "JPEG mynd"
 
 msgid "Label"
 msgstr "Merki"
@@ -814,11 +763,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "LaTeX"
-msgstr ""
-
 msgid "Latex"
 msgstr "Latex"
+
+msgid "LaTeX"
+msgstr ""
 
 msgid "leave empty"
 msgstr "hafa autt"
@@ -903,20 +852,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max length"
-msgstr "Hámarks lengd"
-
 msgid "Max Length"
 msgstr "Hámarks Lengd"
+
+msgid "Max length"
+msgstr "Hámarks lengd"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
-msgstr "Hámarksfjöldi orða"
-
 msgid "Max Words"
 msgstr "Hámarksfjöldi Orða"
+
+msgid "Max words"
+msgstr "Hámarksfjöldi orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -957,41 +906,11 @@ msgstr ""
 msgid "Metadata service successfully registered."
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Office Document Imaging"
-msgstr ""
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft Powerpoint"
-
-msgid "Microsoft Project file"
-msgstr ""
-
-msgid "Microsoft Visio file"
-msgstr ""
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
-
-msgid "Microsoft Works file"
-msgstr ""
-
-msgid "Microsoft XPS file"
-msgstr ""
-
-msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
-
 msgid "MIME-type"
 msgstr "MIME tegund"
 
 msgid "Min"
 msgstr "Lágmark"
-
-msgid "Mind mapping software application (free mind open source)"
-msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Lágmarks skor fyrir þessa samverkun."
@@ -1007,18 +926,6 @@ msgstr ""
 
 msgid "Modal Feedbacks"
 msgstr "Formsendurgjafir"
-
-msgid "MP4 video"
-msgstr "MP4 myndskeið"
-
-msgid "MPEG audio"
-msgstr "MPEG hljóðskrá"
-
-msgid "MPEG video"
-msgstr "MPEG myndskeið"
-
-msgid "MPEG-4 audio file"
-msgstr ""
 
 msgid "Multiply"
 msgstr ""
@@ -1048,14 +955,17 @@ msgstr "Ekki var hægt að flytja nein atriði úr gefnum IMS QTI pakka."
 msgid "No preview available"
 msgstr ""
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ekkert"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1079,21 +989,6 @@ msgid "One or more QTI components are not supported by the system. The system re
 ""
 msgstr ""
 
-msgid "OpenDocument Database"
-msgstr ""
-
-msgid "OpenDocument Presentation"
-msgstr ""
-
-msgid "OpenDocument spreadsheet document"
-msgstr ""
-
-msgid "OpenDocument text document"
-msgstr ""
-
-msgid "OpenDocument Text Template"
-msgstr ""
-
 msgid "Order"
 msgstr "Röð"
 
@@ -1112,17 +1007,11 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "Paraskorun"
 
-msgid "Pascal file (.pas)"
-msgstr ""
-
 msgid "Pattern"
 msgstr "Mynstur"
 
 msgid "Pause"
 msgstr "Hlé"
-
-msgid "PDF file"
-msgstr "PDF skrá"
 
 msgid "Pi"
 msgstr ""
@@ -1197,9 +1086,6 @@ msgstr "Skrifaðu rétt svar fyrir neðan."
 msgid "Please type the correct response in the box below."
 msgstr "Ritaðu rétt svar í reitinn fyrir neðan."
 
-msgid "PNG image"
-msgstr "PNG mynd"
-
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr ""
 
@@ -1272,15 +1158,6 @@ msgstr ""
 msgid "Question"
 msgstr "Spurning"
 
-msgid "Quicktime video"
-msgstr "Quicktime myndskeið"
-
-msgid "RAR archive"
-msgstr ""
-
-msgid "RealMedia file"
-msgstr ""
-
 msgid "Recommendations"
 msgstr "Ráðleggingar"
 
@@ -1296,11 +1173,11 @@ msgstr ""
 msgid "Register method expects $key and $name parameters."
 msgstr ""
 
-msgid "Remove"
-msgstr "Fjarlægja"
-
 msgid "remove"
 msgstr "fjarlægja"
+
+msgid "Remove"
+msgstr "Fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1374,14 +1251,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Rich Text Format file"
-msgstr ""
+msgid "right"
+msgstr "hægri"
 
 msgid "Right"
 msgstr ""
-
-msgid "right"
-msgstr "hægri"
 
 msgid "Right bracket"
 msgstr ""
@@ -1506,9 +1380,6 @@ msgstr "Staðsetning forms"
 msgid "Shuffle choices"
 msgstr "Rugla röð valkosta"
 
-msgid "Sibelius music notation"
-msgstr ""
-
 msgid "Sinus"
 msgstr ""
 
@@ -1533,9 +1404,6 @@ msgstr ""
 msgid "Step"
 msgstr "Þrep"
 
-msgid "Storing digital video data on a computer game"
-msgstr ""
-
 msgid "Style Editor"
 msgstr "Háttarritill"
 
@@ -1554,25 +1422,13 @@ msgstr ""
 msgid "Successfully created item \"%s"
 msgstr ""
 
-msgid "SVG image"
-msgstr "SVG mynd"
-
 msgid "Table headings"
 msgstr "Fyrirsögn töflu"
-
-msgid "Tagged image file"
-msgstr ""
 
 msgid "TAO default styles"
 msgstr "TAO sjálfgefnir hættir"
 
-msgid "Tape Archive (TAR)"
-msgstr ""
-
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr ""
-
-msgid "TeX file"
 msgstr ""
 
 msgid "Text Block"
@@ -1586,9 +1442,6 @@ msgstr "Eigindir Textablokkar"
 
 msgid "Text color"
 msgstr "Textalitur"
-
-msgid "Text document file format (Staroffice)"
-msgstr ""
 
 msgid "Text Entry"
 msgstr "Textafærsla"
@@ -1789,8 +1642,8 @@ msgstr "Eitthvað vantar í atriðið þitt: smelltu á það til að ljúka vi�
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Vandamál kom upp við að hlaða niður CSS þínu, reyndu aftur."
 
-msgid "this identifier is already in use"
-msgstr "þetta heiti er þegar í notkun"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr ""
@@ -1803,9 +1656,6 @@ msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Háttarblaðið hefur ekki fundist á þjóninum, þú ættir að eyða þessari tilvísun"
-
-msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
-msgstr ""
 
 msgid "Time dependent"
 msgstr "Tímabundið"
@@ -1852,9 +1702,6 @@ msgstr "Afturkalla"
 msgid "undo"
 msgstr "afturkalla"
 
-msgid "UNIX Compressed Archive File"
-msgstr ""
-
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
@@ -1879,26 +1726,11 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
-msgid "WAV audio"
-msgstr "WAV hljóðskrá"
-
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Við notum patternMask til að gera þetta, svo að það sé í samræmi við IMS staðalinn"
 
 msgid "Width"
 msgstr "Breidd"
-
-msgid "Windows help file"
-msgstr ""
-
-msgid "Windows Media audio"
-msgstr "Windows Media hljóðskrá"
-
-msgid "Windows Media file (metafile)"
-msgstr ""
-
-msgid "Windows Media video"
-msgstr "Windows Media myndskeið"
 
 msgid "words"
 msgstr "orð"
@@ -1906,13 +1738,7 @@ msgstr "orð"
 msgid "Would you like to replace the alt text"
 msgstr "Viltu skipta út breyttum texta"
 
-msgid "Write Document"
-msgstr ""
-
 msgid "WYSIWYG editor"
-msgstr ""
-
-msgid "XML file"
 msgstr ""
 
 msgid "Yes"
@@ -1983,7 +1809,4 @@ msgstr "Þú þarft að taka"
 
 msgid "Your item has been saved"
 msgstr "Atriðið  þitt hefur verið vistað"
-
-msgid "ZIP archive"
-msgstr "ZIP skráasafn"
 

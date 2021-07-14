@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\import\Validator;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\import\TemplateInterface;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 
@@ -33,7 +34,10 @@ class LineValidatorTest extends TestCase
 
     public function setUp(): void
     {
+        $loggerMock = $this->createMock(LoggerService::class);
+
         $this->subject = new LineValidator();
+        $this->subject->setLogger($loggerMock);
     }
 
     public function testValidateSuccessfully(): void

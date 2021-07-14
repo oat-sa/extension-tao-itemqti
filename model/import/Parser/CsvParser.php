@@ -25,83 +25,96 @@ namespace oat\taoQtiItem\model\import\Parser;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\ItemImportResult;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidCsvImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\InvalidImportException;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
 use oat\taoQtiItem\model\import\Validator\HeaderValidator;
 use oat\taoQtiItem\model\import\Validator\LineValidator;
 use oat\taoQtiItem\model\import\Validator\ValidatorInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\WarningValidationException;
+use Throwable;
 
 class CsvParser extends ConfigurableService implements ParserInterface
 {
+    use CsvSeparatorTrait;
+
     /**
-     * @throws InvalidImportException
+     * @inheritDoc
      */
     public function parseFile(File $file, TemplateInterface $template): ItemImportResult
     {
+        $results = new ItemImportResult();
+        $logger = $this->getLogger();
+        $lineValidator = $this->getLineValidator();
+        $csvLineConverter = $this->getCsvLineConverter();
+        $currentLineNumber = 0;
+
         $lines = explode(PHP_EOL, $file->readPsrStream()->getContents());
         $header = $this->convertCsvLineToArray($lines[0]);
         $header = $this->trimLine($header);
 
-        $this->getHeaderValidator()->validate($header, $template);
+        try {
+            $this->getHeaderValidator()->validate($header, $template);
+        } catch (Throwable $exception) {
+            $logger->warning(
+                sprintf(
+                    'Tabular import: Unexpected error on line %s: %s',
+                    1,
+                    $exception->getMessage()
+                )
+            );
+
+            return $results->addException(1, $exception);
+        }
 
         array_shift($lines);
 
-        $items = [];
-        $validationReport = [];
-        $errorsReport = [];
-        $currentLineNumber = 0;
-        $logger = $this->getLogger();
-        $lineValidator = $this->getLineValidator();
-        $csvLineConverter = $this->getCsvLineConverter();
-
         foreach (array_filter($lines) as $lineNumber => $line) {
-            $currentLineNumber = $lineNumber + 1;
+            $currentLineNumber = $lineNumber + 2;
+            $aggregatedException = null;
+
             $parsedLine = $this->trimLine($this->convertCsvLineToArray($line));
             $headedLine = array_combine($header, $parsedLine);
 
             try {
-                $logger->debug(sprintf('Tabular import: line %s validation started', $lineNumber));
-
                 $lineValidator->validate($headedLine, $template);
+            } catch (AggregatedValidationException $aggregatedException) {
+                $results->addException($currentLineNumber, $aggregatedException);
 
-                $logger->debug(sprintf('Tabular import: line %s validation finished', $lineNumber));
-            } catch (RecoverableLineValidationException $exception) {
-                if ($exception->getTotalErrors()) {
-                    $errorsReport[$currentLineNumber] = $exception;
+                if ($aggregatedException->hasErrors()) {
                     continue;
                 }
+            } catch (Throwable $exception) {
+                $results->addException($currentLineNumber, $exception);
 
-                $validationReport[$currentLineNumber] = $exception;
-            } catch (InvalidImportException | InvalidCsvImportException $exception) {
-                $errorsReport[$currentLineNumber] = $exception;
-                continue;
-            }
-
-            $logger->debug(sprintf('Tabular import: line %s transformation started', $lineNumber));
-
-            $item = $csvLineConverter->convert($headedLine, $template, $validationReport[$currentLineNumber] ?? null);
-
-            if ($item->isNoneResponse()) {
-                $warning = new RecoverableLineValidationException();
-                $warning->addWarning(
-                    $lineNumber,
-                    __(
-                        'A value should be provided for at least one of the columns: %s',
-                        'choice_[1-99]_score, correct_answer'
+                $logger->error(
+                    sprintf(
+                        'Tabular import: Unexpected error on line %s: %s',
+                        $currentLineNumber,
+                        $exception->getMessage()
                     )
                 );
-
-                $validationReport[$currentLineNumber] = $warning;
             }
 
-            $items[$currentLineNumber] = $item;
+            $item = $csvLineConverter->convert($headedLine, $template, $aggregatedException);
 
-            $logger->debug(sprintf('Tabular import: line %s transformation finished', $lineNumber));
+            if ($item->isNoneResponse()) {
+                $results->addException(
+                    $currentLineNumber,
+                    new WarningValidationException(
+                        'A value should be provided for at least one of the columns: %s',
+                        [
+                            'choice_[1-99]_score, correct_answer',
+                        ]
+                    )
+                );
+            }
+
+            $results->addItem($currentLineNumber, $item);
         }
 
-        return new ItemImportResult($items, $validationReport, $errorsReport, $currentLineNumber);
+        $results->setTotalScannedItems(max($currentLineNumber - 1, 0));
+
+        return $results;
     }
 
     private function trimLine(array $line): array
@@ -117,7 +130,12 @@ class CsvParser extends ConfigurableService implements ParserInterface
 
     private function convertCsvLineToArray(string $line): array
     {
-        return str_getcsv($line);
+        return str_getcsv($this->removeBOM($line), $this->getCsvSeparator());
+    }
+
+    private function removeBOM(string $line): string
+    {
+        return str_replace("\xEF\xBB\xBF", '', $line);
     }
 
     private function getHeaderValidator(): ValidatorInterface
@@ -134,5 +152,4 @@ class CsvParser extends ConfigurableService implements ParserInterface
     {
         return $this->getServiceLocator()->get(CsvLineConverter::class);
     }
-
 }
