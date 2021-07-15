@@ -53,22 +53,26 @@ define([
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
                     }, loadedClasses);
-                    const passageUri = uri.decode(xinclude.attr('href').replace('taomedia://mediamanager/', ''));
-                    request(urlUtil.route('getStylesheets', 'SharedStimulusStyling', 'taoMediaManager'), {
-                        uri: passageUri
-                    }).then(response => {
-                        response.forEach(element => {
-                            const styleElem = $('<link>', {
-                                rel: 'stylesheet',
-                                type: 'text/css',
-                                href: urlUtil.route('loadStylesheet', 'SharedStimulusStyling', 'taoMediaManager', {
-                                    uri: passageUri,
-                                    stylesheet: element
-                                })
+                    const passageHref = xinclude.attr('href');
+                    if (/taomedia:\/\/mediamanager\//.test(passageHref)) {
+                        // check rich passage styles and inject them to item
+                        const passageUri = uri.decode(passageHref.replace('taomedia://mediamanager/', ''));
+                        request(urlUtil.route('getStylesheets', 'SharedStimulusStyling', 'taoMediaManager'), {
+                            uri: passageUri
+                        }).then(response => {
+                            response.forEach(element => {
+                                const styleElem = $('<link>', {
+                                    rel: 'stylesheet',
+                                    type: 'text/css',
+                                    href: urlUtil.route('loadStylesheet', 'SharedStimulusStyling', 'taoMediaManager', {
+                                        uri: passageUri,
+                                        stylesheet: element
+                                    })
+                                });
+                                $('head').append(styleElem);
                             });
-                            $('head').append(styleElem);
-                        });
-                    });
+                        }).catch();
+                    }
                 } else {
                     //loading failure :
                     xinclude.removeAttr('href');
