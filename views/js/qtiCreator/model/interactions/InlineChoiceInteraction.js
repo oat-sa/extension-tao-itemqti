@@ -34,7 +34,7 @@ define([
             var rank = _.size(this.getChoices());
 
             choice
-                .val('choice' + ' #' + rank)
+                .body('choice' + ' #' + rank)
                 .buildIdentifier('choice');
 
             if(this.getRenderer()){

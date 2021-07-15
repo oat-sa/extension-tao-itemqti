@@ -278,7 +278,6 @@ define([
             };
 
             callbacks[attributeNameMax] = function (element, value, name) {
-
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
 
                 if (element.is('interaction')) {
@@ -289,17 +288,15 @@ define([
                 if (name === 'upperBound' && this.disabled) {
                     // if the field is disabled, the corresponding attribute should be removed.
                     element[options.attrMethodNames.remove](name);
-
                 } else if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
-
                     element[options.attrMethodNames.remove](name); //to be removed for order interactions
-
                 } else {
                     element[options.attrMethodNames.set](name, value); //required
                 }
 
                 options.callback(element, value, name);
             };
+
             return callbacks;
         }
     };

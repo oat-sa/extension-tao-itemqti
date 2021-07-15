@@ -57,6 +57,7 @@ define([
         'uploadInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/UploadInteraction',
         'sliderInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/SliderInteraction',
         'extendedTextInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/ExtendedTextInteraction',
+        'inlineChoice' : 'taoQtiItem/qtiCreator/renderers/choices/InlineChoice',
         'simpleChoice.choiceInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleChoice.ChoiceInteraction',
         'simpleChoice.orderInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleChoice.OrderInteraction',
         'simpleAssociableChoice.associateInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.AssociateInteraction',

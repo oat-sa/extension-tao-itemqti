@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.7.1",
-        "@oat-sa/tao-item-runner-qti": "0.21.9"
+        "@oat-sa/tao-item-runner-qti": "git://github.com/oat-sa/tao-item-runner-qti-fe#integration/AUT-22/inline_choice_interaction_allow_non-text_options"
     }
 }

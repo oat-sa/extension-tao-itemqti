@@ -66,7 +66,8 @@ define([
                 ],
                 qtiMedia: false,
                 qtiInclude: false,
-                enterMode: CKEditor.ENTER_BR
+                enterMode: CKEditor.ENTER_BR,
+                shieldInnerContent: false
             });
         }
 
