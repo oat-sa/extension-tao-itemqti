@@ -44,7 +44,7 @@ define([
          * Writes new font size to virtual style sheet
          */
         var resizeFont = function() {
-            styleEditor.apply(itemSelector + ' *', 'font-size', itemFontSize.toString() + 'px');
+            styleEditor.apply(itemSelector, 'font-size', itemFontSize.toString() + 'px');
         };
 
         /**
@@ -99,7 +99,7 @@ define([
          */
         $resetBtn.on('click', function () {
             $input.val('');
-            styleEditor.apply(itemSelector + ' *', 'font-size');
+            styleEditor.apply(itemSelector, 'font-size');
         });
 
         /**
