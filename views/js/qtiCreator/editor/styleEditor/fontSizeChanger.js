@@ -101,6 +101,14 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
             if (style[itemSelector] && style[itemSelector]['font-size']) {
                 $input.val(parseInt(style[itemSelector]['font-size'], 10));
                 $input.trigger('blur');
+            } if (style[`${itemSelector} *`] && style[`${itemSelector} *`]['font-size']) {
+                const fontSize = style[`${itemSelector} *`]['font-size'];
+                // apply new selector
+                styleEditor.apply(itemSelector, 'font-size', fontSize);
+                // remove old selector from styles
+                styleEditor.apply(`${itemSelector} *`, 'font-size');
+                $input.val(parseInt(fontSize, 10));
+                $input.trigger('blur');
             } else {
                 $input.val(parseInt($item.css('font-size'), 10));
             }
