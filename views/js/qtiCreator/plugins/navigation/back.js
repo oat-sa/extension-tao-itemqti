@@ -56,7 +56,7 @@ define([
                 title: __('Back to Manage Items'),
                 text : __('Manage Items'),
                 cssClass: 'back-action',
-                testId: 'back-to-items'
+                testId: 'manage-items'
             })).on('click', function backHandler(e){
                 e.preventDefault();
                 itemCreator.trigger('exit');
