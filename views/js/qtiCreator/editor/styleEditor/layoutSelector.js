@@ -28,16 +28,15 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/gridEditor/content'], 
      */
     const layoutSelector = function (item, config) {
         const selector = $('#item-editor-scrollable-multi-column'),
+            $itemEditorPanel = $('#item-editor-panel'),
             target = selector.data('target'),
             $target = $(target),
             scrollableMultiCol = selector.find('[name="scrollable-multi-column"]');
 
         /**
-         * Check scrollable multi-column checkbox if enabled in config
+         * Check scrollable multi-column checkbox if css class is present
          */
-        if (config[multiColConfigKey]) {
-            scrollableMultiCol.prop('checked', true);
-        }
+        scrollableMultiCol.prop('checked', $target.hasClass(dualColClass));
 
         /**
          * Get the qti item body dom
@@ -45,7 +44,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/gridEditor/content'], 
          * @returns {JQuery}
          */
         function _getItemBody() {
-            return $('#item-editor-panel').find('.qti-itemBody');
+            return $itemEditorPanel.find('.qti-itemBody');
         }
 
         /**
@@ -53,7 +52,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/gridEditor/content'], 
          *
          * @param cssClass string
          */
-        function addClassToTarget (cssClass) {
+        function addClassToTarget(cssClass) {
             $target.addClass(cssClass);
 
             //need to update item body
@@ -65,7 +64,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/gridEditor/content'], 
          *
          * @param cssClass string
          */
-        function removeClassFromTarget (cssClass) {
+        function removeClassFromTarget(cssClass) {
             $target.removeClass(cssClass);
 
             //need to update item body
@@ -73,7 +72,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/gridEditor/content'], 
         }
 
         scrollableMultiCol.on('click', function () {
-            if(this.checked) {
+            if (this.checked) {
                 addClassToTarget(dualColClass);
             } else {
                 removeClassFromTarget(dualColClass);
