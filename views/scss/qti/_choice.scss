@@ -13,14 +13,19 @@
     [data-eliminable="container"] {
         display: none;
         position: absolute;
-        left: $elimCbOffsetLeft * 1px;
         z-index: 3;
-        top: 2px;
+        top: 0;
         min-height: $minRowHeight * 1px;
         max-height: 100%;
         min-width: 20px;
         margin: 5px 0;
         padding: 0;
+        @include ltr {
+            left: $elimCbOffsetLeft * 1px;
+        }
+        @include rtl {
+            right: $elimCbOffsetLeft * 1px;
+        }
         &:after {
             content: "0";
             visibility: hidden;
@@ -44,7 +49,12 @@
     // parent .qti-interaction
     &.eliminable {
         .label-box {
-            margin-left: 85px;
+            @include ltr {
+                margin-left: 85px;
+            }
+            @include rtl {
+                margin-right: 85px;
+            }
         }
         // ol
         .choice-area {
@@ -52,7 +62,12 @@
             // there might be list-styles that move everything to the right
             &[class^="list-style-"], &[class*=" list-style-"] {
                 [data-eliminable="container"] {
-                    left: $elimListStyleCbOffsetLeft * 1px;
+                    @include ltr {
+                        left: $elimListStyleCbOffsetLeft * 1px;
+                    }
+                    @include rtl {
+                        right: $elimListStyleCbOffsetLeft * 1px;
+                    }
                 }
             }
             //both label and checkbox
@@ -139,7 +154,7 @@
         max-height: 100%;
         display: flex;
         align-items: center;
-        top: 2px;
+        top: 0px;
         -webkit-tap-highlight-color: transparent; // mobile safari fix
         &:before {
             content: "0";
@@ -159,21 +174,29 @@
 
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
-
-
             .label-content {
-                margin-left: 30px;
+                @include ltr {
+                    margin-left: 30px;
+                }
+                @include rtl {
+                    margin-right: 30px;
+                }
             }
 
             p, div, li {
                 &::before {
                     position: absolute;
-                    top: 5px;
-                    left: 30px;
+                    top: 4px;
                     min-height: $minRowHeight * 1px;
                     max-height: 100%;
                     display: flex;
                     align-items: center;
+                    @include ltr {
+                        left: 30px;
+                    }
+                    @include rtl {
+                        right: 30px;
+                    }
                 }
                 &.add-option:before {
                     content: '';
@@ -227,8 +250,8 @@
     }
     .real-label{
         input{
-            position: absolute;
-            left: -10000px;
+            opacity: 0;
+            left: auto;
         }
     }
     //END IE specific
