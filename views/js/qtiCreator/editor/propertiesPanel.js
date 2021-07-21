@@ -25,15 +25,25 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
-], function(_, panel, styleEditor, styleSheetToggler, fontSelector, colorSelector, fontSizeChanger, itemResizer){
+    'taoQtiItem/qtiCreator/editor/styleEditor/layoutSelector'
+], function (
+    _,
+    panel,
+    styleEditor,
+    styleSheetToggler,
+    fontSelector,
+    colorSelector,
+    fontSizeChanger,
+    itemResizer,
+    layoutSelector
+) {
     'use strict';
 
     /**
      * Set up the properties panel, including the style editor
      * @param {jQueryElement} $container - the panel container
      */
-    return function setUpInteractionPanel($container, widget, config){
-
+    return function setUpInteractionPanel($container, widget, config) {
         panel.initSidebarAccordion($container);
         panel.initFormVisibilityListener();
 
@@ -44,5 +54,6 @@ define([
         colorSelector();
         fontSizeChanger();
         itemResizer(widget.element);
+        layoutSelector(widget.element, config);
     };
 });
