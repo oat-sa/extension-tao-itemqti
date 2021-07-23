@@ -202,10 +202,9 @@ $mainContainer : '.qti-item';
             }
             & > li {
                 display: block;
-                @include ltr {
-                    float: left;
-                }
-                @include rtl {
+                float: left;
+
+                [dir="rtl"] & {
                     float: right;
                 }
             }
@@ -215,10 +214,10 @@ $mainContainer : '.qti-item';
             padding-right: 3px;
             padding-bottom: 3px;
             &.none {
-                @include ltr {
-                    padding-left: 3px;
-                }
-                @include rtl {
+                padding-left: 3px;
+
+                [dir="rtl"] & {
+                    padding-left: auto;
                     padding-right: 3px;
                 }
             }

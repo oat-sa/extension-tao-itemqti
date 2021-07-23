@@ -20,10 +20,10 @@
         min-width: 20px;
         margin: 5px 0;
         padding: 0;
-        @include ltr {
-            left: $elimCbOffsetLeft * 1px;
-        }
-        @include rtl {
+        left: $elimCbOffsetLeft * 1px;
+
+        [dir="rtl"] & {
+            left: auto;
             right: $elimCbOffsetLeft * 1px;
         }
         &:after {
@@ -49,10 +49,10 @@
     // parent .qti-interaction
     &.eliminable {
         .label-box {
-            @include ltr {
-                margin-left: 85px;
-            }
-            @include rtl {
+            margin-left: 85px;
+
+            [dir="rtl"] & {
+                margin-left: auto;
                 margin-right: 85px;
             }
         }
@@ -62,10 +62,10 @@
             // there might be list-styles that move everything to the right
             &[class^="list-style-"], &[class*=" list-style-"] {
                 [data-eliminable="container"] {
-                    @include ltr {
-                        left: $elimListStyleCbOffsetLeft * 1px;
-                    }
-                    @include rtl {
+                    left: $elimListStyleCbOffsetLeft * 1px;
+
+                    [dir="rtl"] & {
+                        left: auto;
                         right: $elimListStyleCbOffsetLeft * 1px;
                     }
                 }
@@ -175,10 +175,10 @@
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
             .label-content {
-                @include ltr {
-                    margin-left: 30px;
-                }
-                @include rtl {
+                margin-left: 30px;
+
+                [dir="rtl"] & {
+                    margin-left: auto;
                     margin-right: 30px;
                 }
             }
@@ -191,10 +191,10 @@
                     max-height: 100%;
                     display: flex;
                     align-items: center;
-                    @include ltr {
-                        left: 30px;
-                    }
-                    @include rtl {
+                    left: 30px;
+
+                    [dir="rtl"] & {
+                        left: auto;
                         right: 30px;
                     }
                 }
