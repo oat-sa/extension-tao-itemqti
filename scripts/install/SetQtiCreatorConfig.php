@@ -49,7 +49,7 @@ class SetQtiCreatorConfig extends common_ext_action_InstallAction
         $extension = $extensionManager->getExtensionById('taoQtiItem');
         $config = $extension->getConfig('qtiCreator');
         if ($config['scrollable-multi-column']) {
-            $registry->registerPlugin('layout', 'taoQtiItem/qtiCreator/plugins/panel/layout', 'panel');
+            $registry->registerPlugin('layoutEditor', 'taoQtiItem/qtiCreator/plugins/panel/layoutEditor', 'panel');
         }
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Qti Creator\'s Plugins settings added to Tao Qti Item extension');
