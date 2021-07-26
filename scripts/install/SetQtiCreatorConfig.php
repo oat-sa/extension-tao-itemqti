@@ -46,9 +46,8 @@ class SetQtiCreatorConfig extends common_ext_action_InstallAction
 
         /** @var ExtensionsManager $extensionManager */
         $extensionManager = $this->getServiceManager()->get(ExtensionsManager::SERVICE_ID);
-        $extension = $extensionManager->getExtensionById('taoQtiItem123');
+        $extension = $extensionManager->getExtensionById('taoQtiItem');
         $config = $extension->getConfig('qtiCreator');
-        print(json_encode($config));
         if ($config['scrollable-multi-column']) {
             $registry->registerPlugin('layout', 'taoQtiItem/qtiCreator/plugins/panel/layout', 'panel');
         }
