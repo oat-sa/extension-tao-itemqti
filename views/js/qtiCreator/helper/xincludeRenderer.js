@@ -16,15 +16,26 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 define([
-    'jquery',
+    'module',
+    'context',
     'lodash',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'taoQtiItem/qtiItem/helper/xincludeLoader',
-    'uri',
-    'util/url',
-    'core/dataProvider/request'
-], function ($, _, commonRenderer, xincludeLoader, uri, urlUtil, request) {
+    'core/moduleLoader'
+], function (module, context, _, commonRenderer, xincludeLoader, moduleLoader) {
     'use strict';
+
+    const moduleConfig = module.config();
+    let xincludeHandlers = [];
+    if (moduleConfig.handlers) {
+        /*
+         * This loads all the modules from module configuration, which are in the `handlers` array.
+         */
+        moduleLoader({}, _.isFunction)
+            .addList(moduleConfig.handlers)
+            .load(context.bundle)
+            .then(handlers => xincludeHandlers = handlers);
+    }
 
     return {
         /**
@@ -53,26 +64,8 @@ define([
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
                     }, loadedClasses);
-                    const passageHref = xinclude.attr('href');
-                    if (/taomedia:\/\/mediamanager\//.test(passageHref)) {
-                        // check rich passage styles and inject them to item
-                        const passageUri = uri.decode(passageHref.replace('taomedia://mediamanager/', ''));
-                        request(urlUtil.route('getStylesheets', 'SharedStimulusStyling', 'taoMediaManager'), {
-                            uri: passageUri
-                        }).then(response => {
-                            response.forEach(element => {
-                                const styleElem = $('<link>', {
-                                    rel: 'stylesheet',
-                                    type: 'text/css',
-                                    href: urlUtil.route('loadStylesheet', 'SharedStimulusStyling', 'taoMediaManager', {
-                                        uri: passageUri,
-                                        stylesheet: element
-                                    })
-                                });
-                                $('head').append(styleElem);
-                            });
-                        }).catch();
-                    }
+
+                    _.each(xincludeHandlers, handler => handler(xinclude, data));
                 } else {
                     //loading failure :
                     xinclude.removeAttr('href');
