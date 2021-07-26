@@ -77,6 +77,7 @@ class QtiCreator extends tao_actions_CommonModule
      * @throws common_exception_Error
      *
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
      */
     public function createItem()
     {
