@@ -24,8 +24,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
-    'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
-    'taoQtiItem/qtiCreator/editor/styleEditor/layoutSelector'
+    'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer'
 ], function (
     _,
     panel,
@@ -34,8 +33,7 @@ define([
     fontSelector,
     colorSelector,
     fontSizeChanger,
-    itemResizer,
-    layoutSelector
+    itemResizer
 ) {
     'use strict';
 
@@ -54,6 +52,5 @@ define([
         colorSelector();
         fontSizeChanger();
         itemResizer(widget.element);
-        layoutSelector(widget.element, config);
     };
 });
