@@ -24,24 +24,16 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
-    'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer'
-], function (
-    _,
-    panel,
-    styleEditor,
-    styleSheetToggler,
-    fontSelector,
-    colorSelector,
-    fontSizeChanger,
-    itemResizer
-) {
+    'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
+], function(_, panel, styleEditor, styleSheetToggler, fontSelector, colorSelector, fontSizeChanger, itemResizer){
     'use strict';
 
     /**
      * Set up the properties panel, including the style editor
      * @param {jQueryElement} $container - the panel container
      */
-    return function setUpInteractionPanel($container, widget, config) {
+    return function setUpInteractionPanel($container, widget, config){
+
         panel.initSidebarAccordion($container);
         panel.initFormVisibilityListener();
 

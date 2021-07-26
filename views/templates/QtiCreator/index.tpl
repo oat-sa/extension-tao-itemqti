@@ -1,8 +1,5 @@
 <?php
 use oat\tao\helpers\Template;
-
-$propsKey = 'properties';
-$multiColKey = 'scrollable-multi-column';
 ?>
 
 <link rel="stylesheet" href="<?= Template::css('qti-runner.css') ?>" />
