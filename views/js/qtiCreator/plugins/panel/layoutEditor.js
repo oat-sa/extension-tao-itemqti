@@ -33,21 +33,24 @@ define([
         init: function init() {
             const item = this.getHost().getItem();
             const $container = this.getAreaBroker().getContainer();
+            // get style editor side panel
             const $stylePanel = $container.find('#sidebar-right-style-editor');
-            let $layoutEditorPanel;
 
+            // remove previous layout panel if exists
             $stylePanel.find('#item-editor-layout-panel').remove();
 
-            //create new one
-            $layoutEditorPanel = $(panelTpl());
+            // create item layout panel
+            const $layoutEditorPanel = $(panelTpl());
 
-            //attach to response form side panel
+            // attach to the style editor panel
             $stylePanel.append($layoutEditorPanel);
 
+            // get scrollable multi-column checkbox and target element
             const selector = $('#item-editor-scrollable-multi-column'),
-                $itemEditorPanel = $('#item-editor-panel'),
                 target = selector.data('target'),
                 $scrollableMultiCol = selector.find('[name="scrollable-multi-column"]');
+
+            const $itemEditorPanel = $('#item-editor-panel');
 
             /**
              * Get the qti item body dom
@@ -63,11 +66,14 @@ define([
              */
             function setMultiColCheckbox() {
                 const $target = $(target);
-                $scrollableMultiCol.prop('checked', $target.hasClass(dualColClass));
+                if ($target.hasClass(dualColClass)) {
+                    $scrollableMultiCol.prop('checked', true);
+                }
             }
 
             /**
              * Sets scrollable multi-column css class if checkbox is checked
+             * @param checked
              */
             function setMultiColCssClass(checked = isMultiColChecked()) {
                 const $target = $(target);
@@ -80,6 +86,8 @@ define([
 
             /**
              * Returns true if multi-column checkbox is checked
+             *
+             * @returns {boolean}
              */
             function isMultiColChecked() {
                 return $scrollableMultiCol.prop('checked');
@@ -88,12 +96,11 @@ define([
             /**
              * Adds css class to the data target and updates item body
              *
-             * @param $target element to add class to
-             * @param cssClass string
+             * @param {JQuery} $target - element to remove class from
+             * @param {string} cssClass
              */
             function addClassToTarget($target, cssClass) {
                 $target.addClass(cssClass);
-
                 //need to update item body
                 item.body(contentHelper.getContent(_getItemBody()));
             }
@@ -101,13 +108,11 @@ define([
             /**
              * Removes css class from the data target and updates item body
              *
-             * @param $target element to remove class from
-             * @param cssClass string
+             * @param {JQuery} $target - element to remove class from
+             * @param {string} cssClass
              */
             function removeClassFromTarget($target, cssClass) {
                 $target.removeClass(cssClass);
-
-                // need to update item body
                 item.body(contentHelper.getContent(_getItemBody()));
             }
 
@@ -115,13 +120,10 @@ define([
                 setMultiColCssClass(this.checked);
             });
 
-            $(document)
-                .on('ready.qti-widget', function () {
-                    setMultiColCheckbox();
-                })
-                .on('elementCreated.qti-widget', function () {
-                    setMultiColCssClass();
-                });
+            $(document).on('ready.qti-widget', function () {
+                setMultiColCheckbox();
+                setMultiColCssClass();
+            });
         }
     });
 });
