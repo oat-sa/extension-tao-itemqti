@@ -87,7 +87,21 @@ return [
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class],
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class],
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class],
-        ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']],
+        [
+            'grant',
+            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'index']
+        ],
+        [
+            'grant',
+            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem']
+        ],
+        [
+            'grant',
+            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData']
+        ]
     ],
     'constants' => [
         # views directory
