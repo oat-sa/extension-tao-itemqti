@@ -17,7 +17,8 @@ final class Version202107270952231101_taoQtiItem extends AbstractMigration
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem'],
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData'],
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getFile'],
-                ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getMediaSources']
+                ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getMediaSources'],
+                ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'load']
             ],
         ]
     ];
