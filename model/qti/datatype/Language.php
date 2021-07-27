@@ -57,7 +57,8 @@ class Language extends Datatype
             'EN' => 'en-US',
             'DE' => 'de-DE',
             'FR' => 'fr-FR',
-            'ES' => 'es-ES'
+            'ES' => 'es-ES',
+            'ar-arb' => 'ar-ARB',
         ];
     }
 }
