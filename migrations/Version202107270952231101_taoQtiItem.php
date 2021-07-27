@@ -15,7 +15,8 @@ final class Version202107270952231101_taoQtiItem extends AbstractMigration
             'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole' => [
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'index'],
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem'],
-                ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData']
+                ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData'],
+                ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getFile']
             ],
         ]
     ];

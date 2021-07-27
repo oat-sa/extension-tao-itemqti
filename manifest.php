@@ -102,7 +102,12 @@ return [
             'grant',
             'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData']
-        ]
+        ],
+        [
+            'grant',
+            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getFile']
+        ],
     ],
     'constants' => [
         # views directory
