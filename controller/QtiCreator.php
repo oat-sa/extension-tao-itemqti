@@ -302,8 +302,6 @@ class QtiCreator extends tao_actions_CommonModule
 
         if ($config->getProperty('scrollable-multi-column') == true) {
             $config->addPlugin('layoutEditor', 'taoQtiItem/qtiCreator/plugins/panel/layoutEditor', 'panel');
-        } else {
-            $config->removePlugin('layoutEditor');
         }
 
         $mediaSourcesUrl = tao_helpers_Uri::url(
