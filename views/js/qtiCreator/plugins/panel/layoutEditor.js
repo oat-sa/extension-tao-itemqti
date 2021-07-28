@@ -18,9 +18,10 @@
 define([
     'jquery',
     'core/plugin',
+    'ui/tooltip',
     'tpl!taoQtiItem/qtiCreator/tpl/layoutEditor/panel',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function ($, pluginFactory, panelTpl, contentHelper) {
+], function ($, pluginFactory, tooltip, panelTpl, contentHelper) {
     'use strict';
 
     const dualColClass = 'dual-column-layout';
@@ -44,6 +45,9 @@ define([
 
             // attach to the style editor panel
             $stylePanel.append($layoutEditorPanel);
+
+            // show tooltip
+            tooltip.lookup($layoutEditorPanel);
 
             // get scrollable multi-column checkbox and target element
             const selector = $('#item-editor-scrollable-multi-column'),
