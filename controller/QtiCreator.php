@@ -301,6 +301,10 @@ class QtiCreator extends tao_actions_CommonModule
             $config->addPlugin('blockAdder', 'taoQtiItem/qtiCreator/plugins/content/blockAdder', 'content');
         }
 
+        if ($config->getProperty('scrollable-multi-column') === true) {
+            $config->addPlugin('layoutEditor', 'taoQtiItem/qtiCreator/plugins/panel/layoutEditor', 'panel');
+        }
+
         $mediaSourcesUrl = tao_helpers_Uri::url(
             'getMediaSources',
             'QtiCreator',
