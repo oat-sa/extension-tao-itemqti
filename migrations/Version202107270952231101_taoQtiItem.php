@@ -7,12 +7,13 @@ namespace oat\taoQtiItem\migrations;
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\tao\scripts\tools\accessControl\SetRolesAccess;
+use oat\taoItems\model\user\TaoItemsRoles;
 
 final class Version202107270952231101_taoQtiItem extends AbstractMigration
 {
     private const CONFIG = [
         SetRolesAccess::CONFIG_RULES => [
-            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole' => [
+            TaoItemsRoles::ITEM_CONTENT_CREATOR => [
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'index'],
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem'],
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData'],

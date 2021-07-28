@@ -35,6 +35,7 @@ use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\update\Updater;
+use oat\taoItems\model\user\TaoItemsRoles;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 $taopath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
@@ -90,32 +91,32 @@ return [
         ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']],
         [
             'grant',
-            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'index']
         ],
         [
             'grant',
-            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem']
         ],
         [
             'grant',
-            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData']
         ],
         [
             'grant',
-            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getFile']
         ],
         [
             'grant',
-            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getMediaSources']
         ],
         [
             'grant',
-            'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentCreatorRole',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'load']
         ],
     ],
