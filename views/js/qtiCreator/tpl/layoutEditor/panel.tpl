@@ -1,10 +1,7 @@
 <hr>
 <div class="panel" id="item-editor-layout-panel">
     <h3>{{__ "Layout"}}</h3>
-    <span class="icon-help tooltipstered" data-tooltip-theme="info"
-          data-tooltip="~ .tooltip-content:first">
-    </span>
-
+    <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
     <div class="tooltip-content">
         {{__ "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."}}
     </div>
