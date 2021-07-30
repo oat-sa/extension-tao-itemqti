@@ -77,6 +77,7 @@ class QtiCreator extends tao_actions_CommonModule
      * @throws common_exception_Error
      *
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
      */
     public function createItem()
     {
@@ -298,6 +299,10 @@ class QtiCreator extends tao_actions_CommonModule
         //TODO migrate the config
         if ($config->getProperty('multi-column') == true) {
             $config->addPlugin('blockAdder', 'taoQtiItem/qtiCreator/plugins/content/blockAdder', 'content');
+        }
+
+        if ($config->getProperty('scrollable-multi-column') === true) {
+            $config->addPlugin('layoutEditor', 'taoQtiItem/qtiCreator/plugins/panel/layoutEditor', 'panel');
         }
 
         $mediaSourcesUrl = tao_helpers_Uri::url(
