@@ -13,14 +13,19 @@
     [data-eliminable="container"] {
         display: none;
         position: absolute;
-        left: $elimCbOffsetLeft * 1px;
         z-index: 3;
-        top: 2px;
+        top: 0;
         min-height: $minRowHeight * 1px;
         max-height: 100%;
         min-width: 20px;
         margin: 5px 0;
         padding: 0;
+        left: $elimCbOffsetLeft * 1px;
+
+        @include rtl {
+            left: auto;
+            right: $elimCbOffsetLeft * 1px;
+        }
         &:after {
             content: "0";
             visibility: hidden;
@@ -45,6 +50,11 @@
     &.eliminable {
         .label-box {
             margin-left: 85px;
+
+            @include rtl {
+                margin-left: auto;
+                margin-right: 85px;
+            }
         }
         // ol
         .choice-area {
@@ -53,6 +63,11 @@
             &[class^="list-style-"], &[class*=" list-style-"] {
                 [data-eliminable="container"] {
                     left: $elimListStyleCbOffsetLeft * 1px;
+
+                    @include rtl {
+                        left: auto;
+                        right: $elimListStyleCbOffsetLeft * 1px;
+                    }
                 }
             }
             //both label and checkbox
@@ -139,7 +154,7 @@
         max-height: 100%;
         display: flex;
         align-items: center;
-        top: 2px;
+        top: 0px;
         -webkit-tap-highlight-color: transparent; // mobile safari fix
         &:before {
             content: "0";
@@ -159,21 +174,29 @@
 
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
-
-
             .label-content {
                 margin-left: 30px;
+
+                @include rtl {
+                    margin-left: auto;
+                    margin-right: 30px;
+                }
             }
 
             p, div, li {
                 &::before {
                     position: absolute;
-                    top: 5px;
-                    left: 30px;
+                    top: 4px;
                     min-height: $minRowHeight * 1px;
                     max-height: 100%;
                     display: flex;
                     align-items: center;
+                    left: 30px;
+
+                    @include rtl {
+                        left: auto;
+                        right: 30px;
+                    }
                 }
                 &.add-option:before {
                     content: '';
@@ -227,8 +250,8 @@
     }
     .real-label{
         input{
-            position: absolute;
-            left: -10000px;
+            opacity: 0;
+            left: auto;
         }
     }
     //END IE specific
