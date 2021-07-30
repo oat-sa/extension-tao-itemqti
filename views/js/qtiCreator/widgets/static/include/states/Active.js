@@ -132,6 +132,18 @@ define([
                     $href.blur();
                 }
             });
+            const $mgr = $(options.mediaManager.appendContainer);
+            $mgr.on('fileselect.resourcemgr', function (e, file) {
+                if (/taomedia:\/\/mediamanager\//.test(file.file)) {
+                    // rich passage XML will be loaded in iframe
+                    // parent div should be wrapped in div.qti-item as in item preview
+                    const iframe = $mgr.find('.previewer iframe');
+                    iframe.off('load').on('load', function() {
+                        iframe.contents().find('body > div').wrap('<div class="qti-item"></div>');
+                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, iframe.contents().find('head')));
+                    });
+                }
+            });
         };
 
         $uploadTrigger.on('click', _openResourceMgr);

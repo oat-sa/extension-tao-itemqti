@@ -65,12 +65,19 @@ define([
                         xincludeWidget.refresh();
                     }, loadedClasses);
 
-                    _.each(xincludeHandlers, handler => handler(xinclude, data));
+                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href')));
                 } else {
                     //loading failure :
                     xinclude.removeAttr('href');
                 }
             });
+        },
+        /**
+         * Return xinclude handlers
+         * @returns {Array}
+         */
+        getXincludeHandlers: function getXincludeHandlers() {
+            return xincludeHandlers;
         }
     };
 });
