@@ -21,7 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use DOMAttr;
 use DOMDocument;
+use DOMElement;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\XInclude;
@@ -49,7 +51,7 @@ class XIncludeLoader
         $this->qtiItem = $qtiItem;
         $this->resolver = $resolver;
     }
-    
+
     /**
      * Load parse the item and resolve all xinclude
      *
@@ -61,7 +63,7 @@ class XIncludeLoader
     {
 
         $xincludes = $this->getXIncludes();
-        
+
         //load xincludes in standard element
         foreach ($xincludes as $xinclude) {
             //retrive the xinclude from href
@@ -80,7 +82,7 @@ class XIncludeLoader
                 }
             }
         }
-        
+
         //load xinclude in portable element markup
         $customElements = $this->getCustomElements();
         foreach ($customElements as $customElement) {
@@ -89,7 +91,7 @@ class XIncludeLoader
 
         return $xincludes;
     }
-    
+
     /**
      * Parse and load xinclude located in custom element markup
      *
@@ -100,13 +102,13 @@ class XIncludeLoader
      */
     private function parseCustomElementMarkup(CustomInteraction $customElement)
     {
-        
+
         $xincludes = [];
         $xml = new DOMDocument();
         $xml->formatOutput = true;
         $loadSuccess = $xml->loadXML($customElement->getMarkup());
         $node = $xml->documentElement;
-        
+
         if ($loadSuccess && !is_null($node)) {
             $parser = new ParserFactory($xml);
             $xincludesNodes = $parser->queryXPath(".//*[name(.)='include']");
@@ -134,10 +136,10 @@ class XIncludeLoader
         }
 
         $customElement->setMarkup($xml->saveXML($xml->documentElement, LIBXML_NOEMPTYTAG));
-        
+
         return $xincludes;
     }
-    
+
     /**
      * load an xml string into the body of the XInclude
      *
@@ -152,6 +154,7 @@ class XIncludeLoader
         $loadSuccess = $xml->load($filePath);
         $node = $xml->documentElement;
         if ($loadSuccess && !is_null($node)) {
+            $this->loadNonQtiAttributes($node, $xinclude);
             //parse the href content
             $parser = new ParserFactory($xml);
             $parser->loadContainerStatic($node, $xinclude->getBody());
@@ -159,7 +162,22 @@ class XIncludeLoader
             throw new XIncludeException('Cannot load the XInclude DOM XML', $xinclude);
         }
     }
-    
+
+    /**
+     * loads XML attributes related to passage styling to Xinclude QTI model
+     *
+     * @throws exception\QtiModelException
+     */
+    private function loadNonQtiAttributes(DOMElement $xIncludeDOMElement, XInclude $xInclude):void
+    {
+        /** @var  $attrNode DOMAttr */
+        foreach ($xIncludeDOMElement->attributes as $attrName => $attrNode) {
+            if(in_array($attrName, $xInclude->listOfNonQtiAttributes())) {
+                $xInclude->setAttribute($attrName, $attrNode->value);
+            }
+        }
+    }
+
     /**
      * Find the xinclude elements in the qti item
      *
@@ -175,7 +193,7 @@ class XIncludeLoader
         }
         return $xincludes;
     }
-    
+
     /**
      * Find the custom elements in the qti item
      *

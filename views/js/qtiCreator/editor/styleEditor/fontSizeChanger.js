@@ -21,7 +21,7 @@
  *
  * @author dieter <dieter@taotesting.com>
  */
-define([
+ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'

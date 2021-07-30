@@ -45,13 +45,13 @@ class XInclude extends Element implements FlowContainer
      */
     protected static $qtiTagName = 'include';
     protected $body = null;
-    
+
     public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
     {
         parent::__construct($attributes, $relatedItem, $serial);
         $this->body = new ContainerStatic('', $relatedItem);
     }
-    
+
     /**
      * Get the body of XInclude element
      *
@@ -61,7 +61,7 @@ class XInclude extends Element implements FlowContainer
     {
         return $this->body;
     }
-    
+
     /**
      * Get the list of used attributes
      *
@@ -71,7 +71,14 @@ class XInclude extends Element implements FlowContainer
     {
         return [];
     }
-    
+
+    public function listOfNonQtiAttributes(): array
+    {
+        return [
+            'class' // Prefix for related stylesheet classes
+        ];
+    }
+
     /**
      * Get the variables for the qti template rendering
      *
@@ -103,7 +110,7 @@ class XInclude extends Element implements FlowContainer
 
         return $variables;
     }
-    
+
     /**
      * Get the xml namespace of the xinclude
      *
@@ -123,7 +130,7 @@ class XInclude extends Element implements FlowContainer
         }
         return $ns;
     }
-    
+
     /**
      * Get the absolute path of the template of the qti.xml
      *
