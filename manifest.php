@@ -35,6 +35,7 @@ use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\update\Updater;
+use oat\taoItems\model\user\TaoItemsRoles;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 $taopath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
@@ -88,6 +89,36 @@ return [
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class],
         ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class],
         ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']],
+        [
+            'grant',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'index']
+        ],
+        [
+            'grant',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem']
+        ],
+        [
+            'grant',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData']
+        ],
+        [
+            'grant',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getFile']
+        ],
+        [
+            'grant',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getMediaSources']
+        ],
+        [
+            'grant',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'load']
+        ],
     ],
     'constants' => [
         # views directory
