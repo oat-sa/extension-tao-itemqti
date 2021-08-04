@@ -119,6 +119,11 @@ return [
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'load']
         ],
+        [
+            'grant',
+            TaoItemsRoles::ITEM_RESOURCE_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'createItem'],
+        ]
     ],
     'constants' => [
         # views directory
