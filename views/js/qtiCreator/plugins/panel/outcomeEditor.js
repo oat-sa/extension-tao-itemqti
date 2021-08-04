@@ -284,7 +284,6 @@ define([
                                     }
                                 },
                                 formElement.getMinMaxAttributeCallbacks(
-                                    $outcomeContainer,
                                     'normalMinimum',
                                     'normalMaximum',
                                     {
