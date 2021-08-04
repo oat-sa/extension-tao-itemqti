@@ -319,7 +319,7 @@ define([
 
             _.assign(
                 formChangeCallbacks,
-                formElement.getMinMaxAttributeCallbacks(response, 'lowerBound', 'upperBound', {
+                formElement.getLowerUpperAttributeCallbacks('lowerBound', 'upperBound', {
                     attrMethodNames: {
                         set: 'setMappingAttribute',
                         remove: 'removeMappingAttribute'

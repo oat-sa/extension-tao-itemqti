@@ -167,7 +167,7 @@ define([
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                var callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                var callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
 
@@ -293,7 +293,7 @@ define([
         bgImage.setChangeCallbacks(
             widget,
             formElement,
-            formElement.getMinMaxAttributeCallbacks($form, 'minAssociations', 'maxAssociations')
+            formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations')
         );
     };
 
