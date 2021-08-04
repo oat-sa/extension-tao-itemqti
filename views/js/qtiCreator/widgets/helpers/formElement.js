@@ -274,7 +274,6 @@ define([
          * Create a coupled callbacks for min and max value change, when both are using the ui/incrementer widget.
          * It is used to update constraints on one when modifying the other.
          *
-         * @param {Object} $form - the JQuery object representing the form container
          * @param {String} attributeNameMin
          * @param {String} attributeNameMax
          * @param {Object} options
@@ -315,7 +314,6 @@ define([
          * Create a coupled callbacks for lower and upper bounds value change, when both are using the ui/incrementer widget.
          * It is used to update constraints on one when modifying the other.
          *
-         * @param {Object} $form - the JQuery object representing the form container
          * @param {String} attributeNameLower
          * @param {String} attributeNameUpper
          * @param {Object} options
