@@ -136,11 +136,27 @@ define([
             $mgr.on('fileselect.resourcemgr', function (e, file) {
                 if (/taomedia:\/\/mediamanager\//.test(file.file)) {
                     // rich passage XML will be loaded in iframe
-                    // parent div should be wrapped in div.qti-item as in item preview
                     const iframe = $mgr.find('.previewer iframe');
                     iframe.off('load').on('load', function() {
+                        // parent div should be wrapped in div.qti-item as in item preview
                         iframe.contents().find('body > div').wrap('<div class="qti-item"></div>');
-                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, iframe.contents().find('head')));
+                        // table should have qti-table class as in item preview
+                        iframe.contents().find('table').addClass('qti-table');
+                        // default styles for test runner as in item preview
+                        const $head = iframe.contents().find('head');
+                        const styleTao = $('<link>', {
+                            rel: 'stylesheet',
+                            type: 'text/css',
+                            href: '/tao/views/css/tao-main-style.css'
+                        });
+                        const styleTaoQtiItem = $('<link>', {
+                            rel: 'stylesheet',
+                            type: 'text/css',
+                            href: '/taoQtiItem/views/css/qti-runner.css'
+                        });
+                        $head.append(styleTao);
+                        $head.append(styleTaoQtiItem);
+                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, $head));
                     });
                 }
             });
