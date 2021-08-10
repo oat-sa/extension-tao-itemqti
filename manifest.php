@@ -121,6 +121,11 @@ return [
         ],
         [
             'grant',
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'save']
+        ],
+        [
+            'grant',
             TaoItemsRoles::ITEM_RESOURCE_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'createItem'],
         ]
