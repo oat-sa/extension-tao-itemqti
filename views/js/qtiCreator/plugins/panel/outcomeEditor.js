@@ -68,7 +68,7 @@ define([
      */
     function getRpUsedVariables(item) {
         const rpXml = xmlRenderer.render(item.responseProcessing);
-        const variables = ['SCORE', 'MAXSCORE']; //score and max score are always used, even in template based response processing
+        const variables = [ 'SCORE', 'MAXSCORE' ]; //score and max score are always used, even in template based response processing
         const $rp = $(rpXml);
 
         $rp.find('variable,setOutcomeValue').each(function () {
@@ -296,6 +296,19 @@ define([
 
                                             if (isNaN(value)) {
                                                 outcome.removeAttr(attr);
+                                            } else {
+                                                value = Math.round(value);
+
+                                                outcome.attr(attr, value);
+                                                $outcomeValueContainer.find(`[name="${attr}"]`).val(value);
+
+                                                if (attr === 'normalMinimum' && outcome.attr('normalMaximum') < value) {
+                                                    outcome.attr('normalMaximum', value);
+                                                    $outcomeValueContainer.find('[name="normalMaximum"]').val(value);
+                                                } else if (attr === 'normalMaximum' && outcome.attr('normalMinimum') > value) {
+                                                    outcome.attr('normalMinimum', value);
+                                                    $outcomeValueContainer.find('[name="normalMinimum"]').val(value);
+                                                }
                                             }
                                         }
                                     }
