@@ -19,12 +19,15 @@ final class Version202108030712441101_taoQtiItem extends AbstractMigration
             TaoItemsRoles::ITEM_CONTENT_CREATOR => [
                 ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'save'],                
             ],
+            TaoItemsRoles::ITEM_IMPORTER => [
+                ['ext' => 'taoQtiItem', 'mod' => 'ItemImportSampleDownload', 'act' => 'downloadTemplate'],                
+            ],
         ]
     ];
 
     public function getDescription(): string
     {
-        return 'Give permissions for Item resource creator and Item content creator role';
+        return 'Give permissions for Item resource creator, content creator and importer role';
     }
 
     public function up(Schema $schema): void

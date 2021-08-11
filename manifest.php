@@ -153,7 +153,12 @@ return [
             AccessRule::GRANT,
             TaoItemsRoles::ITEM_RESOURCE_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'createItem'],
-        ]
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_IMPORTER,
+            ['ext' => 'taoQtiItem', 'mod' => 'ItemImportSampleDownload', 'act' => 'downloadTemplate'],
+        ],
     ],
     'constants' => [
         # views directory
