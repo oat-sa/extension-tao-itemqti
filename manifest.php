@@ -36,6 +36,7 @@ use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\update\Updater;
 use oat\taoItems\model\user\TaoItemsRoles;
+use oat\tao\model\accessControl\func\AccessRule;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 $taopath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
@@ -83,49 +84,73 @@ return [
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole',
     'acl' => [
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole', ['ext' => 'taoQtiItem']],
-        ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', ['ext' => 'taoQtiItem', 'mod' => 'QtiItemRunner']],
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class],
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class],
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class],
-        ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']],
         [
-            'grant',
+            AccessRule::GRANT,
+            'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole',
+            ['ext' => 'taoQtiItem']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoRoles::DELIVERY,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiItemRunner']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_AUTHOR_ABSTRACT,
+            QtiPreview::class
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_AUTHOR_ABSTRACT,
+            QtiCreator::class
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_AUTHOR_ABSTRACT,
+            QtiCssAuthoring::class
+        ],
+        [
+            AccessRule::GRANT,
+            TaoRoles::REST_PUBLISHER,
+            ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']
+        ],
+        [
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'index']
         ],
         [
-            'grant',
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem']
         ],
         [
-            'grant',
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData']
         ],
         [
-            'grant',
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getFile']
         ],
         [
-            'grant',
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getMediaSources']
         ],
         [
-            'grant',
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'load']
         ],
         [
-            'grant',
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_CONTENT_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'save']
         ],
         [
-            'grant',
+            AccessRule::GRANT,
             TaoItemsRoles::ITEM_RESOURCE_CREATOR,
             ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'createItem'],
         ]
