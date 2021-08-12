@@ -9,5 +9,11 @@ export default {
     classForm: 'form[data-action= "/taoItems/Items/editItemClass"]',
     deleteConfirm: '[data-control="delete"]',
     root: '[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
-    authoring: '[data-context="instance"][data-action="launchEditor"]'
+    authoring: '[data-context="instance"][data-action="launchEditor"]',
+    editItemUrl: 'taoItems/Items/editItem',
+    deleteClassUrl: 'taoItems/Items/deleteClass',
+    editClassLabelUrl: 'taoItems/Items/editClassLabel',
+    treeRenderUrl: 'taoItems/Items',
+    addSubClassUrl: 'taoItems/Items/addSubClass',
+    resourceRelations: 'tao/ResourceRelations',
 };

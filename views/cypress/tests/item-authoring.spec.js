@@ -32,6 +32,8 @@ describe('Items', () => {
         cy.loginAsAdmin();
 
         cy.intercept('POST', '**/edit*').as('edit');
+        cy.intercept('POST', `**/${ selectors.editClassLabelUrl }`).as('editClassLabel')
+
         cy.visit(urls.items);
         cy.wait('@edit', {
             requestTimeout: 10000
@@ -44,7 +46,11 @@ describe('Items', () => {
                     selectors.itemClassForm,
                     selectors.deleteClass,
                     selectors.deleteConfirm,
-                    className
+                    className,
+                    selectors.deleteClassUrl,
+                    selectors.resourceRelations,
+                    false,
+                    true
                 );
             }
         });
@@ -55,9 +61,16 @@ describe('Items', () => {
      */
     describe('Item authoring', () => {
         it('can open item authoring', function () {
-            cy.addClassToRoot(selectors.root, selectors.itemClassForm, className);
+            cy.addClassToRoot(
+                selectors.root,
+                selectors.itemClassForm,
+                className,
+                selectors.editClassLabelUrl,
+                selectors.treeRenderUrl,
+                selectors.addSubClassUrl
+            );
             cy.addNode(selectors.itemForm, selectors.addItem);
-            cy.renameSelected(selectors.itemForm, itemName);
+            cy.renameSelectedItem(selectors.itemForm, selectors.editItemUrl, itemName);
 
             cy.get(selectors.authoring).click();
             cy.location().should((loc) => {
