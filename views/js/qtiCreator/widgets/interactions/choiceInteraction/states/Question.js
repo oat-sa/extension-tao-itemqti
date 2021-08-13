@@ -101,7 +101,7 @@ define([
         formElement.initWidget($form);
 
         //data change callbacks with the usual min/maxChoices
-        callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', { updateCardinality: updateCardinality });
+        callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices', { updateCardinality: updateCardinality });
 
         //data change for shuffle
         callbacks.shuffle = formElement.getAttributeChangeCallback();
