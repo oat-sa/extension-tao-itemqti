@@ -76,5 +76,4 @@ class CsvLineConverter extends ConfigurableService
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
-
 }
