@@ -28,6 +28,7 @@ define([
         var fontSelector = $('select#item-editor-font-selector'),
             target = fontSelector.data('target'),
             $target = $(target),
+            fontFamily = $target.css('font-family'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
@@ -55,7 +56,7 @@ define([
             },
             reset = function() {
                 styleEditor.apply(target, 'font-family');
-                fontSelector.select2('val', $target.css('font-family'));
+                fontSelector.select2('val', fontFamily);
             };
 
 
@@ -68,9 +69,12 @@ define([
                 for (i = 0; i < l; i++) {
                     // normalize quotes
                     fontStacks[generic][i] = normalize(fontStacks[generic][i]);
+                    const value = fontStacks[generic][i];
+                    const cleanValue = clean(value);
                     option = $('<option>', {
-                        value: fontStacks[generic][i],
-                        text: clean(fontStacks[generic][i])
+                        value,
+                        text: cleanValue,
+                        selected: clean(fontFamily) === cleanValue
                     })
                         .css({
                             fontFamily: fontStacks[generic][i]
@@ -80,8 +84,6 @@ define([
                 fontSelector.append(optGroup);
             }
         }
-
-
 
         resetButton.on('click', reset);
 
@@ -93,6 +95,7 @@ define([
 
         $(document).on('customcssloaded.styleeditor', function(e, style) {
             //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
+            console.log(e, style)
             return;
             //if(style[target] && style[target]['font-family']) {
                 //fontSelector.select2('val', style[target]['font-family']);
