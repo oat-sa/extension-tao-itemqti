@@ -138,7 +138,7 @@ define([
 
         formElement.initWidget($form);
 
-        callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices');
+        callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices');
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
 

@@ -299,7 +299,7 @@ define([
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
 
@@ -428,7 +428,7 @@ define([
 
                 // bind callbacks to ms
                 // init data validation and binding
-                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function (element, value) {
