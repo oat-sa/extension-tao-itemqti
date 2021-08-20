@@ -31,11 +31,8 @@ use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
 
 class CsvLineConverter extends ConfigurableService
 {
-    public function convert(
-        array $line,
-        TemplateInterface $template,
-        AggregatedValidationException $exception = null
-    ): ItemInterface {
+    public function convert(array $line, TemplateInterface $template, $validationReport = null): ItemInterface
+    {
         $decorator = new CvsToQtiTemplateDecorator($template);
 
         $validationConfig = $decorator->getCsvColumns();
@@ -46,7 +43,7 @@ class CsvLineConverter extends ConfigurableService
                 $parser = $this->getServiceLocator()->get($rules['parser']);
                 $parsed[$columnName] = $parser->parse($line, $rules, ['columnName' => $columnName]);
             } else {
-                $isInvalid = $exception && $exception->hasColumnWarning($columnName);
+                $isInvalid = $validationReport && $this->hasValidationIssues($columnName, $validationReport);
                 $isOmitted = !array_key_exists($columnName, $line) || $line[$columnName] === '';
                 $parsed[$columnName] = ($isInvalid || $isOmitted) ? ($rules['default'] ?? null) : $line[$columnName];
             }
@@ -55,7 +52,7 @@ class CsvLineConverter extends ConfigurableService
         return new CsvItem(
             $parsed['name'],
             $parsed['question'],
-            $this->normalizeShuffle($parsed['shuffle']),
+            $this->normalizeShuffle($parsed['shuffle']), //@TODO make normalizers configurable
             (int)$parsed['min_choices'],
             (int)$parsed['max_choices'],
             $this->normalizeLanguage($parsed['language']),
@@ -67,7 +64,6 @@ class CsvLineConverter extends ConfigurableService
     private function normalizeLanguage(string $language): string
     {
         $groups = explode('-', $language);
-
         return sprintf('%s-%s', strtolower($groups[0] ?? ''), strtoupper($groups[1] ?? ''));
     }
 
