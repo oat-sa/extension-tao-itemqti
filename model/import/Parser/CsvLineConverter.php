@@ -26,13 +26,16 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\import\CsvItem;
 use oat\taoQtiItem\model\import\Decorator\CvsToQtiTemplateDecorator;
 use oat\taoQtiItem\model\import\ItemInterface;
-use oat\taoQtiItem\model\import\Parser\Exception\RecoverableLineValidationException;
 use oat\taoQtiItem\model\import\TemplateInterface;
+use oat\taoQtiItem\model\import\Validator\AggregatedValidationException;
 
 class CsvLineConverter extends ConfigurableService
 {
-    public function convert(array $line, TemplateInterface $template, $validationReport = null): ItemInterface
-    {
+    public function convert(
+        array $line,
+        TemplateInterface $template,
+        AggregatedValidationException $exception = null
+    ): ItemInterface {
         $decorator = new CvsToQtiTemplateDecorator($template);
 
         $validationConfig = $decorator->getCsvColumns();
@@ -43,7 +46,7 @@ class CsvLineConverter extends ConfigurableService
                 $parser = $this->getServiceLocator()->get($rules['parser']);
                 $parsed[$columnName] = $parser->parse($line, $rules, ['columnName' => $columnName]);
             } else {
-                $isInvalid = $validationReport && $this->hasValidationIssues($columnName, $validationReport);
+                $isInvalid = $exception && $exception->hasColumnWarning($columnName);
                 $isOmitted = !array_key_exists($columnName, $line) || $line[$columnName] === '';
                 $parsed[$columnName] = ($isInvalid || $isOmitted) ? ($rules['default'] ?? null) : $line[$columnName];
             }
@@ -52,23 +55,19 @@ class CsvLineConverter extends ConfigurableService
         return new CsvItem(
             $parsed['name'],
             $parsed['question'],
-            $this->normalizeShuffle($parsed['shuffle']), //@TODO make normalizers configurable
+            $this->normalizeShuffle($parsed['shuffle']),
             (int)$parsed['min_choices'],
             (int)$parsed['max_choices'],
             $this->normalizeLanguage($parsed['language']),
             $parsed['choice_[1-99]'],
-            $parsed['metadata_[a-z0-9\-_]+'] ?? []
+            $parsed['metadata_[A-Za-z0-9\-_]+'] ?? []
         );
-    }
-
-    private function hasValidationIssues(string $field, RecoverableLineValidationException $report): bool
-    {
-        return in_array($field, array_column($report->getWarnings(), 'field'));
     }
 
     private function normalizeLanguage(string $language): string
     {
         $groups = explode('-', $language);
+
         return sprintf('%s-%s', strtolower($groups[0] ?? ''), strtoupper($groups[1] ?? ''));
     }
 
@@ -76,5 +75,4 @@ class CsvLineConverter extends ConfigurableService
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
-
 }
