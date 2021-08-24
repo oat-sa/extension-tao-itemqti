@@ -35,7 +35,7 @@ define([
             clean = function (font) {
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
             },
-            resetButton =  fontSelector.parent().find('[data-role="font-selector-reset"]'),
+            resetButton = fontSelector.parent().find('[data-role="font-selector-reset"]'),
             generic,
             optGroup,
             option,
@@ -54,13 +54,13 @@ define([
                 }
                 return '<span style="font-size: 12px;' + $(originalOption).attr('style') + '">' + state.text + '</span>';
             },
-            reset = function() {
+            reset = function () {
                 styleEditor.apply(target, 'font-family');
                 fontSelector.select2('val', fontFamily);
             };
 
 
-        fontSelector.append('<option value="">' + __('Default')  + '</option>');
+        fontSelector.append('<option value="">' + __('Default') + '</option>');
 
         for (generic in fontStacks) {
             if (fontStacks.hasOwnProperty(generic)) {
@@ -93,7 +93,7 @@ define([
             width: 'resolve'
         });
 
-        $(document).on('customcssloaded.styleeditor', function(e, style) {
+        $(document).on('customcssloaded.styleeditor', function (e, style) {
             //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
             return;
             //if(style[target] && style[target]['font-family']) {
