@@ -181,16 +181,15 @@ define([
                     var itemWidget = item.data('widget');
 
                     //do the save
-                    Promise.all([
-                        itemWidget.save(),
-                        styleEditor.save()
-                    ]).then(function(){
-                        if(!silent){
-                            self.trigger('success', __('Your item has been saved'));
-                        }
+                    styleEditor.save()
+                        .then(() => itemWidget.save())
+                        .then(function(){
+                            if(!silent){
+                                self.trigger('success', __('Your item has been saved'));
+                            }
 
-                        self.trigger('saved');
-                    }).catch(function(err){
+                            self.trigger('saved');
+                        }).catch(function(err){
                         self.trigger('error', err);
                     });
                 });
@@ -318,31 +317,31 @@ define([
 
                         //"post-render it" to initialize the widget
                         Promise
-                         .all(item.postRender(_.clone(config.properties)))
-                         .then(function(){
+                            .all(item.postRender(_.clone(config.properties)))
+                            .then(function(){
 
-                             //set reference to item widget object
-                             areaBroker.getContainer().data('widget', item);
+                                //set reference to item widget object
+                                areaBroker.getContainer().data('widget', item);
 
-                             widget = item.data('widget');
-                             _.each(item.getComposingElements(), function(element){
-                                 if(element.qtiClass === 'include'){
-                                     xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
-                                 }
-                             });
+                                widget = item.data('widget');
+                                _.each(item.getComposingElements(), function(element){
+                                    if(element.qtiClass === 'include'){
+                                        xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                                    }
+                                });
 
-                             propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
+                                propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
 
-                             //init event listeners:
-                             eventHelper.initElementToWidgetListeners();
+                                //init event listeners:
+                                eventHelper.initElementToWidgetListeners();
 
-                             return pluginRun('render').then(function(){
-                                 self.trigger('render');
-                             });
-                         })
-                         .catch(function(err){
-                             self.trigger('error', err);
-                         });
+                                return pluginRun('render').then(function(){
+                                    self.trigger('render');
+                                });
+                            })
+                            .catch(function(err){
+                                self.trigger('error', err);
+                            });
 
                     }, item.getUsedClasses());
 
