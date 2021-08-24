@@ -84,7 +84,8 @@ define([
             failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
             isInValidLocalTxt: __('This stylesheet has not been found on the server. you may want to delete this reference')
         },
-        customStylesheet = '';
+        customStylesheet = null;
+    const customStylesheetHref = 'style/custom/tao-user-styles.css';
 
     /**
      * Delete all custom styles
@@ -149,12 +150,12 @@ define([
     };
 
     /**
-        * Apply rule to CSS
-        *
-        * @param {{string}} selector
-        * @param {{string}} property
-        * @param {{string}} value
-        */
+     * Apply rule to CSS
+     *
+     * @param {{string}} selector
+     * @param {{string}} property
+     * @param {{string}} value
+     */
     var apply = function (selector, property, value) {
         style[selector] = style[selector] || {};
 
@@ -174,11 +175,11 @@ define([
         create();
 
         /**
-            * Fires a change notification on the item style
-            * @event taoQtiItem/qtiCreator/editor/styleEditor/styleEditor#stylechange.qti-creator
-            * @property {Object} [detail] An object providing some additional detail on the event
-            * @property {Boolean} [detail.initializing] Tells if the stylechange occurs at init time
-            */
+         * Fires a change notification on the item style
+         * @event taoQtiItem/qtiCreator/editor/styleEditor/styleEditor#stylechange.qti-creator
+         * @property {Object} [detail] An object providing some additional detail on the event
+         * @property {Boolean} [detail.initializing] Tells if the stylechange occurs at init time
+         */
         $(document).trigger('stylechange.qti-creator');
     };
 
@@ -202,20 +203,34 @@ define([
     var save = function save () {
         return new Promise(function (resolve, reject){
             verifyInit();
+
+            const isStyles = _.size(style) > 0;
+            if (!isStyles && !customStylesheet) {
+                return resolve();
+            }
+            // if no custom css had been found, add empty stylesheet anyway
+            if (isStyles && !customStylesheet) {
+                customStylesheet = currentItem.createStyleSheet(customStylesheetHref);
+            }
+            if (!isStyles && customStylesheet) {
+                currentItem.removeStyleSheet(customStylesheet);
+                customStylesheet = null;
+            }
             $.post(_getUri('save'), _.extend({}, itemConfig,{
                 cssJson: JSON.stringify(style),
-                stylesheetUri: customStylesheet.attr('href')
+                stylesheetUri: customStylesheetHref
             }))
-            .done(resolve)
-            .fail(function(xhr, status, err){
-                reject(err);
-            });
+
+                .done(resolve)
+                .fail(function(xhr, status, err){
+                    reject(err);
+                });
         });
     };
 
     /**
-        * Download CSS as file
-        */
+     * Download CSS as file
+     */
     var download = function(uri) {
         verifyInit();
         $.fileDownload(_getUri('download'), {
@@ -228,11 +243,11 @@ define([
     };
 
     /**
-        * Add a single stylesheet, the custom stylesheet will be loaded as object
-        *
-        * @param stylesheet
-        * @returns {*} promise
-        */
+     * Add a single stylesheet, the custom stylesheet will be loaded as object
+     *
+     * @param stylesheet
+     * @returns {*} promise
+     */
     var addStylesheet = function(stylesheet) {
 
         var fileName,
@@ -313,14 +328,14 @@ define([
         parser = new UrlParser(link.attr('href'));
         if (parser.checkCORS()) {
             $.when($.ajax(link.attr('href'))).then(function() {
-                loadStylesheet(link, stylesheet, true, true);
-            },
-            // add file to list even on failure to be able to remove it from the item
-            function() {
-                loadStylesheet(link, stylesheet, true, false);
-            });
+                    loadStylesheet(link, stylesheet, true, true);
+                },
+                // add file to list even on failure to be able to remove it from the item
+                function() {
+                    loadStylesheet(link, stylesheet, true, false);
+                });
         }
-        // otherwise load it with a big timeout and hope for the best
+            // otherwise load it with a big timeout and hope for the best
         // unfortunately this dirty way is the only possibility in cross domain environments
         else {
             loadStylesheet(link, stylesheet, false);
@@ -354,14 +369,14 @@ define([
         }
 
         // if no custom css had been found, add empty stylesheet anyway
-        if(!customStylesheet) {
-            customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
-        }
+        // if(!customStylesheet) {
+        //     customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
+        // }
     };
 
     /**
-      * Remove orphaned stylesheets. These would be present if previously another item has been edited
-      */
+     * Remove orphaned stylesheets. These would be present if previously another item has been edited
+     */
     var removeOrphanedStylesheets = function() {
         $('link[data-serial]').remove();
     };
@@ -390,9 +405,9 @@ define([
 
         //prepare config object (don't pass all of them, otherwise, $.param will break)
         itemConfig = {
-            uri : config.uri,
-            lang : config.lang,
-            baseUrl : config.baseUrl
+            uri: config.uri,
+            lang: config.lang,
+            baseUrl: config.baseUrl
         };
 
         removeOrphanedStylesheets();
@@ -401,31 +416,34 @@ define([
         addItemStylesheets();
 
         resizerTarget = $('#item-editor-item-resizer').data('target');
-        href = customStylesheet.attr('href');
 
         currentItem.data('responsive', true);
 
-        $.when(
-            $.getJSON (
-                _getUri('load'),
-                _.extend({}, itemConfig, { stylesheetUri: href })
-            )
-        ).then(function(_style) {
-            // copy style to global style
-            style = _style;
+        if (customStylesheet) {
+            href = customStylesheet.attr('href');
 
-            // apply rules
-            create();
+            $.when(
+                $.getJSON(
+                    _getUri('load'),
+                    _.extend({}, itemConfig, { stylesheetUri: href })
+                )
+            ).then(function (_style) {
+                // copy style to global style
+                style = _style;
 
-            // reset meta in case the width is set in the custom stylesheet
-            if(style.length){
-                currentItem.data('responsive', !!(style[resizerTarget] && style[resizerTarget].width));
-            }
+                // apply rules
+                create();
 
-            // inform editors about custom sheet
-            $(document).trigger('customcssloaded.styleeditor', [style]);
-        });
-    };
+                // reset meta in case the width is set in the custom stylesheet
+                if (style.length) {
+                    currentItem.data('responsive', !!(style[resizerTarget] && style[resizerTarget].width));
+                }
+
+                // inform editors about custom sheet
+                $(document).trigger('customcssloaded.styleeditor', [ style ]);
+            });
+        }
+    }
 
     var getStyle = function() {
         return style;
