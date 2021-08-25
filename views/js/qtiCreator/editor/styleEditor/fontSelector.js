@@ -70,14 +70,12 @@ define([
                     // normalize quotes
                     fontStacks[generic][i] = normalize(fontStacks[generic][i]);
                     const value = fontStacks[generic][i];
-                    const cleanValue = clean(value);
                     option = $('<option>', {
                         value,
-                        text: cleanValue,
-                        selected: clean(normalize(fontFamily)) === cleanValue
+                        text: clean(value)
                     })
                         .css({
-                            fontFamily: fontStacks[generic][i]
+                            fontFamily: value
                         });
                     optGroup.append(option);
                 }
@@ -94,11 +92,9 @@ define([
         });
 
         $(document).on('customcssloaded.styleeditor', function (e, style) {
-            //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
-            return;
-            //if(style[target] && style[target]['font-family']) {
-                //fontSelector.select2('val', style[target]['font-family']);
-            //}
+            if (style[target] && style[target]['font-family']) {
+                fontSelector.select2('val', style[target]['font-family']);
+            }
         });
 
         fontSelector.on('change', function () {
