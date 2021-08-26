@@ -29,7 +29,6 @@ define([
             fontSelector = $(selector),
             target = fontSelector.data('target'),
             $target = $(target),
-            fontFamily = $target.css('font-family'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
