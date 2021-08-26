@@ -25,7 +25,8 @@ define([
      * @param selector
      */
     function fontSelector() {
-        const fontSelector = $('select#item-editor-font-selector'),
+        const selector = 'select#item-editor-font-selector',
+            fontSelector = $(selector),
             target = fontSelector.data('target'),
             $target = $(target),
             fontFamily = $target.css('font-family'),
@@ -36,7 +37,7 @@ define([
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
             },
             resetButton = fontSelector.parent().find('[data-role="font-selector-reset"]');
-            let generic,
+        let generic,
             optGroup,
             option,
             i = 0,
@@ -56,9 +57,8 @@ define([
             },
             reset = function () {
                 styleEditor.apply(target, 'font-family');
-                fontSelector.select2('val', fontFamily);
+                fontSelector.select2('val', '');
             };
-
 
         fontSelector.append('<option value="">' + __('Default') + '</option>');
 
@@ -73,11 +73,10 @@ define([
                     const cleanValue = clean(value);
                     option = $('<option>', {
                         value,
-                        text: cleanValue,
-                        selected: clean(normalize(fontFamily)) === cleanValue
+                        text: cleanValue
                     })
                         .css({
-                            fontFamily: fontStacks[generic][i]
+                            fontFamily: value
                         });
                     optGroup.append(option);
                 }
@@ -94,18 +93,16 @@ define([
         });
 
         $(document).on('customcssloaded.styleeditor', function (e, style) {
-            //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
-            return;
-            //if(style[target] && style[target]['font-family']) {
-                //fontSelector.select2('val', style[target]['font-family']);
-            //}
+            if (style[target] && style[target]['font-family']) {
+                fontSelector.select2('val', style[target]['font-family']);
+            }
         });
 
         fontSelector.on('change', function () {
             styleEditor.apply(target, 'font-family', $(this).val());
+            $(`${selector} option:selected`).first().attr('selected', 'selected');
         });
     }
 
     return fontSelector;
 });
-
