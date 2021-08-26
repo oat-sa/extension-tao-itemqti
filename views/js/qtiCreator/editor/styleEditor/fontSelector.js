@@ -24,18 +24,20 @@ define([
      *
      * @param selector
      */
-    var fontSelector = function () {
-        var selector = 'select#item-editor-font-selector',
+    function fontSelector() {
+        const selector = 'select#item-editor-font-selector',
             fontSelector = $(selector),
             target = fontSelector.data('target'),
+            $target = $(target),
+            fontFamily = $target.css('font-family'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
             clean = function (font) {
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
             },
-            resetButton = fontSelector.parent().find('[data-role="font-selector-reset"]'),
-            generic,
+            resetButton = fontSelector.parent().find('[data-role="font-selector-reset"]');
+        let generic,
             optGroup,
             option,
             i = 0,
@@ -47,7 +49,7 @@ define([
                 });
             },
             format = function (state) {
-                var originalOption = state.element;
+                const originalOption = state.element;
                 if (!state.id) {
                     return state.text;
                 }
@@ -68,9 +70,10 @@ define([
                     // normalize quotes
                     fontStacks[generic][i] = normalize(fontStacks[generic][i]);
                     const value = fontStacks[generic][i];
+                    const cleanValue = clean(value);
                     option = $('<option>', {
                         value,
-                        text: clean(value)
+                        text: cleanValue
                     })
                         .css({
                             fontFamily: value
@@ -99,7 +102,7 @@ define([
             styleEditor.apply(target, 'font-family', $(this).val());
             $(`${selector} option:selected`).first().attr('selected', 'selected');
         });
-    };
+    }
 
     return fontSelector;
 });
