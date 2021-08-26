@@ -25,10 +25,9 @@ define([
      * @param selector
      */
     var fontSelector = function () {
-        var fontSelector = $('select#item-editor-font-selector'),
+        var selector = 'select#item-editor-font-selector',
+            fontSelector = $(selector),
             target = fontSelector.data('target'),
-            $target = $(target),
-            fontFamily = $target.css('font-family'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
@@ -56,9 +55,8 @@ define([
             },
             reset = function () {
                 styleEditor.apply(target, 'font-family');
-                fontSelector.select2('val', fontFamily);
+                fontSelector.select2('val', '');
             };
-
 
         fontSelector.append('<option value="">' + __('Default') + '</option>');
 
@@ -99,6 +97,7 @@ define([
 
         fontSelector.on('change', function () {
             styleEditor.apply(target, 'font-family', $(this).val());
+            $(`${selector} option:selected`).first().attr('selected', 'selected');
         });
     };
 
