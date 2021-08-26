@@ -367,11 +367,6 @@ define([
             // add those that are loaded synchronously
             addStylesheet(currentItem.stylesheets[key]);
         }
-
-        // if no custom css had been found, add empty stylesheet anyway
-        // if(!customStylesheet) {
-        //     customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
-        // }
     };
 
     /**

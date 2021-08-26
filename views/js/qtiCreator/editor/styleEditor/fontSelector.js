@@ -29,7 +29,6 @@ define([
             fontSelector = $(selector),
             target = fontSelector.data('target'),
             $target = $(target),
-            fontFamily = $target.css('font-family'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
@@ -70,10 +69,9 @@ define([
                     // normalize quotes
                     fontStacks[generic][i] = normalize(fontStacks[generic][i]);
                     const value = fontStacks[generic][i];
-                    const cleanValue = clean(value);
                     option = $('<option>', {
                         value,
-                        text: cleanValue
+                        text: clean(value)
                     })
                         .css({
                             fontFamily: value
