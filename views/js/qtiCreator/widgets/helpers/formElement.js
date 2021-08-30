@@ -42,7 +42,7 @@ define([
      * @param {Boolean} [updateCardinality=true]
      * @throws {Error} if the element is not an interaction
      */
-    const updateResponseDeclaration = function updateResponseDeclaration(interaction, maxChoice, updateCardinality) {
+    function updateResponseDeclaration(interaction, maxChoice, updateCardinality) {
         let responseDeclaration;
         const correct = [];
 
@@ -69,14 +69,14 @@ define([
             });
             responseDeclaration.setCorrect(correct);
         }
-    };
+    }
 
     /**
      * Create a tooltip for the given input
      * @param {jQueryElement} $input
      *
      */
-    const createTooltip = function createTooltip($input) {
+    function createTooltip($input) {
         const formElementTooltip = tooltip.error($input, ' ', {
             trigger: 'manual'
         });
@@ -90,7 +90,8 @@ define([
 
         $input.data('$tooltip', formElementTooltip);
         $input.attr('data-has-tooltip', true);
-    };
+    }
+
     /**
      * Validation callback, used as a groupvalidator callback
      * @this  {jQueryElement}
@@ -98,7 +99,7 @@ define([
      * @param {Object} results
      * @param {Object} [validatorOptions]
      */
-    const validationCallback = function validationCallback(valid, results, validatorOptions) {
+    function validationCallback(valid, results, validatorOptions) {
         let rule;
         const $input = $(this);
 
@@ -119,7 +120,46 @@ define([
                 $input.data('$tooltip').hide();
             }
         }
-    };
+    }
+
+    /**
+     * Prepares options object
+     * @param {Object} options
+     */
+    function getAttrsOptions(options) {
+        return _.defaults(options || {}, {
+            allowNull: false,
+            updateCardinality: true,
+            attrMethodNames: {
+                remove: 'removeAttr',
+                set: 'attr'
+            },
+            floatVal: false,
+            callback: _.noop
+        });
+    }
+
+    /**
+     * Callback for min value change
+     * @param {Element} element
+     * @param {String} value - attribute value
+     * @param {String} name - attribute name
+     * @param {Object} options
+     */
+    function minCallback(element, value, name, options) {
+        const numericValue = options.floatVal ? parseFloat(value) : parseInt(value, 10);
+        let isActualNumber = !isNaN(numericValue);
+
+        if (!options.allowNull && (numericValue === 0 || !isActualNumber)) {
+            //if a null attribute is not allowed, remove it !
+            element[options.attrMethodNames.remove](name);
+        } else if (isActualNumber) {
+            //if the value is an actual number
+            element[options.attrMethodNames.set](name, numericValue);
+        }
+
+        options.callback(element, numericValue, name);
+    }
 
     const formElement = {
         initWidget: function initWidget($form) {
@@ -138,7 +178,7 @@ define([
          * @param {Boolean} [options.validateOnInit=false] - define if the validation should be trigger immediately after the callbacks have been set
          * @param {Boolean} [options.invalidate=false] - define if the validation set the valid/invalidate state to the widget of the element
          */
-        setChangeCallbacks: function setChangeCallbacks($form, element, attributes, options) {
+        setChangeCallbacks: function ($form, element, attributes, options) {
             const applyCallback = function applyCallback(name, value, $elt) {
                 const cb = attributes && attributes[name];
                 if (_.isFunction(cb)) {
@@ -208,7 +248,7 @@ define([
          * Unbind the data change callbacks
          * @param {jQueryElement} $form
          */
-        removeChangeCallback: function removeChangeCallback($form) {
+        removeChangeCallback: function ($form) {
             $form.off('.databinding');
             $form.find(':input[data-has-tooltip]').data('$tooltip').dispose();
             $form.find(':input[data-has-tooltip]').removeAttr('data-has-tooltip').removeData('$tooltip');
@@ -220,7 +260,7 @@ define([
          * @param {boolean} allowEmpty
          * @returns {function} - the callback function to be called elsewhere
          */
-        getAttributeChangeCallback: function getAttributeChangeCallback(allowEmpty) {
+        getAttributeChangeCallback: function (allowEmpty) {
             return function (element, value, name) {
                 if (!allowEmpty && value === '') {
                     element.removeAttr(name);
@@ -234,51 +274,24 @@ define([
          * Create a coupled callbacks for min and max value change, when both are using the ui/incrementer widget.
          * It is used to update constraints on one when modifying the other.
          *
-         * @param {Object} $form - the JQuery object representing the form container
          * @param {String} attributeNameMin
          * @param {String} attributeNameMax
          * @param {Object} options
          * @returns {Object} the list of callbacks
          */
-        getMinMaxAttributeCallbacks: function getMinMaxAttributeCallbacks(
-            $form,
+        getMinMaxAttributeCallbacks: function (
             attributeNameMin,
             attributeNameMax,
             options
         ) {
             const callbacks = {};
+            options = getAttrsOptions(options);
 
-            //prepare options object
-            options = _.defaults(options || {}, {
-                allowNull: false,
-                updateCardinality: true,
-                attrMethodNames: {
-                    remove: 'removeAttr',
-                    set: 'attr'
-                },
-                floatVal: false,
-                callback: _.noop
-            });
-
-            callbacks[attributeNameMin] = function (element, value, name) {
-                let isActualNumber;
-
-                value = options.floatVal ? parseFloat(value) : parseInt(value, 10);
-                isActualNumber = !isNaN(value);
-
-                if (!options.allowNull && (value === 0 || !isActualNumber)) {
-                    //if a null attribute is not allowed, remove it !
-                    element[options.attrMethodNames.remove](name);
-                } else if (isActualNumber) {
-                    //if the value is an actual number
-                    element[options.attrMethodNames.set](name, value);
-                }
-
-                options.callback(element, value, name);
+            callbacks[attributeNameMin] = (element, value, name) => {
+                minCallback(element, value, name, options);
             };
 
             callbacks[attributeNameMax] = function (element, value, name) {
-
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
 
                 if (element.is('interaction')) {
@@ -286,14 +299,49 @@ define([
                     updateResponseDeclaration(element, value, options.updateCardinality);
                 }
 
-                if (name === 'upperBound' && this.disabled) {
+                if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
+                    element[options.attrMethodNames.remove](name); //to be removed for order interactions
+                } else {
+                    element[options.attrMethodNames.set](name, value); //required
+                }
+
+                options.callback(element, value, name);
+            };
+            return callbacks;
+        },
+
+        /**
+         * Create a coupled callbacks for lower and upper bounds value change, when both are using the ui/incrementer widget.
+         * It is used to update constraints on one when modifying the other.
+         *
+         * @param {String} attributeNameLower
+         * @param {String} attributeNameUpper
+         * @param {Object} options
+         * @returns {Object} the list of callbacks
+         */
+        getLowerUpperAttributeCallbacks: function (
+            attributeNameLower,
+            attributeNameUpper,
+            options
+        ) {
+            const callbacks = {};
+            options = getAttrsOptions(options);
+
+            callbacks[attributeNameLower] = (element, value, name) => {
+                minCallback(element, value, name, options);
+            };
+
+            callbacks[attributeNameUpper] = function (element, value, name) {
+                value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
+
+                if (element.is('interaction')) {
+                    //update response
+                    updateResponseDeclaration(element, value, options.updateCardinality);
+                }
+
+                if (this.disabled) {
                     // if the field is disabled, the corresponding attribute should be removed.
                     element[options.attrMethodNames.remove](name);
-
-                } else if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
-
-                    element[options.attrMethodNames.remove](name); //to be removed for order interactions
-
                 } else {
                     element[options.attrMethodNames.set](name, value); //required
                 }

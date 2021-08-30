@@ -236,7 +236,7 @@ define([
         bgImage.setChangeCallbacks(
             widget,
             formElement,
-            formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices')
+            formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices')
         );
     };
 

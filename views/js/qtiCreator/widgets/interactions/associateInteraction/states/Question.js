@@ -60,7 +60,7 @@ define([
         formElement.initWidget($form);
 
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minAssociations', 'maxAssociations');
+        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
         callbacks.shuffle = formElement.getAttributeChangeCallback();
         formElement.setChangeCallbacks($form, interaction, callbacks);
 
