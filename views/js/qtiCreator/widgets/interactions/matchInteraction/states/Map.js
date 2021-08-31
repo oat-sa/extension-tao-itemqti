@@ -18,12 +18,6 @@ define([
 
         //finally, apply defined correct response and response mapping:
         responseWidget.setResponse(interaction, _.values(response.getCorrect()));
-            if(!interaction.metaData.responseMappingMode) {
-                 matchInteractionArea
-                    .prop('disabled', true)
-                    .prop('checked', false)
-                    .addClass('disabled');
-            }
 
        //change the correct state
         interactionContainer.on('metaChange', function(meta) {
