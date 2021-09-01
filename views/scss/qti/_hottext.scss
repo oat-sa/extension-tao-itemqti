@@ -28,25 +28,40 @@
             @extend %selectableHover;
         }
 
-        &.error{
-            color : $error;
+        &.error {
+            color: $error;
         }
 
         .hottext-checkmark {
             padding-left: 3px;
             padding-right: 0;
             width: 20px;
+            @include rtl {
+                padding-left: 0px;
+                padding-right: 3px;
+            }
         }
 
-        [class^="icon-"], [class*=" icon-"] {
+        [class^="icon-"],
+        [class*=" icon-"] {
             &.small {
                 @include font-size(12);
                 text-shadow: none;
-                line-height:10px;
+                line-height: 10px;
                 top: 1px;
-            }
-            &.error{
-                color : $error;
+                @include rtl {
+                    &:before {
+                        right: -1em;
+                        left: 0;
+                    }
+                    &:after {
+                        right: 0;
+                    }
+                    }
+                    }
+
+                    &.error {
+                        color: $error;
             }
         }
     }
