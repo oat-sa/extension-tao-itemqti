@@ -94,6 +94,7 @@ define([
         $(document).on('customcssloaded.styleeditor', function (e, style) {
             if (style[target] && style[target]['font-family']) {
                 fontSelector.select2('val', style[target]['font-family']);
+                $(`${selector} option:selected`).first().attr('selected', 'selected');
             }
         });
 
