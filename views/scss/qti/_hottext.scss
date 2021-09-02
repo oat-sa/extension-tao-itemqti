@@ -42,6 +42,12 @@
             }
         }
 
+        .hottext-content {
+            @include rtl {
+                padding-left: 3px;
+            }
+        }
+
         [class^="icon-"],
         [class*=" icon-"] {
             &.small {
@@ -51,17 +57,17 @@
                 top: 1px;
                 @include rtl {
                     &:before {
-                        right: -1em;
+                        right: -1.3em;
                         left: 0;
                     }
                     &:after {
                         right: 0;
                     }
-                    }
-                    }
+                }
+            }
 
-                    &.error {
-                        color: $error;
+            &.error {
+                color: $error;
             }
         }
     }
