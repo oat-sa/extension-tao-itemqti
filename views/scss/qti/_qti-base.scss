@@ -220,13 +220,7 @@ $mainContainer : '.qti-item';
         }
         &.solid, &.bordered {
             padding-top: 3px;
-            // padding-right: 3px;
             padding-bottom: 3px;
-
-            @include rtl {
-                // padding-left: 3px;
-                // padding-right: auto;
-            }
 
             &.none {
                 padding-left: 3px;
@@ -238,7 +232,6 @@ $mainContainer : '.qti-item';
             }
         }
     }
-
 
     .qti-block {
         border:1px solid transparent;
