@@ -374,6 +374,8 @@ define([
      */
     const removeOrphanedStylesheets = function () {
         $('link[data-serial]').remove();
+        $('style#item-editor-user-styles').empty();
+        customStylesheet = null;
     };
 
     /**
