@@ -33,11 +33,13 @@ define([
 
     OrderInteractionStateQuestion.prototype.initForm = function initForm(){
 
-        var  callbacks;
+        var callbacks;
         var widget      = this.widget;
         var $form       = this.widget.$form;
         var interaction = this.widget.element;
         var $choiceArea = this.widget.$container.find('.choice-area');
+        var $interaction = this.widget.$container.find('.qti-interaction');
+        var $iconArrow = this.widget.$container.find('.icon-add-to-selection');
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
@@ -69,10 +71,16 @@ define([
         //data change for orientation, change also the current css class
         callbacks.orientation = function(interaction, value){
             interaction.attr('orientation', value);
+            $interaction.attr('data-orientation', value);
+
             if(value === 'horizontal'){
-                $choiceArea.addClass('horizontal');
+                $choiceArea.addClass('horizontal').removeClass('vertical');
+                $interaction.addClass('qti-horizontal').removeClass('qti-vertical');
+                $iconArrow.addClass('icon-down').removeClass('icon-right');
             } else {
-                $choiceArea.removeClass('horizontal');
+                $choiceArea.addClass('vertical').removeClass('horizontal');
+                $interaction.addClass('qti-vertical').removeClass('qti-horizontal');
+                $iconArrow.addClass('icon-right').removeClass('icon-down');
             }
         };
 
