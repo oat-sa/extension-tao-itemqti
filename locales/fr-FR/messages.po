@@ -79,7 +79,7 @@ msgid "A rubric block identifies part of an assessmentItem's itemBody that repre
 msgstr "Un bloc de rubrique identifie une partie du corps de l'item de l'item d'évaluation qui représente des instructions pour un ou plusieurs acteurs qui regardent l'item. Bien que les blocs de rubrique sont définis comme des blocs simples, ils ne doivent contenir aucune d'interaction."
 
 msgid "A value should be provided for at least one of the columns: %s"
-msgstr ""
+msgstr "Une valeur doit être fournie pour au moins une des colonnes: %s"
 
 msgid "Adapt to screen size"
 msgstr "Adapter à la taille de l'écran"
