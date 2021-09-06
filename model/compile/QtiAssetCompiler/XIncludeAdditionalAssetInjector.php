@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\compile\QtiAssetCompiler;
 
 use common_Exception;
+use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\oatbox\service\ConfigurableService;
 use League\Flysystem\FileExistsException;
 use oat\oatbox\filesystem\Directory;
@@ -35,6 +36,10 @@ use Psr\Http\Message\StreamInterface;
 
 class XIncludeAdditionalAssetInjector extends ConfigurableService
 {
+    use UuidPrimaryKeyTrait;
+
+    public const XINCLUDE_ASSET_TYPE = 'xinclude';
+
     private const COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX = 'passage';
 
     /**
@@ -45,7 +50,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         Directory $publicDirectory,
         PackedAsset $packedAsset
     ): void {
-        if ($packedAsset->getType() !== 'xinclude') {
+        if ($this->packedAssetTypeIsNotXinclude($packedAsset)) {
             return;
         }
 
@@ -78,7 +83,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         Directory $publicDirectory,
         StreamInterface $stylesheetContent
     ): void {
-        $stylesheetUrl = uniqid(
+        $stylesheetUrl = $this->getUniquePrimaryKey(
             ) . self::COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX . AssetStylesheetLoader::ASSET_CSS_FILENAME;
 
         $publicDirectory->getFile($stylesheetUrl)->write($stylesheetContent);
@@ -93,11 +98,14 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         $qtiItem->addStylesheet($qtiStylesheet);
     }
 
-    /**
-     * @return AssetStylesheetLoader
-     */
+    private function packedAssetTypeIsNotXinclude(PackedAsset $packedAsset): bool
+    {
+        return $packedAsset->getType() !== self::XINCLUDE_ASSET_TYPE;
+    }
+
     private function getAssetStylesheetLoader(): AssetStylesheetLoader
     {
         return $this->getServiceLocator()->get(AssetStylesheetLoader::class);
     }
 }
+

@@ -142,7 +142,7 @@ class XIncludeAdditionalAssetInjectorTest extends TestCase
         $this->subject->injectNonRDFXincludeRelatedAssets($this->item, $this->directory, $packedAsset);
     }
 
-    private function getPackedAssetMock($type = 'xinclude'): PackedAsset
+    private function getPackedAssetMock($type = XIncludeAdditionalAssetInjector::XINCLUDE_ASSET_TYPE): PackedAsset
     {
         $mediaAsset = $this->createConfiguredMock(
             MediaAsset::class,
