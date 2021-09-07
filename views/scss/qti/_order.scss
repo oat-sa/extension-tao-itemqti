@@ -37,6 +37,13 @@
         ol.source, ol.target {
             display: table-cell;
             width: 43%;
+            padding-left: 40px;
+            padding-right: 3px;
+
+            @include rtl {
+                padding-left: 3px;
+                padding-right: 40px;
+            }
         }
         .arrow-bar {
             .icon-move-before {
