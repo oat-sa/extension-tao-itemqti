@@ -62,7 +62,8 @@
                 }
             }
         }
-        .icon-add-to-selection {
+        .icon-add-to-selection,
+        .icon-remove-from-selection {
             @include rtl {
                 transform: scale(-1);
             }
