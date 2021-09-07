@@ -14,6 +14,14 @@
         text-decoration: inherit;
     }
 
+    @include rtl {
+        .qti-flow-container {
+            p {
+                display: flex;
+            }
+        }
+    }
+
     .qti-hottext {
         display: inline-block;
         background: $uiClickableDefaultBg;
