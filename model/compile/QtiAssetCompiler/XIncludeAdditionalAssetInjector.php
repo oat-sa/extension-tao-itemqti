@@ -83,8 +83,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         Directory $publicDirectory,
         StreamInterface $stylesheetContent
     ): void {
-        $stylesheetUrl = $this->getUniquePrimaryKey(
-            ) . self::COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX . AssetStylesheetLoader::ASSET_CSS_FILENAME;
+        $stylesheetUrl = $this->getUniquePrimaryKey() . self::COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX . AssetStylesheetLoader::ASSET_CSS_FILENAME;
 
         $publicDirectory->getFile($stylesheetUrl)->write($stylesheetContent);
         $qtiStylesheet = new Stylesheet(
