@@ -84,8 +84,7 @@
 }
 
 // IE10+ CSS styles go here
-@media all and (-ms-high-contrast: none),
-(-ms-high-contrast: active) {
+@include ie11 {
     .qti-hottextInteraction {
         .qti-hottext {
             [class^="icon-"],

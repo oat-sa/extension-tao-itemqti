@@ -61,6 +61,13 @@ $mainContainer : '.qti-item';
     }
 }
 
+// IE10+ CSS styles go here
+@mixin ie11 {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content
+    }
+}
+
 #{$mainContainer} {
     @import "inc/fonts/tao-icon-classes";
 
