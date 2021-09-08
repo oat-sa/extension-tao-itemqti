@@ -95,7 +95,8 @@ define([
                 data: {
                     container: container,
                     widget: _widget
-                }
+                },
+                qtiInclude: false
             });
         }
     };
@@ -137,7 +138,7 @@ define([
 
         formElement.initWidget($form);
 
-        callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices');
+        callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices');
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
 

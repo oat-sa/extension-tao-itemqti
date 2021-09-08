@@ -79,7 +79,7 @@ msgid "A rubric block identifies part of an assessmentItem's itemBody that repre
 msgstr "Een rubriek blok staat voor dat deel van een toets items' itembody dat instructies voor een of meer van de actoren bevat om dat item te bekijken. Hoewel rubriek blokken gedefinieerd zijn als simpleBlocks mogen ze geen interacties bevatten."
 
 msgid "A value should be provided for at least one of the columns: %s"
-msgstr ""
+msgstr "Er moet voor ten minste een van de kolommen een waarde worden gegeven: %s"
 
 msgid "Adapt to screen size"
 msgstr "Pas aan schermgrootte aan"
