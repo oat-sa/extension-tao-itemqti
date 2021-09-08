@@ -110,7 +110,8 @@ define([
                 icon: 'preview',
                 title: __('Preview the item'),
                 text : __('Preview'),
-                cssClass: 'preview-trigger'
+                cssClass: 'preview-trigger',
+                testId: 'preview-the-item'
             })).on('click', e => previewHandler(e, this));
 
             this.getAreaBroker()

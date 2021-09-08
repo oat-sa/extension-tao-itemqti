@@ -24,8 +24,9 @@ define([
      *
      * @param selector
      */
-    var fontSelector = function () {
-        var fontSelector = $('select#item-editor-font-selector'),
+    function fontSelector() {
+        const selector = 'select#item-editor-font-selector',
+            fontSelector = $(selector),
             target = fontSelector.data('target'),
             $target = $(target),
             normalize = function (font) {
@@ -34,8 +35,8 @@ define([
             clean = function (font) {
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
             },
-            resetButton =  fontSelector.parent().find('[data-role="font-selector-reset"]'),
-            generic,
+            resetButton = fontSelector.parent().find('[data-role="font-selector-reset"]');
+        let generic,
             optGroup,
             option,
             i = 0,
@@ -47,19 +48,18 @@ define([
                 });
             },
             format = function (state) {
-                var originalOption = state.element;
+                const originalOption = state.element;
                 if (!state.id) {
                     return state.text;
                 }
                 return '<span style="font-size: 12px;' + $(originalOption).attr('style') + '">' + state.text + '</span>';
             },
-            reset = function() {
+            reset = function () {
                 styleEditor.apply(target, 'font-family');
-                fontSelector.select2('val', $target.css('font-family'));
+                fontSelector.select2('val', '');
             };
 
-
-        fontSelector.append('<option value="">' + __('Default')  + '</option>');
+        fontSelector.append('<option value="">' + __('Default') + '</option>');
 
         for (generic in fontStacks) {
             if (fontStacks.hasOwnProperty(generic)) {
@@ -68,20 +68,20 @@ define([
                 for (i = 0; i < l; i++) {
                     // normalize quotes
                     fontStacks[generic][i] = normalize(fontStacks[generic][i]);
+                    const value = fontStacks[generic][i];
+                    const cleanValue = clean(value);
                     option = $('<option>', {
-                        value: fontStacks[generic][i],
-                        text: clean(fontStacks[generic][i])
+                        value,
+                        text: cleanValue
                     })
                         .css({
-                            fontFamily: fontStacks[generic][i]
+                            fontFamily: value
                         });
                     optGroup.append(option);
                 }
                 fontSelector.append(optGroup);
             }
         }
-
-
 
         resetButton.on('click', reset);
 
@@ -91,19 +91,18 @@ define([
             width: 'resolve'
         });
 
-        $(document).on('customcssloaded.styleeditor', function(e, style) {
-            //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
-            return;
-            //if(style[target] && style[target]['font-family']) {
-                //fontSelector.select2('val', style[target]['font-family']);
-            //}
+        $(document).on('customcssloaded.styleeditor', function (e, style) {
+            if (style[target] && style[target]['font-family']) {
+                fontSelector.select2('val', style[target]['font-family']);
+                $(`${selector} option:selected`).first().attr('selected', 'selected');
+            }
         });
 
         fontSelector.on('change', function () {
             styleEditor.apply(target, 'font-family', $(this).val());
+            $(`${selector} option:selected`).first().attr('selected', 'selected');
         });
-    };
+    }
 
     return fontSelector;
 });
-
