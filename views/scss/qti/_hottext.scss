@@ -63,19 +63,46 @@
                 text-shadow: none;
                 line-height: 10px;
                 top: 1px;
-                @include rtl {
-                    &:before {
+                &:before {
+                    right: 0em;
+                    @include rtl {
                         right: -1em;
-                        left: 0;
                     }
-                    &:after {
+                }
+                &:after {
+                    left: -1em;
+                    @include rtl {
                         right: 0em;
                     }
                 }
             }
-
             &.error {
                 color: $error;
+            }
+        }
+    }
+}
+
+// IE10+ CSS styles go here
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+    .qti-hottextInteraction {
+        .qti-hottext {
+            [class^="icon-"],
+            [class*=" icon-"] {
+                &.small {
+                    &:before {
+                        right: 0.25em;
+                    }
+                    &:after {
+                        right: 0.5em;
+                    }
+                    @include rtl {
+                        &:before {
+                            right: -0.25em;
+                        }
+                    }
+                }
             }
         }
     }
