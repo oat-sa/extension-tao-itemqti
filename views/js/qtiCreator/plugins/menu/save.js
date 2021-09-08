@@ -50,7 +50,8 @@ define([
                 icon: 'save',
                 title: __('Save the item'),
                 text : __('Save'),
-                cssClass: 'save-trigger'
+                cssClass: 'save-trigger',
+                testId: 'save-the-item'
             })).on('click', e => {
                 e.preventDefault();
                 this.disable();

@@ -52,8 +52,16 @@ $mainContainer : '.qti-item';
     }
 }
 
-#{$mainContainer} {
+// Remove this mixin after refactoring _qti-base to avoid dublication from tao-core
+@mixin rtl {
+    @at-root {
+        #{selector-replace(&, $mainContainer, $mainContainer + " [dir=rtl] ")} {
+            @content;
+        }
+    }
+}
 
+#{$mainContainer} {
     @import "inc/fonts/tao-icon-classes";
 
     @import "inc/feedback";
@@ -61,7 +69,6 @@ $mainContainer : '.qti-item';
     @import "inc/tooltip";
     @import "inc/buttons";
     @import "inc/jquery.nouislider";
-    @import "inc/forms";
 
     // reset grid set-up within the item context
 
@@ -203,6 +210,10 @@ $mainContainer : '.qti-item';
             & > li {
                 display: block;
                 float: left;
+
+                @include rtl {
+                    float: right;
+                }
             }
         }
         &.solid, &.bordered {
@@ -211,6 +222,11 @@ $mainContainer : '.qti-item';
             padding-bottom: 3px;
             &.none {
                 padding-left: 3px;
+
+                @include rtl {
+                    padding-left: auto;
+                    padding-right: 3px;
+                }
             }
         }
     }
