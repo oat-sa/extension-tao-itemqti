@@ -1,0 +1,8 @@
+// Remove this mixin after refactoring _qti-base to avoid dublication from tao-core
+@mixin rtl() {
+    @at-root {
+        #{selector-replace(&, $mainContainer, $mainContainer + " [dir=rtl] ")} {
+            @content;
+        }
+    }
+}
