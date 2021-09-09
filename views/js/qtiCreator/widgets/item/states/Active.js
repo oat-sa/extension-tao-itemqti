@@ -64,8 +64,8 @@ define([
                     item.attr('dir', 'rtl');
                     $itemBody.find('.grid-row').attr('dir', 'rtl');
                 } else {
-                    item.removeAttr('dir');
-                    $itemBody.find('.grid-row').removeAttr('dir');
+                    item.attr('dir', 'ltr');
+                    $itemBody.find('.grid-row').attr('dir', 'ltr');
                 }
                 //need to update item body
                 item.body(contentHelper.getContent($itemBody));
