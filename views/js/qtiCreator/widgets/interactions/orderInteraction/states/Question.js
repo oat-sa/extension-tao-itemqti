@@ -38,6 +38,7 @@ define([
         var $form       = this.widget.$form;
         var interaction = this.widget.element;
         var $choiceArea = this.widget.$container.find('.choice-area');
+        var $resultArea = this.widget.$container.find('.result-area');
         var $interaction = this.widget.$container.find('.qti-interaction');
         var $iconArrow = this.widget.$container.find('.icon-add-to-selection');
 
@@ -75,10 +76,12 @@ define([
 
             if(value === 'horizontal'){
                 $choiceArea.addClass('horizontal').removeClass('vertical');
+                $resultArea.addClass('horizontal').removeClass('vertical');
                 $interaction.addClass('qti-horizontal').removeClass('qti-vertical');
                 $iconArrow.addClass('icon-down').removeClass('icon-right');
             } else {
                 $choiceArea.addClass('vertical').removeClass('horizontal');
+                $resultArea.addClass('vertical').removeClass('horizontal');
                 $interaction.addClass('qti-vertical').removeClass('qti-horizontal');
                 $iconArrow.addClass('icon-right').removeClass('icon-down');
             }
