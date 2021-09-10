@@ -35,9 +35,7 @@ describe('Items', () => {
         cy.intercept('POST', `**/${ selectors.editClassLabelUrl }`).as('editClassLabel')
 
         cy.visit(urls.items);
-        cy.wait('@edit', {
-            requestTimeout: 10000
-        });
+        cy.wait('@edit');
 
         cy.get(selectors.root).then(root => {
             if ((root.find(`li[title="${className}"] a`).length)) {
