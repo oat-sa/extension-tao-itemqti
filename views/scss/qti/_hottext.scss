@@ -14,6 +14,15 @@
         text-decoration: inherit;
     }
 
+    @include rtl {
+        .qti-flow-container {
+            p {
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+    }
+
     .qti-hottext {
         display: inline-block;
         background: $uiClickableDefaultBg;
@@ -28,25 +37,72 @@
             @extend %selectableHover;
         }
 
-        &.error{
-            color : $error;
+        &.error {
+            color: $error;
         }
 
         .hottext-checkmark {
             padding-left: 3px;
             padding-right: 0;
             width: 20px;
+            @include rtl {
+                padding-left: 0px;
+                padding-right: 3px;
+            }
         }
 
-        [class^="icon-"], [class*=" icon-"] {
+        .hottext-content {
+            @include rtl {
+                padding-left: 3px;
+            }
+        }
+
+        [class^="icon-"],
+        [class*=" icon-"] {
             &.small {
                 @include font-size(12);
                 text-shadow: none;
-                line-height:10px;
+                line-height: 10px;
                 top: 1px;
+                &:before {
+                    right: 0em;
+                    @include rtl {
+                        right: -1em;
+                    }
+                }
+                &:after {
+                    left: -1em;
+                    @include rtl {
+                        right: 0em;
+                    }
+                }
             }
-            &.error{
-                color : $error;
+            &.error {
+                color: $error;
+            }
+        }
+    }
+}
+
+// IE10+ CSS styles go here
+@include ie11 {
+    .qti-hottextInteraction {
+        .qti-hottext {
+            [class^="icon-"],
+            [class*=" icon-"] {
+                &.small {
+                    &:before {
+                        right: 0.25em;
+                    }
+                    &:after {
+                        right: 0.5em;
+                    }
+                    @include rtl {
+                        &:before {
+                            right: -0.25em;
+                        }
+                    }
+                }
             }
         }
     }

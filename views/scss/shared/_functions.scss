@@ -1,8 +1,15 @@
 // Remove this mixin after refactoring _qti-base to avoid dublication from tao-core
-@mixin rtl() {
+@mixin rtl {
     @at-root {
         #{selector-replace(&, $mainContainer, $mainContainer + " [dir=rtl] ")} {
             @content;
         }
+    }
+}
+
+// IE10+ CSS styles go here
+@mixin ie11 {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content
     }
 }
