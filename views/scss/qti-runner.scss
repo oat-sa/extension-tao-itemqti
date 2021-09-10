@@ -5,10 +5,12 @@
 
 $fontPath : '../../../tao/views/css/font/';
 $mainContainer : '.qti-item';
+
 @import "inc/bootstrap";
 @import "inc/fonts/tao-icon-def";
 @import "inc/fonts/tao-icon-vars";
 @import "inc/tooltip";
 @import "inc/feedback";
+@import "shared/functions";
 
 @import "qti/qti-base";

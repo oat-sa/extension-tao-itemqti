@@ -1,5 +1,8 @@
 @import "inc/bootstrap";
 @import "inc/farbtastic";
+@import "shared/functions";
+
+$mainContainer : '.item-editor-item';
 
 //all shades of colors
 $itemCreatorBlue90: mix(#fff, $info, 90%);
