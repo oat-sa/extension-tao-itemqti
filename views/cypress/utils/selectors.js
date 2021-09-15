@@ -11,6 +11,7 @@ export default {
     root: '[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
     authoring: '[data-context="instance"][data-action="launchEditor"]',
     editItemUrl: 'taoItems/Items/editItem',
+    editItemTestId:' [data-testid="manage-items"]',
     deleteClassUrl: 'taoItems/Items/deleteClass',
     editClassLabelUrl: 'taoItems/Items/editClassLabel',
     treeRenderUrl: 'taoItems/Items',

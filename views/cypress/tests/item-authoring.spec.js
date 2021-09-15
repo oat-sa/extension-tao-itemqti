@@ -23,6 +23,18 @@ import selectors from '../utils/selectors';
 describe('Items', () => {
     const className = 'Test E2E class';
     const itemName = 'Test E2E item 1';
+    const interactionList = {
+         choice:      'choiceInteraction',
+         // order:       'orderInteraction',
+         // asociate:    'associateInteraction',
+         // match:       'matchInteraction',
+         // hottext:     'hottextInteraction',
+         // gapMatch:    'gapMatchInteraction',
+         // slider:      'sliderInteraction',
+         // extendedText:'extendedTextInteraction',
+         // upload:      'uploadInteraction',
+         // media:       'mediaInteraction'
+    };
 
     /**
      * Log in
@@ -33,7 +45,7 @@ describe('Items', () => {
 
         cy.intercept('POST', '**/edit*').as('edit');
         cy.intercept('POST', `**/${ selectors.editClassLabelUrl }`).as('editClassLabel')
-
+        cy.viewport(1000, 660);
         cy.visit(urls.items);
         cy.wait('@edit');
 
@@ -74,10 +86,24 @@ describe('Items', () => {
             cy.location().should((loc) => {
                 expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);
             })
+        })
+
+        it('can add interactions to canvas', () => {
+          
+            for (const interaction in interactionList) {  
+            cy.dragAndDrop(`li[data-qti-class=${interactionList[interaction]}`, 60, 60);
+            
+         // cy.get('selectors.editItemTestId').click();
+         // cy.getSettled('li[title=itemName]');
+         // cy.get('li[id="item-authoring"]').click();
+
+         // cy.get('div[class="qti-itemBody item-editor-drop-area hoverable"]');
+         // .contains(`div[data-qti-class]=${interactionList[interaction]}`);
+         }
         });
 
         it('should be "Manage Items" button', function () {
-            cy.get('[data-testid="manage-items"]').should('have.length', 1);
+            cy.get(selectors.editItemTestId).should('have.length', 1);
         });
 
         it('should be "Save" button', function () {
