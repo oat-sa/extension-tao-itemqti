@@ -8,6 +8,13 @@
         }
         td, th {
             color: $textColor;
+            text-align: left;
+            position: relative;
+
+            @include rtl {
+                text-align: right;
+            }
+
             // table cells and headings within the match interaction
             &:not(.qti-choice){
                 position: relative;
@@ -22,6 +29,10 @@
                         top: calc(50% - .8rem);
                     }
                 }
+            }
+
+            .inner-wrapper {
+                position: static;
             }
         }
     }
