@@ -24,16 +24,16 @@ describe('Items', () => {
     const className = 'Test E2E class';
     const itemName = 'Test E2E item 1';
     const interactionList = {
-         choice:      'choiceInteraction',
-         // order:       'orderInteraction',
-         // asociate:    'associateInteraction',
-         // match:       'matchInteraction',
-         // hottext:     'hottextInteraction',
-         // gapMatch:    'gapMatchInteraction',
-         // slider:      'sliderInteraction',
-         // extendedText:'extendedTextInteraction',
-         // upload:      'uploadInteraction',
-         // media:       'mediaInteraction'
+        choice:      'choiceInteraction',
+        order:       'orderInteraction',
+        asociate:    'associateInteraction',
+        match:       'matchInteraction',
+        hottext:     'hottextInteraction',
+        gapMatch:    'gapMatchInteraction',
+        slider:      'sliderInteraction',
+        extendedText:'extendedTextInteraction',
+        upload:      'uploadInteraction',
+        media:       'mediaInteraction'
     };
 
     /**
@@ -85,21 +85,21 @@ describe('Items', () => {
             cy.get(selectors.authoring).click();
             cy.location().should((loc) => {
                 expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);
-            })
-        })
+            });
+        });
 
         it('can add interactions to canvas', () => {
-          
-            for (const interaction in interactionList) {  
-            cy.dragAndDrop(`li[data-qti-class=${interactionList[interaction]}`, 60, 60);
-            
-         // cy.get('selectors.editItemTestId').click();
-         // cy.getSettled('li[title=itemName]');
-         // cy.get('li[id="item-authoring"]').click();
-
-         // cy.get('div[class="qti-itemBody item-editor-drop-area hoverable"]');
-         // .contains(`div[data-qti-class]=${interactionList[interaction]}`);
-         }
+            cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
+            const dropSelector = 'div.qti-itemBody.item-editor-drop-area';
+            for (const interaction in interactionList) {
+                const dragSelector = `[data-qti-class="${interactionList[interaction]}"]`;
+                cy.dragAndDrop(
+                    dragSelector,
+                    dropSelector
+                );
+                // check that widget is initialized
+                cy.getSettled(`${dropSelector} .widget-box.edit-active${dragSelector}`).should('exist');
+            }
         });
 
         it('should be "Manage Items" button', function () {
