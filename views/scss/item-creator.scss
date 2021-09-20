@@ -918,17 +918,9 @@ img.dragging.ui-draggable-dragging {
                 margin-top: 3px;
                 line-height: 1.4;
                 @include font-size(14, true);
-
-                @include rtl {
-                    float: right;
-                }
             }
             .tlb {
                 position: relative;
-
-                @include rtl {
-                    float: left;
-                }
 
                 &:before {
                     content: '';
@@ -948,14 +940,7 @@ img.dragging.ui-draggable-dragging {
                     margin: 3px 0 2px;
                 }
                 .state-switcher {
-                    display: flex;
                     margin-right: 15px;
-
-                    @include rtl {
-                        margin-right: 0;
-                        margin-left: 15px;
-                        flex-direction: row-reverse;
-                    }
 
                     .selected {
                         font-size: 1.4rem;
@@ -970,7 +955,6 @@ img.dragging.ui-draggable-dragging {
                     }
                     .separator {
                         font-size: 1.4rem;
-                        margin: 0 10px;
                     }
                 }
 
@@ -982,10 +966,6 @@ img.dragging.ui-draggable-dragging {
                         cursor: pointer;
                         font-weight: bold;
                         opacity: 1;
-                    }
-
-                    @include rtl {
-                        float: left;
                     }
 
                     [class^="icon-"], [class*=" icon-"] {
@@ -1076,10 +1056,6 @@ img.dragging.ui-draggable-dragging {
             margin: 5px;
             position: relative;
             z-index: 1;
-
-            @include rtl {
-                float: left;
-            }
         }
     }
     .widget-box-placeholder {
