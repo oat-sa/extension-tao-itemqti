@@ -46,5 +46,6 @@ export function addShapeToImage(interactionSelector, shapeType) {
                     force: true
                 })
                 .trigger('mouseup', { force: true });
+            cy.getSettled(`.widget-box.edit-active${interactionSelector} .main-image-box svg ${shapeType}`).should('exist');
         });
 }
