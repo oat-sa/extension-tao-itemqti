@@ -104,7 +104,7 @@ describe('Items', () => {
         });
 
         it('should be "Manage Items" button', function () {
-            cy.get(selectors.editItemTestId).should('have.length', 1);
+            cy.get('[data-testid="manage-items"]').should('have.length', 1);
         });
 
         it('should be "Save" button', function () {
