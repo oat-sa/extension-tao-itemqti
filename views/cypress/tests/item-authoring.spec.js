@@ -80,7 +80,27 @@ describe('Items', () => {
             }
         });
     });
+    after(() => {
+        cy.intercept('POST', '**/edit*').as('edit');
+        cy.visit(urls.items);
+        cy.wait('@edit');
 
+        cy.get(selectors.root).then(root => {
+            if (root.find(`li[title="${className}"] a`).length) {
+                cy.deleteClassFromRoot(
+                    selectors.root,
+                    selectors.itemClassForm,
+                    selectors.deleteClass,
+                    selectors.deleteConfirm,
+                    className,
+                    selectors.deleteClassUrl,
+                    selectors.resourceRelations,
+                    false,
+                    true
+                );
+            }
+        });
+    });
     /**
      * Tests
      */
