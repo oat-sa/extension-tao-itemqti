@@ -22,7 +22,7 @@
  * @param {String} pathToFile
  */
 export function selectUploadLocalAsset(fileName, pathToFile) {
-    cy.log('SELECT OR UPLOAD LOCAL ASSET', 'add image option if needed');
+    cy.log('SELECT OR UPLOAD LOCAL ASSET', fileName, pathToFile);
     cy.get('.resourcemgr.modal')
         .last()
         .then(resourcemgr => {
