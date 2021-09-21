@@ -19,13 +19,19 @@
 import urls from '../utils/urls';
 import selectors from '../utils/selectors';
 import paths from '../utils/paths';
-import { selectUploadLocalAssest } from '../utils/resource-manager';
+import { selectUploadLocalAsset } from '../utils/resource-manager';
 import { addShapeToImage } from '../utils/graphic-interactions';
 
 describe('Items', () => {
     const className = 'Test E2E class';
     const itemName = 'Test E2E item 1';
-    const interactionList = {
+    const blockContainer = '_container';
+    const inlineInteractions = {
+        inlineChoiceInteraction: 'inlineChoiceInteraction',
+        textEntryInteraction: 'textEntryInteraction',
+        endAttemptInteraction: 'endAttemptInteraction'
+    };
+    const commonInteractions = {
         choice: 'choiceInteraction',
         order: 'orderInteraction',
         asociate: 'associateInteraction',
@@ -34,8 +40,7 @@ describe('Items', () => {
         gapMatch: 'gapMatchInteraction',
         slider: 'sliderInteraction',
         extendedText: 'extendedTextInteraction',
-        upload: 'uploadInteraction',
-        aBlock: '_container'
+        upload: 'uploadInteraction'
     };
     const mediaInteraction = 'mediaInteraction';
     const graphicInteractions = {
@@ -120,23 +125,49 @@ describe('Items', () => {
 
         it('should be interactions left panel', function () {
             cy.get('#item-editor-interaction-bar').should('have.length', 1);
-            // open all interactions
-            cy.get('#sidebar-left-section-inline-interactions').click();
-            cy.get('#sidebar-left-section-graphic-interactions').click();
         });
-
-        it('can add common interactions to canvas', () => {
+        it('can add inline interactions to Block', () => {
             cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
-            for (const interaction in interactionList) {
+            // open inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions').click();
+
+            cy.log('ADDING A-BLOCK INTERACTION');
+            const blockSelector = `[data-qti-class="${blockContainer}"]`;
+            cy.dragAndDrop(blockSelector, dropSelector);
+            // check that widget is initialized
+            cy.getSettled(`${dropSelector} .widget-box.edit-active${blockSelector}`).should('exist');
+            cy.log('A-BLOCK IS ADDED');
+
+            for (const interaction in inlineInteractions) {
                 cy.log('ADDING INTERACTION', interaction);
-                const interactionSelector = `[data-qti-class="${interactionList[interaction]}"]`;
+                const interactionSelector = `[data-qti-class="${inlineInteractions[interaction]}"]`;
+                cy.dragAndDrop(interactionSelector, dropSelector, [
+                    '.widget-box[data-qti-class="_container"]',
+                    '.widget-box[data-qti-class="_container"] span.qti-word-wrap'
+                ]);
+                // check that widget is initialized (outside item-editor-drop-area)
+                cy.getSettled(`.widget-box.edit-active.widget-${inlineInteractions[interaction]}`).should('exist');
+                cy.getSettled(`.widget-box.edit-active.widget-${inlineInteractions[interaction]} button.widget-ok`).click();
+                cy.log(interaction, 'IS ADDED');
+            }
+            // close inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions ._accordion').click();
+        });
+        it('can add common interactions to canvas', () => {
+            for (const interaction in commonInteractions) {
+                cy.log('ADDING INTERACTION', interaction);
+                const interactionSelector = `[data-qti-class="${commonInteractions[interaction]}"]`;
                 cy.dragAndDrop(interactionSelector, dropSelector);
                 // check that widget is initialized
                 cy.getSettled(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
                 cy.log(interaction, 'IS ADDED');
             }
+            // close common interactions panel
+            cy.get('#sidebar-left-section-common-interactions ._accordion').click();
         });
         it('can add media interaction to canvas and upload video', () => {
+            // open common interaction panel
+            cy.get('#sidebar-left-section-common-interactions').click();
             cy.log('ADDING INTERACTION', mediaInteraction);
             const interactionSelector = `[data-qti-class="${mediaInteraction}"]`;
             const videoName = 'sample-mp4-file.mp4';
@@ -144,11 +175,15 @@ describe('Items', () => {
             // check that widget is initialized
             cy.getSettled(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
             // resource selector
-            selectUploadLocalAssest(videoName, `${paths.assetsPath}${videoName}`);
+            selectUploadLocalAsset(videoName, `${paths.assetsPath}${videoName}`);
             cy.log(mediaInteraction, 'IS ADDED');
+            // close common interaction panel
+            cy.get('#sidebar-left-section-common-interactions ._accordion').click();
         });
 
         it('can add graphic interactions to canvas and upload image', () => {
+            // open graphic interactions panel
+            cy.get('#sidebar-left-section-graphic-interactions').click();
             for (const interaction in graphicInteractions) {
                 cy.log('ADDING INTERACTION', interaction);
                 const interactionSelector = `[data-qti-class="${graphicInteractions[interaction]}"]`;
@@ -157,7 +192,7 @@ describe('Items', () => {
                 cy.dragAndDrop(interactionSelector, dropSelector);
                 // check that widget is initialized
                 cy.getSettled(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
-                selectUploadLocalAssest(imageName, `${paths.assetsPath}${imageName}`);
+                selectUploadLocalAsset(imageName, `${paths.assetsPath}${imageName}`);
 
                 // image is loaded to widget
                 cy.getSettled(`.widget-box.edit-active${interactionSelector} .main-image-box image`).should('exist');
@@ -169,8 +204,10 @@ describe('Items', () => {
                     // add image option if needed
                     if (imageEditor.find('li.add-option').length) {
                         cy.get(`.widget-box.edit-active${interactionSelector} .image-editor li.add-option`).click();
-                        selectUploadLocalAssest(imageOptionName, `${paths.assetsPath}${imageOptionName}`);
-                        cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should('exist');
+                        selectUploadLocalAsset(imageOptionName, `${paths.assetsPath}${imageOptionName}`);
+                        cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should(
+                            'exist'
+                        );
                     }
                 });
                 cy.log(interaction, 'IS ADDED');
