@@ -123,11 +123,12 @@
             top:8px;
         }
     }
-    
     .add-option{
         @extend %add-option;
+        width: 100%;
+        padding: 0;
+        margin: 4px 0 0 0;
     }
-    
 }
 
 .widget-response .qti-inlineChoiceInteraction{
