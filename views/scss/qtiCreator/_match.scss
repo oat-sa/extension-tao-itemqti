@@ -85,4 +85,10 @@
             top: 0;
         }
     }
+
+    @include rtl {
+        .rgt {
+            float: left;
+        }
+    }
 }
