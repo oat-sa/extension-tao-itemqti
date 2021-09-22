@@ -1,33 +1,29 @@
 @import "inc/bootstrap";
 
 .qti-orderInteraction {
-    .add-option{
-        position:relative;
-        padding: 5px 16px 5px 6px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .mini-tlb {
+        right: -38px;
+        top: 4px;
 
         @include rtl {
-            padding-right: 6px;
-            padding-left: 16px;
-        }
-
-        .icon-add{
-            font-size: 1.8rem;
-            left: 6px;
-            position: absolute;
-            top: 5px;
-            @include rtl {
-                margin-right: 0;
-                margin-left: 8px;
-                float: right;
-            }
+            right: auto;
+            left: -38px;
         }
     }
-    [data-edit]{
-        &.mini-tlb[data-edit]{
-            right: -38px;
-            top: 4px;
+
+    // Horizontal version
+    &.qti-horizontal {
+        .qti-choice { // extra
+            .mini-tlb {
+                right: -1px;
+                top: -28px;
+                left: auto;
+
+                @include rtl {
+                    right: auto;
+                    left: -1px;
+                }
+            }
         }
     }
 }
