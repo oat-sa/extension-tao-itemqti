@@ -27,7 +27,7 @@ export function selectUploadLocalAsset(fileName, pathToFile) {
         .last()
         .then(resourcemgr => {
             const resourcemgrId = resourcemgr[0].id;
-            cy.getSettled(`#${resourcemgrId} .file-browser .root-folder`).should('have.length', 2);
+            cy.getSettled(`#${resourcemgrId} .file-browser .root-folder`).should('exist');
             cy.getSettled(`#${resourcemgrId} .file-browser .local .root-folder`).click();
             cy.get(`#${resourcemgrId} .file-selector .files`).then(root => {
                 if (root.find(`#${resourcemgrId} li[data-file="/${fileName}"]`).length === 0) {
