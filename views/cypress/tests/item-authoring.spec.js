@@ -22,7 +22,7 @@ import paths from '../utils/paths';
 import { selectUploadLocalAsset } from '../utils/resource-manager';
 import { addShapeToImage } from '../utils/graphic-interactions';
 
-describe('Items', () => {
+describe('Item Authoring', () => {
     const className = 'Test E2E class';
     const itemName = 'Test E2E item 1';
     const blockContainer = '_container';
@@ -115,7 +115,7 @@ describe('Items', () => {
                 selectors.addSubClassUrl
             );
             cy.addNode(selectors.itemForm, selectors.addItem);
-            cy.renameSelectedItem(selectors.itemForm, selectors.editItemUrl, itemName);
+            cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
 
             cy.get(selectors.authoring).click();
             cy.location().should(loc => {
