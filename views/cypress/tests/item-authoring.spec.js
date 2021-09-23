@@ -58,6 +58,7 @@ describe('Item Authoring', () => {
             }
         });
     });
+
     after(() => {
         cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
@@ -79,6 +80,7 @@ describe('Item Authoring', () => {
             }
         });
     });
+
     /**
      * Tests
      */
@@ -124,6 +126,7 @@ describe('Item Authoring', () => {
         it('should be interactions left panel', function () {
             cy.get('#item-editor-interaction-bar').should('have.length', 1);
         });
+
         it('can add inline interactions to Block', () => {
             cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
             // open inline interactions panel
@@ -132,9 +135,11 @@ describe('Item Authoring', () => {
             // close inline interactions panel
             cy.get('#sidebar-left-section-inline-interactions ._accordion').click();
         });
+
         it('can add common interactions to canvas', () => {
             addCommonInteractions();
         });
+
         it('can add media interaction to canvas and upload video', () => {
             addMediaInteraction();
             // close common interaction panel
