@@ -46,6 +46,26 @@
             bottom: calc(100% + 20px);
         }
     }
+
+    .real-label {
+        left: 0;
+        padding-right: 10px;
+        @include rtl {
+            left: auto;
+            right: 0;
+            padding-right: 0;
+            padding-left: 10px;
+        }
+
+    }
+    .label-box{
+        margin-left: 24px;
+        @include rtl {
+            margin-left: 0;
+            margin-right: 24px;
+        }
+    }
+
     // parent .qti-interaction
     &.eliminable {
         .label-box {
@@ -170,6 +190,18 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+
+        &:before {
+            @include rtl {
+                right: -1em;
+            }
+        }
+        &:after {
+            left: -1em;
+            @include rtl {
+                left: auto;
+            }
+        }
     }
 
     .choice-area {
@@ -234,6 +266,7 @@
         max-height: 100%;
         display: block;
     }
+
 
 
     //IE specific
