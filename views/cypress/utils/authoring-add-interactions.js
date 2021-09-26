@@ -20,6 +20,7 @@ import { selectUploadLocalAsset } from './resource-manager';
 import { addShapeToImage } from './graphic-interactions';
 
 const blockContainer = '_container';
+const aBlockContainer = 'textBlock';
 const inlineInteractions = {
     inlineChoiceInteraction: 'inlineChoiceInteraction',
     textEntryInteraction: 'textEntryInteraction',
@@ -45,6 +46,8 @@ const graphicInteractions = {
     selectPointInteraction: 'selectPointInteraction'
 };
 const dropSelector = 'div.qti-itemBody.item-editor-drop-area';
+const undoSelector = '.feedback-info.popup a.undo';
+const closeUndoSelector = '.feedback-info.popup .icon-close';
 
 /**
  * Add A-Block and then all inline interactions on it
@@ -72,6 +75,52 @@ export function addBlockAndInlineInteractions() {
 }
 
 /**
+ * Removes interaction, undo and remove again
+ * @param {String} deleteSelector - css selector of delete button
+ * @param {String} interaction - interaction name
+ * @param {String} interactionSelector - css selector of the interaction container
+ */
+function removeInteraction(deleteSelector, interaction, interactionSelector) {
+    cy.log('REMOVING INTERACTION', interaction);
+    cy.get(deleteSelector).click({ force: true });
+    cy.log(interaction, 'IS REMOVED');
+
+    cy.get(undoSelector).should('exist');
+    cy.get(undoSelector).click();
+    cy.log(interaction, 'UNDO REMOVE');
+    cy.get(interactionSelector).should('exist');
+    cy.get(undoSelector).should('not.exist');
+
+    cy.get(deleteSelector).click({ force: true });
+    cy.log(interaction, 'IS REMOVED');
+    cy.get(undoSelector).should('exist');
+    cy.get(closeUndoSelector).click();
+}
+
+/**
+ * Removes A-Block and then all inline interactions in it
+ */
+export function removeBlockAndInlineInteractions() {
+    const aBlockSelector = `.widget-box.widget-block.widget-${aBlockContainer}`;
+
+    for (const interaction in inlineInteractions) {
+        const interactionSelector = `.widget-box.edit-active.widget-${inlineInteractions[interaction]}`;
+        const deleteSelector = `${interactionSelector} .tlb [data-role="delete"]`;
+
+        cy.get(aBlockSelector).click();
+        cy.get(`.widget-box.${inlineInteractions[interaction]}-placeholder`).click();
+
+        removeInteraction(deleteSelector, interaction, interactionSelector);
+    }
+
+    const blockSelector = `[data-qti-class="${blockContainer}"]`;
+    const deleteSelector = `.widget-box.edit-active${blockSelector} [data-role="delete"]`;
+
+    cy.get(aBlockSelector).click();
+    removeInteraction(deleteSelector, 'A-BLOCK', blockSelector);
+}
+
+/**
  * Add common interactions to canvas except media interaction
  */
 export function addCommonInteractions() {
@@ -80,10 +129,25 @@ export function addCommonInteractions() {
         const interactionSelector = `[data-qti-class="${commonInteractions[interaction]}"]`;
         cy.dragAndDrop(interactionSelector, dropSelector);
         // check that widget is initialized
-        cy.getSettled(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
+        cy.get(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
         cy.log(interaction, 'IS ADDED');
     }
 }
+
+/**
+ * Remove common interactions from canvas except media interaction
+ */
+export function removeCommonInteractions() {
+    for (const interactionKey of Object.keys(commonInteractions).reverse()) {
+        const interaction = commonInteractions[interactionKey];
+        const interactionSelector = `[data-qti-class="${commonInteractions[interactionKey]}"]`;
+        const deleteSelector = `.widget-box.edit-active${interactionSelector} .tlb [data-role="delete"]`;
+
+        cy.get(`.widget-box${interactionSelector}`).click();
+        removeInteraction(deleteSelector, interaction, interactionSelector);
+    }
+}
+
 /**
  * Add media interaction to canvas
  */
@@ -98,6 +162,18 @@ export function addMediaInteraction() {
     selectUploadLocalAsset(videoName, `${paths.assetsPath}${videoName}`);
     cy.log(mediaInteraction, 'IS ADDED');
 }
+
+/**
+ * Remove media interaction from canvas
+ */
+export function removeMediaInteraction() {
+    const interactionSelector = `[data-qti-class="${mediaInteraction}"]`;
+    const deleteSelector = `.widget-box.edit-active${interactionSelector} .tlb [data-role="delete"]`;
+
+    cy.get(`.widget-box${interactionSelector}`).click();
+    removeInteraction(deleteSelector, mediaInteraction, interactionSelector);
+}
+
 /**
  * Add graphic interactions to canvas
  */
@@ -127,5 +203,19 @@ export function addGraphicInteractions() {
             }
         });
         cy.log(interaction, 'IS ADDED');
+    }
+}
+
+/**
+ * Remove graphic interactions to canvas
+ */
+export function removeGraphicInteractions() {
+    for (const interactionKey of Object.keys(graphicInteractions).reverse()) {
+        const interaction = graphicInteractions[interactionKey];
+        const interactionSelector = `[data-qti-class="${graphicInteractions[interaction]}"]`;
+        const deleteSelector = `.widget-box.edit-active${interactionSelector} .tlb [data-role="delete"]`;
+
+        cy.get(`.widget-box${interactionSelector}`).click();
+        removeInteraction(deleteSelector, interaction, interactionSelector);
     }
 }
