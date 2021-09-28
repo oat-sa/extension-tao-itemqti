@@ -48,19 +48,19 @@ define([
         interactiontoolbarready : 'interactiontoolbarready.qti-widget'
     };
 
-    function getGroupId(groupLabel){
-        return groupLabel.replace(/\W+/g, '-').toLowerCase();
+    function getGroupId(groupName){
+        return groupName.replace(/\W+/g, '-').toLowerCase();
     }
 
-    function getGroupSectionId(groupLabel){
-        return 'sidebar-left-section-' + getGroupId(groupLabel);
+    function getGroupSectionId(groupName){
+        return 'sidebar-left-section-' + getGroupId(groupName);
     }
 
-    function addGroup($sidebar, groupLabel){
+    function addGroup($sidebar, groupName, groupLabel){
 
-        var groupId = getGroupSectionId(groupLabel);
+        let groupId = getGroupSectionId(groupName);
 
-        var $section = $(insertSectionTpl({
+        let $section = $(insertSectionTpl({
             id : groupId,
             label : groupLabel
         }));
@@ -83,9 +83,9 @@ define([
         $sidebar.trigger(_events.interactiontoolbarready);//interactiontoolbarready.qti-widget
     }
 
-    function getGroup($sidebar, groupLabel){
+    function getGroup($sidebar, groupName){
 
-        var groupId = getGroupSectionId(groupLabel);
+        let groupId = getGroupSectionId(groupName);
         return $sidebar.find('#' + groupId);
     }
 
@@ -127,9 +127,10 @@ define([
             throw 'the interaction is already in the sidebar';
         }
         
-        var groupLabel = interactionAuthoringData.tags[0] || '',
+        let groupName = interactionAuthoringData.group,
+            groupLabel = interactionAuthoringData.tags[0] || '',
             subGroupId = interactionAuthoringData.tags[1],
-            $group = getGroup($sidebar, groupLabel),
+            $group = getGroup($sidebar, groupName),
             tplData = {
                 qtiClass : interactionAuthoringData.qtiClass,
                 disabled : !!interactionAuthoringData.disabled,
@@ -146,7 +147,7 @@ define([
 
         if(!$group.length){
             //the group does not exist yet : create a <section> for the group
-            $group = addGroup($sidebar, groupLabel);
+            $group = addGroup($sidebar, groupName, groupLabel);
         }
 
         if(subGroupId && _subgroups[subGroupId]){
@@ -155,10 +156,10 @@ define([
 
         if(!$group.length){
             //the group does not exist yet : create a <section> for the group
-            $group = addGroup($sidebar, groupLabel);
+            $group = addGroup($sidebar, groupName, groupLabel);
         }
         
-        var $interaction = $(insertInteractionTpl(tplData));
+        let $interaction = $(insertInteractionTpl(tplData));
         $group.find('.tool-list').append($interaction);
         
         return $interaction;

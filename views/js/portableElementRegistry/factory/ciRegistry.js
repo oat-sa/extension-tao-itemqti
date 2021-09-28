@@ -33,7 +33,7 @@ define([
 
         return portableElementRegistry({
             getAuthoringData : function getAuthoringData(typeIdentifier, options){
-                var pciModel;
+                let pciModel;
                 options = _.defaults(options || {}, {version : 0, enabledOnly : false});
                 pciModel = this.get(typeIdentifier, options.version);
                 if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon && (pciModel.enabled || !options.enabledOnly)){
@@ -43,7 +43,8 @@ define([
                         short : pciModel.short,
                         description : pciModel.description,
                         qtiClass : 'customInteraction.' + pciModel.typeIdentifier, //custom interaction is block type
-                        tags : _.union(['Custom Interactions'], pciModel.tags)
+                        tags : _.union(['Custom Interactions'], pciModel.tags),
+                        group : 'custom-interaction'
                     };
                 }
             }
