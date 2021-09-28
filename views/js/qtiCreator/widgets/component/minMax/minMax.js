@@ -218,7 +218,7 @@ define([
             updateThresholds : function updateThresholds(lower, upper) {
                 var config = this.getConfig();
                 var fieldOptions;
-                if(_.isNumber(lower) && _.isNumber(upper) && upper > lower) {
+                if(_.isNumber(lower) && _.isNumber(upper) && upper >= lower) {
                     config.lowerThreshold = _.parseInt(lower);
                     config.upperThreshold = _.parseInt(upper);
 
