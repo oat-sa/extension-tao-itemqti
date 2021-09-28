@@ -19,11 +19,16 @@
 import urls from '../utils/urls';
 import selectors from '../utils/selectors';
 
+import {
+    addBlockAndInlineInteractions,
+    addCommonInteractions,
+    addMediaInteraction,
+    addGraphicInteractions
+} from '../utils/authoring-add-interactions';
 
-describe('Items', () => {
+describe('Item Authoring', () => {
     const className = 'Test E2E class';
     const itemName = 'Test E2E item 1';
-
     /**
      * Log in
      * Visit the page
@@ -32,13 +37,35 @@ describe('Items', () => {
         cy.loginAsAdmin();
 
         cy.intercept('POST', '**/edit*').as('edit');
-        cy.intercept('POST', `**/${ selectors.editClassLabelUrl }`).as('editClassLabel')
-
+        cy.intercept('POST', `**/${selectors.editClassLabelUrl}`).as('editClassLabel');
+        cy.viewport(1000, 660);
         cy.visit(urls.items);
         cy.wait('@edit');
 
         cy.get(selectors.root).then(root => {
-            if ((root.find(`li[title="${className}"] a`).length)) {
+            if (root.find(`li[title="${className}"] a`).length) {
+                cy.deleteClassFromRoot(
+                    selectors.root,
+                    selectors.itemClassForm,
+                    selectors.deleteClass,
+                    selectors.deleteConfirm,
+                    className,
+                    selectors.deleteClassUrl,
+                    selectors.resourceRelations,
+                    false,
+                    true
+                );
+            }
+        });
+    });
+
+    after(() => {
+        cy.intercept('POST', '**/edit*').as('edit');
+        cy.visit(urls.items);
+        cy.wait('@edit');
+
+        cy.get(selectors.root).then(root => {
+            if (root.find(`li[title="${className}"] a`).length) {
                 cy.deleteClassFromRoot(
                     selectors.root,
                     selectors.itemClassForm,
@@ -68,12 +95,12 @@ describe('Items', () => {
                 selectors.addSubClassUrl
             );
             cy.addNode(selectors.itemForm, selectors.addItem);
-            cy.renameSelectedItem(selectors.itemForm, selectors.editItemUrl, itemName);
+            cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
 
             cy.get(selectors.authoring).click();
-            cy.location().should((loc) => {
+            cy.location().should(loc => {
                 expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);
-            })
+            });
         });
 
         it('should be "Manage Items" button', function () {
@@ -84,8 +111,8 @@ describe('Items', () => {
             cy.get('[data-testid="save-the-item"]').should('have.length', 1);
         });
 
-        it('should be "Preview Item" button', function () {
-            cy.get('[data-testid="preview-the-item"]').should('have.length', 1);
+        it('should be disabled "Preview Item" button', function () {
+            cy.get('[data-testid="preview-the-item"]').should('have.class', 'disabled');
         });
 
         it('should be item editor panel', function () {
@@ -98,6 +125,41 @@ describe('Items', () => {
 
         it('should be interactions left panel', function () {
             cy.get('#item-editor-interaction-bar').should('have.length', 1);
+        });
+
+        it('can add inline interactions to Block', () => {
+            cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
+            // open inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions').click();
+            addBlockAndInlineInteractions();
+            // close inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions ._accordion').click();
+        });
+
+        it('can add common interactions to canvas', () => {
+            addCommonInteractions();
+        });
+
+        it('can add media interaction to canvas and upload video', () => {
+            addMediaInteraction();
+            // close common interaction panel
+            cy.get('#sidebar-left-section-common-interactions ._accordion').click();
+        });
+
+        it('can add graphic interactions to canvas and upload image', () => {
+            // open graphic interactions panel
+            cy.get('#sidebar-left-section-graphic-interactions').click();
+            addGraphicInteractions();
+        });
+
+        it('can save item with interactions', () => {
+            cy.intercept('POST', '**/saveItem*').as('saveItem');
+            cy.get('[data-testid="save-the-item"]').click();
+            cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
+        });
+
+        it('should be enabled "Preview Item" button', () => {
+            cy.get('[data-testid="preview-the-item"]').should('not.have.class', 'disabled');
         });
     });
 });
