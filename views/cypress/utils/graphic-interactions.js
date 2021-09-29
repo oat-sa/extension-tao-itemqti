@@ -20,17 +20,18 @@
  * Select file in resource manager or upload it
  * @param {String} interactionSelector
  * @param {String} shapeType
+ * @param {Number} offset - offset from center of image
  */
-export function addShapeToImage(interactionSelector, shapeType) {
+export function addShapeToImage(interactionSelector, shapeType, offset = 0) {
     cy.log('ADD SHAPE TO IMAGE', interactionSelector, shapeType);
     cy.getSettled(
         `.widget-box.edit-active${interactionSelector} .image-editor li[data-type="${shapeType}"]`
-    ).click();
+    ).click({ force: true });
     cy.get(`.widget-box.edit-active${interactionSelector} .main-image-box image`)
         .then($image => {
             const coords = $image[0].getBoundingClientRect();
-            const pageX = Math.round(coords.left + coords.width / 2);
-            const pageY = Math.round(coords.top + coords.height / 2);
+            const pageX = Math.round(coords.left + coords.width / 2) + offset;
+            const pageY = Math.round(coords.top + coords.height / 2) + offset;
             cy.wrap($image)
                 .trigger('mouseover', { force: true })
                 .trigger('mousedown', {
