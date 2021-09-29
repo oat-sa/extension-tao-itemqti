@@ -159,8 +159,9 @@ export function addMediaInteraction() {
     // check that widget is initialized
     cy.getSettled(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
     // resource selector
-    selectUploadLocalAsset(videoName, `${paths.assetsPath}${videoName}`);
-    cy.log(mediaInteraction, 'IS ADDED');
+    selectUploadLocalAsset(videoName, `${paths.assetsPath}${videoName}`).then(() => {
+        cy.log(mediaInteraction, 'IS ADDED');
+    });
 }
 
 /**
@@ -193,16 +194,18 @@ export function addGraphicInteractions() {
         cy.get(`.widget-box.edit-active${interactionSelector} .image-editor`).then(imageEditor => {
             // add shape to image if needed
             if (imageEditor.find('li[data-type="rect"]').length) {
-                addShapeToImage(interactionSelector, 'rect');
-            }
-            // add image option if needed
-            if (imageEditor.find('li.add-option').length) {
-                cy.get(`.widget-box.edit-active${interactionSelector} .image-editor li.add-option`).click();
-                selectUploadLocalAsset(imageOptionName, `${paths.assetsPath}${imageOptionName}`);
-                cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should('exist');
+                addShapeToImage(interactionSelector, 'rect').then(() => {
+                    // add image option if needed
+                    if (imageEditor.find('li.add-option').length) {
+                        cy.get(`.widget-box.edit-active${interactionSelector} .image-editor li.add-option`).click();
+                        selectUploadLocalAsset(imageOptionName, `${paths.assetsPath}${imageOptionName}`);
+                        cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should('exist');
+                    }
+
+                    cy.log(interaction, 'IS ADDED');
+                });
             }
         });
-        cy.log(interaction, 'IS ADDED');
     }
 }
 
