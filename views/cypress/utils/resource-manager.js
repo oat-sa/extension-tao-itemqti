@@ -23,7 +23,7 @@
  */
 export function selectUploadLocalAsset(fileName, pathToFile) {
     cy.log('SELECT OR UPLOAD LOCAL ASSET', fileName, pathToFile);
-    cy.get('.resourcemgr.modal')
+    return cy.get('.resourcemgr.modal')
         .last()
         .then(resourcemgr => {
             const resourcemgrId = resourcemgr[0].id;
@@ -37,7 +37,7 @@ export function selectUploadLocalAsset(fileName, pathToFile) {
                         pathToFile
                     );
                     cy.getSettled(`#${resourcemgrId} .file-upload-container .btn-upload`).click();
-                    cy.getSettled(`#${resourcemgrId} .file-upload-container .progressbar.success`).should('exist');
+                    cy.getSettled(`#${resourcemgrId} .file-upload-container .progressbar.success`, {timeout: 100000}).should('exist');
                 }
             });
             cy.getSettled(`#${resourcemgrId} li[data-file="/${fileName}"] .actions a.select`).click();
