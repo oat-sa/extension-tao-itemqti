@@ -332,6 +332,9 @@ class AssetParser
                 foreach ($xml->xpath('//audio') as $audio) {
                     $this->addAsset('audio', (string)$audio['src']);
                 }
+                foreach ($xml->xpath('//include') as $xinclude) {
+                    $this->addAsset('xinclude', (string)$xinclude['href']);
+                }
             }
         }
     }
