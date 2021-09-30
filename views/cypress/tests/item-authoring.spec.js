@@ -21,9 +21,13 @@ import selectors from '../utils/selectors';
 
 import {
     addBlockAndInlineInteractions,
+    removeBlockAndInlineInteractions,
     addCommonInteractions,
+    removeCommonInteractions,
     addMediaInteraction,
-    addGraphicInteractions
+    removeMediaInteraction,
+    addGraphicInteractions,
+    removeGraphicInteractions
 } from '../utils/authoring-add-interactions';
 
 describe('Item Authoring', () => {
@@ -160,6 +164,39 @@ describe('Item Authoring', () => {
 
         it('should be enabled "Preview Item" button', () => {
             cy.get('[data-testid="preview-the-item"]').should('not.have.class', 'disabled');
+        });
+
+        it('can remove graphic interactions from canvas', () => {
+            // open graphic interactions panel
+            cy.get('#sidebar-left-section-graphic-interactions').click();
+            removeGraphicInteractions();
+        });
+
+        it('can remove media interaction from canvas', () => {
+            removeMediaInteraction();
+            // close common interaction panel
+            cy.get('#sidebar-left-section-common-interactions ._accordion').click();
+        });
+
+        it('can remove common interactions from canvas', () => {
+            removeCommonInteractions();
+        });
+
+        it('can remove inline interactions from Block', () => {
+            cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
+            // open inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions').click();
+
+            removeBlockAndInlineInteractions();
+
+            // close inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions ._accordion').click();
+        });
+
+        it('can save item with removed interactions', () => {
+            cy.intercept('POST', '**/saveItem*').as('saveItem');
+            cy.get('[data-testid="save-the-item"]').click();
+            cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
         });
     });
 });
