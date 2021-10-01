@@ -102,6 +102,9 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             _bindEvents($messageBox);
 
             return $messageBox;
+        },
+        confirmDeletion: function ($messageBox) {
+            _confirmDeletion($messageBox, 0);
         }
     };
 

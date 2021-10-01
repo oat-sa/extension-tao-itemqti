@@ -39,6 +39,7 @@ define([
     }, function exit(){
 
         this.showWidget();
+        deletingHelper.confirmDeletion(this.messageBox);
         this.widget.element.data('deleting', false);
         $('body').off('.deleting');
 
