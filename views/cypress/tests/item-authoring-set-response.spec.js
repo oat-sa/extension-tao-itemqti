@@ -82,6 +82,10 @@ describe('Item Authoring', () => {
             }
         });
     });
+    /**
+     * Go to Items page
+     * Delete 'Test E2E class' class/folder
+     */
     after(() => {
         cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
@@ -118,9 +122,6 @@ describe('Item Authoring', () => {
             );
             cy.addNode(selectors.itemForm, selectors.addItem);
             cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
-
-            // cy.selectNode(selectors.root, selectors.itemClassForm, className);
-            // cy.contains('a', itemName).click();
 
             cy.get(selectors.authoring).click();
             cy.location().should(loc => {
