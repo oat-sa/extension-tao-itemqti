@@ -273,6 +273,9 @@ define([
                     newHottextWidget.destroy();
                     newHottextWidget = newHottextElt.data('widget');
                     newHottextWidget.changeState('choice');
+
+                    // trigger create event
+                    $(document).trigger('choiceCreated.qti-widget', {interaction});
                 }
             }
         );
