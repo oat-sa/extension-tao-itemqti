@@ -27,7 +27,7 @@ export function addShapeToImage(interactionSelector, shapeType, offset = 0) {
     cy.getSettled(
         `.widget-box.edit-active${interactionSelector} .image-editor li[data-type="${shapeType}"]`
     ).click({ force: true });
-    cy.get(`.widget-box.edit-active${interactionSelector} .main-image-box image`)
+    return cy.get(`.widget-box.edit-active${interactionSelector} .main-image-box image`)
         .then($image => {
             const coords = $image[0].getBoundingClientRect();
             const pageX = Math.round(coords.left + coords.width / 2) + offset;
