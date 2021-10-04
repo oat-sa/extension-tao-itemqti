@@ -37,6 +37,13 @@
         ol.source, ol.target {
             display: table-cell;
             width: 43%;
+            padding-left: 40px;
+            padding-right: 3px;
+
+            @include rtl {
+                padding-left: 3px;
+                padding-right: 40px;
+            }
         }
         .arrow-bar {
             .icon-move-before {
@@ -62,6 +69,12 @@
                 }
             }
         }
+        .icon-add-to-selection,
+        .icon-remove-from-selection {
+            @include rtl {
+                transform: scale(-1);
+            }
+        }
     }
 
     &.qti-horizontal {
@@ -84,6 +97,12 @@
                 &.icon-move-behind {
                     @include icon-down;
                 }
+            }
+        }
+        .icon-move-after,
+        .icon-move-before {
+            @include rtl {
+                transform: scale(-1);
             }
         }
     }

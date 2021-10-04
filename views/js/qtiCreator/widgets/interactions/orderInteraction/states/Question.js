@@ -33,11 +33,15 @@ define([
 
     OrderInteractionStateQuestion.prototype.initForm = function initForm(){
 
-        var  callbacks;
+        var callbacks;
         var widget      = this.widget;
         var $form       = this.widget.$form;
         var interaction = this.widget.element;
         var $choiceArea = this.widget.$container.find('.choice-area');
+        var $resultArea = this.widget.$container.find('.result-area');
+        var $interaction = this.widget.$container.find('.qti-interaction');
+        var $iconAdd = this.widget.$container.find('.icon-add-to-selection');
+        var $iconRemove = this.widget.$container.find('.icon-remove-from-selection');
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
@@ -69,10 +73,21 @@ define([
         //data change for orientation, change also the current css class
         callbacks.orientation = function(interaction, value){
             interaction.attr('orientation', value);
+            $interaction.attr('data-orientation', value);
+
             if(value === 'horizontal'){
-                $choiceArea.addClass('horizontal');
+                $choiceArea.addClass('horizontal').removeClass('vertical');
+                $resultArea.addClass('horizontal').removeClass('vertical');
+                $interaction.addClass('qti-horizontal').removeClass('qti-vertical');
+                $iconAdd.addClass('icon-down').removeClass('icon-right');
+                $iconRemove.addClass('icon-up').removeClass('icon-left');
             } else {
-                $choiceArea.removeClass('horizontal');
+                $choiceArea.addClass('vertical').removeClass('horizontal');
+                $resultArea.addClass('vertical').removeClass('horizontal');
+                $interaction.addClass('qti-vertical').removeClass('qti-horizontal');
+                $iconAdd.addClass('icon-right').removeClass('icon-down');
+                $iconRemove.addClass('icon-left').removeClass('icon-up');
+
             }
         };
 

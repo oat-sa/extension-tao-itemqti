@@ -52,15 +52,6 @@ $mainContainer : '.qti-item';
     }
 }
 
-// Remove this mixin after refactoring _qti-base to avoid dublication from tao-core
-@mixin rtl {
-    @at-root {
-        #{selector-replace(&, $mainContainer, $mainContainer + " [dir=rtl] ")} {
-            @content;
-        }
-    }
-}
-
 #{$mainContainer} {
     @import "inc/fonts/tao-icon-classes";
 
@@ -201,6 +192,8 @@ $mainContainer : '.qti-item';
         }
         &.horizontal {
             @extend .clearfix;
+            padding-right: 3px;
+            padding-left: 3px;
             &:after {
                 @extend .clearfix:after;
             }
@@ -218,8 +211,8 @@ $mainContainer : '.qti-item';
         }
         &.solid, &.bordered {
             padding-top: 3px;
-            padding-right: 3px;
             padding-bottom: 3px;
+
             &.none {
                 padding-left: 3px;
 
@@ -230,7 +223,6 @@ $mainContainer : '.qti-item';
             }
         }
     }
-
 
     .qti-block {
         border:1px solid transparent;
@@ -291,6 +283,7 @@ $mainContainer : '.qti-item';
     @import "choice";
     @import "order";
     @import "extended-text";
+    @import "feedback";
     @import "associate";
     @import "match";
     @import "media";

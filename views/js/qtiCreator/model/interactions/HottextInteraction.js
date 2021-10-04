@@ -62,6 +62,9 @@ define([
                 
                 //trigger event
                 event.deleted(c, this);
+
+                // trigger delete event
+                $(document).trigger('choiceDeleted.qti-widget', {interaction: this});
             }
             
             return this;

@@ -1,5 +1,8 @@
 @import "inc/bootstrap";
 @import "inc/farbtastic";
+@import "shared/functions";
+
+$mainContainer : '.item-editor-item';
 
 //all shades of colors
 $itemCreatorBlue90: mix(#fff, $info, 90%);
@@ -142,7 +145,6 @@ img.dragging.ui-draggable-dragging {
     color: $info;
     border: 1px $itemCreatorAddOptionBorderColor dashed !important;
     list-style-type: none;
-    position: relative;
     cursor: pointer !important;
     border-radius: 3px;
     background-color: $itemCreatorAddOptionBgColor;
@@ -919,6 +921,7 @@ img.dragging.ui-draggable-dragging {
             }
             .tlb {
                 position: relative;
+
                 &:before {
                     content: '';
                     height: 100%;
@@ -937,6 +940,8 @@ img.dragging.ui-draggable-dragging {
                     margin: 3px 0 2px;
                 }
                 .state-switcher {
+                    margin-right: 15px;
+
                     .selected {
                         font-size: 1.4rem;
                         font-weight: bold;
@@ -951,7 +956,6 @@ img.dragging.ui-draggable-dragging {
                     .separator {
                         font-size: 1.4rem;
                     }
-                    margin-right: 15px
                 }
 
                 .tlb-button {
@@ -963,6 +967,7 @@ img.dragging.ui-draggable-dragging {
                         font-weight: bold;
                         opacity: 1;
                     }
+
                     [class^="icon-"], [class*=" icon-"] {
                         font-size: inherit;
                         text-shadow: 1px 1px 0 blacken($info, .2);
@@ -1189,15 +1194,9 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_custom";
     @import "qtiCreator/_element-selector";
     @import "qtiCreator/_include";
+    @import "qtiCreator/_item_buttons";
 
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
-    .qti-simpleChoice {
-        .mini-tlb[data-edit="question"] {
-            right: -38px !important;
-            top: 3px;
-        }
-    }
-
     .qti-hottextInteraction {
         .mini-tlb {
             right: -31px !important;
@@ -1264,17 +1263,10 @@ img.dragging.ui-draggable-dragging {
 .edit-question .qti-blockInteraction .horizontal {
     margin-top: 28px;
 
-    .add-option {
-        margin-top: 25px;
-    }
     .qti-choice {
         margin-top: 25px;
         .mini-tlb{
             white-space: nowrap;
-
-            /* !important added because another important override it... */
-            top:-28px !important;
-            right:-1px !important;
             .tlb-button{
                 display: block;
                 margin:0;
