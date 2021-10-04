@@ -312,7 +312,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 icon : 'icon-choice',
                 short : __('Choice'),
                 qtiClass : 'choiceInteraction',
-                tags:[tagTitles.commonInteractions, 'mcq']
+                tags:[tagTitles.commonInteractions, 'mcq'],
+                group: 'common-interactions'
             },
             orderInteraction : {
                 label : __('Order Interaction'),
@@ -320,7 +321,9 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Arrange a list of choices in the correct order.'),
                 short : __('Order'),
                 qtiClass : 'orderInteraction',
-                tags:[tagTitles.commonInteractions, 'ordering']
+                tags:[tagTitles.commonInteractions, 'ordering'],
+                group: 'common-interactions'
+
             },
             associateInteraction : {
                 label : __('Associate Interaction'),
@@ -328,7 +331,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Create pair(s) from a series of choices.'),
                 short : __('Associate'),
                 qtiClass : 'associateInteraction',
-                tags:[tagTitles.commonInteractions, 'association']
+                tags:[tagTitles.commonInteractions, 'association'],
+                group: 'common-interactions'
             },
             matchInteraction : {
                 label : __('Match Interaction'),
@@ -336,7 +340,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Create association(s) between two sets of choices displayed in a table (row and column).'),
                 short : __('Match'),
                 qtiClass : 'matchInteraction',
-                tags:[tagTitles.commonInteractions, 'association']
+                tags:[tagTitles.commonInteractions, 'association'],
+                group: 'common-interactions'
             },
             hottextInteraction : {
                 label : __('Hottext Interaction'),
@@ -344,7 +349,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Select one or more text parts (hottext) within a text.'),
                 short : __('Hottext'),
                 qtiClass : 'hottextInteraction',
-                tags:[tagTitles.commonInteractions, 'text']
+                tags:[tagTitles.commonInteractions, 'text'],
+                group: 'common-interactions'
             },
             gapMatchInteraction : {
                 label : __('Gap Match Interaction'),
@@ -352,7 +358,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __(' Fill in the gaps in a text from a set of choices.'),
                 short : __('Gap Match'),
                 qtiClass : 'gapMatchInteraction',
-                tags:[tagTitles.commonInteractions, 'text', 'association']
+                tags:[tagTitles.commonInteractions, 'text', 'association'],
+                group: 'common-interactions'
             },
             sliderInteraction : {
                 label : __('Slider Interaction'),
@@ -360,7 +367,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description :__('Select a value within a numerical range.'),
                 short : __('Slider'),
                 qtiClass : 'sliderInteraction',
-                tags:[tagTitles.commonInteractions, 'special']
+                tags:[tagTitles.commonInteractions, 'special'],
+                group: 'common-interactions'
             },
             extendedTextInteraction : {
                 label : __('Extended Text Interaction'),
@@ -368,7 +376,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Collect open-ended information in one or more text area(s) (strings or numeric values).'),
                 short : __('Extended Text'),
                 qtiClass : 'extendedTextInteraction',
-                tags:[tagTitles.commonInteractions, 'text']
+                tags:[tagTitles.commonInteractions, 'text'],
+                group: 'common-interactions'
             },
             uploadInteraction : {
                 label : __('File Upload Interaction'),
@@ -376,7 +385,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Upload a file (e.g. document, picture...) as a response.'),
                 short : __('File Upload'),
                 qtiClass : 'uploadInteraction',
-                tags:[tagTitles.commonInteractions, 'special']
+                tags:[tagTitles.commonInteractions, 'special'],
+                group: 'common-interactions'
             },
             mediaInteraction : {
                 label : __('Media Interaction'),
@@ -384,7 +394,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played.'),
                 short : __('Media'),
                 qtiClass : 'mediaInteraction',
-                tags:[tagTitles.commonInteractions, 'media']
+                tags:[tagTitles.commonInteractions, 'media'],
+                group: 'common-interactions'
             },
             _container : {
                 label : __('Text Block'),
@@ -392,7 +403,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions.'),
                 short : __('Block'),
                 qtiClass : '_container',
-                tags:[tagTitles.inlineInteractions, 'text']
+                tags:[tagTitles.inlineInteractions, 'text'],
+                group: 'inline-interactions'
             },
             inlineChoiceInteraction : {
                 label : __('Inline Choice Interaction'),
@@ -400,7 +412,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Select a choice from a drop-down list.'),
                 short : __('Inline Choice'),
                 qtiClass : 'inlineChoiceInteraction',
-                tags:[tagTitles.inlineInteractions, 'inline-interactions', 'mcq']
+                tags:[tagTitles.inlineInteractions, 'inline-interactions', 'mcq'],
+                group: 'inline-interactions'
             },
             textEntryInteraction : {
                 label : __('Text Entry Interaction'),
@@ -408,7 +421,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Collect open-ended information in a short text input (strings or numeric values).'),
                 short : __('Text Entry'),
                 qtiClass : 'textEntryInteraction',
-                tags:[tagTitles.inlineInteractions, 'inline-interactions', 'text']
+                tags:[tagTitles.inlineInteractions, 'inline-interactions', 'text'],
+                group: 'inline-interactions'
             },
             endAttemptInteraction : {
                 label : __('End Attempt Interaction'),
@@ -416,7 +430,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Trigger the end of the item attempt.'),
                 short : __('End Attempt'),
                 qtiClass : 'endAttemptInteraction',
-                tags:[tagTitles.inlineInteractions, 'inline-interactions', 'button', 'submit']
+                tags:[tagTitles.inlineInteractions, 'inline-interactions', 'button', 'submit'],
+                group: 'inline-interactions'
             },
             hotspotInteraction : {
                 label : __('Hotspot Interaction'),
@@ -424,7 +439,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Select one or more areas (hotspots) displayed on an picture.'),
                 short : __('Hotspot'),
                 qtiClass : 'hotspotInteraction',
-                tags:[tagTitles.graphicInteractions, 'mcq']
+                tags:[tagTitles.graphicInteractions, 'mcq'],
+                group: 'graphic-interactions'
             },
             graphicOrderInteraction : {
                 label : __('Graphic Order Interaction'),
@@ -432,7 +448,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Order the areas (hotspots) displayed on a picture.'),
                 short : __('Order'),
                 qtiClass : 'graphicOrderInteraction',
-                tags:[tagTitles.graphicInteractions, 'ordering']
+                tags:[tagTitles.graphicInteractions, 'ordering'],
+                group: 'graphic-interactions'
             },
             graphicAssociateInteraction : {
                 label : __('Graphic Associate Interaction'),
@@ -440,7 +457,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Create association(s) between areas (hotspots) displayed on a picture.'),
                 short : __('Associate'),
                 qtiClass : 'graphicAssociateInteraction',
-                tags:[tagTitles.graphicInteractions, 'association']
+                tags:[tagTitles.graphicInteractions, 'association'],
+                group: 'graphic-interactions'
             },
             graphicGapMatchInteraction : {
                 label : __('Graphic Gap Match Interaction'),
@@ -448,7 +466,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Fill in the gaps on a picture with a set of image choices.'),
                 short : __('Gap Match'),
                 qtiClass : 'graphicGapMatchInteraction',
-                tags:[tagTitles.graphicInteractions, 'association']
+                tags:[tagTitles.graphicInteractions, 'association'],
+                group: 'graphic-interactions'
             },
             selectPointInteraction : {
                 label : __('Select Point Interaction'),
@@ -456,7 +475,8 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 description : __('Position one or more points on a picture (response areas are not displayed).'),
                 short : __('Select Point'),
                 qtiClass : 'selectPointInteraction',
-                tags:[tagTitles.graphicInteractions]
+                tags:[tagTitles.graphicInteractions],
+                group: 'graphic-interactions'
             }
         };
     };
