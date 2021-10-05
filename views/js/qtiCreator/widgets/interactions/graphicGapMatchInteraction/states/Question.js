@@ -195,7 +195,7 @@ define([
                 gapImgObj.object.removeAttr('type');
 
                 // on successful upload
-                $addOption.one('selected.upload', function (e, args) {
+                $addOption.on('selected.upload', function (e, args) {
 
                     $addOption.off('selected.upload');
 
@@ -437,7 +437,7 @@ define([
                 if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
                     initMediasizer();
                 } else {
-                    $gapImgElem.on('load', initMediasizer);
+                    $gapImgElem.one('load', initMediasizer);
                 }
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
