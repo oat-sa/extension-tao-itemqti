@@ -72,9 +72,19 @@ define([
      *
      * @param {Object} params
      * @param {number} factor
+     * @param {numbwer} naturalHeight
+     * @param {number} naturalWidth
      */
-    function applyMediasizerValues(params, factor) {
+    function applyMediasizerValues(params, factor, naturalHeight, naturalWidth) {
         factor = factor || 1;
+
+        let width = params.width;
+        let height = params.height;
+
+        if (!width || !height) {
+            width = naturalWidth;
+            height = naturalHeight;
+        }
 
         // The mediasizer target maintains a height and width (i.e. attributes)
         // but is displayed according to a factor (i.e. styles). This matches
@@ -83,11 +93,11 @@ define([
         // the target's dimensions need to be maintained.
         params.$target
             .css({
-                width: params.width * factor,
-                height: params.height * factor
+                width: width * factor,
+                height: height * factor
             })
-            .attr('width', params.width)
-            .attr('height', params.height);
+            .attr('width', width)
+            .attr('height', height);
     }
 
 
@@ -174,25 +184,34 @@ define([
          * Create the 'add option' button
          */
         function createGapImgAddOption() {
-            var $gapList = $('ul.source', widget.$original);
-            var $addOption =
+            const $gapList = $('ul.source', widget.$original);
+            const $addOption =
                 $('<li class="empty add-option">' +
                     '<div><span class="icon-add"></span></div>' +
                     '</li>');
 
             $addOption.on('click', function () {
-                var gapImgObj = interaction.createGapImg({});
+                let gapImgObj = interaction.createGapImg({});
                 gapImgObj.object.removeAttr('type');
 
                 // on successful upload
-                $addOption.on('selected.upload', function (e, args) {
+                $addOption.one('selected.upload', function (e, args) {
 
                     $addOption.off('selected.upload');
 
+                     const size = args.size;
+                     let height,
+                         width;
+
+                      if (size) {
+                          let height = args.size.height;
+                          let  width = args.size.width;
+                     }
+
                     gapImgObj.object.attr('data', args.selected.file);
                     gapImgObj.object.attr('type', args.selected.mime);
-                    gapImgObj.object.attr('width', args.size.width);
-                    gapImgObj.object.attr('height', args.size.height);
+                    gapImgObj.object.attr('width', width);
+                    gapImgObj.object.attr('height', height);
                     setUpGapImg(gapImgObj);
                 });
                 resourceManager($addOption, gapImgSelectorOptions);
@@ -393,8 +412,7 @@ define([
                         // it's attributes to set and resize properly.
                         params.width = $gapImgElem.attr('width');
                         params.height = $gapImgElem.attr('height');
-
-                        applyMediasizerValues(params, widget.$original.data('factor'));
+                        applyMediasizerValues(params, widget.$original.data('factor'), $gapImgElem.get(0).naturalHeight, $gapImgElem.get(0).naturalWidth);
                     });
 
                 initMediasizer = function () {
@@ -419,7 +437,7 @@ define([
                 if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
                     initMediasizer();
                 } else {
-                    $gapImgElem.one('load', initMediasizer);
+                    $gapImgElem.on('load', initMediasizer);
                 }
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
@@ -438,7 +456,7 @@ define([
 
                 // callbacks
                 $mediaSizer.on('sizechange.mediasizer', function(e, params) {
-                    applyMediasizerValues(params, widget.$original.data('factor'));
+                    applyMediasizerValues(params, widget.$original.data('factor'), $gapImgElem.get(0).naturalHeight, $gapImgElem.get(0).naturalWidth);
 
                     gapImg.object.attr('width', params.width);
                     gapImg.object.attr('height', params.height);
