@@ -22,6 +22,7 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
+use Monolog\Logger;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
 use oat\taoQtiItem\model\qti\Item;
@@ -208,7 +209,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
      */
     public function fixNonvoidTags($html)
     {
-        return preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~u', function ($matches) {
+        $content = preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~u', function ($matches) {
             // something went wrong
             if (empty($matches[2])) {
                 // do nothing
@@ -222,6 +223,19 @@ abstract class Container extends Element implements IdentifiedElementContainer
             // correctly closed element
             return trim(mb_substr($matches[0], 0, -2), 'UTF-8') . '></' . $matches[2] . '>';
         }, $html);
+
+        $pregLastError = preg_last_error();
+        if ($content === null &&
+            (
+                $pregLastError === PREG_BACKTRACK_LIMIT_ERROR ||
+                $pregLastError === PREG_RECURSION_LIMIT_ERROR
+            )
+        ) {
+            common_Logger::w('Content size is exceeding preg backtrack limits, could not fix non void tags');
+            return $html;
+        }
+
+        return $content;
     }
 
     public function isValidElement(Element $element)
