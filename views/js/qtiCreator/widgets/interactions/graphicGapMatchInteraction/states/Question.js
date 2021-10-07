@@ -228,10 +228,10 @@ define([
          */
         function setUpGapImg(gapImgObj) {
 
-            var $gapList = $('ul.source', widget.$original);
-            var $addOption = $('.empty', $gapList);
-            var $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
-            var $deleteBtn = $(mediaTlbTpl());
+            const $gapList = $('ul.source', widget.$original),
+                $addOption = $('.empty', $gapList),
+                $deleteBtn = $(mediaTlbTpl());
+            let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
@@ -254,8 +254,7 @@ define([
                 if ($gapImgBox.hasClass('active')) {
                     $gapImgBox.removeClass('active');
                     leaveChoiceForm();
-                }
-                else {
+                } else {
                     $('.active', $gapList).removeClass('active');
                     $gapImgBox.addClass('active');
                     enterGapImgForm(gapImgObj.serial);
@@ -355,7 +354,7 @@ define([
          */
         function enterGapImgForm(serial) {
 
-            var callbacks,
+            let callbacks,
                 gapImg = interaction.getGapImg(serial),
                 initMediasizer,
                 $gapImgBox,
@@ -400,7 +399,7 @@ define([
                 });
 
                 // <li/> that will contain the image
-                $gapImgBox = $('li[data-serial="' + gapImg.serial + '"]');
+                $gapImgBox = $(`li[data-serial="${  gapImg.serial  }"]`);
 
                 $gapImgElem = $gapImgBox.find('img');
 
@@ -465,8 +464,7 @@ define([
                 callbacks.type = function (element, value) {
                     if (!value || value === '') {
                         interaction.object.removeAttr('type');
-                    }
-                    else {
+                    } else {
                         gapImg.object.attr('type', value);
                     }
                 };
