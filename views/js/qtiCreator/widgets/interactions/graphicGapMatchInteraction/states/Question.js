@@ -72,7 +72,7 @@ define([
      *
      * @param {Object} params
      * @param {number} factor
-     * @param {numbwer} naturalHeight
+     * @param {number} naturalHeight
      * @param {number} naturalWidth
      */
     function applyMediasizerValues(params, factor, naturalHeight, naturalWidth) {
@@ -199,14 +199,14 @@ define([
 
                     $addOption.off('selected.upload');
 
-                     const size = args.size;
-                     let height,
-                         width;
+                    const size = args.size;
+                    let height,
+                        width;
 
-                      if (size) {
-                          let height = args.size.height;
-                          let  width = args.size.width;
-                     }
+                    if (size) {
+                        height = args.size.height;
+                        width = args.size.width;
+                    }
 
                     gapImgObj.object.attr('data', args.selected.file);
                     gapImgObj.object.attr('type', args.selected.mime);
