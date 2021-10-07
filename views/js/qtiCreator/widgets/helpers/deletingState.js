@@ -24,20 +24,23 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
     'use strict';
 
     const _timeout = 10000;
+    let undoDeleting = false;
 
     const _destroy = function _destroy($messageBox) {
         $('body').off('.deleting');
         $messageBox.remove();
+        undoDeleting = false;
     };
 
     const undo = function undo($messageBox) {
+        undoDeleting = true;
         $messageBox.trigger('undo.deleting');
         _destroy($messageBox);
     };
 
     const _confirmDeletion = function ($messageBox, fadeDelay) {
         //only allow deletion if the message has not already been deleted yet
-        if ($messageBox.length && $.contains(document, $messageBox[0])) {
+        if (!undoDeleting && $messageBox.length && $.contains(document, $messageBox[0])) {
             $messageBox.trigger('confirm.deleting');
             $messageBox.fadeOut(fadeDelay, function () {
                 _destroy($messageBox);
@@ -102,6 +105,9 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             _bindEvents($messageBox);
 
             return $messageBox;
+        },
+        confirmDeletion: function ($messageBox) {
+            _confirmDeletion($messageBox, 0);
         }
     };
 
