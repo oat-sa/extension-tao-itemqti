@@ -1,4 +1,4 @@
-<div class="mini-tlb" data-edit="question" data-for="{{serial}}">
+<div class="mini-tlb" data-edit="question" data-for="{{choiceSerial}}">
     <div class="rgt tlb-button" title="Delete" data-role="delete">
         <span class="icon-bin"></span>
     </div>

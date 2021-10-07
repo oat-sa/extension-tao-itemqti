@@ -63,9 +63,11 @@ define(['jquery'], function ($) {
             const $container = widget.$container;
 
             $container.find('[data-role="delete"]').on('mousedown', function (e) {
-                if ($container.hasClass('edit-choice')) {
+                if (
+                    $container.hasClass('edit-choice') ||
+                    $(e.target).closest('.mini-tlb').data('for') === widget.element.serial
+                ) {
                     // condition prevent removing choice in case user deliting inner element (math, image)
-                    // in case editing element inside will be no class .edit-choice
                     e.stopPropagation();
                     widget.changeState('deleting');
                 }
