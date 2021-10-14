@@ -424,15 +424,15 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 tags:[tagTitles.inlineInteractions, 'inline-interactions', 'text'],
                 group: 'inline-interactions'
             },
-            endAttemptInteraction : {
-                label : __('End Attempt Interaction'),
-                icon : 'icon-end-attempt',
-                description : __('Trigger the end of the item attempt.'),
-                short : __('End Attempt'),
-                qtiClass : 'endAttemptInteraction',
-                tags:[tagTitles.inlineInteractions, 'inline-interactions', 'button', 'submit'],
-                group: 'inline-interactions'
-            },
+            // endAttemptInteraction : {
+            //     label : __('End Attempt Interaction'),
+            //     icon : 'icon-end-attempt',
+            //     description : __('Trigger the end of the item attempt.'),
+            //     short : __('End Attempt'),
+            //     qtiClass : 'endAttemptInteraction',
+            //     tags:[tagTitles.inlineInteractions, 'inline-interactions', 'button', 'submit'],
+            //     group: 'inline-interactions'
+            // },
             hotspotInteraction : {
                 label : __('Hotspot Interaction'),
                 icon : 'icon-hotspot',
