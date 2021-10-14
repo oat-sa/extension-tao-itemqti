@@ -1,3 +1,4 @@
+{{#if isShuffle}}
 <div class="panel">
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
@@ -10,7 +11,7 @@
         However each choice may be “shuffled” of “fixed” individually."}}
     </span>
 </div>
-
+{{/if}}
 <div class="panel min-max-panel">
     <h3>{{__ "Number of associations"}}</h3>
 </div>

@@ -332,7 +332,8 @@ define([
                 validateOnInit: true
             });
 
-            modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
+            $.remove('.feedbackRule-panel');
+            // modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
 
             widget.$responseForm.trigger('initResponseForm');
 

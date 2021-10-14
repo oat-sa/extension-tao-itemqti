@@ -36,6 +36,7 @@ define([
        var interaction = this.widget.element;
 
         $form.html(formTpl({
+            isShuffle: false,
             shuffle : !!interaction.attr('shuffle')
         }));
 
