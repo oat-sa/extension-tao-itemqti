@@ -44,7 +44,7 @@
          * Writes new font size to virtual style sheet
          */
         var resizeFont = function() {
-            styleEditor.apply(itemSelector + ' *', 'font-size', itemFontSize.toString() + 'px');
+            styleEditor.apply(itemSelector, 'font-size', itemFontSize.toString() + 'px');
         };
 
         /**
@@ -99,7 +99,7 @@
          */
         $resetBtn.on('click', function () {
             $input.val('');
-            styleEditor.apply(itemSelector + ' *', 'font-size');
+            styleEditor.apply(itemSelector, 'font-size');
         });
 
         /**
@@ -109,8 +109,12 @@
             if(style[itemSelector] && style[itemSelector]['font-size']) {
                 $input.val(parseInt(style[itemSelector]['font-size'], 10));
                 $input.trigger('blur');
-            }
-            else {
+            } if(style[itemSelector + ' *'] && style[itemSelector + ' *']['font-size']) {
+                // old selector 'itemSelector + *'
+                $input.val(parseInt(style[itemSelector + ' *']['font-size'], 10));
+                styleEditor.apply(itemSelector + ' *', 'font-size');
+                $input.trigger('blur');
+            } else {
                 $input.val(parseInt($item.css('font-size'), 10));
             }
         });
