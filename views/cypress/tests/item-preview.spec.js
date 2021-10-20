@@ -19,17 +19,7 @@
 import urls from '../utils/urls';
 import selectors from '../utils/selectors';
 
-import {
-    addBlockAndInlineInteractions,
-    removeBlockAndInlineInteractions,
-    addCommonInteractions,
-    removeCommonInteractions,
-    addMediaInteraction,
-    removeMediaInteraction,
-    addGraphicInteractions,
-    removeGraphicInteractions,
-    addInteraction
-} from '../utils/authoring-add-interactions';
+import { addInteraction } from '../utils/authoring-add-interactions';
 
 describe('Item preview', () => {
     const className = 'Test E2E class';
@@ -64,6 +54,9 @@ describe('Item preview', () => {
         });
     });
 
+    /**
+     * Delete e2e class
+     */
     after(() => {
         cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
@@ -86,9 +79,7 @@ describe('Item preview', () => {
         });
     });
 
-    it('Previews item', () => {
-        cy.intercept('GET', '**/taoQtiTestPreviewer/Previewer/getItem*').as('preview');
-        // TODO create item
+    it('create item', () => {
         cy.addClassToRoot(
             selectors.root,
             selectors.itemClassForm,
@@ -99,27 +90,35 @@ describe('Item preview', () => {
         );
         cy.addNode(selectors.itemForm, selectors.addItem);
         cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
+    });
 
+    it('Author item', () => {
         cy.get(selectors.authoring).click();
         cy.location().should(loc => {
             expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);
         });
-        // TODO author item
+
         addInteraction('choice');
-        // TODO save item
+    });
+
+    it('Save item', () => {
         cy.intercept('POST', '**/saveItem*').as('saveItem');
         cy.get('[data-testid="save-the-item"]').click();
         cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
+    });
 
-        // TODO preview item from authoring page
+    it('Preview item from authoring page', () => {
+        cy.intercept('GET', '**/taoQtiTestPreviewer/Previewer/getItem*').as('preview');
         cy.get('[data-testid="preview-the-item"]').should('not.have.class', 'disabled');
         cy.get('[data-testid="preview-the-item"]').click();
         cy.wait('@preview');
         cy.get('.qti-choiceInteraction').should('exist');
         cy.get('[data-control="close"] .icon-close').should('exist');
         cy.get('[data-control="close"] .icon-close').click();
+    });
 
-        // TODO preview item from items page
+    it('Preview item from items page', () => {
+        cy.intercept('GET', '**/taoQtiTestPreviewer/Previewer/getItem*').as('preview');
         cy.visit(urls.items);
         cy.selectNode(selectors.root, selectors.itemClassForm, className);
         cy.selectNode(selectors.root, selectors.itemClassForm, itemName);
@@ -127,6 +126,5 @@ describe('Item preview', () => {
         cy.get('#item-preview').click();
         cy.wait('@preview');
         cy.get('.qti-choiceInteraction').should('exist');
-        // TODO delete item
     });
 });
