@@ -194,7 +194,9 @@ export function addGraphicInteractions() {
                     if (imageEditor.find('li.add-option').length) {
                         cy.get(`.widget-box.edit-active${interactionSelector} .image-editor li.add-option`).click();
                         selectUploadLocalAsset(imageOptionName, `${paths.assetsPath}${imageOptionName}`);
-                        cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should('exist');
+                        cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should(
+                            'exist'
+                        );
                     }
 
                     cy.log(interaction, 'IS ADDED');
@@ -228,7 +230,7 @@ export function addInteraction(interaction) {
         return;
     }
     if (!commonInteractions[interaction]) {
-        // Return error
+        throw new Error(`Unknown interaction: ${interaction}`);
     }
     cy.log('ADDING INTERACTION', interaction);
     const interactionSelector = `[data-qti-class="${commonInteractions[interaction]}"]`;
