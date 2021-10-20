@@ -169,6 +169,24 @@
         }
     }
 
+    &.maskable {
+        .qti-choice {
+            .answer-mask {
+                @include rtl {
+                    left: 0;
+                    right: auto;
+                    text-align: left;
+                }
+            }
+            .label-content {
+                @include rtl {
+                    padding-right: 0;
+                    padding-left: 40px;
+                }
+            }
+        }
+    }
+
     .qti-choice .real-label{
         min-height: $minRowHeight * 1px;
         max-height: 100%;
