@@ -54,32 +54,7 @@ describe('Item preview', () => {
         });
     });
 
-    /**
-     * Delete e2e class
-     */
-    after(() => {
-        cy.intercept('POST', '**/edit*').as('edit');
-        cy.visit(urls.items);
-        cy.wait('@edit');
-
-        cy.get(selectors.root).then(root => {
-            if (root.find(`li[title="${className}"] a`).length) {
-                cy.deleteClassFromRoot(
-                    selectors.root,
-                    selectors.itemClassForm,
-                    selectors.deleteClass,
-                    selectors.deleteConfirm,
-                    className,
-                    selectors.deleteClassUrl,
-                    selectors.resourceRelations,
-                    false,
-                    true
-                );
-            }
-        });
-    });
-
-    it('create item', () => {
+    it('creates item', () => {
         cy.addClassToRoot(
             selectors.root,
             selectors.itemClassForm,
@@ -92,7 +67,7 @@ describe('Item preview', () => {
         cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
     });
 
-    it('Author item', () => {
+    it('Authors item', () => {
         cy.get(selectors.authoring).click();
         cy.location().should(loc => {
             expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);
@@ -101,13 +76,13 @@ describe('Item preview', () => {
         addInteraction('choice');
     });
 
-    it('Save item', () => {
+    it('Saves item', () => {
         cy.intercept('POST', '**/saveItem*').as('saveItem');
         cy.get('[data-testid="save-the-item"]').click();
         cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
     });
 
-    it('Preview item from authoring page', () => {
+    it('Previews item from authoring page', () => {
         cy.intercept('GET', '**/taoQtiTestPreviewer/Previewer/getItem*').as('preview');
         cy.get('[data-testid="preview-the-item"]').should('not.have.class', 'disabled');
         cy.get('[data-testid="preview-the-item"]').click();
@@ -117,7 +92,7 @@ describe('Item preview', () => {
         cy.get('[data-control="close"] .icon-close').click();
     });
 
-    it('Preview item from items page', () => {
+    it('Previews item from items page', () => {
         cy.intercept('GET', '**/taoQtiTestPreviewer/Previewer/getItem*').as('preview');
         cy.visit(urls.items);
         cy.selectNode(selectors.root, selectors.itemClassForm, className);
@@ -126,5 +101,21 @@ describe('Item preview', () => {
         cy.get('#item-preview').click();
         cy.wait('@preview');
         cy.get('.qti-choiceInteraction').should('exist');
+        cy.get('[data-control="close"] .icon-close').should('exist');
+        cy.get('[data-control="close"] .icon-close').click();
+    });
+
+    it('Deletes class', () => {
+        cy.deleteClassFromRoot(
+            selectors.root,
+            selectors.itemClassForm,
+            selectors.deleteClass,
+            selectors.deleteConfirm,
+            className,
+            selectors.deleteClassUrl,
+            selectors.resourceRelations,
+            false,
+            true
+        );
     });
 });
