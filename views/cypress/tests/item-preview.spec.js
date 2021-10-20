@@ -96,7 +96,7 @@ describe('Item preview', () => {
         cy.intercept('GET', '**/taoQtiTestPreviewer/Previewer/getItem*').as('preview');
         cy.visit(urls.items);
         cy.selectNode(selectors.root, selectors.itemClassForm, className);
-        cy.selectNode(selectors.root, selectors.itemClassForm, itemName);
+        cy.selectNode(selectors.root, selectors.itemForm, itemName);
         cy.get('#item-preview').should('exist');
         cy.get('#item-preview').click();
         cy.wait('@preview');
