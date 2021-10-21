@@ -429,6 +429,7 @@ define([
 
     const cleanCache = function () {
         removeOrphanedStylesheets();
+        $(document).off('customcssloaded.styleeditor');
     };
 
     return {
