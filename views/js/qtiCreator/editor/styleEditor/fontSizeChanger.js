@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA ;
  *
  */
 
@@ -21,13 +21,8 @@
  *
  * @author dieter <dieter@taotesting.com>
  */
- define([
-    'jquery',
-    'lodash',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
-], function ($, _, styleEditor) {
+define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'], function ($, _, styleEditor) {
     'use strict';
-
 
     /**
      * Changes the font size in the Style Editor
@@ -37,32 +32,27 @@
             itemSelector = $fontSizeChanger.data('target'),
             $item = $(itemSelector),
             itemFontSize = parseInt($item.css('font-size'), 10),
-            $resetBtn =  $fontSizeChanger.parents('.reset-group').find('[data-role="font-size-reset"]'),
+            $resetBtn = $fontSizeChanger.parents('.reset-group').find('[data-role="font-size-reset"]'),
             $input = $('#item-editor-font-size-text');
 
         /**
          * Writes new font size to virtual style sheet
          */
-        var resizeFont = function() {
-            styleEditor.apply(itemSelector, 'font-size', itemFontSize.toString() + 'px');
+        var resizeFont = function () {
+            styleEditor.apply(itemSelector, 'font-size', `${itemFontSize.toString()}px`);
         };
 
         /**
          * Handle input field
          */
-        $fontSizeChanger.find('a').on('click', function(e) {
+        $fontSizeChanger.find('a').on('click', function (e) {
             e.preventDefault();
-            if (!itemFontSize) {
-                const computedStyle = window.getComputedStyle(document.querySelector(itemSelector), null);
-                itemFontSize = computedStyle.getPropertyValue('font-size');
-            }
-            if($(this).data('action') === 'reduce') {
-                if(itemFontSize <= 10) {
+            if ($(this).data('action') === 'reduce') {
+                if (itemFontSize <= 10) {
                     return;
                 }
                 itemFontSize--;
-            }
-            else {
+            } else {
                 itemFontSize++;
             }
             resizeFont();
@@ -73,17 +63,15 @@
         /**
          * Disallows invalid characters
          */
-        $input.on('keydown', function(e) {
+        $input.on('keydown', function (e) {
             var c = e.keyCode;
-            return (_.contains([8, 37, 39, 46], c) ||
-                (c >= 48 && c <= 57) ||
-                (c >= 96 && c <= 105));
+            return _.contains([8, 37, 39, 46], c) || (c >= 48 && c <= 57) || (c >= 96 && c <= 105);
         });
 
         /**
          * Apply font size on blur
          */
-        $input.on('blur', function() {
+        $input.on('blur', function () {
             itemFontSize = parseInt(this.value, 10);
             resizeFont();
         });
@@ -91,9 +79,9 @@
         /**
          * Apply font size on enter
          */
-        $input.on('keydown', function(e) {
+        $input.on('keydown', function (e) {
             var c = e.keyCode;
-            if(c === 13) {
+            if (c === 13) {
                 $input.trigger('blur');
             }
         });
@@ -104,19 +92,21 @@
         $resetBtn.on('click', function () {
             $input.val('');
             styleEditor.apply(itemSelector, 'font-size');
+            itemFontSize = parseInt($item.css('font-size'), 10);
         });
 
         /**
          * style loaded from style sheet
          */
-        $(document).on('customcssloaded.styleeditor', function(e, style) {
-            if(style[itemSelector] && style[itemSelector]['font-size']) {
+        const oldSelector = `${itemSelector} *`;
+        $(document).on('customcssloaded.styleeditor', function (e, style) {
+            if (style[itemSelector] && style[itemSelector]['font-size']) {
                 $input.val(parseInt(style[itemSelector]['font-size'], 10));
                 $input.trigger('blur');
-            } if(style[itemSelector + ' *'] && style[itemSelector + ' *']['font-size']) {
+            } else if (style[oldSelector] && style[oldSelector]['font-size']) {
                 // old selector 'itemSelector + *'
-                $input.val(parseInt(style[itemSelector + ' *']['font-size'], 10));
-                styleEditor.apply(itemSelector + ' *', 'font-size');
+                $input.val(parseInt(style[oldSelector]['font-size'], 10));
+                styleEditor.apply(oldSelector, 'font-size');
                 $input.trigger('blur');
             } else {
                 $input.val();
