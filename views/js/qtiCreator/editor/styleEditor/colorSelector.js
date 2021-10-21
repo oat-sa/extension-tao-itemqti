@@ -73,12 +73,6 @@ define([
                     $trigger.css('background-color', value);
                     $trigger.attr('title', rgbToHex(value));
                 }
-                // elements have a default color from tao css
-                else if($target.css($trigger.data('value'))) {
-                    value = $target.css($trigger.data('value'));
-                    $trigger.css('background-color', value);
-                    $trigger.attr('title', rgbToHex(value));
-                }
                 // elements have no color at all
                 else {
                     $trigger.css('background-color', '');
