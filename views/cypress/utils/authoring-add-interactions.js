@@ -125,12 +125,7 @@ export function removeBlockAndInlineInteractions() {
  */
 export function addCommonInteractions() {
     for (const interaction in commonInteractions) {
-        cy.log('ADDING INTERACTION', interaction);
-        const interactionSelector = `[data-qti-class="${commonInteractions[interaction]}"]`;
-        cy.dragAndDrop(interactionSelector, dropSelector);
-        // check that widget is initialized
-        cy.get(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
-        cy.log(interaction, 'IS ADDED');
+        addInteraction(interaction);
     }
 }
 
@@ -199,7 +194,9 @@ export function addGraphicInteractions() {
                     if (imageEditor.find('li.add-option').length) {
                         cy.get(`.widget-box.edit-active${interactionSelector} .image-editor li.add-option`).click();
                         selectUploadLocalAsset(imageOptionName, `${paths.assetsPath}${imageOptionName}`);
-                        cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should('exist');
+                        cy.getSettled(`.widget-box.edit-active${interactionSelector} .source .qti-choice img`).should(
+                            'exist'
+                        );
                     }
 
                     cy.log(interaction, 'IS ADDED');
@@ -221,4 +218,24 @@ export function removeGraphicInteractions() {
         cy.get(`.widget-box${interactionSelector}`).click();
         removeInteraction(deleteSelector, interaction, interactionSelector);
     }
+}
+
+/**
+ * Adds single interaction
+ * @param {string} interaction - Interaction to add
+ */
+export function addInteraction(interaction) {
+    if (interaction === mediaInteraction) {
+        addMediaInteraction();
+        return;
+    }
+    if (!commonInteractions[interaction]) {
+        throw new Error(`Unknown interaction: ${interaction}`);
+    }
+    cy.log('ADDING INTERACTION', interaction);
+    const interactionSelector = `[data-qti-class="${commonInteractions[interaction]}"]`;
+    cy.dragAndDrop(interactionSelector, dropSelector);
+    // check that widget is initialized
+    cy.get(`${dropSelector} .widget-box.edit-active${interactionSelector}`).should('exist');
+    cy.log(interaction, 'IS ADDED');
 }
