@@ -52,6 +52,10 @@
          */
         $fontSizeChanger.find('a').on('click', function(e) {
             e.preventDefault();
+            if (!itemFontSize) {
+                const computedStyle = window.getComputedStyle(document.querySelector(itemSelector), null);
+                itemFontSize = computedStyle.getPropertyValue('font-size');
+            }
             if($(this).data('action') === 'reduce') {
                 if(itemFontSize <= 10) {
                     return;
@@ -115,7 +119,7 @@
                 styleEditor.apply(itemSelector + ' *', 'font-size');
                 $input.trigger('blur');
             } else {
-                $input.val(parseInt($item.css('font-size'), 10));
+                $input.val();
             }
         });
     };
