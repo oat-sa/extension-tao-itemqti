@@ -1331,13 +1331,26 @@ img.dragging.ui-draggable-dragging {
         color: $grey;
         border: $grey 1px solid;
         border-radius: 2px;
-        position: absolute;
-        right: 20px;
         font-size: 10px;
         top: 6px;
         line-height: 12px;
         padding: 0 4px;
+        position: relative;
     }
+}
+.select2-chosen .rtl-lang {
+    &:after {
+        position: absolute;
+        right: 20px;
+    }
+}
+.select2-container .select2-choice>.select2-chosen {
+    margin-right: 50px;
+}
+.select2-results .select2-result-label {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
 }
 .select2-result.rtl-lang {
     &.select2-highlighted {
