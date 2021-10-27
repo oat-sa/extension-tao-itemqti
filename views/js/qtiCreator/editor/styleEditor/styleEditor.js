@@ -364,8 +364,8 @@ define([
      */
     const removeOrphanedStylesheets = function () {
         $('link[data-serial]').remove();
-        $('style#item-editor-user-styles').empty();
         customStylesheet = null;
+        erase();
     };
 
     /**
@@ -427,6 +427,11 @@ define([
         return style;
     };
 
+    const cleanCache = function () {
+        removeOrphanedStylesheets();
+        $(document).off('customcssloaded.styleeditor');
+    };
+
     return {
         apply: apply,
         save: save,
@@ -436,6 +441,7 @@ define([
         create: create,
         getItem: getItem,
         getStyle: getStyle,
-        addStylesheet: addStylesheet
+        addStylesheet: addStylesheet,
+        cleanCache: cleanCache
     };
 });

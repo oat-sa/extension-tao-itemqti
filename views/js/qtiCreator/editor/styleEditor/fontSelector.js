@@ -1,10 +1,11 @@
 define([
     'jquery',
+    'lodash',
     'json!taoQtiItem/qtiCreator/editor/resources/font-stacks.json',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'i18n',
     'select2'
-], function ($, fontStacks, styleEditor, __) {
+], function ($, _, fontStacks, styleEditor, __) {
     'use strict';
 
     /**
@@ -22,28 +23,21 @@ define([
      * The function is called like this:
      * fontSelector('the-select-box-selector');
      *
-     * @param selector
      */
     function fontSelector() {
         const selector = 'select#item-editor-font-selector',
-            fontSelector = $(selector),
-            target = fontSelector.data('target'),
-            $target = $(target),
+            $selector = $(selector),
+            target = $selector.data('target'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
             clean = function (font) {
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
             },
-            resetButton = fontSelector.parent().find('[data-role="font-selector-reset"]');
-        let generic,
-            optGroup,
-            option,
-            i = 0,
-            l,
+            resetButton = $selector.parent().find('[data-role="font-selector-reset"]'),
             toLabel = function (font) {
                 font = font.replace(/-/g, ' ');
-                return (font + '').replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
+                return (`${font}`).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
                     return $1.toUpperCase();
                 });
             },
@@ -52,40 +46,33 @@ define([
                 if (!state.id) {
                     return state.text;
                 }
-                return '<span style="font-size: 12px;' + $(originalOption).attr('style') + '">' + state.text + '</span>';
+                return `<span style="font-size: 12px;${$(originalOption).attr('style')}">${state.text}</span>`;
             },
             reset = function () {
                 styleEditor.apply(target, 'font-family');
-                fontSelector.select2('val', '');
+                $selector.select2('val', '');
             };
 
-        fontSelector.append('<option value="">' + __('Default') + '</option>');
+        $selector.append(`<option value="">${__('Default')}</option>`);
 
-        for (generic in fontStacks) {
-            if (fontStacks.hasOwnProperty(generic)) {
-                optGroup = $('<optgroup>', { label: toLabel(generic) });
-                l = fontStacks[generic].length;
-                for (i = 0; i < l; i++) {
-                    // normalize quotes
-                    fontStacks[generic][i] = normalize(fontStacks[generic][i]);
-                    const value = fontStacks[generic][i];
-                    const cleanValue = clean(value);
-                    option = $('<option>', {
-                        value,
-                        text: cleanValue
-                    })
-                        .css({
-                            fontFamily: value
-                        });
-                    optGroup.append(option);
-                }
-                fontSelector.append(optGroup);
-            }
-        }
+        _.forEach(fontStacks, (value, key) => {
+            const optGroup = $('<optgroup>', { label: toLabel(key) });
+            _.forEach(value, font => {
+                const normalizeFont = normalize(font);
+                const option = $('<option>', {
+                    value: normalizeFont,
+                    text: clean(normalizeFont)
+                }).css({
+                    fontFamily: normalizeFont
+                });
+                optGroup.append(option);
+            });
+            $selector.append(optGroup);
+        });
 
         resetButton.on('click', reset);
 
-        fontSelector.select2({
+        $selector.select2({
             formatResult: format,
             formatSelection: format,
             width: 'resolve'
@@ -93,12 +80,12 @@ define([
 
         $(document).on('customcssloaded.styleeditor', function (e, style) {
             if (style[target] && style[target]['font-family']) {
-                fontSelector.select2('val', style[target]['font-family']);
+                $selector.select2('val', style[target]['font-family']);
                 $(`${selector} option:selected`).first().attr('selected', 'selected');
             }
         });
 
-        fontSelector.on('change', function () {
+        $selector.on('change', function () {
             styleEditor.apply(target, 'font-family', $(this).val());
             $(`${selector} option:selected`).first().attr('selected', 'selected');
         });
