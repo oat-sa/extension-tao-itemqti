@@ -48,20 +48,20 @@ define([
         interactiontoolbarready : 'interactiontoolbarready.qti-widget'
     };
 
-    function getGroupId(groupLabel){
-        return groupLabel.replace(/\W+/g, '-').toLowerCase();
+    function getGroupId(groupId){
+        return groupId.replace(/\W+/g, '-').toLowerCase();
     }
 
-    function getGroupSectionId(groupLabel){
-        return 'sidebar-left-section-' + getGroupId(groupLabel);
+    function getGroupSectionId(groupId){
+        return 'sidebar-left-section-' + getGroupId(groupId);
     }
 
-    function addGroup($sidebar, groupLabel){
+    function addGroup($sidebar, groupId, groupLabel){
 
-        var groupId = getGroupSectionId(groupLabel);
+        const groupSectionId = getGroupSectionId(groupId);
 
-        var $section = $(insertSectionTpl({
-            id : groupId,
+        const $section = $(insertSectionTpl({
+            id : groupSectionId,
             label : groupLabel
         }));
 
@@ -83,10 +83,10 @@ define([
         $sidebar.trigger(_events.interactiontoolbarready);//interactiontoolbarready.qti-widget
     }
 
-    function getGroup($sidebar, groupLabel){
+    function getGroup($sidebar, groupId){
 
-        var groupId = getGroupSectionId(groupLabel);
-        return $sidebar.find('#' + groupId);
+        const groupSectionId = getGroupSectionId(groupId);
+        return $sidebar.find('#' + groupSectionId);
     }
 
     function isReady($sidebar){
@@ -126,10 +126,10 @@ define([
         if(exists($sidebar, interactionAuthoringData.qtiClass)){
             throw 'the interaction is already in the sidebar';
         }
-        
-        var groupLabel = interactionAuthoringData.tags[0] || '',
+
+      const groupId = interactionAuthoringData.group,
+            groupLabel = interactionAuthoringData.tags[0] || '',
             subGroupId = interactionAuthoringData.tags[1],
-            $group = getGroup($sidebar, groupLabel),
             tplData = {
                 qtiClass : interactionAuthoringData.qtiClass,
                 disabled : !!interactionAuthoringData.disabled,
@@ -139,6 +139,8 @@ define([
                 short : interactionAuthoringData.short,
                 dev : false
             };
+        let $group = getGroup($sidebar, groupId);
+
 
         if(subGroupId && _subgroups[subGroupId]){
             tplData.subGroup = subGroupId;
@@ -146,7 +148,7 @@ define([
 
         if(!$group.length){
             //the group does not exist yet : create a <section> for the group
-            $group = addGroup($sidebar, groupLabel);
+            $group = addGroup($sidebar, groupId, groupLabel);
         }
 
         if(subGroupId && _subgroups[subGroupId]){
@@ -155,10 +157,10 @@ define([
 
         if(!$group.length){
             //the group does not exist yet : create a <section> for the group
-            $group = addGroup($sidebar, groupLabel);
+            $group = addGroup($sidebar, groupId, groupLabel);
         }
         
-        var $interaction = $(insertInteractionTpl(tplData));
+        let $interaction = $(insertInteractionTpl(tplData));
         $group.find('.tool-list').append($interaction);
         
         return $interaction;
