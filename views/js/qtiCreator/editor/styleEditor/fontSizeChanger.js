@@ -108,6 +108,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
                 itemFontSize = parseInt(style[oldSelector]['font-size'], 10);
                 $input.val(itemFontSize);
                 styleEditor.apply(oldSelector, 'font-size');
+                resizeFont();
             } else {
                 $input.val();
             }
