@@ -8,7 +8,7 @@
         "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
     },
     "dependencies": {
-        "@oat-sa/tao-item-runner": "0.7.1",
-        "@oat-sa/tao-item-runner-qti": "0.23.1"
+        "@oat-sa/tao-item-runner": "github:oat-sa/tao-item-runner-fe#feat/TR-2992_update-select2",
+        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feat/TR-2992_update-select2"
     }
 }
