@@ -16,11 +16,26 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 define([
+    'module',
+    'context',
     'lodash',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
-    'taoQtiItem/qtiItem/helper/xincludeLoader'
-], function(_, commonRenderer, xincludeLoader){
+    'taoQtiItem/qtiItem/helper/xincludeLoader',
+    'core/moduleLoader'
+], function (module, context, _, commonRenderer, xincludeLoader, moduleLoader) {
     'use strict';
+
+    const moduleConfig = module.config();
+    let xincludeHandlers = [];
+    if (moduleConfig.handlers) {
+        /*
+         * This loads all the modules from module configuration, which are in the `handlers` array.
+         */
+        moduleLoader({}, _.isFunction)
+            .addList(moduleConfig.handlers)
+            .load(context.bundle)
+            .then(handlers => xincludeHandlers = handlers);
+    }
 
     return {
         /**
@@ -28,34 +43,41 @@ define([
          *
          * @param {Object} xincludeWidget
          * @param {String} baseUrl
+         * @param {String} newHref
          * @returns {undefined}
          */
-        render : function render(xincludeWidget, baseUrl, newHref){
-
-            var xinclude = xincludeWidget.element;
-            if(newHref){
+        render: function render(xincludeWidget, baseUrl, newHref) {
+            const xinclude = xincludeWidget.element;
+            if (newHref) {
                 xinclude.attr('href', newHref);
             }
 
-            xincludeLoader.load(xinclude, baseUrl, function(xi, data, loadedClasses){
-                if(data){
+            xincludeLoader.load(xinclude, baseUrl, function (xi, data, loadedClasses) {
+                if (data) {
                     //loading success :
-                    commonRenderer.get().load(function(){
-
+                    commonRenderer.get().load(function () {
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")
-                        _.each(xinclude.getComposingElements(), function(elt){
+                        _.each(xinclude.getComposingElements(), function (elt) {
                             elt.setRenderer(commonRenderer.get());
                         });
 
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
-
                     }, loadedClasses);
-                }else{
+
+                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href')));
+                } else {
                     //loading failure :
                     xinclude.removeAttr('href');
                 }
             });
+        },
+        /**
+         * Return xinclude handlers
+         * @returns {Array}
+         */
+        getXincludeHandlers: function getXincludeHandlers() {
+            return xincludeHandlers;
         }
     };
 });

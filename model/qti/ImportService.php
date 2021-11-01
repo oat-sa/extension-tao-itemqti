@@ -591,10 +591,11 @@ class ImportService extends ConfigurableService
                     $path = $this->retrieveFullPathLabels($itemClass);
                     // Uses the first created item's label as the leaf class.
                     if (is_array($path)) {
-                        $path[] = $rdfItem->getLabel();
+                        array_unshift($path, $rdfItem->getLabel());
                     }
                     /** Shared stimulus handler */
                     $sharedStimulusHandler = new SharedStimulusAssetHandler();
+                    $sharedStimulusHandler->setServiceLocator($this->getServiceLocator());
                     $sharedStimulusHandler
                         ->setQtiModel($qtiModel)
                         ->setItemSource(new ItemMediaResolver($rdfItem, ''))

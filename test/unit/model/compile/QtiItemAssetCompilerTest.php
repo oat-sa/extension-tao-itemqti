@@ -31,6 +31,7 @@ use oat\tao\model\media\MediaAsset;
 use oat\tao\model\media\MediaBrowser;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetCompiler;
+use oat\taoQtiItem\model\compile\QtiAssetCompiler\XIncludeAdditionalAssetInjector;
 use oat\taoQtiItem\model\compile\QtiAssetReplacer\NullQtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
@@ -58,9 +59,10 @@ class QtiItemAssetCompilerTest extends TestCase
     /** @var Directory */
     private $directory;
 
-    /**
-     * @var QtiItemAssetReplacer
-     */
+    /** @var XIncludeAdditionalAssetInjector */
+    private $xIncludeAdditionalAssetInjector;
+
+    /** @var QtiItemAssetReplacer */
     private $nullQtiItemAssetReplacer;
 
     public function setUp(): void
@@ -69,10 +71,12 @@ class QtiItemAssetCompilerTest extends TestCase
 
         $this->blackListService = $this->createMock(QtiItemCompilerAssetBlacklist::class);
         $this->nullQtiItemAssetReplacer = $this->createMock(NullQtiItemAssetReplacer::class);
+        $this->xIncludeAdditionalAssetInjector = $this->createMock(XIncludeAdditionalAssetInjector::class);
         $this->subject->setServiceLocator($this->getServiceLocatorMock([
             QtiItemCompilerAssetBlacklist::SERVICE_ID => $this->blackListService,
             LoggerService::SERVICE_ID => new NullLogger(),
-            QtiItemAssetReplacer::SERVICE_ID => $this->nullQtiItemAssetReplacer
+            QtiItemAssetReplacer::SERVICE_ID => $this->nullQtiItemAssetReplacer,
+            XIncludeAdditionalAssetInjector::class => $this->xIncludeAdditionalAssetInjector
         ]));
 
         $this->resolver = $this->createMock(ItemMediaResolver::class);
