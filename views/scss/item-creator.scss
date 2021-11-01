@@ -1362,7 +1362,15 @@ img.dragging.ui-draggable-dragging {
         }
     }
 }
-
+#mediaManager {
+    .file-preview {
+        .previewer {
+            iframe {
+                height: 100%;
+            }
+        }
+    }
+}
 @media print {
 
     html body #tabs {
