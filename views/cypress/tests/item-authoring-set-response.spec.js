@@ -22,9 +22,10 @@ import selectors from '../utils/selectors';
 import {
     addBlockAndInlineInteractions,
     addCommonInteractions,
+    addInteraction,
     addGraphicInteractions
 } from '../utils/authoring-add-interactions';
-import { setResponse } from '../utils/set-response';
+import {addResponseProcessing, setResponse} from '../utils/set-response';
 
 describe('Item Authoring', () => {
     const className = 'Test E2E class';
@@ -52,7 +53,7 @@ describe('Item Authoring', () => {
         graphicGapMatchInteraction: 'graphicGapMatchInteraction',
         selectPointInteraction: 'selectPointInteraction'
     };
-
+    const responseProcessigOptions = ['Match correct', 'map response', 'none'];
     /**
      * Log in
      * Visit the page
@@ -168,6 +169,45 @@ describe('Item Authoring', () => {
             cy.intercept('POST', '**/saveItem*').as('saveItem');
             cy.get('[data-testid="save-the-item"]').click();
             cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
+        });
+        it('can add single interaction to an item', function () {
+            cy.get('[data-testid="manage-items"]').click();
+            cy.getSettled('[id="item-new"]').click();
+
+            cy.get('[id="item-authoring"]').click();
+            addInteraction("choice");
+        });
+        it('can add  match correct response processing to item', function () {
+            addResponseProcessing(
+                urls.itemPreview,
+                selectors.previewItemButton,
+                selectors.previewSubmitButton,
+                selectors.selectInteractionResponse,
+                commonWidgetSelector(interactions.choice),
+                interactions.choice,
+                responseProcessigOptions[0]
+            );
+        });
+        it('can add map response response processing to item', function () {
+            addResponseProcessing(
+                urls.itemPreview,
+                selectors.previewItemButton,
+                selectors.previewSubmitButton,
+                selectors.selectInteractionResponse,
+                commonWidgetSelector(interactions.choice),
+                interactions.choice,
+                responseProcessigOptions[1]
+            );
+        }); it('can add none to response processing to item', function () {
+            addResponseProcessing(
+                urls.itemPreview,
+                selectors.previewItemButton,
+                selectors.previewSubmitButton,
+                selectors.selectInteractionResponse,
+                commonWidgetSelector(interactions.choice),
+                interactions.choice,
+                responseProcessigOptions[2]
+            );
         });
     });
 });
