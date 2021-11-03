@@ -1,0 +1,1835 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-10-21T14:51:45\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: nb-NO\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: nb-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid " Fill in the gaps in a text from a set of choices."
+msgstr " Fyll ut mellomrommene i en tekst med de gitte alternativene."
+
+msgid " For Resource "
+msgstr " For ressurs "
+
+msgid " or "
+msgstr " eller "
+
+msgid "%d characters allowed"
+msgstr "%d tegn tillatt"
+
+msgid "%d/%d"
+msgstr "%d/%d"
+
+msgid "%s metadata values found in source by extractor(s)."
+msgstr "%s metadataverdier funnet i kilden av ekstraktor(er)."
+
+msgid "-- Any kind of file --"
+msgstr "--Hvilken som helst fil--"
+
+msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr "1 oppgave importert fra det gitte QTI/APIP XML-oppgavedokumentet."
+
+msgid "A choice must be selected"
+msgstr "Du må gjøre et valg"
+
+msgid "A human interpretation of the variable's value."
+msgstr "En menneskelig tolkning av variablens verdi."
+
+msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
+msgstr "En QTI-komponent støttes ikke. Systemet returnerte følgende feil: %s\n"
+""
+
+msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
+msgstr "En rubrikkblokk identifiserer en del av en vurdering som representerer instruksjoner til en eller flere av aktørene som ser oppgaven. Selv om rubrikkblokker er definert som \"simple Blocks\", må de ikke inneholde oppgavetyper."
+
+msgid "Adapt to screen size"
+msgstr "Tilpass til skjermstørrelsen"
+
+msgid "Add"
+msgstr "Legg til"
+
+msgid "Add a CSV file"
+msgstr "Legg til en CSV-fil"
+
+msgid "Add a modal feedback"
+msgstr "Legg til en modal tilbakemelding"
+
+msgid "Add a QTI/APIP XML Item Document"
+msgstr "Legg til et QTI/APIP XML-oppgavedokument"
+
+msgid "Add a ZIP file containing QTI/APIP items"
+msgstr "Legg til en ZIP-fil som inneholder QTI/APIP-oppgaver"
+
+msgid "Add another option"
+msgstr "Legg til et annet alternativ"
+
+msgid "Add choice"
+msgstr "Legg til valg"
+
+msgid "Add else feedback"
+msgstr "Legg til annen tilbakemelding"
+
+msgid "Add new pairs"
+msgstr "Legg til nye par"
+
+msgid "Add Style Sheet"
+msgstr "Legg til stilark"
+
+msgid "Alignment"
+msgstr "Justering"
+
+msgid "Allow elimination"
+msgstr "Tillat eliminering"
+
+msgid "Allowed associations"
+msgstr "Tillatte tilknytninger"
+
+msgid "Allowed choices"
+msgstr "Tillatte valg"
+
+msgid "Allowed number of matches"
+msgstr "Tillatte antall treff"
+
+msgid "Allowed number of uses"
+msgstr "Tillatte antall ganger bruk"
+
+msgid "Alt Text"
+msgstr "All tekst"
+
+msgid "An error occured while exporting an item."
+msgstr "Det oppstod en feil under eksport av en oppgave."
+
+msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
+msgstr "Det oppstod en feil under utpakking av ZIP-arkivet som representerer IMS-innholdspakken."
+
+msgid "An error occured while loading a shared stimulus."
+msgstr "Det oppstod en feil under lasting av en delt innhold."
+
+msgid "An error occured while parsing IMS QTI data."
+msgstr "Det oppstod en feil under analyse av IMS QTI -data."
+
+msgid "An error occurred at the level of the QTI model."
+msgstr "Det oppstod en feil på nivået til QTI-modellen."
+
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr "En valgfri lenke til en utvidet tolkning av resultatvariabelen."
+
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr "En uventet feil oppstod under importen av IMS QTI-oppgavene."
+
+msgid "An unexpected error occured while dealing with Response Processing."
+msgstr "Det oppstod en uventet feil under behandling av responsprosessering."
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
+msgstr "En uventet feil oppstod under importen av IMS QTI-oppgavene. "
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
+msgstr "En uventet feil oppstod under importen av IMS QTI-oppgavene. Systemet returnerte følgende feil: \"%s"
+
+msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
+msgstr "Det oppstod en uventet feil under importen av QTI-oppgaven. Systemet returnerte følgende feil: %s\n"
+""
+
+msgid "APIP Content Package"
+msgstr "APIP innholdspakke"
+
+msgid "Apip Package successfully exported."
+msgstr "Apip-pakken ble eksportert."
+
+msgid "Arrange a list of choices in the correct order."
+msgstr "Sett opp en liste med valg i riktig rekkefølge."
+
+msgid "Associate"
+msgstr "Kobling"
+
+msgid "Associate Interaction"
+msgstr "Oppgavetype kobling"
+
+msgid "association pairs"
+msgstr "kobling av par par"
+
+msgid "at least"
+msgstr "minst"
+
+msgid "Autostart"
+msgstr "Autostart"
+
+msgid "Back to Manage Items"
+msgstr "Tilbake til administrer oppgaver"
+
+msgid "Background color"
+msgstr "Bakgrunnsfarge"
+
+msgid "Base"
+msgstr "Utgangspunkt"
+
+msgid "Block"
+msgstr "Blokk"
+
+msgid "block"
+msgstr "blokk"
+
+msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
+msgstr "Blokken inneholder stimuliet til oppgaven, for eksempel tekst eller bilde. Det er også nødvendig for integrerte oppgavetyper."
+
+msgid "Block height (%)"
+msgstr "Blokkhøyde(%)"
+
+msgid "Border color"
+msgstr "Kantfarge"
+
+msgid "Browse your computer and select the appropriate file."
+msgstr "Bla gjennom maskinen din og velg riktig fil."
+
+msgid "Browse..."
+msgstr "Bla gjennom..."
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "cancel"
+msgstr "avbryt"
+
+msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr "Kan ikke lage mellomrom fra dette valget. Kontroller at du ikke har delvis utvalgte elementer."
+
+msgid "Cannot delete a variable currently used in response processing"
+msgstr "Kan ikke slette en variabel som for tiden brukes i responsprosessering"
+
+msgid "Cannot edit a variable currently used in response processing"
+msgstr "Kan ikke redigere en variabel som for tiden brukes i responsprosessering"
+
+msgid "cannot find QTI XML"
+msgstr "finner ikke QTI XML"
+
+msgid "cannot load QTI XML"
+msgstr "kan ikke laste inn QTI XML"
+
+msgid "Cannot locate the file \"%s"
+msgstr "Finner ikke filen \"%s"
+
+msgid "Center"
+msgstr "Senter"
+
+msgid "characters"
+msgstr "tegn"
+
+msgid "chars"
+msgstr "tegn"
+
+msgid "Choice"
+msgstr "Flervalg"
+
+msgid "Choice Image"
+msgstr "Flervalg Bilde"
+
+msgid "Choice Interaction"
+msgstr "Oppgavetype flervalg"
+
+msgid "Choice Properties"
+msgstr "Egenskaper for flervalg"
+
+msgid "Choices"
+msgstr "Valg"
+
+msgid "choices"
+msgstr "valg"
+
+msgid "Choose the horizontal alignment for the table."
+msgstr "Velg den horisontale justeringen for tabellen."
+
+msgid "Class successfully created."
+msgstr "Mappen ble opprettet."
+
+msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
+msgstr "Klassifiseringsoppføringer må være en forekomst av ClassificationEntryMetadataValue"
+
+msgid "Classification metadata is required to be extracted."
+msgstr "Klassifiseringsmetadata må hentes ut."
+
+msgid "Classification value to map has to a string"
+msgstr "Klassifiseringsverdi for kart må ha en streng"
+
+msgid "Click again to remove"
+msgstr "Klikk for å fjerne"
+
+msgid "Click to display interaction widget"
+msgstr "Klikk for å vise oppgavetype widget"
+
+msgid "Collect open-ended information in a short text input (strings or numeric values)."
+msgstr "Samle åpen informasjon i en kort tekst (strenger eller numeriske verdier)."
+
+msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
+msgstr "Samle åpen informasjon i ett eller flere tekstområder (strenger eller numeriske verdier.)"
+
+msgid "Color Picker"
+msgstr "Fargevelger"
+
+msgid "Common Interactions"
+msgstr "Vanlige oppgavetyper"
+
+msgid "Constraints"
+msgstr "Begrensninger"
+
+msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
+msgstr "Kontroller avspillingsparametrene (automatisk start, loop) for en video- eller lydfil og rapporter hvor mange ganger den har blitt spilt."
+
+msgid "Correct"
+msgstr "Riktig"
+
+msgid "correct"
+msgstr "riktig"
+
+msgid "Cosinus"
+msgstr "Cosinus"
+
+msgid "Create assocations and fill the score in the form below"
+msgstr "Opprett koblingerer og fyll ut poengsummen i skjemaet under"
+
+msgid "Create association(s) between areas (hotspots) displayed on a picture."
+msgstr "Lag kobling(er) mellom områder (hotspots) som vises på et bilde."
+
+msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
+msgstr "Opprett kobling(er) mellom to sett med valg som vises i en tabell (rad og kolonne)."
+
+msgid "Create gap"
+msgstr "Lag mellomrom"
+
+msgid "Create hottext"
+msgstr "Lag klikk-ord-oppgave"
+
+msgid "Create pair(s) from a series of choices."
+msgstr "Lag par ut fra en rekke valg."
+
+msgid "CSV content + metadata"
+msgstr "CSV-innhold + metadata"
+
+msgid "Current value:"
+msgstr "Verdi:"
+
+msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
+msgstr "Konvertering fra MathML til LaTeX er for tiden ikke mulig. LaTex-koden blir slettet hvis du redigerer MathML her."
+
+msgid "custom"
+msgstr "tilpasset"
+
+msgid "Custom Response Processing Mode"
+msgstr "Tilpasset responsprosesseringsmodus"
+
+msgid "default"
+msgstr "standard"
+
+msgid "Default"
+msgstr "Standard"
+
+msgid "Define correct response"
+msgstr "Definer riktig svar"
+
+msgid "Define item language."
+msgstr "Definer oppgavespråk."
+
+msgid "define prompt"
+msgstr "definer ledetekst"
+
+msgid "Define the correct response."
+msgstr "Definer riktig svar."
+
+msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
+msgstr "Definer om eleven må gjøre et valg for å lage et gyldig svar på oppgaven."
+
+msgid "Define whether the item should be time dependent on delivery."
+msgstr "Definer om oppgaven skal være tidsavhengig ved levering."
+
+msgid "Defined width"
+msgstr "Definer bredde"
+
+msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
+msgstr "Definerer maksimal størrelse på numeriske resultatvariabler, maksimum må være en positiv verdi og minimum kan være en negativ verdi."
+
+msgid "Delete"
+msgstr "Slette"
+
+msgid "delete"
+msgstr "slette"
+
+msgid "Delete else statement"
+msgstr "Slett annet utsagn"
+
+msgid "Delete this modal feedback"
+msgstr "Slett denne modale tilbakemeldingen"
+
+msgid "Delimiter"
+msgstr "Avgrensning"
+
+msgid "Description"
+msgstr "Beskrivelse"
+
+msgid "Disable this stylesheet temporarily"
+msgstr "Deaktiver dette stilarket midlertidig"
+
+msgid "Display"
+msgstr "Vise"
+
+msgid "Display the choices either horizontally or vertically"
+msgstr "Vis valgene enten horisontalt eller vertikalt"
+
+msgid "Divide"
+msgstr "Dele opp"
+
+msgid "Don\'t save"
+msgstr ""
+
+msgid "done"
+msgstr "utført"
+
+msgid "Done"
+msgstr "Utført"
+
+msgid "Download"
+msgstr "Last ned"
+
+msgid "Download sample csv file"
+msgstr "Last ned csv-fil"
+
+msgid "Download this stylesheet"
+msgstr "Last ned dette stilarket"
+
+msgid "Draw a circle on the image"
+msgstr "Tegn en sirkel på bildet"
+
+msgid "Draw a free form on the image"
+msgstr "Tegn en valgfri form på bildet"
+
+msgid "Draw a rectangle on the image"
+msgstr "Tegn et rektangel på bildet"
+
+msgid "Draw an ellipsis on the image"
+msgstr "Tegn en ellipse på bildet"
+
+msgid "Drop the target to select a point"
+msgstr "Slipp målet for å velge et punkt"
+
+msgid "e.g. 13"
+msgstr "f.eks. 13"
+
+msgid "e.g. 960"
+msgstr "f.eks. 960"
+
+msgid "Edit"
+msgstr "Redigere"
+
+msgid "edit choices"
+msgstr "redigere valg"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
+msgid "Edit math expression using MathML"
+msgstr "Rediger matematisk uttrykk ved hjelp av MathML"
+
+msgid "Edit modal feedback"
+msgstr "Rediger modal tilbakemelding"
+
+msgid "Edit modal feedback title"
+msgstr "Rediger tittel for modal tilbakemelding"
+
+msgid "Edit stylesheet label"
+msgstr "Rediger stilarktittel"
+
+msgid "Editing Mode"
+msgstr "Redigeringsmodus"
+
+msgid "Element Properties"
+msgstr "Elementegenskaper"
+
+msgid "elements"
+msgstr "elementer"
+
+msgid "Eliminate"
+msgstr "Fjerne"
+
+msgid "Enable Scrolling"
+msgstr "Aktiver skrolling"
+
+msgid "Enable the test taker to pause and restart the playing."
+msgstr "Tillat eleven å ta pause og starte avspillingen på nytt."
+
+msgid "Enable/disable scrolling."
+msgstr "Aktiver/deaktiver skrolling."
+
+msgid "End Attempt"
+msgstr "End attempt"
+
+msgid "End Attempt Interaction"
+msgstr "Oppgavetype end attempt"
+
+msgid "Enlarge font size"
+msgstr "Forstørr skriftstørrelse"
+
+msgid "Enter a select MIME-type"
+msgstr "Skriv inn en valgt MIME-type"
+
+msgid "Enter choices…"
+msgstr "Gå til valg ..."
+
+msgid "Enter tooltip content"
+msgstr "Gå til verktøykasseinhold"
+
+msgid "Enter tooltip target"
+msgstr "Gå til valgt verktøy"
+
+msgid "Error on item %1$s : %2$s"
+msgstr "Feil på oppgave %1 $ s: %2 $ s"
+
+msgid "Error on item %s"
+msgstr "Feil på oppgave %s"
+
+msgid "Error to export item %s: %s"
+msgstr "Feil ved eksport av element %s: %s"
+
+msgid "Euler\'s constant"
+msgstr ""
+
+msgid "Exponent"
+msgstr "Eksponent"
+
+msgid "Export APIP 1.0 Package"
+msgstr "Eksporter APIP 1.0 -pakke"
+
+msgid "Export failed for the item \"%s\": %s"
+msgstr "Eksport mislyktes for oppgave \" %s\": %s"
+
+msgid "Export metadata"
+msgstr "Eksporter metadata"
+
+msgid "Export metadata item"
+msgstr "Eksporter metadataoppgave"
+
+msgid "Export QTI 2.1 Package"
+msgstr "Eksporter QTI 2.1-pakke"
+
+msgid "Export QTI 2.2 Package"
+msgstr "Eksporter QTI 2.2-pakke"
+
+msgid "Extended Text"
+msgstr "Fritekst"
+
+msgid "Extended Text Interaction"
+msgstr "Oppgavetype fritekst"
+
+msgid "External Machine"
+msgstr "Ekstern maskin"
+
+msgid "External Scored"
+msgstr "Ekstern skåret"
+
+msgid "Fail to export item"
+msgstr "Kunne ikke eksportere oppgave"
+
+msgid "Failed to publish %1$s in %2$s"
+msgstr "Kunne ikke publisere %1$s i %2$s"
+
+msgid "Feedback"
+msgstr "Tilbakemelding"
+
+msgid "Feedback Style"
+msgstr "Tilbakemeldingsstil"
+
+msgid "Field"
+msgstr "Felt"
+
+msgid "File"
+msgstr "Fil"
+
+msgid "File name"
+msgstr "Filnavn"
+
+msgid "File Upload"
+msgstr "Filopplasting"
+
+msgid "File Upload Interaction"
+msgstr "Oppgavetype filopplasting"
+
+msgid "Fill in the gaps on a picture with a set of image choices."
+msgstr "Fyll inn mellomrommene i et bilde med et gitt sett av bildevalg."
+
+msgid "Font family"
+msgstr "Skriftfamilie"
+
+msgid "Font size"
+msgstr "Skriftstørrelse"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Fraction"
+msgstr "Brøk"
+
+msgid "Gap"
+msgstr "Mellomrom"
+
+msgid "Gap Match"
+msgstr "Fyll inn ord"
+
+msgid "Gap Match Interaction"
+msgstr "Oppgavetype fyll inn ord"
+
+msgid "Graphic Associate Interaction"
+msgstr "Grafiske oppgavetyper - kobling"
+
+msgid "Graphic Gap Match Interaction"
+msgstr "Grafiske oppgavetyper - fyll inn bilde"
+
+msgid "Graphic Interactions"
+msgstr "Grafiske oppgavetyper"
+
+msgid "Graphic Order Interaction"
+msgstr "Grafiske oppgavetyper - sortering"
+
+msgid "Greater than or equal"
+msgstr "Større enn eller lik"
+
+msgid "Guard for resource \"%s\"..."
+msgstr "Guard for resource \"%s\"..."
+
+msgid "Height"
+msgstr "Høyde"
+
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr "Her kan du gi poeng for manuell skåring, f.eks. av INNHOLD, GRAMATIKK, STAVNING"
+
+msgid "Horizontal"
+msgstr "Horisontal"
+
+msgid "Hotspot"
+msgstr "Klikk bilde"
+
+msgid "Hotspot Interaction"
+msgstr "Oppgavetype klikk bilde"
+
+msgid "Hottext"
+msgstr "Klikk ord"
+
+msgid "Hottext Interaction"
+msgstr "Oppgavetype klikk ord"
+
+msgid "How the math expression should be displayed."
+msgstr "Hvordan det matematiske uttrykket skal vises."
+
+msgid "How the math expression should be edited"
+msgstr "Hvordan det matematiske uttrykket skal redigeres"
+
+msgid "Human"
+msgstr "Menneskelig"
+
+msgid "identical pair already exists"
+msgstr "identisk par eksisterer allerede"
+
+msgid "Identifier"
+msgstr "Identifikator"
+
+msgid "identifier"
+msgstr "identifikator"
+
+msgid "identifier already taken"
+msgstr "identifikator er allerede brukt"
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
+msgstr "Hvis gitt, angir eksempelet et vanlig uttrykk som kandidatens svar må matche for å bli ansett som gyldig"
+
+msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
+msgstr "Hvis oppgaven er bundet til en numerisk responsvariabel, må utgangsattributtet brukes til å angi tallet for å tolke verdien som er angitt av kandidaten."
+
+msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
+msgstr "Hvis variabelverdien er et flyt- og powerForm som er satt til \"false\", vil variabelen gjengis med \"e\" - eller \"E\"-formatet. Hvis powerformen er satt til 'true', endres formen 'e+n' til 'x 10n'."
+
+msgid "If this box is checked the student will be able to eliminate choices."
+msgstr "Hvis denne boksen er huket av, vil eleven kunne eliminere ulike valgalternativer."
+
+msgid "Import"
+msgstr "Importer"
+
+msgid "Import a QTI/APIP Content Package"
+msgstr "Importer en QTI/APIP-innholdspakke"
+
+msgid "Import a QTI/APIP XML Item Document"
+msgstr "Importer et QTI/APIP XML-oppgavedokument"
+
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr "Importer oppgaveinnhold og metadata fra CSV-fil. Bare oppgavetypen Choice støttes."
+
+msgid "Import QTI ITEM into \"%s"
+msgstr "Importer QTI-oppgave til \"%s"
+
+msgid "In Progress"
+msgstr "I arbeid"
+
+msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
+msgstr "Om noen sekunder. Forsinkelse under avspilling av media er tillatt. Når den er avspilt, er media deaktivert og kan ikke avspilles av på nytt."
+
+msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
+msgstr "I visuelle miljøer er oppgavetypene vanligvis representert av tomme bokser som kandidaten skriver inn i. Ved levering bør verdien av dette attributtet brukes(hvis det er gitt) i stedet for standard plassholdertekst når dette er påkrevd."
+
+msgid "incorrect"
+msgstr "feil"
+
+msgid "Index"
+msgstr "Indeks"
+
+msgid "Infinity"
+msgstr "Evighet"
+
+msgid "inline"
+msgstr "på linje"
+
+msgid "Inline Choice"
+msgstr "Flervalg på linje"
+
+msgid "Inline Choice Interaction"
+msgstr "Oppgavetype flervalg på linje"
+
+msgid "Inline Interactions"
+msgstr "Oppgavtype kortsvar"
+
+msgid "Inline interactions need to be inserted into a text block."
+msgstr "Interaksjonen kortsvar må settes inn i en tekstblokk."
+
+msgid "Interaction Background"
+msgstr "Oppgavetypebakgrunn"
+
+msgid "Interaction Properties"
+msgstr "Egenskaper for oppgavetyper"
+
+msgid "Interpretation"
+msgstr "Tolkning"
+
+msgid "Invalid identifier"
+msgstr "Ugyldig identifikator"
+
+msgid "Invalid Outcome Declaration"
+msgstr "Ugyldig resultatvisning"
+
+msgid "invalid QTI XML"
+msgstr "ugyldig QTI XML"
+
+msgid "Invalid response identifier"
+msgstr "Ugyldig svaridentifikator"
+
+msgid "Invalid URL"
+msgstr "Ugyldig URL"
+
+msgid "Is this choice the correct response?"
+msgstr "Er dette valget det riktig svaret?"
+
+msgid "Is this pair the correct response?"
+msgstr "Er dette paret det riktig svaret?"
+
+msgid "Item \"%s\" cannot be exported: %s"
+msgstr "Oppgave \"%s\" kan ikke eksporteres: %s"
+
+msgid "Item \"%s\" has no xml document"
+msgstr "Oppgave \"%s\" har ikke noe XML-dokument"
+
+msgid "Item \"%s\" is not available in any language"
+msgstr "Oppgave \"%s\" er ikke tilgjengelig på noe språk"
+
+msgid "Item \"%s\" is ready to be exported"
+msgstr "Oppgave \"%s\" er klar til å eksporteres"
+
+msgid "Item cannot be saved."
+msgstr "Oppgaven kan ikke lagres."
+
+msgid "Item metadata successfully exported."
+msgstr "Oppgavemetadata er eksportert."
+
+msgid "Item Properties"
+msgstr "Oppgaveegenskaper"
+
+msgid "Item properties"
+msgstr "Oppgaveegenskaper"
+
+msgid "Item width"
+msgstr "Oppgavebredde"
+
+#, tao-public
+msgid "Items"
+msgstr "Oppgaver"
+
+msgid "Label"
+msgstr "Navn"
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "Large editor"
+msgstr "Stor editor"
+
+msgid "LaTeX"
+msgstr "LaTex"
+
+msgid "Latex"
+msgstr "Latex"
+
+msgid "Layout"
+msgstr "Oppsett"
+
+msgid "leave empty"
+msgstr "la stå tom"
+
+msgid "left"
+msgstr "venstre"
+
+msgid "Left"
+msgstr "Venstre"
+
+msgid "Left bracket"
+msgstr "Venstre parentes"
+
+msgid "Length"
+msgstr "Lengde"
+
+msgid "Level"
+msgstr "Nivå"
+
+msgid "Lines"
+msgstr "Linjer"
+
+msgid "List Style"
+msgstr "Listestil"
+
+msgid "Ln"
+msgstr "Ln"
+
+msgid "Log"
+msgstr "Log"
+
+msgid "Long interpretation"
+msgstr "Lang tolkning"
+
+msgid "Loop"
+msgstr "Løkke"
+
+msgid "Lower Bound"
+msgstr "Nedre grense"
+
+msgid "Lower bound is bigger than upper bound."
+msgstr "Nedre grense er større enn øvre grense."
+
+msgid "Lower than or equal"
+msgstr "Lavere enn eller lik"
+
+msgid "Malformed XML[%s]:\n"
+"%s"
+msgstr "Feil XML [%s]: %s"
+
+msgid "Manage Items"
+msgstr "Administrere oppgaver"
+
+#, tao-public
+msgid "Manage items"
+msgstr "Administrere oppgaver"
+
+msgid "map response"
+msgstr "kartlegg svar"
+
+msgid "Mapping default"
+msgstr "Kartleggingsstandard"
+
+msgid "Mapping Indicator"
+msgstr "Kartleggingsindikator"
+
+msgid "Match"
+msgstr "Matrise"
+
+msgid "match correct"
+msgstr "match correct"
+
+msgid "Match Interaction"
+msgstr "Oppgavetype matrise"
+
+msgid "MathJax is not installed."
+msgstr "MathJax er ikke installert."
+
+msgid "MathML"
+msgstr "MathML"
+
+msgid "Max"
+msgstr "Maks"
+
+msgid "Max Length"
+msgstr "Maks lengde"
+
+msgid "Max length"
+msgstr "Maks lengde"
+
+msgid "Max plays count"
+msgstr "Maks antall avspillinger"
+
+msgid "Max words"
+msgstr "Maks antall ord"
+
+msgid "Max Words"
+msgstr "Maks antall ord"
+
+msgid "Max. number of matches"
+msgstr "Maks antall matcher"
+
+msgid "Maximal score for this interaction."
+msgstr "Maksimal skår for denne oppgavetypen."
+
+msgid "maximum"
+msgstr "maksimum"
+
+msgid "Maximum choices reached"
+msgstr "Maks antall valg er nådd"
+
+msgid "Maximum number of choices reached."
+msgstr "Maks antall valg er nådd."
+
+msgid "Media"
+msgstr "Media"
+
+msgid "Media file path or YouTube video address"
+msgstr "Mediefilbane eller YouTube-videoadresse"
+
+msgid "Media Interaction"
+msgstr "Oppgavetype Media"
+
+msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
+msgstr "Metadataeksport krever en forekomst av core_kernel_classes_Resource for å trekke ut metadata"
+
+msgid "Metadata export requires an instance of DomManifest to inject metadata"
+msgstr "Metadataeksport krever en forekomst av DomManifest for å administrere metadata"
+
+msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
+msgstr "Metadataimport krever en forekomst av core_kernel_classes_Resource for å administrere metadata"
+
+msgid "Metadata import requires an instance of DomManifest to extract metadata"
+msgstr "Metadataimport krever en forekomst av DomManifest for å trekke ut metadata"
+
+msgid "Metadata service successfully registered."
+msgstr "Metadatatjenesten ble registrert."
+
+msgid "MIME-type"
+msgstr "MIME-type"
+
+msgid "Min"
+msgstr "Min"
+
+msgid "Minimal  score for this interaction."
+msgstr "Minimun poengsum for denne oppgavetypen."
+
+msgid "Modal feedback is shown to the candidate directly following response processing."
+msgstr "Tilbakemelding vises for eleven rett etter responsprosessering."
+
+msgid "Modal Feedback Prop."
+msgstr "Modal Feedback Prop."
+
+msgid "modal feedback title"
+msgstr "modal feedback tittel"
+
+msgid "Modal Feedbacks"
+msgstr "Modale tilbakemeldinger"
+
+msgid "Multiply"
+msgstr "Multiplisere"
+
+msgid "negative"
+msgstr "negative"
+
+#, tao-public
+msgid "New item"
+msgstr "Ny oppgave"
+
+msgid "No"
+msgstr "Nei"
+
+msgid "no configuration property needed"
+msgstr "ingen konfigurasjonsegenskap nødvendig"
+
+msgid "No file selected"
+msgstr "Ingen fil er valgt"
+
+msgid "no item content"
+msgstr "ikke noe oppgaveinnhold"
+
+msgid "No Items could be imported from the given IMS QTI package."
+msgstr "Ingen oppgaver kunne importeres fra den gitte IMS QTI-pakken."
+
+msgid "No preview available"
+msgstr "Forhåndsvisning er ikke tilgjengelig"
+
+msgid "No uploaded file"
+msgstr "Ingen opplastet fil"
+
+msgid "No value set"
+msgstr "Ingen verdi er angitt"
+
+msgid "none"
+msgstr "ingen"
+
+msgid "None"
+msgstr "Ingen"
+
+msgid "None defined yet."
+msgstr "Ingen er definert ennå."
+
+msgid "not a QTI item"
+msgstr "ikke et QTI-element"
+
+msgid "Number of associations"
+msgstr "Antall koblinger"
+
+msgid "of"
+msgstr "av"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "one association pair"
+msgstr "kobling av et par"
+
+msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
+msgstr "En eller flere QTI-komponenter støttes ikke av systemet. Systemet returnerte følgende feil: %s\n"
+""
+
+msgid "Order"
+msgstr "Sortering"
+
+msgid "Order Interaction"
+msgstr "Oppgavetype sortering"
+
+msgid "Order the areas (hotspots) displayed on a picture."
+msgstr "Ordne områdene (hotspots) som vises på et bildet i riktig rekkefølge."
+
+msgid "Orientation"
+msgstr "Orienteringf"
+
+msgid "Outcome Declarations"
+msgstr "Resultat av erklæringene"
+
+msgid "Pair scoring"
+msgstr "Skåring av par"
+
+msgid "Pattern"
+msgstr "Mønster"
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Pi"
+msgstr "Pi"
+
+msgid "Plain text"
+msgstr "Ren tekst"
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr "Legg til ett eller flere mellomrom i teksten i spørsmålsfeltet."
+
+msgid "Please create areas that correspond to the response and associate them a score.\n"
+""
+msgstr "Opprett områder som tilsvarer svaret, og gi dem en poengsum.\n"
+""
+
+msgid "Please define association pairs and their scores below."
+msgstr "Sammenstill par som kan kobles med hverandre og oppgi poengsummer for riktig svar nedenfor."
+
+msgid "Please define the correct association pairs below."
+msgstr "Sammenstill par som kan kobles med hverandre nedenfor."
+
+msgid "Please define the correct order in the box to the right."
+msgstr "Angi riktig rekkefølge i boksen til høyre."
+
+msgid "Please define the correct response and the score below."
+msgstr "Angi riktig svar og poengsum nedenfor."
+
+msgid "Please define the correct response below."
+msgstr "Angi riktig svar nedenfor."
+
+msgid "Please define the correct response using the slider."
+msgstr "Angi riktig svar ved å bruke målelinjen."
+
+msgid "Please enter the score for the given hottexts."
+msgstr "Skriv inn poengsummen for de gitte oppgavene."
+
+msgid "Please fill the gap with the correct choices below."
+msgstr "Fyll inn riktig svaralternativ i mellomrommet nedenfor."
+
+msgid "Please fill the gap with the correct choices."
+msgstr "Fyll inn riktig svaralternativ i mellomrommet."
+
+msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
+msgstr "Fyll inn riktig bilde i mellomrommet nedenfor og rediger deretter skåren for hvert par."
+
+msgid "Please fill the gap with the texts below, then edit the score for each pair."
+msgstr "Fyll inn riktig tekstalternativi mellomrommet nedenfor og rediger deretter skåren for hvert par."
+
+msgid "Please order the choices below to set the correct answer"
+msgstr "Sett valgene nedenfor i riktig rekkefølge for å sette riktig skår"
+
+msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "Velg en mediefil (video eller lyd) fra mediebanken. Du kan legge til filer fra datamaskinen din med knappen \"Legg til fil(er)\"."
+
+msgid "Please select a shared stimulus file from the resource manager."
+msgstr "Velg en fil med delt innhold fra mediebanken."
+
+msgid "Please select the correct hotspot choices below."
+msgstr "Velg riktige alternativer for klikk-bilde nedenfor."
+
+msgid "Please select the correct hottext choices below."
+msgstr "Velg riktige alternativer for klikk-ord nedenfor."
+
+msgid "Please set the correct associations by linking the choices."
+msgstr "Angi riktige koblinger ved å sette sammen de gitte valgene."
+
+msgid "Please the score of each hotspot choice."
+msgstr "Sett poengsum for hvert klikk-bilde valg."
+
+msgid "Please type the correct response below."
+msgstr "Skriv inn riktig svar nedenfor."
+
+msgid "Please type the correct response in the box below."
+msgstr "Skriv inn riktig svar i boksen nedenfor."
+
+msgid "Portable element model %s not found. Required extension might be missing"
+msgstr "Bærbar elementmodell %s ble ikke funnet. Nødvendig utvidelse kan mangle"
+
+msgid "Position one or more points on a picture (response areas are not displayed)."
+msgstr "Plasser ett eller flere punkter på et bilde (svarområder vises ikke)."
+
+msgid "positive"
+msgstr "positive"
+
+msgid "Power form"
+msgstr "Maktform"
+
+msgid "Pre-formatted text"
+msgstr "Preformatert tekst"
+
+msgid "Preparing CSS, please wait…"
+msgstr "Forbereder CSS, vennligst vent..."
+
+msgid "Preparing Metadata Values for target \"%s\"..."
+msgstr "Forbereder metadataverdier for målet \"%s\"..."
+
+msgid "Preview"
+msgstr "Forhåndsvisning"
+
+msgid "Preview the item"
+msgstr "Forhåndsvis oppgaven"
+
+msgid "Print"
+msgstr "Skriv ut"
+
+msgid "Print the item"
+msgstr "Skriv ut oppgaven"
+
+msgid "Printed Variable"
+msgstr "Trykt variabel"
+
+msgid "PropertyUri to map has to a valid uri"
+msgstr "PropertyUri må ha en gyldig uri"
+
+msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
+msgstr "Gir et hint til eleven om det forventede antallet linjer som kreves. En linje forventes å inneholde ca 72 tegn."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
+msgstr "Gir et hint til eleven om den forventede totale lengden på ønsket svar målt i antall tegn."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
+msgstr "Gir et hint til eleven om den forventede totale lengden på ønsket svar målt i antall tegn. Dette er ikke en gyldighetsbegrensning."
+
+msgid "Published %s"
+msgstr "Publisert %s"
+
+msgid "QTI Item Runner"
+msgstr "QTI Item Runner"
+
+msgid "QTI Metadata"
+msgstr "QTI Metadata"
+
+msgid "QTI Package 2.1"
+msgstr "QTI-Pakke 2.1"
+
+msgid "QTI Package 2.2"
+msgstr "QTI-Pakke 2.2"
+
+msgid "QTI/APIP Content Package"
+msgstr "Innholdspakke for QTI/APIP"
+
+msgid "QTI/APIP XML Item Document"
+msgstr "QTI/APIP XML-oppgavedokument"
+
+msgid "Question"
+msgstr "Spørsmål"
+
+msgid "Recommendations"
+msgstr "Anbefalinger"
+
+msgid "recommended"
+msgstr "anbefalte"
+
+msgid "Reduce font size"
+msgstr "Reduser skriftstørrelsen"
+
+msgid "Register method expects $key and $name parameters"
+msgstr "Registreringsmetoden forventer parametere for $key og $name"
+
+msgid "Register method expects $key and $name parameters."
+msgstr "Registreringsmetoden forventer parametere for $key og $name."
+
+msgid "Remove"
+msgstr "Fjern"
+
+msgid "remove"
+msgstr "fjern"
+
+msgid "Remove custom background color"
+msgstr "Fjern tilpasset bakgrunnsfarge"
+
+msgid "Remove custom border color"
+msgstr "Fjern egendefinert kantfarge"
+
+msgid "Remove custom font family"
+msgstr "Fjern egendefinert skriftfamilie"
+
+msgid "Remove custom font size"
+msgstr "Fjern egendefinert skriftstørrelse"
+
+msgid "Remove custom item width"
+msgstr "Fjern egendefinert oppgavebredde"
+
+msgid "Remove custom text color"
+msgstr "Fjern egendefinert tekstfarge"
+
+msgid "Remove Message"
+msgstr "Fjern medling"
+
+msgid "Remove pair"
+msgstr "Fjern par"
+
+msgid "Remove the selected shape"
+msgstr "Fjern den valgte formen"
+
+msgid "Remove this stylesheet"
+msgstr "Fjern dette stilarket"
+
+msgid "Replay timeout"
+msgstr "Tidsavbrudd"
+
+msgid "required"
+msgstr "påkrevd"
+
+msgid "Resource "
+msgstr "Ressurs "
+
+msgid "Resource(s) successfully exported."
+msgstr "Ressurs ble eksportert."
+
+msgid "Response"
+msgstr "Svar"
+
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr "Svar [\"%s\"] er høyere enn den øvre grenseverdien \"%s\"."
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr "Svar [\"%s\"] er lavere enn den nedre grenseverdien \"%s\"."
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr "Svar [\"%s\"] bør være den eneste mulige verdien \"%s\"."
+
+msgid "Response base type"
+msgstr "Svartype"
+
+msgid "Response identifier"
+msgstr "Svaridentifikator"
+
+msgid "Response processing"
+msgstr "Responsprosessering"
+
+msgid "Response Properties"
+msgstr "Svaregenskaper"
+
+msgid "Rich text"
+msgstr "Rik tekst"
+
+msgid "Rich text + math"
+msgstr "Rik tekst + math"
+
+msgid "right"
+msgstr "høyre"
+
+msgid "Right"
+msgstr "Høyre"
+
+msgid "Right bracket"
+msgstr "Høyre parentes"
+
+msgid "Rollback on..."
+msgstr "Tilbakestill..."
+
+msgid "Save"
+msgstr "Lagre"
+
+msgid "Save the item"
+msgstr "Lagre oppgaven"
+
+msgid "Scale size"
+msgstr "Skala størrelse"
+
+msgid "score"
+msgstr "skåre"
+
+msgid "Score"
+msgstr "Skåre"
+
+msgid "Score range"
+msgstr "Poenggrense"
+
+msgid "Score value"
+msgstr "Poengsum"
+
+msgid "Scrollable multi-column"
+msgstr "Skrollbar flerkolonne"
+
+msgid "Select"
+msgstr "Velge"
+
+msgid "Select a "
+msgstr "Velg en "
+
+msgid "select a choice"
+msgstr "velg et alternativ"
+
+msgid "Select a choice from a drop-down list."
+msgstr "Velg et alternativ fra en nedtrekksmeny."
+
+msgid "Select a response identifier from the list."
+msgstr "Velg en svaridentifikator fra listen."
+
+msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
+msgstr "Velg en enkelt (radioknapper) eller flere (avhukingsbokser) svar blant et sett av alternativer."
+
+msgid "Select a value within a numerical range."
+msgstr "Velg en verdi innenfor et numerisk område."
+
+msgid "Select an image first"
+msgstr "Velg et bilde først"
+
+msgid "Select an image first."
+msgstr "Velg et bilde først."
+
+msgid "select correct choice"
+msgstr "velg riktig alternativ"
+
+msgid "Select height of passage base of conatainer height"
+msgstr "Velg passasjens høyde på beholderhøyden"
+
+msgid "Select height of text block base of conatainer height"
+msgstr "Velg tekstblokkens høyde på beholderhøyde"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr "Velg om du vil at resultatet skal behandles av et eksternt system eller en menneskelig skårer. Dette er typisk for oppgaver der elever blir spurt om å skrive et essay."
+
+msgid "Select image"
+msgstr "Velg bild"
+
+msgid "Select media file"
+msgstr "Velg media-fil"
+
+msgid "Select object"
+msgstr "Velg objekt"
+
+msgid "Select one or more areas (hotspots) displayed on an picture."
+msgstr "Velg ett eller flere områder (hotspots) som vises på et bilde."
+
+msgid "Select one or more text parts (hottext) within a text."
+msgstr "Velg en eller flere tekstdeler (hottext) i en tekst."
+
+msgid "Select Point"
+msgstr "Klikk punkt"
+
+msgid "Select Point Interaction"
+msgstr "Oppgavetype klikk punkt"
+
+msgid "Select predefined feedback style from the list."
+msgstr "Velg forhåndsdefinert tilbakemeldingsstil fra listen."
+
+msgid "Select shared stimulus"
+msgstr "Velg delt innhold"
+
+msgid "Select the area to add an image"
+msgstr "Velg området for å legge til et bilde"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr "Velg den forventede inndatatypen som definerer måten responsen på interaksjonen din vil bli behandlet på."
+
+msgid "Select the outcome variable you want to display."
+msgstr "Velg resultatvariabelen du vil vise."
+
+msgid "Select the way the response of your interaction should be processed"
+msgstr "Velg måten svaret på oppgaven din skal behandles på"
+
+msgid "Select this area"
+msgstr "Velg dette området"
+
+msgid "Select this area to start an association"
+msgstr "Velg dette området for å starte en kobling"
+
+msgid "Set a CSS class name in order to customize the display style."
+msgstr "Angi et CSS-mappenavn for å tilpasse visningsstilen."
+
+msgid "Set the score for this response"
+msgstr "Sett poengsumm for dette svaret"
+
+msgid "Shape position"
+msgstr "Lag posisjon"
+
+msgid "Shuffle choices"
+msgstr "Stokk om svaralternativene"
+
+msgid "Sinus"
+msgstr "Sinus"
+
+msgid "Size and position"
+msgstr "Størrelse og posisjon"
+
+msgid "Slider"
+msgstr "Målelinje"
+
+msgid "Slider Interaction"
+msgstr "Oppgavetype målelinje"
+
+msgid "some text ..."
+msgstr "litt tekst ..."
+
+msgid "Square root"
+msgstr "Kvadratrot"
+
+msgid "standard"
+msgstr "standard"
+
+msgid "Step"
+msgstr "Steg"
+
+msgid "Style Editor"
+msgstr "Stileditor"
+
+msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
+msgstr "Stilark <b>%s </b> fjernet <br> Klikk <i> Legg til stilark </i> for å søke på nytt."
+
+msgid "Style Sheet Manager"
+msgstr "Style Sheet Manager"
+
+msgid "Success"
+msgstr "Suksess"
+
+msgid "Successfully compiled \"%s"
+msgstr "Kompilert \"%s"
+
+msgid "Successfully created item \"%s"
+msgstr "Opprettet oppgave %s"
+
+msgid "Table headings"
+msgstr "Tabelloverskrifter"
+
+msgid "TAO default styles"
+msgstr "TAO default styles"
+
+msgid "Target Class Lookup for resource \"%s\"..."
+msgstr "Søk for ressursen \"%s\"..."
+
+msgid "Text Block"
+msgstr "Tekstblokk"
+
+msgid "Text Block CSS Class"
+msgstr "Tekst blokk CSS mappe"
+
+msgid "Text Block Properties"
+msgstr "Tekst blokkegenskaper"
+
+msgid "Text color"
+msgstr "Tekstfarge"
+
+msgid "Text Entry"
+msgstr "Skriv inn tekst"
+
+msgid "Text Entry Interaction"
+msgstr "Oppgavetype skriv inn tekst"
+
+msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
+msgstr "Autostart-attributtet avgjør om mediefilen skal begynne så snart kandidaten åpner oppgaven (merket) eller om mediefilen skal startes av eleven selv (ukontrollert)."
+
+msgid "The button label."
+msgstr "Knappenavn."
+
+msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
+msgstr "Standardverdien fra svaret skal brukes når ingen eksplisitt kartlegging for en kildeverdi er gitt."
+
+msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr "Avgrensningen som skal brukes mellom verdier når du viser variabler, flertall eller registrert kardinalitet. \";\" er standard når skilletegn ikke er deklarert. Implementeringer kan overstyre denne standarden med personlige preferanser eller lokale innstillinger."
+
+msgid "The field specifier to use when displaying variables of record cardinality."
+msgstr "Områdebeskrivelsen som skal brukes når du viser variabler for registrert kardinalitet."
+
+msgid "The file path to the image."
+msgstr "Filstien til bildet."
+
+msgid "The file path to the object."
+msgstr "Filstien til objektet."
+
+msgid "The file path to the shared stimulus."
+msgstr "Filstien til delt innhold."
+
+msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
+msgstr "Formatkonverteringsbeskrivelsen som skal brukes når du konverterer numeriske verdier til strenger. Se regler for QTI-nummerformatering for detaljer."
+
+msgid "The given target is not an instance of core_kernel_classes_Resource"
+msgstr "Det gitte målet er ikke en forekomst av core_kernel_classes_Resource"
+
+msgid "The highlighted choice cannot be associated more than %d time(s)."
+msgstr "Det markerte valget kan ikke knyttes mer enn %d gang(er)."
+
+msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Identifikator for valget. Denne identifikatoren må ikke brukes av andre valg eller oppgavevariabler. En identifikator er en tegnrekke som må starte med en bokstav eller en understreking (\"_\") og bare inneholde bokstaver, understreker, bindestreker (\"-\"), punktum (\".\", Aka full-stop), tall, kombinerte tegn og forlengere."
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Identifikator for valget. Denne identifikatoren må ikke brukes av andre svar- eller oppgavevariabler. En identifikator er en tegnrekke som må starte med en bokstav eller en understreking (\"_\") og bare inneholde bokstaver, understreker, bindestreker (\"-\"), punktum (\".\", Aka full-stop), sifre, kombinerte tegn og forlengere."
+
+msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Identifikator for den modale tilbakemeldingen. Denne identifikatoren må ikke brukes av andre modale tilbakemeldinger eller oppgavevariabler. En identifikator er en tegnrekke som må starte med en bokstav eller en understreking (\"_\") og bare inneholde bokstaver, understreker, bindestreker (\"-\"), punktum (\".\", Aka full-stop), sifre, kombinerte tegn og forlengere."
+
+msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Identifikator til svaridentifikatoren. Denne identifikatoren må ikke brukes av andre svar- eller oppgavevariabler. En identifikator er en tegnrekke som må starte med en bokstav eller en understreking (\"_\") og bare inneholde bokstaver, understreker, bindestreker (\"-\"), punktum (\".\", Aka full-stop), sifre, kombinerte IMS QTI-oppagventegn og forlengere."
+
+msgid "The IMS QTI Item could not be imported."
+msgstr "IMS QTI-oppgaven kunne ikke importeres."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
+msgstr "IMS QTI-oppgaven referert til som \"%s\" i IMS-dokumentet ble rullet tilbake."
+
+msgid "The IMS QTI Item was successfully imported."
+msgstr "IMS QTI-oppgaven ble importert."
+
+msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
+msgstr "Indeksen som skal brukes når du viser en variabel av bestilt kardinalitet. Hvis en variabel av bestilt kardinalitet skal vises og indeksen ikke er angitt, vil alle verdiene i boksen vises."
+
+msgid "The item cannot be saved because it contains an unsupported custom interaction."
+msgstr "Oppgaven kan ikke lagres fordi den inneholder en interaksjon som ikke støttes."
+
+msgid "The item has not been saved!"
+msgstr "Oppgaven ble ikke lagret!"
+
+msgid "The item has unsaved changes, are you sure you want to leave ?"
+msgstr "Oppgaven  har endringer som ikke er lagret. Er du sikker på at du vil avslutte?"
+
+msgid "The item has unsaved changes, would you like to save it ?"
+msgstr "Oppgaven har blitt endret. Vil du lagre endringene?"
+
+msgid "The item needs to be saved before it can be previewed"
+msgstr "Oppgaven må lagres før det kan forhåndsvises"
+
+msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
+msgstr "Qti-oppgaven brukes kun som metadata. Det kreves av QTI-standarden."
+
+msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Den venstre posisjonen til formen i forhold til det øverste venstre hjørnet av bakgrunnen i piksler. Denne verdien kan skaleres når bakgrunnsbildestørrelsen er tilpasset boksen"
+
+msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
+msgstr "Gjentagelsesattributtet brukes til å angi kontinuerlig avspillingsmodus. I kontinuerlig avspillingsmodus, når medieobjektet har begynt å spille, skal det spilles av kontinuerlig (med forbehold om maxPlays)."
+
+msgid "The lower bound of the slider"
+msgstr "Linjalens nedre grense"
+
+msgid "The manifest argument must be an instance of DOMDocument."
+msgstr "Dokumnetargumentet må være en forekomst av DOMDocument."
+
+msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr "Kartleggingsindikatoren som skal brukes mellom områdenavn og feltverdi når du viser variabler for registrert kardinalitet. \"=\" er standard når kartleggingsindikator ikke er deklarert. Implementeringer kan overstyre denne standarden med personlige preferanser eller lokale innstillinger."
+
+msgid "The mapping options are available when at least one map entry is defined."
+msgstr "Kartleggingsalternativene er tilgjengelige når minst én oppføring er definert."
+
+msgid "The maximum number of association is unlimited."
+msgstr "Maksimalt antall forbindelser er ubegrenset."
+
+msgid "The maximum number of associations that the candidate is allowed to make."
+msgstr "Maksimalt antall forbindelser som eleven har lov til å lage."
+
+msgid "The maximum number of choices that the candidate is allowed to select."
+msgstr "Maks antall valg som eleven har lov til å velge."
+
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr "Maksimalt antall valg som eleven må velge for å lage et gyldig svar."
+
+msgid "The maximum number of choices this choice may be associated with."
+msgstr "Maksimalt antall valg dette alternativet kan være kobles med."
+
+msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
+msgstr "Maksimalt antall valg dette alternativet kan være koblet med. Hvis matchMax er 0 er det ingen begrensning."
+
+msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
+msgstr "MaxPlays-attributtet indikerer at medieobjektet kan spilles opptil maxPlays ganger - det må ikke være mulig for eleven å spille medieobjektet mer enn maxPlay ganger. En verdi på 0 (standard) indikerer at det ikke er noen grense."
+
+msgid "The MIME-type attribute describes which kind of file may be uploaded."
+msgstr "Attributtet MIME-type beskriver hvilken type fil som kan lastes opp."
+
+msgid "The minimum number of answers is "
+msgstr "Minste antall svar er "
+
+msgid "The minimum number of associations that the candidate is required to make to form a valid response."
+msgstr "Det minste antallet koblinger som eleven må gjøre for å avgi et gyldig svar."
+
+msgid "The minimum number of choices that the candidate is required to select to form a valid response."
+msgstr "Det minste antallet valg som kandidaten må velge for å avgi et gyldig svar."
+
+msgid "The minimum number of choices this choice must be associated with to form a valid response."
+msgstr "Det minste antallet valg dette alternativet må være knyttet til for å danne et gyldig svar."
+
+msgid "The number base to use when converting integer variables to strings with the i conversion type code."
+msgstr "Tallbasen som skal brukes ved konvertering av heltallsvariabler til strenger med i -konverteringstypekoden."
+
+msgid "The number of units corresponding to a step on the slider"
+msgstr "Antall enheter som tilsvarer et trinn på målelinjen"
+
+msgid "The path argument for extractor must be a non-empty array."
+msgstr "Stiargumentet for ekstraktor må være en ikke-tom matrise."
+
+msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
+msgstr "Oppgavens prinsippidentifikator. Denne identifikatoren må ha en tilsvarende oppføring i oppgavens metadata."
+
+msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
+msgstr "Formålet som rubrikken er ment å brukes til. Som en lesetekst for flere oppgaver, eller instruksjoner for en bestemt seksjon, for eksempel."
+
+msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
+msgstr "QTI-mappen \"%1$s\" på linjen \"%2$d\" støttes foreløpig ikke."
+
+msgid "The Response Processing Template \"%s\" is not supported."
+msgstr "Svarprosesseringsmalen \"%s\" støttes ikke."
+
+msgid "The score format is not numeric"
+msgstr "Skåringsformatet er ikke numerisk"
+
+msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
+msgstr "Den skrollbare oppsettskonfigurasjonen med flere kolonner, er optimalisert for oppgaver med bare en rad med innhold. Begge kolonnene skroller uavhengig av hverandre og passer til den tilgjengelige sidehøyden."
+
+msgid "The selected file is ready to be sent."
+msgstr "Den valgte filen er klar til å sendes."
+
+msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Formhøyden i piksler. Denne verdien kan skaleres når bakgrunnsbildestørrelsen er tilpasset innholdsboksen"
+
+msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Formbredden i piksler. Denne verdien kan skaleres når bakgrunnsbildestørrelsen er tilpasset innholdsboksen"
+
+msgid "The target must be an instance of DOMDocument"
+msgstr "Målet må være en forekomst av DOMDocumentet"
+
+msgid "The text to be displayed if the image is not available."
+msgstr "Teksten som skal vises hvis bildet ikke er tilgjengelig."
+
+msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Den øverste plasseringen av formen i forhold til det øverste venstre hjørnet av bakgrunnen i piksler. Denne verdien kan skaleres når størrelsen på bakgrunnsbildet er tilpasset innholdsboksen"
+
+msgid "The upper bound of the slider"
+msgstr "Linjalens øvre grense"
+
+msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
+msgstr "Valideringen av den importerte QTI-oppgaven mislyktes. Systemet returnerte følgende feil:%s\n"
+""
+
+msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
+msgstr "ZIP-arkivet som inneholder IMS QTI-oppgaven kan ikke hentes."
+
+msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
+msgstr "ZIP-arkivet inneholder ikke en imsmanifest.xml-fil eller det er et ugyldig ZIP-arkiv."
+
+msgid "There are errors in the following shared stimulus : "
+msgstr "Det er feil i følgende delt innhold : "
+
+msgid "There is an incomplete element in your item: please click on it to complete it."
+msgstr "Det er et ufullstendig element i oppgaven din: Klikk for å fullføre."
+
+msgid "There was a problem downloading your CSS, please try again."
+msgstr "Det oppsto et problem ved nedlasting av CSS. Prøv igjen."
+
+msgid "This identifier must not be used by any other response or item variable."
+msgstr "Denne identifikatoren må ikke brukes av andre svar- eller oppgavevariabler."
+
+msgid "This interaction has no text defined in question mode."
+msgstr "Denne oppgavetypen har ingen tekst definert i spørsmålsfeletet."
+
+msgid "This is not a valid answer"
+msgstr "Dette er ikke et gyldig svar"
+
+msgid "This is required"
+msgstr "Dette er påkrevd"
+
+msgid "This stylesheet has not been found on the server. you may want to delete this reference"
+msgstr "Dette stilarket er ikke funnet på serveren. Det kan være lurt å slette denne referansen"
+
+msgid "Time dependent"
+msgstr "Tidsavhengig"
+
+msgid "Title"
+msgstr "Tittel"
+
+msgid "to"
+msgstr "til"
+
+msgid "Tooltip Content"
+msgstr "Verktøytips"
+
+msgid "Tooltip editor"
+msgstr "Verktøytipsredigerer"
+
+msgid "Tooltip Target"
+msgstr "Verktøytips"
+
+msgid "Top"
+msgstr "Topp"
+
+msgid "Trigger the end of the item attempt."
+msgstr "Utløser slutten på oppgaveforsøket."
+
+msgid "Unable to process your request"
+msgstr "Kan ikke behandle forespørselen din"
+
+msgid "Unable to retrieve asset \"%s"
+msgstr "Kan ikke hente inn verdi \"%s"
+
+msgid "Unable to retrieve item : "
+msgstr "Kan ikke hente oppgave: "
+
+msgid "Unable to retrieve item : \"%s"
+msgstr "Kan ikke hente oppgave: \"%s"
+
+msgid "Unable to validate %s: %s"
+msgstr "Kan ikke validere %s: %s"
+
+msgid "undo"
+msgstr "angre"
+
+msgid "Undo"
+msgstr "Angre"
+
+msgid "Unknown $key to register MetadataService instance"
+msgstr "Ukjent $-nøkkel for å registrere MetadataService-forekomst"
+
+msgid "Unregister method expects $key and $name parameters."
+msgstr "Avregistreringsmetoden forventer parametere for $key og $name."
+
+msgid "Upload a file (e.g. document, picture...) as a response."
+msgstr "Last opp en fil (f.eks. Dokument, bilde ...) som svar."
+
+msgid "Upper Bound"
+msgstr "Øvre grense"
+
+msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
+msgstr "Bruk dette hvis du vil at listen over valg skal ha et prefiks (f.eks. 1,2,3 a, b, c)"
+
+msgid "Used to control the format of the text entered by the candidate."
+msgstr "Brukes til å kontrollere formatet på teksten som er lagt inn av eleven."
+
+msgid "Value"
+msgstr "Verdi"
+
+msgid "Vertical"
+msgstr "Vertikal"
+
+msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
+msgstr "Vi vil bruke patternMask for å utføre dette, slik at det blir i samsvar med IMS-standarden"
+
+msgid "Width"
+msgstr "Bredde"
+
+msgid "words"
+msgstr "ord"
+
+msgid "Would you like to replace the alt text"
+msgstr "Vil du bytte ut alt-teksten"
+
+msgid "WYSIWYG editor"
+msgstr "WYSIWYG editor"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "You can select maximum %d choice"
+msgstr "Du kan velge maksimalt %d valg"
+
+msgid "You can select maximum %d choices"
+msgstr "Du kan velge maksimalt %d valg"
+
+msgid "You can select maximum of %s choices"
+msgstr "Du kan velge maksimalt %s valg"
+
+msgid "You can select maximum of 1 choice"
+msgstr "Du må velge ett svar"
+
+msgid "You can use maximum %d choices"
+msgstr "Du kan bruke maksimalt %d valg"
+
+msgid "You have deleted"
+msgstr "Du har slettet"
+
+msgid "You have deleted an element"
+msgstr "Du har slettet et element"
+
+msgid "You have deleted an element."
+msgstr "Du har slettet et element."
+
+msgid "You may make as many association pairs as you want."
+msgstr "Du kan lage så mange koblinger av par du måtte ønske."
+
+msgid "You must select %1$d to %2$d choices."
+msgstr "Du må velge %1$ d til %2$d alternativer."
+
+msgid "You must select 0 to %d choices."
+msgstr "Du må velge 0 til %d alternativer."
+
+msgid "You must select at least %d choice"
+msgstr "Du må velge minst %d alternativ"
+
+msgid "You must select at least %d choices"
+msgstr "Du må velge minst %d alternativer"
+
+msgid "You must select at least %s choices"
+msgstr "Du må velge minst %s alternativer"
+
+msgid "You must select at least 1 choice"
+msgstr "Du må velge minst ett alternativ"
+
+msgid "You must select exactly %d choice"
+msgstr "Du må velge nøyaktig %d alternativ"
+
+msgid "You must select exactly %d choice(s)."
+msgstr "Du må velge nøyaktig %d alternativ(er)."
+
+msgid "You must select exactly %d choices"
+msgstr "Du må velge nøyaktig %d alternativer"
+
+msgid "You must select exactly %s choices"
+msgstr "Du må velge nøyaktig %s alternativer"
+
+msgid "You must use at least %d choices"
+msgstr "Du må bruke minst %d alternativer"
+
+msgid "You need to make"
+msgstr "Du må lage"
+
+msgid "Your item has been saved"
+msgstr "Oppgaven din ble lagret"
+
