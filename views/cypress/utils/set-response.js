@@ -119,6 +119,11 @@ export function setResponse(widgetSelector, widgetActiveSelector, qtiClass) {
     cy.get(`${widgetActiveSelector} button.widget-ok`).click({ force: true });
 }
 
+/**
+ * Triggers item preview
+ * verfies that interaction is present in preview
+ */
+
 function previewItem () {
     cy.intercept('GET', urls.itemPreview).as('preview');
     cy.get(selectors.previewItemButton).should('not.have.class', 'disabled');
@@ -126,6 +131,10 @@ function previewItem () {
     cy.wait('@preview');
     cy.get('.qti-choiceInteraction').should('exist');
 }
+/**
+ * Saves Item
+ * verifies its success
+ */
 
 function saveItem() {
     cy.intercept('POST', '**/saveItem*').as('saveItem');
@@ -223,6 +232,4 @@ export function addResponseProcessing(
             cy.getSettled('[class="log-message"]').contains('(identifier) [choice_3]');
             cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
     }
-
-
 }

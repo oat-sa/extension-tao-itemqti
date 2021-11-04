@@ -28,22 +28,8 @@ describe('Item Authoring', () => {
 
     const commonWidgetSelector = (qtiClass) => `.widget-box.widget-blockInteraction[data-qti-class="${qtiClass}"]`;
 
-    const interactions = {
-        choice: 'choiceInteraction',
-        order: 'orderInteraction',
-        asociate: 'associateInteraction',
-        match: 'matchInteraction',
-        hottext: 'hottextInteraction',
-        gapMatch: 'gapMatchInteraction',
-        slider: 'sliderInteraction',
-        extendedText: 'extendedTextInteraction',
-        hotspotInteraction: 'hotspotInteraction',
-        graphicOrderInteraction: 'graphicOrderInteraction',
-        graphicAssociateInteraction: 'graphicAssociateInteraction',
-        graphicGapMatchInteraction: 'graphicGapMatchInteraction',
-        selectPointInteraction: 'selectPointInteraction'
-    };
-    const responseProcessingOptions = ['match correct', 'map response', 'none'];
+    const choice= 'choiceInteraction';
+    const responseProcessingOption = ['match correct', 'map response', 'none'];
     /**
      * Log in
      * Visit the page
@@ -125,22 +111,23 @@ describe('Item Authoring', () => {
         });
         it('can add  match correct response processing to item', function () {
             addResponseProcessing(
-                commonWidgetSelector(interactions.choice),
-                interactions.choice,
-                responseProcessingOptions[0]
+                commonWidgetSelector(choice),
+                choice,
+                responseProcessingOption[0]
             );
         });
         it('can add map response response processing to item', function () {
             addResponseProcessing(
-                commonWidgetSelector(interactions.choice),
-                interactions.choice,
-                responseProcessingOptions[1]
+                commonWidgetSelector(choice),
+                choice,
+                responseProcessingOption[1]
             );
-        }); it('can add none to response processing to item', function () {
+        });
+        it('can add none to response processing to item', function () {
             addResponseProcessing(
-                commonWidgetSelector(interactions.choice),
-                interactions.choice,
-                responseProcessingOptions[2]
+                commonWidgetSelector(choice),
+                choice,
+                responseProcessingOption[2]
             );
         });
         it('can save item with responses in interactions', () => {
