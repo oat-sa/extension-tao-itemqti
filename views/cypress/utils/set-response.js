@@ -148,12 +148,12 @@ function saveItem() {
 export function addResponseProcessing(
     widgetSelector,
     qtiClass,
-    responseProcessingOptions
+    responseProcessingOption
 ) {
     cy.log('ADD RESPONSE PROCESSING', widgetSelector, qtiClass);
     cy.getSettled(widgetSelector).find( selectors.selectInteractionResponse).click({force: true});
 
-    switch (responseProcessingOptions) {
+    switch (responseProcessingOption) {
         case 'match correct':
             cy.get('ol').find('li[data-identifier="choice_3"]').click({force: true});
             cy.get('[id="s2id_responseProcessing"]').click({force: true});
@@ -172,7 +172,7 @@ export function addResponseProcessing(
             break;
 
         case 'map response':
-            cy.log('This is case ', responseProcessingOptions);
+            cy.log('This is case ', responseProcessingOption);
             cy.getSettled(widgetSelector).find(selectors.selectInteractionResponse).click({force: true});
             cy.get('[id="s2id_responseProcessing"]').click();
             cy.get('div[class="select2-drop select2-display-none select2-drop-active"]').last().click();
