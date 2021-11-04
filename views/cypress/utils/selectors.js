@@ -1,5 +1,6 @@
 export default {
     addItem: '[data-context="resource"][data-action="instanciate"]',
+    selectInteractionResponse: '[data-state="answer"]',
     authoring: '[data-context="instance"][data-action="launchEditor"]',
     addSubClassUrl: 'taoItems/Items/addSubClass',
 
@@ -12,6 +13,9 @@ export default {
 
     itemForm: 'form[action="/taoItems/Items/editItem"]',
     itemClassForm: 'form[action="/taoItems/Items/editClassLabel"]',
+
+    previewItemButton: '[data-testid="preview-the-item"]',
+    previewSubmitButton: '[data-control="submit"]',
 
     root: '[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
     resourceRelations: 'tao/ResourceRelations',
