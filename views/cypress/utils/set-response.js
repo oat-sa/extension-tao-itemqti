@@ -16,6 +16,8 @@
  * Copyright (c) 2021 Open Assessment Technologies SA ;
  */
 import { addShapeToImage } from './graphic-interactions';
+import selectors from '../utils/selectors';
+import urls from '../utils/urls';
 /**
  * Set response in Interaction in item Authoring
  * @param {String} widgetSelector
@@ -117,38 +119,44 @@ export function setResponse(widgetSelector, widgetActiveSelector, qtiClass) {
     cy.get(`${widgetActiveSelector} button.widget-ok`).click({ force: true });
 }
 
-function previewItem (urlPreview, previewButton) {
-    cy.intercept('GET', urlPreview).as('preview');
-    cy.get(previewButton).should('not.have.class', 'disabled');
-    cy.get(previewButton).click({force :true});
+function previewItem () {
+    cy.intercept('GET', urls.itemPreview).as('preview');
+    cy.get(selectors.previewItemButton).should('not.have.class', 'disabled');
+    cy.get(selectors.previewItemButton).click({force :true});
     cy.wait('@preview');
     cy.get('.qti-choiceInteraction').should('exist');
 }
+
+function saveItem() {
+    cy.intercept('POST', '**/saveItem*').as('saveItem');
+    cy.get('[data-testid="save-the-item"]').click();
+    cy.wait('@saveItem')
+        .its('response.body')
+        .its('success')
+        .should('eq', true);
+}
+
 export function addResponseProcessing(
-    urlPreview,
-    previewButton,
-    previewSubmitButton,
-    InteractionResponse,
     widgetSelector,
     qtiClass,
     responseProcessingOptions
 ) {
     cy.log('ADD RESPONSE PROCESSING', widgetSelector, qtiClass);
-    cy.getSettled(widgetSelector).find(InteractionResponse).click({force: true});
+    cy.getSettled(widgetSelector).find( selectors.selectInteractionResponse).click({force: true});
 
     switch (responseProcessingOptions) {
         case 'match correct':
             cy.get('ol').find('li[data-identifier="choice_3"]').click({force: true});
             cy.get('[id="s2id_responseProcessing"]').click({force: true});
-            cy.get('[data-testid="save-the-item"]').click({force:true});
-            previewItem(urlPreview, previewButton);
+            saveItem();
+            previewItem();
             //chose correct response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
-            cy.get(previewSubmitButton).click({force: true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
             cy.getSettled('[class="log-message"]').contains('SCORE: (float) 1');
             //chose wrong response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
-            cy.get(previewSubmitButton).click({force: true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
             cy.getSettled('[class="log-message"]').contains('SCORE: (float) 0');
             //close item
             cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
@@ -156,7 +164,7 @@ export function addResponseProcessing(
 
         case 'map response':
             cy.log('This is case ', responseProcessingOptions);
-            cy.getSettled(widgetSelector).find(InteractionResponse).click({force: true});
+            cy.getSettled(widgetSelector).find(selectors.selectInteractionResponse).click({force: true});
             cy.get('[id="s2id_responseProcessing"]').click();
             cy.get('div[class="select2-drop select2-display-none select2-drop-active"]').last().click();
             cy.get('input.score[data-for="choice_3"]').type(2);
@@ -181,18 +189,16 @@ export function addResponseProcessing(
                 .type(1)
                 .clear()
                 .type(0);
-            cy.intercept('POST', '**/saveItem*').as('saveItem');
-            cy.get('[data-testid="save-the-item"]').click();
-            cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
-            previewItem(urlPreview, previewButton);
+            saveItem();
+            previewItem();
             //check correct response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
-            cy.get(previewSubmitButton).click({force: true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
             cy.getSettled('[class="log-message"]').contains('SCORE: (float) 2');
             //check wrong response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
             cy.getSettled('ol').find('li[data-identifier="choice_2"]').last().click({force:true});
-            cy.get(previewSubmitButton).click({force: true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
             cy.getSettled('[class="log-message"]').contains('SCORE: (float) 0');
             //close item preview
             cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
@@ -200,9 +206,8 @@ export function addResponseProcessing(
 
         case 'none':
             cy.log('This is case ', qtiClass);
-            cy.getSettled(widgetSelector).find(InteractionResponse).click({force: true});
+            cy.getSettled(widgetSelector).find(selectors.selectInteractionResponse).click({force: true});
             cy.get('[id="s2id_responseProcessing"]').click();
-            cy.get('div[class="select2-drop select2-display-none select2-drop-active"]');
             cy.get('div[class="select2-drop select2-display-none select2-drop-active"]')
                 .contains('none')
                 .click({force: true});
@@ -210,9 +215,13 @@ export function addResponseProcessing(
                 .last()
                 .click({force:true})
                 .should('not.be.checked');
-            cy.intercept('POST', '**/saveItem*').as('saveItem');
-            cy.get('[data-testid="save-the-item"]').click();
-            cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
+            saveItem();
+            previewItem();
+            cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.getSettled('[class="log-message"]').should('not.contain','SCORE:');
+            cy.getSettled('[class="log-message"]').contains('(identifier) [choice_3]');
+            cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
     }
 
 

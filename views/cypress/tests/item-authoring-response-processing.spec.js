@@ -19,24 +19,15 @@
 import urls from '../utils/urls';
 import selectors from '../utils/selectors';
 
-import {
-    addBlockAndInlineInteractions,
-    addCommonInteractions,
-    addGraphicInteractions
-} from '../utils/authoring-add-interactions';
-import { setResponse } from '../utils/set-response';
+import { addInteraction } from '../utils/authoring-add-interactions';
+import { addResponseProcessing } from '../utils/set-response';
 
 describe('Item Authoring', () => {
     const className = 'Test E2E class';
     const itemName = 'Test E2E item 1';
 
     const commonWidgetSelector = (qtiClass) => `.widget-box.widget-blockInteraction[data-qti-class="${qtiClass}"]`;
-    const inlineWidgetSelector = (qtiClass) => `.widget-box.${qtiClass}-placeholder`;
-    const inlineWidgetActiveSelector = (qtiClass) => `.widget-box.widget-inline.widget-${qtiClass}`;
-    const inlineInteractions = {
-        inlineChoiceInteraction: 'inlineChoiceInteraction',
-        textEntryInteraction: 'textEntryInteraction',
-    };
+
     const interactions = {
         choice: 'choiceInteraction',
         order: 'orderInteraction',
@@ -52,6 +43,7 @@ describe('Item Authoring', () => {
         graphicGapMatchInteraction: 'graphicGapMatchInteraction',
         selectPointInteraction: 'selectPointInteraction'
     };
+    const responseProcessingOptions = ['match correct', 'map response', 'none'];
     /**
      * Log in
      * Visit the page
@@ -127,42 +119,30 @@ describe('Item Authoring', () => {
                 expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);
             });
         });
-        it('can add interactions', function () {
-            cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
-            // open inline interactions panel
-            cy.get('#sidebar-left-section-inline-interactions').click();
-            addBlockAndInlineInteractions();
-            // close inline interactions panel
-            cy.get('#sidebar-left-section-inline-interactions ._accordion').click();
-            addCommonInteractions();
-            // open graphic interactions panel
-            cy.get('#sidebar-left-section-graphic-interactions').click();
-            addGraphicInteractions();
+        it('can add single interaction to an item', function () {
 
-            cy.get('#item-editor-scoll-container').scrollTo('top');
+            addInteraction("choice");
         });
-
-        it('can set response to interactions', () => {
-            for (const interaction in inlineInteractions) {
-                cy.log('SETING RESPONSE IN INTERACTION', interaction);
-                setResponse(
-                    inlineWidgetSelector(inlineInteractions[interaction]),
-                    inlineWidgetActiveSelector(inlineInteractions[interaction]),
-                    inlineInteractions[interaction]
-                );
-                cy.log(interaction, 'RESPONSE IS SET');
-            }
-            for (const interaction in interactions) {
-                cy.log('SETING RESPONSE IN INTERACTION', interaction);
-                setResponse(
-                    commonWidgetSelector(interactions[interaction]),
-                    commonWidgetSelector(interactions[interaction]),
-                    interactions[interaction]
-                );
-                cy.log(interaction, 'RESPONSE IS SET');
-            }
+        it('can add  match correct response processing to item', function () {
+            addResponseProcessing(
+                commonWidgetSelector(interactions.choice),
+                interactions.choice,
+                responseProcessingOptions[0]
+            );
         });
-
+        it('can add map response response processing to item', function () {
+            addResponseProcessing(
+                commonWidgetSelector(interactions.choice),
+                interactions.choice,
+                responseProcessingOptions[1]
+            );
+        }); it('can add none to response processing to item', function () {
+            addResponseProcessing(
+                commonWidgetSelector(interactions.choice),
+                interactions.choice,
+                responseProcessingOptions[2]
+            );
+        });
         it('can save item with responses in interactions', () => {
             cy.intercept('POST', '**/saveItem*').as('saveItem');
             cy.get('[data-testid="save-the-item"]').click();
