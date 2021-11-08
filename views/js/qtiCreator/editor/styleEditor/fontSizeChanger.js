@@ -100,14 +100,15 @@ define([
         $resetBtn.on('click', function () {
             $input.val('');
             styleEditor.apply(itemSelector + ' *', 'font-size');
+            itemFontSize = parseInt($item.css('font-size'), 10);
         });
 
         /**
          * style loaded from style sheet
          */
         $(document).on('customcssloaded.styleeditor', function(e, style) {
-            if(style[itemSelector] && style[itemSelector]['font-size']) {
-                $input.val(parseInt(style[itemSelector]['font-size'], 10));
+            if(style[itemSelector + ' *'] && style[itemSelector + ' *']['font-size']) {
+                $input.val(parseInt(style[itemSelector + ' *']['font-size'], 10));
                 $input.trigger('blur');
             }
             else {
