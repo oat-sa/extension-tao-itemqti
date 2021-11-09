@@ -22,7 +22,12 @@
     }
 
     .file-upload {
-      margin-right: 20px;
+        margin-right: 20px;
+
+        @include rtl {
+            margin-left: 20px;
+            margin-right: 0;
+        }
     }
 
 
@@ -39,6 +44,10 @@
         position: relative;
         overflow: hidden;
         display: none;
+
+        @include rtl {
+            margin: 0 0 20px 20px;
+        }
 
         img {
             max-width: 100%;
@@ -104,5 +113,11 @@
             }
         }
 
+    }
+
+    .lft {
+        @include rtl {
+            float: right;
+        }
     }
 }
