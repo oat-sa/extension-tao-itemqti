@@ -200,6 +200,7 @@ define([
 
                 this.on('exit', function () {
                     $('.item-editor-item', areaBroker.getItemPanelArea()).empty();
+                    styleEditor.cleanCache();
                 });
 
                 const usedCustomInteractionIds = [];
