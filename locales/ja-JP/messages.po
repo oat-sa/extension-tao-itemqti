@@ -116,7 +116,7 @@ msgid "An error occured while parsing IMS QTI data."
 msgstr "QTIデータを解析中にエラーが発生しました"
 
 msgid "An error occurred at the level of the QTI model."
-msgstr "QTIモデルのレベルでエラーが発生しました"
+msgstr "QTI規格レベルでのエラーが発生しました"
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました"
@@ -212,7 +212,7 @@ msgid "cannot load QTI XML"
 msgstr "QTI XMLがロードできません"
 
 msgid "Cannot locate the file \"%s"
-msgstr "ファイル\ "％sが見つかりません"
+msgstr "ファイル \"％sが見つかりません"
 
 msgid "Center"
 msgstr "センター"
@@ -242,7 +242,7 @@ msgid "Choose the horizontal alignment for the table."
 msgstr "テーブルの水平方向の配置を選択します"
 
 msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr "クラスが検索されました。リソース\ "％s \"は，RDFSフォルダー\ "％s \"に保存されます。"
+msgstr "クラスが検索されました。リソース \"％s\" は，RDFSフォルダー \"％s\" に保存されます。"
 
 msgid "Class successfully created."
 msgstr "クラスが作成されました。"
@@ -311,7 +311,7 @@ msgid "Current value:"
 msgstr "現在の値:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr "現在、MathMLからのLaTeXへの変換は使用できません。ここではMathMLを編集、LaTeXコードは廃棄されます"
+msgstr "現在、MathMLからのLaTeXへの変換は使用できません。ここでMathMLを編集すると、LaTexのコードが破棄されます。"
 
 msgid "custom"
 msgstr "カスタム"
@@ -338,7 +338,7 @@ msgid "Define the correct response."
 msgstr "正解を設定"
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr "有効なレスポンスを得るために、選択肢が受検者から選択されな​​ければならないかどうかを定義します。"
+msgstr "有効なレスポンスを得るために、選択肢が受検者から選択されな\u200B\u200Bければならないかどうかを定義します。"
 
 msgid "Define whether the item should be time dependent on delivery."
 msgstr "アイテムがデリバリにおいて時間制限に依存するかどうかを定義します"
@@ -418,7 +418,7 @@ msgstr "編集"
 msgid "edit choices"
 msgstr "選択肢を編集"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i pi} = -1"
 msgstr "LaTex形式で数式を編集します。例） e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
@@ -443,7 +443,7 @@ msgid "elements"
 msgstr "エレメント"
 
 msgid "Eliminate"
-msgstr "除外する"
+msgstr "除外"
 
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "一時停止、再生を受検者に有効にします"
@@ -491,7 +491,7 @@ msgid "Export APIP 1.0 Package"
 msgstr "APIP1.0パッケージをエクスポート"
 
 msgid "Export failed for the item \"%s\": %s"
-msgstr "アイテム\ "％s \"のエクスポートに失敗しました：％s"
+msgstr "アイテム \"％s\" のエクスポートに失敗しました：％s"
 
 msgid "Export metadata"
 msgstr "メタデータのエクスポート"
@@ -584,7 +584,7 @@ msgid "Greater than or equal"
 msgstr "以上"
 
 msgid "Guard for resource \"%s\"..."
-msgstr "リソース\ "％s \"のガード..."
+msgstr "リソース \"％s\" のガード..."
 
 msgid "Height"
 msgstr "高さ"
@@ -680,7 +680,7 @@ msgid "Inline Choice Interaction"
 msgstr "選択肢"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr "インライン問題は、文字ブロックに挿入する必要があります"
+msgstr "インラインインタラクションは、文字ブロックに挿入する必要があります"
 
 msgid "Interaction Background"
 msgstr "問題の背景画像"
@@ -1104,7 +1104,7 @@ msgid "Preparing CSS, please wait…"
 msgstr "CSS準備中、お待ちください..."
 
 msgid "Preparing Metadata Values for target \"%s\"..."
-msgstr "ターゲット\ "％s \"のメタデータ値を準備しています..."
+msgstr "ターゲット \"％s\" のメタデータ値を準備しています..."
 
 msgid "Preview"
 msgstr "プレビュー"
@@ -1398,7 +1398,7 @@ msgid "Successfully compiled \"%s"
 msgstr "\"%sのコンパイルが完了しました"
 
 msgid "Successfully created item \"%s"
-msgstr "アイテムの作成が完了しました：\"%s""
+msgstr "アイテムの作成が完了しました：\"%s"
 
 msgid "SVG image"
 msgstr "SVG画像"
@@ -1410,7 +1410,7 @@ msgid "TAO default styles"
 msgstr "TAO標準スタイル"
 
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr "リソース\ "％s \"のターゲットクラスをルックアップ..."
+msgstr "リソース \"％s\" のターゲットクラスをルックアップ..."
 
 msgid "Text Block"
 msgstr "文字ブロック"
@@ -1479,10 +1479,10 @@ msgid "The IMS QTI Item could not be imported."
 msgstr "IMS QTIアイテムはインポートできませんでした"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr "IMSマニフェストファイルで\ "％s \"として参照されているQTIアイテムがエラー：％s"
+msgstr "IMSマニフェストファイルで \"％s\" として参照されているQTIアイテムがエラー：％s"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr "IMSマニフェストファイルで「%s\」と参照されているQTIアイテムは、解答処理（Response Processing） および 結果変数の宣言（outcomeDeclaration） の定義が正しくありません。"
+msgstr "IMSマニフェストファイルで「%s」と参照されているQTIアイテムは、解答処理（Response Processing） および 結果変数の宣言（outcomeDeclaration） の定義が正しくありません。"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
 msgstr "IMSマニフェストファイルで、\"%s\"として参照されているQTIアイテムは、既にアイテムバンクに格納されています。アイテムは見つかりません。"
@@ -1539,7 +1539,7 @@ msgid "The mapping indicator to use between field name and field value when disp
 msgstr "レコードのカーディナリティ変数を表示するときにフィールド名とフィールド値の間で使用するマッピングインジケーターです。 マッピングインジケーターが宣言されていない場合、\"=\"がデフォルトです。実装では、このデフォルトを個別設定またはロケール設定で上書きできます。"
 
 msgid "The mapping options are available when at least one map entry is defined."
-msgstr "採点方法の「部分点」は、準正答を設定したい場合に使用します。"
+msgstr "採点方法の「部分点」は、準正答などにスコアを設定したい場合に使用します。"
 
 msgid "The maximum number of association is unlimited."
 msgstr "組合せの最大数に制限はありません"
