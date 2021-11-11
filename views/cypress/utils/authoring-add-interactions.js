@@ -50,16 +50,22 @@ const undoSelector = '.feedback-info.popup a.undo';
 const closeUndoSelector = '.feedback-info.popup .icon-close';
 
 /**
- * Add A-Block and then all inline interactions on it
+ * Add A-Block
  */
-export function addBlockAndInlineInteractions() {
+ export function addABlock() {
     cy.log('ADDING A-BLOCK INTERACTION');
     const blockSelector = `[data-qti-class="${blockContainer}"]`;
     cy.dragAndDrop(blockSelector, dropSelector);
     // check that widget is initialized
     cy.getSettled(`${dropSelector} .widget-box.edit-active${blockSelector}`).should('exist');
     cy.log('A-BLOCK IS ADDED');
+}
 
+/**
+ * Add A-Block and then all inline interactions on it
+ */
+export function addBlockAndInlineInteractions() {
+    addABlock();
     for (const interaction in inlineInteractions) {
         cy.log('ADDING INTERACTION', interaction);
         const interactionSelector = `[data-qti-class="${inlineInteractions[interaction]}"]`;
