@@ -21,9 +21,10 @@ import selectors from '../utils/selectors';
 
 import { addInteraction } from '../utils/authoring-add-interactions';
 import { addResponseProcessing } from '../utils/set-response';
+import { getRandomNumber } from '../../../../tao/views/cypress/utils/helpers';
 
 describe('Item Authoring', () => {
-    const className = 'Test E2E class';
+    const className = `Test E2E class ${getRandomNumber()}`;
     const itemName = 'Test E2E item 1';
 
     const commonWidgetSelector = (qtiClass) => `.widget-box.widget-blockInteraction[data-qti-class="${qtiClass}"]`;
@@ -32,74 +33,52 @@ describe('Item Authoring', () => {
     const responseProcessingOption = ['match correct', 'map response', 'none'];
     /**
      * Log in
-     * Visit the page
+     * Visit Items page
      */
-    before(() => {
-        cy.loginAsAdmin();
+     before(() => {
+        cy.setup(
+            selectors.treeRenderUrl,
+            selectors.editClassLabelUrl,
+            urls.items,
+            selectors.root
+        );
 
-        cy.intercept('POST', '**/edit*').as('edit');
-        cy.intercept('POST', `**/${selectors.editClassLabelUrl}`).as('editClassLabel');
-        cy.viewport(1000, 660);
-        cy.visit(urls.items);
-        cy.wait('@edit');
-
-        cy.get(selectors.root).then(root => {
-            if (root.find(`li[title="${className}"] a`).length) {
-                cy.deleteClassFromRoot(
-                    selectors.root,
-                    selectors.itemClassForm,
-                    selectors.deleteClass,
-                    selectors.deleteConfirm,
-                    className,
-                    selectors.deleteClassUrl,
-                    selectors.resourceRelations,
-                    false,
-                    true
-                );
-            }
-        });
+        cy.addClassToRoot(
+            selectors.root,
+            selectors.itemClassForm,
+            className,
+            selectors.editClassLabelUrl,
+            selectors.treeRenderUrl,
+            selectors.addSubClassUrl
+        );
+        cy.addNode(selectors.itemForm, selectors.addItem);
+        cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
     });
     /**
-     * Go to Items page
-     * Delete 'Test E2E class' class/folder
+     * Visit Items page
+     * Delete e2e class
      */
-    after(() => {
+     after(() => {
         cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
         cy.wait('@edit');
 
-        cy.get(selectors.root).then(root => {
-            if (root.find(`li[title="${className}"] a`).length) {
-                cy.deleteClassFromRoot(
-                    selectors.root,
-                    selectors.itemClassForm,
-                    selectors.deleteClass,
-                    selectors.deleteConfirm,
-                    className,
-                    selectors.deleteClassUrl,
-                    selectors.resourceRelations,
-                    false,
-                    true
-                );
-            }
-        });
+        cy.deleteClassFromRoot(
+            selectors.root,
+            selectors.itemClassForm,
+            selectors.deleteClass,
+            selectors.deleteConfirm,
+            className,
+            selectors.deleteClassUrl,
+            selectors.resourceRelationsUrl,
+            true
+        );
     });
     /**
      * Tests
      */
     describe('Item authoring', () => {
         it('can open item authoring', function () {
-            cy.addClassToRoot(
-                selectors.root,
-                selectors.itemClassForm,
-                className,
-                selectors.editClassLabelUrl,
-                selectors.treeRenderUrl,
-                selectors.addSubClassUrl
-            );
-            cy.addNode(selectors.itemForm, selectors.addItem);
-            cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
-
             cy.get(selectors.authoring).click();
             cy.location().should(loc => {
                 expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);

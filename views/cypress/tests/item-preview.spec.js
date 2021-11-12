@@ -20,41 +20,22 @@ import urls from '../utils/urls';
 import selectors from '../utils/selectors';
 
 import { addInteraction } from '../utils/authoring-add-interactions';
+import { getRandomNumber } from '../../../../tao/views/cypress/utils/helpers';
 
 describe('Item preview', () => {
-    const className = 'Test E2E class';
+    const className = `Test E2E class ${getRandomNumber()}`;
     const itemName = 'Test E2E item 1';
     /**
      * Log in
      * Visit the page
      */
     before(() => {
-        cy.loginAsAdmin();
-
-        cy.intercept('POST', '**/edit*').as('edit');
-        cy.intercept('POST', `**/${selectors.editClassLabelUrl}`).as('editClassLabel');
-        cy.viewport(1000, 660);
-        cy.visit(urls.items);
-        cy.wait('@edit');
-
-        cy.get(selectors.root).then(root => {
-            if (root.find(`li[title="${className}"] a`).length) {
-                cy.deleteClassFromRoot(
-                    selectors.root,
-                    selectors.itemClassForm,
-                    selectors.deleteClass,
-                    selectors.deleteConfirm,
-                    className,
-                    selectors.deleteClassUrl,
-                    selectors.resourceRelations,
-                    false,
-                    true
-                );
-            }
-        });
-    });
-
-    it('creates item', () => {
+        cy.setup(
+            selectors.treeRenderUrl,
+            selectors.editClassLabelUrl,
+            urls.items,
+            selectors.root
+        );
         cy.addClassToRoot(
             selectors.root,
             selectors.itemClassForm,
@@ -66,7 +47,27 @@ describe('Item preview', () => {
         cy.addNode(selectors.itemForm, selectors.addItem);
         cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
     });
+    /**
+     * Visit Items page
+     * Delete e2e class
+     */
+    after(() => {
+        cy.intercept('POST', '**/edit*').as('edit');
+        cy.visit(urls.items);
+        cy.wait('@edit');
 
+        cy.deleteClassFromRoot(
+            selectors.root,
+            selectors.itemClassForm,
+            selectors.deleteClass,
+            selectors.deleteConfirm,
+            className,
+            selectors.deleteClassUrl,
+            selectors.resourceRelationsUrl,
+            false,
+            true
+        );
+    });
     it('Authors item', () => {
         cy.get(selectors.authoring).click();
         cy.location().should(loc => {
@@ -103,19 +104,5 @@ describe('Item preview', () => {
         cy.get('.qti-choiceInteraction').should('exist');
         cy.get('[data-control="close"] .icon-close').should('exist');
         cy.get('[data-control="close"] .icon-close').click();
-    });
-
-    it('Deletes class', () => {
-        cy.deleteClassFromRoot(
-            selectors.root,
-            selectors.itemClassForm,
-            selectors.deleteClass,
-            selectors.deleteConfirm,
-            className,
-            selectors.deleteClassUrl,
-            selectors.resourceRelations,
-            false,
-            true
-        );
     });
 });
