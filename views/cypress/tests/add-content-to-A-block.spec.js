@@ -123,31 +123,44 @@ describe('Item Authoring', () => {
             });
         });
         it('can add audio to A-block', () => {
-            const audioName = 'audioFile.mp3';
+            const audioName = 'sampleAudioSmall.mp3';
             cy.getSettled(`${ablockContainerParagraph}`).click({force:true});
             cy.get('[id="toolbar-top"]')
                 .find('[class="cke_button cke_button__taoqtimedia cke_button_off"]')
                 .click({force: true});
             cy.getSettled(`${ablockContainerParagraph}`).click({force:true});
             selectUploadLocalAsset(audioName, `${paths.assetsPath}${audioName}`).then(() => {
-                 cy.log(`${paths.assetsPath}${audioName}`, 'IS ADDED');
-             });
+                cy.get('div[class="previewer"]').should('exist');
+                cy.log(`${paths.assetsPath}${audioName}`, 'IS ADDED');
+                cy.get('a.tlb-button-off.select').last().click();
+                //close modal if it's still open
+                if (cy.get('button.modal-close#modal-close-btn')){
+                    cy.get('button.modal-close#modal-close-btn').click({force:true, multiple: true});
+                }
+            });
+            cy.getSettled(`${ablockContainerParagraph}`).click({force:true});
         });
-            it('can add video to A-block', () => {
-                const videoName = 'sample-mp4-file.mp4';
-                 cy.getSettled(`${aBlockContainer}`).click();
+        it('can add video to A-block', () => {
+                const videoName = 'sampleSmall.mp4';
+                 cy.getSettled(`${ablockContainerParagraph}`).click({force:true});
                  cy.get('[id="toolbar-top"]')
                      .find('[class="cke_button cke_button__taoqtimedia cke_button_off"]')
                      .click({force:true});
                 cy.getSettled(`${ablockContainerParagraph}`).click({force:true});
                 selectUploadLocalAsset(videoName, `${paths.assetsPath}${videoName}`).then(() => {
-                     cy.log(`${paths.assetsPath}${videoName}`, 'IS ADDED');
-                 });
+                    cy.get('div[class="previewer"]').should('exist');
+                    cy.get('a.tlb-button-off.select').last().click();
+                    cy.log(`${paths.assetsPath}${videoName}`, 'IS ADDED');
+                    //close modal if it's still open
+                    if (cy.get('button.modal-close#modal-close-btn')){
+                          cy.get('button.modal-close#modal-close-btn').click({force:true, multiple: true});
+                    }
+                });
+                cy.getSettled(`${ablockContainerParagraph}`).click({force:true});
             });
         it('can save item with A block & content', () => {
             cy.intercept('POST', '**/saveItem*').as('saveItem');
-            cy.get('[data-testid="save-the-item"]').click();
-            cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
+            cy.get('[data-testid="save-the-item"]').click({force: true});
         });
 
     });
