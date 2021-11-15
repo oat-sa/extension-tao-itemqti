@@ -64,7 +64,6 @@ describe('Item Authoring', () => {
             selectors.deleteConfirm,
             className,
             selectors.deleteClassUrl,
-            selectors.resourceRelationsUrl,
             true
         );
     });

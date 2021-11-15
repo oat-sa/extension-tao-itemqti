@@ -63,8 +63,6 @@ describe('Item preview', () => {
             selectors.deleteConfirm,
             className,
             selectors.deleteClassUrl,
-            selectors.resourceRelationsUrl,
-            false,
             true
         );
     });
