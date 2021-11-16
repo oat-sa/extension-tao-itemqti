@@ -58,7 +58,7 @@ describe('Item Authoring', () => {
     });
 
     after(() => {
-        cy.registerAliasForRequests(selectors.treeRenderUrl, selectors.editClassLabelUrl, selectors.editItemUrl);
+        cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
         cy.wait('@edit');
 
