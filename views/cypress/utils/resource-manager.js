@@ -28,18 +28,18 @@ export function selectUploadLocalAsset(fileName, pathToFile) {
         .then(resourcemgr => {
             const resourcemgrId = resourcemgr[0].id;
             cy.getSettled(`#${resourcemgrId} .file-browser .root-folder`).should('exist');
-            cy.getSettled(`#${resourcemgrId} .file-browser .local .root-folder`).click({force: true});
+            cy.getSettled(`#${resourcemgrId} .file-browser .local .root-folder`).click();
             cy.get(`#${resourcemgrId} .file-selector .files`).then(root => {
                 if (root.find(`#${resourcemgrId} li[data-file="/${fileName}"]`).length === 0) {
-                    cy.getSettled(`#${resourcemgrId} .file-selector .upload-switcher .upload`).click({force: true});
+                    cy.getSettled(`#${resourcemgrId} .file-selector .upload-switcher .upload`).click();
                     cy.fileUpload(
                         `#${resourcemgrId} .file-upload-container input[type="file"][name="content"]`,
                         pathToFile
                     );
-                    cy.getSettled(`#${resourcemgrId} .file-upload-container .btn-upload`).click({force: true});
+                    cy.getSettled(`#${resourcemgrId} .file-upload-container .btn-upload`).click();
                     cy.getSettled(`#${resourcemgrId} .file-upload-container .progressbar.success`, {timeout: 100000}).should('exist');
                 }
             });
-            cy.getSettled(`#${resourcemgrId} li[data-file="/${fileName}"] .actions a.select`).click({force: true});
+            cy.getSettled(`#${resourcemgrId} li[data-file="/${fileName}"] .actions a.select`).click();
         });
 }

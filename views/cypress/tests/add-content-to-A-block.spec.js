@@ -21,7 +21,7 @@ import selectors from '../utils/selectors';
 
 import { selectUploadLocalAsset } from '../utils/resource-manager';
 import { addAblock } from '../utils/authoring-add-interactions';
-import { editText } from '../utils/asset-edit-text-Ablock';
+import { editText } from '../utils/edit-text-Ablock';
 
 import paths from '../utils/paths';
 import { getRandomNumber } from '../../../../tao/views/cypress/utils/helpers';
@@ -35,6 +35,7 @@ describe('Item Authoring', () => {
     /**
      * Log in
      * Visit the page
+     * Create test folder
      */
     before(() => {
         cy.setup(
@@ -56,7 +57,10 @@ describe('Item Authoring', () => {
         cy.addNode(selectors.itemForm, selectors.addItem);
         cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
     });
-
+    /**
+     * Visit the page
+     * Delete test folder
+     */ 
     after(() => {
         cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
@@ -88,6 +92,7 @@ describe('Item Authoring', () => {
             addAblock();
             editText();
         });
+
         it('can add image to A-block', () => {
             const imageName = 'img-option.png';
             cy.getSettled(`${aBlockContainer}`).click();
@@ -99,6 +104,7 @@ describe('Item Authoring', () => {
                 cy.log(`${paths.assetsPath}${imageName}`, 'IS ADDED');
             });
         });
+
         it('can add audio to A-block', () => {
             const audioName = 'sampleAudioSmall.mp3';
             cy.getSettled(`${ablockContainerParagraph}`).click({ force: true });
@@ -112,6 +118,7 @@ describe('Item Authoring', () => {
             });
             cy.getSettled(`${ablockContainerParagraph}`).click({ force: true });
         });
+
         it('can add video to A-block', () => {
             const videoName = 'sampleSmall.mp4';
             cy.getSettled(`${ablockContainerParagraph}`).click({ force: true });
@@ -125,6 +132,7 @@ describe('Item Authoring', () => {
             });
             cy.getSettled(`${ablockContainerParagraph}`).click({ force: true });
         });
+
         it('can save item with A block & content', () => {
             cy.intercept('POST', '**/saveItem*').as('saveItem');
             cy.get('[data-testid="save-the-item"]').click({ force: true });
