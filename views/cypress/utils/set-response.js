@@ -16,6 +16,8 @@
  * Copyright (c) 2021 Open Assessment Technologies SA ;
  */
 import { addShapeToImage } from './graphic-interactions';
+import selectors from '../utils/selectors';
+import urls from '../utils/urls';
 /**
  * Set response in Interaction in item Authoring
  * @param {String} widgetSelector
@@ -115,4 +117,119 @@ export function setResponse(widgetSelector, widgetActiveSelector, qtiClass) {
     }
 
     cy.get(`${widgetActiveSelector} button.widget-ok`).click({ force: true });
+}
+
+/**
+ * Triggers item preview
+ * verfies that interaction is present in preview
+ */
+
+function previewItem () {
+    cy.intercept('GET', urls.itemPreview).as('preview');
+    cy.get(selectors.previewItemButton).should('not.have.class', 'disabled');
+    cy.get(selectors.previewItemButton).click({force :true});
+    cy.wait('@preview');
+    cy.get('.qti-choiceInteraction').should('exist');
+}
+/**
+ * Saves Item
+ * verifies its success
+ */
+
+function saveItem() {
+    cy.intercept('POST', '**/saveItem*').as('saveItem');
+    cy.get('[data-testid="save-the-item"]').click();
+    cy.wait('@saveItem')
+        .its('response.body')
+        .its('success')
+        .should('eq', true);
+}
+
+export function addResponseProcessing(
+    widgetSelector,
+    qtiClass,
+    responseProcessingOption
+) {
+    cy.log('ADD RESPONSE PROCESSING', widgetSelector, qtiClass);
+    cy.getSettled(widgetSelector).find( selectors.selectInteractionResponse).click({force: true});
+
+    switch (responseProcessingOption) {
+        case 'match correct':
+            cy.get('ol').find('li[data-identifier="choice_3"]').click({force: true});
+            cy.get('[id="s2id_responseProcessing"]').click({force: true});
+            saveItem();
+            previewItem();
+            //chose correct response
+            cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.getSettled('[class="log-message"]').contains('SCORE: (float) 1');
+            //chose wrong response
+            cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.getSettled('[class="log-message"]').contains('SCORE: (float) 0');
+            //close item
+            cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
+            break;
+
+        case 'map response':
+            cy.log('This is case ', responseProcessingOption);
+            cy.getSettled(widgetSelector).find(selectors.selectInteractionResponse).click({force: true});
+            cy.get('[id="s2id_responseProcessing"]').click();
+            cy.get('div[class="select2-drop select2-display-none select2-drop-active"]').last().click();
+            cy.get('input.score[data-for="choice_3"]').type(2);
+            //set correct response
+            cy.get('[name="defineCorrect"]').click({force: true});
+            //able to set min/max
+            cy.getSettled('[class="panel min-max-panel"]')
+                .find('[name="lowerBound-toggler"]')
+                .click({force:true})
+                .should('not.have.value', '0');
+            cy.getSettled('[class="panel min-max-panel"]')
+                .find('[name="lowerBound-toggler"]')
+                .click({force:true});
+            cy.getSettled('[class="panel min-max-panel"]')
+                .find('[name="upperBound-toggler"]')
+                .click({force: true})
+                .should('not.have.value', '0');
+            cy.getSettled('[class="panel min-max-panel"]').find('[name="upperBound-toggler"]').click({force: true});
+            //set mapping default
+            cy.get('[name="defaultValue"]')
+                .clear()
+                .type(1)
+                .clear()
+                .type(0);
+            saveItem();
+            previewItem();
+            //check correct response
+            cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.getSettled('[class="log-message"]').contains('SCORE: (float) 2');
+            //check wrong response
+            cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
+            cy.getSettled('ol').find('li[data-identifier="choice_2"]').last().click({force:true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.getSettled('[class="log-message"]').contains('SCORE: (float) 0');
+            //close item preview
+            cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
+            break;
+
+        case 'none':
+            cy.log('This is case ', qtiClass);
+            cy.getSettled(widgetSelector).find(selectors.selectInteractionResponse).click({force: true});
+            cy.get('[id="s2id_responseProcessing"]').click();
+            cy.get('div[class="select2-drop select2-display-none select2-drop-active"]')
+                .contains('none')
+                .click({force: true});
+            cy.getSettled('ol').find('li[data-identifier="choice_2"]')
+                .last()
+                .click({force:true})
+                .should('not.be.checked');
+            saveItem();
+            previewItem();
+            cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
+            cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.getSettled('[class="log-message"]').should('not.contain','SCORE:');
+            cy.getSettled('[class="log-message"]').contains('(identifier) [choice_3]');
+            cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
+    }
 }
