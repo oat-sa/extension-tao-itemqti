@@ -25,10 +25,11 @@
 define([
     'jquery',
     'lodash',
-    'i18n',
+    'util/locale',
     'ui/component',
-    'tpl!taoQtiItem/qtiCreator/widgets/component/languageSelector/languageSelector'
-], function ($, _, __, componentFactory, languageSelectorTpl) {
+    'tpl!taoQtiItem/qtiCreator/widgets/component/languageSelector/languageSelector',
+    'select2'
+], function ($, _, locale, componentFactory, languageSelectorTpl) {
     'use strict';
 
     /**
@@ -36,27 +37,13 @@ define([
      * @param {HTMLElement|jQueryElement} container - where the component is appended
      * @param {Object} [setUpConfig] - configure the component
      * @param {Object} [setUpConfig.lang] - preselected lang
+     * @param {Object} [setUpConfig.languagesList] - language list
      * @returns {languageSelector} the configured component
      */
     return function languageSelectorFactory(container, setUpConfig) {
-        const api = {
-            /**
-             * Gets access to the item creator
-             * @returns {itemCreator}
-             */
-            getItemCreator() {
-                return itemCreator;
-            },
-
-            /**
-             * Gets access to the area broker
-             * @returns {areaBroker}
-             */
-            getAreaBroker() {
-                return areaBroker;
-            }
-        };
-        const languageSelectorComponent = componentFactory(api)
+        const rtl = locale.getConfig().rtl || []
+        const config = _.defaults(setUpConfig, { rtl }) ;
+        const languageSelectorComponent = componentFactory()
             // set the component's layout
             .setTemplate(languageSelectorTpl)
 
@@ -69,7 +56,22 @@ define([
             // renders the component
             .on('render', function () {
                 const $element = this.getElement();
-
+                const $selector = $element.find('select');
+                $selector.select2({
+                    dropdownAutoWidth: true,
+                    width: 'resolve',
+                    minimumResultsForSearch: -1,
+                    formatSelection: data => {
+                        if (data.css) {
+                            return `<span class="${data.css}">${data.text}</span>`;
+                        }
+                        return data.text;
+                    }
+                });
+                $selector.on('change', () => {
+                    const lang = $selector.val();
+                    this.trigger('change', { lang, dir: locale.getLanguageDirection(lang) })
+                });
             })
             .on('destroy', function () {});
 

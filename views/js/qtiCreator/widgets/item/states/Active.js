@@ -24,8 +24,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/component/languageSelector/languageSelector',
     'select2'
-], function(_, locale, stateFactory, Active, formTpl, formElement, contentHelper){
+], function(_, locale, stateFactory, Active, formTpl, formElement, contentHelper, languageSelectorFactory){
     'use strict';
 
     const ItemStateActive = stateFactory.create(Active, function enterActiveState(){
@@ -40,10 +41,7 @@ define([
             serial : item.getSerial(),
             identifier : item.id(),
             title : item.attr('title'),
-            timeDependent : !!item.attr('timeDependent'),
-            'xml:lang' : item.attr('xml:lang'),
-            languagesList : item.data('languagesList'),
-            rtl
+            timeDependent : !!item.attr('timeDependent')
         }));
 
         //init widget
@@ -56,40 +54,20 @@ define([
                 item.attr('title', title);
                 areaBroker.getTitleArea().text(item.attr('title'));
             },
-            timeDependent : formElement.getAttributeChangeCallback(),
-            'xml:lang' : function langChange(i, lang){
-                item.attr('xml:lang', lang);
-                const $itemBody = _widget.$container.find('.qti-itemBody');
-                if (rtl.includes(lang)) {
-                    item.attr('dir', 'rtl');
-                    $itemBody.find('.grid-row').attr('dir', 'rtl');
-                } else {
-                    item.attr('dir', 'ltr');
-                    $itemBody.find('.grid-row').attr('dir', 'ltr');
-                }
+            timeDependent : formElement.getAttributeChangeCallback()
+        });
+
+        languageSelectorFactory($form.find('.language-selector-panel'), {
+            lang : item.attr('xml:lang'),
+            languagesList : item.data('languagesList')
+        }).on('change', function({ lang, dir }){
+            item.attr('xml:lang', lang);
+            item.attr('dir', dir);
+            const $itemBody = _widget.$container.find('.qti-itemBody');
+            $itemBody.attr('dir', dir);
                 //need to update item body
-                item.body(contentHelper.getContent($itemBody));
-            },
+                // item.body(contentHelper.getContent($itemBody));
         });
-
-        const $selectBox = $form.find('select');
-
-        $selectBox.select2({
-            dropdownAutoWidth: true,
-            width: 'resolve',
-            minimumResultsForSearch: -1,
-            formatSelection: data => {
-                if (data.css) {
-                    return `<span class="${data.css}">${data.text}</span>`;
-                }
-                return data.text;
-            }
-        });
-
-        // set dir='rtl' if 'xml:lang' in rtl array
-        if (rtl.includes(item.attr('xml:lang'))) {
-            item.attr('dir', 'rtl');
-        }
 
     }, _.noop);
 
