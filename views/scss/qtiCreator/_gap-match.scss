@@ -40,3 +40,23 @@
         }
     }
 }
+
+.edit-question {
+    .qti-gapMatchInteraction {
+        .horizontal {
+            .qti-choice {
+                margin-top: 3px;
+
+                .mini-tlb {
+                    margin-bottom: 0;
+                    bottom: 0;
+
+
+                    .tlb-button {
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
