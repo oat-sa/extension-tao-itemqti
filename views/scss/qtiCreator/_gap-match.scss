@@ -49,11 +49,15 @@
 
                 .mini-tlb {
                     margin-bottom: 0;
-                    bottom: 0;
+                    height: 31px;
 
                     .tlb-button {
                         height: 100%;
                     }
+                }
+
+                .dummy-element ~ span.mini-tlb[data-edit] {
+                    height: 26px;
                 }
             }
         }
