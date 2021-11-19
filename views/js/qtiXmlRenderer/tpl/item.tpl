@@ -14,7 +14,7 @@
         {{{.}}}
     {{~/stylesheets}}
     
-    <itemBody{{#if class}} class="{{class}}"{{/if}}{{#if dir}} dir="{{dir}}"{{/if}}>
+    <itemBody{{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}{{#if dir}} dir="{{dir}}"{{/if}}>
         {{#if empty}}
             <div class="empty"></div>
         {{else}}
