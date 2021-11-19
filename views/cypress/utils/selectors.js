@@ -18,7 +18,9 @@ export default {
     previewSubmitButton: '[data-control="submit"]',
 
     root: '[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
-    resourceRelations: 'tao/ResourceRelations',
+    resourceRelationsUrl: 'tao/ResourceRelations',
 
     treeRenderUrl: 'taoItems/Items',
+    itemPreviewUrl: '**/taoQtiTestPreviewer/Previewer/getItem*',
+    itemSubmitUrl: '**/taoQtiTestPreviewer/Previewer/submitItem*'
 };

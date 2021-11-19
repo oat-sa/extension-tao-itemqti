@@ -19,23 +19,17 @@
 import urls from '../utils/urls';
 import selectors from '../utils/selectors';
 
-import { addInteraction } from '../utils/authoring-add-interactions';
-import { addResponseProcessing } from '../utils/set-response';
+import { addABlock } from '../utils/authoring-add-interactions';
 import { getRandomNumber } from '../../../../tao/views/cypress/utils/helpers';
 
 describe('Item Authoring', () => {
     const className = `Test E2E class ${getRandomNumber()}`;
     const itemName = 'Test E2E item 1';
-
-    const commonWidgetSelector = (qtiClass) => `.widget-box.widget-blockInteraction[data-qti-class="${qtiClass}"]`;
-
-    const choice= 'choiceInteraction';
-    const responseProcessingOption = ['match correct', 'map response', 'none'];
     /**
      * Log in
      * Visit Items page
      */
-     before(() => {
+    before(() => {
         cy.setup(
             selectors.treeRenderUrl,
             selectors.editClassLabelUrl,
@@ -58,7 +52,7 @@ describe('Item Authoring', () => {
      * Visit Items page
      * Delete e2e class
      */
-     after(() => {
+    after(() => {
         cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
         cy.wait('@edit');
@@ -73,6 +67,7 @@ describe('Item Authoring', () => {
             true
         );
     });
+
     /**
      * Tests
      */
@@ -83,35 +78,20 @@ describe('Item Authoring', () => {
                 expect(`${loc.pathname}${loc.search}`).to.eq(urls.itemAuthoring);
             });
         });
-        it('can add single interaction to an item', function () {
 
-            addInteraction("choice");
+        it('can add A-Block', () => {
+            cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
+            // open inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions').click();
+            addABlock();
+            // close inline interactions panel
+            cy.get('#sidebar-left-section-inline-interactions ._accordion').click();
         });
-        it('can add  match correct response processing to item', function () {
-            addResponseProcessing(
-                commonWidgetSelector(choice),
-                choice,
-                responseProcessingOption[0]
-            );
-        });
-        it('can add map response response processing to item', function () {
-            addResponseProcessing(
-                commonWidgetSelector(choice),
-                choice,
-                responseProcessingOption[1]
-            );
-        });
-        it('can add none to response processing to item', function () {
-            addResponseProcessing(
-                commonWidgetSelector(choice),
-                choice,
-                responseProcessingOption[2]
-            );
-        });
-        it('can save item with responses in interactions', () => {
-            cy.intercept('POST', '**/saveItem*').as('saveItem');
-            cy.get('[data-testid="save-the-item"]').click();
-            cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
+
+        it('CK Editor is present when added A-block is highlighted', () => {
+            cy.get('.widget-box.widget-block.widget-textBlock').click();
+            cy.getSettled('#toolbar-top .cke').should('be.visible');
+            cy.getSettled('#toolbar-top .cke .cke_toolbar').should('have.length', 5);
         });
     });
 });
