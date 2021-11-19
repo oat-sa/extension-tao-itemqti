@@ -18,7 +18,6 @@
 const aBlockParagraph = '.widget-box[data-qti-class="_container"] p'
 
 export function  editText() {
-
     // edit text : Bold
     cy.selectTextWithin(`${aBlockParagraph}`);
     cy.get('[class="cke_button cke_button__bold cke_button_off"]').click({force:true});

@@ -18,11 +18,9 @@
 
 import urls from '../utils/urls';
 import selectors from '../utils/selectors';
-
 import { selectUploadLocalAsset } from '../utils/resource-manager';
 import { addAblock } from '../utils/authoring-add-interactions';
 import { editText } from '../utils/edit-text-Ablock';
-
 import paths from '../utils/paths';
 import { getRandomNumber } from '../../../../tao/views/cypress/utils/helpers';
 

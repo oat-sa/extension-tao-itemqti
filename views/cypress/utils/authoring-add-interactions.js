@@ -78,7 +78,6 @@ export function addBlockAndInlineInteractions() {
  * Adds A block without inner inline interactions
  */
 export function addAblock() {
-
     const dropSelector = 'div.qti-itemBody.item-editor-drop-area';
     cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
     // open inline interactions panel
