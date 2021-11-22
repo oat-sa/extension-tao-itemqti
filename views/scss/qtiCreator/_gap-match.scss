@@ -50,9 +50,11 @@
                 .mini-tlb {
                     margin-bottom: 0;
                     height: 31px;
+                    border: 0!important;
 
                     .tlb-button {
                         height: 100%;
+                        border: 1px $itemCreatorMiniTlbBorderColor solid
                     }
                 }
 
