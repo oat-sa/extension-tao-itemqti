@@ -125,7 +125,7 @@ export function setResponse(widgetSelector, widgetActiveSelector, qtiClass) {
  */
 
 function previewItem () {
-    cy.intercept('GET', urls.itemPreview).as('preview');
+    cy.intercept('GET', selectors.itemPreviewUrl).as('preview');
     cy.get(selectors.previewItemButton).should('not.have.class', 'disabled');
     cy.get(selectors.previewItemButton).click({force :true});
     cy.wait('@preview');
@@ -152,6 +152,7 @@ export function addResponseProcessing(
 ) {
     cy.log('ADD RESPONSE PROCESSING', widgetSelector, qtiClass);
     cy.getSettled(widgetSelector).find( selectors.selectInteractionResponse).click({force: true});
+    cy.intercept('POST', selectors.itemSubmitUrl).as('submitItem');
 
     switch (responseProcessingOption) {
         case 'match correct':
@@ -162,6 +163,7 @@ export function addResponseProcessing(
             //chose correct response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
             cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.wait('@submitItem').its('response.body').its('success').should('eq', true);
             cy.getSettled('[class="log-message"]').contains('SCORE: (float) 1');
             //chose wrong response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
@@ -203,6 +205,7 @@ export function addResponseProcessing(
             //check correct response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
             cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.wait('@submitItem').its('response.body').its('success').should('eq', true);
             cy.getSettled('[class="log-message"]').contains('SCORE: (float) 2');
             //check wrong response
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
@@ -228,6 +231,7 @@ export function addResponseProcessing(
             previewItem();
             cy.getSettled('ol').find('li[data-identifier="choice_3"]').last().click({force:true});
             cy.get(selectors.previewSubmitButton).click({force: true});
+            cy.wait('@submitItem').its('response.body').its('success').should('eq', true);
             cy.getSettled('[class="log-message"]').should('not.contain','SCORE:');
             cy.getSettled('[class="log-message"]').contains('(identifier) [choice_3]');
             cy.get('[class="rgt navi-box"]').find('[data-control="close"]').click({force: true});
