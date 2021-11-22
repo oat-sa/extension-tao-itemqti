@@ -21,17 +21,21 @@
 
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\tao\helpers\FileUploadException;
 use oat\tao\model\media\MediaManagement;
 use oat\tao\model\media\MediaService;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoMediaManager\model\sharedStimulus\encoder\SharedStimulusMediaEncoder;
 use oat\taoMediaManager\model\SharedStimulusImporter;
-use oat\taoMediaManager\model\SharedStimulusPackageImporter;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\Item;
 
-class SharedStimulusAssetHandler implements AssetHandler
+class SharedStimulusAssetHandler implements ServiceLocatorAwareInterface, AssetHandler
 {
+    use ServiceLocatorAwareTrait;
+
     /** @var  ItemMediaResolver */
     protected $itemSource;
 
@@ -93,7 +97,7 @@ class SharedStimulusAssetHandler implements AssetHandler
         }
 
         SharedStimulusImporter::isValidSharedStimulus($absolutePath);
-        $newXmlFile = SharedStimulusPackageImporter::embedAssets($absolutePath);
+        $newXmlFile = $this->getSharedStimulusMediaEncoderService()->encodeAssets($absolutePath);
         $itemContent = $this->sharedStorage->add($newXmlFile, basename($relativePath), $this->parentPath);
 
         if (method_exists($this->sharedStorage, 'forceMimeType')) {
@@ -206,5 +210,10 @@ class SharedStimulusAssetHandler implements AssetHandler
     public function finalize()
     {
         // Nothing to do
+    }
+
+    private function getSharedStimulusMediaEncoderService (): SharedStimulusMediaEncoder
+    {
+        return $this->getServiceLocator()->get(SharedStimulusMediaEncoder::class);
     }
 }
