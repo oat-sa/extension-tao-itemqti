@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-11-22T13:48:54\n"
+"PO-Revision-Date: 2021-11-22T13:50:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ja-JP\n"
+"Language: ja-UE\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ja-JP\n"
+"targetLanguage: ja-UE\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -118,7 +118,7 @@ msgid "An error occured while parsing IMS QTI data."
 msgstr "QTIデータを解析中にエラーが発生しました"
 
 msgid "An error occurred at the level of the QTI model."
-msgstr "QTI規格レベルでのエラーが発生しました"
+msgstr "QTIモデルのレベルでエラーが発生しました"
 
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
@@ -216,7 +216,7 @@ msgid "cannot load QTI XML"
 msgstr "QTI XMLがロードできません"
 
 msgid "Cannot locate the file \"%s"
-msgstr "ファイル \"％sが見つかりません"
+msgstr "ファイル\ "
 
 msgid "Center"
 msgstr "センター"
@@ -318,7 +318,7 @@ msgid "Current value:"
 msgstr "現在の値:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr "現在、MathMLからのLaTeXへの変換は使用できません。ここでMathMLを編集すると、LaTexのコードが破棄されます。"
+msgstr "現在、MathMLからのLaTeXへの変換は使用できません。ここではMathMLを編集、LaTeXコードは廃棄されます"
 
 msgid "custom"
 msgstr "カスタム"
@@ -345,7 +345,7 @@ msgid "Define the correct response."
 msgstr "正解を設定"
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr "有効なレスポンスを得るために、選択肢が受検者から選択されな\u200B\u200Bければならないかどうかを定義します。"
+msgstr "有効なレスポンスを得るために、選択肢が受検者から選択されな​​ければならないかどうかを定義します。"
 
 msgid "Define whether the item should be time dependent on delivery."
 msgstr "アイテムがデリバリにおいて時間制限に依存するかどうかを定義します"
@@ -432,7 +432,7 @@ msgid "edit choices"
 msgstr "選択肢を編集"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
+msgstr "LaTex形式で数式を編集します。例） e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
 msgstr "MathMLを利用して数式編集"
@@ -456,7 +456,7 @@ msgid "elements"
 msgstr "エレメント"
 
 msgid "Eliminate"
-msgstr "除外"
+msgstr "除外する"
 
 msgid "Enable Scrolling"
 msgstr ""
@@ -507,7 +507,7 @@ msgid "Export APIP 1.0 Package"
 msgstr "APIP1.0パッケージをエクスポート"
 
 msgid "Export failed for the item \"%s\": %s"
-msgstr "アイテム \"％s\" のエクスポートに失敗しました：％s"
+msgstr "アイテム\ "
 
 msgid "Export metadata"
 msgstr "メタデータのエクスポート"
@@ -600,7 +600,7 @@ msgid "Greater than or equal"
 msgstr "以上"
 
 msgid "Guard for resource \"%s\"..."
-msgstr "リソース \"％s\" のガード..."
+msgstr "リソース\ "
 
 msgid "Height"
 msgstr "高さ"
@@ -702,7 +702,7 @@ msgid "Inline Interactions"
 msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr "インラインインタラクションは、文字ブロックに挿入する必要があります"
+msgstr "インライン問題は、文字ブロックに挿入する必要があります"
 
 msgid "Interaction Background"
 msgstr "問題の背景画像"
@@ -1122,7 +1122,7 @@ msgid "Preparing CSS, please wait…"
 msgstr "CSS準備中、お待ちください..."
 
 msgid "Preparing Metadata Values for target \"%s\"..."
-msgstr "ターゲット \"％s\" のメタデータ値を準備しています..."
+msgstr "ターゲット\ "
 
 msgid "Preview"
 msgstr "プレビュー"
@@ -1440,7 +1440,9 @@ msgid "Successfully compiled \"%s"
 msgstr "\"%sのコンパイルが完了しました"
 
 msgid "Successfully created item \"%s"
-msgstr "アイテムの作成が完了しました：\"%s"
+msgstr "アイテムの作成が完了しました：\"%s\"\"\n"
+"\n"
+"msgid "
 
 msgid "Table headings"
 msgstr "表の見出し"
@@ -1449,7 +1451,7 @@ msgid "TAO default styles"
 msgstr "TAO標準スタイル"
 
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr "リソース \"％s\" のターゲットクラスをルックアップ..."
+msgstr "リソース\ "
 
 msgid "Text Block"
 msgstr "文字ブロック"
@@ -1560,7 +1562,7 @@ msgid "The mapping indicator to use between field name and field value when disp
 msgstr "レコードのカーディナリティ変数を表示するときにフィールド名とフィールド値の間で使用するマッピングインジケーターです。 マッピングインジケーターが宣言されていない場合、\"=\"がデフォルトです。実装では、このデフォルトを個別設定またはロケール設定で上書きできます。"
 
 msgid "The mapping options are available when at least one map entry is defined."
-msgstr "採点方法の「部分点」は、準正答などにスコアを設定したい場合に使用します。"
+msgstr "採点方法の「部分点」は、準正答を設定したい場合に使用します。"
 
 msgid "The maximum number of association is unlimited."
 msgstr "組合せの最大数に制限はありません"
