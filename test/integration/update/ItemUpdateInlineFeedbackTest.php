@@ -106,6 +106,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
     private function normalizeXmlStrings($s)
     {
         $s = preg_replace('/\stoolVersion="[0-9\.]*-sprint[0-9]*"/', '', $s);
+        $s = preg_replace('/\stoolVersion="[0-9\.]+"/', '', $s);
         // Normalize line endings
         // Convert all line-endings to UNIX format
         $s = str_replace("\r\n", "\n", $s);
