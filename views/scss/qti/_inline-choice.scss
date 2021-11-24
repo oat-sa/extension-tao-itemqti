@@ -9,9 +9,12 @@ select.qti-inlineChoiceInteraction {
 }
 
 .qti-inlineChoiceInteraction .select2-chosen {
-    margin-right: 30px;
+    margin: 0 30px 0 0;
+    @include rtl {
+        margin: 0 0 0 30px;
+    }
 }
-.qti-inlineChoiceInteraction .select2-chosen, 
+.qti-inlineChoiceInteraction .select2-chosen,
 select.qti-inlineChoiceInteraction,
 .qti-inlineChoiceInteraction-dropdown .select2-result-label {
     font-family: $regularFont !important;
@@ -23,4 +26,17 @@ select.qti-inlineChoiceInteraction,
     outline-color: $colorWheel-05;
     outline-style: auto;
     outline-width: 5px;
+}
+@include rtl {
+    .select2-container {
+
+        .select2-choice {
+            padding: 0 8px 0 0;
+
+            .select2-arrow {
+                left: 0;
+                right: auto;
+            }
+        }
+    }
 }
