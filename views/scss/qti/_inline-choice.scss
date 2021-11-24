@@ -8,10 +8,16 @@ select.qti-inlineChoiceInteraction {
     font-size: 14px;
 }
 
-.qti-inlineChoiceInteraction .select2-chosen {
-    margin: 0 30px 0 0;
-    @include rtl {
-        margin: 0 0 0 30px;
+.qti-inlineChoiceInteraction {
+    &.rtl {
+        .select2-chosen {
+            margin: 0 0 0 30px;
+        }
+    }
+    &.ltr {
+        .select2-chosen {
+            margin: 0 30px 0 0;
+        }
     }
 }
 .qti-inlineChoiceInteraction .select2-chosen,
@@ -27,15 +33,23 @@ select.qti-inlineChoiceInteraction,
     outline-style: auto;
     outline-width: 5px;
 }
-@include rtl {
-    .select2-container {
-
+.select2-container {
+    &.rtl {
         .select2-choice {
             padding: 0 8px 0 0;
 
             .select2-arrow {
                 left: 0;
                 right: auto;
+            }
+        }
+    }
+    &.ltr {
+        .select2-choice {
+                padding: 0 0 0 8px;
+            .select2-arrow {
+                right: 0;
+                left: auto;
             }
         }
     }
