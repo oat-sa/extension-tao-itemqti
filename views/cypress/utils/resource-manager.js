@@ -43,3 +43,36 @@ export function selectUploadLocalAsset(fileName, pathToFile) {
             cy.getSettled(`#${resourcemgrId} li[data-file="/${fileName}"] .actions a.select`).click();
         });
 }
+/**
+ * Add/upload shared stimuluss previously created in assets
+ */
+export function selectUploadSharedStimulus() {
+    cy.log('SELECT OR UPLOAD SHARED STIULSS',);
+    return cy.get('.resourcemgr.modal')
+        .last()
+        .then(resourcemgr => {
+            const resourcemgrId = resourcemgr[0].id;
+            cy.getSettled(`#${resourcemgrId} .file-browser .root-folder`).should('exist');
+            cy.getSettled(`.mediamanager .folders .root`).should('exist');
+            cy.getSettled(`#${resourcemgrId} .mediamanager .folders .root ul > li`)
+                .first()
+                .click();
+            cy.getSettled(`.file-selector .files [data-alt="passage NEW.xml"]`).should('exist');
+            cy.getSettled(`#${resourcemgrId} ul > li[data-type="html"]`)
+                .click();
+            cy.get(`#${resourcemgrId} li > .actions a.select`)
+                .click();
+            cy.log('PASSAGE ADDED TO PROMPT');
+        });
+}
+
+/**
+ * select shared stimulus option from ck menu
+ */
+export function addSharedStimulusToInteraction() {
+    cy.get('[id="toolbar-top"]')
+        .find('[class="cke_button cke_button__taoqtiinclude cke_button_off"]')
+        .last()
+        .click({force: true});
+    cy.get('.resourcemgr.modal').should('be.visible');
+}
