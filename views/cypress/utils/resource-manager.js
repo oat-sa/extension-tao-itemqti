@@ -44,9 +44,11 @@ export function selectUploadLocalAsset(fileName, pathToFile) {
         });
 }
 /**
- * Add/upload shared stimuluss previously created in assets
+ * Add/upload shared stimulus previously created in assets
+ * * @param {boolean} isCreatedAsset determines whether the asset is
+ * the one previously created (vs imported)
  */
-export function selectUploadSharedStimulus() {
+export function selectUploadSharedStimulus(isCreatedAsset) {
     cy.log('SELECT OR UPLOAD SHARED STIULSS',);
     return cy.get('.resourcemgr.modal')
         .last()
@@ -58,19 +60,37 @@ export function selectUploadSharedStimulus() {
                 .first()
                 .click();
             cy.getSettled(`.file-selector .files [data-alt="passage NEW.xml"]`).should('exist');
-            cy.getSettled(`#${resourcemgrId} ul > li[data-type="html"]`)
-                .click();
-            cy.get(`#${resourcemgrId} li > .actions a.select`)
-                .click();
+            if(isCreatedAsset){
+                cy.getSettled(`#${resourcemgrId} ul > li[data-type="html"]`)
+                    .first()
+                    .click();
+                cy.get(`#${resourcemgrId} li > .actions a.select`)
+                    .first()
+                    .click();
+            } else {
+                cy.getSettled(`#${resourcemgrId} ul > li[data-type="html"]`)
+                    .last()
+                    .click();
+                cy.get(`#${resourcemgrId} li > .actions a.select`)
+                    .last()
+                    .click();
+            }
             cy.log('PASSAGE ADDED TO PROMPT');
         });
 }
-
 /**
  * select shared stimulus option from ck menu
+ * @param isChoice {boolean} determines if selector to add
+ * the stimulus is choice(answer) vs prompt(question) in the interaction.
  */
-export function addSharedStimulusToInteraction() {
-    cy.get('[id="toolbar-top"]')
+export function addSharedStimulusToInteraction(isChoice) {
+   if(isChoice){
+       cy.get('#item-editor-scroll-inner').click();
+       cy.get('.choice-area ')
+        .first()
+        .click();
+   }
+   cy.get('[id="toolbar-top"]')
         .find('[class="cke_button cke_button__taoqtiinclude cke_button_off"]')
         .last()
         .click({force: true});
