@@ -27,6 +27,7 @@ use InvalidArgumentException;
 use oat\oatbox\config\ConfigurationService;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\tao\model\media\sourceStrategy\InlineSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
@@ -67,6 +68,10 @@ class QtiItemAssetCompiler extends ConfigurationService
                 $replacement = $this->getReplacementName($packedAsset);
                 $packedAsset->setReplacedBy($replacement);
 
+                if ($this->isInlineAssetAndShouldNotBeReplaced($packedAsset)) {
+                    continue;
+                }
+
                 if ($type != 'xinclude') {
                     if ($this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset)) {
                         $packedAsset = $this->replaceWithExternalSource($packedAsset, $qtiItem);
@@ -102,7 +107,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         $mediaAsset = $resolver->resolve($assetUrl);
         $mediaSource = $mediaAsset->getMediaSource();
 
-        if ($mediaSource instanceof HttpSource) {
+        if ($mediaSource instanceof HttpSource || $mediaSource instanceof InlineSource) {
             return new PackedAsset($type, $mediaAsset, $assetUrl);
         }
 
@@ -144,5 +149,11 @@ class QtiItemAssetCompiler extends ConfigurationService
     private function getQtiItemAssetReplacer(): QtiItemAssetReplacer
     {
         return $this->getServiceLocator()->get(QtiItemAssetReplacer::SERVICE_ID);
+    }
+
+    private function isInlineAssetAndShouldNotBeReplaced(PackedAsset $packedAsset): bool
+    {
+        return $packedAsset->getMediaAsset()->getMediaSource() instanceof InlineSource
+            && !$this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset);
     }
 }
