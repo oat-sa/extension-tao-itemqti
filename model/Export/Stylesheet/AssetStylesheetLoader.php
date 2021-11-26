@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Stylesheet;
 
+use League\Flysystem\FileNotFoundException;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoMediaManager\model\fileManagement\FileManagement;
@@ -41,13 +42,25 @@ class AssetStylesheetLoader extends ConfigurableService
         $asset = $this->getResource(UriHelper::decode($link));
 
         if ($asset->exists()) {
-            $property = (string) $asset->getUniquePropertyValue(
+            $property = (string)$asset->getUniquePropertyValue(
                 $this->getProperty(AbstractQTIItemExporter::PROPERTY_LINK)
             );
 
-            return $this->getFileManagement()->getFileStream(
-                $this->buildAssetPathFromPropertyName($property)
-            );
+            $stylesheetPath = $this->buildAssetPathFromPropertyName($property);
+            try {
+                return $this->getFileManagement()->getFileStream(
+                    $stylesheetPath
+                );
+            } catch (FileNotFoundException $exception) {
+                $this->getLogger()->notice(
+                    sprintf(
+                        'Stylesheet %s not found to resource %s',
+                        $stylesheetPath,
+                        $property
+                    ),
+                    ["exception" => $exception, 'stylesheet' => $stylesheetPath, 'property' => $property]
+                );
+            }
         }
 
         return null;
