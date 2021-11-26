@@ -44,7 +44,6 @@ class RegisterItemCompilerBlacklist extends InstallAction
         $assetBlacklistService = new QtiItemCompilerAssetBlacklist([
             QtiItemCompilerAssetBlacklist::BLACKLIST => [
                 '/^https?:\/\/(www\.youtube\.[a-zA-Z]*|youtu\.be)\//',
-                '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
             ]
         ]);
 
