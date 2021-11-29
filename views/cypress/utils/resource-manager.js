@@ -86,9 +86,9 @@ export function selectUploadSharedStimulus(isCreatedAsset) {
 export function addSharedStimulusToInteraction(isChoice) {
    if(isChoice){
        cy.get('#item-editor-scroll-inner').click();
-       cy.get('.choice-area ')
-        .first()
-        .click();
+       cy.get('.choice-area').click({force:true});
+       cy.get('[data-identifier="choice_2"]')
+         .click({force:true});
    }
    cy.get('[id="toolbar-top"]')
         .find('[class="cke_button cke_button__taoqtiinclude cke_button_off"]')
