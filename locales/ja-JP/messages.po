@@ -1036,18 +1036,16 @@ msgid "Plain text"
 msgstr "テキスト"
 
 msgid "Please add one or more gaps to the text in question mode."
-msgstr "少なくとも１つの穴埋めを作ってください"
+msgstr "少なくとも１つの穴埋めを作ってください。"
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
 msgstr "解答に対応する範囲を作成し、スコアを設定してください。\n"
-""
 
 msgid "Please define association pairs and their scores below."
 msgstr "組合せとスコアを設定してください"
 
 msgid "Please define the correct association pairs below."
-msgstr "正しい組み合わせを設定してください"
+msgstr "正しい組合せを設定してください。"
 
 msgid "Please define the correct order in the box to the right."
 msgstr "右側のボックスに正しい順序を設定してください"
@@ -1793,7 +1791,7 @@ msgid "You have deleted an element."
 msgstr "エレメントを削除しました"
 
 msgid "You may make as many association pairs as you want."
-msgstr "組み合わせを複数作ることができます。"
+msgstr "組合せを複数作ることができます。"
 
 msgid "You must select %1$d to %2$d choices."
 msgstr "少なくとも%1$d個，最大%2$d個まで選択してください"
