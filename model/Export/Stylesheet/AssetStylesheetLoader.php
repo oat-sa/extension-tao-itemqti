@@ -58,7 +58,7 @@ class AssetStylesheetLoader extends ConfigurableService
                         $stylesheetPath,
                         $property
                     ),
-                    ["exception" => $exception, 'stylesheet' => $stylesheetPath, 'property' => $property]
+                    ['exception' => $exception, 'stylesheet' => $stylesheetPath, 'property' => $property]
                 );
             }
         }
