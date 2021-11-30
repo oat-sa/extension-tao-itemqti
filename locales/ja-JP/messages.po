@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint117\n"
-"PO-Revision-Date: 2020-09-22T16:02:15\n"
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-11-22T13:48:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -25,9 +25,6 @@ msgstr "  "
 msgid "%d characters allowed"
 msgstr "文字「％d」が許可されています"
 
-msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr "QTIパッケージから%dつのうち%dつのアイテムがインポートされました"
-
 msgid "%d/%d"
 msgstr "%d/%d"
 
@@ -47,7 +44,9 @@ msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムののitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -57,6 +56,9 @@ msgstr "画面サイズに適応"
 
 msgid "Add"
 msgstr "追加"
+
+msgid "Add a CSV file"
+msgstr ""
 
 msgid "Add a modal feedback"
 msgstr "フィードバックを追加"
@@ -118,6 +120,9 @@ msgstr "QTIデータを解析中にエラーが発生しました"
 msgid "An error occurred at the level of the QTI model."
 msgstr "QTI規格レベルでのエラーが発生しました"
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました"
 
@@ -131,10 +136,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
-
-msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr "識別子付きのQTIパッケージのインポート中に、不明なエラーが発生しました。"
+""
 
 msgid "APIP Content Package"
 msgstr "APIPコンテンツパッケージ"
@@ -157,9 +161,6 @@ msgstr "組合せ"
 msgid "at least"
 msgstr "最低"
 
-msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr "メタデータインジェクタ　\"％s\"を使用して、ターゲット　\"％s\"の\"％s\"　メタデータ値を挿入しようとしています。"
-
 msgid "Autostart"
 msgstr "自動再生"
 
@@ -172,14 +173,17 @@ msgstr "背景色"
 msgid "Base"
 msgstr "ベース"
 
-msgid "block"
-msgstr "ブロック"
-
 msgid "Block"
 msgstr "文字ブロック"
 
+msgid "block"
+msgstr "ブロック"
+
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "文字ブロックは、テキストや画像などのコンテンツを表示します。文章中の穴埋め問題作成にも利用します。"
+
+msgid "Block height (%)"
+msgstr ""
 
 msgid "Border color"
 msgstr "枠の色"
@@ -190,10 +194,10 @@ msgstr "コンピュータを参照し、適切なファイルを選択してく
 msgid "Browse..."
 msgstr "参照..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -216,6 +220,9 @@ msgstr "ファイル \"％sが見つかりません"
 
 msgid "Center"
 msgstr "センター"
+
+msgid "characters"
+msgstr ""
 
 msgid "chars"
 msgstr "文字"
@@ -240,9 +247,6 @@ msgstr "選択肢"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "テーブルの水平方向の配置を選択します"
-
-msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr "クラスが検索されました。リソース \"％s\" は，RDFSフォルダー \"％s\" に保存されます。"
 
 msgid "Class successfully created."
 msgstr "クラスが作成されました。"
@@ -271,8 +275,11 @@ msgstr "1つまたは複数のテキストエリア（文字列または数値�
 msgid "Color Picker"
 msgstr "色の取得"
 
-msgid "Contraints"
-msgstr "制約事項"
+msgid "Common Interactions"
+msgstr ""
+
+msgid "Constraints"
+msgstr ""
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された回数を報告します"
@@ -304,8 +311,8 @@ msgstr "ホットテキスト作成"
 msgid "Create pair(s) from a series of choices."
 msgstr "選択肢からペアを作成"
 
-msgid "CSV file"
-msgstr "CSVファイル"
+msgid "CSV content + metadata"
+msgstr ""
 
 msgid "Current value:"
 msgstr "現在の値:"
@@ -319,10 +326,10 @@ msgstr "カスタム"
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
 msgid "Define correct response"
@@ -349,10 +356,10 @@ msgstr "指定幅"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "数値型の結果変数の最大値を設定します。最大値は正の値、最小は負の値にすることができます。"
 
-msgid "delete"
+msgid "Delete"
 msgstr "削除"
 
-msgid "Delete"
+msgid "delete"
 msgstr "削除"
 
 msgid "Delete else statement"
@@ -382,11 +389,17 @@ msgstr "分割"
 msgid "Don\'t save"
 msgstr "保存しないでください"
 
+msgid "done"
+msgstr "完了"
+
 msgid "Done"
 msgstr "完了"
 
-msgid "done"
-msgstr "完了"
+msgid "Download"
+msgstr ""
+
+msgid "Download sample csv file"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "このスタイルシートをダウンロード"
@@ -418,8 +431,8 @@ msgstr "編集"
 msgid "edit choices"
 msgstr "選択肢を編集"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i pi} = -1"
-msgstr "LaTex形式で数式を編集します。例） e^{i \\pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "MathMLを利用して数式編集"
@@ -445,8 +458,14 @@ msgstr "エレメント"
 msgid "Eliminate"
 msgstr "除外"
 
+msgid "Enable Scrolling"
+msgstr ""
+
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "一時停止、再生を受検者に有効にします"
+
+msgid "Enable/disable scrolling."
+msgstr ""
 
 msgid "End Attempt"
 msgstr "エンドアテンプト"
@@ -484,9 +503,6 @@ msgstr "オイラーの定義"
 msgid "Exponent"
 msgstr "指数"
 
-msgid "Export"
-msgstr "エクスポート"
-
 msgid "Export APIP 1.0 Package"
 msgstr "APIP1.0パッケージをエクスポート"
 
@@ -511,14 +527,17 @@ msgstr "記述問題"
 msgid "Extended Text Interaction"
 msgstr "記述問題"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr "アイテムをエクスポートできません"
 
 msgid "Failed to publish %1$s in %2$s"
 msgstr "%2$sで %1$s の公開ができませんでした"
-
-msgid "Failed to save item"
-msgstr "アイテムの保存ができませんでした"
 
 msgid "Feedback"
 msgstr "フィードバック"
@@ -544,9 +563,6 @@ msgstr "ファイルアップロード"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "選択肢イメージから空白を埋めなさい"
 
-msgid "Flash video"
-msgstr "Flash動画"
-
 msgid "Font family"
 msgstr "フォント"
 
@@ -568,14 +584,14 @@ msgstr "穴埋め"
 msgid "Gap Match Interaction"
 msgstr "穴埋め問題"
 
-msgid "GIF image"
-msgstr "GIF画像"
-
 msgid "Graphic Associate Interaction"
 msgstr "画像組み合わせ"
 
 msgid "Graphic Gap Match Interaction"
 msgstr "画像穴埋め"
+
+msgid "Graphic Interactions"
+msgstr ""
 
 msgid "Graphic Order Interaction"
 msgstr "画像並べ替え"
@@ -588,6 +604,9 @@ msgstr "リソース \"％s\" のガード..."
 
 msgid "Height"
 msgstr "高さ"
+
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
 
 msgid "Horizontal"
 msgstr "水平"
@@ -610,13 +629,16 @@ msgstr "数式の表示方法"
 msgid "How the math expression should be edited"
 msgstr "数式の編集方法"
 
+msgid "Human"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "同一のペアがすでに存在しています"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別子"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別子"
 
 msgid "identifier already taken"
@@ -643,14 +665,11 @@ msgstr "QTI/APIP Content Packageのインポート"
 msgid "Import a QTI/APIP XML Item Document"
 msgstr "QTI/APIP XML Item Documentのインポート"
 
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr ""
+
 msgid "Import QTI ITEM into \"%s"
 msgstr "QTIアイテムを\"%s\"にインポート"
-
-msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr "as\"%s\"として参照されているQTIアイテムには、ポータブル要素が含まれており、インポートすることはできません。"
-
-msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr "IMSマニフェストファイル \"%s\"のQTIアイテムはインポートできませんでした"
 
 msgid "In Progress"
 msgstr "実施中"
@@ -679,6 +698,9 @@ msgstr "選択肢"
 msgid "Inline Choice Interaction"
 msgstr "選択肢"
 
+msgid "Inline Interactions"
+msgstr ""
+
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "インラインインタラクションは、文字ブロックに挿入する必要があります"
 
@@ -691,11 +713,20 @@ msgstr "基本プロパティ"
 msgid "Interpretation"
 msgstr "翻訳"
 
-msgid "invalid identifier"
-msgstr "無効な識別子"
+msgid "Invalid identifier"
+msgstr "無効な識別子です"
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
 
 msgid "invalid QTI XML"
 msgstr "無効なQTI XML"
+
+msgid "Invalid response identifier"
+msgstr "無効なレスポンス識別子"
+
+msgid "Invalid URL"
+msgstr ""
 
 msgid "Is this choice the correct response?"
 msgstr "この選択は正しい答えですか？"
@@ -715,11 +746,11 @@ msgstr "アイテム\"%s\"は、どの言語でもご利用できません"
 msgid "Item \"%s\" is ready to be exported"
 msgstr "アイテム \"%s\" をエクスポートする準備ができました"
 
+msgid "Item cannot be saved."
+msgstr "アイテムを保存できません。"
+
 msgid "Item metadata successfully exported."
 msgstr "アイテムのメタデータは正常にエクスポートされました。"
-
-msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr "識別子 \"%s\" を持つアイテムメタデータは無効です: "
 
 msgid "Item Properties"
 msgstr "アイテムプロパティ"
@@ -734,9 +765,6 @@ msgstr "アイテム幅"
 msgid "Items"
 msgstr "アイテム"
 
-msgid "JPEG image"
-msgstr "JPEG画像"
-
 msgid "Label"
 msgstr "ラベル"
 
@@ -746,19 +774,22 @@ msgstr "言語"
 msgid "Large editor"
 msgstr "編集画面"
 
+msgid "LaTeX"
+msgstr "LaTeX"
+
 msgid "Latex"
 msgstr "LaTeX"
 
-msgid "LaTeX"
-msgstr "LaTeX"
+msgid "Layout"
+msgstr ""
 
 msgid "leave empty"
 msgstr "------"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -782,11 +813,17 @@ msgstr "Ln"
 msgid "Log"
 msgstr "log"
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "自動ループ再生"
 
 msgid "Lower Bound"
 msgstr "下限"
+
+msgid "Lower bound is bigger than upper bound."
+msgstr ""
 
 msgid "Lower than or equal"
 msgstr "以下"
@@ -794,12 +831,13 @@ msgstr "以下"
 msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr "不正な形式のXML[%s]:\n"
+""
+
+msgid "Manage Items"
+msgstr "アイテム管理"
 
 #, tao-public
 msgid "Manage items"
-msgstr "アイテム管理"
-
-msgid "Manage Items"
 msgstr "アイテム管理"
 
 msgid "map response"
@@ -829,10 +867,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大文字数"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大文字数"
 
 msgid "Max plays count"
@@ -883,15 +921,6 @@ msgstr "メタデータのインポートには、メタデータを抽出する
 msgid "Metadata service successfully registered."
 msgstr "メタデータサービスの登録が完了しました"
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft Powerpoint"
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
-
 msgid "MIME-type"
 msgstr "MINEタイプ"
 
@@ -907,17 +936,11 @@ msgstr "解答内容に応じて、受検者に直接フィードバックが表
 msgid "Modal Feedback Prop."
 msgstr "モーダルフィードバックプロップ"
 
+msgid "modal feedback title"
+msgstr ""
+
 msgid "Modal Feedbacks"
 msgstr "モーダルフィードバック"
-
-msgid "MP4 video"
-msgstr "MP4ビデオ"
-
-msgid "MPEG audio"
-msgstr "MPEGオーディオ"
-
-msgid "MPEG video"
-msgstr "MPEGビデオ"
 
 msgid "Multiply"
 msgstr "乗算"
@@ -947,6 +970,9 @@ msgstr "QTIパッケージからアイテムがインポートできませんで
 msgid "No preview available"
 msgstr "プレビューは利用できません"
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "何もセットされていません"
 
@@ -975,7 +1001,9 @@ msgid "one association pair"
 msgstr "１つの組み合わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
+""
 
 msgid "Order"
 msgstr "並び替え"
@@ -1001,9 +1029,6 @@ msgstr "パターン"
 msgid "Pause"
 msgstr "一時停止"
 
-msgid "PDF file"
-msgstr "PDF ファイル"
-
 msgid "Pi"
 msgstr "π"
 
@@ -1011,7 +1036,7 @@ msgid "Plain text"
 msgstr "テキスト"
 
 msgid "Please add one or more gaps to the text in question mode."
-msgstr "少なくとも１つの穴埋めを作ってください"
+msgstr "少なくとも１つの穴埋めを作ってください。"
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 msgstr "解答に対応する範囲を作成し、スコアを設定してください。\n"
@@ -1020,7 +1045,7 @@ msgid "Please define association pairs and their scores below."
 msgstr "組合せとスコアを設定してください"
 
 msgid "Please define the correct association pairs below."
-msgstr "正しい組み合わせを設定してください"
+msgstr "正しい組合せを設定してください。"
 
 msgid "Please define the correct order in the box to the right."
 msgstr "右側のボックスに正しい順序を設定してください"
@@ -1055,14 +1080,8 @@ msgstr "正解を選択肢から選んでください"
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "メディア（動画・音声）ファイルを選択してください。「ファイル追加」ボタンで追加できます。"
 
-msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "メディアファイルを選択してください。「ファイル追加」ボタンで追加できます。"
-
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "シェアードスティミュラスを選択してください"
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "画像ファイルを選択してください。「ファイル追加」ボタンで追加できます。"
 
 msgid "Please select the correct hotspot choices below."
 msgstr "正しいホットスポットを選択してください"
@@ -1081,9 +1100,6 @@ msgstr "正解を入力してください。"
 
 msgid "Please type the correct response in the box below."
 msgstr "正解を枠内に入力してください"
-
-msgid "PNG image"
-msgstr "PNG画像"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "ポータブル要素モデル％sが見つかりません。必要な拡張子が欠落している可能性があります。"
@@ -1148,9 +1164,6 @@ msgstr "QTIパッケージ2.1"
 msgid "QTI Package 2.2"
 msgstr "QTIパッケージ2.2"
 
-msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr "%1$d行でQTI-XMLのエラー\"%2$s\""
-
 msgid "QTI/APIP Content Package"
 msgstr "QTI/APIP Content Package"
 
@@ -1159,12 +1172,6 @@ msgstr "QTI/APIP XML Item Document"
 
 msgid "Question"
 msgstr "問題"
-
-msgid "Quicktime video"
-msgstr "QuickTime動画"
-
-msgid "recommanded"
-msgstr "推奨"
 
 msgid "Recommendations"
 msgstr "推奨"
@@ -1232,6 +1239,18 @@ msgstr "リソースがエクスポートされました"
 msgid "Response"
 msgstr "解答"
 
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr ""
+
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "レスポンス識別子"
 
@@ -1240,6 +1259,12 @@ msgstr "採点方法"
 
 msgid "Response Properties"
 msgstr "レスポンスプロパティ"
+
+msgid "Rich text"
+msgstr ""
+
+msgid "Rich text + math"
+msgstr ""
 
 msgid "right"
 msgstr "右"
@@ -1262,10 +1287,10 @@ msgstr "アイテム保存"
 msgid "Scale size"
 msgstr "縮尺"
 
-msgid "Score"
+msgid "score"
 msgstr "スコア"
 
-msgid "score"
+msgid "Score"
 msgstr "スコア"
 
 msgid "Score range"
@@ -1273,6 +1298,9 @@ msgstr "スコア範囲"
 
 msgid "Score value"
 msgstr "スコア値"
+
+msgid "Scrollable multi-column"
+msgstr ""
 
 msgid "Select"
 msgstr "選択"
@@ -1304,6 +1332,15 @@ msgstr "最初に画像を選んでください"
 msgid "select correct choice"
 msgstr "正しい選択肢を指定してください"
 
+msgid "Select height of passage base of conatainer height"
+msgstr ""
+
+msgid "Select height of text block base of conatainer height"
+msgstr ""
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
+
 msgid "Select image"
 msgstr "画像を選択"
 
@@ -1333,6 +1370,9 @@ msgstr "シェアドスティミュラスを選択"
 
 msgid "Select the area to add an image"
 msgstr "画像を追加するには、範囲を選択してください"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
 
 msgid "Select the outcome variable you want to display."
 msgstr "表示する結果項目を選択してください"
@@ -1399,9 +1439,6 @@ msgstr "\"%sのコンパイルが完了しました"
 
 msgid "Successfully created item \"%s"
 msgstr "アイテムの作成が完了しました：\"%s"
-
-msgid "SVG image"
-msgstr "SVG画像"
 
 msgid "Table headings"
 msgstr "表の見出し"
@@ -1477,24 +1514,6 @@ msgstr "レスポンス識別子：同じ識別子を，他のレスポンス識
 
 msgid "The IMS QTI Item could not be imported."
 msgstr "IMS QTIアイテムはインポートできませんでした"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr "IMSマニフェストファイルで \"％s\" として参照されているQTIアイテムがエラー：％s"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr "IMSマニフェストファイルで「%s」と参照されているQTIアイテムは、解答処理（Response Processing） および 結果変数の宣言（outcomeDeclaration） の定義が正しくありません。"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr "IMSマニフェストファイルで、\"%s\"として参照されているQTIアイテムは、既にアイテムバンクに格納されています。アイテムは見つかりません。"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr "IMSマニフェストファイルで、\"%s\"として参照されているQTIアイテムは、既にアイテムバンクに格納されています。"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr "IMSマニフェストファイルで、\"%s\"として参照されているIMS QTIアイテムのインポートが完了しました。"
-
-msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr "IMSマニフェストファイルで、\"%s\"として参照されているQTIアイテムの上書きが完了しました。"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "IMSマニフェストファイルで、\"%s\"として参照されるQTIアイテムのロールバックが完了しました。"
@@ -1601,6 +1620,9 @@ msgstr "レスポンス処理テンプレート \"%s\"は、サポートされ�
 msgid "The score format is not numeric"
 msgstr "スコア形式が数値ではありません"
 
+msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
+msgstr ""
+
 msgid "The selected file is ready to be sent."
 msgstr "選択されたファイルが提出されます。"
 
@@ -1642,8 +1664,8 @@ msgstr "このアイテムに不完全なエレメントがあります。完了
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "CSSのダウンロード中に問題が発生しました。再実行してください。"
 
-msgid "this identifier is already in use"
-msgstr "この識別子は既に使用されています"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr "このインタラクションには、質問モードで定義されたテキストがありません。"
@@ -1690,6 +1712,9 @@ msgstr "アセット \"%s を取得できません"
 msgid "Unable to retrieve item : "
 msgstr "アイテムを取得できません"
 
+msgid "Unable to retrieve item : \"%s"
+msgstr ""
+
 msgid "Unable to validate %s: %s"
 msgstr "％sを検証できません：％s"
 
@@ -1723,20 +1748,11 @@ msgstr "値"
 msgid "Vertical"
 msgstr "垂直"
 
-msgid "WAV audio"
-msgstr "WAVオーディオ"
-
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "IMS標準規格に準拠するために、patternMaskを使用します。"
 
 msgid "Width"
 msgstr "幅"
-
-msgid "Windows Media audio"
-msgstr "Windows Media audio(WMA)"
-
-msgid "Windows Media video"
-msgstr "Windows Media video(WMV)"
 
 msgid "words"
 msgstr "語数"
@@ -1746,15 +1762,6 @@ msgstr "代替えテキストを変更"
 
 msgid "WYSIWYG editor"
 msgstr "WYSIWYGエディタ"
-
-msgid "XHTML"
-msgstr "XHTML"
-
-msgid "XML error \"%1$s\"."
-msgstr "XMLエラー \"%1$s\""
-
-msgid "XML error at line %1$d \"%2$s\"."
-msgstr "%1$d \"行のXMLエラー %2$s\""
 
 msgid "Yes"
 msgstr "Yes"
@@ -1784,7 +1791,7 @@ msgid "You have deleted an element."
 msgstr "エレメントを削除しました"
 
 msgid "You may make as many association pairs as you want."
-msgstr "組み合わせを複数作ることができます。"
+msgstr "組合せを複数作ることができます。"
 
 msgid "You must select %1$d to %2$d choices."
 msgstr "少なくとも%1$d個，最大%2$d個まで選択してください"
@@ -1824,7 +1831,4 @@ msgstr "必須組合せ数："
 
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
-
-msgid "ZIP archive"
-msgstr "ZIPファイル"
 
