@@ -1073,10 +1073,10 @@ msgid "Please add one or more gaps to the text in question mode."
 msgstr "少なくとも１つの穴埋めを作ってください。"
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
-msgstr ""
+msgstr "解答に対応する範囲を作成し、スコアを設定してください。\n"
 
 msgid "Please define association pairs and their scores below."
-msgstr ""
+msgstr "組合せとスコアを設定してください"
 
 msgid "Please define the correct association pairs below."
 msgstr "正しい組合せを設定してください。"
