@@ -31,9 +31,7 @@ define([
         response: __('Invalid response identifier'),
         outcome: __('Invalid Outcome Declaration')
     };
-    const invalidIdentifier = __(
-        'Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).'
-    );
+    const invalidIdentifier = __('Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).');
     const validateIdentifier = (value, callback, options, type) => {
         if (typeof callback === 'function') {
             const valid = _qtiIdPattern.test(value);
