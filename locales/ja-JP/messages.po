@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-11-29T21:58:47\n"
+"PO-Revision-Date: 2021-12-01T13:30:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -1735,7 +1735,7 @@ msgstr "これは必須です"
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "このスタイルシートがサーバ上で見つかりません。この参照を削除してください"
 
-msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
 msgstr ""
 
 msgid "Time dependent"
