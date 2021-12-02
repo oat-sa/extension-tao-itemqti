@@ -49,7 +49,7 @@ export function selectUploadLocalAsset(fileName, pathToFile) {
  * the one previously created (vs imported)
  */
 export function selectUploadSharedStimulus(isCreatedAsset) {
-    cy.log('SELECT OR UPLOAD SHARED STIULSS',);
+    cy.log('SELECT OR UPLOAD SHARED STIMULUS',);
     return cy.get('.resourcemgr.modal')
         .last()
         .then(resourcemgr => {
@@ -75,7 +75,6 @@ export function selectUploadSharedStimulus(isCreatedAsset) {
                     .last()
                     .click();
             }
-            cy.log('PASSAGE ADDED TO PROMPT');
         });
 }
 /**
