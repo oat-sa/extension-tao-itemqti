@@ -147,9 +147,7 @@ define([
         if (!$field.data('$tooltip')) {
             widgetTooltip = tooltip.warning(
                 $field,
-                __(
-                    'This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'
-                ),
+                __('This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'),
                 {
                     trigger: 'manual',
                     placement: 'left-start'
