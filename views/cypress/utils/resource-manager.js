@@ -43,3 +43,21 @@ export function selectUploadLocalAsset(fileName, pathToFile) {
             cy.getSettled(`#${resourcemgrId} li[data-file="/${fileName}"] .actions a.select`).click();
         });
 }
+/**
+ * select shared stimulus option from ck menu
+ * @param isChoice {boolean} determines if selector to add
+ * the stimulus is choice(answer) vs prompt(question) in the interaction.
+ */
+export function addSharedStimulusToInteraction(isChoice) {
+   if(isChoice){
+       cy.get('#item-editor-scroll-inner').click();
+       cy.get('.choice-area').click({force:true});
+       cy.get('[data-identifier="choice_2"]')
+         .click({force:true});
+   }
+   cy.get('[id="toolbar-top"]')
+        .find('[class="cke_button cke_button__taoqtiinclude cke_button_off"]')
+        .last()
+        .click({force: true});
+    cy.get('.resourcemgr.modal').should('be.visible');
+}
