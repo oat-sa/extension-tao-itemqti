@@ -27,6 +27,7 @@ use InvalidArgumentException;
 use oat\oatbox\config\ConfigurationService;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\tao\model\media\sourceStrategy\InlineSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
@@ -68,6 +69,9 @@ class QtiItemAssetCompiler extends ConfigurationService
                 $replacement = $this->getReplacementName($packedAsset);
                 $packedAsset->setReplacedBy($replacement);
 
+                if ($this->isInlineAssetAndShouldNotBeReplaced($packedAsset)) {
+                    continue;
+                }
                 $this->getXIncludeAdditionalAssetInjector()->injectNonRDFXincludeRelatedAssets($qtiItem, $publicDirectory, $packedAsset);
 
                 if ($type != 'xinclude') {
@@ -105,7 +109,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         $mediaAsset = $resolver->resolve($assetUrl);
         $mediaSource = $mediaAsset->getMediaSource();
 
-        if ($mediaSource instanceof HttpSource) {
+        if ($mediaSource instanceof HttpSource || $mediaSource instanceof InlineSource) {
             return new PackedAsset($type, $mediaAsset, $assetUrl);
         }
 
@@ -152,5 +156,11 @@ class QtiItemAssetCompiler extends ConfigurationService
     private function getXIncludeAdditionalAssetInjector(): XIncludeAdditionalAssetInjector
     {
         return $this->getServiceLocator()->get(XIncludeAdditionalAssetInjector::class);
+    }
+
+    private function isInlineAssetAndShouldNotBeReplaced(PackedAsset $packedAsset): bool
+    {
+        return $packedAsset->getMediaAsset()->getMediaSource() instanceof InlineSource
+            && !$this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset);
     }
 }
