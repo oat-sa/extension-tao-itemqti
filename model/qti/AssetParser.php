@@ -25,9 +25,10 @@ namespace oat\taoQtiItem\model\qti;
 use common_exception_Error;
 use oat\oatbox\filesystem\Directory;
 use oat\taoQtiItem\model\qti\container\Container;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\ExtendedCustomInteractionAssetExtractorAllocator;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
-use \SimpleXMLElement;
+use SimpleXMLElement;
 use tao_helpers_Xml;
 
 /**
@@ -337,6 +338,8 @@ class AssetParser
                 }
             }
         }
+
+        $this->extractAdvancedCustomInteractionAssets($element);
     }
 
     private function getXmlProperties($properties)
@@ -354,6 +357,17 @@ class AssetParser
             }
         }
         return $xmls;
+    }
+
+    private function extractAdvancedCustomInteractionAssets(CustomInteraction $interaction): void
+    {
+        $assetExtractor = ExtendedCustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
+        if ($assetExtractor !== null) {
+            $extractedAssets = $assetExtractor->extract();
+            foreach ($extractedAssets as $asset) {
+                $this->addAsset($asset->getType(), $asset->getValue());
+            }
+        }
     }
 
     /**

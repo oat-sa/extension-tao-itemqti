@@ -61,6 +61,8 @@
     },
     "minimum-stability": "dev",
     "require": {
+        "ext-fileinfo": "*",
+        "ext-simplexml": "*",
         "oat-sa/lib-tao-qti": "7.3.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
