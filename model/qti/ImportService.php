@@ -191,11 +191,7 @@ class ImportService extends ConfigurableService
             if (!$qtiParser->isValid()) {
                 $eStrs = [];
                 foreach ($qtiParser->getErrors() as $libXmlError) {
-                    $eStrs[] = __(
-                        'QTI-XML error at line %1$d "%2$s".',
-                        $libXmlError['line'],
-                        str_replace('[LibXMLError] ', '', trim($libXmlError['message']))
-                    );
+                    $eStrs[] = __('QTI-XML error at line %1$d "%2$s".', $libXmlError['line'], str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
                 }
 
                 // Make sure there are no duplicate...
@@ -231,16 +227,9 @@ class ImportService extends ConfigurableService
                 $eStrs = [];
                 foreach ($qtiManifestParser->getErrors() as $libXmlError) {
                     if (isset($libXmlError['line'])) {
-                        $error = __(
-                            'XML error at line %1$d "%2$s".',
-                            $libXmlError['line'],
-                            str_replace('[LibXMLError] ', '', trim($libXmlError['message']))
-                        );
+                        $error = __('XML error at line %1$d "%2$s".', $libXmlError['line'], str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
                     } else {
-                        $error = __(
-                            'XML error "%1$s".',
-                            str_replace('[LibXMLError] ', '', trim($libXmlError['message']))
-                        );
+                        $error = __('XML error "%1$s".', str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
                     }
                     $eStrs[] = $error;
                 }
@@ -371,11 +360,7 @@ class ImportService extends ConfigurableService
         if (!empty($successItems)) {
             // Some items were imported from the package.
             $report->setMessage(
-                __(
-                    '%d Item(s) of %d imported from the given IMS QTI Package.',
-                    count($successItems),
-                    $itemCount
-                )
+                __('%d Item(s) of %d imported from the given IMS QTI Package.', count($successItems), $itemCount)
             );
 
             if (count($successItems) !== $itemCount) {
@@ -458,10 +443,7 @@ class ImportService extends ConfigurableService
     ) {
         // if report can't be finished
         $report = common_report_Report::createFailure(
-            __(
-                'IMS QTI Item referenced as "%s" cannot be imported.',
-                $qtiItemResource->getIdentifier()
-            )
+            __('IMS QTI Item referenced as "%s" cannot be imported.', $qtiItemResource->getIdentifier())
         );
 
         $startImportTime = microtime(true);
@@ -497,10 +479,7 @@ class ImportService extends ConfigurableService
                             );
 
                             return common_report_Report::createInfo(
-                                __(
-                                    'The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.',
-                                    $resourceIdentifier
-                                ),
+                                __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
                                 new MetadataGuardianResource($guardian)
                             );
                         }
@@ -513,10 +492,7 @@ class ImportService extends ConfigurableService
 
                         return new common_report_Report(
                             common_report_Report::TYPE_ERROR,
-                            __(
-                                'The IMS QTI Item referenced as "%s" in the IMS Manifest file should have been found the Item Bank. Item not found.',
-                                $resourceIdentifier
-                            )
+                            __('The IMS QTI Item referenced as "%s" in the IMS Manifest file should have been found the Item Bank. Item not found.', $resourceIdentifier)
                         );
                     }
                 }
@@ -526,10 +502,7 @@ class ImportService extends ConfigurableService
 
                     if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
                         $validationReport->setMessage(
-                            __(
-                                'Item metadata with identifier "%s" is not valid: ',
-                                $resourceIdentifier
-                            ) . $validationReport->getMessage()
+                            __('Item metadata with identifier "%s" is not valid: ', $resourceIdentifier) . $validationReport->getMessage()
                         );
                         \common_Logger::i('Item metadata is not valid: ' . $validationReport->getMessage());
 
@@ -551,10 +524,7 @@ class ImportService extends ConfigurableService
                     )
                 ) {
                     return common_report_Report::createFailure(
-                        __(
-                            'The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.',
-                            $resourceIdentifier
-                        )
+                        __('The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.', $resourceIdentifier)
                     );
                 }
 
@@ -636,15 +606,9 @@ class ImportService extends ConfigurableService
 
                 // Build report message.
                 if ($guardian !== false) {
-                    $msg = __(
-                        'The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully overwritten.',
-                        $qtiItemResource->getIdentifier()
-                    );
+                    $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully overwritten.', $qtiItemResource->getIdentifier());
                 } else {
-                    $msg = __(
-                        'The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.',
-                        $qtiItemResource->getIdentifier()
-                    );
+                    $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.', $qtiItemResource->getIdentifier());
                 }
 
                 $this->getItemEventDispatcher()->dispatch($qtiModel, $rdfItem);
@@ -656,10 +620,7 @@ class ImportService extends ConfigurableService
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR, $message);
             } catch (ValidationException $ve) {
                 $report = common_report_Report::createFailure(
-                    __(
-                        'IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.',
-                        $resourceIdentifier
-                    )
+                    __('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $resourceIdentifier)
                 );
                 $report->add($ve->getReport());
             } catch (XmlStorageException $e) {
@@ -681,10 +642,7 @@ class ImportService extends ConfigurableService
                 );
             } catch (PortableElementInvalidModelException $pe) {
                 $report = common_report_Report::createFailure(
-                    __(
-                        'IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.',
-                        $resourceIdentifier
-                    )
+                    __('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $resourceIdentifier)
                 );
                 $report->add($pe->getReport());
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
@@ -705,11 +663,7 @@ class ImportService extends ConfigurableService
             } catch (TemplateException $e) {
                 $report = new common_report_Report(
                     common_report_Report::TYPE_ERROR,
-                    __(
-                        'The IMS QTI Item referenced as "%s" in the IMS Manifest file failed:  %s',
-                        $resourceIdentifier,
-                        $e->getMessage()
-                    )
+                    __('The IMS QTI Item referenced as "%s" in the IMS Manifest file failed:  %s', $resourceIdentifier, $e->getMessage())
                 );
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
@@ -718,9 +672,7 @@ class ImportService extends ConfigurableService
                 // an error occurred during a specific item
                 $report = new common_report_Report(
                     common_report_Report::TYPE_ERROR,
-                    __(
-                        "An unknown error occured while importing the IMS QTI Package with identifier: " . $resourceIdentifier
-                    )
+                    __("An unknown error occured while importing the IMS QTI Package with identifier: " . $resourceIdentifier)
                 );
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
