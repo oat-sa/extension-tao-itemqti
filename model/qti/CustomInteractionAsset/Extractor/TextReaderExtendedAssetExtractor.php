@@ -25,7 +25,6 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor;
 
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\DataUrlMimeTypeDecoder;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\Exception\NotDataUrlProvidedException;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\ExtractedAsset;
 
 /**
@@ -33,7 +32,7 @@ use oat\taoQtiItem\model\qti\CustomInteractionAsset\ExtractedAsset;
  */
 class TextReaderExtendedAssetExtractor extends BaseExtendedCustomInteractionAssetExtractor
 {
-    private const CONTENT_PREFIX = 'content-';
+    public const CONTENT_PREFIX = 'content-';
 
     /**
      * @inheritDoc
@@ -47,14 +46,10 @@ class TextReaderExtendedAssetExtractor extends BaseExtendedCustomInteractionAsse
 
         foreach ($contentProperties as $property) {
             if (is_string($property)) {
-                try {
-                    $propertyAssetType = DataUrlMimeTypeDecoder::decodeToAssetType($property);
-                    if ($propertyAssetType !== null) {
-                        $extractedAssets[] = new ExtractedAsset($propertyAssetType, $property);
-                    }
-                } catch (NotDataUrlProvidedException $e) {
+                $propertyAssetType = DataUrlMimeTypeDecoder::decodeToAssetType($property);
+                if ($propertyAssetType !== null) {
+                    $extractedAssets[] = new ExtractedAsset($propertyAssetType, $property);
                 }
-
             }
         }
 

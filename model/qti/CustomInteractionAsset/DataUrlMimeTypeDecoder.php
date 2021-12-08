@@ -84,17 +84,17 @@ class DataUrlMimeTypeDecoder
     /**
      * @param string $dataUrl
      * @return string|null
-     * @throws NotDataUrlProvidedException
      */
     public static function decodeToAssetType(string $dataUrl): ?string
     {
         if (self::checkIsDataUrl($dataUrl)) {
             $mimeType = mime_content_type($dataUrl);
-
-            return self::mapMimeTypeToAsset($mimeType);
+            if ($mimeType !== false) {
+                return self::mapMimeTypeToAsset($mimeType);
+            }
         }
 
-        throw new NotDataUrlProvidedException(NotDataUrlProvidedException::MESSAGE);
+        return null;
     }
 
     public static function mapMimeTypeToAsset(string $mimeType): ?string
