@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor;
 
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\ExtractedAsset;
 use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 
@@ -44,7 +43,14 @@ abstract class BaseExtendedCustomInteractionAssetExtractor
     }
 
     /**
-     * @return array<ExtractedAsset>
+     * @return array<string>
      */
     abstract public function extract(): array;
+
+    protected function checkIsDataUrl(string $url): bool
+    {
+        $urlScheme = parse_url($url, PHP_URL_SCHEME);
+
+        return $urlScheme === 'data';
+    }
 }

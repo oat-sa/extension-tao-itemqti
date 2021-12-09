@@ -365,7 +365,7 @@ class AssetParser
         if ($assetExtractor !== null) {
             $extractedAssets = $assetExtractor->extract();
             foreach ($extractedAssets as $asset) {
-                $this->addAsset($asset->getType(), $asset->getValue());
+                $this->addAsset('pci-resource', $asset);
             }
         }
     }

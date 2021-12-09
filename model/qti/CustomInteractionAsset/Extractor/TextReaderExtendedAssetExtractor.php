@@ -24,9 +24,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor;
 
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\DataUrlMimeTypeDecoder;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\ExtractedAsset;
-
 /**
  * @author Kiryl Poyu <kyril.poyu@taotesting.com>
  */
@@ -45,11 +42,8 @@ class TextReaderExtendedAssetExtractor extends BaseExtendedCustomInteractionAsse
         }, ARRAY_FILTER_USE_KEY);
 
         foreach ($contentProperties as $property) {
-            if (is_string($property)) {
-                $propertyAssetType = DataUrlMimeTypeDecoder::decodeToAssetType($property);
-                if ($propertyAssetType !== null) {
-                    $extractedAssets[] = new ExtractedAsset($propertyAssetType, $property);
-                }
+            if (is_string($property) && $this->checkIsDataUrl($property)) {
+                    $extractedAssets[] = $property;
             }
         }
 
