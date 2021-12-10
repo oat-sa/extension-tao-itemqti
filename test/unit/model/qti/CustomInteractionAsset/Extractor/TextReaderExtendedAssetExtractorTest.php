@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\qti\CustomInteractionAsset\Extractor;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderAssetExtractor;
-use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -34,14 +34,11 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
 {
     /** @var TextReaderAssetExtractor */
     private $subject;
-    /** @var ImsPortableCustomInteraction */
-    private $interaction;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->interaction = new ImsPortableCustomInteraction();
-        $this->subject = new TextReaderAssetExtractor($this->interaction);
+        $this->subject = new TextReaderAssetExtractor();
     }
 
     /**
@@ -49,18 +46,16 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
      */
     public function testExtractionSupportedMimeTypes(): void
     {
-        $properties = $this->generateProperties();
-        $this->interaction->setProperties($properties);
-        $assets = $this->subject->extract();
+        $interaction = $this->generateCustomInteractionWithProperties();
+        $assets = $this->subject->extract($interaction);
 
-        $this->assertCount(count($properties), $assets);
+        $this->assertCount(count($interaction->getProperties()), $assets);
     }
 
     public function testExtractionNotDataUrlContent(): void
     {
-        $properties = $this->generatePropertiesWithoutDataUrls();
-        $this->interaction->setProperties($properties);
-        $assets = $this->subject->extract();
+        $interaction = $this->generateCustomInteractionPropertiesWithoutDataUrls();
+        $assets = $this->subject->extract($interaction);
 
         $this->assertEmpty($assets);
     }
@@ -68,7 +63,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
     /**
      * @throws \Exception
      */
-    private function generateProperties(): array
+    private function generateCustomInteractionWithProperties(): CustomInteraction
     {
         $properties = [];
         for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
@@ -76,10 +71,26 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
             $properties[TextReaderAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $dataUrl;
         }
 
-        return $properties;
+        return new class($properties) extends CustomInteraction {
+            /**
+             * @var array
+             */
+            private $properties;
+
+            public function __construct(array $properties)
+            {
+                parent::__construct();
+                $this->properties = $properties;
+            }
+
+            public function getProperties()
+            {
+                return $this->properties;
+            }
+        };
     }
 
-    public function generatePropertiesWithoutDataUrls(): array
+    public function generateCustomInteractionPropertiesWithoutDataUrls(): CustomInteraction
     {
         $properties = [];
         $contentValues = ['http://localhost', 'file.ext'];
@@ -87,6 +98,22 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
             $properties[TextReaderAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $contentValues[$i % 2];
         }
 
-        return $properties;
+        return new class($properties) extends CustomInteraction {
+            /**
+             * @var array
+             */
+            private $properties;
+
+            public function __construct(array $properties)
+            {
+                parent::__construct();
+                $this->properties = $properties;
+            }
+
+            public function getProperties()
+            {
+                return $this->properties;
+            }
+        };
     }
 }
