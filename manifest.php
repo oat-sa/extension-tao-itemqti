@@ -26,6 +26,7 @@ use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\CustomInteractionAssetExtractorAllocatorServiceProvider;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
@@ -178,5 +179,8 @@ return [
     ],
     'extra' => [
         'structures' => __DIR__ . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
-    ]
+    ],
+    'containerServiceProviders' => [
+        CustomInteractionAssetExtractorAllocatorServiceProvider::class
+    ],
 ];

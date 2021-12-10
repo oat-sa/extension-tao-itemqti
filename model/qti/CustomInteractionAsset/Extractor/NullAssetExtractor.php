@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,39 +16,24 @@ declare(strict_types=1);
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
+
+declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor;
 
-use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
-use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 
 /**
  * @author Kiryl Poyu <kyril.poyu@taotesting.com>
  */
-abstract class BaseExtendedCustomInteractionAssetExtractor
+class NullAssetExtractor implements Api\AssetExtractorInterface
 {
     /**
-     * @var ImsPortableCustomInteraction|PortableCustomInteraction
+     * @inheritDoc
      */
-    protected $interaction;
-
-    public function __construct($interaction)
+    final public function extract(CustomInteraction $interaction): array
     {
-        $this->interaction = $interaction;
-    }
-
-    /**
-     * @return array<string>
-     */
-    abstract public function extract(): array;
-
-    protected function checkIsDataUrl(string $url): bool
-    {
-        $urlScheme = parse_url($url, PHP_URL_SCHEME);
-
-        return $urlScheme === 'data';
+        return [];
     }
 }

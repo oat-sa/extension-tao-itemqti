@@ -24,8 +24,9 @@ namespace oat\taoQtiItem\model\qti;
 
 use common_exception_Error;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\container\Container;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\ExtendedCustomInteractionAssetExtractorAllocator;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\CustomInteractionAssetExtractorAllocator;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use SimpleXMLElement;
@@ -361,12 +362,11 @@ class AssetParser
 
     private function extractAdvancedCustomInteractionAssets(CustomInteraction $interaction): void
     {
-        $assetExtractor = ExtendedCustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
-        if ($assetExtractor !== null) {
-            $extractedAssets = $assetExtractor->extract();
-            foreach ($extractedAssets as $asset) {
-                $this->addAsset('pci-resource', $asset);
-            }
+        $extractorAllocator = $this->getCustomInteractionAssetExtractorAllocator();
+        $extractor = $extractorAllocator->allocateExtractor($interaction->getTypeIdentifier());
+
+        foreach ($extractor->extract($interaction) as $asset) {
+            $this->addAsset('pci-resource', $asset);
         }
     }
 
@@ -476,4 +476,12 @@ class AssetParser
     {
         $this->deepParsing = $deepParsing;
     }
+
+    private function getCustomInteractionAssetExtractorAllocator(): CustomInteractionAssetExtractorAllocator
+    {
+        return ServiceManager::getServiceManager()
+            ->getContainer()
+            ->get(CustomInteractionAssetExtractorAllocator::class);
+    }
+
 }

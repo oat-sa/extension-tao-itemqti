@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,35 +16,36 @@ declare(strict_types=1);
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
 
-namespace oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor;
+declare(strict_types=1);
+
+namespace oat\taoQtiItem\model\qti\CustomInteractionAsset;
+
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\Api\AssetExtractorInterface;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\NullAssetExtractor;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 
 /**
  * @author Kiryl Poyu <kyril.poyu@taotesting.com>
  */
-class TextReaderExtendedAssetExtractor extends BaseExtendedCustomInteractionAssetExtractor
+class CustomInteractionAssetExtractorAllocator
 {
-    public const CONTENT_PREFIX = 'content-';
+    /**
+     * @var array<AssetExtractorInterface>
+     */
+    private $extractorMapping;
 
     /**
-     * @inheritDoc
+     * @param array<AssetExtractorInterface> $extractorMapping
      */
-    public function extract(): array
+    public function __construct(array $extractorMapping)
     {
-        $extractedAssets = [];
-        $contentProperties = array_filter($this->interaction->getProperties(), static function ($propertyKey) {
-            return strpos($propertyKey, self::CONTENT_PREFIX) !== false;
-        }, ARRAY_FILTER_USE_KEY);
+        $this->extractorMapping = $extractorMapping;
+    }
 
-        foreach ($contentProperties as $property) {
-            if (is_string($property) && $this->checkIsDataUrl($property)) {
-                    $extractedAssets[] = $property;
-            }
-        }
-
-        return $extractedAssets;
+    public function allocateExtractor(string $interactionTypeIdentifier): AssetExtractorInterface
+    {
+        return $this->extractorMapping[$interactionTypeIdentifier] ?? new NullAssetExtractor();
     }
 }

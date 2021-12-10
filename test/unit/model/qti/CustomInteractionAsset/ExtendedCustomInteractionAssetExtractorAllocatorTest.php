@@ -23,8 +23,8 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\qti\CustomInteractionAsset;
 
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\ExtendedCustomInteractionAssetExtractorAllocator;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderExtendedAssetExtractor;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\CustomInteractionAssetExtractorAllocator;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderAssetExtractor;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
@@ -38,29 +38,29 @@ class ExtendedCustomInteractionAssetExtractorAllocatorTest extends TestCase
     {
         $interaction = new ImsPortableCustomInteraction();
         $interaction->setTypeIdentifier(
-            ExtendedCustomInteractionAssetExtractorAllocator::TEXT_READER_INTERACTION
+            CustomInteractionAssetExtractorAllocator::TEXT_READER_INTERACTION
         );
-        $extractor = ExtendedCustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
+        $extractor = CustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
 
-        $this->assertInstanceOf(TextReaderExtendedAssetExtractor::class, $extractor);
+        $this->assertInstanceOf(TextReaderAssetExtractor::class, $extractor);
     }
 
     public function testSuccessTextReaderExtractorAllocationFromPCI(): void
     {
         $interaction = new PortableCustomInteraction();
         $interaction->setTypeIdentifier(
-            ExtendedCustomInteractionAssetExtractorAllocator::TEXT_READER_INTERACTION
+            CustomInteractionAssetExtractorAllocator::TEXT_READER_INTERACTION
         );
-        $extractor = ExtendedCustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
+        $extractor = CustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
 
-        $this->assertInstanceOf(TextReaderExtendedAssetExtractor::class, $extractor);
+        $this->assertInstanceOf(TextReaderAssetExtractor::class, $extractor);
     }
 
 
     public function testUnsupportedAssetExtractorAllocationForCustomInteraction(): void
     {
         $interaction = new class extends CustomInteraction { };
-        $extractor = ExtendedCustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
+        $extractor = CustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
 
         $this->assertNull($extractor);
     }
@@ -69,7 +69,7 @@ class ExtendedCustomInteractionAssetExtractorAllocatorTest extends TestCase
     {
         $interaction = new ImsPortableCustomInteraction();
         $interaction->setTypeIdentifier('');
-        $extractor = ExtendedCustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
+        $extractor = CustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
 
         $this->assertNull($extractor);
     }
@@ -78,7 +78,7 @@ class ExtendedCustomInteractionAssetExtractorAllocatorTest extends TestCase
     {
         $interaction = new PortableCustomInteraction();
         $interaction->setTypeIdentifier('');
-        $extractor = ExtendedCustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
+        $extractor = CustomInteractionAssetExtractorAllocator::allocateExtractor($interaction);
 
         $this->assertNull($extractor);
     }

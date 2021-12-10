@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\qti\CustomInteractionAsset\Extractor;
 
 use oat\generis\test\TestCase;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderExtendedAssetExtractor;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderAssetExtractor;
 use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
 use Ramsey\Uuid\Uuid;
 
@@ -32,7 +32,7 @@ use Ramsey\Uuid\Uuid;
  */
 class TextReaderExtendedAssetExtractorTest extends TestCase
 {
-    /** @var TextReaderExtendedAssetExtractor */
+    /** @var TextReaderAssetExtractor */
     private $subject;
     /** @var ImsPortableCustomInteraction */
     private $interaction;
@@ -41,7 +41,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
     {
         parent::setUp();
         $this->interaction = new ImsPortableCustomInteraction();
-        $this->subject = new TextReaderExtendedAssetExtractor($this->interaction);
+        $this->subject = new TextReaderAssetExtractor($this->interaction);
     }
 
     /**
@@ -73,7 +73,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
         $properties = [];
         for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
             $dataUrl = "data:image/jpeg;base64," . Uuid::uuid4()->toString();
-            $properties[TextReaderExtendedAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $dataUrl;
+            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $dataUrl;
         }
 
         return $properties;
@@ -84,7 +84,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
         $properties = [];
         $contentValues = ['http://localhost', 'file.ext'];
         for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
-            $properties[TextReaderExtendedAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $contentValues[$i % 2];
+            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $contentValues[$i % 2];
         }
 
         return $properties;
