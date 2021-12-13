@@ -26,7 +26,6 @@ use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\NullAssetExtractor;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderAssetExtractor;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
-use Ramsey\Uuid\Uuid;
 
 class NullAssetExtractorTest extends TestCase
 {
@@ -52,8 +51,8 @@ class NullAssetExtractorTest extends TestCase
             {
                 $properties = [];
                 for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
-                    $dataUrl = "data:image/jpeg;base64," . Uuid::uuid4()->toString();
-                    $properties[TextReaderAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $dataUrl;
+                    $dataUrl = "data:image/jpeg;base64," . uniqid('test', true);
+                    $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
                 }
 
                 return $properties;
@@ -69,7 +68,7 @@ class NullAssetExtractorTest extends TestCase
                 $properties = [];
                 $contentValues = ['http://localhost', 'file.ext'];
                 for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
-                    $properties[TextReaderAssetExtractor::CONTENT_PREFIX . Uuid::uuid4()->toString()] = $contentValues[$i % 2];
+                    $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
                 }
 
                 return $properties;

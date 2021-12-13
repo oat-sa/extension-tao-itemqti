@@ -26,7 +26,6 @@ use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\CustomInteractionAssetExtractorAllocator;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\NullAssetExtractor;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderAssetExtractor;
-use Ramsey\Uuid\Uuid;
 
 /**
  * @author Kiryl Poyu <kyril.poyu@taotesting.com>
@@ -42,7 +41,9 @@ class CustomInteractionAssetExtractorAllocatorTest extends TestCase
     {
         parent::setUp();
         $this->subject = new CustomInteractionAssetExtractorAllocator([
-            TextReaderAssetExtractor::INTERACTION_IDENTIFIER => new TextReaderAssetExtractor()
+            TextReaderAssetExtractor::INTERACTION_IDENTIFIER => static function () {
+                return new TextReaderAssetExtractor();
+            }
         ]);
     }
 
@@ -57,7 +58,7 @@ class CustomInteractionAssetExtractorAllocatorTest extends TestCase
 
     public function testAllocationUnsupportedCustomInteractionExtractor(): void
     {
-        $extractor = $this->subject->allocateExtractor(Uuid::uuid4()->toString());
+        $extractor = $this->subject->allocateExtractor(uniqid('test', true));
 
         $this->assertInstanceOf(NullAssetExtractor::class, $extractor);
     }
