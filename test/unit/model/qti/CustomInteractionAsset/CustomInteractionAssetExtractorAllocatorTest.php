@@ -41,9 +41,7 @@ class CustomInteractionAssetExtractorAllocatorTest extends TestCase
     {
         parent::setUp();
         $this->subject = new CustomInteractionAssetExtractorAllocator([
-            TextReaderAssetExtractor::INTERACTION_IDENTIFIER => static function () {
-                return new TextReaderAssetExtractor();
-            }
+            TextReaderAssetExtractor::INTERACTION_IDENTIFIER => new TextReaderAssetExtractor()
         ]);
     }
 
