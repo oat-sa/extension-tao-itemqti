@@ -36,7 +36,7 @@ class CustomInteractionAssetExtractorAllocator
     private $extractorMapping;
 
     /**
-     * @param array<callable> $extractorMapping
+     * @param array<AssetExtractorInterface> $extractorMapping
      */
     public function __construct(array $extractorMapping)
     {
@@ -45,10 +45,6 @@ class CustomInteractionAssetExtractorAllocator
 
     public function allocateExtractor(string $interactionTypeIdentifier): AssetExtractorInterface
     {
-        if (isset($this->extractorMapping[$interactionTypeIdentifier])) {
-            return $this->extractorMapping[$interactionTypeIdentifier]();
-        }
-
-        return new NullAssetExtractor();
+        return $this->extractorMapping[$interactionTypeIdentifier] ?? new NullAssetExtractor();
     }
 }
