@@ -366,7 +366,7 @@ class AssetParser
         $extractor = $extractorAllocator->allocateExtractor($interaction->getTypeIdentifier());
 
         foreach ($extractor->extract($interaction) as $asset) {
-            $this->addAsset('pci-resource', $asset);
+            $this->addAsset('apip', $asset);
         }
     }
 
