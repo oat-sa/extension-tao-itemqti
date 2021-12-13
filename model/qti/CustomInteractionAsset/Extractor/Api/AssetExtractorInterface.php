@@ -30,7 +30,7 @@ use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 interface AssetExtractorInterface
 {
     /**
-     * @return array<string>
+     * @return iterable<string>
      */
-    public function extract(CustomInteraction $interaction): array;
+    public function extract(CustomInteraction $interaction): iterable;
 }

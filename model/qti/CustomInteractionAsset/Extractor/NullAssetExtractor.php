@@ -32,7 +32,7 @@ class NullAssetExtractor implements Api\AssetExtractorInterface
     /**
      * @inheritDoc
      */
-    final public function extract(CustomInteraction $interaction): array
+    final public function extract(CustomInteraction $interaction): iterable
     {
         return [];
     }

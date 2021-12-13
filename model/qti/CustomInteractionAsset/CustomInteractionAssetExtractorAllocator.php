@@ -24,7 +24,6 @@ namespace oat\taoQtiItem\model\qti\CustomInteractionAsset;
 
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\Api\AssetExtractorInterface;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\NullAssetExtractor;
-use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 
 /**
  * @author Kiryl Poyu <kyril.poyu@taotesting.com>
@@ -37,7 +36,7 @@ class CustomInteractionAssetExtractorAllocator
     private $extractorMapping;
 
     /**
-     * @param array<AssetExtractorInterface> $extractorMapping
+     * @param array<callable> $extractorMapping
      */
     public function __construct(array $extractorMapping)
     {
@@ -46,6 +45,10 @@ class CustomInteractionAssetExtractorAllocator
 
     public function allocateExtractor(string $interactionTypeIdentifier): AssetExtractorInterface
     {
-        return $this->extractorMapping[$interactionTypeIdentifier] ?? new NullAssetExtractor();
+        if (isset($this->extractorMapping[$interactionTypeIdentifier])) {
+            $this->extractorMapping[$interactionTypeIdentifier]();
+        }
+
+        return new NullAssetExtractor();
     }
 }

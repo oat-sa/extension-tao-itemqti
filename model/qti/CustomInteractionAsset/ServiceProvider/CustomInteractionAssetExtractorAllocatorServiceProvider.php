@@ -26,7 +26,6 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\CustomInteractionAssetExtractorAllocator;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\Extractor\TextReaderAssetExtractor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class CustomInteractionAssetExtractorAllocatorServiceProvider implements ContainerServiceProviderInterface
 {
@@ -37,8 +36,10 @@ class CustomInteractionAssetExtractorAllocatorServiceProvider implements Contain
         $services
             ->set(CustomInteractionAssetExtractorAllocator::class, CustomInteractionAssetExtractorAllocator::class)
             ->public()
-            ->args([
-                [TextReaderAssetExtractor::INTERACTION_IDENTIFIER => service(TextReaderAssetExtractor::class)]
+            ->arg('$extractorMapping', [
+                TextReaderAssetExtractor::INTERACTION_IDENTIFIER => static function () {
+                    return new TextReaderAssetExtractor();
+                }
             ]);
     }
 }

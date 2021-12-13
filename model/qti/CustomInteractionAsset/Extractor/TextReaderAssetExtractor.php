@@ -38,20 +38,12 @@ class TextReaderAssetExtractor implements AssetExtractorInterface
     /**
      * @inheritDoc
      */
-    public function extract(CustomInteraction $interaction): array
+    public function extract(CustomInteraction $interaction): iterable
     {
-        $extractedAssets = [];
-        $contentProperties = array_filter($interaction->getProperties(), static function ($propertyKey) {
-            return strpos($propertyKey, self::CONTENT_PREFIX) !== false;
-        }, ARRAY_FILTER_USE_KEY);
-
-        foreach ($contentProperties as $property) {
-            if (is_string($property) && $this->checkIsDataUrl($property)) {
-                    $extractedAssets[] = $property;
-            }
-        }
-
-        return $extractedAssets;
+        return array_filter($interaction->getProperties(), function ($key, $value) {
+            return strpos($key, self::CONTENT_PREFIX) === 0
+                && is_string($value) && $this->checkIsDataUrl($value);
+        }, ARRAY_FILTER_USE_BOTH);
     }
 
     private function checkIsDataUrl(string $url): bool
