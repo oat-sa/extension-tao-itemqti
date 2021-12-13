@@ -78,7 +78,7 @@ class QtiJsonItemCompilerTest extends TestCase
                 [
                     [
                         'core' => [
-                            'apipAccessibility' => '<div><p>text</p><p></p><br/><a> </a></div>',
+                            'apipAccessibility' => '<div><p>text</p><p></p><br/><a></a></div>',
                         ],
                     ]
                 ],
