@@ -46,7 +46,7 @@ class CustomInteractionAssetExtractorAllocator
     public function allocateExtractor(string $interactionTypeIdentifier): AssetExtractorInterface
     {
         if (isset($this->extractorMapping[$interactionTypeIdentifier])) {
-            $this->extractorMapping[$interactionTypeIdentifier]();
+            return $this->extractorMapping[$interactionTypeIdentifier]();
         }
 
         return new NullAssetExtractor();
