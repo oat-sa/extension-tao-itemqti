@@ -40,7 +40,7 @@ class TextReaderAssetExtractor implements AssetExtractorInterface
      */
     public function extract(CustomInteraction $interaction): iterable
     {
-        return array_filter($interaction->getProperties(), function ($key, $value) {
+        return array_filter($interaction->getProperties(), function ($value, $key) {
             return strpos($key, self::CONTENT_PREFIX) === 0
                 && is_string($value) && $this->checkIsDataUrl($value);
         }, ARRAY_FILTER_USE_BOTH);
